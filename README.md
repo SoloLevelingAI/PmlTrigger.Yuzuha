@@ -65,3 +65,4 @@ dependencies retain their own licenses; see [THIRD-PARTY.md](THIRD-PARTY.md).
 
 这是一个帮助 Agent 通过 PML 读取和操作 AVEVA E3D 的实验性本地桥接项目。
 当前为 `v0.1` 预览版，仅面向可信本机用户；执行型工具能够直接修改活动模型。
+柚叶很可爱，我希望你们也喜欢她

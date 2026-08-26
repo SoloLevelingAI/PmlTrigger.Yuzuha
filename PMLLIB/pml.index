@@ -6,6 +6,9 @@ YuzuhaResolveRuntimePath.pmlfnc
 /Commands/
 YuzuhaTargetQuery.pmlobj
 YuzuhaTargetCommand.pmlcmd
+/Examples/
+YuzuhaBoxExample.pmlobj
+YuzuhaCreateBoxExample.pmlfnc
 /Traversal/
 YuzuhaObjectWalker.pmlobj
 YuzuhaReadCurrentElement.pmlfnc

@@ -1,0 +1,21 @@
+define function !!YuzuhaCreateBoxExample(!localAtStr is string, !name is string,!xlen is real, !ylen is real, !zlen is real) is array
+    !arr = object array()
+    !!YUZUHAEXAMPLERES.DELETE()
+    handle any
+    endhandle
+    !SIZE = 20
+    !DEPTH = 2
+    !startStr = ''
+    !!YUZUHAEXAMPLERES = object YuzuhaBoxExample()
+    !!YUZUHAEXAMPLERES.InitializeWithoutPosition(!localAtStr, !name,!xlen, !ylen, !zlen)
+    !!YUZUHAEXAMPLERES.Create()
+    !arr = !!YuzuhaReadGlobal(!SIZE,!DEPTH,!startStr,'YUZUHAEXAMPLERES')
+    handle any
+      !!YUZUHAEXAMPLERES.DELETE()
+      return !arr
+    endhandle
+    !!YUZUHAEXAMPLERES.DELETE()
+    return !arr
+endfunction
+
+-- !!YuzuhaCreateBoxExample('ABC111', 'TestName2',50, 50, 50)

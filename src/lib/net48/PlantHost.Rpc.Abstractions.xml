@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PlantHost.Rpc.Abstractions</name>
+    </assembly>
+    <members>
+        <member name="T:PlantHost.Rpc.RpcServiceAttribute">
+            <summary>
+            Assigns a stable wire name to an RPC service contract.
+            </summary>
+        </member>
+        <member name="T:PlantHost.Rpc.RpcOperationAttribute">
+            <summary>
+            Assigns a stable wire name to an RPC contract method.
+            </summary>
+        </member>
+    </members>
+</doc>

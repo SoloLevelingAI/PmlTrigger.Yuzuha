@@ -1,0 +1,14 @@
+/Addins/
+YuzuhaAddin.pmlobj
+YuzuhaRpcCommand.pmlcmd
+/Bootstrap/
+YuzuhaResolveRuntimePath.pmlfnc
+/Commands/
+YuzuhaTargetQuery.pmlobj
+YuzuhaTargetCommand.pmlcmd
+/Traversal/
+YuzuhaObjectWalker.pmlobj
+YuzuhaReadCurrentElement.pmlfnc
+YuzuhaReadDbref.pmlfnc
+YuzuhaReadGlobal.pmlfnc
+/

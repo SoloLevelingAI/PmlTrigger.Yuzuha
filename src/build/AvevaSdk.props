@@ -1,0 +1,18 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="Aveva.Local.props"
+          Condition="Exists('Aveva.Local.props')" />
+
+  <PropertyGroup>
+    <AvevaInstallDir Condition=" '$(AvevaInstallDir)' == '' and '$(AVEVA_INSTALL_DIR)' != '' ">$(AVEVA_INSTALL_DIR)</AvevaInstallDir>
+  </PropertyGroup>
+
+  <Target Name="ValidateAvevaSdkConfiguration"
+          BeforeTargets="ResolveAssemblyReferences">
+    <Error Condition=" '$(AvevaInstallDir)' == '' "
+           Text="AVEVA SDK path is not configured. Copy src/build/Aveva.Local.props.example to Aveva.Local.props, set AVEVA_INSTALL_DIR, or pass /p:AvevaInstallDir=... ." />
+    <Error Condition=" !Exists('$(AvevaInstallDir)\PMLNet.dll') "
+           Text="PMLNet.dll was not found under AvevaInstallDir='$(AvevaInstallDir)'. See docs/build-configuration.md." />
+    <Error Condition=" !Exists('$(AvevaInstallDir)\Aveva.Core.Utilities.dll') "
+           Text="Aveva.Core.Utilities.dll was not found under AvevaInstallDir='$(AvevaInstallDir)'. See docs/build-configuration.md." />
+  </Target>
+</Project>

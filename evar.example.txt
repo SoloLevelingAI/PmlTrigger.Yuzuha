@@ -1,0 +1,4 @@
+@echo off
+rem Replace <YUZUHA_TOOLKIT_ROOT> locally. Do not commit a machine path.
+set PMLLIB=<YUZUHA_TOOLKIT_ROOT>\PMLLIB;%PMLLIB%
+set PMLUI=<YUZUHA_TOOLKIT_ROOT>\PMLUI;%PMLUI%

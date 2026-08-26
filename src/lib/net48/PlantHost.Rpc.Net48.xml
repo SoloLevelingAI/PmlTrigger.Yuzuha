@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PlantHost.Rpc.Net48</name>
+    </assembly>
+    <members>
+        <member name="T:PlantHost.Rpc.IRpcExecutionScheduler">
+            <summary>Controls where a service or handler is executed.</summary>
+        </member>
+        <member name="T:PlantHost.Rpc.ThreadPoolRpcExecutionScheduler">
+            <summary>Executes handlers on the CLR thread pool.</summary>
+        </member>
+        <member name="T:PlantHost.Rpc.SynchronizationContextRpcExecutionScheduler">
+            <summary>
+            Posts handler execution to a captured UI or host SynchronizationContext.
+            </summary>
+        </member>
+        <member name="T:PlantHost.Rpc.JobId">
+            <summary>Stable identifier for a background RPC job.</summary>
+        </member>
+        <member name="T:PlantHost.Rpc.JobStatus">
+            <summary>Durable, serializer-neutral state of a background job.</summary>
+        </member>
+        <member name="T:PlantHost.Rpc.IJobContext">
+            <summary>Context supplied to a registered background job handler.</summary>
+        </member>
+        <member name="T:PlantHost.Rpc.IJobStatusStore">
+            <summary>Pluggable durable store. Implementations must return detached snapshots.</summary>
+        </member>
+        <member name="P:PlantHost.Rpc.RpcServerOptions.RequestTimeout">
+            <summary>Maximum time allowed for reading and dispatching one request.</summary>
+        </member>
+        <member name="P:PlantHost.Rpc.RpcServerOptions.ShutdownTimeout">
+            <summary>Maximum time StopAsync waits for active requests and jobs.</summary>
+        </member>
+        <member name="P:PlantHost.Rpc.RpcServerOptions.MaxConcurrentRequests">
+            <summary>Maximum number of concurrently accepted RPC connections.</summary>
+        </member>
+        <member name="P:PlantHost.Rpc.RpcServerOptions.CurrentUserOnly">
+            <summary>Restricts the Named Pipe to the current OS user by default.</summary>
+        </member>
+        <member name="T:PlantHost.Rpc.JsonFileJobStatusStore">
+            <summary>
+            Single-writer JSON store with atomic replacement and one backup file.
+            All writes in a process are serialized through a semaphore.
+            </summary>
+        </member>
+        <member name="T:PlantHost.Rpc.NewtonsoftRpcSerializer">
+            <summary>Default JSON serializer. CLR type metadata is deliberately disabled.</summary>
+        </member>
+        <member name="T:PlantHost.Rpc.IRpcSerializer">
+            <summary>Serializes RPC request and response payloads.</summary>
+        </member>
+        <member name="T:PlantHost.Rpc.ICommandHandler`2">
+            <summary>Handles a command without coupling the shared contract assembly to PlantHost.Rpc.</summary>
+        </member>
+        <member name="T:PlantHost.Rpc.RemoteRpcException">
+            <summary>Represents an error returned by the remote endpoint.</summary>
+        </member>
+        <member name="T:PlantHost.Rpc.RpcRequestHandledEventArgs">
+            <summary>Information raised after the server has handled a request.</summary>
+        </member>
+        <member name="T:PlantHost.Rpc.RpcClient">
+            <summary>Creates convenient typed proxies over a Named Pipe connection.</summary>
+        </member>
+        <member name="M:PlantHost.Rpc.RpcClient.Connect(System.String,PlantHost.Rpc.IRpcSerializer,System.Int32)">
+            <summary>
+            Creates a client that waits for the server by default, making process
+            startup order irrelevant. Use a CancellationToken on calls to bound the wait.
+            </summary>
+        </member>
+        <member name="T:PlantHost.Rpc.RpcJobClient">
+            <summary>Client-side API for durable background jobs.</summary>
+        </member>
+        <member name="T:PlantHost.Rpc.RpcHeartbeatSession">
+            <summary>Background process-heartbeat lease owned by an RpcClient.</summary>
+        </member>
+        <member name="T:PlantHost.Rpc.RpcServer">
+            <summary>Hosts interface implementations and command handlers over a Named Pipe.</summary>
+        </member>
+        <member name="T:PlantHost.Rpc.RpcServerBuilder">
+            <summary>Dependency-free fluent configuration for RpcServer.</summary>
+        </member>
+        <member name="M:PlantHost.Rpc.RpcServerBuilder.UseCurrentSynchronizationContext">
+            <summary>
+            Captures the current UI/host context. This method must be called
+            from the industrial application's main thread.
+            </summary>
+        </member>
+        <member name="T:PlantHost.Rpc.RpcServiceBuilder`1">
+            <summary>
+            Staged service registration with convention-first and explicit fallback APIs.
+            </summary>
+        </member>
+        <member name="M:PlantHost.Rpc.RpcServiceBuilder`1.AddHandler``2(PlantHost.Rpc.ICommandHandler{``0,``1})">
+            <summary>
+            Matches by Handler/Async naming convention and verified request/response
+            signature, then falls back to a unique signature match.
+            </summary>
+        </member>
+        <member name="M:PlantHost.Rpc.RpcServiceBuilder`1.AddHandler``2(System.String,PlantHost.Rpc.ICommandHandler{``0,``1})">
+            <summary>Explicit fallback for ambiguous or non-conventional names.</summary>
+        </member>
+    </members>
+</doc>

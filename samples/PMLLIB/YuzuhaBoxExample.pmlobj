@@ -1,0 +1,101 @@
+define object YuzuhaBoxExample
+  member .currentDb   is dbref
+  member .localAt     is dbref
+  member .Name        is string
+  member .state       is boolean
+  member .errorText   is string
+  member .position    is position
+  member .xLen        is real
+  member .yLen        is real
+  member .zLen        is real
+  member .AllowToRun  is boolean
+  member .SetPos      is boolean
+endobject
+
+define method .YuzuhaBoxExample()
+  !this.state       = false
+  !this.errorText   = 'NoError'
+  !this.AllowToRun  = true
+  !this.SetPos      = true
+endmethod
+
+define method .InitializeWithPosition(!localAtStr is string, !name is string,!xlen is real, !ylen is real, !zlen is real, !East is real,!North is real,!Up is real)
+  !this.InitializeTarget(!localAtStr, !name )
+  !this.InitializeBox(!xlen, !ylen, !zlen, !East,!North,!Up)
+endmethod
+
+define method .InitializeWithoutPosition(!localAtStr is string, !name is string,!xlen is real, !ylen is real, !zlen is real)
+  !this.InitializeTarget(!localAtStr, !name )
+  !this.SetPos = false
+  !this.InitializeBox(!xlen, !ylen, !zlen,0,0,0)
+endmethod
+
+define method .InitializeBox(!xlen is real, !ylen is real, !zlen is real, !East is real,!North is real,!Up is real)
+  !this.xlen = !xlen
+  !this.ylen = !ylen
+  !this.zlen = !zlen
+  if !this.SetPos then
+    !this.position = object position('E $!east N $!North U $!up')
+  endif
+
+endmethod
+
+define method .InitializeTarget(!localAtStr is string, !name is string)
+  !this.currentDb = ce
+  !localat = !this.ResolveDbref(!localAtStr)
+  if !localat.badref().not() then
+    !this.localAt = !localat
+  else
+    !this.AllowToRun = false
+    !this.errorText = 'LocalDb $!!error.text'
+    return
+  endif
+  !usedDb = !this.ResolveDbref(!name)
+  if !usedDb.badref().not() then
+    !this.errorText = 'NameUsed $!!error.text'
+    !this.AllowToRun = false
+    return
+  endif
+
+endmethod
+
+define method .Create()
+  if !this.AllowToRun then
+    $!this.localAt
+    handle any
+      !this.errorText = 'Failed To switch localAt $!!error.text'
+      return
+    endhandle
+    new box Name $!this.Name  xlen $!this.xlen ylen $!this.ylen zlen $!this.zlen
+    handle any
+      !this.errorText = 'Failed To create $!!error.text'
+      $!this.currentDb
+      return
+    endhandle
+    if !this.SetPos then
+      !!ce.pos = !this.position
+      handle any
+        !this.errorText = 'Failed To set position $!!error.text'
+        $!this.currentDb
+        return
+      endhandle
+    endif
+    !this.position = pos
+    !this.state = true
+    $!this.currentDb
+  endif
+endmethod
+
+define method .ResolveDbref(!name is string) is dbref
+  if !name.matchwild('=*') or !name.matchwild('/*') then
+    !this.Name = !name
+  else
+    !this.Name = '/' + !name
+  endif
+  !db          = $!this.Name
+  handle any
+    !db        = object dbref()
+  endhandle
+  return !db
+
+endmethod

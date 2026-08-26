@@ -1,0 +1,55 @@
+setup command !!YuzuhaTargetCommand
+  member .TargetQuery is YuzuhaTargetQuery
+  member .ResArr is array
+  member .ResStateStr is string
+  member .ArgStr is string
+  member .RunningState is boolean
+exit
+
+define method .YuzuhaTargetCommand()
+  !this.key = 'YuzuhaToolkit.Net48.TargetCommand'
+  !this.execute = 'execute'
+  !this.TargetQuery = object YuzuhaTargetQuery()
+  !this.ResArr = object array()
+  -- $p success Load
+endmethod
+
+define method .InitArgs(!key is string)
+  !this.ArgStr = !key
+endmethod
+
+-- !!YuzuhaTargetCommand.execute('TargetDb','ABC111/TUBE')
+
+define method .execute(!str is string)
+  !this.RunningState = false
+  !arr = object array()
+  !this.ResArr = object array()
+  if !str eq 'TargetDb' then
+    !arr = !this.TargetQuery.ReadTarget(!this.ArgStr)
+    !this.ResArr = !arr
+    !this.RunningState = true
+    return
+  endif
+  !arr.append('Failed To Find Command')
+  !this.ResArr = !arr
+endmethod
+
+define method .ExecuteFile(!file is string)
+  !this.RunningState = false
+  !this.ResArr = object array()
+  $M $!file
+  handle any
+    !this.ResStateStr = 'Failed To Execute File'
+    !this.ResArr.append(!this.ResStateStr)
+    !this.ResArr.append(!!error.text)
+    $p Agent $!!error.text
+    return
+  endhandle
+  !this.RunningState = true
+  !this.ResStateStr = 'Success,Without Return Info'
+  !this.ResArr.append(!this.ResStateStr)
+endmethod
+
+define method .Query() is array
+  return !this.ResArr
+endmethod

@@ -1,0 +1,18 @@
+define object YuzuhaAddin
+
+endobject
+
+define method .YuzuhaAddin()
+  pml load command !!YuzuhaRpcCommand
+  !!YuzuhaRpcCommand.register()
+  pml load command !!YuzuhaTargetCommand
+  !!YuzuhaTargetCommand.register()
+endmethod
+
+define method .modulestartup()
+
+endmethod
+
+define method .startup()
+
+endmethod

@@ -1,0 +1,24 @@
+define function !!YuzuhaReadGlobal(!size is real,!depth is real,!startStr is string,!globalVar is string) is array
+  !arr = object array()
+  !ob = object YuzuhaObjectWalker()
+  !OB.InitializeFromGlobal(!globalVar)
+  handle any
+    return !arr
+  endhandle
+  -- !ob.MaxArraySize  = 300
+  -- !ob.MaxBFSDepth   = 3
+  -- !ob.startStr = 'hpos'
+  !ob.MaxArraySize  = !size
+  !ob.MaxBFSDepth   = !depth
+  !ob.startStr = !startStr
+  !arr = !ob.Read()
+  RETURN !arr
+endfunction
+
+-- !!YuzuhaReadGlobal(300,3,'hpos','BBCC')
+-- show !!componentEditor
+-- !!ed = !!componentEditor
+-- !ob = object YuzuhaObjectWalker()
+-- !OB.InitializeFromGlobal('ed')
+-- !ob.Read()
+-- Q VAR !OB.ResArray

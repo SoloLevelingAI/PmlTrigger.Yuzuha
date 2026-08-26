@@ -1,0 +1,49 @@
+define object YuzuhaTargetQuery
+
+endobject
+
+define method .YuzuhaTargetQuery()
+
+endmethod
+
+define method .ResolveDbref(!name is string) is dbref
+  !dbname = ''
+  if !name.matchwild('=*') or !name.matchwild('/*') then
+    !dbname = !name
+  else
+    !dbname = '/' + !name
+  endif
+  !db          = $!dbname
+  handle any
+    !db        = object dbref()
+  endhandle
+  return !db
+endmethod
+
+define method .ReadTarget(!name is string) is array
+  !arr = object array()
+  !originalCe = ce
+  !targetDb = !this.ResolveDbref(!name)
+  if !targetDb.badref() then
+    !arr.append('Failed To Find Dbref')
+    return !arr
+  endif
+  $!targetDb
+  handle any
+    !arr.append('$!!error.text')
+    return !arr
+  endhandle
+  !ob = object YuzuhaObjectWalker()
+  !ob.InitializeFromCurrentElement()
+  !ob.MaxArraySize = 10
+  !ob.MaxBFSDepth = 3
+  !ob.startStr = ''
+  !arr = !ob.Read()
+  handle any
+    $!originalCe
+    !arr.append('$!!error.text')
+    return !arr
+  endhandle
+  $!originalCe
+  return !arr
+endmethod

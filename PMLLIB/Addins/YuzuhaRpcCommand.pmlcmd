@@ -1,0 +1,48 @@
+setup command !!YuzuhaRpcCommand
+
+exit
+
+define method .YuzuhaRpcCommand()
+  !this.key = 'YuzuhaToolkit.Net48.RpcCommand'
+  !this.execute = 'execute'
+  !this.AgentSetup()
+  -- $p 加载成功
+endmethod
+
+define method .execute()
+
+endmethod
+
+define method .AgentSetup()
+  -- !AutoSetup = true
+  !!YuzuhaResolveRuntimePath()
+  !path = !!YuzuhaRuntimePath
+  handle any
+    return
+  endhandle
+  if !!YuzuhaAutoSetup then
+    import '$!path'
+    handle any
+      -- !!YuzuhaAutoSetup = FALSE
+      -- return
+    endhandle
+    using namespace 'YuzuhaToolkit.PmlHost.Net48'
+    handle any
+      !!YuzuhaAutoSetup = FALSE
+      return
+    endhandle
+    !!YuzuhaRpcHost = object PmlCommandMethod()
+    handle any
+      !!YuzuhaAutoSetup = FALSE
+      return
+    endhandle
+    !!YuzuhaRpcHost.GetRpcServerStatus()
+    handle any
+      !!YuzuhaAutoSetup = FALSE
+      return
+    endhandle
+  endif
+
+endmethod
+
+-- !S =  !!YuzuhaRpcHost.RunPmlCommandString('$P CE')

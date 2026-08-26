@@ -1,0 +1,21 @@
+define function !!YuzuhaResolveRuntimePath()
+  !folderName = 'PmlTrigger.Yuzuha'
+  !dllPath = '\runtime\net48\YuzuhaToolkit.PmlHost.Net48'
+  !strPath = ''
+  !!YuzuhaRuntimePath = ''
+  !!YuzuhaAutoSetup = FALSE
+  var !path evar PMLUI
+  !pathArr = !path.split(';')
+
+  do !mem values !pathArr
+    if !mem.match(!folderName) gt 0 then
+      !str = part(!mem, -1, '\')
+      !strPath = !mem.replace(!str, '')
+    endif
+  enddo
+  if !strPath.length() gt 0 then
+    !fullpath = !strPath + !dllPath
+    !!YuzuhaRuntimePath = !fullpath
+    !!YuzuhaAutoSetup = TRUE
+  endif
+endfunction

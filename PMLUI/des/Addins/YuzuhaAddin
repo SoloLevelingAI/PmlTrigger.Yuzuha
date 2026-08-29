@@ -1,0 +1,7 @@
+Name: YuzuhaAddin
+control: YuzuhaAddin
+title: Yuzuha Toolkit
+showonmenu: true
+modulestartup: !!YuzuhaAddin.modulestartup()
+startup: !!YuzuhaAddin.startup()
+#switchModify: Unset

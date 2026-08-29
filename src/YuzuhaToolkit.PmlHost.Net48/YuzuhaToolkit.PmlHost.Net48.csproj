@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props"
+            Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')"/>
+    <Import Project="..\build\AvevaSdk.props"/>
+    <PropertyGroup>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+        <ProjectGuid>{6E6D7A09-37B3-4840-8213-E3A0F5E2200D}</ProjectGuid>
+        <OutputType>Library</OutputType>
+        <AppDesignerFolder>Properties</AppDesignerFolder>
+        <RootNamespace>YuzuhaToolkit.PmlHost.Net48</RootNamespace>
+        <AssemblyName>YuzuhaToolkit.PmlHost.Net48</AssemblyName>
+        <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+        <Nullable>disable</Nullable>
+        <ImplicitUsings>disable</ImplicitUsings>
+        <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+        <FileAlignment>512</FileAlignment>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+        <PlatformTarget>x86</PlatformTarget>
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>full</DebugType>
+        <Optimize>false</Optimize>
+        <OutputPath>bin\Debug\</OutputPath>
+        <DefineConstants>DEBUG;TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+        <PlatformTarget>x86</PlatformTarget>
+        <DebugType>pdbonly</DebugType>
+        <Optimize>true</Optimize>
+        <OutputPath>bin\Release\</OutputPath>
+        <DefineConstants>TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
+
+    <ItemGroup>
+
+        <Reference Include="Aveva.Core.Utilities">
+            <HintPath>$(AvevaInstallDir)\Aveva.Core.Utilities.dll</HintPath>
+        </Reference>
+        <Reference Include="PMLNet">
+            <HintPath>$(AvevaInstallDir)\PMLNet.dll</HintPath>
+        </Reference>
+        <Reference Include="PlantHost.Rpc.Abstractions">
+            <HintPath>..\lib\net48\PlantHost.Rpc.Abstractions.dll</HintPath>
+            <Private>True</Private>
+        </Reference>
+        <Reference Include="PlantHost.Rpc.Net48">
+            <HintPath>..\lib\net48\PlantHost.Rpc.Net48.dll</HintPath>
+            <Private>True</Private>
+        </Reference>
+        <Reference Include="Newtonsoft.Json">
+            <HintPath>..\lib\net48\Newtonsoft.Json.dll</HintPath>
+            <Private>True</Private>
+        </Reference>
+        <Reference Include="System"/>
+        <Reference Include="System.Core"/>
+        <Reference Include="System.Data"/>
+        <Reference Include="System.Windows.Forms"/>
+        <Reference Include="System.Xml"/>
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Include="GetRequireFromE3D.cs"/>
+        <Compile Include="PmlCommandMethod.cs"/>
+        <Compile Include="PmlCommandRpcContracts.cs"/>
+        <Compile Include="PmlCommandRpcHost.cs"/>
+        <Compile Include="PmlCommandRpcService.cs"/>
+        <Compile Include="Properties\AssemblyInfo.cs"/>
+    </ItemGroup>
+    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
+</Project>

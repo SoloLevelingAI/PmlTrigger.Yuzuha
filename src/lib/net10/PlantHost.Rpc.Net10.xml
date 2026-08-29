@@ -1,0 +1,159 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PlantHost.Rpc.Net10</name>
+    </assembly>
+    <members>
+        <member name="T:PlantHost.Rpc.JobId">
+            <summary>Stable identifier for a background RPC job.</summary>
+        </member>
+        <member name="P:PlantHost.Rpc.PlantHostRpcJsonContext.Boolean">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:PlantHost.Rpc.PlantHostRpcJsonContext.ByteArray">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:PlantHost.Rpc.PlantHostRpcJsonContext.JobCancelResponse">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:PlantHost.Rpc.PlantHostRpcJsonContext.JobId">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:PlantHost.Rpc.PlantHostRpcJsonContext.JobResultResponse">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:PlantHost.Rpc.PlantHostRpcJsonContext.JobState">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:PlantHost.Rpc.PlantHostRpcJsonContext.JobStatus">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:PlantHost.Rpc.PlantHostRpcJsonContext.JobStatusRequest">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:PlantHost.Rpc.PlantHostRpcJsonContext.JobStatusResponse">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:PlantHost.Rpc.PlantHostRpcJsonContext.JobSubmission">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:PlantHost.Rpc.PlantHostRpcJsonContext.JobSubmitRequest">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:PlantHost.Rpc.PlantHostRpcJsonContext.ProcessHeartbeatRequest">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:PlantHost.Rpc.PlantHostRpcJsonContext.ProcessHeartbeatResponse">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:PlantHost.Rpc.PlantHostRpcJsonContext.ProcessHeartbeatStatus">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:PlantHost.Rpc.PlantHostRpcJsonContext.ProcessStatusRequest">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:PlantHost.Rpc.PlantHostRpcJsonContext.ProcessStatusResponse">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:PlantHost.Rpc.PlantHostRpcJsonContext.DateTime">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:PlantHost.Rpc.PlantHostRpcJsonContext.NullableDateTime">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:PlantHost.Rpc.PlantHostRpcJsonContext.Int32">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:PlantHost.Rpc.PlantHostRpcJsonContext.Int64">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:PlantHost.Rpc.PlantHostRpcJsonContext.String">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:PlantHost.Rpc.PlantHostRpcJsonContext.Default">
+            <summary>
+            The default <see cref="T:System.Text.Json.Serialization.JsonSerializerContext"/> associated with a default <see cref="T:System.Text.Json.JsonSerializerOptions"/> instance.
+            </summary>
+        </member>
+        <member name="P:PlantHost.Rpc.PlantHostRpcJsonContext.GeneratedSerializerOptions">
+            <summary>
+            The source-generated options associated with this context.
+            </summary>
+        </member>
+        <member name="M:PlantHost.Rpc.PlantHostRpcJsonContext.#ctor">
+            <inheritdoc/>
+        </member>
+        <member name="M:PlantHost.Rpc.PlantHostRpcJsonContext.#ctor(System.Text.Json.JsonSerializerOptions)">
+            <inheritdoc/>
+        </member>
+        <member name="M:PlantHost.Rpc.PlantHostRpcJsonContext.GetTypeInfo(System.Type)">
+            <inheritdoc/>
+        </member>
+        <member name="T:PlantHost.Rpc.RemoteRpcException">
+            <summary>Represents an error returned by the remote endpoint.</summary>
+        </member>
+        <member name="T:PlantHost.Rpc.RpcMethod`2">
+            <summary>
+            Describes one AOT-safe RPC operation. JSON metadata is supplied explicitly so
+            the client never needs reflection or runtime code generation.
+            </summary>
+        </member>
+        <member name="T:PlantHost.Rpc.RpcCommand`1">
+            <summary>Describes one AOT-safe RPC operation that has no response payload.</summary>
+        </member>
+        <member name="T:PlantHost.Rpc.RpcClient">
+            <summary>
+            Native AOT-compatible PlantHost.Rpc client. Calls use generated JSON metadata
+            and stable wire route names instead of reflection-generated interface proxies.
+            </summary>
+        </member>
+        <member name="T:PlantHost.Rpc.RpcJobClient">
+            <summary>Native AOT-compatible client-side API for durable background jobs.</summary>
+        </member>
+        <member name="T:PlantHost.Rpc.RpcHeartbeatSession">
+            <summary>Background process-heartbeat lease owned by an RpcClient.</summary>
+        </member>
+    </members>
+</doc>

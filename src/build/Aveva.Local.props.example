@@ -1,0 +1,6 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <!-- Copy this file to Aveva.Local.props and set the local SDK directory. -->
+    <AvevaInstallDir>C:\Path\To\AVEVA\Everything3D</AvevaInstallDir>
+  </PropertyGroup>
+</Project>

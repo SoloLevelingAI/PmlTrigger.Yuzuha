@@ -1,0 +1,207 @@
+﻿define object YuzuhaObjectWalker
+-- pml reload object YuzuhaObjectWalker
+-- !ob.delete()
+-- !ob = object YuzuhaObjectWalker()
+-- !ob.Read()
+  member .MaxArraySize    is real
+  member .MaxBFSDepth     is real
+  member .InitArray       is array
+  member .ResArray        is array 
+  member .memberList      is array
+  member .startStr        is string
+  member .startModify     is boolean
+  member .startNum        is real
+  member .CurrentLayerArr is array
+endobject
+
+
+define method .YuzuhaObjectWalker()
+  !this.MaxArraySize  = 500
+  !this.MaxBFSDepth   = 3
+  !this.startStr      = ''
+  !this.startModify   = false
+endmethod
+
+define method .InitializeFromArray(!arr is Array) 
+  !this.InitArray = !arr
+endmethod
+
+define method .InitializeFromCurrentElement()
+  !arr = object array()
+  !arr.append(ce)
+  !this.InitArray = !arr
+endmethod
+
+define method .InitializeFromGlobal(!str is string)
+  !arr = object array()
+  !arr.append(!!$!str)
+  !this.InitArray = !arr
+endmethod
+
+
+
+define method .Read() is array
+-- 主方法
+  if !this.MaxArraySize lt 1 then
+    !this.MaxArraySize = 1
+  endif
+  if !this.MaxBFSDepth lt 0 then
+    !this.MaxBFSDepth = 0
+  endif
+  !this.InitializeResult()
+  !this.Traverse()
+  -- q var !this.ResArray
+  return !this.ResArray
+endmethod
+
+define method .InitializeResult()
+-- 初始化开始位置
+  !this.ResArray            = object array()
+  !this.memberList          = object array()
+  !this.CurrentLayerArr     = object array()
+  !this.startModify         = false
+  !startArr = !this.startStr.split('.')
+  if !startArr[1].length() eq 0 then
+    !this.startNum          = 0
+  else
+    !objStr                 = !this.ResolveAttribute('',0,false)
+    !this.ResArray.Append(!objStr)
+    !this.startNum          = !startArr.size() 
+    !this.startModify       = true
+  endif
+  !objStr                   = !this.ResolveAttribute(!this.startStr,!this.startNum,false)
+  if !this.IsSuccess(!objStr).not() then
+    return
+  endif
+  -- !objStr                = !this.GetStrFromArray(!this.InitArray,'[$!num]')
+  !this.ResArray.Append(!objStr)
+  !this.startNum            = !this.startNum + 1
+  !str = !this.ResolveAttribute(!this.startStr,!this.startNum,TRUE)
+  !AttArr = object array()
+  !this.CurrentLayerArr     = object array()
+  if !objStr.match('ARRAY') GT 0.5 then
+    !objArr = $!str
+    do !i from 1 to !objArr.size()
+    !this.CurrentLayerArr.append('$!i')
+    enddo
+  else
+    !AttArr.Append(!str + '.attributes()')
+    !this.CurrentLayerArr   = $!AttArr[1]
+    handle any
+      return
+    endhandle
+  endif
+  -- q var !list
+  do !i from 1 to !this.CurrentLayerArr.size()
+    if !this.startModify then
+    !this.CurrentLayerArr[!i] = !this.startStr + '.' + !this.CurrentLayerArr[!i]
+    endif 
+  enddo
+endmethod
+
+
+
+define method .Traverse()
+-- 主方法
+  !times                = 0
+  do 
+    if !times gt !this.MaxArraySize - 1 then
+      break
+    endif
+    !times              = !times + 1
+    !att                = !this.CurrentLayerArr.first()
+    handle any
+      break
+    endhandle
+    !objStr             = !this.ResolveAttribute(!att,!this.startNum,false)
+    !this               .CollectChildren(!att,!objstr,!this.startNum)
+    !this               .ResArray.Append(!objStr)
+    !this    .CurrentLayerArr   .removefirst()
+    if !this .CurrentLayerArr   .size() eq 0 then
+      !this  .CurrentLayerArr   = !this.memberList
+      !this  .startNum          = !this.startNum + 1
+      !this  .memberList        = object array()
+      if !this.CurrentLayerArr.size() eq 0 then
+        break
+      endif 
+    endif
+  enddo
+endmethod
+
+
+
+define method .CollectChildren(!att is string,!objStr is string,!num is real) 
+-- BFS获取下一层数组的方法
+  if !num  gt !this.MaxBFSDepth - 0.1 then
+    !this.memberList.clear()
+    return
+  endif
+  !str    = !this.ResolveAttribute(!att,0,TRUE)
+  if !this.IsSuccess(!str).not() then
+    return
+  endif
+  !AttArr = object array()
+  !AttArr.Append(!str + '.attributes()')
+  !obj    = $!AttArr[1]
+  handle any
+    if !objStr.match('ARRAY') GT 0.5 then
+      !sizeStr = !str + '.size()'
+      !ArrSize = $!sizeStr
+      do !i from 1 to !ArrSize
+        !res   = !att + '.|$!i|' 
+        !this.memberList.Append(!res)
+      enddo
+    endif  
+    return
+  endhandle
+  do !i from 1 to !obj.size()
+    !res = !att + '.' + !obj[$!i]
+    !this.memberList.Append(!res)
+  enddo
+endmethod
+
+
+
+define method .ResolveAttribute(!splitStr is string,!num is real,!isReturnAtt is boolean) is string
+-- 获取打印的String信息，或者string的节点本身（isReturnAtt选择）
+  !splitArr  = !splitStr.split('.')
+  !size = !splitArr.size()
+  !str = '!this.InitArray[1]'
+  if !size neq 0 and !splitArr[1].length() neq 0 then
+    do !i from 1 to !size
+      !MemberNum = !splitArr[!i].replace('|', '').real()
+      handle any
+        !str = !str + '.attribute(|$!splitArr[$!i]|)'
+        skip
+      endhandle
+      !str = !str + '[$!MemberNum]'
+    enddo
+  endif
+  -- Q VAR !STR
+  !AttArr = object array()
+  !AttArr.Append($!str)
+  handle any
+  -- 判断是否找不到这样的Attribte
+    return 'failedToGetValue |$!splitStr| |$!!error.text|'
+  endhandle
+  if !isReturnAtt then
+    return !str
+  endif
+  var !objStr var !AttArr
+  !objStr = !objstr.replace('<ARRAY> [1]', '').replace('<ARRAY> - Unset [1]', '')
+  !objStr = '[$!num] ' +  !splitStr + !objStr
+  return !objStr
+endmethod
+
+define method .IsSuccess(!str is string) is boolean
+-- 判断是否获取失败
+  if !str.match('failedToGetValue') GT 0.5 then
+    return false
+  endif
+  return true
+endmethod
+
+-- !ob = object YuzuhaObjectWalker()
+-- !OB.ResolveAttribute('HPOS.EAST',2,false)
+-- !OB.ResolveAttribute('members',2,false)
+-- !OB.ResolveAttribute('members.[3]',2,false)

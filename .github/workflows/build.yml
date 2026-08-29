@@ -1,0 +1,30 @@
+name: build
+
+on:
+  workflow_dispatch:
+  push:
+  pull_request:
+
+jobs:
+  net10-native-aot:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+      - name: Restore
+        run: dotnet restore src/YuzuhaToolkit.Mcp/YuzuhaToolkit.Mcp.csproj
+      - name: Build
+        run: dotnet build src/YuzuhaToolkit.Mcp/YuzuhaToolkit.Mcp.csproj -c Release --no-restore
+      - name: Publish Native AOT
+        run: >-
+          dotnet publish src/YuzuhaToolkit.Mcp/YuzuhaToolkit.Mcp.csproj
+          -c Release -r win-x64 --self-contained true --no-restore
+          -p:PublishAot=true -p:PublishSingleFile=true
+          -p:StripSymbols=true -p:TreatWarningsAsErrors=false
+          -o artifacts/publish/win-x64-nativeaot
+      - uses: actions/upload-artifact@v4
+        with:
+          name: YuzuhaToolkit.Mcp-win-x64-nativeaot
+          path: artifacts/publish/win-x64-nativeaot/YuzuhaToolkit.Mcp.exe

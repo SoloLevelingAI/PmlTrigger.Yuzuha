@@ -1,0 +1,23 @@
+define function !!YuzuhaResolveRuntimePath()
+  -- $P 222
+  !folderName = 'PMLTRI'
+  !dllPath = '\runtime\net48\YuzuhaToolkit.PmlHost.Net48'
+  !strPath = ''
+  !!YuzuhaRuntimePath = ''
+  !!YuzuhaAutoSetup = FALSE
+  var !path evar PMLUI
+  !pathArr = !path.split(';')
+  -- q var !pathArr
+  do !mem values !pathArr
+    if !mem.match(!folderName) gt 0 then
+      !str = part(!mem, -1, '\')
+      !strPath = !mem.replace(!str, '')
+    endif
+  enddo
+  if !strPath.length() gt 0 then
+    !fullpath = !strPath + !dllPath
+    !!YuzuhaRuntimePath = !fullpath
+    !!YuzuhaAutoSetup = TRUE
+    $p success Launch YuzuhaToolkit
+  endif
+endfunction

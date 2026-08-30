@@ -2,9 +2,9 @@
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <Version>0.1.0-preview.2</Version>
+    <Version>0.1.0-preview.6</Version>
     <AssemblyVersion>0.1.0.0</AssemblyVersion>
     <FileVersion>0.1.0.0</FileVersion>
-    <InformationalVersion>0.1.0-preview.2</InformationalVersion>
+    <InformationalVersion>0.1.0-preview.6</InformationalVersion>
   </PropertyGroup>
 </Project>

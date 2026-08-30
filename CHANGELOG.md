@@ -2,7 +2,7 @@
 
 ## 中文
 
-### 0.1.0-preview.2 — 2026-08-29
+### 0.1.0-preview.6 — 2026-08-30
 
 - 将 .NET 10 MCP 切换到真正的 `PlantHost.Rpc.Net10` AOT 客户端，移除
   `DispatchProxy` 依赖，并通过 Native AOT 启动烟雾测试。
@@ -11,10 +11,12 @@
 - 增加 CE、DBREF、全局对象图读取以及 BOX、站点盘管演示资料。
 - 更新中英双语 Agent 文档和 Skill，并修正 Skill 更新时的目录嵌套问题。
 - 提供复制安装、旧版本备份、Release 校验及 SHA-256 清单。
+- 统一源码、程序集、安装器、ZIP 与 GitHub 标签版本，并增加跨电脑安装模拟、ZIP
+  解压复验和完整文件哈希校验。
 
 ## English
 
-### 0.1.0-preview.2 — 2026-08-29
+### 0.1.0-preview.6 — 2026-08-30
 
 - Switch the .NET 10 MCP to the native-AOT-safe `PlantHost.Rpc.Net10` client,
   remove the `DispatchProxy` dependency, and verify the published executable
@@ -28,3 +30,6 @@
   replacement without nested directories.
 - Provide copy-mode installation, previous-version backup, release validation,
   and SHA-256 manifests.
+- Align the source, assemblies, installer, ZIP, and GitHub tag versions, and
+  add cross-machine installation simulation, extracted-ZIP verification, and
+  complete file-hash validation.

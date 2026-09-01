@@ -8,6 +8,8 @@
 *.pmlcmd text eol=lf
 *.pmlfnc text eol=lf
 *.pmlobj text eol=lf
+PMLUI/**/Addins/YuzuhaAddin text eol=lf
+PMLUI/version.dat text eol=lf
 *.yaml text eol=lf
 *.yml text eol=lf
 *.dll binary

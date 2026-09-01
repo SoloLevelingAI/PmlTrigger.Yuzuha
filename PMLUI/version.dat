@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfHashedFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Signature>X4Wh3aD2h9Rjk+UArFHGLODmAy94RzQnzHxd0cT+Rbo=</Signature>
+  <HashedFile Path="\data\SMLdataMarine.pmlmac" Hash="EZLcnuAQoiZNdhzQwurCrqew4YiWYtB/0tndtRXUuVk=" />
+  <HashedFile Path="\data\SMLdataPlant.pmlmac" Hash="2q/LEya+N3C7yFdYIHuo2+4BkIV9L490tCn6qDrAPpc=" />
+  <HashedFile Path="\DRA\dflts\FDLineTypes.pmldat" Hash="1Ha+3ZIV3SJu+TxpQBoZz+st7y8p4+xxag6+g2t3veI=" />
+  <HashedFile Path="\DRA\dflts\FDLineWeights.pmldat" Hash="D5qaXjhotOzNgVS8f4hOPtmVH1j+muyAGHMj/w6qzrM=" />
+</ArrayOfHashedFile>

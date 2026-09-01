@@ -2,6 +2,13 @@
 
 ## 中文
 
+### 0.2.1 — 2026-09-02
+
+- 将 D 盘发布源中的完整 PMLUI 同步回公共源码树。
+- 更新 Design、Catalog、Draft 和 Isodraft 的 Yuzuha Add-in 定义，补充
+  `object`、`directory` 与统一的启动入口。
+- 补充 PMLUI `version.dat`，确保源码包与安装包内容一致。
+
 ### 0.2.0 — 2026-09-02
 
 - 增加 AVEVA 多会话和多模块支持，可发现并区分 Design、Paragon 等窗口。
@@ -29,6 +36,15 @@
 - 增加本机可信边界说明和可复现 Release 打包。
 
 ## English
+
+### 0.2.1 — 2026-09-02
+
+- Synchronize the complete PMLUI from the D-drive release source back into
+  the public source tree.
+- Update the Yuzuha Add-in definitions for Design, Catalog, Draft, and
+  Isodraft with `object`, `directory`, and the common startup entry point.
+- Add the PMLUI `version.dat` so source archives and installer packages carry
+  the same PMLUI payload.
 
 ### 0.2.0 — 2026-09-02
 

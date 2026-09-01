@@ -17,8 +17,8 @@ as `Hposition.EAST` and `member.1`.
 ## File execution
 
 ```pml
-!!YuzuhaTargetCommand.ExecuteFile('C:\path\to\macro.pmlmac')
-!result = !!YuzuhaTargetCommand.Query()
+!!YuzuhaExecuter.ExecuteFile('C:\path\to\macro.pmlmac')
+!result = !!YuzuhaExecuter.Query()
 ```
 
 File execution may change the active model. Invoke it only for an explicit

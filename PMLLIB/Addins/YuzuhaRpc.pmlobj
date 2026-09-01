@@ -1,0 +1,85 @@
+------------------------------------------------------------------------
+--
+-- Copyright 2026 to current year. Apecha2.0. All rights reserved in original code only.
+--
+-- File:            YuzuhaRpc.pmlobj
+--   Type:          Object Definition
+--  
+--
+--    
+--   Module:        design
+--   Replaces:
+--
+-- Author:          HuangYuanTai
+-- Created:         01/09/2026 19:34:00
+--
+--
+-- Description:
+-- Rpc support for Yuzuha
+--
+------------------------------------------------------------------------
+--
+-- Methods defined:
+--
+--  Method call                                                           Return          Description
+--  ===========                                                           ======          ===========
+--  YuzuhaRpc()                                                           -               Constructor. Starts the RPC agent setup.
+--  AgentSetup()                                                          -               Resolves the runtime path, imports the PmlHost assembly, creates the PmlCommandMethod host and verifies the RPC server status.
+--
+define object YuzuhaRpc
+
+endobject
+
+
+------------------------------------------------------------------------
+--
+-- Method:      YuzuhaRpc
+--
+-- Description: Constructor. Starts the RPC agent setup.
+--
+--
+------------------------------------------------------------------------
+define method .YuzuhaRpc()
+  !this.AgentSetup()
+endmethod
+
+
+------------------------------------------------------------------------
+--
+-- Method:      AgentSetup
+--
+-- Description: Resolves the runtime path, imports the PmlHost assembly,
+--              creates the PmlCommandMethod host and verifies the RPC
+--              server status.
+--
+--
+------------------------------------------------------------------------
+define method .AgentSetup()
+  !!YuzuhaResolveRuntimePath()
+  handle any
+    return
+  endhandle
+  if !!YuzuhaAutoSetup then
+    import '$!!YuzuhaRuntimePath'
+    handle any
+      -- !!YuzuhaAutoSetup = FALSE
+      -- return
+    endhandle
+    using namespace '$!!YuzuhaNamespace'
+    handle any
+      !!YuzuhaAutoSetup = FALSE
+      return
+    endhandle
+    !!YuzuhaRpcHost = object PmlCommandMethod()
+    handle any
+      !!YuzuhaAutoSetup = FALSE
+      return
+    endhandle
+    !!YuzuhaRpcHost.GetRpcServerStatus()
+    handle any
+      !!YuzuhaAutoSetup = FALSE
+      return
+    endhandle
+  endif
+
+endmethod

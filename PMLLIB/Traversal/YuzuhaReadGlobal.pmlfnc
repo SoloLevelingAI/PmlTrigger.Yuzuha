@@ -4,9 +4,9 @@
 --
 -- File:            YuzuhaReadGlobal.pmlfnc
 --   Type:          Function
+--  
 --
---
---
+--    
 --   Module:        design
 --   Replaces:
 --
@@ -27,7 +27,6 @@
 --  ===========                                                           ======          ===========
 --  !!YuzuhaReadGlobal(REAL,REAL,STRING,STRING)                           ARRAY           Reads a global variable graph with a size/depth budget and start path.
 --
-
 define function !!YuzuhaReadGlobal(!size is real,!depth is real,!startStr is string,!globalVar is string) is array
   !arr = object array()
   !ob = object YuzuhaObjectWalker()

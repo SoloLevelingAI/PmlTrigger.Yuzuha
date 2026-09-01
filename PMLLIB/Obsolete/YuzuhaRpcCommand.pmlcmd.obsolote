@@ -1,0 +1,107 @@
+------------------------------------------------------------------------
+--
+-- Copyright 2026 to current year. Apecha2.0. All rights reserved in original code only.
+--
+-- File:            YuzuhaRpcCommand.pmlcmd.obsolote
+--   Type:          Command Definition (Obsolete)
+--  
+--
+--    
+--   Module:        design
+--   Replaces:
+--
+-- Author:          HuangYuanTai
+-- Created:         26/08/2026 22:14:21
+--
+--
+-- Description:
+-- Obsolete RPC command definition. Superseded by YuzuhaRpc.pmlobj;
+-- kept only for reference and backwards compatibility.
+--
+------------------------------------------------------------------------
+--
+-- Methods defined:
+--
+--  Method call                                                           Return          Description
+--  ===========                                                           ======          ===========
+--  YuzuhaRpcCommand()                                                    -               Obsolete constructor. Sets key/execute hook, then AgentSetup.
+--  execute()                                                             -               Obsolete execute hook. Reserved; performs no action.
+--  AgentSetup()                                                          -               Obsolete. Resolves path, imports host, verifies RPC server status.
+--
+setup command !!YuzuhaRpcCommand
+
+exit
+
+
+------------------------------------------------------------------------
+--
+-- Method:      YuzuhaRpcCommand
+--
+-- Description: Constructor (obsolete). Sets the command key and execute
+--              hook, then runs AgentSetup.
+--
+--
+------------------------------------------------------------------------
+define method .YuzuhaRpcCommand()
+  !this.key = 'YuzuhaToolkit.Net48.RpcCommand'
+  !this.execute = 'execute'
+  !this.AgentSetup()
+  -- $p 加载成功
+endmethod
+
+
+------------------------------------------------------------------------
+--
+-- Method:      execute
+--
+-- Description: Execute hook (obsolete). Reserved; performs no action.
+--
+--
+------------------------------------------------------------------------
+define method .execute()
+
+endmethod
+
+
+------------------------------------------------------------------------
+--
+-- Method:      AgentSetup
+--
+-- Description: Obsolete. Resolves the runtime path, imports the host
+--              assembly and verifies the RPC server status.
+--
+--
+------------------------------------------------------------------------
+define method .AgentSetup()
+  -- !AutoSetup = true
+  !!YuzuhaResolveRuntimePath()
+  !path = !!YuzuhaRuntimePath
+  handle any
+    return
+  endhandle
+  if !!YuzuhaAutoSetup then
+    import '$!path'
+    handle any
+      -- !!YuzuhaAutoSetup = FALSE
+      -- return
+    endhandle
+    using namespace 'YuzuhaToolkit.PmlHost.Net48'
+    handle any
+      !!YuzuhaAutoSetup = FALSE
+      return
+    endhandle
+    !!YuzuhaRpcHost = object PmlCommandMethod()
+    handle any
+      !!YuzuhaAutoSetup = FALSE
+      return
+    endhandle
+    !!YuzuhaRpcHost.GetRpcServerStatus()
+    handle any
+      !!YuzuhaAutoSetup = FALSE
+      return
+    endhandle
+  endif
+
+endmethod
+
+-- !S =  !!YuzuhaRpcHost.RunPmlCommandString('$P CE')

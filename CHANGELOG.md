@@ -8,6 +8,8 @@
 - 更新 Design、Catalog、Draft 和 Isodraft 的 Yuzuha Add-in 定义，补充
   `object`、`directory` 与统一的启动入口。
 - 补充 PMLUI `version.dat`，确保源码包与安装包内容一致。
+- 完整同步 D 盘 PMLLIB：使用 `!!YuzuhaRpc` 和 `!!YuzuhaExecuter` 对象，
+  将旧 `.pmlcmd` 命令移入 `Obsolete`，并更新 `pml.index`。
 
 ### 0.2.0 — 2026-09-02
 
@@ -45,6 +47,9 @@
   Isodraft with `object`, `directory`, and the common startup entry point.
 - Add the PMLUI `version.dat` so source archives and installer packages carry
   the same PMLUI payload.
+- Fully synchronize the D-drive PMLLIB: use the `!!YuzuhaRpc` and
+  `!!YuzuhaExecuter` objects, move legacy `.pmlcmd` commands under `Obsolete`,
+  and update `pml.index`.
 
 ### 0.2.0 — 2026-09-02
 

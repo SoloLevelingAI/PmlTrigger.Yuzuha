@@ -1,0 +1,193 @@
+------------------------------------------------------------------------
+--
+-- Copyright 2026 to current year. Apecha2.0. All rights reserved in original code only.
+--
+-- File:            YuzuhaTriggerCommand.pmlcmd.obsolete
+--   Type:          Command Definition (Obsolete)
+--  
+--
+--    
+--   Module:        design
+--   Replaces:
+--
+-- Author:          HuangYuanTai
+-- Created:         29/08/2026 09:44:24
+--
+--
+-- Description:
+-- Obsolete trigger command definition. Superseded by YuzuhaExcuter.pmlobj;
+-- kept only for reference and backwards compatibility.
+--
+------------------------------------------------------------------------
+--
+-- Methods defined:
+--
+--  Method call                                                           Return          Description
+--  ===========                                                           ======          ===========
+--  YuzuhaTriggerCommand()                                                -               Obsolete constructor. Sets key/execute hook, creates TargetQuery and result array.
+--  InitArgs(STRING)                                                      -               Obsolete. Stores the argument string for the next execute call.
+--  execute(STRING)                                                       -               Obsolete. Dispatches ExecuteCommand or ExecuteFile or records failure.
+--  ExecuteFile(STRING)                                                   -               Obsolete. Runs a macro file via $M and records success or failure.
+--  Query()                                                               ARRAY           Obsolete. Returns the result array.
+--  RunSimpleCommand(STRING)                                              -               Obsolete. Runs a PML command behind the danger-command guard.
+--  RunDangerCommand(STRING)                                              -               Obsolete. Runs a PML command without the danger guard.
+--
+setup command !!YuzuhaTriggerCommand
+  member .TargetQuery is YuzuhaTargetQuery
+  member .ResArr is array
+  member .ResStateStr is string
+  member .ArgStr is string
+  member .RunningState is boolean
+exit
+
+
+------------------------------------------------------------------------
+--
+-- Method:      YuzuhaTriggerCommand
+--
+-- Description: Constructor (obsolete). Sets the command key and execute
+--              hook, creates the TargetQuery and the result array.
+--
+--
+------------------------------------------------------------------------
+define method .YuzuhaTriggerCommand()
+  !this.key = 'YuzuhaToolkit.Net48.TargetCommand'
+  !this.execute = 'execute'
+  !this.TargetQuery = object YuzuhaTargetQuery()
+  !this.ResArr = object array()
+  -- $p success Load
+endmethod
+
+
+------------------------------------------------------------------------
+--
+-- Method:      InitArgs
+--
+-- Description: Obsolete. Stores the argument string used by the next
+--              execute call.
+--
+--
+------------------------------------------------------------------------
+define method .InitArgs(!key is string)
+  !this.ArgStr = !key
+  -- $P !!$!<THIS>
+endmethod
+
+-- !!YuzuhaTriggerCommand.execute('TargetDb','ABC111/TUBE')
+
+------------------------------------------------------------------------
+--
+-- Method:      execute
+--
+-- Description: Obsolete. Dispatches 'ExecuteCommand' or 'ExecuteFile' to
+--              the matching runner, or records a failure.
+--
+--
+------------------------------------------------------------------------
+define method .execute(!str is string)
+  !this.RunningState = false
+  !arr = object array()
+  !this.ResArr = object array()
+  if !str eq 'ExecuteCommand' then
+    !this.RunSimpleCommand(!this.ArgStr)
+    return
+  elseif !str eq 'ExecuteFile' then
+    !this.ExecuteFile(!this.ArgStr)
+    return
+  endif
+  !arr.append('Failed To Find Command')
+  !this.ResArr = !arr 
+endmethod
+
+------------------------------------------------------------------------
+--
+-- Method:      ExecuteFile
+--
+-- Description: Obsolete. Runs a macro file via $M and records success
+--              or failure.
+--
+--
+------------------------------------------------------------------------
+define method .ExecuteFile(!file is string)
+  !this.RunningState = false
+  !this.ResArr = object array()
+  $M $!file
+  handle any
+    !this.ResStateStr = 'Failed To Execute File'
+    !this.ResArr.append(!this.ResStateStr)
+    !this.ResArr.append(!!error.text)
+    $p Agent $!!error.text
+    return
+  endhandle
+  !this.RunningState = true
+  !this.ResStateStr = 'Success,$!file Donnot Support Return Any Info'
+  !this.ResArr.append(!this.ResStateStr)
+  -- D:\AVEVA\Everything3D2.10\PMLLIB\YTools\modleditor.txt
+endmethod
+
+------------------------------------------------------------------------
+--
+-- Method:      Query
+--
+-- Description: Obsolete. Returns the result array.
+--
+--
+------------------------------------------------------------------------
+define method .Query() is array
+  return !this.ResArr
+endmethod
+
+------------------------------------------------------------------------
+--
+-- Method:      RunSimpleCommand
+--
+-- Description: Obsolete. Runs a single PML command behind the
+--              danger-command guard.
+--
+--
+------------------------------------------------------------------------
+define method .RunSimpleCommand(!cmd is string)
+  !this.RunningState = false
+  if !cmd.UpCase().MATCHWILD('*DELETE*') or !cmd.UpCase().MATCHWILD('*KILL*') or !cmd.UpCase().MATCHWILD('*DESIGN*') or !cmd.UpCase().MATCHWILD('*QUIT*') or !cmd.UpCase().MATCHWILD('*DRAW*') or !cmd.UpCase().MATCHWILD('*PARAGON*') then
+    !this.ResStateStr = 'Dangers Command $!CMD'
+    $P !!![Warning] Agent Try to Run Dangers Command |$!CMD| 
+    !this.ResArr.append(!this.ResStateStr)
+    !this.ResArr.append('if you want to run this command,please use !!$!<THIS>.RunDangerCommand')
+    return
+  endif
+  $!cmd
+  handle any
+    !this.ResStateStr = 'Failed To RunCommand'
+    !this.ResArr.append(!this.ResStateStr)
+    !this.ResArr.append(!!error.text)
+    $p Agent $!!error.text
+    return
+  endhandle
+  !this.RunningState = true
+  !this.ResStateStr = 'Success,Command $!cmd Donnot Support Return Any Info'
+  !this.ResArr.append(!this.ResStateStr)
+endmethod
+
+------------------------------------------------------------------------
+--
+-- Method:      RunDangerCommand
+--
+-- Description: Obsolete. Runs a single PML command without the
+--              danger-command guard.
+--
+--
+------------------------------------------------------------------------
+define method .RunDangerCommand(!cmd is string)
+  $!cmd
+  handle any
+    !this.ResStateStr = 'Failed To RunCommand'
+    !this.ResArr.append(!this.ResStateStr)
+    !this.ResArr.append(!!error.text)
+    $p Agent $!!error.text
+    return
+  endhandle
+  !this.RunningState = true
+  !this.ResStateStr = 'Success,Command $!cmd Donnot Support Return Any Info'
+  !this.ResArr.append(!this.ResStateStr)
+endmethod
+

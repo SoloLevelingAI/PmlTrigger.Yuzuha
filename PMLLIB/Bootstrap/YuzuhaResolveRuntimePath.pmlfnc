@@ -4,9 +4,9 @@
 --
 -- File:            YuzuhaResolveRuntimePath.pmlfnc
 --   Type:          Function
+--  
 --
---
---
+--    
 --   Module:        design
 --   Replaces:
 --
@@ -15,8 +15,9 @@
 --
 --
 -- Description:
--- Resolve the YuzuhaToolkit runtime path for the Yuzuha EVAR profile. Sets
--- !!YuzuhaRuntimePath, !!YuzuhaProfile and !!YuzuhaAutoSetup for host import.
+-- Resolve the YuzuhaToolkit runtime path and namespace for the current
+-- AVEVA application (E3D / Marine / PDMS). Sets !!YuzuhaRuntimePath,
+-- !!YuzuhaNamespace and !!YuzuhaAutoSetup so the Addin can import the host.
 --
 ------------------------------------------------------------------------
 --
@@ -24,44 +25,63 @@
 --
 --  Method call                                                           Return          Description
 --  ===========                                                           ======          ===========
---  !!YuzuhaResolveRuntimePath()                                          -               Resolves the selected NET35/NET48 host beneath the package root.
+--  !!YuzuhaResolveRuntimePath()                                          -               Resolves the runtime path/namespace for E3D, Marine or PDMS and sets !!YuzuhaRuntimePath etc.
 --
-
 define function !!YuzuhaResolveRuntimePath()
-  !folderName = 'PmlTrigger.Yuzuha'
-  !dllPath = '\runtime\net48\YuzuhaToolkit.PmlHost.Net48'
-  !profile = ''
+  -- $P 222
+  !folderName = 'PMLTRI'
+  !localPaTH = false
   !strPath = ''
-  !!YuzuhaRuntimePath = ''
-  !!YuzuhaProfile = ''
+  !profile = ''
+  !dllPath = ''
   !!YuzuhaAutoSetup = FALSE
-
-  var !profile evar Yuzuha
-  handle any
-    !profile = ''
-  endhandle
-
-  if !profile.length() gt 0 then
-    !!YuzuhaProfile = !profile
-    if !profile eq 'AM' or !profile eq 'PDMS' then
-      !dllPath = '\runtime\profiles\' + !profile + '\net35\YuzuhaToolkit.PmlHost.Net35'
-    else
-      !dllPath = '\runtime\profiles\' + !profile + '\net48\YuzuhaToolkit.PmlHost.Net48'
+  !!YuzuhaRuntimePath = ''
+  !!YuzuhaNamespace = 'YuzuhaToolkit.PmlHost'
+  !infoArr = !!fmsys.FMINFO()
+  !MODEL = !infoArr[0].SPLIT()[3]
+  if !localPaTH then
+    if !infoArr[0].MATCHwild('*Everything3D*') then
+      if !infoArr[2].MATCHwild('*1.1.0.0*') then
+        !!YuzuhaRuntimePath ='D:\AVEVA\AgentRuntimes\profiles\E3D2.1\net48\YuzuhaToolkit.PmlHost.Net48'
+      elseif !infoArr[0].MATCHwild('*Marine*') then
+        !!YuzuhaRuntimePath ='D:\AVEVA\AgentRuntimes\profiles\AM\net35\YuzuhaToolkit.PmlHost.Net35'
+      elseif !infoArr[0].MATCHwild('*PDMS*')   then
+        !!YuzuhaRuntimePath ='D:\AVEVA\AgentRuntimes\profiles\PDMS\net35\YuzuhaToolkit.PmlHost.Net35'
+      else
+      endif
+    endif
+    !!YuzuhaAutoSetup = TRUE
+    return
+  else
+    var !profile evar Yuzuha
+    handle any
+      !profile = ''
+    endhandle
+    if !profile.length() gt 0 then
+      !!YuzuhaProfile = !profile
+      if !profile eq 'AM' or !profile eq 'PDMS' then
+        !dllPath = 'runtime\profiles\' + !profile + '\net35\YuzuhaToolkit.PmlHost.Net35'
+      else
+        !dllPath = 'runtime\profiles\' + !profile + '\net48\YuzuhaToolkit.PmlHost.Net48'
+      endif
     endif
   endif
-
+  
   var !path evar PMLUI
   !pathArr = !path.split(';')
-
+  -- q var !pathArr
   do !mem values !pathArr
-    if !mem.match(!folderName) gt 0 then
+    if !mem.UPCASE().match(!folderName) gt 0 then
+      Q VAR !MEM
       !str = part(!mem, -1, '\')
-      !strPath = !mem.replace(!str, '')
+      !strPath = !mem.replace('PMLUI\','').replace('PMLUI','')
+    Q VAR !STRPATH
     endif
   enddo
   if !strPath.length() gt 0 then
     !fullpath = !strPath + !dllPath
     !!YuzuhaRuntimePath = !fullpath
     !!YuzuhaAutoSetup = TRUE
+    $p success Launch YuzuhaToolkit
   endif
 endfunction

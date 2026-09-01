@@ -1,12 +1,12 @@
-------------------------------------------------------------------------
+﻿------------------------------------------------------------------------
 --
 -- Copyright 2026 to current year. Apecha2.0. All rights reserved in original code only.
 --
 -- File:            YuzuhaObjectWalker.pmlobj
 --   Type:          Object Definition
+--  
 --
---
---
+--    
 --   Module:        design
 --   Replaces:
 --
@@ -36,7 +36,6 @@
 --  ResolveAttribute(STRING,REAL,BOOLEAN)                                 STRING          Returns the printable value or the attribute path (isReturnAtt).
 --  IsSuccess(STRING)                                                     BOOLEAN         Returns false when attribute resolution failed.
 --
-
 define object YuzuhaObjectWalker
 -- pml reload object YuzuhaObjectWalker
 -- !ob.delete()
@@ -45,7 +44,7 @@ define object YuzuhaObjectWalker
   member .MaxArraySize    is real
   member .MaxBFSDepth     is real
   member .InitArray       is array
-  member .ResArray        is array
+  member .ResArray        is array 
   member .memberList      is array
   member .startStr        is string
   member .startModify     is boolean
@@ -54,6 +53,15 @@ define object YuzuhaObjectWalker
 endobject
 
 
+
+------------------------------------------------------------------------
+--
+-- Method:      YuzuhaObjectWalker
+--
+-- Description: Constructor. Sets the default size and depth budgets.
+--
+--
+------------------------------------------------------------------------
 define method .YuzuhaObjectWalker()
   !this.MaxArraySize  = 500
   !this.MaxBFSDepth   = 3
@@ -61,16 +69,44 @@ define method .YuzuhaObjectWalker()
   !this.startModify   = false
 endmethod
 
-define method .InitializeFromArray(!arr is Array)
+
+------------------------------------------------------------------------
+--
+-- Method:      InitializeFromArray
+--
+-- Description: Sets the starting array of objects to traverse.
+--
+--
+------------------------------------------------------------------------
+define method .InitializeFromArray(!arr is Array) 
   !this.InitArray = !arr
 endmethod
 
+
+------------------------------------------------------------------------
+--
+-- Method:      InitializeFromCurrentElement
+--
+-- Description: Initialises the walker from the current element (CE).
+--
+--
+------------------------------------------------------------------------
 define method .InitializeFromCurrentElement()
   !arr = object array()
   !arr.append(ce)
   !this.InitArray = !arr
 endmethod
 
+
+------------------------------------------------------------------------
+--
+-- Method:      InitializeFromGlobal
+--
+-- Description: Initialises the walker from a global variable (name given
+--              without the !! prefix).
+--
+--
+------------------------------------------------------------------------
 define method .InitializeFromGlobal(!str is string)
   !arr = object array()
   !arr.append(!!$!str)
@@ -79,6 +115,16 @@ endmethod
 
 
 
+
+------------------------------------------------------------------------
+--
+-- Method:      Read
+--
+-- Description: Main entry point. Clamps budgets, initialises the result
+--              and runs the BFS traversal.
+--
+--
+------------------------------------------------------------------------
 define method .Read() is array
 -- 主方法
   if !this.MaxArraySize lt 1 then
@@ -93,6 +139,16 @@ define method .Read() is array
   return !this.ResArray
 endmethod
 
+
+------------------------------------------------------------------------
+--
+-- Method:      InitializeResult
+--
+-- Description: Prepares the result and layer arrays and resolves the
+--              starting attribute.
+--
+--
+------------------------------------------------------------------------
 define method .InitializeResult()
 -- 初始化开始位置
   !this.ResArray            = object array()
@@ -105,7 +161,7 @@ define method .InitializeResult()
   else
     !objStr                 = !this.ResolveAttribute('',0,false)
     !this.ResArray.Append(!objStr)
-    !this.startNum          = !startArr.size()
+    !this.startNum          = !startArr.size() 
     !this.startModify       = true
   endif
   !objStr                   = !this.ResolveAttribute(!this.startStr,!this.startNum,false)
@@ -134,16 +190,26 @@ define method .InitializeResult()
   do !i from 1 to !this.CurrentLayerArr.size()
     if !this.startModify then
     !this.CurrentLayerArr[!i] = !this.startStr + '.' + !this.CurrentLayerArr[!i]
-    endif
+    endif 
   enddo
 endmethod
 
 
 
+
+------------------------------------------------------------------------
+--
+-- Method:      Traverse
+--
+-- Description: BFS loop that walks the attribute layers, appending rows
+--              until the size budget is exhausted.
+--
+--
+------------------------------------------------------------------------
 define method .Traverse()
 -- 主方法
   !times                = 0
-  do
+  do 
     if !times gt !this.MaxArraySize - 1 then
       break
     endif
@@ -162,14 +228,24 @@ define method .Traverse()
       !this  .memberList        = object array()
       if !this.CurrentLayerArr.size() eq 0 then
         break
-      endif
+      endif 
     endif
   enddo
 endmethod
 
 
 
-define method .CollectChildren(!att is string,!objStr is string,!num is real)
+
+------------------------------------------------------------------------
+--
+-- Method:      CollectChildren
+--
+-- Description: BFS helper that builds the next layer's attribute list from
+--              the current node.
+--
+--
+------------------------------------------------------------------------
+define method .CollectChildren(!att is string,!objStr is string,!num is real) 
 -- BFS获取下一层数组的方法
   if !num  gt !this.MaxBFSDepth - 0.1 then
     !this.memberList.clear()
@@ -187,10 +263,10 @@ define method .CollectChildren(!att is string,!objStr is string,!num is real)
       !sizeStr = !str + '.size()'
       !ArrSize = $!sizeStr
       do !i from 1 to !ArrSize
-        !res   = !att + '.|$!i|'
+        !res   = !att + '.|$!i|' 
         !this.memberList.Append(!res)
       enddo
-    endif
+    endif  
     return
   endhandle
   do !i from 1 to !obj.size()
@@ -201,6 +277,15 @@ endmethod
 
 
 
+------------------------------------------------------------------------
+--
+-- Method:      ResolveAttribute
+--
+-- Description: Returns the printable value for an attribute path, or the
+--              attribute path itself when isReturnAtt is set.
+--
+--
+------------------------------------------------------------------------
 define method .ResolveAttribute(!splitStr is string,!num is real,!isReturnAtt is boolean) is string
 -- 获取打印的String信息，或者string的节点本身（isReturnAtt选择）
   !splitArr  = !splitStr.split('.')
@@ -232,6 +317,14 @@ define method .ResolveAttribute(!splitStr is string,!num is real,!isReturnAtt is
   return !objStr
 endmethod
 
+------------------------------------------------------------------------
+--
+-- Method:      IsSuccess
+--
+-- Description: Returns false when attribute resolution failed.
+--
+--
+------------------------------------------------------------------------
 define method .IsSuccess(!str is string) is boolean
 -- 判断是否获取失败
   if !str.match('failedToGetValue') GT 0.5 then

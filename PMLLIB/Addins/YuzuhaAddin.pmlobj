@@ -4,9 +4,9 @@
 --
 -- File:            YuzuhaAddin.pmlobj
 --   Type:          Object Definition
+--  
 --
---
---
+--    
 --   Module:        design
 --   Replaces:
 --
@@ -15,8 +15,8 @@
 --
 --
 -- Description:
--- Addin entry for Yuzuha. Registers the RPC and target command handlers and
--- refreshes the current AVEVA module during startup.
+-- D:\PmlTrigger.Yuzuha\PMLLIB;D:\PmlTrigger.Yuzuha\PMLUI;
+-- Addin entry for Yuzuha. Bootstraps YuzuhaRpc and YuzuhaExcuter on module startup.
 --
 ------------------------------------------------------------------------
 --
@@ -24,26 +24,50 @@
 --
 --  Method call                                                           Return          Description
 --  ===========                                                           ======          ===========
---  YuzuhaAddin()                                                         -               Constructor. Registers YuzuhaRpcCommand and YuzuhaTargetCommand.
---  modulestartup()                                                       -               Refreshes the RPC host with the current module.
---  startup()                                                             -               Refreshes the RPC host with the current module.
+--  YuzuhaAddin()                                                         -               Constructor. Instantiates YuzuhaRpc and YuzuhaExcuter.
+--  modulestartup()                                                       -               Module startup hook. Reserved for module-level initialisation.
+--  startup()                                                             -               Addin startup hook. Reserved for addin-level initialisation.
 --
-
 define object YuzuhaAddin
 
 endobject
 
+
+------------------------------------------------------------------------
+--
+-- Method:      YuzuhaAddin
+--
+-- Description: Constructor. Instantiates YuzuhaRpc and YuzuhaExcuter.
+--
+--
+------------------------------------------------------------------------
 define method .YuzuhaAddin()
-  pml load command !!YuzuhaRpcCommand
-  !!YuzuhaRpcCommand.register()
-  pml load command !!YuzuhaTargetCommand
-  !!YuzuhaTargetCommand.register()
+  !!YuzuhaRpc = object YuzuhaRpc()
+  !!YuzuhaExecuter = object YuzuhaExcuter()
 endmethod
 
+
+------------------------------------------------------------------------
+--
+-- Method:      modulestartup
+--
+-- Description: Module startup hook. Reserved for module-level initialisation.
+--
+--
+------------------------------------------------------------------------
 define method .modulestartup()
-  !!YuzuhaRpcCommand.RefreshModel()
+
 endmethod
 
+
+------------------------------------------------------------------------
+--
+-- Method:      startup
+--
+-- Description: Addin startup hook. Reserved for addin-level initialisation.
+--
+--
+------------------------------------------------------------------------
 define method .startup()
-  !!YuzuhaRpcCommand.RefreshModel()
+
 endmethod

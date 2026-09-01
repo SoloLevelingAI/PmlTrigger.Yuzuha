@@ -1,7 +1,19 @@
-Name: YuzuhaAddin
-control: YuzuhaAddin
-title: Yuzuha Toolkit
+#  Type:            Add-in Definition
+#  Module:          Common
+#
+#  Author:          Huang Yuantai
+#  Created:         Tue Sep 01 19:10:00 2026
+#
+#
+#
+#  Description:     Add-in definition for Yuzuha Agent Tools
+#
+# ----------------------------------------------------------------------
+Name:       YuzuhaAddin
+control:    YuzuhaAddin
+object:     YuzuhaAddin
+directory:  YuzuhaAddin
+title:      Yuzuha Toolkit
 showonmenu: true
-modulestartup: !!YuzuhaAddin.modulestartup()
-startup: !!YuzuhaAddin.startup()
+startup:    !!YuzuhaAddin.startup()
 #switchModify: Unset

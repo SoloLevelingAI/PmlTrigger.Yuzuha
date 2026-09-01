@@ -16,8 +16,8 @@
 ## 文件执行
 
 ```pml
-!!YuzuhaTargetCommand.ExecuteFile('C:\path\to\macro.pmlmac')
-!result = !!YuzuhaTargetCommand.Query()
+!!YuzuhaExecuter.ExecuteFile('C:\path\to\macro.pmlmac')
+!result = !!YuzuhaExecuter.Query()
 ```
 
 文件执行可能修改当前模型，只能在用户明确要求时调用。执行超时后禁止自动重试。

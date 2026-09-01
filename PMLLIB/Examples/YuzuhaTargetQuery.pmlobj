@@ -4,9 +4,9 @@
 --
 -- File:            YuzuhaTargetQuery.pmlobj
 --   Type:          Object Definition
+--  
 --
---
---
+--    
 --   Module:        design
 --   Replaces:
 --
@@ -28,15 +28,33 @@
 --  ResolveDbref(STRING)                                                  DBREF           Normalises a short/full name or DBREF string; badref if not found.
 --  ReadTarget(STRING)                                                    ARRAY           Switches CE to the target, reads its graph and restores the original CE.
 --
-
 define object YuzuhaTargetQuery
 
 endobject
 
+
+------------------------------------------------------------------------
+--
+-- Method:      YuzuhaTargetQuery
+--
+-- Description: Constructor.
+--
+--
+------------------------------------------------------------------------
 define method .YuzuhaTargetQuery()
 
 endmethod
 
+
+------------------------------------------------------------------------
+--
+-- Method:      ResolveDbref
+--
+-- Description: Normalises a short name, full name or DBREF string and
+--              returns the matching DBREF (badref if not found).
+--
+--
+------------------------------------------------------------------------
 define method .ResolveDbref(!name is string) is dbref
   !dbname = ''
   if !name.matchwild('=*') or !name.matchwild('/*') then
@@ -51,6 +69,16 @@ define method .ResolveDbref(!name is string) is dbref
   return !db
 endmethod
 
+
+------------------------------------------------------------------------
+--
+-- Method:      ReadTarget
+--
+-- Description: Switches CE to the target DBREF, reads its object graph via
+--              YuzuhaObjectWalker and restores the original CE.
+--
+--
+------------------------------------------------------------------------
 define method .ReadTarget(!name is string) is array
   !arr = object array()
   !originalCe = ce
@@ -78,3 +106,4 @@ define method .ReadTarget(!name is string) is array
   $!originalCe
   return !arr
 endmethod
+

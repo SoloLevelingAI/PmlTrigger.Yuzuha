@@ -4,9 +4,9 @@
 --
 -- File:            YuzuhaBoxExample.pmlobj
 --   Type:          Object Definition
+--  
 --
---
---
+--    
 --   Module:        design
 --   Replaces:
 --
@@ -33,7 +33,6 @@
 --  Create()                                                              -               Creates the BOX under localAt, applies position, reports state/errorText.
 --  ResolveDbref(STRING)                                                  DBREF           Normalises a short/full name or DBREF string; badref if not found.
 --
-
 define object YuzuhaBoxExample
   member .currentDb   is dbref
   member .localAt     is dbref
@@ -48,6 +47,15 @@ define object YuzuhaBoxExample
   member .SetPos      is boolean
 endobject
 
+
+------------------------------------------------------------------------
+--
+-- Method:      YuzuhaBoxExample
+--
+-- Description: Constructor. Sets the default state, error text and run flags.
+--
+--
+------------------------------------------------------------------------
 define method .YuzuhaBoxExample()
   !this.state       = false
   !this.errorText   = 'NoError'
@@ -55,33 +63,73 @@ define method .YuzuhaBoxExample()
   !this.SetPos      = true
 endmethod
 
+
+------------------------------------------------------------------------
+--
+-- Method:      InitializeWithPosition
+--
+-- Description: Initialises the target DBREF, the box dimensions and the
+--              East/North/Up position.
+--
+--
+------------------------------------------------------------------------
 define method .InitializeWithPosition(!localAtStr is string, !name is string,!xlen is real, !ylen is real, !zlen is real, !East is real,!North is real,!Up is real)
   !this.InitializeTarget(!localAtStr, !name )
   !this.InitializeBox(!xlen, !ylen, !zlen, !East,!North,!Up)
 endmethod
 
+
+------------------------------------------------------------------------
+--
+-- Method:      InitializeWithoutPosition
+--
+-- Description: Initialises the target DBREF and the box dimensions without
+--              setting a position.
+--
+--
+------------------------------------------------------------------------
 define method .InitializeWithoutPosition(!localAtStr is string, !name is string,!xlen is real, !ylen is real, !zlen is real)
   !this.InitializeTarget(!localAtStr, !name )
   !this.SetPos = false
   !this.InitializeBox(!xlen, !ylen, !zlen,0,0,0)
 endmethod
 
+
+------------------------------------------------------------------------
+--
+-- Method:      InitializeBox
+--
+-- Description: Stores the box dimensions and builds the position when
+--              SetPos is enabled.
+--
+--
+------------------------------------------------------------------------
 define method .InitializeBox(!xlen is real, !ylen is real, !zlen is real, !East is real,!North is real,!Up is real)
   !this.xlen = !xlen
   !this.ylen = !ylen
   !this.zlen = !zlen
   if !this.SetPos then
-    !this.position = object position('E $!east N $!North U $!up')
-  endif
+    !this.position = object position('E $!east N $!North U $!up') 
+  endif 
 
 endmethod
 
+
+------------------------------------------------------------------------
+--
+-- Method:      InitializeTarget
+--
+-- Description: Resolves the localAt DBREF and checks the target name is
+--              not already in use. Disables AllowToRun on failure.
+--
+--
+------------------------------------------------------------------------
 define method .InitializeTarget(!localAtStr is string, !name is string)
   !this.currentDb = ce
   !localat = !this.ResolveDbref(!localAtStr)
   if !localat.badref().not() then
     !this.localAt = !localat
-  else
+  else  
     !this.AllowToRun = false
     !this.errorText = 'LocalDb $!!error.text'
     return
@@ -90,11 +138,21 @@ define method .InitializeTarget(!localAtStr is string, !name is string)
   if !usedDb.badref().not() then
     !this.errorText = 'NameUsed $!!error.text'
     !this.AllowToRun = false
-    return
+    return 
   endif
 
 endmethod
 
+
+------------------------------------------------------------------------
+--
+-- Method:      Create
+--
+-- Description: Creates the BOX under localAt, applies the position and
+--              reports success or failure via state/errorText.
+--
+--
+------------------------------------------------------------------------
 define method .Create()
   if !this.AllowToRun then
     $!this.localAt
@@ -122,6 +180,16 @@ define method .Create()
   endif
 endmethod
 
+
+------------------------------------------------------------------------
+--
+-- Method:      ResolveDbref
+--
+-- Description: Normalises a short name, full name or DBREF string and
+--              returns the matching DBREF (badref if not found).
+--
+--
+------------------------------------------------------------------------
 define method .ResolveDbref(!name is string) is dbref
   if !name.matchwild('=*') or !name.matchwild('/*') then
     !this.Name = !name

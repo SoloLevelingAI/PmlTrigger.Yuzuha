@@ -4,9 +4,9 @@
 --
 -- File:            YuzuhaReadCurrentElement.pmlfnc
 --   Type:          Function
+--  
 --
---
---
+--    
 --   Module:        design
 --   Replaces:
 --
@@ -27,7 +27,6 @@
 --  ===========                                                           ======          ===========
 --  !!YuzuhaReadCurrentElement(REAL,REAL,STRING)                          ARRAY           Reads the current element graph with a size/depth budget and start path.
 --
-
 define function !!YuzuhaReadCurrentElement(!size is real,!depth is real,!startStr is string) is array
   !arr = object array()
   !ob = object YuzuhaObjectWalker()

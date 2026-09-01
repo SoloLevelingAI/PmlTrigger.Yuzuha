@@ -4,9 +4,9 @@
 --
 -- File:            YuzuhaReadDbref.pmlfnc
 --   Type:          Function
+--  
 --
---
---
+--    
 --   Module:        design
 --   Replaces:
 --
@@ -27,7 +27,6 @@
 --  ===========                                                           ======          ===========
 --  !!YuzuhaReadDbref(REAL,REAL,STRING,STRING)                            ARRAY           Reads a named DBREF graph, restoring the original CE.
 --
-
 define function !!YuzuhaReadDbref(!size is real,!depth is real,!startStr is string,!name is string) is array
   !arr = object array()
   !originalCe = ce
@@ -64,5 +63,5 @@ define function !!YuzuhaReadDbref(!size is real,!depth is real,!startStr is stri
 endfunction
 
 -- !!YuzuhaReadDbref(100,3,'','100-FW-202')
--- !!ATestGetByce20260823(100,2,'member.1')
--- !!ATestGetByce20260823(100,3,'')
+-- !!YuzuhaReadCurrentElement(100,2,'member.1')
+-- !!YuzuhaReadCurrentElement(100,3,'')

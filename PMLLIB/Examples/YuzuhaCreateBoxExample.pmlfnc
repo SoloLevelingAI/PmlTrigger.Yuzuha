@@ -4,9 +4,9 @@
 --
 -- File:            YuzuhaCreateBoxExample.pmlfnc
 --   Type:          Function
+--  
 --
---
---
+--    
 --   Module:        design
 --   Replaces:
 --
@@ -26,7 +26,6 @@
 --  ===========                                                           ======          ===========
 --  !!YuzuhaCreateBoxExample(STRING,STRING,REAL,REAL,REAL)                ARRAY           Creates a BOX via YuzuhaBoxExample and returns the object graph.
 --
-
 define function !!YuzuhaCreateBoxExample(!localAtStr is string, !name is string,!xlen is real, !ylen is real, !zlen is real) is array
     !arr = object array()
     !!YUZUHAEXAMPLERES.DELETE()

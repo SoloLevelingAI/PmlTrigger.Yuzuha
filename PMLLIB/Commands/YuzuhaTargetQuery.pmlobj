@@ -1,3 +1,34 @@
+------------------------------------------------------------------------
+--
+-- Copyright 2026 to current year. Apecha2.0. All rights reserved in original code only.
+--
+-- File:            YuzuhaTargetQuery.pmlobj
+--   Type:          Object Definition
+--
+--
+--
+--   Module:        design
+--   Replaces:
+--
+-- Author:          HuangYuanTai
+-- Created:         25/08/2026 21:35:08
+--
+--
+-- Description:
+-- Resolves a DBREF by name (short name, /full path or =dbref) and reads
+-- its object graph through YuzuhaObjectWalker, restoring the original CE.
+--
+------------------------------------------------------------------------
+--
+-- Methods defined:
+--
+--  Method call                                                           Return          Description
+--  ===========                                                           ======          ===========
+--  YuzuhaTargetQuery()                                                   -               Constructor.
+--  ResolveDbref(STRING)                                                  DBREF           Normalises a short/full name or DBREF string; badref if not found.
+--  ReadTarget(STRING)                                                    ARRAY           Switches CE to the target, reads its graph and restores the original CE.
+--
+
 define object YuzuhaTargetQuery
 
 endobject

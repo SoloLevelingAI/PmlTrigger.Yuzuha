@@ -1,3 +1,33 @@
+------------------------------------------------------------------------
+--
+-- Copyright 2026 to current year. Apecha2.0. All rights reserved in original code only.
+--
+-- File:            YuzuhaReadGlobal.pmlfnc
+--   Type:          Function
+--
+--
+--
+--   Module:        design
+--   Replaces:
+--
+-- Author:          HuangYuanTai
+-- Created:         25/08/2026 21:35:06
+--
+--
+-- Description:
+-- Read the object graph of a global variable (name given without the
+-- !! prefix) with a size/depth budget and optional dot-separated start
+-- attribute path. Returns a flattened array.
+--
+------------------------------------------------------------------------
+--
+-- Functions defined:
+--
+--  Method call                                                           Return          Description
+--  ===========                                                           ======          ===========
+--  !!YuzuhaReadGlobal(REAL,REAL,STRING,STRING)                           ARRAY           Reads a global variable graph with a size/depth budget and start path.
+--
+
 define function !!YuzuhaReadGlobal(!size is real,!depth is real,!startStr is string,!globalVar is string) is array
   !arr = object array()
   !ob = object YuzuhaObjectWalker()

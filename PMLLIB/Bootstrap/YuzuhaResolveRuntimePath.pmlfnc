@@ -1,9 +1,55 @@
+------------------------------------------------------------------------
+--
+-- Copyright 2026 to current year. Apecha2.0. All rights reserved in original code only.
+--
+-- File:            YuzuhaResolveRuntimePath.pmlfnc
+--   Type:          Function
+--
+--
+--
+--   Module:        design
+--   Replaces:
+--
+-- Author:          HuangYuanTai
+-- Created:         01/09/2026 19:35:25
+--
+--
+-- Description:
+-- Resolve the YuzuhaToolkit runtime path for the Yuzuha EVAR profile. Sets
+-- !!YuzuhaRuntimePath, !!YuzuhaProfile and !!YuzuhaAutoSetup for host import.
+--
+------------------------------------------------------------------------
+--
+-- Functions defined:
+--
+--  Method call                                                           Return          Description
+--  ===========                                                           ======          ===========
+--  !!YuzuhaResolveRuntimePath()                                          -               Resolves the selected NET35/NET48 host beneath the package root.
+--
+
 define function !!YuzuhaResolveRuntimePath()
   !folderName = 'PmlTrigger.Yuzuha'
   !dllPath = '\runtime\net48\YuzuhaToolkit.PmlHost.Net48'
+  !profile = ''
   !strPath = ''
   !!YuzuhaRuntimePath = ''
+  !!YuzuhaProfile = ''
   !!YuzuhaAutoSetup = FALSE
+
+  var !profile evar Yuzuha
+  handle any
+    !profile = ''
+  endhandle
+
+  if !profile.length() gt 0 then
+    !!YuzuhaProfile = !profile
+    if !profile eq 'AM' or !profile eq 'PDMS' then
+      !dllPath = '\runtime\profiles\' + !profile + '\net35\YuzuhaToolkit.PmlHost.Net35'
+    else
+      !dllPath = '\runtime\profiles\' + !profile + '\net48\YuzuhaToolkit.PmlHost.Net48'
+    endif
+  endif
+
   var !path evar PMLUI
   !pathArr = !path.split(';')
 

@@ -3,6 +3,7 @@
 *.csproj text eol=lf
 *.props text eol=lf
 *.pubxml text eol=lf
+*.sln text eol=lf
 *.md text eol=lf
 *.pmlcmd text eol=lf
 *.pmlfnc text eol=lf

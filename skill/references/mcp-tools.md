@@ -1,14 +1,43 @@
 # MCP tools — YuzuhaToolkit
 
 Server: **YuzuhaToolkit** (stdio .NET 10 MCP server).
-Exposed tool names in the agent runtime: `mcp__YuzuhaToolkit__generate_pml_call`,
+Exposed tool names in the agent runtime: `mcp__YuzuhaToolkit__list_aveva_sessions`,
+`mcp__YuzuhaToolkit__select_aveva_session`,
+`mcp__YuzuhaToolkit__get_connection_status`,
+`mcp__YuzuhaToolkit__generate_pml_call`,
 `mcp__YuzuhaToolkit__run_pml_command`, and
 `mcp__YuzuhaToolkit__run_pml_command_list`.
 
-The server talks to the host DLL `YuzuhaToolkit.PmlHost.Net48` (loaded in AVEVA) over
-named pipe `yuzuha.pml.command.v1` (connect timeout 3000 ms, heartbeat 2 s).
+The server starts disconnected. Discovery reads visible Windows titles and
+process metadata without RPC. Selection connects one returned PID to its
+profile-specific NET35 or NET48 Host over
+`yuzuha.pml.command.v1.pid-<AVEVA-PID>` (connect timeout 3000 ms, heartbeat
+2 s). PID/model environment variables are not used.
 
-## Tool 1: generate_pml_call
+## Tool 1: list_aveva_sessions
+
+Returns `WindowTitle`, `Product`, `Project`, `ProcessId`, UTC process-start
+ticks, `PipeName`, and `PipeDetected` for every recognized visible AVEVA
+window. This tool does not open RPC or execute PML. Never guess among multiple
+candidates.
+
+## Tool 2: select_aveva_session
+
+Takes an exact `processId` returned by discovery and optional `expectedModel`.
+It refuses undiscovered PIDs and missing PID pipes. On success it locks the
+host-reported module and returns `TargetVerified=true`. It never falls back to
+the legacy shared pipe.
+
+## Tool 3: get_connection_status
+
+Reads the host identity without executing PML. `TargetVerified=true` only when
+the selected pipe, PID, process start time, and model match the values
+reported by the host. Treat `E3D_TARGET_PID_MISMATCH`,
+`E3D_TARGET_START_MISMATCH`, `E3D_TARGET_MODEL_MISMATCH`, and
+`E3D_TARGET_PIPE_MISMATCH` as fail-closed results. Before selection it returns
+`E3D_TARGET_NOT_SELECTED`.
+
+## Tool 4: generate_pml_call
 
 Builds a PML global-method call string from a method name and an ordered
 dynamic parameter array. **Text only — never executes PML.**
@@ -29,7 +58,7 @@ Example in → out:
 → !!BatchCrtAnciForCheck(TRUE,'测试')
 ```
 
-## Tool 2: run_pml_command
+## Tool 5: run_pml_command
 
 Executes one already-generated PML command inside AVEVA through named-pipe RPC.
 **Host-side effects. Call only when the user explicitly asks to execute, and
@@ -51,7 +80,7 @@ Key response fields (preserve when reporting):
 - `ServerRuntime` — host runtime version string (e.g. `4.0.30319.42000`).
 - `ServerTimeUtc` — host-side timestamp.
 
-## Tool 3: run_pml_command_list
+## Tool 6: run_pml_command_list
 
 Runs a PML expression whose result is stored in a global array variable, then
 returns the whole array parsed into structured JSON for AI consumption (no E3D

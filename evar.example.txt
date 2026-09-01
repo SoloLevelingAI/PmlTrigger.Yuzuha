@@ -2,3 +2,6 @@
 rem Replace <YUZUHA_TOOLKIT_ROOT> locally. Do not commit a machine path.
 set PMLLIB=<YUZUHA_TOOLKIT_ROOT>\PMLLIB;%PMLLIB%
 set PMLUI=<YUZUHA_TOOLKIT_ROOT>\PMLUI;%PMLUI%
+rem Custom EVAR variable is exactly Yuzuha; do not add an underscore.
+rem AM, PDMS, E3D2.1, E3D3.1.0, or E3D3.1.6
+set Yuzuha=E3D2.1

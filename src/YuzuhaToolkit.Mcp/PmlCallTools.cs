@@ -71,7 +71,24 @@ internal sealed class PmlListToolResponse
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(RunPmlCommandResponse))]
 [JsonSerializable(typeof(PmlListToolResponse))]
+[JsonSerializable(typeof(YuzuhaConnectionStatus))]
+[JsonSerializable(typeof(HostIdentityResponse))]
+[JsonSerializable(typeof(AvevaSessionListResponse))]
+[JsonSerializable(typeof(AvevaSessionCandidate))]
 internal partial class YuzuhaJsonContext : JsonSerializerContext
+{
+}
+
+[JsonSourceGenerationOptions(
+    PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase)]
+[JsonSerializable(typeof(List<DynamicParameterInput>))]
+[JsonSerializable(typeof(DynamicParameterInput))]
+[JsonSerializable(typeof(int))]
+[JsonSerializable(typeof(string))]
+[JsonSerializable(typeof(bool))]
+[JsonSerializable(typeof(object))]
+[JsonSerializable(typeof(JsonElement))]
+internal partial class YuzuhaToolJsonContext : JsonSerializerContext
 {
 }
 
@@ -83,6 +100,78 @@ public sealed class PmlCallTools
     public PmlCallTools(YuzuhaRpcBridge bridge)
     {
         _bridge = bridge;
+    }
+
+    [McpServerTool]
+    [Description(
+        "Discovers visible AVEVA E3D, PDMS, and Marine sessions without " +
+        "opening an RPC connection or executing PML. Returns window title, " +
+        "project, PID, process start time, expected PID-bound pipe, and " +
+        "whether that pipe was observed. Never selects a session automatically.")]
+    public string ListAvevaSessions()
+    {
+        return JsonSerializer.Serialize(
+            _bridge.DiscoverSessions(),
+            YuzuhaJsonContext.Default.AvevaSessionListResponse);
+    }
+
+    [McpServerTool]
+    [Description(
+        "Selects one PID returned by list_aveva_sessions, then connects only " +
+        "to its PID-bound pipe and verifies PID, process start time, pipe, " +
+        "and host-reported module. This does not execute PML. An optional " +
+        "expectedModel such as Design makes module matching mandatory.")]
+    public async Task<string> SelectAvevaSession(
+        [Description(
+            "Exact process ID returned by list_aveva_sessions. Do not guess.")]
+        int processId,
+        [Description(
+            "Optional expected AVEVA module, for example Design or Draft. " +
+            "Leave null to accept and lock the module reported by the host.")]
+        string? expectedModel = null,
+        CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var status = await _bridge.SelectSessionAsync(
+                    processId,
+                    expectedModel,
+                    cancellationToken)
+                .ConfigureAwait(false);
+            return JsonSerializer.Serialize(
+                status,
+                YuzuhaJsonContext.Default.YuzuhaConnectionStatus);
+        }
+        catch (OperationCanceledException)
+        {
+            throw;
+        }
+        catch (Exception exception)
+        {
+            return JsonSerializer.Serialize(
+                new YuzuhaConnectionStatus
+                {
+                    Error = "AVEVA_SESSION_SELECTION_FAILED: " +
+                            exception.Message
+                },
+                YuzuhaJsonContext.Default.YuzuhaConnectionStatus);
+        }
+    }
+
+    [McpServerTool]
+    [Description(
+        "Checks the explicitly selected AVEVA session without executing PML. " +
+        "TargetVerified is true only when PID, process start time, model, " +
+        "and PID-bound pipe all match. Returns E3D_TARGET_NOT_SELECTED until " +
+        "select_aveva_session succeeds.")]
+    public async Task<string> GetConnectionStatus(
+        CancellationToken cancellationToken)
+    {
+        var status = await _bridge.GetConnectionStatusAsync(cancellationToken)
+            .ConfigureAwait(false);
+        return JsonSerializer.Serialize(
+            status,
+            YuzuhaJsonContext.Default.YuzuhaConnectionStatus);
     }
 
     [McpServerTool]

@@ -6,13 +6,15 @@ using YuzuhaToolkit.Mcp;
 var builder = Host.CreateApplicationBuilder(args);
 
 // MCP stdio reserves stdout for JSON-RPC messages.
+builder.Logging.ClearProviders();
 builder.Logging.AddConsole(options => { options.LogToStandardErrorThreshold = LogLevel.Trace; });
 
+builder.Services.AddSingleton<AvevaSessionDiscovery>();
 builder.Services.AddSingleton<YuzuhaRpcBridge>();
-builder.Services.AddHostedService(services => services.GetRequiredService<YuzuhaRpcBridge>());
 builder.Services
     .AddMcpServer(options => { options.ServerInstructions = McpUsageInstructions.Text; })
     .WithStdioServerTransport()
-    .WithTools<PmlCallTools>();
+    .WithTools<PmlCallTools>(YuzuhaToolJsonContext.Default.Options);
 
 await builder.Build().RunAsync();
+return 0;

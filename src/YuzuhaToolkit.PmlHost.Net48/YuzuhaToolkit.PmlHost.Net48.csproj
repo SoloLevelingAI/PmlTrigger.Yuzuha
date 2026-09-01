@@ -9,8 +9,9 @@
         <ProjectGuid>{6E6D7A09-37B3-4840-8213-E3A0F5E2200D}</ProjectGuid>
         <OutputType>Library</OutputType>
         <AppDesignerFolder>Properties</AppDesignerFolder>
-        <RootNamespace>YuzuhaToolkit.PmlHost.Net48</RootNamespace>
+        <RootNamespace>YuzuhaToolkit.PmlHost</RootNamespace>
         <AssemblyName>YuzuhaToolkit.PmlHost.Net48</AssemblyName>
+        <ExpectedAvevaFamily>E3D</ExpectedAvevaFamily>
         <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
         <Nullable>disable</Nullable>
         <ImplicitUsings>disable</ImplicitUsings>
@@ -41,9 +42,11 @@
 
         <Reference Include="Aveva.Core.Utilities">
             <HintPath>$(AvevaInstallDir)\Aveva.Core.Utilities.dll</HintPath>
+            <Private>False</Private>
         </Reference>
         <Reference Include="PMLNet">
             <HintPath>$(AvevaInstallDir)\PMLNet.dll</HintPath>
+            <Private>False</Private>
         </Reference>
         <Reference Include="PlantHost.Rpc.Abstractions">
             <HintPath>..\lib\net48\PlantHost.Rpc.Abstractions.dll</HintPath>

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using CmdAm = Aveva.Core.Utilities.CommandLine;
 
-namespace YuzuhaToolkit.PmlHost.Net48;
+namespace YuzuhaToolkit.PmlHost;
 
 internal static class GetRequireFromE3D
 {

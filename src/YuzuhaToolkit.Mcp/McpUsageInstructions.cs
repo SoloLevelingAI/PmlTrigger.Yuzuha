@@ -8,6 +8,13 @@ internal static class McpUsageInstructions
         external parameter data. It is side-effect-free and does not execute
         PML. run_pml_command sends one already-generated command to a local
         AVEVA host and executes it on the captured AVEVA main thread.
+        list_aveva_sessions is side-effect-free and discovers visible AVEVA
+        windows without opening an RPC connection. Never guess a PID or
+        auto-select when more than one session is returned. Call
+        select_aveva_session with one exact returned PID; it connects only to
+        yuzuha.pml.command.v1.pid-<PID> and verifies PID, process start time,
+        pipe, and host-reported module. get_connection_status rechecks the
+        explicitly selected session. Execution tools fail until selection.
         run_pml_command has host-side effects: call it only when the user
         explicitly asks to execute a command, and do not retry automatically.
 

@@ -2,10 +2,31 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace YuzuhaToolkit.PmlHost.Net48;
+namespace YuzuhaToolkit.PmlHost;
 
 internal sealed class PmlCommandRpcService : IPmlCommandService
 {
+    public Task<HostIdentityResponse> GetHostIdentityAsync(
+        HostIdentityRequest request,
+        CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        PmlCommandRpcHost.AssertMainThread();
+        var target = PmlCommandRpcHost.GetTarget();
+        return Task.FromResult(new HostIdentityResponse
+        {
+            ProcessId = PmlCommandRpcHost.ProcessId,
+            ProcessStartTimeUtcTicks =
+                PmlCommandRpcHost.ProcessStartTimeUtcTicks,
+            Model = target.Model,
+            PipeName = PmlCommandRpcHost.PipeName,
+            HostFramework = "net48",
+            HostVersion = typeof(PmlCommandMethod).Assembly
+                .GetName().Version.ToString(),
+            ServerTimeUtc = DateTime.UtcNow
+        });
+    }
+
     public Task<RunPmlCommandResponse> RunPmlCommandAsync(
         RunPmlCommandRequest request,
         CancellationToken cancellationToken)

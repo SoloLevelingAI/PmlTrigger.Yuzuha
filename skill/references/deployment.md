@@ -1,4 +1,4 @@
-# Deployment — Net10 MCP server + Net48 AVEVA host
+# Deployment — PID-bound MCP and AVEVA hosts
 
 Release archives use this layout:
 
@@ -7,26 +7,49 @@ PmlTrigger.Yuzuha/
 ├─ PMLLIB/
 ├─ PMLUI/
 ├─ runtime/
-│  ├─ net48/
-│  ├─ net10/                    # framework-dependent option
-│  └─ win-x64-self-contained/  # no installed .NET 10 required
+│  ├─ profiles/
+│  │  ├─ AM/net35/
+│  │  ├─ PDMS/net35/
+│  │  ├─ E3D2.1/net48/
+│  │  ├─ E3D3.1.0/net48/
+│  │  └─ E3D3.1.6/net48/
+│  └─ net10/
 └─ skill/
 ```
 
-## Prerequisites
-
-- Windows and PowerShell 5.1 or newer.
-- A licensed AVEVA E3D 2.1 installation with PMLNet/.NET Framework 4.8.
-- .NET 10 runtime only when using the framework-dependent Net10 package.
-
 AVEVA proprietary assemblies are not redistributed.
 
-## Start the Net48 host
+For guarded Agent installation, update, and uninstall, use the lifecycle
+scripts described in [lifecycle.md](lifecycle.md). Those scripts install to a
+stable local path, manage the Skill, validate MCP ownership, and refuse to
+overwrite or delete unmarked directories.
 
-Add the extracted `PMLLIB` and `PMLUI` folders to the corresponding AVEVA
-environment paths. `YuzuhaAddin` resolves and imports
-`runtime/net48/YuzuhaToolkit.PmlHost.Net48.dll`, constructs the PMLNet host on
-the AVEVA main thread, and starts named pipe `yuzuha.pml.command.v1`.
+## Start the AVEVA host
+
+Add `PMLLIB` and `PMLUI` to the corresponding AVEVA environment paths and set
+the matching profile before starting AVEVA:
+
+```bat
+set Yuzuha=E3D2.1
+```
+
+The custom EVAR variable is exactly `Yuzuha`; do not add an underscore.
+
+The bootstrap reads the current module with:
+
+```pml
+!!YuzuhaModel = !!fmsys.FMINFO()[0].SPLIT()[3]
+```
+
+It passes that value, for example `Design`, into the PMLNet host. The default
+pipe is bound to the actual AVEVA process ID:
+
+```text
+yuzuha.pml.command.v1.pid-<AVEVA-PID>
+```
+
+An explicit `YUZUHA_PML_PIPE` may override the name, but the MCP still verifies
+the host-reported PID, process start time, and module before every execution.
 
 Verify in AVEVA:
 
@@ -36,24 +59,62 @@ Verify in AVEVA:
 
 The expected result is `RUNNING`.
 
-## Register the MCP server
+## Register one generic Codex MCP
 
-Framework-dependent:
+The Net10 MCP is a trimmed, self-contained Windows x64 single executable. It
+starts disconnected and does not use PID/model environment variables. Register
+it once:
 
-```yaml
-command: 'C:\Program Files\dotnet\dotnet.exe'
-args:
-  - '<PKG>\runtime\net10\YuzuhaToolkit.Mcp.dll'
-cwd: '<PKG>\runtime\net10'
+```powershell
+.\scripts\Register-YuzuhaMcp.ps1 `
+  -McpExecutable '.\runtime\net10\YuzuhaToolkit.Mcp.exe'
 ```
 
-Self-contained:
+The registration script is safe to run again while installing or updating the
+Skill. It checks `codex mcp list --json` first:
 
-```yaml
-command: '<PKG>\runtime\win-x64-self-contained\YuzuhaToolkit.Mcp.exe'
-args: []
-cwd: '<PKG>\runtime\win-x64-self-contained'
+- Same enabled stdio executable and no arguments: reuse it without writing.
+- No entry: add it.
+- Same name but a different command, arguments, transport, or disabled state,
+  or a possible Yuzuha entry under another name: stop and report the discovered
+  configurations. It never adds a duplicate, removes, or overwrites an MCP
+  automatically.
+
+If a conflict is intentional, inspect it first and remove it explicitly with
+`codex mcp remove YuzuhaToolkit`; then rerun the script.
+
+For legacy AM or PDMS, the same script can back up and update `evar.bat` or
+`evars.bat`. Supply the file explicitly because AVEVA installation layouts
+vary:
+
+```powershell
+.\scripts\Register-YuzuhaMcp.ps1 `
+  -McpExecutable '.\runtime\net10\YuzuhaToolkit.Mcp.exe' `
+  -AvevaProfile PDMS `
+  -EvarBat 'D:\AVEVA\Plant\PDMS12.1.SP4\evars.bat'
 ```
 
-Execution tools can modify the active model. Call them only for explicit user
-requests and never automatically retry a timed-out execution.
+Use `-AvevaProfile AM` for AM. The managed block is idempotent, sets `Yuzuha`,
+prepends this package's `PMLLIB` and `PMLUI`, and creates a timestamped backup
+before changing the file. To configure EVAR without changing Codex MCP
+registration, add `-SkipMcpRegistration` and omit `-McpExecutable`. Fully
+restart AM or PDMS afterwards.
+
+At runtime:
+
+1. Call `list_aveva_sessions`. It reads visible top-level AVEVA window titles
+   and process metadata without opening an RPC connection.
+2. Identify the intended `Product` and `Project` from `WindowTitle`. If zero or
+   multiple sessions are plausible, stop for an explicit choice; never guess.
+3. Call `select_aveva_session` with one exact PID returned by discovery. It
+   connects only to `yuzuha.pml.command.v1.pid-<PID>` and verifies PID, process
+   start time, pipe, and optional expected module.
+4. Call `get_connection_status`; proceed only when `TargetVerified=true`.
+
+The legacy shared pipe `yuzuha.pml.command.v1` is never used as a fallback.
+Execution tools can modify the active model; call them only for explicit
+requests and never automatically retry a timeout.
+
+Window discovery requires the MCP and AVEVA to run in the same interactive
+Windows session. If AVEVA is elevated, run the MCP at a compatible integrity
+level so it can read the window and open its local pipe.

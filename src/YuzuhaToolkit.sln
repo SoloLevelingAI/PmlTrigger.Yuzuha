@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YuzuhaToolkit.Mcp", "Yuzuha
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YuzuhaToolkit.PmlHost.Net48", "YuzuhaToolkit.PmlHost.Net48\YuzuhaToolkit.PmlHost.Net48.csproj", "{6E6D7A09-37B3-4840-8213-E3A0F5E2200D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YuzuhaToolkit.PmlHost.Net35", "YuzuhaToolkit.PmlHost.Net35\YuzuhaToolkit.PmlHost.Net35.csproj", "{946C555A-26CF-44CD-8A68-4FA2C03792EF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

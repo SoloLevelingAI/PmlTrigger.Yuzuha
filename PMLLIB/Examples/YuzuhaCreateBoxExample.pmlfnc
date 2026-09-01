@@ -1,3 +1,32 @@
+------------------------------------------------------------------------
+--
+-- Copyright 2026 to current year. Apecha2.0. All rights reserved in original code only.
+--
+-- File:            YuzuhaCreateBoxExample.pmlfnc
+--   Type:          Function
+--
+--
+--
+--   Module:        design
+--   Replaces:
+--
+-- Author:          HuangYuanTai
+-- Created:         25/08/2026 21:28:31
+--
+--
+-- Description:
+-- Function wrapper that creates a BOX via YuzuhaBoxExample and returns
+-- the created object graph as an array through !!YuzuhaReadGlobal.
+--
+------------------------------------------------------------------------
+--
+-- Functions defined:
+--
+--  Method call                                                           Return          Description
+--  ===========                                                           ======          ===========
+--  !!YuzuhaCreateBoxExample(STRING,STRING,REAL,REAL,REAL)                ARRAY           Creates a BOX via YuzuhaBoxExample and returns the object graph.
+--
+
 define function !!YuzuhaCreateBoxExample(!localAtStr is string, !name is string,!xlen is real, !ylen is real, !zlen is real) is array
     !arr = object array()
     !!YUZUHAEXAMPLERES.DELETE()

@@ -1,3 +1,39 @@
+------------------------------------------------------------------------
+--
+-- Copyright 2026 to current year. Apecha2.0. All rights reserved in original code only.
+--
+-- File:            YuzuhaBoxExample.pmlobj
+--   Type:          Object Definition
+--
+--
+--
+--   Module:        design
+--   Replaces:
+--
+-- Author:          HuangYuanTai
+-- Created:         25/08/2026 21:25:21
+--
+--
+-- Description:
+-- Example object that creates a BOX primitive under a target DBREF
+-- with optional East/North/Up position. Demonstrates a model-writing
+-- workflow; only run on explicit user request.
+--
+------------------------------------------------------------------------
+--
+-- Methods defined:
+--
+--  Method call                                                           Return          Description
+--  ===========                                                           ======          ===========
+--  YuzuhaBoxExample()                                                    -               Constructor. Sets the default state, error text and run flags.
+--  InitializeWithPosition(STRING,STRING,REAL,REAL,REAL,REAL,REAL,REAL)   -               Initialises target DBREF, box dimensions and E/N/U position.
+--  InitializeWithoutPosition(STRING,STRING,REAL,REAL,REAL)               -               Initialises target DBREF and box dimensions without a position.
+--  InitializeBox(REAL,REAL,REAL,REAL,REAL,REAL)                          -               Stores dimensions and builds the position when SetPos is enabled.
+--  InitializeTarget(STRING,STRING)                                       -               Resolves the localAt DBREF and checks the target name is free.
+--  Create()                                                              -               Creates the BOX under localAt, applies position, reports state/errorText.
+--  ResolveDbref(STRING)                                                  DBREF           Normalises a short/full name or DBREF string; badref if not found.
+--
+
 define object YuzuhaBoxExample
   member .currentDb   is dbref
   member .localAt     is dbref

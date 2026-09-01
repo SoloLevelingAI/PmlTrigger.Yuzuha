@@ -4,15 +4,24 @@
 
   <PropertyGroup>
     <AvevaInstallDir Condition=" '$(AvevaInstallDir)' == '' and '$(AVEVA_INSTALL_DIR)' != '' ">$(AVEVA_INSTALL_DIR)</AvevaInstallDir>
+    <AvevaProfileRoot Condition=" '$(AvevaProfileRoot)' == '' and '$(AVEVA_PROFILE_ROOT)' != '' ">$(AVEVA_PROFILE_ROOT)</AvevaProfileRoot>
+    <AvevaInstallDir Condition=" '$(AvevaInstallDir)' == '' and '$(AvevaProfileRoot)' != '' and '$(AvevaProfile)' != '' ">$(AvevaProfileRoot)\$(AvevaProfile)</AvevaInstallDir>
+    <AvevaFamily Condition=" '$(AvevaFamily)' == '' and ('$(AvevaProfile)' == 'AM' or '$(AvevaProfile)' == 'PDMS') ">Legacy</AvevaFamily>
+    <AvevaFamily Condition=" '$(AvevaFamily)' == '' and ('$(AvevaProfile)' == 'E3D2.1' or '$(AvevaProfile)' == 'E3D3.1.0' or '$(AvevaProfile)' == 'E3D3.1.6') ">E3D</AvevaFamily>
+    <AvevaFamily Condition=" '$(AvevaFamily)' == '' ">$(ExpectedAvevaFamily)</AvevaFamily>
   </PropertyGroup>
 
   <Target Name="ValidateAvevaSdkConfiguration"
           BeforeTargets="ResolveAssemblyReferences">
     <Error Condition=" '$(AvevaInstallDir)' == '' "
-           Text="AVEVA SDK path is not configured. Copy src/build/Aveva.Local.props.example to Aveva.Local.props, set AVEVA_INSTALL_DIR, or pass /p:AvevaInstallDir=... ." />
+           Text="AVEVA SDK path is not configured. Set AvevaProfileRoot plus AvevaProfile, set AVEVA_INSTALL_DIR, or pass /p:AvevaInstallDir=... ." />
+    <Error Condition=" '$(ExpectedAvevaFamily)' != '' and '$(AvevaFamily)' != '$(ExpectedAvevaFamily)' "
+           Text="AVEVA profile '$(AvevaProfile)' belongs to family '$(AvevaFamily)', but this project requires '$(ExpectedAvevaFamily)'." />
     <Error Condition=" !Exists('$(AvevaInstallDir)\PMLNet.dll') "
            Text="PMLNet.dll was not found under AvevaInstallDir='$(AvevaInstallDir)'. See docs/build-configuration.md." />
-    <Error Condition=" !Exists('$(AvevaInstallDir)\Aveva.Core.Utilities.dll') "
+    <Error Condition=" '$(AvevaFamily)' == 'E3D' and !Exists('$(AvevaInstallDir)\Aveva.Core.Utilities.dll') "
            Text="Aveva.Core.Utilities.dll was not found under AvevaInstallDir='$(AvevaInstallDir)'. See docs/build-configuration.md." />
+    <Error Condition=" '$(AvevaFamily)' == 'Legacy' and !Exists('$(AvevaInstallDir)\Aveva.Pdms.Utilities.dll') "
+           Text="Aveva.Pdms.Utilities.dll was not found under AvevaInstallDir='$(AvevaInstallDir)'. See docs/build-configuration.md." />
   </Target>
 </Project>

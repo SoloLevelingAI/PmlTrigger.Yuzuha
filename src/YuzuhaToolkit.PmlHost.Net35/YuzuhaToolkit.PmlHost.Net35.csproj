@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\build\AvevaSdk.props" />
+  <PropertyGroup>
+    <TargetFramework>net35</TargetFramework>
+    <OutputType>Library</OutputType>
+    <AssemblyName>YuzuhaToolkit.PmlHost.Net35</AssemblyName>
+    <RootNamespace>YuzuhaToolkit.PmlHost</RootNamespace>
+    <ExpectedAvevaFamily>Legacy</ExpectedAvevaFamily>
+    <PlatformTarget>x86</PlatformTarget>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies.net35"
+                      Version="1.0.3"
+                      PrivateAssets="all" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Aveva.Pdms.Utilities">
+      <HintPath>$(AvevaInstallDir)\Aveva.Pdms.Utilities.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="PMLNet">
+      <HintPath>$(AvevaInstallDir)\PMLNet.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="PlantHost.Rpc.Abstractions">
+      <HintPath>..\lib\net35\PlantHost.Rpc.Abstractions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PlantHost.Rpc.Net35">
+      <HintPath>..\lib\net35\PlantHost.Rpc.Net35.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\lib\net35\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+</Project>

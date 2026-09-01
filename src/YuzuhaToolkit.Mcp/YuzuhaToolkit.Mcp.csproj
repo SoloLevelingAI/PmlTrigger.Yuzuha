@@ -7,6 +7,21 @@
 <!--        <PublishAot>true</PublishAot>-->
         <AssemblyName>YuzuhaToolkit.Mcp</AssemblyName>
         <RootNamespace>YuzuhaToolkit.Mcp</RootNamespace>
+        <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+        <SelfContained>true</SelfContained>
+        <PublishSingleFile>true</PublishSingleFile>
+        <PublishTrimmed>true</PublishTrimmed>
+        <TrimMode>partial</TrimMode>
+        <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+        <DebugType>none</DebugType>
+        <DebugSymbols>false</DebugSymbols>
+        <AllowedReferenceRelatedFileExtensions>.pdb</AllowedReferenceRelatedFileExtensions>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(PublishTrimmed)' == 'true'">
+        <!-- The reflection-heavy RPC/JSON assemblies and this contract
+             assembly are rooted in full below. IL2104 is therefore only the
+             linker summary for code that is intentionally preserved. -->
+        <NoWarn>$(NoWarn);IL2104</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>
@@ -14,6 +29,16 @@
                           Version="10.0.0"/>
         <PackageReference Include="ModelContextProtocol"
                           Version="1.4.1"/>
+    </ItemGroup>
+
+    <!-- PlantHost.Rpc builds its client proxy and serializes RPC contracts via
+         reflection. Preserve these small assemblies while trimming the
+         self-contained framework and the rest of the application. -->
+    <ItemGroup Condition="'$(PublishTrimmed)' == 'true'">
+        <TrimmerRootAssembly Include="YuzuhaToolkit.Mcp" />
+        <TrimmerRootAssembly Include="PlantHost.Rpc.Abstractions" />
+        <TrimmerRootAssembly Include="PlantHost.Rpc.Net8" />
+        <TrimmerRootAssembly Include="Newtonsoft.Json" />
     </ItemGroup>
     <ItemGroup>
         <Reference Include="PlantHost.Rpc.Abstractions">

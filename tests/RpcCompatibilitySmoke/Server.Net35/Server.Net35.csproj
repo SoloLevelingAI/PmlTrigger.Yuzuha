@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net35</TargetFramework>
+    <PlatformTarget>x86</PlatformTarget>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies.net35"
+                      Version="1.0.3"
+                      PrivateAssets="all" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="PlantHost.Rpc.Abstractions">
+      <HintPath>..\..\..\src\lib\net35\PlantHost.Rpc.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="PlantHost.Rpc.Net35">
+      <HintPath>..\..\..\src\lib\net35\PlantHost.Rpc.Net35.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\..\src\lib\net35\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>

@@ -1,9 +1,41 @@
+------------------------------------------------------------------------
+--
+-- Copyright 2026 to current year. Apecha2.0. All rights reserved in original code only.
+--
+-- File:            YuzuhaRpcCommand.pmlcmd
+--   Type:          Command Definition
+--
+--
+--
+--   Module:        design
+--   Replaces:
+--
+-- Author:          HuangYuanTai
+-- Created:         01/09/2026 19:34:00
+--
+--
+-- Description:
+-- RPC bootstrap command for Yuzuha. Resolves and imports the selected host,
+-- creates the PID-bound RPC service and refreshes the current AVEVA module.
+--
+------------------------------------------------------------------------
+--
+-- Methods defined:
+--
+--  Method call                                                           Return          Description
+--  ===========                                                           ======          ===========
+--  YuzuhaRpcCommand()                                                    -               Constructor. Sets the command hook and performs AgentSetup.
+--  execute()                                                             -               Registered command hook; performs no direct action.
+--  RefreshModel()                                                        -               Reads the current module and refreshes or recreates the RPC host.
+--  AgentSetup()                                                          -               Resolves the runtime, imports the host and verifies RPC startup.
+--
+
 setup command !!YuzuhaRpcCommand
 
 exit
 
 define method .YuzuhaRpcCommand()
-  !this.key = 'YuzuhaToolkit.Net48.RpcCommand'
+  !this.key = 'YuzuhaToolkit.RpcCommand'
   !this.execute = 'execute'
   !this.AgentSetup()
   -- $p 加载成功
@@ -11,6 +43,19 @@ endmethod
 
 define method .execute()
 
+endmethod
+
+define method .RefreshModel()
+  !!YuzuhaModel = 'Unknown'
+  !!YuzuhaModel = !!fmsys.FMINFO()[0].SPLIT()[3]
+  handle any
+    !!YuzuhaModel = 'Unknown'
+  endhandle
+
+  !!YuzuhaRpcHost.RefreshModel(!!YuzuhaModel)
+  handle any
+    !this.AgentSetup()
+  endhandle
 endmethod
 
 define method .AgentSetup()
@@ -26,12 +71,24 @@ define method .AgentSetup()
       -- !!YuzuhaAutoSetup = FALSE
       -- return
     endhandle
-    using namespace 'YuzuhaToolkit.PmlHost.Net48'
+    using namespace 'YuzuhaToolkit.PmlHost'
     handle any
       !!YuzuhaAutoSetup = FALSE
       return
     endhandle
+
+    !!YuzuhaModel = 'Unknown'
+    !!YuzuhaModel = !!fmsys.FMINFO()[0].SPLIT()[3]
+    handle any
+      !!YuzuhaModel = 'Unknown'
+    endhandle
+
     !!YuzuhaRpcHost = object PmlCommandMethod()
+    handle any
+      !!YuzuhaAutoSetup = FALSE
+      return
+    endhandle
+    !!YuzuhaRpcHost.RefreshModel(!!YuzuhaModel)
     handle any
       !!YuzuhaAutoSetup = FALSE
       return

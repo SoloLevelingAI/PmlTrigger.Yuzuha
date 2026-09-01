@@ -1,3 +1,33 @@
+------------------------------------------------------------------------
+--
+-- Copyright 2026 to current year. Apecha2.0. All rights reserved in original code only.
+--
+-- File:            YuzuhaReadDbref.pmlfnc
+--   Type:          Function
+--
+--
+--
+--   Module:        design
+--   Replaces:
+--
+-- Author:          HuangYuanTai
+-- Created:         29/08/2026 13:21:42
+--
+--
+-- Description:
+-- Read the object graph of a named DBREF (short name, /full path or
+-- =dbref). Temporarily switches CE to the target and restores the
+-- original CE afterwards. Returns a flattened array.
+--
+------------------------------------------------------------------------
+--
+-- Functions defined:
+--
+--  Method call                                                           Return          Description
+--  ===========                                                           ======          ===========
+--  !!YuzuhaReadDbref(REAL,REAL,STRING,STRING)                            ARRAY           Reads a named DBREF graph, restoring the original CE.
+--
+
 define function !!YuzuhaReadDbref(!size is real,!depth is real,!startStr is string,!name is string) is array
   !arr = object array()
   !originalCe = ce

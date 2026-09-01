@@ -1,13 +1,18 @@
 using System;
+using System.Diagnostics;
 using System.Threading;
 using System.Windows.Forms;
 using PlantHost.Rpc;
 
-namespace YuzuhaToolkit.PmlHost.Net48;
+namespace YuzuhaToolkit.PmlHost;
 
 internal static class PmlCommandRpcHost
 {
-    internal const string PipeName = "yuzuha.pml.command.v1";
+    internal static readonly int ProcessId =
+        Process.GetCurrentProcess().Id;
+    internal static readonly long ProcessStartTimeUtcTicks =
+        Process.GetCurrentProcess().StartTime.ToUniversalTime().Ticks;
+    internal static readonly string PipeName = ResolvePipeName();
 
     private static readonly object Gate = new();
     private static PmlCommandMethod _target;
@@ -95,6 +100,15 @@ internal static class PmlCommandRpcHost
 
         SynchronizationContext.SetSynchronizationContext(
             new WindowsFormsSynchronizationContext());
+    }
+
+    private static string ResolvePipeName()
+    {
+        var configured = Environment.GetEnvironmentVariable(
+            "YUZUHA_PML_PIPE");
+        return string.IsNullOrWhiteSpace(configured)
+            ? "yuzuha.pml.command.v1.pid-" + ProcessId
+            : configured.Trim();
     }
 
     private static void Stop()

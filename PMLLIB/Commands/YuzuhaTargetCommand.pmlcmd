@@ -1,3 +1,36 @@
+------------------------------------------------------------------------
+--
+-- Copyright 2026 to current year. Apecha2.0. All rights reserved in original code only.
+--
+-- File:            YuzuhaTargetCommand.pmlcmd
+--   Type:          Command Definition
+--
+--
+--
+--   Module:        design
+--   Replaces:
+--
+-- Author:          HuangYuanTai
+-- Created:         01/09/2026 19:00:22
+--
+--
+-- Description:
+-- Target command handler. Reads a named DBREF or executes an explicitly
+-- requested PML macro file and stores the result for the RPC host.
+--
+------------------------------------------------------------------------
+--
+-- Methods defined:
+--
+--  Method call                                                           Return          Description
+--  ===========                                                           ======          ===========
+--  YuzuhaTargetCommand()                                                 -               Constructor. Creates TargetQuery and the result array.
+--  InitArgs(STRING)                                                      -               Stores the argument string for the next execute call.
+--  execute(STRING)                                                       -               Dispatches the requested target operation.
+--  ExecuteFile(STRING)                                                   -               Executes a PML macro file and records success or failure.
+--  Query()                                                               ARRAY           Returns the current result array.
+--
+
 setup command !!YuzuhaTargetCommand
   member .TargetQuery is YuzuhaTargetQuery
   member .ResArr is array

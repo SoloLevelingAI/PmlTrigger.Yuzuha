@@ -2,7 +2,7 @@ using System;
 using Aveva.Core.PMLNet;
 using CmdAm = Aveva.Core.Utilities.CommandLine;
 
-namespace YuzuhaToolkit.PmlHost.Net48;
+namespace YuzuhaToolkit.PmlHost;
 
 /// <summary>
 ///     PMLNet entry point. PML must construct this class on the AVEVA main
@@ -14,13 +14,24 @@ public class PmlCommandMethod
     [PMLNetCallable]
     public PmlCommandMethod()
     {
+        Model = "Unknown";
         PmlCommandRpcHost.Attach(this);
     }
+
+    internal string Model { get; private set; }
 
     [PMLNetCallable]
     public void Assign(PmlCommandMethod that)
     {
-        // This callable object has no instance data to copy.
+        if (that != null)
+            Model = that.Model;
+    }
+
+    [PMLNetCallable]
+    public void RefreshModel(string model)
+    {
+        Model = NormalizeModel(model);
+        PmlCommandRpcHost.Attach(this);
     }
 
     [PMLNetCallable]
@@ -79,5 +90,12 @@ public class PmlCommandMethod
             throw new ArgumentException(
                 "PML command cannot be empty.",
                 "pmlCommand");
+    }
+
+    private static string NormalizeModel(string model)
+    {
+        return string.IsNullOrWhiteSpace(model)
+            ? "Unknown"
+            : model.Trim();
     }
 }

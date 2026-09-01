@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using PlantHost.Rpc;
 
-namespace YuzuhaToolkit.PmlHost.Net48;
+namespace YuzuhaToolkit.PmlHost;
 
 [RpcService("yuzuha.pml-command.v1")]
 public interface IPmlCommandService
@@ -12,6 +12,26 @@ public interface IPmlCommandService
     Task<RunPmlCommandResponse> RunPmlCommandAsync(
         RunPmlCommandRequest request,
         CancellationToken cancellationToken);
+
+    [RpcOperation("get-host-identity")]
+    Task<HostIdentityResponse> GetHostIdentityAsync(
+        HostIdentityRequest request,
+        CancellationToken cancellationToken);
+}
+
+public sealed class HostIdentityRequest
+{
+}
+
+public sealed class HostIdentityResponse
+{
+    public int ProcessId { get; set; }
+    public long ProcessStartTimeUtcTicks { get; set; }
+    public string Model { get; set; }
+    public string PipeName { get; set; }
+    public string HostFramework { get; set; }
+    public string HostVersion { get; set; }
+    public DateTime ServerTimeUtc { get; set; }
 }
 
 public sealed class RunPmlCommandRequest

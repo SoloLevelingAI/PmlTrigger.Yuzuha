@@ -1,6 +1,6 @@
 # Yuzuha Toolkit PML API
 
-This preview targets AVEVA E3D 2.1, .NET Framework 4.8, and trusted local users.
+This preview targets AM/PDMS NET35, E3D 2.1/3.1 NET48, and trusted local users.
 
 ## Read entry points
 
@@ -27,11 +27,23 @@ user request and never automatically retry after a timeout.
 ## Addin and runtime
 
 Module registrations are under `PMLUI/cat|des|DRA|iso/Addins/YuzuhaAddin`.
-The bootstrap loads the Net48 host from:
+The bootstrap selects a host using EVAR variable `Yuzuha` (no underscore):
 
 ```text
-runtime/net48/YuzuhaToolkit.PmlHost.Net48.dll
+runtime/profiles/<Profile>/<net35|net48>/YuzuhaToolkit.PmlHost.<Net35|Net48>.dll
 ```
+
+It obtains the current module and passes it to the host with:
+
+```pml
+!!YuzuhaModel = !!fmsys.FMINFO()[0].SPLIT()[3]
+```
+
+The default pipe is `yuzuha.pml.command.v1.pid-<AVEVA PID>`. The Net10 MCP
+starts disconnected: `list_aveva_sessions` reads visible AVEVA window titles,
+PIDs, start times, products, and projects without opening RPC; an explicit
+`select_aveva_session` then connects only to the selected PID pipe and locks
+the module reported by the host. All identity values are checked before calls.
 
 The repository-root `evar.example.txt` contains placeholders only. Never
 commit a real workstation path.

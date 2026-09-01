@@ -1,3 +1,42 @@
+------------------------------------------------------------------------
+--
+-- Copyright 2026 to current year. Apecha2.0. All rights reserved in original code only.
+--
+-- File:            YuzuhaObjectWalker.pmlobj
+--   Type:          Object Definition
+--
+--
+--
+--   Module:        design
+--   Replaces:
+--
+-- Author:          HuangYuanTai
+-- Created:         25/08/2026 21:34:58
+--
+--
+-- Description:
+-- Breadth-first object graph walker. Traverses CE, DBREF, PML Object or
+-- Array attributes up to a size/depth budget and returns a flattened
+-- result array. Backs the YuzuhaRead* functions.
+--
+------------------------------------------------------------------------
+--
+-- Methods defined:
+--
+--  Method call                                                           Return          Description
+--  ===========                                                           ======          ===========
+--  YuzuhaObjectWalker()                                                  -               Constructor. Sets the default size and depth budgets.
+--  InitializeFromArray(ARRAY)                                            -               Sets the starting array of objects to traverse.
+--  InitializeFromCurrentElement()                                        -               Initialises the walker from the current element (CE).
+--  InitializeFromGlobal(STRING)                                          -               Initialises the walker from a global variable (no !! prefix).
+--  Read()                                                                ARRAY           Main entry point. Runs the BFS traversal with clamped budgets.
+--  InitializeResult()                                                    -               Prepares result/layer arrays and resolves the starting attribute.
+--  Traverse()                                                            -               BFS loop walking attribute layers until the size budget is exhausted.
+--  CollectChildren(STRING,STRING,REAL)                                   -               Builds the next layer attribute list from the current node.
+--  ResolveAttribute(STRING,REAL,BOOLEAN)                                 STRING          Returns the printable value or the attribute path (isReturnAtt).
+--  IsSuccess(STRING)                                                     BOOLEAN         Returns false when attribute resolution failed.
+--
+
 define object YuzuhaObjectWalker
 -- pml reload object YuzuhaObjectWalker
 -- !ob.delete()

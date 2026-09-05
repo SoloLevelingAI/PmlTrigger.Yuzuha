@@ -1,5 +1,7 @@
 # Third-party dependencies
 
+> 中文版 / Chinese: [THIRD-PARTY.zh-CN.md](THIRD-PARTY.zh-CN.md)
+
 | Component | Location | License |
 |---|---|---|
 | PlantHost.Rpc | `src/lib/net10`, `src/lib/net35`, `src/lib/net48` | Apache-2.0; see `src/third-party/licenses/PlantHost.Rpc-LICENSE.txt` |

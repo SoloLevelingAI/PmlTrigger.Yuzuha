@@ -3,6 +3,7 @@ param(
     [string] $InstallRoot,
     [string] $CodexRoot,
     [string] $McpName = 'YuzuhaToolkit',
+    [string] $KnowledgeMcpName = 'YuzuhaToolkitKnowledge',
     [string] $EvarBat
 )
 

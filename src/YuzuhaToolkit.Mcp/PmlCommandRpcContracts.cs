@@ -61,4 +61,11 @@ public sealed class RunPmlCommandResponse
     public string? ServerRuntime { get; set; }
 
     public DateTime ServerTimeUtc { get; set; }
+
+    /// <summary>
+    ///     Set by the MCP client only, after the RPC response arrives, when
+    ///     the called function is on the user-confirmed untrusted list. The
+    ///     NET host never sends this field.
+    /// </summary>
+    public string? FunctionTrustWarning { get; set; }
 }

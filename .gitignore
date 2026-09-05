@@ -23,3 +23,9 @@ sessions/
 # OS files
 Thumbs.db
 .DS_Store
+
+# Local knowledge databases (AVEVA-derived content; never distribute)
+knowledge/
+trust/
+*.sqlite3
+*.manifest.json

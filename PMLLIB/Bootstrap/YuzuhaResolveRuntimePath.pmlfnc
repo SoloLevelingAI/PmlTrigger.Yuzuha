@@ -19,6 +19,12 @@
 -- AVEVA application (E3D / Marine / PDMS). Sets !!YuzuhaRuntimePath,
 -- !!YuzuhaNamespace and !!YuzuhaAutoSetup so the Addin can import the host.
 --
+-- NOTE: !folderName is the token matched against every PMLUI path. The
+-- installer expects the package folder name to contain 'PmlTrigger'; a
+-- Windows 8.3 short name (PMLTRI~1) still matches. When an install must
+-- use a different folder name, the installer rewrites this token to the
+-- first 6 upper-case letters/digits of that folder name and warns the
+-- user, because a generic token can match the wrong PMLUI entry.
 ------------------------------------------------------------------------
 --
 -- Functions defined:
@@ -59,10 +65,25 @@ define function !!YuzuhaResolveRuntimePath()
     endhandle
     if !profile.length() gt 0 then
       !!YuzuhaProfile = !profile
-      if !profile eq 'AM' or !profile eq 'PDMS' then
+      var !framework evar YuzuhaFramework
+      handle any
+        !framework = ''
+      endhandle
+      !framework = !framework.UPCASE()
+      if !framework.length() eq 0 then
+        if !profile.UPCASE() eq 'AM' or !profile.UPCASE() eq 'PDMS' then
+          !framework = 'NET35'
+        else
+          !framework = 'NET48'
+        endif
+      endif
+      if !framework eq 'NET35' then
         !dllPath = 'runtime\profiles\' + !profile + '\net35\YuzuhaToolkit.PmlHost.Net35'
-      else
+      elseif !framework eq 'NET48' then
         !dllPath = 'runtime\profiles\' + !profile + '\net48\YuzuhaToolkit.PmlHost.Net48'
+      else
+        $p Invalid YuzuhaFramework - expected net35 or net48
+        return
       endif
     endif
   endif
@@ -83,5 +104,11 @@ define function !!YuzuhaResolveRuntimePath()
     !!YuzuhaRuntimePath = !fullpath
     !!YuzuhaAutoSetup = TRUE
     $p success Launch YuzuhaToolkit
+  else
+    $p YuzuhaResolveRuntimePath WARNING: no PMLUI path matched the folder token - the host DLL was not resolved
+    q var !folderName
+    q var !dllPath
+    q var !path
+    $p YuzuhaResolveRuntimePath hint: keep PmlTrigger in the install folder name, or fix the EVAR so the PMLUI path contains the token above
   endif
 endfunction

@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YuzuhaToolkit.PmlHost.Net48
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YuzuhaToolkit.PmlHost.Net35", "YuzuhaToolkit.PmlHost.Net35\YuzuhaToolkit.PmlHost.Net35.csproj", "{946C555A-26CF-44CD-8A68-4FA2C03792EF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YuzuhaToolkit.Knowledge", "YuzuhaToolkit.Knowledge\YuzuhaToolkit.Knowledge.csproj", "{DE184EB2-B119-4C11-94E7-985ABA061AFA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,18 @@ Global
 		{6E6D7A09-37B3-4840-8213-E3A0F5E2200D}.Release|x64.Build.0 = Release|Any CPU
 		{6E6D7A09-37B3-4840-8213-E3A0F5E2200D}.Release|x86.ActiveCfg = Release|Any CPU
 		{6E6D7A09-37B3-4840-8213-E3A0F5E2200D}.Release|x86.Build.0 = Release|Any CPU
+		{DE184EB2-B119-4C11-94E7-985ABA061AFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE184EB2-B119-4C11-94E7-985ABA061AFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE184EB2-B119-4C11-94E7-985ABA061AFA}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{DE184EB2-B119-4C11-94E7-985ABA061AFA}.Debug|x64.Build.0 = Debug|Any CPU
+		{DE184EB2-B119-4C11-94E7-985ABA061AFA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DE184EB2-B119-4C11-94E7-985ABA061AFA}.Debug|x86.Build.0 = Debug|Any CPU
+		{DE184EB2-B119-4C11-94E7-985ABA061AFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE184EB2-B119-4C11-94E7-985ABA061AFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE184EB2-B119-4C11-94E7-985ABA061AFA}.Release|x64.ActiveCfg = Release|Any CPU
+		{DE184EB2-B119-4C11-94E7-985ABA061AFA}.Release|x64.Build.0 = Release|Any CPU
+		{DE184EB2-B119-4C11-94E7-985ABA061AFA}.Release|x86.ActiveCfg = Release|Any CPU
+		{DE184EB2-B119-4C11-94E7-985ABA061AFA}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

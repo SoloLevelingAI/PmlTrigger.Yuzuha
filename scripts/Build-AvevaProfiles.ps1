@@ -5,14 +5,17 @@ param(
         else { 'D:\AVEVA\AvevaProfile' }
     ),
     [string] $Configuration = 'Release',
-    [string] $OutputRoot = $(
-        Join-Path (Split-Path -Parent $PSScriptRoot) 'runtime\profiles'
-    ),
+    [string] $OutputRoot = '',
     [switch] $SkipMcp
 )
 
 Set-StrictMode -Version 3.0
 $ErrorActionPreference = 'Stop'
+
+# $PSScriptRoot is empty inside parameter defaults on Windows PowerShell 5.1.
+if ([string]::IsNullOrWhiteSpace($OutputRoot)) {
+    $OutputRoot = Join-Path (Split-Path -Parent $PSScriptRoot) 'runtime\profiles'
+}
 
 function Invoke-DotNet {
     param([Parameter(Mandatory = $true)][string[]] $ArgumentList)
@@ -77,14 +80,7 @@ if (-not $SkipMcp) {
         throw "Refusing to clean unexpected MCP output path: $resolvedMcpOutput"
     }
 
-    if (Test-Path -LiteralPath $resolvedMcpOutput) {
-        Get-ChildItem -LiteralPath $resolvedMcpOutput -Force |
-            Remove-Item -Recurse -Force
-    }
-    else {
-        New-Item -ItemType Directory -Path $resolvedMcpOutput -Force |
-            Out-Null
-    }
+    New-Item -ItemType Directory -Path $resolvedMcpOutput -Force | Out-Null
 
     Invoke-DotNet @('restore', $mcpProject)
     Invoke-DotNet @(
@@ -93,6 +89,10 @@ if (-not $SkipMcp) {
         '--no-restore',
         '--output', $mcpOutput
     )
+    $knowledgeProject = Join-Path $sourceRoot 'YuzuhaToolkit.Knowledge\YuzuhaToolkit.Knowledge.csproj'
+    Invoke-DotNet @('restore', $knowledgeProject)
+    Invoke-DotNet @('publish', $knowledgeProject, '--configuration', $Configuration,
+        '--no-restore', '--output', $mcpOutput)
 }
 
 Write-Host "All AVEVA profiles built under: $OutputRoot"

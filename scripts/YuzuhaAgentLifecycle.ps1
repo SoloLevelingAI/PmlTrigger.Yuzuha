@@ -10,10 +10,14 @@ param(
 
     [string] $McpName = 'YuzuhaToolkit',
 
-    [ValidateSet('AM', 'PDMS')]
+    [string] $KnowledgeMcpName = 'YuzuhaToolkitKnowledge',
+
+    [ValidatePattern('^[A-Za-z0-9][A-Za-z0-9.]{0,31}$')]
     [string] $AvevaProfile,
 
     [string] $EvarBat,
+
+    [string] $BootstrapFolderToken,
 
     [switch] $SkipMcpRegistration,
 
@@ -24,7 +28,7 @@ Set-StrictMode -Version 3.0
 $ErrorActionPreference = 'Stop'
 
 $packageId = 'YuzuhaToolkit.Agent'
-$packageVersion = '0.2.1'
+$packageVersion = '0.3.0'
 $markerName = '.yuzuha-agent-managed.json'
 $sourceRoot = [System.IO.Path]::GetFullPath((Split-Path -Parent $PSScriptRoot)).TrimEnd('\')
 
@@ -100,7 +104,8 @@ function Write-ManagedMarker {
     param(
         [Parameter(Mandatory = $true)][string] $Path,
         [Parameter(Mandatory = $true)][string] $InstallId,
-        [Parameter(Mandatory = $true)][string] $State
+        [Parameter(Mandatory = $true)][string] $State,
+        [string] $BootstrapFolderToken = 'PMLTRI'
     )
 
     $marker = [ordered]@{
@@ -110,10 +115,71 @@ function Write-ManagedMarker {
         installId = $InstallId
         state = $State
         installRoot = $InstallRoot
+        bootstrapFolderToken = $BootstrapFolderToken
         updatedAtUtc = [DateTime]::UtcNow.ToString('o')
     }
     $marker | ConvertTo-Json | Set-Content -LiteralPath $Path -Encoding UTF8
 }
+
+function Resolve-BootstrapFolderToken {
+    param([Parameter(Mandatory = $true)][string] $LeafName)
+
+    $upper = $LeafName.ToUpperInvariant()
+    if ($upper.Contains('PMLTRI')) {
+        # The PML bootstrap default already matches both the long name
+        # (PmlTrigger.Yuzuha) and its Windows 8.3 short form (PMLTRI~1).
+        return $null
+    }
+
+    if (-not [string]::IsNullOrWhiteSpace($BootstrapFolderToken)) {
+        $explicit = $BootstrapFolderToken.Trim().ToUpperInvariant()
+        if ($explicit -notmatch '^[A-Z0-9]{1,12}$') {
+            throw "BootstrapFolderToken may contain only 1-12 letters and digits: '$explicit'"
+        }
+        return $explicit
+    }
+
+    # Windows 8.3 short names keep at most the first six characters before
+    # '~1', so a longer token stops matching when the EVAR carries the
+    # short form of a long path.
+    $compact = $upper -replace '[^A-Z0-9]', ''
+    if ([string]::IsNullOrEmpty($compact)) {
+        throw @"
+Install folder '$LeafName' does not contain 'PmlTrigger' and no token can be derived from it. The PML bootstrap matches the installation folder by name and would never resolve the runtime. Either install into a folder whose name contains 'PmlTrigger' (preferred), or pass -BootstrapFolderToken with 1-12 letters or digits from the folder name.
+"@
+    }
+    return $compact.Substring(0, [Math]::Min(6, $compact.Length))
+}
+
+function Update-BootstrapFolderToken {
+    param(
+        [Parameter(Mandatory = $true)][string] $StageRoot,
+        [Parameter(Mandatory = $true)][string] $Token
+    )
+
+    $bootstrapPath = Join-Path $StageRoot 'PMLLIB\Bootstrap\YuzuhaResolveRuntimePath.pmlfnc'
+    if (-not (Test-Path -LiteralPath $bootstrapPath -PathType Leaf)) {
+        throw "PML bootstrap is missing from the staged payload: $bootstrapPath"
+    }
+    $text = [System.IO.File]::ReadAllText($bootstrapPath)
+    $pattern = '(?m)^(?<indent>[ \t]*)!folderName[ \t]*=[ \t]*''[^'']*'''
+    $regex = [System.Text.RegularExpressions.Regex]::new($pattern)
+    $updated = $regex.Replace(
+        $text,
+        { param($match) $match.Groups['indent'].Value + "!folderName = '$Token'" },
+        1)
+    if ($updated -eq $text) {
+        throw "Could not rewrite !folderName in $bootstrapPath; the payload layout changed."
+    }
+    [System.IO.File]::WriteAllText($bootstrapPath, $updated)
+    Write-Warning @"
+Install folder '$installLeafName' does not contain 'PmlTrigger'. The installer rewrote !folderName = '$Token' in PMLLIB\Bootstrap\YuzuhaResolveRuntimePath.pmlfnc. Risks: (1) '$Token' matches ANY PMLUI path containing that substring, so a lookalike folder can hijack the runtime resolution; (2) a token longer than six characters stops matching when Windows shortens the path to its 8.3 form; (3) future installs/updates into this folder must keep using the same token. Keeping 'PmlTrigger' in the folder name avoids all of these.
+"@
+}
+
+$installLeafName = Split-Path -Leaf $InstallRoot
+$resolvedBootstrapToken = Resolve-BootstrapFolderToken -LeafName $installLeafName
+$markerBootstrapToken = if ($resolvedBootstrapToken) { $resolvedBootstrapToken } else { 'PMLTRI' }
 
 function Get-McpConfigurations {
     $json = & codex mcp list --json
@@ -121,7 +187,8 @@ function Get-McpConfigurations {
         throw "Cannot inspect Codex MCP configurations (exit code $LASTEXITCODE)."
     }
     try {
-        return @($json | ConvertFrom-Json)
+        $parsedConfigurations = ConvertFrom-Json -InputObject ($json -join "`n")
+        return $parsedConfigurations
     }
     catch {
         throw "Cannot parse Codex MCP configurations: $($_.Exception.Message)"
@@ -180,36 +247,75 @@ function Test-McpPreflight {
         return [pscustomobject]@{ Status = 'Skipped'; Configuration = $null }
     }
 
-    $configurations = Get-McpConfigurations
-    $named = @($configurations | Where-Object { $_.name -eq $McpName }) |
-        Select-Object -First 1
-    $pathUsers = @($configurations | Where-Object {
-            $candidatePath = Get-NormalizedCommandPath ([string] $_.transport.command)
-            [string]::Equals(
-                $candidatePath,
-                $installedMcpPath,
-                [System.StringComparison]::OrdinalIgnoreCase)
-        })
+    $configurations = @(Get-McpConfigurations)
+    $managedNames = @($McpName)
+    $knowledgeExecutable = Join-Path $InstallRoot 'runtime\net10\YuzuhaToolkit.Knowledge.exe'
+    $managedNames += $KnowledgeMcpName
 
     if ($ForUninstall) {
-        $foreignPathUsers = @($pathUsers | Where-Object { $_.name -ne $McpName })
+        $states = @()
+        foreach ($managedName in $managedNames) {
+            $named = @($configurations | Where-Object { $_.name -eq $managedName }) |
+                Select-Object -First 1
+            if ($null -eq $named) {
+                $states += [pscustomobject]@{
+                    Name = $managedName
+                    Status = 'Missing'
+                    Configuration = $null
+                }
+                continue
+            }
+            $namedPath = Get-NormalizedCommandPath ([string] $named.transport.command)
+            if (-not [string]::Equals(
+                    $namedPath,
+                    $installedMcpPath,
+                    [System.StringComparison]::OrdinalIgnoreCase) -and
+                -not $namedPath.StartsWith(
+                    $InstallRoot + '\',
+                    [System.StringComparison]::OrdinalIgnoreCase)) {
+                $states += [pscustomobject]@{
+                    Name = $managedName
+                    Status = 'Conflict'
+                    Configuration = $named
+                }
+                continue
+            }
+            $states += [pscustomobject]@{
+                Name = $managedName
+                Status = 'Managed'
+                Configuration = $named
+            }
+        }
+
+        $foreignPathUsers = @($configurations | Where-Object {
+                $candidatePath = Get-NormalizedCommandPath ([string] $_.transport.command)
+                $candidatePath.StartsWith(
+                    $InstallRoot + '\',
+                    [System.StringComparison]::OrdinalIgnoreCase) -and
+                $_.name -notin $managedNames
+            })
         if ($foreignPathUsers.Count -gt 0) {
             $names = ($foreignPathUsers.name -join ', ')
             throw "Cannot uninstall files: MCP entries still use them under other names: $names"
         }
-        if ($null -eq $named) {
-            return [pscustomobject]@{ Status = 'Missing'; Configuration = $null }
-        }
-        $namedPath = Get-NormalizedCommandPath ([string] $named.transport.command)
-        if (-not [string]::Equals(
-                $namedPath,
-                $installedMcpPath,
-                [System.StringComparison]::OrdinalIgnoreCase)) {
-            return [pscustomobject]@{ Status = 'Conflict'; Configuration = $named }
-        }
-        return [pscustomobject]@{ Status = 'Managed'; Configuration = $named }
+        return [pscustomobject]@{ Status = 'Multiple'; States = $states }
     }
 
+    # Validate both requested registrations before staging or touching files.
+    $preflightArguments = @{
+        McpExecutable = $installedMcpPath
+        Name = $McpName
+        KnowledgeExecutable = $knowledgeExecutable
+        KnowledgeName = $KnowledgeMcpName
+        ToolkitRoot = $(if ($Action -eq 'Update') { $InstallRoot } else { $sourceRoot })
+        CheckOnly = $true
+    }
+    if ($AvevaProfile) { $preflightArguments.AvevaProfile = $AvevaProfile; $preflightArguments.EvarBat = $EvarBat }
+    # Legacy adoption is checked below; normal installs use full shared preflight.
+    if (-not $AdoptLegacyInstallation) {
+        & (Join-Path $sourceRoot 'scripts\Register-YuzuhaMcp.ps1') @preflightArguments
+    }
+    $named = @($configurations | Where-Object { $_.name -eq $McpName }) | Select-Object -First 1
     if ($null -ne $named) {
         $namedPath = Get-NormalizedCommandPath ([string] $named.transport.command)
         $args = @($named.transport.args)
@@ -270,7 +376,8 @@ function Assert-PackagePayload {
             'PMLUI',
             'skill\SKILL.md',
             'scripts\Register-YuzuhaMcp.ps1',
-            'runtime\net10\YuzuhaToolkit.Mcp.exe')) {
+            'runtime\net10\YuzuhaToolkit.Mcp.exe',
+            'runtime\net10\YuzuhaToolkit.Knowledge.exe')) {
         $path = Join-Path $Root $required
         if (-not (Test-Path -LiteralPath $path)) {
             throw "Setup package is incomplete; missing: $path"
@@ -283,11 +390,45 @@ function Copy-PackagePayload {
 
     New-Item -ItemType Directory -Path $Destination -Force | Out-Null
     foreach ($item in Get-ChildItem -Force -LiteralPath $sourceRoot) {
-        if ($item.Name -in @('.git', 'artifacts', 'src', 'tests')) {
+        # 'knowledge' is skipped so a locally built database (AVEVA-derived
+        # content) can never be copied into a package or another install.
+        if ($item.Name -in @('.git', 'artifacts', 'src', 'tests', 'knowledge', 'trust')) {
             continue
         }
         Copy-Item -LiteralPath $item.FullName -Destination $Destination -Recurse -Force
     }
+}
+
+function Copy-LocalState {
+    param([string] $Destination)
+    foreach ($name in @('knowledge', 'trust')) {
+        $old = Join-Path $InstallRoot $name
+        if (Test-Path -LiteralPath $old) {
+            Copy-Item -LiteralPath $old -Destination $Destination -Recurse -Force
+        }
+    }
+    $oldProfiles = Join-Path $InstallRoot 'runtime\profiles'
+    if (Test-Path -LiteralPath $oldProfiles) {
+        foreach ($profile in Get-ChildItem -LiteralPath $oldProfiles -Directory) {
+            $target = Join-Path $Destination ('runtime\profiles\' + $profile.Name)
+            if (-not (Test-Path -LiteralPath $target)) {
+                New-Item -ItemType Directory -Path (Split-Path -Parent $target) -Force | Out-Null
+                Copy-Item -LiteralPath $profile.FullName -Destination $target -Recurse
+            }
+        }
+    }
+}
+
+function Update-ProjectKnowledge {
+    $executable = Join-Path $InstallRoot 'runtime\net10\YuzuhaToolkit.Knowledge.exe'
+    # Use this installation's local state even when the caller has an override.
+    $previousDirectory = $env:YUZUHA_KNOWLEDGE_DIR
+    try {
+        $env:YUZUHA_KNOWLEDGE_DIR = Join-Path $InstallRoot 'knowledge'
+        & $executable --refresh-project $InstallRoot
+        if ($LASTEXITCODE -ne 0) { throw "Project knowledge refresh failed: $LASTEXITCODE" }
+    }
+    finally { $env:YUZUHA_KNOWLEDGE_DIR = $previousDirectory }
 }
 
 function New-SkillStage {
@@ -312,6 +453,11 @@ function Invoke-McpRegistration {
         McpExecutable = $installedMcpPath
         Name = $McpName
         ToolkitRoot = $InstallRoot
+    }
+    $knowledgeExecutable = Join-Path $InstallRoot 'runtime\net10\YuzuhaToolkit.Knowledge.exe'
+    if (Test-Path -LiteralPath $knowledgeExecutable -PathType Leaf) {
+        $arguments.KnowledgeExecutable = $knowledgeExecutable
+        $arguments.KnowledgeName = $KnowledgeMcpName
     }
     if (-not [string]::IsNullOrWhiteSpace($AvevaProfile)) {
         $arguments.AvevaProfile = $AvevaProfile
@@ -351,6 +497,13 @@ function Remove-EvarManagedBlock {
 
 Assert-SafeManagedRoot -Path $InstallRoot -Label 'InstallRoot'
 Assert-SafeManagedRoot -Path $skillRoot -Label 'Skill root'
+foreach ($otherRoot in @($sourceRoot, $CodexRoot)) {
+    if ($InstallRoot.StartsWith($otherRoot + '\', [StringComparison]::OrdinalIgnoreCase) -or
+        $otherRoot.StartsWith($InstallRoot + '\', [StringComparison]::OrdinalIgnoreCase)) {
+        throw 'InstallRoot must not contain or be inside the setup package or Codex root.'
+    }
+}
+
 Assert-PackagePayload -Root $sourceRoot
 
 $hasProfile = -not [string]::IsNullOrWhiteSpace($AvevaProfile)
@@ -379,19 +532,35 @@ if ($Action -eq 'Install') {
     $installStage = Join-Path $installParent ('.yuzuha-install-' + [guid]::NewGuid().ToString('N'))
     $skillStage = Join-Path $skillParent ('.yuzuha-skill-' + [guid]::NewGuid().ToString('N'))
 
+    $installMoved = $false
+    $skillMoved = $false
     try {
         Copy-PackagePayload -Destination $installStage
+        if ($resolvedBootstrapToken) {
+            Update-BootstrapFolderToken -StageRoot $installStage -Token $resolvedBootstrapToken
+        }
         Write-ManagedMarker -Path (Join-Path $installStage $markerName) `
-            -InstallId $installId -State 'installing'
+            -InstallId $installId -State 'installing' `
+            -BootstrapFolderToken $markerBootstrapToken
         New-SkillStage -Destination $skillStage -InstallId $installId
         if ($PSCmdlet.ShouldProcess($InstallRoot, 'install Yuzuha Agent package and Skill')) {
             Move-Item -LiteralPath $installStage -Destination $InstallRoot
+            $installMoved = $true
             Move-Item -LiteralPath $skillStage -Destination $skillRoot
+            $skillMoved = $true
+            Update-ProjectKnowledge
+            Write-ManagedMarker -Path $installMarkerPath -InstallId $installId -State 'installed' `
+                -BootstrapFolderToken $markerBootstrapToken
             Invoke-McpRegistration
-            Write-ManagedMarker -Path $installMarkerPath -InstallId $installId -State 'installed'
             Write-Host "Installed Yuzuha Agent package: $InstallRoot"
             Write-Host "Installed Skill: $skillRoot"
         }
+    }
+    catch {
+        if ($_.Exception.Message -like '*Rollback incomplete*') { throw }
+        if ($skillMoved) { Remove-Item -LiteralPath $skillRoot -Recurse -Force }
+        if ($installMoved) { Remove-Item -LiteralPath $InstallRoot -Recurse -Force }
+        throw
     }
     finally {
         if (Test-Path -LiteralPath $installStage) {
@@ -472,12 +641,16 @@ elseif ($Action -eq 'Update') {
     $skillBackedUp = $false
     $skillSwapped = $false
     $legacyMcpRemoved = $false
-    $newMcpAdded = $false
 
     try {
         Copy-PackagePayload -Destination $installStage
+        Copy-LocalState -Destination $installStage
+        if ($resolvedBootstrapToken) {
+            Update-BootstrapFolderToken -StageRoot $installStage -Token $resolvedBootstrapToken
+        }
         Write-ManagedMarker -Path (Join-Path $installStage $markerName) `
-            -InstallId $installMarker.installId -State 'updating'
+            -InstallId $installMarker.installId -State 'updating' `
+            -BootstrapFolderToken $markerBootstrapToken
         New-SkillStage -Destination $skillStage -InstallId $installMarker.installId
         if ($PSCmdlet.ShouldProcess($InstallRoot, "update Yuzuha Agent package to $packageVersion")) {
             Move-Item -LiteralPath $InstallRoot -Destination $installBackup
@@ -495,27 +668,16 @@ elseif ($Action -eq 'Update') {
                 }
                 $legacyMcpRemoved = $true
             }
-            Invoke-McpRegistration
-            $newMcpAdded = (
-                -not $SkipMcpRegistration -and
-                $mcpPreflight.Status -in @('Missing', 'Legacy'))
+            Update-ProjectKnowledge
             Write-ManagedMarker -Path $installMarkerPath `
-                -InstallId $installMarker.installId -State 'installed'
+                -InstallId $installMarker.installId -State 'installed' `
+                -BootstrapFolderToken $markerBootstrapToken
+            Invoke-McpRegistration
             Write-Host "Updated Yuzuha Agent package: $InstallRoot"
         }
     }
     catch {
-        if ($newMcpAdded) {
-            try {
-                & codex mcp remove $McpName
-                if ($LASTEXITCODE -ne 0) {
-                    Write-Warning "Could not remove the new MCP while rolling back: $McpName"
-                }
-            }
-            catch {
-                Write-Warning "Could not remove the new MCP while rolling back: $($_.Exception.Message)"
-            }
-        }
+        if ($_.Exception.Message -like '*Rollback incomplete*') { throw }
         if ($legacyMcpRemoved) {
             $legacyCommand = [string] $mcpPreflight.Configuration.transport.command
             $legacyArguments = @($mcpPreflight.Configuration.transport.args)
@@ -580,19 +742,25 @@ elseif ($Action -eq 'Update') {
 else {
     $installMarker = Read-ManagedMarker -Path $installMarkerPath -Label 'InstallRoot'
     $mcpState = Test-McpPreflight -ForUninstall
-    if ($mcpState.Status -eq 'Managed') {
-        if ($PSCmdlet.ShouldProcess($McpName, 'remove managed Yuzuha MCP registration')) {
-            & codex mcp remove $McpName
-            if ($LASTEXITCODE -ne 0) {
-                throw "codex mcp remove failed with exit code $LASTEXITCODE. Files were retained."
+    if ($mcpState.Status -eq 'Multiple') {
+        foreach ($state in $mcpState.States) {
+            if ($state.Status -eq 'Managed') {
+                if ($PSCmdlet.ShouldProcess(
+                        $state.Name,
+                        'remove managed Yuzuha MCP registration')) {
+                    & codex mcp remove $state.Name
+                    if ($LASTEXITCODE -ne 0) {
+                        throw "codex mcp remove failed with exit code $LASTEXITCODE. Files were retained."
+                    }
+                }
+            }
+            elseif ($state.Status -eq 'Conflict') {
+                Write-Warning "MCP '$($state.Name)' points elsewhere and was left unchanged."
+            }
+            else {
+                Write-Host "MCP registration not present: $($state.Name)"
             }
         }
-    }
-    elseif ($mcpState.Status -eq 'Conflict') {
-        Write-Warning "MCP '$McpName' points elsewhere and was left unchanged."
-    }
-    elseif ($mcpState.Status -eq 'Missing') {
-        Write-Host "MCP registration not present: $McpName"
     }
 
     Remove-EvarManagedBlock

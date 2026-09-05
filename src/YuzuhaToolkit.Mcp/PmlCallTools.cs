@@ -66,6 +66,9 @@ internal sealed class PmlListToolResponse
     public string? RequestId { get; set; }
     public string? ServerRuntime { get; set; }
     public DateTime ServerTimeUtc { get; set; }
+
+    [JsonPropertyName("FunctionTrustWarning")]
+    public string? FunctionTrustWarning { get; set; }
 }
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
@@ -96,10 +99,14 @@ internal partial class YuzuhaToolJsonContext : JsonSerializerContext
 public sealed class PmlCallTools
 {
     private readonly YuzuhaRpcBridge _bridge;
+    private readonly PmlFunctionTrustStore _trust;
 
-    public PmlCallTools(YuzuhaRpcBridge bridge)
+    public PmlCallTools(
+        YuzuhaRpcBridge bridge,
+        PmlFunctionTrustStore trust)
     {
         _bridge = bridge;
+        _trust = trust;
     }
 
     [McpServerTool]
@@ -233,6 +240,9 @@ public sealed class PmlCallTools
                         cancellationToken)
                     .ConfigureAwait(false);
 
+            response.FunctionTrustWarning =
+                _trust.GetUntrustedWarning(pmlCommand);
+
             return JsonSerializer.Serialize(
                 response,
                 YuzuhaJsonContext.Default.RunPmlCommandResponse);
@@ -243,7 +253,7 @@ public sealed class PmlCallTools
         }
         catch (Exception exception)
         {
-            return "PML RPC failed: " + exception.Message;
+            return TransportFailure(pmlCommand, exception);
         }
     }
 
@@ -330,7 +340,8 @@ public sealed class PmlCallTools
                 Unparsed = unparsed,
                 RequestId = response.RequestId,
                 ServerRuntime = response.ServerRuntime,
-                ServerTimeUtc = response.ServerTimeUtc
+                ServerTimeUtc = response.ServerTimeUtc,
+                FunctionTrustWarning = _trust.GetUntrustedWarning(pmlCommand)
             };
 
             return JsonSerializer.Serialize(
@@ -343,8 +354,25 @@ public sealed class PmlCallTools
         }
         catch (Exception exception)
         {
-            return "PML RPC failed: " + exception.Message;
+            return TransportFailure(pmlCommand, exception);
         }
+    }
+
+    /// <summary>
+    ///     Formats a transport-level failure. The leading "PML RPC failed:"
+    ///     marker stays stable for downstream parsing; the trailing triage
+    ///     note keeps agents from treating a dead pipe or an unloaded host as
+    ///     evidence that the user's PML function itself is wrong.
+    /// </summary>
+    private static string TransportFailure(
+        string pmlCommand,
+        Exception exception)
+    {
+        return "PML RPC failed: " + exception.Message +
+               " (transport/connectivity failure — this does not prove the " +
+               "PML function is wrong. Check get_connection_status or " +
+               "list_aveva_sessions, confirm with the user whether the host " +
+               "is loaded, and never retry automatically.)";
     }
 
     /// <summary>

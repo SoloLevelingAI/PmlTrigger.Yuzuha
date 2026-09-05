@@ -4,18 +4,29 @@ param(
 
     [string] $Name = 'YuzuhaToolkit',
 
-    [ValidateSet('AM', 'PDMS')]
+    [string] $KnowledgeExecutable,
+
+    [string] $KnowledgeName = 'YuzuhaToolkitKnowledge',
+
+    [ValidatePattern('^[A-Za-z0-9][A-Za-z0-9.]{0,31}$')]
     [string] $AvevaProfile,
 
     [string] $EvarBat,
 
-    [string] $ToolkitRoot = $(Split-Path -Parent $PSScriptRoot),
+    [string] $ToolkitRoot = '',
 
-    [switch] $SkipMcpRegistration
+    [switch] $SkipMcpRegistration,
+
+    [switch] $CheckOnly
 )
 
 Set-StrictMode -Version 3.0
 $ErrorActionPreference = 'Stop'
+
+# $PSScriptRoot is empty inside parameter defaults on Windows PowerShell 5.1.
+if ([string]::IsNullOrWhiteSpace($ToolkitRoot)) {
+    $ToolkitRoot = Split-Path -Parent $PSScriptRoot
+}
 
 function Get-EvarEncoding {
     param([Parameter(Mandatory = $true)][byte[]] $Bytes)
@@ -56,7 +67,8 @@ function Get-UpdatedEvarText {
     param(
         [Parameter(Mandatory = $true)][string] $Text,
         [Parameter(Mandatory = $true)][string] $Profile,
-        [Parameter(Mandatory = $true)][string] $Root
+        [Parameter(Mandatory = $true)][string] $Root,
+        [Parameter(Mandatory = $true)][string] $Framework
     )
 
     $newLine = if ($Text.Contains("`r`n")) { "`r`n" } else { "`n" }
@@ -68,6 +80,7 @@ function Get-UpdatedEvarText {
         $managedStart,
         'rem Custom variable name must remain Yuzuha (no underscore).',
         "set `"Yuzuha=$Profile`"",
+        "set `"YuzuhaFramework=$Framework`"",
         "set `"pmllib=$pmlLib;%pmllib%`"",
         "set `"pdmsui=$pmlUi;%pdmsui%`"",
         $managedEnd
@@ -114,29 +127,19 @@ function Get-NormalizedCommandPath {
     }
 }
 
-$mcpPath = $null
-$mcpAlreadyConfigured = $false
-if (-not $SkipMcpRegistration) {
-    if ([string]::IsNullOrWhiteSpace($McpExecutable)) {
-        throw 'McpExecutable is required unless SkipMcpRegistration is specified.'
-    }
-    $mcpPath = [System.IO.Path]::GetFullPath($McpExecutable)
-    if (-not (Test-Path -LiteralPath $mcpPath -PathType Leaf)) {
-        throw "Yuzuha MCP executable does not exist: $mcpPath"
+function Register-ManagedMcp {
+    param(
+        [Parameter(Mandatory = $true)][string] $TargetName,
+        [Parameter(Mandatory = $true)][string] $ExecutablePath,
+        [Parameter(Mandatory = $true)][AllowEmptyCollection()][object[]] $Configurations
+    )
+
+    $targetPath = [System.IO.Path]::GetFullPath($ExecutablePath)
+    if (-not $CheckOnly -and -not (Test-Path -LiteralPath $targetPath -PathType Leaf)) {
+        throw "Yuzuha MCP executable does not exist: $targetPath"
     }
 
-    $mcpListJson = & codex mcp list --json
-    if ($LASTEXITCODE -ne 0) {
-        throw "Cannot inspect existing Codex MCP configurations (exit code $LASTEXITCODE)."
-    }
-    try {
-        $mcpConfigurations = @($mcpListJson | ConvertFrom-Json)
-    }
-    catch {
-        throw "Cannot parse existing Codex MCP configurations: $($_.Exception.Message)"
-    }
-
-    $existing = @($mcpConfigurations | Where-Object { $_.name -eq $Name }) |
+    $existing = @($Configurations | Where-Object { $_.name -eq $TargetName }) |
         Select-Object -First 1
     if ($null -ne $existing) {
         $transport = $existing.transport
@@ -145,7 +148,7 @@ if (-not $SkipMcpRegistration) {
         $existingCommandPath = Get-NormalizedCommandPath $existingCommand
         $sameCommand = [string]::Equals(
             $existingCommandPath,
-            $mcpPath,
+            $targetPath,
             [System.StringComparison]::OrdinalIgnoreCase)
         $sameRegistration = (
             $transport.type -eq 'stdio' -and
@@ -154,49 +157,77 @@ if (-not $SkipMcpRegistration) {
             $existing.enabled -eq $true)
 
         if ($sameRegistration) {
-            $mcpAlreadyConfigured = $true
-            Write-Host "MCP already registered correctly; unchanged: $Name"
+            Write-Host "MCP already registered correctly; unchanged: $TargetName"
+            return $null
+        }
+
+        $argumentText = if ($existingArguments.Count -eq 0) {
+            '<none>'
         }
         else {
-            $argumentText = if ($existingArguments.Count -eq 0) {
-                '<none>'
-            }
-            else {
-                $existingArguments -join ' '
-            }
-            throw @"
-Codex MCP configuration '$Name' already exists but does not match this package.
-Existing: enabled=$($existing.enabled); type=$($transport.type); command=$existingCommand; args=$argumentText
-Expected: enabled=True; type=stdio; command=$mcpPath; args=<none>
-Nothing was changed. Inspect it with: codex mcp get $Name --json
-Remove it explicitly only if replacement is intended: codex mcp remove $Name
-"@
+            $existingArguments -join ' '
         }
+        throw @"
+Codex MCP configuration '$TargetName' already exists but does not match this package.
+Existing: enabled=$($existing.enabled); type=$($transport.type); command=$existingCommand; args=$argumentText
+Expected: enabled=True; type=stdio; command=$targetPath; args=<none>
+Nothing was changed. Inspect it with: codex mcp get $TargetName --json
+Remove it explicitly only if replacement is intended: codex mcp remove $TargetName
+"@
     }
-    else {
-        $desiredFileName = [System.IO.Path]::GetFileName($mcpPath)
-        $possibleDuplicates = @($mcpConfigurations | Where-Object {
-                $candidateCommand = [string] $_.transport.command
-                $candidatePath = Get-NormalizedCommandPath $candidateCommand
-                [System.IO.Path]::GetFileName($candidatePath) -eq $desiredFileName
-            })
-        if ($possibleDuplicates.Count -gt 0) {
-            $duplicateSummary = ($possibleDuplicates | ForEach-Object {
-                    "name=$($_.name); command=$($_.transport.command)"
-                }) -join [Environment]::NewLine
-            throw @"
+
+    $desiredFileName = [System.IO.Path]::GetFileName($targetPath)
+    $possibleDuplicates = @($Configurations | Where-Object {
+            $candidateCommand = [string] $_.transport.command
+            $candidatePath = Get-NormalizedCommandPath $candidateCommand
+            [System.IO.Path]::GetFileName($candidatePath) -eq $desiredFileName
+        })
+    if ($possibleDuplicates.Count -gt 0) {
+        $duplicateSummary = ($possibleDuplicates | ForEach-Object {
+                "name=$($_.name); command=$($_.transport.command)"
+            }) -join [Environment]::NewLine
+        throw @"
 Yuzuha MCP may already be registered under a different name:
 $duplicateSummary
-Nothing was changed. Resolve the existing entry explicitly before adding '$Name'.
+Nothing was changed. Resolve the existing entry explicitly before adding '$TargetName'.
 "@
-        }
     }
+
+    return [pscustomobject]@{ Name = $TargetName; Path = $targetPath }
 }
 
 $hasProfile = -not [string]::IsNullOrWhiteSpace($AvevaProfile)
 $hasEvar = -not [string]::IsNullOrWhiteSpace($EvarBat)
 if ($hasProfile -ne $hasEvar) {
-    throw 'AvevaProfile and EvarBat must be supplied together for AM/PDMS.'
+    throw 'AvevaProfile and EvarBat must be supplied together for the selected AVEVA profile.'
+}
+
+$mcpConfigurations = @()
+if (-not $SkipMcpRegistration) {
+    if ([string]::IsNullOrWhiteSpace($McpExecutable)) {
+        throw 'McpExecutable is required unless SkipMcpRegistration is specified.'
+    }
+    $mcpListJson = & codex mcp list --json
+    if ($LASTEXITCODE -ne 0) {
+        throw "Cannot inspect existing Codex MCP configurations (exit code $LASTEXITCODE)."
+    }
+    try {
+        $parsedConfigurations = ConvertFrom-Json -InputObject ($mcpListJson -join "`n")
+        $mcpConfigurations = @($parsedConfigurations)
+    }
+    catch {
+        throw "Cannot parse existing Codex MCP configurations: $($_.Exception.Message)"
+    }
+}
+
+$plans = @()
+if (-not $SkipMcpRegistration) {
+    if ($Name -eq $KnowledgeName -and $KnowledgeExecutable) { throw 'The two MCP names must be different.' }
+    $plans += @(Register-ManagedMcp -TargetName $Name -ExecutablePath $McpExecutable -Configurations $mcpConfigurations)
+    if ($KnowledgeExecutable) {
+        $plans += @(Register-ManagedMcp -TargetName $KnowledgeName -ExecutablePath $KnowledgeExecutable -Configurations $mcpConfigurations)
+    }
+    $plans = @($plans | Where-Object { $null -ne $_ })
 }
 
 $evarChanged = $false
@@ -214,11 +245,12 @@ if ($hasProfile) {
             throw "ToolkitRoot does not contain ${requiredDirectory}: $requiredPath"
         }
     }
-    $legacyHost = Join-Path $rootPath (
-        "runtime\profiles\$profile\net35\YuzuhaToolkit.PmlHost.Net35.dll")
-    if (-not (Test-Path -LiteralPath $legacyHost -PathType Leaf)) {
-        throw "ToolkitRoot does not contain the $profile NET35 Host: $legacyHost"
-    }
+    $frameworks = @('net35', 'net48' | Where-Object {
+        $suffix = $_.Substring(3)
+        Test-Path -LiteralPath (Join-Path $rootPath "runtime\profiles\$profile\$_\YuzuhaToolkit.PmlHost.Net$suffix.dll") -PathType Leaf
+    })
+    if ($frameworks.Count -ne 1) { throw "Profile $profile must contain exactly one NET35/NET48 Host; found $($frameworks.Count)." }
+    $framework = $frameworks[0]
     if ($rootPath.IndexOfAny([char[]]@('"', '%', "`r", "`n")) -ge 0) {
         throw 'ToolkitRoot cannot contain a quote, percent sign, or newline.'
     }
@@ -236,8 +268,22 @@ if ($hasProfile) {
     $updatedEvarText = Get-UpdatedEvarText `
         -Text $evarText `
         -Profile $profile `
-        -Root $rootPath
+        -Root $rootPath -Framework $framework
 
+}
+if ($CheckOnly) { return }
+
+$attempted = @()
+$evarWriteStarted = $false
+try {
+    foreach ($plan in $plans) {
+        if ($PSCmdlet.ShouldProcess($plan.Name, 'register Yuzuha MCP')) {
+            $attempted += $plan
+            & codex mcp add $plan.Name -- $plan.Path
+            if ($LASTEXITCODE -ne 0) { throw "codex mcp add failed for $($plan.Name): $LASTEXITCODE" }
+        }
+    }
+    if ($hasProfile) {
     if ($updatedEvarText -ne $evarText) {
         if ($PSCmdlet.ShouldProcess(
                 $evarPath,
@@ -245,6 +291,7 @@ if ($hasProfile) {
             $timestamp = Get-Date -Format 'yyyyMMdd-HHmmss-fff'
             $backupPath = "$evarPath.yuzuha-$timestamp.bak"
             Copy-Item -LiteralPath $evarPath -Destination $backupPath
+            $evarWriteStarted = $true
             [System.IO.File]::WriteAllText(
                 $evarPath,
                 $updatedEvarText,
@@ -259,35 +306,41 @@ if ($hasProfile) {
     else {
         Write-Host "EVAR already configured: $evarPath"
     }
-}
 
-$registered = $false
-if (-not $SkipMcpRegistration -and
-    -not $mcpAlreadyConfigured -and
-    $PSCmdlet.ShouldProcess(
-        $Name,
-        'register discovery-first Yuzuha MCP')) {
-    & codex mcp add $Name -- $mcpPath
-    if ($LASTEXITCODE -ne 0) {
-        throw "codex mcp add failed with exit code $LASTEXITCODE."
     }
-    $registered = $true
+}
+catch {
+    $originalError = $_
+    $rollbackErrors = @()
+    if ($evarWriteStarted) {
+        try { [IO.File]::WriteAllBytes($evarPath, $evarBytes) }
+        catch { $rollbackErrors += "EVAR: $($_.Exception.Message)" }
+    }
+    [array]::Reverse($attempted)
+    foreach ($plan in $attempted) {
+        try {
+            $json = & codex mcp list --json
+            if ($LASTEXITCODE -ne 0) { throw 'Cannot inspect registration during rollback.' }
+            $parsedConfigurations = ConvertFrom-Json -InputObject ($json -join "`n")
+            $current = @($parsedConfigurations | Where-Object { $_.name -eq $plan.Name })
+            if ($current.Count -eq 0) { continue }
+            if ($current.Count -ne 1 -or $current[0].transport.type -ne 'stdio' -or
+                @( $current[0].transport.args ).Count -ne 0 -or
+                (Get-NormalizedCommandPath $current[0].transport.command) -ne $plan.Path) {
+                throw "Configuration changed concurrently; retained $($plan.Name)."
+            }
+            & codex mcp remove $plan.Name
+            if ($LASTEXITCODE -ne 0) { throw "Cannot remove $($plan.Name)." }
+        }
+        catch { $rollbackErrors += $_.Exception.Message }
+    }
+    if ($rollbackErrors.Count) {
+        throw "Rollback incomplete; keep deployed files for recovery. Original: $originalError. Recovery: $($rollbackErrors -join '; ')"
+    }
+    throw $originalError
 }
 
-if ($SkipMcpRegistration) {
-    Write-Host 'MCP registration skipped.'
-}
-elseif ($mcpAlreadyConfigured) {
-    Write-Host "Registration reused: $Name"
-}
-elseif ($registered) {
-    Write-Host "Registered: $Name"
-}
-else {
-    Write-Host "Preview only: $Name"
-}
 if (-not $SkipMcpRegistration) {
-    Write-Host "Executable: $mcpPath"
     Write-Host 'No PID environment variables are stored. Use list_aveva_sessions and select_aveva_session at runtime.'
 }
 if ($hasProfile) {
@@ -298,6 +351,6 @@ if ($hasProfile) {
         Write-Host 'EVAR preview only; no file was changed.'
     }
     elseif ($evarChanged) {
-        Write-Host 'EVAR configured. Fully restart AM/PDMS before testing.'
+        Write-Host 'EVAR configured. Fully restart AVEVA before testing.'
     }
 }

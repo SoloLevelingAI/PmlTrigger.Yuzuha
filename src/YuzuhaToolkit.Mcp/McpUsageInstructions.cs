@@ -35,5 +35,15 @@ internal static class McpUsageInstructions
         For a JSON response, Success=false is a business-level failure;
         preserve Code, ErrorMessage, PmlCommand, RequestId,
         ExecutionThreadId, ServerRuntime, and ServerTimeUtc when reporting it.
+
+        Failure triage: a transport failure only means the pipe or host is
+        unreachable; it never proves a PML function wrong. A method-not-found
+        or load error usually means the function is still being edited or
+        has not been loaded. Ask the user first in both cases. Never
+        substitute a remembered alternative function, which may exist only
+        in a development environment. Move a function to the untrusted list
+        with set_pml_function_trust only after the user confirms a wrong
+        answer, and restore (trusted) or remove it only on explicit user
+        request. list_pml_function_trust reads the current state.
         """;
 }

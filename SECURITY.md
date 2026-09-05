@@ -1,5 +1,7 @@
 # Security policy
 
+> 中文版 / Chinese: [SECURITY.zh-CN.md](SECURITY.zh-CN.md)
+
 PmlTrigger.Yuzuha is designed for a trusted local workstation. The MCP server
 and AVEVA host communicate through a local named pipe. The project does not
 provide remote authentication, command sandboxing, or a server-side approval

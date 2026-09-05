@@ -13,7 +13,14 @@ jobs:
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 10.0.x
-      - name: Restore
+      - name: Restore MCP
         run: dotnet restore src/YuzuhaToolkit.Mcp/YuzuhaToolkit.Mcp.csproj
-      - name: Build
+      - name: Build MCP
         run: dotnet build src/YuzuhaToolkit.Mcp/YuzuhaToolkit.Mcp.csproj -c Release --no-restore
+      - name: Restore Knowledge
+        run: dotnet restore src/YuzuhaToolkit.Knowledge/YuzuhaToolkit.Knowledge.csproj
+      # CI validates that the Knowledge project still compiles; the Native
+      # AOT publish itself requires the MSVC linker and runs on a machine
+      # provisioned with the "Desktop Development for C++" workload.
+      - name: Build Knowledge
+        run: dotnet build src/YuzuhaToolkit.Knowledge/YuzuhaToolkit.Knowledge.csproj -c Release --no-restore

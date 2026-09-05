@@ -1,5 +1,7 @@
 # Deployment — PID-bound MCP and AVEVA hosts
 
+> 中文版 / Chinese: [deployment.zh-CN.md](deployment.zh-CN.md)
+
 Release archives use this layout:
 
 ```text
@@ -13,11 +15,13 @@ PmlTrigger.Yuzuha/
 │  │  ├─ E3D2.1/net48/
 │  │  ├─ E3D3.1.0/net48/
 │  │  └─ E3D3.1.6/net48/
-│  └─ net10/
+│  └─ net10/            YuzuhaToolkit.Mcp.exe
+│                       YuzuhaToolkit.Knowledge.exe (+ e_sqlite3.dll)
 └─ skill/
 ```
 
-AVEVA proprietary assemblies are not redistributed.
+AVEVA proprietary assemblies are not redistributed, and the local knowledge
+database (`knowledge\*.sqlite3`) is built at runtime, never packaged.
 
 For guarded Agent installation, update, and uninstall, use the lifecycle
 scripts described in [lifecycle.md](lifecycle.md). Those scripts install to a
@@ -81,7 +85,11 @@ Skill. It checks `codex mcp list --json` first:
   automatically.
 
 If a conflict is intentional, inspect it first and remove it explicitly with
-`codex mcp remove YuzuhaToolkit`; then rerun the script.
+`codex mcp remove YuzuhaToolkit`; then rerun the script. When the package
+ships the knowledge server, the same script registers
+`YuzuhaToolkitKnowledge` (executable `runtime\net10\YuzuhaToolkit.Knowledge.exe`)
+under the same conflict rules; see
+[knowledge-base.md](knowledge-base.md) for its tools and copyright rules.
 
 For legacy AM or PDMS, the same script can back up and update `evar.bat` or
 `evars.bat`. Supply the file explicitly because AVEVA installation layouts

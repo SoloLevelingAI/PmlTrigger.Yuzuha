@@ -1,6 +1,52 @@
 # Changelog / 更新日志
 
+## 0.3.0 — 2026-09-05 (local candidate / 本地候选)
+
+- Preflight both MCP registrations and EVAR; roll back new entries on failure, including nonzero exits after configuration writes. Restore failed installations/updates.
+- Preserve knowledge, trust and custom Profiles across updates. Refresh only the package project DB; retain official, experience and legacy DBs.
+- Add register_knowledge_source, search_knowledge_layers and append-only/idempotent record_local_experience. Build replacement databases in staging.
+- Retain PDMS/AM 12.1 support with verified local SDK file baseline 12.1.4.0; use explicit YuzuhaFramework for custom Legacy profiles. Live AVEVA acceptance pending.
+- 新增项目、官方、经验三库隔离与跨库检索；更新只刷新项目库；修复双 MCP 半安装和自定义 Legacy Profile 的框架选择。
+- See docs/v0.3.zh-CN.md and docs/v0.3.en.md for scope, migration and verification.
+
+
 ## 中文
+
+### 0.2.3 — 2026-09-04
+
+- 安装目录名保护：lifecycle 安装/更新现在校验安装目录名必须包含
+  `PmlTrigger`（引导函数 `!folderName = 'PMLTRI'` 匹配 PMLUI 路径；Win11
+  8.3 短名 `PMLTRI~1` 仍可命中）。若用户坚持自定义目录名，安装器按
+  `-BootstrapFolderToken`（默认取目录名前 6 位字母数字）改写
+  `YuzuhaResolveRuntimePath` 中的 `!folderName`，写入管理标记并明确
+  提示风险（误匹配其他 PMLUI 条目、8.3 截断、更新需复用同一 token）。
+- `YuzuhaResolveRuntimePath` 增加自诊断：未命中任何 PMLUI 路径时打印
+  token 与 PMLUI 值，并提示保留 `PmlTrigger` 目录名或修正 EVAR。
+- 新增本地编译能力 `scripts/Build-LocalHost.ps1`：AVEVA 版本与预置
+  Profile（AM/PDMS/E3D2.1/E3D3.1.0/E3D3.1.6）不匹配时，可依据本机
+  `PMLNet.dll` 与 Utilities 程序集推导家族（E3D→net48、AM/PDMS→net35），
+  编译任意命名的新 Profile 并输出到包内 `runtime\profiles`；仅编译
+  NET48/NET35 Host（与 AVEVA 版本强相关），Net10 MCP/知识库服务器与
+  AVEVA 版本无关、不做本地重编译；skill 新增
+  `references/local-build.md`，要求先告知用户、征得同意并说明风险。
+- 新增 `YuzuhaToolkit.Knowledge`（.NET 10 Native AOT + SQLite/FTS5 独立
+  stdio MCP，注册名 `YuzuhaToolkitKnowledge`）：从本机 PMLLIB/PMLUI 与
+  WebHelp 目录语法切片建库（`sources`/`semantic_chunks`/`call_refs`/
+  `chunks_fts`，兼容 pml_knowledge_proto 的 Python 原型），提供
+  `build/search/check/list/chunk` 五个工具；数据库仅在本机生成，安装
+  复制阶段跳过 `knowledge` 目录，杜绝 AVEVA 衍生内容随包分发。skill
+  新增 `references/knowledge-base.md`：无库或已过期时必须先询问用户
+  （本机重建 / 从他人复制并校验 / 暂不建库），不同 `dbName` 隔离数据。
+- 执行失败分诊与函数信任：`PML RPC failed:` 传输失败附加"不代表函数
+  不可信"的分诊说明；`run_pml_command`/`run_pml_command_list` 对被标记
+  函数返回 `FunctionTrustWarning`；新增 `list_pml_function_trust` 与
+  `set_pml_function_trust`（untrusted 需用户确认错误答案后才写入，
+  trusted/remove 仅按用户明确指示执行），状态持久化于
+  `<install>\trust\pml-function-trust.json`。skill 明确：连接失败先查
+  会话/主机并询问用户，方法未找到先怀疑"编辑中/未加载"，禁止凭本地
+  记忆替换可能只存在于开发环境的函数。
+- `Register-YuzuhaMcp.ps1` 重构为可复用的注册检查，同一轮内按相同冲突
+  规则注册两个 MCP；卸载时一并移除知识库 MCP。
 
 ### 0.2.1 — 2026-09-02
 
@@ -38,6 +84,55 @@
 - 增加本机可信边界说明和可复现 Release 打包。
 
 ## English
+
+### 0.2.3 — 2026-09-04
+
+- Install folder name protection: install/update now requires the install
+  folder to contain `PmlTrigger` (the bootstrap matches `!folderName =
+  'PMLTRI'` against the PMLUI path; Windows 8.3 short names such as
+  `PMLTRI~1` still match). If the user insists on a custom folder name, the
+  installer rewrites `!folderName` in `YuzuhaResolveRuntimePath` from
+  `-BootstrapFolderToken` (by default the first six letters/digits of the
+  folder name), records the token in the management marker, and prints an
+  explicit risk warning (wrong-path collisions, 8.3 truncation, and token
+  reuse on update).
+- `YuzuhaResolveRuntimePath` gains self-diagnostics: when no PMLUI path
+  matches, it prints the token and the PMLUI value instead of failing
+  silently.
+- Local build capability `scripts/Build-LocalHost.ps1`: when an AVEVA version
+  has no prebuilt profile (AM/PDMS/E3D2.1/E3D3.1.0/E3D3.1.6), derive the
+  family from the local `PMLNet.dll` and utilities assembly
+  (E3D→net48, AM/PDMS→net35) and compile an arbitrarily named profile into
+  the package `runtime\profiles`. Only the NET48/NET35 host is built locally
+  (it is the only AVEVA-version-dependent component); the Net10 MCP and
+  knowledge servers are never rebuilt. The skill adds
+  `references/local-build.md`: inform the user, ask for consent, and state
+  the risks first.
+- New `YuzuhaToolkit.Knowledge` (.NET 10 Native AOT + SQLite/FTS5 stdio MCP
+  server, registered as `YuzuhaToolkitKnowledge`): builds a knowledge base
+  locally from the machine's PMLLIB/PMLUI and WebHelp directories with
+  syntax-aware chunking (`sources`/`semantic_chunks`/`call_refs`/
+  `chunks_fts`, compatible with the pml_knowledge_proto Python prototype)
+  and exposes five tools (`build`/`search`/`check`/`list`/`chunk`). The
+  database exists only on the machine that builds it, the lifecycle skips
+  any `knowledge` directory when copying a package, and AVEVA-derived
+  content never ships. The skill adds `references/knowledge-base.md`: when
+  no database exists or one is stale, ask the user first (rebuild locally /
+  copy from someone else and validate / skip), with distinct `dbName`
+  values keeping data sets apart.
+- Execution failure triage and function trust: `PML RPC failed:` transport
+  failures now carry a note that they do not prove a function wrong;
+  `run_pml_command`/`run_pml_command_list` return `FunctionTrustWarning`
+  for flagged functions; new `list_pml_function_trust` and
+  `set_pml_function_trust` tools (untrusted requires a user-confirmed wrong
+  answer; trusted/remove follow explicit user instruction only), persisted
+  in `<install>\trust\pml-function-trust.json`. The skill now states: on
+  connection failure check the session/host and ask the user, treat
+  method-not-found as "being edited or not loaded yet", and never substitute
+  a remembered function that may exist only in a development environment.
+- `Register-YuzuhaMcp.ps1` is refactored into a reusable registration check
+  so both MCP servers register under the same conflict rules in one run;
+  uninstall removes the knowledge MCP as well.
 
 ### 0.2.1 — 2026-09-02
 

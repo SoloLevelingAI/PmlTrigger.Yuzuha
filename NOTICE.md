@@ -1,5 +1,7 @@
 # NOTICE — third-party dependencies
 
+> 中文版 / Chinese: [NOTICE.zh-CN.md](NOTICE.zh-CN.md)
+
 PmlTrigger.Yuzuha project source is licensed under Apache-2.0.
 
 | Component | Version | License | Distribution |

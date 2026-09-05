@@ -11,10 +11,12 @@ builder.Logging.AddConsole(options => { options.LogToStandardErrorThreshold = Lo
 
 builder.Services.AddSingleton<AvevaSessionDiscovery>();
 builder.Services.AddSingleton<YuzuhaRpcBridge>();
+builder.Services.AddSingleton<PmlFunctionTrustStore>();
 builder.Services
     .AddMcpServer(options => { options.ServerInstructions = McpUsageInstructions.Text; })
     .WithStdioServerTransport()
-    .WithTools<PmlCallTools>(YuzuhaToolJsonContext.Default.Options);
+    .WithTools<PmlCallTools>(YuzuhaToolJsonContext.Default.Options)
+    .WithTools<PmlFunctionTrustTools>();
 
 await builder.Build().RunAsync();
 return 0;

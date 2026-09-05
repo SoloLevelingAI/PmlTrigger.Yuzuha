@@ -7,6 +7,7 @@
 - **可靠安装与升级**：两个 MCP 和 EVAR 全部预检；失败撤回本次新增配置，失败升级恢复旧安装。已有配置保持不变；撤销本身失败时保留部署文件并明确提示恢复需求。
 - **三层本地知识库**：项目库随安装/升级刷新；官方 PMLLIB/PMLUI/WebHelp 从用户指定的本机目录索引，升级不修改；经验库独立追加、升级保留。支持跨库检索并标注来源。
 - **保留本地数据**：升级保留官方库、经验库、旧库、函数信任记录和自定义 Host。
+- **依赖修正**：SQLitePCLRaw bundle 固定为 2.1.13，Windows x64 原生 SQLite 为 3.53.3；保持依赖漏洞审计开启。
 - **PDMS/AM**：保留传统 12.1 系列支持目标，当前参考程序集基线为 12.1.4.0。自定义 Legacy Profile 通过 YuzuhaFramework 明确选择 NET35。
 - **双语文档**：[中文说明](https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/v0.3.0/docs/v0.3.zh-CN.md)、[中文验证记录](https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/v0.3.0/docs/v0.3-validation.zh-CN.md)，以及安装、Skill、构建等中英文资料。
 
@@ -21,6 +22,7 @@ This release introduces separate project, official and local-experience knowledg
 - **Recoverable installation and upgrades:** preflight both MCPs and EVAR; roll back new registrations and restore failed upgrades while retaining reusable entries. If rollback itself fails, preserve deployed files and report recovery requirements.
 - **Three local knowledge layers:** refresh the project index during installation/upgrades; index official PMLLIB/PMLUI/WebHelp from user-selected local paths without changing it during upgrades; append local lessons to a separate retained experience DB. Cross-database search identifies each source.
 - **Preserved local state:** retain official, experience and legacy databases, function-trust records and custom Hosts.
+- **Dependency correction:** pin SQLitePCLRaw bundle 2.1.13 with native SQLite 3.53.3 on Windows x64; keep dependency vulnerability auditing enabled.
 - **PDMS/AM:** retain the legacy 12.1 support target with reference assembly baseline 12.1.4.0. Custom Legacy profiles select NET35 explicitly through YuzuhaFramework.
 - **Bilingual documentation:** [English guide](https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/v0.3.0/docs/v0.3.en.md), [validation record](https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/v0.3.0/docs/v0.3-validation.md), and paired installation, Skill and build documentation.
 

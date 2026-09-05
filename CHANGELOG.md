@@ -2,6 +2,8 @@
 
 ## 0.3.0 — 2026-09-05 (local candidate / 本地候选)
 
+- Pin SQLitePCLRaw bundle 2.1.13 (native SQLite 3.53.3 on Windows x64) after CI flagged the old transitive dependency; retain NuGet security auditing. 修复 CI 发现的 SQLite 旧依赖问题并保持安全审计开启。
+
 - Preflight both MCP registrations and EVAR; roll back new entries on failure, including nonzero exits after configuration writes. Restore failed installations/updates.
 - Preserve knowledge, trust and custom Profiles across updates. Refresh only the package project DB; retain official, experience and legacy DBs.
 - Add register_knowledge_source, search_knowledge_layers and append-only/idempotent record_local_experience. Build replacement databases in staging.

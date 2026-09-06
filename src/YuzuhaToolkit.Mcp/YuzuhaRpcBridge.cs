@@ -73,7 +73,7 @@ public sealed class YuzuhaRpcBridge : IDisposable
                 newClient = RpcClient.Connect(
                     candidate.PipeName,
                     connectTimeoutMilliseconds: 3000);
-                var newService = newClient.CreateProxy<IPmlCommandService>();
+                var newService = new AotPmlCommandService(newClient);
                 newHeartbeat = newClient.StartHeartbeat(
                     new RpcHeartbeatOptions
                     {

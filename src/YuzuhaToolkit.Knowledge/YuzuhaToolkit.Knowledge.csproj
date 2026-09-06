@@ -10,6 +10,9 @@
         <SelfContained>true</SelfContained>
         <!-- Native AOT executable; ship e_sqlite3.dll alongside it. -->
         <PublishAot>true</PublishAot>
+        <OptimizationPreference>Size</OptimizationPreference>
+        <IlcGenerateStackTraceData>false</IlcGenerateStackTraceData>
+        <IlcMaxParallelism>2</IlcMaxParallelism>
         <PublishSingleFile>false</PublishSingleFile>
         <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
         <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
@@ -31,5 +34,9 @@
                           Version="10.0.0"/>
         <PackageReference Include="ModelContextProtocol"
                           Version="1.4.1"/>
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Include="../Shared/BuiltinGuideCatalog.cs" Link="Builtins/BuiltinGuideCatalog.cs" />
+        <EmbeddedResource Include="../../docs/builtin/*.md" LogicalName="Yuzuha.Builtin.%(Filename)%(Extension)" />
     </ItemGroup>
 </Project>

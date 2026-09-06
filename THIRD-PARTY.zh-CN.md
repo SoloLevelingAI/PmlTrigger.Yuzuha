@@ -16,3 +16,5 @@ or running the NET35/NET48 host.
 
 AVEVA SDK 不属于本项目。构建或运行 NET35/NET48 Host 时，`PMLNet.dll` 及相关
 `Aveva.*` 程序集必须来自本机已获许可的 AVEVA 安装。
+
+Native AOT client sources: `src/PlantHost.Rpc.Net10`, copied from the local MiniRpc.Net implementation; Apache-2.0, with LICENSE in that directory. NET35/NET48 dependencies remain unchanged.

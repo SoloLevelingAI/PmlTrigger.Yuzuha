@@ -25,10 +25,11 @@ Build every profile with:
 The script writes directly loadable output to
 `runtime/profiles/<profile>/<framework>` and the MCP to `runtime/net10`.
 AVEVA's `PMLNet.dll` and utility assembly are reference-only and are not copied.
-The MCP output is one trimmed, self-contained Windows x64 executable:
-`runtime/net10/YuzuhaToolkit.Mcp.exe`. PlantHost.Rpc, its RPC contracts, and
-Newtonsoft.Json are rooted because their dynamic proxy and serialization paths
-use reflection; removing those roots is not a supported size optimization.
+Both NET10 executables are Native AOT. Run `scripts/Build-NativeServers.ps1`
+to publish them and generate the hash-bound `native-aot-manifest.json`. The
+execution client uses explicit RPC routes and generated JSON metadata; it no
+longer uses a dynamic proxy or Newtonsoft.Json. NET35/NET48 Hosts are unchanged.
+The release packager refuses missing or mismatched AOT build manifests.
 
 For one host build, pass `AvevaProfileRoot` and `AvevaProfile` to MSBuild:
 

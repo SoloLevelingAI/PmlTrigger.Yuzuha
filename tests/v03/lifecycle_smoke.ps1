@@ -1,4 +1,4 @@
-$ErrorActionPreference = 'Stop'
+﻿$ErrorActionPreference = 'Stop'
 $root = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..'))
 if ($env:YUZUHA_TEST_PACKAGE) { $root = [IO.Path]::GetFullPath($env:YUZUHA_TEST_PACKAGE) }
 $testRoot = Join-Path (Split-Path $root) ('outputs\v03-lifecycle-test-' + [guid]::NewGuid().ToString('N'))
@@ -54,7 +54,10 @@ Assert ($global:v03Entries.Count -eq 1) 'Unrelated registration changed'
 $global:v03Entries=@()
 Invoke-Case Install 'success'
 $install=Join-Path $testRoot 'success\PmlTrigger.Test'
-$official=Join-Path $install 'knowledge\official-test.sqlite3'
+Assert (-not (Test-Path (Join-Path $install 'knowledge'))) 'Base install unexpectedly built optional indices'
+& (Join-Path $install 'runtime\net10\YuzuhaToolkit.Knowledge.exe') --refresh-project $install
+if ($LASTEXITCODE -ne 0) { throw 'Explicit reference indexing failed' }
+$official=Join-Path $install 'knowledge\official-test.sqlite3' 
 $experience=Join-Path $install 'knowledge\experience.sqlite3'
 Copy-Item (Join-Path $install 'knowledge\project.sqlite3') $official
 $eh=(Get-FileHash $experience).Hash

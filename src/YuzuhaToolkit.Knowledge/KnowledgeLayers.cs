@@ -1,9 +1,10 @@
 using System.Text.Json;
+using YuzuhaToolkit.Builtins;
 using System.Text.Json.Serialization;
 
 namespace YuzuhaToolkit.Knowledge;
 
-public sealed record LayerSearch(string Role, string Database, KnowledgeSearchResult? Result, string? Error);
+public sealed record LayerSearch(string Role, string Database, KnowledgeSearchResult? Result, string? Error, IReadOnlyList<BuiltinGuide>? Guides = null);
 public sealed record ExperienceResult(string Id, string Database, string Title);
 
 [JsonSerializable(typeof(List<LayerSearch>))]
@@ -18,10 +19,12 @@ public sealed partial class KnowledgeRepository
         new(database + ".lock", FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None);
 
     public KnowledgeBuildResult Build(string? pmlLibRoot, string? pmlUiRoot,
-        string? webHelpRoot, string dbName, string? dbDir, bool rebuild, long maxFilesPerRoot)
+        string? webHelpRoot, string dbName, string? dbDir, bool rebuild, long maxFilesPerRoot, bool packageRefresh = false)
     {
         var name = string.IsNullOrWhiteSpace(dbName) ? "pml-knowledge" : dbName.Trim();
         ValidateDbName(name);
+        if (name.Equals("project", StringComparison.OrdinalIgnoreCase) && !packageRefresh)
+            throw new KnowledgeException("project is reserved for package refresh. Use a custom database name.");
         if (name.Equals("experience", StringComparison.OrdinalIgnoreCase))
             throw new KnowledgeException("The experience database is append-only; use record_local_experience.");
         var directory = Path.GetFullPath(string.IsNullOrWhiteSpace(dbDir) ? DefaultDirectory : dbDir);
@@ -54,29 +57,44 @@ public sealed partial class KnowledgeRepository
         string? pmlLibRoot, string? pmlUiRoot, string? webHelpRoot, bool rebuild)
     {
         role = role.Trim().ToLowerInvariant();
-        if (role is not ("project" or "official"))
-            throw new KnowledgeException("role must be project or official. Experience uses its own append tool.");
+        if (role is not ("project" or "custom" or "official"))
+            throw new KnowledgeException("role must be custom or official (project is a compatibility alias for custom). Experience uses its own append tool.");
         ValidateDbName(name);
         return Build(pmlLibRoot, pmlUiRoot, webHelpRoot,
-            role == "project" ? "project" : "official-" + name, null, rebuild, 0);
+            role == "official" ? "official-" + name : "custom-" + name, null, rebuild, 0);
     }
 
     public KnowledgeBuildResult RefreshProject(string installRoot) => Build(
         Path.Combine(installRoot, "PMLLIB"), Path.Combine(installRoot, "PMLUI"),
-        null, "project", null, true, 0);
+        null, "project", null, true, 0, packageRefresh: true);
 
-    public List<LayerSearch> SearchLayers(string query, int topK)
+    public List<LayerSearch> SearchLayers(string query, int topK, bool includeSupplemental = false)
     {
+        topK = Math.Clamp(topK, 1, 20);
         var results = new List<LayerSearch>();
-        if (!Directory.Exists(DefaultDirectory)) return results;
-        foreach (var database in Directory.EnumerateFiles(DefaultDirectory, "*.sqlite3")
-                     .OrderBy(p => p, StringComparer.OrdinalIgnoreCase))
+        var guides = BuiltinGuideCatalog.Find(query, topK);
+        if (guides.Count > 0)
         {
+            results.Add(new("builtin", "", null, null, guides));
+            if (!includeSupplemental) return results;
+        }
+        if (!Directory.Exists(DefaultDirectory)) return results;
+        var remaining = topK;
+        foreach (var database in Directory.EnumerateFiles(DefaultDirectory, "*.sqlite3")
+                     .OrderBy(p => Path.GetFileNameWithoutExtension(p).Equals("project", StringComparison.OrdinalIgnoreCase) ? 0 : 1)
+                     .ThenBy(p => p, StringComparer.OrdinalIgnoreCase))
+        {
+            if (remaining == 0) break;
             var name = Path.GetFileNameWithoutExtension(database);
             var role = name.Equals("project", StringComparison.OrdinalIgnoreCase) ? "project" :
                 name.Equals("experience", StringComparison.OrdinalIgnoreCase) ? "experience" :
-                name.StartsWith("official-", StringComparison.OrdinalIgnoreCase) ? "official" : "legacy";
-            try { results.Add(new(role, database, Search(query, null, database, topK, null, null, null), null)); }
+                name.StartsWith("official-", StringComparison.OrdinalIgnoreCase) ? "official" : "custom";
+            try {
+                var result = Search(query, null, database, remaining, null, null, null);
+                remaining -= result.Hits.Count;
+                results.Add(new(role, database, result with { Note =
+                    "Supplemental reference only. Does not replace a built-in method; a custom replacement requires an explicit user decision." }, null));
+            }
             catch (Exception ex) { results.Add(new(role, database, null, ex.Message)); }
         }
         return results;

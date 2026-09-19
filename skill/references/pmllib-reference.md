@@ -62,15 +62,17 @@ rem <<< Yuzuha managed settings
 ```
 
 - **不带引号**：`set` 行一律不写引号 / never quote the `set` lines.
-- **追加在文件末尾**：必须放在批处理自身初始化（原有的
-  `set pmllib=...` / `set pmlui=...`）**之后**，这样 `%pmllib%` / `%pmlui%`
-  已包含原始路径，前置 Yuzuha 路径不会被后续绝对赋值覆盖。
+- **追加在文件末尾**：必须放在批处理自身初始化（产品自身的
+  `set pmllib=` 与 UI 变量赋值）**之后**，这样展开时已包含原始路径，
+  前置 Yuzuha 路径不会被后续绝对赋值覆盖。
   The block must be appended **after** the file's own initialization so the
   original paths survive; setting it earlier would be clobbered by a later
   absolute `set pmllib=...`.
-- 变量名：**E3D 用 `pmlui`，AM/PDMS 用 `pdmsui`**（安装脚本的
-  `-AvevaProfile` 仅支持 AM/PDMS，E3D 的 EVAR 为手工管理）。
-  E3D uses `pmlui`; AM/PDMS use `pdmsui`.
+- 变量名：**按框架选择**：net48（E3D）写 `pmlui`，net35（AM/PDMS）写
+  `pdmsui`；均指向工具包的 `PMLUI` 目录。
+  The UI variable follows the framework: net48 (E3D) profiles write
+  `pmlui`; net35 (AM/PDMS) profiles write `pdmsui`. Both point at the
+  toolkit's `PMLUI` directory.
 - 卸载时按 `rem >>> / rem <<< Yuzuha managed settings` 标记整块移除，
   原始路径不受影响。Uninstall removes the marked block only.
 

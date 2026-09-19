@@ -1,4 +1,6 @@
 # 部署 — PID 绑定的 MCP 与 AVEVA 宿主
+
+> AVEVA 配置：先用 `Get-ItemProperty` / `reg query` 查询注册表，优先有效的 `Evar.INIT`；PDMS/AM 确认无 INIT 且仅使用 BAT 时才改 `EVAR.BAT`。`-EvarBat` 接受 BAT 风格文件，包括 `Evar.INIT`（本身即批处理语法）；写入前自动备份，托管块尾置。默认本机注册不改 EVAR。详见 [定位和选择规则](aveva-discovery.md)。
 > 中文版（供作者审阅）。英文版 / English: [deployment.md](deployment.md)
 
 发布压缩包采用以下目录布局：

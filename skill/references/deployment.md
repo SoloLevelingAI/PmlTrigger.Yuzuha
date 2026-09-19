@@ -1,5 +1,7 @@
 # Deployment — PID-bound MCP and AVEVA hosts
 
+> AVEVA 配置：先用 `Get-ItemProperty` / `reg query` 查询注册表，优先有效的 `Evar.INIT`；PDMS/AM 确认无 INIT 且仅使用 BAT 时才改 `EVAR.BAT`。`-EvarBat` 接受 BAT 风格文件，包括 `Evar.INIT`（本身即批处理语法）；写入前自动备份，托管块尾置。默认本机注册不改 EVAR。详见 [定位和选择规则](aveva-discovery.md)。
+
 > 中文版 / Chinese: [deployment.zh-CN.md](deployment.zh-CN.md)
 
 Release archives use this layout:

@@ -13,3 +13,5 @@
 The AVEVA SDK is not part of this project. A licensed local AVEVA installation
 must provide `PMLNet.dll` and the relevant `Aveva.*` assemblies when building
 or running the NET35/NET48 host.
+
+Native AOT client sources: `src/PlantHost.Rpc.Net10`, copied from the local MiniRpc.Net implementation; Apache-2.0, with LICENSE in that directory. NET35/NET48 dependencies remain unchanged.

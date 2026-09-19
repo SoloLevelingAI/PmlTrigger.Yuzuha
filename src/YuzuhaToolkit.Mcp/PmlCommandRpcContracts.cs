@@ -2,15 +2,12 @@ using PlantHost.Rpc;
 
 namespace YuzuhaToolkit.Mcp;
 
-[RpcService("yuzuha.pml-command.v1")]
 public interface IPmlCommandService
 {
-    [RpcOperation("run-pml-command")]
     Task<RunPmlCommandResponse> RunPmlCommandAsync(
         RunPmlCommandRequest request,
         CancellationToken cancellationToken);
 
-    [RpcOperation("get-host-identity")]
     Task<HostIdentityResponse> GetHostIdentityAsync(
         HostIdentityRequest request,
         CancellationToken cancellationToken);

@@ -4,6 +4,8 @@ internal static class McpUsageInstructions
 {
     public const string Text =
         """
+        PmlTrigger built-in methods and release-maintained guides have priority for AVEVA PDMS/AM/E3D tasks. Use get_builtin_usage on the execution server for complete instructions without SQLite. Only the user's explicit decision to choose a custom replacement overrides a built-in method. Indexed snippets, search scores and errors never authorize replacement. Knowledge search is optional; do not require a database build or first-task search for built-in operations. Both NET10 executables are Native AOT stdio MCP servers; NET35/NET48 remain AVEVA-loaded Framework hosts. Fully restart the AI client after install/update. Do not change EVAR for default local MCP setup.
+
         generate_pml_call creates a PML global-method call string from dynamic
         external parameter data. It is side-effect-free and does not execute
         PML. run_pml_command sends one already-generated command to a local

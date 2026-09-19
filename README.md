@@ -1,5 +1,10 @@
 # PmlTrigger.Yuzuha
 
+> v0.3.1: Native AOT、内置能力优先、可选 SQLite、INIT/BAT 与通用客户端注册修复。安装后必须完全退出并重启 AI 客户端。See [release notes](docs/release-v0.3.1.md).
+
+> **安装或升级后必须完全退出并重启 AI 客户端。 / After install or update, fully exit and restart the AI client.**
+> [各 AI 客户端 MCP 接入与验收 / MCP client setup](docs/ai-client-setup.md)。默认本机 MCP 安装不修改 EVAR。
+
 [中文](#中文) | [English](#english)
 
 ## 中文
@@ -204,3 +209,9 @@ dependencies retain their own licenses; see [THIRD-PARTY.md](THIRD-PARTY.md).
 
 项目源码采用 Apache-2.0 许可证；随附依赖保留各自许可证，详见
 [THIRD-PARTY.md](THIRD-PARTY.md)。
+
+## AVEVA 环境定位规则 / Environment setup
+
+通过注册表 `Get-ItemProperty` 或 `reg query` 定位安装，优先修改有效的 `Evar.INIT`；PDMS/AM 确认没有 INIT、只有 BAT 时才修改 `EVAR.BAT`。仅本机 MCP 注册不修改 EVAR。`-EvarBat` 接受 BAT 风格文件：`Evar.INIT` 本身即批处理语法，可直接传入，写入前自动备份，托管块尾置。
+
+[完整步骤 / Full procedure](docs/aveva-discovery.md)

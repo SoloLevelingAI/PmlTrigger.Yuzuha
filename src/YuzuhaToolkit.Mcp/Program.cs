@@ -16,7 +16,8 @@ builder.Services
     .AddMcpServer(options => { options.ServerInstructions = McpUsageInstructions.Text; })
     .WithStdioServerTransport()
     .WithTools<PmlCallTools>(YuzuhaToolJsonContext.Default.Options)
-    .WithTools<PmlFunctionTrustTools>();
+    .WithTools<PmlFunctionTrustTools>()
+    .WithTools<BuiltinUsageTools>();
 
 await builder.Build().RunAsync();
 return 0;

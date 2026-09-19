@@ -1,4 +1,4 @@
-[CmdletBinding(SupportsShouldProcess = $true)]
+﻿[CmdletBinding(SupportsShouldProcess = $true)]
 param(
     [Parameter(Mandatory = $true)]
     [ValidateSet('Install', 'Update', 'Uninstall')]
@@ -28,7 +28,7 @@ Set-StrictMode -Version 3.0
 $ErrorActionPreference = 'Stop'
 
 $packageId = 'YuzuhaToolkit.Agent'
-$packageVersion = '0.3.0'
+$packageVersion = '0.3.1'
 $markerName = '.yuzuha-agent-managed.json'
 $sourceRoot = [System.IO.Path]::GetFullPath((Split-Path -Parent $PSScriptRoot)).TrimEnd('\')
 
@@ -548,12 +548,15 @@ if ($Action -eq 'Install') {
             $installMoved = $true
             Move-Item -LiteralPath $skillStage -Destination $skillRoot
             $skillMoved = $true
-            Update-ProjectKnowledge
+            Write-Host 'Built-in guides are ready without SQLite. Optional reference indexing was not run.'
             Write-ManagedMarker -Path $installMarkerPath -InstallId $installId -State 'installed' `
                 -BootstrapFolderToken $markerBootstrapToken
             Invoke-McpRegistration
             Write-Host "Installed Yuzuha Agent package: $InstallRoot"
             Write-Host "Installed Skill: $skillRoot"
+            Write-Host 'RESTART REQUIRED: Fully exit and restart your AI client after installation/update. Opening a new chat is not enough.' -ForegroundColor Yellow
+            Write-Host '必须重启：安装或升级后，请完全退出并重新启动 AI 客户端，仅新建聊天不够。' -ForegroundColor Yellow
+            Write-Host 'Other AI clients require their own MCP stdio registration. See docs/ai-client-setup.md.'
         }
     }
     catch {
@@ -668,12 +671,15 @@ elseif ($Action -eq 'Update') {
                 }
                 $legacyMcpRemoved = $true
             }
-            Update-ProjectKnowledge
+            Write-Host 'Built-in guides are ready without SQLite. Optional reference indexing was not run.'
             Write-ManagedMarker -Path $installMarkerPath `
                 -InstallId $installMarker.installId -State 'installed' `
                 -BootstrapFolderToken $markerBootstrapToken
             Invoke-McpRegistration
             Write-Host "Updated Yuzuha Agent package: $InstallRoot"
+            Write-Host 'RESTART REQUIRED: Fully exit and restart your AI client after installation/update. Opening a new chat is not enough.' -ForegroundColor Yellow
+            Write-Host '必须重启：安装或升级后，请完全退出并重新启动 AI 客户端，仅新建聊天不够。' -ForegroundColor Yellow
+            Write-Host 'Other AI clients require their own MCP stdio registration. See docs/ai-client-setup.md.'
         }
     }
     catch {

@@ -28,7 +28,7 @@ Set-StrictMode -Version 3.0
 $ErrorActionPreference = 'Stop'
 
 $packageId = 'YuzuhaToolkit.Agent'
-$packageVersion = '0.3.1'
+$packageVersion = '0.3.2'
 $markerName = '.yuzuha-agent-managed.json'
 $sourceRoot = [System.IO.Path]::GetFullPath((Split-Path -Parent $PSScriptRoot)).TrimEnd('\')
 

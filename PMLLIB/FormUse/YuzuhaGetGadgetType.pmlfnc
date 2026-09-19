@@ -1,0 +1,40 @@
+------------------------------------------------------------------------
+--
+-- Copyright 2026 to current year. Apecha2.0. All rights reserved in original code only.
+--
+-- File:            YuzuhaGetGadgetType.pmlfnc
+--   Type:          Function Definition
+--
+--
+--
+--   Module:        design
+--   Replaces:
+--
+-- Author:          HuangYuanTai
+-- Created:         19/09/2026 18:44:41
+--
+--
+-- Description:
+-- Extracts the bracketed gadget type from VAR diagnostic text.
+-- Returns an empty string on inspection or parsing failure.
+--
+------------------------------------------------------------------------
+--
+-- Methods defined:
+--
+--  Method call              Return  Description
+--  ===========              ======  ===========
+--  !!YuzuhaGetGadgetType()  -       -
+--
+------------------------------------------------------------------------
+define function !!YuzuhaGetGadgetType(!gadget is any ) is string
+  var !gadType var !gadget
+  handle any
+    return ''
+  endhandle
+  !type = !gadType.split('[')[2].split(']')[1]
+  handle any
+  return ''
+  endhandle
+  return !type
+endfunction

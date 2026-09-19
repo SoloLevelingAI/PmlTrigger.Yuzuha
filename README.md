@@ -1,5 +1,12 @@
 # PmlTrigger.Yuzuha
 
+> v0.3.2: 连续会话 JSONL、主界面与浮动窗体截图；新增实现和测试报告由 Codex 编写。见 [发布说明](docs/release-v0.3.2.md)。
+
+> v0.3.1: Native AOT、内置能力优先、可选 SQLite、INIT/BAT 与通用客户端注册修复。安装后必须完全退出并重启 AI 客户端。See [release notes](docs/release-v0.3.1.md).
+
+> **安装或升级后必须完全退出并重启 AI 客户端。 / After install or update, fully exit and restart the AI client.**
+> [各 AI 客户端 MCP 接入与验收 / MCP client setup](docs/ai-client-setup.md)。默认本机 MCP 安装不修改 EVAR。
+
 [中文](#中文) | [English](#english)
 
 ## 中文
@@ -7,14 +14,18 @@
 ### v0.3.0
 
 项目/官方/本地经验三库隔离；双 MCP 注册失败回滚；升级保留本地数据；自定义 Legacy Profile 明确选择 NET35。
-详见 [0.3 中文说明](docs/v0.3.zh-CN.md)。本候选包仍待 AVEVA 实机验收。
+详见 [0.3 中文说明](docs/v0.3.zh-CN.md)。2026-09-19 已完成 E3D 2.1 会话日志与界面截图实测；通过项目、发现的问题及覆盖范围见[实测报告](docs/validation/2026-09-19-e3d.md)。
+
+### 连续操作记录
+
+原 Host 的 `BeginLog(!record)` / `EndLog(!record, !recordId)` 将操作前后界面截图与完整 PML Array 写入同一个会话 JSONL，JPEG 覆盖主界面与浮动窗体。详见[接口与存储说明](docs/session-recording.md)。
 
 
 PmlTrigger.Yuzuha 是面向 AVEVA 系列工程应用的本机 Agent/PML 桥接工具。
 自包含的 .NET 10 MCP 进程通过按 AVEVA PID 隔离的 Named Pipe，与运行在
 AVEVA 主线程内的 NET35 或 NET48 PMLNet Host 通信。
 
-> 当前候选版本为 v0.3.0。执行型工具可以直接修改活动模型，仅应由可信本机用户在
+> 当前候选版本为 v0.3.2。执行型工具可以直接修改活动模型，仅应由可信本机用户在
 > 明确授权后使用。执行超时后禁止自动重试，因为第一次调用可能已经成功。
 
 ### v0.2 重点更新
@@ -95,7 +106,7 @@ PML REHASH ALL
 ### v0.3.0
 
 Independent project/official/experience databases, rollback for dual MCP registration, preserved local state, and explicit Legacy framework selection.
-See [0.3 release notes](docs/v0.3.en.md). Live AVEVA acceptance is pending.
+See [0.3 release notes](docs/v0.3.en.md). Session recording was live-tested in E3D 2.1 on 2026-09-19; see the [validation report](docs/validation/2026-09-19-e3d.md) for passed checks, findings and coverage limits, and [recording guide](docs/session-recording.md) for the API.
 
 
 PmlTrigger.Yuzuha is a local Agent-to-PML bridge for AVEVA engineering
@@ -200,3 +211,9 @@ dependencies retain their own licenses; see [THIRD-PARTY.md](THIRD-PARTY.md).
 
 项目源码采用 Apache-2.0 许可证；随附依赖保留各自许可证，详见
 [THIRD-PARTY.md](THIRD-PARTY.md)。
+
+## AVEVA 环境定位规则 / Environment setup
+
+通过注册表 `Get-ItemProperty` 或 `reg query` 定位安装，优先修改有效的 `Evar.INIT`；PDMS/AM 确认没有 INIT、只有 BAT 时才修改 `EVAR.BAT`。仅本机 MCP 注册不修改 EVAR。`-EvarBat` 接受 BAT 风格文件：`Evar.INIT` 本身即批处理语法，可直接传入，写入前自动备份，托管块尾置。
+
+[完整步骤 / Full procedure](docs/aveva-discovery.md)

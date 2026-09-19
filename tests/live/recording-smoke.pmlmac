@@ -1,0 +1,8 @@
+-- Run once in an authorized sample session. No database edits or saves.
+!record = array()
+!record[1] = 'YUZUHA_RECORDING_SMOKE'
+!record[10] = 'Sparse array index 10'
+!eventId = !!YuzuhaRpcHost.BeginLog(!record)
+!record[11] = 'Completed'
+!ok = !!YuzuhaRpcHost.EndLog(!record, !eventId)
+$p Recording result $!ok

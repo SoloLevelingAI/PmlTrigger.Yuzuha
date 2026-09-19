@@ -1,4 +1,4 @@
-[CmdletBinding(SupportsShouldProcess = $true)]
+﻿[CmdletBinding(SupportsShouldProcess = $true)]
 param(
     [string] $McpExecutable,
 
@@ -17,7 +17,9 @@ param(
 
     [switch] $SkipMcpRegistration,
 
-    [switch] $CheckOnly
+    [switch] $CheckOnly,
+
+    [string] $McpJsonPath
 )
 
 Set-StrictMode -Version 3.0
@@ -76,44 +78,37 @@ function Get-UpdatedEvarText {
     $managedEnd = 'rem <<< Yuzuha managed settings'
     $pmlLib = Join-Path $Root 'PMLLIB'
     $pmlUi = Join-Path $Root 'PMLUI'
+    # net48 profiles are E3D (UI variable pmlui); net35 are AM/PDMS (pdmsui).
+    $uiVariable = if ($Framework -eq 'net48') { 'pmlui' } else { 'pdmsui' }
     $managedBlock = @(
         $managedStart,
         'rem Custom variable name must remain Yuzuha (no underscore).',
-        "set `"Yuzuha=$Profile`"",
-        "set `"YuzuhaFramework=$Framework`"",
-        "set `"pmllib=$pmlLib;%pmllib%`"",
-        "set `"pdmsui=$pmlUi;%pdmsui%`"",
+        "set Yuzuha=$Profile",
+        "set YuzuhaFramework=$Framework",
+        "set pmllib=$pmlLib;%pmllib%",
+        "set $uiVariable=$pmlUi;%$uiVariable%",
         $managedEnd
     ) -join $newLine
     $managedBlock += $newLine
 
+    # [PATCH F] The block expands %pmllib% and the UI variable immediately, so it must
+    # execute AFTER AVEVA's own variable definitions. Inserting right after
+    # @echo off placed the block at the top of the file: later AVEVA lines
+    # overwrote the values, which could break product startup. Always strip
+    # any previously written block (older installers left it at the top) and
+    # re-append at the END of evars.bat. Assumes no 'exit /b' at EOF
+    # (PDMS 12.1 evars.bat is a plain sequence of set statements).
     $blockPattern = '(?ms)^' +
         [System.Text.RegularExpressions.Regex]::Escape($managedStart) +
         '\r?\n.*?^' +
         [System.Text.RegularExpressions.Regex]::Escape($managedEnd) +
         '(?:\r?\n)?'
-    if ([System.Text.RegularExpressions.Regex]::IsMatch($Text, $blockPattern)) {
-        $blockRegex = [System.Text.RegularExpressions.Regex]::new($blockPattern)
-        return $blockRegex.Replace(
-            $Text,
-            [System.Text.RegularExpressions.MatchEvaluator] {
-                param($match)
-                return $managedBlock
-            },
-            1)
+    $strippedText = [System.Text.RegularExpressions.Regex]::Replace(
+        $Text, $blockPattern, '').TrimEnd("`r", "`n")
+    if ($strippedText.Length -gt 0) {
+        $strippedText += $newLine + $newLine
     }
-
-    $echoPattern = '(?im)^[ \t]*@echo[ \t]+off[ \t]*(?:\r?\n|$)'
-    $echoMatch = [System.Text.RegularExpressions.Regex]::Match(
-        $Text,
-        $echoPattern)
-    if ($echoMatch.Success) {
-        return $Text.Insert(
-            $echoMatch.Index + $echoMatch.Length,
-            $newLine + $managedBlock)
-    }
-
-    return $managedBlock + $newLine + $Text
+    return $strippedText + $managedBlock
 }
 
 function Get-NormalizedCommandPath {
@@ -196,6 +191,53 @@ Nothing was changed. Resolve the existing entry explicitly before adding '$Targe
     return [pscustomobject]@{ Name = $TargetName; Path = $targetPath }
 }
 
+# Build one read-only plan for both stdio services; commit only after all preflight passes.
+function New-GenericJsonMcpPlan {
+    param([string] $JsonPath, [array] $Entries)
+    $fullPath = [IO.Path]::GetFullPath($JsonPath)
+    $existed = Test-Path -LiteralPath $fullPath -PathType Leaf
+    [byte[]]$bytes = @()
+    if ($existed) { $bytes = [IO.File]::ReadAllBytes($fullPath) }
+    $raw = if ($existed) { [IO.File]::ReadAllText($fullPath) } else { '' }
+    $json = if ([string]::IsNullOrWhiteSpace($raw)) { [pscustomobject]@{} } else { ConvertFrom-Json -InputObject $raw }
+    if ($json -isnot [pscustomobject]) { throw 'MCP JSON root must be an object.' }
+    if (-not $json.PSObject.Properties['mcpServers']) {
+        $json | Add-Member NoteProperty mcpServers ([pscustomobject]@{})
+    }
+    $servers = $json.mcpServers
+    if ($servers -isnot [pscustomobject]) { throw 'mcpServers must be an object.' }
+    $changed = $false
+    foreach ($entry in $Entries) {
+        $target = [IO.Path]::GetFullPath($entry.Path)
+        if (-not (Test-Path -LiteralPath $target -PathType Leaf)) { throw "MCP executable missing: $target" }
+        foreach ($other in $servers.PSObject.Properties) {
+            if ($other.Name -eq $entry.Name) { continue }
+            if ($other.Value -and $other.Value.PSObject.Properties['command'] -and
+                (Get-NormalizedCommandPath ([string]$other.Value.command)) -ieq $target) {
+                throw "MCP executable already registered under another name: $($other.Name)"
+            }
+        }
+        $existing = $servers.PSObject.Properties[$entry.Name]
+        if ($null -ne $existing) {
+            $value = $existing.Value
+            if ($value -isnot [pscustomobject] -or -not $value.PSObject.Properties['command']) { throw "Invalid MCP entry: $($entry.Name)" }
+            $arguments = @()
+            if ($value.PSObject.Properties['args']) { $arguments = @($value.args) }
+            $disabled = ($value.PSObject.Properties['disabled'] -and $value.disabled -eq $true) -or
+                ($value.PSObject.Properties['enabled'] -and $value.enabled -eq $false)
+            $wrongType = $value.PSObject.Properties['type'] -and $value.type -ne 'stdio'
+            if ((Get-NormalizedCommandPath ([string]$value.command)) -ine $target -or $arguments.Count -gt 0 -or $disabled -or $wrongType) {
+                throw "Conflicting or disabled MCP entry: $($entry.Name). Nothing was changed."
+            }
+        } else {
+            $servers | Add-Member NoteProperty $entry.Name ([pscustomobject]@{ command=$target; args=@() })
+            $changed = $true
+        }
+    }
+    return [pscustomobject]@{ Path=$fullPath; Existed=$existed; Bytes=[byte[]]$bytes;
+        Changed=$changed; Output=((ConvertTo-Json -InputObject $json -Depth 100)+"`r`n") }
+}
+
 $hasProfile = -not [string]::IsNullOrWhiteSpace($AvevaProfile)
 $hasEvar = -not [string]::IsNullOrWhiteSpace($EvarBat)
 if ($hasProfile -ne $hasEvar) {
@@ -203,7 +245,8 @@ if ($hasProfile -ne $hasEvar) {
 }
 
 $mcpConfigurations = @()
-if (-not $SkipMcpRegistration) {
+$useGenericJson = -not [string]::IsNullOrWhiteSpace($McpJsonPath)
+if (-not $SkipMcpRegistration -and -not $useGenericJson) {
     if ([string]::IsNullOrWhiteSpace($McpExecutable)) {
         throw 'McpExecutable is required unless SkipMcpRegistration is specified.'
     }
@@ -221,13 +264,23 @@ if (-not $SkipMcpRegistration) {
 }
 
 $plans = @()
-if (-not $SkipMcpRegistration) {
+if (-not $SkipMcpRegistration -and -not $useGenericJson) {
     if ($Name -eq $KnowledgeName -and $KnowledgeExecutable) { throw 'The two MCP names must be different.' }
     $plans += @(Register-ManagedMcp -TargetName $Name -ExecutablePath $McpExecutable -Configurations $mcpConfigurations)
     if ($KnowledgeExecutable) {
         $plans += @(Register-ManagedMcp -TargetName $KnowledgeName -ExecutablePath $KnowledgeExecutable -Configurations $mcpConfigurations)
     }
     $plans = @($plans | Where-Object { $null -ne $_ })
+}
+
+if ($useGenericJson -and -not $SkipMcpRegistration) {
+    if ([string]::IsNullOrWhiteSpace($McpExecutable)) {
+        throw 'McpExecutable is required when McpJsonPath is specified.'
+    }
+    if ($Name -eq $KnowledgeName -and $KnowledgeExecutable) { throw 'The two MCP names must be different.' }
+    $genericEntries = @([pscustomobject]@{ Name=$Name; Path=$McpExecutable })
+    if ($KnowledgeExecutable) { $genericEntries += [pscustomobject]@{ Name=$KnowledgeName; Path=$KnowledgeExecutable } }
+    $genericPlan = New-GenericJsonMcpPlan -JsonPath $McpJsonPath -Entries $genericEntries
 }
 
 $evarChanged = $false
@@ -275,6 +328,8 @@ if ($CheckOnly) { return }
 
 $attempted = @()
 $evarWriteStarted = $false
+$genericWriteStarted = $false
+$genericTemporary = $null
 try {
     foreach ($plan in $plans) {
         if ($PSCmdlet.ShouldProcess($plan.Name, 'register Yuzuha MCP')) {
@@ -282,6 +337,23 @@ try {
             & codex mcp add $plan.Name -- $plan.Path
             if ($LASTEXITCODE -ne 0) { throw "codex mcp add failed for $($plan.Name): $LASTEXITCODE" }
         }
+    }
+    if ($useGenericJson -and -not $SkipMcpRegistration -and $genericPlan.Changed -and
+        $PSCmdlet.ShouldProcess($genericPlan.Path, 'register both MCP stdio services')) {
+        $parent = Split-Path -Parent $genericPlan.Path
+        New-Item -ItemType Directory -Path $parent -Force | Out-Null
+        $existsNow = Test-Path -LiteralPath $genericPlan.Path
+        if ($existsNow -ne $genericPlan.Existed -or ($existsNow -and
+            [Convert]::ToBase64String([IO.File]::ReadAllBytes($genericPlan.Path)) -ne [Convert]::ToBase64String($genericPlan.Bytes))) {
+            throw 'MCP configuration changed during preflight. Nothing was overwritten.'
+        }
+        $genericTemporary = $genericPlan.Path + '.yuzuha-' + [guid]::NewGuid().ToString('N')
+        [IO.File]::WriteAllText($genericTemporary, $genericPlan.Output, [Text.UTF8Encoding]::new($false))
+        if ($genericPlan.Existed) {
+            [IO.File]::Replace($genericTemporary, $genericPlan.Path, $genericPlan.Path + '.yuzuha-' + [guid]::NewGuid().ToString('N') + '.bak')
+        } else { [IO.File]::Move($genericTemporary, $genericPlan.Path) }
+        $genericWriteStarted = $true
+        Write-Host "Registered MCP stdio services in $($genericPlan.Path). Fully exit and restart that AI client; accept its own configuration approval if requested."
     }
     if ($hasProfile) {
     if ($updatedEvarText -ne $evarText) {
@@ -312,6 +384,13 @@ try {
 catch {
     $originalError = $_
     $rollbackErrors = @()
+    if ($genericWriteStarted) {
+        try {
+            if ([IO.File]::ReadAllText($genericPlan.Path) -cne $genericPlan.Output) { throw 'MCP JSON changed concurrently; retained for recovery.' }
+            if ($genericPlan.Existed) { [IO.File]::WriteAllBytes($genericPlan.Path, $genericPlan.Bytes) }
+            else { [IO.File]::Delete($genericPlan.Path) }
+        } catch { $rollbackErrors += "MCP JSON: $($_.Exception.Message)" }
+    }
     if ($evarWriteStarted) {
         try { [IO.File]::WriteAllBytes($evarPath, $evarBytes) }
         catch { $rollbackErrors += "EVAR: $($_.Exception.Message)" }
@@ -338,6 +417,9 @@ catch {
         throw "Rollback incomplete; keep deployed files for recovery. Original: $originalError. Recovery: $($rollbackErrors -join '; ')"
     }
     throw $originalError
+}
+finally {
+    if ($genericTemporary -and [IO.File]::Exists($genericTemporary)) { [IO.File]::Delete($genericTemporary) }
 }
 
 if (-not $SkipMcpRegistration) {

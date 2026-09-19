@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param(
     [string] $ProfileRoot = $(
         if ($env:AVEVA_PROFILE_ROOT) { $env:AVEVA_PROFILE_ROOT }
@@ -82,20 +82,11 @@ if (-not $SkipMcp) {
 
     New-Item -ItemType Directory -Path $resolvedMcpOutput -Force | Out-Null
 
-    Invoke-DotNet @('restore', $mcpProject)
-    Invoke-DotNet @(
-        'publish', $mcpProject,
-        '--configuration', $Configuration,
-        '--no-restore',
-        '--output', $mcpOutput
-    )
-    $knowledgeProject = Join-Path $sourceRoot 'YuzuhaToolkit.Knowledge\YuzuhaToolkit.Knowledge.csproj'
-    Invoke-DotNet @('restore', $knowledgeProject)
-    Invoke-DotNet @('publish', $knowledgeProject, '--configuration', $Configuration,
-        '--no-restore', '--output', $mcpOutput)
+    & (Join-Path $PSScriptRoot 'Build-NativeServers.ps1') -OutputRoot $mcpOutput -Configuration $Configuration
+
 }
 
 Write-Host "All AVEVA profiles built under: $OutputRoot"
 if (-not $SkipMcp) {
-    Write-Host "Trimmed self-contained single-file MCP: $mcpOutput\YuzuhaToolkit.Mcp.exe"
+    Write-Host "Native AOT MCP: $mcpOutput\YuzuhaToolkit.Mcp.exe"
 }

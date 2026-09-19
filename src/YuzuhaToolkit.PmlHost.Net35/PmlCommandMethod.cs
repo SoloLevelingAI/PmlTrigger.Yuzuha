@@ -8,6 +8,24 @@ namespace YuzuhaToolkit.PmlHost
     [PMLNetCallable()]
     public class PmlCommandMethod
     {
+        private static readonly FormRecordWriter _records = new FormRecordWriter();
+
+        /// <summary>Append one PML ARRAY and UI JPEG to the process session JSONL.</summary>
+        [PMLNetCallable()]
+        public bool Log(System.Collections.Hashtable record) { return _records.Write(record); }
+
+        [PMLNetCallable()]
+        public string BeginLog(System.Collections.Hashtable record) { return _records.Begin(record); }
+
+        [PMLNetCallable()]
+        public bool EndLog(System.Collections.Hashtable record, string recordId) { return _records.Complete(record, recordId); }
+
+        [PMLNetCallable()]
+        public string GetLastLogPath() { return _records.LastPath; }
+
+        [PMLNetCallable()]
+        public string GetLastLogError() { return _records.LastError; }
+
         [PMLNetCallable()]
         public PmlCommandMethod()
         {

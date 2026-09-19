@@ -17,6 +17,8 @@ artifacts/
 _local-backup/
 *.log
 sessions/
+records/
+test-artifacts/
 .credentials*
 .anonymous-user-id
 

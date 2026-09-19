@@ -1,0 +1,56 @@
+------------------------------------------------------------------------
+--
+-- Copyright 2026 to current year. Apecha2.0. All rights reserved in original code only.
+--
+-- File:            YuzuhaDecoratedCall.pmlfnc
+--   Type:          Function Definition
+--
+--
+--
+--   Module:        design
+--   Replaces:
+--
+-- Author:          HuangYuanTai
+-- Created:         12/09/2026 08:19:06
+--
+--
+-- Description:
+-- Stores the original callback and installs the indexed Yuzuha wrapper.
+-- Preserves the original form title marker and callback filtering behavior.
+--
+------------------------------------------------------------------------
+--
+-- Methods defined:
+--
+--  Method call        Return  Description
+--  ===========        ======  ===========
+--  !!YuzuhaDecoratedCall()  -       -
+--  !!YuzuhaDecoratedCall( !!spiralctr.btnctrpanp1)
+------------------------------------------------------------------------
+define function !!YuzuhaDecoratedCall( !GADGET is GADGET)
+  !Form = !GADGET.owner()
+  !TITLE =  !Form.FORMTITLE
+  if !TITLE.matchwild(|*Decorated*|) then
+
+  else
+    !Form.FORMTITLE = '[Decorated]' +  !TITLE
+  endif
+
+  !gadgetStr = !GADGET.FullName()
+  -- Q VAR !gadgetStr
+  !callback = !GADGET.callback
+  !FormName = |!!$!form|
+  if !callBack.matchwild(|*Gadget*|) then
+    return
+  endif
+  !NewCall = !callBack.replace(|!this|,|$!FormName|)
+  !!YuzuhaDecoratedCallBack.append(!NewCall)
+  handle any
+  !!YuzuhaDecoratedCallBack = array()
+  !!YuzuhaDecoratedCallBack.append(!NewCall)
+  endhandle
+  !index = !!YuzuhaDecoratedCallBack.MaxIndex()
+  !GADGET.callback = '!!YuzuhaGadgetDecorated($!index,$!gadgetStr)'
+  -- q var !GADGET.callback
+  -- -- q var  !FormName !NewCall
+endfunction

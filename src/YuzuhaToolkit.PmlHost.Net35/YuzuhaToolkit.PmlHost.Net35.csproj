@@ -38,5 +38,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Drawing" />
+    <Compile Include="..\Shared\FormRecordWriter.cs" Link="FormRecordWriter.cs" />
   </ItemGroup>
 </Project>

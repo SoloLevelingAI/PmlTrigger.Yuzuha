@@ -3,7 +3,7 @@ import hashlib, json, pathlib, shutil, zipfile, argparse
 
 root=pathlib.Path(__file__).resolve().parent.parent
 parser=argparse.ArgumentParser()
-parser.add_argument('--output',type=pathlib.Path,default=root.parent/'outputs'/'release-v0.3.1')
+parser.add_argument('--output',type=pathlib.Path,default=root.parent/'outputs'/'release-v0.3.2')
 out=parser.parse_args().output.resolve()
 manifest_path=root/'runtime/net10/native-aot-manifest.json'
 if not manifest_path.is_file():raise SystemExit('Run scripts/Build-NativeServers.ps1 before packaging: missing AOT manifest.')
@@ -19,7 +19,7 @@ for profile, framework in [('PDMS','net35'),('AM','net35'),('E3D2.1','net48'),('
     if not host.is_file():raise SystemExit('Missing prebuilt AVEVA Host: '+str(host))
 if not (root/'runtime/net10/e_sqlite3.dll').is_file():raise SystemExit('Missing native SQLite dependency')
 out.mkdir(parents=True,exist_ok=True)
-package=out/'PmlTrigger.Yuzuha-v0.3.1-agent-win-x64'
+package=out/'PmlTrigger.Yuzuha-v0.3.2-agent-win-x64'
 if package.exists():raise SystemExit('Package directory exists; select a fresh output directory before repackaging.')
 package.mkdir()
 for name in ['PMLLIB','PMLUI','runtime','scripts','skill','docs']:
@@ -35,7 +35,7 @@ archive=out/(package.name+'.zip')
 with zipfile.ZipFile(archive,'w',zipfile.ZIP_DEFLATED) as z:
     for path in sorted(package.rglob('*')):
         if path.is_file():z.write(path,path.relative_to(out))
-source=out/'PmlTrigger.Yuzuha-v0.3.1-source.zip'
+source=out/'PmlTrigger.Yuzuha-v0.3.2-source.zip'
 allowed=['src','scripts','skill','docs','PMLLIB','PMLUI','tests','.github']
 with zipfile.ZipFile(source,'w',zipfile.ZIP_DEFLATED) as z:
     for name in allowed:
@@ -43,9 +43,9 @@ with zipfile.ZipFile(source,'w',zipfile.ZIP_DEFLATED) as z:
             rel=path.relative_to(root)
             if not path.is_file() or any(x in rel.parts for x in ['bin','obj','artifacts','__pycache__']):continue
             if path.suffix.lower() in ['.sqlite3','.db'] or path.name=='Aveva.Local.props':continue
-            z.write(path, pathlib.Path('PmlTrigger.Yuzuha-v0.3.1-source')/rel)
+            z.write(path, pathlib.Path('PmlTrigger.Yuzuha-v0.3.2-source')/rel)
     for path in root.iterdir():
-        if path.is_file():z.write(path,pathlib.Path('PmlTrigger.Yuzuha-v0.3.1-source')/path.name)
+        if path.is_file():z.write(path,pathlib.Path('PmlTrigger.Yuzuha-v0.3.2-source')/path.name)
 checks={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in [archive,source]}
 (out/'archives.sha256.json').write_text(json.dumps(checks,indent=2),encoding='utf-8')
 print(json.dumps(dict(package=str(archive),source=str(source),files=len(files),sha256=checks),indent=2))

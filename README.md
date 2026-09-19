@@ -1,5 +1,7 @@
 # PmlTrigger.Yuzuha
 
+> v0.3.2: 连续会话 JSONL、主界面与浮动窗体截图；新增实现和测试报告由 Codex 编写。见 [发布说明](docs/release-v0.3.2.md)。
+
 > v0.3.1: Native AOT、内置能力优先、可选 SQLite、INIT/BAT 与通用客户端注册修复。安装后必须完全退出并重启 AI 客户端。See [release notes](docs/release-v0.3.1.md).
 
 > **安装或升级后必须完全退出并重启 AI 客户端。 / After install or update, fully exit and restart the AI client.**
@@ -23,7 +25,7 @@ PmlTrigger.Yuzuha 是面向 AVEVA 系列工程应用的本机 Agent/PML 桥接�
 自包含的 .NET 10 MCP 进程通过按 AVEVA PID 隔离的 Named Pipe，与运行在
 AVEVA 主线程内的 NET35 或 NET48 PMLNet Host 通信。
 
-> 当前候选版本为 v0.3.0。执行型工具可以直接修改活动模型，仅应由可信本机用户在
+> 当前候选版本为 v0.3.2。执行型工具可以直接修改活动模型，仅应由可信本机用户在
 > 明确授权后使用。执行超时后禁止自动重试，因为第一次调用可能已经成功。
 
 ### v0.2 重点更新

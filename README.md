@@ -1,6 +1,6 @@
 # PmlTrigger.Yuzuha
 
-> v0.3.2: 连续会话 JSONL、主界面与浮动窗体截图；新增实现和测试报告由 Codex 编写。见 [发布说明](docs/release-v0.3.2.md)。
+> 当前正式版 / Latest stable: [v0.3.2](https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/releases/tag/v0.3.2)。连续会话 JSONL、主界面与浮动窗体截图；新增实现和测试报告由 Codex 编写。见 [发布说明](docs/release-v0.3.2.md)。
 
 > v0.3.1: Native AOT、内置能力优先、可选 SQLite、INIT/BAT 与通用客户端注册修复。安装后必须完全退出并重启 AI 客户端。See [release notes](docs/release-v0.3.1.md).
 
@@ -10,6 +10,10 @@
 [中文](#中文) | [English](#english)
 
 ## 中文
+
+### v0.3.2 正式版
+
+新增完整 PML Array 会话日志、操作前后主界面及浮动窗体截图、相同截图复用，以及集中管理的 UTC/SHA256 Semantic 元数据。已完成 E3D 2.1 实测和 NET35/NET48 自动化测试；正式发布不改变实测报告中列明的覆盖范围。保留 v0.3.1 的 Native AOT、内置指南和可选 SQLite 功能。
 
 ### v0.3.0
 
@@ -25,7 +29,7 @@ PmlTrigger.Yuzuha 是面向 AVEVA 系列工程应用的本机 Agent/PML 桥接�
 自包含的 .NET 10 MCP 进程通过按 AVEVA PID 隔离的 Named Pipe，与运行在
 AVEVA 主线程内的 NET35 或 NET48 PMLNet Host 通信。
 
-> 当前候选版本为 v0.3.2。执行型工具可以直接修改活动模型，仅应由可信本机用户在
+> 当前正式版本为 v0.3.2。执行型工具可以直接修改活动模型，仅应由可信本机用户在
 > 明确授权后使用。执行超时后禁止自动重试，因为第一次调用可能已经成功。
 
 ### v0.2 重点更新
@@ -103,6 +107,10 @@ PML REHASH ALL
 
 ## English
 
+### v0.3.2 stable
+
+Adds complete PML Array session logs, paired main-UI and floating-window screenshots, identical-image reuse, and centralized UTC/SHA256 semantic metadata. E3D 2.1 live checks and NET35/NET48 automated tests passed; stable release status does not expand the documented validation coverage. Preserves v0.3.1 Native AOT, built-in guides and optional SQLite features. The new recorder and test report were authored by Codex.
+
 ### v0.3.0
 
 Independent project/official/experience databases, rollback for dual MCP registration, preserved local state, and explicit Legacy framework selection.
@@ -114,7 +122,7 @@ applications. A self-contained .NET 10 MCP process communicates over a
 PID-bound named pipe with a NET35 or NET48 PMLNet host running on the AVEVA
 main thread.
 
-> The current candidate version is v0.3.0. Execution tools can directly modify the active
+> The current stable version is v0.3.2. Execution tools can directly modify the active
 > model. Use them only after an explicit request from a trusted local user.
 > Never automatically retry a timed-out execution because the first call may
 > already have completed.

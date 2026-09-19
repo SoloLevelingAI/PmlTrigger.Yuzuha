@@ -1,6 +1,6 @@
 # v0.3.2 — 连续界面记录 / Session UI recording
 
-本次新增 C# 截图/日志实现、自动化测试与实测报告由 OpenAI Codex 按维护者要求编写；原有 PML 控件监控原型由维护者提供。本版本延续预发布状态，并保留 v0.3.1 的 Native AOT、内置指南、可选 SQLite 和通用客户端注册功能。
+本次新增 C# 截图/日志实现、自动化测试与实测报告由 OpenAI Codex 按维护者要求编写；原有 PML 控件监控原型由维护者提供。本版本已由维护者确认转为正式发布，并保留 v0.3.1 的 Native AOT、内置指南、可选 SQLite 和通用客户端注册功能。
 
 - 原 NET35/NET48 Host 增加 BeginLog / EndLog / Log：完整 PML Array 与操作前后截图写入同一个会话 JSONL。
 - JPEG 覆盖 AVEVA 主界面及同进程浮动窗体；连续相同截图复用。默认位置为 `%LOCALAPPDATA%\YuzuhaToolkit\Records\<session>\session.jsonl`，图片位于同目录 images。
@@ -11,4 +11,6 @@
 
 升级前完全退出 AVEVA，从解压包运行原有更新脚本；更新后重启 AVEVA 和 AI 客户端。本次发布不自动覆盖正在运行的本机安装。不含 AVEVA 专有引用 DLL、模型数据、原始截图或日志。
 
-English: Codex authored the new recorder, tests and report; the maintainer supplied the existing PML monitoring prototype. This prerelease adds paired full-UI JPEG capture and append-only session JSONL to NET35/NET48 hosts, with centralized UTC/SHA256 metadata. E3D 2.1 live recording and both framework smoke tests passed; see the report for exact coverage and maintainer-confirmed query results. Unchanged v0.3.1 Native AOT server binaries retain their original manifest/version. Close AVEVA before updating and restart AVEVA and the AI client afterwards.
+English: Codex authored the new recorder, tests and report; the maintainer supplied the existing PML monitoring prototype. This stable release adds paired full-UI JPEG capture and append-only session JSONL to NET35/NET48 hosts, with centralized UTC/SHA256 metadata. E3D 2.1 live recording and both framework smoke tests passed; see the report for exact coverage and maintainer-confirmed query results. Unchanged v0.3.1 Native AOT server binaries retain their original manifest/version. Close AVEVA before updating and restart AVEVA and the AI client afterwards.
+
+正式版沿用原 v0.3.2 标签与附件，二进制及 SHA256 未变；附件内文档保留打包时的预发布措辞，以本页和仓库最新 README 的发布状态为准。 / Promotion to stable retains the original tag and assets unchanged; bundled documentation reflects the initial prerelease packaging status.

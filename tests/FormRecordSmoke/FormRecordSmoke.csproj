@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net35;net48</TargetFrameworks>
+    <OutputType>Exe</OutputType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies.net35" Version="1.0.3" PrivateAssets="all" />
+    <Compile Include="../../src/Shared/FormRecordWriter.cs" Link="FormRecordWriter.cs" />
+    <Reference Include="Newtonsoft.Json"><HintPath>../../src/lib/net35/Newtonsoft.Json.dll</HintPath></Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+</Project>

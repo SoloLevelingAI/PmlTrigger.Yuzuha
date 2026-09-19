@@ -120,9 +120,11 @@ Write-Host "Building profile '$ProfileName' ($family/$framework) -> $outputDir"
 Invoke-DotNet @(
     'msbuild', $project,
     '/t:Build',
+    '/restore',
     "/p:Configuration=$Configuration",
     "/p:AvevaInstallDir=$installDir",
     "/p:AvevaProfile=$ProfileName",
+    "/p:AvevaFamily=$family",
     "/p:OutputPath=$outputDir\",
     "/p:IntermediateOutputPath=$objDir\",
     '/p:AppendTargetFrameworkToOutputPath=false'

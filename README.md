@@ -7,7 +7,11 @@
 ### v0.3.0
 
 项目/官方/本地经验三库隔离；双 MCP 注册失败回滚；升级保留本地数据；自定义 Legacy Profile 明确选择 NET35。
-详见 [0.3 中文说明](docs/v0.3.zh-CN.md)。本候选包仍待 AVEVA 实机验收。
+详见 [0.3 中文说明](docs/v0.3.zh-CN.md)。2026-09-19 已完成 E3D 2.1 会话日志与界面截图实测；通过项目、发现的问题及覆盖范围见[实测报告](docs/validation/2026-09-19-e3d.md)。
+
+### 连续操作记录
+
+原 Host 的 `BeginLog(!record)` / `EndLog(!record, !recordId)` 将操作前后界面截图与完整 PML Array 写入同一个会话 JSONL，JPEG 覆盖主界面与浮动窗体。详见[接口与存储说明](docs/session-recording.md)。
 
 
 PmlTrigger.Yuzuha 是面向 AVEVA 系列工程应用的本机 Agent/PML 桥接工具。
@@ -95,7 +99,7 @@ PML REHASH ALL
 ### v0.3.0
 
 Independent project/official/experience databases, rollback for dual MCP registration, preserved local state, and explicit Legacy framework selection.
-See [0.3 release notes](docs/v0.3.en.md). Live AVEVA acceptance is pending.
+See [0.3 release notes](docs/v0.3.en.md). Session recording was live-tested in E3D 2.1 on 2026-09-19; see the [validation report](docs/validation/2026-09-19-e3d.md) for passed checks, findings and coverage limits, and [recording guide](docs/session-recording.md) for the API.
 
 
 PmlTrigger.Yuzuha is a local Agent-to-PML bridge for AVEVA engineering

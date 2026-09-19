@@ -61,6 +61,7 @@
             <Private>True</Private>
         </Reference>
         <Reference Include="System"/>
+        <Reference Include="System.Drawing"/>
         <Reference Include="System.Core"/>
         <Reference Include="System.Data"/>
         <Reference Include="System.Windows.Forms"/>
@@ -68,6 +69,7 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="GetRequireFromE3D.cs"/>
+        <Compile Include="..\Shared\FormRecordWriter.cs"><Link>FormRecordWriter.cs</Link></Compile>
         <Compile Include="PmlCommandMethod.cs"/>
         <Compile Include="PmlCommandRpcContracts.cs"/>
         <Compile Include="PmlCommandRpcHost.cs"/>

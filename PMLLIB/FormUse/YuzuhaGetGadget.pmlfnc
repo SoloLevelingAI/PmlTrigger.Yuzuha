@@ -1,0 +1,58 @@
+------------------------------------------------------------------------
+--
+-- Copyright 2026 to current year. Apecha2.0. All rights reserved in original code only.
+--
+-- File:            YuzuhaGetGadget.pmlfnc
+--   Type:          Function Definition
+--
+--
+--
+--   Module:        design
+--   Replaces:
+--
+-- Author:          HuangYuanTai
+-- Created:         19/09/2026 17:54:27
+--
+--
+-- Description:
+-- Returns gadget attribute names, excluding types in the INSET expression.
+-- Does not enumerate controls inside a .NET CONTAINER.
+--
+------------------------------------------------------------------------
+--
+-- Methods defined:
+--
+--  Method call          Return  Description
+--  ===========          ======  ===========
+--  !!YuzuhaGetGadget()  -       -
+--  !!YuzuhaGetGadget(!!spiralctr,|'ELBO','BRAN'|)
+--  !!YuzuhaGetGadget(!!reorderhierarchy,| 'BUTTON','FRAME' |)
+------------------------------------------------------------------------
+define function !!YuzuhaGetGadget(!form is form,!except is string) is array
+  !gadGetArray  = array()
+  !arr          = array()
+  !attributes   = !form.attributes()
+   do !n indices !attributes
+    !arr.DELETE()
+    !arr[1]     = !form.attribute('$!attributes[$!n]')
+    var !aaa var !arr[1]
+    handle any
+    endhandle
+    if !aaa.unset() or !aaa.matchwild('*<GADGET> Unset*')  then
+      skip
+    endif
+    if !aaa.matchwild('*GADGET*') then
+
+      !gadGetArray.append('$!attributes[$!n]')
+      !gadget.delete()
+      handle any
+      endhandle
+      !gadget = !form.$!attributes[$!n]
+      !type  = !!YuzuhaGetGadgetType(!gadget)
+      if  !type inset($!except) then
+        !gadGetArray.removelast()
+      endif
+    endif
+  enddo
+  return !gadGetArray
+endfunction

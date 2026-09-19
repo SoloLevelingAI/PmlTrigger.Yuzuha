@@ -1,0 +1,85 @@
+------------------------------------------------------------------------
+--
+-- Copyright 2026 to current year. Apecha2.0. All rights reserved in original code only.
+--
+-- File:            YuzuhaGadgetDecorated.pmlfnc
+--   Type:          Function Definition
+--
+--
+--
+--   Module:        design
+--   Replaces:
+--
+-- Author:          HuangYuanTai
+-- Created:         12/09/2026 08:32:02
+--
+--
+-- Description:
+-- Records a gadget callback using BeginLog / EndLog on the existing host.
+-- Original callback evaluation and return/error handling are retained.
+-- Values are sampled before the callback; Later text is not an After snapshot.
+-- Known issues and live evidence: docs/validation/2026-09-19-e3d.md.
+--
+------------------------------------------------------------------------
+--
+-- Methods defined:
+--
+--  Method call          Return  Description
+--  ===========          ======  ===========
+--  !!YuzuhaGadgetDecorated()  -       -
+-- !!spiralctr.btndelp1 !!YuzuhaGadgetDecorated('!!spiralctr.btndelp1')
+------------------------------------------------------------------------
+define function !!YuzuhaGadgetDecorated(!index is real,!GADGET is GADGET) is any
+
+  $p start YuzuhaGadgetDecorated
+  !record = array()
+  !Form = !GADGET.owner()
+  !gadgetStr = !GADGET.FullName()
+  !time = object datetime()
+  !record.append(' Record for |!!$!Form| ,Click |$!gadgetStr| At Befor $!time')
+  !type = !!YuzuhaGetGadgetType(!GADGET)
+  -- if !type  eq 'CONTAINER' then
+  --   !record.append(' Net Container Dont Support to Record')
+  -- else
+  --   !record.append(' $!!<$!Form>.$!gadgetStr.string()')
+  --   handle any
+
+  --   endhandle
+  -- endif
+  !recordId = !!YuzuhaRpcHost.BeginLog(!record)
+  !gadgetArr = !!YuzuhaGetGadget(!FORM,| 'BUTTON','FRAME','LINE' |)
+  do !n indices !gadgetArr
+    !gadgetStr = |!!<$!Form>.$!gadgetArr[$!n]|
+    !gadgetStr = !gadgetStr.REPLACE('<','').REPLACE('>','')
+    -- q var !gadgetStr
+    !type = !!YuzuhaGetGadgetType($!gadgetStr)
+    !str = ''
+    if !type eq 'CONTAINER' then
+      !str = 'Net Container Not Support to Record Now'
+    else
+      !text = !gadgetStr + '.string()'
+      !str = $!text
+      handle any
+        !str = 'Warning Type To Record'
+      endhandle
+    endif
+    !record.append(' [$!type] $!gadgetStr <$!str>')
+    -- $p $!gadgetStr $!type
+
+  enddo
+
+  !any = $!!YuzuhaDecoratedCallBack($!index)
+  handle any
+    $p End YuzuhaGadgetDecorated without |return|
+    !record.append(' Record for |!!$!Form| ,Click |$!gadgetStr| At Later $!time ')
+
+    !logged = !!YuzuhaRpcHost.EndLog(!record, !recordId)
+    return
+  endhandle
+
+  !record.append(' Record for |!!$!Form| ,Click |$!gadgetStr| At Later $!time')
+  $p End YuzuhaGadgetDecorated with |$!any|
+
+  !logged = !!YuzuhaRpcHost.EndLog(!record, !recordId)
+  return !any
+endfunction

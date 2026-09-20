@@ -18,7 +18,7 @@ for item in snapshot['files']:
 bootstrap = (payload / 'PMLLIB/Bootstrap/YuzuhaResolveRuntimePath.pmlfnc').read_text(encoding='utf-8-sig')
 assert '!localPaTH = false' in bootstrap
 assert any(x['action'] == 'excluded-keep-portable-bootstrap' for x in snapshot['files'])
-exe = next(folder.glob('Yuzuha-*-Windows-Setup-preview11.exe'))
+exe = next(folder.glob('Yuzuha-*-Windows-Setup.exe'))
 kernel = ctypes.WinDLL('kernel32', use_last_error=True)
 kernel.LoadLibraryExW.argtypes = [wintypes.LPCWSTR, wintypes.HANDLE, wintypes.DWORD]
 kernel.LoadLibraryExW.restype = wintypes.HMODULE

@@ -65,10 +65,10 @@ def main():
         for p in sorted(files)), encoding='utf-8')
     inventory=[{'path':p.relative_to(stage).as_posix(),'sha256':hashlib.sha256(p.read_bytes()).hexdigest()}
                for p in sorted(stage.rglob('*')) if p.is_file()]
-    (stage/'.setup-payload.json').write_text(json.dumps({'version':'0.3.2-setup-preview11','files':inventory},indent=2),encoding='utf-8')
+    (stage/'.setup-payload.json').write_text(json.dumps({'version':'0.3.3','files':inventory},indent=2),encoding='utf-8')
     subprocess.run([str(args.iscc.resolve()), '/DPayloadDir=' + str(stage),
                     '/DOutputDir=' + str(out), str(ROOT / 'installer/Yuzuha.iss')], check=True)
-    exe = out / 'Yuzuha-0.3.2-Windows-Setup-preview11.exe'
+    exe = out / 'Yuzuha-0.3.3-Windows-Setup.exe'
     (out / 'installer.sha256').write_text(hashlib.sha256(exe.read_bytes()).hexdigest() + '  ' + exe.name + '\n', encoding='ascii')
     bundle=out/'AI-install'
     shutil.copytree(stage/'setup',bundle/'setup')
@@ -86,7 +86,7 @@ def main():
     (bundle/'BUNDLE-SHA256SUMS.txt').write_text(''.join(
         hashlib.sha256(p.read_bytes()).hexdigest()+'  '+p.relative_to(bundle).as_posix()+'\n'
         for p in sorted(bundle.rglob('*')) if p.is_file()),encoding='utf-8')
-    with zipfile.ZipFile(out/'Yuzuha-Windows-Setup-preview11-VM.zip','w',zipfile.ZIP_DEFLATED) as archive:
+    with zipfile.ZipFile(out/'Yuzuha-0.3.3-Windows-Agent.zip','w',zipfile.ZIP_DEFLATED) as archive:
         for path in bundle.rglob('*'):
             if path.is_file():archive.write(path,path.relative_to(bundle))
     source_zip = out / 'Yuzuha-Windows-Setup-Sources.zip'
@@ -101,7 +101,7 @@ def main():
             'Build requires Python, .NET SDK with NET48 targeting support, Inno Setup,\n'
             'src/lib/net35/Newtonsoft.Json.dll and the existing verified release runtimes.\n'
             'Entry points: installer/Yuzuha.iss and installer/build.py. No AVEVA vendor assemblies included.\n')
-    deliverables=[exe,out/'Yuzuha-Windows-Setup-preview11-VM.zip',source_zip]
+    deliverables=[exe,out/'Yuzuha-0.3.3-Windows-Agent.zip',source_zip]
     (out/'SHA256SUMS.txt').write_text(''.join(hashlib.sha256(p.read_bytes()).hexdigest()+'  '+p.name+'\n' for p in deliverables),encoding='ascii')
     print(exe)
 

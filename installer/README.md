@@ -1,6 +1,6 @@
-# Windows Setup preview11
+# Windows Setup v0.3.3
 
-本地交付版，Runtime 0.3.2。Inno Setup + NET48 helper 实现安装，不分发或调用安装 PS1。复用已有 NET10 Native AOT 与五套 NET35/NET48 Host。需要 Windows 10/11 x64 和 .NET Framework 4.8，生成 EXE 尚未签名。
+发行版 0.3.3，保留 Host 0.3.2 与 NET10 Native AOT 0.3.1。Inno Setup + NET48 helper 实现安装，不分发或调用安装 PS1。复用已有 NET10 Native AOT 与五套 NET35/NET48 Host。需要 Windows 10/11 x64 和 .NET Framework 4.8，生成 EXE 尚未签名。
 
 人工运行 EXE，选择中文或 English、安装目录，查看注册表候选并明确选择环境/Profile；可选 MCP JSON 与 Skill。生成并检查前后预览，确认后安装。AI 从同一个包读取 INSTALL.md，生成计划、获准后用 SHA256 驱动同一个 EXE；已安装软件可通过注册表定位并使用 plan/attach 接入客户端。
 
@@ -27,4 +27,4 @@ python installer/tests/plan_smoke.py "C:/Builds/YuzuhaSetup/AI-install"
 
 Builder verifies AOT hashes and excludes PS1, proprietary references and local databases. VM ZIP includes the EXE, helper, Skill, request template and instructions.
 
-Authored by OpenAI Codex at the maintainer's request. Local preview; no GitHub release published.
+Authored by OpenAI Codex at the maintainer's request. Release v0.3.3; maintainer-reported installation testing succeeded on preview11. See VALIDATION.md.

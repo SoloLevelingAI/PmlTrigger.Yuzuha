@@ -1,5 +1,12 @@
 # Changelog / 更新日志
 
+## 0.3.3 — 2026-09-20
+
+- 发布原生 Inno Windows EXE 与 Agent 安装压缩包，增加自动环境计划、空接入防漏和预览前 MCP/Skill 选择。
+- 补齐维护者 PML 源码；保留便携启动函数，PML 注释整理延后。
+- 维护者反馈安装测试成功；保留既有 Host/NET10 二进制。详见 [发布说明](docs/release-v0.3.3.md)。
+- Native Windows Setup and Agent archive, automatic environment planning, explicit integration scope, maintained PML sources and installer source/validation metadata.
+
 ## 0.3.0 — 2026-09-05 (local candidate / 本地候选)
 
 - Pin SQLitePCLRaw bundle 2.1.13 (native SQLite 3.53.3 on Windows x64) after CI flagged the old transitive dependency; retain NuGet security auditing. 修复 CI 发现的 SQLite 旧依赖问题并保持安全审计开启。

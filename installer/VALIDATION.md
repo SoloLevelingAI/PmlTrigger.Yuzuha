@@ -1,4 +1,10 @@
-# Windows Setup preview11 validation — 2026-09-20
+# Windows Setup v0.3.3 validation — 2026-09-20
+
+The maintainer reported successful installation testing of preview11 and
+requested publication. v0.3.3 retains that installation logic, updating release
+identifiers and documentation. This is a maintainer-reported result, not a claim
+of independent testing of every AVEVA/client/UAC combination. The historical
+preview notes below retain their original test boundaries.
 
 Preview11 updates instructions, not environment-editing behavior: pre-preview
 MCP/Skill choice, verified client/account paths, no repeated questions for explicit

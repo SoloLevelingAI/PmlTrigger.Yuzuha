@@ -18,7 +18,7 @@ def digest(path):return hashlib.sha256(path.read_bytes()).hexdigest()
 def main():
     parser=argparse.ArgumentParser();parser.add_argument('bundle',type=pathlib.Path)
     parser.add_argument('--source-bat',type=pathlib.Path);parser.add_argument('--source-init',type=pathlib.Path);args=parser.parse_args()
-    bundle=args.bundle.resolve();helper=bundle/'setup/Yuzuha.SetupBridge.exe';setup=bundle/'Yuzuha-0.3.2-Windows-Setup-preview11.exe'
+    bundle=args.bundle.resolve();helper=bundle/'setup/Yuzuha.SetupBridge.exe';setup=bundle/'Yuzuha-0.3.3-Windows-Setup.exe'
     base=pathlib.Path(tempfile.mkdtemp(prefix='YuzuhaPlanVM-')).resolve();root=base/'PmlTrigger.Test'
     print('Fixture:',base,flush=True)
     pdms=base/'PDMS/evars.bat';e3d=base/'Program Files (x86)/AVEVA/Everything3D2.10/EVARS.INIT';mcp=base/'client.json';skill=base/'client-skills/yuzuha-toolkit'

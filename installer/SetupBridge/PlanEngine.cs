@@ -317,7 +317,7 @@ internal static partial class Program
             using(var key=baseKey.CreateSubKey((string)plan["registryKey"]))
             {
                 key.SetValue("InstallLocation",root);key.SetValue("InstallGuide",Path.Combine(root,"INSTALL.md"));
-                key.SetValue("Version","0.3.2-setup-preview11");key.SetValue("LastReport",report);
+                key.SetValue("Version","0.3.3");key.SetValue("LastReport",report);
             }
             foreach(JObject p in (JArray)plan["payload"]) actual.Add(new JObject{["path"]=p["path"],["kind"]="payload",["status"]=p["action"],["afterSha256"]=FileDigest((string)p["path"])});
             WriteResult(report,"success",actual,null);

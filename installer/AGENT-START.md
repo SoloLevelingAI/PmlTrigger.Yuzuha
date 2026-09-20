@@ -2,7 +2,7 @@
 
 ## 人工测试 EXE
 
-运行本目录唯一的 `Yuzuha-*-Windows-Setup-*.exe`，按原生向导操作。
+运行本目录唯一的 `Yuzuha-*-Windows-Setup.exe`，按原生向导操作。
 安装前先预览；UAC 由 Windows 请求。不需要先安装 Skill。
 
 ## Agent 测试压缩包

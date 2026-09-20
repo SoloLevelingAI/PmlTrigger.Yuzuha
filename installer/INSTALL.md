@@ -12,7 +12,7 @@
 
 YuzuhaFramework 是可选的 NET35/NET48 覆盖值；标准 Profile 从 Yuzuha 推断，不额外新增。原文件已有此变量时在末尾块补入匹配框架的覆盖值，并列入预览。
 
-1. 运行 `Yuzuha-0.3.2-Windows-Setup-preview11.exe`，先批准管理员权限，再选择简体中文或 English。所有页面均为 Inno 原生向导，不再弹出 WinForms 配置窗口。若使用其他管理员账户提权，默认用户目录及 HKCU 属于该账户，请核对目标目录。
+1. 运行 `Yuzuha-0.3.3-Windows-Setup.exe`，先批准管理员权限，再选择简体中文或 English。所有页面均为 Inno 原生向导，不再弹出 WinForms 配置窗口。若使用其他管理员账户提权，默认用户目录及 HKCU 属于该账户，请核对目标目录。
 2. 选择名称包含 `PmlTrigger` 的本机安装目录。旧 PS1/preview1 安装不能直接覆盖迁移。随后在“安装目标”页选择“安装并接入 AVEVA”或“仅安装文件 / AI 客户端，不修改 AVEVA”；前者必须选择环境，后者跳过环境页，但仍可选择客户端接入。
 3. 在“选择 AVEVA 环境”向导页查看发现的产品；点击一行可查看或编辑文件、Host、编码和来源。所有环境默认不勾选；可手动添加注册表未登记的 INIT/BAT。
 4. 勾选产品。安装器自动推荐已支持的 Host 和环境文件：E3D 仅 INIT，PDMS/AM 优先 INIT、没有时推荐 BAT。未知版本、多个候选或扫描不完整时才需要人工选择/确认。推荐不表示已经启动 AVEVA 验证。
@@ -94,7 +94,7 @@ AI 请求仍需明确选择文件；confirmed 表示选择该目标，noInitConf
 向用户展示 `plan.json.md`；文件可能含原配置和敏感值，只留本机，不上传。计划文件不要重复使用或手工编辑。用户批准后，读取 `plan.json.sha256`，用同一个 EXE 执行：
 
 ```powershell
-& '.\Yuzuha-0.3.2-Windows-Setup-preview11.exe' /LANG=chinesesimp /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /NOCLOSEAPPLICATIONS /NOICONS '/DIR=D:\PmlTrigger.Yuzuha' '/PLAN=D:\Review\plan.json' '/PLANHASH=PASTE_APPROVED_SHA256' '/LOG=D:\Review\inno.log'
+& '.\Yuzuha-0.3.3-Windows-Setup.exe' /LANG=chinesesimp /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /NOCLOSEAPPLICATIONS /NOICONS '/DIR=D:\PmlTrigger.Yuzuha' '/PLAN=D:\Review\plan.json' '/PLANHASH=PASTE_APPROVED_SHA256' '/LOG=D:\Review\inno.log'
 ```
 
 自动化应等待进程退出并检查退出码。没有批准计划和正确 SHA256，静默安装会拒绝。执行前任何文件或安装包变化都需要重新生成预览、重新确认。上述 PowerShell 仅驱动 EXE，不承担安装实现。
@@ -165,4 +165,4 @@ Choose products, review automatically recommended supported Host profiles and fi
 
 Optional standard MCP JSON merging and Skill copying use user-selected paths. Codex TOML is not edited as JSON. Generate a plan, review before/after content and hashes, obtain user approval, then run Setup with `/PLAN`, `/PLANHASH` and matching `/DIR`. Silent installs without a plan are rejected. An installed toolkit can later be found through the documented HKCU registry key; read this guide and use the same `plan`/`attach` engine to add client integration without reinstalling binaries. `attach` requires unchanged payload files.
 
-Actual reports and backups are retained in LocalAppData/YuzuhaToolkit/SetupReports. Concurrent changes cause refusal or explicit recovery errors. Power-loss recovery and every Windows/AVEVA variation are not guaranteed. The installer is an unsigned local VM test build, not a new public runtime release. Neither installation nor detection opens or saves AVEVA models.
+Actual reports and backups are retained in LocalAppData/YuzuhaToolkit/SetupReports. Concurrent changes cause refusal or explicit recovery errors. Power-loss recovery and every Windows/AVEVA variation are not guaranteed. The installer is unsigned; existing Host and NET10 runtime binaries are retained in this distribution. Neither installation nor detection opens or saves AVEVA models.

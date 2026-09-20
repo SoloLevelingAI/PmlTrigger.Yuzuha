@@ -4,7 +4,7 @@
 
 A local AI/PML toolkit for AVEVA E3D, PDMS and AM: connect to engineering sessions, query and execute PML, retrieve local references, and record form interactions.
 
-[最新正式版 v0.3.2 / Latest stable](https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/releases/tag/v0.3.2) · [中文](#中文) · [English](#english)
+[最新正式版 v0.3.3 / Latest stable](https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/releases/tag/v0.3.3) · [中文](#中文) · [English](#english)
 
 ## 中文
 
@@ -31,9 +31,11 @@ A local AI/PML toolkit for AVEVA E3D, PDMS and AM: connect to engineering sessio
 
 ### 快速开始
 
-1. 下载 Release 的 `agent-win-x64.zip` 并解压；安装目录名保留 `PmlTrigger`。
-2. 按[安装说明](AGENT-INSTALL.zh-CN.md)部署并注册 MCP。支持通用 `mcpServers` JSON 配置，不要求使用 Codex。
-3. 按[环境配置](docs/aveva-discovery.md)选择 AVEVA Profile；默认仅注册本机 MCP 不修改 EVAR。
+v0.3.3 新增原生 Inno 安装器、程序自动环境计划、Agent 安装包，并补齐 PML 源文件。维护者已反馈安装测试成功；PML 注释整理留到后续更新。详见 [v0.3.3 更新说明](docs/release-v0.3.3.md)。
+
+1. 人工运行 Release 的 `Yuzuha-0.3.3-Windows-Setup.exe`；Agent 使用 `Yuzuha-0.3.3-Windows-Agent.zip`，解压后先读 `START-HERE.md`。安装目录名保留 `PmlTrigger`。
+2. 按[安装说明](installer/INSTALL.md)确认 AVEVA 接入范围，以及可选 MCP/Skill 客户端目标。支持通用 `mcpServers` JSON，不要求使用 Codex。
+3. 程序探测配置并生成前后预览，确认后执行；接入 AVEVA 时不能提交空环境。只有明确选择不接入时才保持 EVARS 不变。
 4. 完全退出并重启 AI 客户端；修改 Host 或 AVEVA 环境后，也要完全重启 AVEVA。
 5. 让 AI 获取内置指南、列出会话，再明确选择目标 PID，确认身份后执行查询。
 
@@ -119,7 +121,7 @@ See [0.3.0](docs/release-v0.3.0.md), [0.3.1](docs/release-v0.3.1.md) and [0.3.2]
 
 ### Getting started
 
-Download and extract the release agent archive. Follow [installation instructions](AGENT-INSTALL.md), [client setup](docs/ai-client-setup.md) and [environment configuration](docs/aveva-discovery.md). Retain `PmlTrigger` in the installation directory name. Codex is not required; generic MCP JSON registration is supported. MCP-only setup does not modify EVAR by default.
+Use `Yuzuha-0.3.3-Windows-Setup.exe` for manual installation, or extract `Yuzuha-0.3.3-Windows-Agent.zip` and read START-HERE.md for Agent setup. Follow the [Inno installation guide](installer/INSTALL.md). Confirm AVEVA scope and optional client MCP/Skill targets before approving the preview. Empty AVEVA integration requests are rejected; files/client-only mode must be explicit. Retain `PmlTrigger` in the install folder name. See [v0.3.3 notes](docs/release-v0.3.3.md) for the native installer, PML additions and maintainer-reported installation validation.
 
 Fully restart the AI client after installation/update and AVEVA after Host/environment changes. Start with built-in guides, list sessions, explicitly select a target, then request a small read. Close affected processes before updating from a freshly extracted archive. After PML changes, restart AVEVA and execute `PML REHASH ALL`.
 

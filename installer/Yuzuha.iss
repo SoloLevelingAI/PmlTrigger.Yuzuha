@@ -9,8 +9,8 @@
 [Setup]
 AppId={{6F551950-F3A9-4D2F-B771-145415993095}
 AppName=PmlTrigger.Yuzuha
-AppVersion=0.3.2
-AppVerName=Yuzuha 0.3.2 — Setup Preview 11
+AppVersion=0.3.3
+AppVerName=Yuzuha 0.3.3 — Windows Setup
 AppPublisher=SoloLevelingAI
 SetupIconFile=assets\yuzuha.ico
 UninstallDisplayIcon={app}\setup\yuzuha.ico
@@ -30,13 +30,13 @@ DisableDirPage=no
 DisableProgramGroupPage=yes
 LicenseFile=..\LICENSE
 OutputDir={#OutputDir}
-OutputBaseFilename=Yuzuha-0.3.2-Windows-Setup-preview11
+OutputBaseFilename=Yuzuha-0.3.3-Windows-Setup
 Compression=lzma2
 SolidCompression=yes
 SetupLogging=yes
 CloseApplications=no
 RestartApplications=no
-UninstallDisplayName=Yuzuha — Setup Preview 11
+UninstallDisplayName=Yuzuha — Windows Setup 0.3.3
 UninstallFilesDir={app}\uninstall
 UsePreviousAppDir=yes
 UsePreviousTasks=no

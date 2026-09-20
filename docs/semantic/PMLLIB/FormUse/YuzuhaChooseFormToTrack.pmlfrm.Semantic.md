@@ -1,10 +1,9 @@
 # PMLLIB/FormUse/YuzuhaChooseFormToTrack.pmlfrm
 
 File: PMLLIB/FormUse/YuzuhaChooseFormToTrack.pmlfrm
-LastWriteTimeUtc: 2026-09-19T14:44:32.6050557Z
-SHA256: 03E07CC6E866CD007BA07E5DF83F6036BBC25DE970C3EA12A8D97B69F6234ABF
-RecordedAtUtc: 2026-09-19T14:44:32.6352047Z
+LastWriteTimeUtc: 2026-09-20T12:38:21.8927234Z
+SHA256: 39D46E707BCA2001DF6173BAF1022F892D914B9521E941275FAC049DEDE4914F
+RecordedAtUtc: 2026-09-20T13:50:09.5377934Z
 
-User prototype retained with descriptive comments. Existing callback/error behavior preserved. See validation report for observed Later-label/time issues and unsupported object values.
-
-Evidence: docs/validation/2026-09-19-e3d.md. Match UTC modification time for a quick check; use SHA256 when time differs or strict content verification is required. File is project-root-relative.
+Maintainer PML snapshot. See docs/semantic/pml-sync.json. Source authored by maintainer; synchronization metadata recorded by OpenAI Codex. No live AVEVA test.
+Timestamp is a fast check; SHA256 verifies content.

@@ -1,0 +1,38 @@
+------------------------------------------------------------------------
+--
+-- Copyright 2026 to current year. Apecha2.0. All rights reserved in original code only.
+--
+-- File:            YuzuhaSaveClipboard.pmlfnc
+--   Type:          Function Definition
+--  
+--
+--    
+--   Module:        design
+--   Replaces:      
+--
+-- Author:          HuangYuanTai
+-- Created:         19/09/2026 15:08:11
+--
+--
+-- Description:     
+-- <description>
+--
+------------------------------------------------------------------------
+--
+-- Methods defined:
+--
+--  Method call         Return  Description
+--  ===========         ======  ===========
+--  !!YuzuhaSaveClipboard()  -       -
+--  !!YuzuhaSaveClipboard('D:\aBCShortCut.png')
+------------------------------------------------------------------------
+define function !!YuzuhaSaveClipboard(!outFileName is string)
+  --Pdms
+  import 'PMLNetUtilities'
+  handle any
+  endhandle
+  !namespace = !!YuzuhaAddin.GetNameSpace('PMLNET')
+  using namespace '$!namespace'
+  !clipboard = object PMLCLIPBOARD()
+  !clipboard.saveImage(!outFileName)
+endfunction

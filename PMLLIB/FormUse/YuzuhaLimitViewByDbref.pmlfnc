@@ -1,0 +1,41 @@
+------------------------------------------------------------------------
+--
+-- Copyright 2026 to current year. Apecha2.0. All rights reserved in original code only.
+--
+-- File:            YuzuhaLimitViewByDbref.pmlfnc
+--   Type:          Function Definition
+--  
+--
+--    
+--   Module:        design
+--   Replaces:      
+--
+-- Author:          HuangYuanTai
+-- Created:         19/09/2026 16:29:07
+--
+--
+-- Description:     
+-- <description>
+--
+------------------------------------------------------------------------
+--
+-- Methods defined:
+--
+--  Method call                 Return  Description
+--  ===========                 ======  ===========
+--  !!YuzuhaLimitViewByDbref()  -       -
+--
+------------------------------------------------------------------------
+define function !!YuzuhaLimitViewByDbref(!dbref is any,!expand is real) is array
+  !ob = object volume(!dbref)
+  handle any
+    !arr[1] = !!error.text
+    return !arr
+  endhandle
+  !FROM = !ob.from.offset(E,- !expand).offset(N,- !expand).offset(U,- !expand)
+  !TO = !ob.to.offset(E,!expand).offset(N,!expand).offset(U,!expand)
+  !ob = object volume(!from,!to)
+  !!gphViews.limits(!!fmsys.currentDocument().view, !ob) 
+  !arr[1] = 'Success Limit View'
+  return !arr
+endfunction

@@ -1,0 +1,31 @@
+------------------------------------------------------------------------
+--
+-- Copyright 2026 to current year. Apecha2.0. All rights reserved in original code only.
+--
+-- File:            YuzuhaSetView.pmlfnc
+--   Type:          Function Definition
+--  
+--
+--    
+--   Module:        design
+--   Replaces:      
+--
+-- Author:          HuangYuanTai
+-- Created:         19/09/2026 16:17:12
+--
+--
+-- Description:     
+-- <description>
+--
+------------------------------------------------------------------------
+--
+-- Methods defined:
+--
+--  Method call        Return  Description
+--  ===========        ======  ===========
+--  !!YuzuhaSetView()  -       -
+--
+------------------------------------------------------------------------
+define function !!YuzuhaSetView(!lookDirStr is string)
+  !!gphViews.look(!!fmsys.currentDocument().view, $!lookDirStr) 
+endfunction

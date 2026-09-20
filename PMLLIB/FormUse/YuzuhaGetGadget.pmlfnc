@@ -4,19 +4,18 @@
 --
 -- File:            YuzuhaGetGadget.pmlfnc
 --   Type:          Function Definition
+--  
 --
---
---
+--    
 --   Module:        design
---   Replaces:
+--   Replaces:      
 --
 -- Author:          HuangYuanTai
 -- Created:         19/09/2026 17:54:27
 --
 --
--- Description:
--- Returns gadget attribute names, excluding types in the INSET expression.
--- Does not enumerate controls inside a .NET CONTAINER.
+-- Description:     
+-- <description>
 --
 ------------------------------------------------------------------------
 --
@@ -36,13 +35,13 @@ define function !!YuzuhaGetGadget(!form is form,!except is string) is array
     !arr.DELETE()
     !arr[1]     = !form.attribute('$!attributes[$!n]')
     var !aaa var !arr[1]
-    handle any
+    handle any 
     endhandle
     if !aaa.unset() or !aaa.matchwild('*<GADGET> Unset*')  then
       skip
     endif
     if !aaa.matchwild('*GADGET*') then
-
+     
       !gadGetArray.append('$!attributes[$!n]')
       !gadget.delete()
       handle any
@@ -51,7 +50,7 @@ define function !!YuzuhaGetGadget(!form is form,!except is string) is array
       !type  = !!YuzuhaGetGadgetType(!gadget)
       if  !type inset($!except) then
         !gadGetArray.removelast()
-      endif
+      endif 
     endif
   enddo
   return !gadGetArray

@@ -4,20 +4,18 @@
 --
 -- File:            YuzuhaChooseFormToTrack.pmlfrm
 --   Type:          Form Definition
+--  
 --
---
---
+--    
 --   Module:        design
---   Replaces:
+--   Replaces:      
 --
 -- Author:          HuangYuanTai
 -- Created:         12/09/2026 08:55:16
 --
 --
--- Description:
--- Lists shown forms and enables callback recording for selected forms.
--- Refresh and gadget enumeration passed the 2026-09-19 live E3D test.
--- Existing hide override is empty; RESET uses KILL/SHOW. See validation report.
+-- Description:     
+-- <description>
 --
 ------------------------------------------------------------------------
 --
@@ -34,7 +32,7 @@
 setup form !!YuzuhaChooseFormToTrack
   title |YuzuhaChooseFormToTrack|
   list   .members    at x0 ymax anchor all multiple width 55 length 15
-  button .btnRefresh 'Refresh' at x0 ymax+.25 anchor b+r callback '!this.UpdateForms()' width 8
+  button .btnRefresh 'Refresh' at x0 ymax+.25 anchor b+r callback '!this.UpdateForms()' width 8 
   button .hideButton 'Cancel' at xmax.members - 9  anchor b+r callback '!this.hide()' width 8 cancel
 
   member .listForm is Array
@@ -82,7 +80,7 @@ define method .Activate()
 
   do !m indices !this.selectForm
     !this.selectForm[!m] = !this.selectForm[!m].replace('|Selected|', '')
-    -- q var !this.selectForm[!m]
+    -- q var !this.selectForm[!m] 
     do !n indices !listText
       if !this.selectForm[!m].matchwild('$!listText[$!n]') then
         !listText[!n] = '$!listText[$!n]|Selected|'
@@ -132,7 +130,7 @@ define method .filterGadGet(!formName is string,!mode is string)
     !att = !gadGetArray[!n]
     !cmdStr = '!!$!<form>.$!<att>.callback'
     -- q var !cmdStr
-    !callback = $!cmdStr
+    !callback = $!cmdStr 
     handle any
       skip
     endhandle
@@ -141,7 +139,7 @@ define method .filterGadGet(!formName is string,!mode is string)
         -- $p 222
         !gadget = '!!$!<form>.$!<att>'
         -- q var !gadget
-        !!YuzuhaDecoratedCall( $!gadget)
+        !!YuzuhaDecoratedCall($!gadget)
       endif
       !callbackArr.append(!callback)
     endif

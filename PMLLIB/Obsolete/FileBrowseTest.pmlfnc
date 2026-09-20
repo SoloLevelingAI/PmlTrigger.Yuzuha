@@ -1,0 +1,95 @@
+------------------------------------------------------------------------
+--
+-- Copyright 2026 to current year. Apecha2.0. All rights reserved in original code only.
+--
+-- File:            FileBrowse.pmlfnc
+--   Type:          Function Definition
+--  
+--
+--    
+--   Module:        design
+--   Replaces:      
+--
+-- Author:          HuangYuanTai
+-- Created:         19/09/2026 07:34:05
+--
+--
+-- Description:     
+-- <description>
+--
+------------------------------------------------------------------------
+--
+-- Methods defined:
+--
+--  Method call     Return  Description
+--  ===========     ======  ===========
+--  !!FileBrowseTest()  -       -
+--
+------------------------------------------------------------------------
+define function !!FileBrowseTest()
+  import 'PMLFileBrowser'
+  handle any
+  endhandle
+  !e3dflag = true
+  VAR !VERSION VAR !!FMSYS.FMINFO()[0]
+  
+  if (!VERSION.upcase().matchwild('*EVERY*') ) then
+    using namespace 'Aveva.Core.Presentation'
+    using namespace 'Aveva.Core.PMLNet'
+    $P EVERYTHING
+  else
+    import  'PDMSCommands'
+    handle any
+    endhandle
+    using namespace 'Aveva.Pdms.Presentation.PDMSCommands'
+    using namespace 'Aveva.Pdms.Presentation'
+    using namespace 'Aveva.Pdms.PMLNet'
+    !!cmsys = object PMLNETCOMMANDMANAGER()
+    !e3dflag = false
+  endif
+
+  
+
+	!browser = object PMLFILEBROWSER('SAVE')
+
+	-- Show Browser
+
+  !defaultFileName = '%AVEVA_DESIGN_USER%\ShortCut.png'
+  !defaultFileName = 'D:\aaShortCut.png'
+	
+	-- var !userEvar '%AVEVA_DESIGN_USER%'
+
+	-- !browser.show(!userEvar, 'ShortCut.png', 'Photo Output', false, 'png files (*.png)|*.png', 2)
+  !browser.show('D:\', 'aaShortCut.png', 'Photo Output', false, 'png files (*.png)|*.png', 0)
+
+	!outFileName = !browser.file()
+
+  if (!outFileName eq '') then
+  		!outFileName = !defaultFileName
+	endif
+
+  !lookDirStr = 'S30E'
+  !!gphViews.look(!!fmsys.currentDocument().view, $!lookDirStr) 
+  !!cmsys.executeCommand(|AVEVA.View.CopyImage.Size4|)
+
+  
+  -- Q VAR !outFileName
+
+  if !e3dflag then
+    using namespace 'Aveva.Core.PMLNet'
+    !clipboard = object PMLCLIPBOARD()
+    !clipboard.saveImage(!outFileName)
+  else
+    import 'PMLNetUtilities'
+    handle any
+    endhandle
+    using namespace 'Aveva.Pdms.PMLNet'
+    !clipboard = object PMLCLIPBOARD()
+    !clipboard.saveImage(!outFileName)
+  endif
+ 
+  
+  -- !!YuzuhaShortCut('S30E',!outFileName)
+
+endfunction
+!db = !!collectallfor('','',ce)

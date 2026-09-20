@@ -1,0 +1,66 @@
+------------------------------------------------------------------------
+--
+-- Copyright 2026 to current year. Apecha2.0. All rights reserved in original code only.
+--
+-- File:            YuzuhaGetView.pmlfnc
+--   Type:          Function Definition
+--  
+--
+--    
+--   Module:        design
+--   Replaces:      
+--
+-- Author:          HuangYuanTai
+-- Created:         19/09/2026 16:56:39
+--
+--
+-- Description:     
+-- <description>
+--
+------------------------------------------------------------------------
+--
+-- Methods defined:
+--
+--  Method call        Return  Description
+--  ===========        ======  ===========
+--  !!YuzuhaGetView()  -       -
+--
+------------------------------------------------------------------------
+define function !!YuzuhaGetCurrentView() is array
+  !limit            = !!fmsys.currentDocument().view.limits
+  !Dir              = !!fmsys.currentDocument().view.DIRECTION
+  !Radius           = !!fmsys.currentDocument().view.Radius 
+  !pos              = !!fmsys.currentDocument().view.THROUGH
+  !height           = !!fmsys.currentDocument().view.height
+  !RadiusExpend     = !Radius * 1.155
+  !direction        = object direction( )
+  !direction.east   = !Dir[1] 
+  !direction.north  = !Dir[2] 
+  !direction.up     = !Dir[3] 
+  !direction.ORIGIN = world 
+  !position = object position( 'E $!POS[1] N $!POS[2] U $!POS[3]' )
+  !GMFBOX = object  GMFBOX()
+  !GMFBOX.POSITION = !position 
+  -- !ORI 
+  -- !ORI.YDIR
+  if !direction neq U then
+    !zdir = !direction.ORTHOGONAL(U)
+  else
+    !zdir = !direction.ORTHOGONAL(E)
+  endif 
+  !GMFBOX.ORIENTATION = object ORIENTATION('Y IS $!direction  AND Z IS $!zdir ')
+  !GMFBOX.xlength = !RadiusExpend
+  !GMFBOX.ylength = !RadiusExpend
+  !GMFBOX.zlength = !RadiusExpend
+  !volume = object volume( !GMFBOX )
+  !!YuzuhaCurrentDir = !direction
+  !!YuzuhaCurrentView = !volume
+  -- q var !volume !GMFBOX
+  -- q var !limit !Radius !Dir !direction
+  !arr[1]           = 'Limit From | x $!limit[1] y $!limit[3] z $!limit[5] |'
+  !arr[2]           = 'Limit To | x $!limit[2] y $!limit[4] z $!limit[6] |'
+  !arr[3]           = 'Dirction | $!direction |'
+  !arr[4]           = 'View From | $!volume.from |'
+  !arr[5]           = 'View To | $!volume.to |'
+  return !arr
+endfunction

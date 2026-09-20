@@ -4,21 +4,18 @@
 --
 -- File:            YuzuhaGadgetDecorated.pmlfnc
 --   Type:          Function Definition
+--  
 --
---
---
+--    
 --   Module:        design
---   Replaces:
+--   Replaces:      
 --
 -- Author:          HuangYuanTai
 -- Created:         12/09/2026 08:32:02
 --
 --
--- Description:
--- Records a gadget callback using BeginLog / EndLog on the existing host.
--- Original callback evaluation and return/error handling are retained.
--- Values are sampled before the callback; Later text is not an After snapshot.
--- Known issues and live evidence: docs/validation/2026-09-19-e3d.md.
+-- Description:     
+-- <description>
 --
 ------------------------------------------------------------------------
 --
@@ -30,22 +27,15 @@
 -- !!spiralctr.btndelp1 !!YuzuhaGadgetDecorated('!!spiralctr.btndelp1')
 ------------------------------------------------------------------------
 define function !!YuzuhaGadgetDecorated(!index is real,!GADGET is GADGET) is any
-
-  $p start YuzuhaGadgetDecorated
+  
+  $p start YuzuhaGadgetDecorated 
   !record = array()
   !Form = !GADGET.owner()
   !gadgetStr = !GADGET.FullName()
   !time = object datetime()
-  !record.append(' Record for |!!$!Form| ,Click |$!gadgetStr| At Befor $!time')
+  !cmd = !!YuzuhaDecoratedCallBack(!index)
+  !record.append(' Record for |!!$!Form| ,Click |$!gadgetStr| At Befor $!time cmd <$!cmd>')
   !type = !!YuzuhaGetGadgetType(!GADGET)
-  -- if !type  eq 'CONTAINER' then
-  --   !record.append(' Net Container Dont Support to Record')
-  -- else
-  --   !record.append(' $!!<$!Form>.$!gadgetStr.string()')
-  --   handle any
-
-  --   endhandle
-  -- endif
   !recordId = !!YuzuhaRpcHost.BeginLog(!record)
   !gadgetArr = !!YuzuhaGetGadget(!FORM,| 'BUTTON','FRAME','LINE' |)
   do !n indices !gadgetArr
@@ -67,19 +57,23 @@ define function !!YuzuhaGadgetDecorated(!index is real,!GADGET is GADGET) is any
     -- $p $!gadgetStr $!type
 
   enddo
-
-  !any = $!!YuzuhaDecoratedCallBack($!index)
+  
+  !any = $!cmd
   handle any
+    if !cmd.matchwild('*show !!*') then
+      $!cmd
+    endif
     $p End YuzuhaGadgetDecorated without |return|
-    !record.append(' Record for |!!$!Form| ,Click |$!gadgetStr| At Later $!time ')
-
+    !record.append(' Record for |!!$!Form| ,Click |$!gadgetStr| At Later $!time  cmd <$!cmd>')
+    
     !logged = !!YuzuhaRpcHost.EndLog(!record, !recordId)
     return
+    
   endhandle
 
-  !record.append(' Record for |!!$!Form| ,Click |$!gadgetStr| At Later $!time')
+  !record.append(' Record for |!!$!Form| ,Click |$!gadgetStr| At Later $!time  cmd <$!cmd>')
   $p End YuzuhaGadgetDecorated with |$!any|
-
+  
   !logged = !!YuzuhaRpcHost.EndLog(!record, !recordId)
   return !any
 endfunction

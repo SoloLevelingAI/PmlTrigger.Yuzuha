@@ -4,19 +4,18 @@
 --
 -- File:            YuzuhaDecoratedCall.pmlfnc
 --   Type:          Function Definition
+--  
 --
---
---
+--    
 --   Module:        design
---   Replaces:
+--   Replaces:      
 --
 -- Author:          HuangYuanTai
 -- Created:         12/09/2026 08:19:06
 --
 --
--- Description:
--- Stores the original callback and installs the indexed Yuzuha wrapper.
--- Preserves the original form title marker and callback filtering behavior.
+-- Description:     
+-- <description>
 --
 ------------------------------------------------------------------------
 --
@@ -33,9 +32,9 @@ define function !!YuzuhaDecoratedCall( !GADGET is GADGET)
   if !TITLE.matchwild(|*Decorated*|) then
 
   else
-    !Form.FORMTITLE = '[Decorated]' +  !TITLE
+    !Form.FORMTITLE = '[Decorated]' +  !TITLE  
   endif
-
+  
   !gadgetStr = !GADGET.FullName()
   -- Q VAR !gadgetStr
   !callback = !GADGET.callback
@@ -51,6 +50,6 @@ define function !!YuzuhaDecoratedCall( !GADGET is GADGET)
   endhandle
   !index = !!YuzuhaDecoratedCallBack.MaxIndex()
   !GADGET.callback = '!!YuzuhaGadgetDecorated($!index,$!gadgetStr)'
-  -- q var !GADGET.callback
+  -- q var !GADGET.callback 
   -- -- q var  !FormName !NewCall
 endfunction

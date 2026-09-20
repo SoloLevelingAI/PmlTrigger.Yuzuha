@@ -1,10 +1,9 @@
 # PMLLIB/FormUse/YuzuhaDecoratedCall.pmlfnc
 
 File: PMLLIB/FormUse/YuzuhaDecoratedCall.pmlfnc
-LastWriteTimeUtc: 2026-09-19T14:44:32.6070808Z
-SHA256: 31C1919D59E5F74B00AF1378D849802D2D15DC31829B81414E47FEF57853970E
-RecordedAtUtc: 2026-09-19T14:44:32.6388632Z
+LastWriteTimeUtc: 2026-09-19T12:52:07.6198165Z
+SHA256: FD364CB44C4DC0B9269A70690A75EA1FCFFF6E50DCF87ED7CEB8BEB3CD17C476
+RecordedAtUtc: 2026-09-20T13:50:09.5413675Z
 
-User prototype retained with descriptive comments. Existing callback/error behavior preserved. See validation report for observed Later-label/time issues and unsupported object values.
-
-Evidence: docs/validation/2026-09-19-e3d.md. Match UTC modification time for a quick check; use SHA256 when time differs or strict content verification is required. File is project-root-relative.
+Maintainer PML snapshot. See docs/semantic/pml-sync.json. Source authored by maintainer; synchronization metadata recorded by OpenAI Codex. No live AVEVA test.
+Timestamp is a fast check; SHA256 verifies content.

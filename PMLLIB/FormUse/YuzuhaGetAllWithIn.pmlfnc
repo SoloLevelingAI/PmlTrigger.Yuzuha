@@ -1,0 +1,44 @@
+------------------------------------------------------------------------
+--
+-- Copyright 2026 to current year. Apecha2.0. All rights reserved in original code only.
+--
+-- File:            YuzuhaGetAllWithIn.pmlfnc
+--   Type:          Function Definition
+--  
+--
+--    
+--   Module:        design
+--   Replaces:      
+--
+-- Author:          HuangYuanTai
+-- Created:         19/09/2026 14:49:21
+--
+--
+-- Description:     
+-- <根据世界坐标，以及表达式寻找值，填写ATTASTR代表寻找特定ATTA，否则查找名字，用法来自collectAllWithin，供Agent调用>
+--
+------------------------------------------------------------------------
+--
+-- Methods defined:
+--
+--  Method call             Return  Description
+--  ===========             ======  ===========
+--  !!YuzuhaGetAllWithIn()  -       -
+--  !bb = !!YuzuhaGetAllWithIn('','','','x 0 y 0 z 0','x 500 y 500 z 500',CE)
+--  !bb = !!YuzuhaGetAllWithIn('','','','x 0 y 0 z 0','x 500 y 500 z 500',CE)
+------------------------------------------------------------------------
+define function !!YuzuhaGetAllWithIn( !attaStr is string , !types is STRING, !expr is STRING, !fromStr is string, !toStr is string, !item is any) is ARRAY
+  !from = object Position(!fromStr)
+  !to   = object Position(!toStr)
+  !arr  = !!collectAllWithin(!types,!expr,!from,!to,!item)
+  if !attaStr.length() gt 0 then
+    !Block = object block('!arr[!EvalIndex].$!attaStr')
+  else
+    !Block = object block('!arr[!EvalIndex].name')
+  endif
+    !arrName = !arr.evaluate(!Block)
+    handle any
+    !arrName[1] = !!error.text
+    endhandle
+    return !arrName
+endfunction

@@ -1,0 +1,38 @@
+------------------------------------------------------------------------
+--
+-- Copyright 2026 to current year. Apecha2.0. All rights reserved in original code only.
+--
+-- File:            YuzuhaLimitView.pmlfnc
+--   Type:          Function Definition
+--  
+--
+--    
+--   Module:        design
+--   Replaces:      
+--
+-- Author:          HuangYuanTai
+-- Created:         19/09/2026 16:28:15
+--
+--
+-- Description:     
+-- <description>
+--
+------------------------------------------------------------------------
+--
+-- Methods defined:
+--
+--  Method call          Return  Description
+--  ===========          ======  ===========
+--  !!YuzuhaLimitView()  -       -
+--  !!YuzuhaLimitView('x 0 y 0 z 0','x 500 y 500 z 500')
+------------------------------------------------------------------------
+define function !!YuzuhaLimitView(!fromStr is string, !toStr is string) is array
+  !ob = object volume(object position(!fromStr),object position(!toStr))
+  handle any
+    !arr[1] = !!error.text
+    return !arr
+  endhandle
+  !!gphViews.limits(!!fmsys.currentDocument().view, !ob) 
+  !arr[1] = 'Success Limit View'
+  return !arr
+endfunction

@@ -1,0 +1,41 @@
+------------------------------------------------------------------------
+--
+-- Copyright 2026 to current year. Apecha2.0. All rights reserved in original code only.
+--
+-- File:            YuzuhaGetAllFor.pmlfnc
+--   Type:          Function Definition
+--  
+--
+--    
+--   Module:        design
+--   Replaces:      
+--
+-- Author:          HuangYuanTai
+-- Created:         19/09/2026 14:49:42
+--
+--
+-- Description:     
+-- <根据世界坐标，以及表达式寻找值，填写ATTASTR代表寻找特定ATTA，否则查找名字，用法来自collectAllWithin，供Agent调用>
+--
+------------------------------------------------------------------------
+--
+-- Methods defined:
+--
+--  Method call          Return  Description
+--  ===========          ======  ===========
+--  !!YuzuhaGetAllFor()  -       -
+--  !aa = !!YuzuhaGetAllFor('POS','BRAN','',CE)
+------------------------------------------------------------------------
+define function !!YuzuhaGetAllFor( !attaStr is string , !types is STRING, !expr is STRING, !item is DBREF) is ARRAY
+  !arr = !!collectAllFor(!types,!expr,!item)
+  if !attaStr.length() gt 0 then
+    !Block = object block('!arr[!EvalIndex].$!attaStr')
+  else
+    !Block = object block('!arr[!EvalIndex].name')
+  endif
+    !arrName = !arr.evaluate(!Block)
+    handle any
+    !arrName[1] = !!error.text
+    endhandle
+    return !arrName
+endfunction

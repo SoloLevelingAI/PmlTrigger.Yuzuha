@@ -1,0 +1,35 @@
+------------------------------------------------------------------------
+--
+-- Copyright 2026 to current year. Apecha2.0. All rights reserved in original code only.
+--
+-- File:            YuzuCollctTest.pmlfnc
+--   Type:          Function Definition
+--  
+--
+--    
+--   Module:        design
+--   Replaces:      
+--
+-- Author:          HuangYuanTai
+-- Created:         19/09/2026 09:18:21
+--
+--
+-- Description:     
+-- <description>
+--
+------------------------------------------------------------------------
+--
+-- Methods defined:
+--
+--  Method call  Return  Description
+--  ===========  ======  ===========
+--  !!YuzuCollctTest()     -       -
+--
+------------------------------------------------------------------------
+define function !!YuzuCollctTest()
+  !vol = object volume(ce)
+  !ob =  !!collectallwithin('','',!vol.from,!vol.to,'')
+
+  !Block = object block('!ob[!EvalIndex].flnm')
+  !obName = !ob.evaluate(!Block)
+endfunction

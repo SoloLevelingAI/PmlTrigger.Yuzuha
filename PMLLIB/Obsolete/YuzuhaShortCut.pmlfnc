@@ -1,0 +1,60 @@
+------------------------------------------------------------------------
+--
+-- Copyright 2026 to current year. Apecha2.0. All rights reserved in original code only.
+--
+-- File:            YuzuhaShortCut.pmlfnc
+--   Type:          Function Definition
+--  
+--
+--    
+--   Module:        design
+--   Replaces:      
+--
+-- Author:          HuangYuanTai
+-- Created:         19/09/2026 08:12:04
+--
+--
+-- Description:     
+-- <description>
+--
+------------------------------------------------------------------------
+--
+-- Methods defined:
+--
+--  Method call         Return  Description
+--  ===========         ======  ===========
+--  !!YuzuhaShortCut()  -       -
+-- !!YuzuhaShortCut('S30E',!outFileName)
+------------------------------------------------------------------------
+define function !!YuzuhaShortCut(!lookDirStr is string,!fileName is string)
+  import 'PMLFileBrowser'
+  handle any
+  endhandle
+  import 'PMLNetUtilities'
+  handle any
+  endhandle
+  VAR !VERSION VAR !!FMSYS.FMINFO()[0]
+  
+  if (!VERSION.upcase().matchwild('*EVERY*') ) then
+    using namespace 'Aveva.Core.Presentation'
+    using namespace 'Aveva.Core.PMLNet'
+  else
+    import  'PDMSCommands'
+    handle any
+    endhandle
+    using namespace 'Aveva.Pdms.Presentation.PDMSCommands'
+    using namespace 'Aveva.Pdms.Presentation'
+    using namespace 'Aveva.Pdms.PMLNet'
+    !!cmsys = object PMLNETCOMMANDMANAGER()
+  endif
+
+  !!gphViews.look(!!fmsys.currentDocument().view, $!lookDirStr) 
+  !!cmsys.executeCommand(|AVEVA.View.CopyImage.Size4|)
+  $P 122
+  !clipboard = object PMLCLIPBOARD()$*将剪切板内容保存到png文件
+  $P 123
+  Q VAR !fileName
+  $P 124
+  !clipboard.saveImage(!fileName)
+  $P 111
+endfunction

@@ -1,88 +1,49 @@
 # PmlTrigger.Yuzuha
 
-> v0.3.2: 连续会话 JSONL、主界面与浮动窗体截图；新增实现和测试报告由 Codex 编写。见 [发布说明](docs/release-v0.3.2.md)。
+面向 AVEVA E3D、PDMS 和 AM 的本机 AI/PML 工具：连接工程会话、查询与执行 PML、检索本地资料，并记录窗体操作过程。
 
-> v0.3.1: Native AOT、内置能力优先、可选 SQLite、INIT/BAT 与通用客户端注册修复。安装后必须完全退出并重启 AI 客户端。See [release notes](docs/release-v0.3.1.md).
+A local AI/PML toolkit for AVEVA E3D, PDMS and AM: connect to engineering sessions, query and execute PML, retrieve local references, and record form interactions.
 
-> **安装或升级后必须完全退出并重启 AI 客户端。 / After install or update, fully exit and restart the AI client.**
-> [各 AI 客户端 MCP 接入与验收 / MCP client setup](docs/ai-client-setup.md)。默认本机 MCP 安装不修改 EVAR。
-
-[中文](#中文) | [English](#english)
+[最新正式版 v0.3.2 / Latest stable](https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/releases/tag/v0.3.2) · [中文](#中文) · [English](#english)
 
 ## 中文
 
-### v0.3.0
+### 核心能力
 
-项目/官方/本地经验三库隔离；双 MCP 注册失败回滚；升级保留本地数据；自定义 Legacy Profile 明确选择 NET35。
-详见 [0.3 中文说明](docs/v0.3.zh-CN.md)。2026-09-19 已完成 E3D 2.1 会话日志与界面截图实测；通过项目、发现的问题及覆盖范围见[实测报告](docs/validation/2026-09-19-e3d.md)。
+| 能力 | 已提供的功能 |
+| --- | --- |
+| 会话连接 | 发现多个 AVEVA 会话，显式选择 PID，核验进程启动时间、专用管道和 Host 身份 |
+| PML 查询与执行 | 生成带类型参数的调用；查询当前元素、指定 DBREF 和全局对象；在 AVEVA 主线程执行授权命令 |
+| 内置使用指南 | 通过 `get_builtin_usage` 获取随版本维护的说明；无需先建立 SQLite 知识库 |
+| 本地资料检索 | 可选的 PMLLIB/PMLUI/WebHelp 切分与全文检索；项目、官方资料和本地经验分库管理 |
+| 经验与信任管理 | 追加用户确认的经验；维护函数信任记录，避免把传输失败当成函数缺陷 |
+| Host 操作记录 | 完整 PML Array、操作前后截图、连续会话 JSONL、相同截图复用 |
+| 安装与升级 | 通用 MCP 客户端注册、冲突预检与失败回滚；升级保留知识库、信任记录和自定义 Profile |
+| 源文件校验 | `docs/semantic` 集中保存一一对应的 UTC 修改时间及 SHA256 元数据 |
 
-### 连续操作记录
+### 从 0.3 开始更新了什么
 
-原 Host 的 `BeginLog(!record)` / `EndLog(!record, !recordId)` 将操作前后界面截图与完整 PML Array 写入同一个会话 JSONL，JPEG 覆盖主界面与浮动窗体。详见[接口与存储说明](docs/session-recording.md)。
+- **0.3.0：本地知识与可靠升级。** 增加知识库服务、资料切分、分层检索、经验持久化和函数信任管理；改进升级数据保留、部分注册失败回滚及自定义 Framework 选择。
+- **0.3.1：部署与调用入口。** 两个 NET10 MCP 服务统一 Native AOT，目标机器无需安装 .NET 10 Runtime；增加内置指南，SQLite 改为可选；完善非 Codex 客户端注册、INIT/BAT 配置和协议测试。
+- **0.3.2：Host 新功能。** 增加连续会话日志、主界面与浮动窗体截图、操作前后配对、截图复用和 Semantic 校验，并完成 E3D 2.1 操作记录实测。
 
+详细记录：[0.3.0](docs/release-v0.3.0.md) · [0.3.1](docs/release-v0.3.1.md) · [0.3.2](docs/release-v0.3.2.md)。
 
-PmlTrigger.Yuzuha 是面向 AVEVA 系列工程应用的本机 Agent/PML 桥接工具。
-自包含的 .NET 10 MCP 进程通过按 AVEVA PID 隔离的 Named Pipe，与运行在
-AVEVA 主线程内的 NET35 或 NET48 PMLNet Host 通信。
+### 快速开始
 
-> 当前候选版本为 v0.3.2。执行型工具可以直接修改活动模型，仅应由可信本机用户在
-> 明确授权后使用。执行超时后禁止自动重试，因为第一次调用可能已经成功。
+1. 下载 Release 的 `agent-win-x64.zip` 并解压；安装目录名保留 `PmlTrigger`。
+2. 按[安装说明](AGENT-INSTALL.zh-CN.md)部署并注册 MCP。支持通用 `mcpServers` JSON 配置，不要求使用 Codex。
+3. 按[环境配置](docs/aveva-discovery.md)选择 AVEVA Profile；默认仅注册本机 MCP 不修改 EVAR。
+4. 完全退出并重启 AI 客户端；修改 Host 或 AVEVA 环境后，也要完全重启 AVEVA。
+5. 让 AI 获取内置指南、列出会话，再明确选择目标 PID，确认身份后执行查询。
 
-### v0.2 重点更新
+可从这些请求开始：
 
-- 支持多个同时运行的 AVEVA 会话，可发现并区分 Design、Paragon 等模块窗口。
-- 支持 AM、PDMS、E3D 2.1、E3D 3.1.0 和 E3D 3.1.6 对应的 NET35/NET48 Host。
-- 通过 EVAR 自定义变量 `Yuzuha` 选择运行时 Profile。
-- 会话发现接受所有标题包含 `AVEVA` 的可见窗口，不再维护逐产品标题白名单。
-- 真正连接前仍校验 PID 专用管道、进程启动时间和 Host 身份。
-- 提供带管理标记、冲突检查和失败回滚的安装、更新及卸载脚本。
+- “列出 AVEVA 会话，先不要执行 PML。”
+- “读取当前元素，先用 30 项、深度 2。”
+- “检索我已经注册的本机 PML 资料。”
 
-### v0.2.3 新增
-
-- 安装目录名保护：安装目录必须包含 `PmlTrigger`（Win11 8.3 短名
-  `PMLTRI~1` 仍可匹配）；确需自定义目录名时，安装器改写引导函数中的
-  目录 token 并明确提示风险。
-- 新增独立知识库服务器 `YuzuhaToolkitKnowledge`（.NET 10 Native AOT +
-  SQLite/FTS5）：从本机 PMLLIB/PMLUI 与 WebHelp 语法切片建库、确定性
-  检索；数据库仅在本机生成，绝不随包分发。
-- 执行失败分诊与函数信任列表：传输失败不再被误判为函数不可用；经用户
-  确认的错误答案才写入不可信列表，修复/删除按用户明确指示处理。
-- `scripts/Build-LocalHost.ps1`：AVEVA 版本无预置 Profile 时，仅本地
-  编译 NET48/NET35 Host（Net10 服务器永不本地重编译）。
-- 全部文档提供中英双语（`.zh-CN.md` 为中文版，供作者审阅；英文版用于
-  国际化）。
-
-### 功能
-
-- 生成带类型参数的 PML 全局方法调用文本，不连接 AVEVA。
-- 发现本机可见的 AVEVA 会话，并由用户显式选择返回的 PID。
-- 在 AVEVA 主线程执行一条经过明确授权的 PML 命令。
-- 将 CE、DBREF 或 PML 全局对象图读取为结构化 JSON。
-- 通过无副作用的连接状态检查验证 PID、启动时间、管道和模块。
-
-### 目录
-
-```text
-PMLLIB/   PML 启动、遍历、命令和示例定义
-PMLUI/    AVEVA 模块 Addin 注册
-src/      .NET 10 MCP、NET35 与 NET48 Host 源码
-scripts/  Profile 构建及 Agent 安装/更新/卸载脚本
-skill/    Codex Skill 和工具参考资料
-docs/     构建、部署和 PML API 文档
-```
-
-### 构建
-
-```powershell
-.\scripts\Build-AvevaProfiles.ps1 -ProfileRoot 'D:\AVEVA\AvevaProfile'
-```
-
-AVEVA SDK 不随仓库或 Release 分发。NET35/NET48 Host 必须使用用户已经安装并
-获得许可的本机 AVEVA SDK 构建。
-
-### 安装、更新与卸载
-
-从 Release 解压安装包后运行：
+安装、更新和卸载是三个独立操作，请按需选择，不要依次全部执行：
 
 ```powershell
 .\scripts\Install-YuzuhaAgent.ps1
@@ -90,130 +51,92 @@ AVEVA SDK 不随仓库或 Release 分发。NET35/NET48 Host 必须使用用户�
 .\scripts\Uninstall-YuzuhaAgent.ps1
 ```
 
-更新或修改 PML 路径后，完全退出 AVEVA，重新启动并执行：
+升级前关闭相关 MCP/AVEVA 进程，从新解压的包执行更新。PML 文件或路径变更后，在重新启动的 AVEVA 中执行 `PML REHASH ALL`。
 
-```pml
-PML REHASH ALL
+### Host 日志与截图
+
+NET35/NET48 Host 提供：
+
+- `BeginLog(!record)`：保存操作前 Array 和截图，返回记录 ID。
+- `EndLog(!record, !recordId)`：保存操作后记录及截图，与同一 ID 配对。
+- `Log(!record)`：保存一次 Array 与截图。
+
+日志连续写入 `%LOCALAPPDATA%\YuzuhaToolkit\Records\<session>\session.jsonl`，JPEG 位于同目录 `images`。截图覆盖可见的 AVEVA 主界面及同进程浮动窗体，不是只截当前控件。连续相同截图复用。
+
+PML 监控代码需要调用这些接口；并非所有 AI 调用或按钮都会自动被记录。数组支持范围、返回值检查和错误处理见[记录接口说明](docs/session-recording.md)。
+
+### AI 调用日志：当前边界
+
+**Host 操作记录不等于 AI 工具调用审计。**
+
+- NET10 MCP 目前提供 stderr 诊断输出，调用响应中可包含 RequestId、状态和错误信息；尚未实现覆盖每次工具调用、参数、耗时和结果的统一持久化会话日志。
+- 当前仓库未提供独立的通用 PML 执行 CLI。知识服务提供 `--refresh-project` 维护入口，另有安装/注册脚本；这些入口没有统一的调用审计日志。
+- 外部 AI 客户端或其 CLI 自行保存的历史不属于 Yuzuha 的日志保证。
+- Host 日志可用于后续 AI 分析，但尚未提供自动关联 MCP 请求、截图与分析结论的完整流程。
+
+### 支持与验证
+
+预置配置：AM、PDMS 使用 NET35；E3D 2.1、3.1.0、3.1.6 使用 NET48。自定义 Profile 明确设置 `Yuzuha` 和 `YuzuhaFramework`。
+
+E3D 2.1 的会话操作记录已实测；NET35/NET48 独立记录测试及五个标准 Host 配置构建已通过。**构建通过不代表所有产品版本均已实机验证**；AM/PDMS、其他 E3D 版本及多屏混合 DPI 的覆盖范围见[实测报告](docs/validation/2026-09-19-e3d.md)。
+
+执行工具可以修改活动模型，只应执行明确授权的命令。超时后不要自动重试：第一次调用可能已经执行。查询失败也不能直接判定 PML 函数有缺陷。
+
+### 数据与开发
+
+知识库在本机按需建立，不随发行包分发；官方资料建库需要明确指定来源。截图和日志可能包含工程信息，分享前请检查内容。AVEVA 专有 SDK 不随仓库或 Release 分发。
+
+```text
+PMLLIB/   PML 启动、查询、命令和窗体监控
+PMLUI/    AVEVA Addin 注册
+src/      NET10 MCP 与 NET35/NET48 Host 源码
+scripts/  构建、安装、更新、注册和校验
+skill/    AI 使用规范与工具参考
+docs/     功能、部署、验证及 semantic 元数据
+tests/    自动化测试与实测宏
 ```
 
-详细规则见 [AGENT-INSTALL.zh-CN.md](AGENT-INSTALL.zh-CN.md)（中文）/
-[AGENT-INSTALL.md](AGENT-INSTALL.md)（英文）和
-[部署文档 deployment.zh-CN.md](skill/references/deployment.zh-CN.md)（中文）/
-[deployment guide](skill/references/deployment.md)（英文）。
+开发构建参见[构建配置](docs/build-configuration.md)；缺少适配配置时参见[Host 本地构建](skill/references/local-build.zh-CN.md)。
 
 ## English
 
-### v0.3.0
+### Capabilities
 
-Independent project/official/experience databases, rollback for dual MCP registration, preserved local state, and explicit Legacy framework selection.
-See [0.3 release notes](docs/v0.3.en.md). Session recording was live-tested in E3D 2.1 on 2026-09-19; see the [validation report](docs/validation/2026-09-19-e3d.md) for passed checks, findings and coverage limits, and [recording guide](docs/session-recording.md) for the API.
+- Discover AVEVA sessions and explicitly select a PID; verify process identity and the PID-bound Host.
+- Generate typed PML calls, read the current element, named DBREFs and global objects, and execute authorized commands on the AVEVA main thread.
+- Retrieve release-maintained built-in guides without creating a SQLite database.
+- Optionally index local PMLLIB/PMLUI/WebHelp; keep project, official and experience sources separate.
+- Persist user-confirmed experience and function trust records.
+- Record complete PML arrays and paired main-UI/floating-window screenshots through NET35/NET48 Host APIs.
+- Register with generic MCP clients, detect conflicts, roll back supported failures and preserve local state during upgrades.
+- Verify source metadata centrally stored under `docs/semantic` using UTC modification times and SHA256.
 
+### The 0.3 series
 
-PmlTrigger.Yuzuha is a local Agent-to-PML bridge for AVEVA engineering
-applications. A self-contained .NET 10 MCP process communicates over a
-PID-bound named pipe with a NET35 or NET48 PMLNet host running on the AVEVA
-main thread.
+**0.3.0** added local knowledge infrastructure, layered retrieval, persistent experience, function trust management and recoverable deployment. **0.3.1** unified both NET10 services on Native AOT, added built-in guides, made SQLite optional and improved generic client registration and AVEVA environment configuration. **0.3.2** added Host session logging, paired UI capture, image reuse and semantic verification, with live E3D 2.1 recording checks.
 
-> The current candidate version is v0.3.0. Execution tools can directly modify the active
-> model. Use them only after an explicit request from a trusted local user.
-> Never automatically retry a timed-out execution because the first call may
-> already have completed.
+See [0.3.0](docs/release-v0.3.0.md), [0.3.1](docs/release-v0.3.1.md) and [0.3.2](docs/release-v0.3.2.md) release notes.
 
-### What is new in v0.2
+### Getting started
 
-- Discover and select among multiple simultaneous AVEVA sessions, including
-  module windows such as Design and Paragon.
-- Support profile-specific NET35/NET48 hosts for AM, PDMS, E3D 2.1,
-  E3D 3.1.0, and E3D 3.1.6.
-- Select the runtime profile through the custom `Yuzuha` EVAR variable.
-- Discover any visible window whose title contains `AVEVA`, without a
-  product-by-product title allowlist.
-- Continue to verify the PID-bound pipe, process start time, and host identity
-  before establishing a real connection.
-- Provide managed install, update, and uninstall scripts with markers,
-  conflict detection, and rollback on failed updates.
+Download and extract the release agent archive. Follow [installation instructions](AGENT-INSTALL.md), [client setup](docs/ai-client-setup.md) and [environment configuration](docs/aveva-discovery.md). Retain `PmlTrigger` in the installation directory name. Codex is not required; generic MCP JSON registration is supported. MCP-only setup does not modify EVAR by default.
 
-### What is new in v0.2.3
+Fully restart the AI client after installation/update and AVEVA after Host/environment changes. Start with built-in guides, list sessions, explicitly select a target, then request a small read. Close affected processes before updating from a freshly extracted archive. After PML changes, restart AVEVA and execute `PML REHASH ALL`.
 
-- Install folder name protection: the installation folder must contain
-  `PmlTrigger` (Windows 8.3 short names such as `PMLTRI~1` still match);
-  with an explicitly required custom folder name the installer rewrites the
-  bootstrap folder token and prints a risk warning.
-- A separate knowledge server `YuzuhaToolkitKnowledge` (.NET 10 Native AOT +
-  SQLite/FTS5): builds a local knowledge base from this machine's
-  PMLLIB/PMLUI and WebHelp with syntax-aware chunking and deterministic
-  retrieval; the database exists only on the machine that builds it and
-  never ships.
-- Execution failure triage and a function trust list: transport failures are
-  no longer mistaken for a broken function; only user-confirmed wrong
-  answers enter the untrusted list, and fixes or removals follow explicit
-  user instruction.
-- `scripts/Build-LocalHost.ps1`: when an AVEVA version has no prebuilt
-  profile, only the NET48/NET35 host is compiled locally (the Net10 servers
-  are never rebuilt locally).
-- All documentation is bilingual (`.zh-CN.md` files are the Chinese versions
-  reviewed by the author; the English files serve international readers).
+### Recording and audit boundaries
 
-### Features
+Host `BeginLog` / `EndLog` pair before/after records; `Log` captures a single record. Session JSONL and JPEGs are stored under `%LOCALAPPDATA%\YuzuhaToolkit\Records\<session>`. Visible main and same-process floating windows are included; consecutive identical images are reused. PML monitoring must invoke the APIs—recording is not automatically enabled for every button or AI call. See the [API guide](docs/session-recording.md).
 
-- Build typed PML global-method calls without connecting to AVEVA.
-- Discover visible local AVEVA sessions and explicitly select a returned PID.
-- Execute one explicitly authorized PML command on the AVEVA main thread.
-- Read CE, DBREF, and PML global-object graphs as structured JSON.
-- Verify PID, process start time, pipe, and module through a side-effect-free
-  connection-status check.
+**Persistent AI tool-call auditing is not implemented.** NET10 MCP has stderr diagnostics and response metadata, not a unified on-disk history of every tool's arguments, duration and outcome. There is no standalone general-purpose PML execution CLI in this repository; the Knowledge service's `--refresh-project` maintenance entry and deployment scripts do not supply a unified audit log. External AI-client/CLI history is outside Yuzuha's logging guarantees. Automatic correlation of MCP requests, screenshots and AI analysis is not yet provided.
 
-### Repository layout
+### Compatibility and safety
 
-```text
-PMLLIB/   PML bootstrap, traversal, command, and example definitions
-PMLUI/    Addin registration for AVEVA modules
-src/      .NET 10 MCP plus NET35 and NET48 host source
-scripts/  Profile build and managed install/update/uninstall scripts
-skill/    Codex skill and tool reference
-docs/     Build, deployment, and PML API documentation
-```
+Standard profiles target AM/PDMS NET35 and E3D 2.1/3.1.0/3.1.6 NET48. E3D 2.1 recording was live-tested; independent NET35/NET48 recorder tests and five standard Host builds passed. This does not establish live compatibility with every product version or multi-monitor/DPI configuration. See the [validation report](docs/validation/2026-09-19-e3d.md).
 
-### Build
-
-```powershell
-.\scripts\Build-AvevaProfiles.ps1 -ProfileRoot 'D:\AVEVA\AvevaProfile'
-```
-
-The AVEVA SDK is not distributed in this repository or its releases. Build
-the NET35/NET48 hosts against the user's licensed local AVEVA installation.
-
-### Install, update, and uninstall
-
-Extract a Release archive and run:
-
-```powershell
-.\scripts\Install-YuzuhaAgent.ps1
-.\scripts\Update-YuzuhaAgent.ps1
-.\scripts\Uninstall-YuzuhaAgent.ps1
-```
-
-After an update or PML-path change, fully restart AVEVA and run:
-
-```pml
-PML REHASH ALL
-```
-
-See [AGENT-INSTALL.md](AGENT-INSTALL.md) and the
-[deployment guide](skill/references/deployment.md) for details
-(Chinese versions: [AGENT-INSTALL.zh-CN.md](AGENT-INSTALL.zh-CN.md),
-[deployment.zh-CN.md](skill/references/deployment.zh-CN.md)).
+Execute only explicitly authorized commands. Do not automatically retry timeouts or mistake transport errors for defective PML functions. Local reference databases and proprietary AVEVA SDKs are not distributed. Review screenshots/logs for engineering information before sharing.
 
 ## License / 许可证
 
-Project source is licensed under the [Apache License 2.0](LICENSE). Bundled
-dependencies retain their own licenses; see [THIRD-PARTY.md](THIRD-PARTY.md).
+Project source is licensed under [Apache-2.0](LICENSE); bundled dependencies retain their own licenses. See [THIRD-PARTY.md](THIRD-PARTY.md).
 
-项目源码采用 Apache-2.0 许可证；随附依赖保留各自许可证，详见
-[THIRD-PARTY.md](THIRD-PARTY.md)。
-
-## AVEVA 环境定位规则 / Environment setup
-
-通过注册表 `Get-ItemProperty` 或 `reg query` 定位安装，优先修改有效的 `Evar.INIT`；PDMS/AM 确认没有 INIT、只有 BAT 时才修改 `EVAR.BAT`。仅本机 MCP 注册不修改 EVAR。`-EvarBat` 接受 BAT 风格文件：`Evar.INIT` 本身即批处理语法，可直接传入，写入前自动备份，托管块尾置。
-
-[完整步骤 / Full procedure](docs/aveva-discovery.md)
+项目源码采用 Apache-2.0；随附依赖保留各自许可证。本次 Host 记录实现、测试和实测报告由 OpenAI Codex 按维护者要求编写；PML 控件监控原型由维护者提供。

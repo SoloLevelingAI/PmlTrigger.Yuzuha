@@ -1,0 +1,39 @@
+------------------------------------------------------------------------
+--
+-- Copyright 2026 to current year. Apecha2.0. All rights reserved in original code only.
+--
+-- File:            Yuzuha3DViewShot.pmlfnc
+--   Type:          Function Definition
+--  
+--
+--    
+--   Module:        design
+--   Replaces:      
+--
+-- Author:          HuangYuanTai
+-- Created:         19/09/2026 16:48:34
+--
+--
+-- Description:     
+-- <description>
+--
+------------------------------------------------------------------------
+--
+-- Methods defined:
+--
+--  Method call           Return  Description
+--  ===========           ======  ===========
+--  !!Yuzuha3DViewShot()  -       -
+--
+------------------------------------------------------------------------
+define function !!Yuzuha3DViewShot()
+  if !!YuzuhaInE3D then 
+  else  
+    import  'PDMSCommands'
+    handle any
+    endhandle
+    using namespace 'Aveva.Pdms.Presentation.PDMSCommands'
+    !!cmsys = object PMLNETCOMMANDMANAGER()
+  endif
+  !!cmsys.executeCommand(|AVEVA.View.CopyImage.Size4|)
+endfunction

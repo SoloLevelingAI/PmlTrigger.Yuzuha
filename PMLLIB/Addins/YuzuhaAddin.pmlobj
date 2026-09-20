@@ -29,7 +29,8 @@
 --  startup()                                                             -               Addin startup hook. Reserved for addin-level initialisation.
 --
 define object YuzuhaAddin
-
+  member .Headings is array
+  member .Data is array
 endobject
 
 
@@ -42,10 +43,57 @@ endobject
 --
 ------------------------------------------------------------------------
 define method .YuzuhaAddin()
+  PML REHASH ALL
   !!YuzuhaRpc = object YuzuhaRpc()
   !!YuzuhaExecuter = object YuzuhaExcuter()
+  !this.YuzuhaVersion()
 endmethod
 
+define method .YuzuhaVersion()
+  !!YuzuhaInE3D = TRUE
+  VAR !Model VAR !!FMSYS.FMINFO()[1]
+  if !Model.upcase().matchwild('*DESIGN*').not() and !Model.upcase().matchwild('*OUTFITTING*').not()  then
+    return
+  endif
+  VAR !VERSION VAR !!FMSYS.FMINFO()[0]
+  !namespace = ''
+  if (!VERSION.upcase().matchwild('*EVERY*') ) then
+    !namespace =  'Aveva.Core.Presentation'
+  else
+    !namespace =  'Aveva.Pdms.Presentation'
+    !!YuzuhaInE3D = FALSE
+  endif
+  !this.YuzuhaInitTable()
+endmethod
+
+define method .YuzuhaInitTable()
+  !this.Headings    = ARRAY()
+  !this.Headings[1] = 'Name'
+  !this.Headings[2] = 'DllName'
+  !this.YuzuhaSetNameSpaceTable('Presentation', 'Aveva.Core.Presentation', 'Aveva.Pdms.Presentation')
+  !this.YuzuhaSetNameSpaceTable('PMLNET', 'Aveva.Core.PMLNET', 'Aveva.Pdms.PMLNET')
+
+endmethod
+
+define method .YuzuhaSetNameSpaceTable(!shortName is string,!e3dName is string,!pdmsName is string)
+  !Arr = object array()
+  !arr[1] = !shortName
+  if !!YuzuhaInE3D then
+    !arr[2] = !e3dName
+  else
+    !arr[2] = !pdmsName
+  endif
+  !this.data.append(!arr)
+endmethod
+
+define method .GetNameSpace(!str is string) is string
+  do !n indices !this.Data
+    if !this.data[!n][1] eq !str then
+      return !this.data[!n][2]
+    endif
+  enddo
+  return ''
+endmethod
 
 ------------------------------------------------------------------------
 --

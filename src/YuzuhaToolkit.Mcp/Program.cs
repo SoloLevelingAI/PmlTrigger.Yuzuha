@@ -2,6 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using YuzuhaToolkit.Mcp;
+using PmlTwin.Phayton;
 
 var builder = Host.CreateApplicationBuilder(args);
 
@@ -12,10 +13,17 @@ builder.Logging.AddConsole(options => { options.LogToStandardErrorThreshold = Lo
 builder.Services.AddSingleton<AvevaSessionDiscovery>();
 builder.Services.AddSingleton<YuzuhaRpcBridge>();
 builder.Services.AddSingleton<PmlFunctionTrustStore>();
+builder.Services.AddSingleton<OperationExecutor>(services =>
+{
+    var bridge = services.GetRequiredService<YuzuhaRpcBridge>();
+    return YuzuhaOperationCatalog.Create(bridge,
+        services.GetRequiredService<PmlFunctionTrustStore>(), bridge.CreateIndependent);
+});
 builder.Services
     .AddMcpServer(options => { options.ServerInstructions = McpUsageInstructions.Text; })
     .WithStdioServerTransport()
     .WithTools<PmlCallTools>(YuzuhaToolJsonContext.Default.Options)
+    .WithTools<OperationTools>()
     .WithTools<PmlFunctionTrustTools>()
     .WithTools<BuiltinUsageTools>();
 

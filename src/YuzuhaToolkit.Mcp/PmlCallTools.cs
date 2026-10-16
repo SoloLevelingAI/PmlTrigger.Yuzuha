@@ -1,112 +1,23 @@
 using System.ComponentModel;
-using System.Globalization;
 using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Text.RegularExpressions;
 using ModelContextProtocol.Server;
-using YuzuhaToolkit.Pml;
+using PmlTwin.Phayton;
+using System.Text.Json.Nodes;
 
 namespace YuzuhaToolkit.Mcp;
-
-public sealed class DynamicParameterInput
-{
-    [Description(
-        "Parameter type: string/str, bool/boolean, or " +
-        "double/real/number.")]
-    public string Type { get; set; } = string.Empty;
-
-    [Description(
-        "Parameter value. JSON strings, booleans, and numbers are accepted.")]
-    public object? Value { get; set; }
-}
-
-/// <summary>
-///     One normalized entry of the BFS list: STRING values are unquoted, and
-///     Unset / blank / empty-array values are collapsed to Value=null with
-///     Empty=true.
-/// </summary>
-public sealed class PmlListItem
-{
-    public int Depth { get; set; }
-    public string Path { get; set; } = string.Empty;
-    public string Type { get; set; } = string.Empty;
-    public string? Value { get; set; }
-    public bool Empty { get; set; }
-}
-
-internal sealed class PmlListSummary
-{
-    [JsonPropertyName("total")] public int Total { get; set; }
-
-    [JsonPropertyName("unset")] public int Unset { get; set; }
-
-    [JsonPropertyName("blank")] public int Blank { get; set; }
-
-    [JsonPropertyName("zero")] public int Zero { get; set; }
-
-    [JsonPropertyName("emptyArray")] public int EmptyArray { get; set; }
-
-    [JsonPropertyName("hasValue")] public int HasValue { get; set; }
-
-    [JsonPropertyName("byType")] public Dictionary<string, int> ByType { get; set; } = new();
-}
-
-internal sealed class PmlListToolResponse
-{
-    public bool Success { get; set; }
-    public string? Code { get; set; }
-    public string? ErrorMessage { get; set; }
-    public string? PmlCommand { get; set; }
-    public PmlListSummary Summary { get; set; } = new();
-    public int Count { get; set; }
-    public List<PmlListItem> Items { get; set; } = new();
-    public bool IncludeEmpty { get; set; }
-    public int UnparsedCount { get; set; }
-    public List<string> Unparsed { get; set; } = new();
-    public string? RequestId { get; set; }
-    public string? ServerRuntime { get; set; }
-    public DateTime ServerTimeUtc { get; set; }
-
-    [JsonPropertyName("FunctionTrustWarning")]
-    public string? FunctionTrustWarning { get; set; }
-}
-
-[JsonSourceGenerationOptions(WriteIndented = true)]
-[JsonSerializable(typeof(RunPmlCommandResponse))]
-[JsonSerializable(typeof(PmlListToolResponse))]
-[JsonSerializable(typeof(YuzuhaConnectionStatus))]
-[JsonSerializable(typeof(HostIdentityResponse))]
-[JsonSerializable(typeof(AvevaSessionListResponse))]
-[JsonSerializable(typeof(AvevaSessionCandidate))]
-internal partial class YuzuhaJsonContext : JsonSerializerContext
-{
-}
-
-[JsonSourceGenerationOptions(
-    PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase)]
-[JsonSerializable(typeof(List<DynamicParameterInput>))]
-[JsonSerializable(typeof(DynamicParameterInput))]
-[JsonSerializable(typeof(int))]
-[JsonSerializable(typeof(string))]
-[JsonSerializable(typeof(bool))]
-[JsonSerializable(typeof(object))]
-[JsonSerializable(typeof(JsonElement))]
-internal partial class YuzuhaToolJsonContext : JsonSerializerContext
-{
-}
 
 [McpServerToolType]
 public sealed class PmlCallTools
 {
     private readonly YuzuhaRpcBridge _bridge;
-    private readonly PmlFunctionTrustStore _trust;
+    private readonly OperationExecutor _executor;
 
     public PmlCallTools(
         YuzuhaRpcBridge bridge,
         PmlFunctionTrustStore trust)
     {
         _bridge = bridge;
-        _trust = trust;
+        _executor = YuzuhaOperationCatalog.Create(bridge, trust, bridge.CreateIndependent);
     }
 
     [McpServerTool]
@@ -117,9 +28,7 @@ public sealed class PmlCallTools
         "whether that pipe was observed. Never selects a session automatically.")]
     public string ListAvevaSessions()
     {
-        return JsonSerializer.Serialize(
-            _bridge.DiscoverSessions(),
-            YuzuhaJsonContext.Default.AvevaSessionListResponse);
+        return InvokeLegacyAsync(YuzuhaOperationIds.Sessions, new(), new(), default).GetAwaiter().GetResult();
     }
 
     [McpServerTool]
@@ -138,31 +47,7 @@ public sealed class PmlCallTools
         string? expectedModel = null,
         CancellationToken cancellationToken = default)
     {
-        try
-        {
-            var status = await _bridge.SelectSessionAsync(
-                    processId,
-                    expectedModel,
-                    cancellationToken)
-                .ConfigureAwait(false);
-            return JsonSerializer.Serialize(
-                status,
-                YuzuhaJsonContext.Default.YuzuhaConnectionStatus);
-        }
-        catch (OperationCanceledException)
-        {
-            throw;
-        }
-        catch (Exception exception)
-        {
-            return JsonSerializer.Serialize(
-                new YuzuhaConnectionStatus
-                {
-                    Error = "AVEVA_SESSION_SELECTION_FAILED: " +
-                            exception.Message
-                },
-                YuzuhaJsonContext.Default.YuzuhaConnectionStatus);
-        }
+        return await InvokeLegacyAsync(YuzuhaOperationIds.Select, new(), new(processId, expectedModel), cancellationToken);
     }
 
     [McpServerTool]
@@ -174,11 +59,7 @@ public sealed class PmlCallTools
     public async Task<string> GetConnectionStatus(
         CancellationToken cancellationToken)
     {
-        var status = await _bridge.GetConnectionStatusAsync(cancellationToken)
-            .ConfigureAwait(false);
-        return JsonSerializer.Serialize(
-            status,
-            YuzuhaJsonContext.Default.YuzuhaConnectionStatus);
+        return await InvokeLegacyAsync(YuzuhaOperationIds.Status, new(), new(), cancellationToken);
     }
 
     [McpServerTool]
@@ -197,26 +78,9 @@ public sealed class PmlCallTools
             "Use an empty array for a parameterless method.")]
         List<DynamicParameterInput>? parameters)
     {
-        if (parameters == null || parameters.Count == 0)
-            return PmlMethodSignatureGenerator.Build(
-                methodName);
-
-        var values =
-            new DynamicParameter[parameters.Count];
-
-        for (var index = 0; index < parameters.Count; index++)
-        {
-            var input = parameters[index]
-                        ?? throw new ArgumentException(
-                            "Parameter at index " + index + " is null.",
-                            nameof(parameters));
-
-            values[index] = new DynamicParameter(
-                input.Type,
-                NormalizeJsonValue(input.Value));
-        }
-
-        return PmlMethodSignatureGenerator.Build(methodName, values);
+        var input = new JsonObject { ["methodName"] = methodName,
+            ["parameters"] = JsonSerializer.SerializeToNode(parameters ?? [], YuzuhaToolJsonContext.Default.ListDynamicParameterInput) };
+        return InvokeLegacyAsync(YuzuhaOperationIds.Generate, input, new(), default).GetAwaiter().GetResult();
     }
 
     [McpServerTool]
@@ -232,29 +96,10 @@ public sealed class PmlCallTools
         string pmlCommand,
         CancellationToken cancellationToken)
     {
-        try
-        {
-            var response =
-                await _bridge.RunPmlCommandAsync(
-                        pmlCommand,
-                        cancellationToken)
-                    .ConfigureAwait(false);
-
-            response.FunctionTrustWarning =
-                _trust.GetUntrustedWarning(pmlCommand);
-
-            return JsonSerializer.Serialize(
-                response,
-                YuzuhaJsonContext.Default.RunPmlCommandResponse);
-        }
-        catch (OperationCanceledException)
-        {
-            throw;
-        }
-        catch (Exception exception)
-        {
-            return TransportFailure(pmlCommand, exception);
-        }
+        var context = await SelectedContextAsync(cancellationToken);
+        if (context == null) return "PML RPC failed: E3D_TARGET_NOT_SELECTED_OR_VERIFIED: Check get_connection_status; never retry automatically.";
+        return await InvokeLegacyAsync(YuzuhaOperationIds.Execute,
+            new JsonObject { ["pmlCommand"] = pmlCommand }, context, cancellationToken);
     }
 
     [McpServerTool]
@@ -287,214 +132,36 @@ public sealed class PmlCallTools
         bool includeEmpty = true,
         CancellationToken cancellationToken = default)
     {
-        try
-        {
-            var response =
-                await _bridge.RunPmlCommandListAsync(
-                        pmlCommand,
-                        globalVar,
-                        deleteGlobalVar,
-                        cancellationToken)
-                    .ConfigureAwait(false);
-
-            List<PmlListItem> items = new();
-            List<string> unparsed = new();
-
-            if (response.ResultList != null)
-                foreach (var raw in response.ResultList)
-                    if (TryParsePmlListItem(raw, out var item))
-                        items.Add(item!);
-                    else
-                        unparsed.Add(raw);
-
-            // L2: aggregate over the full set (before includeEmpty filtering).
-            PmlListSummary summary = new()
-            {
-                Total = items.Count,
-                Unset = items.Count(i => i.Empty && i.Type != "STRING" && i.Type != "ARRAY"),
-                Blank = items.Count(i => i.Empty && i.Type == "STRING"),
-                Zero = items.Count(i => !i.Empty && i.Type == "REAL" && IsZeroValue(i.Value)),
-                EmptyArray = items.Count(i => i.Empty && i.Type == "ARRAY"),
-                HasValue = items.Count(i => !i.Empty),
-                ByType = items
-                    .GroupBy(i => i.Type)
-                    .ToDictionary(g => g.Key, g => g.Count())
-            };
-
-            // L3: optional filtering of empty items.
-            var shown = includeEmpty
-                ? items
-                : items.Where(i => !i.Empty).ToList();
-
-            PmlListToolResponse toolResponse = new()
-            {
-                Success = response.Success,
-                Code = response.Code,
-                ErrorMessage = response.ErrorMessage,
-                PmlCommand = response.PmlCommand,
-                Summary = summary,
-                Count = shown.Count,
-                Items = shown,
-                IncludeEmpty = includeEmpty,
-                UnparsedCount = unparsed.Count,
-                Unparsed = unparsed,
-                RequestId = response.RequestId,
-                ServerRuntime = response.ServerRuntime,
-                ServerTimeUtc = response.ServerTimeUtc,
-                FunctionTrustWarning = _trust.GetUntrustedWarning(pmlCommand)
-            };
-
-            return JsonSerializer.Serialize(
-                toolResponse,
-                YuzuhaJsonContext.Default.PmlListToolResponse);
-        }
-        catch (OperationCanceledException)
-        {
-            throw;
-        }
-        catch (Exception exception)
-        {
-            return TransportFailure(pmlCommand, exception);
-        }
+        var context = await SelectedContextAsync(cancellationToken);
+        if (context == null) return "PML RPC failed: E3D_TARGET_NOT_SELECTED_OR_VERIFIED: Check get_connection_status; never retry automatically.";
+        return await InvokeLegacyAsync(YuzuhaOperationIds.ReadArray,
+            new JsonObject { ["pmlCommand"] = pmlCommand, ["globalVar"] = globalVar,
+                ["deleteGlobalVar"] = deleteGlobalVar, ["includeEmpty"] = includeEmpty }, context, cancellationToken);
     }
 
-    /// <summary>
-    ///     Formats a transport-level failure. The leading "PML RPC failed:"
-    ///     marker stays stable for downstream parsing; the trailing triage
-    ///     note keeps agents from treating a dead pipe or an unloaded host as
-    ///     evidence that the user's PML function itself is wrong.
-    /// </summary>
-    private static string TransportFailure(
-        string pmlCommand,
-        Exception exception)
+    private async Task<OperationContext?> SelectedContextAsync(CancellationToken token)
     {
-        return "PML RPC failed: " + exception.Message +
-               " (transport/connectivity failure — this does not prove the " +
-               "PML function is wrong. Check get_connection_status or " +
-               "list_aveva_sessions, confirm with the user whether the host " +
-               "is loaded, and never retry automatically.)";
+        var status = await _bridge.GetConnectionStatusAsync(token).ConfigureAwait(false);
+        return status.TargetVerified
+            ? new(status.ExpectedProcessId, status.ExpectedModel, AllowExecution: true) : null;
     }
 
-    /// <summary>
-    ///     Parses one ResultList item from the PML string format
-    ///     "&lt;STRING&gt; '[depth] path &lt;TYPE&gt; value'" into a PmlListItem.
-    ///     Path may be empty (element-level rows). Applies L1 normalization:
-    ///     STRING values are unquoted; Unset / blank / empty-array values become
-    ///     Value=null with Empty=true.
-    /// </summary>
-    private static bool TryParsePmlListItem(string raw, out PmlListItem? parsed)
+    private async Task<string> InvokeLegacyAsync(string id, JsonObject input,
+        OperationContext context, CancellationToken token)
     {
-        parsed = null;
-        if (string.IsNullOrEmpty(raw)) return false;
-
-        var text = raw;
-        const string wrapperPrefix = "<STRING> '";
-        if (text.StartsWith(wrapperPrefix, StringComparison.Ordinal) &&
-            text.EndsWith("'", StringComparison.Ordinal))
-            text = text.Substring(
-                wrapperPrefix.Length,
-                text.Length - wrapperPrefix.Length - 1);
-
-        var match = Regex.Match(
-            text,
-            @"^\[(\d+)\]\s*(.*?)\s*<([A-Za-z0-9_]+)>\s*(.*)$");
-
-        if (!match.Success) return false;
-
-        var type = match.Groups[3].Value;
-        var rawValue = match.Groups[4].Value.Trim();
-
-        PmlListItem item = new()
-        {
-            Depth = int.Parse(match.Groups[1].Value),
-            Path = match.Groups[2].Value.Trim(),
-            Type = type,
-            Value = rawValue,
-            Empty = false
-        };
-
-        // L1: normalize empty / unset / blank values.
-        if (type == "STRING")
-        {
-            var unquoted = UnquotePmlString(rawValue);
-            if (string.IsNullOrWhiteSpace(unquoted))
-            {
-                item.Value = null;
-                item.Empty = true;
-            }
-            else
-            {
-                item.Value = unquoted;
-            }
-        }
-        else if (rawValue.Equals("Unset", StringComparison.OrdinalIgnoreCase))
-        {
-            item.Value = null;
-            item.Empty = true;
-        }
-        else if (type == "ARRAY" &&
-                 Regex.IsMatch(rawValue, @"^0\s+Elements?$", RegexOptions.IgnoreCase))
-        {
-            item.Value = null;
-            item.Empty = true;
-        }
-
-        parsed = item;
-        return true;
-    }
-
-    /// <summary>
-    ///     Strips one surrounding PML single-quote pair from a string display.
-    /// </summary>
-    private static string UnquotePmlString(string value)
-    {
-        if (value.Length >= 2 &&
-            value[0] == '\'' &&
-            value[value.Length - 1] == '\'')
-            return value.Substring(1, value.Length - 2);
-
-        return value;
-    }
-
-    /// <summary>
-    ///     True when a REAL display like "0", "0mm", or "0pascal" is numerically
-    ///     zero (unit suffix ignored).
-    /// </summary>
-    private static bool IsZeroValue(string? value)
-    {
-        if (value == null) return false;
-
-        var match = Regex.Match(value, @"^-?\d+(\.\d+)?");
-        if (!match.Success) return false;
-
-        return double.TryParse(
-            match.Value,
-            NumberStyles.Float,
-            CultureInfo.InvariantCulture,
-            out var number) && number == 0d;
-    }
-
-    private static object? NormalizeJsonValue(object? value)
-    {
-        if (value is not JsonElement element) return value;
-
-        switch (element.ValueKind)
-        {
-            case JsonValueKind.String:
-                return element.GetString();
-            case JsonValueKind.True:
-                return true;
-            case JsonValueKind.False:
-                return false;
-            case JsonValueKind.Number:
-                return element.GetRawText();
-            case JsonValueKind.Null:
-            case JsonValueKind.Undefined:
-                return null;
-            default:
-                throw new FormatException(
-                    "Parameter value must be a JSON string, boolean, " +
-                    "number, or null.");
-        }
+        var result = await _executor.InvokeAsync(id,
+            JsonSerializer.SerializeToElement(input, YuzuhaToolJsonContext.Default.JsonObject), context, token)
+            .ConfigureAwait(false);
+        if (result.ExitCode == OperationExitCodes.Cancelled) throw new OperationCanceledException(token);
+        if (result.Data is { } data)
+            return id == YuzuhaOperationIds.Generate ? data.GetString()! : data.GetRawText();
+        if (id == YuzuhaOperationIds.Select)
+            return JsonSerializer.Serialize(new YuzuhaConnectionStatus
+            { Error = "AVEVA_SESSION_SELECTION_FAILED: " + result.Error?.Message },
+                YuzuhaJsonContext.Default.YuzuhaConnectionStatus);
+        if (id == YuzuhaOperationIds.Generate) throw new ArgumentException(result.Error?.Message);
+        return "PML RPC failed: " + result.Error?.Message +
+            " (transport/connectivity or target verification failure; this does not prove the PML function is wrong. " +
+            "Check get_connection_status or list_aveva_sessions; never retry automatically.)";
     }
 }

@@ -26,7 +26,13 @@ public sealed class AvevaSessionListResponse
     public string? Error { get; set; }
 }
 
-public sealed class AvevaSessionDiscovery
+public interface IAvevaSessionDiscovery
+{
+    AvevaSessionListResponse Discover();
+    AvevaSessionCandidate RequireCandidate(int processId);
+}
+
+public sealed class AvevaSessionDiscovery : IAvevaSessionDiscovery
 {
     private const string PipePrefix = "yuzuha.pml.command.v1.pid-";
 

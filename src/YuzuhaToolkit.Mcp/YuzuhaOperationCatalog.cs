@@ -101,7 +101,7 @@ public static class YuzuhaOperationCatalog
         yield return Describe(YuzuhaOperationIds.Select, "Select and verify an explicit PID. Selection lives only in this process.", "{}", pid: true);
         yield return Describe(YuzuhaOperationIds.Status, "Recheck identity; with PID, open a fresh verified connection. Without PID, inspect this process's selection.", "{}");
         yield return Describe(YuzuhaOperationIds.Generate, "Generate PML call text only; never executes it.", """
-            {"methodName":{"type":"string","minLength":1,"pattern":"^[A-Za-z_][A-Za-z0-9_]*$"},
+            {"methodName":{"type":"string","minLength":1,"pattern":"^[A-Za-z_][A-Za-z0-9_]*(\\.[A-Za-z_][A-Za-z0-9_]*)*$"},
              "parameters":{"type":"array","items":{"type":"object","additionalProperties":false,
                 "properties":{"type":{"type":"string","enum":["string","str","bool","boolean","double","real","number"]},
                               "value":{"anyOf":[{"type":"string"},{"type":"boolean"},{"type":"number"},{"type":"null"}]}},

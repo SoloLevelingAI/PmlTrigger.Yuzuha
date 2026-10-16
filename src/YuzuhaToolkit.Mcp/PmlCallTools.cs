@@ -78,8 +78,10 @@ public sealed class PmlCallTools
             "Use an empty array for a parameterless method.")]
         List<DynamicParameterInput>? parameters)
     {
-        var input = new JsonObject { ["methodName"] = methodName,
-            ["parameters"] = JsonSerializer.SerializeToNode(parameters ?? [], YuzuhaToolJsonContext.Default.ListDynamicParameterInput) };
+        var normalized = parameters?.Select(p => p == null ? null! : new DynamicParameterInput
+        { Type = p.Type?.Trim().ToLowerInvariant() ?? string.Empty, Value = p.Value }).ToList() ?? [];
+        var input = new JsonObject { ["methodName"] = methodName?.Trim(),
+            ["parameters"] = JsonSerializer.SerializeToNode(normalized, YuzuhaToolJsonContext.Default.ListDynamicParameterInput) };
         return InvokeLegacyAsync(YuzuhaOperationIds.Generate, input, new(), default).GetAwaiter().GetResult();
     }
 

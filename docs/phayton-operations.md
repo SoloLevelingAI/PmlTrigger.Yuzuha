@@ -32,6 +32,11 @@ names. The validator implements the schema subset used here: `type`, `anyOf`,
 Breaking behavior requires a new contract version/ID; IDs do not depend on CLR
 method names or localized labels.
 
+Generation accepts dot-separated global object/member methods such as
+`YuzuhaExecuter.ExecuteFile` as well as global functions. The legacy MCP adapter
+also preserves trimming and case-insensitive parameter type aliases; new JSON
+operation inputs use the documented lowercase aliases.
+
 ## Build and CLI
 
 On Windows with .NET 10 SDK:

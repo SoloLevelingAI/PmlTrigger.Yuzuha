@@ -65,6 +65,12 @@ await Test("generator escapes text and is culture independent", async () =>
 await Test("generator rejects injected method names", async () =>
     Assert((await executor.InvokeAsync(YuzuhaOperationIds.Generate,
         Json("""{"methodName":"Example()\nDELETE"}"""), new())).ExitCode == 2));
+await Test("generator supports qualified global object methods", async () =>
+{
+    var result = await executor.InvokeAsync(YuzuhaOperationIds.Generate,
+        Json("""{"methodName":"YuzuhaExecuter.ExecuteFile","parameters":[{"type":"str","value":"example.pmlmac"}]}"""), new());
+    Assert(result.Success && result.Data!.Value.GetString() == "!!YuzuhaExecuter.ExecuteFile('example.pmlmac')");
+});
 await Test("pure operations do not bind even with explicit PID", async () =>
 {
     using var f = new Fixture();
@@ -174,6 +180,7 @@ await Test("legacy tools preserve output, trust warning and selected-PID require
     Assert((await tools.RunPmlCommand("Q", default)).StartsWith("PML RPC failed:"));
     Assert(tools.GeneratePmlCall("Example", null) == "!!Example()");
     Assert(tools.GeneratePmlCall("Example", [new() { Type = "double", Value = 1.5 }]) == "!!Example(1.5)");
+    Assert(tools.GeneratePmlCall(" Example ", [new() { Type = " REAL ", Value = 1.5 }]) == "!!Example(1.5)");
     Assert(Json(await tools.GetConnectionStatus(default)).GetProperty("TargetVerified").GetBoolean() == false);
     await tools.SelectAvevaSession(42, "Design");
     f.Trust.Set("Example", "untrusted", "test-only user-confirmed entry", null);

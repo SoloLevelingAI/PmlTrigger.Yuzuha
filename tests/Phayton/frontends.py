@@ -28,6 +28,7 @@ assert description["requiresPid"] and description["requiresExecution"]
 cli(["op", "describe", "not.found"], 3)
 assert cli(["op", "invoke", "pml.call.generate", "--input", json.dumps({
     "methodName": "Example", "parameters": [{"type": "str", "value": "O'Brien 中文"}]}, ensure_ascii=False)], 0)["data"] == "!!Example('O''Brien 中文')"
+assert cli(["op", "invoke", "pml.call.generate", "--input", '{"methodName":"YuzuhaExecuter.ExecuteFile"}'], 0)["data"] == "!!YuzuhaExecuter.ExecuteFile()"
 cli(["op", "invoke", "pml.command.execute", "--input", '{"pmlCommand":"!!Example()"}'], 5)
 cli(["op", "invoke", "pml.command.execute", "--pid", "2147483647", "--input", '{"pmlCommand":"!!Example()"}'], 4)
 cli(["op", "invoke", "pml.command.execute", "--pid", "2147483647", "--allow-execution",
@@ -35,7 +36,7 @@ cli(["op", "invoke", "pml.command.execute", "--pid", "2147483647", "--allow-exec
 cli(["op", "invoke", "aveva.session.status"], 5)  # Another CLI process cannot inherit selection.
 cli(["op", "invoke", "pml.call.generate", "--input", "{bad}"], 2)
 cli(["op", "invoke", "pml.call.generate", "--pid", "0"], 2)
-print("PASS 10 real CLI process checks")
+print("PASS 11 real CLI process checks")
 
 process = subprocess.Popen(command(args.mcp), stdin=subprocess.PIPE, stdout=subprocess.PIPE,
                            stderr=subprocess.PIPE, text=True, encoding="utf-8", bufsize=1)
@@ -80,6 +81,8 @@ try:
             "op_list", "op_describe", "op_invoke"} <= names, names
     assert len(json.loads(tool("op_list", {}))) == 6
     assert tool("generate_pml_call", {"methodName": "Example", "parameters": []}) == "!!Example()"
+    assert tool("generate_pml_call", {"methodName": " YuzuhaExecuter.ExecuteFile ",
+                "parameters": [{"type": " STR ", "value": "example.pmlmac"}]}) == "!!YuzuhaExecuter.ExecuteFile('example.pmlmac')"
     assert json.loads(tool("get_builtin_usage", {"query": "read-current-element"}))
     assert tool("run_pml_command", {"pmlCommand": "!!Example()"}).startswith("PML RPC failed:")
     result = json.loads(tool("op_invoke", {"operationId": "pml.command.execute", "processId": 2147483647,

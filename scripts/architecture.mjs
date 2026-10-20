@@ -26,7 +26,9 @@ if (mode === 'generate') {
   await writeFile(destination, generated);
   console.log('Generated docs/architecture/projects.c4');
 } else if (mode === 'check') {
-  if (await readFile(destination, 'utf8') !== generated)
+  // Windows checkouts may use CRLF; compare model content independently of line endings.
+  const existing = (await readFile(destination, 'utf8')).replace(/\r\n/g, '\n');
+  if (existing !== generated)
     throw new Error('Architecture projection is stale. Run npm run architecture:generate and review the diff.');
   console.log('Architecture projection matches the approved dependency graph.');
 } else throw new Error(`Unknown command: ${mode}`);

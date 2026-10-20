@@ -1,0 +1,31 @@
+- name: 开发导读
+  href: index.md
+- name: 流程与入口
+  href: flows.md
+- name: CLI / MCP
+  href: cli.md
+- name: 原生工作台
+  href: workspace.md
+- name: 文档维护
+  href: documentation.md
+- name: 架构与边界
+  href: architecture.md
+- name: 测试与验证
+  href: testing.md
+- name: C# API
+  href: api/index.md
+  items:
+  - name: 项目、模块与完整文档
+    href: ../../artifacts/docfx/navigation/toc.yml
+  - name: 执行 MCP
+    href: ../../artifacts/docfx/api/mcp/toc.yml
+  - name: 知识 MCP
+    href: ../../artifacts/docfx/api/knowledge/toc.yml
+  - name: Named Pipe RPC
+    href: ../../artifacts/docfx/api/rpc/toc.yml
+  - name: 开发 HTTP API
+    href: ../../artifacts/docfx/api/devhost/toc.yml
+  - name: CLI / MCP 适配
+    href: ../../artifacts/docfx/api/cli/toc.yml
+  - name: 共享工作区
+    href: ../../artifacts/docfx/api/workspace/toc.yml

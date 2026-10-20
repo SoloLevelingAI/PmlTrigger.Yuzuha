@@ -8,13 +8,16 @@ using YuzuhaToolkit.Pml;
 
 namespace YuzuhaToolkit.Mcp;
 
+/// <summary>从 MCP JSON 输入读取的参数类型与标量值。</summary>
 public sealed class DynamicParameterInput
 {
+    /// <summary>Parameter type: string/str, bool/boolean, or double/real/number.</summary>
     [Description(
         "Parameter type: string/str, bool/boolean, or " +
         "double/real/number.")]
     public string Type { get; set; } = string.Empty;
 
+    /// <summary>Parameter value. JSON strings, booleans, and numbers are accepted.</summary>
     [Description(
         "Parameter value. JSON strings, booleans, and numbers are accepted.")]
     public object? Value { get; set; }
@@ -27,50 +30,79 @@ public sealed class DynamicParameterInput
 /// </summary>
 public sealed class PmlListItem
 {
+    /// <summary>该条目在 BFS 展开结果中的层级。</summary>
     public int Depth { get; set; }
+    /// <summary>当前条目、来源或文件的可追踪路径。</summary>
     public string Path { get; set; } = string.Empty;
+    /// <summary>PML 数据类型名称或动态参数的类型别名。</summary>
     public string Type { get; set; } = string.Empty;
+    /// <summary>当前参数或 PML 条目的标量值；空值表示未设置。</summary>
     public string? Value { get; set; }
+    /// <summary>该条目是否代表 unset、空白或空数组。</summary>
     public bool Empty { get; set; }
 }
 
+/// <summary>BFS 列表的空值、零值和类型分布统计。</summary>
 internal sealed class PmlListSummary
 {
+    /// <summary>未过滤的原始条目总数。</summary>
     [JsonPropertyName("total")] public int Total { get; set; }
 
+    /// <summary>值未设置的条目数量。</summary>
     [JsonPropertyName("unset")] public int Unset { get; set; }
 
+    /// <summary>空白字符串条目数量。</summary>
     [JsonPropertyName("blank")] public int Blank { get; set; }
 
+    /// <summary>数值为零的条目数量。</summary>
     [JsonPropertyName("zero")] public int Zero { get; set; }
 
+    /// <summary>空数组条目数量。</summary>
     [JsonPropertyName("emptyArray")] public int EmptyArray { get; set; }
 
+    /// <summary>具有有效非空值的条目数量。</summary>
     [JsonPropertyName("hasValue")] public int HasValue { get; set; }
 
+    /// <summary>按 PML 类型名称统计的条目数量。</summary>
     [JsonPropertyName("byType")] public Dictionary<string, int> ByType { get; set; } = new();
 }
 
+/// <summary>PML 列表调用的结果、过滤后条目、全量统计及不可解析行。</summary>
 internal sealed class PmlListToolResponse
 {
+    /// <summary>该次协议或业务操作报告的成功标志。</summary>
     public bool Success { get; set; }
+    /// <summary>稳定的业务状态或失败代码。</summary>
     public string? Code { get; set; }
+    /// <summary>执行失败的可读原因，成功时通常为空。</summary>
     public string? ErrorMessage { get; set; }
+    /// <summary>已生成或准备执行的完整 PML 文本。</summary>
     public string? PmlCommand { get; set; }
+    /// <summary>过滤前的完整 BFS 类型与空值统计。</summary>
     public PmlListSummary Summary { get; set; } = new();
+    /// <summary>当前返回集合的条目数量。</summary>
     public int Count { get; set; }
+    /// <summary>经过请求过滤后返回的条目集合。</summary>
     public List<PmlListItem> Items { get; set; } = new();
+    /// <summary>结果是否保留空值条目；统计仍基于完整数据。</summary>
     public bool IncludeEmpty { get; set; }
+    /// <summary>未能按 BFS 格式解释的原始行数量。</summary>
     public int UnparsedCount { get; set; }
+    /// <summary>未解析的原始行，供诊断而不丢弃来源数据。</summary>
     public List<string> Unparsed { get; set; } = new();
+    /// <summary>用于关联一个请求与响应的编号。</summary>
     public string? RequestId { get; set; }
+    /// <summary>处理请求的 Host 运行时标识。</summary>
     public string? ServerRuntime { get; set; }
+    /// <summary>Host 生成响应时的 UTC 时间。</summary>
     public DateTime ServerTimeUtc { get; set; }
 
+    /// <summary>由本机人工信任记录补充的提示，不作为传输失败的结论。</summary>
     [JsonPropertyName("FunctionTrustWarning")]
     public string? FunctionTrustWarning { get; set; }
 }
 
+/// <summary>为对应协议模型提供编译期 JSON 类型元数据，支持 Native AOT。</summary>
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(RunPmlCommandResponse))]
 [JsonSerializable(typeof(PmlListToolResponse))]
@@ -82,6 +114,7 @@ internal partial class YuzuhaJsonContext : JsonSerializerContext
 {
 }
 
+/// <summary>为对应协议模型提供编译期 JSON 类型元数据，支持 Native AOT。</summary>
 [JsonSourceGenerationOptions(
     PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase)]
 [JsonSerializable(typeof(List<DynamicParameterInput>))]
@@ -95,12 +128,16 @@ internal partial class YuzuhaToolJsonContext : JsonSerializerContext
 {
 }
 
+/// <summary>MCP 会话选择、身份核验、纯调用文本生成和显式 PML 执行入口。</summary>
 [McpServerToolType]
 public sealed class PmlCallTools
 {
     private readonly YuzuhaRpcBridge _bridge;
     private readonly PmlFunctionTrustStore _trust;
 
+    /// <summary>复用会话桥与人工信任存储提供 MCP 工具，不在构造时执行模型操作。</summary>
+    /// <param name="bridge">已选择会话的身份核验与 RPC 协调器。</param>
+    /// <param name="trust">用户人工确认的函数信任记录存储。</param>
     public PmlCallTools(
         YuzuhaRpcBridge bridge,
         PmlFunctionTrustStore trust)
@@ -109,6 +146,7 @@ public sealed class PmlCallTools
         _trust = trust;
     }
 
+    /// <summary>Discovers visible AVEVA E3D, PDMS, and Marine sessions without opening an RPC connection or executing PML. Returns window title, project, PID, process start time, expected PID-bound pipe, and whether that pipe was observed. Never selects a session automatically.</summary>
     [McpServerTool]
     [Description(
         "Discovers visible AVEVA E3D, PDMS, and Marine sessions without " +
@@ -122,6 +160,10 @@ public sealed class PmlCallTools
             YuzuhaJsonContext.Default.AvevaSessionListResponse);
     }
 
+    /// <summary>Selects one PID returned by list_aveva_sessions, then connects only to its PID-bound pipe and verifies PID, process start time, pipe, and host-reported module. This does not execute PML. An optional expectedModel such as Design makes module matching mandatory.</summary>
+    /// <param name="processId">Exact process ID returned by list_aveva_sessions. Do not guess.</param>
+    /// <param name="expectedModel">Optional expected AVEVA module, for example Design or Draft. Leave null to accept and lock the module reported by the host.</param>
+    /// <param name="cancellationToken">取消等待或传输；远端已经开始的命令可能继续执行，不能据此自动重试。</param>
     [McpServerTool]
     [Description(
         "Selects one PID returned by list_aveva_sessions, then connects only " +
@@ -165,6 +207,8 @@ public sealed class PmlCallTools
         }
     }
 
+    /// <summary>Checks the explicitly selected AVEVA session without executing PML. TargetVerified is true only when PID, process start time, model, and PID-bound pipe all match. Returns E3D_TARGET_NOT_SELECTED until select_aveva_session succeeds.</summary>
+    /// <param name="cancellationToken">取消等待或传输；远端已经开始的命令可能继续执行，不能据此自动重试。</param>
     [McpServerTool]
     [Description(
         "Checks the explicitly selected AVEVA session without executing PML. " +
@@ -181,6 +225,9 @@ public sealed class PmlCallTools
             YuzuhaJsonContext.Default.YuzuhaConnectionStatus);
     }
 
+    /// <summary>Generates a PML global-method call string from a method name and an ordered dynamic parameter array. This only builds text and does not execute PML. Example: methodName BatchCrtAnciForCheck with bool true followed by string 测试 returns !!BatchCrtAnciForCheck(TRUE,'测试').</summary>
+    /// <param name="methodName">PML method name without the leading !! or parentheses.</param>
+    /// <param name="parameters">Ordered dynamic parameters. Each item contains type and value. Use an empty array for a parameterless method.</param>
     [McpServerTool]
     [Description(
         "Generates a PML global-method call string from a method name and " +
@@ -219,11 +266,15 @@ public sealed class PmlCallTools
         return PmlMethodSignatureGenerator.Build(methodName, values);
     }
 
+    /// <summary>通过已核验 Host 原生执行 PML；开发任务授权覆盖相关连续操作，不逐条重复审批，超时不自动重试。</summary>
+    /// <param name="pmlCommand">Complete PML command text, for example !!TestAgent4(TRUE,2,'你好').</param>
+    /// <param name="cancellationToken">取消等待或传输；远端已经开始的命令可能继续执行，不能据此自动重试。</param>
     [McpServerTool]
     [Description(
         "Executes one already-generated PML command inside the local AVEVA " +
         "host through Named Pipe RPC. This has host-side effects. " +
-        "Call it only when the user explicitly asks to execute the command, " +
+        "Use within the user's authorized development task without requesting " +
+        "separate approval for every related command, " +
         "and do not retry automatically.")]
     public async Task<string> RunPmlCommand(
         [Description(
@@ -257,6 +308,12 @@ public sealed class PmlCallTools
         }
     }
 
+    /// <summary>Executes a PML expression whose result is stored in a global array variable, then returns the whole array parsed into structured JSON for AI consumption (no E3D command-line printing). Each item is {depth, path, type, value, empty}: STRING values are unquoted, and Unset/blank/empty-array values are normalized to value=null with empty=true. A Summary block aggregates unset/blank/zero/emptyArray counts and counts by type. includeEmpty=false filters empty items out of Items (Summary still reflects the full set). Example: pmlCommand !!ATestGetByce20260823(300,2,''), globalVar PMLGLOBALARRFORRPC.</summary>
+    /// <param name="pmlCommand">Complete PML expression whose result is assigned to the global array variable, for example !!ATestGetByce20260823(300,2,'').</param>
+    /// <param name="globalVar">Name of the global array variable without the !! prefix, for example PMLGLOBALARRFORRPC.</param>
+    /// <param name="deleteGlobalVar">Whether to delete the global array variable after reading it.</param>
+    /// <param name="includeEmpty">Include empty/unset items in Items. Default true; set false to return only non-empty values.</param>
+    /// <param name="cancellationToken">取消等待或传输；远端已经开始的命令可能继续执行，不能据此自动重试。</param>
     [McpServerTool]
     [Description(
         "Executes a PML expression whose result is stored in a global array " +

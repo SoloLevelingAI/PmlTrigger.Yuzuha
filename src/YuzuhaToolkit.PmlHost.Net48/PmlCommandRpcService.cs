@@ -4,8 +4,12 @@ using System.Threading.Tasks;
 
 namespace YuzuhaToolkit.PmlHost;
 
+/// <summary>核验主线程后转发 Host 身份查询与 PML 执行，保留协议失败信息。</summary>
 internal sealed class PmlCommandRpcService : IPmlCommandService
 {
+    /// <summary>只读查询专用管道 Host 的进程、模块与启动身份，用于目标核验。</summary>
+    /// <param name="request">当前操作的请求数据及其显式目标或参数。</param>
+    /// <param name="cancellationToken">取消等待或传输；远端已经开始的命令可能继续执行，不能据此自动重试。</param>
     public Task<HostIdentityResponse> GetHostIdentityAsync(
         HostIdentityRequest request,
         CancellationToken cancellationToken)
@@ -27,6 +31,9 @@ internal sealed class PmlCommandRpcService : IPmlCommandService
         });
     }
 
+    /// <summary>在核验后的目标 Host 主线程执行一次已授权命令；取消或超时不自动重试。</summary>
+    /// <param name="request">当前操作的请求数据及其显式目标或参数。</param>
+    /// <param name="cancellationToken">取消等待或传输；远端已经开始的命令可能继续执行，不能据此自动重试。</param>
     public Task<RunPmlCommandResponse> RunPmlCommandAsync(
         RunPmlCommandRequest request,
         CancellationToken cancellationToken)

@@ -7,4 +7,8 @@
         <FileVersion>0.3.2.0</FileVersion>
         <InformationalVersion>0.3.2</InformationalVersion>
     </PropertyGroup>
+    <PropertyGroup Condition="'$(MSBuildProjectName)' == 'PlantHost.Rpc.Net10' Or '$(MSBuildProjectName)' == 'YuzuhaToolkit.Mcp' Or '$(MSBuildProjectName)' == 'YuzuhaToolkit.Knowledge' Or '$(MSBuildProjectName)' == 'YuzuhaToolkit.CommandLine' Or '$(MSBuildProjectName)' == 'YuzuhaToolkit.PmlHost.Net35' Or '$(MSBuildProjectName)' == 'YuzuhaToolkit.PmlHost.Net48' Or '$(MSBuildProjectName)' == 'SetupBridge'">
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <WarningsAsErrors>$(WarningsAsErrors);CS1591;CS1570;CS1572;CS1573;CS1574</WarningsAsErrors>
+    </PropertyGroup>
 </Project>

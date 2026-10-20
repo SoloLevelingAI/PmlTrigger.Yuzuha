@@ -20,8 +20,10 @@ public sealed partial class KnowledgeRepository
     private const string GeneratorName = "YuzuhaToolkit.Knowledge";
     private const int SchemaVersion = 1;
 
+    /// <summary>经安装布局或显式环境覆盖解析的本机知识库目录。</summary>
     public string DefaultDirectory { get; }
 
+    /// <summary>解析本机知识库默认目录，不在构造时建立或覆盖数据库。</summary>
     public KnowledgeRepository()
     {
         DefaultDirectory = ResolveDefaultDirectory();
@@ -53,6 +55,9 @@ public sealed partial class KnowledgeRepository
         return Path.Combine(exeDirectory, "knowledge");
     }
 
+    /// <summary>从显式路径或经校验的数据库名称解析本机文件位置，不创建文件。</summary>
+    /// <param name="dbName">经校验的不带扩展名的数据库名称。</param>
+    /// <param name="dbPath">显式数据库路径；提供时优先于名称解析。</param>
     public string ResolveDatabasePath(string? dbName, string? dbPath)
     {
         if (!string.IsNullOrWhiteSpace(dbPath))
@@ -71,6 +76,8 @@ public sealed partial class KnowledgeRepository
                 "and underscore.");
     }
 
+    /// <summary>列出本机知识库并按选项比较来源新鲜度，不自动构建索引。</summary>
+    /// <param name="checkFreshness">是否将清单统计与当前源目录比较。</param>
     public IReadOnlyList<KnowledgeDbSummary> List(bool checkFreshness)
     {
         List<KnowledgeDbSummary> summaries = new();
@@ -98,6 +105,10 @@ public sealed partial class KnowledgeRepository
         return summaries;
     }
 
+    /// <summary>读取数据库计数和清单，按选项检查来源目录是否发生变化。</summary>
+    /// <param name="database">所操作的本机 SQLite 文件路径。</param>
+    /// <param name="manifestPath">对应数据库的来源清单 JSON 路径。</param>
+    /// <param name="checkFreshness">是否将清单统计与当前源目录比较。</param>
     public KnowledgeDbSummary Summarize(
         string database,
         string manifestPath,
@@ -124,6 +135,8 @@ public sealed partial class KnowledgeRepository
             freshness);
     }
 
+    /// <summary>只读检查 SQLite 完整性、Yuzuha 表结构、版本和来源清单。</summary>
+    /// <param name="dbPath">显式数据库路径；提供时优先于名称解析。</param>
     public KnowledgeCheckResult Check(string dbPath)
     {
         dbPath = Path.GetFullPath(dbPath);
@@ -441,6 +454,14 @@ public sealed partial class KnowledgeRepository
             warnings);
     }
 
+    /// <summary>规划 FTS5 变体并执行只读检索，以加权倒数排名融合命中。</summary>
+    /// <param name="query">PML、英文或中文的任务描述或检索文本。</param>
+    /// <param name="dbName">经校验的不带扩展名的数据库名称。</param>
+    /// <param name="dbPath">显式数据库路径；提供时优先于名称解析。</param>
+    /// <param name="topK">返回命中总数上限，内部限制到工具支持范围。</param>
+    /// <param name="sourceType">pml 或 webhelp 等来源类型过滤或标识。</param>
+    /// <param name="module">PML 模块或资料目录范围。</param>
+    /// <param name="chunkType">函数、方法、窗体或 HTML 章节等片段类别。</param>
     public KnowledgeSearchResult Search(
         string query,
         string? dbName,
@@ -653,6 +674,10 @@ public sealed partial class KnowledgeRepository
             null);
     }
 
+    /// <summary>按数据库内片段编号读取完整正文、来源坐标与已记录路径。</summary>
+    /// <param name="chunkId">仅在指定数据库内部唯一的片段编号。</param>
+    /// <param name="dbName">经校验的不带扩展名的数据库名称。</param>
+    /// <param name="dbPath">显式数据库路径；提供时优先于名称解析。</param>
     public KnowledgeChunkDetail GetChunk(long chunkId, string? dbName, string? dbPath)
     {
         var database = ResolveDatabasePath(dbName, dbPath);
@@ -1252,6 +1277,16 @@ public sealed partial class KnowledgeRepository
         "CREATE VIRTUAL TABLE chunks_fts USING fts5(content, relative_path, module, " +
         "chunk_type, symbol, title)";
 
+    /// <summary>从 SQLite 读取、用于加权融合排序的中间命中行。</summary>
+    /// <param name="Id">来源或记录的稳定编号；重用规则由该操作约定。</param>
+    /// <param name="Content">完整正文或待保存的经验内容。</param>
+    /// <param name="ChunkType">函数、方法、窗体或 HTML 章节等片段类别。</param>
+    /// <param name="Symbol">从源码提取的函数、方法或主题符号。</param>
+    /// <param name="StartLine">源文件中从 1 开始的首行行号。</param>
+    /// <param name="EndLine">源文件中从 1 开始的末行行号，包含该行。</param>
+    /// <param name="SourceType">pml 或 webhelp 等来源类型过滤或标识。</param>
+    /// <param name="Module">PML 模块或资料目录范围。</param>
+    /// <param name="RelativePath">相对于该来源根目录的文件路径。</param>
     private sealed record SearchRow(
         long Id,
         string Content,
@@ -1264,8 +1299,11 @@ public sealed partial class KnowledgeRepository
         string RelativePath);
 }
 
+/// <summary>知识库名称、清单、索引或读取校验失败。</summary>
 public sealed class KnowledgeException : Exception
 {
+    /// <summary>保存本机知识生命周期校验失败的原因。</summary>
+    /// <param name="message">向调用方解释失败或状态的可读信息。</param>
     public KnowledgeException(string message) : base(message)
     {
     }

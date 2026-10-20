@@ -3,28 +3,39 @@ using System.Text.Json.Serialization;
 
 namespace YuzuhaToolkit.Mcp;
 
+/// <summary>用户明确确认的 PML 函数信任状态、原因与时间。</summary>
 public sealed class PmlFunctionTrustEntry
 {
+    /// <summary>经规范化的 PML 全局函数名称。</summary>
     [JsonPropertyName("functionName")] public string FunctionName { get; set; } = string.Empty;
 
+    /// <summary>当前协议状态；枚举或字符串取值由所属契约限定。</summary>
     [JsonPropertyName("state")] public string State { get; set; } = "untrusted";
 
+    /// <summary>状态变更或查询变体的可追踪原因。</summary>
     [JsonPropertyName("reason")] public string? Reason { get; set; }
 
+    /// <summary>用户确认发生问题时保存的 PML 调用文本。</summary>
     [JsonPropertyName("failingCommand")] public string? FailingCommand { get; set; }
 
+    /// <summary>该记录首次建立的 UTC 时间。</summary>
     [JsonPropertyName("createdAtUtc")] public DateTime CreatedAtUtc { get; set; }
 
+    /// <summary>该记录最后变更的 UTC 时间。</summary>
     [JsonPropertyName("updatedAtUtc")] public DateTime UpdatedAtUtc { get; set; }
 }
 
+/// <summary>本机函数信任文件的架构版本与记录集合。</summary>
 internal sealed class PmlFunctionTrustFile
 {
+    /// <summary>本机状态文件的架构版本。</summary>
     [JsonPropertyName("schema")] public int Schema { get; set; } = 1;
 
+    /// <summary>已保存的人工函数信任记录。</summary>
     [JsonPropertyName("functions")] public List<PmlFunctionTrustEntry> Functions { get; set; } = new();
 }
 
+/// <summary>为对应协议模型提供编译期 JSON 类型元数据，支持 Native AOT。</summary>
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(PmlFunctionTrustFile))]
 [JsonSerializable(typeof(PmlFunctionTrustListResponse))]
@@ -33,27 +44,38 @@ internal partial class PmlFunctionTrustJsonContext : JsonSerializerContext
 {
 }
 
+/// <summary>函数信任文件位置、分类计数与现有记录。</summary>
 public sealed class PmlFunctionTrustListResponse
 {
+    /// <summary>本机人工信任状态 JSON 文件位置。</summary>
     [JsonPropertyName("stateFile")] public string StateFile { get; set; } = string.Empty;
 
+    /// <summary>用户明确标为不可信的函数数量。</summary>
     [JsonPropertyName("untrustedCount")] public int UntrustedCount { get; set; }
 
+    /// <summary>用户明确恢复信任的函数数量。</summary>
     [JsonPropertyName("trustedCount")] public int TrustedCount { get; set; }
 
+    /// <summary>已保存的人工函数信任记录。</summary>
     [JsonPropertyName("functions")] public List<PmlFunctionTrustEntry> Functions { get; set; } = new();
 }
 
+/// <summary>一次明确授权的信任状态变更及结果说明。</summary>
 public sealed class PmlFunctionTrustMutationResponse
 {
+    /// <summary>此次操作是否完成其声明的校验或写入。</summary>
     [JsonPropertyName("ok")] public bool Ok { get; set; }
 
+    /// <summary>经规范化的 PML 全局函数名称。</summary>
     [JsonPropertyName("functionName")] public string FunctionName { get; set; } = string.Empty;
 
+    /// <summary>当前协议状态；枚举或字符串取值由所属契约限定。</summary>
     [JsonPropertyName("state")] public string State { get; set; } = string.Empty;
 
+    /// <summary>本机人工信任状态 JSON 文件位置。</summary>
     [JsonPropertyName("stateFile")] public string StateFile { get; set; } = string.Empty;
 
+    /// <summary>结果边界、诊断或下一步建议的说明。</summary>
     [JsonPropertyName("note")] public string? Note { get; set; }
 }
 
@@ -68,18 +90,24 @@ public sealed class PmlFunctionTrustStore
 {
     private readonly object _gate = new();
 
+    /// <summary>本机人工信任状态 JSON 文件位置。</summary>
     public string StateFile { get; }
 
+    /// <summary>配置人工信任状态文件位置，不在构造时改写记录。</summary>
     public PmlFunctionTrustStore()
         : this(YuzuhaToolkitPaths.TrustStateFile())
     {
     }
 
+    /// <summary>配置人工信任状态文件位置，不在构造时改写记录。</summary>
+    /// <param name="stateFile">本机 JSON 信任文件的完整路径。</param>
     public PmlFunctionTrustStore(string stateFile)
     {
         StateFile = stateFile;
     }
 
+    /// <summary>移除调用前缀与参数部分并转为规范大写函数名，不改变信任状态。</summary>
+    /// <param name="input">需要规范化的调用方输入或安装请求对象。</param>
     public static string NormalizeFunctionName(string? input)
     {
         var name = (input ?? string.Empty).Trim();
@@ -99,6 +127,7 @@ public sealed class PmlFunctionTrustStore
     ///     the command's leading <c>!!Name</c>, or null when the function is
     ///     absent or not untrusted.
     /// </summary>
+    /// <param name="pmlCommand">用户明确要求执行或查询的完整 PML 文本。</param>
     public string? GetUntrustedWarning(string? pmlCommand)
     {
         var name = NormalizeFunctionName(ExtractLeadingFunction(pmlCommand));
@@ -125,6 +154,7 @@ public sealed class PmlFunctionTrustStore
         }
     }
 
+    /// <summary>只读列出本机人工函数信任记录及分类计数；损坏文件不被当作执行结果。</summary>
     public PmlFunctionTrustListResponse List()
     {
         lock (_gate)
@@ -142,6 +172,11 @@ public sealed class PmlFunctionTrustStore
         }
     }
 
+    /// <summary>按用户明确指示设置或删除本机信任记录；通过临时文件替换保存结果。</summary>
+    /// <param name="functionName">用户明确要求维护信任状态的 PML 全局函数名称。</param>
+    /// <param name="state">由调用方明确指定的状态或原生枚举上下文。</param>
+    /// <param name="reason">用户确认状态变化的原因或验证依据。</param>
+    /// <param name="failingCommand">用户确认错误时保存的原始调用文本。</param>
     public PmlFunctionTrustMutationResponse Set(
         string functionName,
         string state,

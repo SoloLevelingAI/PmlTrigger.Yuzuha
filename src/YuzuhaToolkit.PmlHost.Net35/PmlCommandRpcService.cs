@@ -2,8 +2,11 @@ using System;
 
 namespace YuzuhaToolkit.PmlHost
 {
+    /// <summary>核验主线程后转发 Host 身份查询与 PML 执行，保留协议失败信息。</summary>
     internal sealed class PmlCommandRpcService : IPmlCommandService
     {
+        /// <summary>在主线程读取当前 Host 进程、模块、管道与启动时间。</summary>
+        /// <param name="request">当前操作的请求数据及其显式目标或参数。</param>
         public HostIdentityResponse GetHostIdentity(
             HostIdentityRequest request)
         {
@@ -23,6 +26,8 @@ namespace YuzuhaToolkit.PmlHost
             };
         }
 
+        /// <summary>在当前 AVEVA 主线程执行一次非空命令并返回 AVEVA 执行标志。</summary>
+        /// <param name="request">当前操作的请求数据及其显式目标或参数。</param>
         public RunPmlCommandResponse RunPmlCommand(
             RunPmlCommandRequest request)
         {

@@ -1,0 +1,39 @@
+// Generated from dependencies.json by npm run architecture:generate. Do not edit.
+specification {
+  element system
+  element component
+  element actor
+  element store
+  relationship build
+}
+model {
+  yuzuha = system "PmlTrigger.Yuzuha" {
+    rpc = component "Named Pipe RPC · .NET 10" { description "PlantHost.Rpc.Net10" }
+    workspace = component "工作区 · 启动、复制与运行日志" { description "YuzuhaToolkit.Workspace" }
+    desktop = component "Windows 原生工作台 · WPF" { description "YuzuhaToolkit.Desktop" }
+    cli = component "CLI / MCP 双入口适配" { description "YuzuhaToolkit.CommandLine" }
+    mcp = component "执行工具 · CLI / MCP · Native AOT" { description "YuzuhaToolkit.Mcp" }
+    knowledge = component "知识工具 · CLI / MCP · Native AOT" { description "YuzuhaToolkit.Knowledge" }
+    host35 = component "AVEVA Host · .NET 3.5" { description "YuzuhaToolkit.PmlHost.Net35" }
+    host48 = component "AVEVA Host · .NET 4.8" { description "YuzuhaToolkit.PmlHost.Net48" }
+    devhost = component "开发 HTTP API · OpenAPI / Scalar" { description "YuzuhaToolkit.DevHost" }
+    setup = component "安装计划桥 · .NET 4.8" { description "SetupBridge" }
+  }
+  yuzuha.desktop -[build]-> yuzuha.workspace "ProjectReference"
+  yuzuha.cli -[build]-> yuzuha.workspace "ProjectReference"
+  yuzuha.mcp -[build]-> yuzuha.rpc "ProjectReference"
+  yuzuha.mcp -[build]-> yuzuha.cli "ProjectReference"
+  yuzuha.mcp -[build]-> yuzuha.workspace "ProjectReference"
+  yuzuha.knowledge -[build]-> yuzuha.cli "ProjectReference"
+  yuzuha.knowledge -[build]-> yuzuha.workspace "ProjectReference"
+  yuzuha.devhost -[build]-> yuzuha.mcp "ProjectReference"
+  yuzuha.devhost -[build]-> yuzuha.knowledge "ProjectReference"
+}
+views {
+  view project_dependencies {
+    title "编译依赖 · 项目引用白名单"
+    include yuzuha.*
+    exclude * -> * where kind is not build
+    autoLayout LeftRight
+  }
+}

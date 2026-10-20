@@ -4,8 +4,13 @@ using CmdAm = Aveva.Core.Utilities.CommandLine;
 
 namespace YuzuhaToolkit.PmlHost;
 
+/// <summary>通过 AVEVA 命令读取全局数组，逐项返回字符串并清理临时变量。</summary>
 internal static class GetRequireFromE3D
 {
+    /// <summary>执行数组赋值、SIZE 和逐项读取，结束时按选项清理全局与临时变量。</summary>
+    /// <param name="pmlCommand">用户明确要求执行或查询的完整 PML 文本。</param>
+    /// <param name="globalVar">用于承载结果的 PML 全局数组变量名。</param>
+    /// <param name="deleteGlobalVar">读取结束时是否清理该结果全局变量。</param>
     internal static List<string> GetPmlVariableList(
         string pmlCommand,
         string globalVar,

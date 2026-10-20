@@ -2,6 +2,13 @@ using System.Text.RegularExpressions;
 
 namespace YuzuhaToolkit.Knowledge.Chunking;
 
+/// <summary>带符号、行范围和调用目标的 PML 语法片段。</summary>
+/// <param name="ChunkType">函数、方法、窗体或 HTML 章节等片段类别。</param>
+/// <param name="Symbol">从源码提取的函数、方法或主题符号。</param>
+/// <param name="StartLine">源文件中从 1 开始的首行行号。</param>
+/// <param name="EndLine">源文件中从 1 开始的末行行号，包含该行。</param>
+/// <param name="Content">完整正文或待保存的经验内容。</param>
+/// <param name="CallTargets">从片段正文提取的被调用符号。</param>
 public sealed record PmlChunk(
     string ChunkType,
     string Symbol,
@@ -10,6 +17,9 @@ public sealed record PmlChunk(
     string Content,
     IReadOnlyList<string> CallTargets);
 
+/// <summary>一个 PML 文件的语法片段及头部元数据。</summary>
+/// <param name="Chunks">保留源顺序及行范围的正文片段集合。</param>
+/// <param name="Metadata">从 PML 文件头提取的描述性字段。</param>
 public sealed record PmlFileChunks(
     IReadOnlyList<PmlChunk> Chunks,
     IReadOnlyDictionary<string, string> Metadata);
@@ -60,6 +70,10 @@ public static partial class PmlChunker
             ["object"] = EndObjectRegex()
         };
 
+    /// <summary>按原始语法或标题边界切分源码，保留行范围与可追踪的来源信息。</summary>
+    /// <param name="text">待切分、解析或规范化的原始正文。</param>
+    /// <param name="relativePath">相对于该来源根目录的文件路径。</param>
+    /// <param name="parser">PML 文件种类所选用的语法切分策略。</param>
     public static PmlFileChunks Chunk(string text, string relativePath, string parser)
     {
         var lines = text.Split('\n');

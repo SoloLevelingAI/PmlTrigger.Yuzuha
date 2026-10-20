@@ -2,6 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace PlantHost.Rpc;
 
+/// <summary>为对应协议模型提供编译期 JSON 类型元数据，支持 Native AOT。</summary>
 [JsonSourceGenerationOptions(
     GenerationMode = JsonSourceGenerationMode.Metadata,
     PropertyNameCaseInsensitive = true)]

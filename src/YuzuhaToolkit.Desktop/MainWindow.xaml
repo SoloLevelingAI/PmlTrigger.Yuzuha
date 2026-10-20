@@ -1,0 +1,66 @@
+<Window x:Class="YuzuhaToolkit.Desktop.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="Yuzuha 工作台" Width="1240" Height="880" MinWidth="1000" MinHeight="700" WindowStartupLocation="CenterScreen">
+ <DockPanel Background="#F4F7FC">
+  <Border DockPanel.Dock="Top" Background="White" BorderBrush="#DFE7F2" BorderThickness="0,0,0,1" Padding="26,18">
+   <Grid><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+    <StackPanel><TextBlock Text="Yuzuha 工作台" FontSize="25" FontWeight="SemiBold" Foreground="#17304E"/><TextBlock Text="启动工程 · 交付插件 · 查看 AI 工具运行" Foreground="#718197" Margin="0,4,0,0"/></StackPanel>
+    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center"><TextBlock x:Name="HeartbeatText" Text="正在读取本机状态…" Foreground="#526987" VerticalAlignment="Center" Margin="0,0,18,0"/><Button Content="打开日志目录" Click="OpenLogs"/></StackPanel>
+   </Grid>
+  </Border>
+  <Border DockPanel.Dock="Bottom" Background="White" Padding="24,12" BorderBrush="#DFE7F2" BorderThickness="0,1,0,0"><TextBlock x:Name="MessageText" Text="就绪。开发任务的连续授权有效；执行前仍核对目标会话。" Foreground="#526987" TextWrapping="Wrap"/></Border>
+  <TabControl x:Name="Tabs" Margin="22,16" Background="Transparent" BorderThickness="0">
+   <TabItem Header="  启动工程  ">
+    <ScrollViewer VerticalScrollBarVisibility="Auto"><Grid Margin="0,18,0,0"><Grid.ColumnDefinitions><ColumnDefinition Width="1.45*"/><ColumnDefinition Width="18"/><ColumnDefinition Width="1*"/></Grid.ColumnDefinitions>
+     <Border Style="{StaticResource Card}"><StackPanel>
+      <DockPanel Margin="0,0,0,14"><Button x:Name="LaunchButton" DockPanel.Dock="Right" Content="启动工程" Style="{StaticResource Primary}" Click="Launch"/><TextBlock Text="启动配置" FontSize="19" FontWeight="SemiBold" VerticalAlignment="Center"/></DockPanel>
+      <DockPanel><Button DockPanel.Dock="Right" Content="新建" Click="NewProfile" Margin="10,4,0,10"/><ComboBox x:Name="ProfilesBox" DisplayMemberPath="Name" SelectionChanged="ProfileSelected"/></DockPanel>
+      <TextBlock Text="名称"/><TextBox x:Name="NameBox"/>
+      <Grid><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="16"/><ColumnDefinition/></Grid.ColumnDefinitions><StackPanel><TextBlock Text="入口类型"/><ComboBox x:Name="KindBox" SelectedIndex="0"><ComboBoxItem Content="Monitor"/><ComboBoxItem Content="MarineBatch"/></ComboBox></StackPanel><StackPanel Grid.Column="2"><TextBlock Text="产品代码"/><TextBox x:Name="ProductBox" Text="E3D"/></StackPanel></Grid>
+      <TextBlock Text="程序入口（mon.exe / marine.bat）"/><DockPanel><Button DockPanel.Dock="Right" Content="选择" Click="BrowseExecutable" Margin="10,4,0,10"/><TextBox x:Name="ExecutableBox"/></DockPanel>
+      <TextBlock Text="初始化文件（Monitor）"/><DockPanel><Button DockPanel.Dock="Right" Content="选择" Click="BrowseInitialization" Margin="10,4,0,10"/><TextBox x:Name="InitializationBox"/></DockPanel>
+      <TextBlock Text="工作目录"/><DockPanel><Button DockPanel.Dock="Right" Content="选择" Click="BrowseWorkingDirectory" Margin="10,4,0,10"/><TextBox x:Name="WorkingBox"/></DockPanel>
+      <Grid><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="16"/><ColumnDefinition/></Grid.ColumnDefinitions><StackPanel><TextBlock Text="项目"/><TextBox x:Name="ProjectBox"/><TextBlock Text="MDB"/><TextBox x:Name="MdbBox" Text="/ALL"/></StackPanel><StackPanel Grid.Column="2"><TextBlock Text="用户"/><TextBox x:Name="UserBox"/><TextBlock Text="模块"/><TextBox x:Name="ModuleBox" Text="Design"/></StackPanel></Grid>
+      <TextBlock Text="许可连接（可留空沿用）"/><TextBox x:Name="LicenseBox"/>
+      <TextBlock Text="本次密码（不保存、不写日志）"/><PasswordBox x:Name="PasswordInput"/>
+      <WrapPanel Margin="0,6,0,0"><Button Content="保存配置" Click="SaveProfile"/><Button Content="预览启动参数" Click="PreviewLaunch"/></WrapPanel>
+     </StackPanel></Border>
+     <StackPanel Grid.Column="2">
+      <Border Style="{StaticResource Card}"><StackPanel><TextBlock Text="本机已安装入口" Style="{StaticResource SectionTitle}"/><TextBlock Text="从注册表和 EVAR 读取候选，选择后再保存配置。" Foreground="#718197" TextWrapping="Wrap" Margin="0,0,0,14"/><Button Content="发现产品与注册目录" Click="Discover" HorizontalAlignment="Left"/><ListBox x:Name="ApplicationsBox" Height="150" DisplayMemberPath="Path" Margin="0,14,0,10"/><Button Content="使用所选入口" Click="UseApplication" HorizontalAlignment="Left"/></StackPanel></Border>
+      <Border Style="{StaticResource Card}"><StackPanel><TextBlock Text="启动前目录检查" Style="{StaticResource SectionTitle}"/><TextBlock x:Name="LaunchHealthText" Text="在“插件目录”选择已注册 PMLLIB。启动前会检查文件量和目录体积，过大时提醒清理。" TextWrapping="Wrap" Foreground="#526987"/><TextBlock Text="提醒预算可调整；它不是 AVEVA 的固定上限，也不能保证 REHASH 完成时间。" TextWrapping="Wrap" Foreground="#8693A5" Margin="0,16,0,0"/></StackPanel></Border>
+      <Border Style="{StaticResource Card}"><StackPanel><TextBlock Text="参数预览" Style="{StaticResource SectionTitle}"/><TextBox x:Name="LaunchPreviewBox" IsReadOnly="True" TextWrapping="Wrap" MinHeight="100" Background="#F7F9FD" BorderThickness="0"/></StackPanel></Border>
+     </StackPanel>
+    </Grid></ScrollViewer>
+   </TabItem>
+   <TabItem Header="  插件目录  ">
+    <ScrollViewer VerticalScrollBarVisibility="Auto"><StackPanel Margin="0,18,0,0">
+     <Border Style="{StaticResource Card}"><StackPanel>
+      <TextBlock Text="已注册的 PMLLIB" Style="{StaticResource SectionTitle}"/>
+      <TextBlock Text="选择 EVAR 已注册的目录；工作台只复制到这里，不修改全局环境。" Foreground="#718197" TextWrapping="Wrap"/>
+      <DockPanel><Button DockPanel.Dock="Right" Content="选择目录" Click="BrowseRegistered" Margin="10,4,0,10"/><TextBox x:Name="RegisteredBox" TextChanged="DeploymentInputsChanged"/></DockPanel>
+      <DockPanel><Button DockPanel.Dock="Right" Content="使用候选" Click="UseRegistration" Margin="10,4,0,10"/><ComboBox x:Name="RegistrationsBox" DisplayMemberPath="Path"/></DockPanel>
+      <WrapPanel VerticalAlignment="Center"><TextBlock Text="文件数提醒" VerticalAlignment="Center"/><TextBox x:Name="WarnFilesBox" Text="3000" Width="90" Margin="10,0,18,0"/><TextBlock Text="体积提醒 MiB" VerticalAlignment="Center"/><TextBox x:Name="WarnSizeBox" Text="200" Width="90" Margin="10,0,18,0"/><Button Content="保存目录设置" Click="SaveWorkspace"/><Button Content="扫描目录" Click="ScanDirectory"/><Button Content="打开目录清理" Click="OpenRegistered"/></WrapPanel>
+      <TextBlock x:Name="HealthText" Text="尚未扫描" TextWrapping="Wrap" Margin="0,16,0,0" Foreground="#526987"/>
+     </StackPanel></Border>
+     <Border Style="{StaticResource Card}"><StackPanel>
+      <TextBlock Text="把开发插件复制到注册目录" Style="{StaticResource SectionTitle}"/>
+      <TextBlock Text="源文件、目录或 ZIP 保留在 PMLLIB 外。复制会跳过开发产物；覆盖前备份也存放在目录外。" Foreground="#718197" TextWrapping="Wrap"/>
+      <DockPanel><Button DockPanel.Dock="Right" Content="选择目录" Click="BrowseSourceFolder" Margin="10,4,0,10"/><Button DockPanel.Dock="Right" Content="文件 / ZIP" Click="BrowseSourceFile" Margin="10,4,0,10"/><TextBox x:Name="SourceBox" TextChanged="DeploymentInputsChanged"/></DockPanel>
+      <TextBlock Text="插件子目录名"/><TextBox x:Name="PluginBox" Text="MyPlugin" TextChanged="DeploymentInputsChanged"/>
+      <WrapPanel><Button Content="预览复制内容" Click="PreviewCopy"/><Button x:Name="ApplyCopyButton" Content="复制到注册目录" Style="{StaticResource Primary}" IsEnabled="False" Click="ApplyCopy"/></WrapPanel>
+      <TextBlock x:Name="CopySummaryText" Foreground="#718197" Margin="0,12,0,12" TextWrapping="Wrap"/>
+      <DataGrid x:Name="CopyGrid" Height="230"><DataGrid.Columns><DataGridTextColumn Header="文件" Binding="{Binding RelativePath}" Width="*"/><DataGridTextColumn Header="字节" Binding="{Binding Bytes}" Width="110"/><DataGridTextColumn Header="状态" Binding="{Binding Action}" Width="120"/></DataGrid.Columns></DataGrid>
+      <TextBlock Text="复制完成后由当前开发流程决定何时重载。工作台不自动执行 PML REHASH ALL，不删除旧插件。" Foreground="#718197" TextWrapping="Wrap" Margin="0,12,0,0"/>
+     </StackPanel></Border>
+    </StackPanel></ScrollViewer>
+   </TabItem>
+   <TabItem Header="  AI 运行与日志  ">
+    <Grid Margin="0,18,0,0"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="190"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="120"/></Grid.RowDefinitions>
+     <StackPanel><TextBlock Text="本机 MCP 工具状态" Style="{StaticResource SectionTitle}"/><TextBlock Text="每两秒刷新：观察工具执行、耗时与目标会话；服务空闲不等于 AI 没有思考。" Foreground="#718197" Margin="0,0,0,14"/></StackPanel>
+     <DataGrid x:Name="RuntimeGrid" Grid.Row="1"><DataGrid.Columns><DataGridTextColumn Header="服务" Binding="{Binding Service}" Width="190"/><DataGridTextColumn Header="PID" Binding="{Binding ProcessId}" Width="85"/><DataGridTextColumn Header="状态" Binding="{Binding StateLabel}" Width="140"/><DataGridTextColumn Header="当前工具" Binding="{Binding ActiveSummary}" Width="*"/><DataGridTextColumn Header="AVEVA PID" Binding="{Binding TargetPid}" Width="100"/><DataGridTextColumn Header="上次结果 / 日志故障" Binding="{Binding OutcomeSummary}" Width="230"/></DataGrid.Columns></DataGrid>
+     <TextBlock Grid.Row="2" Text="近期工具调用" Style="{StaticResource SectionTitle}" Margin="0,20,0,12"/>
+     <DataGrid x:Name="ActivityGrid" Grid.Row="3" SelectionChanged="ActivitySelected"><DataGrid.Columns><DataGridTextColumn Header="时间 +08" Binding="{Binding DisplayTime}" Width="85"/><DataGridTextColumn Header="工具" Binding="{Binding Tool}" Width="210"/><DataGridTextColumn Header="事件" Binding="{Binding PhaseLabel}" Width="150"/><DataGridTextColumn Header="耗时 ms" Binding="{Binding Milliseconds}" Width="90"/><DataGridTextColumn Header="目标 PID" Binding="{Binding TargetPid}" Width="90"/><DataGridTextColumn Header="结果摘要" Binding="{Binding Summary}" Width="*"/></DataGrid.Columns></DataGrid>
+     <TextBox x:Name="ActivityDetails" Grid.Row="4" IsReadOnly="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Margin="0,12,0,0" Text="选择记录查看关联编号及参数。命名秘密字段会脱敏；PML 正文仍可能包含工程信息。"/>
+    </Grid>
+   </TabItem>
+  </TabControl>
+ </DockPanel>
+</Window>

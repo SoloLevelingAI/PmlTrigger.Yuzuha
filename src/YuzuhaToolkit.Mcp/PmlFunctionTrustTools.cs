@@ -4,16 +4,20 @@ using ModelContextProtocol.Server;
 
 namespace YuzuhaToolkit.Mcp;
 
+/// <summary>列出或按用户明确指示维护函数信任状态的 MCP 工具。</summary>
 [McpServerToolType]
 public sealed class PmlFunctionTrustTools
 {
     private readonly PmlFunctionTrustStore _store;
 
+    /// <summary>绑定人工函数信任状态存储，不在构造时修改记录。</summary>
+    /// <param name="store">用户人工确认的函数信任记录存储。</param>
     public PmlFunctionTrustTools(PmlFunctionTrustStore store)
     {
         _store = store;
     }
 
+    /// <summary>Lists the persisted trust state of user-provided PML functions. untrusted means the user confirmed a wrong answer and the execution tools warn before running it again. This list is advice, never proof: a transport failure does not make a function untrustworthy, and a missing function may simply not be loaded yet. Restoring trust (fixed) or removing an entry (deleted) is done only on an explicit user request.</summary>
     [McpServerTool]
     [Description(
         "Lists the persisted trust state of user-provided PML functions. " +
@@ -30,6 +34,11 @@ public sealed class PmlFunctionTrustTools
             PmlFunctionTrustJsonContext.Default.PmlFunctionTrustListResponse);
     }
 
+    /// <summary>Updates the persisted trust state of one PML global function. state=untrusted records a user-confirmed wrong answer (ask the user first; never decide from local memory). state=trusted restores a function after the user says it is fixed. state=remove deletes the entry after the user says the function was deleted or the record was a mistake.</summary>
+    /// <param name="functionName">PML global function name with or without the !! prefix, for example MyFunc.</param>
+    /// <param name="state">One of: untrusted, trusted, remove.</param>
+    /// <param name="reason">Why the state changed, for example 'wrong results on !!MyFunc(TRUE,2)' or 'user confirmed the fix'.</param>
+    /// <param name="failingCommand">Optional failing PML command text preserved for the record.</param>
     [McpServerTool]
     [Description(
         "Updates the persisted trust state of one PML global function. " +

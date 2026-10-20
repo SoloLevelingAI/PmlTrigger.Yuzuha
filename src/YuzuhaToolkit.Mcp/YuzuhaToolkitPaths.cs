@@ -8,6 +8,7 @@ namespace YuzuhaToolkit.Mcp;
 /// </summary>
 internal static class YuzuhaToolkitPaths
 {
+    /// <summary>优先使用显式环境覆盖，否则解析托管安装根目录。</summary>
     internal static string ToolkitRoot()
     {
         var overrideRoot = Environment.GetEnvironmentVariable("YUZUHA_TOOLKIT_ROOT");
@@ -34,6 +35,7 @@ internal static class YuzuhaToolkitPaths
         return exeDirectory;
     }
 
+    /// <summary>解析可显式覆盖的本机函数信任文件路径。</summary>
     internal static string TrustStateFile()
     {
         var overrideFile = Environment.GetEnvironmentVariable("YUZUHA_TRUST_FILE");
@@ -43,6 +45,7 @@ internal static class YuzuhaToolkitPaths
         return Path.Combine(ToolkitRoot(), "trust", "pml-function-trust.json");
     }
 
+    /// <summary>解析可显式覆盖的本机知识库根目录。</summary>
     internal static string KnowledgeDirectory()
     {
         var overrideDirectory = Environment.GetEnvironmentVariable("YUZUHA_KNOWLEDGE_DIR");

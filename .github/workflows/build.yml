@@ -16,3 +16,14 @@ jobs:
         run: ./scripts/Build-NativeServers.ps1
       - name: Verify built-in priority without SQLite
         run: python -X utf8 tests/v03/builtin_smoke.py runtime/net10
+      - name: Verify Native AOT CLI and MCP share tools
+        run: python -X utf8 tests/cli_smoke.py runtime/net10
+      - name: Publish native Windows workspace
+        shell: pwsh
+        run: ./scripts/Build-Desktop.ps1 -OutputRoot runtime/desktop
+      - uses: actions/upload-artifact@v4
+        with:
+          name: yuzuha-windows-workspace
+          path: |
+            runtime/desktop
+            runtime/net10

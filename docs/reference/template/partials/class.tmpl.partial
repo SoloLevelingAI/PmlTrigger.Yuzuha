@@ -1,0 +1,31 @@
+{{!Adapted from DocFX modern template; .NET Foundation, MIT. See LICENSE.docfx.txt.}}
+{{>partials/class.header}}
+{{#children}}
+{{#ldFold}}<details class="api-secondary{{#ldGeneratedGroup}} generated-members{{/ldGeneratedGroup}}"><summary>{{#ldGeneratedGroup}}{{ldFoldLabel}}{{/ldGeneratedGroup}}{{^ldGeneratedGroup}}{{>partials/classSubtitle}}{{/ldGeneratedGroup}} <span>展开签名与说明</span></summary>{{/ldFold}}
+{{^ldFold}}<h2 class="section" id="{{id}}">{{>partials/classSubtitle}}</h2>{{/ldFold}}
+{{#ldTable}}
+<div class="api-table-wrap"><table class="api-table properties-table"><thead><tr><th scope="col">名称</th><th scope="col">类型</th><th scope="col">访问</th><th scope="col">说明</th></tr></thead><tbody>
+{{#children}}
+<tr id="{{id}}" data-uid="{{uid}}"><td>{{#ldOverloads}}<a id="{{id}}" data-uid="{{uid}}"></a>{{/ldOverloads}}<code>{{name.0.value}}</code></td><td class="type-cell">{{{ldType}}}</td><td><span class="access-label">{{ldAccess}}</span></td><td>
+<div class="markdown">{{{summary}}}</div>
+<details class="member-definition"><summary>查看定义</summary><pre><code class="lang-csharp">{{syntax.content.0.value}}</code></pre>{{{conceptual}}}{{>partials/api.notes}}{{>partials/api.parameters}}</details>
+</td></tr>
+{{/children}}
+</tbody></table></div>
+{{/ldTable}}
+{{^ldTable}}
+{{#children}}
+<section class="api-member">
+{{#ldOverloads}}<a id="{{id}}" data-uid="{{uid}}"></a>{{/ldOverloads}}
+{{#ldAuxiliary}}<div class="api-member-title" role="heading" aria-level="3" id="{{id}}" data-uid="{{uid}}">{{ldShortName}}</div>{{/ldAuxiliary}}
+{{^ldAuxiliary}}<h3 id="{{id}}" data-uid="{{uid}}">{{ldShortName}}</h3>{{/ldAuxiliary}}
+<div class="markdown summary">{{{summary}}}</div>
+{{#conceptual}}<div class="markdown">{{{conceptual}}}</div>{{/conceptual}}
+{{#syntax.content.0.value}}<pre><code class="lang-csharp hljs">{{syntax.content.0.value}}</code></pre>{{/syntax.content.0.value}}
+{{>partials/api.parameters}}
+{{>partials/api.notes}}
+</section>
+{{/children}}
+{{/ldTable}}
+{{#ldFold}}</details>{{/ldFold}}
+{{/children}}

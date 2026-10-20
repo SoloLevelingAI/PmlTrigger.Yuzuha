@@ -25,6 +25,8 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <ProjectReference Include="../YuzuhaToolkit.CommandLine/YuzuhaToolkit.CommandLine.csproj" />
+    <ProjectReference Include="../YuzuhaToolkit.Workspace/YuzuhaToolkit.Workspace.csproj" />
         <PackageReference Include="Microsoft.Data.Sqlite"
                           Version="10.0.0"/>
         <!-- Override the older transitive native SQLite bundle; keep NuGet audit enabled. -->

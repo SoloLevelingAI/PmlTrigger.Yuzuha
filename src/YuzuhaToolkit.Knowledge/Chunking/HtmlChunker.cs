@@ -4,6 +4,12 @@ using System.Text.RegularExpressions;
 
 namespace YuzuhaToolkit.Knowledge.Chunking;
 
+/// <summary>从 WebHelp 提取的正文片段及源行范围。</summary>
+/// <param name="ChunkType">函数、方法、窗体或 HTML 章节等片段类别。</param>
+/// <param name="Symbol">从源码提取的函数、方法或主题符号。</param>
+/// <param name="StartLine">源文件中从 1 开始的首行行号。</param>
+/// <param name="EndLine">源文件中从 1 开始的末行行号，包含该行。</param>
+/// <param name="Content">完整正文或待保存的经验内容。</param>
 public sealed record HtmlChunk(
     string ChunkType,
     string Symbol,
@@ -11,6 +17,10 @@ public sealed record HtmlChunk(
     int? EndLine,
     string Content);
 
+/// <summary>一个 HTML 文件的片段、标题与解析状态。</summary>
+/// <param name="Chunks">保留源顺序及行范围的正文片段集合。</param>
+/// <param name="Title">资料或经验的可读标题。</param>
+/// <param name="ParseError">源 HTML 是否遇到解析错误。</param>
 public sealed record HtmlFileChunks(
     IReadOnlyList<HtmlChunk> Chunks,
     string Title,
@@ -53,6 +63,10 @@ public static partial class HtmlChunker
     [GeneratedRegex(@"\s+", RegexOptions.CultureInvariant)]
     private static partial Regex WhitespaceRegex();
 
+    /// <summary>按原始语法或标题边界切分源码，保留行范围与可追踪的来源信息。</summary>
+    /// <param name="raw">尚未清洗的原始文本或环境配置内容。</param>
+    /// <param name="relativePath">相对于该来源根目录的文件路径。</param>
+    /// <param name="module">PML 模块或资料目录范围。</param>
     public static HtmlFileChunks Chunk(string raw, string relativePath, string module)
     {
         var document = new HelpDocument();
@@ -113,18 +127,26 @@ public static partial class HtmlChunker
     }
 
     /// <summary>SHA-256 of the UTF-8 text, used for global chunk dedup.</summary>
+    /// <param name="text">待切分、解析或规范化的原始正文。</param>
     public static string Sha256Hex(string text)
     {
         var bytes = SHA256.HashData(Encoding.UTF8.GetBytes(text));
         return Convert.ToHexString(bytes).ToLowerInvariant();
     }
 
+    /// <summary>HTML 帮助页中一个标题及其正文。</summary>
+    /// <param name="Heading">该帮助章节的标题。</param>
+    /// <param name="StartLine">源文件中从 1 开始的首行行号。</param>
+    /// <param name="Content">完整正文或待保存的经验内容。</param>
     private sealed record HelpSection(string Heading, int StartLine, string Content);
 
+    /// <summary>解析后用于生成片段的 HTML 帮助文档。</summary>
     private sealed class HelpDocument
     {
+        /// <summary>文档、片段或经验的可读标题。</summary>
         public string Title { get; private set; } = string.Empty;
 
+        /// <summary>按源顺序提取的帮助页章节。</summary>
         public List<HelpSection> Sections { get; } = new();
 
         private readonly List<string> _buffer = new();
@@ -137,6 +159,8 @@ public static partial class HtmlChunker
         private int _headingLine = 1;
         private int _line = 1;
 
+        /// <summary>解析 HTML 标题与正文，移除脚本等非内容节点并保留章节顺序。</summary>
+        /// <param name="raw">尚未清洗的原始文本或环境配置内容。</param>
         public void Parse(string raw)
         {
             var position = 0;

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Newtonsoft.Json.Linq;
 
+/// <summary>安装桥接程序：发现环境、生成可审阅计划并按显式入口执行安装事务。</summary>
 internal static partial class Program
 {
     // UTF-16 INI is a read-only interchange for Inno's native page controls.
@@ -12,10 +13,14 @@ internal static partial class Program
     {
         return (value ?? "").Replace("\r", " ").Replace("\n", " ").Replace("\0", " ");
     }
+    /// <summary>把本机发现结果导出为安装器使用的 JSON 文件。</summary>
+    /// <param name="output">计划或发现结果要保存的本机输出位置。</param>
     internal static void ExportNativeDiscovery(string output)
     {
         File.WriteAllText(output, NativeDiscoveryText(Discover()), Encoding.Unicode);
     }
+    /// <summary>将本机产品与环境发现结果格式化为可读摘要。</summary>
+    /// <param name="result">已经完成的发现或查询结果。</param>
     internal static string NativeDiscoveryText(JObject result)
     {
         var rows = new StringBuilder(); int count = 0;

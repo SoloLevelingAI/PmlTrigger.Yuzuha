@@ -6,30 +6,46 @@ using System.Text.RegularExpressions;
 
 namespace YuzuhaToolkit.Mcp;
 
+/// <summary>从可见窗口识别出的 AVEVA 进程、启动时间、项目和专用管道候选。</summary>
 public sealed class AvevaSessionCandidate
 {
+    /// <summary>目标或发送方操作系统进程编号；不能代替启动时间核验。</summary>
     public int ProcessId { get; set; }
+    /// <summary>进程启动 UTC ticks；与 PID 联合识别目标，防止 PID 重用。</summary>
     public long ProcessStartTimeUtcTicks { get; set; }
+    /// <summary>从操作系统读取的进程名称。</summary>
     public string ProcessName { get; set; } = string.Empty;
+    /// <summary>可获取时的目标可执行文件路径。</summary>
     public string ExecutablePath { get; set; } = string.Empty;
+    /// <summary>被识别 AVEVA 可见窗口的原始标题。</summary>
     public string WindowTitle { get; set; } = string.Empty;
+    /// <summary>从窗口或进程识别的 AVEVA 产品名称。</summary>
     public string Product { get; set; } = string.Empty;
+    /// <summary>可获取时从会话信息识别的工程项目名称。</summary>
     public string Project { get; set; } = string.Empty;
+    /// <summary>绑定该目标 PID 的专用 Named Pipe 名称。</summary>
     public string PipeName { get; set; } = string.Empty;
+    /// <summary>发现阶段是否观察到预期的 PID 专用管道。</summary>
     public bool PipeDetected { get; set; }
 }
 
+/// <summary>会话发现结果；列出候选但不自动选择进程。</summary>
 public sealed class AvevaSessionListResponse
 {
+    /// <summary>当前返回集合的条目数量。</summary>
     public int Count { get; set; }
+    /// <summary>只读发现的会话候选，尚未自动选定任何一个。</summary>
     public List<AvevaSessionCandidate> Sessions { get; set; } = new();
+    /// <summary>当前查询、连接或处理失败的可读原因。</summary>
     public string? Error { get; set; }
 }
 
+/// <summary>只读发现 AVEVA 窗口与 PID 绑定管道，并重新核验指定进程身份。</summary>
 public sealed class AvevaSessionDiscovery
 {
     private const string PipePrefix = "yuzuha.pml.command.v1.pid-";
 
+    /// <summary>读取可见 AVEVA 窗口、进程启动时间与专用管道候选，不自动连接会话。</summary>
     public AvevaSessionListResponse Discover()
     {
         if (!OperatingSystem.IsWindows())
@@ -72,6 +88,8 @@ public sealed class AvevaSessionDiscovery
         }
     }
 
+    /// <summary>重新发现并要求指定 PID 仍对应有效 AVEVA 候选，拒绝猜测或过期身份。</summary>
+    /// <param name="processId">从会话发现结果取得的准确目标 PID，不能猜测。</param>
     public AvevaSessionCandidate RequireCandidate(int processId)
     {
         if (processId <= 0)
@@ -245,8 +263,14 @@ public sealed class AvevaSessionDiscovery
         return separator > 0 ? title[..separator].Trim() : string.Empty;
     }
 
+    /// <summary>从一个可见窗口提取的产品、项目与标题身份。</summary>
+    /// <param name="ProcessId">从会话发现结果取得的准确目标 PID，不能猜测。</param>
+    /// <param name="Title">资料或经验的可读标题。</param>
     private sealed record WindowIdentity(int ProcessId, string Title);
 
+    /// <summary>Win32 窗口枚举回调；返回是否继续枚举。</summary>
+    /// <param name="windowHandle">用于读取窗口边界或内容的 Win32 句柄。</param>
+    /// <param name="state">由调用方明确指定的状态或原生枚举上下文。</param>
     private delegate bool EnumWindowsCallback(IntPtr windowHandle, IntPtr state);
 
     [DllImport("user32.dll")]

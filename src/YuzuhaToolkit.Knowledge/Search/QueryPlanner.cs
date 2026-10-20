@@ -2,6 +2,10 @@ using System.Text.RegularExpressions;
 
 namespace YuzuhaToolkit.Knowledge.Search;
 
+/// <summary>可重现的 FTS5 查询变体及排序权重。</summary>
+/// <param name="FtsExpression">已转义的 FTS5 查询表达式。</param>
+/// <param name="Weight">该查询变体参与融合排序的权重。</param>
+/// <param name="Reason">用户确认状态变化的原因或验证依据。</param>
 public sealed record QueryVariant(string FtsExpression, double Weight, string Reason);
 
 /// <summary>
@@ -21,18 +25,23 @@ public static partial class QueryPlanner
     [GeneratedRegex(@"\s+", RegexOptions.CultureInvariant)]
     private static partial Regex WhitespaceRegex();
 
+    /// <summary>返回识别创建意图的编译期正则表达式。</summary>
     [GeneratedRegex(@"创建|新建|建立|生成|建一个|下建|怎么建|如何建|create|new",
         RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     public static partial Regex CreateIntentRegex();
 
+    /// <summary>返回识别解释或资料意图的编译期正则表达式。</summary>
     [GeneratedRegex(@"什么是|含义|说明|文档|属性|reference|manual|explain",
         RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     public static partial Regex DocIntentRegex();
 
+    /// <summary>返回识别实现与代码意图的编译期正则表达式。</summary>
     [GeneratedRegex(@"实现|源码|代码|示例|怎么建|如何建|create|new|implementation|source",
         RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     public static partial Regex CodeIntentRegex();
 
+    /// <summary>判断检索语句是否匹配一个领域词组的纯谓词。</summary>
+    /// <param name="query">PML、英文或中文的任务描述或检索文本。</param>
     private delegate bool TermPredicate(string query);
 
     private static readonly (TermPredicate Match, string[] Terms)[] DomainTerms =
@@ -67,6 +76,8 @@ public static partial class QueryPlanner
             new[] { "CALL" })
     };
 
+    /// <summary>从原始术语、中文领域词和创建意图生成去重的确定性 FTS5 查询计划。</summary>
+    /// <param name="query">PML、英文或中文的任务描述或检索文本。</param>
     public static List<QueryVariant> Plan(string query)
     {
         var rawTokens = WordRegex()
@@ -154,11 +165,15 @@ public static partial class QueryPlanner
         return unique.Values.ToList();
     }
 
+    /// <summary>把用户术语作为 FTS5 字面量加双引号，并转义其中的双引号。</summary>
+    /// <param name="term">需要作为 FTS5 字面量处理的单个术语。</param>
     public static string QuoteFts(string term)
     {
         return "\"" + term.Replace("\"", "\"\"") + "\"";
     }
 
+    /// <summary>保留原始顺序并按不区分大小写规则去重查询术语。</summary>
+    /// <param name="items">按输入顺序排列、需要规范化的条目。</param>
     public static List<string> Dedupe(IEnumerable<string> items)
     {
         HashSet<string> seen = new(StringComparer.OrdinalIgnoreCase);
@@ -175,6 +190,9 @@ public static partial class QueryPlanner
     ///     <paramref name="limit"/> characters, ported from
     ///     compact_excerpt().
     /// </summary>
+    /// <param name="content">完整正文或待保存的经验内容。</param>
+    /// <param name="terms">按输入顺序排列的查询术语集合。</param>
+    /// <param name="limit">返回数量上限，内部会限制到有效范围。</param>
     public static string CompactExcerpt(string content, IEnumerable<string> terms, int limit = 520)
     {
         var flat = WhitespaceRegex().Replace(content, " ").Trim();

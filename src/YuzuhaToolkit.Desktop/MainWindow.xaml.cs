@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Input;
 using System.Windows.Threading;
 using Microsoft.Win32;
 using YuzuhaToolkit.Workspace;
@@ -28,15 +29,89 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent(); _settings = WorkspaceSettings.Load();
+        SessionView.SectionChanged += title => { if (Tabs.SelectedIndex == 3) SetPage(title); };
+        SessionView.TargetChanged += target => { SidebarTargetText.Text = target; OverviewTargetText.Text = SessionView.TargetDisplayName; OverviewSessionText.Text = target; OverviewTargetDetail.Text = target; };
+        MaintainerText.Text = Environment.UserName; SetPage("总览");
         RegisteredBox.Text = _settings.RegisteredPmlLib; SourceBox.Text = _settings.PluginSource; PluginBox.Text = _settings.PluginName;
         WarnFilesBox.Text = _settings.WarnFiles.ToString(); WarnSizeBox.Text = (_settings.WarnBytes / 1048576).ToString();
         ReloadProfiles(); if (_settings.Profiles.Count > 0) ProfilesBox.SelectedIndex = 0;
         _timer.Tick += async (_, _) => await RefreshRuntimeAsync(); _timer.Start();
         Loaded += async (_, _) => { await RefreshRuntimeAsync(); await DiscoverAsync(); };
-        Closed += (_, _) => { _closed = true; _timer.Stop(); _journal.Dispose(); };
+        Closed += (_, _) => { _closed = true; _timer.Stop(); SessionView.Dispose(); _journal.Dispose(); };
     }
 
     private void Say(string message) => MessageText.Text = message;
+    private void WindowSizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        if (HeartbeatText is not null) HeartbeatText.Visibility = ActualWidth < 1100 ? Visibility.Collapsed : Visibility.Visible;
+        if (SearchPanel is not null) SearchPanel.Visibility = ActualWidth < 1250 ? Visibility.Collapsed : Visibility.Visible;
+        if (OverviewKpis is not null)
+        {
+            var narrow = ActualWidth < 1100; OverviewKpis.Columns = narrow ? 2 : 4;
+            foreach (var grid in new[] { OverviewColumns1, OverviewColumns2, OverviewColumns3, LaunchColumns, LaunchLowerColumns })
+            {
+                if (grid.RowDefinitions.Count == 0) { grid.RowDefinitions.Add(new() { Height = GridLength.Auto }); grid.RowDefinitions.Add(new() { Height = GridLength.Auto }); }
+                var cards = grid.Children.OfType<Border>().ToArray();
+                Grid.SetColumnSpan(cards[0], narrow ? 3 : 1); Grid.SetColumn(cards[1], narrow ? 0 : 2); Grid.SetRow(cards[1], narrow ? 1 : 0); Grid.SetColumnSpan(cards[1], narrow ? 3 : 1);
+            }
+        }
+    }
+    private void SetPage(string? title)
+    {
+        title = title?.Trim() ?? "总览"; PageTitleText.Text = title;
+        PageSubtitleText.Text = title switch { "总览" => "本机工作台 · 工程环境与近期工具活动", "工程会话" => "先核验 PID 与启动身份，再查询或调用 PML", "能力与函数" => "登记源码、人工授权 · 登记版本与会话加载版本分别核对", "原生 Form / Gadget" => "原生窗体 → 控件 → 属性 · 有界读取与续读", "启动工程" => "复用已有启动配置 · 本次密码不保存", "插件部署" => "来源、复制预览、备份与本机记录", _ => "本机工具与交付记录" };
+        HeaderActionText.Text = title switch { "工程会话" => "扫描会话", "能力与函数" => "登记函数", "原生 Form / Gadget" => "重新核验", _ => "启动工程" };
+        foreach (var button in SidebarNav.Children.OfType<Button>())
+        {
+            var selected = button.Uid == (title is "能力与函数" or "原生 Form / Gadget" ? "工程会话" : title);
+            button.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(selected ? "#103B3D" : "#0B2D30"));
+            button.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(selected ? "#F2F8F4" : "#9DBDB7"));
+            button.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EDBD62"));
+            button.BorderThickness = new Thickness(selected ? 3 : 0, 0, 0, 0);
+        }
+    }
+    private void HeaderAction(object sender, RoutedEventArgs e)
+    {
+        if (Tabs.SelectedIndex == 3) SessionView.PrimaryAction();
+        else { Tabs.SelectedIndex = 0; SetPage("启动工程"); }
+    }
+    private void ShowHelp(object sender, RoutedEventArgs e) => MessageBox.Show(this, "工程会话：扫描 → 选择 → 核验目标。\n能力与函数：登记源码 → 检查源码 → 授予许可 → 预览 → 执行一次。\n原生查询：窗体 → 控件 → 固定属性；使用 NextIndex 继续读取。\n\n源码变化后重新登记和授权；结果未知时先核查回执，不自动重试。\nCtrl+K 可按页面名称导航；所有界面证据与实机验证分别记录。", "Yuzuha · 使用说明");
+    private void WindowKeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.K && Keyboard.Modifiers == ModifierKeys.Control) { SearchPanel.Visibility = Visibility.Visible; NavigationSearch.Focus(); e.Handled = true; }
+    }
+    private void SearchKeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key != Key.Enter) return;
+        var name = NavigationSearch.Text.Trim();
+        var button = SidebarNav.Children.OfType<Button>().FirstOrDefault(b => name.Length > 0 && b.Uid.Contains(name, StringComparison.OrdinalIgnoreCase));
+        if (button is not null) { Navigate(button, new()); NavigationSearch.Clear(); } else Say("未找到页面。可输入：工程会话、启动工程、工具日志等。");
+        e.Handled = true;
+    }
+    private void OpenLogsPage(object sender, RoutedEventArgs e) { Tabs.SelectedIndex = 2; SetPage("工具日志"); }
+    private void PageSelected(object sender, SelectionChangedEventArgs e)
+    {
+        if (ReferenceEquals(e.Source, Tabs) && SidebarNav is not null && Tabs.SelectedItem is TabItem tab) SetPage(tab.Header?.ToString());
+    }
+    private void Navigate(object sender, RoutedEventArgs e)
+    {
+        if (sender is not Button button) return;
+        if (int.TryParse(button.Tag?.ToString(), out var index)) Tabs.SelectedIndex = index;
+        else
+        {
+            Tabs.SelectedIndex = 5; PlannedTitleText.Text = button.Uid;
+            PlannedDescriptionText.Text = button.Uid switch
+            {
+                "评审中心" => "M3：同一名人工审核差异、契约和测试证据，再批准迁移。复用已有复制、哈希和备份能力，补批准快照、回执与恢复记录。",
+                "测试中心" => "M2a / M2b：先交付源码目录与证据浏览，再从 C# 调用既有按 ID 测试脚本。现阶段可使用 DocFX 测试目录与 PowerShell 独立复刻；人工实机项保持 NotRun。",
+                "Web 应用" => "M5a：C# 管理本机 HTML 应用目录、版本、入口与停用记录。M5b 再验证宿主并开放受控查询桥；窗口打开与调用权限分别表达。",
+                _ => "知识检索已有独立工具入口。本批保留其使用方式；来源、经验与验证证据的新界面按后续设计交付。"
+            };
+        }
+        SetPage(button.Uid);
+    }
+    private void OpenFunctionsPage(object sender, RoutedEventArgs e) { Tabs.SelectedIndex = 3; SessionView.OpenFunctions(); SetPage("能力与函数"); }
+    private void OpenQueriesPage(object sender, RoutedEventArgs e) { Tabs.SelectedIndex = 3; SessionView.OpenQueries(); SetPage("原生 Form / Gadget"); }
     private void ReloadProfiles() { ProfilesBox.ItemsSource = null; ProfilesBox.ItemsSource = _settings.Profiles; }
     private LaunchProfile ReadProfile() => new()
     {
@@ -136,6 +211,7 @@ public partial class MainWindow : Window
         var root = RegisteredBox.Text.Trim(); var files = int.Parse(WarnFilesBox.Text); var bytes = checked(long.Parse(WarnSizeBox.Text) * 1048576);
         var health = await Task.Run(() => DirectoryInspector.Scan(root, files, bytes));
         var text = FormatHealth(health); HealthText.Text = text; LaunchHealthText.Text = text;
+        OverviewFilesText.Text = health.Files.ToString("N0") + " 个文件"; OverviewSizeText.Text = (health.Bytes / 1048576d).ToString("N1") + " MiB · " + (health.Complete ? "完整扫描" : "部分扫描");
         HealthText.Foreground = health.NeedsAttention ? new SolidColorBrush(Color.FromRgb(164, 94, 12)) : new SolidColorBrush(Color.FromRgb(30, 118, 91)); return health;
     }
     private static string FormatHealth(DirectoryHealth health) => $"{(health.Complete ? "完整扫描" : "部分扫描")} · {health.Files:N0} 个文件 · {health.PmlFiles:N0} 个 PML 文件 · {health.Bytes / 1048576d:N1} MiB\n"
@@ -176,7 +252,7 @@ public partial class MainWindow : Window
     /// <param name="e">窗口关闭事件。</param>
     protected override void OnClosing(CancelEventArgs e)
     {
-        if (_copying) { e.Cancel = true; Say("插件复制正在完成，请等待结果后再退出。"); }
+        if (_copying || SessionView.IsRunning) { e.Cancel = true; Say("操作正在进行。请先等待结果，或在会话页取消等待；取消不会撤回已发出的 AVEVA 操作。"); }
         base.OnClosing(e);
     }
 
@@ -188,6 +264,14 @@ public partial class MainWindow : Window
             var data = await Task.Run(() => (Statuses: RuntimeReader.Statuses(), Events: RuntimeReader.Recent()));
             if (_closed) return; RuntimeGrid.ItemsSource = data.Statuses; ActivityGrid.ItemsSource = data.Events;
             HeartbeatText.Text = $"{data.Statuses.Count(status => status.State is "idle" or "running")} 个本机服务在线 · {data.Statuses.Sum(status => status.ActiveTools.Length)} 个工具运行中";
+            OverviewServices.Text = data.Statuses.Count(status => status.State is "idle" or "running").ToString();
+            var completed = data.Events.Where(item => item.Phase != "started").ToArray();
+            OverviewCalls.Text = completed.Length.ToString("N0");
+            OverviewLatency.Text = completed.Length == 0 ? "—" : completed.Average(item => item.Milliseconds).ToString("N0") + " ms";
+            OverviewSuccess.Text = completed.Length == 0 ? "—" : (100d * completed.Count(item => item.Phase == "succeeded") / completed.Length).ToString("N1") + "%";
+            OverviewRecentText.Text = completed.Length == 0 ? "尚无完成记录" : completed.Length.ToString("N0") + " 次完成";
+            OverviewFeed.ItemsSource = data.Events.Take(3).ToArray();
+            OverviewRuntimeText.Text = HeartbeatText.Text + "\n\n" + string.Join("\n", data.Statuses.Take(3).Select(status => status.Service + " · " + status.StateLabel));
         }
         catch (Exception error) { HeartbeatText.Text = "状态读取失败：" + error.Message; }
         finally { _refreshing = false; }
@@ -210,14 +294,30 @@ public partial class MainWindow : Window
             CopyGrid.ItemsSource = plan.Files; CopySummaryText.Text = $"界面验证：预览 {plan.Files.Length} 个文件，未执行复制。";
         }
         await RefreshRuntimeAsync();
-        for (var index = 0; index < 3; index++)
+        await SessionView.PrepareSmokeAsync(Path.Combine(outputDirectory, "fixture"));
+        foreach (var size in new[] { (Width: 1440d, Height: 960d), (Width: 1280d, Height: 720d), (Width: 853d, Height: 480d) })
         {
-            Tabs.SelectedIndex = index; await Dispatcher.InvokeAsync(() => { }, DispatcherPriority.ApplicationIdle); await Task.Delay(250);
+            Width = size.Width; Height = size.Height;
+            foreach (var screen in new[] { (Tab: 4, Flow: 0, Name: "overview"), (Tab: 0, Flow: 0, Name: "launch"), (Tab: 1, Flow: 0, Name: "deployment"), (Tab: 2, Flow: 0, Name: "logs"), (Tab: 3, Flow: 0, Name: "sessions"), (Tab: 3, Flow: 1, Name: "functions"), (Tab: 3, Flow: 2, Name: "queries") })
+            {
+                Tabs.SelectedIndex = screen.Tab; SessionView.SelectSmokeFlow(screen.Flow);
+                await Dispatcher.InvokeAsync(() => { }, DispatcherPriority.ApplicationIdle); await Task.Delay(150);
+                var content = (FrameworkElement)Content;
+                var bitmap = new RenderTargetBitmap((int)content.ActualWidth, (int)content.ActualHeight, 96, 96, PixelFormats.Pbgra32); bitmap.Render(content);
+                var encoder = new PngBitmapEncoder(); encoder.Frames.Add(BitmapFrame.Create(bitmap));
+                using var output = File.Create(Path.Combine(outputDirectory, $"{screen.Name}-{size.Width}.png")); encoder.Save(output);
+            }
+        }
+        Width = 1280; Height = 900; Tabs.SelectedIndex = 3;
+        foreach (var unknown in new[] { false, true })
+        {
+            await SessionView.FaultSmokeAsync(unknown);
+            await Dispatcher.InvokeAsync(() => { }, DispatcherPriority.ApplicationIdle); await Task.Delay(100);
             var content = (FrameworkElement)Content;
             var bitmap = new RenderTargetBitmap((int)content.ActualWidth, (int)content.ActualHeight, 96, 96, PixelFormats.Pbgra32); bitmap.Render(content);
             var encoder = new PngBitmapEncoder(); encoder.Frames.Add(BitmapFrame.Create(bitmap));
-            using var output = File.Create(Path.Combine(outputDirectory, "desktop-" + index + ".png")); encoder.Save(output);
+            using var output = File.Create(Path.Combine(outputDirectory, unknown ? "state-unknown.png" : "state-rejected.png")); encoder.Save(output);
         }
-        File.WriteAllText(Path.Combine(outputDirectory, "desktop-smoke.json"), JsonSerializer.Serialize(new { passed = true, tabs = Tabs.Items.Count, profiles = ProfilesBox.Items.Count, registered = RegisteredBox.Text, processes = RuntimeGrid.Items.Count }));
+        File.WriteAllText(Path.Combine(outputDirectory, "desktop-smoke.json"), JsonSerializer.Serialize(new { passed = true, scope = "WPF creation, synthetic M1 binding and logical viewport checks; not AVEVA live or human usability acceptance", tabs = Tabs.Items.Count, profiles = ProfilesBox.Items.Count, errorStates = 2, viewports = new[] { "1440x960", "1280x720", "853x480 logical (1280x720 at 150%)" }, finishedUtc = DateTime.UtcNow, dpi = VisualTreeHelper.GetDpi(this).DpiScaleX, fontSize = FontSize }));
     }
 }

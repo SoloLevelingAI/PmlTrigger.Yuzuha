@@ -6,6 +6,8 @@
   href: cli.md
 - name: 原生工作台
   href: workspace.md
+- name: WPF M1 三条流程
+  href: desktop-m1.md
 - name: 文档维护
   href: documentation.md
 - name: 架构与边界

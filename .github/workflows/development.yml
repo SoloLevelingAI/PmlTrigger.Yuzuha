@@ -21,6 +21,9 @@ jobs:
       - name: OpenAPI, LikeC4 and DocFX
         shell: pwsh
         run: ./scripts/Build-Documentation.ps1
+      - name: WPF isolated flows and viewport checks
+        shell: pwsh
+        run: ./scripts/run-documented-test.ps1 -TestId 'smoke:desktop-flows'
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -28,6 +31,12 @@ jobs:
           path: |
             artifacts/tests/*.trx
             artifacts/tests/run-metadata.json
+            artifacts/dt/**/desktop-smoke.json
+            artifacts/dt/**/run-metadata.json
+            artifacts/dt/**/documented-run.json
+            artifacts/dt/**/smoke-result.json
+            artifacts/dt/**/desktop/*.png
+            artifacts/dt/**/binding-errors.log
       - uses: actions/upload-artifact@v4
         with:
           name: yuzuha-documentation-${{ github.sha }}-${{ runner.os }}

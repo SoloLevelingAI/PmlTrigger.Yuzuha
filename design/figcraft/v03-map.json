@@ -1,0 +1,42 @@
+{
+  "source": "PMLTWIN-v02.figcraft",
+  "sourceSha256": "c444133536797082f8e2636fec31a5ffd5c7f5f307af6b007538c92cb97d0e4a",
+  "pages": {
+    "总览": 2,
+    "启动工程": 361,
+    "工程会话": 619,
+    "插件部署": 893,
+    "AI 运行": 1155,
+    "工具日志": 1425,
+    "知识库": 1682,
+    "设置": 1923,
+    "评审中心": 2728,
+    "测试中心": 2991,
+    "Web 应用": 3223,
+    "能力与函数": 3473
+  },
+  "queryDetail": 3875,
+  "states": {
+    "已核验目标": 3989,
+    "未发现 Host": 3995,
+    "登记函数源码": 4001,
+    "人工授权与撤销": 4014,
+    "源码变化后的恢复": 4024,
+    "调度完成 / 结果未知": 4030,
+    "窗体 → 控件 → 属性详情": 4036,
+    "空页仍可继续读取": 4042,
+    "迁移部分失败与恢复": 4048,
+    "测试身份与本次结果": 4054,
+    "本版本许可已授予": 4060,
+    "调用许可已撤销": 4066,
+    "Host 调度已完成": 4072,
+    "执行结果未知": 4078,
+    "旧 Host 不支持原生查询": 4084,
+    "原生查询读取失败": 4090,
+    "有界数组结果": 4096,
+    "数组枚举到达末端": 4102
+  },
+  "contract": "existing C# / RPC unchanged",
+  "visualBaseline": "original v02 twelve-page composition retained; targeted corrections and task details only",
+  "flowStatus": "design examples, not live evidence"
+}

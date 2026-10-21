@@ -7,8 +7,11 @@
     <Nullable>enable</Nullable>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <ApplicationIcon>../../installer/assets/yuzuha.ico</ApplicationIcon>
+    <!-- Reuse the managed APIs without inheriting the MCP executable deployment. -->
+    <ValidateExecutableReferencesMatchSelfContained>false</ValidateExecutableReferencesMatchSelfContained>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="../YuzuhaToolkit.Workspace/YuzuhaToolkit.Workspace.csproj" />
+    <ProjectReference Include="../YuzuhaToolkit.Mcp/YuzuhaToolkit.Mcp.csproj" />
   </ItemGroup>
 </Project>

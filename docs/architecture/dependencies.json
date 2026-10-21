@@ -2,7 +2,7 @@
   "projects": {
     "PlantHost.Rpc.Net10": { "id": "rpc", "title": "Named Pipe RPC · .NET 10", "references": [] },
     "YuzuhaToolkit.Workspace": { "id": "workspace", "title": "工作区 · 启动、复制与运行日志", "references": [] },
-    "YuzuhaToolkit.Desktop": { "id": "desktop", "title": "Windows 原生工作台 · WPF", "references": ["YuzuhaToolkit.Workspace"] },
+    "YuzuhaToolkit.Desktop": { "id": "desktop", "title": "Windows 原生工作台 · WPF", "references": ["YuzuhaToolkit.Mcp", "YuzuhaToolkit.Workspace"] },
     "YuzuhaToolkit.CommandLine": { "id": "cli", "title": "CLI / MCP 双入口适配", "references": ["YuzuhaToolkit.Workspace"] },
     "YuzuhaToolkit.Mcp": { "id": "mcp", "title": "执行工具 · CLI / MCP · Native AOT", "references": ["PlantHost.Rpc.Net10", "YuzuhaToolkit.CommandLine", "YuzuhaToolkit.Workspace"] },
     "YuzuhaToolkit.Knowledge": { "id": "knowledge", "title": "知识工具 · CLI / MCP · Native AOT", "references": ["YuzuhaToolkit.CommandLine", "YuzuhaToolkit.Workspace"] },

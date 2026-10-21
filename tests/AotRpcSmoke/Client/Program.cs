@@ -13,4 +13,11 @@ if (!result.Success || result.Code != "SMOKE" || result.PmlCommand != "unicode æ
     result.ResultList?.Length != 2 || result.ResultList[0] != "Smoke" || result.ResultList[1] != "True" ||
     result.ServerTimeUtc.Year < 2026) throw new Exception("Contract roundtrip mismatch");
 await Task.Delay(250, timeout.Token);
+var bounded = await BoundedArrayRequest.SendAsync(service, identity, "Smoke", 2, 2, 100, timeout.Token);
+if (!bounded.Success || bounded.ArrayWindow is not { StartIndex: 2, NextIndex: 4, Truncated: true, IndexUpperBound: 5 } ||
+    !bounded.ArrayWindow.Rows.SequenceEqual(new[] { "row2", "row3" })) throw new Exception("Bounded production DTO roundtrip mismatch");
+var oldHostRejected = false;
+try { await BoundedArrayRequest.SendAsync(service, new HostIdentityResponse(), "Smoke", 1, 2, 100, timeout.Token); }
+catch (NotSupportedException) { oldHostRejected = true; }
+if (!oldHostRejected) throw new Exception("Old Host must be rejected before dispatch");
 Console.WriteLine("PASS: published AOT adapter to Framework Host: identity, command, Unicode, booleans, array, date, heartbeat.");

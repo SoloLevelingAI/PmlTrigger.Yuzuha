@@ -21,11 +21,13 @@ builder.Services.AddSingleton<AvevaSessionDiscovery>();
 builder.Services.AddSingleton<YuzuhaRpcBridge>();
 builder.Services.AddSingleton<PmlFunctionTrustStore>();
 builder.Services.AddSingleton<PmlCallTools>();
+builder.Services.AddSingleton<PmlFunctionRegistry>();
 builder.Services
     .AddMcpServer(options => { options.ServerInstructions = McpUsageInstructions.Text; })
     .WithStdioServerTransport()
     .WithRequestFilters(filters => filters.AddCallToolFilter(ToolAuditFilter.Create(journal, () => selectedBridge?.SelectedProcessId)))
     .WithTools<PmlCallTools>(YuzuhaToolJsonContext.Default.Options)
+    .WithTools<PmlFunctionTools>(YuzuhaToolJsonContext.Default.Options)
     .WithTools<WorkspaceTools>()
     .WithTools<PmlFunctionTrustTools>()
     .WithTools<BuiltinUsageTools>();

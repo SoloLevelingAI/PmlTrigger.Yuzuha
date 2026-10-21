@@ -66,6 +66,38 @@ internal static class GetRequireFromE3D
         }
     }
 
+    /// <summary>只读已有数组的索引窗口；MAXINDEX 是索引上界，稀疏槽位不压缩，未设置值保留原生显示。</summary>
+    internal static YuzuhaToolkit.Pml.PmlArrayWindowResult GetPmlVariableWindow(string globalVar, int startIndex, int maxItems, int maxCharacters)
+    {
+        YuzuhaToolkit.Pml.PmlArrayWindow.Validate(startIndex, maxItems, maxCharacters);
+        if (String.IsNullOrEmpty(globalVar) || globalVar.Length > 128 ||
+            !System.Text.RegularExpressions.Regex.IsMatch(globalVar, @"\A[A-Za-z][A-Za-z0-9_]*\z"))
+            throw new ArgumentException("A plain PML global array name is required.", "globalVar");
+        string suffix = Guid.NewGuid().ToString("N");
+        string sizeVar = "YUZUHAWINDOWSIZE" + suffix;
+        string itemVar = "YUZUHAWINDOWITEM" + suffix;
+        CmdAm.Command size = CmdAm.Command.CreateCommand("!!" + sizeVar + " = !!" + globalVar + ".MAXINDEX()");
+        try
+        {
+            if (!size.Run()) throw new InvalidOperationException("PML array MAXINDEX query failed.");
+            double upper = size.GetPMLVariableReal(sizeVar);
+            if (Double.IsNaN(upper) || upper < 0 || upper > Int32.MaxValue || upper != Math.Truncate(upper))
+                throw new InvalidOperationException("Invalid PML array index upper bound.");
+            return YuzuhaToolkit.Pml.PmlArrayWindow.Read((int)upper, startIndex, maxItems, maxCharacters, delegate(int index)
+            {
+                CmdAm.Command item = CmdAm.Command.CreateCommand("VAR !!" + itemVar + " VAR !!" + globalVar + "[" + index.ToString(System.Globalization.CultureInfo.InvariantCulture) + "]");
+                if (!item.Run()) throw new InvalidOperationException("PML array slot read failed at " + index + ".");
+                return item.GetPMLVariableString(itemVar);
+            });
+        }
+        finally
+        {
+            // Only request-unique temporaries are removed; the source array remains available for continuation.
+            CmdAm.Command.CreateCommand("!!" + itemVar + ".delete()").Run();
+            CmdAm.Command.CreateCommand("!!" + sizeVar + ".delete()").Run();
+        }
+    }
+
     private static void ValidateGlobalName(string value, string parameterName)
     {
         if (string.IsNullOrEmpty(value) || value.Trim().Length == 0)

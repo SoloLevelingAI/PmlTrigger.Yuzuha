@@ -23,6 +23,8 @@ npm run docs:serve
 
 [文档维护](docs/reference/documentation.md) · [架构与守卫](docs/reference/architecture.md) · [测试说明](docs/reference/testing.md)。开发解决方案为 `YuzuhaToolkit.Development.slnx`；无需 AVEVA SDK 即可执行，原 `src/YuzuhaToolkit.sln` 保留 Host 构建入口。
 
+PMLTWIN v0.4 第一阶段增加函数源码注册、独立调用权限和已有数组的有界读取，并复用 LaunchDesk 的 DocFX 测试关联与按 ID 运行机制。详见 [第一阶段说明](docs/reference/pmltwin-phase1.md) 和 [FormUse 支持登记](docs/reference/formuse-audit.md)。
+
 ### 核心能力
 
 | 能力 | 已提供的功能 |

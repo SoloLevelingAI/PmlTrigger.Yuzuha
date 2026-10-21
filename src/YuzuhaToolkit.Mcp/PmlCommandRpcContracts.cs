@@ -28,6 +28,8 @@ public sealed class HostIdentityRequest
 /// <summary>Host 返回的进程、启动时间、模块、管道、框架和版本身份。</summary>
 public sealed class HostIdentityResponse
 {
+    /// <summary>有界数组协议版本；旧 Host 缺少此字段，默认为 0。</summary>
+    public int BoundedArrayReadVersion { get; set; }
     /// <summary>目标或发送方操作系统进程编号；不能代替启动时间核验。</summary>
     public int ProcessId { get; set; }
     /// <summary>进程启动 UTC ticks；与 PID 联合识别目标，防止 PID 重用。</summary>
@@ -47,6 +49,14 @@ public sealed class HostIdentityResponse
 /// <summary>待执行 PML 命令及可选全局数组返回和清理策略。</summary>
 public sealed class RunPmlCommandRequest
 {
+    /// <summary>只读取已有全局数组；不执行表达式赋值。</summary>
+    public bool ReadArray { get; set; }
+    /// <summary>窗口起始索引，从 1 开始。</summary>
+    public int StartIndex { get; set; }
+    /// <summary>最大读取槽位数，1 到 1000。</summary>
+    public int MaxItems { get; set; }
+    /// <summary>最大返回 UTF-16 字符数，1 到 262144，不含 JSON 包装。</summary>
+    public int MaxCharacters { get; set; }
     /// <summary>已生成或准备执行的完整 PML 文本。</summary>
     public string? PmlCommand { get; set; }
 
@@ -63,6 +73,8 @@ public sealed class RunPmlCommandRequest
 /// <summary>PML 执行状态、错误、数组结果和服务端关联信息。</summary>
 public sealed class RunPmlCommandResponse
 {
+    /// <summary>有界结果包含索引上界、续读位置和截断标记；其他操作为 null。</summary>
+    public YuzuhaToolkit.Pml.PmlArrayWindowResult? ArrayWindow { get; set; }
     /// <summary>该次协议或业务操作报告的成功标志。</summary>
     public bool Success { get; set; }
 

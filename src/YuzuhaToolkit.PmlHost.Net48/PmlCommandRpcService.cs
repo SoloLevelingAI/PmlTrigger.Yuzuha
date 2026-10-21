@@ -25,6 +25,7 @@ internal sealed class PmlCommandRpcService : IPmlCommandService
             Model = target.Model,
             PipeName = PmlCommandRpcHost.PipeName,
             HostFramework = "net48",
+            BoundedArrayReadVersion = 1,
             HostVersion = typeof(PmlCommandMethod).Assembly
                 .GetName().Version.ToString(),
             ServerTimeUtc = DateTime.UtcNow
@@ -47,6 +48,15 @@ internal sealed class PmlCommandRpcService : IPmlCommandService
         try
         {
             var target = PmlCommandRpcHost.GetTarget();
+
+            if (request != null && request.ReadArray)
+            {
+                if (request.ReturnList || !string.IsNullOrEmpty(request.PmlCommand) || request.DeleteGlobalVar)
+                    throw new ArgumentException("ReadArray only reads an existing array; expression, ReturnList and deletion are not allowed.");
+                response = CreateResponse(true, "OK", null, null);
+                response.ArrayWindow = GetRequireFromE3D.GetPmlVariableWindow(request.GlobalVar, request.StartIndex, request.MaxItems, request.MaxCharacters);
+                return Task.FromResult(response);
+            }
 
             if (request != null && request.ReturnList)
             {

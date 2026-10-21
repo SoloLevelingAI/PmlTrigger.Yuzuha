@@ -4,6 +4,12 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
+if (args.Length == 3 && args[0] == "--tests")
+{
+    TestInventory.Write(args[1], args[2]);
+    return 0;
+}
+
 var root = Path.GetFullPath(args.Length > 0 ? args[0] : "../..");
 var projects = new List<object>();
 var types = new List<object>();

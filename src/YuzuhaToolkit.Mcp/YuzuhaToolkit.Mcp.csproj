@@ -31,6 +31,7 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="../Shared/BuiltinGuideCatalog.cs" Link="Builtins/BuiltinGuideCatalog.cs" />
+        <Compile Include="../Shared/PmlArrayWindow.cs" Link="PmlArrayWindow.cs" />
         <EmbeddedResource Include="../../docs/builtin/*.md" LogicalName="Yuzuha.Builtin.%(Filename)%(Extension)" />
     </ItemGroup>
 </Project>

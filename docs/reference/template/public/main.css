@@ -271,6 +271,20 @@ body article .project-card h2 { font-size: 17px; margin: 8px 0 10px; padding: 0;
 .type-scope > span { flex: 1; color: var(--ld-muted); }
 .type-connections { font-size: 11px; margin: 16px 0; border: 1px solid var(--bs-border-color); border-radius: 9px; padding: 12px 14px; }
 .type-connections:empty { display: none; }
+.test-directory-controls { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin:20px 0; }
+.test-directory-controls label { display:flex; flex-direction:column; gap:6px; font-size:12px; color:var(--ld-muted); }
+.test-directory-controls :is(select,input) { width:100%; padding:8px; border:1px solid var(--bs-border-color); border-radius:7px; background:var(--ld-surface); color:var(--ld-ink); }
+.test-directory-search { grid-column:1/-1; }
+.test-table small,.related-test-row small { display:block; color:var(--ld-muted); margin-top:5px; }
+.test-table td a { display:block; }
+.related-tests { margin-top:16px; }
+.related-tests-heading,.related-test-row { display:flex; flex-wrap:wrap; justify-content:space-between; gap:8px; padding:10px 0; border-bottom:1px solid var(--bs-border-color); }
+.test-note,.test-directory-status,.test-directory-scope { color:var(--ld-muted); font-size:12px; }
+.member-test-links { display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; font-size:12px; }
+.test-command,.test-directory-pager { display:flex; align-items:center; gap:12px; margin:16px 0; }
+.test-command button,.test-directory-pager button { background:var(--ld-surface); color:var(--bs-link-color); border:1px solid var(--bs-border-color); border-radius:7px; padding:7px 12px; }
+.test-directory-pager button:disabled { opacity:.45; }
+@media(max-width:700px) { .test-directory-controls { grid-template-columns:1fr; } }
 .connection-modules, .connection-row { display: flex; align-items: start; flex-wrap: wrap; gap: 7px 12px; margin: 5px 0; }
 .connection-label { color: var(--ld-muted); font-weight: 550; min-width: 86px; }
 .module-chip { background: var(--ld-accent-soft); color: var(--bs-link-color); border-radius: 4px; padding: 1px 6px; text-decoration: none; }

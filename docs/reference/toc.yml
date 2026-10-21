@@ -12,6 +12,14 @@
   href: architecture.md
 - name: 测试与验证
   href: testing.md
+- name: 测试目录与复刻
+  href: ../../artifacts/docfx/navigation/tests/index.md
+- name: 测试关联维护
+  href: test-associations.md
+- name: FormUse 支持登记
+  href: formuse-audit.md
+- name: PMLTWIN v0.4 第一阶段
+  href: pmltwin-phase1.md
 - name: C# API
   href: api/index.md
   items:

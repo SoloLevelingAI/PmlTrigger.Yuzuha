@@ -3,6 +3,7 @@ import path from 'node:path';
 import assert from 'node:assert/strict';
 import {fileURLToPath} from 'node:url';
 import YAML from 'yaml';
+import {buildTestDocumentation} from './documentation-tests.mjs';
 
 const root=fileURLToPath(new URL('../',import.meta.url));
 const output=path.join(root,'artifacts/docfx/navigation');
@@ -84,7 +85,6 @@ for(const [kind,title] of [['interfaces','全部接口'],['models','数据模型
   write(kind+'/index.md',`---\ntitle: ${title}\n_disableAffix: true\n---\n\n# ${title}\n\n<div id="workspace-explorer" data-kind="${kind}" data-view="types"></div>\n`);
 write('modules/index.md','# 功能模块\n\n<div id="workspace-explorer" data-view="modules"></div>\n');
 const graph={schemaVersion:3,projects,modules,types,coreFeatures:[],stats:{projects:projects.length,modules:modules.length,types:types.length,interfaces:types.filter(type=>type.kind==='interfaces').length,implementationEdges:types.reduce((sum,type)=>sum+type.interfaces.length,0)}};
-write('graph.json',JSON.stringify(graph,null,2));
 
 // Preserve repository-relative links while publishing the actual maintained guides.
 const markdownFiles=walk(root).filter(file=>file.endsWith('.md')&&!file.split(path.sep).some(part=>['.git','node_modules','bin','obj','artifacts'].includes(part)))
@@ -128,7 +128,11 @@ for(const file of pml){
   const status=obsolete?'历史 / 已废弃':'当前仓库';
   write(destination,`---\ntitle: ${path.posix.basename(file)}\n---\n\n# ${path.posix.basename(file)}\n\n**状态：** ${status} · **来源：** \`${file}\`\n\n${obsolete?'此文件位于 Obsolete，仅用于历史追溯，不能作为当前默认执行入口。':'以此源码说明当前实现；使用流程和参数先参见内置指南。'}\n\n**声明符号：** ${symbols.map(symbol=>'`'+symbol+'`').join('、')||'启动索引、配置或注册数据'}\n\n\`\`\`text\n${content}\n\`\`\`\n`);
   pmlRows.push({file,status,symbols,url:'reference/'+destination.replace(/\.md$/,'.html')});
+  const generated=path.join(output,destination);
+  fs.appendFileSync(generated,'\n<div class="pml-tests" data-pml-file="'+escape(file)+'"></div>\n');
 }
+graph.tests=buildTestDocumentation({root,navigation:output,types,modules,metadata,pml:pmlRows}).tests;
+write('graph.json',JSON.stringify(graph,null,2));
 write('pml/index.md','# PML / PMLUI 全部源码\n\n| 文件 | 状态 | 声明符号 |\n| --- | --- | --- |\n'+pmlRows.map(row=>`| [${row.file}](${row.file}.md) | ${row.status} | ${row.symbols.join('、')} |`).join('\n')+'\n');
 write('repository/index.md','# 仓库使用与维护文档\n\n完整纳入现有中文、英文指南、安装说明、发布说明和验证记录。\n\n'+markdownFiles.map(file=>`- [${file}](${file})`).join('\n')+'\n');
 const coverage={projects:projects.map(project=>({id:project.id,files:project.files.length,types:project.types.length,referenceMode:project.sourceOnly?'source':'docfx-and-source'})),typeDeclarations:source.types.length,documentedTypes:types.length,sourceFiles:new Set(projects.flatMap(project=>project.files)).size,sourceMembers:[...grouped.values()].reduce((sum,parts)=>sum+new Set(parts.flatMap(part=>part.members.map(member=>member.signature))).size,0),missingSummaries:source.missing.length,guides:markdownFiles,pmlFiles:pmlRows,preexistingMissingRepositoryLinks:missingLinks};

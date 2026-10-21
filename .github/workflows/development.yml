@@ -24,9 +24,11 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: development-test-results
-          path: artifacts/tests/*.trx
+          name: development-tests-${{ github.sha }}-${{ runner.os }}
+          path: |
+            artifacts/tests/*.trx
+            artifacts/tests/run-metadata.json
       - uses: actions/upload-artifact@v4
         with:
-          name: yuzuha-development-documentation
+          name: yuzuha-documentation-${{ github.sha }}-${{ runner.os }}
           path: artifacts/docfx/site

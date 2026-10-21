@@ -1,0 +1,410 @@
+{
+  "schemaVersion": 1,
+  "cases": [
+    {
+      "id": "smoke:native-cli",
+      "kind": "smoke",
+      "category": "native-aot-cli-mcp",
+      "file": "tests/cli_smoke.py",
+      "entryPoint": "def check(runtime):",
+      "runner": "native-cli",
+      "purpose": "发布两个 Native AOT 服务并比较 CLI、默认 MCP、显式 MCP 的工具和真实响应。",
+      "environment": "Windows x64 / .NET 10 SDK / MSVC C++ 工具链 / Python 3；无需 AVEVA",
+      "expected": "离线套件全部断言通过；退出非零即失败。这不代表 AVEVA 实机通过。"
+    },
+    {
+      "id": "smoke:native-builtin",
+      "kind": "smoke",
+      "category": "native-aot-cli-mcp",
+      "file": "tests/v03/builtin_smoke.py",
+      "entryPoint": "with tempfile.TemporaryDirectory(prefix='yuzuha-builtin-')",
+      "runner": "native-builtin",
+      "purpose": "从 Native AOT 服务验证无数据库内置指南及优先级。",
+      "environment": "Windows x64 / .NET 10 SDK / MSVC C++ 工具链 / Python 3；无需 AVEVA",
+      "expected": "离线套件全部断言通过；退出非零即失败。这不代表 AVEVA 实机通过。"
+    },
+    {
+      "id": "smoke:rpc-net35",
+      "kind": "smoke",
+      "category": "host-compatibility-net35",
+      "file": "tests/AotRpcSmoke/Server35/Program.cs",
+      "entryPoint": "static void Main(",
+      "runner": "rpc-net35",
+      "purpose": "NET35 独立 RPC 夹具与 Native AOT 客户端协议兼容。",
+      "environment": "Windows x64 / .NET 10 SDK / MSVC C++ 工具链 / Python 3；无需 AVEVA / .NET 3.5 启用",
+      "expected": "离线套件全部断言通过；退出非零即失败。这不代表 AVEVA 实机通过。"
+    },
+    {
+      "id": "smoke:rpc-net48",
+      "kind": "smoke",
+      "category": "host-compatibility-net48",
+      "file": "tests/AotRpcSmoke/Server/Program.cs",
+      "entryPoint": "static void Main(",
+      "runner": "rpc-net48",
+      "purpose": "NET48 独立 RPC 夹具与 Native AOT 客户端协议兼容。",
+      "environment": "Windows x64 / .NET 10 SDK / MSVC C++ 工具链 / Python 3；无需 AVEVA / .NET Framework 4.8",
+      "expected": "离线套件全部断言通过；退出非零即失败。这不代表 AVEVA 实机通过。"
+    },
+    {
+      "id": "smoke:formrecord-net35",
+      "kind": "smoke",
+      "category": "host-compatibility-net35",
+      "file": "tests/FormRecordSmoke/Program.cs",
+      "entryPoint": "private static void Run(",
+      "runner": "formrecord-net35",
+      "purpose": "NET35 记录器合成数组、配对、JSONL 与测试窗口截图。",
+      "environment": "交互式 Windows / .NET 3.5 / .NET 10 SDK",
+      "expected": "离线套件全部断言通过；退出非零即失败。这不代表 AVEVA 实机通过。"
+    },
+    {
+      "id": "smoke:formrecord-net48",
+      "kind": "smoke",
+      "category": "host-compatibility-net48",
+      "file": "tests/FormRecordSmoke/Program.cs",
+      "entryPoint": "private static void Run(",
+      "runner": "formrecord-net48",
+      "purpose": "NET48 记录器合成数组、配对、JSONL 与测试窗口截图。",
+      "environment": "交互式 Windows / .NET Framework 4.8 / .NET 10 SDK",
+      "expected": "离线套件全部断言通过；退出非零即失败。这不代表 AVEVA 实机通过。"
+    },
+    {
+      "id": "smoke:documentation-contracts",
+      "kind": "smoke",
+      "category": "documentation",
+      "file": "tests/documentation-tests.test.mjs",
+      "entryPoint": "catalog preserves LaunchDesk IDs",
+      "runner": "documentation-contracts",
+      "purpose": "验证目录关联、源码发现、历史状态和 TRX 身份校验。",
+      "environment": "Windows / PowerShell 7 / Node.js 22.22.3+ / .NET 10 SDK",
+      "expected": "离线套件全部断言通过；退出非零即失败。这不代表 AVEVA 实机通过。"
+    },
+    {
+      "id": "manual:formuse-get-gadget",
+      "kind": "manual",
+      "category": "aveva-live",
+      "file": "tests/manual/formuse.md",
+      "entryPoint": "## manual:formuse-get-gadget",
+      "purpose": "核对控件枚举和类型排除规则。",
+      "environment": "明确产品版本和 NET35/NET48 Host 的独立 AVEVA 测试会话，使用合成数据与可丢弃状态的窗体",
+      "expected": "逐项按人工步骤记录实际结果、RequestId 和本机证据；原型限制不能报为通过。"
+    },
+    {
+      "id": "manual:formuse-get-gadget-type",
+      "kind": "manual",
+      "category": "aveva-live",
+      "file": "tests/manual/formuse.md",
+      "entryPoint": "## manual:formuse-get-gadget-type",
+      "purpose": "核对类型显示格式和解析失败行为。",
+      "environment": "明确产品版本和 NET35/NET48 Host 的独立 AVEVA 测试会话，使用合成数据与可丢弃状态的窗体",
+      "expected": "逐项按人工步骤记录实际结果、RequestId 和本机证据；原型限制不能报为通过。"
+    },
+    {
+      "id": "manual:formuse-decorated-call",
+      "kind": "manual",
+      "category": "aveva-live",
+      "file": "tests/manual/formuse.md",
+      "entryPoint": "## manual:formuse-decorated-call",
+      "purpose": "核对回调保存、上下文、防重和恢复限制。",
+      "environment": "明确产品版本和 NET35/NET48 Host 的独立 AVEVA 测试会话，使用合成数据与可丢弃状态的窗体",
+      "expected": "逐项按人工步骤记录实际结果、RequestId 和本机证据；原型限制不能报为通过。"
+    },
+    {
+      "id": "manual:formuse-gadget-decorated",
+      "kind": "manual",
+      "category": "aveva-live",
+      "file": "tests/manual/formuse.md",
+      "entryPoint": "## manual:formuse-gadget-decorated",
+      "purpose": "区分回调与日志结果，核对触发控件、时间和相位。",
+      "environment": "明确产品版本和 NET35/NET48 Host 的独立 AVEVA 测试会话，使用合成数据与可丢弃状态的窗体",
+      "expected": "逐项按人工步骤记录实际结果、RequestId 和本机证据；原型限制不能报为通过。"
+    },
+    {
+      "id": "manual:formuse-choose-form",
+      "kind": "manual",
+      "category": "aveva-live",
+      "file": "tests/manual/formuse.md",
+      "entryPoint": "## manual:formuse-choose-form",
+      "purpose": "使用 FMSYS / PMLFORMS 核对列表、刷新、装饰和原生重置。",
+      "environment": "明确产品版本和 NET35/NET48 Host 的独立 AVEVA 测试会话，使用合成数据与可丢弃状态的窗体",
+      "expected": "逐项按人工步骤记录实际结果、RequestId 和本机证据；原型限制不能报为通过。"
+    },
+    {
+      "id": "manual:aveva-bounded-array",
+      "kind": "manual",
+      "category": "aveva-live",
+      "file": "tests/manual/formuse.md",
+      "entryPoint": "## manual:aveva-bounded-array",
+      "purpose": "在指定 AVEVA 中验证数组预算、稀疏数据和旧 Host 拒绝行为。",
+      "environment": "明确产品版本和 NET35/NET48 Host 的独立 AVEVA 测试会话，使用合成数据与可丢弃状态的窗体",
+      "expected": "逐项按人工步骤记录实际结果、RequestId 和本机证据；原型限制不能报为通过。"
+    }
+  ],
+  "bindings": [
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.FunctionRegistryTests.RegistrationParsesSourceAndStartsDeniedAcrossStoreInstances",
+      "purpose": "核对真实源码签名、默认拒绝和跨实例持久化。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Mcp.PmlFunctionRegistry",
+          "methods": [
+            "Register",
+            "List",
+            "PrepareCall"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.FunctionRegistryTests.ExplicitPermissionProducesTypedEscapedCallAndCanBeRevoked",
+      "purpose": "授权后保持类型和引号转义，撤销后禁止调用。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Mcp.PmlFunctionRegistry",
+          "methods": [
+            "SetPermission",
+            "PrepareCall"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.FunctionRegistryTests.ChangedSourceRequiresRegistrationAndFreshPermission",
+      "purpose": "源码改变后拒绝调用或授权；重新登记撤销已有许可。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Mcp.PmlFunctionRegistry",
+          "methods": [
+            "Register",
+            "SetPermission",
+            "PrepareCall"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.FunctionRegistryTests.InvalidNamesNeverRegister",
+      "purpose": "拒绝多行、带括号和分隔符的函数名称。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Mcp.PmlFunctionRegistry",
+          "methods": [
+            "Register"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.FunctionRegistryTests.MissingAndCommentOnlyDeclarationsAreRejected",
+      "purpose": "注释内声明和不存在的函数不能登记。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Mcp.PmlFunctionRegistry",
+          "methods": [
+            "Register"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.FunctionRegistryTests.SignatureMismatchAndMalformedPersistenceFailClosed",
+      "purpose": "参数数量、类型及损坏 JSON 均明确失败。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Mcp.PmlFunctionRegistry",
+          "methods": [
+            "PrepareCall",
+            "List"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlArrayWindowTests.ItemBudgetLimitsHostReadsAndReportsContinuation",
+      "purpose": "最多读取预算数量的索引槽位并报告续读。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Pml.PmlArrayWindow",
+          "methods": [
+            "Read"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlArrayWindowTests.CharacterBudgetNeverSplitsRowsAndPreservesNextIndex",
+      "purpose": "字符预算不拆行，首行过大失败，其余保留续读索引。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Pml.PmlArrayWindow",
+          "methods": [
+            "Read"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlArrayWindowTests.EmptyAndPastEndDoNotReadOrOverflow",
+      "purpose": "空数组、超出末端和 Int32 最大索引不越界。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Pml.PmlArrayWindow",
+          "methods": [
+            "Read"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlArrayWindowTests.InvalidBudgetsFailBeforeAnyRead",
+      "purpose": "无效预算在读取任何槽位前失败。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Pml.PmlArrayWindow",
+          "methods": [
+            "Validate",
+            "Read"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlArrayWindowTests.OlderHostIsRejectedBeforeAnyCommandIsSent",
+      "purpose": "旧 Host 缺少能力时拒绝请求并验证零次派发。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Mcp.BoundedArrayRequest",
+          "methods": [
+            "SendAsync"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlArrayWindowTests.CapableHostReceivesBoundsAndNoExpression",
+      "purpose": "支持的 Host 收到准确预算、索引和无表达式的读请求。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Mcp.BoundedArrayRequest",
+          "methods": [
+            "SendAsync"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.RegisteredFunctionPermissionIsEnforcedBeforeRealMcpDispatch",
+      "purpose": "真实 MCP 验证默认拒绝、授权后目标核验、源码变化拒绝及数组工具入口。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Mcp.PmlFunctionTools",
+          "methods": [
+            "RegisterPmlFunction",
+            "SetPmlFunctionPermission",
+            "InvokePmlFunction"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "manual:aveva-bounded-array",
+      "purpose": "逐 AVEVA 产品验证真实 MAXINDEX、稀疏槽位、临时变量清理；当前未实测。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Mcp.PmlCallTools",
+          "methods": [
+            "ReadPmlArray"
+          ]
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net35::YuzuhaToolkit.PmlHost.GetRequireFromE3D"
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net48::YuzuhaToolkit.PmlHost.GetRequireFromE3D"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.BackendBehaviorTests.PmlArgumentsKeepOrderAndEscapeQuotes",
+      "purpose": "验证参数顺序、单引号与 Unicode 的调用文本。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Pml.PmlMethodSignatureGenerator"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.BackendBehaviorTests.BuiltinGuidesResolveAliasesWithoutDatabase",
+      "purpose": "无 SQLite 环境下匹配已维护别名。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Mcp.BuiltinUsageTools",
+          "methods": [
+            "GetBuiltinUsage"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.CliAndMcpReturnTheSameGeneratedPml",
+      "purpose": "真实 CLI 和 MCP 服务进程生成相同 PML 文本。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Mcp.PmlCallTools",
+          "methods": [
+            "GeneratePmlCall"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "manual:formuse-get-gadget",
+      "purpose": "实际窗体案例，当前未实测；源码检查不替代实机验收。",
+      "targets": [
+        {
+          "file": "PMLLIB/FormUse/YuzuhaGetGadget.pmlfnc",
+          "symbol": "!!YuzuhaGetGadget"
+        }
+      ]
+    },
+    {
+      "test": "manual:formuse-get-gadget-type",
+      "purpose": "实际窗体案例，当前未实测；源码检查不替代实机验收。",
+      "targets": [
+        {
+          "file": "PMLLIB/FormUse/YuzuhaGetGadgetType.pmlfnc",
+          "symbol": "!!YuzuhaGetGadgetType"
+        }
+      ]
+    },
+    {
+      "test": "manual:formuse-decorated-call",
+      "purpose": "实际窗体案例，当前未实测；源码检查不替代实机验收。",
+      "targets": [
+        {
+          "file": "PMLLIB/FormUse/YuzuhaDecoratedCall.pmlfnc",
+          "symbol": "!!YuzuhaDecoratedCall"
+        }
+      ]
+    },
+    {
+      "test": "manual:formuse-gadget-decorated",
+      "purpose": "实际窗体案例，当前未实测；源码检查不替代实机验收。",
+      "targets": [
+        {
+          "file": "PMLLIB/FormUse/YuzuhaGadgetDecorated.pmlfnc",
+          "symbol": "!!YuzuhaGadgetDecorated"
+        }
+      ]
+    },
+    {
+      "test": "manual:formuse-choose-form",
+      "purpose": "实际窗体案例，当前未实测；源码检查不替代实机验收。",
+      "targets": [
+        {
+          "file": "PMLLIB/FormUse/YuzuhaChooseFormToTrack.pmlfrm",
+          "symbol": "!!YuzuhaChooseFormToTrack"
+        }
+      ]
+    }
+  ]
+}

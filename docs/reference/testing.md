@@ -1,5 +1,15 @@
 # 测试与验证
 
+[测试目录与按 ID 复刻](../../artifacts/docfx/navigation/tests/index.md)自动发现 xUnit 方法，并关联 API 与原生 PML 函数。执行器先核验源码身份，再检查每个实际 TRX 结果；零匹配、跳过或错配不能视为通过。报告默认保留在本机 `artifacts/dt`，静态站点不把历史结果显示为当前通过。
+
+```powershell
+./scripts/run-documented-test.ps1 -TestId 'xunit:YuzuhaToolkit.Tests.FunctionRegistryTests.ExplicitPermissionProducesTypedEscapedCallAndCanBeRevoked'
+./scripts/run-documented-test.ps1 -TestId 'smoke:rpc-net48'
+./scripts/run-documented-test.ps1 -TestId 'manual:formuse-get-gadget'
+```
+
+注册权限、有界数组读取和验证限制见 [PMLTWIN 第一阶段](pmltwin-phase1.md)；Gadget/FormUse 的源码问题与人工步骤见 [支持登记](formuse-audit.md)。NET35/NET48 RPC 夹具、Native AOT CLI/MCP Smoke 和 AVEVA 实机分别分类。
+
 ```powershell
 npm test
 ```

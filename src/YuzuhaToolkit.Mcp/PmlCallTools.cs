@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
+using ModelContextProtocol;
 using ModelContextProtocol.Server;
 using YuzuhaToolkit.Pml;
 
@@ -264,6 +265,22 @@ public sealed class PmlCallTools
         }
 
         return PmlMethodSignatureGenerator.Build(methodName, values);
+    }
+
+    /// <summary>按索引窗口读取已有全局数组，返回预算、截断和续读位置；不重放生成表达式。</summary>
+    [McpServerTool,Description("Read a bounded index window of an existing global PML array. Requires Host bounded-array protocol v1; older Hosts are rejected before PML execution. Does not evaluate a producer expression or delete the source array. maxItems 1..1000, maxCharacters 1..262144 UTF-16 characters excluding JSON; an oversized first row fails. IndexUpperBound is MAXINDEX, not the count of set items. Sparse slots retain native displays or report a read failure. Separate calls are not a frozen snapshot; no automatic retry.")]
+    public async Task<string> ReadPmlArray(string globalVar,int startIndex=1,int maxItems=100,int maxCharacters=32768,CancellationToken cancellationToken=default)
+    {
+        try
+        {
+            var response=await _bridge.ReadPmlArrayAsync(globalVar,startIndex,maxItems,maxCharacters,cancellationToken).ConfigureAwait(false);
+            return JsonSerializer.Serialize(response,YuzuhaJsonContext.Default.RunPmlCommandResponse);
+        }
+        catch (Exception error) when(error is ArgumentException or NotSupportedException ||
+            error is InvalidOperationException && error.Message.StartsWith("E3D_TARGET_",StringComparison.Ordinal))
+        {
+            throw new McpException(error.Message);
+        }
     }
 
     /// <summary>通过已核验 Host 原生执行 PML；开发任务授权覆盖相关连续操作，不逐条重复审批，超时不自动重试。</summary>

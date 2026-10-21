@@ -20,6 +20,7 @@ namespace YuzuhaToolkit.PmlHost
                 Model = target.Model,
                 PipeName = PmlCommandRpcHost.PipeName,
                 HostFramework = "net35",
+                BoundedArrayReadVersion = 1,
                 HostVersion = typeof(PmlCommandMethod).Assembly
                     .GetName().Version.ToString(),
                 ServerTimeUtc = DateTime.UtcNow
@@ -37,6 +38,14 @@ namespace YuzuhaToolkit.PmlHost
             try
             {
                 PmlCommandMethod target = PmlCommandRpcHost.GetTarget();
+                if (request != null && request.ReadArray)
+                {
+                    if (request.ReturnList || !String.IsNullOrEmpty(request.PmlCommand) || request.DeleteGlobalVar)
+                        throw new ArgumentException("ReadArray only reads an existing array; expression, ReturnList and deletion are not allowed.");
+                    RunPmlCommandResponse windowResponse = CreateResponse(true, "OK", null, null);
+                    windowResponse.ArrayWindow = GetRequireFromE3D.GetPmlVariableWindow(request.GlobalVar, request.StartIndex, request.MaxItems, request.MaxCharacters);
+                    return windowResponse;
+                }
                 if (request != null && request.ReturnList)
                 {
                     if (String.IsNullOrEmpty(request.GlobalVar) ||

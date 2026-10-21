@@ -13,7 +13,8 @@ def check(runtime):
     with tempfile.TemporaryDirectory(prefix='yuzuha-cli-native-') as temporary:
         base = Path(temporary)
         env = dict(os.environ, YUZUHA_KNOWLEDGE_DIR=str(base / 'knowledge'),
-                   YUZUHA_TRUST_FILE=str(base / 'trust.json'), YUZUHA_STATE_DIR=str(base / 'state'))
+                   YUZUHA_TRUST_FILE=str(base / 'trust.json'), YUZUHA_STATE_DIR=str(base / 'state'),
+                   YUZUHA_FUNCTION_REGISTRY=str(base / 'functions.json'))
 
         def cli(executable, *args, expected=0):
             result = subprocess.run([str(executable), '--cli', *args], env=env,
@@ -67,6 +68,21 @@ def check(runtime):
             catalogs[name] = len(tools)
 
         executable = runtime / 'YuzuhaToolkit.Mcp.exe'
+        source = base / 'NativeSample.pmlfnc'
+        source.write_text('define function !!NativeSample(!text is STRING) is STRING\nreturn !text\nendfunction', encoding='utf-8')
+        result = cli(executable, 'call', 'register_pml_function', '--arguments', json.dumps(dict(sourceFile=str(source), functionName='NativeSample')))
+        assert not json.loads(result['content'][0]['text'])['AllowInvoke'], result
+        arguments = json.dumps(dict(functionName='NativeSample', parameters=[dict(type='string', value='test')]))
+        result = cli(executable, 'call', 'invoke_pml_function', '--arguments', arguments, expected=1)
+        assert result['isError'] and 'PML_FUNCTION_INVOKE_DENIED' in result['content'][0]['text'], result
+        cli(executable, 'call', 'set_pml_function_permission', '--arguments', '{"functionName":"NativeSample","allowInvoke":true}')
+        result = cli(executable, 'call', 'invoke_pml_function', '--arguments', arguments, expected=1)
+        assert 'TARGET_NOT_SELECTED' in result['content'][0]['text'], result
+        source.write_text(source.read_text(encoding='utf-8') + '\n-- source changed', encoding='utf-8')
+        result = cli(executable, 'call', 'invoke_pml_function', '--arguments', arguments, expected=1)
+        assert result['isError'] and 'PML_FUNCTION_SOURCE_CHANGED' in result['content'][0]['text'], result
+        result = cli(executable, 'call', 'read_pml_array', '--arguments', '{"globalVar":"NativeSampleArray","maxItems":10}', expected=1)
+        assert result['isError'] and 'TARGET_NOT_SELECTED' in result['content'][0]['text'], result
         assert all(name in [tool['name'] for tool in mcp_catalog(executable, ['--mcp'])]
                    for name in ('markdb', 'endmarkdb', 'inspect_registered_pmllib', 'get_ai_runtime_status', 'get_recent_tool_calls'))
         result = cli(executable, 'call', 'markdb', '--arguments', '{}', expected=1)

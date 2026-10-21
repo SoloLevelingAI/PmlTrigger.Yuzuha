@@ -148,8 +148,33 @@ public sealed class DualModeCommandLineTests : IDisposable
     {
         ["YUZUHA_TOOLKIT_ROOT"] = _temporary,
         ["YUZUHA_KNOWLEDGE_DIR"] = Path.Combine(_temporary, "knowledge"),
-        ["YUZUHA_TRUST_FILE"] = Path.Combine(_temporary, "trust.json")
+        ["YUZUHA_TRUST_FILE"] = Path.Combine(_temporary, "trust.json"),
+        ["YUZUHA_FUNCTION_REGISTRY"] = Path.Combine(_temporary, "functions.json")
     };
+
+    [Fact]
+    public async Task RegisteredFunctionPermissionIsEnforcedBeforeRealMcpDispatch()
+    {
+        var source=Write("Demo.pmlfnc","define function !!Demo(!value is STRING) is STRING\nreturn !value\nendfunction");
+        await using var client=await ConnectAsync("YuzuhaToolkit.Mcp","--mcp");
+        var registered=await client.CallToolAsync("register_pml_function",new Dictionary<string,object?>{{"sourceFile",source},{"functionName","Demo"}});
+        Assert.NotEqual(true,registered.IsError);
+        var arguments=new Dictionary<string,object?>{{"functionName","Demo"},{"parameters",new[]{new{type="string",value="test"}}}};
+        var denied=await client.CallToolAsync("invoke_pml_function",arguments);
+        Assert.True(denied.IsError);
+        Assert.Contains("PML_FUNCTION_INVOKE_DENIED",denied.Content.OfType<TextContentBlock>().Single().Text);
+        var allowed=await client.CallToolAsync("set_pml_function_permission",new Dictionary<string,object?>{{"functionName","Demo"},{"allowInvoke",true}});
+        Assert.NotEqual(true,allowed.IsError);
+        var unselected=await client.CallToolAsync("invoke_pml_function",arguments);
+        Assert.Contains("TARGET_NOT_SELECTED",unselected.Content.OfType<TextContentBlock>().Single().Text);
+        File.AppendAllText(source,"\n-- changed source");
+        var changed=await client.CallToolAsync("invoke_pml_function",arguments);
+        Assert.True(changed.IsError);
+        Assert.Contains("PML_FUNCTION_SOURCE_CHANGED",changed.Content.OfType<TextContentBlock>().Single().Text);
+        var bounded=await client.CallToolAsync("read_pml_array",new Dictionary<string,object?>{{"globalVar","DemoArray"}});
+        Assert.True(bounded.IsError);
+        Assert.Contains("TARGET_NOT_SELECTED",bounded.Content.OfType<TextContentBlock>().Single().Text);
+    }
 
     private async Task<McpClient> ConnectAsync(string server, params string[] arguments)
     {

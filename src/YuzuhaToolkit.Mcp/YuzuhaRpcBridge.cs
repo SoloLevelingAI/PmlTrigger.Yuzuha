@@ -208,6 +208,20 @@ public sealed class YuzuhaRpcBridge : IDisposable
             cancellationToken);
     }
 
+    /// <summary>核验身份与 Host 能力后，按预算只读已有数组，不重放生成表达式。</summary>
+    public async Task<RunPmlCommandResponse> ReadPmlArrayAsync(string globalVar,int startIndex,int maxItems,int maxCharacters,CancellationToken cancellationToken)
+    {
+        ObjectDisposedException.ThrowIf(_disposed,this);
+        await _connectionGate.WaitAsync(cancellationToken).ConfigureAwait(false);
+        try
+        {
+            RequireSelectedService();
+            var identity=await ReadAndValidateIdentityCoreAsync(cancellationToken).ConfigureAwait(false);
+            return await BoundedArrayRequest.SendAsync(_service!,identity,globalVar,startIndex,maxItems,maxCharacters,cancellationToken).ConfigureAwait(false);
+        }
+        finally { _connectionGate.Release(); }
+    }
+
     private async Task<RunPmlCommandResponse> RunVerifiedAsync(
         Func<IPmlCommandService, Task<RunPmlCommandResponse>> operation,
         CancellationToken cancellationToken)

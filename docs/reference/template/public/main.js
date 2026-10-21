@@ -1,4 +1,5 @@
 import {mountExplorer, mountTypeConnections} from './explorer.js';
+import {mountTestCommands,mountRelatedTests,mountTestDirectory,mountPmlTests} from './tests.js';
 // Appearance controls adapted from LaunchDesk's documentation theme.
 function mountAppearance() {
   const api = window.YuzuhaAppearance;
@@ -63,6 +64,7 @@ function revealAnchor() {
 export default {
   start() {
     mountAppearance();
+    mountTestCommands();
     // Keep a single active theme controller when DocFX finishes its asynchronous shell setup.
     window.addEventListener('hashchange', revealAnchor);
     document.fonts.ready.then(revealAnchor);
@@ -70,19 +72,26 @@ export default {
     for (const link of document.querySelectorAll('[data-site-path]')) link.href = new URL(link.dataset.sitePath, siteRoot).href;
     const explorer = document.querySelector('#workspace-explorer');
     const connections = document.querySelector('#type-connections');
-    if (explorer || connections) fetch(new URL('reference/graph.json', siteRoot)).then(response => {
+    const tests = document.querySelector('#test-explorer');
+    const pml = document.querySelector('.pml-tests');
+    if (explorer || connections || tests || pml) fetch(new URL('reference/graph.json', siteRoot)).then(response => {
       if (!response.ok) throw new Error('Documentation graph ' + response.status);
       return response.json();
     }).then(graph => {
       if (explorer) mountExplorer(siteRoot, graph, explorer);
-      else {
+      if (tests) mountTestDirectory(siteRoot, graph, tests);
+      if (pml) mountPmlTests(siteRoot, graph, pml);
+      if (connections) {
         const localPath = location.pathname.slice(siteRoot.pathname.length);
         const type = graph.types.find(item => item.uid === connections.dataset.typeKey || item.url === localPath || item.sourceUrl === localPath);
-        if (type) mountTypeConnections(siteRoot, graph, type.uid);
+        if (type) {
+          mountTypeConnections(siteRoot, graph, type.uid);
+          mountRelatedTests(siteRoot, graph, type, connections, document.querySelector('article'));
+        }
       }
       document.fonts.ready.then(revealAnchor);
     }).catch(error => {
-      (explorer ?? connections).textContent = '项目索引暂不可用：' + error.message;
+      (explorer ?? connections ?? tests ?? pml).textContent = '项目索引暂不可用：' + error.message;
     });
   }
 };

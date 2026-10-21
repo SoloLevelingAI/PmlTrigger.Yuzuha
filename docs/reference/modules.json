@@ -15,7 +15,7 @@
     {"id":"workspace","name":"启动与插件目录","description":"C# 原生启动、注册目录发现、复制预览、目录体积与清理提醒。","match":"src/YuzuhaToolkit.(Workspace/|Desktop/)","guide":"workspace.html"},
     {"id":"activity","name":"AI 运行与日志","description":"所有 MCP 工具的开始、目标、耗时、结果、日志故障与进程心跳。","match":"src/(YuzuhaToolkit.Workspace/Runtime|YuzuhaToolkit.CommandLine/ToolAudit|YuzuhaToolkit.Mcp/WorkspaceTools)","guide":"workspace.html"},
     {"id":"sessions","name":"会话与身份","description":"从可见工程窗口发现候选，锁定 PID、启动时间、模块和专用管道。","match":"src/YuzuhaToolkit.Mcp/(Aveva|YuzuhaRpcBridge|YuzuhaTargetOptions|PmlCallTools|PmlCommandRpcContracts)","guide":"repository/docs/builtin/connection.html"},
-    {"id":"pml","name":"PML 调用与信任","description":"带类型参数生成、执行结果解析、BFS 与用户人工确认的函数信任。","match":"src/(Shared/PmlMethodSignatureGenerator|YuzuhaToolkit.Mcp/(Pml|Bfs))","guide":"repository/docs/pml-api.zh-CN.html"},
+    {"id":"pml","name":"PML 调用与信任","description":"带类型参数生成、函数注册与权限、有界数组、BFS 与人工函数信任。","match":"src/(Shared/Pml(MethodSignatureGenerator|ArrayWindow)|YuzuhaToolkit.Mcp/(Pml|Bfs|BoundedArray))","guide":"pmltwin-phase1.html"},
     {"id":"builtin","name":"内置指南","description":"无需 SQLite 的版本内置主题、别名、完整正文与替代授权边界。","match":"src/(Shared/BuiltinGuideCatalog|YuzuhaToolkit.Mcp/Builtin)","guide":"repository/docs/builtin-policy.html"},
     {"id":"knowledge","name":"知识与经验","description":"PML / WebHelp 切分、FTS5 查询、来源隔离、索引校验和本机经验。","match":"src/YuzuhaToolkit.Knowledge/","guide":"repository/skill/references/knowledge-base.zh-CN.html"},
     {"id":"rpc","name":"RPC 与心跳","description":"稳定路由、帧编解码、取消、后台作业与客户端心跳状态。","match":"src/PlantHost.Rpc.Net10/|src/YuzuhaToolkit.Mcp/AotPml","guide":"flows.html"},

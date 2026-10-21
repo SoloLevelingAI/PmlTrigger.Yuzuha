@@ -1,4 +1,8 @@
 using System;
+using IdentityRequest = YuzuhaToolkit.PmlHost.HostIdentityRequest;
+using Identity = YuzuhaToolkit.PmlHost.HostIdentityResponse;
+using Request = YuzuhaToolkit.PmlHost.RunPmlCommandRequest;
+using Response = YuzuhaToolkit.PmlHost.RunPmlCommandResponse;
 using System.Diagnostics;
 
 using PlantHost.Rpc;
@@ -9,37 +13,17 @@ public interface IService
     [RpcOperation("get-host-identity")] Identity GetIdentity(IdentityRequest request);
     [RpcOperation("run-pml-command")] Response Run(Request request);
 }
-public sealed class IdentityRequest { }
-public sealed class Identity
-{
-    public int ProcessId { get; set; }
-    public string Model { get; set; }
-    public string PipeName { get; set; }
-}
-public sealed class Request
-{
-    public string PmlCommand { get; set; }
-    public bool ReturnList { get; set; }
-    public string GlobalVar { get; set; }
-    public bool DeleteGlobalVar { get; set; }
-}
-public sealed class Response
-{
-    public bool Success { get; set; }
-    public string Code { get; set; }
-    public string PmlCommand { get; set; }
-    public string[] ResultList { get; set; }
-    public DateTime ServerTimeUtc { get; set; }
-}
 public sealed class Service : IService
 {
     private readonly string pipe;
     public Service(string value) { pipe = value; }
     public Identity GetIdentity(IdentityRequest request) {
-        return new Identity { ProcessId = Process.GetCurrentProcess().Id, Model = "Design", PipeName = pipe };
+        return new Identity { ProcessId = Process.GetCurrentProcess().Id, Model = "Design", PipeName = pipe, BoundedArrayReadVersion = 1 };
     }
     // Synthetic roundtrip only: never executes PML or connects to AVEVA.
     public Response Run(Request request) {
+        if (request.ReadArray) return new Response { Success = true, Code = "BOUNDED_SMOKE",
+            ArrayWindow = YuzuhaToolkit.Pml.PmlArrayWindow.Read(5, request.StartIndex, request.MaxItems, request.MaxCharacters, i => "row" + i) };
         return new Response { Success = request.ReturnList, Code = "SMOKE", PmlCommand = request.PmlCommand,
             ResultList = new[] { request.GlobalVar, request.DeleteGlobalVar.ToString() }, ServerTimeUtc = DateTime.UtcNow };
     }

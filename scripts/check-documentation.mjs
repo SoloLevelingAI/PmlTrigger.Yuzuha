@@ -41,6 +41,17 @@ for(const type of graph.types)for(const property of ['url','sourceUrl']){
   if(!documents.has(path.join(site,type[property])))errors.push({type:type.uid,missingTypeTarget:type[property]});
 }
 const report={htmlPages:pages.length,checkedLocalLinks:links,projects:graph.projects.length,modules:graph.modules.length,types:graph.types.length,errors};
+assert.ok(graph.tests?.length,'Test catalog must not be empty');
+assert.equal(new Set(graph.tests.map(test=>test.id)).size,graph.tests.length,'Duplicate test IDs');
+for(const test of graph.tests){
+  assert.ok(documents.has(path.join(site,test.url)),'Missing test detail: '+test.id);
+  assert.ok(test.sourceUrl&&test.command&&test.environment&&test.expected&&test.evidenceDirectory,'Incomplete test details: '+test.id);
+  for(const target of test.targets){
+    assert.ok(documents.has(path.join(site,target.url)),'Missing test target page: '+test.id);
+    if(target.uid)assert.ok(graph.types.find(type=>type.uid===target.uid)?.tests.includes(test.id),'Missing reverse association');
+  }
+}
+report.tests=graph.tests.length;
 fs.writeFileSync(path.join(root,'artifacts/docfx/integrity.json'),JSON.stringify(report,null,2));
 assert.equal(errors.length,0,JSON.stringify(errors.slice(0,20)));
 console.log(JSON.stringify({...report,passed:true}));

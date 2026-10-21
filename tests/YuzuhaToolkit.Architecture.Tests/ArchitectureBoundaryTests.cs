@@ -78,7 +78,9 @@ public sealed class ArchitectureBoundaryTests
                      typeof(YuzuhaToolkit.Mcp.PmlFunctionTrustStore), typeof(YuzuhaToolkit.Knowledge.KnowledgeRepository),
                      typeof(YuzuhaToolkit.Mcp.PmlCallTools), typeof(YuzuhaToolkit.Mcp.AvevaSessionDiscovery),
                      typeof(PlantHost.Rpc.RpcClient), typeof(YuzuhaToolkit.Knowledge.KnowledgeTools),
-                     typeof(YuzuhaToolkit.Knowledge.KnowledgeLayerTools), typeof(YuzuhaToolkit.Mcp.PmlFunctionTrustTools) })
+                     typeof(YuzuhaToolkit.Knowledge.KnowledgeLayerTools), typeof(YuzuhaToolkit.Mcp.PmlFunctionTrustTools),
+                     typeof(YuzuhaToolkit.Mcp.PmlFunctionRegistry), typeof(YuzuhaToolkit.Mcp.PmlFunctionTools),
+                     typeof(YuzuhaToolkit.Mcp.BoundedArrayRequest) })
             Classes().That().HaveFullNameContaining("YuzuhaToolkit.DevHost.DevelopmentEndpoints").Should()
                 .NotDependOnAny(forbidden).Because("HTTP 开发接口只读内置内容并计算预览").Check(Compiled);
     }

@@ -15,15 +15,59 @@ jobs:
         shell: pwsh
         run: ./scripts/Build-NativeServers.ps1
       - name: Verify built-in priority without SQLite
+        id: builtin
         run: python -X utf8 tests/v03/builtin_smoke.py runtime/net10
       - name: Verify Native AOT CLI and MCP share tools
+        id: cli
         run: python -X utf8 tests/cli_smoke.py runtime/net10
+      - name: Record offline test provenance
+        if: always()
+        shell: pwsh
+        env:
+          BUILTIN_OUTCOME: ${{ steps.builtin.outcome }}
+          CLI_OUTCOME: ${{ steps.cli.outcome }}
+        run: |
+          New-Item -ItemType Directory -Path artifacts/tests/native -Force | Out-Null
+          @{ commit=$env:GITHUB_SHA; environment=$env:RUNNER_OS; architecture=$env:RUNNER_ARCH;
+             sdk=(& dotnet --version); ciRun=$env:GITHUB_RUN_ID; finishedUtc=[DateTime]::UtcNow.ToString('o');
+             results=@(@{testId='smoke:native-builtin';status=$env:BUILTIN_OUTCOME},@{testId='smoke:native-cli';status=$env:CLI_OUTCOME});
+             scope='Offline Native AOT; not AVEVA live' } | ConvertTo-Json -Depth 5 | Set-Content artifacts/tests/native/run.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: native-test-results-${{ github.sha }}-${{ runner.os }}
+          path: artifacts/tests/native/run.json
       - name: Publish native Windows workspace
         shell: pwsh
         run: ./scripts/Build-Desktop.ps1 -OutputRoot runtime/desktop
       - uses: actions/upload-artifact@v4
         with:
-          name: yuzuha-windows-workspace
+          name: yuzuha-windows-workspace-${{ github.sha }}-${{ runner.os }}
           path: |
             runtime/desktop
             runtime/net10
+  framework-compatibility:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        framework: [net35, net48]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Native AOT client to Framework RPC fixture
+        shell: pwsh
+        run: ./scripts/run-documented-test.ps1 -TestId 'smoke:rpc-${{ matrix.framework }}'
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: framework-rpc-${{ matrix.framework }}-${{ github.sha }}-${{ runner.os }}
+          path: |
+            artifacts/dt/**/documented-run.json
+            artifacts/dt/**/smoke-result.json
+            artifacts/dt/**/console.log

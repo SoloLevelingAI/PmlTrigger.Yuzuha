@@ -22,7 +22,7 @@ Native AOT / RPC Smoke 还需要 MSVC x64 工具链、Windows SDK 和 Python 3�
 
 ## 维护边界
 
-新增 xUnit 方法自动进入目录，不按类名猜测功能关联。尚未维护的验证目的明确显示“未维护”；在 `docs/reference/test-map.json` 的 bindings 中补充 purpose、environment、expected 和 targets。C# 目标使用 `项目::类型UID`，方法名必须唯一（重载可填写完整 DocFX UID）。原生 PML 目标同时校验文件和声明符号。失效关联使构建失败。
+新增 xUnit 方法自动进入清单，不按类名猜测功能关联。当前已发现的方法均有按真实断言维护的验证目的；发布文档前会核对 purposeReviewed，缺少真实目的说明时构建失败。`docs/reference/test-map.json` 的 details 可单独描述测试目的，bindings 维护已核对的 purpose、environment、expected 和 targets；有目的说明不自动意味着关联或覆盖某个 API。C# 目标使用 `项目::类型UID`，方法名必须唯一（重载可填写完整 DocFX UID）。原生 PML 目标同时校验文件和声明符号。失效身份或关联使构建失败。
 
 cases 登记 CLI/MCP Native AOT、NET35/NET48 独立 Host 兼容夹具、文档工具与 AVEVA 人工案例。框架夹具不加载 AVEVA，不证明相应产品已经实测。FormRecord 使用合成数据与测试窗口；需要交互桌面，不能把无桌面失败改为跳过后通过。
 

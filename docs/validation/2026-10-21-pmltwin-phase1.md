@@ -10,7 +10,7 @@
 | --- | --- | --- |
 | xUnit 产品与真实 MCP / CLI 回归 | 79 passed，0 failed，0 skipped | `artifacts/tests/development_*.trx`，`run-metadata.json`；包括新增注册权限、数组预算和真实 MCP 拒绝顺序 |
 | ArchUnitNET 与架构守卫 | 11 passed，0 failed，0 skipped | 同目录 TRX；开发 HTTP 处理器不得依赖新的注册与执行入口 |
-| 文档关联与 Roslyn 自动发现 | 7 passed | Node 测试；失效关联、歧义方法、重复 ID、共享前缀、真实源码范围和无效 C# |
+| 文档关联与 Roslyn 自动发现 | 8 passed | Node 测试；独立维护的真实验证目的、失效关联、歧义方法、重复 ID、共享前缀、源码范围和无效 C# |
 | TRX 身份与结果检查 | 1 个有效夹具接受，4 个错误夹具拒绝 | 正数量、准确方法、全部 Passed、没有 skipped；零执行不能通过 |
 | 按 ID 执行真实 Theory | 2 数据行 passed | `xunit:YuzuhaToolkit.Tests.BackendBehaviorTests.PmlNumbersUseInvariantCulture` |
 | Native AOT CLI / MCP | passed | `smoke:native-cli`；两个发布后的实际可执行文件，19 / 8 个工具，CLI 与默认/显式 MCP 的工具与 schema 一致；注册权限、源码改变和数组入口拒绝行为 |

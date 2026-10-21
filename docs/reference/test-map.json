@@ -1,5 +1,199 @@
 {
   "schemaVersion": 1,
+  "details": [
+    {
+      "test": "xunit:YuzuhaToolkit.Architecture.Tests.ArchitectureBoundaryTests.CompiledDependenciesFollowApprovedDirection",
+      "purpose": "针对各生产程序集检查已编译引用与允许依赖方向，并用 ArchUnitNET 核对类型依赖。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Architecture.Tests.ArchitectureBoundaryTests.AllSourceProjectsMatchApprovedGraphAndAreAcyclic",
+      "purpose": "核对源码项目集合和每条 ProjectReference 与白名单一致，并检测项目引用环。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Architecture.Tests.ArchitectureBoundaryTests.DevelopmentHandlersCannotExecuteOrPersist",
+      "purpose": "用编译依赖守卫约束开发 HTTP 处理器，禁止依赖 RPC、持久化、函数注册或实际执行入口。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Architecture.Tests.ArchitectureBoundaryTests.KnowledgeAlgorithmsRemainIndependentOfStorageAndTransport",
+      "purpose": "检查检索规划和切分算法不依赖 KnowledgeRepository 存储实现。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Architecture.Tests.ArchitectureBoundaryTests.ProductionServersDoNotReferenceDevelopmentPackages",
+      "purpose": "检查生产服务不引用 Scalar、ASP.NET 开发宿主、xUnit 或 ArchUnitNET 程序集。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Architecture.Tests.ArchitectureBoundaryTests.GuardRejectsACompiledMethodBodyViolation",
+      "purpose": "使用含 File 依赖的真实 IL 反例，确认架构守卫会拒绝并报告违规类型；不代表产品功能覆盖。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.BackendBehaviorTests.PmlNumbersUseInvariantCulture",
+      "purpose": "在 fr-FR 和 zh-CN 区域设置下生成同一个使用小数点的 PML 数字参数。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.BackendBehaviorTests.InvalidScalarValuesAreRejected",
+      "purpose": "拒绝无法解释的布尔值和包含区域逗号的数字文本。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.BackendBehaviorTests.UnsupportedPmlTypesAreRejected",
+      "purpose": "拒绝现有调用生成器不支持的 object 参数类型。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.BackendBehaviorTests.BuiltinAsciiAliasesRespectWordBoundaries",
+      "purpose": "检索 recipe 时不能把其中的 ce 子串误认为当前元素内置别名。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.BackendBehaviorTests.ChineseCreateIntentProducesWeightedPmlQuery",
+      "purpose": "将“创建方盒”转换为带权重的 NEW AND BOX 检索表达式，并保持变体不重复。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.BackendBehaviorTests.FtsQuotesCannotBreakOutOfLiteral",
+      "purpose": "把检索输入中的双引号转义为 FTS 字面量，避免改变表达式结构。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.BackendBehaviorTests.ChunkWindowsPreserveLineCoordinatesAndMakeProgress",
+      "purpose": "切分窗口保留真实起止行和原文，重叠量过大时仍能推进并在有限步内结束。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DevelopmentApiTests.OpenApiContainsRealRoutesSummariesAndSchemas",
+      "purpose": "请求真实 OpenAPI，核对四条路由、预览 operationId、摘要、400 响应和请求 schema。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DevelopmentApiTests.ScalarUsesTheLocalOpenApiDocument",
+      "purpose": "确认 Scalar 页面使用本机 OpenAPI 地址，且本地 scalar.js 可以返回。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DevelopmentApiTests.GuidesContainCompleteBuiltinContent",
+      "purpose": "通过 HTTP 获取指定指南，核对唯一 ID 与完整内置正文。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DevelopmentApiTests.PreviewFormatsPmlWithoutExecutingIt",
+      "purpose": "HTTP 预览按顺序编码布尔和带单引号的字符串，返回准确 PML 文本。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DevelopmentApiTests.PreviewRejectsCommandSyntaxAsMethodName",
+      "purpose": "拒绝带 !!、括号或换行命令的预览方法名，并返回 HTTP 400。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DevelopmentApiTests.PreviewRejectsInvalidParameters",
+      "purpose": "对 null 参数列表、null 条目、对象值及不支持类型返回 HTTP 400。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DevelopmentApiTests.EmptyKnowledgeQueryIsBadRequest",
+      "purpose": "空白知识查询必须返回 HTTP 400。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DevelopmentApiTests.KnowledgePlanUsesChineseDomainTerms",
+      "purpose": "HTTP 检索规划为中文“创建方盒”生成 NEW AND BOX 变体。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DevelopmentApiTests.DevelopmentHostDoesNotExposePmlExecution",
+      "purpose": "向开发宿主的执行路径发送请求必须返回 404，确认没有暴露真实 PML 执行端点。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.SameExecutableCanListItsRealMcpToolsFromCli",
+      "purpose": "从两个实际服务进程的 CLI 获取真实工具目录，核对各服务的代表工具。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.DefaultAndExplicitMcpModesHaveIdenticalCatalogs",
+      "purpose": "分别启动默认与显式 --mcp 模式，核对同一服务的工具名称集合一致。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.BatchUsesOneMcpSessionAndReturnsOrderedOutcomes",
+      "purpose": "CLI batch 复用一个 MCP 进程，按输入顺序返回两个结果，并只启动一次服务。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.BatchRetainsEarlierResultsAndDoesNotRunAfterProtocolFailure",
+      "purpose": "未知工具导致 batch 停止，保留先前结果且不执行后续信任文件写入。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.DomainFailureStopsTheBatchBeforeAnyLaterWrite",
+      "purpose": "未选定工程会话的业务失败阻止后续 batch 项写入状态。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.InvalidArgumentJsonIsRejectedBeforeStartingMcp",
+      "purpose": "错误 JSON 或非对象参数在启动 MCP 进程前被拒绝，并返回退出码 2。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.InvalidTimeoutDoesNotStartTheServer",
+      "purpose": "零超时参数在启动服务前被拒绝。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.KnowledgeCliUsesBuiltinContentWithoutCreatingDatabase",
+      "purpose": "真实知识服务 CLI 返回当前元素内置内容，并且不建立数据库目录。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.NativeWorkspaceToolsAreCallableAndAuditRealMcpCalls",
+      "purpose": "通过真实 MCP 调用目录检查和状态工具，核对未选择会话的 MARKDB/ENDMARKDB 失败被写入活动记录。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.WorkspaceBehaviorTests.InspectorCountsAllFilesAndWarnsAboutDevelopmentArtifactsWithoutDeletingThem",
+      "purpose": "只读目录检查统计全部文件和 PML 文件，发现开发产物及预算超限时给出提醒，保留原文件。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.WorkspaceBehaviorTests.IncompleteInspectionNeverReportsHealthy",
+      "purpose": "扫描达到条目预算后标记不完整和需关注，不能报告健康。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.WorkspaceBehaviorTests.CopyPathsCannotEscapeTheirRegisteredRoot",
+      "purpose": "拒绝越过注册根目录的路径遍历和 NTFS 流形式路径。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.WorkspaceBehaviorTests.CopyPreviewSkipsDevelopmentOutputsAndCopiesOnlyFrozenPayload",
+      "purpose": "插件预览只冻结可交付内容，跳过 bin、Git 和旧索引，预览阶段不创建目标目录。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.WorkspaceBehaviorTests.CopyWritesPayloadAndKeepsBackupsOutsideTheRegisteredLibrary",
+      "purpose": "交付写入新内容，在注册目录外保留旧文件备份，并保留目标中其他既有文件。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.WorkspaceBehaviorTests.ZipCopyFlattensTheMatchingPluginRootAndPreservesResources",
+      "purpose": "ZIP 交付识别不区分大小写的插件根并保留嵌套资源路径和内容。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.WorkspaceBehaviorTests.ChangedTargetStopsWholeCopyBeforeAnyWrites",
+      "purpose": "预览后目标被外部修改时，在任何交付写入前拒绝整个计划。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.WorkspaceBehaviorTests.ChangedSourceStopsWholeCopyBeforeAnyWrites",
+      "purpose": "预览后来源字节变化时拒绝交付，不创建目标目录。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.WorkspaceBehaviorTests.DevelopmentSourceMustBeOutsideRegisteredLibrary",
+      "purpose": "拒绝使用注册 PMLLIB 内的开发目录作为交付来源。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.WorkspaceBehaviorTests.ZipSlipIsRejectedDuringPreview",
+      "purpose": "包含 ../ 越界条目的 ZIP 在预览阶段被拒绝，不创建外部文件。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.WorkspaceBehaviorTests.NativeLaunchArgumentsPreserveSpacesAndDoNotModifyParentEnvironment",
+      "purpose": "启动计划保留空格和精确参数位置，仅修改子进程许可环境，预览不显示密码。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.WorkspaceBehaviorTests.MarineRejectsArgumentsThatCannotSurviveVendorBatchParsing",
+      "purpose": "Marine 批处理启动在执行前拒绝含不安全操作符的秘密参数。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.WorkspaceBehaviorTests.JournalPersistsCorrelatedStartAndCompletionWithRedactedNamedSecrets",
+      "purpose": "活动记录的开始与完成共享调用 ID，保存状态且脱敏嵌套 password 字段。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.WorkspaceBehaviorTests.JournalRotationBoundsEachProcessLogs",
+      "purpose": "大量工具事件触发轮转，限制每进程日志文件数量与读取条目预算。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.WorkspaceBehaviorTests.ExitedProcessWithUnfinishedCallIsReportedAsUnknownRatherThanSuccess",
+      "purpose": "进程已退出但调用没有完成记录时，报告结果未知而非成功。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.WorkspaceBehaviorTests.LoggingFailureDoesNotTurnAnAlreadyExecutedOperationIntoAnException",
+      "purpose": "活动目录无法写入时记录日志故障，不把已经完成的操作改为执行异常。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.WorkspaceBehaviorTests.MarkDbDescriptionEscapesQuotesAndRejectsCommandSeparators",
+      "purpose": "MARKDB 描述正确转义单引号，并拒绝包含换行命令的描述。"
+    }
+  ],
   "cases": [
     {
       "id": "smoke:native-cli",

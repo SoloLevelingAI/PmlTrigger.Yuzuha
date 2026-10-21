@@ -46,6 +46,7 @@ assert.equal(new Set(graph.tests.map(test=>test.id)).size,graph.tests.length,'Du
 for(const test of graph.tests){
   assert.ok(documents.has(path.join(site,test.url)),'Missing test detail: '+test.id);
   assert.ok(test.sourceUrl&&test.command&&test.environment&&test.expected&&test.evidenceDirectory,'Incomplete test details: '+test.id);
+  assert.ok(test.purposeReviewed,'Missing reviewed test purpose: '+test.id);
   for(const target of test.targets){
     assert.ok(documents.has(path.join(site,target.url)),'Missing test target page: '+test.id);
     if(target.uid)assert.ok(graph.types.find(type=>type.uid===target.uid)?.tests.includes(test.id),'Missing reverse association');

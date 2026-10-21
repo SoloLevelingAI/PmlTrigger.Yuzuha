@@ -27,7 +27,7 @@ export function evidenceStatus(run,expected) {
 }
 
 /** Explicit associations are validated against real declarations, API metadata and native PML sources. */
-export function createTestCatalog({declarations,cases=[],bindings,types,metadata,pml=[],repositoryUrl,revision}) {
+export function createTestCatalog({declarations,cases=[],details=[],bindings,types,metadata,pml=[],repositoryUrl,revision}) {
   const tests=[...declarations,...cases].map(entry=>({...entry,id:testId(entry),
     category:entry.category??(entry.project.includes('Architecture')?'architecture':entry.file.includes('DualModeCommandLine')?'cli-mcp-integration':'xunit'),
     url:'reference/tests/test-'+hash(testId(entry))+'.html',
@@ -36,16 +36,25 @@ export function createTestCatalog({declarations,cases=[],bindings,types,metadata
     scope:entry.kind==='xunit'?'一个 xUnit 方法；Theory 执行全部数据行':entry.kind==='manual'?'人工执行案例；脚本只核验身份并显示步骤':'指定离线 Smoke 套件',
     environment:entry.environment??'Windows x64 / .NET 10 SDK；无需 AVEVA',
     expected:entry.expected??'指定方法的全部数据行执行并通过；零匹配或跳过不能通过。',
-    purposes:entry.purpose?[entry.purpose]:[],targets:[],modules:[],status:'not-run',
+    purposes:entry.purpose?[entry.purpose]:[],purposeReviewed:!!entry.purpose,targets:[],modules:[],status:'not-run',
     evidenceDirectory:'artifacts/dt/'+hash(testId(entry))+'/'}));
   const byTest=new Map(tests.map(t=>[t.id,t]));
   assert.equal(byTest.size,tests.length,'Duplicate documented test IDs');
   assert.equal(new Set(tests.map(t=>t.url)).size,tests.length,'Test page hash collision');
+  const described=new Set();
+  for(const detail of details) {
+    const test=byTest.get(detail.test);assert.ok(test,'Unknown described test: '+detail.test);
+    assert.ok(!described.has(detail.test),'Duplicate test purpose: '+detail.test);described.add(detail.test);
+    assert.ok(detail.purpose?.trim(),'Reviewed test purpose is required');
+    test.purposes.push(detail.purpose);
+    test.purposeReviewed=true;
+  }
   for(const binding of bindings) {
     const test=byTest.get(binding.test);assert.ok(test,'Unknown associated test: '+binding.test);
     assert.ok(binding.purpose?.trim(),'Test association needs a reviewed purpose');
     assert.ok(binding.targets?.length,'Test association needs targets');
     test.purposes.push(binding.purpose);
+    test.purposeReviewed=true;
     if(binding.environment)test.environment=binding.environment;
     if(binding.expected)test.expected=binding.expected;
     for(const target of binding.targets) {
@@ -83,7 +92,8 @@ export function buildTestDocumentation({root,navigation,types,modules,metadata,p
   });
   const revision=execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8',windowsHide:true}).trim();
   const repositoryUrl='https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha';
-  const tests=createTestCatalog({declarations,cases,bindings:map.bindings,types,metadata,pml,repositoryUrl,revision});
+  const tests=createTestCatalog({declarations,cases,details:map.details,bindings:map.bindings,types,metadata,pml,repositoryUrl,revision});
+  assert.ok(tests.every(test=>test.purposeReviewed),'Every published test detail needs a reviewed verification purpose; add details or bindings to test-map.json.');
   const directory=join(navigation,'tests');mkdirSync(directory,{recursive:true});
   for(const test of tests) {
     const related=test.targets.map(target=>'- ['+md(target.name)+']('+(target.file?posix.relative('reference/tests',target.url).replace(/\.html$/,'.md'):target.url.startsWith('api/')?'xref:'+target.uid.split('::')[1]:posix.relative('reference/tests',target.url).replace(/\.html$/,'.md'))+')'+

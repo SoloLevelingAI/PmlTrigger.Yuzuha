@@ -26,6 +26,14 @@ test('unknown, duplicate and ambiguous associations fail the build',()=>{
 test('unmapped xUnit methods remain discoverable without claiming reviewed functional coverage',()=>{
   const o=options();o.bindings=[];const [entry]=createTestCatalog(o);
   assert.equal(entry.targets.length,0);assert.match(entry.purposes[0],/未维护/);assert.equal(entry.status,'not-run');
+  assert.equal(entry.purposeReviewed,false);
+});
+test('reviewed purposes can describe real tests without inventing API coverage',()=>{
+  const o=options();o.bindings=[];o.details=[{test:'xunit:Example.Tests.Check',purpose:'Verify the expected exception'}];
+  const [entry]=createTestCatalog(o);
+  assert.deepEqual(entry.purposes,['Verify the expected exception']);assert.deepEqual(entry.targets,[]);
+  assert.equal(entry.purposeReviewed,true);
+  o.details[0].test='xunit:Missing';assert.throws(()=>createTestCatalog(o));
 });
 test('native PML functions link by actual file and declaration, never by guessed class names',()=>{
   const o=options();o.pml=[{file:'PMLLIB/FormUse/F.pmlfnc',symbols:['!!F'],url:'reference/pml/PMLLIB/FormUse/F.pmlfnc.html'}];

@@ -41,5 +41,7 @@
     <Reference Include="System.Drawing" />
     <Compile Include="..\Shared\FormRecordWriter.cs" Link="FormRecordWriter.cs" />
     <Compile Include="..\Shared\PmlArrayWindow.cs" Link="PmlArrayWindow.cs" />
+    <Compile Include="..\Shared\PmlFormQuery.cs" Link="PmlFormQuery.cs" />
+    <Compile Include="..\Shared\PmlFormQueryHost.cs" Link="PmlFormQueryHost.cs" />
   </ItemGroup>
 </Project>

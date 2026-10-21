@@ -224,7 +224,7 @@
       "file": "tests/AotRpcSmoke/Server35/Program.cs",
       "entryPoint": "static void Main(",
       "runner": "rpc-net35",
-      "purpose": "NET35 独立 RPC 夹具与 Native AOT 客户端协议兼容。",
+      "purpose": "NET35 独立 RPC 夹具与 Native AOT 客户端协议兼容。 包含生产 Form/Gadget 查询 DTO、共享读取策略、Unicode 元数据及 unavailable 字段的合成往返。",
       "environment": "Windows x64 / .NET 10 SDK / MSVC C++ 工具链 / Python 3；无需 AVEVA / .NET 3.5 启用",
       "expected": "离线套件全部断言通过；退出非零即失败。这不代表 AVEVA 实机通过。"
     },
@@ -235,7 +235,7 @@
       "file": "tests/AotRpcSmoke/Server/Program.cs",
       "entryPoint": "static void Main(",
       "runner": "rpc-net48",
-      "purpose": "NET48 独立 RPC 夹具与 Native AOT 客户端协议兼容。",
+      "purpose": "NET48 独立 RPC 夹具与 Native AOT 客户端协议兼容。 包含生产 Form/Gadget 查询 DTO、共享读取策略、Unicode 元数据及 unavailable 字段的合成往返。",
       "environment": "Windows x64 / .NET 10 SDK / MSVC C++ 工具链 / Python 3；无需 AVEVA / .NET Framework 4.8",
       "expected": "离线套件全部断言通过；退出非零即失败。这不代表 AVEVA 实机通过。"
     },
@@ -331,6 +331,26 @@
       "purpose": "在指定 AVEVA 中验证数组预算、稀疏数据和旧 Host 拒绝行为。",
       "environment": "明确产品版本和 NET35/NET48 Host 的独立 AVEVA 测试会话，使用合成数据与可丢弃状态的窗体",
       "expected": "逐项按人工步骤记录实际结果、RequestId 和本机证据；原型限制不能报为通过。"
+    },
+    {
+      "id": "manual:aveva-form-query",
+      "kind": "manual",
+      "category": "aveva-live",
+      "file": "tests/manual/form-query.md",
+      "entryPoint": "## manual:aveva-form-query",
+      "purpose": "在独立 AVEVA 测试会话中对照原生 PMLFORMS 验证 loaded/shown 窗体查询、分页与无生命周期修改。",
+      "environment": "分别记录 NET35 Marine/PDMS 与 NET48 E3D 的独立测试工程、版本、Host DLL SHA256、提交、模块、PID 和启动时间",
+      "expected": "人工逐项核对并记录 RequestId、UTC 与本机证据；未实测、部分属性 unavailable 和历史结果均不能登记为当前完整通过。"
+    },
+    {
+      "id": "manual:aveva-gadget-query",
+      "kind": "manual",
+      "category": "aveva-live",
+      "file": "tests/manual/form-query.md",
+      "entryPoint": "## manual:aveva-gadget-query",
+      "purpose": "在独立 AVEVA 测试会话中对照原生控件验证枚举、固定元数据、失败状态和回调未执行。",
+      "environment": "分别记录 NET35 Marine/PDMS 与 NET48 E3D 的独立测试工程、版本、Host DLL SHA256、提交、模块、PID 和启动时间",
+      "expected": "人工逐项核对并记录 RequestId、UTC 与本机证据；未实测、部分属性 unavailable 和历史结果均不能登记为当前完整通过。"
     }
   ],
   "bindings": [
@@ -597,6 +617,341 @@
         {
           "file": "PMLLIB/FormUse/YuzuhaChooseFormToTrack.pmlfrm",
           "symbol": "!!YuzuhaChooseFormToTrack"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlFormQueryTests.SparseNativeSlotsConsumeBudgetWithoutReadingMissingValues",
+      "purpose": "原生属性数组可能稀疏；跳过不存在的索引且仍计入扫描预算，续读位置保留原始索引。",
+      "targets": [
+        { "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Pml.PmlFormQuery", "methods": ["Read"] },
+        { "uid": "YuzuhaToolkit.PmlHost.Net35::YuzuhaToolkit.Pml.PmlFormQuery" },
+        { "uid": "YuzuhaToolkit.PmlHost.Net48::YuzuhaToolkit.Pml.PmlFormQuery" }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlFormQueryTests.UnsetGadgetReferencesAreSkippedInListsAndFailDetails",
+      "purpose": "沿用 PMLFORMS 的 set 判定：未设置 GADGET 不列入清单，指定详情明确失败而非空成功。",
+      "targets": [
+        { "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Pml.PmlFormQuery", "methods": ["Read"] },
+        { "uid": "YuzuhaToolkit.PmlHost.Net35::YuzuhaToolkit.Pml.PmlFormQuery" },
+        { "uid": "YuzuhaToolkit.PmlHost.Net48::YuzuhaToolkit.Pml.PmlFormQuery" }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlFormQueryTests.NativeTemporariesUseCanonicalNamesAndPreserveScalarTypes",
+      "purpose": "复现原生变量互操作约束：临时变量使用大写规范名，字符串与 REAL 上界分别存放，避免实机空读取或类型冲突。",
+      "targets": [
+        { "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Pml.PmlFormQuery", "methods": ["Read"] },
+        { "uid": "YuzuhaToolkit.PmlHost.Net35::YuzuhaToolkit.Pml.PmlFormQuery" },
+        { "uid": "YuzuhaToolkit.PmlHost.Net48::YuzuhaToolkit.Pml.PmlFormQuery" }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlFormQueryTests.FormListsUseNativeManagerAndHonorScanBudget",
+      "purpose": "确认窗体枚举使用 FMSYS 原生 Forms/ShownForms，并按槽位预算返回名称、引用与续读索引。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Pml.PmlFormQuery",
+          "methods": [
+            "Read",
+            "Validate"
+          ]
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net35::YuzuhaToolkit.Pml.PmlFormQuery"
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net48::YuzuhaToolkit.Pml.PmlFormQuery"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlFormQueryTests.GadgetListUsesNativeAttributeTypesAndSkipsOrdinaryMembers",
+      "purpose": "沿用 PMLFORMS 的 attributes/attribute/objectType 路径，仅返回 GADGET，普通成员仍占扫描预算。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Pml.PmlFormQuery",
+          "methods": [
+            "Read",
+            "Validate"
+          ]
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net35::YuzuhaToolkit.Pml.PmlFormQuery"
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net48::YuzuhaToolkit.Pml.PmlFormQuery"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlFormQueryTests.GadgetDetailsReadMetadataWithoutInvokingCallbacksOrValues",
+      "purpose": "读取指定控件的类型、显示状态和回调文本，确认不读取 val 或执行回调。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Pml.PmlFormQuery",
+          "methods": [
+            "Read",
+            "Validate"
+          ]
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net35::YuzuhaToolkit.Pml.PmlFormQuery"
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net48::YuzuhaToolkit.Pml.PmlFormQuery"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlFormQueryTests.UnsupportedMetadataIsExplicitAndRequiredReadFailuresFailTheQuery",
+      "purpose": "可选属性失败明确标为 unavailable；必要类型读取失败则整次查询失败并清理。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Pml.PmlFormQuery",
+          "methods": [
+            "Read",
+            "Validate"
+          ]
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net35::YuzuhaToolkit.Pml.PmlFormQuery"
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net48::YuzuhaToolkit.Pml.PmlFormQuery"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlFormQueryTests.MissingOrNonGadgetDoesNotBecomeAnEmptySuccessfulDetail",
+      "purpose": "拒绝把普通成员当作控件返回成功，且清理请求临时变量。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Pml.PmlFormQuery",
+          "methods": [
+            "Read",
+            "Validate"
+          ]
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net35::YuzuhaToolkit.Pml.PmlFormQuery"
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net48::YuzuhaToolkit.Pml.PmlFormQuery"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlFormQueryTests.NonFormGlobalsAreRejectedBeforeEnumeratingMembers",
+      "purpose": "在成员枚举前拒绝非 FORM 的普通全局对象，防止把任意对象当作窗体。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Pml.PmlFormQuery",
+          "methods": [
+            "Read",
+            "Validate"
+          ]
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net35::YuzuhaToolkit.Pml.PmlFormQuery"
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net48::YuzuhaToolkit.Pml.PmlFormQuery"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlFormQueryTests.CleanupFailureFailsAndStillAttemptsBothTemporaries",
+      "purpose": "一个临时变量清理失败时仍尝试清理另一个，并拒绝报告整次查询成功。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Pml.PmlFormQuery",
+          "methods": [
+            "Read",
+            "Validate"
+          ]
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net35::YuzuhaToolkit.Pml.PmlFormQuery"
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net48::YuzuhaToolkit.Pml.PmlFormQuery"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlFormQueryTests.CharacterBudgetKeepsWholeItemsAndContinuation",
+      "purpose": "字符预算不拆分查询项，保留未返回项的续读索引；首项超预算明确失败。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Pml.PmlFormQuery",
+          "methods": [
+            "Read",
+            "Validate"
+          ]
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net35::YuzuhaToolkit.Pml.PmlFormQuery"
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net48::YuzuhaToolkit.Pml.PmlFormQuery"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlFormQueryTests.InvalidNamesFailBeforeNativeAccess",
+      "purpose": "拒绝带前缀、路径、换行、引号或命令片段的窗体和控件名，在原生调用前失败。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Pml.PmlFormQuery",
+          "methods": [
+            "Read",
+            "Validate"
+          ]
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net35::YuzuhaToolkit.Pml.PmlFormQuery"
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net48::YuzuhaToolkit.Pml.PmlFormQuery"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlFormQueryTests.InvalidBudgetsKindsAndMixedOperationsFailBeforeNativeAccess",
+      "purpose": "拒绝非法预算、查询种类、无关名称及混入原始命令、删除和数组操作的协议请求。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Pml.PmlFormQuery",
+          "methods": [
+            "Read",
+            "Validate"
+          ]
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net35::YuzuhaToolkit.Pml.PmlFormQuery"
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net48::YuzuhaToolkit.Pml.PmlFormQuery"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlFormQueryTests.EmptyAndPastEndAvoidItemReadsAndCleanupOnNativeFailure",
+      "purpose": "空结果或越界不读取条目，原生 MAXINDEX 失败时仍清理请求临时变量。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Pml.PmlFormQuery",
+          "methods": [
+            "Read",
+            "Validate"
+          ]
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net35::YuzuhaToolkit.Pml.PmlFormQuery"
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net48::YuzuhaToolkit.Pml.PmlFormQuery"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlFormQueryTests.OldHostIsRejectedAndCapableHostReceivesOnlyTypedQuery",
+      "purpose": "不向旧 Host 发送查询；支持能力版本 1 的 Host 只收到类型化查询且没有 PML 表达式。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Mcp.PmlFormQueryRequestSender",
+          "methods": [
+            "SendAsync"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.FormQueryToolsExposeBoundsAndRequireExplicitTarget",
+      "purpose": "通过真实 MCP 检查三个查询工具及预算参数，确认未选择目标和注入名称返回明确错误。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Mcp.PmlFormTools",
+          "methods": [
+            "ListPmlForms",
+            "ListPmlGadgets",
+            "GetPmlGadget"
+          ]
+        },
+        {
+          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Mcp.YuzuhaRpcBridge",
+          "methods": [
+            "QueryPmlFormsAsync"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "manual:aveva-form-query",
+      "purpose": "在独立 AVEVA 测试会话中对照原生 PMLFORMS 验证 loaded/shown 窗体查询、分页与无生命周期修改。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Mcp.PmlFormTools",
+          "methods": [
+            "ListPmlForms"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "manual:aveva-gadget-query",
+      "purpose": "在独立 AVEVA 测试会话中对照原生控件验证枚举、固定元数据、失败状态和回调未执行。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Mcp.PmlFormTools",
+          "methods": [
+            "ListPmlGadgets",
+            "GetPmlGadget"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlFormQueryTests.GadgetReferenceStaysInsideTemporaryArrayDuringCleanup",
+      "purpose": "控件引用始终存于临时 ARRAY 元素中，清理不对原生 GADGET/FORM 对象调用 delete。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Pml.PmlFormQuery",
+          "methods": [
+            "Read"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "smoke:rpc-net35",
+      "purpose": "以实际 Framework Host DTO 和共享查询读取策略进行合成 Named Pipe 往返，核对查询窗口、Unicode 与 unavailable 属性；不代表 AVEVA 实机通过。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net35::YuzuhaToolkit.Pml.PmlFormQuery"
+        },
+        {
+          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Mcp.PmlFormQueryRequestSender",
+          "methods": [
+            "SendAsync"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "smoke:rpc-net48",
+      "purpose": "以实际 Framework Host DTO 和共享查询读取策略进行合成 Named Pipe 往返，核对查询窗口、Unicode 与 unavailable 属性；不代表 AVEVA 实机通过。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net48::YuzuhaToolkit.Pml.PmlFormQuery"
+        },
+        {
+          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Mcp.PmlFormQueryRequestSender",
+          "methods": [
+            "SendAsync"
+          ]
         }
       ]
     }

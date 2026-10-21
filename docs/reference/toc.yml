@@ -18,6 +18,8 @@
   href: test-associations.md
 - name: FormUse 支持登记
   href: formuse-audit.md
+- name: 原生 Form / Gadget 查询
+  href: form-gadget-query.md
 - name: PMLTWIN v0.4 第一阶段
   href: pmltwin-phase1.md
 - name: C# API

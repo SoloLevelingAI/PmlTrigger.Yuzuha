@@ -83,6 +83,14 @@ def check(runtime):
         assert result['isError'] and 'PML_FUNCTION_SOURCE_CHANGED' in result['content'][0]['text'], result
         result = cli(executable, 'call', 'read_pml_array', '--arguments', '{"globalVar":"NativeSampleArray","maxItems":10}', expected=1)
         assert result['isError'] and 'TARGET_NOT_SELECTED' in result['content'][0]['text'], result
+        for tool, args in (
+            ('list_pml_forms', dict(shownOnly=True, maxItems=2)),
+            ('list_pml_gadgets', dict(formName='Sample', maxItems=2)),
+            ('get_pml_gadget', dict(formName='Sample', gadgetName='accept'))):
+            result = cli(executable, 'call', tool, '--arguments', json.dumps(args), expected=1)
+            assert result['isError'] and 'TARGET_NOT_SELECTED' in result['content'][0]['text'], result
+        result = cli(executable, 'call', 'list_pml_gadgets', '--arguments', json.dumps(dict(formName='Bad\nshow !!Other')), expected=1)
+        assert result['isError'] and 'plain form/gadget name' in result['content'][0]['text'], result
         assert all(name in [tool['name'] for tool in mcp_catalog(executable, ['--mcp'])]
                    for name in ('markdb', 'endmarkdb', 'inspect_registered_pmllib', 'get_ai_runtime_status', 'get_recent_tool_calls'))
         result = cli(executable, 'call', 'markdb', '--arguments', '{}', expected=1)

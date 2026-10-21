@@ -28,6 +28,8 @@ namespace YuzuhaToolkit.PmlHost
     /// <summary>Host 返回的进程、启动时间、模块、管道、框架和版本身份。</summary>
     public sealed class HostIdentityResponse
     {
+        /// <summary>原生 Form/Gadget 查询协议版本。</summary>
+        public int FormQueryVersion { get; set; }
         /// <summary>有界数组读取协议版本。</summary>
         public int BoundedArrayReadVersion { get; set; }
         /// <summary>目标或发送方操作系统进程编号；不能代替启动时间核验。</summary>
@@ -49,6 +51,8 @@ namespace YuzuhaToolkit.PmlHost
     /// <summary>待执行 PML 命令及可选全局数组返回和清理策略。</summary>
     public sealed class RunPmlCommandRequest
     {
+        /// <summary>只读原生窗体查询，不得与其他操作混用。</summary>
+        public YuzuhaToolkit.Pml.PmlFormQueryRequest FormQuery { get; set; }
         /// <summary>仅查询已有数组，不执行表达式。</summary>
         public bool ReadArray { get; set; }
         /// <summary>从 1 开始的索引。</summary>
@@ -70,6 +74,8 @@ namespace YuzuhaToolkit.PmlHost
     /// <summary>PML 执行状态、错误、数组结果和服务端关联信息。</summary>
     public sealed class RunPmlCommandResponse
     {
+        /// <summary>原生 Form/Gadget 查询结果。</summary>
+        public YuzuhaToolkit.Pml.PmlFormQueryResult FormQueryResult { get; set; }
         /// <summary>有界数组窗口与续读信息。</summary>
         public YuzuhaToolkit.Pml.PmlArrayWindowResult ArrayWindow { get; set; }
         /// <summary>该次协议或业务操作报告的成功标志。</summary>

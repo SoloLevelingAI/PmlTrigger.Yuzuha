@@ -121,6 +121,27 @@ public sealed class DualModeCommandLineTests : IDisposable
     }
 
     [Fact]
+    public async Task FormQueryToolsExposeBoundsAndRequireExplicitTarget()
+    {
+        await using var client = await ConnectAsync("YuzuhaToolkit.Mcp", "--mcp");
+        var catalog = await client.ListToolsAsync();
+        foreach (var name in new[] { "list_pml_forms", "list_pml_gadgets", "get_pml_gadget" })
+        {
+            var tool = Assert.Single(catalog, tool => tool.Name == name);
+            Assert.True(tool.JsonSchema.GetProperty("properties").TryGetProperty("maxCharacters", out _));
+        }
+        var result = await client.CallToolAsync("list_pml_forms", new Dictionary<string, object?>());
+        Assert.True(result.IsError);
+        Assert.Contains("E3D_TARGET_NOT_SELECTED", result.Content.OfType<TextContentBlock>().Single().Text);
+        result = await client.CallToolAsync("list_pml_gadgets", new Dictionary<string, object?> { ["formName"] = "Bad\nshow !!Other" });
+        Assert.True(result.IsError);
+        Assert.Contains("plain form/gadget name", result.Content.OfType<TextContentBlock>().Single().Text);
+        result = await client.CallToolAsync("get_pml_gadget", new Dictionary<string, object?> { ["formName"] = "Sample", ["gadgetName"] = "accept" });
+        Assert.True(result.IsError);
+        Assert.Contains("E3D_TARGET_NOT_SELECTED", result.Content.OfType<TextContentBlock>().Single().Text);
+    }
+
+    [Fact]
     public async Task NativeWorkspaceToolsAreCallableAndAuditRealMcpCalls()
     {
         Write("registered/example.pmlfnc", "define function !!Example()\nendfunction");

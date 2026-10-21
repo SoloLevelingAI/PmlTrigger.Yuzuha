@@ -21,6 +21,7 @@ namespace YuzuhaToolkit.PmlHost
                 PipeName = PmlCommandRpcHost.PipeName,
                 HostFramework = "net35",
                 BoundedArrayReadVersion = 1,
+                FormQueryVersion = 1,
                 HostVersion = typeof(PmlCommandMethod).Assembly
                     .GetName().Version.ToString(),
                 ServerTimeUtc = DateTime.UtcNow
@@ -38,6 +39,13 @@ namespace YuzuhaToolkit.PmlHost
             try
             {
                 PmlCommandMethod target = PmlCommandRpcHost.GetTarget();
+                if (request != null && request.FormQuery != null)
+                {
+                    YuzuhaToolkit.Pml.PmlFormQuery.ValidateEnvelope(request.ReadArray, request.ReturnList, request.PmlCommand, request.GlobalVar, request.DeleteGlobalVar);
+                    RunPmlCommandResponse queryResponse = CreateResponse(true, "OK", null, null);
+                    queryResponse.FormQueryResult = YuzuhaToolkit.Pml.PmlFormQuery.Read(request.FormQuery, new PmlFormQueryHost());
+                    return queryResponse;
+                }
                 if (request != null && request.ReadArray)
                 {
                     if (request.ReturnList || !String.IsNullOrEmpty(request.PmlCommand) || request.DeleteGlobalVar)

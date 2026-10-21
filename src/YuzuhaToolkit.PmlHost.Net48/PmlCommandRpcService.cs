@@ -26,6 +26,7 @@ internal sealed class PmlCommandRpcService : IPmlCommandService
             PipeName = PmlCommandRpcHost.PipeName,
             HostFramework = "net48",
             BoundedArrayReadVersion = 1,
+            FormQueryVersion = 1,
             HostVersion = typeof(PmlCommandMethod).Assembly
                 .GetName().Version.ToString(),
             ServerTimeUtc = DateTime.UtcNow
@@ -48,6 +49,14 @@ internal sealed class PmlCommandRpcService : IPmlCommandService
         try
         {
             var target = PmlCommandRpcHost.GetTarget();
+
+            if (request != null && request.FormQuery != null)
+            {
+                YuzuhaToolkit.Pml.PmlFormQuery.ValidateEnvelope(request.ReadArray, request.ReturnList, request.PmlCommand, request.GlobalVar, request.DeleteGlobalVar);
+                response = CreateResponse(true, "OK", null, null);
+                response.FormQueryResult = YuzuhaToolkit.Pml.PmlFormQuery.Read(request.FormQuery, new PmlFormQueryHost());
+                return Task.FromResult(response);
+            }
 
             if (request != null && request.ReadArray)
             {

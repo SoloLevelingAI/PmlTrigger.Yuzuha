@@ -73,7 +73,7 @@ namespace YuzuhaToolkit.PmlHost
             if (String.IsNullOrEmpty(globalVar) || globalVar.Length > 128 ||
                 !System.Text.RegularExpressions.Regex.IsMatch(globalVar, @"\A[A-Za-z][A-Za-z0-9_]*\z"))
                 throw new ArgumentException("A plain PML global array name is required.", "globalVar");
-            string suffix = Guid.NewGuid().ToString("N");
+            string suffix = Guid.NewGuid().ToString("N").ToUpperInvariant();
             string sizeVar = "YUZUHAWINDOWSIZE" + suffix;
             string itemVar = "YUZUHAWINDOWITEM" + suffix;
             CmdAm.Command size = CmdAm.Command.CreateCommand("!!" + sizeVar + " = !!" + globalVar + ".MAXINDEX()");

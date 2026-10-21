@@ -1,6 +1,6 @@
 # Gadget / FormUse 支持登记
 
-基线为 `codex/yuzuha-native-workspace` 的 `5d73e1dc5d1dc648f57cef16771938830a87671b`。以下结论来自源码检查；当前阶段没有执行 AVEVA 实机案例。原生 PMLLIB / PMLUI 保持不变，后续 Form/Gadget 查询继续使用 PMLFORMS / FMSYS。
+基线为 `codex/yuzuha-native-workspace` 的 `5d73e1dc5d1dc648f57cef16771938830a87671b`。以下结论来自源码检查；当前阶段没有执行 AVEVA 实机案例。原生 PMLLIB / PMLUI 保持不变。新增的 [C# Form/Gadget 查询](form-gadget-query.md)复用 PMLFORMS / FMSYS 的读取路径，不修改或依赖这里的装饰原型。
 
 | 入口 | 已有能力 | 缺失 / 限制 | 复刻 ID |
 | --- | --- | --- | --- |

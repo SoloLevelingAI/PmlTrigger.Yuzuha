@@ -222,6 +222,21 @@ public sealed class YuzuhaRpcBridge : IDisposable
         finally { _connectionGate.Release(); }
     }
 
+    /// <summary>在目标身份锁内检查查询能力并发送只读 Form/Gadget 请求，不自动重试。</summary>
+    public async Task<RunPmlCommandResponse> QueryPmlFormsAsync(YuzuhaToolkit.Pml.PmlFormQueryRequest query, CancellationToken cancellationToken)
+    {
+        YuzuhaToolkit.Pml.PmlFormQuery.Validate(query);
+        ObjectDisposedException.ThrowIf(_disposed, this);
+        await _connectionGate.WaitAsync(cancellationToken).ConfigureAwait(false);
+        try
+        {
+            RequireSelectedService();
+            var identity = await ReadAndValidateIdentityCoreAsync(cancellationToken).ConfigureAwait(false);
+            return await PmlFormQueryRequestSender.SendAsync(_service!, identity, query, cancellationToken).ConfigureAwait(false);
+        }
+        finally { _connectionGate.Release(); }
+    }
+
     private async Task<RunPmlCommandResponse> RunVerifiedAsync(
         Func<IPmlCommandService, Task<RunPmlCommandResponse>> operation,
         CancellationToken cancellationToken)

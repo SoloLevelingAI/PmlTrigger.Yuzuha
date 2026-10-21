@@ -28,6 +28,7 @@ builder.Services
     .WithRequestFilters(filters => filters.AddCallToolFilter(ToolAuditFilter.Create(journal, () => selectedBridge?.SelectedProcessId)))
     .WithTools<PmlCallTools>(YuzuhaToolJsonContext.Default.Options)
     .WithTools<PmlFunctionTools>(YuzuhaToolJsonContext.Default.Options)
+    .WithTools<PmlFormTools>(YuzuhaToolJsonContext.Default.Options)
     .WithTools<WorkspaceTools>()
     .WithTools<PmlFunctionTrustTools>()
     .WithTools<BuiltinUsageTools>();

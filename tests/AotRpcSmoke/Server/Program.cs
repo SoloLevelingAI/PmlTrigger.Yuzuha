@@ -18,10 +18,14 @@ public sealed class Service : IService
     private readonly string pipe;
     public Service(string value) { pipe = value; }
     public Task<Identity> GetIdentity(IdentityRequest request) {
-        return Task.FromResult(new Identity { ProcessId = Process.GetCurrentProcess().Id, Model = "Design", PipeName = pipe, BoundedArrayReadVersion = 1 });
+        return Task.FromResult(new Identity { ProcessId = Process.GetCurrentProcess().Id, Model = "Design", PipeName = pipe, BoundedArrayReadVersion = 1, FormQueryVersion = 1 });
     }
     // Synthetic roundtrip only: never executes PML or connects to AVEVA.
     public Task<Response> Run(Request request) {
+        if (request.FormQuery != null) {
+            YuzuhaToolkit.Pml.PmlFormQuery.ValidateEnvelope(request.ReadArray, request.ReturnList, request.PmlCommand, request.GlobalVar, request.DeleteGlobalVar);
+            return Task.FromResult(new Response { Success = true, Code = "FORM_QUERY_SMOKE", FormQueryResult = YuzuhaToolkit.Pml.PmlFormQuery.Read(request.FormQuery, new NativeFormFixture()) });
+        }
         if (request.ReadArray) return Task.FromResult(new Response { Success = true, Code = "BOUNDED_SMOKE",
             ArrayWindow = YuzuhaToolkit.Pml.PmlArrayWindow.Read(5, request.StartIndex, request.MaxItems, request.MaxCharacters, i => "row" + i) });
         return Task.FromResult(new Response { Success = request.ReturnList, Code = "SMOKE", PmlCommand = request.PmlCommand,

@@ -10,6 +10,7 @@
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.0" />
     <PackageReference Include="ModelContextProtocol" Version="1.4.1" />
     <ProjectReference Include="../PlantHost.Rpc.Net10/PlantHost.Rpc.Net10.csproj" />
+    <ProjectReference Include="../PmlTwin.Phayton/PmlTwin.Phayton.csproj" />
     <ProjectReference Include="../YuzuhaToolkit.Workspace/YuzuhaToolkit.Workspace.csproj" />
     <ProjectReference Include="../YuzuhaToolkit.CommandLine/YuzuhaToolkit.CommandLine.csproj" />
   </ItemGroup>

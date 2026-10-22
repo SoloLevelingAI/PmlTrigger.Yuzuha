@@ -1,5 +1,4 @@
 using Microsoft.Extensions.Logging;
-using PlantHost.Rpc;
 
 namespace YuzuhaToolkit.Mcp;
 
@@ -7,11 +6,11 @@ namespace YuzuhaToolkit.Mcp;
 public sealed class YuzuhaRpcBridge : IDisposable
 {
     private readonly SemaphoreSlim _connectionGate = new(1, 1);
-    private readonly AvevaSessionDiscovery _discovery;
+    private readonly IAvevaSessionDiscovery _discovery;
+    private readonly IPmlRpcConnectionFactory _connections;
     private readonly ILogger<YuzuhaRpcBridge> _logger;
-    private RpcClient? _client;
+    private IPmlRpcConnection? _connection;
     private bool _disposed;
-    private RpcHeartbeatSession? _heartbeat;
     private IPmlCommandService? _service;
     private AvevaSessionCandidate? _selectedSession;
     private YuzuhaTargetOptions? _target;
@@ -25,10 +24,21 @@ public sealed class YuzuhaRpcBridge : IDisposable
     public YuzuhaRpcBridge(
         ILogger<YuzuhaRpcBridge> logger,
         AvevaSessionDiscovery discovery)
+        : this(logger, discovery, new PmlRpcConnectionFactory())
+    {
+    }
+
+    /// <summary>注入发现器与连接工厂，尚不选择目标；供生产及隔离测试使用。</summary>
+    public YuzuhaRpcBridge(ILogger<YuzuhaRpcBridge> logger,
+        IAvevaSessionDiscovery discovery, IPmlRpcConnectionFactory connections)
     {
         _logger = logger;
         _discovery = discovery;
+        _connections = connections;
     }
+
+    /// <summary>创建共享发现器但连接状态独立的会话桥，避免并发调用切换目标。</summary>
+    public YuzuhaRpcBridge CreateIndependent() => new(_logger, _discovery, _connections);
 
     /// <summary>停止持有的心跳或连接资源；重复释放不会再次发起操作。</summary>
     public void Dispose()
@@ -68,8 +78,8 @@ public sealed class YuzuhaRpcBridge : IDisposable
         await _connectionGate.WaitAsync(cancellationToken).ConfigureAwait(false);
         try
         {
-            var candidate = _discovery.RequireCandidate(processId);
             DisconnectCore();
+            var candidate = _discovery.RequireCandidate(processId);
 
             if (!candidate.PipeDetected)
                 throw new InvalidOperationException(
@@ -79,21 +89,11 @@ public sealed class YuzuhaRpcBridge : IDisposable
                     "with the PID-bound Yuzuha Host; the legacy shared pipe " +
                     "is never used as a fallback.");
 
-            RpcClient? newClient = null;
-            RpcHeartbeatSession? newHeartbeat = null;
+            IPmlRpcConnection? newConnection = null;
             try
             {
-                newClient = RpcClient.Connect(
-                    candidate.PipeName,
-                    connectTimeoutMilliseconds: 3000);
-                var newService = new AotPmlCommandService(newClient);
-                newHeartbeat = newClient.StartHeartbeat(
-                    new RpcHeartbeatOptions
-                    {
-                        InstanceId = "pml-command-mcp-net10-" +
-                                     Environment.ProcessId,
-                        Interval = TimeSpan.FromSeconds(2)
-                    });
+                newConnection = _connections.Connect(candidate.PipeName);
+                var newService = newConnection.Service;
 
                 var identity = await newService.GetHostIdentityAsync(
                         new HostIdentityRequest(),
@@ -101,15 +101,13 @@ public sealed class YuzuhaRpcBridge : IDisposable
                     .ConfigureAwait(false);
                 ValidateDiscoveredIdentity(candidate, identity, expectedModel);
 
-                _client = newClient;
-                _heartbeat = newHeartbeat;
+                _connection = newConnection;
                 _service = newService;
                 _selectedSession = candidate;
                 _target = YuzuhaTargetOptions.FromCandidate(
                     candidate,
                     identity.Model!);
-                newClient = null;
-                newHeartbeat = null;
+                newConnection = null;
 
                 _logger.LogInformation(
                     "Selected AVEVA window {WindowTitle}; PID={ProcessId}, " +
@@ -125,8 +123,7 @@ public sealed class YuzuhaRpcBridge : IDisposable
             }
             catch
             {
-                newHeartbeat?.Dispose();
-                newClient?.Dispose();
+                newConnection?.Dispose();
                 throw;
             }
         }
@@ -365,10 +362,8 @@ public sealed class YuzuhaRpcBridge : IDisposable
 
     private void DisconnectCore()
     {
-        _heartbeat?.Dispose();
-        _heartbeat = null;
-        _client?.Dispose();
-        _client = null;
+        _connection?.Dispose();
+        _connection = null;
         _service = null;
         _target = null;
         _selectedSession = null;

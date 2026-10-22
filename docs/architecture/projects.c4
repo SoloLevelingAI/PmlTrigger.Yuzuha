@@ -20,6 +20,8 @@ model {
     host48 = component "AVEVA Host · .NET 4.8" { description "YuzuhaToolkit.PmlHost.Net48" }
     devhost = component "开发 HTTP API · OpenAPI / Scalar" { description "YuzuhaToolkit.DevHost" }
     setup = component "安装计划桥 · .NET 4.8" { description "SetupBridge" }
+    operations = component "共享操作契约与执行内核" { description "PmlTwin.Phayton" }
+    operations-cli = component "操作命令行入口" { description "PmlTwin.Phayton.Cli" }
   }
   yuzuha.desktop -[build]-> yuzuha.mcp-core "ProjectReference"
   yuzuha.desktop -[build]-> yuzuha.knowledge-core "ProjectReference"
@@ -28,12 +30,15 @@ model {
   yuzuha.mcp-core -[build]-> yuzuha.rpc "ProjectReference"
   yuzuha.mcp-core -[build]-> yuzuha.cli "ProjectReference"
   yuzuha.mcp-core -[build]-> yuzuha.workspace "ProjectReference"
+  yuzuha.mcp-core -[build]-> yuzuha.operations "ProjectReference"
   yuzuha.mcp -[build]-> yuzuha.mcp-core "ProjectReference"
   yuzuha.knowledge -[build]-> yuzuha.cli "ProjectReference"
   yuzuha.knowledge -[build]-> yuzuha.knowledge-core "ProjectReference"
   yuzuha.knowledge -[build]-> yuzuha.workspace "ProjectReference"
   yuzuha.devhost -[build]-> yuzuha.mcp-core "ProjectReference"
   yuzuha.devhost -[build]-> yuzuha.knowledge-core "ProjectReference"
+  yuzuha.operations-cli -[build]-> yuzuha.operations "ProjectReference"
+  yuzuha.operations-cli -[build]-> yuzuha.mcp-core "ProjectReference"
 }
 views {
   view project_dependencies {

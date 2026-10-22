@@ -3,6 +3,8 @@
     <Project Path="src/YuzuhaToolkit.Workspace/YuzuhaToolkit.Workspace.csproj" />
     <Project Path="src/YuzuhaToolkit.Desktop/YuzuhaToolkit.Desktop.csproj" />
     <Project Path="src/PlantHost.Rpc.Net10/PlantHost.Rpc.Net10.csproj" />
+    <Project Path="src/PmlTwin.Phayton/PmlTwin.Phayton.csproj" />
+    <Project Path="src/PmlTwin.Phayton.Cli/PmlTwin.Phayton.Cli.csproj" />
     <Project Path="src/YuzuhaToolkit.CommandLine/YuzuhaToolkit.CommandLine.csproj" />
     <Project Path="src/YuzuhaToolkit.Mcp.Core/YuzuhaToolkit.Mcp.Core.csproj" />
     <Project Path="src/YuzuhaToolkit.Mcp/YuzuhaToolkit.Mcp.csproj" />

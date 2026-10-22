@@ -2,8 +2,16 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using YuzuhaToolkit.Mcp;
+using PmlTwin.Phayton;
 using YuzuhaToolkit.CommandLine;
 using YuzuhaToolkit.Workspace;
+
+if (args.FirstOrDefault() == "op")
+{
+    using var cliBridge = new YuzuhaRpcBridge(Microsoft.Extensions.Logging.Abstractions.NullLogger<YuzuhaRpcBridge>.Instance, new AvevaSessionDiscovery());
+    var operations = YuzuhaOperationCatalog.Create(cliBridge, new PmlFunctionTrustStore(), cliBridge.CreateIndependent);
+    return await OperationCli.RunAsync(args, operations, Console.Out);
+}
 
 if (await DualModeCommandLine.TryRunAsync(args, "Yuzuha 执行工具") is int cliExitCode) return cliExitCode;
 args = args.Where(argument => argument != "--mcp").ToArray();
@@ -22,6 +30,11 @@ builder.Services.AddSingleton<YuzuhaRpcBridge>();
 builder.Services.AddSingleton<PmlFunctionTrustStore>();
 builder.Services.AddSingleton<PmlCallTools>();
 builder.Services.AddSingleton<PmlFunctionRegistry>();
+builder.Services.AddSingleton<OperationExecutor>(services =>
+{
+    var bridge = services.GetRequiredService<YuzuhaRpcBridge>();
+    return YuzuhaOperationCatalog.Create(bridge, services.GetRequiredService<PmlFunctionTrustStore>(), bridge.CreateIndependent);
+});
 builder.Services
     .AddMcpServer(options => { options.ServerInstructions = McpHostSurface.UsageInstructions; })
     .WithStdioServerTransport()
@@ -30,6 +43,7 @@ builder.Services
     .WithTools<PmlFunctionTools>(McpHostSurface.ToolJsonOptions)
     .WithTools<PmlFormTools>(McpHostSurface.ToolJsonOptions)
     .WithTools<WorkspaceTools>()
+    .WithTools<OperationTools>()
     .WithTools<PmlFunctionTrustTools>()
     .WithTools<BuiltinUsageTools>();
 

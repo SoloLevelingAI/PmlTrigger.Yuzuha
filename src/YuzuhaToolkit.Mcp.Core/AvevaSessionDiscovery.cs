@@ -40,8 +40,17 @@ public sealed class AvevaSessionListResponse
     public string? Error { get; set; }
 }
 
-/// <summary>只读发现 AVEVA 窗口与 PID 绑定管道，并重新核验指定进程身份。</summary>
-public sealed class AvevaSessionDiscovery
+/// <summary>可注入的只读会话发现与目标身份校验边界。</summary>
+public interface IAvevaSessionDiscovery
+{
+    /// <summary>列出可见的 AVEVA 会话和专用管道，不连接或自动选择。</summary>
+    AvevaSessionListResponse Discover();
+    /// <summary>重新验证明确选择的 PID，返回当前窗口与进程启动身份。</summary>
+    AvevaSessionCandidate RequireCandidate(int processId);
+}
+
+/// <summary>从可见工程窗口、进程启动身份和专用管道发现候选。</summary>
+public sealed class AvevaSessionDiscovery : IAvevaSessionDiscovery
 {
     private const string PipePrefix = "yuzuha.pml.command.v1.pid-";
 

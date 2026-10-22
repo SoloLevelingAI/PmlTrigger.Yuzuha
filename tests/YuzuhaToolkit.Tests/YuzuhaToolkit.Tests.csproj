@@ -18,5 +18,8 @@
     <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" PrivateAssets="all" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.9" />
     <ProjectReference Include="../../src/YuzuhaToolkit.DevHost/YuzuhaToolkit.DevHost.csproj" />
+    <!-- Real-process CLI tests require freshly built host executables, including their copied Core dependencies. -->
+    <ProjectReference Include="../../src/YuzuhaToolkit.Mcp/YuzuhaToolkit.Mcp.csproj" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="../../src/YuzuhaToolkit.Knowledge/YuzuhaToolkit.Knowledge.csproj" ReferenceOutputAssembly="false" />
   </ItemGroup>
 </Project>

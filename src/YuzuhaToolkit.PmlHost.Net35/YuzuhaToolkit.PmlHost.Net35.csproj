@@ -39,6 +39,8 @@
     </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Drawing" />
+    <Compile Include="../Shared/PmlSourceIdentity.cs" Link="PmlSourceIdentity.cs" />
+    <Compile Include="../Shared/PmlUndoGroup.cs" Link="PmlUndoGroup.cs" />
     <Compile Include="..\Shared\FormRecordWriter.cs" Link="FormRecordWriter.cs" />
     <Compile Include="..\Shared\PmlArrayWindow.cs" Link="PmlArrayWindow.cs" />
     <Compile Include="..\Shared\PmlFormQuery.cs" Link="PmlFormQuery.cs" />

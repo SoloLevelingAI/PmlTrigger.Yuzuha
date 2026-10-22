@@ -99,7 +99,7 @@ PML 监控代码需要调用这些接口；并非所有 AI 调用或按钮都会
 
 两个 MCP 服务现已记录每次实际工具调用的开始、目标会话、关联编号、有界参数、耗时与结果。默认日志位于 `%LOCALAPPDATA%\YuzuhaToolkit\Activity`，按进程滚动；状态每两秒更新。命名的密码/token 字段脱敏，完整元素数组不写入调用日志。Host 操作截图与记录仍保留，尚未自动关联为完整 AI 分析过程。
 
-`YuzuhaToolkit.Desktop.exe` 把工程启动、插件复制、PMLLIB 清理提醒与 AI 工具状态放在同一原生窗口，运行不需要 Python。相关任务授权覆盖连续开发步骤；原生 `run_pml_command` 直接提供 PML 执行，`markdb` / `endmarkdb` 提供撤销分组。详见[原生工作台](docs/reference/workspace.md)。
+`YuzuhaToolkit.Desktop.exe` 把工程启动、插件复制、PMLLIB 清理提醒与 AI 工具状态放在同一原生窗口，运行不需要 Python。相关任务授权覆盖连续开发步骤；新增保守/标准/开发三档授权、`--cli dev` 开发连接与文件/测试证据、日志筛选导出；每次非只读执行自动建立 MARKDB 分组。需求与实施状态见 [PML 开发文档](docs/reference/pml-development-plan.md)。详见[原生工作台](docs/reference/workspace.md)。
 
 ### 支持与验证
 

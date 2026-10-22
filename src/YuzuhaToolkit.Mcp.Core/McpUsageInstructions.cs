@@ -19,17 +19,26 @@ internal static class McpUsageInstructions
         yuzuha.pml.command.v1.pid-<PID> and verifies PID, process start time,
         pipe, and host-reported module. get_connection_status rechecks the
         explicitly selected session. Execution tools fail until selection.
-        Native development mode: use run_pml_command directly for commands and
-        macros within the user's authorized plugin-development task. That task
-        authorization covers related edit/load/test commands; do not ask again
-        before every call. There is no per-command approval handshake or keyword
-        blacklist on this path. Do not automatically retry after a timeout.
-        markdb(description) and endmarkdb expose AVEVA undo-group boundaries.
-        The legacy YuzuhaExcuter object remains available for compatibility;
-        native execution does not require it or its danger-command bypass.
-        Tool starts, bounded parameters, selected PID, duration and outcomes are
-        recorded locally and shown in the native Yuzuha workspace. Use
-        get_ai_runtime_status and get_recent_tool_calls to inspect activity.
+        Execution authorization has Conservative, Standard (default), and
+        Development modes. Conservative registers only, without PML dispatch.
+        Standard requires an unchanged explicitly authorized registered function,
+        or a typed read-only array/Form query. Inspect get_execution_authorization.
+        connect_development_session binds a discovered PID, start identity, module,
+        source root, reason and expiry. Only explicit raw-command/function-permission
+        project bypass rules are available; identity, hashes, audit and MARKDB remain.
+        Use the user's ongoing task authorization without repeated per-command prompts.
+        Use write_development_file/run_development_file for scoped source and test
+        snapshots. The updated Host automatically wraps every non-read-only request
+        with MARKDB/body/ENDMARKDB in one main-thread callback. Begin failure prevents
+        dispatch; end failure and unknown results remain failures. No automatic retry,
+        SAVEWORK or manual nested markdb/endmarkdb. Old Hosts reject mutation.
+        Read-only registered approval binds SHA256 and human review of loaded code;
+        local source alone does not prove the version loaded inside AVEVA.
+        Optional testOutcomeGlobal must explicitly report Passed or Failed; it is
+        reset before execution to prevent stale passes. Dispatch success is separate
+        from test assertions and Pending human review. Query/export runtime logs with
+        full target identity; CLI --cli dev aliases use these same MCP tools.
+        The PID-bound pipe remains local to AVEVA's Windows host.
 
         Parameter order is significant and must be preserved. Each parameter
         has a type and value. Supported type aliases are string/str,

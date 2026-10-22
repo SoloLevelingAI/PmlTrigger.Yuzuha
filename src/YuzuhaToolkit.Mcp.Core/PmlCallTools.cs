@@ -71,6 +71,20 @@ internal sealed class PmlListSummary
 /// <summary>PML 列表调用的结果、过滤后条目、全量统计及不可解析行。</summary>
 internal sealed class PmlListToolResponse
 {
+    /// <summary>保留执行桥的 MarkDbId 回执字段。</summary>
+    public string? MarkDbId { get; set; }
+    /// <summary>保留执行桥的 MarkDbStarted 回执字段。</summary>
+    public bool MarkDbStarted { get; set; }
+    /// <summary>保留执行桥的 MarkDbEnded 回执字段。</summary>
+    public bool MarkDbEnded { get; set; }
+    /// <summary>保留执行桥的 ExecutionStarted 回执字段。</summary>
+    public bool ExecutionStarted { get; set; }
+    /// <summary>保留执行桥的 MarkDbError 回执字段。</summary>
+    public string? MarkDbError { get; set; }
+    /// <summary>保留执行桥的 AuthorizationMode 回执字段。</summary>
+    public string? AuthorizationMode { get; set; }
+    /// <summary>保留执行桥的 ReadOnlyEvidence 回执字段。</summary>
+    public string? ReadOnlyEvidence { get; set; }
     /// <summary>该次协议或业务操作报告的成功标志。</summary>
     public bool Success { get; set; }
     /// <summary>稳定的业务状态或失败代码。</summary>
@@ -304,6 +318,25 @@ public sealed class PmlCallTools
         return await InvokeLegacyAsync(YuzuhaOperationIds.ReadArray,
             new JsonObject { ["pmlCommand"] = pmlCommand, ["globalVar"] = globalVar,
                 ["deleteGlobalVar"] = deleteGlobalVar, ["includeEmpty"] = includeEmpty }, context, cancellationToken);
+    }
+
+    /// <summary>通过共享桥核验注册调用，保留授权模式和自动 MARKDB 回执。</summary>
+    public async Task<string> RunRegisteredFunctionAsync(PmlFunctionRegistry registry, string name, List<DynamicParameterInput> parameters, CancellationToken token)
+    {
+        try
+        {
+            var policy = _bridge.ReadAuthorization();
+            if (policy.Mode == "Conservative") throw new UnauthorizedAccessException("PML_CONSERVATIVE_MODE: registration only; no PML dispatch.");
+            registry.PrepareInvocation(name, parameters, policy.Mode == "Development" && policy.BypassRules.Contains("function-permission"));
+            if (policy.Mode == "Development" && _bridge.SelectedProcessId == null)
+            {
+                if (policy.ExpiresUtc <= DateTimeOffset.UtcNow) throw new UnauthorizedAccessException("PML_ACTIVE_DEVELOPMENT_GRANT_REQUIRED");
+                await _bridge.SelectSessionAsync(policy.ProcessId, policy.Model, token).ConfigureAwait(false);
+            }
+            return JsonSerializer.Serialize(await _bridge.RunRegisteredFunctionAsync(registry, name, parameters, token).ConfigureAwait(false), YuzuhaJsonContext.Default.RunPmlCommandResponse);
+        }
+        catch (Exception error) when (error is UnauthorizedAccessException or InvalidDataException or ArgumentException or KeyNotFoundException or InvalidOperationException or NotSupportedException)
+        { throw new McpException(error.Message); }
     }
 
     private async Task<OperationContext?> SelectedContextAsync(CancellationToken token)

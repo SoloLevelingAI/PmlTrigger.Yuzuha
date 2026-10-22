@@ -68,6 +68,32 @@ def check(runtime):
             catalogs[name] = len(tools)
 
         executable = runtime / 'YuzuhaToolkit.Mcp.exe'
+        # Persistent dev aliases are the same MCP tools, tested without a live AVEVA target.
+        def payload(result):
+            return json.loads(result['content'][0]['text'])
+        assert payload(cli(executable, 'dev', 'status'))['Mode'] == 'Standard'
+        assert payload(cli(executable, 'dev', 'mode', '--arguments', '{"mode":"Conservative"}'))['Mode'] == 'Conservative'
+        assert payload(cli(executable, 'dev', 'mode', '--arguments', '{"mode":"Standard"}'))['Mode'] == 'Standard'
+        import datetime
+        state = base / 'state'
+        state.mkdir(exist_ok=True)
+        (state / 'authorization.json').write_text(json.dumps(dict(Mode='Development', ProcessId=42,
+            ProcessStartTimeUtcTicks=12345, Model='Design', SourceRoot=str(base), BypassRules=[],
+            Reason='synthetic offline CLI file-write fixture; no target connection',
+            ExpiresUtc=(datetime.datetime.now(datetime.timezone.utc)+datetime.timedelta(hours=1)).isoformat())), encoding='utf-8')
+        write_args = dict(relativePath='tests/native-test.pmlmac', content='$P synthetic fixture only', kind='test')
+        written = payload(cli(executable, 'dev', 'write', '--arguments', json.dumps(write_args)))
+        assert written['ExecutionStatus'] == 'NotRun' and written['HumanReview'] == 'Pending'
+        duplicate = cli(executable, 'dev', 'write', '--arguments', json.dumps(write_args), expected=1)
+        assert duplicate['isError'] and 'OVERWRITE_REVISION_MISMATCH' in duplicate['content'][0]['text']
+        traversal = cli(executable, 'dev', 'write', '--arguments', json.dumps(dict(relativePath='../escape.pmlmac', content='Q')), expected=1)
+        assert traversal['isError'] and 'OUTSIDE_DEVELOPMENT_ROOT' in traversal['content'][0]['text']
+        evidence = payload(cli(executable, 'dev', 'evidence', '--arguments', json.dumps(dict(relativePath=write_args['relativePath'], sourceSha256=written['SourceSha256']))))
+        assert evidence['SourceSha256'] == written['SourceSha256'] and evidence['Receipt'] is None
+        exported = base / 'filtered-native-events.jsonl'
+        cli(executable, 'dev', 'export', '--arguments', json.dumps(dict(outputFile=str(exported), tool='development.file.write')))
+        assert exported.exists() and all(json.loads(line)['tool'] == 'development.file.write' for line in exported.read_text(encoding='utf-8').splitlines())
+        cli(executable, 'dev', 'mode', '--arguments', '{"mode":"Standard"}')
         source = base / 'NativeSample.pmlfnc'
         source.write_text('define function !!NativeSample(!text is STRING) is STRING\nreturn !text\nendfunction', encoding='utf-8')
         result = cli(executable, 'call', 'register_pml_function', '--arguments', json.dumps(dict(sourceFile=str(source), functionName='NativeSample')))

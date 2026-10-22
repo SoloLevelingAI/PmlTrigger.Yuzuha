@@ -32,6 +32,7 @@ public partial class MainWindow : Window
     {
         InitializeComponent(); _settings = WorkspaceSettings.Load();
         InitializeKnowledge();
+        RefreshAuthorization();
         Width = Math.Min(Width, Math.Max(MinWidth, SystemParameters.WorkArea.Width - 16));
         Height = Math.Min(Height, Math.Max(MinHeight, SystemParameters.WorkArea.Height - 16));
         SessionView.SectionChanged += title => { if (Tabs.SelectedIndex == 3) SetPage(title); };
@@ -358,7 +359,7 @@ public partial class MainWindow : Window
             if (_closed) return;
             var selectedActivity = ActivityGrid.SelectedItem as ActivityEntry;
             _recentActivity = data.Events;
-            RuntimeGrid.ItemsSource = data.Statuses; RuntimeCards.ItemsSource = data.Statuses.Take(3).ToArray(); RuntimeActivityGrid.ItemsSource = data.Events.Take(8).ToArray(); ActivityGrid.ItemsSource = data.Events;
+            RuntimeGrid.ItemsSource = data.Statuses; RuntimeCards.ItemsSource = data.Statuses.Take(3).ToArray(); RuntimeActivityGrid.ItemsSource = data.Events.Take(8).ToArray(); ApplyLogFilter();
             if (selectedActivity is not null) ActivityGrid.SelectedItem = data.Events.FirstOrDefault(item => item.CallId == selectedActivity.CallId && item.ProcessId == selectedActivity.ProcessId && item.Phase == selectedActivity.Phase && item.TimeUtc == selectedActivity.TimeUtc);
             HeartbeatText.Text = $"{data.Statuses.Count(status => status.State is "idle" or "running")} 个本机服务在线 · {data.Statuses.Sum(status => status.ActiveTools.Length)} 个工具运行中";
             var summary = DesktopActivitySummary.Create(data.Events, DateTimeOffset.Now);
@@ -438,6 +439,19 @@ public partial class MainWindow : Window
         for (var attempt = 0; _refreshing && attempt < 500; attempt++) await Task.Delay(10);
         if (_refreshing) throw new InvalidOperationException("初始状态读取未完成，无法核对本次合成日志。");
         await RefreshRuntimeAsync();
+        LogSearchBox.Text = "synthetic_query"; ApplyLogFilter();
+        if (!FilteredLogs().Any() || FilteredLogs().Any(item => item.Tool != "synthetic_query")) throw new InvalidOperationException("日志文本筛选没有使用当前保留事件。");
+        var logExport = Path.Combine(outputDirectory, "filtered-events-" + Guid.NewGuid().ToString("N") + ".jsonl");
+        RuntimeReader.Export(logExport, FilteredLogs());
+        if (!File.ReadLines(logExport).Any()) throw new InvalidOperationException("筛选日志导出为空。");
+        LogSearchBox.Text = ""; ApplyLogFilter();
+        var authorization = new YuzuhaToolkit.Mcp.ExecutionAuthorizationStore();
+        authorization.Save(new() { Mode = "Conservative" }); RefreshAuthorization();
+        if (AuthorizationModeBox.SelectedIndex != 0) throw new InvalidOperationException("设置页没有读取保守模式。");
+        AuthorizationModeBox.SelectedIndex = 1;
+        ApplyAuthorization(new Button(), new());
+        for (var attempt = 0; authorization.Read().Mode != "Standard" && attempt < 100; attempt++) await Task.Delay(10);
+        if (authorization.Read().Mode != "Standard") throw new InvalidOperationException("设置页没有保存标准模式。");
         (int Tab, int Flow, int Planned, string Name)[] screens = {
             (Tab: 4, Flow: 0, Planned: 0, Name: "overview"), (0,0,0,"launch"), (1,0,0,"deployment"), (2,0,0,"runtime"), (7,0,0,"logs"),
             (3,0,0,"sessions"), (3,1,0,"functions"), (3,2,0,"queries"), (5,0,0,"review"), (5,0,1,"tests"), (5,0,2,"web"), (5,0,3,"knowledge"), (6,0,0,"settings"), (8,0,0,"profiles") };
@@ -481,7 +495,7 @@ public partial class MainWindow : Window
             }
         }
         File.WriteAllText(Path.Combine(outputDirectory, "desktop-smoke.json"), JsonSerializer.Serialize(new {
-            passed = true, scope = "WPF creation, synthetic bindings and layout; not AVEVA live or human visual acceptance",
+            passed = true, authorizationUi = true, logFiltering = true, scope = "WPF creation, synthetic bindings and layout; not AVEVA live or human visual acceptance",
             pages = screens.Length, tabs = Tabs.Items.Count, profiles = ProfilesBox.Items.Count, errorStates = 4,
             themes = new[] { "Light", "Dark" }, themePreservesWork = true, savedCredentials = true, guiKnowledge = true, objectQueries = true, profileLibrary = true,
             viewports = new[] { "1440x960", "1280x720", "853x480 logical (1280x720 at 150%)" },

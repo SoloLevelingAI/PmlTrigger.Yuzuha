@@ -18,13 +18,18 @@ public sealed class PmlFunctionTools(PmlFunctionRegistry registry,PmlCallTools c
     public string ListRegisteredPmlFunctions()=>JsonSerializer.Serialize(registry.List(),PmlFunctionRegistryJsonContext.Default.ListPmlFunctionRegistration);
 
     /// <summary>按用户授权授予或撤销注册入口的函数调用许可；不改变人工信任列表。</summary>
-    [McpServerTool,Description("Explicitly grant or revoke invocation permission for one registered source revision within the user's authorized task. This is independent of the advisory trust list and does not restrict legacy raw-command tools.")]
+    [McpServerTool,Description("Explicitly grant or revoke invocation permission for one registered source revision within the user's authorized task. This is independent of the advisory trust list and does not override the Conservative/Standard/Development policy.")]
     public string SetPmlFunctionPermission(string functionName,bool allowInvoke)=>JsonSerializer.Serialize(Validate(()=>registry.SetPermission(functionName,allowInvoke)),PmlFunctionRegistryJsonContext.Default.PmlFunctionRegistration);
 
     /// <summary>核验许可、源码和类型后经现有会话桥调用一次；返回调度结果，不推断函数业务返回值。</summary>
     [McpServerTool,Description("Invoke one registered function with ordered typed scalar parameters after checking permission and unchanged source. Requires an explicitly selected AVEVA session. Returns dispatch status, not the function's business return value. No automatic retry. Verify the matching source is loaded in AVEVA before use.")]
     public Task<string> InvokePmlFunction(string functionName,List<DynamicParameterInput> parameters,CancellationToken cancellationToken=default)=>
-        calls.RunPmlCommand(Validate(()=>registry.PrepareCall(functionName,parameters)),cancellationToken);
+        calls.RunRegisteredFunctionAsync(registry,functionName,parameters,cancellationToken);
+
+    /// <summary>人工针对准确源码版本确认或撤销只读；先核对 AVEVA 已加载同一版本。</summary>
+    [McpServerTool, Description("Confirm or revoke read-only classification for an exact registered SHA256. Requires human review of all callees and verification that AVEVA has loaded this revision. Re-registration revokes this classification. Does not grant invocation permission.")]
+    public string ConfirmPmlFunctionReadOnly(string functionName,string sourceSha256,bool readOnly,string reason)
+        => JsonSerializer.Serialize(Validate(()=>registry.ConfirmReadOnly(functionName,sourceSha256,readOnly,reason)),PmlFunctionRegistryJsonContext.Default.PmlFunctionRegistration);
 
     private static T Validate<T>(Func<T> action)
     {

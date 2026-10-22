@@ -96,6 +96,10 @@ public sealed class YuzuhaOperationBackend
         {
             throw;
         }
+        catch (Exception exception) when (exception.Data["YuzuhaDispatched"] is false)
+        {
+            throw new PmlDispatchPreflightException(exception);
+        }
         catch (Exception exception)
         {
             return TransportFailure(pmlCommand, exception);
@@ -174,6 +178,10 @@ public sealed class YuzuhaOperationBackend
         catch (OperationCanceledException)
         {
             throw;
+        }
+        catch (Exception exception) when (exception.Data["YuzuhaDispatched"] is false)
+        {
+            throw new PmlDispatchPreflightException(exception);
         }
         catch (Exception exception)
         {

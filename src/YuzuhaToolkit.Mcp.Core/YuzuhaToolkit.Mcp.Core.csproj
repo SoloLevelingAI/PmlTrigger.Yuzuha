@@ -15,6 +15,8 @@
     <ProjectReference Include="../YuzuhaToolkit.CommandLine/YuzuhaToolkit.CommandLine.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="../Shared/PmlSourceIdentity.cs" Link="PmlSourceIdentity.cs" />
+    <Compile Include="../Shared/PmlUndoGroup.cs" Link="PmlUndoGroup.cs" />
     <Compile Include="..\Shared\PmlMethodSignatureGenerator.cs"
              Link="Generator\PmlMethodSignatureGenerator.cs"/>
     <Compile Include="../Shared/BuiltinGuideCatalog.cs" Link="Builtins/BuiltinGuideCatalog.cs" />

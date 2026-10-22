@@ -217,7 +217,10 @@ sealed class Fixture : IDisposable
     public Fixture()
     {
         Factory = new(Service);
-        Bridge = new(NullLogger<YuzuhaRpcBridge>.Instance, Discovery, Factory);
+        Directory.CreateDirectory(_folder);
+        var authorization = new ExecutionAuthorizationStore(Path.Combine(_folder,"authorization.json"));
+        authorization.Save(new() { Mode="Development", ProcessId=42, ProcessStartTimeUtcTicks=12345, Model="Design", SourceRoot=_folder, Reason="isolated Phayton regression", BypassRules=["raw-command"], ExpiresUtc=DateTimeOffset.UtcNow.AddHours(1) });
+        Bridge = new(NullLogger<YuzuhaRpcBridge>.Instance, Discovery, Factory, authorization, new PmlFunctionRegistry(Path.Combine(_folder,"functions.json")), _folder);
         Trust = new(Path.Combine(_folder, "trust.json"));
         Executor = YuzuhaOperationCatalog.Create(Bridge, Trust, Bridge.CreateIndependent);
     }
@@ -256,7 +259,7 @@ sealed class FakeService : IPmlCommandService
         token.ThrowIfCancellationRequested(); Identities++;
         if (MismatchOnIdentity > 0 && Identities >= MismatchOnIdentity) Mismatch = "start";
         return Task.FromResult(new HostIdentityResponse
-        { ProcessId = Mismatch == "pid" ? 43 : 42, ProcessStartTimeUtcTicks = Mismatch == "start" ? 54321 : 12345,
+        { AutomaticMarkDbVersion=1, ProcessId = Mismatch == "pid" ? 43 : 42, ProcessStartTimeUtcTicks = Mismatch == "start" ? 54321 : 12345,
             PipeName = Mismatch == "pipe" ? "legacy-shared-pipe" : "yuzuha.pml.command.v1.pid-42",
             Model = Mismatch == "model" ? "Draft" : Mismatch == "emptyModel" ? "" : "Design" });
     }
@@ -266,6 +269,7 @@ sealed class FakeService : IPmlCommandService
         if (ThrowTransport) throw new IOException("Simulated lost response AFTER dispatch; do not retry.");
         return Task.FromResult(new RunPmlCommandResponse { Success = HostSuccess,
             Code = HostSuccess ? "OK" : "PML_COMMAND_FAILED", ErrorMessage = HostSuccess ? null : "Host rejected",
+            MarkDbStarted=request.AutomaticMarkDb, MarkDbEnded=request.AutomaticMarkDb, ExecutionStarted=true, MarkDbId="fixture-group",
             PmlCommand = request.PmlCommand, ResultList = Rows, RequestId = "request-1", ExecutionThreadId = 1,
             ServerRuntime = "fake-host", ServerTimeUtc = DateTime.UtcNow });
     }

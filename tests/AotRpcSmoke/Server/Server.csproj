@@ -4,6 +4,10 @@
     <ImplicitUsings>disable</ImplicitUsings><Nullable>disable</Nullable>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="../../../src/Shared/PmlSourceIdentity.cs" Link="PmlSourceIdentity.cs" />
+    <Compile Include="../../../src/Shared/PmlUndoGroup.cs" Link="PmlUndoGroup.cs" />
+    <Compile Include="../ProductionHostFixture.cs" Link="ProductionHostFixture.cs" />
+    <Compile Include="../../../src/YuzuhaToolkit.PmlHost.Net48/PmlCommandRpcService.cs" Link="PmlCommandRpcService.cs" />
     <Compile Include="../NativeFormFixture.cs" Link="NativeFormFixture.cs" />
     <Compile Include="../../../src/Shared/PmlArrayWindow.cs" Link="PmlArrayWindow.cs" />
     <Compile Include="../../../src/Shared/PmlFormQuery.cs" Link="PmlFormQuery.cs" />

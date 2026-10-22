@@ -21,6 +21,10 @@ public sealed class PmlFunctionRegistration
     public string ReturnType { get; set; } = "";
     /// <summary>是否明确允许经注册调用入口调用；登记和重新登记默认关闭。</summary>
     public bool AllowInvoke { get; set; }
+    /// <summary>人工针对本次源码哈希确认只读；重新登记即撤销。</summary>
+    public bool ReadOnlyConfirmed { get; set; }
+    /// <summary>只读确认的审阅依据，含对会话加载版本的人工核对。</summary>
+    public string ReadOnlyReason { get; set; } = "";
 }
 
 /// <summary>函数登记文件；与人工信任列表分开存储。</summary>
@@ -80,10 +84,22 @@ public sealed class PmlFunctionRegistry
     }
 
     /// <summary>在任何 RPC 前核验许可、源码和参数，返回使用既有生成器编码的唯一调用文本。</summary>
-    public string PrepareCall(string functionName,List<DynamicParameterInput> parameters)
+    public string PrepareCall(string functionName,List<DynamicParameterInput> parameters) => PrepareInvocation(functionName, parameters, false).Command;
+
+    /// <summary>针对明确的源码哈希确认或撤销只读，源码改变后必须重新审阅。</summary>
+    public PmlFunctionRegistration ConfirmReadOnly(string functionName, string sourceSha256, bool readOnly, string reason)
+    {
+        using var held=Lock(); var state=Load(); var entry=Find(state,Name(functionName)); VerifySource(entry);
+        if (!entry.SourceSha256.Equals(sourceSha256, StringComparison.OrdinalIgnoreCase)) throw new InvalidDataException("PML_READONLY_REVISION_MISMATCH");
+        if (readOnly && (string.IsNullOrWhiteSpace(reason) || reason.Length > 1024)) throw new ArgumentException("Read-only confirmation requires a bounded review reason and matching loaded source.");
+        entry.ReadOnlyConfirmed=readOnly; entry.ReadOnlyReason=readOnly ? reason : ""; Save(state); return entry;
+    }
+
+    /// <summary>核验源码和签名，仅允许明确配置的开发规则规避调用许可。</summary>
+    internal PreparedPmlCall PrepareInvocation(string functionName,List<DynamicParameterInput> parameters,bool bypassPermission)
     {
         using var held=Lock();var entry=Find(Load(),Name(functionName));
-        if(!entry.AllowInvoke)throw new UnauthorizedAccessException("PML_FUNCTION_INVOKE_DENIED: grant permission for this source revision first.");
+        if(!entry.AllowInvoke && !bypassPermission)throw new UnauthorizedAccessException("PML_FUNCTION_INVOKE_DENIED: grant permission for this source revision first.");
         VerifySource(entry);
         if(parameters is null||parameters.Count!=entry.ParameterTypes.Length)throw new ArgumentException("Parameter count does not match the registered signature.",nameof(parameters));
         var values=new DynamicParameter[parameters.Count];
@@ -95,9 +111,27 @@ public sealed class PmlFunctionRegistry
             object? value=input.Value;
             if(value is JsonElement json)value=json.ValueKind switch {JsonValueKind.String=>json.GetString(),JsonValueKind.True=>true,JsonValueKind.False=>false,JsonValueKind.Number=>json.GetRawText(),_=>throw new ArgumentException("Scalar JSON value required.")};
             if(value is string text&&text.IndexOfAny(['\r','\n'])>=0)throw new ArgumentException("Multiline scalar strings are not supported.");
+            if(type=="REAL" && (!double.TryParse(Convert.ToString(value,System.Globalization.CultureInfo.InvariantCulture),System.Globalization.NumberStyles.Float,System.Globalization.CultureInfo.InvariantCulture,out var number) || !double.IsFinite(number))) throw new ArgumentException("Numeric parameters must be finite.");
             values[i]=new DynamicParameter(input.Type!,value);
         }
-        return PmlMethodSignatureGenerator.Build(entry.Name,values);
+        return new(PmlMethodSignatureGenerator.Build(entry.Name,values),entry.SourceFile,entry.SourceSha256,entry.ReadOnlyConfirmed);
+    }
+
+    /// <summary>仅解析完整的已登记全局函数标量调用，拒绝表达式或附加命令。</summary>
+    internal (string Name,List<DynamicParameterInput> Parameters)? ParseRegisteredCall(string command)
+    {
+        var call=Regex.Match(command,@"\A!!([A-Za-z][A-Za-z0-9_]*)\((.*)\)\z",RegexOptions.None,TimeSpan.FromSeconds(1));
+        if(!call.Success || command.IndexOfAny(['\r','\n'])>=0 || !List().Any(entry=>entry.Name.Equals(call.Groups[1].Value,StringComparison.OrdinalIgnoreCase))) return null;
+        var values=new List<DynamicParameterInput>(); var arguments=call.Groups[2].Value; var position=0;
+        while(position<arguments.Length)
+        {
+            var token=Regex.Match(arguments[position..],@"\A(?:'((?:[^']|'')*)'|(TRUE|FALSE)|([+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?))(?=,|\z)",RegexOptions.None,TimeSpan.FromSeconds(1));
+            if(!token.Success) throw new ArgumentException("PML_REGISTERED_CALL_REQUIRES_TYPED_SCALARS");
+            values.Add(token.Groups[1].Success ? new(){Type="string",Value=token.Groups[1].Value.Replace("''","'")} : token.Groups[2].Success ? new(){Type="bool",Value=token.Groups[2].Value=="TRUE"} : new(){Type="real",Value=token.Groups[3].Value});
+            position+=token.Length;
+            if(position<arguments.Length && ++position==arguments.Length) throw new ArgumentException("Trailing argument separator.");
+        }
+        return (call.Groups[1].Value,values);
     }
 
     private FileStream Lock(){Directory.CreateDirectory(Path.GetDirectoryName(stateFile)!);return new FileStream(stateFile+".lock",FileMode.OpenOrCreate,FileAccess.ReadWrite,FileShare.None);}
@@ -124,3 +158,6 @@ public sealed class PmlFunctionRegistry
     private static string Hash(byte[] bytes)=>Convert.ToHexString(SHA256.HashData(bytes)).ToLowerInvariant();
     private static void VerifySource(PmlFunctionRegistration entry){if(Hash(ReadSource(entry.SourceFile))!=entry.SourceSha256)throw new InvalidDataException("PML_FUNCTION_SOURCE_CHANGED: register again and explicitly grant fresh permission.");}
 }
+
+/// <summary>已核验注册版本的调用及其只读审阅证据。</summary>
+internal sealed record PreparedPmlCall(string Command,string SourceFile,string SourceSha256,bool ReadOnly);

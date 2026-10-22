@@ -4,6 +4,10 @@
 
 [后端调用链与排查](backend-tracing.md) · [理解与排查笔记](understanding-notes.md) · [文档维护](documentation.md)
 
+## PML 开发工作流与三档授权
+
+用户已确认 Conservative / Standard / Development 三档，要求补齐 CLI、日志、能力登记、项目规则规避及每次非只读执行前自动 MARKDB，并把所有需求持续记录到开发文档。功能、规则、云端边界与 PR 状态统一维护在 [PML 开发文档](pml-development-plan.md)，不能只留在聊天中。新改动完成后推送 PR，供云端继续开发和审阅测试代码。
+
 ## 2026年10月22日 后端溯源方向
 
 以下意见来自本次用户审阅调用链后的反馈。核对的代码基线为 `7050ac8a81cbc95cf7f7eaada5248c53aed4bbb3`。

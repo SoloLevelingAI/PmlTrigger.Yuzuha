@@ -1,0 +1,188 @@
+{
+  "output": "D:\\DeepSeek-Harness\\202608-Inc\\pmltwin-fig\\v08\\PMLTWIN-v08.figcraft",
+  "nightVariant": "D:\\DeepSeek-Harness\\202608-Inc\\pmltwin-fig\\v08\\PMLTWIN-v08-night.figcraft",
+  "pagesRebuilt": 19,
+  "pagesUntouched": [
+    "设计疑问与圈注（保留原稿）"
+  ],
+  "wholeDocTextLayers": 3455,
+  "wholeDocBelow10px": 737,
+  "wholeDocBelow10pxShare": 21.3,
+  "wholeDocNote": "整份文件的 737 个 <10px 文字层全部来自保留原稿的「设计疑问与圈注」页（旧稿批注板），13 个应用页为 0。",
+  "textLayersRebuilt": 2339,
+  "below10pxRebuilt": 0,
+  "below10pxShare": 0.0,
+  "body13to14Share": 29.5,
+  "sizeHistogram": {
+    "11": 594,
+    "11.5": 357,
+    "12": 329,
+    "12.5": 159,
+    "13": 443,
+    "13.5": 234,
+    "14": 13,
+    "15": 21,
+    "16": 84,
+    "17": 19,
+    "18": 2,
+    "19": 20,
+    "20": 25,
+    "21": 1,
+    "22": 1,
+    "24": 1,
+    "25": 17,
+    "28": 19
+  },
+  "prototypeLinks": 456,
+  "colourTokens": 26,
+  "unboundPaints": 36,
+  "unboundNote": "36 = 13 页规范示意卡的固定色样（刻意硬编码，用于展示两种模式的真实色值）",
+  "annotationsPagePreserved": true,
+  "contrast": [
+    {
+      "mode": "light",
+      "pair": "正文 / 卡片",
+      "ratio": 17.79,
+      "wcag": "AA"
+    },
+    {
+      "mode": "light",
+      "pair": "辅助文字 / 卡片",
+      "ratio": 6.85,
+      "wcag": "AA"
+    },
+    {
+      "mode": "light",
+      "pair": "标签 / 卡片",
+      "ratio": 4.99,
+      "wcag": "AA"
+    },
+    {
+      "mode": "light",
+      "pair": "强调 / 卡片",
+      "ratio": 5.56,
+      "wcag": "AA"
+    },
+    {
+      "mode": "dark",
+      "pair": "正文 / 卡片",
+      "ratio": 15.99,
+      "wcag": "AA"
+    },
+    {
+      "mode": "dark",
+      "pair": "辅助文字 / 卡片",
+      "ratio": 7.95,
+      "wcag": "AA"
+    },
+    {
+      "mode": "dark",
+      "pair": "标签 / 卡片",
+      "ratio": 5.1,
+      "wcag": "AA"
+    },
+    {
+      "mode": "dark",
+      "pair": "强调 / 卡片",
+      "ratio": 7.03,
+      "wcag": "AA"
+    }
+  ],
+  "perPage": {
+    "总览": {
+      "textLayers": 155,
+      "below10": 0,
+      "minSize": 11
+    },
+    "启动工程": {
+      "textLayers": 131,
+      "below10": 0,
+      "minSize": 11
+    },
+    "工程会话": {
+      "textLayers": 156,
+      "below10": 0,
+      "minSize": 11
+    },
+    "插件部署": {
+      "textLayers": 153,
+      "below10": 0,
+      "minSize": 11
+    },
+    "AI 运行": {
+      "textLayers": 132,
+      "below10": 0,
+      "minSize": 11
+    },
+    "工具日志": {
+      "textLayers": 150,
+      "below10": 0,
+      "minSize": 11
+    },
+    "知识库": {
+      "textLayers": 132,
+      "below10": 0,
+      "minSize": 11
+    },
+    "设置": {
+      "textLayers": 132,
+      "below10": 0,
+      "minSize": 11
+    },
+    "评审中心": {
+      "textLayers": 136,
+      "below10": 0,
+      "minSize": 11
+    },
+    "测试中心": {
+      "textLayers": 123,
+      "below10": 0,
+      "minSize": 11
+    },
+    "Web 应用": {
+      "textLayers": 139,
+      "below10": 0,
+      "minSize": 11
+    },
+    "能力与函数": {
+      "textLayers": 125,
+      "below10": 0,
+      "minSize": 11
+    },
+    "明暗模式与实现约定": {
+      "textLayers": 72,
+      "below10": 0,
+      "minSize": 11
+    },
+    "启动配置": {
+      "textLayers": 144,
+      "below10": 0,
+      "minSize": 11
+    },
+    "启动配置 · 编辑": {
+      "textLayers": 113,
+      "below10": 0,
+      "minSize": 11
+    },
+    "删除配置": {
+      "textLayers": 58,
+      "below10": 0,
+      "minSize": 11
+    },
+    "知识条目 · 编辑": {
+      "textLayers": 88,
+      "below10": 0,
+      "minSize": 11
+    },
+    "登记应用": {
+      "textLayers": 101,
+      "below10": 0,
+      "minSize": 11
+    },
+    "登记函数": {
+      "textLayers": 99,
+      "below10": 0,
+      "minSize": 11
+    }
+  }
+}

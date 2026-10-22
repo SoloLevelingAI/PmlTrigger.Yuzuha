@@ -112,11 +112,11 @@ public sealed class DevelopmentTools(ExecutionAuthorizationStore authorization, 
         try
         {
             evidence.Receipt = await bridge.RunDevelopmentMacroAsync(snapshot, sourceSha256, cancellationToken, testOutcomeGlobal).ConfigureAwait(false);
-            evidence.ExecutionStatus = evidence.Receipt.Success ? evidence.Receipt.TestOutcome == "Passed" ? "Passed" : "Dispatched" : "Failed";
+            evidence.ExecutionStatus = evidence.Receipt.Code == "MARKDB_RECEIPT_MISSING" ? "Unknown" : evidence.Receipt.Success ? evidence.Receipt.TestOutcome == "Passed" ? "Passed" : "Dispatched" : "Failed";
         }
         catch (Exception error)
         {
-            evidence.ExecutionStatus = error is IOException or TimeoutException or OperationCanceledException ? "Unknown" : "Failed"; evidence.Error = error.Message;
+            evidence.ExecutionStatus = error.Data["YuzuhaDispatched"] is true || error is IOException or TimeoutException or OperationCanceledException ? "Unknown" : "Failed"; evidence.Error = error.Message;
             SaveEvidence(evidence); throw;
         }
         SaveEvidence(evidence); return JsonSerializer.Serialize(evidence, DevelopmentJsonContext.Default.DevelopmentEvidence);

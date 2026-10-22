@@ -279,18 +279,20 @@ public sealed class YuzuhaRpcBridge : IDisposable
             response.AuthorizationMode = policy.Mode; response.ReadOnlyEvidence = evidence;
             if (request.AutomaticMarkDb && (!response.MarkDbStarted || !response.MarkDbEnded))
             {
+                var missingSuccessfulReceipt = response.Success && !response.MarkDbStarted;
                 if (response.Success || response.MarkDbStarted) response.Code = response.MarkDbStarted ? "MARKDB_GROUP_INCOMPLETE" : "MARKDB_RECEIPT_MISSING";
                 response.Success = false;
-                if (response.MarkDbStarted || response.ExecutionStarted) _executionUnknown = true;
+                if (missingSuccessfulReceipt || response.MarkDbStarted || response.ExecutionStarted) _executionUnknown = true;
             }
             var summary = $"mode={policy.Mode}; sourceSha256={sourceRevision}; bypass={string.Join(',', policy.BypassRules)}; reason={policy.Reason}; readonly={evidence}; markdb={response.MarkDbId}/{response.MarkDbStarted}/{response.MarkDbEnded}; request={response.RequestId}; code={response.Code}; {response.ErrorMessage}";
-            _executionJournal.Complete(callId, response.Success ? "succeeded" : "failed", summary, SelectedProcessId, _target?.ProcessStartTimeUtcTicks);
+            _executionJournal.Complete(callId, response.Code == "MARKDB_RECEIPT_MISSING" ? "cancelled-unknown" : response.Success ? "succeeded" : "failed", summary, SelectedProcessId, _target?.ProcessStartTimeUtcTicks);
             return response;
         }
         catch (Exception error)
         {
             error.Data["YuzuhaDispatched"] = dispatched;
-            var unknown = dispatched && error is OperationCanceledException or IOException or TimeoutException;
+            // Once the service call began, any missing response leaves the outcome unknown.
+            var unknown = dispatched;
             if (unknown) _executionUnknown = true;
             if (callId != null) _executionJournal.Complete(callId, unknown ? "cancelled-unknown" : "failed", error.Message, SelectedProcessId, _target?.ProcessStartTimeUtcTicks);
             throw;

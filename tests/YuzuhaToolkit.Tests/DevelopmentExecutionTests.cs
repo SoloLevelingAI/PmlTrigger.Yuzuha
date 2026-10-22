@@ -104,19 +104,25 @@ public sealed class DevelopmentExecutionTests : IDisposable
         await Assert.ThrowsAsync<NotSupportedException>(()=>bridge.RunPmlCommandAsync("Q",default));
         await Assert.ThrowsAsync<InvalidOperationException>(()=>bridge.RunPmlCommandAsync("MARKDB 'nested'",default)); Assert.Equal(0,service.Commands);
     }
-    [Fact]
-    public async Task TransportUnknownIsNotRetriedAndBlocksFurtherDispatchUntilExplicitReconnect()
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task TransportUnknownIsNotRetriedAndBlocksFurtherDispatchUntilExplicitReconnect(bool genericFault)
     {
-        Development("raw-command"); await bridge.SelectSessionAsync(42,"Design",default); service.ThrowTransport=true;
-        await Assert.ThrowsAsync<IOException>(()=>bridge.RunPmlCommandAsync("Q",default)); service.ThrowTransport=false;
+        Development("raw-command"); await bridge.SelectSessionAsync(42,"Design",default); service.ThrowTransport=!genericFault; service.ThrowGeneric=genericFault;
+        if (genericFault) await Assert.ThrowsAsync<InvalidOperationException>(()=>bridge.RunPmlCommandAsync("Q",default));
+        else await Assert.ThrowsAsync<IOException>(()=>bridge.RunPmlCommandAsync("Q",default));
+        service.ThrowTransport=false; service.ThrowGeneric=false;
         await Assert.ThrowsAsync<InvalidOperationException>(()=>bridge.RunPmlCommandAsync("Q",default)); Assert.Equal(1,service.Commands);
         Assert.Contains(RuntimeReader.Query(stateDirectory:root),entry=>entry.Phase=="cancelled-unknown" && entry.TargetStartTimeUtcTicks==12345);
     }
-    [Fact]
-    public async Task IncompleteGroupIsFailureAndCannotBeReportedAsSuccess()
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task IncompleteGroupIsFailureAndCannotBeReportedAsSuccess(bool missingReceipt)
     {
-        Development("raw-command"); service.Ended=false; await bridge.SelectSessionAsync(42,"Design",default);
-        var response=await bridge.RunPmlCommandAsync("Q",default); Assert.False(response.Success); Assert.Equal("MARKDB_GROUP_INCOMPLETE",response.Code);
+        Development("raw-command"); service.Ended=false; service.SuppressReceipt=missingReceipt; await bridge.SelectSessionAsync(42,"Design",default);
+        var response=await bridge.RunPmlCommandAsync("Q",default); Assert.False(response.Success); Assert.Equal(missingReceipt?"MARKDB_RECEIPT_MISSING":"MARKDB_GROUP_INCOMPLETE",response.Code);
         await Assert.ThrowsAsync<InvalidOperationException>(()=>bridge.RunPmlCommandAsync("Q",default)); Assert.Equal(1,service.Commands);
     }
     [Fact]
@@ -176,12 +182,13 @@ public sealed class DevelopmentExecutionTests : IDisposable
     }
     private sealed class FakeService : IPmlCommandService
     {
-        public int Commands,MarkDbVersion=1;public bool ThrowTransport,Ended=true; public RunPmlCommandRequest? Last;
+        public int Commands,MarkDbVersion=1;public bool ThrowTransport,ThrowGeneric,SuppressReceipt,Ended=true; public RunPmlCommandRequest? Last;
         public Task<HostIdentityResponse> GetHostIdentityAsync(HostIdentityRequest request,CancellationToken token)=>Task.FromResult(new HostIdentityResponse{ProcessId=42,ProcessStartTimeUtcTicks=12345,Model="Design",PipeName="yuzuha.pml.command.v1.pid-42",AutomaticMarkDbVersion=MarkDbVersion,BoundedArrayReadVersion=1,FormQueryVersion=1});
         public Task<RunPmlCommandResponse> RunPmlCommandAsync(RunPmlCommandRequest request,CancellationToken token)
         {
             Last=request;Commands++;if(ThrowTransport)throw new IOException("lost after dispatch");
-            return Task.FromResult(new RunPmlCommandResponse{Success=true,Code="OK",MarkDbStarted=request.AutomaticMarkDb,MarkDbEnded=request.AutomaticMarkDb&&Ended,ExecutionStarted=true,MarkDbId=request.AutomaticMarkDb?"fixture-group":null});
+            if(ThrowGeneric)throw new InvalidOperationException("Remote wrapper failed after possible execution");
+            return Task.FromResult(new RunPmlCommandResponse{Success=true,Code="OK",MarkDbStarted=request.AutomaticMarkDb&&!SuppressReceipt,MarkDbEnded=request.AutomaticMarkDb&&Ended&&!SuppressReceipt,ExecutionStarted=!SuppressReceipt,MarkDbId=request.AutomaticMarkDb&&!SuppressReceipt?"fixture-group":null});
         }
     }
 }

@@ -1,9 +1,10 @@
 # PMLLIB/Addins/YuzuhaAddin.pmlobj
 
 File: PMLLIB/Addins/YuzuhaAddin.pmlobj
-LastWriteTimeUtc: 2026-09-20T12:38:16.7888011Z
-SHA256: 658C1CD02CE19CF5EBD638DC6627739E0F6F19684C4C25572B39E68B5DC1EEE5
-RecordedAtUtc: 2026-09-20T13:50:09.5113922Z
+LastWriteTimeUtc: 2026-10-13T05:47:21.8751457Z
+SHA256: 01DB7D454EF88F54AAD823EB559D38740D899CE2D22C5B92DF3DD11B1205C22C
+RecordedAtUtc: 2026-10-13T05:49:23.2897246Z
 
-Maintainer PML snapshot. See docs/semantic/pml-sync.json. Source authored by maintainer; synchronization metadata recorded by OpenAI Codex. No live AVEVA test.
+Original PML source authored by the maintainer; the 2026-09-20 snapshot remains recorded in docs/semantic/pml-sync.json.
+Constructor startup rehash removed by OpenAI Codex after local E3D 2.1 / NET48 validation on 2026-10-13. See docs/validation/2026-10-13-addin-startup.md for the separate duplicate-cache repair and coverage limits.
 Timestamp is a fast check; SHA256 verifies content.

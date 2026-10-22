@@ -81,7 +81,7 @@ v0.3.3 新增原生 Inno 安装器、程序自动环境计划、Agent 安装包�
 .\scripts\Uninstall-YuzuhaAgent.ps1
 ```
 
-升级前关闭相关 MCP/AVEVA 进程，从新解压的包执行更新。PML 文件或路径变更后，在重新启动的 AVEVA 中执行 `PML REHASH ALL`。
+升级前关闭相关 MCP/AVEVA 进程，从新解压的包执行更新。PML 文件或路径变更后，在重新启动的 AVEVA 中执行 `PML REHASH ALL`。索引重建作为显式维护操作执行；Addin 启动使用已有索引。重复索引导致启动卡住的处理和实测边界见[启动诊断记录](docs/validation/2026-10-13-addin-startup.md)。
 
 ### Host 日志与截图
 
@@ -148,7 +148,7 @@ See [0.3.0](docs/release-v0.3.0.md), [0.3.1](docs/release-v0.3.1.md) and [0.3.2]
 
 Use `Yuzuha-0.3.3-Windows-Setup.exe` for manual installation, or extract `Yuzuha-0.3.3-Windows-Agent.zip` and read START-HERE.md for Agent setup. Follow the [Inno installation guide](installer/INSTALL.md). Confirm AVEVA scope and optional client MCP/Skill targets before approving the preview. Empty AVEVA integration requests are rejected; files/client-only mode must be explicit. Retain `PmlTrigger` in the install folder name. See [v0.3.3 notes](docs/release-v0.3.3.md) for the native installer, PML additions and maintainer-reported installation validation.
 
-Fully restart the AI client after installation/update and AVEVA after Host/environment changes. Start with built-in guides, list sessions, explicitly select a target, then request a small read. Close affected processes before updating from a freshly extracted archive. After PML changes, restart AVEVA and execute `PML REHASH ALL`.
+Fully restart the AI client after installation/update and AVEVA after Host/environment changes. Start with built-in guides, list sessions, explicitly select a target, then request a small read. Close affected processes before updating from a freshly extracted archive. After PML changes, restart AVEVA and execute `PML REHASH ALL` as explicit maintenance. Addin startup uses the existing index. See the [startup investigation](docs/validation/2026-10-13-addin-startup.md) for duplicate-index recovery and live-test limits.
 
 ### Recording and audit boundaries
 

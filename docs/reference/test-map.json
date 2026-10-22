@@ -417,11 +417,11 @@
       "kind": "smoke",
       "category": "wpf-offline-ui",
       "file": "scripts/Test-Desktop.ps1",
-      "entryPoint": "$exe = Join-Path $root",
+      "entryPoint": "$exe = if ($ExecutablePath)",
       "runner": "desktop-flows",
-      "purpose": "验证 GUI 保存并复用本机凭据、知识检索完整正文、对象结果，以及明暗主题下 13 页、三种视口与同画布。不是 AVEVA 实机或人工视觉验收。",
+      "purpose": "验证 GUI 保存并复用本机凭据、知识检索完整正文、对象结果，以及明暗主题下 14 页、三种视口与同画布。不是 AVEVA 实机或人工视觉验收。",
       "environment": "Windows x64 / NET10 SDK 与 WPF；无需 AVEVA",
-      "expected": "本次回执记录 savedCredentials/guiKnowledge/objectQueries 均为 true；108 张截图和绑定错误零。主题保留输入、查询、目标与许可。"
+      "expected": "本次回执记录 savedCredentials/guiKnowledge/objectQueries 均为 true；116 张截图和绑定错误零。主题保留输入、查询、目标与许可。"
     },
     {
       "id": "manual:desktop-aveva-m1",

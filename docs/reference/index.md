@@ -43,6 +43,8 @@ _layout: landing
 
 [沿六条流程阅读](flows.md) · [CLI / MCP 双入口](cli.md) · [原生工作台与运行日志](workspace.md) · [全部 PML / PMLUI](../../artifacts/docfx/navigation/pml/index.md) · [完整使用文档](../../artifacts/docfx/navigation/repository/index.md)
 
+[后端调用链与排查](backend-tracing.md)：按输入、计算、判断和结果理解业务实现。 [迭代与意见记录](iteration-log.md)保留已采纳意见及未完成验收项；[理解与排查笔记](understanding-notes.md)按问题选择合适的解释方法。
+
 ## 探索全项目与功能
 
 <div id="workspace-explorer" data-view="projects">正在加载项目与功能索引…</div>

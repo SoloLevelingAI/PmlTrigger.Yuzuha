@@ -10,6 +10,12 @@
   href: desktop-m1.md
 - name: 文档维护
   href: documentation.md
+- name: 迭代与意见记录
+  href: iteration-log.md
+- name: 后端调用链与排查
+  href: backend-tracing.md
+- name: 理解与排查笔记
+  href: understanding-notes.md
 - name: UI 命令与事件溯源
   href: ui-tracing.md
 - name: 架构与边界

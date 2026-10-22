@@ -21,6 +21,8 @@ WPF 工作台另提供手写源码参考并单独编译。NET35、NET48 Host 与
 
 WPF 的 [UI 命令与事件溯源](ui-tracing.md) 从真实编译输入获取方法符号，补充 XAML 入口、Command 委托、setter/OnChanged 和事件候选关系；生成的页面提供调用方、下游、源码行及类型/API/测试链接。它描述静态关系，不替代运行日志或实机测试证据。
 
+[迭代与意见记录](iteration-log.md)集中保存意见、采纳决定、实现状态和验收条件；批次结果继续放在 `docs/validation` 并从记录中链接。当前阅读重点是[后端每一步的计算和排查](backend-tracing.md)，前端优先查看校验、可执行条件与状态变化。解释方法按具体问题选取，见[理解与排查笔记](understanding-notes.md)；5W2H、康奈尔笔记等均为可选示例。
+
 脚本接受 `-Port` 更改临时宿主端口；预览脚本也支持 `-Port`。构建时不选择 AVEVA 会话、不执行 PML、不扫描真实资料、不读写用户知识库。Scalar 使用包中提供的本地脚本，字体使用系统默认设置。
 
 OpenAPI 描述新增 DevHost 的四个 HTTP 端点；现有 MCP 的 JSON-RPC 工具和 Named Pipe 协议仍在各自的 C# API 与内置指南中描述。DocFX 和 OpenAPI 是从代码生成的文档，不是后端业务代码生成器。

@@ -2,6 +2,8 @@
 
 DocFX 负责展示关系；现有 `tools/Documentation` 使用 Roslyn **语义分析**与 XAML 映射，不更换项目结构或 RPC 接口。入口见 [WPF 各页可点击调用链](../../artifacts/docfx/navigation/ui-trace/index.md)。
 
+阅读重点已按用户意见调整为[后端每一步的输入、计算、判断、输出与排查](backend-tracing.md)。前端重点保留 Valid / Validate 涉及的校验、可执行条件、拒绝原因和状态变化，其余 UI 关系辅助定位。当前自动图尚未跨 RPC 串接 NET35/NET48 Host 与原生 PML 行为；网页可展示不代表后端完整链路已验收。决定与后续完成条件见[迭代与意见记录](iteration-log.md)。
+
 目标关系包括：`View → Click / Command / TwoWay 属性写入 → 处理器或 ViewModel → 服务 → RPC`。当前 WPF 主要使用事件处理代码；按真实源码展示，不因文档需求改成 MVVM。
 
 ## 按页面使用

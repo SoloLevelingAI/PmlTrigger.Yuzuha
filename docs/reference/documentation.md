@@ -19,6 +19,8 @@ npm run docs:serve
 
 WPF 工作台另提供手写源码参考并单独编译。NET35、NET48 Host 与 SetupBridge 安装器提供明确标记的源码签名参考，不使用假 SDK 或编译桩。现有使用、安装、维护文档以及全部 PML/PMLUI 文件纳入导航；Obsolete 文件标明历史状态。[覆盖报告](../../artifacts/docfx/navigation/coverage.md)由实际输入清单生成。
 
+WPF 的 [UI 命令与事件溯源](ui-tracing.md) 从真实编译输入获取方法符号，补充 XAML 入口、Command 委托、setter/OnChanged 和事件候选关系；生成的页面提供调用方、下游、源码行及类型/API/测试链接。它描述静态关系，不替代运行日志或实机测试证据。
+
 脚本接受 `-Port` 更改临时宿主端口；预览脚本也支持 `-Port`。构建时不选择 AVEVA 会话、不执行 PML、不扫描真实资料、不读写用户知识库。Scalar 使用包中提供的本地脚本，字体使用系统默认设置。
 
 OpenAPI 描述新增 DevHost 的四个 HTTP 端点；现有 MCP 的 JSON-RPC 工具和 Named Pipe 协议仍在各自的 C# API 与内置指南中描述。DocFX 和 OpenAPI 是从代码生成的文档，不是后端业务代码生成器。

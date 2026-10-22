@@ -10,6 +10,8 @@
   href: desktop-m1.md
 - name: 文档维护
   href: documentation.md
+- name: UI 命令与事件溯源
+  href: ui-tracing.md
 - name: 架构与边界
   href: architecture.md
 - name: 测试与验证

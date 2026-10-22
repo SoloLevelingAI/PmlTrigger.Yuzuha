@@ -60,6 +60,8 @@ try {
     if ($LASTEXITCODE -ne 0) { throw 'Source declaration or comment coverage failed.' }
     dotnet run --project tools/Documentation -c Release -- --tests . artifacts/docfx/test-declarations.json
     if ($LASTEXITCODE -ne 0) { throw 'Test source inventory failed.' }
+    & (Join-Path $root 'scripts/Trace-Desktop.ps1')
+    if ($LASTEXITCODE -ne 0) { throw 'UI semantic trace failed.' }
     dotnet docfx metadata docfx.json --warningsAsErrors
     if ($LASTEXITCODE -ne 0) { throw 'DocFX metadata failed.' }
     node scripts/documentation-index.mjs

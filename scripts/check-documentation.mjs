@@ -53,6 +53,15 @@ for(const test of graph.tests){
   }
 }
 report.tests=graph.tests.length;
+assert.ok(graph.uiTrace?.entries>0&&graph.uiTrace.sampleEdges>0,'UI trace must have real entries and a nonempty path');
+assert.ok(documents.has(path.join(site,'reference/ui-trace/index.html')),'Missing UI trace page');
+const trace=JSON.parse(fs.readFileSync(path.join(site,'reference/ui-trace/graph.json'),'utf8'));
+const sample=JSON.parse(fs.readFileSync(path.join(site,'reference/ui-trace/sample.json'),'utf8'));
+assert.ok([...documents].some(([file,doc])=>file.includes(path.join('ui-trace','method-'))&&doc.html.includes('XAML Click')&&doc.html.includes('读取所选对象')),'Missing reverse XAML entry link');
+assert.equal(trace.kind,'static-source-trace');
+assert.equal(sample.chain[0].from,sample.entry.target);
+for(let i=1;i<sample.chain.length;i++)assert.equal(sample.chain[i].from,sample.chain[i-1].to,'Broken sample path');
+report.uiTrace=graph.uiTrace;
 fs.writeFileSync(path.join(root,'artifacts/docfx/integrity.json'),JSON.stringify(report,null,2));
 assert.equal(errors.length,0,JSON.stringify(errors.slice(0,20)));
 console.log(JSON.stringify({...report,passed:true}));

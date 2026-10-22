@@ -377,3 +377,7 @@ body[data-layout="landing"] .doc-card { min-height: 196px; }
   article:has(.flow-sequence) tbody td:nth-child(3)::before { content: '行为与输出'; }
   article:has(.flow-sequence) tbody td::before { display: block; margin-bottom: 5px; font-size: 11px; color: var(--ld-muted); }
 }
+
+/* Keep source line targets below the fixed navigation and identify the exact row. */
+pre code > span[id^="L"] { scroll-margin-top: 6rem; }
+pre code > span[id^="L"]:target { background: var(--bs-warning-bg-subtle, #fff3cd); color: var(--bs-body-color); }

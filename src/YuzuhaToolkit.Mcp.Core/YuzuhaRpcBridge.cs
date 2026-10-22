@@ -1,4 +1,7 @@
 using Microsoft.Extensions.Logging;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+using YuzuhaToolkit.Workspace;
 
 namespace YuzuhaToolkit.Mcp;
 
@@ -11,12 +14,20 @@ public sealed class YuzuhaRpcBridge : IDisposable
     private readonly ILogger<YuzuhaRpcBridge> _logger;
     private IPmlRpcConnection? _connection;
     private bool _disposed;
+    private readonly ExecutionAuthorizationStore _authorization;
+    private readonly PmlFunctionRegistry _registry;
+    private readonly string? _auditDirectory;
+    private readonly RuntimeJournal _executionJournal;
+    private bool _executionUnknown;
     private IPmlCommandService? _service;
     private AvevaSessionCandidate? _selectedSession;
     private YuzuhaTargetOptions? _target;
 
     /// <summary>当前已选择的目标 PID，用于本机运行日志；执行前仍重新核验完整身份。</summary>
     public int? SelectedProcessId => _selectedSession?.ProcessId;
+
+    /// <summary>为注册调用的无 RPC 预检读取实际策略。</summary>
+    internal ExecutionAuthorization ReadAuthorization() => _authorization.Read();
 
     /// <summary>配置只读会话发现与诊断依赖，尚未选择任何 AVEVA 目标。</summary>
     /// <param name="logger">仅写诊断流的日志记录器。</param>
@@ -30,15 +41,19 @@ public sealed class YuzuhaRpcBridge : IDisposable
 
     /// <summary>注入发现器与连接工厂，尚不选择目标；供生产及隔离测试使用。</summary>
     public YuzuhaRpcBridge(ILogger<YuzuhaRpcBridge> logger,
-        IAvevaSessionDiscovery discovery, IPmlRpcConnectionFactory connections)
+        IAvevaSessionDiscovery discovery, IPmlRpcConnectionFactory connections, ExecutionAuthorizationStore? authorization = null, PmlFunctionRegistry? registry = null, string? auditDirectory = null)
     {
         _logger = logger;
         _discovery = discovery;
         _connections = connections;
+        _authorization = authorization ?? new();
+        _registry = registry ?? new();
+        _auditDirectory = auditDirectory;
+        _executionJournal = new RuntimeJournal("PML execution", auditDirectory);
     }
 
     /// <summary>创建共享发现器但连接状态独立的会话桥，避免并发调用切换目标。</summary>
-    public YuzuhaRpcBridge CreateIndependent() => new(_logger, _discovery, _connections);
+    public YuzuhaRpcBridge CreateIndependent() => new(_logger, _discovery, _connections, _authorization, _registry, _auditDirectory);
 
     /// <summary>停止持有的心跳或连接资源；重复释放不会再次发起操作。</summary>
     public void Dispose()
@@ -50,6 +65,7 @@ public sealed class YuzuhaRpcBridge : IDisposable
                 return;
 
             _disposed = true;
+            _executionJournal.Dispose();
             DisconnectCore();
         }
         finally
@@ -104,6 +120,7 @@ public sealed class YuzuhaRpcBridge : IDisposable
                 _connection = newConnection;
                 _service = newService;
                 _selectedSession = candidate;
+                _executionUnknown = false;
                 _target = YuzuhaTargetOptions.FromCandidate(
                     candidate,
                     identity.Model!);
@@ -174,83 +191,110 @@ public sealed class YuzuhaRpcBridge : IDisposable
         string pmlCommand,
         CancellationToken cancellationToken)
     {
-        return RunVerifiedAsync(
-            service => service.RunPmlCommandAsync(
-                new RunPmlCommandRequest { PmlCommand = pmlCommand },
-                cancellationToken),
-            cancellationToken);
+        return RunRequestVerifiedAsync(new RunPmlCommandRequest { PmlCommand = pmlCommand }, cancellationToken);
     }
 
-    /// <summary>核验目标后执行一次返回全局数组的 PML 请求，保持调用串行与清理选项。</summary>
-    /// <param name="pmlCommand">用户明确要求执行或查询的完整 PML 文本。</param>
-    /// <param name="globalVar">用于承载结果的 PML 全局数组变量名。</param>
-    /// <param name="deleteGlobalVar">读取结束时是否清理该结果全局变量。</param>
-    /// <param name="cancellationToken">取消等待或传输；远端已经开始的命令可能继续执行，不能据此自动重试。</param>
-    public Task<RunPmlCommandResponse> RunPmlCommandListAsync(
-        string pmlCommand,
-        string globalVar,
-        bool deleteGlobalVar,
-        CancellationToken cancellationToken)
-    {
-        return RunVerifiedAsync(
-            service => service.RunPmlCommandAsync(
-                new RunPmlCommandRequest
-                {
-                    PmlCommand = pmlCommand,
-                    ReturnList = true,
-                    GlobalVar = globalVar,
-                    DeleteGlobalVar = deleteGlobalVar
-                },
-                cancellationToken),
-            cancellationToken);
-    }
+    /// <summary>执行表达式并返回数组；赋值及清理属于写操作，必须自动 MARKDB。</summary>
+    public Task<RunPmlCommandResponse> RunPmlCommandListAsync(string pmlCommand, string globalVar, bool deleteGlobalVar, CancellationToken cancellationToken)
+        => RunRequestVerifiedAsync(new RunPmlCommandRequest { PmlCommand = pmlCommand, ReturnList = true, GlobalVar = globalVar, DeleteGlobalVar = deleteGlobalVar }, cancellationToken);
+
+    /// <summary>在同一会话锁中核验注册版本、签名、授权与只读证据，再派发一次。</summary>
+    public Task<RunPmlCommandResponse> RunRegisteredFunctionAsync(PmlFunctionRegistry registry, string name, List<DynamicParameterInput> parameters, CancellationToken token)
+        => RunRequestVerifiedAsync(new RunPmlCommandRequest(), token, registry, name, parameters);
+
+    /// <summary>运行开发目录内的准确宏快照；授权目标、源码哈希和 MARKDB 始终核验。</summary>
+    public Task<RunPmlCommandResponse> RunDevelopmentMacroAsync(string sourceFile,string sha256,CancellationToken token, string testOutcomeGlobal = "")
+        => RunRequestVerifiedAsync(new RunPmlCommandRequest { DevelopmentMacroPath=sourceFile, DevelopmentMacroSha256=sha256, TestOutcomeGlobal=testOutcomeGlobal }, token);
 
     /// <summary>核验身份与 Host 能力后，按预算只读已有数组，不重放生成表达式。</summary>
-    public async Task<RunPmlCommandResponse> ReadPmlArrayAsync(string globalVar,int startIndex,int maxItems,int maxCharacters,CancellationToken cancellationToken)
+    public Task<RunPmlCommandResponse> ReadPmlArrayAsync(string globalVar,int startIndex,int maxItems,int maxCharacters,CancellationToken cancellationToken)
     {
-        ObjectDisposedException.ThrowIf(_disposed,this);
-        await _connectionGate.WaitAsync(cancellationToken).ConfigureAwait(false);
-        try
-        {
-            RequireSelectedService();
-            var identity=await ReadAndValidateIdentityCoreAsync(cancellationToken).ConfigureAwait(false);
-            return await BoundedArrayRequest.SendAsync(_service!,identity,globalVar,startIndex,maxItems,maxCharacters,cancellationToken).ConfigureAwait(false);
-        }
-        finally { _connectionGate.Release(); }
+        YuzuhaToolkit.Pml.PmlArrayWindow.Validate(startIndex, maxItems, maxCharacters);
+        if (string.IsNullOrEmpty(globalVar) || !System.Text.RegularExpressions.Regex.IsMatch(globalVar, @"\A[A-Za-z][A-Za-z0-9_]{0,127}\z")) throw new ArgumentException("Use a plain PML array name.", nameof(globalVar));
+        return RunRequestVerifiedAsync(new RunPmlCommandRequest { ReadArray = true, GlobalVar = globalVar, StartIndex = startIndex, MaxItems = maxItems, MaxCharacters = maxCharacters }, cancellationToken);
     }
 
-    /// <summary>在目标身份锁内检查查询能力并发送只读 Form/Gadget 请求，不自动重试。</summary>
-    public async Task<RunPmlCommandResponse> QueryPmlFormsAsync(YuzuhaToolkit.Pml.PmlFormQueryRequest query, CancellationToken cancellationToken)
+    /// <summary>类型化窗体查询保留只读豁免；保守模式仍禁止派发。</summary>
+    public Task<RunPmlCommandResponse> QueryPmlFormsAsync(YuzuhaToolkit.Pml.PmlFormQueryRequest query, CancellationToken cancellationToken)
     {
         YuzuhaToolkit.Pml.PmlFormQuery.Validate(query);
-        ObjectDisposedException.ThrowIf(_disposed, this);
-        await _connectionGate.WaitAsync(cancellationToken).ConfigureAwait(false);
-        try
-        {
-            RequireSelectedService();
-            var identity = await ReadAndValidateIdentityCoreAsync(cancellationToken).ConfigureAwait(false);
-            return await PmlFormQueryRequestSender.SendAsync(_service!, identity, query, cancellationToken).ConfigureAwait(false);
-        }
-        finally { _connectionGate.Release(); }
+        return RunRequestVerifiedAsync(new RunPmlCommandRequest { FormQuery = query }, cancellationToken);
     }
 
-    private async Task<RunPmlCommandResponse> RunVerifiedAsync(
-        Func<IPmlCommandService, Task<RunPmlCommandResponse>> operation,
-        CancellationToken cancellationToken)
+    private async Task<RunPmlCommandResponse> RunRequestVerifiedAsync(RunPmlCommandRequest request,
+        CancellationToken token, PmlFunctionRegistry? registry = null, string? name = null, List<DynamicParameterInput>? parameters = null)
     {
         ObjectDisposedException.ThrowIf(_disposed, this);
-        await _connectionGate.WaitAsync(cancellationToken).ConfigureAwait(false);
+        await _connectionGate.WaitAsync(token).ConfigureAwait(false);
+        string? callId = null;
+        var dispatched = false;
         try
         {
+            var args = new JsonObject { ["command"] = request.PmlCommand, ["function"] = name, ["readArray"] = request.ReadArray, ["formQuery"] = request.FormQuery != null };
+            callId = _executionJournal.Begin("pml.dispatch", JsonSerializer.Serialize(args, YuzuhaToolJsonContext.Default.JsonObject), SelectedProcessId, _target?.ProcessStartTimeUtcTicks);
+            if (_executionJournal.Snapshot().LoggingError != null) throw new IOException("PML_AUDIT_UNAVAILABLE: dispatch blocked.");
             RequireSelectedService();
-            await ReadAndValidateIdentityCoreAsync(cancellationToken)
-                .ConfigureAwait(false);
-            return await operation(_service!).ConfigureAwait(false);
+            if (_executionUnknown) throw new InvalidOperationException("PML_PREVIOUS_RESULT_UNKNOWN: inspect the Host, then explicitly reconnect; no automatic replay.");
+            var identity = await ReadAndValidateIdentityCoreAsync(token).ConfigureAwait(false);
+            var typedReadOnly = request.ReadArray || request.FormQuery != null;
+            if (registry == null && request.DevelopmentMacroPath == null && request.PmlCommand != null)
+            {
+                if (System.Text.RegularExpressions.Regex.IsMatch(request.PmlCommand, @"\A\s*(?:MARKDB|ENDMARKDB)(?:\s|$)", System.Text.RegularExpressions.RegexOptions.IgnoreCase))
+                    throw new InvalidOperationException("PML_MARKDB_MANAGED: automatic groups own MARKDB/ENDMARKDB boundaries.");
+                var parsed = _registry.ParseRegisteredCall(request.PmlCommand);
+                if (parsed != null) { registry = _registry; name = parsed.Value.Name; parameters = parsed.Value.Parameters; }
+            }
+            var sourceRevision = request.DevelopmentMacroSha256 ?? "";
+            var policy = _authorization.Require(identity, registry != null || request.DevelopmentMacroPath != null, request.DevelopmentMacroPath, typedReadOnly);
+            if (request.DevelopmentMacroPath != null)
+            {
+                if (policy.Mode != "Development") throw new UnauthorizedAccessException("PML_ACTIVE_DEVELOPMENT_GRANT_REQUIRED");
+                YuzuhaToolkit.Pml.PmlSourceIdentity.Verify(request.DevelopmentMacroPath, request.DevelopmentMacroSha256!);
+                request.PmlCommand = YuzuhaToolkit.Pml.PmlSourceIdentity.MacroCommand(request.DevelopmentMacroPath);
+            }
+            string evidence = typedReadOnly ? request.ReadArray ? "typed-existing-array-v1" : "typed-form-query-v1" : "";
+            if (registry != null)
+            {
+                var prepared = registry.PrepareInvocation(name!, parameters!, policy.Mode == "Development" && policy.BypassRules.Contains("function-permission"));
+                _authorization.Require(identity, true, prepared.SourceFile);
+                request.PmlCommand = prepared.Command;
+                sourceRevision = prepared.SourceSha256;
+                if (prepared.ReadOnly && !request.ReturnList && !request.DeleteGlobalVar)
+                {
+                    evidence = "reviewed-source-sha256:" + prepared.SourceSha256;
+                    request.ReadOnlySourcePath=prepared.SourceFile; request.ReadOnlySourceSha256=prepared.SourceSha256;
+                }
+            }
+            if (typedReadOnly)
+            {
+                if (request.ReadArray && identity.BoundedArrayReadVersion < 1) throw new NotSupportedException("PML_BOUNDED_ARRAY_HOST_UNSUPPORTED");
+                if (request.FormQuery != null && identity.FormQueryVersion < 1) throw new NotSupportedException("PML_FORM_QUERY_HOST_UNSUPPORTED");
+            }
+            request.AutomaticMarkDb = evidence.Length == 0;
+            if ((request.AutomaticMarkDb || request.ReadOnlySourcePath != null) && identity.AutomaticMarkDbVersion < 1)
+                throw new NotSupportedException("PML_AUTOMATIC_MARKDB_HOST_UNSUPPORTED: update the PID-bound Host before mutation; no user code dispatched.");
+            token.ThrowIfCancellationRequested();
+            dispatched = true;
+            var response = await _service!.RunPmlCommandAsync(request, token).ConfigureAwait(false);
+            response.AuthorizationMode = policy.Mode; response.ReadOnlyEvidence = evidence;
+            if (request.AutomaticMarkDb && (!response.MarkDbStarted || !response.MarkDbEnded))
+            {
+                if (response.Success || response.MarkDbStarted) response.Code = response.MarkDbStarted ? "MARKDB_GROUP_INCOMPLETE" : "MARKDB_RECEIPT_MISSING";
+                response.Success = false;
+                if (response.MarkDbStarted || response.ExecutionStarted) _executionUnknown = true;
+            }
+            var summary = $"mode={policy.Mode}; sourceSha256={sourceRevision}; bypass={string.Join(',', policy.BypassRules)}; reason={policy.Reason}; readonly={evidence}; markdb={response.MarkDbId}/{response.MarkDbStarted}/{response.MarkDbEnded}; request={response.RequestId}; code={response.Code}; {response.ErrorMessage}";
+            _executionJournal.Complete(callId, response.Success ? "succeeded" : "failed", summary, SelectedProcessId, _target?.ProcessStartTimeUtcTicks);
+            return response;
         }
-        finally
+        catch (Exception error)
         {
-            _connectionGate.Release();
+            var unknown = dispatched && error is OperationCanceledException or IOException or TimeoutException;
+            if (unknown) _executionUnknown = true;
+            if (callId != null) _executionJournal.Complete(callId, unknown ? "cancelled-unknown" : "failed", error.Message, SelectedProcessId, _target?.ProcessStartTimeUtcTicks);
+            throw;
         }
+        finally { _connectionGate.Release(); }
     }
 
     private async Task<HostIdentityResponse> ReadAndValidateIdentityCoreAsync(

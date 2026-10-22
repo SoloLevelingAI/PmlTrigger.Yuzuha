@@ -28,6 +28,8 @@ public static class DualModeCommandLine
                 --cli call <name> --arguments <json> 调用一次工具
                 --cli call <name> --file <path|->     从文件或 stdin 读取参数对象
                 --cli batch --file <path|->          顺序执行 [{"name":"...","arguments":{}}]
+                --cli dev <connect|status|mode|sessions|write|run|evidence|register|functions|allow|readonly|invoke|logs|export> --arguments <json>
+                dev 复用相同 MCP 工具；connect 保存明确开发身份，后续 run 重新核验该目标。
                 可追加 --timeout-seconds <1..3600>；默认每次请求 120 秒。
                 batch 共用同一 MCP 连接，首次失败即停止；已发送请求不会自动重试。
                 退出码：0 成功，1 工具失败，2 参数错误，124 取消或超时。
@@ -44,6 +46,20 @@ public static class DualModeCommandLine
             var arguments = args.Skip(1).ToList();
             var timeout = ExtractTimeout(arguments);
             if (arguments.Count == 0) throw new ArgumentException("缺少 CLI 命令。");
+            if (arguments.Count >= 2 && arguments[0] == "dev")
+            {
+                var tool = arguments[1] switch
+                {
+                    "connect" => "connect_development_session", "status" => "get_execution_authorization",
+                    "mode" => "set_execution_authorization", "write" => "write_development_file", "run" => "run_development_file",
+                    "evidence" => "get_development_evidence", "register" => "register_pml_function", "functions" => "list_registered_pml_functions",
+                    "allow" => "set_pml_function_permission", "readonly" => "confirm_pml_function_read_only", "invoke" => "invoke_pml_function",
+                    "sessions" => "list_aveva_sessions", "logs" => "query_runtime_logs", "export" => "export_runtime_logs",
+                    _ => throw new ArgumentException("Unknown dev command; use --help.")
+                };
+                arguments = ["call", tool, .. arguments.Skip(2)];
+                if (arguments.Count == 2) arguments.AddRange(["--arguments", "{}"]);
+            }
             var command = arguments[0];
             var requests = await ReadRequestsAsync(arguments, interrupted.Token).ConfigureAwait(false);
             var process = Environment.ProcessPath ?? throw new InvalidOperationException("Cannot resolve the current executable.");

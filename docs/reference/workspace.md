@@ -34,17 +34,15 @@ AI 也可调用 `get_ai_runtime_status`、`get_recent_tool_calls`、`inspect_reg
 
 `run_pml_command` 直接把 PML 交给已核验 Host 的主线程；`run_pml_command_list` 处理返回数组。开发任务授权覆盖范围内的连续编辑、加载和验证，不要求每条命令重新审批。保留会话身份核验和超时不自动重试。
 
-两个专用 MCP 工具：
+先查询当前执行授权：
 
 ```json
 [
-  {"name":"markdb","arguments":{"description":"MyPlugin development"}},
-  {"name":"run_pml_command","arguments":{"pmlCommand":"<本次开发需要的 PML>"}},
-  {"name":"endmarkdb","arguments":{}}
+  {"name":"get_execution_authorization","arguments":{}}
 ]
 ```
 
-先在同一 MCP 会话选定实际 AVEVA PID，再调用这些工具。`markdb` 发送 `MARKDB '描述'`，`endmarkdb` 发送 `ENDMARKDB`；描述中的引号会转义，控制字符被拒绝。这是 AVEVA 的撤销分组，不会自动保存、撤销或在失败后重发结束命令。语义参见 [AVEVA Undo and Redo](https://help.aveva.com/AVEVA_Everything3D/2.1/PMLPUG/PMLCG9.09.10.html)。
+先按 [PML 开发文档](pml-development-plan.md) 配置明确的开发会话和三档授权。更新后的 Host 对每次非只读执行自动建立并结束 MARKDB 分组，失败不会重放，不再用手工 `markdb/endmarkdb` 嵌套包裹。MARKDB 是撤销分组，不是保存或回滚；参见 [AVEVA Undo and Redo](https://help.aveva.com/AVEVA_Everything3D/2.1/PMLPUG/PMLCG9.09.10.html)。
 
 旧 `YuzuhaExcuter` 对象作为兼容路径保留，原生执行无需先调用它或使用危险命令绕过接口。当前元素、DBREF 和全局对象查询继续优先使用已有内置查询方法。
 

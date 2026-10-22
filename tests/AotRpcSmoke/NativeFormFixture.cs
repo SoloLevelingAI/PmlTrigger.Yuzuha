@@ -2,7 +2,7 @@ using System;
 using YuzuhaToolkit.Pml;
 
 // Synthetic query values only. Exercises the production reader on CLR 2/4 without AVEVA.
-internal sealed class NativeFormFixture : IPmlFormQueryRuntime
+internal class NativeFormFixture : IPmlFormQueryRuntime
 {
     private string expression;
     public void Execute(string command)

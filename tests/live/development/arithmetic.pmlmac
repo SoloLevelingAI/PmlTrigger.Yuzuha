@@ -1,0 +1,9 @@
+-- Human-reviewable fixture. Does not edit or save an engineering database.
+-- Run with testOutcomeGlobal = YuzuhaDevelopmentTestOutcome.
+-- AVEVA live status: NotRun. Offline protocol fixtures do not validate PML syntax.
+!actual = 2 + 3
+if (!actual eq 5) then
+  !!YuzuhaDevelopmentTestOutcome = 'Passed'
+else
+  !!YuzuhaDevelopmentTestOutcome = 'Failed: 2 + 3 did not equal 5'
+endif

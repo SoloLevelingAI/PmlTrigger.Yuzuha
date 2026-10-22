@@ -10,7 +10,7 @@ if (args.FirstOrDefault() == "op")
 {
     using var cliBridge = new YuzuhaRpcBridge(Microsoft.Extensions.Logging.Abstractions.NullLogger<YuzuhaRpcBridge>.Instance, new AvevaSessionDiscovery());
     var operations = YuzuhaOperationCatalog.Create(cliBridge, new PmlFunctionTrustStore(), cliBridge.CreateIndependent);
-    return await OperationCli.RunAsync(args, operations, Console.Out);
+    return await OperationFrontend.RunAsync(args, operations, Console.Out);
 }
 
 if (await DualModeCommandLine.TryRunAsync(args, "Yuzuha 执行工具") is int cliExitCode) return cliExitCode;
@@ -30,6 +30,7 @@ builder.Services.AddSingleton<YuzuhaRpcBridge>();
 builder.Services.AddSingleton<PmlFunctionTrustStore>();
 builder.Services.AddSingleton<PmlCallTools>();
 builder.Services.AddSingleton<PmlFunctionRegistry>();
+builder.Services.AddSingleton<ExecutionAuthorizationStore>();
 builder.Services.AddSingleton<OperationExecutor>(services =>
 {
     var bridge = services.GetRequiredService<YuzuhaRpcBridge>();
@@ -41,6 +42,8 @@ builder.Services
     .WithRequestFilters(filters => filters.AddCallToolFilter(ToolAuditFilter.Create(journal, () => selectedBridge?.SelectedProcessId)))
     .WithTools<PmlCallTools>(McpHostSurface.ToolJsonOptions)
     .WithTools<PmlFunctionTools>(McpHostSurface.ToolJsonOptions)
+    .WithTools<DevelopmentTools>()
+    .WithTools<RuntimeLogTools>()
     .WithTools<PmlFormTools>(McpHostSurface.ToolJsonOptions)
     .WithTools<WorkspaceTools>()
     .WithTools<OperationTools>()

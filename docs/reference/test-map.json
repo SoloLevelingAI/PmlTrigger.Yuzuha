@@ -1389,6 +1389,123 @@
       ]
     },
     {
+      "test": "xunit:YuzuhaToolkit.Tests.DevelopmentExecutionTests.ConservativeDeniesAllDispatchButAllowsRegistrationAndDiscovery",
+      "purpose": "保守模式允许登记和发现，拒绝原始、注册调用及类型化查询，RPC 派发次数为零。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.YuzuhaRpcBridge"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DevelopmentExecutionTests.StandardRequiresPermissionAndCarriesAutomaticGroupReceipt",
+      "purpose": "标准模式逐函数授权；撤销立即拒绝，成功调用保留自动 MARKDB 回执。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.YuzuhaRpcBridge"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DevelopmentExecutionTests.RegisteredReadOnlyApprovalIsBoundToExactSourceAndRevokedOnRegistration",
+      "purpose": "只读确认必须匹配源码哈希，文件变化拒绝，重新登记撤销许可和只读分类。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.PmlFunctionRegistry"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DevelopmentExecutionTests.TypedReadOnlyExemptionDoesNotApplyToExpressionAssignment",
+      "purpose": "已有数组查询可免分组，数组生成与清理仍分组，登记调用不接受附加表达式。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.YuzuhaRpcBridge"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DevelopmentExecutionTests.DevelopmentPermissionBypassIsScopedAndDoesNotGrantRawExecution",
+      "purpose": "开发函数许可规避不授予原始命令权限，目标启动身份变化必须拒绝。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.ExecutionAuthorizationStore"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DevelopmentExecutionTests.ExpiredDevelopmentGrantCannotDispatch",
+      "purpose": "开发许可过期后不派发 PML。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.ExecutionAuthorizationStore"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DevelopmentExecutionTests.OldHostIsRejectedBeforeMutationAndManualBoundariesCannotNest",
+      "purpose": "旧 Host 在变更前拒绝，手工撤销边界不能嵌套自动分组。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.YuzuhaRpcBridge"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DevelopmentExecutionTests.TransportUnknownIsNotRetriedAndBlocksFurtherDispatchUntilExplicitReconnect",
+      "purpose": "已派发后丢失回执记为未知且不重试，后续调用须先核查和显式重连。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.YuzuhaRpcBridge"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DevelopmentExecutionTests.IncompleteGroupIsFailureAndCannotBeReportedAsSuccess",
+      "purpose": "正文执行后分组未结束不能报告成功，并禁止继续派发。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.YuzuhaRpcBridge"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DevelopmentExecutionTests.DevelopmentWritesRequireHashForOverwriteAndExecuteImmutableSnapshotWithPendingReview",
+      "purpose": "开发文件创建、覆盖比较哈希、越界拒绝、独立快照、执行证据及人工待审阅分别验证。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.DevelopmentTools"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DevelopmentExecutionTests.SourceScopeRejectsPrefixSiblingAndSourceIdentityRejectsChanges",
+      "purpose": "拒绝同名前缀兄弟目录，Host 源码核验拒绝变更，宏路径不能展开 PML 特殊字符。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.ExecutionAuthorizationStore"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DevelopmentExecutionTests.UndoGroupNeverRunsBodyAfterBeginFailureAndAlwaysAttemptsEndAfterBodyException",
+      "purpose": "MARKDB 失败不进入正文；正文异常后仍尝试结束，结束失败保留错误。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Pml.PmlUndoGroup"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DevelopmentExecutionTests.RuntimeFilteringUsesSessionStartIdentityAndExportCannotOverwrite",
+      "purpose": "日志按 PID 加启动身份筛选，JSONL 导出拒绝覆盖已有证据。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Workspace::YuzuhaToolkit.Workspace.RuntimeReader"
+        }
+      ]
+    },
+    {
       "test": "xunit:YuzuhaToolkit.Tests.LaunchProfileCatalogTests.SearchCombinesProjectPathProductAndFavoriteFilters",
       "purpose": "启动配置筛选组合项目、路径、产品与收藏条件。",
       "targets": [

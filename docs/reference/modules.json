@@ -160,6 +160,13 @@
       "guide": "cli.html"
     },
     {
+      "id": "development-execution",
+      "name": "PML 开发与授权",
+      "description": "三档授权、限定会话、源码与测试证据、自动撤销分组和日志筛选导出。",
+      "match": "src/(Shared/Pml(UndoGroup|SourceIdentity)|YuzuhaToolkit.Mcp.Core/(ExecutionAuthorization|Development|RuntimeLog))",
+      "guide": "pml-development-plan.html"
+    },
+    {
       "id": "operations",
       "name": "共享操作内核",
       "description": "CLI/MCP 共享的操作注册、参数契约与调度。",

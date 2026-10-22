@@ -16,20 +16,14 @@ public interface IService
 public sealed class Service : IService
 {
     private readonly string pipe;
-    public Service(string value) { pipe = value; }
-    public Identity GetIdentity(IdentityRequest request) {
-        return new Identity { ProcessId = Process.GetCurrentProcess().Id, Model = "Design", PipeName = pipe, BoundedArrayReadVersion = 1, FormQueryVersion = 1 };
-    }
-    // Synthetic roundtrip only: never executes PML or connects to AVEVA.
-    public Response Run(Request request) {
-        if (request.FormQuery != null) {
-            YuzuhaToolkit.Pml.PmlFormQuery.ValidateEnvelope(request.ReadArray, request.ReturnList, request.PmlCommand, request.GlobalVar, request.DeleteGlobalVar);
-            return new Response { Success = true, Code = "FORM_QUERY_SMOKE", FormQueryResult = YuzuhaToolkit.Pml.PmlFormQuery.Read(request.FormQuery, new NativeFormFixture()) };
-        }
-        if (request.ReadArray) return new Response { Success = true, Code = "BOUNDED_SMOKE",
-            ArrayWindow = YuzuhaToolkit.Pml.PmlArrayWindow.Read(5, request.StartIndex, request.MaxItems, request.MaxCharacters, i => "row" + i) };
-        return new Response { Success = request.ReturnList, Code = "SMOKE", PmlCommand = request.PmlCommand,
-            ResultList = new[] { request.GlobalVar, request.DeleteGlobalVar.ToString() }, ServerTimeUtc = DateTime.UtcNow };
+    private readonly YuzuhaToolkit.PmlHost.PmlCommandRpcService production = new YuzuhaToolkit.PmlHost.PmlCommandRpcService();
+    public Service(string value) { pipe=value; YuzuhaToolkit.PmlHost.PmlCommandRpcHost.PipeName=value; }
+    public Identity GetIdentity(IdentityRequest request) { return production.GetHostIdentity(request); }
+    public Response Run(Request request)
+    {
+        YuzuhaToolkit.PmlHost.PmlCommandRpcHost.Target.FailBegin=request.PmlCommand=="fail-markdb";
+        YuzuhaToolkit.PmlHost.PmlCommandRpcHost.Target.FailEnd=request.PmlCommand=="fail-endmarkdb";
+        return production.RunPmlCommand(request);
     }
 }
 internal static class Program

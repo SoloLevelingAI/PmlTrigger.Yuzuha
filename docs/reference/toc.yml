@@ -31,6 +31,8 @@
 - name: 按层
   href: cli.md
   items:
+  - name: PML 开发与授权计划
+    href: pml-development-plan.md
   - name: CLI 与 MCP 双入口
     href: cli.md
   - name: 桌面工作台

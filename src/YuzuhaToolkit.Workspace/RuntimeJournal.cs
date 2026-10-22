@@ -18,6 +18,8 @@ namespace YuzuhaToolkit.Workspace;
 public sealed record ActivityEntry(DateTimeOffset TimeUtc, string Service, int ProcessId, string CallId,
     string Tool, string Phase, long Milliseconds, int? TargetPid, string Arguments, string Summary)
 {
+    /// <summary>目标启动身份；旧记录为空，不能把 PID 相同当作同一会话。</summary>
+    public long? TargetStartTimeUtcTicks { get; init; }
     /// <summary>中文工作台显示的北京时间，原始日志继续保存 UTC。</summary>
     public string DisplayTime => TimeUtc.ToOffset(TimeSpan.FromHours(8)).ToString("HH:mm:ss");
     /// <summary>工作台显示的工具事件名称。</summary>
@@ -80,12 +82,13 @@ public sealed class RuntimeJournal : IDisposable
     /// <param name="tool">MCP 工具名或桌面操作名。</param>
     /// <param name="arguments">原始参数对象 JSON；密码、token 等命名字段会被替换。</param>
     /// <param name="targetPid">当前 AVEVA 目标 PID。</param>
-    public string Begin(string tool, string arguments, int? targetPid = null)
+    /// <param name="targetStartTimeUtcTicks">目标进程启动身份；未知时为空。</param>
+    public string Begin(string tool, string arguments, int? targetPid = null, long? targetStartTimeUtcTicks = null)
     {
         lock (_gate)
         {
             var id = Guid.NewGuid().ToString("N"); _active.Add(id, (tool, Stopwatch.GetTimestamp())); _targetPid = targetPid;
-            Append(new(DateTimeOffset.UtcNow, _service, Environment.ProcessId, id, tool, "started", 0, targetPid, RedactArguments(arguments), ""));
+            Append(new(DateTimeOffset.UtcNow, _service, Environment.ProcessId, id, tool, "started", 0, targetPid, RedactArguments(arguments), "") { TargetStartTimeUtcTicks = targetStartTimeUtcTicks });
             WriteStatus(); return id;
         }
     }
@@ -95,14 +98,15 @@ public sealed class RuntimeJournal : IDisposable
     /// <param name="phase">succeeded、failed 或 cancelled-unknown。</param>
     /// <param name="summary">有界结果摘要。</param>
     /// <param name="targetPid">工具完成时实际选定的 AVEVA PID。</param>
-    public void Complete(string callId, string phase, string summary, int? targetPid = null)
+    /// <param name="targetStartTimeUtcTicks">目标进程启动身份；未知时为空。</param>
+    public void Complete(string callId, string phase, string summary, int? targetPid = null, long? targetStartTimeUtcTicks = null)
     {
         lock (_gate)
         {
             if (!_active.Remove(callId, out var call)) return;
             _targetPid = targetPid; _lastOutcome = call.Tool + " · " + phase;
             Append(new(DateTimeOffset.UtcNow, _service, Environment.ProcessId, callId, call.Tool, phase,
-                (long)Stopwatch.GetElapsedTime(call.Started).TotalMilliseconds, targetPid, "", Bound(summary, 2048)));
+                (long)Stopwatch.GetElapsedTime(call.Started).TotalMilliseconds, targetPid, "", Bound(summary, 2048)) { TargetStartTimeUtcTicks = targetStartTimeUtcTicks });
             WriteStatus();
         }
     }
@@ -207,6 +211,10 @@ public static class RuntimeReader
     /// <param name="limit">返回记录数，1 到 200。</param>
     /// <param name="stateDirectory">状态根目录。</param>
     public static ActivityEntry[] Recent(int limit = 100, string? stateDirectory = null)
+        => Query(limit: limit, stateDirectory: stateDirectory);
+
+    /// <summary>先按会话身份、工具、结果和文本筛选，再取最多 200 项；仅查询本机保留的有界日志段。</summary>
+    public static ActivityEntry[] Query(int? targetPid = null, long? targetStartTimeUtcTicks = null, string? tool = null, string? phase = null, string? text = null, int limit = 200, string? stateDirectory = null)
     {
         var entries = new List<ActivityEntry>();
         foreach (var file in Statuses(stateDirectory).Take(16).SelectMany(status => Directory.Exists(status.Directory) ? Directory.GetFiles(status.Directory, "events-*.jsonl") : []).OrderByDescending(File.GetLastWriteTimeUtc).Take(16))
@@ -222,6 +230,24 @@ public static class RuntimeReader
             }
             catch (Exception error) when (error is IOException or UnauthorizedAccessException) { }
         }
-        return entries.OrderByDescending(entry => entry.TimeUtc).Take(Math.Clamp(limit, 1, 200)).ToArray();
+        return Filter(entries, targetPid, targetStartTimeUtcTicks, tool, phase, text).OrderByDescending(entry => entry.TimeUtc).Take(Math.Clamp(limit, 1, 200)).ToArray();
+    }
+
+    /// <summary>对已加载日志使用与 CLI 一致的筛选；文本匹配工具、关联编号、PID 和摘要。</summary>
+    public static IEnumerable<ActivityEntry> Filter(IEnumerable<ActivityEntry> entries, int? targetPid = null, long? targetStartTimeUtcTicks = null, string? tool = null, string? phase = null, string? text = null)
+        => entries.Where(entry => (!targetPid.HasValue || entry.TargetPid == targetPid) &&
+            (!targetStartTimeUtcTicks.HasValue || entry.TargetStartTimeUtcTicks == targetStartTimeUtcTicks) &&
+            (string.IsNullOrEmpty(tool) || entry.Tool.Equals(tool, StringComparison.OrdinalIgnoreCase)) &&
+            (string.IsNullOrEmpty(phase) || entry.Phase.Equals(phase, StringComparison.OrdinalIgnoreCase)) &&
+            (string.IsNullOrWhiteSpace(text) || (entry.Tool + " " + entry.CallId + " " + entry.TargetPid + " " + entry.TargetStartTimeUtcTicks + " " + entry.Summary).Contains(text, StringComparison.OrdinalIgnoreCase)));
+
+    /// <summary>将已筛选事件导出为 UTF-8 JSONL，仅创建新文件，不覆盖既有证据。</summary>
+    public static int Export(string outputFile, IEnumerable<ActivityEntry> entries)
+    {
+        using var stream = new FileStream(Path.GetFullPath(outputFile), FileMode.CreateNew, FileAccess.Write, FileShare.None);
+        using var writer = new StreamWriter(stream, new UTF8Encoding(false));
+        var count = 0;
+        foreach (var entry in entries) { writer.WriteLine(JsonSerializer.Serialize(entry, WorkspaceJsonContext.Default.ActivityEntry).Replace("\r", "").Replace("\n", "")); count++; }
+        return count;
     }
 }

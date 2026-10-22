@@ -13,14 +13,14 @@ public sealed class WorkspaceTools(PmlCallTools pml)
     /// <param name="description">撤销列表中的描述；最多 256 字符，不含控制字符。</param>
     /// <param name="cancellationToken">取消等待，不自动重发命令。</param>
     [McpServerTool(Name = "markdb")]
-    [Description("Start a database undo group in the selected AVEVA session using MARKDB 'description'. Use before related development edits and finish with endmarkdb. Uses the native PML execution path; no per-command approval handshake. Never auto-retry a timeout.")]
+    [Description("Legacy compatibility name. Updated execution automatically manages MARKDB/body/ENDMARKDB in one Host callback. Manual nested boundaries are rejected with PML_MARKDB_MANAGED; do not wrap normal calls with this tool. Never auto-retry a timeout.")]
     public Task<string> MarkDb([Description("Undo-group description; up to 256 characters.")] string description = "Yuzuha plugin development", CancellationToken cancellationToken = default)
         => pml.RunPmlCommand(BuildMarkDb(description), cancellationToken);
 
     /// <summary>在当前已核验会话中执行 ENDMARKDB，结束撤销分组。</summary>
     /// <param name="cancellationToken">取消等待，不自动重发命令。</param>
     [McpServerTool(Name = "endmarkdb")]
-    [Description("Finish the current database undo group using ENDMARKDB in the selected AVEVA session. Group boundaries are AVEVA undo markers; this tool does not save work or undo edits. Never auto-retry a timeout.")]
+    [Description("Legacy compatibility name. Automatic Host execution owns ENDMARKDB; manual nested boundaries are rejected. Inspect failed or unknown group receipts rather than retrying this tool. Does not save work or undo edits.")]
     public Task<string> EndMarkDb(CancellationToken cancellationToken = default) => pml.RunPmlCommand("ENDMARKDB", cancellationToken);
 
     /// <summary>生成 MARKDB 命令并转义描述，便于无 AVEVA 的自动化检查。</summary>

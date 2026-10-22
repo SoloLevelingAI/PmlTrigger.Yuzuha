@@ -28,6 +28,8 @@ public sealed class HostIdentityRequest
 /// <summary>Host 返回的进程、启动时间、模块、管道、框架和版本身份。</summary>
 public sealed class HostIdentityResponse
 {
+    /// <summary>同一主线程 RPC 内的自动撤销分组版本；旧 Host 为 0。</summary>
+    public int AutomaticMarkDbVersion { get; set; }
     /// <summary>原生 Form/Gadget 查询协议版本；旧 Host 默认为 0。</summary>
     public int FormQueryVersion { get; set; }
     /// <summary>有界数组协议版本；旧 Host 缺少此字段，默认为 0。</summary>
@@ -51,6 +53,18 @@ public sealed class HostIdentityResponse
 /// <summary>待执行 PML 命令及可选全局数组返回和清理策略。</summary>
 public sealed class RunPmlCommandRequest
 {
+    /// <summary>可选测试结果全局 STRING 变量；运行前重置，执行后读取并清理。</summary>
+    public string? TestOutcomeGlobal { get; set; }
+    /// <summary>开发宏执行快照绝对路径；Host 在执行前核验哈希。</summary>
+    public string? DevelopmentMacroPath { get; set; }
+    /// <summary>开发宏执行快照 SHA256。</summary>
+    public string? DevelopmentMacroSha256 { get; set; }
+    /// <summary>人工确认只读的注册源码路径。</summary>
+    public string? ReadOnlySourcePath { get; set; }
+    /// <summary>只读审阅绑定的源码 SHA256。</summary>
+    public string? ReadOnlySourceSha256 { get; set; }
+    /// <summary>在同一 Host 主线程回调内先 MARKDB，再正文，最后 ENDMARKDB。</summary>
+    public bool AutomaticMarkDb { get; set; }
     /// <summary>只读原生窗体查询；不得与命令、数组或删除操作混用。</summary>
     public YuzuhaToolkit.Pml.PmlFormQueryRequest? FormQuery { get; set; }
     /// <summary>只读取已有全局数组；不执行表达式赋值。</summary>
@@ -77,6 +91,24 @@ public sealed class RunPmlCommandRequest
 /// <summary>PML 执行状态、错误、数组结果和服务端关联信息。</summary>
 public sealed class RunPmlCommandResponse
 {
+    /// <summary>Passed、Failed 或 NotReported；不替代人工审阅测试代码。</summary>
+    public string? TestOutcome { get; set; }
+    /// <summary>测试代码报告的有界结果文本。</summary>
+    public string? TestMessage { get; set; }
+    /// <summary>自动撤销分组编号。</summary>
+    public string? MarkDbId { get; set; }
+    /// <summary>MARKDB 已成功。</summary>
+    public bool MarkDbStarted { get; set; }
+    /// <summary>ENDMARKDB 已成功。</summary>
+    public bool MarkDbEnded { get; set; }
+    /// <summary>用户正文已进入执行。</summary>
+    public bool ExecutionStarted { get; set; }
+    /// <summary>分组失败信息；正文执行后结束失败也保留。</summary>
+    public string? MarkDbError { get; set; }
+    /// <summary>客户端记录的实际授权模式。</summary>
+    public string? AuthorizationMode { get; set; }
+    /// <summary>客户端记录的只读分类或源码哈希。</summary>
+    public string? ReadOnlyEvidence { get; set; }
     /// <summary>原生 Form/Gadget 查询窗口；其他操作为空。</summary>
     public YuzuhaToolkit.Pml.PmlFormQueryResult? FormQueryResult { get; set; }
     /// <summary>有界结果包含索引上界、续读位置和截断标记；其他操作为 null。</summary>

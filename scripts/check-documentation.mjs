@@ -62,6 +62,17 @@ assert.equal(trace.kind,'static-source-trace');
 assert.equal(sample.chain[0].from,sample.entry.target);
 for(let i=1;i<sample.chain.length;i++)assert.equal(sample.chain[i].from,sample.chain[i-1].to,'Broken sample path');
 report.uiTrace=graph.uiTrace;
+const browser=JSON.parse(fs.readFileSync(path.join(site,'reference/ui-trace/browser.json'),'utf8'));
+assert.equal(browser.pages.length,trace.pages.length,'UI page publication gap');
+assert.equal(browser.entries.length,trace.entries.length,'UI entry publication gap');
+assert.ok(documents.get(path.join(site,'reference/ui-trace/index.html')).html.includes('ui-trace-browser'),'Missing interactive diagram mount');
+for(const p of browser.pages)assert.ok(documents.has(path.join(site,p.url)),'Missing page trace: '+p.name);
+for(const n of browser.nodes){
+  assert.ok(documents.has(path.join(site,n.url.split('?')[0])),'Missing method destination: '+n.id);
+  if(n.sourceUrl){const [file,anchor]=n.sourceUrl.split('#');assert.ok(documents.get(path.join(site,file))?.ids.has(anchor),'Missing source line: '+n.id);}
+  for(const t of n.tests)assert.ok(graph.tests.some(test=>test.id===t.id&&test.url===t.url),'Unknown UI test link');
+}
+assert.ok(fs.existsSync(path.join(site,'public/ui-trace.js')),'Missing graph renderer');
 fs.writeFileSync(path.join(root,'artifacts/docfx/integrity.json'),JSON.stringify(report,null,2));
 assert.equal(errors.length,0,JSON.stringify(errors.slice(0,20)));
 console.log(JSON.stringify({...report,passed:true}));

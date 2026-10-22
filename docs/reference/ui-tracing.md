@@ -1,8 +1,21 @@
 # UI 到服务的源码溯源
 
-DocFX 负责展示关系；现有 `tools/Documentation` 增加 Roslyn **语义分析**与 XAML 映射，不更换项目结构或 RPC 接口。入口见 [真实 WPF 样例及完整绑定清单](../../artifacts/docfx/navigation/ui-trace/index.md)。
+DocFX 负责展示关系；现有 `tools/Documentation` 使用 Roslyn **语义分析**与 XAML 映射，不更换项目结构或 RPC 接口。入口见 [WPF 各页可点击调用链](../../artifacts/docfx/navigation/ui-trace/index.md)。
 
-目标关系包括：`View → Click / Command / TwoWay 属性写入 → 处理器或 ViewModel → 服务 → RPC`。当前 WPF 主要使用事件处理代码；样例按真实源码展示，不因文档需求改成 MVVM。
+目标关系包括：`View → Click / Command / TwoWay 属性写入 → 处理器或 ViewModel → 服务 → RPC`。当前 WPF 主要使用事件处理代码；按真实源码展示，不因文档需求改成 MVVM。
+
+## 按页面使用
+
+自动发现当前 13 个业务页：总览、启动工程、插件部署、工程会话、能力与函数、Form/Gadget 与数组、AI 运行、工具日志、知识库、设置、评审中心、测试中心和 Web 应用。另外保留 2 个子页容器与 3 组共享/生命周期入口；共享导航不会被任意归到某个业务页。
+
+1. 选择页面与控件/入口，查看 SVG 调用图。点击节点或用 Tab/Enter 选择，右侧显示说明、源码行、上游/下游与测试链接。
+2. 点击节点上的“源码”或“关联测试”可直接跳转；方法详情页保留反向 XAML 入口与表格，禁用 JavaScript 时也能浏览。
+3. 从右侧选择“以此方法为起点”继续追踪，或调整展开层数/缩放。“返回入口”回到当前控件。
+4. 图默认展开 3 层，最多 36 个主节点；未展开后续有明确节点和数量提示，不把截断当作调用结束。环路显示回转标记。框架、外部库或隐式成员没有源码函数体时保留边界。
+
+方法关联、类型关联和同类型其他方法的测试分别展示。沿调用图可达某方法不表示 UI 行为已被该测试覆盖，类型测试也不冒充方法测试。测试详情继续使用原有 DocFX 目录、测试 ID 与执行器，页面不显示实时通过状态。
+
+评审、测试和 Web 页面中的未接线按钮显示“XAML 未声明 Click / Command”。初始禁用状态单独记录，既不补造业务链，也不据此断言运行时永远不可用。绑定、回调与动态目标的原因会显示在琥珀色节点及详情中。
 
 ## 能定位什么
 
@@ -26,16 +39,18 @@ DocFX 负责展示关系；现有 `tools/Documentation` 增加 Roslyn **语义�
 ./scripts/Build-Documentation.ps1
 ```
 
-脚本从 MSBuild 获取 Desktop、MCP、NET10 RPC 三个项目的真实编译文件、引用、条件常量及输出类型，包含链接源码、WPF 生成代码和源生成器产物。三个项目依次分析，不能把不同程序集的源文件混成一个大 Compilation；语义输入编译失败即失败。编译导出、生成源码、身份和完整 JSON 在本机 `artifacts/docfx`，不会进入 Git。
+脚本从 Desktop 开始，按 MSBuild 的真实 ProjectReference 自动遍历依赖；当前涵盖 Desktop、MCP、NET10 RPC、Workspace、Knowledge、CommandLine 六个项目，包含链接源码、WPF Page/ApplicationDefinition 和源生成器产物。各项目分别使用实际引用、条件常量与输出类型进行语义分析，不能把不同程序集源文件混成一个大 Compilation；语义输入编译失败即失败。编译导出、生成源码、身份和完整 JSON 在本机 `artifacts/docfx`，不会进入 Git。
 
-DocFX 中有入口清单、对象读取至 RPC 的实际路径、方法调用方/下游、源码行快照和所属类型的 API/测试链接；所属类型页面也有返回溯源的链接。示例路径断裂或找不到唯一入口会使完整文档构建失败，不能零匹配后仍展示成功。这里只发布仓库源码和编译产物，不读取用户 AVEVA 工程。
+DocFX 中有全部页面与入口清单、可达源码成员、方法调用方/下游、源码行快照和所属类型的 API/测试链接；所属类型页面也有返回溯源的链接。各页、符号、源码行与测试链接缺失会使完整性验证失败；原有对象读取至 RPC 的样例也继续检查非零与连续性。这里只发布仓库源码和编译产物，不读取用户 AVEVA 工程。
 
 `OnSthChanged` 若由生成的 setter 调用，能追到该 setter 与回调的实际调用；事件订阅后的触发者、命令是否可用、回调是否真正执行，仍需运行证据。静态关系不证明调用顺序、权限已通过、测试覆盖或实机成功。真实执行链后续可叠加既有 RequestId 日志和 DocFX 测试证据，继续保留提交、环境和 NotRun/历史结果的区分。
+
+本分析以显式方法调用、对象构造、事件及已支持绑定为基础；不声称完整追踪字段初始化、隐式 getter、using 释放等所有编译器展开，也不进行完整控制流或跨方法委托数据流证明。回调体内的调用可能来自条件分支，不能据图重放执行。
 
 ## 验证
 
 `tests/documentation-ui-trace.test.mjs` 覆盖：重载与动态调用、Command 与 CanExecute、生成 setter 与 OnChanged、显式接口实现候选、模板/未知 DataContext、缺少生成器输出、显式 TwoWay 及虚方法分派。开发验证脚本统一执行。真实仓库路径另由文档发布阶段进行非零及连续性校验。
 
-独立验证也可使用既有 ID：`./scripts/run-documented-test.ps1 -TestId 'smoke:documentation-contracts'`，其中包含八项 UI 语义/边界测试及原有文档、目录与执行器验证，还检查 XAML 程序集限定不会错接同名类型。
+独立验证也可使用既有 ID：`./scripts/run-documented-test.ps1 -TestId 'smoke:documentation-contracts'`，包含 UI 语义/边界、页面发现、构造调用、测试关联、环路/菱形关系和图预算测试，以及原有文档、目录与执行器验证。
 
 实现依据：[Roslyn SemanticModel](https://learn.microsoft.com/en-us/dotnet/api/microsoft.codeanalysis.semanticmodel?view=roslyn-dotnet-4.14.0)、[RelayCommand 生成器](https://learn.microsoft.com/en-us/dotnet/communitytoolkit/mvvm/generators/relaycommand)、[ObservableProperty 生成器](https://learn.microsoft.com/en-us/dotnet/communitytoolkit/mvvm/generators/observableproperty)。

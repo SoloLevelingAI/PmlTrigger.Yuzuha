@@ -133,7 +133,7 @@ for(const file of pml){
   fs.appendFileSync(generated,'\n<div class="pml-tests" data-pml-file="'+escape(file)+'"></div>\n');
 }
 graph.tests=buildTestDocumentation({root,navigation:output,types,modules,metadata,pml:pmlRows}).tests;
-graph.uiTrace=publishUiTrace({root,output,types});
+graph.uiTrace=publishUiTrace({root,output,types,tests:graph.tests});
 write('graph.json',JSON.stringify(graph,null,2));
 write('pml/index.md','# PML / PMLUI 全部源码\n\n| 文件 | 状态 | 声明符号 |\n| --- | --- | --- |\n'+pmlRows.map(row=>`| [${row.file}](${row.file}.md) | ${row.status} | ${row.symbols.join('、')} |`).join('\n')+'\n');
 write('repository/index.md','# 仓库使用与维护文档\n\n完整纳入现有中文、英文指南、安装说明、发布说明和验证记录。\n\n'+markdownFiles.map(file=>`- [${file}](${file})`).join('\n')+'\n');

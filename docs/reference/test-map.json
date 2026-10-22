@@ -328,7 +328,7 @@
       "file": "tests/documentation-tests.test.mjs",
       "entryPoint": "catalog preserves LaunchDesk IDs",
       "runner": "documentation-contracts",
-      "purpose": "验证目录关联、源码发现、历史状态和 TRX 身份校验。",
+      "purpose": "验证目录关联、源码发现、历史状态、TRX 身份、WPF 各页语义溯源、图预算与准确测试关联。",
       "environment": "Windows / PowerShell 7 / Node.js 22.22.3+ / .NET 10 SDK",
       "expected": "离线套件全部断言通过；退出非零即失败。这不代表 AVEVA 实机通过。"
     },

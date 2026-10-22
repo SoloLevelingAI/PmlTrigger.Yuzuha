@@ -91,3 +91,27 @@ test('XAML assembly qualification never binds to a same-name type in another ass
   assert.equal(g.entries[0].resolution, 'unresolved');
   assert.equal(g.entries[0].target, null);
 });
+
+test('page discovery keeps nested tabs, shared handlers and initially disabled unwired actions', () => {
+  const g = trace('namespace Demo; class View { void Shared(object s, object e) {} void Go(object s, object e) {} }', view('<Button Click="Shared"/><TabControl x:Name="Tabs"><TabItem Header="Launch"><Button Click="Go"/></TabItem><TabItem Header="Planned"><TabControl x:Name="Nested"><TabItem Header="Review"><Button Content="Migrate" IsEnabled="False"/></TabItem></TabControl></TabItem></TabControl>'));
+  const pages = new Map(g.pages.map(p => [p.name, p]));
+  assert.equal(pages.get('Launch').kind, 'page');
+  assert.equal(pages.get('Planned').kind, 'container');
+  assert.equal(pages.get('Review').parentId, pages.get('Planned').id);
+  assert.equal(g.entries.find(e => e.expression === 'Go').pageId, pages.get('Launch').id);
+  const shared = g.entries.find(e => e.expression === 'Shared');
+  assert.equal(g.pages.find(p => p.id === shared.pageId).kind, 'shared');
+  const pending = g.entries.find(e => e.control === 'Migrate');
+  assert.equal(pending.pageId, pages.get('Review').id);
+  assert.equal(pending.initiallyDisabled, true);
+  assert.equal(pending.resolution, 'unresolved');
+  assert.ok(pending.reason.includes('Click'));
+  assert.match(pending.sourceSha256, /^[a-f0-9]{64}$/);
+});
+
+test('object construction is a real edge and view constructors remain shared lifecycle entries', () => {
+  const g = trace('namespace Demo; class View { public View() {} void Start(object s, object e) { var service = new Service { Value = 1 }; service.Run(); } } class Service { public int Value; public Service() {} public void Run() {} }', view('<Button Click="Start"/>'));
+  assert.ok(g.edges.some(e=>e.from.endsWith('M:Demo.View.Start(System.Object,System.Object)')&&e.to.endsWith('M:Demo.Service.#ctor')&&e.kind==='constructor'));
+  const lifecycle=g.entries.find(e=>e.member==='C# Constructor');
+  assert.equal(g.pages.find(p=>p.id===lifecycle.pageId).kind,'shared');
+});

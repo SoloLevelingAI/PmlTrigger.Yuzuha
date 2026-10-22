@@ -11,9 +11,10 @@ internal static class UiTrace
 {
     internal sealed record Project(string Name, string[] Sources, string[] References, string Defines, string? OutputType = null);
     internal sealed record Manifest(Project[] Projects, string[] Xaml);
-    internal sealed record Node(string Id, string Name, string? File, int? Line, bool Generated, string? SourceSha256);
+    internal sealed record Node(string Id, string Name, string? File, int? Line, bool Generated, string? SourceSha256, string? TypeId);
     internal sealed record Edge(string From, string To, string Kind, string File, int Line);
-    internal sealed record Entry(string Id, string View, string Control, string Member, string Expression, string? Target, string Resolution, string? Reason, string File, int Line);
+    internal sealed record Page(string Id, string View, string Name, string Kind, string? ParentId, string[] HostedViews, string File, int Line);
+    internal sealed record Entry(string Id, string View, string Control, string Member, string Expression, string? Target, string Resolution, string? Reason, string File, int Line, string PageId, bool InitiallyDisabled, string SourceSha256);
     internal sealed record Boundary(string? From, string Kind, string Expression, string Reason, string File, int Line);
 
     internal static void Write(string repository, string manifestPath, string destination)
@@ -35,6 +36,7 @@ internal static class UiTrace
         var edges = new HashSet<Edge>();
         var boundaries = new List<Boundary>();
         var entries = new List<Entry>();
+        var pages = new List<Page>();
         var symbols = new Dictionary<string, ISymbol>();
         var types = new List<INamedTypeSymbol>();
         string Relative(string file) => Path.GetRelativePath(repository, file).Replace('\\', '/');
@@ -48,8 +50,9 @@ internal static class UiTrace
             if (!nodes.ContainsKey(id) || nodes[id].File is null && syntax is not null)
             {
                 var file = syntax?.SyntaxTree.FilePath;
+                var owner = symbol as INamedTypeSymbol ?? symbol.ContainingType;
                 nodes[id] = new(id, symbol.ToDisplayString(SymbolDisplayFormat.CSharpErrorMessageFormat), file is null ? null : Relative(file), syntax is null ? null : Line(syntax), file?.EndsWith(".g.cs", StringComparison.OrdinalIgnoreCase) == true || file?.Contains("ui-generated", StringComparison.OrdinalIgnoreCase) == true,
-                    file is null ? null : Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(file))).ToLowerInvariant());
+                    file is null ? null : Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(file))).ToLowerInvariant(), owner is null ? null : owner.ContainingAssembly.Name + "::" + owner.OriginalDefinition.GetDocumentationCommentId()?[2..]);
             }
             return id;
         }
@@ -106,7 +109,9 @@ internal static class UiTrace
             foreach (var creation in root.DescendantNodes().OfType<BaseObjectCreationExpressionSyntax>())
             {
                 var owner = creation.Parent is AssignmentExpressionSyntax assignment ? model.GetSymbolInfo(assignment.Left).Symbol : Owner(creation, model);
-                if (owner is null || creation.ArgumentList is null || model.GetSymbolInfo(creation).Symbol is not IMethodSymbol constructor) continue;
+                if (owner is null || model.GetSymbolInfo(creation).Symbol is not IMethodSymbol constructor) continue;
+                Connect(owner, constructor, "constructor", creation);
+                if (creation.ArgumentList is null) continue;
                 foreach (var argument in creation.ArgumentList.Arguments)
                 {
                     if (model.GetSymbolInfo(argument.Expression).Symbol is not IMethodSymbol callback) continue;
@@ -127,12 +132,33 @@ internal static class UiTrace
                 Connect(method, implementation, "possible-implementation", syntax);
 
         var events = new HashSet<string>(["Click", "Checked", "Unchecked", "SelectionChanged", "TextChanged", "Loaded", "KeyDown", "MouseDown", "Closing", "Closed", "SizeChanged"], StringComparer.Ordinal);
-        foreach (var file in manifest.Xaml)
+        var xmlViews = manifest.Xaml.Order().Select(file => (File: file, Xml: XDocument.Load(file, LoadOptions.SetLineInfo)))
+            .Select(item => (item.File, item.Xml, View: (string?)item.Xml.Root?.Attribute(XName.Get("Class", "http://schemas.microsoft.com/winfx/2006/xaml"))))
+            .Where(item => item.View is not null).ToArray();
+        var viewNames = xmlViews.Select(item => item.View!).ToHashSet(StringComparer.Ordinal);
+        string[] HostedViews(XElement scope) => scope.Descendants().Where(e => e.Ancestors().FirstOrDefault(a => a.Name.LocalName == "TabItem") == (scope.Name.LocalName == "TabItem" ? scope : null))
+            .Select(e => e.Name.NamespaceName.StartsWith("clr-namespace:", StringComparison.Ordinal) ? e.Name.NamespaceName[14..].Split(';')[0] + "." + e.Name.LocalName : "")
+            .Where(viewNames.Contains).Distinct().Order().ToArray();
+        foreach (var (file, document, declaredView) in xmlViews)
         {
-            var document = XDocument.Load(file, LoadOptions.SetLineInfo);
-            var view = (string?)document.Root?.Attribute(XName.Get("Class", "http://schemas.microsoft.com/winfx/2006/xaml"));
-            if (view is null) continue;
+            var view = declaredView!;
+            var sharedId = "view:" + view;
+            var tabs = document.Descendants().Where(e => e.Name.LocalName == "TabItem").ToArray();
+            var tabIds = tabs.Select((tab, index) => (tab, id: "page:" + Relative(file) + "#tab-" + index)).ToDictionary(item => item.tab, item => item.id);
+            pages.Add(new(sharedId, view, view.Split('.').Last() + " · 共享/生命周期", "shared", null, HostedViews(document.Root!), Relative(file), 1));
+            foreach (var tab in tabs)
+            {
+                var parent = tab.Ancestors().FirstOrDefault(e => e.Name.LocalName == "TabItem");
+                var hosted = HostedViews(tab);
+                pages.Add(new(tabIds[tab], view, (string?)tab.Attribute("Header") ?? "TabItem " + Array.IndexOf(tabs, tab), tab.Descendants().Any(e => e.Name.LocalName == "TabItem") || hosted.Length > 0 ? "container" : "page", parent is null ? sharedId : tabIds[parent], hosted, Relative(file), ((IXmlLineInfo)tab).LineNumber));
+            }
+            var fileHash = Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(file))).ToLowerInvariant();
             var owners = compilations.Select(c => c.GetTypeByMetadataName(view)).Where(t => t?.DeclaringSyntaxReferences.Length > 0).ToArray();
+            void AddEntry(XElement control, string member, string expression, ISymbol? target, string? reason, int line)
+            {
+                var tab = control.AncestorsAndSelf().FirstOrDefault(e => e.Name.LocalName == "TabItem");
+                entries.Add(new("xaml:" + Relative(file) + ":" + line + ":" + entries.Count, view, (string?)control.Attribute(XName.Get("Name", "http://schemas.microsoft.com/winfx/2006/xaml")) ?? (string?)control.Attribute("Content") ?? control.Name.LocalName, member, expression, target is null ? null : Add(target), target is null ? "unresolved" : "resolved", reason, Relative(file), line, tab is null ? sharedId : tabIds[tab], control.AncestorsAndSelf().Any(e => string.Equals((string?)e.Attribute("IsEnabled"), "False", StringComparison.OrdinalIgnoreCase)), fileHash));
+            }
             foreach (var attribute in document.Descendants().Attributes().Where(a => a.Name.NamespaceName.Length == 0 && (events.Contains(a.Name.LocalName) || a.Name.LocalName == "Command" || a.Name.LocalName != "DataContext" && a.Value.StartsWith("{Binding", StringComparison.Ordinal))))
             {
                 var control = attribute.Parent!; var line = ((IXmlLineInfo)attribute).LineNumber;
@@ -165,11 +191,19 @@ internal static class UiTrace
                         }
                     }
                 }
-                entries.Add(new("xaml:" + Relative(file) + ":" + line + ":" + entries.Count, view, (string?)control.Attribute(XName.Get("Name", "http://schemas.microsoft.com/winfx/2006/xaml")) ?? (string?)control.Attribute("Content") ?? control.Name.LocalName, attribute.Name.LocalName, attribute.Value, target is null ? null : Add(target), target is null ? "unresolved" : "resolved", reason, Relative(file), line));
+                AddEntry(control, attribute.Name.LocalName, attribute.Value, target, reason, line);
+            }
+            foreach (var control in document.Descendants().Where(e => e.Name.LocalName is "Button" or "ToggleButton" or "MenuItem" or "Hyperlink" && e.Attribute("Click") is null && e.Attribute("Command") is null))
+                AddEntry(control, "Unwired", "未声明 Click / Command", null, "XAML 未声明 Click / Command；运行时代码接线未静态追踪。初始禁用不证明以后不会启用。", ((IXmlLineInfo)control).LineNumber);
+            foreach (var method in owners.SelectMany(t => t!.GetMembers().OfType<IMethodSymbol>()).Where(m => !m.IsImplicitlyDeclared && (m.MethodKind == MethodKind.Constructor || m.IsOverride)))
+            {
+                if (method.DeclaringSyntaxReferences.FirstOrDefault()?.GetSyntax() is not { } syntax) continue;
+                var sourceFile = syntax.SyntaxTree.FilePath;
+                entries.Add(new("code:" + Id(method), view, method.Name, method.MethodKind == MethodKind.Constructor ? "C# Constructor" : "C# Override", method.Name, Add(method), "resolved", "生命周期源码入口；不证明窗口已创建或框架已调用。", Relative(sourceFile), Line(syntax), sharedId, false, Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(sourceFile))).ToLowerInvariant()));
             }
         }
         Directory.CreateDirectory(Path.GetDirectoryName(Path.GetFullPath(destination))!);
-        File.WriteAllText(destination, JsonSerializer.Serialize(new { schemaVersion = 1, kind = "static-source-trace", scope = "Potential source relationships; not runtime execution, ordering, coverage or AVEVA evidence", projects = manifest.Projects.Select(p => p.Name), nodes = nodes.Values.OrderBy(n => n.Id), edges = edges.OrderBy(e => e.From).ThenBy(e => e.Line).ThenBy(e => e.To), entries, boundaries }, options));
+        File.WriteAllText(destination, JsonSerializer.Serialize(new { schemaVersion = 2, kind = "static-source-trace", scope = "Potential source relationships; not runtime execution, ordering, coverage or AVEVA evidence", projects = manifest.Projects.Select(p => p.Name), pages, nodes = nodes.Values.OrderBy(n => n.Id), edges = edges.OrderBy(e => e.From).ThenBy(e => e.Line).ThenBy(e => e.To), entries, boundaries }, options));
         Console.WriteLine($"UI static trace: {entries.Count} XAML entries, {edges.Count} relationships, {boundaries.Count} explicit boundaries.");
     }
 

@@ -1,5 +1,6 @@
 import {mountExplorer, mountTypeConnections} from './explorer.js';
 import {mountTestCommands,mountRelatedTests,mountTestDirectory,mountPmlTests} from './tests.js';
+import {mountUiTrace} from './ui-trace.js';
 // Appearance controls adapted from LaunchDesk's documentation theme.
 function mountAppearance() {
   const api = window.YuzuhaAppearance;
@@ -69,6 +70,7 @@ export default {
     window.addEventListener('hashchange', revealAnchor);
     document.fonts.ready.then(revealAnchor);
     const siteRoot = new URL(document.querySelector('meta[name="docfx:rel"]')?.content ?? './', document.baseURI);
+    for(const container of document.querySelectorAll('.ui-trace-browser')) mountUiTrace(siteRoot,container);
     for (const link of document.querySelectorAll('[data-site-path]')) link.href = new URL(link.dataset.sitePath, siteRoot).href;
     const explorer = document.querySelector('#workspace-explorer');
     const connections = document.querySelector('#type-connections');

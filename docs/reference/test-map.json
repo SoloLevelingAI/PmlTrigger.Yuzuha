@@ -1387,6 +1387,33 @@
           "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.SessionWorkbench"
         }
       ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.LaunchProfileCatalogTests.SearchCombinesProjectPathProductAndFavoriteFilters",
+      "purpose": "启动配置筛选组合项目、路径、产品与收藏条件。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Workspace::YuzuhaToolkit.Workspace.LaunchProfileCatalog"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.LaunchProfileCatalogTests.RecentUsesActualStartHistoryAndOrdersNewestFirst",
+      "purpose": "最近配置只使用实际启动记录，并按最近时间排列。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Workspace::YuzuhaToolkit.Workspace.LaunchProfileCatalog"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.LaunchProfileCatalogTests.CopyHasIndependentEnvironmentAndNeverInheritsCredentialsDefaultOrHistory",
+      "purpose": "配置副本具有独立环境变量，不继承凭据、默认和启动历史。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Workspace::YuzuhaToolkit.Workspace.LaunchProfileCatalog"
+        }
+      ]
     }
   ]
 }

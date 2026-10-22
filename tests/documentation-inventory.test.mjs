@@ -1,10 +1,30 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {mkdtempSync,mkdirSync,writeFileSync,readFileSync,rmSync} from 'node:fs';
+import {mkdtempSync,mkdirSync,writeFileSync,readFileSync,rmSync,existsSync} from 'node:fs';
 import {tmpdir} from 'node:os';
-import {join,resolve} from 'node:path';
+import {join,resolve,dirname} from 'node:path';
 import {execFileSync} from 'node:child_process';
 import {buildScriptCatalog, selectCatalogItems} from '../scripts/documentation-catalog.mjs';
+
+test('documented project aliases match actual DocFX metadata destinations after a library split',()=>{
+  const config=JSON.parse(readFileSync('docs/reference/modules.json','utf8'));
+  const docfx=JSON.parse(readFileSync('docfx.json','utf8'));
+  const destinations=new Set();
+  for(const entry of docfx.metadata)for(const input of entry.src.flatMap(s=>s.files)){
+    const project=input.split('/').at(-1).replace(/\.csproj$/,'');
+    const alias=entry.dest.split('/').at(-1);
+    assert.equal(config.projects[project]?.alias,alias,'Metadata destination must match the owning project: '+project);
+    assert.ok(!destinations.has(alias),'A metadata alias must have one owner');destinations.add(alias);
+  }
+  for(const [project,settings]of Object.entries(config.projects))if(settings.alias)
+    assert.ok(docfx.metadata.some(entry=>entry.dest.endsWith('/'+settings.alias)&&entry.src.some(s=>s.files.some(file=>file.endsWith('/'+project+'.csproj')))), 'Project alias has no metadata build: '+project);
+});
+
+test('Native AOT compatibility fixture still compiles real linked production sources',()=>{
+  const project='tests/AotRpcSmoke/Client/Client.csproj';
+  for(const [,include]of readFileSync(project,'utf8').matchAll(/<Compile\s+Include="([^"]+)"/g))
+    assert.ok(existsSync(resolve(dirname(project),include.replaceAll('\\','/'))),'Missing linked production source: '+include);
+});
 
 function catalogFixture() {
   const root=mkdtempSync(join(tmpdir(),'yuzuha-script-catalog-'));

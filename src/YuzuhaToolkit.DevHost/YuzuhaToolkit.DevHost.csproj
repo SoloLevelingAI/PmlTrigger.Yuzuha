@@ -4,25 +4,24 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <!-- Reference managed backend APIs without inheriting their Native AOT executable deployment. -->
+    <!-- 只引用 Core 库；不再把 MCP / Knowledge 的 AOT 可执行工程拖进开发宿主。 -->
     <ValidateExecutableReferencesMatchSelfContained>false</ValidateExecutableReferencesMatchSelfContained>
     <WarningsAsErrors>$(WarningsAsErrors);CS1591;CS1570;CS1572;CS1573;CS1574</WarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="../YuzuhaToolkit.Mcp/YuzuhaToolkit.Mcp.csproj" />
-    <ProjectReference Include="../YuzuhaToolkit.Knowledge/YuzuhaToolkit.Knowledge.csproj" />
+    <ProjectReference Include="../YuzuhaToolkit.Mcp.Core/YuzuhaToolkit.Mcp.Core.csproj" />
+    <ProjectReference Include="../YuzuhaToolkit.Knowledge.Core/YuzuhaToolkit.Knowledge.Core.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.9" />
     <!-- Keep the OpenAPI 2.x dependency above the GHSA-v5pm-xwqc-g5wc patched floor. -->
     <PackageReference Include="Microsoft.OpenApi" Version="2.7.5" />
     <PackageReference Include="Scalar.AspNetCore" Version="2.18.0" />
   </ItemGroup>
-  <!-- Both servers link BuiltinGuideCatalog.cs. OpenAPI 10 keys imported XML by
-       documentation ID, so importing both copies throws at runtime. Keep the
-       Knowledge copy (also documents QueryVariant); MCP XML remains available
-       to DocFX and the compiler, but none of its DTOs are HTTP contracts. -->
+  <!-- 两个 Core 都链接 BuiltinGuideCatalog.cs。OpenAPI 10 按文档 ID 合并 XML，
+       两份同名注释会在启动时抛异常。保留 Knowledge 一份（同时记录 QueryVariant）；
+       MCP 的 XML 仍供 DocFX 与编译器使用，但其 DTO 不是 HTTP 契约。 -->
   <Target Name="AvoidDuplicateLinkedOpenApiComments" AfterTargets="GenerateAdditionalXmlFilesForOpenApi">
     <ItemGroup>
-      <AdditionalFiles Remove="@(AdditionalFiles)" Condition="'%(AdditionalFiles.Filename)' == 'YuzuhaToolkit.Mcp' And '%(AdditionalFiles.Extension)' == '.xml'" />
+      <AdditionalFiles Remove="@(AdditionalFiles)" Condition="'%(AdditionalFiles.Filename)' == 'YuzuhaToolkit.Mcp.Core' And '%(AdditionalFiles.Extension)' == '.xml'" />
     </ItemGroup>
   </Target>
 </Project>

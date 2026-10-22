@@ -12,24 +12,28 @@ model {
     workspace = component "工作区 · 启动、复制与运行日志" { description "YuzuhaToolkit.Workspace" }
     desktop = component "Windows 原生工作台 · WPF" { description "YuzuhaToolkit.Desktop" }
     cli = component "CLI / MCP 双入口适配" { description "YuzuhaToolkit.CommandLine" }
-    mcp = component "执行工具 · CLI / MCP · Native AOT" { description "YuzuhaToolkit.Mcp" }
-    knowledge = component "知识工具 · CLI / MCP · Native AOT" { description "YuzuhaToolkit.Knowledge" }
+    mcp-core = component "执行工具核心 · 会话桥、工具与函数注册" { description "YuzuhaToolkit.Mcp.Core" }
+    mcp = component "执行工具入口 · CLI / MCP · Native AOT" { description "YuzuhaToolkit.Mcp" }
+    knowledge-core = component "知识库核心 · 建库、分块与检索" { description "YuzuhaToolkit.Knowledge.Core" }
+    knowledge = component "知识工具入口 · CLI / MCP · Native AOT" { description "YuzuhaToolkit.Knowledge" }
     host35 = component "AVEVA Host · .NET 3.5" { description "YuzuhaToolkit.PmlHost.Net35" }
     host48 = component "AVEVA Host · .NET 4.8" { description "YuzuhaToolkit.PmlHost.Net48" }
     devhost = component "开发 HTTP API · OpenAPI / Scalar" { description "YuzuhaToolkit.DevHost" }
     setup = component "安装计划桥 · .NET 4.8" { description "SetupBridge" }
   }
-  yuzuha.desktop -[build]-> yuzuha.mcp "ProjectReference"
-  yuzuha.desktop -[build]-> yuzuha.knowledge "ProjectReference"
+  yuzuha.desktop -[build]-> yuzuha.mcp-core "ProjectReference"
+  yuzuha.desktop -[build]-> yuzuha.knowledge-core "ProjectReference"
   yuzuha.desktop -[build]-> yuzuha.workspace "ProjectReference"
   yuzuha.cli -[build]-> yuzuha.workspace "ProjectReference"
-  yuzuha.mcp -[build]-> yuzuha.rpc "ProjectReference"
-  yuzuha.mcp -[build]-> yuzuha.cli "ProjectReference"
-  yuzuha.mcp -[build]-> yuzuha.workspace "ProjectReference"
+  yuzuha.mcp-core -[build]-> yuzuha.rpc "ProjectReference"
+  yuzuha.mcp-core -[build]-> yuzuha.cli "ProjectReference"
+  yuzuha.mcp-core -[build]-> yuzuha.workspace "ProjectReference"
+  yuzuha.mcp -[build]-> yuzuha.mcp-core "ProjectReference"
   yuzuha.knowledge -[build]-> yuzuha.cli "ProjectReference"
+  yuzuha.knowledge -[build]-> yuzuha.knowledge-core "ProjectReference"
   yuzuha.knowledge -[build]-> yuzuha.workspace "ProjectReference"
-  yuzuha.devhost -[build]-> yuzuha.mcp "ProjectReference"
-  yuzuha.devhost -[build]-> yuzuha.knowledge "ProjectReference"
+  yuzuha.devhost -[build]-> yuzuha.mcp-core "ProjectReference"
+  yuzuha.devhost -[build]-> yuzuha.knowledge-core "ProjectReference"
 }
 views {
   view project_dependencies {

@@ -1,6 +1,6 @@
 # PMLTWIN 项目设计约定
 
-版本 0.1，日期 2026年10月22日，随本批 PR 人工审阅。依据《软件设计要求（20261022脚本设计优先版）》v0.3 Draft，将 Script、Feature、应用装配、验证和文档要求适配到现有 PMLTWIN。产品版本、协议版本与本约定版本分别管理。
+版本 0.1，日期 2026年10月22日，随 PR 人工审阅。依据[已归档的《软件设计要求》v0.3 Draft](../../artifacts/docfx/navigation/design-baselines/software-design-20261022-v03-draft/index.md)，将 Script、Feature、应用装配、验证和文档要求适配到现有 PMLTWIN。[逐项适配记录](design-adaptation.md)保留采用、调整、暂缓及未完成项；原稿仍是 Draft。产品版本、协议版本与本约定版本分别管理。
 
 PMLTWIN 面向 AVEVA AM、PDMS、E3D 的本机开发与排查：选择真实目标，复用 PML 和 C# 能力完成查询与已授权操作，保留可复刻测试及可定位记录。用户应能找到具体脚本、理解其计算和调用关系，再核对实现、设计与运行证据。
 
@@ -11,7 +11,7 @@ PMLTWIN 面向 AVEVA AM、PDMS、E3D 的本机开发与排查：选择真实目�
 | 责任 | 当前落点 | 项目约定 |
 | --- | --- | --- |
 | 桌面与装配 | 现有 WPF Desktop、App、MainWindow 与 SessionWorkbench | 保留当前项目引用和业务接口，按功能组织说明；不为 CAF 名称新建框架或强制拆包 |
-| 业务服务与通道 | MCP 工具、共享 CLI 适配、YuzuhaRpcBridge、Named Pipe | 功能定义场景语义，适配器处理通道；复用已有工具名、参数和 RPC 路由 |
+| 业务服务与通道 | Mcp.Core/Knowledge.Core 工具、既有 CLI/MCP 薄宿主、YuzuhaRpcBridge、Named Pipe | 功能定义场景语义，适配器处理通道；复用已有工具名、参数和 RPC 路由 |
 | 原生 Host | AM/PDMS NET35，E3D NET48 | 在目标主线程操作；版本与能力显式核验；不能将 NET10 示例 API 直接用于旧框架 |
 | 文档工具 | tools/Documentation 的 Roslyn、DocFX、LikeC4 | 扩充已有源码、测试与调用关系索引，不另建大型文档平台 |
 | 测试 | 现有 xUnit、ArchUnitNET、PowerShell 执行器、Native AOT Smoke | 先增加适用测试再实现，验证通过后提交，PR 保留人工审查 |

@@ -2,13 +2,15 @@
   "projects": {
     "PlantHost.Rpc.Net10": { "id": "rpc", "title": "Named Pipe RPC · .NET 10", "references": [] },
     "YuzuhaToolkit.Workspace": { "id": "workspace", "title": "工作区 · 启动、复制与运行日志", "references": [] },
-    "YuzuhaToolkit.Desktop": { "id": "desktop", "title": "Windows 原生工作台 · WPF", "references": ["YuzuhaToolkit.Mcp", "YuzuhaToolkit.Knowledge", "YuzuhaToolkit.Workspace"] },
+    "YuzuhaToolkit.Desktop": { "id": "desktop", "title": "Windows 原生工作台 · WPF", "references": ["YuzuhaToolkit.Mcp.Core", "YuzuhaToolkit.Knowledge.Core", "YuzuhaToolkit.Workspace"] },
     "YuzuhaToolkit.CommandLine": { "id": "cli", "title": "CLI / MCP 双入口适配", "references": ["YuzuhaToolkit.Workspace"] },
-    "YuzuhaToolkit.Mcp": { "id": "mcp", "title": "执行工具 · CLI / MCP · Native AOT", "references": ["PlantHost.Rpc.Net10", "YuzuhaToolkit.CommandLine", "YuzuhaToolkit.Workspace"] },
-    "YuzuhaToolkit.Knowledge": { "id": "knowledge", "title": "知识工具 · CLI / MCP · Native AOT", "references": ["YuzuhaToolkit.CommandLine", "YuzuhaToolkit.Workspace"] },
+    "YuzuhaToolkit.Mcp.Core": { "id": "mcp-core", "title": "执行工具核心 · 会话桥、工具与函数注册", "references": ["PlantHost.Rpc.Net10", "YuzuhaToolkit.CommandLine", "YuzuhaToolkit.Workspace"] },
+    "YuzuhaToolkit.Mcp": { "id": "mcp", "title": "执行工具入口 · CLI / MCP · Native AOT", "references": ["YuzuhaToolkit.Mcp.Core"] },
+    "YuzuhaToolkit.Knowledge.Core": { "id": "knowledge-core", "title": "知识库核心 · 建库、分块与检索", "references": [] },
+    "YuzuhaToolkit.Knowledge": { "id": "knowledge", "title": "知识工具入口 · CLI / MCP · Native AOT", "references": ["YuzuhaToolkit.CommandLine", "YuzuhaToolkit.Knowledge.Core", "YuzuhaToolkit.Workspace"] },
     "YuzuhaToolkit.PmlHost.Net35": { "id": "host35", "title": "AVEVA Host · .NET 3.5", "references": [] },
     "YuzuhaToolkit.PmlHost.Net48": { "id": "host48", "title": "AVEVA Host · .NET 4.8", "references": [] },
-    "YuzuhaToolkit.DevHost": { "id": "devhost", "title": "开发 HTTP API · OpenAPI / Scalar", "references": ["YuzuhaToolkit.Mcp", "YuzuhaToolkit.Knowledge"] },
+    "YuzuhaToolkit.DevHost": { "id": "devhost", "title": "开发 HTTP API · OpenAPI / Scalar", "references": ["YuzuhaToolkit.Mcp.Core", "YuzuhaToolkit.Knowledge.Core"] },
     "SetupBridge": { "id": "setup", "title": "安装计划桥 · .NET 4.8", "references": [] }
   }
 }

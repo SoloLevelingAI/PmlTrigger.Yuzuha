@@ -100,6 +100,10 @@ export function buildScriptCatalog({root,source,types,pml,tests=[],configuration
   for(const f of features.values())f.tests=tests.filter(t=>t.targets.some(target=>f.types.includes(target.uid))||scripts.some(s=>s.features.includes(f.id)&&s.tests.some(test=>test.id===t.id))).map(t=>({id:t.id,name:t.name,url:t.url}));
   const registeredTypes=new Set(scripts.map(s=>s.type));
   const candidates=[...parts].filter(([uid,p])=>!registeredTypes.has(uid)&&p.some(t=>t.members.some(m=>m.kind==='MethodDeclaration'))).map(([uid,p])=>({id:uid,type:uid,name:p[0].name,file:p[0].file,language:'C#',summary:p[0].summary,symbols:[...new Set(p.flatMap(t=>t.members.filter(m=>m.kind==='MethodDeclaration').map(m=>t.uid+'.'+m.name)))],url:byType.get(uid)?.sourceUrl,features:[]}));
+  for(const s of scripts){
+    assert.ok(s.id&&s.name&&s.language&&s.url,"Published Script is missing id/name/language/url: "+(s.file??"?"));
+    assert.equal(typeof s.historical,"boolean","Published Script needs a historical flag: "+s.id);
+  }
   return {schemaVersion:1,scripts,features:[...features.values()],candidates};
 }
 
@@ -126,7 +130,8 @@ export function publishScriptCatalog({root,output,source,types,pml,tests,trace})
     const page=path.join(output,original.replace(/^reference\//,'').replace(/\.html$/,'.md'));
     if(fs.existsSync(page))fs.appendFileSync(page,'\n## Script 与具体功能\n\n'+link(s.name+' · '+s.id,s.url)+'\n\n'+s.features.map(id=>{const f=catalog.features.find(f=>f.id===id);return '- '+link(f.name,f.url);}).join('\n')+'\n');
   }
-  write('scripts/index.md','# Script 目录\n\n按名称、声明符号、用途、路径、功能和语言查找。原生文件自动发现；C# Script 由人工声明实际类型或方法，再由 Roslyn 提供签名。\n\n'+help+'\n\n<div id="script-catalog" data-kind="scripts"></div>\n\n<details><summary>全部静态清单 包含历史且不参与筛选</summary>\n\n| Script | 语言 | 功能 | 目录状态 |\n| --- | --- | --- | --- |\n'+catalog.scripts.map(s=>'| '+link(catalogTitle(s),s.url)+' | '+s.language+' | '+(s.features.map(id=>{const f=catalog.features.find(f=>f.id===id);return link(f.name,f.url);}).join('、')||'未归属')+' | '+(s.historical?'历史':s.discovery==='curated'?'说明已维护':'自动发现')+' |').join('\n')+'\n\n</details>\n\n[C# 待分类候选](candidates.md)\n');
+  write('scripts/index.md','# Script 目录\n\n按名称、声明符号、用途、路径、功能和语言查找。原生文件自动发现；C# Script 由人工声明实际类型或方法，再由 Roslyn 提供签名。历史文件默认隐藏；包含历史与废弃条目的完整目录见[全部文件清单](inventory.md)。\n\n'+help+'\n\n<div id="script-catalog" data-kind="scripts"></div>\n\n[C# 待分类候选](candidates.md)\n');
+  write('scripts/inventory.md','# 全部文件清单\n\n包含历史与废弃文件（例如 PMLLIB/Obsolete/ 下的旧命令），它们不参与筛选，也不代表可调用能力。\n\n'+help+'\n\n| Script | 语言 | 功能 | 目录状态 |\n| --- | --- | --- | --- |\n'+catalog.scripts.map(s=>'| '+link(catalogTitle(s),s.url)+' | '+s.language+' | '+(s.features.map(id=>{const f=catalog.features.find(f=>f.id===id);return link(f.name,f.url);}).join('、')||'未归属')+' | '+(s.historical?'历史':s.discovery==='curated'?'说明已维护':'自动发现')+' |').join('\n')+'\n');
   write('scripts/candidates.md','# C# 待分类候选\n\n这些是 Roslyn 发现且包含方法的类型，不代表已认定为 Script。先查看职责和源码，再在人工清单选择应纳入的类型或唯一方法。\n\n'+help+'\n\n<div id="script-catalog" data-kind="candidates"></div>\n\n<details><summary>全部静态候选清单 不参与筛选</summary>\n\n'+catalog.candidates.map(c=>'- '+link(c.id,c.url)).join('\n')+'\n\n</details>\n');
   write('features/index.md','# 按功能阅读\n\n先查看功能目的、实现范围、复用的 Script 与入口，再按需要进入调用树和测试。\n\n'+help+'\n\n<div id="script-catalog" data-kind="features"></div>\n\n<details><summary>全部静态功能清单 不参与筛选</summary>\n\n'+catalog.features.map(f=>'- '+link(f.name,f.url)+' · '+featureStates[f.status]+'：'+f.summary).join('\n')+'\n\n</details>\n');
   return catalog;

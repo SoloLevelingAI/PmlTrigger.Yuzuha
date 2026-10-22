@@ -4,7 +4,9 @@
     <Project Path="src/YuzuhaToolkit.Desktop/YuzuhaToolkit.Desktop.csproj" />
     <Project Path="src/PlantHost.Rpc.Net10/PlantHost.Rpc.Net10.csproj" />
     <Project Path="src/YuzuhaToolkit.CommandLine/YuzuhaToolkit.CommandLine.csproj" />
+    <Project Path="src/YuzuhaToolkit.Mcp.Core/YuzuhaToolkit.Mcp.Core.csproj" />
     <Project Path="src/YuzuhaToolkit.Mcp/YuzuhaToolkit.Mcp.csproj" />
+    <Project Path="src/YuzuhaToolkit.Knowledge.Core/YuzuhaToolkit.Knowledge.Core.csproj" />
     <Project Path="src/YuzuhaToolkit.Knowledge/YuzuhaToolkit.Knowledge.csproj" />
     <Project Path="src/YuzuhaToolkit.DevHost/YuzuhaToolkit.DevHost.csproj" />
   </Folder>

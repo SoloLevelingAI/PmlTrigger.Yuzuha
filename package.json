@@ -9,6 +9,7 @@
     "test": "pwsh -NoProfile -File scripts/Test-Development.ps1",
     "docs:build": "pwsh -NoProfile -File scripts/Build-Documentation.ps1",
     "docs:serve": "pwsh -NoProfile -File scripts/Serve-Documentation.ps1",
+    "docs:catalog:check": "node scripts/documentation-catalog.mjs check",
     "architecture:generate": "node scripts/architecture.mjs generate",
     "architecture:check": "node scripts/architecture.mjs check",
     "architecture:validate": "likec4 validate docs/architecture",

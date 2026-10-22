@@ -1,6 +1,6 @@
 # PMLTWIN v0.4 第一阶段
 
-开发基线：`codex/yuzuha-native-workspace` / `5d73e1dc5d1dc648f57cef16771938830a87671b`。在独立分支上增量开发，未修改 PMLLIB/PMLUI 原生文件，未实现新的窗体管理器。Form/Gadget 查询、WPF 调试页与本地插件目录属于后续批次。
+开发基线：`codex/yuzuha-native-workspace` / `5d73e1dc5d1dc648f57cef16771938830a87671b`。在独立分支上增量开发，未修改 PMLLIB/PMLUI 原生文件，未实现新的窗体管理器。后续批次已补充[原生 Form/Gadget 查询](form-gadget-query.md)与 [WPF M1 流程](desktop-m1.md)；本文保留第一批次范围。
 
 ## 函数注册和调用权限
 

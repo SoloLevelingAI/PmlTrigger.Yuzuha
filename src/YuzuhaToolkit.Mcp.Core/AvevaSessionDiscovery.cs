@@ -127,7 +127,7 @@ public sealed class AvevaSessionDiscovery
                     titleBuilder,
                     titleBuilder.Capacity);
                 var title = titleBuilder.ToString().Trim();
-                if (!IsRecognizedAvevaTitle(title))
+                if (string.IsNullOrWhiteSpace(title))
                     return true;
 
                 _ = GetWindowThreadProcessId(
@@ -151,6 +151,7 @@ public sealed class AvevaSessionDiscovery
         {
             using var process = Process.GetProcessById(processId);
             var executablePath = TryReadExecutablePath(process);
+            if (!IsEngineeringWindow(windowTitle, process.ProcessName, executablePath)) return null;
             var pipeName = PipePrefix + processId.ToString(
                 CultureInfo.InvariantCulture);
             return new AvevaSessionCandidate
@@ -210,17 +211,20 @@ public sealed class AvevaSessionDiscovery
         return result;
     }
 
-    private static bool IsRecognizedAvevaTitle(string title)
+    /// <summary>结合模块进程和产品路径识别工程窗口，避免把标题含 AVEVA 的启动台当作会话。</summary>
+    /// <param name="title">当前可见窗口标题。</param>
+    /// <param name="processName">操作系统实际进程名。</param>
+    /// <param name="executablePath">可读取时的实际可执行文件路径。</param>
+    public static bool IsEngineeringWindow(string title, string processName, string executablePath)
     {
-        if (string.IsNullOrWhiteSpace(title))
-            return false;
-
-        // Window titles are used only for candidate discovery. Selection still
-        // requires the PID-bound Yuzuha pipe and verifies the process ID,
-        // process start time, and host identity, so discovery can remain broad
-        // enough to cover AVEVA products such as Hull & Outfitting without a
-        // product-by-product title allowlist.
-        return title.Contains("AVEVA", StringComparison.OrdinalIgnoreCase);
+        if (string.IsNullOrWhiteSpace(title)) return false;
+        var name = Path.GetFileNameWithoutExtension(processName).ToLowerInvariant();
+        // Launchers, consoles, editors and documentation windows are not engineering sessions.
+        if (name is not ("des" or "design" or "paragon" or "dra" or "draft" or "adm" or "admin" or "isodraft" or "specon" or "propcon" or "lexicon" or "spooler" or "hull" or "outfitting")) return false;
+        var installedProduct = executablePath.Contains("Everything3D", StringComparison.OrdinalIgnoreCase)
+            || executablePath.Contains("Marine", StringComparison.OrdinalIgnoreCase)
+            || executablePath.Contains("PDMS", StringComparison.OrdinalIgnoreCase);
+        return installedProduct || Regex.IsMatch(title, @"\b(AVEVA|PDMS|Marine)\b", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
     }
 
     private static int ScoreTitle(string title)
@@ -247,6 +251,8 @@ public sealed class AvevaSessionDiscovery
         if (executablePath.Contains("Everything3D",
                 StringComparison.OrdinalIgnoreCase))
             return "E3D";
+        if (executablePath.Contains("Marine", StringComparison.OrdinalIgnoreCase)) return "AM";
+        if (executablePath.Contains("PDMS", StringComparison.OrdinalIgnoreCase)) return "PDMS";
         return "AVEVA";
     }
 

@@ -7,8 +7,12 @@
     <Nullable>enable</Nullable>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <ApplicationIcon>../../installer/assets/yuzuha.ico</ApplicationIcon>
+    <!-- 只复用 Core 库；不再引用 MCP / Knowledge 的 AOT 可执行工程。 -->
+    <ValidateExecutableReferencesMatchSelfContained>false</ValidateExecutableReferencesMatchSelfContained>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="../YuzuhaToolkit.Workspace/YuzuhaToolkit.Workspace.csproj" />
+    <ProjectReference Include="../YuzuhaToolkit.Mcp.Core/YuzuhaToolkit.Mcp.Core.csproj" />
+    <ProjectReference Include="../YuzuhaToolkit.Knowledge.Core/YuzuhaToolkit.Knowledge.Core.csproj" />
   </ItemGroup>
 </Project>

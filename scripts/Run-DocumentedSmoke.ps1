@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-    [Parameter(Mandatory)][ValidateSet('native-cli','native-builtin','rpc-net35','rpc-net48','formrecord-net35','formrecord-net48','documentation-contracts')][string]$Runner,
+    [Parameter(Mandatory)][ValidateSet('native-cli','native-builtin','rpc-net35','rpc-net48','formrecord-net35','formrecord-net48','documentation-contracts','desktop-flows')][string]$Runner,
     [Parameter(Mandatory)][string]$ReportDirectory
 )
 $ErrorActionPreference = 'Stop'
@@ -36,10 +36,13 @@ try {
         Check-Exit 'Recorder fixture build'
         & (Join-Path $output 'FormRecordSmoke.exe') (Join-Path $ReportDirectory 'synthetic-records')
         Check-Exit 'Recorder fixture execution'
+    } elseif ($Runner -eq 'desktop-flows') {
+        & "$PSScriptRoot/Test-Desktop.ps1" -OutputDirectory (Join-Path $ReportDirectory 'desktop')
+        Check-Exit 'WPF synthetic flows'
     } elseif ($Runner -eq 'documentation-contracts') {
         & dotnet build tools/Documentation -c Release
         Check-Exit 'Inventory build'
-        & node --test tests/documentation-tests.test.mjs tests/documentation-inventory.test.mjs
+        & node --test tests/documentation-tests.test.mjs tests/documentation-inventory.test.mjs tests/documentation-ui-trace.test.mjs tests/documentation-ui-pages.test.mjs tests/documentation-baselines.test.mjs scripts/catalog-filter.test.mjs
         Check-Exit 'Documentation contract tests'
         & pwsh -NoProfile -File tests/documentation-runner.test.ps1
         Check-Exit 'TRX identity tests'

@@ -13,8 +13,7 @@ if (args.Length == 2 && args[0] == "--refresh-project")
     var repository = new KnowledgeRepository();
     var result = repository.RefreshProject(Path.GetFullPath(args[1]));
     repository.EnsureExperience();
-    Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(result,
-        KnowledgeResponseJsonContext.Default.KnowledgeBuildResult));
+    Console.WriteLine(KnowledgeJsonSurface.SerializeBuildResult(result));
     return 0;
 }
 

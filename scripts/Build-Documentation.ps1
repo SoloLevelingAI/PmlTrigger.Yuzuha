@@ -1,5 +1,7 @@
 [CmdletBinding()]
-param([ValidateRange(1024, 65535)][int]$Port = 5277)
+param([ValidateRange(1024, 65535)][int]$Port = 5277,
+    [string]$LegacySdkDirectory = $env:YUZUHA_TRACE_LEGACY_SDK,
+    [string]$E3dSdkDirectory = $env:YUZUHA_TRACE_E3D_SDK)
 $ErrorActionPreference = 'Stop'
 $root = Split-Path $PSScriptRoot -Parent
 $hostProcess = $null
@@ -60,6 +62,8 @@ try {
     if ($LASTEXITCODE -ne 0) { throw 'Source declaration or comment coverage failed.' }
     dotnet run --project tools/Documentation -c Release -- --tests . artifacts/docfx/test-declarations.json
     if ($LASTEXITCODE -ne 0) { throw 'Test source inventory failed.' }
+    & (Join-Path $root 'scripts/Trace-Desktop.ps1') -LegacySdkDirectory $LegacySdkDirectory -E3dSdkDirectory $E3dSdkDirectory
+    if ($LASTEXITCODE -ne 0) { throw 'UI semantic trace failed.' }
     dotnet docfx metadata docfx.json --warningsAsErrors
     if ($LASTEXITCODE -ne 0) { throw 'DocFX metadata failed.' }
     node scripts/documentation-index.mjs

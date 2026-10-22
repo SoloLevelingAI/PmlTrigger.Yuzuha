@@ -18,3 +18,4 @@ PMLUI/version.dat text eol=lf
 *.c4 text eol=lf
 *.dll binary
 *.exe binary
+*.docx binary

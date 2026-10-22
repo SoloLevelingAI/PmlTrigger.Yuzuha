@@ -12,7 +12,7 @@ public sealed class ArchitectureBoundaryTests
 {
     private static readonly Dictionary<string, Assembly> Assemblies = new[]
     {
-        "PlantHost.Rpc.Net10", "YuzuhaToolkit.Mcp", "YuzuhaToolkit.Knowledge", "YuzuhaToolkit.DevHost", "YuzuhaToolkit.CommandLine", "YuzuhaToolkit.Workspace"
+        "PlantHost.Rpc.Net10", "YuzuhaToolkit.Mcp", "YuzuhaToolkit.Mcp.Core", "YuzuhaToolkit.Knowledge", "YuzuhaToolkit.Knowledge.Core", "YuzuhaToolkit.DevHost", "YuzuhaToolkit.CommandLine", "YuzuhaToolkit.Workspace"
     }.ToDictionary(name => name, Assembly.Load);
     private static readonly ArchUnitNET.Domain.Architecture Compiled = new ArchLoader()
         .LoadAssemblies(Assemblies.Values.ToArray()).Build();
@@ -20,7 +20,9 @@ public sealed class ArchitectureBoundaryTests
     [Theory]
     [InlineData("PlantHost.Rpc.Net10")]
     [InlineData("YuzuhaToolkit.Mcp")]
+    [InlineData("YuzuhaToolkit.Mcp.Core")]
     [InlineData("YuzuhaToolkit.Knowledge")]
+    [InlineData("YuzuhaToolkit.Knowledge.Core")]
     [InlineData("YuzuhaToolkit.DevHost")]
     [InlineData("YuzuhaToolkit.CommandLine")]
     [InlineData("YuzuhaToolkit.Workspace")]
@@ -97,7 +99,7 @@ public sealed class ArchitectureBoundaryTests
     [Fact]
     public void ProductionServersDoNotReferenceDevelopmentPackages()
     {
-        foreach (var name in new[] { "YuzuhaToolkit.Mcp", "YuzuhaToolkit.Knowledge", "PlantHost.Rpc.Net10", "YuzuhaToolkit.Workspace" })
+        foreach (var name in new[] { "YuzuhaToolkit.Mcp", "YuzuhaToolkit.Mcp.Core", "YuzuhaToolkit.Knowledge", "YuzuhaToolkit.Knowledge.Core", "PlantHost.Rpc.Net10", "YuzuhaToolkit.Workspace" })
             Assert.DoesNotContain(Assemblies[name].GetReferencedAssemblies(), reference =>
                 reference.Name?.StartsWith("Scalar", StringComparison.Ordinal) == true ||
                 reference.Name?.StartsWith("Microsoft.AspNetCore", StringComparison.Ordinal) == true ||

@@ -4,6 +4,18 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
+if (args.Length == 3 && args[0] == "--read-docx")
+{
+    DesignDocument.Write(args[1], args[2]);
+    return 0;
+}
+
+if (args.Length == 4 && args[0] == "--ui-trace")
+{
+    UiTrace.Write(args[1], args[2], args[3]);
+    return 0;
+}
+
 if (args.Length == 3 && args[0] == "--tests")
 {
     TestInventory.Write(args[1], args[2]);

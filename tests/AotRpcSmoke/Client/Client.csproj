@@ -7,7 +7,11 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="../../../src/PlantHost.Rpc.Net10/PlantHost.Rpc.Net10.csproj" />
-    <Compile Include="../../../src/YuzuhaToolkit.Mcp/AotPmlCommandService.cs" Link="AotPmlCommandService.cs" />
-    <Compile Include="../../../src/YuzuhaToolkit.Mcp/PmlCommandRpcContracts.cs" Link="PmlCommandRpcContracts.cs" />
+    <Compile Include="../../../src/YuzuhaToolkit.Mcp.Core/AotPmlCommandService.cs" Link="AotPmlCommandService.cs" />
+    <Compile Include="../../../src/YuzuhaToolkit.Mcp.Core/PmlCommandRpcContracts.cs" Link="PmlCommandRpcContracts.cs" />
+    <Compile Include="../../../src/Shared/PmlArrayWindow.cs" Link="PmlArrayWindow.cs" />
+    <Compile Include="../../../src/Shared/PmlFormQuery.cs" Link="PmlFormQuery.cs" />
+    <Compile Include="../../../src/YuzuhaToolkit.Mcp.Core/PmlFormQueryRequestSender.cs" Link="PmlFormQueryRequestSender.cs" />
+    <Compile Include="../../../src/YuzuhaToolkit.Mcp.Core/BoundedArrayRequest.cs" Link="BoundedArrayRequest.cs" />
   </ItemGroup>
 </Project>

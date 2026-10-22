@@ -69,6 +69,9 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="GetRequireFromE3D.cs"/>
+        <Compile Include="..\Shared\PmlArrayWindow.cs"><Link>PmlArrayWindow.cs</Link></Compile>
+        <Compile Include="..\Shared\PmlFormQuery.cs"><Link>PmlFormQuery.cs</Link></Compile>
+        <Compile Include="..\Shared\PmlFormQueryHost.cs"><Link>PmlFormQueryHost.cs</Link></Compile>
         <Compile Include="..\Shared\FormRecordWriter.cs"><Link>FormRecordWriter.cs</Link></Compile>
         <Compile Include="PmlCommandMethod.cs"/>
         <Compile Include="PmlCommandRpcContracts.cs"/>

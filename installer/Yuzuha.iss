@@ -54,6 +54,7 @@ Source: "{#PayloadDir}\skill\*"; DestDir: "{tmp}\skill"; Flags: dontcopy recurse
 Source: "{#PayloadDir}\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
+Name: "{group}\Yuzuha Workspace"; Filename: "{app}\runtime\desktop\YuzuhaToolkit.Desktop.exe"; IconFilename: "{app}\setup\yuzuha.ico"; Check: not WizardNoIcons and FileExists(ExpandConstant('{app}\runtime\desktop\YuzuhaToolkit.Desktop.exe'))
 Name: "{group}\Yuzuha — INSTALL"; Filename: "{app}\INSTALL.md"; IconFilename: "{app}\setup\yuzuha.ico"; Check: not WizardNoIcons
 Name: "{group}\Yuzuha — Folder"; Filename: "{app}"; IconFilename: "{app}\setup\yuzuha.ico"; Check: not WizardNoIcons
 Name: "{group}\Uninstall Yuzuha"; Filename: "{uninstallexe}"; Check: not WizardNoIcons

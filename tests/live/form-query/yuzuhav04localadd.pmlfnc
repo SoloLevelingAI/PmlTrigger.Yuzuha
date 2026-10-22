@@ -1,0 +1,4 @@
+-- Synthetic scalar function for local-only AVEVA verification. No database edits or saves.
+define function !!YuzuhaV04LocalAdd(!left is REAL, !right is REAL) is REAL
+  return (!left + !right)
+endfunction

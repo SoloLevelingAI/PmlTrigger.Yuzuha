@@ -1,0 +1,80 @@
+- name: 开始
+  href: index.md
+  items:
+  - name: 设计约定
+    href: pmltwin-design-contract.md
+  - name: 原始设计基线
+    href: ../../artifacts/docfx/navigation/design-baselines/index.md
+  - name: PMLTWIN 适配记录
+    href: design-adaptation.md
+  - name: 一条命令跑通
+    href: flows.md
+  - name: 架构与边界
+    href: architecture.md
+- name: 按功能
+  href: ../../artifacts/docfx/navigation/features/index.md
+  items:
+  - name: 功能清单
+    href: ../../artifacts/docfx/navigation/features/index.md
+  - name: Script 目录
+    href: ../../artifacts/docfx/navigation/scripts/index.md
+  - name: 全部文件清单（含历史）
+    href: ../../artifacts/docfx/navigation/scripts/inventory.md
+  - name: 待分类的 C# 类型
+    href: ../../artifacts/docfx/navigation/scripts/candidates.md
+  - name: 怎么增删改目录
+    href: catalog-maintenance.md
+  - name: 原生 Form 与 Gadget 查询
+    href: form-gadget-query.md
+  - name: FormUse 登记
+    href: formuse-audit.md
+- name: 按层
+  href: cli.md
+  items:
+  - name: CLI 与 MCP 双入口
+    href: cli.md
+  - name: 桌面工作台
+    href: workspace.md
+  - name: 桌面三条主流程
+    href: desktop-m1.md
+  - name: 界面命令溯源
+    href: ui-tracing.md
+  - name: 后端调用链
+    href: backend-tracing.md
+- name: 参考
+  href: api/index.md
+  items:
+  - name: C# API
+    href: api/index.md
+    items:
+    - name: 项目、模块与完整文档
+      href: ../../artifacts/docfx/navigation/toc.yml
+    - name: 执行 MCP
+      href: ../../artifacts/docfx/api/mcp/toc.yml
+    - name: 知识 MCP
+      href: ../../artifacts/docfx/api/knowledge/toc.yml
+    - name: Named Pipe RPC
+      href: ../../artifacts/docfx/api/rpc/toc.yml
+    - name: 开发 HTTP API
+      href: ../../artifacts/docfx/api/devhost/toc.yml
+    - name: CLI 与 MCP 适配
+      href: ../../artifacts/docfx/api/cli/toc.yml
+    - name: 共享工作区
+      href: ../../artifacts/docfx/api/workspace/toc.yml
+  - name: 测试与验证
+    href: testing.md
+  - name: 测试目录
+    href: ../../artifacts/docfx/navigation/tests/index.md
+  - name: 测试关联维护
+    href: test-associations.md
+- name: 维护
+  href: documentation.md
+  items:
+  - name: 文档维护
+    href: documentation.md
+  - name: 迭代记录
+    href: iteration-log.md
+  - name: 排查笔记
+    href: understanding-notes.md
+  - name: v0.4 第一阶段
+    href: pmltwin-phase1.md

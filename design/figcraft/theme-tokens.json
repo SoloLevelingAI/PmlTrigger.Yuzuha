@@ -1,0 +1,2184 @@
+{
+  "collections": [
+    {
+      "id": "VariableCollectionId:1",
+      "name": "Theme",
+      "modes": [
+        {
+          "id": "VariableCollectionId:1/mode1",
+          "name": "Light"
+        },
+        {
+          "id": "VariableCollectionId:1/mode2",
+          "name": "Dark"
+        },
+        {
+          "id": "VariableCollectionId:1/mode3",
+          "name": "High Contrast"
+        }
+      ]
+    }
+  ],
+  "variables": [
+    {
+      "id": "VariableID:1",
+      "name": "Surface/Page",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.9529411764705882,
+            "g": 0.9686274509803922,
+            "b": 0.9882352941176471,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.03137254901960784,
+            "g": 0.047058823529411764,
+            "b": 0.07450980392156863,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:2",
+      "name": "Surface/Card",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.06274509803921569,
+            "g": 0.08627450980392157,
+            "b": 0.11764705882352941,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:3",
+      "name": "Surface/Subtle",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.9725490196078431,
+            "g": 0.9803921568627451,
+            "b": 0.9882352941176471,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.08627450980392157,
+            "g": 0.10980392156862745,
+            "b": 0.14901960784313725,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 0.9490196078431372,
+            "g": 0.9490196078431372,
+            "b": 0.9490196078431372,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:4",
+      "name": "Surface/Input",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.9725490196078431,
+            "g": 0.9803921568627451,
+            "b": 0.9882352941176471,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.0784313725490196,
+            "g": 0.10588235294117647,
+            "b": 0.1450980392156863,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:5",
+      "name": "Surface/Selected",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.9607843137254902,
+            "g": 0.9764705882352941,
+            "b": 1.0,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.08235294117647059,
+            "g": 0.12941176470588237,
+            "b": 0.20392156862745098,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 0.9019607843137255,
+            "g": 0.9254901960784314,
+            "b": 0.9568627450980393,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:6",
+      "name": "Surface/Neutral",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.9450980392156862,
+            "g": 0.9607843137254902,
+            "b": 0.9764705882352941,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.10588235294117647,
+            "g": 0.13333333333333333,
+            "b": 0.17647058823529413,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 0.9333333333333333,
+            "g": 0.9333333333333333,
+            "b": 0.9333333333333333,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:7",
+      "name": "Surface/Code",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.0392156862745098,
+            "g": 0.09019607843137255,
+            "b": 0.16862745098039217,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.0196078431372549,
+            "g": 0.0392156862745098,
+            "b": 0.06666666666666667,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 0.0,
+            "g": 0.0,
+            "b": 0.0,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:8",
+      "name": "Surface/Track",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.9294117647058824,
+            "g": 0.9490196078431372,
+            "b": 0.9803921568627451,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.17254901960784313,
+            "g": 0.20784313725490197,
+            "b": 0.2627450980392157,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 0.8,
+            "g": 0.8196078431372549,
+            "b": 0.8705882352941177,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:9",
+      "name": "Surface/ToggleOff",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.8392156862745098,
+            "g": 0.8862745098039215,
+            "b": 0.9411764705882353,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.17254901960784313,
+            "g": 0.20784313725490197,
+            "b": 0.2627450980392157,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 0.396078431372549,
+            "g": 0.4117647058823529,
+            "b": 0.44313725490196076,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:10",
+      "name": "Surface/Knob",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:11",
+      "name": "Surface/Logo",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.08627450980392157,
+            "g": 0.20392156862745098,
+            "b": 0.3607843137254902,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.08627450980392157,
+            "g": 0.20392156862745098,
+            "b": 0.3607843137254902,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 0.08627450980392157,
+            "g": 0.20392156862745098,
+            "b": 0.3607843137254902,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:12",
+      "name": "Surface/LogoBorder",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.16862745098039217,
+            "g": 0.2901960784313726,
+            "b": 0.4470588235294118,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.16862745098039217,
+            "g": 0.2901960784313726,
+            "b": 0.4470588235294118,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 0.16862745098039217,
+            "g": 0.2901960784313726,
+            "b": 0.4470588235294118,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:13",
+      "name": "Surface/TintBrand",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.9098039215686274,
+            "g": 0.9411764705882353,
+            "b": 1.0,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.07058823529411765,
+            "g": 0.13333333333333333,
+            "b": 0.23137254901960785,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 0.9019607843137255,
+            "g": 0.9254901960784314,
+            "b": 0.9568627450980393,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:14",
+      "name": "Surface/TintSuccess",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.9254901960784314,
+            "g": 0.9921568627450981,
+            "b": 0.9529411764705882,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.058823529411764705,
+            "g": 0.22745098039215686,
+            "b": 0.16470588235294117,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 0.9019607843137255,
+            "g": 0.9568627450980393,
+            "b": 0.9372549019607843,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:15",
+      "name": "Surface/TintWarning",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.9921568627450981,
+            "g": 0.9647058823529412,
+            "b": 0.9058823529411765,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.23137254901960785,
+            "g": 0.16470588235294117,
+            "b": 0.07450980392156863,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 1.0,
+            "g": 0.9529411764705882,
+            "b": 0.8392156862745098,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:16",
+      "name": "Surface/TintSky",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.9019607843137255,
+            "g": 0.9647058823529412,
+            "b": 0.9921568627450981,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.07058823529411765,
+            "g": 0.13333333333333333,
+            "b": 0.23137254901960785,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 0.9019607843137255,
+            "g": 0.9333333333333333,
+            "b": 0.9803921568627451,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:17",
+      "name": "Surface/TintPurple",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.9333333333333333,
+            "g": 0.9490196078431372,
+            "b": 1.0,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.12156862745098039,
+            "g": 0.1803921568627451,
+            "b": 0.27058823529411763,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 0.9215686274509803,
+            "g": 0.9490196078431372,
+            "b": 0.9882352941176471,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:18",
+      "name": "Surface/TintNeutral",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.9450980392156862,
+            "g": 0.9607843137254902,
+            "b": 0.9764705882352941,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.10588235294117647,
+            "g": 0.13333333333333333,
+            "b": 0.17647058823529413,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 0.9333333333333333,
+            "g": 0.9333333333333333,
+            "b": 0.9333333333333333,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:19",
+      "name": "Surface/TintDanger",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.996078431372549,
+            "g": 0.9529411764705882,
+            "b": 0.9490196078431372,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.22745098039215686,
+            "g": 0.09019607843137255,
+            "b": 0.09019607843137255,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 1.0,
+            "g": 0.9019607843137255,
+            "b": 0.9019607843137255,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:20",
+      "name": "Text/Primary",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.058823529411764705,
+            "g": 0.09019607843137255,
+            "b": 0.16470588235294117,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.9490196078431372,
+            "g": 0.9725490196078431,
+            "b": 0.9607843137254902,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 0.0,
+            "g": 0.0,
+            "b": 0.0,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:21",
+      "name": "Text/Secondary",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.2,
+            "g": 0.2549019607843137,
+            "b": 0.3333333333333333,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.7607843137254902,
+            "g": 0.7843137254901961,
+            "b": 0.8196078431372549,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 0.10980392156862745,
+            "g": 0.12156862745098039,
+            "b": 0.13333333333333333,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:22",
+      "name": "Text/Tertiary",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.3568627450980392,
+            "g": 0.4196078431372549,
+            "b": 0.5098039215686274,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.615686274509804,
+            "g": 0.6470588235294118,
+            "b": 0.6941176470588235,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 0.20392156862745098,
+            "g": 0.21568627450980393,
+            "b": 0.23529411764705882,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:23",
+      "name": "Text/Brand",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.11372549019607843,
+            "g": 0.3058823529411765,
+            "b": 0.8470588235294118,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.7490196078431373,
+            "g": 0.8588235294117647,
+            "b": 0.996078431372549,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 0.5764705882352941,
+            "g": 0.7725490196078432,
+            "b": 0.9921568627450981,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:24",
+      "name": "Text/Success",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.00784313725490196,
+            "g": 0.4196078431372549,
+            "b": 0.24313725490196078,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.43137254901960786,
+            "g": 0.9058823529411765,
+            "b": 0.7176470588235294,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 0.0,
+            "g": 0.35294117647058826,
+            "b": 0.16862745098039217,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:25",
+      "name": "Text/Warning",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.5411764705882353,
+            "g": 0.35294117647058826,
+            "b": 0.07058823529411765,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.9568627450980393,
+            "g": 0.7686274509803922,
+            "b": 0.41568627450980394,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 0.4196078431372549,
+            "g": 0.24705882352941178,
+            "b": 0.0,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:26",
+      "name": "Text/Danger",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.7529411764705882,
+            "g": 0.14901960784313725,
+            "b": 0.10588235294117647,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 1.0,
+            "g": 0.6078431372549019,
+            "b": 0.6078431372549019,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 0.5411764705882353,
+            "g": 0.0,
+            "b": 0.0,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:27",
+      "name": "Text/Sky",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.011764705882352941,
+            "g": 0.4117647058823529,
+            "b": 0.6313725490196078,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.4980392156862745,
+            "g": 0.6627450980392157,
+            "b": 0.9098039215686274,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 0.0392156862745098,
+            "g": 0.14901960784313725,
+            "b": 0.3137254901960784,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:28",
+      "name": "Text/Purple",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.30980392156862746,
+            "g": 0.27450980392156865,
+            "b": 0.8980392156862745,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.7803921568627451,
+            "g": 0.8235294117647058,
+            "b": 0.996078431372549,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 0.30980392156862746,
+            "g": 0.27450980392156865,
+            "b": 0.8980392156862745,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:29",
+      "name": "Text/OnAccent",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:30",
+      "name": "Text/OnAmber",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.23137254901960785,
+            "g": 0.16470588235294117,
+            "b": 0.047058823529411764,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.23137254901960785,
+            "g": 0.16470588235294117,
+            "b": 0.047058823529411764,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 0.10196078431372549,
+            "g": 0.07058823529411765,
+            "b": 0.0,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:31",
+      "name": "Text/OnDark",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.9490196078431372,
+            "g": 0.9725490196078431,
+            "b": 1.0,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.9490196078431372,
+            "g": 0.9725490196078431,
+            "b": 1.0,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:32",
+      "name": "Text/OnDarkMuted",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.6627450980392157,
+            "g": 0.7372549019607844,
+            "b": 0.8313725490196079,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.6627450980392157,
+            "g": 0.7372549019607844,
+            "b": 0.8313725490196079,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 0.9019607843137255,
+            "g": 0.9254901960784314,
+            "b": 0.9568627450980393,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:33",
+      "name": "Text/OnDarkFaint",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.5764705882352941,
+            "g": 0.6627450980392157,
+            "b": 0.7686274509803922,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.5764705882352941,
+            "g": 0.6627450980392157,
+            "b": 0.7686274509803922,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 0.8156862745098039,
+            "g": 0.8509803921568627,
+            "b": 0.9019607843137255,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:34",
+      "name": "Text/CodeString",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.5764705882352941,
+            "g": 0.7725490196078432,
+            "b": 0.9921568627450981,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.5764705882352941,
+            "g": 0.7725490196078432,
+            "b": 0.9921568627450981,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:35",
+      "name": "Text/CodeMuted",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.5764705882352941,
+            "g": 0.6627450980392157,
+            "b": 0.7686274509803922,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.5764705882352941,
+            "g": 0.6627450980392157,
+            "b": 0.7686274509803922,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 0.7725490196078432,
+            "g": 0.788235294117647,
+            "b": 0.8392156862745098,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:36",
+      "name": "Text/CodeText",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.8588235294117647,
+            "g": 0.9176470588235294,
+            "b": 0.996078431372549,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.8588235294117647,
+            "g": 0.9176470588235294,
+            "b": 0.996078431372549,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:37",
+      "name": "Text/CodeAccent",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.2196078431372549,
+            "g": 0.7411764705882353,
+            "b": 0.9725490196078431,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.2196078431372549,
+            "g": 0.7411764705882353,
+            "b": 0.9725490196078431,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 0.4666666666666667,
+            "g": 0.7372549019607844,
+            "b": 0.9333333333333333,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:38",
+      "name": "Border/Default",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.8392156862745098,
+            "g": 0.8862745098039215,
+            "b": 0.9411764705882353,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.17254901960784313,
+            "g": 0.20784313725490197,
+            "b": 0.2627450980392157,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 0.0,
+            "g": 0.0,
+            "b": 0.0,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:39",
+      "name": "Border/Subtle",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.9372549019607843,
+            "g": 0.9568627450980393,
+            "b": 0.9803921568627451,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.13725490196078433,
+            "g": 0.16470588235294117,
+            "b": 0.20784313725490197,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 0.20392156862745098,
+            "g": 0.21568627450980393,
+            "b": 0.23529411764705882,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:40",
+      "name": "Border/Strong",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.2,
+            "g": 0.2549019607843137,
+            "b": 0.3333333333333333,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.37254901960784315,
+            "g": 0.41568627450980394,
+            "b": 0.47843137254901963,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 0.0,
+            "g": 0.0,
+            "b": 0.0,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:41",
+      "name": "Border/Input",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.48627450980392156,
+            "g": 0.5529411764705883,
+            "b": 0.6509803921568628,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.37254901960784315,
+            "g": 0.41568627450980394,
+            "b": 0.47843137254901963,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 0.0,
+            "g": 0.0,
+            "b": 0.0,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:42",
+      "name": "Border/Chart",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.9333333333333333,
+            "g": 0.9490196078431372,
+            "b": 0.9686274509803922,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.13725490196078433,
+            "g": 0.16470588235294117,
+            "b": 0.20784313725490197,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 0.0,
+            "g": 0.0,
+            "b": 0.0,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:43",
+      "name": "Accent/Brand",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.1450980392156863,
+            "g": 0.38823529411764707,
+            "b": 0.9215686274509803,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.1450980392156863,
+            "g": 0.38823529411764707,
+            "b": 0.9215686274509803,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 0.11372549019607843,
+            "g": 0.3058823529411765,
+            "b": 0.8470588235294118,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:44",
+      "name": "Accent/Amber",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.9098039215686274,
+            "g": 0.7058823529411765,
+            "b": 0.35294117647058826,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.9568627450980393,
+            "g": 0.7686274509803922,
+            "b": 0.41568627450980394,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 1.0,
+            "g": 0.8196078431372549,
+            "b": 0.4,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:45",
+      "name": "Accent/AmberHighlight",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.9294117647058824,
+            "g": 0.7411764705882353,
+            "b": 0.3843137254901961,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.9294117647058824,
+            "g": 0.7411764705882353,
+            "b": 0.3843137254901961,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 0.5411764705882353,
+            "g": 0.35294117647058826,
+            "b": 0.0,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:46",
+      "name": "Accent/AmberIcon",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.611764705882353,
+            "g": 0.3843137254901961,
+            "b": 0.0,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.9568627450980393,
+            "g": 0.7686274509803922,
+            "b": 0.41568627450980394,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 0.4196078431372549,
+            "g": 0.24705882352941178,
+            "b": 0.0,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:47",
+      "name": "Accent/Success",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.043137254901960784,
+            "g": 0.47843137254901963,
+            "b": 0.2823529411764706,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.20392156862745098,
+            "g": 0.8274509803921568,
+            "b": 0.6,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 0.0,
+            "g": 0.35294117647058826,
+            "b": 0.16862745098039217,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:48",
+      "name": "Accent/SuccessBright",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.20392156862745098,
+            "g": 0.8274509803921568,
+            "b": 0.6,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.20392156862745098,
+            "g": 0.8274509803921568,
+            "b": 0.6,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 0.0,
+            "g": 0.35294117647058826,
+            "b": 0.16862745098039217,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:49",
+      "name": "Accent/Danger",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.9411764705882353,
+            "g": 0.26666666666666666,
+            "b": 0.2196078431372549,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 1.0,
+            "g": 0.4823529411764706,
+            "b": 0.4470588235294118,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 0.5411764705882353,
+            "g": 0.0,
+            "b": 0.0,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:50",
+      "name": "Accent/Sky",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.011764705882352941,
+            "g": 0.4117647058823529,
+            "b": 0.6313725490196078,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.2196078431372549,
+            "g": 0.7411764705882353,
+            "b": 0.9725490196078431,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 0.011764705882352941,
+            "g": 0.4117647058823529,
+            "b": 0.6313725490196078,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:51",
+      "name": "Accent/SkyIcon",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.011764705882352941,
+            "g": 0.4117647058823529,
+            "b": 0.6313725490196078,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.4980392156862745,
+            "g": 0.6627450980392157,
+            "b": 0.9098039215686274,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 0.0392156862745098,
+            "g": 0.14901960784313725,
+            "b": 0.3137254901960784,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:52",
+      "name": "Accent/Purple",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.30980392156862746,
+            "g": 0.27450980392156865,
+            "b": 0.8980392156862745,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.38823529411764707,
+            "g": 0.4,
+            "b": 0.9450980392156862,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 0.30980392156862746,
+            "g": 0.27450980392156865,
+            "b": 0.8980392156862745,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:53",
+      "name": "Accent/PurpleIcon",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.30980392156862746,
+            "g": 0.27450980392156865,
+            "b": 0.8980392156862745,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.7333333333333333,
+            "g": 0.8274509803921568,
+            "b": 0.9686274509803922,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 0.12156862745098039,
+            "g": 0.2980392156862745,
+            "b": 0.5607843137254902,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:54",
+      "name": "Accent/Neutral",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.39215686274509803,
+            "g": 0.4549019607843137,
+            "b": 0.5450980392156862,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.615686274509804,
+            "g": 0.6470588235294118,
+            "b": 0.6941176470588235,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 0.396078431372549,
+            "g": 0.4117647058823529,
+            "b": 0.44313725490196076,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:55",
+      "name": "Chart/Query",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.1450980392156863,
+            "g": 0.38823529411764707,
+            "b": 0.9215686274509803,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.1450980392156863,
+            "g": 0.38823529411764707,
+            "b": 0.9215686274509803,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 0.11372549019607843,
+            "g": 0.3058823529411765,
+            "b": 0.8470588235294118,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:56",
+      "name": "Chart/Exec",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.011764705882352941,
+            "g": 0.4117647058823529,
+            "b": 0.6313725490196078,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.2196078431372549,
+            "g": 0.7411764705882353,
+            "b": 0.9725490196078431,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 0.011764705882352941,
+            "g": 0.4117647058823529,
+            "b": 0.6313725490196078,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:57",
+      "name": "Chart/Search",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.30980392156862746,
+            "g": 0.27450980392156865,
+            "b": 0.8980392156862745,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.38823529411764707,
+            "g": 0.4,
+            "b": 0.9450980392156862,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 0.30980392156862746,
+            "g": 0.27450980392156865,
+            "b": 0.8980392156862745,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:58",
+      "name": "Chart/Area",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.1450980392156863,
+            "g": 0.38823529411764707,
+            "b": 0.9215686274509803,
+            "a": 0.07058824
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.1450980392156863,
+            "g": 0.38823529411764707,
+            "b": 0.9215686274509803,
+            "a": 0.12156863
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 0.11372549019607843,
+            "g": 0.3058823529411765,
+            "b": 0.8470588235294118,
+            "a": 0.078431375
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:59",
+      "name": "Icon/OnAccent",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "VariableID:60",
+      "name": "Brand/LogoDot",
+      "collection": "VariableCollectionId:1",
+      "resolvedType": "color",
+      "values": {
+        "VariableCollectionId:1/mode1": {
+          "type": "color",
+          "value": {
+            "r": 0.2196078431372549,
+            "g": 0.7411764705882353,
+            "b": 0.9725490196078431,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode2": {
+          "type": "color",
+          "value": {
+            "r": 0.49019607843137253,
+            "g": 0.8274509803921568,
+            "b": 0.9882352941176471,
+            "a": 1.0
+          }
+        },
+        "VariableCollectionId:1/mode3": {
+          "type": "color",
+          "value": {
+            "r": 0.2196078431372549,
+            "g": 0.7411764705882353,
+            "b": 0.9725490196078431,
+            "a": 1.0
+          }
+        }
+      },
+      "description": ""
+    }
+  ]
+}

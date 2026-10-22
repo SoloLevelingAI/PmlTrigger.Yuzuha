@@ -4,8 +4,10 @@ using System.Text.RegularExpressions;
 namespace PmlTwin.Phayton;
 
 // The documented schema subset used by built-in registrations. Rejects unknown/duplicate keys.
+/// <summary>验证注册操作采用的 JSON Schema 子集，拒绝未知或重复字段。</summary>
 internal static class InputContract
 {
+    /// <summary>按实际契约检查输入类型、必填字段、值域与结构，返回首个错误。</summary>
     public static string? Validate(JsonElement value, JsonElement schema, string path = "$")
     {
         if (schema.TryGetProperty("anyOf", out var alternatives))

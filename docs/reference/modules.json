@@ -1,0 +1,170 @@
+{
+  "projects": {
+    "YuzuhaToolkit.Workspace": {
+      "name": "共享工作区",
+      "description": "原生启动、插件复制、有界目录扫描和本机工具运行日志。",
+      "alias": "workspace",
+      "role": "production"
+    },
+    "YuzuhaToolkit.Desktop": {
+      "name": "Windows 原生工作台",
+      "description": "启动工程、交付开发插件，在同一窗口查看 AI 工具状态。",
+      "role": "production",
+      "sourceOnly": true,
+      "referenceNote": "Windows WPF 项目已单独编译并进行界面渲染检查；本页展示手写源码声明，不包含 XAML 自动生成成员。"
+    },
+    "PlantHost.Rpc.Net10": {
+      "name": "Named Pipe RPC",
+      "description": "AOT 安全的帧协议、请求、后台作业和心跳客户端。",
+      "alias": "rpc",
+      "role": "production"
+    },
+    "YuzuhaToolkit.CommandLine": {
+      "name": "CLI / MCP 适配",
+      "description": "同一可执行程序支持终端调用与 MCP stdio，复用实际工具和连接状态。",
+      "alias": "cli",
+      "role": "production"
+    },
+    "YuzuhaToolkit.Mcp.Core": {
+      "name": "执行工具核心",
+      "description": "会话桥、PML 调用、函数注册与工具实现的库，供桌面与开发宿主复用。",
+      "alias": "mcp",
+      "role": "production"
+    },
+    "YuzuhaToolkit.Mcp": {
+      "name": "执行工具入口",
+      "description": "CLI / MCP 宿主装配，复用执行工具 Core。",
+      "sourceOnly": true,
+      "referenceNote": "薄宿主入口的手写源码参考；实际工具 API 由 Mcp.Core 生成。",
+      "role": "production"
+    },
+    "YuzuhaToolkit.Knowledge.Core": {
+      "name": "知识库核心",
+      "description": "建库、分块、检索、分层与经验的库，不含 MCP 宿主。",
+      "alias": "knowledge",
+      "role": "production"
+    },
+    "YuzuhaToolkit.Knowledge": {
+      "name": "知识工具入口",
+      "description": "CLI / MCP 宿主装配，复用知识库 Core。",
+      "sourceOnly": true,
+      "referenceNote": "薄宿主入口的手写源码参考；实际知识 API 由 Knowledge.Core 生成。",
+      "role": "production"
+    },
+    "YuzuhaToolkit.PmlHost.Net35": {
+      "name": "AM / PDMS Host",
+      "description": "CLR 2 / .NET 3.5 的 PMLNet 主线程入口与操作记录。",
+      "role": "production",
+      "sourceOnly": true
+    },
+    "YuzuhaToolkit.PmlHost.Net48": {
+      "name": "E3D Host",
+      "description": ".NET 4.8 的 PMLNet 主线程入口、身份响应和连续截图记录。",
+      "role": "production",
+      "sourceOnly": true
+    },
+    "SetupBridge": {
+      "name": "安装计划桥",
+      "description": "本机发现、安装请求、逐项预览、应用与恢复所用的 .NET 4.8 桥。",
+      "role": "production",
+      "sourceOnly": true
+    },
+    "YuzuhaToolkit.DevHost": {
+      "name": "开发 HTTP 接口",
+      "description": "OpenAPI / Scalar、内置指南和纯计算预览入口。",
+      "alias": "devhost",
+      "role": "development"
+    },
+    "PmlTwin.Phayton": {
+      "name": "共享操作内核",
+      "description": "操作标识、输入契约、注册与明确执行授权。",
+      "sourceOnly": true,
+      "role": "production"
+    },
+    "PmlTwin.Phayton.Cli": {
+      "name": "操作命令行",
+      "description": "复用执行 Core 的 CLI 前端。",
+      "sourceOnly": true,
+      "role": "production"
+    }
+  },
+  "modules": [
+    {
+      "id": "workspace",
+      "name": "启动与插件目录",
+      "description": "C# 原生启动、注册目录发现、复制预览、目录体积与清理提醒。",
+      "match": "src/YuzuhaToolkit.(Workspace/|Desktop/)",
+      "guide": "workspace.html"
+    },
+    {
+      "id": "activity",
+      "name": "AI 运行与日志",
+      "description": "所有 MCP 工具的开始、目标、耗时、结果、日志故障与进程心跳。",
+      "match": "src/(YuzuhaToolkit.Workspace/Runtime|YuzuhaToolkit.CommandLine/ToolAudit|YuzuhaToolkit.Mcp.Core/WorkspaceTools)",
+      "guide": "workspace.html"
+    },
+    {
+      "id": "sessions",
+      "name": "会话与身份",
+      "description": "从可见工程窗口发现候选，锁定 PID、启动时间、模块和专用管道。",
+      "match": "src/YuzuhaToolkit.Mcp.Core/(Aveva|YuzuhaRpcBridge|YuzuhaTargetOptions|PmlCallTools|PmlCommandRpcContracts)",
+      "guide": "repository/docs/builtin/connection.html"
+    },
+    {
+      "id": "pml",
+      "name": "PML 调用与信任",
+      "description": "带类型参数生成、函数注册与权限、有界数组、原生窗体控件查询、BFS 与人工函数信任。",
+      "match": "src/(Shared/Pml(MethodSignatureGenerator|ArrayWindow|FormQuery)|YuzuhaToolkit.Mcp.Core/(Pml|Bfs|BoundedArray))",
+      "guide": "pmltwin-phase1.html"
+    },
+    {
+      "id": "builtin",
+      "name": "内置指南",
+      "description": "无需 SQLite 的版本内置主题、别名、完整正文与替代授权边界。",
+      "match": "src/(Shared/BuiltinGuideCatalog|YuzuhaToolkit.Mcp.Core/Builtin)",
+      "guide": "repository/docs/builtin-policy.html"
+    },
+    {
+      "id": "knowledge",
+      "name": "知识与经验",
+      "description": "PML / WebHelp 切分、FTS5 查询、来源隔离、索引校验和本机经验。",
+      "match": "src/YuzuhaToolkit.Knowledge.Core/",
+      "guide": "repository/skill/references/knowledge-base.zh-CN.html"
+    },
+    {
+      "id": "rpc",
+      "name": "RPC 与心跳",
+      "description": "稳定路由、帧编解码、取消、后台作业与客户端心跳状态。",
+      "match": "src/PlantHost.Rpc.Net10/|src/YuzuhaToolkit.Mcp.Core/AotPml",
+      "guide": "flows.html"
+    },
+    {
+      "id": "host",
+      "name": "Host 与操作记录",
+      "description": "NET35 / NET48 主线程绑定、PMLNet、完整数组、截图及 JSONL 配对。",
+      "match": "src/(YuzuhaToolkit.PmlHost|Shared/FormRecordWriter)",
+      "guide": "repository/docs/session-recording.html"
+    },
+    {
+      "id": "setup",
+      "name": "安装与生命周期",
+      "description": "发现产品与环境入口，生成预览，按明确批准的计划安装、更新或恢复。",
+      "match": "installer/SetupBridge/",
+      "guide": "repository/installer/INSTALL.html"
+    },
+    {
+      "id": "entrypoints",
+      "name": "CLI / MCP / HTTP 入口",
+      "description": "同程序双模式、MCP 初始化、隔离预览与开发文档宿主。",
+      "match": "src/(YuzuhaToolkit.CommandLine/|YuzuhaToolkit.DevHost/|YuzuhaToolkit.Mcp.Core/(McpUsage|McpHostSurface|YuzuhaToolkitPaths)|YuzuhaToolkit.Knowledge/KnowledgeUsage|YuzuhaToolkit.Knowledge.Core/KnowledgeJson)",
+      "guide": "cli.html"
+    },
+    {
+      "id": "operations",
+      "name": "共享操作内核",
+      "description": "CLI/MCP 共享的操作注册、参数契约与调度。",
+      "match": "src/PmlTwin.Phayton|src/YuzuhaToolkit.Mcp.Core/(Operation|PmlRpcConnection|YuzuhaOperation)",
+      "guide": "cli.html"
+    }
+  ]
+}

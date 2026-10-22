@@ -1,0 +1,44 @@
+// Runtime relations are reviewed descriptions, separate from generated build dependencies.
+model {
+  client = actor "AI / MCP 客户端"
+  developer = actor "开发者 / 浏览器"
+  terminal = actor "终端用户"
+  sqlite = store "本地 SQLite / FTS5"
+  aveva = system "AVEVA E3D / PDMS / AM"
+  client -> yuzuha.mcp "stdio JSON-RPC · 显式选择会话"
+  client -> yuzuha.knowledge "stdio JSON-RPC · 按需检索"
+  terminal -> yuzuha.cli "同一 exe · --cli list / call / batch"
+  yuzuha.cli -> yuzuha.mcp "本程序 --mcp 子进程 · 共用一条连接"
+  yuzuha.cli -> yuzuha.knowledge "知识程序 --mcp 子进程"
+  yuzuha.mcp -> yuzuha.rpc "身份核验 / PML 请求"
+  yuzuha.rpc -> yuzuha.host35 "PID 绑定 Named Pipe · AM / PDMS"
+  yuzuha.rpc -> yuzuha.host48 "PID 绑定 Named Pipe · E3D"
+  yuzuha.host35 -> aveva "AVEVA 主线程执行 PML"
+  yuzuha.host48 -> aveva "AVEVA 主线程执行 PML"
+  yuzuha.knowledge -> sqlite "用户选择的本地知识库"
+  developer -> yuzuha.devhost "OpenAPI / Scalar · 纯预览"
+  developer -> yuzuha.desktop "原生启动 / 复制 / 工具状态"
+  yuzuha.desktop -> yuzuha.workspace "参数构造 / 目录检查 / 文件复制"
+  yuzuha.mcp -> yuzuha.workspace "原生工具调用日志 / 心跳 / 目录健康"
+  yuzuha.knowledge -> yuzuha.workspace "知识工具调用日志 / 心跳"
+  yuzuha.desktop -> aveva "用户点击后创建启动入口"
+}
+views {
+  view runtime {
+    title "运行时 · MCP、Named Pipe 与 AVEVA"
+    include client, terminal, yuzuha.cli, yuzuha.mcp, yuzuha.rpc, yuzuha.knowledge, yuzuha.host35, yuzuha.host48, sqlite, aveva
+    exclude * -> * where kind is build
+    autoLayout LeftRight
+  }
+  view development {
+    title "开发文档 · 可选 HTTP 宿主"
+    include developer, yuzuha.devhost, yuzuha.mcp, yuzuha.knowledge
+    autoLayout LeftRight
+  }
+  view workspace {
+    title "原生工作台 · 开发目录与工具活动"
+    include developer, yuzuha.desktop, yuzuha.workspace, yuzuha.mcp, yuzuha.knowledge, aveva
+    exclude * -> * where kind is build
+    autoLayout LeftRight
+  }
+}

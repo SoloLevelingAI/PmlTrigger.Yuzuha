@@ -2,6 +2,15 @@
 name: yuzuha-toolkit
 description: "PmlTrigger for AVEVA PDMS/AM/E3D: connect sessions, query 当前元素/current element with YuzuhaReadCurrentElement, read DBREF/global objects, and execute PML through the built-in executor. Built-in usage guides have priority; SQLite reference search is optional. Covers Native AOT MCP installation and troubleshooting."
 ---
+
+## 原生插件开发模式 / Native development mode
+
+插件开发任务的授权覆盖相关的连续编辑、加载、重载和验证，无需每条 PML 再次确认。直接使用 `run_pml_command` / `run_pml_command_list`，不要求经过旧 `YuzuhaExcuter` 对象；查询当前元素、DBREF、全局对象仍优先使用内置查询方法。先发现并锁定实际工程会话；不猜 PID，超时不自动重试。
+
+可使用 `markdb(description)` 与 `endmarkdb()` 设置 AVEVA 撤销分组。`inspect_registered_pmllib` 检查目录堆积，`get_ai_runtime_status` 和 `get_recent_tool_calls` 查看工具状态与调用日志。本节是当前原生开发入口；旧执行对象的说明用于兼容调用。
+
+Task authorization covers related plugin edits, loading and verification without a separate approval handshake for each command. Use the native PML tools directly. Keep target identity checks and never retry a timed-out model operation automatically. Local tool-call audit and heartbeat snapshots are shared with the native workspace.
+
 > AVEVA 配置：先用 `Get-ItemProperty` / `reg query` 查询注册表，优先有效的 `Evar.INIT`；PDMS/AM 确认无 INIT 且仅使用 BAT 时才改 `EVAR.BAT`。`-EvarBat` 接受 BAT 风格文件，包括 `Evar.INIT`（本身即批处理语法）；写入前自动备份，托管块尾置。默认本机注册不改 EVAR。详见 [定位和选择规则](references/aveva-discovery.md)。
 
 
@@ -68,11 +77,11 @@ PDMS/AM 面向传统 12.1 系列，本机参考程序集为 12.1.4.0，不能据
 1. 调用 `list_aveva_sessions`。绝不猜测 PID；当返回多个会话时，也绝不自动选择。通过 `WindowTitle`、`Product` 和 `Project` 识别目标；只使用该调用返回的 PID。
 2. 显式调用 `select_aveva_session`。仅当它返回 `TargetVerified=true` 时才继续；旧式共享管道绝不能作为回退。
 3. 当可达性或当前模块不确定时，在执行前调用 `get_connection_status`。
-4. 在调用 `run_pml_command` 或 `run_pml_command_list` 之前，确认用户已明确要求执行。讨论或起草时，只使用 `generate_pml_call`。
+4. 在调用 `run_pml_command` 或 `run_pml_command_list` 之前，确认操作属于用户已授权的开发任务；同一任务内不逐条重复确认。讨论或起草时，只使用 `generate_pml_call`。
 5. `generate_pml_call`：`methodName` 不带前导 `!!`；`parameters` 是由 `{type, value}` 组成的有序数组；类型别名包括 `string/str`、`bool/boolean`、`double/real/number`；字符串用单引号包裹，布尔值转换为 `TRUE` / `FALSE`，数字使用不变区域性的十进制格式；无参数的方法使用空数组。
 6. `run_pml_command`：将完整生成的文本恰好传递一次。绝不自动重试——传输超时可能发生在 AVEVA 已经改变状态之后。
 7. `run_pml_command_list`：`pmlCommand` 是完整的表达式，其结果会存入全局数组；`globalVar` 是不带 `!!` 前缀的数组名；设置 `deleteGlobalVar=true` 以便在读取后清理；`includeEmpty=false` 会把未设置/空白/空数组的条目从 `Items` 中移除（`Summary` 块始终反映完整集合）。
-8. **安全提示：此服务器没有任何安全闸门。**与 `engineering-agent-demo` 不同，这里没有 TRUE→FALSE 预览，也没有 Elicitation。命令会完全按给定的内容执行。只执行用户明确要求运行的命令。
+8. **安全提示：此服务器没有任何安全闸门。**与 `engineering-agent-demo` 不同，这里没有 TRUE→FALSE 预览，也没有 Elicitation。命令会完全按给定的内容执行。执行用户已授权任务范围内的命令，同一开发任务不逐条重复确认。
 9. 报告：当以下字段存在时，原样保留 `Success`、`Code`、`ErrorMessage`、`PmlCommand`、`Summary`、`Count`、`Items`、`UnparsedCount`、`Unparsed`、`RequestId`、`ServerRuntime`、`ServerTimeUtc` 和 `FunctionTrustWarning`。以 `PML RPC failed:` 开头的文本是传输失败，而不是成功。
 
 ## 知识库（独立服务器）

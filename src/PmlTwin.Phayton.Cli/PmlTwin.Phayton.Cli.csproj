@@ -9,9 +9,6 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="../PmlTwin.Phayton/PmlTwin.Phayton.csproj" />
-    <ProjectReference Include="../PlantHost.Rpc.Net10/PlantHost.Rpc.Net10.csproj" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.0" />
-    <Compile Include="../YuzuhaToolkit.Mcp/AvevaSessionDiscovery.cs;../YuzuhaToolkit.Mcp/YuzuhaRpcBridge.cs;../YuzuhaToolkit.Mcp/YuzuhaTargetOptions.cs;../YuzuhaToolkit.Mcp/AotPmlCommandService.cs;../YuzuhaToolkit.Mcp/PmlCommandRpcContracts.cs;../YuzuhaToolkit.Mcp/PmlOperationModels.cs;../YuzuhaToolkit.Mcp/YuzuhaOperationBackend.cs;../YuzuhaToolkit.Mcp/YuzuhaOperationCatalog.cs;../YuzuhaToolkit.Mcp/PmlRpcConnection.cs;../YuzuhaToolkit.Mcp/PmlFunctionTrustStore.cs;../YuzuhaToolkit.Mcp/YuzuhaToolkitPaths.cs;../Shared/PmlMethodSignatureGenerator.cs"
-             Link="Compatibility/%(Filename)%(Extension)" />
-  </ItemGroup>
+    <ProjectReference Include="../YuzuhaToolkit.Mcp.Core/YuzuhaToolkit.Mcp.Core.csproj" />
+</ItemGroup>
 </Project>

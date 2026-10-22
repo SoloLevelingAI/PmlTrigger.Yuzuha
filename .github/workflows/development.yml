@@ -1,0 +1,43 @@
+name: development-quality
+on: [workflow_dispatch, push, pull_request]
+permissions:
+  contents: read
+jobs:
+  documentation-and-tests:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: xUnit and ArchUnitNET
+        shell: pwsh
+        run: ./scripts/Test-Development.ps1
+      - name: OpenAPI, LikeC4 and DocFX
+        shell: pwsh
+        run: ./scripts/Build-Documentation.ps1
+      - name: WPF isolated flows and viewport checks
+        shell: pwsh
+        run: ./scripts/run-documented-test.ps1 -TestId 'smoke:desktop-flows'
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: development-tests-${{ github.sha }}-${{ runner.os }}
+          path: |
+            artifacts/tests/*.trx
+            artifacts/tests/run-metadata.json
+            artifacts/dt/**/desktop-smoke.json
+            artifacts/dt/**/run-metadata.json
+            artifacts/dt/**/documented-run.json
+            artifacts/dt/**/smoke-result.json
+            artifacts/dt/**/desktop/**/*.png
+            artifacts/dt/**/binding-errors.log
+      - uses: actions/upload-artifact@v4
+        with:
+          name: yuzuha-documentation-${{ github.sha }}-${{ runner.os }}
+          path: artifacts/docfx/site

@@ -6,20 +6,26 @@ using PlantHost.Rpc;
 
 namespace YuzuhaToolkit.PmlHost;
 
+/// <summary>将 PID 专用 RPC 服务绑定到 AVEVA 主线程与当前 PMLNet 目标。</summary>
 internal static class PmlCommandRpcHost
 {
+    /// <summary>当前 Host 所在 AVEVA 进程的固定 PID。</summary>
     internal static readonly int ProcessId =
         Process.GetCurrentProcess().Id;
+    /// <summary>当前 Host 所在进程启动 UTC ticks，用于抵抗 PID 重用。</summary>
     internal static readonly long ProcessStartTimeUtcTicks =
         Process.GetCurrentProcess().StartTime.ToUniversalTime().Ticks;
+    /// <summary>绑定该目标 PID 的专用 Named Pipe 名称。</summary>
     internal static readonly string PipeName = ResolvePipeName();
 
     private static readonly object Gate = new();
     private static PmlCommandMethod _target;
     private static RpcServer _server;
 
+    /// <summary>绑定 PMLNet 目标时记录的 AVEVA 主线程编号。</summary>
     internal static int MainThreadId { get; private set; }
 
+    /// <summary>当前监听服务或心跳循环是否处于运行状态。</summary>
     internal static bool IsRunning
     {
         get
@@ -31,6 +37,8 @@ internal static class PmlCommandRpcHost
         }
     }
 
+    /// <summary>仅从目标 AVEVA 主线程绑定对象并启动当前 PID 的专用管道服务。</summary>
+    /// <param name="target">已在 AVEVA 主线程构造的 PMLNet 命令目标。</param>
     internal static void Attach(PmlCommandMethod target)
     {
         if (target == null)
@@ -74,6 +82,7 @@ internal static class PmlCommandRpcHost
         }
     }
 
+    /// <summary>取得已绑定的主线程 PMLNet 目标；尚未绑定时抛出异常。</summary>
     internal static PmlCommandMethod GetTarget()
     {
         lock (Gate)
@@ -86,6 +95,7 @@ internal static class PmlCommandRpcHost
         }
     }
 
+    /// <summary>拒绝在未绑定线程或非 AVEVA 主线程上处理模型操作。</summary>
     internal static void AssertMainThread()
     {
         if (Thread.CurrentThread.ManagedThreadId != MainThreadId)

@@ -15,5 +15,7 @@ PMLUI/**/Addins/YuzuhaAddin text eol=lf
 PMLUI/version.dat text eol=lf
 *.yaml text eol=lf
 *.yml text eol=lf
+*.c4 text eol=lf
 *.dll binary
 *.exe binary
+*.docx binary

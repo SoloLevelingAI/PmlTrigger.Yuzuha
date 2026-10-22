@@ -84,7 +84,7 @@ build_knowledge_database(pmlLibRoot, pmlUiRoot, webHelpRoot?, dbName?,
 The knowledge directory defaults to `<install>\knowledge`; override with the
 `YUZUHA_KNOWLEDGE_DIR` environment variable or an explicit `dbDir`.
 
-## Search
+## Search knowledge
 
 ```
 search_knowledge(query, dbName?, dbPath?, topK=8,

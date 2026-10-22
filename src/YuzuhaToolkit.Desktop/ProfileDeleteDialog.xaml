@@ -1,0 +1,26 @@
+<Window x:Class="YuzuhaToolkit.Desktop.ProfileDeleteDialog" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="删除启动配置" Width="580" Height="560" MinWidth="460" MinHeight="480" WindowStartupLocation="CenterOwner" ResizeMode="CanResize" FontFamily="Segoe UI,Microsoft YaHei UI" FontSize="13" Background="{DynamicResource Surface.Page}" Foreground="{DynamicResource Text.Primary}">
+  <DockPanel Margin="28">
+    <StackPanel DockPanel.Dock="Bottom" Margin="0,20,0,0">
+      <TextBlock Text="请输入配置名称以确认删除" Foreground="{DynamicResource Text.Secondary}" />
+      <TextBox x:Name="ConfirmationBox" TextChanged="ConfirmationChanged" Margin="0,8,0,20" />
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+        <Button Content="取消" IsCancel="True" />
+        <Button x:Name="DeleteButton" Content="确认删除" IsEnabled="False" Click="ConfirmDelete" Background="{DynamicResource Text.Danger}" Foreground="{DynamicResource Text.OnAccent}" BorderThickness="0" Margin="0" />
+      </StackPanel>
+    </StackPanel>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+      <StackPanel>
+        <TextBlock Text="删除启动配置" FontSize="28" FontWeight="Bold" />
+        <TextBlock x:Name="ProfileNameText" FontSize="16" FontWeight="SemiBold" Margin="0,14,0,18" TextWrapping="Wrap" />
+        <Border Background="{DynamicResource Surface.Card}" BorderBrush="{DynamicResource Border.Default}" BorderThickness="1" CornerRadius="14" Padding="20">
+          <StackPanel>
+            <TextBlock Text="影响范围" Style="{StaticResource SectionTitle}" />
+            <TextBlock Text="此操作会删除工作台中保存的配置和不再被使用的本机凭据引用。" TextWrapping="Wrap" Margin="0,10,0,16" Foreground="{DynamicResource Text.Secondary}" />
+            <TextBlock x:Name="DefaultImpactText" TextWrapping="Wrap" Foreground="{DynamicResource Text.Warning}" Margin="0,0,0,12" />
+            <TextBlock Text="工程文件和 AVEVA 程序不受影响。已经运行的工程会话继续运行。" TextWrapping="Wrap" Foreground="{DynamicResource Text.Secondary}" />
+          </StackPanel>
+        </Border>
+      </StackPanel>
+    </ScrollViewer>
+  </DockPanel>
+</Window>

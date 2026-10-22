@@ -1,8 +1,10 @@
 # installer/SetupBridge/NativeDiscovery.cs
 
 File: installer/SetupBridge/NativeDiscovery.cs
-LastWriteTimeUtc: 2026-09-20T13:48:08.9764434Z
-SHA256: 23D54ECB7B61AA6DCA14E921072E071003F739C8000165166A70E3BA553594DF
-RecordedAtUtc: 2026-09-20T15:56:26.8103421Z
+LastWriteTimeUtc: 2026-10-20T14:13:24.983438Z
+SHA256: 2EC9910FC920BF14EB008360D4456012BF10A8D0A9E28F3693931A4F2414CD88
+RecordedAtUtc: 2026-10-20T15:54:33.196439Z
 
 Author: OpenAI Codex. Release v0.3.3, based on maintainer-tested preview11. See installer/VALIDATION.md. Timestamp is a fast check; SHA256 verifies content.
+
+Review: 2026-10-20 CLI/MCP, documentation and source-comment change; original PML fingerprint discrepancies are preserved.

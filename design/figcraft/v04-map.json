@@ -1,0 +1,60 @@
+{
+  "source": "PMLTWIN-v03.figcraft",
+  "sourceSha256": "18112044246baf9790d0ee3c2d61fe0b3b7767fc4cb8ce6ea1bff3594d5da981",
+  "originalPages": {
+    "总览": 2,
+    "启动工程": 361,
+    "工程会话": 619,
+    "插件部署": 893,
+    "AI 运行": 1155,
+    "工具日志": 1425,
+    "知识库": 1682,
+    "设置": 1923,
+    "评审中心": 2728,
+    "测试中心": 2991,
+    "Web 应用": 3223,
+    "能力与函数": 3473
+  },
+  "themes": [
+    "Light",
+    "Dark"
+  ],
+  "questions": [
+    {
+      "id": "Q01",
+      "page": "总览",
+      "description": "健康分与长期趋势的统计口径尚未确定。\nWPF 保留这些区域：展示文件/预算和已有记录的分组图，不编造健康分或全量 7/30 天结果。"
+    },
+    {
+      "id": "Q02",
+      "page": "启动工程",
+      "description": "启动预览格式与现有 C# 契约不同。\nWPF 继续使用 LaunchService.Preview：PROD / init / 工程 / 用户与本次密码 / MDB / 模块；密码不显示。\n布局保留，不能按示意命令重新拼接口。"
+    },
+    {
+      "id": "Q03",
+      "page": "工程会话",
+      "description": "当前元素、DBREF 与原始 PML 控制台尚未接入当前 WPF。\n保留卡片、字段与位置；用明确的未接入标记和禁用按钮区分。\nForm/Gadget 复用既有桥，从能力入口进入，不替换原稿区域。"
+    },
+    {
+      "id": "Q04",
+      "page": "能力与函数",
+      "description": "带点名称和 INT 示例不属于当前全局函数契约。\nWPF 使用合法全局名称和 STRING / REAL / BOOLEAN。\n注册表只存源码哈希，不可凭哈希还原旧正文；查看当前源码/哈希，历史差异需 Git。\n调用参数与授权操作放在详情区，可折叠以保留主画面。"
+    },
+    {
+      "id": "Q05",
+      "page": "测试中心",
+      "description": "本次 passed 与“源码变化/证据失效”不能同时作为当前状态。\n完整 ID、源码、目的、环境、运行命令、预期与同次证据必须可展开。\nNET35 / NET48 Host Smoke 与 AVEVA 实测分开；零匹配拒绝成功。"
+    },
+    {
+      "id": "Q06",
+      "page": "评审中心",
+      "description": "必需测试 NotRun 时不能批准迁移；源、测试部署和正式目录分别记录。\n同一名人工审核即可，批准绑定源码/契约/证据快照。\n差异正文、分阶段回执与恢复是后续功能，保留原稿区域。"
+    },
+    {
+      "id": "Q07",
+      "page": "Web 应用",
+      "description": "打开 HTML 页面、桥接可用和调用许可分别表达。\n页面不能自行登记或授予函数许可。\n本阶段不开放任意 PML；目录、版本、停用及迁移记录继续由 C# 管理。"
+    }
+  ],
+  "contract": "existing C# services and RPC preserved; design examples are not runtime evidence"
+}

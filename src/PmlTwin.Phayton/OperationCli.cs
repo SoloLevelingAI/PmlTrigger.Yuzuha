@@ -3,8 +3,10 @@ using System.Text.Json;
 
 namespace PmlTwin.Phayton;
 
+/// <summary>将 op list、describe、invoke 命令映射到共享操作执行器。</summary>
 public static class OperationCli
 {
+    /// <summary>解析明确的 PID、模块与执行授权，输出 JSON 结果及稳定退出码。</summary>
     public static async Task<int> RunAsync(string[] args, OperationExecutor executor,
         TextWriter output, CancellationToken cancellationToken = default)
     {

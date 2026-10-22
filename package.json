@@ -1,0 +1,23 @@
+{
+  "name": "yuzuha-development-docs",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.22.3"
+  },
+  "scripts": {
+    "test": "pwsh -NoProfile -File scripts/Test-Development.ps1",
+    "docs:build": "pwsh -NoProfile -File scripts/Build-Documentation.ps1",
+    "docs:serve": "pwsh -NoProfile -File scripts/Serve-Documentation.ps1",
+    "docs:catalog:check": "node scripts/documentation-catalog.mjs check",
+    "architecture:generate": "node scripts/architecture.mjs generate",
+    "architecture:check": "node scripts/architecture.mjs check",
+    "architecture:validate": "likec4 validate docs/architecture",
+    "architecture:build": "likec4 build docs/architecture -o artifacts/architecture --base ./ --use-hash-history",
+    "architecture:serve": "likec4 serve docs/architecture"
+  },
+  "devDependencies": {
+    "likec4": "1.60.0",
+    "yaml": "2.8.1"
+  }
+}

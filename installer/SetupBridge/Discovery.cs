@@ -5,12 +5,19 @@ using System.Linq;
 using Microsoft.Win32;
 using Newtonsoft.Json.Linq;
 
+/// <summary>安装桥接程序：发现环境、生成可审阅计划并按显式入口执行安装事务。</summary>
 internal static partial class Program
 {
     // EVARS is the actual product filename; singular EVAR is compatibility-only.
+    /// <summary>按内容识别 AVEVA 环境初始化文件，避免误选普通批处理。</summary>
+    /// <param name="path">当前操作要求的本机文件或目录路径。</param>
     internal static bool IsEnvironmentInit(string path)
     { return new[]{"evars.init","evar.init"}.Contains(Path.GetFileName(path).ToLowerInvariant()); }
     // Match only shipped profiles; registry bitness is not the Host framework.
+    /// <summary>根据发现的产品和版本推荐框架 Profile，保留显式选择。</summary>
+    /// <param name="product">已发现的 AVEVA 产品名称。</param>
+    /// <param name="version">已发现的产品版本文本。</param>
+    /// <param name="location">经发现或选择得到的本机来源位置。</param>
     internal static string RecommendProfile(string product, string version, string location)
     {
         string name=(product??"").ToLowerInvariant();
@@ -26,12 +33,16 @@ internal static partial class Program
         if(name.Contains("pdms") || (name.Contains("plant") && location.IndexOf("PDMS",StringComparison.OrdinalIgnoreCase)>=0)) return "PDMS";
         return "";
     }
+    /// <summary>在候选文件中优先选择能够承载环境配置的初始化入口。</summary>
+    /// <param name="files">待筛选的本机环境入口候选文件。</param>
+    /// <param name="profile">显式选定或由发现结果推荐的 AVEVA Profile。</param>
     internal static string[] PreferredFiles(IEnumerable<string> files,string profile)
     {
         var all=files.ToArray();
         var init=all.Where(x=>Path.GetExtension(x).Equals(".init",StringComparison.OrdinalIgnoreCase)).ToArray();
         return init.Length>0 || profile.StartsWith("E3D") ? init : all.Where(x=>Path.GetExtension(x).Equals(".bat",StringComparison.OrdinalIgnoreCase)).ToArray();
     }
+    /// <summary>只读发现本机 AVEVA 产品、安装目录与环境入口，生成安装器候选列表。</summary>
     internal static JObject Discover()
     {
         var candidates = new JArray(); var warnings = new JArray(); var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);

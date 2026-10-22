@@ -2,8 +2,11 @@ using System;
 
 namespace YuzuhaToolkit.PmlHost
 {
+    /// <summary>核验主线程后转发 Host 身份查询与 PML 执行，保留协议失败信息。</summary>
     internal sealed class PmlCommandRpcService : IPmlCommandService
     {
+        /// <summary>在主线程读取当前 Host 进程、模块、管道与启动时间。</summary>
+        /// <param name="request">当前操作的请求数据及其显式目标或参数。</param>
         public HostIdentityResponse GetHostIdentity(
             HostIdentityRequest request)
         {
@@ -17,12 +20,16 @@ namespace YuzuhaToolkit.PmlHost
                 Model = target.Model,
                 PipeName = PmlCommandRpcHost.PipeName,
                 HostFramework = "net35",
+                BoundedArrayReadVersion = 1,
+                FormQueryVersion = 1,
                 HostVersion = typeof(PmlCommandMethod).Assembly
                     .GetName().Version.ToString(),
                 ServerTimeUtc = DateTime.UtcNow
             };
         }
 
+        /// <summary>在当前 AVEVA 主线程执行一次非空命令并返回 AVEVA 执行标志。</summary>
+        /// <param name="request">当前操作的请求数据及其显式目标或参数。</param>
         public RunPmlCommandResponse RunPmlCommand(
             RunPmlCommandRequest request)
         {
@@ -32,6 +39,21 @@ namespace YuzuhaToolkit.PmlHost
             try
             {
                 PmlCommandMethod target = PmlCommandRpcHost.GetTarget();
+                if (request != null && request.FormQuery != null)
+                {
+                    YuzuhaToolkit.Pml.PmlFormQuery.ValidateEnvelope(request.ReadArray, request.ReturnList, request.PmlCommand, request.GlobalVar, request.DeleteGlobalVar);
+                    RunPmlCommandResponse queryResponse = CreateResponse(true, "OK", null, null);
+                    queryResponse.FormQueryResult = YuzuhaToolkit.Pml.PmlFormQuery.Read(request.FormQuery, new PmlFormQueryHost());
+                    return queryResponse;
+                }
+                if (request != null && request.ReadArray)
+                {
+                    if (request.ReturnList || !String.IsNullOrEmpty(request.PmlCommand) || request.DeleteGlobalVar)
+                        throw new ArgumentException("ReadArray only reads an existing array; expression, ReturnList and deletion are not allowed.");
+                    RunPmlCommandResponse windowResponse = CreateResponse(true, "OK", null, null);
+                    windowResponse.ArrayWindow = GetRequireFromE3D.GetPmlVariableWindow(request.GlobalVar, request.StartIndex, request.MaxItems, request.MaxCharacters);
+                    return windowResponse;
+                }
                 if (request != null && request.ReturnList)
                 {
                     if (String.IsNullOrEmpty(request.GlobalVar) ||

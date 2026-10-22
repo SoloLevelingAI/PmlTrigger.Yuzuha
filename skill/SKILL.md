@@ -2,6 +2,15 @@
 name: yuzuha-toolkit
 description: "PmlTrigger for AVEVA PDMS/AM/E3D: connect sessions, query 当前元素/current element with YuzuhaReadCurrentElement, read DBREF/global objects, and execute PML through the built-in executor. Built-in usage guides have priority; SQLite reference search is optional. Covers Native AOT MCP installation and troubleshooting."
 ---
+
+## 原生插件开发模式 / Native development mode
+
+插件开发任务的授权覆盖相关的连续编辑、加载、重载和验证，无需每条 PML 再次确认。直接使用 `run_pml_command` / `run_pml_command_list`，不要求经过旧 `YuzuhaExcuter` 对象；查询当前元素、DBREF、全局对象仍优先使用内置查询方法。先发现并锁定实际工程会话；不猜 PID，超时不自动重试。
+
+可使用 `markdb(description)` 与 `endmarkdb()` 设置 AVEVA 撤销分组。`inspect_registered_pmllib` 检查目录堆积，`get_ai_runtime_status` 和 `get_recent_tool_calls` 查看工具状态与调用日志。本节是当前原生开发入口；旧执行对象的说明用于兼容调用。
+
+Task authorization covers related plugin edits, loading and verification without a separate approval handshake for each command. Use the native PML tools directly. Keep target identity checks and never retry a timed-out model operation automatically. Local tool-call audit and heartbeat snapshots are shared with the native workspace.
+
 > AVEVA 配置：先用 `Get-ItemProperty` / `reg query` 查询注册表，优先有效的 `Evar.INIT`；PDMS/AM 确认无 INIT 且仅使用 BAT 时才改 `EVAR.BAT`。`-EvarBat` 接受 BAT 风格文件，包括 `Evar.INIT`（本身即批处理语法）；写入前自动备份，托管块尾置。默认本机注册不改 EVAR。详见 [定位和选择规则](references/aveva-discovery.md)。
 
 
@@ -77,8 +86,7 @@ never swapped from memory:
 
 1. `PML RPC failed: ...` is a **transport** failure — the pipe or host is
    unreachable. It never proves anything about the PML function. Check
-   `get_connection_status` / `list_aveva_sessions`, then ask the user (AVEVA
-   closed? host not loaded? EVAR changed?).
+   `get_connection_status` / `list_aveva_sessions`, then inspect whether AVEVA is closed, the Host is loaded, or EVAR changed; ask only if the target or required change is unclear.
 2. `Success=false` with a method-not-found or load error usually means the
    user's function is **still being edited or not loaded yet**. Ask the user
    first. Never substitute a remembered alternative function — a name from
@@ -101,7 +109,7 @@ never swapped from memory:
    `TargetVerified=true`; the legacy shared pipe is never a fallback.
 3. Call `get_connection_status` before execution when reachability or current
    module is uncertain.
-4. Confirm the user explicitly requested execution before calling
+4. Confirm the development task authorizes execution before calling
    `run_pml_command` or `run_pml_command_list`. For discussion or drafting,
    use `generate_pml_call` only.
 5. `generate_pml_call`: `methodName` without the leading `!!`; `parameters` is
@@ -119,7 +127,7 @@ never swapped from memory:
    (the `Summary` block always reflects the full set).
 8. **Safety: this server has NO safety gate.** Unlike `engineering-agent-demo`,
    there is no TRUE→FALSE preview and no Elicitation. Commands execute exactly
-   as given. Only execute commands the user explicitly asked to run.
+   as given. Execute commands within the user-authorized task; related development steps do not require repeated approval.
 9. Report: preserve `Success`, `Code`, `ErrorMessage`, `PmlCommand`, `Summary`,
    `Count`, `Items`, `UnparsedCount`, `Unparsed`, `RequestId`,
    `ServerRuntime`, `ServerTimeUtc`, and `FunctionTrustWarning` when present.

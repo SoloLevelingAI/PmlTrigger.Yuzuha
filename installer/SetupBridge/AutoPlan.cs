@@ -3,8 +3,11 @@ using System.IO;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 
+/// <summary>安装桥接程序：发现环境、生成可审阅计划并按显式入口执行安装事务。</summary>
 internal static partial class Program
 {
+    /// <summary>从安装请求解析 AVEVA 接入模式，拒绝未明确选择的空环境请求。</summary>
+    /// <param name="request">当前操作的请求数据及其显式目标或参数。</param>
     internal static string IntegrationMode(JObject request)
     {
         string mode=(string)request["integrationMode"]??"aveva";
@@ -16,6 +19,9 @@ internal static partial class Program
         if(mode=="none" && rows!=null && rows.Count>0) throw Bad("integrationMode=none conflicts with selected AVEVA environments.");
         return mode;
     }
+    /// <summary>依据发现结果和显式选择生成可审阅安装请求，不执行变更。</summary>
+    /// <param name="input">需要规范化的调用方输入或安装请求对象。</param>
+    /// <param name="discovery">用于重新核验候选的发现器或本机发现结果。</param>
     internal static JObject AutoRequest(JObject input,JObject discovery)
     {
         if((string)input["integrationMode"]=="none") throw Bad("plan-auto requires AVEVA integration; use plan for explicit none mode.");

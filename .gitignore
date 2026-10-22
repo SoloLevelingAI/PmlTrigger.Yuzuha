@@ -31,3 +31,9 @@ knowledge/
 trust/
 *.sqlite3
 *.manifest.json
+
+# Development documentation tooling and generated output
+node_modules/
+.tools/
+docs/reference/obj/
+.cache/

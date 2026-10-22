@@ -9,14 +9,22 @@ using Microsoft.Win32;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
+/// <summary>安装桥接程序：发现环境、生成可审阅计划并按显式入口执行安装事务。</summary>
 internal static partial class Program
 {
+    /// <summary>内置支持的 AVEVA 产品与版本 Profile 名称。</summary>
     internal static readonly string[] Profiles = { "AM", "PDMS", "E3D2.1", "E3D3.1.0", "E3D3.1.6" };
     const string Owner2 = "Yuzuha.Inno.Plan.v2";
     const string RegPath = @"Software\YuzuhaToolkit\Installations";
+    /// <summary>计算输入字节的 SHA256 小写十六进制摘要。</summary>
+    /// <param name="bytes">需要计算内容摘要的原始字节。</param>
     internal static string Digest(byte[] bytes) { using (var sha = SHA256.Create()) return BitConverter.ToString(sha.ComputeHash(bytes)).Replace("-", "").ToLowerInvariant(); }
+    /// <summary>只读计算现有文件摘要；文件不存在时返回 null。</summary>
+    /// <param name="path">当前操作要求的本机文件或目录路径。</param>
     internal static string FileDigest(string path) { return File.Exists(path) ? Digest(File.ReadAllBytes(path)) : null; }
     static Exception Bad(string text) { return new Exception("安装计划 / Installation plan: " + text); }
+    /// <summary>规范化本机绝对路径并拒绝 UNC、额外冒号和重解析点。</summary>
+    /// <param name="path">当前操作要求的本机文件或目录路径。</param>
     internal static string Absolute(string path)
     {
         if (string.IsNullOrWhiteSpace(path) || !Path.IsPathRooted(path) || path.StartsWith("\\\\") || path.Length < 3 || path[1] != ':' ||
@@ -57,6 +65,9 @@ internal static partial class Program
     }
     static byte[] Encode(Encoding encoding, bool bom, string text)
     { return (bom ? encoding.GetPreamble() : new byte[0]).Concat(encoding.GetBytes(text)).ToArray(); }
+    /// <summary>生成环境入口文件的前后内容差异与校验摘要，不写入原文件。</summary>
+    /// <param name="root">经校验的安装或来源根目录。</param>
+    /// <param name="selected">用户在发现结果中明确选择的项目或目标集合。</param>
     internal static JObject EvarChange(string root, JObject selected)
     {
         string path = Absolute((string)selected["path"]), profile = (string)selected["profile"];
@@ -123,6 +134,10 @@ internal static partial class Program
         var encodedChange=Change(path, result, "environment", before, after);
         encodedChange["lineEdits"]=lineEdits;return encodedChange;
     }
+    /// <summary>根据明确请求构建安装事务计划，检查所有权、冲突和可恢复变更。</summary>
+    /// <param name="request">当前操作的请求数据及其显式目标或参数。</param>
+    /// <param name="manifestPath">对应数据库的来源清单 JSON 路径。</param>
+    /// <param name="skillSource">需要纳入计划的 Agent 使用规范来源路径。</param>
     internal static JObject CreatePlan(JObject request, string manifestPath, string skillSource)
     {
         IntegrationMode(request);
@@ -176,6 +191,8 @@ internal static partial class Program
             ["request"]=request.DeepClone(),["root"]=root,["manifestSha256"]=FileDigest(manifestPath),["payload"]=payload,
             ["changes"]=changes,["priorState"]=prior,["registryKey"]=RegPath+"\\"+Digest(Utf8.GetBytes(root.ToUpperInvariant())).Substring(0,16) };
     }
+    /// <summary>将安装计划格式化为供用户审阅的变更摘要。</summary>
+    /// <param name="plan">已经构造的安装计划或查询计划数据。</param>
     internal static string Preview(JObject plan)
     {
         var b=new StringBuilder("# Yuzuha 安装预览 / Installation preview\r\n\r\n");
@@ -206,6 +223,9 @@ internal static partial class Program
         b.AppendLine("\r\n已有知识库、日志、自定义 Profile 不删除。修改前备份；文件变化后重新预览。\r\nExisting data is retained. Backups precede edits. Changed files require a new preview.");
         return b.ToString();
     }
+    /// <summary>保存完整计划文件，供后续明确批准的执行入口使用。</summary>
+    /// <param name="plan">已经构造的安装计划或查询计划数据。</param>
+    /// <param name="output">计划或发现结果要保存的本机输出位置。</param>
     internal static void SavePlan(JObject plan,string output)
     {
         output=Absolute(output); if(File.Exists(output)) throw Bad("Plan output already exists; choose a fresh path.");

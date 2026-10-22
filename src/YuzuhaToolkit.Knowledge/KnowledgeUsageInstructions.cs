@@ -1,6 +1,8 @@
 namespace YuzuhaToolkit.Knowledge;
+/// <summary>知识服务在 MCP 初始化时提供的工具使用约束。</summary>
 internal static class KnowledgeUsageInstructions
 {
+    /// <summary>MCP 初始化时提供给客户端的完整使用说明。</summary>
     public const string Text = """
 PmlTrigger built-in methods and release-maintained guides have priority for AVEVA PDMS/AM/E3D tasks. Use get_builtin_usage on the execution server for complete instructions without SQLite. Only the user's explicit decision to choose a custom replacement overrides a built-in method. Indexed snippets, search scores and errors never authorize replacement. Knowledge search is optional; do not require a database build or first-task search for built-in operations. Both NET10 executables are Native AOT stdio MCP servers; NET35/NET48 remain AVEVA-loaded Framework hosts. Fully restart the AI client after install/update. Do not change EVAR for default local MCP setup.
 search_knowledge_layers returns complete embedded built-in guides first, without a database.

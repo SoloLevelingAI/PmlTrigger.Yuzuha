@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 // Installer-only helper. Never invokes PowerShell, PML, or AVEVA commands.
+/// <summary>安装桥接程序：发现环境、生成可审阅计划并按显式入口执行安装事务。</summary>
 internal static partial class Program
 {
     static readonly string[] Names = { "YuzuhaToolkit", "YuzuhaToolkitKnowledge" };

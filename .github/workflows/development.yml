@@ -35,7 +35,7 @@ jobs:
             artifacts/dt/**/run-metadata.json
             artifacts/dt/**/documented-run.json
             artifacts/dt/**/smoke-result.json
-            artifacts/dt/**/desktop/*.png
+            artifacts/dt/**/desktop/**/*.png
             artifacts/dt/**/binding-errors.log
       - uses: actions/upload-artifact@v4
         with:

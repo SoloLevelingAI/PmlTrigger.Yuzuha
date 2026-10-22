@@ -419,9 +419,9 @@
       "file": "scripts/Test-Desktop.ps1",
       "entryPoint": "$exe = Join-Path $root",
       "runner": "desktop-flows",
-      "purpose": "使用合成 Host 验证 WPF 创建、三条 M1 流程绑定和三种逻辑视口；不是 AVEVA 实机或人工易用性验收。",
+      "purpose": "明暗主题下验证 13 个 WPF 页面、三种逻辑视口、同设计画布、调用详情关联和主题切换保留任务；不是 AVEVA 实机或人工视觉验收。",
       "environment": "Windows x64 / NET10 SDK 与 WPF；无需 AVEVA",
-      "expected": "当前运行产生有效回执、21 张基本视口截图和 2 张错误状态截图；进程退出码为 0，源码身份与证据可定位。"
+      "expected": "本次产生有效回执、78 张视口截图、26 张同画布截图和 4 张错误状态截图，绑定错误为零；切换不改变输入、查询、目标或许可。"
     },
     {
       "id": "manual:desktop-aveva-m1",
@@ -1225,6 +1225,66 @@
       "targets": [
         {
           "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.WorkbenchPaths"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopPresentationTests.BothThemesProvideEveryDesignTokenAndAllDynamicBrushes",
+      "purpose": "明暗主题键与设计变量齐全，界面引用均可解析。",
+      "environment": "Windows x64 / NET10；本机设计资源与合成日志，不连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.DesktopTheme"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopPresentationTests.BothThemesKeepTextAndSemanticFeedbackReadable",
+      "purpose": "正文、按钮和成功/警告/失败反馈在明暗模式下满足 4.5:1 对比度。",
+      "environment": "Windows x64 / NET10；本机设计资源与合成日志，不连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.DesktopTheme"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopPresentationTests.ThemePreferenceDoesNotSaveLaunchDraftsOrFunctionPermissions",
+      "purpose": "主题偏好独立原子保存，不保存启动草稿或改动函数许可。",
+      "environment": "Windows x64 / NET10；本机设计资源与合成日志，不连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.DesktopDisplaySettings"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopPresentationTests.EmptyActivityDoesNotInventLatencyOrSuccess",
+      "purpose": "无活动时不编造平均耗时、成功率或已完成调用。",
+      "environment": "Windows x64 / NET10；本机设计资源与合成日志，不连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.DesktopActivitySummary"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopPresentationTests.ActivityCountsCompletedToolsAndKeepsUnknownInDenominator",
+      "purpose": "排除开始事件与启动/复制操作，失败和未知保留在工具完成项分母中。",
+      "environment": "Windows x64 / NET10；本机设计资源与合成日志，不连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.DesktopActivitySummary"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopPresentationTests.ActivityUsesDisplayDayAndNeverFillsMissingDaysWithSuccess",
+      "purpose": "按显示日分组已保留记录，跨日时区和缺失日期不补成成功。",
+      "environment": "Windows x64 / NET10；本机设计资源与合成日志，不连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.DesktopActivitySummary"
         }
       ]
     }

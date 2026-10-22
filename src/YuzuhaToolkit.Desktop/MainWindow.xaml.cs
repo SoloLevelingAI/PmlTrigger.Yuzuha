@@ -24,14 +24,21 @@ public partial class MainWindow : Window
     private bool _closed;
     private bool _copying;
     private LaunchProfile? _selected;
+    private ActivityEntry[] _recentActivity = [];
+    private IReadOnlyList<YuzuhaToolkit.Mcp.AvevaSessionCandidate> _sessionCandidates = [];
 
     /// <summary>读取已有无密码配置，建立状态轮询；不自动启动 AVEVA 或复制插件。</summary>
     public MainWindow()
     {
         InitializeComponent(); _settings = WorkspaceSettings.Load();
+        Width = Math.Min(Width, Math.Max(MinWidth, SystemParameters.WorkArea.Width - 16));
+        Height = Math.Min(Height, Math.Max(MinHeight, SystemParameters.WorkArea.Height - 16));
         SessionView.SectionChanged += title => { if (Tabs.SelectedIndex == 3) SetPage(title); };
-        SessionView.TargetChanged += target => { SidebarTargetText.Text = target; OverviewTargetText.Text = SessionView.TargetDisplayName; OverviewSessionText.Text = target; OverviewTargetDetail.Text = target; };
-        MaintainerText.Text = Environment.UserName; SetPage("总览");
+        SessionView.TargetChanged += target => { SidebarTargetText.Text = target; OverviewTargetText.Text = SessionView.TargetDisplayName; OverviewSessionText.Text = target; OverviewTargetDetail.Text = target; RenderCandidates(); };
+        SessionView.CandidatesChanged += candidates => { _sessionCandidates = candidates; RenderCandidates(); };
+        MaintainerText.Text = Environment.UserName;
+        try { DesktopTheme.Apply(DesktopDisplaySettings.ReadTheme(WorkspaceSettings.StateDirectory)); } catch (Exception error) { Say("显示偏好读取失败：" + error.Message); }
+        SetPage("总览"); UpdateThemeButtons();
         RegisteredBox.Text = _settings.RegisteredPmlLib; SourceBox.Text = _settings.PluginSource; PluginBox.Text = _settings.PluginName;
         WarnFilesBox.Text = _settings.WarnFiles.ToString(); WarnSizeBox.Text = (_settings.WarnBytes / 1048576).ToString();
         ReloadProfiles(); if (_settings.Profiles.Count > 0) ProfilesBox.SelectedIndex = 0;
@@ -41,6 +48,11 @@ public partial class MainWindow : Window
     }
 
     private void Say(string message) => MessageText.Text = message;
+    private void RenderCandidates()
+    {
+        OverviewServices.Text = _sessionCandidates.Count.ToString();
+        OverviewSessionsGrid.ItemsSource = _sessionCandidates.Take(3).Select(candidate => new { candidate.Product, candidate.Project, candidate.ProcessId, Verified = SessionView.MatchesTarget(candidate), StatusText = SessionView.MatchesTarget(candidate) ? "已核验" : candidate.PipeDetected ? "已发现 · 待核验" : "未发现 Host" }).ToArray();
+    }
     private void WindowSizeChanged(object sender, SizeChangedEventArgs e)
     {
         if (HeartbeatText is not null) HeartbeatText.Visibility = ActualWidth < 1100 ? Visibility.Collapsed : Visibility.Visible;
@@ -48,7 +60,7 @@ public partial class MainWindow : Window
         if (OverviewKpis is not null)
         {
             var narrow = ActualWidth < 1100; OverviewKpis.Columns = narrow ? 2 : 4;
-            foreach (var grid in new[] { OverviewColumns1, OverviewColumns2, OverviewColumns3, LaunchColumns, LaunchLowerColumns })
+            foreach (var grid in new[] { OverviewColumns1, OverviewColumns2, OverviewColumns3, LaunchColumns, LaunchLowerColumns, RuntimeColumns, RuntimeLowerColumns, LogColumns, SettingsColumns, SettingsLowerColumns, ReviewColumns, TestsColumns, WebColumns, KnowledgeColumns, DeploymentColumns, DeploymentLowerColumns })
             {
                 if (grid.RowDefinitions.Count == 0) { grid.RowDefinitions.Add(new() { Height = GridLength.Auto }); grid.RowDefinitions.Add(new() { Height = GridLength.Auto }); }
                 var cards = grid.Children.OfType<Border>().ToArray();
@@ -60,19 +72,42 @@ public partial class MainWindow : Window
     {
         title = title?.Trim() ?? "总览"; PageTitleText.Text = title;
         PageSubtitleText.Text = title switch { "总览" => "本机工作台 · 工程环境与近期工具活动", "工程会话" => "先核验 PID 与启动身份，再查询或调用 PML", "能力与函数" => "登记源码、人工授权 · 登记版本与会话加载版本分别核对", "原生 Form / Gadget" => "原生窗体 → 控件 → 属性 · 有界读取与续读", "启动工程" => "复用已有启动配置 · 本次密码不保存", "插件部署" => "来源、复制预览、备份与本机记录", _ => "本机工具与交付记录" };
-        HeaderActionText.Text = title switch { "工程会话" => "扫描会话", "能力与函数" => "登记函数", "原生 Form / Gadget" => "重新核验", _ => "启动工程" };
+        HeaderActionText.Text = title switch { "工程会话" => "扫描会话", "能力与函数" => "登记函数", "原生 Form / Gadget" => "重新核验", "AI 运行" => "刷新状态", "工具日志" => "日志目录", "插件部署" => "预览复制", "设置" => "保存设置", _ => "启动工程" };
+        if (title is "评审中心" or "测试中心" or "Web 应用" or "知识库") HeaderActionText.Text = title switch { "评审中心" => "审核草稿", "测试中心" => "运行测试", "Web 应用" => "登记应用", _ => "搜索知识" };
+        HeaderActionButton.IsEnabled = title is not ("评审中心" or "测试中心" or "Web 应用" or "知识库");
+        HeaderActionIcon.Data = (Geometry)FindResource(title is "工程会话" or "原生 Form / Gadget" or "AI 运行" ? "Icon.refresh" : title is "能力与函数" or "Web 应用" ? "Icon.plus" : "Icon.play");
         foreach (var button in SidebarNav.Children.OfType<Button>())
         {
             var selected = button.Uid == (title is "能力与函数" or "原生 Form / Gadget" ? "工程会话" : title);
-            button.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(selected ? "#103B3D" : "#0B2D30"));
-            button.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(selected ? "#F2F8F4" : "#9DBDB7"));
-            button.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EDBD62"));
+            button.SetResourceReference(BackgroundProperty, selected ? "Brand.NavSelected" : "Brand.Sidebar");
+            button.SetResourceReference(ForegroundProperty, selected ? "Brand.NavSelectedText" : "Brand.NavText");
+            button.SetResourceReference(BorderBrushProperty, "Brand.NavIndicator");
             button.BorderThickness = new Thickness(selected ? 3 : 0, 0, 0, 0);
+        }
+    }
+    private void ChooseTheme(object sender, RoutedEventArgs e)
+    {
+        if (sender is not Button button || button.Tag is not string theme) return;
+        try { DesktopTheme.Apply(theme); UpdateThemeButtons(); DesktopDisplaySettings.SaveTheme(WorkspaceSettings.StateDirectory, theme); }
+        catch (Exception error) { Say("主题已切换，但显示偏好未保存：" + error.Message); }
+    }
+    private void UpdateThemeButtons()
+    {
+        foreach (var button in new[] { LightThemeButton, DarkThemeButton })
+        {
+            var selected = Equals(button.Tag, DesktopTheme.Current); button.SetResourceReference(BackgroundProperty, selected ? "Brand.NavSelected" : "Brand.SidebarPanel");
+            button.SetResourceReference(ForegroundProperty, selected ? "Brand.NavSelectedText" : "Brand.NavText");
+            button.BorderThickness = new Thickness(selected ? 1 : 0); button.SetResourceReference(BorderBrushProperty, "Brand.NavIndicator");
         }
     }
     private void HeaderAction(object sender, RoutedEventArgs e)
     {
         if (Tabs.SelectedIndex == 3) SessionView.PrimaryAction();
+        else if (Tabs.SelectedIndex == 2) _ = RefreshRuntimeAsync();
+        else if (Tabs.SelectedIndex == 7) OpenLogs(sender, e);
+        else if (Tabs.SelectedIndex == 6) SaveWorkspace(sender, e);
+        else if (Tabs.SelectedIndex == 1) PreviewCopy(sender, e);
+        else if (Tabs.SelectedIndex == 0) { if (LaunchButton.IsEnabled) Launch(sender, e); }
         else { Tabs.SelectedIndex = 0; SetPage("启动工程"); }
     }
     private void ShowHelp(object sender, RoutedEventArgs e) => MessageBox.Show(this, "工程会话：扫描 → 选择 → 核验目标。\n能力与函数：登记源码 → 检查源码 → 授予许可 → 预览 → 执行一次。\n原生查询：窗体 → 控件 → 固定属性；使用 NextIndex 继续读取。\n\n源码变化后重新登记和授权；结果未知时先核查回执，不自动重试。\nCtrl+K 可按页面名称导航；所有界面证据与实机验证分别记录。", "Yuzuha · 使用说明");
@@ -88,7 +123,7 @@ public partial class MainWindow : Window
         if (button is not null) { Navigate(button, new()); NavigationSearch.Clear(); } else Say("未找到页面。可输入：工程会话、启动工程、工具日志等。");
         e.Handled = true;
     }
-    private void OpenLogsPage(object sender, RoutedEventArgs e) { Tabs.SelectedIndex = 2; SetPage("工具日志"); }
+    private void OpenLogsPage(object sender, RoutedEventArgs e) { Tabs.SelectedIndex = 7; SetPage("工具日志"); }
     private void PageSelected(object sender, SelectionChangedEventArgs e)
     {
         if (ReferenceEquals(e.Source, Tabs) && SidebarNav is not null && Tabs.SelectedItem is TabItem tab) SetPage(tab.Header?.ToString());
@@ -99,7 +134,8 @@ public partial class MainWindow : Window
         if (int.TryParse(button.Tag?.ToString(), out var index)) Tabs.SelectedIndex = index;
         else
         {
-            Tabs.SelectedIndex = 5; PlannedTitleText.Text = button.Uid;
+            Tabs.SelectedIndex = 5; PlannedTitleText.Text = button.Uid + " · 功能待接入，保留原稿布局";
+            PlannedPages.SelectedIndex = button.Uid switch { "评审中心" => 0, "测试中心" => 1, "Web 应用" => 2, _ => 3 };
             PlannedDescriptionText.Text = button.Uid switch
             {
                 "评审中心" => "M3：同一名人工审核差异、契约和测试证据，再批准迁移。复用已有复制、哈希和备份能力，补批准快照、回执与恢复记录。",
@@ -108,6 +144,7 @@ public partial class MainWindow : Window
                 _ => "知识检索已有独立工具入口。本批保留其使用方式；来源、经验与验证证据的新界面按后续设计交付。"
             };
         }
+        if (button.Uid == "工程会话") SessionView.OpenSessions();
         SetPage(button.Uid);
     }
     private void OpenFunctionsPage(object sender, RoutedEventArgs e) { Tabs.SelectedIndex = 3; SessionView.OpenFunctions(); SetPage("能力与函数"); }
@@ -212,7 +249,7 @@ public partial class MainWindow : Window
         var health = await Task.Run(() => DirectoryInspector.Scan(root, files, bytes));
         var text = FormatHealth(health); HealthText.Text = text; LaunchHealthText.Text = text;
         OverviewFilesText.Text = health.Files.ToString("N0") + " 个文件"; OverviewSizeText.Text = (health.Bytes / 1048576d).ToString("N1") + " MiB · " + (health.Complete ? "完整扫描" : "部分扫描");
-        HealthText.Foreground = health.NeedsAttention ? new SolidColorBrush(Color.FromRgb(164, 94, 12)) : new SolidColorBrush(Color.FromRgb(30, 118, 91)); return health;
+        HealthText.SetResourceReference(System.Windows.Controls.TextBlock.ForegroundProperty, health.NeedsAttention ? "Text.Warning" : "Text.Success"); return health;
     }
     private static string FormatHealth(DirectoryHealth health) => $"{(health.Complete ? "完整扫描" : "部分扫描")} · {health.Files:N0} 个文件 · {health.PmlFiles:N0} 个 PML 文件 · {health.Bytes / 1048576d:N1} MiB\n"
         + (health.Warnings.Length > 0 ? string.Join("\n", health.Warnings) : "未达到当前清理提醒预算。")
@@ -262,15 +299,25 @@ public partial class MainWindow : Window
         try
         {
             var data = await Task.Run(() => (Statuses: RuntimeReader.Statuses(), Events: RuntimeReader.Recent()));
-            if (_closed) return; RuntimeGrid.ItemsSource = data.Statuses; ActivityGrid.ItemsSource = data.Events;
+            if (_closed) return;
+            var selectedActivity = ActivityGrid.SelectedItem as ActivityEntry;
+            _recentActivity = data.Events;
+            RuntimeGrid.ItemsSource = data.Statuses; RuntimeCards.ItemsSource = data.Statuses.Take(3).ToArray(); RuntimeActivityGrid.ItemsSource = data.Events.Take(8).ToArray(); ActivityGrid.ItemsSource = data.Events;
+            if (selectedActivity is not null) ActivityGrid.SelectedItem = data.Events.FirstOrDefault(item => item.CallId == selectedActivity.CallId && item.ProcessId == selectedActivity.ProcessId && item.Phase == selectedActivity.Phase && item.TimeUtc == selectedActivity.TimeUtc);
             HeartbeatText.Text = $"{data.Statuses.Count(status => status.State is "idle" or "running")} 个本机服务在线 · {data.Statuses.Sum(status => status.ActiveTools.Length)} 个工具运行中";
-            OverviewServices.Text = data.Statuses.Count(status => status.State is "idle" or "running").ToString();
-            var completed = data.Events.Where(item => item.Phase != "started").ToArray();
-            OverviewCalls.Text = completed.Length.ToString("N0");
-            OverviewLatency.Text = completed.Length == 0 ? "—" : completed.Average(item => item.Milliseconds).ToString("N0") + " ms";
-            OverviewSuccess.Text = completed.Length == 0 ? "—" : (100d * completed.Count(item => item.Phase == "succeeded") / completed.Length).ToString("N1") + "%";
-            OverviewRecentText.Text = completed.Length == 0 ? "尚无完成记录" : completed.Length.ToString("N0") + " 次完成";
+            var summary = DesktopActivitySummary.Create(data.Events, DateTimeOffset.Now);
+            OverviewCalls.Text = summary.Completed.ToString("N0");
+            OverviewLatency.Text = summary.AverageMilliseconds?.ToString("N0") + (summary.AverageMilliseconds is null ? "—" : " ms");
+            OverviewSuccess.Text = summary.SuccessPercent?.ToString("N1") + (summary.SuccessPercent is null ? "—" : "%");
+            RuntimeSuccessText.Text = OverviewSuccess.Text; RuntimeMetricText.Text = summary.Completed == 0 ? "当前没有完成项" : summary.Successful + " / " + summary.Completed + " · 已保留完成项";
+            RuntimeErrorsList.ItemsSource = data.Events.Where(item => item.Phase is not ("started" or "succeeded")).Take(3).ToArray();
+            DeploymentHistoryGrid.ItemsSource = data.Events.Where(item => item.Tool == "copy_plugin" && item.Phase != "started").Take(8).ToArray();
+            OverviewRecentText.Text = summary.Days.Sum(day => day.Total).ToString("N0");
+            var maximum = Math.Max(1, summary.Days.Max(day => day.Total));
+            OverviewChart.ItemsSource = summary.Days.Select(day => new { day.Label, CountLabel = day.Total == 0 ? "" : day.Total.ToString(), QueryHeight = day.Query * 94d / maximum, ExecuteHeight = day.Execute * 94d / maximum, KnowledgeHeight = day.Knowledge * 94d / maximum, Tooltip = day.Label + " · 已保留 " + day.Total + " 项" }).ToArray();
+            OverviewChartEmptyText.Visibility = summary.Days.All(day => day.Total == 0) ? Visibility.Visible : Visibility.Collapsed;
             OverviewFeed.ItemsSource = data.Events.Take(3).ToArray();
+            OverviewFeedEmptyText.Visibility = data.Events.Length == 0 ? Visibility.Visible : Visibility.Collapsed;
             OverviewRuntimeText.Text = HeartbeatText.Text + "\n\n" + string.Join("\n", data.Statuses.Take(3).Select(status => status.Service + " · " + status.StateLabel));
         }
         catch (Exception error) { HeartbeatText.Text = "状态读取失败：" + error.Message; }
@@ -278,46 +325,110 @@ public partial class MainWindow : Window
     }
     private void ActivitySelected(object sender, SelectionChangedEventArgs e)
     {
-        if (ActivityGrid.SelectedItem is ActivityEntry entry) ActivityDetails.Text = $"{entry.TimeUtc.ToOffset(TimeSpan.FromHours(8)):yyyy-MM-dd HH:mm:ss zzz} · {entry.Service} · PID {entry.ProcessId}\n关联：{entry.CallId}\n参数：{entry.Arguments}\n结果：{entry.Summary}";
+        if (ActivityGrid.SelectedItem is ActivityEntry entry)
+        {
+            ActivityIdentityText.Text = $"{entry.TimeUtc.ToOffset(TimeSpan.FromHours(8)):yyyy-MM-dd HH:mm:ss zzz}\n{entry.Service} · PID {entry.ProcessId}\n关联：{entry.CallId}";
+            ActivityRequestText.Text = string.IsNullOrEmpty(entry.Arguments) ? _recentActivity.FirstOrDefault(item => item.CallId == entry.CallId && item.ProcessId == entry.ProcessId && item.Service == entry.Service && item.Phase == "started")?.Arguments ?? "开始记录不在当前保留范围，无法恢复请求参数。" : entry.Arguments;
+            ActivityDetails.Text = entry.Summary;
+        }
     }
+    private void CopyActivity(object sender, RoutedEventArgs e) => Try(() => { Clipboard.SetText(ActivityIdentityText.Text + "\n请求：" + ActivityRequestText.Text + "\n结果：" + ActivityDetails.Text); Say("已复制当前调用详情。"); });
     private void Try(Action action) { try { action(); } catch (Exception error) { Say(error.Message); } }
 
-    /// <summary>在隔离夹具中渲染三个页面截图，验证窗口创建、绑定与目录扫描。</summary>
-    /// <param name="outputDirectory">截图与验证报告输出目录。</param>
+    /// <summary>隔离数据下渲染全部页面，核对两种主题、布局与错误反馈。</summary>
+    /// <param name="outputDirectory">本机截图和合成验证报告目录。</param>
     public async Task RunSmokeAsync(string outputDirectory)
     {
-        Directory.CreateDirectory(outputDirectory); await DiscoverAsync();
-        if (Directory.Exists(_settings.RegisteredPmlLib)) await ScanAsync();
-        if ((Directory.Exists(_settings.PluginSource) || File.Exists(_settings.PluginSource)) && Directory.Exists(_settings.RegisteredPmlLib))
+        Directory.CreateDirectory(outputDirectory); _timer.Stop(); await DiscoverAsync();
+        var fixtureDirectory = Path.Combine(outputDirectory, "fixture"); Directory.CreateDirectory(fixtureDirectory);
+        var launcher = Path.Combine(fixtureDirectory, "mon.exe"); File.WriteAllBytes(launcher, []);
+        var initialization = Path.Combine(fixtureDirectory, "launch.init"); File.WriteAllText(initialization, "UI fixture only");
+        NameBox.Text = "未保存的离线预览草稿"; ExecutableBox.Text = launcher; InitializationBox.Text = initialization; WorkingBox.Text = fixtureDirectory;
+        ProjectBox.Text = "SYNTHETIC"; UserBox.Text = "UI_TEST"; MdbBox.Text = "/ALL_NO_MDS"; ModuleBox.Text = "Design";
+        PreviewLaunch(this, new()); LaunchButton.IsEnabled = false;
+        using var fixtureJournal = new RuntimeJournal("离线 UI 合成夹具");
+        foreach (var tool in new[] { "synthetic_query", "synthetic_registered_call", "synthetic_knowledge_search" })
         {
-            var plan = await Task.Run(() => PluginDeployment.Preview(_settings.PluginSource, _settings.RegisteredPmlLib, _settings.PluginName));
-            CopyGrid.ItemsSource = plan.Files; CopySummaryText.Text = $"界面验证：预览 {plan.Files.Length} 个文件，未执行复制。";
+            var id = fixtureJournal.Begin(tool, "{\"fixtureOnly\":true}");
+            fixtureJournal.Complete(id, "succeeded", "离线合成记录，不是 AVEVA 执行或业务验证。");
         }
+        // Let the initial Loaded refresh finish before reading newly written fixture events.
+        // Otherwise its in-flight guard can skip this refresh and leave an empty log selection.
+        for (var attempt = 0; _refreshing && attempt < 500; attempt++) await Task.Delay(10);
+        if (_refreshing) throw new InvalidOperationException("初始状态读取未完成，无法核对本次合成日志。");
         await RefreshRuntimeAsync();
-        await SessionView.PrepareSmokeAsync(Path.Combine(outputDirectory, "fixture"));
-        foreach (var size in new[] { (Width: 1440d, Height: 960d), (Width: 1280d, Height: 720d), (Width: 853d, Height: 480d) })
+        (int Tab, int Flow, int Planned, string Name)[] screens = {
+            (Tab: 4, Flow: 0, Planned: 0, Name: "overview"), (0,0,0,"launch"), (1,0,0,"deployment"), (2,0,0,"runtime"), (7,0,0,"logs"),
+            (3,0,0,"sessions"), (3,1,0,"functions"), (3,2,0,"queries"), (5,0,0,"review"), (5,0,1,"tests"), (5,0,2,"web"), (5,0,3,"knowledge"), (6,0,0,"settings") };
+        foreach (var theme in new[] { "Light", "Dark" })
         {
-            Width = size.Width; Height = size.Height;
-            foreach (var screen in new[] { (Tab: 4, Flow: 0, Name: "overview"), (Tab: 0, Flow: 0, Name: "launch"), (Tab: 1, Flow: 0, Name: "deployment"), (Tab: 2, Flow: 0, Name: "logs"), (Tab: 3, Flow: 0, Name: "sessions"), (Tab: 3, Flow: 1, Name: "functions"), (Tab: 3, Flow: 2, Name: "queries") })
+            await SessionView.PrepareSmokeAsync(fixtureDirectory);
+            var state = SessionView.CaptureThemeState();
+            var workspaceFile = Path.Combine(WorkspaceSettings.StateDirectory, "workspace.json");
+            var workspaceBefore = File.Exists(workspaceFile) ? File.ReadAllText(workspaceFile) : null;
+            ChooseTheme(theme == "Light" ? LightThemeButton : DarkThemeButton, new());
+            if (state != SessionView.CaptureThemeState()) throw new InvalidOperationException("主题切换改变了输入、目标或函数许可。");
+            if (workspaceBefore != (File.Exists(workspaceFile) ? File.ReadAllText(workspaceFile) : null) || DesktopDisplaySettings.ReadTheme(WorkspaceSettings.StateDirectory) != theme) throw new InvalidOperationException("主题切换未独立保存显示偏好。");
+            var expected = ((SolidColorBrush)FindResource("Text.Primary")).Color;
+            if (((SolidColorBrush)PageTitleText.Foreground).Color != expected) throw new InvalidOperationException("页面标题没有跟随主题。");
+            var themeDirectory = Path.Combine(outputDirectory, theme); Directory.CreateDirectory(themeDirectory);
+            Tabs.SelectedIndex = 1; RegistrationsBox.IsDropDownOpen = true;
+            await Dispatcher.InvokeAsync(() => { }, DispatcherPriority.ApplicationIdle); RegistrationsBox.IsDropDownOpen = false;
+            foreach (var size in new[] { (Width: 1440d, Height: 960d), (Width: 1280d, Height: 720d), (Width: 853d, Height: 480d) })
             {
-                Tabs.SelectedIndex = screen.Tab; SessionView.SelectSmokeFlow(screen.Flow);
-                await Dispatcher.InvokeAsync(() => { }, DispatcherPriority.ApplicationIdle); await Task.Delay(150);
-                var content = (FrameworkElement)Content;
-                var bitmap = new RenderTargetBitmap((int)content.ActualWidth, (int)content.ActualHeight, 96, 96, PixelFormats.Pbgra32); bitmap.Render(content);
-                var encoder = new PngBitmapEncoder(); encoder.Frames.Add(BitmapFrame.Create(bitmap));
-                using var output = File.Create(Path.Combine(outputDirectory, $"{screen.Name}-{size.Width}.png")); encoder.Save(output);
+                Width = size.Width; Height = size.Height;
+                foreach (var screen in screens)
+                {
+                    SelectSmokeScreen(screen.Tab, screen.Flow, screen.Planned);
+                    await CaptureSmokeAsync(Path.Combine(themeDirectory, $"{screen.Name}-{size.Width}.png"));
+                }
+            }
+            var surface = (FrameworkElement)Content;
+            Width = 1440 + ActualWidth - surface.ActualWidth;
+            Height = 1024 + ActualHeight - surface.ActualHeight;
+            foreach (var screen in screens)
+            {
+                SelectSmokeScreen(screen.Tab, screen.Flow, screen.Planned);
+                await CaptureSmokeAsync(Path.Combine(themeDirectory, $"design-{screen.Name}.png"));
+            }
+            Width = 1280; Height = 900; Tabs.SelectedIndex = 3;
+            foreach (var unknown in new[] { false, true })
+            {
+                await SessionView.FaultSmokeAsync(unknown); SetPage("能力与函数");
+                PageSubtitleText.Text = "离线合成验证 · 非 AVEVA 实机";
+                await CaptureSmokeAsync(Path.Combine(themeDirectory, unknown ? "state-unknown.png" : "state-rejected.png"));
             }
         }
-        Width = 1280; Height = 900; Tabs.SelectedIndex = 3;
-        foreach (var unknown in new[] { false, true })
+        File.WriteAllText(Path.Combine(outputDirectory, "desktop-smoke.json"), JsonSerializer.Serialize(new {
+            passed = true, scope = "WPF creation, synthetic bindings and layout; not AVEVA live or human visual acceptance",
+            pages = screens.Length, tabs = Tabs.Items.Count, profiles = ProfilesBox.Items.Count, errorStates = 4,
+            themes = new[] { "Light", "Dark" }, themePreservesWork = true,
+            viewports = new[] { "1440x960", "1280x720", "853x480 logical (1280x720 at 150%)" },
+            designCanvas = "1440x1024 client", finishedUtc = DateTime.UtcNow, dpi = VisualTreeHelper.GetDpi(this).DpiScaleX, fontSize = FontSize }));
+    }
+    private void SelectSmokeScreen(int tab, int flow, int planned)
+    {
+        Tabs.SelectedIndex = tab;
+        if (tab == 3) SessionView.SelectSmokeFlow(flow);
+        if (tab == 5)
         {
-            await SessionView.FaultSmokeAsync(unknown);
-            await Dispatcher.InvokeAsync(() => { }, DispatcherPriority.ApplicationIdle); await Task.Delay(100);
-            var content = (FrameworkElement)Content;
-            var bitmap = new RenderTargetBitmap((int)content.ActualWidth, (int)content.ActualHeight, 96, 96, PixelFormats.Pbgra32); bitmap.Render(content);
-            var encoder = new PngBitmapEncoder(); encoder.Frames.Add(BitmapFrame.Create(bitmap));
-            using var output = File.Create(Path.Combine(outputDirectory, unknown ? "state-unknown.png" : "state-rejected.png")); encoder.Save(output);
+            PlannedPages.SelectedIndex = planned; PlannedTitleText.Text = "离线界面验证 · 功能尚未接入";
         }
-        File.WriteAllText(Path.Combine(outputDirectory, "desktop-smoke.json"), JsonSerializer.Serialize(new { passed = true, scope = "WPF creation, synthetic M1 binding and logical viewport checks; not AVEVA live or human usability acceptance", tabs = Tabs.Items.Count, profiles = ProfilesBox.Items.Count, errorStates = 2, viewports = new[] { "1440x960", "1280x720", "853x480 logical (1280x720 at 150%)" }, finishedUtc = DateTime.UtcNow, dpi = VisualTreeHelper.GetDpi(this).DpiScaleX, fontSize = FontSize }));
+        var title = tab == 3 ? flow switch { 1 => "能力与函数", 2 => "原生 Form / Gadget", _ => "工程会话" }
+            : tab == 5 ? new[] { "评审中心", "测试中心", "Web 应用", "知识库" }[planned] : ((TabItem)Tabs.SelectedItem).Header.ToString();
+        SetPage(title); PageSubtitleText.Text = "离线合成验证 · 非 AVEVA 实机";
+        if (tab == 7)
+        {
+            ActivityGrid.SelectedItem = _recentActivity.FirstOrDefault(item => item.Tool.StartsWith("synthetic_", StringComparison.Ordinal) && item.Phase == "succeeded");
+            if (!ActivityRequestText.Text.Contains("fixtureOnly", StringComparison.Ordinal)) throw new InvalidOperationException("完成记录没有定位到同次开始记录的请求参数。");
+        }
+    }
+    private async Task CaptureSmokeAsync(string path)
+    {
+        await Dispatcher.InvokeAsync(() => { }, DispatcherPriority.ApplicationIdle); await Task.Delay(100);
+        var content = (FrameworkElement)Content;
+        var bitmap = new RenderTargetBitmap((int)Math.Round(content.ActualWidth), (int)Math.Round(content.ActualHeight), 96, 96, PixelFormats.Pbgra32); bitmap.Render(content);
+        var encoder = new PngBitmapEncoder(); encoder.Frames.Add(BitmapFrame.Create(bitmap));
+        using var output = File.Create(path); encoder.Save(output);
     }
 }

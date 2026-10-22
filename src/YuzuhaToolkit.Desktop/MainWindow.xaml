@@ -1,148 +1,158 @@
-<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:local="clr-namespace:YuzuhaToolkit.Desktop" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="YuzuhaToolkit.Desktop.MainWindow" Title="PMLTWIN · Yuzuha 工作台" FontFamily="Segoe UI,Microsoft YaHei UI" FontSize="14" Width="1440" Height="1024" MinWidth="840" MinHeight="480" WindowStartupLocation="CenterScreen" SizeChanged="WindowSizeChanged" PreviewKeyDown="WindowKeyDown">
-  <Grid Background="#F4F7F5">
+<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:local="clr-namespace:YuzuhaToolkit.Desktop" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="YuzuhaToolkit.Desktop.MainWindow" Title="PMLTWIN · Yuzuha 工作台" FontFamily="Segoe UI,Microsoft YaHei UI" FontSize="12" Width="1453" Height="1062" MinWidth="840" MinHeight="480" WindowStartupLocation="CenterScreen" SizeChanged="WindowSizeChanged" PreviewKeyDown="WindowKeyDown" Foreground="{DynamicResource Text.Primary}">
+  <Grid Background="{DynamicResource Surface.Page}">
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="232" />
       <ColumnDefinition Width="*" />
     </Grid.ColumnDefinitions>
-    <Border Background="#0B2D30">
-      <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-        <StackPanel Margin="16,28,16,18">
-          <Grid Margin="8,0,0,26">
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="50" />
-              <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <Border Width="38" Height="38" HorizontalAlignment="Left" Background="#163C40" BorderBrush="#2A5551" BorderThickness="1" CornerRadius="8">
-              <Grid>
-                <Path Data="M10 11 L19 20 L28 11 M19 20 L19 30" Stroke="#EAF3E2" StrokeThickness="3.5" StrokeStartLineCap="Round" StrokeEndLineCap="Round" />
-                <Ellipse Width="5" Height="5" Fill="#EDBD62" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,8,7,0" />
-              </Grid>
-            </Border>
-            <StackPanel Grid.Column="1">
-              <TextBlock Text="Yuzuha" Foreground="#F0F8F4" FontSize="21" FontWeight="SemiBold" />
-              <TextBlock Text="ENGINEERING AI" Foreground="#739C95" FontSize="9" Margin="0,3,0,0" />
-            </StackPanel>
-          </Grid>
-          <Border Background="#103638" BorderBrush="#1B4A4B" BorderThickness="1" CornerRadius="11" Padding="14,11">
-            <StackPanel>
-              <TextBlock Text="本机工作台" Foreground="#E8F4EF" FontSize="13" />
-              <TextBlock Text="LOCAL · AVEVA TOOLCHAIN" Foreground="#739C95" FontSize="9" Margin="0,5,0,0" />
-            </StackPanel>
+    <Border Background="{DynamicResource Brand.Sidebar}">
+      <DockPanel>
+        <Grid DockPanel.Dock="Bottom" Height="144">
+          <Border CornerRadius="9" BorderBrush="{DynamicResource Brand.SidebarBorder}" BorderThickness="1" Padding="3" Margin="16,8,16,0" Height="40" VerticalAlignment="Top">
+            <UniformGrid Columns="2">
+              <Button x:Name="LightThemeButton" Content="☀ 明亮" Tag="Light" Click="ChooseTheme" Margin="0" FontSize="12" Padding="8,5" MinHeight="30" />
+              <Button x:Name="DarkThemeButton" Content="☾ 黑暗" Tag="Dark" Click="ChooseTheme" Margin="0" FontSize="12" Padding="8,5" MinHeight="30" />
+            </UniformGrid>
           </Border>
-          <StackPanel x:Name="SidebarNav">
-            <TextBlock Text="工作台" Style="{StaticResource NavGroup}" />
-            <Button Uid="总览" Tag="4" Style="{StaticResource NavButton}" Click="Navigate">
-              <StackPanel Orientation="Horizontal">
-                <Viewbox Width="17" Height="17" Margin="0,0,10,0">
-                  <Path Data="{StaticResource Icon.grid}" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.7" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" />
-                </Viewbox>
-                <TextBlock Text="总览" VerticalAlignment="Center" />
+          <TextBlock Text="Yuzuha Toolkit · PMLTWIN v0.4" Foreground="{DynamicResource Brand.NavMuted}" FontSize="10" Margin="24,0,0,30" VerticalAlignment="Bottom" />
+        </Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+          <StackPanel Margin="16,28,16,0">
+            <Grid Margin="8,0,0,26">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50" />
+                <ColumnDefinition />
+              </Grid.ColumnDefinitions>
+              <Border Width="38" Height="38" HorizontalAlignment="Left" Background="{DynamicResource Surface.Logo}" BorderBrush="{DynamicResource Surface.LogoBorder}" BorderThickness="1" CornerRadius="8">
+                <Grid>
+                  <Path Data="M10 11 L19 20 L28 11 M19 20 L19 30" Stroke="{DynamicResource Brand.LogoLine}" StrokeThickness="3.5" StrokeStartLineCap="Round" StrokeEndLineCap="Round" />
+                  <Ellipse Width="5" Height="5" Fill="{DynamicResource Brand.NavIndicator}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,8,7,0" />
+                </Grid>
+              </Border>
+              <StackPanel Grid.Column="1">
+                <TextBlock Text="Yuzuha" Foreground="{DynamicResource Text.OnDark}" FontSize="20" FontWeight="SemiBold" />
+                <TextBlock Text="ENGINEERING AI" Foreground="{DynamicResource Brand.NavMuted}" FontSize="9" Margin="0,3,0,0" />
               </StackPanel>
-            </Button>
-            <Button Uid="启动工程" Tag="0" Style="{StaticResource NavButton}" Click="Navigate">
-              <StackPanel Orientation="Horizontal">
-                <Viewbox Width="17" Height="17" Margin="0,0,10,0">
-                  <Path Data="{StaticResource Icon.rocket}" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.7" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" />
-                </Viewbox>
-                <TextBlock Text="启动工程" VerticalAlignment="Center" />
+            </Grid>
+            <Border Background="{DynamicResource Brand.SidebarPanel}" BorderBrush="{DynamicResource Brand.SidebarBorder}" BorderThickness="1" CornerRadius="11" Padding="14,5" Height="42">
+              <StackPanel>
+                <TextBlock Text="本机工作台" Foreground="{DynamicResource Text.OnDark}" FontSize="13" />
+                <TextBlock Text="LOCAL · AVEVA TOOLCHAIN" Foreground="{DynamicResource Brand.NavMuted}" FontSize="8" Margin="0,2,0,0" />
               </StackPanel>
-            </Button>
-            <Button Uid="工程会话" Tag="3" Style="{StaticResource NavButton}" Click="Navigate">
-              <StackPanel Orientation="Horizontal">
-                <Viewbox Width="17" Height="17" Margin="0,0,10,0">
-                  <Path Data="{StaticResource Icon.link}" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.7" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" />
-                </Viewbox>
-                <TextBlock Text="工程会话" VerticalAlignment="Center" />
+            </Border>
+            <StackPanel x:Name="SidebarNav">
+              <TextBlock Text="工作台" Style="{StaticResource NavGroup}" />
+              <Button Uid="总览" Tag="4" Style="{StaticResource NavButton}" Click="Navigate">
+                <StackPanel Orientation="Horizontal">
+                  <Viewbox Width="17" Height="17" Margin="0,0,10,0">
+                    <Path Data="{StaticResource Icon.grid}" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.7" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" />
+                  </Viewbox>
+                  <TextBlock Text="总览" VerticalAlignment="Center" />
+                </StackPanel>
+              </Button>
+              <Button Uid="启动工程" Tag="0" Style="{StaticResource NavButton}" Click="Navigate">
+                <StackPanel Orientation="Horizontal">
+                  <Viewbox Width="17" Height="17" Margin="0,0,10,0">
+                    <Path Data="{StaticResource Icon.rocket}" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.7" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" />
+                  </Viewbox>
+                  <TextBlock Text="启动工程" VerticalAlignment="Center" />
+                </StackPanel>
+              </Button>
+              <Button Uid="工程会话" Tag="3" Style="{StaticResource NavButton}" Click="Navigate">
+                <StackPanel Orientation="Horizontal">
+                  <Viewbox Width="17" Height="17" Margin="0,0,10,0">
+                    <Path Data="{StaticResource Icon.link}" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.7" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" />
+                  </Viewbox>
+                  <TextBlock Text="工程会话" VerticalAlignment="Center" />
+                </StackPanel>
+              </Button>
+              <TextBlock Text="交付" Style="{StaticResource NavGroup}" />
+              <Button Uid="评审中心" Tag="planned" Style="{StaticResource NavButton}" Click="Navigate">
+                <StackPanel Orientation="Horizontal">
+                  <Viewbox Width="17" Height="17" Margin="0,0,10,0">
+                    <Path Data="{StaticResource Icon.check_circle}" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.7" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" />
+                  </Viewbox>
+                  <TextBlock Text="评审中心" VerticalAlignment="Center" />
+                </StackPanel>
+              </Button>
+              <Button Uid="测试中心" Tag="planned" Style="{StaticResource NavButton}" Click="Navigate">
+                <StackPanel Orientation="Horizontal">
+                  <Viewbox Width="17" Height="17" Margin="0,0,10,0">
+                    <Path Data="{StaticResource Icon.activity}" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.7" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" />
+                  </Viewbox>
+                  <TextBlock Text="测试中心" VerticalAlignment="Center" />
+                </StackPanel>
+              </Button>
+              <Button Uid="插件部署" Tag="1" Style="{StaticResource NavButton}" Click="Navigate">
+                <StackPanel Orientation="Horizontal">
+                  <Viewbox Width="17" Height="17" Margin="0,0,10,0">
+                    <Path Data="{StaticResource Icon.package}" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.7" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" />
+                  </Viewbox>
+                  <TextBlock Text="插件部署" VerticalAlignment="Center" />
+                </StackPanel>
+              </Button>
+              <TextBlock Text="运行" Style="{StaticResource NavGroup}" />
+              <Button Uid="AI 运行" Tag="2" Style="{StaticResource NavButton}" Click="Navigate">
+                <StackPanel Orientation="Horizontal">
+                  <Viewbox Width="17" Height="17" Margin="0,0,10,0">
+                    <Path Data="{StaticResource Icon.cpu}" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.7" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" />
+                  </Viewbox>
+                  <TextBlock Text="AI 运行" VerticalAlignment="Center" />
+                </StackPanel>
+              </Button>
+              <Button Uid="工具日志" Tag="7" Style="{StaticResource NavButton}" Click="Navigate">
+                <StackPanel Orientation="Horizontal">
+                  <Viewbox Width="17" Height="17" Margin="0,0,10,0">
+                    <Path Data="{StaticResource Icon.file}" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.7" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" />
+                  </Viewbox>
+                  <TextBlock Text="工具日志" VerticalAlignment="Center" />
+                </StackPanel>
+              </Button>
+              <Button Uid="Web 应用" Tag="planned" Style="{StaticResource NavButton}" Click="Navigate">
+                <StackPanel Orientation="Horizontal">
+                  <Viewbox Width="17" Height="17" Margin="0,0,10,0">
+                    <Path Data="{StaticResource Icon.external}" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.7" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" />
+                  </Viewbox>
+                  <TextBlock Text="Web 应用" VerticalAlignment="Center" />
+                </StackPanel>
+              </Button>
+              <TextBlock Text="资源" Style="{StaticResource NavGroup}" />
+              <Button Uid="知识库" Tag="planned" Style="{StaticResource NavButton}" Click="Navigate">
+                <StackPanel Orientation="Horizontal">
+                  <Viewbox Width="17" Height="17" Margin="0,0,10,0">
+                    <Path Data="{StaticResource Icon.book}" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.7" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" />
+                  </Viewbox>
+                  <TextBlock Text="知识库" VerticalAlignment="Center" />
+                </StackPanel>
+              </Button>
+              <Button Uid="设置" Tag="6" Style="{StaticResource NavButton}" Click="Navigate">
+                <StackPanel Orientation="Horizontal">
+                  <Viewbox Width="17" Height="17" Margin="0,0,10,0">
+                    <Path Data="{StaticResource Icon.sliders}" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.7" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" />
+                  </Viewbox>
+                  <TextBlock Text="设置" VerticalAlignment="Center" />
+                </StackPanel>
+              </Button>
+            </StackPanel>
+            <Border Background="{DynamicResource Brand.SidebarPanel}" BorderBrush="{DynamicResource Brand.SidebarBorder}" BorderThickness="1" CornerRadius="14" Margin="0,24,0,20" Padding="12">
+              <StackPanel>
+                <TextBlock Text="AVEVA 环境" Foreground="{DynamicResource Brand.NavMuted}" FontSize="11" />
+                <TextBlock x:Name="SidebarTargetText" Text="尚未选择目标" Foreground="{DynamicResource Text.OnDark}" FontSize="11" TextWrapping="Wrap" Margin="0,6,0,5" />
+                <Border Background="{DynamicResource Brand.SidebarBorder}" Height="1" />
+                <Button Content="管理环境    →" Foreground="{DynamicResource Text.CodeAccent}" Background="Transparent" BorderThickness="0" HorizontalContentAlignment="Left" Padding="0,7,0,0" Margin="0" Tag="3" Uid="工程会话" Click="Navigate" />
               </StackPanel>
-            </Button>
-            <TextBlock Text="交付" Style="{StaticResource NavGroup}" />
-            <Button Uid="评审中心" Tag="planned" Style="{StaticResource NavButton}" Click="Navigate">
-              <StackPanel Orientation="Horizontal">
-                <Viewbox Width="17" Height="17" Margin="0,0,10,0">
-                  <Path Data="{StaticResource Icon.check_circle}" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.7" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" />
-                </Viewbox>
-                <TextBlock Text="评审中心" VerticalAlignment="Center" />
+            </Border>
+            <DockPanel Margin="0">
+              <Border DockPanel.Dock="Left" Background="{DynamicResource Brand.Account}" CornerRadius="17" Width="34" Height="34" Margin="0,0,10,0">
+                <TextBlock Text="Y" Foreground="{DynamicResource Text.OnAccent}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+              </Border>
+              <StackPanel>
+                <TextBlock x:Name="MaintainerText" Text="本机用户" Foreground="{DynamicResource Text.OnDark}" FontSize="13" />
+                <TextBlock Text="本机维护者" Foreground="{DynamicResource Brand.NavMuted}" FontSize="10" Margin="0,3,0,0" />
               </StackPanel>
-            </Button>
-            <Button Uid="测试中心" Tag="planned" Style="{StaticResource NavButton}" Click="Navigate">
-              <StackPanel Orientation="Horizontal">
-                <Viewbox Width="17" Height="17" Margin="0,0,10,0">
-                  <Path Data="{StaticResource Icon.activity}" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.7" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" />
-                </Viewbox>
-                <TextBlock Text="测试中心" VerticalAlignment="Center" />
-              </StackPanel>
-            </Button>
-            <Button Uid="插件部署" Tag="1" Style="{StaticResource NavButton}" Click="Navigate">
-              <StackPanel Orientation="Horizontal">
-                <Viewbox Width="17" Height="17" Margin="0,0,10,0">
-                  <Path Data="{StaticResource Icon.package}" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.7" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" />
-                </Viewbox>
-                <TextBlock Text="插件部署" VerticalAlignment="Center" />
-              </StackPanel>
-            </Button>
-            <TextBlock Text="运行" Style="{StaticResource NavGroup}" />
-            <Button Uid="AI 运行" Tag="2" Style="{StaticResource NavButton}" Click="Navigate">
-              <StackPanel Orientation="Horizontal">
-                <Viewbox Width="17" Height="17" Margin="0,0,10,0">
-                  <Path Data="{StaticResource Icon.cpu}" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.7" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" />
-                </Viewbox>
-                <TextBlock Text="AI 运行" VerticalAlignment="Center" />
-              </StackPanel>
-            </Button>
-            <Button Uid="工具日志" Tag="2" Style="{StaticResource NavButton}" Click="Navigate">
-              <StackPanel Orientation="Horizontal">
-                <Viewbox Width="17" Height="17" Margin="0,0,10,0">
-                  <Path Data="{StaticResource Icon.file}" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.7" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" />
-                </Viewbox>
-                <TextBlock Text="工具日志" VerticalAlignment="Center" />
-              </StackPanel>
-            </Button>
-            <Button Uid="Web 应用" Tag="planned" Style="{StaticResource NavButton}" Click="Navigate">
-              <StackPanel Orientation="Horizontal">
-                <Viewbox Width="17" Height="17" Margin="0,0,10,0">
-                  <Path Data="{StaticResource Icon.external}" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.7" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" />
-                </Viewbox>
-                <TextBlock Text="Web 应用" VerticalAlignment="Center" />
-              </StackPanel>
-            </Button>
-            <TextBlock Text="资源" Style="{StaticResource NavGroup}" />
-            <Button Uid="知识库" Tag="planned" Style="{StaticResource NavButton}" Click="Navigate">
-              <StackPanel Orientation="Horizontal">
-                <Viewbox Width="17" Height="17" Margin="0,0,10,0">
-                  <Path Data="{StaticResource Icon.book}" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.7" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" />
-                </Viewbox>
-                <TextBlock Text="知识库" VerticalAlignment="Center" />
-              </StackPanel>
-            </Button>
-            <Button Uid="设置" Tag="1" Style="{StaticResource NavButton}" Click="Navigate">
-              <StackPanel Orientation="Horizontal">
-                <Viewbox Width="17" Height="17" Margin="0,0,10,0">
-                  <Path Data="{StaticResource Icon.sliders}" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.7" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" />
-                </Viewbox>
-                <TextBlock Text="设置" VerticalAlignment="Center" />
-              </StackPanel>
-            </Button>
+            </DockPanel>
           </StackPanel>
-          <Border Background="#103638" BorderBrush="#1B4A4B" BorderThickness="1" CornerRadius="14" Margin="0,24,0,20" Padding="12">
-            <StackPanel>
-              <TextBlock Text="AVEVA 环境" Foreground="#739C95" FontSize="11" />
-              <TextBlock x:Name="SidebarTargetText" Text="尚未选择目标" Foreground="#E8F4EF" FontSize="13" TextWrapping="Wrap" Margin="0,9,0,10" />
-              <Border Background="#1B4A4B" Height="1" />
-              <Button Content="管理环境    →" Foreground="#8CD7C6" Background="Transparent" BorderThickness="0" HorizontalContentAlignment="Left" Padding="0,7,0,0" Margin="0" Tag="3" Uid="工程会话" Click="Navigate" />
-            </StackPanel>
-          </Border>
-          <DockPanel Margin="0,0,0,12">
-            <Border DockPanel.Dock="Left" Background="#1E5A54" CornerRadius="17" Width="34" Height="34" Margin="0,0,10,0">
-              <TextBlock Text="Y" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
-            </Border>
-            <StackPanel>
-              <TextBlock x:Name="MaintainerText" Text="本机用户" Foreground="#F2F8F4" FontSize="13" />
-              <TextBlock Text="本机维护者" Foreground="#739C95" FontSize="11" Margin="0,3,0,0" />
-            </StackPanel>
-          </DockPanel>
-          <TextBlock Text="Yuzuha Toolkit · PMLTWIN v0.4" Foreground="#628D86" FontSize="10" Margin="8,0,0,0" />
-        </StackPanel>
-      </ScrollViewer>
+        </ScrollViewer>
+      </DockPanel>
     </Border>
     <DockPanel Grid.Column="1">
       <Grid DockPanel.Dock="Top" Margin="28,22,28,22" MinHeight="62">
@@ -155,32 +165,32 @@
           <TextBlock x:Name="PageSubtitleText" Text="本机工作台 · 从明确的工程目标开始" Style="{StaticResource Caption}" Margin="0,7,0,0" />
         </StackPanel>
         <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="18,0,0,0">
-          <Border x:Name="SearchPanel" Background="White" BorderBrush="#9AAFA7" BorderThickness="1" CornerRadius="10" Width="232" Height="40" Margin="0,0,16,0">
+          <Border x:Name="SearchPanel" Background="{DynamicResource Surface.Card}" BorderBrush="{DynamicResource Border.Input}" BorderThickness="1" CornerRadius="10" Width="232" Height="40" Margin="0,0,16,0">
             <DockPanel Margin="12,0">
               <Viewbox Width="16" Margin="0,0,8,0">
-                <Path Data="{StaticResource Icon.search}" Stroke="#98A2B3" StrokeThickness="1.8" />
+                <Path Data="{StaticResource Icon.search}" Stroke="{DynamicResource Text.Tertiary}" StrokeThickness="1.8" />
               </Viewbox>
-              <TextBlock DockPanel.Dock="Right" Text="Ctrl K" Foreground="#667085" FontSize="10" VerticalAlignment="Center" />
-              <TextBox x:Name="NavigationSearch" ToolTip="搜索页面，按 Enter 前往" KeyDown="SearchKeyDown" BorderThickness="0" Background="Transparent" Padding="0,4" Margin="0" FontSize="12" />
+              <TextBlock DockPanel.Dock="Right" Text="Ctrl K" Foreground="{DynamicResource Text.Tertiary}" FontSize="10" VerticalAlignment="Center" />
+              <TextBox x:Name="NavigationSearch" ToolTip="搜索页面，按 Enter 前往" KeyDown="SearchKeyDown" BorderThickness="0" Background="Transparent" Padding="0,4" Margin="0" FontSize="11" Tag="搜索页面…" />
             </DockPanel>
           </Border>
           <Button x:Name="HeaderActionButton" Click="HeaderAction" Style="{StaticResource Primary}" Margin="0,0,12,0">
             <StackPanel Orientation="Horizontal">
               <Viewbox Width="14" Height="14" Margin="0,0,10,0">
-                <Path Data="{StaticResource Icon.play}" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.7" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" />
+                <Path Data="{StaticResource Icon.play}" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.7" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" x:Name="HeaderActionIcon" />
               </Viewbox>
               <TextBlock x:Name="HeaderActionText" Text="启动工程" />
             </StackPanel>
           </Button>
           <Button Width="40" Padding="10" Click="OpenLogs" ToolTip="打开本机工具日志目录" Margin="0,0,10,0">
             <Viewbox Width="17" Height="17">
-              <Path Data="{StaticResource Icon.bell}" Stroke="#344054" StrokeThickness="1.7" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" />
+              <Path Data="{StaticResource Icon.bell}" Stroke="{DynamicResource Text.Secondary}" StrokeThickness="1.7" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" />
             </Viewbox>
           </Button>
           <Button Content="?" Width="38" Margin="0" Click="ShowHelp" ToolTip="使用说明" />
         </StackPanel>
       </Grid>
-      <Border DockPanel.Dock="Bottom" Background="#F4F7F5" Padding="28,5,28,10">
+      <Border DockPanel.Dock="Bottom" Background="{DynamicResource Surface.Page}" Padding="28,0,28,3">
         <DockPanel>
           <TextBlock x:Name="HeartbeatText" DockPanel.Dock="Right" Text="读取本机状态…" Style="{StaticResource Caption}" Margin="16,0,0,0" />
           <TextBlock x:Name="MessageText" Text="就绪 · 本机记录" Style="{StaticResource Caption}" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" />
@@ -286,14 +296,14 @@
                   <StackPanel>
                     <DockPanel>
                       <Border DockPanel.Dock="Right" Style="{StaticResource Pill}">
-                        <TextBlock Text="本机" Foreground="#0F5F56" FontSize="11" />
+                        <TextBlock Text="本机" Foreground="{DynamicResource Text.Brand}" FontSize="11" />
                       </Border>
                       <TextBlock Text="启动前检查" Style="{StaticResource SectionTitle}" />
                     </DockPanel>
                     <TextBlock Text="入口、初始化文件、工作目录和注册目录" Style="{StaticResource Caption}" Margin="0,8,0,20" />
-                    <TextBlock x:Name="LaunchHealthText" Text="选择已注册的 PMLLIB 后扫描文件量与目录体积。启动入口由已有服务验证。" TextWrapping="Wrap" Foreground="#344054" FontSize="13" />
-                    <Border Background="#FDF6E7" CornerRadius="10" Padding="12" Margin="0,20,0,0">
-                      <TextBlock Text="启动入口创建成功与登录完成分别确认；Host 身份在会话就绪后核验。" Style="{StaticResource Caption}" Foreground="#8A5A12" />
+                    <TextBlock x:Name="LaunchHealthText" Text="选择已注册的 PMLLIB 后扫描文件量与目录体积。启动入口由已有服务验证。" TextWrapping="Wrap" Foreground="{DynamicResource Text.Secondary}" FontSize="13" />
+                    <Border Background="{DynamicResource Surface.TintWarning}" CornerRadius="10" Padding="12" Margin="0,20,0,0">
+                      <TextBlock Text="启动入口创建成功与登录完成分别确认；Host 身份在会话就绪后核验。" Style="{StaticResource Caption}" Foreground="{DynamicResource Text.Warning}" />
                     </Border>
                     <TextBlock Text="目录提醒预算可调整；它不是 AVEVA 的固定上限。" Style="{StaticResource Caption}" Margin="0,20,0,0" />
                   </StackPanel>
@@ -309,16 +319,16 @@
                   <StackPanel>
                     <TextBlock Text="启动参数预览" Style="{StaticResource SectionTitle}" />
                     <TextBlock Text="由现有 LaunchService 生成 · 原生参数列表" Style="{StaticResource Caption}" Margin="0,4,0,14" />
-                    <TextBox x:Name="LaunchPreviewBox" IsReadOnly="True" TextWrapping="Wrap" MinHeight="138" Background="#0B2426" Foreground="#D1EAE2" BorderBrush="#0B2426" FontFamily="Consolas" FontSize="12" />
+                    <TextBox x:Name="LaunchPreviewBox" IsReadOnly="True" TextWrapping="Wrap" MinHeight="138" Background="{DynamicResource Surface.Code}" Foreground="{DynamicResource Text.CodeText}" BorderBrush="{DynamicResource Surface.Code}" FontFamily="Consolas" FontSize="12" />
                     <WrapPanel>
                       <Border Style="{StaticResource Pill}" Margin="0,0,8,0">
-                        <TextBlock Text="原生启动" Foreground="#0F5F56" FontSize="11" />
+                        <TextBlock Text="原生启动" Foreground="{DynamicResource Text.Brand}" FontSize="11" />
                       </Border>
                       <Border Style="{StaticResource Pill}" Margin="0,0,8,0">
-                        <TextBlock Text="不修改系统 EVAR" Foreground="#0F5F56" FontSize="11" />
+                        <TextBlock Text="不修改系统 EVAR" Foreground="{DynamicResource Text.Brand}" FontSize="11" />
                       </Border>
                       <Border Style="{StaticResource Pill}">
-                        <TextBlock Text="密码不落盘" Foreground="#0F5F56" FontSize="11" />
+                        <TextBlock Text="密码不落盘" Foreground="{DynamicResource Text.Brand}" FontSize="11" />
                       </Border>
                     </WrapPanel>
                   </StackPanel>
@@ -338,98 +348,249 @@
             </StackPanel>
           </ScrollViewer>
         </TabItem>
-        <TabItem Header="  插件目录  ">
+        <TabItem Header="插件部署">
           <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <StackPanel Margin="0">
-              <Border Style="{StaticResource Card}">
+            <StackPanel>
+              <Border Style="{StaticResource Card}" Padding="20,16">
                 <StackPanel>
-                  <TextBlock Text="已注册的 PMLLIB" Style="{StaticResource SectionTitle}" />
-                  <TextBlock Text="选择 EVAR 已注册的目录；工作台只复制到这里，不修改全局环境。" Foreground="#718197" TextWrapping="Wrap" />
-                  <DockPanel>
-                    <Button DockPanel.Dock="Right" Content="选择目录" Click="BrowseRegistered" Margin="10,4,0,10" />
-                    <TextBox x:Name="RegisteredBox" TextChanged="DeploymentInputsChanged" />
-                  </DockPanel>
-                  <DockPanel>
-                    <Button DockPanel.Dock="Right" Content="使用候选" Click="UseRegistration" Margin="10,4,0,10" />
-                    <ComboBox x:Name="RegistrationsBox" DisplayMemberPath="Path" />
-                  </DockPanel>
-                  <WrapPanel VerticalAlignment="Center">
-                    <TextBlock Text="文件数提醒" VerticalAlignment="Center" />
-                    <TextBox x:Name="WarnFilesBox" Text="3000" Width="90" Margin="10,0,18,0" />
-                    <TextBlock Text="体积提醒 MiB" VerticalAlignment="Center" />
-                    <TextBox x:Name="WarnSizeBox" Text="200" Width="90" Margin="10,0,18,0" />
-                    <Button Content="保存目录设置" Click="SaveWorkspace" />
-                    <Button Content="扫描目录" Click="ScanDirectory" />
-                    <Button Content="打开目录清理" Click="OpenRegistered" />
-                  </WrapPanel>
-                  <TextBlock x:Name="HealthText" Text="尚未扫描" TextWrapping="Wrap" Margin="0,16,0,0" Foreground="#526987" />
+                  <TextBlock Text="部署流程" Style="{StaticResource SectionTitle}" />
+                  <TextBlock Text="来源、复制与重加载的结果分别记录" Style="{StaticResource Caption}" />
+                  <UniformGrid Columns="4" Margin="0,16,0,0">
+                    <TextBlock Text="① 选择源目录" Foreground="{DynamicResource Text.Brand}" />
+                    <TextBlock Text="② 预览复制差异" Foreground="{DynamicResource Text.Tertiary}" />
+                    <TextBlock Text="③ 复制与备份" Foreground="{DynamicResource Text.Tertiary}" />
+                    <TextBlock Text="④ 重加载与验证" Foreground="{DynamicResource Text.Tertiary}" />
+                  </UniformGrid>
                 </StackPanel>
               </Border>
+              <Grid x:Name="DeploymentColumns">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="2.14*" />
+                  <ColumnDefinition Width="20" />
+                  <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Border Style="{StaticResource Card}">
+                  <StackPanel>
+                    <DockPanel>
+                      <Button DockPanel.Dock="Right" Content="预览复制内容" Click="PreviewCopy" FontSize="11" />
+                      <TextBlock Text="复制预览" Style="{StaticResource SectionTitle}" />
+                    </DockPanel>
+                    <TextBlock Text="开发副本保留在注册 PMLLIB 之外" Style="{StaticResource Caption}" />
+                    <DataGrid x:Name="CopyGrid" Height="190">
+                      <DataGrid.Columns>
+                        <DataGridTextColumn Header="文件 / 相对路径" Binding="{Binding RelativePath}" Width="*" />
+                        <DataGridTextColumn Header="字节" Binding="{Binding Bytes}" Width="90" />
+                        <DataGridTextColumn Header="状态" Binding="{Binding Action}" Width="100" />
+                      </DataGrid.Columns>
+                    </DataGrid>
+                    <TextBlock x:Name="CopySummaryText" Text="尚未预览复制内容" Style="{StaticResource Caption}" Margin="0,14,0,12" />
+                    <Button x:Name="ApplyCopyButton" Content="复制到注册目录" Click="ApplyCopy" IsEnabled="False" Style="{StaticResource Primary}" HorizontalAlignment="Right" />
+                  </StackPanel>
+                </Border>
+                <Border Grid.Column="2" Style="{StaticResource Card}">
+                  <StackPanel>
+                    <TextBlock Text="目标检查" Style="{StaticResource SectionTitle}" />
+                    <TextBlock Text="选择已有注册目录，不修改全局环境" Style="{StaticResource Caption}" />
+                    <DockPanel Margin="0,14,0,0">
+                      <Button DockPanel.Dock="Right" Content="…" Click="BrowseRegistered" Width="32" Padding="0" Margin="8,4,0,10" />
+                      <TextBox x:Name="RegisteredBox" TextChanged="DeploymentInputsChanged" FontSize="11" />
+                    </DockPanel>
+                    <ComboBox x:Name="RegistrationsBox" DisplayMemberPath="Path" FontSize="11" />
+                    <Button Content="使用所选候选" Click="UseRegistration" FontSize="11" HorizontalAlignment="Right" />
+                    <Expander Header="目录提醒预算" Margin="0,14,0,12">
+                      <UniformGrid Columns="2" Margin="0,16,0,0">
+                        <StackPanel Margin="0,0,10,0">
+                          <TextBlock Text="文件数提醒" Style="{StaticResource Caption}" />
+                          <TextBox x:Name="WarnFilesBox" Text="3000" />
+                        </StackPanel>
+                        <StackPanel>
+                          <TextBlock Text="体积提醒 MiB" Style="{StaticResource Caption}" />
+                          <TextBox x:Name="WarnSizeBox" Text="200" />
+                        </StackPanel>
+                      </UniformGrid>
+                    </Expander>
+                    <WrapPanel>
+                      <Button Content="扫描目录" Click="ScanDirectory" FontSize="11" />
+                      <Button Content="保存设置" Click="SaveWorkspace" FontSize="11" />
+                    </WrapPanel>
+                    <TextBlock x:Name="HealthText" Text="尚未扫描" TextWrapping="Wrap" Foreground="{DynamicResource Text.Secondary}" Margin="0,16,0,0" FontSize="11" />
+                    <Button Content="打开目录清理  ↗" Click="OpenRegistered" Style="{StaticResource Link}" HorizontalAlignment="Right" Margin="0,14,0,0" />
+                  </StackPanel>
+                </Border>
+              </Grid>
+              <Grid x:Name="DeploymentLowerColumns">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="2.14*" />
+                  <ColumnDefinition Width="20" />
+                  <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Border Style="{StaticResource Card}">
+                  <StackPanel>
+                    <TextBlock Text="导入与重加载" Style="{StaticResource SectionTitle}" />
+                    <DockPanel Margin="0,12,0,0">
+                      <Button DockPanel.Dock="Right" Content="目录" Click="BrowseSourceFolder" FontSize="11" Margin="8,4,0,10" />
+                      <Button DockPanel.Dock="Right" Content="文件 / ZIP" Click="BrowseSourceFile" FontSize="11" Margin="8,4,0,10" />
+                      <TextBox x:Name="SourceBox" TextChanged="DeploymentInputsChanged" FontSize="11" />
+                    </DockPanel>
+                    <DockPanel>
+                      <TextBlock Text="插件子目录" VerticalAlignment="Center" Margin="0,0,12,10" />
+                      <TextBox x:Name="PluginBox" Text="MyPlugin" TextChanged="DeploymentInputsChanged" Width="190" HorizontalAlignment="Left" />
+                    </DockPanel>
+                    <TextBlock Text="复制时跳过开发产物，覆盖前备份放在 PMLLIB 外。" Style="{StaticResource Caption}" Margin="0,10,0,14" />
+                    <Border Style="{StaticResource Pill}" Background="{DynamicResource Surface.TintWarning}">
+                      <TextBlock Text="Q06 · 复制、REHASH、Form/Object 重加载与实测分别确认；本页不自动重加载。" Foreground="{DynamicResource Text.Warning}" FontSize="11" TextWrapping="Wrap" />
+                    </Border>
+                  </StackPanel>
+                </Border>
+                <Border Grid.Column="2" Style="{StaticResource Card}">
+                  <StackPanel>
+                    <TextBlock Text="备份与恢复" Style="{StaticResource SectionTitle}" />
+                    <TextBlock Text="复用已有复制事务、哈希与备份；失败保留原始错误。完整人工批准和恢复操作界面按后续批次交付。" Style="{StaticResource Caption}" Margin="0,10,0,0" />
+                  </StackPanel>
+                </Border>
+              </Grid>
               <Border Style="{StaticResource Card}">
                 <StackPanel>
-                  <TextBlock Text="把开发插件复制到注册目录" Style="{StaticResource SectionTitle}" />
-                  <TextBlock Text="源文件、目录或 ZIP 保留在 PMLLIB 外。复制会跳过开发产物；覆盖前备份也存放在目录外。" Foreground="#718197" TextWrapping="Wrap" />
-                  <DockPanel>
-                    <Button DockPanel.Dock="Right" Content="选择目录" Click="BrowseSourceFolder" Margin="10,4,0,10" />
-                    <Button DockPanel.Dock="Right" Content="文件 / ZIP" Click="BrowseSourceFile" Margin="10,4,0,10" />
-                    <TextBox x:Name="SourceBox" TextChanged="DeploymentInputsChanged" />
-                  </DockPanel>
-                  <TextBlock Text="插件子目录名" />
-                  <TextBox x:Name="PluginBox" Text="MyPlugin" TextChanged="DeploymentInputsChanged" />
-                  <WrapPanel>
-                    <Button Content="预览复制内容" Click="PreviewCopy" />
-                    <Button x:Name="ApplyCopyButton" Content="复制到注册目录" Style="{StaticResource Primary}" IsEnabled="False" Click="ApplyCopy" />
-                  </WrapPanel>
-                  <TextBlock x:Name="CopySummaryText" Foreground="#718197" Margin="0,12,0,12" TextWrapping="Wrap" />
-                  <DataGrid x:Name="CopyGrid" Height="230">
+                  <TextBlock Text="部署历史" Style="{StaticResource SectionTitle}" />
+                  <TextBlock Text="当前本机保留的复制完成记录" Style="{StaticResource Caption}" />
+                  <DataGrid x:Name="DeploymentHistoryGrid" Height="145" Margin="0,14,0,0">
                     <DataGrid.Columns>
-                      <DataGridTextColumn Header="文件" Binding="{Binding RelativePath}" Width="*" />
-                      <DataGridTextColumn Header="字节" Binding="{Binding Bytes}" Width="110" />
-                      <DataGridTextColumn Header="状态" Binding="{Binding Action}" Width="120" />
+                      <DataGridTextColumn Header="时间 +08" Binding="{Binding DisplayTime}" Width="100" />
+                      <DataGridTextColumn Header="结果" Binding="{Binding PhaseLabel}" Width="110" />
+                      <DataGridTextColumn Header="复制与备份摘要" Binding="{Binding Summary}" Width="*" />
                     </DataGrid.Columns>
                   </DataGrid>
-                  <TextBlock Text="复制完成后由当前开发流程决定何时重载。工作台不自动执行 PML REHASH ALL，不删除旧插件。" Foreground="#718197" TextWrapping="Wrap" Margin="0,12,0,0" />
                 </StackPanel>
               </Border>
             </StackPanel>
           </ScrollViewer>
         </TabItem>
-        <TabItem Header="  AI 运行与日志  ">
-          <Grid Margin="0">
-            <Grid.RowDefinitions>
-              <RowDefinition Height="Auto" />
-              <RowDefinition Height="190" />
-              <RowDefinition Height="Auto" />
-              <RowDefinition Height="*" />
-              <RowDefinition Height="120" />
-            </Grid.RowDefinitions>
+        <TabItem Header="AI 运行">
+          <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel>
-              <TextBlock Text="本机 MCP 工具状态" Style="{StaticResource SectionTitle}" />
-              <TextBlock Text="每两秒刷新：观察工具执行、耗时与目标会话；服务空闲不等于 AI 没有思考。" Foreground="#718197" Margin="0,0,0,14" />
+              <ItemsControl x:Name="RuntimeCards" Margin="0,0,-18,0">
+                <ItemsControl.ItemsPanel>
+                  <ItemsPanelTemplate>
+                    <UniformGrid Columns="3" />
+                  </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate>
+                    <Border Style="{StaticResource Card}" Padding="18" Margin="0,0,18,18">
+                      <StackPanel>
+                        <DockPanel>
+                          <Border DockPanel.Dock="Right" Style="{StaticResource Pill}">
+                            <TextBlock Text="{Binding StateLabel}" Foreground="{DynamicResource Text.Brand}" FontSize="10" />
+                          </Border>
+                          <TextBlock Text="{Binding Service}" FontWeight="SemiBold" FontSize="14" />
+                        </DockPanel>
+                        <TextBlock Text="{Binding ProcessId, StringFormat=PID {0}}" Style="{StaticResource Caption}" Margin="0,8,0,14" />
+                        <TextBlock Text="{Binding ActiveSummary}" TextWrapping="Wrap" FontFamily="Consolas" FontSize="11" MinHeight="16" />
+                        <TextBlock Text="{Binding OutcomeSummary}" Style="{StaticResource Caption}" Margin="0,8,0,0" />
+                      </StackPanel>
+                    </Border>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+              <Grid x:Name="RuntimeColumns">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="2.14*" />
+                  <ColumnDefinition Width="20" />
+                  <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Border Style="{StaticResource Card}">
+                  <StackPanel>
+                    <DockPanel>
+                      <TextBlock DockPanel.Dock="Right" Text="● 本机" Foreground="{DynamicResource Text.Success}" FontSize="10" />
+                      <TextBlock Text="实时工具调用" Style="{StaticResource SectionTitle}" />
+                    </DockPanel>
+                    <TextBlock Text="本机已保留记录 · 当前执行与完成分别显示" Style="{StaticResource Caption}" />
+                    <DataGrid x:Name="RuntimeActivityGrid" Height="240" Margin="0,14,0,0">
+                      <DataGrid.Columns>
+                        <DataGridTextColumn Header="工具" Binding="{Binding Tool}" Width="*" />
+                        <DataGridTextColumn Header="目标 PID" Binding="{Binding TargetPid}" Width="75" />
+                        <DataGridTextColumn Header="状态" Binding="{Binding PhaseLabel}" Width="110" />
+                        <DataGridTextColumn Header="耗时 ms" Binding="{Binding Milliseconds}" Width="75" />
+                      </DataGrid.Columns>
+                    </DataGrid>
+                  </StackPanel>
+                </Border>
+                <Border Grid.Column="2" Style="{StaticResource Card}">
+                  <StackPanel>
+                    <TextBlock Text="调用结果" Style="{StaticResource SectionTitle}" />
+                    <TextBlock Text="工具完成状态 · 不代表业务验收" Style="{StaticResource Caption}" />
+                    <Grid Width="100" Height="100" Margin="0,22,0,14">
+                      <Ellipse Stroke="{DynamicResource Surface.Track}" StrokeThickness="8" />
+                      <TextBlock x:Name="RuntimeSuccessText" Text="—" FontSize="23" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Grid>
+                    <TextBlock x:Name="RuntimeMetricText" Text="当前没有完成项" Style="{StaticResource Caption}" TextAlignment="Center" />
+                    <Button Content="查看调用记录  →" Click="OpenLogsPage" Style="{StaticResource Link}" HorizontalAlignment="Right" Margin="0,18,0,0" />
+                  </StackPanel>
+                </Border>
+              </Grid>
+              <Grid x:Name="RuntimeLowerColumns">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="2.14*" />
+                  <ColumnDefinition Width="20" />
+                  <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Border Style="{StaticResource Card}">
+                  <StackPanel>
+                    <TextBlock Text="24 小时调用趋势" Style="{StaticResource SectionTitle}" />
+                    <TextBlock Text="Q01 · 长期时间窗尚未接入，保留原稿图表区域" Style="{StaticResource Caption}" />
+                    <Grid Height="180" Margin="0,16,0,0">
+                      <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                      </Grid.RowDefinitions>
+                      <Border Grid.Row="0" BorderBrush="{DynamicResource Border.Chart}" BorderThickness="0,1,0,0" />
+                      <Border Grid.Row="1" BorderBrush="{DynamicResource Border.Chart}" BorderThickness="0,1,0,0" />
+                      <Border Grid.Row="2" BorderBrush="{DynamicResource Border.Chart}" BorderThickness="0,1,0,0" />
+                      <Border Grid.Row="3" BorderBrush="{DynamicResource Border.Chart}" BorderThickness="0,1,0,1" />
+                      <TextBlock Grid.RowSpan="4" Text="暂无完整时间窗数据" Foreground="{DynamicResource Text.Tertiary}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Grid>
+                  </StackPanel>
+                </Border>
+                <Border Grid.Column="2" Style="{StaticResource Card}">
+                  <StackPanel>
+                    <TextBlock Text="告警与异常" Style="{StaticResource SectionTitle}" />
+                    <TextBlock Text="当前保留的失败与未知" Style="{StaticResource Caption}" />
+                    <ItemsControl x:Name="RuntimeErrorsList" Margin="0,16,0,0">
+                      <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                          <Border Background="{DynamicResource Surface.TintWarning}" CornerRadius="8" Padding="10" Margin="0,0,0,10">
+                            <StackPanel>
+                              <TextBlock Text="{Binding Tool}" FontWeight="SemiBold" Foreground="{DynamicResource Text.Warning}" />
+                              <TextBlock Text="{Binding Summary}" Style="{StaticResource Caption}" Margin="0,5,0,0" />
+                            </StackPanel>
+                          </Border>
+                        </DataTemplate>
+                      </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                  </StackPanel>
+                </Border>
+              </Grid>
+              <Border Style="{StaticResource Card}">
+                <DockPanel>
+                  <Button DockPanel.Dock="Right" Content="打开日志目录  ↗" Click="OpenLogs" />
+                  <StackPanel>
+                    <TextBlock Text="进程与日志" Style="{StaticResource SectionTitle}" />
+                    <TextBlock Text="每两秒读取已有本机状态；服务空闲不代表 AI 没有思考。" Style="{StaticResource Caption}" />
+                    <DataGrid x:Name="RuntimeGrid" Height="130" Margin="0,12,0,0">
+                      <DataGrid.Columns>
+                        <DataGridTextColumn Header="服务" Binding="{Binding Service}" Width="*" />
+                        <DataGridTextColumn Header="PID" Binding="{Binding ProcessId}" Width="80" />
+                        <DataGridTextColumn Header="状态" Binding="{Binding StateLabel}" Width="140" />
+                        <DataGridTextColumn Header="日志与结果" Binding="{Binding OutcomeSummary}" Width="*" />
+                      </DataGrid.Columns>
+                    </DataGrid>
+                  </StackPanel>
+                </DockPanel>
+              </Border>
             </StackPanel>
-            <DataGrid x:Name="RuntimeGrid" Grid.Row="1">
-              <DataGrid.Columns>
-                <DataGridTextColumn Header="服务" Binding="{Binding Service}" Width="190" />
-                <DataGridTextColumn Header="PID" Binding="{Binding ProcessId}" Width="85" />
-                <DataGridTextColumn Header="状态" Binding="{Binding StateLabel}" Width="140" />
-                <DataGridTextColumn Header="当前工具" Binding="{Binding ActiveSummary}" Width="*" />
-                <DataGridTextColumn Header="AVEVA PID" Binding="{Binding TargetPid}" Width="100" />
-                <DataGridTextColumn Header="上次结果 / 日志故障" Binding="{Binding OutcomeSummary}" Width="230" />
-              </DataGrid.Columns>
-            </DataGrid>
-            <TextBlock Grid.Row="2" Text="近期工具调用" Style="{StaticResource SectionTitle}" Margin="0,20,0,12" />
-            <DataGrid x:Name="ActivityGrid" Grid.Row="3" SelectionChanged="ActivitySelected">
-              <DataGrid.Columns>
-                <DataGridTextColumn Header="时间 +08" Binding="{Binding DisplayTime}" Width="85" />
-                <DataGridTextColumn Header="工具" Binding="{Binding Tool}" Width="210" />
-                <DataGridTextColumn Header="事件" Binding="{Binding PhaseLabel}" Width="150" />
-                <DataGridTextColumn Header="耗时 ms" Binding="{Binding Milliseconds}" Width="90" />
-                <DataGridTextColumn Header="目标 PID" Binding="{Binding TargetPid}" Width="90" />
-                <DataGridTextColumn Header="结果摘要" Binding="{Binding Summary}" Width="*" />
-              </DataGrid.Columns>
-            </DataGrid>
-            <TextBox x:Name="ActivityDetails" Grid.Row="4" IsReadOnly="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Margin="0,12,0,0" Text="选择记录查看关联编号及参数。命名秘密字段会脱敏；PML 正文仍可能包含工程信息。" />
-          </Grid>
+          </ScrollViewer>
         </TabItem>
         <TabItem Header="工程会话">
           <local:SessionWorkbenchView x:Name="SessionView" />
@@ -443,44 +604,44 @@
                   <ColumnDefinition Width="20" />
                   <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Border CornerRadius="18" Background="#0B302F" Padding="28" Margin="0,0,0,18" ClipToBounds="True">
+                <Border CornerRadius="18" Background="{DynamicResource Brand.HeroGradient}" Padding="24,18" Margin="0,0,0,18" ClipToBounds="True" MinHeight="190">
                   <Grid>
                     <Canvas IsHitTestVisible="False">
-                      <Ellipse Width="320" Height="320" Stroke="#FFFFFF" Opacity="0.05" Canvas.Left="390" Canvas.Top="-210" />
-                      <Ellipse Width="240" Height="240" Stroke="#FFFFFF" Opacity="0.04" Canvas.Left="430" Canvas.Top="-170" />
+                      <Ellipse Width="320" Height="320" Stroke="{DynamicResource Text.OnAccent}" Opacity="0.05" Canvas.Left="390" Canvas.Top="-210" />
+                      <Ellipse Width="240" Height="240" Stroke="{DynamicResource Text.OnAccent}" Opacity="0.04" Canvas.Left="430" Canvas.Top="-170" />
                     </Canvas>
                     <StackPanel>
                       <DockPanel>
-                        <Border DockPanel.Dock="Right" Style="{StaticResource Pill}" Background="#15534B">
-                          <TextBlock Text="明确选择 · 身份核验" Foreground="#A9E4D2" FontSize="11" />
+                        <Border DockPanel.Dock="Right" Style="{StaticResource Pill}" Background="{DynamicResource Brand.HeroTag}">
+                          <TextBlock Text="明确选择 · 身份核验" Foreground="{DynamicResource Text.CodeString}" FontSize="11" />
                         </Border>
-                        <TextBlock Text="当前工程会话" Foreground="#A9CFC5" FontSize="12" VerticalAlignment="Center" />
+                        <TextBlock Text="当前工程会话" Foreground="{DynamicResource Text.OnDarkMuted}" FontSize="12" VerticalAlignment="Center" />
                       </DockPanel>
-                      <TextBlock x:Name="OverviewTargetText" TextWrapping="Wrap" Text="尚未选择 AVEVA 工程" Foreground="#F3FBF7" FontSize="28" FontWeight="Bold" Margin="0,14,0,5" />
-                      <TextBlock x:Name="OverviewTargetDetail" Text="先发现并选择会话，再核验目标与 Host 能力" Foreground="#A9CFC5" FontSize="13" TextWrapping="Wrap" />
-                      <Border Height="1" Background="#1C4E48" Margin="0,18,0,16" />
+                      <TextBlock x:Name="OverviewTargetText" TextWrapping="Wrap" Text="尚未选择 AVEVA 工程" Foreground="{DynamicResource Text.OnDark}" FontSize="27" FontWeight="Bold" Margin="0,8,0,3" />
+                      <TextBlock x:Name="OverviewTargetDetail" Text="先发现并选择会话，再核验目标与 Host 能力" Foreground="{DynamicResource Text.OnDarkMuted}" FontSize="11" TextWrapping="Wrap" />
+                      <Border Height="1" Background="{DynamicResource Brand.HeroBorder}" Margin="0,12,0,10" />
                       <DockPanel>
-                        <Button Content="打开会话    →" Tag="3" Uid="工程会话" Click="Navigate" DockPanel.Dock="Right" Background="#24554F" BorderBrush="#45766C" Foreground="#F3FBF7" Margin="0" />
-                        <TextBlock Text="复用既有会话发现与身份核验" Foreground="#A9CFC5" VerticalAlignment="Center" FontSize="12" />
+                        <Button Content="打开会话    →" Tag="3" Uid="工程会话" Click="Navigate" DockPanel.Dock="Right" Background="{DynamicResource Brand.HeroButton}" BorderBrush="{DynamicResource Brand.HeroButtonBorder}" Foreground="{DynamicResource Text.OnDark}" Margin="0" />
+                        <TextBlock Text="复用既有会话发现与身份核验" Foreground="{DynamicResource Text.OnDarkMuted}" VerticalAlignment="Center" FontSize="12" />
                       </DockPanel>
                     </StackPanel>
                   </Grid>
                 </Border>
-                <Border Grid.Column="2" Style="{StaticResource Card}" Padding="20">
+                <Border Grid.Column="2" Style="{StaticResource Card}" Padding="20,16" MinHeight="190">
                   <StackPanel>
                     <DockPanel>
                       <Border Style="{StaticResource Pill}" DockPanel.Dock="Right">
-                        <TextBlock Text="本机" Foreground="#0F5F56" FontSize="11" />
+                        <TextBlock Text="本机" Foreground="{DynamicResource Text.Brand}" FontSize="11" />
                       </Border>
                       <TextBlock Text="PMLLIB 健康度" Style="{StaticResource SectionTitle}" />
                     </DockPanel>
-                    <Grid Margin="0,16,0,10">
+                    <Grid Margin="0,10,0,6">
                       <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="82" />
                         <ColumnDefinition />
                       </Grid.ColumnDefinitions>
-                      <Grid Width="72" Height="72">
-                        <Ellipse Stroke="#EDF1F6" StrokeThickness="7" />
+                      <Grid Width="68" Height="68">
+                        <Ellipse Stroke="{DynamicResource Surface.Track}" StrokeThickness="7" />
                         <TextBlock Text="—" FontSize="26" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center" />
                       </Grid>
                       <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="14,0,0,0">
@@ -494,59 +655,59 @@
                 </Border>
               </Grid>
               <UniformGrid x:Name="OverviewKpis" Columns="4" Margin="0,0,-16,0">
-                <Border Style="{StaticResource Card}" Margin="0,0,16,18" Padding="18">
+                <Border Style="{StaticResource Card}" Margin="0,0,16,18" Padding="18,14">
                   <StackPanel>
                     <DockPanel>
-                      <Border Style="{StaticResource Pill}" DockPanel.Dock="Right" Padding="7" Background="#E9F7F3">
+                      <Border Style="{StaticResource Pill}" DockPanel.Dock="Right" Padding="6" Background="{DynamicResource Surface.TintBrand}">
                         <Viewbox Width="16" Height="16" Margin="0,0,10,0">
-                          <Path Data="{StaticResource Icon.layers}" Stroke="#167D70" StrokeThickness="1.7" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" />
+                          <Path Data="{StaticResource Icon.layers}" Stroke="{DynamicResource Accent.Brand}" StrokeThickness="1.7" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" />
                         </Viewbox>
                       </Border>
-                      <TextBlock Text="在线服务" Style="{StaticResource Caption}" />
+                      <TextBlock Text="发现会话" Style="{StaticResource Caption}" />
                     </DockPanel>
-                    <TextBlock x:Name="OverviewServices" Text="—" FontSize="29" FontWeight="SemiBold" Margin="0,7,0,6" />
-                    <TextBlock Text="心跳状态：idle / running" Style="{StaticResource Caption}" />
+                    <TextBlock x:Name="OverviewServices" Text="—" FontSize="28" FontWeight="SemiBold" Margin="0,4,0,4" />
+                    <TextBlock Text="窗口候选 · 选择后核验" Style="{StaticResource Caption}" />
                   </StackPanel>
                 </Border>
-                <Border Style="{StaticResource Card}" Margin="0,0,16,18" Padding="18">
+                <Border Style="{StaticResource Card}" Margin="0,0,16,18" Padding="18,14">
                   <StackPanel>
                     <DockPanel>
-                      <Border Style="{StaticResource Pill}" DockPanel.Dock="Right" Padding="7" Background="#E9F7F3">
+                      <Border Style="{StaticResource Pill}" DockPanel.Dock="Right" Padding="6" Background="{DynamicResource Surface.TintSky}">
                         <Viewbox Width="16" Height="16" Margin="0,0,10,0">
-                          <Path Data="{StaticResource Icon.activity}" Stroke="#167D70" StrokeThickness="1.7" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" />
+                          <Path Data="{StaticResource Icon.activity}" Stroke="{DynamicResource Accent.Sky}" StrokeThickness="1.7" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" />
                         </Viewbox>
                       </Border>
                       <TextBlock Text="工具调用" Style="{StaticResource Caption}" />
                     </DockPanel>
-                    <TextBlock x:Name="OverviewCalls" Text="—" FontSize="29" FontWeight="SemiBold" Margin="0,7,0,6" />
+                    <TextBlock x:Name="OverviewCalls" Text="—" FontSize="28" FontWeight="SemiBold" Margin="0,4,0,4" />
                     <TextBlock Text="已保留记录中的完成项" Style="{StaticResource Caption}" />
                   </StackPanel>
                 </Border>
-                <Border Style="{StaticResource Card}" Margin="0,0,16,18" Padding="18">
+                <Border Style="{StaticResource Card}" Margin="0,0,16,18" Padding="18,14">
                   <StackPanel>
                     <DockPanel>
-                      <Border Style="{StaticResource Pill}" DockPanel.Dock="Right" Padding="7" Background="#E9F7F3">
+                      <Border Style="{StaticResource Pill}" DockPanel.Dock="Right" Padding="6" Background="{DynamicResource Surface.TintWarning}">
                         <Viewbox Width="16" Height="16" Margin="0,0,10,0">
-                          <Path Data="{StaticResource Icon.clock}" Stroke="#167D70" StrokeThickness="1.7" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" />
+                          <Path Data="{StaticResource Icon.clock}" Stroke="{DynamicResource Accent.AmberIcon}" StrokeThickness="1.7" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" />
                         </Viewbox>
                       </Border>
                       <TextBlock Text="平均响应" Style="{StaticResource Caption}" />
                     </DockPanel>
-                    <TextBlock x:Name="OverviewLatency" Text="—" FontSize="29" FontWeight="SemiBold" Margin="0,7,0,6" />
+                    <TextBlock x:Name="OverviewLatency" Text="—" FontSize="28" FontWeight="SemiBold" Margin="0,4,0,4" />
                     <TextBlock Text="已保留完成项 · ms" Style="{StaticResource Caption}" />
                   </StackPanel>
                 </Border>
-                <Border Style="{StaticResource Card}" Margin="0,0,16,18" Padding="18">
+                <Border Style="{StaticResource Card}" Margin="0,0,16,18" Padding="18,14">
                   <StackPanel>
                     <DockPanel>
-                      <Border Style="{StaticResource Pill}" DockPanel.Dock="Right" Padding="7" Background="#E9F7F3">
+                      <Border Style="{StaticResource Pill}" DockPanel.Dock="Right" Padding="6" Background="{DynamicResource Surface.TintPurple}">
                         <Viewbox Width="16" Height="16" Margin="0,0,10,0">
-                          <Path Data="{StaticResource Icon.shield}" Stroke="#167D70" StrokeThickness="1.7" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" />
+                          <Path Data="{StaticResource Icon.shield}" Stroke="{DynamicResource Accent.Purple}" StrokeThickness="1.7" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" />
                         </Viewbox>
                       </Border>
                       <TextBlock Text="执行成功率" Style="{StaticResource Caption}" />
                     </DockPanel>
-                    <TextBlock x:Name="OverviewSuccess" Text="—" FontSize="29" FontWeight="SemiBold" Margin="0,7,0,6" />
+                    <TextBlock x:Name="OverviewSuccess" Text="—" FontSize="28" FontWeight="SemiBold" Margin="0,4,0,4" />
                     <TextBlock Text="成功完成项 / 完成项" Style="{StaticResource Caption}" />
                   </StackPanel>
                 </Border>
@@ -560,32 +721,82 @@
                 <Border Style="{StaticResource Card}">
                   <StackPanel>
                     <DockPanel>
-                      <Button Content="查看记录    →" Click="OpenLogsPage" DockPanel.Dock="Right" Style="{StaticResource Link}" />
-                      <TextBlock Text="AI 工具调用" Style="{StaticResource SectionTitle}" />
-                    </DockPanel>
-                    <TextBlock Text="本机有界记录 · 最近读取的事件" Style="{StaticResource Caption}" />
-                    <Border Background="#F8FAF9" CornerRadius="12" Margin="0,18,0,0" Padding="20" MinHeight="156">
+                      <Border DockPanel.Dock="Right" Background="{DynamicResource Surface.Neutral}" CornerRadius="8" Padding="3">
+                        <StackPanel Orientation="Horizontal">
+                          <Button Content="24H" IsEnabled="False" Style="{StaticResource Link}" Padding="8,3" FontSize="10" ToolTip="Q01：当前显示已保留记录的七日分组" />
+                          <Border Background="{DynamicResource Surface.Card}" CornerRadius="5" Padding="10,4">
+                            <TextBlock Text="7D" FontSize="10" />
+                          </Border>
+                          <Button Content="30D" IsEnabled="False" Style="{StaticResource Link}" Padding="8,3" FontSize="10" ToolTip="Q01：长期统计未接入" />
+                        </StackPanel>
+                      </Border>
                       <StackPanel>
-                        <TextBlock x:Name="OverviewRecentText" Text="尚无可显示记录" FontSize="24" FontWeight="SemiBold" />
-                        <TextBlock Text="7 / 30 天趋势在统计范围明确后接入" Style="{StaticResource Caption}" Margin="0,10,0,0" />
-                        <Border Height="1" Background="#E4ECE7" Margin="0,30,0,12" />
-                        <TextBlock Text="保留趋势区域 · 数据缺失时显示缺失状态" Style="{StaticResource Caption}" />
+                        <TextBlock Text="AI 工具调用" Style="{StaticResource SectionTitle}" />
+                        <TextBlock Text="已保留记录 · 按显示日分组" Style="{StaticResource Caption}" />
                       </StackPanel>
-                    </Border>
-                    <TextBlock Text="统计范围：当前保留文件中的已完成工具调用；缺失与轮转不会补算为成功。" Style="{StaticResource Caption}" Margin="0,14,0,0" />
+                    </DockPanel>
+                    <DockPanel Margin="0,6,0,4">
+                      <Border DockPanel.Dock="Right" Style="{StaticResource Pill}" VerticalAlignment="Center">
+                        <TextBlock Text="Q01 · 非全量统计" Foreground="{DynamicResource Text.Brand}" FontSize="10" />
+                      </Border>
+                      <TextBlock x:Name="OverviewRecentText" Text="0" FontSize="27" FontWeight="SemiBold" />
+                    </DockPanel>
+                    <Grid Height="134">
+                      <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                      </Grid.RowDefinitions>
+                      <Border Grid.Row="0" BorderBrush="{DynamicResource Border.Chart}" BorderThickness="0,1,0,0" />
+                      <Border Grid.Row="1" BorderBrush="{DynamicResource Border.Chart}" BorderThickness="0,1,0,0" />
+                      <Border Grid.Row="2" BorderBrush="{DynamicResource Border.Chart}" BorderThickness="0,1,0,0" />
+                      <Border Grid.Row="3" BorderBrush="{DynamicResource Border.Chart}" BorderThickness="0,1,0,1" />
+                      <ItemsControl x:Name="OverviewChart" Grid.RowSpan="4">
+                        <ItemsControl.ItemsPanel>
+                          <ItemsPanelTemplate>
+                            <UniformGrid Columns="7" />
+                          </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                          <DataTemplate>
+                            <Grid>
+                              <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Center" ToolTip="{Binding Tooltip}">
+                                <TextBlock Text="{Binding CountLabel}" FontSize="10" HorizontalAlignment="Center" Margin="0,0,0,4" />
+                                <StackPanel Width="42">
+                                  <Border Height="{Binding KnowledgeHeight}" Background="{DynamicResource Chart.Search}" />
+                                  <Border Height="{Binding ExecuteHeight}" Background="{DynamicResource Chart.Exec}" />
+                                  <Border Height="{Binding QueryHeight}" Background="{DynamicResource Chart.Query}" />
+                                </StackPanel>
+                                <TextBlock Text="{Binding Label}" FontSize="10" Foreground="{DynamicResource Text.Tertiary}" Margin="0,7,0,0" HorizontalAlignment="Center" />
+                              </StackPanel>
+                            </Grid>
+                          </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                      </ItemsControl>
+                      <TextBlock x:Name="OverviewChartEmptyText" Text="暂无已保留的完成记录" Foreground="{DynamicResource Text.Tertiary}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12" />
+                    </Grid>
+                    <DockPanel Margin="0,12,0,0">
+                      <TextBlock DockPanel.Dock="Right" Text="当前保留范围" Style="{StaticResource Caption}" />
+                      <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="● 查询" Foreground="{DynamicResource Chart.Query}" FontSize="10" Margin="0,0,18,0" />
+                        <TextBlock Text="● 执行" Foreground="{DynamicResource Chart.Exec}" FontSize="10" Margin="0,0,18,0" />
+                        <TextBlock Text="● 知识检索" Foreground="{DynamicResource Chart.Search}" FontSize="10" />
+                      </StackPanel>
+                    </DockPanel>
                   </StackPanel>
                 </Border>
-                <Border Grid.Column="2" Style="{StaticResource Card}">
+                <Border Grid.Column="2" Style="{StaticResource Card}" MinHeight="292">
                   <StackPanel>
                     <DockPanel>
-                      <TextBlock Text="● 本机" Foreground="#0B7A48" FontSize="11" DockPanel.Dock="Right" />
+                      <TextBlock Text="● 本机" Foreground="{DynamicResource Text.Success}" FontSize="11" DockPanel.Dock="Right" />
                       <TextBlock Text="实时工具调用" Style="{StaticResource SectionTitle}" />
                     </DockPanel>
                     <TextBlock Text="最近 200 条 · 本机滚动日志" Style="{StaticResource Caption}" />
                     <ItemsControl x:Name="OverviewFeed" Margin="0,16,0,0">
                       <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                          <Border BorderBrush="#EFF3F1" BorderThickness="0,0,0,1" Padding="0,10">
+                          <Border BorderBrush="{DynamicResource Border.Subtle}" BorderThickness="0,0,0,1" Padding="0,10">
                             <StackPanel>
                               <TextBlock Text="{Binding Tool}" FontFamily="Consolas" FontSize="12" TextTrimming="CharacterEllipsis" />
                               <TextBlock Text="{Binding Summary}" Style="{StaticResource Caption}" Margin="0,5,0,0" MaxHeight="32" />
@@ -594,6 +805,7 @@
                         </DataTemplate>
                       </ItemsControl.ItemTemplate>
                     </ItemsControl>
+                    <TextBlock x:Name="OverviewFeedEmptyText" Text="暂无近期调用" Style="{StaticResource Caption}" Margin="0,28,0,0" />
                   </StackPanel>
                 </Border>
               </Grid>
@@ -603,31 +815,52 @@
                   <ColumnDefinition Width="20" />
                   <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <Border Style="{StaticResource Card}">
+                <Border Style="{StaticResource Card}" Margin="0">
                   <StackPanel>
                     <DockPanel>
-                      <Button DockPanel.Dock="Right" Content="打开会话管理    →" Tag="3" Uid="工程会话" Click="Navigate" Style="{StaticResource Link}" />
+                      <Button DockPanel.Dock="Right" Content="打开会话管理    →" Tag="3" Uid="工程会话" Click="Navigate" Style="{StaticResource Link}" FontSize="10" />
                       <TextBlock Text="工程会话" Style="{StaticResource SectionTitle}" />
                     </DockPanel>
-                    <TextBlock Text="发现候选与已核验目标分别表达" Style="{StaticResource Caption}" />
-                    <Border Background="#F8FAF9" Padding="16" CornerRadius="10" Margin="0,16,0,0">
-                      <TextBlock x:Name="OverviewSessionText" Text="尚未选择目标。进入会话页发现并选择。" TextWrapping="Wrap" Foreground="#344054" />
-                    </Border>
-                    <WrapPanel Margin="0,18,0,0">
-                      <Button Content="能力与函数" Click="OpenFunctionsPage" Style="{StaticResource Quiet}" />
-                      <Button Content="Form / Gadget 查询" Click="OpenQueriesPage" />
-                    </WrapPanel>
+                    <TextBlock x:Name="OverviewSessionText" Text="发现候选与已核验目标分别表达" Style="{StaticResource Caption}" />
+                    <DataGrid x:Name="OverviewSessionsGrid" Height="134" Margin="0,10,0,0" MinRowHeight="32">
+                      <DataGrid.Columns>
+                        <DataGridTextColumn Header="会话 / 产品" Binding="{Binding Product}" Width="*" />
+                        <DataGridTextColumn Header="PID" Binding="{Binding ProcessId}" Width="75" />
+                        <DataGridTextColumn Header="工程" Binding="{Binding Project}" Width="125" />
+                        <DataGridTemplateColumn Header="Host 管道" Width="110">
+                          <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                              <TextBlock>
+                                <TextBlock.Style>
+                                  <Style TargetType="TextBlock">
+                                    <Setter Property="Text" Value="{Binding StatusText}" />
+                                    <Setter Property="Foreground" Value="{DynamicResource Text.Warning}" />
+                                    <Style.Triggers>
+                                      <DataTrigger Binding="{Binding Verified}" Value="True">
+                                        <Setter Property="Text" Value="已核验" />
+                                        <Setter Property="Foreground" Value="{DynamicResource Text.Brand}" />
+                                      </DataTrigger>
+                                    </Style.Triggers>
+                                  </Style>
+                                </TextBlock.Style>
+                              </TextBlock>
+                            </DataTemplate>
+                          </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                      </DataGrid.Columns>
+                    </DataGrid>
+                    <TextBlock Text="双击候选不会执行 PML；到会话页明确选择。" Style="{StaticResource Caption}" FontSize="10" />
                   </StackPanel>
                 </Border>
-                <Border Grid.Column="2" Style="{StaticResource Card}">
+                <Border Grid.Column="2" Style="{StaticResource Card}" MinHeight="232" Margin="0">
                   <StackPanel>
                     <TextBlock Text="AI 运行状态" Style="{StaticResource SectionTitle}" />
                     <TextBlock x:Name="OverviewRuntimeText" Text="读取本机 MCP 服务状态…" Style="{StaticResource Caption}" Margin="0,12,0,20" />
-                    <Border Background="#F8FAF9" CornerRadius="10" Padding="12">
+                    <Border Background="{DynamicResource Surface.Input}" CornerRadius="10" Padding="12">
                       <DockPanel>
-                        <TextBlock Text="›_" FontFamily="Consolas" Foreground="#167D70" FontSize="18" Margin="0,0,10,0" />
+                        <TextBlock Text="›_" FontFamily="Consolas" Foreground="{DynamicResource Accent.Brand}" FontSize="18" Margin="0,0,10,0" />
                         <StackPanel>
-                          <TextBlock Text="日志与关联记录" Foreground="#0F5F56" FontSize="13" />
+                          <TextBlock Text="日志与关联记录" Foreground="{DynamicResource Text.Brand}" FontSize="13" />
                           <TextBlock Text="Activity · 本机保留" Style="{StaticResource Caption}" />
                         </StackPanel>
                       </DockPanel>
@@ -639,15 +872,493 @@
           </ScrollViewer>
         </TabItem>
         <TabItem Header="后续功能">
-          <Border Style="{StaticResource Card}" VerticalAlignment="Top">
+          <DockPanel>
+            <Border DockPanel.Dock="Bottom" Background="{DynamicResource Surface.TintWarning}" CornerRadius="10" Padding="12,8" Margin="0,0,0,10">
+              <StackPanel>
+                <TextBlock x:Name="PlannedTitleText" Foreground="{DynamicResource Text.Warning}" FontSize="11" />
+                <Expander Header="设计与实现边界" FontSize="10">
+                  <TextBlock x:Name="PlannedDescriptionText" TextWrapping="Wrap" Foreground="{DynamicResource Text.Secondary}" Margin="0,8,0,0" />
+                </Expander>
+              </StackPanel>
+            </Border>
+            <TabControl x:Name="PlannedPages">
+              <TabControl.Template>
+                <ControlTemplate TargetType="TabControl">
+                  <ContentPresenter ContentSource="SelectedContent" />
+                </ControlTemplate>
+              </TabControl.Template>
+              <TabItem Header="评审中心">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                  <StackPanel>
+                    <UniformGrid Columns="4" Margin="0,0,-16,0">
+                      <Border Style="{StaticResource Card}" Padding="18" Margin="0,0,16,18">
+                        <StackPanel>
+                          <TextBlock Text="待审核" Style="{StaticResource Caption}" />
+                          <TextBlock Text="—" FontSize="28" FontWeight="SemiBold" Margin="0,10,0,6" />
+                          <TextBlock Text="尚未接入记录" Style="{StaticResource Caption}" />
+                        </StackPanel>
+                      </Border>
+                      <Border Style="{StaticResource Card}" Padding="18" Margin="0,0,16,18">
+                        <StackPanel>
+                          <TextBlock Text="本周已批准" Style="{StaticResource Caption}" />
+                          <TextBlock Text="—" FontSize="28" FontWeight="SemiBold" Margin="0,10,0,6" />
+                          <TextBlock Text="尚未接入记录" Style="{StaticResource Caption}" />
+                        </StackPanel>
+                      </Border>
+                      <Border Style="{StaticResource Card}" Padding="18" Margin="0,0,16,18">
+                        <StackPanel>
+                          <TextBlock Text="平均审核时长" Style="{StaticResource Caption}" />
+                          <TextBlock Text="—" FontSize="28" FontWeight="SemiBold" Margin="0,10,0,6" />
+                          <TextBlock Text="尚未接入记录" Style="{StaticResource Caption}" />
+                        </StackPanel>
+                      </Border>
+                      <Border Style="{StaticResource Card}" Padding="18" Margin="0,0,16,18">
+                        <StackPanel>
+                          <TextBlock Text="最近迁移" Style="{StaticResource Caption}" />
+                          <TextBlock Text="—" FontSize="28" FontWeight="SemiBold" Margin="0,10,0,6" />
+                          <TextBlock Text="尚未接入记录" Style="{StaticResource Caption}" />
+                        </StackPanel>
+                      </Border>
+                    </UniformGrid>
+                    <Grid x:Name="ReviewColumns">
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2.14*" />
+                        <ColumnDefinition Width="20" />
+                        <ColumnDefinition />
+                      </Grid.ColumnDefinitions>
+                      <Border Style="{StaticResource Card}">
+                        <StackPanel>
+                          <TextBlock Text="待审核草稿" Style="{StaticResource SectionTitle}" />
+                          <TextBlock Text="同一维护者审核 · 批准绑定源码、契约与证据快照" Style="{StaticResource Caption}" Margin="0,8,0,0" />
+                          <WrapPanel Margin="0,14,0,0">
+                            <Button Content="全部" IsEnabled="False" />
+                            <Button Content="待审核" IsEnabled="False" />
+                            <Button Content="需补证据" IsEnabled="False" />
+                          </WrapPanel>
+                          <DataGrid Height="275" Margin="0,16,0,0">
+                            <DataGrid.Columns>
+                              <DataGridTextColumn Header="变更 / 名称" Width="*" />
+                              <DataGridTextColumn Header="工程 / 模块" Width="*" />
+                              <DataGridTextColumn Header="测试证据" Width="*" />
+                              <DataGridTextColumn Header="状态" Width="*" />
+                            </DataGrid.Columns>
+                          </DataGrid>
+                          <TextBlock Text="没有可用审核队列；这里不写入示意通过结果。" Style="{StaticResource Caption}" Margin="0,8,0,0" />
+                        </StackPanel>
+                      </Border>
+                      <Border Style="{StaticResource Card}" Grid.Column="2">
+                        <StackPanel>
+                          <TextBlock Text="变更详情" Style="{StaticResource SectionTitle}" />
+                          <Border Style="{StaticResource Pill}" HorizontalAlignment="Left" Background="{DynamicResource Surface.TintWarning}">
+                            <TextBlock Text="Q06 · 审核与迁移待接入" Foreground="{DynamicResource Text.Warning}" FontSize="10" />
+                          </Border>
+                          <TextBlock Text="来源" Style="{StaticResource Caption}" Margin="0,14,0,0" />
+                          <TextBox Text="" IsEnabled="False" />
+                          <TextBlock Text="正式目标" Style="{StaticResource Caption}" Margin="0,14,0,0" />
+                          <TextBox Text="" IsEnabled="False" />
+                          <TextBlock Text="快照 / 契约影响" Style="{StaticResource Caption}" Margin="0,14,0,0" />
+                          <TextBox Text="" IsEnabled="False" />
+                          <TextBlock Text="差异正文、必需测试与当前快照需先核对。" Style="{StaticResource Caption}" Margin="0,8,0,0" />
+                          <Border Background="{DynamicResource Surface.TintWarning}" Padding="12" CornerRadius="8" Margin="0,16,0,0">
+                            <TextBlock Text="必需测试 NotRun 时不能批准迁移。" Foreground="{DynamicResource Text.Warning}" TextWrapping="Wrap" />
+                          </Border>
+                          <Button Content="批准并迁移" IsEnabled="False" Style="{StaticResource Primary}" Margin="0,16,0,0" HorizontalAlignment="Right" />
+                        </StackPanel>
+                      </Border>
+                    </Grid>
+                    <Border Style="{StaticResource Card}">
+                      <StackPanel>
+                        <TextBlock Text="最近迁移回执" Style="{StaticResource SectionTitle}" />
+                        <TextBlock Text="测试、批准、复制、重加载与恢复分别留结果" Style="{StaticResource Caption}" Margin="0,8,0,0" />
+                        <DataGrid Height="145" Margin="0,16,0,0">
+                          <DataGrid.Columns>
+                            <DataGridTextColumn Header="变更 ID" Width="*" />
+                            <DataGridTextColumn Header="审核人" Width="*" />
+                            <DataGridTextColumn Header="正式目标" Width="*" />
+                            <DataGridTextColumn Header="阶段结果" Width="*" />
+                            <DataGridTextColumn Header="时间" Width="*" />
+                          </DataGrid.Columns>
+                        </DataGrid>
+                      </StackPanel>
+                    </Border>
+                  </StackPanel>
+                </ScrollViewer>
+              </TabItem>
+              <TabItem Header="测试中心">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                  <StackPanel>
+                    <UniformGrid Columns="4" Margin="0,0,-16,0">
+                      <Border Style="{StaticResource Card}" Padding="18" Margin="0,0,16,18">
+                        <StackPanel>
+                          <TextBlock Text="测试入口" Style="{StaticResource Caption}" />
+                          <TextBlock Text="—" FontSize="28" FontWeight="SemiBold" Margin="0,10,0,6" />
+                          <TextBlock Text="尚未接入记录" Style="{StaticResource Caption}" />
+                        </StackPanel>
+                      </Border>
+                      <Border Style="{StaticResource Card}" Padding="18" Margin="0,0,16,18">
+                        <StackPanel>
+                          <TextBlock Text="本次通过" Style="{StaticResource Caption}" />
+                          <TextBlock Text="—" FontSize="28" FontWeight="SemiBold" Margin="0,10,0,6" />
+                          <TextBlock Text="尚未接入记录" Style="{StaticResource Caption}" />
+                        </StackPanel>
+                      </Border>
+                      <Border Style="{StaticResource Card}" Padding="18" Margin="0,0,16,18">
+                        <StackPanel>
+                          <TextBlock Text="人工案例" Style="{StaticResource Caption}" />
+                          <TextBlock Text="—" FontSize="28" FontWeight="SemiBold" Margin="0,10,0,6" />
+                          <TextBlock Text="尚未接入记录" Style="{StaticResource Caption}" />
+                        </StackPanel>
+                      </Border>
+                      <Border Style="{StaticResource Card}" Padding="18" Margin="0,0,16,18">
+                        <StackPanel>
+                          <TextBlock Text="上次运行" Style="{StaticResource Caption}" />
+                          <TextBlock Text="—" FontSize="28" FontWeight="SemiBold" Margin="0,10,0,6" />
+                          <TextBlock Text="尚未接入记录" Style="{StaticResource Caption}" />
+                        </StackPanel>
+                      </Border>
+                    </UniformGrid>
+                    <Grid x:Name="TestsColumns">
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2.14*" />
+                        <ColumnDefinition Width="20" />
+                        <ColumnDefinition />
+                      </Grid.ColumnDefinitions>
+                      <Border Style="{StaticResource Card}">
+                        <StackPanel>
+                          <TextBlock Text="用例目录" Style="{StaticResource SectionTitle}" />
+                          <TextBlock Text="复用既有 DocFX 目录与按 ID 的运行器" Style="{StaticResource Caption}" Margin="0,8,0,0" />
+                          <TextBox Tag="搜索测试 ID、方法或源码路径" IsEnabled="False" Margin="0,14,0,0" />
+                          <DataGrid Height="275" Margin="0,16,0,0">
+                            <DataGrid.Columns>
+                              <DataGridTextColumn Header="测试 ID / 名称" Width="*" />
+                              <DataGridTextColumn Header="类别" Width="*" />
+                              <DataGridTextColumn Header="环境" Width="*" />
+                              <DataGridTextColumn Header="最近" Width="*" />
+                              <DataGridTextColumn Header="本次状态" Width="*" />
+                            </DataGrid.Columns>
+                          </DataGrid>
+                          <TextBlock Text="xUnit / Native AOT / NET35 / NET48 / AVEVA 实测分开。" Style="{StaticResource Caption}" Margin="0,8,0,0" />
+                        </StackPanel>
+                      </Border>
+                      <Border Style="{StaticResource Card}" Grid.Column="2">
+                        <StackPanel>
+                          <TextBlock Text="测试详情" Style="{StaticResource SectionTitle}" />
+                          <Border Style="{StaticResource Pill}" HorizontalAlignment="Left" Background="{DynamicResource Surface.TintWarning}">
+                            <TextBlock Text="Q05 · 测试中心 UI 待接入" Foreground="{DynamicResource Text.Warning}" FontSize="10" />
+                          </Border>
+                          <TextBlock Text="完整测试 ID" Style="{StaticResource Caption}" Margin="0,14,0,0" />
+                          <TextBox Text="" IsEnabled="False" />
+                          <TextBlock Text="验证目的 / 源码" Style="{StaticResource Caption}" Margin="0,14,0,0" />
+                          <TextBox Text="" IsEnabled="False" />
+                          <TextBlock Text="环境与运行命令" Style="{StaticResource Caption}" Margin="0,14,0,0" />
+                          <TextBox Text="" IsEnabled="False" />
+                          <TextBlock Text="预期结果 / 本次证据" Style="{StaticResource Caption}" Margin="0,14,0,0" />
+                          <TextBox Text="" IsEnabled="False" />
+                          <TextBlock Text="源码变化后，本次证据失效；历史通过只在历史区显示。" Style="{StaticResource Caption}" Margin="0,8,0,0" />
+                          <Button Content="运行离线用例" IsEnabled="False" Style="{StaticResource Primary}" Margin="0,16,0,0" HorizontalAlignment="Right" />
+                        </StackPanel>
+                      </Border>
+                    </Grid>
+                    <Border Style="{StaticResource Card}">
+                      <StackPanel>
+                        <TextBlock Text="执行队列与证据" Style="{StaticResource SectionTitle}" />
+                        <TextBlock Text="单个运行任务 · 不把取消等待当作终止执行" Style="{StaticResource Caption}" Margin="0,8,0,0" />
+                        <DataGrid Height="130" Margin="0,16,0,0">
+                          <DataGrid.Columns>
+                            <DataGridTextColumn Header="当前运行" Width="*" />
+                            <DataGridTextColumn Header="上次完成" Width="*" />
+                            <DataGridTextColumn Header="证据位置" Width="*" />
+                          </DataGrid.Columns>
+                        </DataGrid>
+                      </StackPanel>
+                    </Border>
+                  </StackPanel>
+                </ScrollViewer>
+              </TabItem>
+              <TabItem Header="Web 应用">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                  <StackPanel>
+                    <UniformGrid Columns="4" Margin="0,0,-16,0">
+                      <Border Style="{StaticResource Card}" Padding="18" Margin="0,0,16,18">
+                        <StackPanel>
+                          <TextBlock Text="已登记应用" Style="{StaticResource Caption}" />
+                          <TextBlock Text="—" FontSize="28" FontWeight="SemiBold" Margin="0,10,0,6" />
+                          <TextBlock Text="尚未接入记录" Style="{StaticResource Caption}" />
+                        </StackPanel>
+                      </Border>
+                      <Border Style="{StaticResource Card}" Padding="18" Margin="0,0,16,18">
+                        <StackPanel>
+                          <TextBlock Text="正在运行" Style="{StaticResource Caption}" />
+                          <TextBlock Text="—" FontSize="28" FontWeight="SemiBold" Margin="0,10,0,6" />
+                          <TextBlock Text="尚未接入记录" Style="{StaticResource Caption}" />
+                        </StackPanel>
+                      </Border>
+                      <Border Style="{StaticResource Card}" Padding="18" Margin="0,0,16,18">
+                        <StackPanel>
+                          <TextBlock Text="待更新" Style="{StaticResource Caption}" />
+                          <TextBlock Text="—" FontSize="28" FontWeight="SemiBold" Margin="0,10,0,6" />
+                          <TextBlock Text="尚未接入记录" Style="{StaticResource Caption}" />
+                        </StackPanel>
+                      </Border>
+                      <Border Style="{StaticResource Card}" Padding="18" Margin="0,0,16,18">
+                        <StackPanel>
+                          <TextBlock Text="异常" Style="{StaticResource Caption}" />
+                          <TextBlock Text="—" FontSize="28" FontWeight="SemiBold" Margin="0,10,0,6" />
+                          <TextBlock Text="尚未接入记录" Style="{StaticResource Caption}" />
+                        </StackPanel>
+                      </Border>
+                    </UniformGrid>
+                    <Grid x:Name="WebColumns">
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2.14*" />
+                        <ColumnDefinition Width="20" />
+                        <ColumnDefinition />
+                      </Grid.ColumnDefinitions>
+                      <Border Style="{StaticResource Card}">
+                        <StackPanel>
+                          <TextBlock Text="应用目录" Style="{StaticResource SectionTitle}" />
+                          <TextBlock Text="登记、部署、打开版本分别表达" Style="{StaticResource Caption}" Margin="0,8,0,0" />
+                          <TextBox Tag="搜索应用名称、版本或目录" IsEnabled="False" Margin="0,14,0,0" />
+                          <DataGrid Height="275" Margin="0,16,0,0">
+                            <DataGrid.Columns>
+                              <DataGridTextColumn Header="应用 / 来源" Width="*" />
+                              <DataGridTextColumn Header="版本" Width="*" />
+                              <DataGridTextColumn Header="登记状态" Width="*" />
+                              <DataGridTextColumn Header="运行状态" Width="*" />
+                            </DataGrid.Columns>
+                          </DataGrid>
+                          <Button Content="登记应用" IsEnabled="False" Style="{StaticResource Primary}" Margin="0,16,0,0" HorizontalAlignment="Right" />
+                        </StackPanel>
+                      </Border>
+                      <Border Style="{StaticResource Card}" Grid.Column="2">
+                        <StackPanel>
+                          <TextBlock Text="应用详情" Style="{StaticResource SectionTitle}" />
+                          <Border Style="{StaticResource Pill}" HorizontalAlignment="Left" Background="{DynamicResource Surface.TintWarning}">
+                            <TextBlock Text="Q07 · C# 应用管理待接入" Foreground="{DynamicResource Text.Warning}" FontSize="10" />
+                          </Border>
+                          <TextBlock Text="本地目录 / 入口 HTML" Style="{StaticResource Caption}" Margin="0,14,0,0" />
+                          <TextBox Text="" IsEnabled="False" />
+                          <TextBlock Text="登记 / 部署 / 打开版本" Style="{StaticResource Caption}" Margin="0,14,0,0" />
+                          <TextBox Text="" IsEnabled="False" />
+                          <TextBlock Text="打开窗口、桥接可用和调用许可分别判断。" Style="{StaticResource Caption}" Margin="0,8,0,0" />
+                          <Border Background="{DynamicResource Surface.TintWarning}" Padding="12" CornerRadius="8" Margin="0,16,0,0">
+                            <TextBlock Text="页面不能自行登记函数或授予许可；本阶段不开放任意 PML。" Foreground="{DynamicResource Text.Warning}" TextWrapping="Wrap" />
+                          </Border>
+                          <Button Content="打开应用" IsEnabled="False" Style="{StaticResource Primary}" Margin="0,16,0,0" HorizontalAlignment="Right" />
+                        </StackPanel>
+                      </Border>
+                    </Grid>
+                    <Border Style="{StaticResource Card}">
+                      <StackPanel>
+                        <TextBlock Text="最近应用活动" Style="{StaticResource SectionTitle}" />
+                        <TextBlock Text="打开、停用、授权、版本和迁移记录" Style="{StaticResource Caption}" Margin="0,8,0,0" />
+                        <DataGrid Height="145" Margin="0,16,0,0">
+                          <DataGrid.Columns>
+                            <DataGridTextColumn Header="时间" Width="*" />
+                            <DataGridTextColumn Header="应用" Width="*" />
+                            <DataGridTextColumn Header="活动" Width="*" />
+                            <DataGridTextColumn Header="版本" Width="*" />
+                            <DataGridTextColumn Header="结果" Width="*" />
+                          </DataGrid.Columns>
+                        </DataGrid>
+                      </StackPanel>
+                    </Border>
+                  </StackPanel>
+                </ScrollViewer>
+              </TabItem>
+              <TabItem Header="知识库">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                  <StackPanel>
+                    <Border Background="{DynamicResource Brand.HeroGradient}" CornerRadius="18" Padding="24" Margin="0,0,0,18">
+                      <StackPanel>
+                        <TextBlock Text="知识检索" Foreground="{DynamicResource Text.OnDark}" FontSize="24" FontWeight="SemiBold" />
+                        <TextBlock Text="Q08 · 知识界面待接入；已有独立知识工具继续可用" Style="{StaticResource Caption}" Margin="0,8,0,0" />
+                        <DockPanel Margin="0,18,0,0">
+                          <Button Content="搜索" DockPanel.Dock="Right" IsEnabled="False" Style="{StaticResource Primary}" />
+                          <TextBox Tag="搜索 PML、API、工程参考与已验证经验" IsEnabled="False" Margin="0,0,12,0" />
+                        </DockPanel>
+                      </StackPanel>
+                    </Border>
+                    <Grid x:Name="KnowledgeColumns">
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2.14*" />
+                        <ColumnDefinition Width="20" />
+                        <ColumnDefinition />
+                      </Grid.ColumnDefinitions>
+                      <Border Style="{StaticResource Card}">
+                        <StackPanel>
+                          <TextBlock Text="检索结果" Style="{StaticResource SectionTitle}" />
+                          <TextBlock Text="来源、版本、定位与验证状态分别显示" Style="{StaticResource Caption}" Margin="0,8,0,0" />
+                          <DataGrid Height="340" Margin="0,16,0,0">
+                            <DataGrid.Columns>
+                              <DataGridTextColumn Header="标题 / 来源" Width="*" />
+                              <DataGridTextColumn Header="层级" Width="*" />
+                              <DataGridTextColumn Header="定位" Width="*" />
+                              <DataGridTextColumn Header="相关性" Width="*" />
+                            </DataGrid.Columns>
+                          </DataGrid>
+                        </StackPanel>
+                      </Border>
+                      <Border Style="{StaticResource Card}" Grid.Column="2">
+                        <StackPanel>
+                          <TextBlock Text="来源分层" Style="{StaticResource SectionTitle}" />
+                          <Border Style="{StaticResource Pill}" HorizontalAlignment="Left" Background="{DynamicResource Surface.TintWarning}">
+                            <TextBlock Text="Q08 · 保留分层与验证设计" Foreground="{DynamicResource Text.Warning}" FontSize="10" />
+                          </Border>
+                          <TextBlock Text="项目参考" Style="{StaticResource Caption}" Margin="0,8,0,0" />
+                          <TextBlock Text="官方资料" Style="{StaticResource Caption}" Margin="0,8,0,0" />
+                          <TextBlock Text="本机经验" Style="{StaticResource Caption}" Margin="0,8,0,0" />
+                          <TextBlock Text="检索相关性不代表已实测或已获调用权限。" Style="{StaticResource Caption}" Margin="0,30,0,0" />
+                        </StackPanel>
+                      </Border>
+                    </Grid>
+                    <Border Style="{StaticResource Card}">
+                      <StackPanel>
+                        <TextBlock Text="最近检索" Style="{StaticResource SectionTitle}" />
+                        <DataGrid Height="145" Margin="0,16,0,0">
+                          <DataGrid.Columns>
+                            <DataGridTextColumn Header="时间" Width="*" />
+                            <DataGridTextColumn Header="查询" Width="*" />
+                            <DataGridTextColumn Header="结果范围" Width="*" />
+                            <DataGridTextColumn Header="来源" Width="*" />
+                            <DataGridTextColumn Header="耗时" Width="*" />
+                          </DataGrid.Columns>
+                        </DataGrid>
+                      </StackPanel>
+                    </Border>
+                  </StackPanel>
+                </ScrollViewer>
+              </TabItem>
+            </TabControl>
+          </DockPanel>
+        </TabItem>
+        <TabItem Header="设置">
+          <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel>
-              <TextBlock x:Name="PlannedTitleText" Style="{StaticResource SectionTitle}" />
-              <TextBlock x:Name="PlannedDescriptionText" FontSize="15" TextWrapping="Wrap" Margin="0,14,0,0" />
-              <Border Style="{StaticResource Pill}" Margin="0,22,0,0" HorizontalAlignment="Left">
-                <TextBlock Text="设计已保留 · 按里程碑交付" Foreground="#0F5F56" FontSize="12" />
+              <Border Style="{StaticResource Card}" Padding="14">
+                <TextBlock Text="常规      环境与路径      AI 客户端      安全与权限      显示" Foreground="{DynamicResource Text.Brand}" />
+              </Border>
+              <Grid x:Name="SettingsColumns">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="2.14*" />
+                  <ColumnDefinition Width="20" />
+                  <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Border Style="{StaticResource Card}">
+                  <StackPanel>
+                    <TextBlock Text="环境与路径" Style="{StaticResource SectionTitle}" />
+                    <TextBlock Text="沿用已有目录设置，保存不修改系统环境" Style="{StaticResource Caption}" />
+                    <TextBlock Text="已注册 PMLLIB" Style="{StaticResource Caption}" Margin="0,18,0,0" />
+                    <TextBox Text="{Binding Text, ElementName=RegisteredBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBlock Text="开发插件来源" Style="{StaticResource Caption}" />
+                    <TextBox Text="{Binding Text, ElementName=SourceBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBlock Text="插件子目录名" Style="{StaticResource Caption}" />
+                    <TextBox Text="{Binding Text, ElementName=PluginBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <Button Content="保存目录设置" Click="SaveWorkspace" Style="{StaticResource Primary}" HorizontalAlignment="Right" Margin="0,12,0,0" />
+                  </StackPanel>
+                </Border>
+                <Border Grid.Column="2" Style="{StaticResource Card}">
+                  <StackPanel>
+                    <TextBlock Text="Yuzuha Toolkit" Style="{StaticResource SectionTitle}" />
+                    <TextBlock Text="PMLTWIN v0.4 · 本机 WPF 工作台" Style="{StaticResource Caption}" Margin="0,8,0,18" />
+                    <TextBlock Text="会话、函数、原生查询、启动与复制继续使用已有 C# 能力。" TextWrapping="Wrap" />
+                    <Button Content="打开日志目录  ↗" Click="OpenLogs" Margin="0,20,0,0" HorizontalAlignment="Left" />
+                  </StackPanel>
+                </Border>
+              </Grid>
+              <Grid x:Name="SettingsLowerColumns">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="2.14*" />
+                  <ColumnDefinition Width="20" />
+                  <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Border Style="{StaticResource Card}">
+                  <StackPanel>
+                    <TextBlock Text="AI 客户端连接" Style="{StaticResource SectionTitle}" />
+                    <TextBlock Text="Q09 · 保留配置区域，客户端自动写入与连接管理尚未接入。" Style="{StaticResource Caption}" Margin="0,10,0,20" />
+                    <DataGrid Height="150">
+                      <DataGrid.Columns>
+                        <DataGridTextColumn Header="客户端" Width="*" />
+                        <DataGridTextColumn Header="类型" Width="100" />
+                        <DataGridTextColumn Header="状态" Width="120" />
+                      </DataGrid.Columns>
+                    </DataGrid>
+                  </StackPanel>
+                </Border>
+                <Border Grid.Column="2" Style="{StaticResource Card}">
+                  <StackPanel>
+                    <TextBlock Text="显示与主题" Style="{StaticResource SectionTitle}" />
+                    <TextBlock Text="明亮 / 黑暗" Style="{StaticResource Caption}" Margin="0,10,0,14" />
+                    <WrapPanel>
+                      <Button Content="☀ 明亮" Tag="Light" Click="ChooseTheme" />
+                      <Button Content="☾ 黑暗" Tag="Dark" Click="ChooseTheme" />
+                    </WrapPanel>
+                    <TextBlock Text="只保存显示偏好；输入、目标与调用许可继续保留。" Style="{StaticResource Caption}" Margin="0,18,0,20" />
+                    <TextBlock Text="安全与权限" FontWeight="SemiBold" />
+                    <TextBlock Text="函数许可、人工信任与 Web 应用授权分别管理。" Style="{StaticResource Caption}" Margin="0,10,0,0" />
+                  </StackPanel>
+                </Border>
+              </Grid>
+            </StackPanel>
+          </ScrollViewer>
+        </TabItem>
+        <TabItem Header="工具日志">
+          <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+              <Border Style="{StaticResource Card}" Padding="14">
+                <DockPanel>
+                  <TextBlock DockPanel.Dock="Right" Text="Q10 · 检索筛选与导出待接入" Foreground="{DynamicResource Text.Warning}" VerticalAlignment="Center" FontSize="10" />
+                  <TextBox Tag="搜索工具、关联编号或 PID" IsEnabled="False" Width="300" HorizontalAlignment="Left" Margin="0" />
+                </DockPanel>
+              </Border>
+              <Grid x:Name="LogColumns">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="2.14*" />
+                  <ColumnDefinition Width="20" />
+                  <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Border Style="{StaticResource Card}">
+                  <StackPanel>
+                    <TextBlock Text="调用日志" Style="{StaticResource SectionTitle}" />
+                    <TextBlock Text="最近 200 条 · 本机滚动范围 · 不作为 24h 全量" Style="{StaticResource Caption}" />
+                    <DataGrid x:Name="ActivityGrid" Height="510" Margin="0,14,0,0" SelectionChanged="ActivitySelected">
+                      <DataGrid.Columns>
+                        <DataGridTextColumn Header="时间 +08" Binding="{Binding DisplayTime}" Width="70" />
+                        <DataGridTextColumn Header="工具" Binding="{Binding Tool}" Width="*" MinWidth="120" />
+                        <DataGridTextColumn Header="PID" Binding="{Binding TargetPid}" Width="65" />
+                        <DataGridTextColumn Header="事件" Binding="{Binding PhaseLabel}" Width="100" />
+                        <DataGridTextColumn Header="耗时 ms" Binding="{Binding Milliseconds}" Width="65" />
+                        <DataGridTextColumn Header="摘要" Binding="{Binding Summary}" Width="*" MinWidth="110" />
+                      </DataGrid.Columns>
+                    </DataGrid>
+                  </StackPanel>
+                </Border>
+                <Border Grid.Column="2" Style="{StaticResource Card}">
+                  <StackPanel>
+                    <DockPanel>
+                      <Button Content="复制回执" Click="CopyActivity" DockPanel.Dock="Right" FontSize="10" />
+                      <TextBlock Text="调用详情" Style="{StaticResource SectionTitle}" />
+                    </DockPanel>
+                    <TextBlock x:Name="ActivityIdentityText" Text="选择一条调用记录" Style="{StaticResource Caption}" Margin="0,12,0,18" />
+                    <TextBlock Text="请求参数" FontWeight="SemiBold" FontSize="11" />
+                    <TextBox x:Name="ActivityRequestText" IsReadOnly="True" TextWrapping="Wrap" Height="152" VerticalScrollBarVisibility="Auto" Background="{DynamicResource Surface.Code}" Foreground="{DynamicResource Text.CodeText}" FontFamily="Consolas" FontSize="10" Margin="0,10,0,16" />
+                    <TextBlock Text="结果 / 原始错误" FontWeight="SemiBold" FontSize="11" />
+                    <TextBox x:Name="ActivityDetails" IsReadOnly="True" TextWrapping="Wrap" Height="180" VerticalScrollBarVisibility="Auto" Background="{DynamicResource Surface.Code}" Foreground="{DynamicResource Text.CodeText}" FontFamily="Consolas" FontSize="10" Margin="0,10,0,16" />
+                    <TextBlock Text="命名秘密字段已脱敏；正文仍可能包含工程信息。输出默认留本机。" Style="{StaticResource Caption}" />
+                  </StackPanel>
+                </Border>
+              </Grid>
+              <Border Style="{StaticResource Card}">
+                <DockPanel>
+                  <Button DockPanel.Dock="Right" Content="打开日志目录  ↗" Click="OpenLogs" />
+                  <StackPanel>
+                    <TextBlock Text="日志文件与保留范围" Style="{StaticResource SectionTitle}" />
+                    <TextBlock Text="复用现有 RuntimeJournal；各进程有界滚动保留，历史缺失不补算为成功。" Style="{StaticResource Caption}" />
+                  </StackPanel>
+                </DockPanel>
               </Border>
             </StackPanel>
-          </Border>
+          </ScrollViewer>
         </TabItem>
       </TabControl>
     </DockPanel>

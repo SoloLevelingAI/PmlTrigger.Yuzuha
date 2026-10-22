@@ -31,7 +31,7 @@ public partial class SessionWorkbenchView : UserControl, IDisposable
     {
         host = new(registry); model = new(host, registry); InitializeComponent();
         Loaded += (_, _) => { if (initialized) return; initialized = true; DiscoverNow(); ReloadFunctions(); Render(); };
-        SizeChanged += (_, _) => { StackNarrowColumns(SessionColumns); StackNarrowColumns(FunctionColumns); };
+        SizeChanged += (_, _) => { foreach (var grid in new[] { SessionColumns, SessionMiddleColumns, SessionLowerColumns, FunctionColumns, FunctionArrayColumns }) StackNarrowColumns(grid); };
     }
     private void StackNarrowColumns(Grid grid)
     {
@@ -44,7 +44,7 @@ public partial class SessionWorkbenchView : UserControl, IDisposable
     private CancellationToken Token => pending?.Token ?? CancellationToken.None;
     private void DiscoverNow()
     {
-        try { var rows = model.Discover().Sessions.Select(c => new SessionRow(c)).ToArray(); SessionsGrid.ItemsSource = rows; CandidateCountText.Text = "全部 " + rows.Length; }
+        try { var rows = model.Discover().Sessions.Select(c => new SessionRow(c)).ToArray(); SessionsGrid.ItemsSource = rows; CandidateCountText.Text = "全部 " + rows.Length; CandidatesChanged?.Invoke(rows.Select(row => row.Candidate).ToArray()); }
         catch (Exception error) { FeedbackText.Text = error.Message; }
     }
     private void DiscoverSessions(object sender, RoutedEventArgs e) { DiscoverNow(); Render(); }
@@ -55,6 +55,7 @@ public partial class SessionWorkbenchView : UserControl, IDisposable
     }
     private async void VerifyTarget(object sender, RoutedEventArgs e) => await Run(() => model.VerifyAsync(Token));
     private void ShowFunctions(object sender, RoutedEventArgs e) => FlowTabs.SelectedIndex = 1;
+    private void ShowSessions(object sender, RoutedEventArgs e) => FlowTabs.SelectedIndex = 0;
     private void ShowQueries(object sender, RoutedEventArgs e) => FlowTabs.SelectedIndex = 2;
     private async Task Run(Func<Task> action)
     {
@@ -74,10 +75,11 @@ public partial class SessionWorkbenchView : UserControl, IDisposable
     private void RegisterFunction(object sender, RoutedEventArgs e) => Local(() =>
     {
         var entry = model.Register(FunctionSourceBox.Text.Trim(), FunctionNameBox.Text.Trim()); ReloadFunctions(entry.Name);
+        RegistrationPanel.Visibility = Visibility.Collapsed;
         FeedbackText.Text = "已登记当前源码，许可已关闭。确认源码后可人工授予；登记不会加载 PML。";
     });
     private void RefreshFunctions(object sender, RoutedEventArgs e) => Local(() => ReloadFunctions());
-    private void ExpandRegistration(object sender, RoutedEventArgs e) { RegistrationPanel.IsExpanded = true; FunctionSourceBox.Focus(); }
+    private void ExpandRegistration(object sender, RoutedEventArgs e) { RegistrationPanel.Visibility = Visibility.Visible; RegistrationPanel.IsExpanded = true; FunctionSourceBox.Focus(); }
     private FunctionRow SelectedFunction() => FunctionsGrid.SelectedItem as FunctionRow ?? throw new InvalidOperationException("请先选择一个已登记的函数。");
     private void GrantFunction(object sender, RoutedEventArgs e) => ChangePermission(true);
     private void RevokeFunction(object sender, RoutedEventArgs e) => ChangePermission(false);
@@ -98,7 +100,7 @@ public partial class SessionWorkbenchView : UserControl, IDisposable
     {
         if (FunctionsGrid.SelectedItem is not FunctionRow row) return;
         FunctionNameBox.Text = row.Entry.Name; FunctionSourceBox.Text = row.Entry.SourceFile;
-        InvocationNameText.Text = row.Entry.Name + " · " + row.Signature;
+        InvocationNameText.Text = row.Entry.Name;
         FunctionSourceText.Text = row.Entry.SourceFile;
         FunctionHashText.Text = "登记 SHA256\n" + row.Entry.SourceSha256[..16] + "…\n\n保存许可：" + row.Permission + "\n" + row.Identity;
         var identity = row.Entry.Name + "|" + row.Entry.SourceSha256;
@@ -184,13 +186,16 @@ public partial class SessionWorkbenchView : UserControl, IDisposable
     {
         var status = model.Status;
         TargetDisplayName = status.TargetVerified ? SessionsGrid.Items.OfType<SessionRow>().FirstOrDefault(row => row.Candidate.ProcessId == status.Host!.ProcessId && row.Candidate.ProcessStartTimeUtcTicks == status.Host.ProcessStartTimeUtcTicks)?.Candidate.Product ?? "AVEVA 工程会话" : "尚未选择 AVEVA 工程";
-        TargetText.Text = (smokeMode ? "UI 合成夹具 · " : "") + (status.TargetVerified ? $"已核验 · PID {status.Host!.ProcessId} · {status.Host.Model}" : "尚未选择并核验目标");
-        TargetDetailsText.Text = status.TargetVerified ? $"启动 {new DateTime(status.Host!.ProcessStartTimeUtcTicks, DateTimeKind.Utc).ToLocalTime():yyyy-MM-dd HH:mm:ss}\n{status.Host.HostFramework} / Host {status.Host.HostVersion}\nFormQuery={status.Host.FormQueryVersion} · BoundedArrayRead={status.Host.BoundedArrayReadVersion}" : "请发现、选择并核验；旧查询不能作为当前结果。";
-        TargetChanged?.Invoke(TargetText.Text);
-        FunctionTargetText.Text = TargetText.Text; IdentityStateText.Text = status.TargetVerified ? "已核验" : "待核验";
+        var targetSummary = (smokeMode ? "UI 合成夹具 · " : "") + (status.TargetVerified ? $"已核验 · PID {status.Host!.ProcessId} · {status.Host.Model}" : "尚未选择并核验目标");
+        TargetText.Text = TargetDisplayName;
+        foreach (var row in SessionsGrid.Items.OfType<SessionRow>()) row.Verified = MatchesTarget(row.Candidate);
+        SessionsGrid.Items.Refresh();
+        TargetDetailsText.Text = status.TargetVerified ? $"PID       {status.Host!.ProcessId}\n启动     {new DateTime(status.Host.ProcessStartTimeUtcTicks, DateTimeKind.Utc).ToLocalTime():yyyy-MM-dd HH:mm:ss}\n模块     {status.Host.Model}\nHost     {status.Host.HostFramework} / {status.Host.HostVersion}\nFormQuery={status.Host.FormQueryVersion}\nBoundedArrayRead={status.Host.BoundedArrayReadVersion}" : "请发现、选择并核验；旧查询不能作为当前结果。";
+        TargetChanged?.Invoke(targetSummary);
+        FunctionTargetText.Text = TargetDisplayName + " · " + (status.TargetVerified ? "PID " + status.Host!.ProcessId : "待核验"); IdentityStateText.Text = status.TargetVerified ? "已核验" : "待核验";
         FeedbackText.Text = queryInputsDirty && FlowTabs.SelectedIndex == 2 && model.Outcome is not ("unknown" or "rejected") ? "查询条件已变化。下方保留上次返回项；请开始新查询。" : model.Message; CancelWaitButton.IsEnabled = true;
-        FeedbackText.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(model.Outcome == "unknown" ? "#8A5A12" : model.Outcome == "rejected" ? "#C0261B" : "#0F5F56"));
-        FeedbackPanel.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(model.Outcome == "unknown" ? "#FDF6E7" : model.Outcome == "rejected" ? "#FEF3F2" : "#E9F7F3"));
+        FeedbackText.SetResourceReference(TextBlock.ForegroundProperty, model.Outcome == "unknown" ? "Text.Warning" : model.Outcome == "rejected" ? "Text.Danger" : "Text.Brand");
+        FeedbackPanel.SetResourceReference(BackgroundProperty, model.Outcome == "unknown" ? "Surface.TintWarning" : model.Outcome == "rejected" ? "Surface.TintDanger" : "Surface.TintBrand");
         rendering = true;
         try { BindGrid(FormsGrid, model.Forms.Items); BindGrid(GadgetsGrid, model.Gadgets.Items); }
         finally { rendering = false; }
@@ -210,6 +215,8 @@ public partial class SessionWorkbenchView : UserControl, IDisposable
         ArrayWindowText.Text = model.ArrayLast is { } a ? $"本页 {a.StartIndex} 起 · 上界 {a.IndexUpperBound}（非条目数）· 字符 {a.Characters} · NextIndex {a.NextIndex}" : "尚未读取。索引上界不是条目总数。";
         ArrayRowsBox.Text = string.Join(Environment.NewLine, model.ArrayRows.Select((v, i) => $"[{i + 1}] {v}"));
         ReceiptBox.Text = model.LastResponse is null ? "本次尚无可用回执。" : JsonSerializer.Serialize(model.LastResponse, new JsonSerializerOptions { WriteIndented = true });
+        SessionReceiptText.Text = ReceiptBox.Text;
+        RecentQueryGrid.ItemsSource = model.LastResponse is { } receipt ? new[] { new { Kind = receipt.FormQueryResult?.Kind ?? (receipt.ArrayWindow is not null ? "array" : "registered-call"), Pid = status.Host?.ProcessId, Count = receipt.FormQueryResult?.Items?.Length ?? receipt.ArrayWindow?.Rows?.Length, Outcome = receipt.Success ? "已返回" : "失败" } } : null;
     }
     private static void BindGrid(DataGrid grid, List<PmlFormQueryItem> values)
     {
@@ -217,7 +224,7 @@ public partial class SessionWorkbenchView : UserControl, IDisposable
         if (name is not null) grid.SelectedItem = values.FirstOrDefault(i => i.Name == name);
     }
     private static string Describe(PmlFormQueryResult? r) => r is null ? "尚未读取" : $"本页起点 {r.StartIndex} · 返回 {r.Items?.Length ?? 0}\n扫描 {r.Scanned} · 索引上界 {r.IndexUpperBound}\n字符 {r.Characters} · NextIndex {r.NextIndex}\n" + (r.NextIndex > 0 ? "仍有后续；空页也可继续。" : "本次枚举到达末端。");
-    private void Local(Action action) { try { action(); } catch (Exception error) { FeedbackText.Text = error.Message + "\n请核对源码或注册表后重试。"; FeedbackText.Foreground = new SolidColorBrush(Color.FromRgb(192,38,27)); } }
+    private void Local(Action action) { try { action(); } catch (Exception error) { FeedbackText.Text = error.Message + "\n请核对源码或注册表后重试。"; FeedbackText.SetResourceReference(TextBlock.ForegroundProperty, "Text.Danger"); } }
     /// <summary>释放本窗口资源；不关闭 AVEVA 或保存工程。</summary>
     public void Dispose() { pending?.Cancel(); host.Dispose(); }
     /// <summary>窗口关闭前检查是否仍在等待操作结果。</summary>
@@ -226,6 +233,8 @@ public partial class SessionWorkbenchView : UserControl, IDisposable
     internal void OpenFunctions() => FlowTabs.SelectedIndex = 1;
     /// <summary>从总览进入原生查询入口。</summary>
     internal void OpenQueries() => FlowTabs.SelectedIndex = 2;
+    /// <summary>返回会话总页，保留已填写的函数与查询条件。</summary>
+    internal void OpenSessions() => FlowTabs.SelectedIndex = 0;
     /// <summary>复用当前页已有操作，供全局主按钮使用。</summary>
     internal void PrimaryAction()
     {
@@ -238,8 +247,12 @@ public partial class SessionWorkbenchView : UserControl, IDisposable
     internal event Action<string>? SectionChanged;
     /// <summary>通知全局侧栏保留当前目标摘要。</summary>
     internal event Action<string>? TargetChanged;
+    /// <summary>让总览复用同次发现候选，不额外连接目标。</summary>
+    internal event Action<IReadOnlyList<AvevaSessionCandidate>>? CandidatesChanged;
     /// <summary>与已核验启动身份匹配的产品名称，用于总览横幅。</summary>
     internal string TargetDisplayName { get; private set; } = "尚未选择 AVEVA 工程";
+    /// <summary>用同次已核验启动身份标记候选，不把发现到管道当作已连接。</summary>
+    internal bool MatchesTarget(AvevaSessionCandidate candidate) => model.Status.TargetVerified && model.Status.Host is { } identity && identity.ProcessId == candidate.ProcessId && identity.ProcessStartTimeUtcTicks == candidate.ProcessStartTimeUtcTicks;
     private void FlowChanged(object sender, SelectionChangedEventArgs e)
     {
         if (!ReferenceEquals(e.Source, FlowTabs)) return;
@@ -258,6 +271,7 @@ public partial class SessionWorkbenchView : UserControl, IDisposable
         smokeHost = new(); model = new(smokeHost, smokeRegistry); smokeMode = true;
         var candidate = model.Discover().Sessions.Single(); SessionsGrid.ItemsSource = new[] { new SessionRow(candidate) }; SessionsGrid.SelectedIndex = 0;
         CandidateCountText.Text = "全部 1 · UI 合成夹具";
+        CandidatesChanged?.Invoke([candidate]);
         await Run(() => model.SelectAsync(candidate));
         var source = Path.Combine(root, "UiProbe.pmlfnc");
         File.WriteAllText(source, "define function !!UiProbe(!name is STRING) is STRING\nreturn !name\nendfunction");
@@ -268,11 +282,15 @@ public partial class SessionWorkbenchView : UserControl, IDisposable
         await Run(() => model.QueryAsync(new() { Kind = "gadgets", FormName = "UiProbeForm", StartIndex = 1, MaxItems = 100, MaxCharacters = 32768 }));
         GadgetsGrid.SelectedIndex = 0;
         await Run(() => model.QueryAsync(new() { Kind = "gadget", FormName = "UiProbeForm", GadgetName = "accept", StartIndex = 1, MaxItems = 1, MaxCharacters = 32768 }));
-        if (FormsGrid.Items.Count != 1 || GadgetsGrid.Items.Count != 1 || PropertiesGrid.Items.Count != 5) throw new InvalidOperationException("界面夹具没有正确绑定窗体、控件与属性。");
+        ArrayNameBox.Text = "UiProbeResults";
+        await Run(() => model.ReadArrayAsync("UiProbeResults", 100, 32768));
+        if (FormsGrid.Items.Count != 1 || GadgetsGrid.Items.Count != 1 || PropertiesGrid.Items.Count != 5 || (SessionsGrid.SelectedItem as SessionRow)?.HostLabel != "已核验") throw new InvalidOperationException("界面夹具没有正确绑定会话、窗体、控件与属性。");
         Render();
     }
     /// <summary>仅界面验证按序展示三个流程页。</summary>
     internal void SelectSmokeFlow(int index) => FlowTabs.SelectedIndex = index;
+    /// <summary>记录主题切换前后的关键工作状态，防止显示切换重置任务。</summary>
+    internal string CaptureThemeState() => JsonSerializer.Serialize(new { source = FunctionSourceBox.Text, name = FunctionNameBox.Text, parameters = parameters.Select(p => new { p.Type, p.Value }), preview = CallPreviewBox.Text, formName, gadgetName, forms = model.Forms.Items.Count, gadgets = model.Gadgets.Items.Count, details = model.GadgetDetails?.FormQueryResult?.Items?.Length, array = model.ArrayRows.ToArray(), arrayName = ArrayNameBox.Text, next = model.ArrayLast?.NextIndex, items = ItemsBudgetBox.Text, characters = CharsBudgetBox.Text, shownOnly = ShownOnlyBox.IsChecked, target = model.Status.Host?.ProcessId, start = model.Status.Host?.ProcessStartTimeUtcTicks, modelName = model.Status.Host?.Model, permission = model.Functions().Select(entry => new { entry.Name, entry.AllowInvoke, entry.SourceSha256 }), model.Outcome });
     /// <summary>只在合成模式验证拒绝与未知反馈，不执行 AVEVA。</summary>
     internal async Task FaultSmokeAsync(bool unknown)
     {
@@ -289,14 +307,18 @@ public partial class SessionWorkbenchView : UserControl, IDisposable
         if (model.Outcome != (unknown ? "unknown" : "rejected")) throw new InvalidOperationException("故障状态未正确显示。");
     }
     /// <summary>发现候选的只读界面行；不代表已连接。</summary>
-    private sealed record SessionRow(AvevaSessionCandidate Candidate)
+    private sealed class SessionRow(AvevaSessionCandidate candidate)
     {
+        /// <summary>本次只读发现得到的候选身份。</summary>
+        public AvevaSessionCandidate Candidate { get; } = candidate;
         /// <summary>产品和项目的界面摘要。</summary>
         public string Display => Candidate.Product + " · " + Candidate.Project;
         /// <summary>候选进程启动时间，转换为本机显示。</summary>
         public string Started => new DateTime(Candidate.ProcessStartTimeUtcTicks, DateTimeKind.Utc).ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss");
         /// <summary>区分发现管道与身份核验成功。</summary>
-        public string HostLabel => Candidate.PipeDetected ? "已发现，待核验" : "未发现 Host";
+        public string HostLabel => Verified ? "已核验" : Candidate.PipeDetected ? "已发现，待核验" : "未发现 Host";
+        /// <summary>当前窗口最近一次身份核验是否仍匹配此候选。</summary>
+        internal bool Verified { get; set; }
     }
     /// <summary>登记项的许可、签名和当前源码哈希视图。</summary>
     private sealed record FunctionRow(PmlFunctionRegistration Entry)

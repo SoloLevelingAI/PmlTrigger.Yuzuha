@@ -2,6 +2,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
 import {fileURLToPath} from 'node:url';
+import {createHash} from 'node:crypto';
+import {readDesignBaselines} from './documentation-baselines.mjs';
 
 const root=fileURLToPath(new URL('../',import.meta.url));
 const site=path.join(root,'artifacts/docfx/site');
@@ -36,11 +38,24 @@ for(const [file,{html}] of documents){
   }
 }
 const graph=JSON.parse(fs.readFileSync(path.join(site,'reference/graph.json'),'utf8'));
+const originals=readDesignBaselines(root);
+const searchIndex=JSON.parse(fs.readFileSync(path.join(site,'index.json'),'utf8'));
+assert.equal(graph.designBaselines?.length,originals.length,'Design baseline publication gap');
+for(const b of graph.designBaselines){
+  const original=originals.find(item=>item.id===b.id);assert.ok(original,'Unknown published baseline');
+  assert.equal(b.status,original.status);assert.equal(b.sha256,original.sha256);
+  assert.ok(documents.has(path.join(site,b.url))&&documents.has(path.join(site,b.sourceUrl)),'Missing baseline source/overview page');
+  assert.ok(searchIndex[b.sourceUrl]?.summary.includes(b.documentId)&&searchIndex[b.sourceUrl].summary.includes(b.status),'Design source missing from search index');
+  const download=fs.readFileSync(path.join(site,b.downloadUrl));
+  assert.equal(download.length,original.bytes,'Published Word size mismatch');
+  assert.equal(createHash('sha256').update(download).digest('hex'),original.sha256,'Published Word hash mismatch');
+}
 assert.equal(new Set(graph.types.map(type=>type.uid)).size,graph.types.length,'Duplicate graph type IDs');
 for(const type of graph.types)for(const property of ['url','sourceUrl']){
   if(!documents.has(path.join(site,type[property])))errors.push({type:type.uid,missingTypeTarget:type[property]});
 }
 const report={htmlPages:pages.length,checkedLocalLinks:links,projects:graph.projects.length,modules:graph.modules.length,types:graph.types.length,errors};
+report.designBaselines=graph.designBaselines.map(b=>({id:b.id,status:b.status,sha256:b.sha256,bytes:b.bytes,paragraphs:b.paragraphs,images:b.images}));
 assert.ok(graph.tests?.length,'Test catalog must not be empty');
 assert.equal(new Set(graph.tests.map(test=>test.id)).size,graph.tests.length,'Duplicate test IDs');
 for(const test of graph.tests){

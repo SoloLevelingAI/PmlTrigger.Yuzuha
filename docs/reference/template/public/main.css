@@ -427,6 +427,7 @@ pre code > span[id^="L"]:target { background: var(--bs-warning-bg-subtle, #fff3c
 .catalog-row p { margin: 6px 0; }
 .catalog-row small { display: block; color: var(--bs-secondary-color); }
 .catalog-source { font-size: 12px; color: var(--bs-secondary-color); }
+body > main > .content > article .design-source-anchor[id] { display: block; scroll-margin-top: calc(var(--ld-header-height, 64px) + 16px); }
 #script-catalog .scope-controls > label { display: grid; grid-template-columns: minmax(0,1fr); min-width: 0; max-width: 100%; gap: 4px; }
 #script-catalog .scope-controls > label:has(input[type="checkbox"]) { display: flex; align-items: center; gap: 8px; }
 #script-catalog select, #script-catalog input[type=search] { min-width: 0; max-width: 100%; min-height: 36px; padding: 5px 8px; border: 1px solid var(--bs-border-color); border-radius: 6px; background: var(--bs-body-bg); color: var(--bs-body-color); }

@@ -6,6 +6,7 @@ import YAML from 'yaml';
 import {buildTestDocumentation} from './documentation-tests.mjs';
 import {publishUiTrace} from './documentation-ui-trace.mjs';
 import {discoverPmlFiles,publishScriptCatalog} from './documentation-catalog.mjs';
+import {publishDesignBaselines} from './documentation-baselines.mjs';
 
 const root=fileURLToPath(new URL('../',import.meta.url));
 const output=path.join(root,'artifacts/docfx/navigation');
@@ -87,6 +88,7 @@ for(const [kind,title] of [['interfaces','全部接口'],['models','数据模型
   write(kind+'/index.md',`---\ntitle: ${title}\n_disableAffix: true\n---\n\n# ${title}\n\n<div id="workspace-explorer" data-kind="${kind}" data-view="types"></div>\n`);
 write('modules/index.md','# 功能模块\n\n<div id="workspace-explorer" data-view="modules"></div>\n');
 const graph={schemaVersion:3,projects,modules,types,coreFeatures:[],stats:{projects:projects.length,modules:modules.length,types:types.length,interfaces:types.filter(type=>type.kind==='interfaces').length,implementationEdges:types.reduce((sum,type)=>sum+type.interfaces.length,0)}};
+graph.designBaselines=publishDesignBaselines({root,output});
 
 // Preserve repository-relative links while publishing the actual maintained guides.
 const markdownFiles=walk(root).filter(file=>file.endsWith('.md')&&!file.split(path.sep).some(part=>['.git','node_modules','bin','obj','artifacts'].includes(part)))
@@ -102,7 +104,7 @@ function targetLink(from,href){
   if(guides.has(target))return path.posix.relative(path.posix.dirname(from),target)+(fragment?'#'+fragment:'');
   const absolute=path.join(root,target);
   if(fs.existsSync(absolute)&&fs.statSync(absolute).isFile()){
-    if(/\.(?:png|jpg|jpeg|svg|gif|ico|html|json|txt)$/i.test(target)){resources.add(target);return path.posix.relative(path.posix.dirname(from),target)+(fragment?'#'+fragment:'');}
+    if(/\.(?:png|jpg|jpeg|svg|gif|ico|html|json|txt|docx)$/i.test(target)){resources.add(target);return path.posix.relative(path.posix.dirname(from),target)+(fragment?'#'+fragment:'');}
     if(/\.(?:cs|csproj|ps1|py|mjs|sln|slnx|props|pml\w*|iss|ya?ml)$/i.test(target)||path.posix.basename(target)==='LICENSE'){
       const destination='repository-source/'+target+'.md';sourcePages.set(destination,target);
       return path.posix.relative('repository/'+path.posix.dirname(from),destination);

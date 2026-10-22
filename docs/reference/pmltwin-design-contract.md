@@ -1,6 +1,6 @@
 # PMLTWIN 项目设计约定
 
-版本 0.1，日期 2026年10月22日，随本批 PR 人工审阅。依据《软件设计要求（20261022脚本设计优先版）》v0.3 Draft，将 Script、Feature、应用装配、验证和文档要求适配到现有 PMLTWIN。产品版本、协议版本与本约定版本分别管理。
+版本 0.1，日期 2026年10月22日，随 PR 人工审阅。依据[已归档的《软件设计要求》v0.3 Draft](../../artifacts/docfx/navigation/design-baselines/software-design-20261022-v03-draft/index.md)，将 Script、Feature、应用装配、验证和文档要求适配到现有 PMLTWIN。[逐项适配记录](design-adaptation.md)保留采用、调整、暂缓及未完成项；原稿仍是 Draft。产品版本、协议版本与本约定版本分别管理。
 
 PMLTWIN 面向 AVEVA AM、PDMS、E3D 的本机开发与排查：选择真实目标，复用 PML 和 C# 能力完成查询与已授权操作，保留可复刻测试及可定位记录。用户应能找到具体脚本、理解其计算和调用关系，再核对实现、设计与运行证据。
 

@@ -7,7 +7,7 @@ public static class LaunchService
 {
     /// <summary>生成无密码启动预览；不创建进程，也不读凭据。</summary>
     /// <param name="profile">用户选定的产品和登录字段。</param>
-    public static string Preview(LaunchProfile profile) => string.Join(" ", Arguments(profile, "{本次输入的密码}").Select(argument => argument.Contains(' ') ? '"' + argument + '"' : argument));
+    public static string Preview(LaunchProfile profile) => string.Join(" ", Arguments(profile, "{本机凭据或本次输入}").Select(argument => argument.Contains(' ') ? '"' + argument + '"' : argument));
 
     /// <summary>生成实际启动描述，密码只在进程边界注入；不会保存到工作区或日志。</summary>
     /// <param name="profile">启动配置。</param>

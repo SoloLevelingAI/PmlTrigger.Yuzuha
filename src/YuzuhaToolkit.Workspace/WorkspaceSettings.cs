@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace YuzuhaToolkit.Workspace;
 
-/// <summary>启动和插件复制所用的本机设置；不保存登录密码。</summary>
+/// <summary>启动和插件复制所用的本机设置；只保存凭据引用，不保存密码正文。</summary>
 public sealed class WorkspaceSettings
 {
     /// <summary>实际已注册到 PMLLIB 搜索路径的目录。</summary>
@@ -18,6 +18,8 @@ public sealed class WorkspaceSettings
     public long WarnBytes { get; set; } = 200L * 1024 * 1024;
     /// <summary>用户保存的启动配置。</summary>
     public List<LaunchProfile> Profiles { get; set; } = [];
+    /// <summary>GUI 明确选择的本机知识库目录；空值使用现有安装布局。</summary>
+    public string KnowledgeDirectory { get; set; } = "";
 
     /// <summary>本机状态根目录；测试和便携环境可通过 YUZUHA_STATE_DIR 隔离。</summary>
     public static string StateDirectory => Path.GetFullPath(Environment.GetEnvironmentVariable("YUZUHA_STATE_DIR")
@@ -44,11 +46,15 @@ public sealed class WorkspaceSettings
     }
 }
 
-/// <summary>无密码的 AVEVA 启动配置；Monitor 与 Marine 使用不同的参数协议。</summary>
+/// <summary>AVEVA 启动配置；密码保存在 Windows 凭据库，配置只保留本机引用。</summary>
 public sealed class LaunchProfile
 {
     /// <summary>配置显示名称。</summary>
     public string Name { get; set; } = "新启动配置";
+    /// <summary>Windows 凭据管理器中的本应用引用；不是密码，不与其他应用共用。</summary>
+    public string CredentialKey { get; set; } = "";
+    /// <summary>用户是否选择保存本机密码，供下次启动自动使用。</summary>
+    public bool RememberPassword { get; set; } = true;
     /// <summary>Monitor 或 MarineBatch。</summary>
     public string Kind { get; set; } = "Monitor";
     /// <summary>mon.exe、marine.bat 或 marine.cmd 的完整路径。</summary>

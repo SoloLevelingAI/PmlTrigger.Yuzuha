@@ -419,9 +419,9 @@
       "file": "scripts/Test-Desktop.ps1",
       "entryPoint": "$exe = Join-Path $root",
       "runner": "desktop-flows",
-      "purpose": "明暗主题下验证 13 个 WPF 页面、三种逻辑视口、同设计画布、调用详情关联和主题切换保留任务；不是 AVEVA 实机或人工视觉验收。",
+      "purpose": "验证 GUI 保存并复用本机凭据、知识检索完整正文、对象结果，以及明暗主题下 13 页、三种视口与同画布。不是 AVEVA 实机或人工视觉验收。",
       "environment": "Windows x64 / NET10 SDK 与 WPF；无需 AVEVA",
-      "expected": "本次产生有效回执、78 张视口截图、26 张同画布截图和 4 张错误状态截图，绑定错误为零；切换不改变输入、查询、目标或许可。"
+      "expected": "本次回执记录 savedCredentials/guiKnowledge/objectQueries 均为 true；108 张截图和绑定错误零。主题保留输入、查询、目标与许可。"
     },
     {
       "id": "manual:desktop-aveva-m1",
@@ -1285,6 +1285,106 @@
       "targets": [
         {
           "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.DesktopActivitySummary"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopFunctionalCorrectionsTests.DiscoveryRequiresEngineeringProcessInsteadOfAvevaWord",
+      "purpose": "标题与工程进程联合识别，排除 LaunchDesk、编辑器与启动控制台。",
+      "environment": "Windows x64 / NET10；隔离凭据与合成文件，不连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Mcp.AvevaSessionDiscovery"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopFunctionalCorrectionsTests.InstallationDiscoveryFindsNestedMarineAndPdmsWithoutLaunchingScripts",
+      "purpose": "只读发现 Marine OH 版本目录和 PDMS 批处理入口，不执行脚本。",
+      "environment": "Windows x64 / NET10；隔离凭据与合成文件，不连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Workspace::YuzuhaToolkit.Workspace.RegistrationDiscovery"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopFunctionalCorrectionsTests.SavedCredentialSurvivesBlankEditAndNeverEntersWorkspaceJson",
+      "purpose": "隔离 Windows 凭据实存实取，空编辑保留引用，JSON 不含密码，删除后不可读取。",
+      "environment": "Windows x64 / NET10；隔离凭据与合成文件，不连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.WindowsCredentialStore"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopFunctionalCorrectionsTests.CredentialStoreCannotReadOrDeleteAnotherApplicationsCredential",
+      "purpose": "拒绝读取或删除 LaunchDesk 等其他应用的凭据引用。",
+      "environment": "Windows x64 / NET10；隔离凭据与合成文件，不连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.WindowsCredentialStore"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopFunctionalCorrectionsTests.ObjectQueriesReuseBuiltinsWithSeparateTargetAndMemberPath",
+      "purpose": "当前对象、名称/路径/DBREF、全局变量分别投影到现有内置函数，保留成员路径和参数顺序。",
+      "environment": "Windows x64 / NET10；隔离凭据与合成文件，不连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.DesktopObjectQuery"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopFunctionalCorrectionsTests.ObjectQueriesRejectExpressionsAndInvalidBudgetsBeforeDispatch",
+      "purpose": "不接受方法表达式作为变量或成员路径，非法数量和深度在发送前拒绝。",
+      "environment": "Windows x64 / NET10；隔离凭据与合成文件，不连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.DesktopObjectQuery"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopFunctionalCorrectionsTests.GuiKnowledgeSearchReadsFullBuiltinWithoutCreatingDatabase",
+      "purpose": "GUI 直接取得完整内置正文，不依赖另一个客户端，不创建知识库。",
+      "environment": "Windows x64 / NET10；隔离凭据与合成文件，不连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.DesktopKnowledgeBrowser"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopFunctionalCorrectionsTests.GuiKnowledgeDetailsKeepDatabaseIdentityAndSourceLocation",
+      "purpose": "GUI 按数据库和片段 ID 定位正文及源码行号，不把相关性当作实测证据。",
+      "environment": "Windows x64 / NET10；隔离凭据与合成文件，不连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.DesktopKnowledgeBrowser"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopSessionWorkflowTests.ObjectReadRequiresVerifiedTargetAndRetainsStructuredReceipt",
+      "purpose": "对象读取要求已核验目标，并保留现有列表工具解析的类型、路径与同次回执。",
+      "environment": "Windows x64 / NET10；隔离凭据与合成文件，不连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.SessionWorkbench"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopSessionWorkflowTests.ExpiredIdentityClearsObjectResultsAndDoesNotSendAgain",
+      "purpose": "目标身份失效清理对象结果，阻止再次发送，不保留旧查询为当前结果。",
+      "environment": "Windows x64 / NET10；隔离凭据与合成文件，不连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.SessionWorkbench"
         }
       ]
     }

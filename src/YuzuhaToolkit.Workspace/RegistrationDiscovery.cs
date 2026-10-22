@@ -29,10 +29,12 @@ public static partial class RegistrationDiscovery
         Pml(Environment.GetEnvironmentVariable("PMLLIB") ?? "", "当前进程 PMLLIB");
         if (OperatingSystem.IsWindows())
         {
-            foreach (var root in ProductRoots())
+            var applications = FindApplications(ProductRoots().Concat(new[] {
+                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "AVEVA"),
+                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "AVEVA"), @"C:\AVEVA", @"D:\AVEVA" }));
+            candidates.AddRange(applications);
+            foreach (var root in applications.Select(candidate => Path.GetDirectoryName(candidate.Path)!).Distinct(StringComparer.OrdinalIgnoreCase))
             {
-                foreach (var name in new[] { "mon.exe", "marine.bat", "marine.cmd" })
-                    if (File.Exists(Path.Combine(root, name))) candidates.Add(new(Path.Combine(root, name), "注册表安装位置", "application"));
                 foreach (var name in new[] { "evars.init", "evar.init", "evars.bat", "evar.bat" })
                 {
                     var file = Path.Combine(root, name);
@@ -46,6 +48,33 @@ public static partial class RegistrationDiscovery
             }
         }
         return candidates.DistinctBy(candidate => (candidate.Path.ToUpperInvariant(), candidate.Kind)).ToArray();
+    }
+
+    // Adapted from LaunchDesk.Core/AppDiscovery.cs: bounded, read-only traversal;
+    // legacy Marine InstallLocation points above OH12.1.SP4, not at its entry point.
+    /// <summary>在限定根目录、深度与目录数内发现真实程序入口，不执行厂商脚本。</summary>
+    /// <param name="roots">注册表安装位置或已确认的厂商根目录候选。</param>
+    internal static RegistrationCandidate[] FindApplications(IEnumerable<string> roots)
+    {
+        var found = new List<RegistrationCandidate>(); var visited = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        var queue = new Queue<(string Path, int Depth)>();
+        foreach (var root in roots.Where(Directory.Exists).Distinct(StringComparer.OrdinalIgnoreCase)) queue.Enqueue((Path.GetFullPath(root), 0));
+        while (queue.Count > 0 && visited.Count < 10000)
+        {
+            var (directory, depth) = queue.Dequeue(); if (!visited.Add(directory)) continue;
+            try
+            {
+                var batch = new[] { "marine.bat", "marine.cmd", "pdms.bat", "pdms.cmd" }.Where(name => File.Exists(Path.Combine(directory, name))).ToArray();
+                foreach (var name in batch) found.Add(new(Path.Combine(directory, name), "安装目录只读发现 · " + directory, "application"));
+                var monitor = Path.Combine(directory, "mon.exe");
+                if (batch.Length == 0 && File.Exists(monitor) && (File.Exists(Path.Combine(directory, "launch.init")) || directory.Contains("Everything3D", StringComparison.OrdinalIgnoreCase) || directory.Contains("PDMS", StringComparison.OrdinalIgnoreCase)))
+                    found.Add(new(monitor, "安装目录只读发现 · " + directory, "application"));
+                if (depth < 4) foreach (var child in Directory.EnumerateDirectories(directory))
+                    if ((File.GetAttributes(child) & FileAttributes.ReparsePoint) == 0) queue.Enqueue((Path.GetFullPath(child), depth + 1));
+            }
+            catch (Exception error) when (error is IOException or UnauthorizedAccessException) { }
+        }
+        return found.DistinctBy(item => item.Path, StringComparer.OrdinalIgnoreCase).ToArray();
     }
 
     [SupportedOSPlatform("windows")]
@@ -62,7 +91,7 @@ public static partial class RegistrationDiscovery
                 foreach (var name in uninstall.GetSubKeyNames().Take(4000))
                 {
                     using var entry = uninstall.OpenSubKey(name); var display = entry?.GetValue("DisplayName") as string ?? "";
-                    if (!display.Contains("AVEVA", StringComparison.OrdinalIgnoreCase) && !display.Contains("Yuzuha", StringComparison.OrdinalIgnoreCase)) continue;
+                    if (!display.Contains("AVEVA", StringComparison.OrdinalIgnoreCase) && !display.Contains("PDMS", StringComparison.OrdinalIgnoreCase)) continue;
                     if (entry?.GetValue("InstallLocation") is string location && Path.IsPathFullyQualified(location) && Directory.Exists(location)) roots.Add(Path.GetFullPath(location));
                 }
             }

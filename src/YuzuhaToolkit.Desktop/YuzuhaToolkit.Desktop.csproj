@@ -13,5 +13,6 @@
   <ItemGroup>
     <ProjectReference Include="../YuzuhaToolkit.Workspace/YuzuhaToolkit.Workspace.csproj" />
     <ProjectReference Include="../YuzuhaToolkit.Mcp/YuzuhaToolkit.Mcp.csproj" />
+    <ProjectReference Include="../YuzuhaToolkit.Knowledge/YuzuhaToolkit.Knowledge.csproj" />
   </ItemGroup>
 </Project>

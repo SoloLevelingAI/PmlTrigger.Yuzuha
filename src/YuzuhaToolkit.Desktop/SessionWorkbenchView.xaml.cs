@@ -48,6 +48,21 @@ public partial class SessionWorkbenchView : UserControl, IDisposable
         catch (Exception error) { FeedbackText.Text = error.Message; }
     }
     private void DiscoverSessions(object sender, RoutedEventArgs e) { DiscoverNow(); Render(); }
+    /// <summary>让总览复用运行会话发现，不连接或执行目标。</summary>
+    internal void RefreshCandidates() { if (!model.IsBusy) { DiscoverNow(); Render(); } }
+    private void ObjectKindChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (ObjectTargetBox is not null) ObjectTargetBox.IsEnabled = (ObjectKindBox.SelectedItem as ComboBoxItem)?.Tag?.ToString() != "current";
+    }
+    private async void ReadCurrentObject(object sender, RoutedEventArgs e) => await ReadObjectCore("current");
+    private async void ReadObject(object sender, RoutedEventArgs e) => await ReadObjectCore((ObjectKindBox.SelectedItem as ComboBoxItem)?.Tag?.ToString() ?? "current");
+    private async Task ReadObjectCore(string kind)
+    {
+        DesktopObjectQuery query;
+        try { query = DesktopObjectQuery.Build(kind, ObjectTargetBox.Text, ObjectMemberBox.Text, int.Parse(ObjectSizeBox.Text), int.Parse(ObjectDepthBox.Text)); }
+        catch (Exception error) { FeedbackText.Text = error.Message; return; }
+        await Run(() => model.ReadObjectAsync(query, Token));
+    }
     private async void SelectSession(object sender, RoutedEventArgs e)
     {
         if (SessionsGrid.SelectedItem is not SessionRow row) { FeedbackText.Text = "请选择一个发现到的会话。"; return; }
@@ -215,8 +230,10 @@ public partial class SessionWorkbenchView : UserControl, IDisposable
         ArrayWindowText.Text = model.ArrayLast is { } a ? $"本页 {a.StartIndex} 起 · 上界 {a.IndexUpperBound}（非条目数）· 字符 {a.Characters} · NextIndex {a.NextIndex}" : "尚未读取。索引上界不是条目总数。";
         ArrayRowsBox.Text = string.Join(Environment.NewLine, model.ArrayRows.Select((v, i) => $"[{i + 1}] {v}"));
         ReceiptBox.Text = model.LastResponse is null ? "本次尚无可用回执。" : JsonSerializer.Serialize(model.LastResponse, new JsonSerializerOptions { WriteIndented = true });
-        SessionReceiptText.Text = ReceiptBox.Text;
-        RecentQueryGrid.ItemsSource = model.LastResponse is { } receipt ? new[] { new { Kind = receipt.FormQueryResult?.Kind ?? (receipt.ArrayWindow is not null ? "array" : "registered-call"), Pid = status.Host?.ProcessId, Count = receipt.FormQueryResult?.Items?.Length ?? receipt.ArrayWindow?.Rows?.Length, Outcome = receipt.Success ? "已返回" : "失败" } } : null;
+        ObjectRowsGrid.ItemsSource = model.ObjectResult?.Items;
+        ObjectReadInfo.Text = model.ObjectResult is { } objectResult ? $"返回 {objectResult.Items.Length} 项 · 未解析 {objectResult.Unparsed.Length} 行 · 请求 {objectResult.Receipt.RequestId}。这是有界遍历，不是完整快照。" : "尚无当前目标的对象遍历结果。";
+        SessionReceiptText.Text = model.ObjectResult is { } currentObject && ReferenceEquals(model.LastResponse, currentObject.Receipt) ? currentObject.Raw : ReceiptBox.Text;
+        RecentQueryGrid.ItemsSource = model.LastResponse is { } receipt ? new[] { new { Kind = receipt.FormQueryResult?.Kind ?? (receipt.ArrayWindow is not null ? "array" : ReferenceEquals(receipt, model.ObjectResult?.Receipt) ? "object" : "registered-call"), Pid = status.Host?.ProcessId, Count = receipt.FormQueryResult?.Items?.Length ?? receipt.ArrayWindow?.Rows?.Length ?? (ReferenceEquals(receipt, model.ObjectResult?.Receipt) ? model.ObjectResult?.Items.Length : null), Outcome = receipt.Success ? "已返回" : "失败" } } : null;
     }
     private static void BindGrid(DataGrid grid, List<PmlFormQueryItem> values)
     {
@@ -284,11 +301,14 @@ public partial class SessionWorkbenchView : UserControl, IDisposable
         await Run(() => model.QueryAsync(new() { Kind = "gadget", FormName = "UiProbeForm", GadgetName = "accept", StartIndex = 1, MaxItems = 1, MaxCharacters = 32768 }));
         ArrayNameBox.Text = "UiProbeResults";
         await Run(() => model.ReadArrayAsync("UiProbeResults", 100, 32768));
-        if (FormsGrid.Items.Count != 1 || GadgetsGrid.Items.Count != 1 || PropertiesGrid.Items.Count != 5 || (SessionsGrid.SelectedItem as SessionRow)?.HostLabel != "已核验") throw new InvalidOperationException("界面夹具没有正确绑定会话、窗体、控件与属性。");
+        await Run(() => model.ReadObjectAsync(DesktopObjectQuery.Build("current", "", "", 30, 2)));
+        if (FormsGrid.Items.Count != 1 || GadgetsGrid.Items.Count != 1 || PropertiesGrid.Items.Count != 5 || ObjectRowsGrid.Items.Count != 2 || (SessionsGrid.SelectedItem as SessionRow)?.HostLabel != "已核验") throw new InvalidOperationException("界面夹具没有正确绑定会话、对象、窗体、控件与属性。");
         Render();
     }
     /// <summary>仅界面验证按序展示三个流程页。</summary>
     internal void SelectSmokeFlow(int index) => FlowTabs.SelectedIndex = index;
+    /// <summary>合成验证记录对象输入和结果，确认主题切换不清理任务。</summary>
+    internal string CaptureObjectState() => JsonSerializer.Serialize(new { kind = ObjectKindBox.SelectedIndex, target = ObjectTargetBox.Text, member = ObjectMemberBox.Text, size = ObjectSizeBox.Text, depth = ObjectDepthBox.Text, result = model.ObjectResult?.Items });
     /// <summary>记录主题切换前后的关键工作状态，防止显示切换重置任务。</summary>
     internal string CaptureThemeState() => JsonSerializer.Serialize(new { source = FunctionSourceBox.Text, name = FunctionNameBox.Text, parameters = parameters.Select(p => new { p.Type, p.Value }), preview = CallPreviewBox.Text, formName, gadgetName, forms = model.Forms.Items.Count, gadgets = model.Gadgets.Items.Count, details = model.GadgetDetails?.FormQueryResult?.Items?.Length, array = model.ArrayRows.ToArray(), arrayName = ArrayNameBox.Text, next = model.ArrayLast?.NextIndex, items = ItemsBudgetBox.Text, characters = CharsBudgetBox.Text, shownOnly = ShownOnlyBox.IsChecked, target = model.Status.Host?.ProcessId, start = model.Status.Host?.ProcessStartTimeUtcTicks, modelName = model.Status.Host?.Model, permission = model.Functions().Select(entry => new { entry.Name, entry.AllowInvoke, entry.SourceSha256 }), model.Outcome });
     /// <summary>只在合成模式验证拒绝与未知反馈，不执行 AVEVA。</summary>

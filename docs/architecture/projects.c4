@@ -20,6 +20,7 @@ model {
     setup = component "安装计划桥 · .NET 4.8" { description "SetupBridge" }
   }
   yuzuha.desktop -[build]-> yuzuha.mcp "ProjectReference"
+  yuzuha.desktop -[build]-> yuzuha.knowledge "ProjectReference"
   yuzuha.desktop -[build]-> yuzuha.workspace "ProjectReference"
   yuzuha.cli -[build]-> yuzuha.workspace "ProjectReference"
   yuzuha.mcp -[build]-> yuzuha.rpc "ProjectReference"

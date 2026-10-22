@@ -28,6 +28,9 @@ public sealed partial class KnowledgeRepository
     {
         DefaultDirectory = ResolveDefaultDirectory();
     }
+    /// <summary>使用调用方明确选择的知识库目录，不创建或重建数据库。</summary>
+    /// <param name="directory">现有安装目录或用户在 GUI 中明确选择的本机目录。</param>
+    public KnowledgeRepository(string directory) => DefaultDirectory = Path.GetFullPath(directory);
 
     private static string ResolveDefaultDirectory()
     {

@@ -20,7 +20,7 @@ if (-not $process.WaitForExit(60000)) {
 if ($process.ExitCode -ne 0) { throw "WPF smoke failed. See $OutputDirectory/smoke-error.txt" }
 if (-not (Test-Path -LiteralPath $report)) { throw 'WPF smoke produced no current receipt.' }
 $receipt = Get-Content -LiteralPath $report -Raw | ConvertFrom-Json
-if ($receipt.passed -ne $true -or $receipt.viewports.Count -ne 3 -or $receipt.errorStates -ne 4 -or $receipt.themes.Count -ne 2 -or $receipt.pages -ne 13 -or $receipt.themePreservesWork -ne $true) { throw 'Invalid WPF smoke receipt.' }
+if ($receipt.passed -ne $true -or $receipt.viewports.Count -ne 3 -or $receipt.errorStates -ne 4 -or $receipt.themes.Count -ne 2 -or $receipt.pages -ne 13 -or $receipt.themePreservesWork -ne $true -or $receipt.savedCredentials -ne $true -or $receipt.guiKnowledge -ne $true -or $receipt.objectQueries -ne $true) { throw 'Invalid WPF smoke receipt.' }
 foreach ($theme in 'Light','Dark') {
     foreach ($size in 1440,1280,853) {
         foreach ($screen in 'overview','launch','deployment','runtime','logs','sessions','functions','queries','review','tests','web','knowledge','settings') {

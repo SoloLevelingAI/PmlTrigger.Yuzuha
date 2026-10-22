@@ -23,6 +23,8 @@ internal sealed class DesktopSmokeHost : IWorkbenchHost
     }
     /// <summary>使用共享有界策略提供数组夹具。</summary>
     public Task<RunPmlCommandResponse> ReadArrayAsync(string name, int start, int items, int chars, CancellationToken token) => Task.FromResult(new RunPmlCommandResponse { Success = true, RequestId = "ui-fixture-array", ArrayWindow = PmlArrayWindow.Read(3, start, items, chars, i => "合成行 " + i) });
+    /// <summary>离线对象树夹具，不执行原生 PML。</summary>
+    public Task<DesktopObjectReadReply> ReadObjectAsync(DesktopObjectQuery query, CancellationToken token) => Task.FromResult(DesktopObjectReadReply.Parse("{\"Success\":true,\"RequestId\":\"ui-object-fixture\",\"ServerRuntime\":\"synthetic\",\"Items\":[{\"Depth\":0,\"Path\":\"CE\",\"Type\":\"DBREF\",\"Value\":\"合成对象\"},{\"Depth\":1,\"Path\":\"CE.name\",\"Type\":\"STRING\",\"Value\":\"UiProbe\"}],\"Unparsed\":[]}"));
     /// <summary>只返回合成调度回执，不执行函数。</summary>
     public Task<RunPmlCommandResponse> InvokeAsync(string name, List<DynamicParameterInput> parameters, CancellationToken token) => LoseInvocationReply ? throw new System.IO.IOException("合成：发送后丢失调用回执") : Task.FromResult(new RunPmlCommandResponse { Success = true, RequestId = "ui-fixture-call", ServerRuntime = "synthetic" });
 }

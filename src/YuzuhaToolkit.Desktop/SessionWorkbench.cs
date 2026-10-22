@@ -18,6 +18,8 @@ internal interface IWorkbenchHost
     Task<RunPmlCommandResponse> QueryAsync(PmlFormQueryRequest request, CancellationToken token);
     /// <summary>沿用已有数组窗口。</summary>
     Task<RunPmlCommandResponse> ReadArrayAsync(string name, int start, int items, int chars, CancellationToken token);
+    /// <summary>沿用三种内置对象遍历函数和现有列表工具。</summary>
+    Task<DesktopObjectReadReply> ReadObjectAsync(DesktopObjectQuery query, CancellationToken token);
     /// <summary>沿用注册函数调用和信任提示。</summary>
     Task<RunPmlCommandResponse> InvokeAsync(string name, List<DynamicParameterInput> parameters, CancellationToken token);
 }
@@ -62,6 +64,8 @@ internal sealed class SessionWorkbench(IWorkbenchHost host, PmlFunctionRegistry 
     public RunPmlCommandResponse? GadgetDetails { get; private set; }
     /// <summary>最近请求回执，包含真实请求编号。</summary>
     public RunPmlCommandResponse? LastResponse { get; private set; }
+    /// <summary>本窗口最近一次对象遍历结果；不能用作其他会话的结果。</summary>
+    public DesktopObjectReadReply? ObjectResult { get; private set; }
     /// <summary>有界数组原生显示行。</summary>
     public List<string> ArrayRows { get; } = [];
     /// <summary>最近数组窗口及原索引。</summary>
@@ -74,7 +78,7 @@ internal sealed class SessionWorkbench(IWorkbenchHost host, PmlFunctionRegistry 
         var response = host.Discover();
         discovered = response.Sessions.Select(Clone).ToArray();
         Outcome = response.Error is null ? "idle" : "rejected";
-        Message = response.Error ?? $"发现 {response.Sessions.Count} 个会话。请选择目标并核验；无 Host 的窗口也会列出。";
+        Message = response.Error ?? (response.Sessions.Count == 0 ? "未发现运行中的 AVEVA 工程会话。已安装的 AM / PDMS / E3D 入口请到启动工程扫描；安装入口不等于运行会话。" : $"发现 {response.Sessions.Count} 个运行会话。请选择目标并核验；无 Host 的工程窗口也会列出。");
         return response;
     }
 
@@ -161,6 +165,14 @@ internal sealed class SessionWorkbench(IWorkbenchHost host, PmlFunctionRegistry 
     });
 
     private void EnsureIdle() { if (IsBusy) throw new InvalidOperationException("当前操作尚未结束，请等待结果；不要重复发送。"); }
+    /// <summary>显式读取当前对象、指定元素或全局变量，逐次核验目标且不自动重试。</summary>
+    public Task ReadObjectAsync(DesktopObjectQuery query, CancellationToken token = default) => Run(async () =>
+    {
+        ObjectResult = null; await RequireTarget(token);
+        dispatched = true; var result = await host.ReadObjectAsync(query, token);
+        LastResponse = result.Receipt; RequireSuccess(result.Receipt); ObjectResult = result;
+        Message = $"对象遍历返回 {result.Items.Length} 项，未解析 {result.Unparsed.Length} 行。受每层数量和深度限制，不代表完整对象快照。";
+    });
     private async Task Run(Func<Task> action)
     {
         EnsureIdle(); IsBusy = true; dispatched = false; LastResponse = null; Outcome = "running";
@@ -187,7 +199,7 @@ internal sealed class SessionWorkbench(IWorkbenchHost host, PmlFunctionRegistry 
             throw new InvalidOperationException(result.Error ?? "目标身份失效，已清除旧查询。请重新发现并核验，输入会保留。");
         }
     }
-    private void ClearQueries() { Forms.Clear(); Gadgets.Clear(); GadgetDetails = null; LastResponse = null; ArrayRows.Clear(); ArrayLast = null; arrayKey = null; }
+    private void ClearQueries() { Forms.Clear(); Gadgets.Clear(); GadgetDetails = null; LastResponse = null; ObjectResult = null; ArrayRows.Clear(); ArrayLast = null; arrayKey = null; }
     /// <summary>窗体选择变化时清理控件和详情。</summary>
     internal void ResetGadgets() { EnsureIdle(); Gadgets.Clear(); ResetGadgetDetails(); }
     /// <summary>控件选择变化后清除此前属性与回执，不触发查询。</summary>

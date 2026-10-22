@@ -180,12 +180,35 @@ public sealed class DesktopSessionWorkflowTests : IDisposable
 
     public void Dispose() { if (Directory.Exists(root)) Directory.Delete(root, true); }
 
+    [Fact]
+    public async Task ObjectReadRequiresVerifiedTargetAndRetainsStructuredReceipt()
+    {
+        var model = Create(); var query = DesktopObjectQuery.Build("global", "fmsys", "forms.1", 30, 2);
+        await Assert.ThrowsAsync<InvalidOperationException>(() => model.ReadObjectAsync(query));
+        Assert.Equal(0, host.Executions);
+        model.Discover(); await model.SelectAsync(host.Candidate); await model.ReadObjectAsync(query);
+        Assert.Equal(1, host.Executions); Assert.Equal(query.Expression, host.ObjectExpression);
+        Assert.Equal("fmsys.forms.1", Assert.Single(model.ObjectResult!.Items).Path);
+        Assert.Equal("object-fixture", model.LastResponse!.RequestId);
+    }
+
+    [Fact]
+    public async Task ExpiredIdentityClearsObjectResultsAndDoesNotSendAgain()
+    {
+        var model = Create(); model.Discover(); await model.SelectAsync(host.Candidate);
+        var query = DesktopObjectQuery.Build("current", "", "", 30, 2); await model.ReadObjectAsync(query);
+        host.Connection.TargetVerified = false;
+        await Assert.ThrowsAsync<InvalidOperationException>(() => model.ReadObjectAsync(query));
+        Assert.Null(model.ObjectResult); Assert.Equal(1, host.Executions);
+    }
+
     private sealed class FakeHost : IWorkbenchHost
     {
         internal AvevaSessionCandidate Candidate = new() { ProcessId = 123, ProcessStartTimeUtcTicks = 456, PipeDetected = true, Product = "E3D", PipeName = "pid-123" };
         internal YuzuhaConnectionStatus Connection = new() { TargetVerified = true, Connected = true, ExpectedProcessId = 123, ExpectedProcessStartTimeUtcTicks = 456, ExpectedModel = "Design", Host = new() { ProcessId = 123, ProcessStartTimeUtcTicks = 456, Model = "Design", FormQueryVersion = 1, BoundedArrayReadVersion = 1 } };
         internal int Selections, Executions;
         internal Exception? InvocationError;
+        internal string? ObjectExpression;
         internal Queue<PmlFormQueryResult> Pages = new();
         internal List<int> Starts = [];
         public AvevaSessionListResponse Discover() => new() { Sessions = [Candidate], Count = 1 };
@@ -193,6 +216,11 @@ public sealed class DesktopSessionWorkflowTests : IDisposable
         public Task<YuzuhaConnectionStatus> StatusAsync(CancellationToken token) => Task.FromResult(Connection);
         public Task<RunPmlCommandResponse> QueryAsync(PmlFormQueryRequest request, CancellationToken token) { Executions++; Starts.Add(request.StartIndex); return Task.FromResult(new RunPmlCommandResponse { Success = true, FormQueryResult = Pages.Dequeue() }); }
         public Task<RunPmlCommandResponse> ReadArrayAsync(string name, int start, int items, int chars, CancellationToken token) => throw new NotImplementedException();
+        public Task<DesktopObjectReadReply> ReadObjectAsync(DesktopObjectQuery query, CancellationToken token)
+        {
+            Executions++; ObjectExpression = query.Expression;
+            return Task.FromResult(DesktopObjectReadReply.Parse("{\"Success\":true,\"RequestId\":\"object-fixture\",\"Items\":[{\"Path\":\"fmsys.forms.1\",\"Type\":\"FORM\",\"Depth\":2,\"Value\":\"fixture\"}],\"Unparsed\":[]}"));
+        }
         public Task<RunPmlCommandResponse> InvokeAsync(string name, List<DynamicParameterInput> parameters, CancellationToken token) { Executions++; if (InvocationError is not null) throw InvocationError; return Task.FromResult(new RunPmlCommandResponse { Success = true }); }
     }
 }

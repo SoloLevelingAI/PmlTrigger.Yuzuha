@@ -89,52 +89,49 @@
                 <StackPanel>
                   <DockPanel>
                     <Border Style="{StaticResource Pill}" DockPanel.Dock="Right" Background="{DynamicResource Surface.TintWarning}">
-                      <TextBlock Text="Q03 · 尚未接入" Foreground="{DynamicResource Text.Warning}" FontSize="10" />
+                      <TextBlock Text="现有内置遍历" Foreground="{DynamicResource Text.Brand}" FontSize="10" />
                     </Border>
-                    <TextBlock Text="当前元素" Style="{StaticResource SectionTitle}" />
+                    <TextBlock Text="对象与元素结果" Style="{StaticResource SectionTitle}" />
                   </DockPanel>
-                  <TextBlock Text="原稿区域保留 · 尚未读取当前元素" Style="{StaticResource Caption}" />
-                  <TextBlock Text="—" FontSize="27" FontWeight="SemiBold" Margin="0,20,0,8" />
-                  <TextBlock Text="名称、类型、DBREF 与所属对象" Foreground="{DynamicResource Text.Tertiary}" FontSize="12" />
-                  <UniformGrid Columns="4" Margin="0,22,0,18">
-                    <StackPanel>
-                      <TextBlock Text="位置 N" Style="{StaticResource Caption}" />
-                      <TextBlock Text="—" Margin="0,8,0,0" />
-                    </StackPanel>
-                    <StackPanel>
-                      <TextBlock Text="位置 E" Style="{StaticResource Caption}" />
-                      <TextBlock Text="—" Margin="0,8,0,0" />
-                    </StackPanel>
-                    <StackPanel>
-                      <TextBlock Text="材料" Style="{StaticResource Caption}" />
-                      <TextBlock Text="—" Margin="0,8,0,0" />
-                    </StackPanel>
-                    <StackPanel>
-                      <TextBlock Text="等级" Style="{StaticResource Caption}" />
-                      <TextBlock Text="—" Margin="0,8,0,0" />
-                    </StackPanel>
-                  </UniformGrid>
-                  <Button Content="读取当前元素" IsEnabled="False" HorizontalAlignment="Right" ToolTip="保留设计入口；当前批次未接入桌面" />
+                  <TextBlock Text="当前对象、指定元素或全局变量的成员路径 / 类型 / 值" Style="{StaticResource Caption}" />
+                  <DataGrid x:Name="ObjectRowsGrid" Height="170" Margin="0,14,0,12">
+                    <DataGrid.Columns>
+                      <DataGridTextColumn Header="层级" Binding="{Binding Depth}" Width="45" />
+                      <DataGridTextColumn Header="对象 / 成员路径" Binding="{Binding Path}" Width="1.5*" />
+                      <DataGridTextColumn Header="类型" Binding="{Binding Type}" Width="85" />
+                      <DataGridTextColumn Header="值" Binding="{Binding Value}" Width="*" />
+                      <DataGridCheckBoxColumn Header="空 / 未设置" Binding="{Binding Empty}" Width="80" />
+                    </DataGrid.Columns>
+                  </DataGrid>
+                  <TextBlock x:Name="ObjectReadInfo" Text="尚未读取；结果受数量与深度限制。" Style="{StaticResource Caption}" />
+                  <Button Content="读取当前对象 / CE" Click="ReadCurrentObject" HorizontalAlignment="Right" Margin="0,12,0,0" />
                 </StackPanel>
               </Border>
               <Border Grid.Column="2" Style="{StaticResource Card}">
                 <StackPanel>
                   <TextBlock Text="对象查询" Style="{StaticResource SectionTitle}" />
-                  <TextBlock Text="查询不修改模型" Style="{StaticResource Caption}" />
-                  <TextBlock Text="DBREF" Style="{StaticResource Caption}" Margin="0,15,0,0" />
-                  <TextBox Tag="=12345/12" IsEnabled="False" />
+                  <TextBlock Text="复用 YuzuhaReadCurrentElement / ReadDbref / ReadGlobal" Style="{StaticResource Caption}" />
+                  <ComboBox x:Name="ObjectKindBox" SelectedIndex="0" SelectionChanged="ObjectKindChanged" Margin="0,12,0,8">
+                    <ComboBoxItem Content="当前对象 / 当前元素 CE" Tag="current" />
+                    <ComboBoxItem Content="指定元素（名称 / 路径 / DBREF）" Tag="element" />
+                    <ComboBoxItem Content="全局变量 / PML Object" Tag="global" />
+                  </ComboBox>
+                  <TextBlock Text="元素名称 / 路径 / DBREF，或全局变量名" Style="{StaticResource Caption}" />
+                  <TextBox x:Name="ObjectTargetBox" Tag="/元素路径、=dbref 或 !!全局名" IsEnabled="False" />
+                  <TextBlock Text="成员路径（可空，例如 owner 或 forms.1）" Style="{StaticResource Caption}" />
+                  <TextBox x:Name="ObjectMemberBox" />
                   <UniformGrid Columns="2">
                     <StackPanel Margin="0,0,8,0">
                       <TextBlock Text="读取深度" Style="{StaticResource Caption}" />
-                      <TextBox Text="2" IsEnabled="False" />
+                      <TextBox x:Name="ObjectDepthBox" Text="2" />
                     </StackPanel>
                     <StackPanel>
-                      <TextBlock Text="返回上限" Style="{StaticResource Caption}" />
-                      <TextBox Text="30" IsEnabled="False" />
+                      <TextBlock Text="每层数量上限" Style="{StaticResource Caption}" />
+                      <TextBox x:Name="ObjectSizeBox" Text="30" />
                     </StackPanel>
                   </UniformGrid>
-                  <Button Content="读取指定 DBREF  →" IsEnabled="False" />
-                  <TextBlock Text="Q03 · 保留原稿交互，已有工具的桌面接线待交付。" Style="{StaticResource Caption}" Foreground="{DynamicResource Text.Warning}" Margin="0,14,0,0" />
+                  <Button Content="读取所选对象  →" Click="ReadObject" Style="{StaticResource Primary}" />
+                  <TextBlock Text="使用临时返回数组并清理；指定元素遍历会暂切 CE 后恢复。空返回不证明目标不存在，完整回执在下方。" Style="{StaticResource Caption}" Margin="0,12,0,0" />
                 </StackPanel>
               </Border>
             </Grid>

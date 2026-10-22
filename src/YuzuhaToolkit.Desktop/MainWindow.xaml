@@ -217,7 +217,7 @@
                       <Button DockPanel.Dock="Right" Content="新建配置  +" Click="NewProfile" FontSize="12" />
                       <StackPanel>
                         <TextBlock Text="启动配置" Style="{StaticResource SectionTitle}" />
-                        <TextBlock Text="Monitor 启动 · 密码仅本次使用" Style="{StaticResource Caption}" />
+                        <TextBlock Text="Monitor / Marine 启动 · 本机凭据供下次自动登录" Style="{StaticResource Caption}" />
                       </StackPanel>
                     </DockPanel>
                     <ComboBox x:Name="ProfilesBox" DisplayMemberPath="Name" SelectionChanged="ProfileSelected" Margin="0,18,0,16" />
@@ -253,10 +253,15 @@
                         <TextBox x:Name="UserBox" FontSize="12" />
                         <TextBlock Text="启动模块" Style="{StaticResource Caption}" />
                         <TextBox x:Name="ModuleBox" Text="Design" FontSize="12" />
-                        <TextBlock Text="本次密码（不保存）" Style="{StaticResource Caption}" />
+                        <TextBlock Text="密码（留空沿用已保存凭据）" Style="{StaticResource Caption}" />
                         <PasswordBox x:Name="PasswordInput" FontSize="12" />
                       </StackPanel>
                     </Grid>
+                    <WrapPanel Margin="0,4,0,8">
+                      <CheckBox x:Name="RememberPasswordBox" Content="保存密码到本机凭据，供下次登录" IsChecked="True" VerticalAlignment="Center" />
+                      <Button Content="清除已存密码" Click="ClearSavedPassword" Style="{StaticResource Link}" Margin="12,0,0,0" />
+                    </WrapPanel>
+                    <TextBlock x:Name="PasswordStatusText" Text="尚未保存密码" Style="{StaticResource Caption}" Margin="0,0,0,8" />
                     <Expander Header="配置名称与产品 / 许可" FontSize="12" Margin="0,4,0,12">
                       <StackPanel Margin="0,12,0,0">
                         <TextBlock Text="配置名称" Style="{StaticResource Caption}" />
@@ -287,7 +292,7 @@
                       <WrapPanel DockPanel.Dock="Right">
                         <Button Content="保存配置" Click="SaveProfile" FontSize="12" />
                         <Button Content="预览参数" Click="PreviewLaunch" FontSize="12" />
-                        <Button x:Name="LaunchButton" Content="▶ 启动工程" Style="{StaticResource Primary}" Click="Launch" FontSize="12" Margin="0" />
+                        <Button x:Name="LaunchButton" Content="▶ 保存并启动工程" Style="{StaticResource Primary}" Click="Launch" FontSize="12" Margin="0" />
                       </WrapPanel>
                     </DockPanel>
                   </StackPanel>
@@ -328,7 +333,7 @@
                         <TextBlock Text="不修改系统 EVAR" Foreground="{DynamicResource Text.Brand}" FontSize="11" />
                       </Border>
                       <Border Style="{StaticResource Pill}">
-                        <TextBlock Text="密码不落盘" Foreground="{DynamicResource Text.Brand}" FontSize="11" />
+                        <TextBlock Text="配置不含密码正文" Foreground="{DynamicResource Text.Brand}" FontSize="11" />
                       </Border>
                     </WrapPanel>
                   </StackPanel>
@@ -1172,11 +1177,12 @@
                     <Border Background="{DynamicResource Brand.HeroGradient}" CornerRadius="18" Padding="24" Margin="0,0,0,18">
                       <StackPanel>
                         <TextBlock Text="知识检索" Foreground="{DynamicResource Text.OnDark}" FontSize="24" FontWeight="SemiBold" />
-                        <TextBlock Text="Q08 · 知识界面待接入；已有独立知识工具继续可用" Style="{StaticResource Caption}" Margin="0,8,0,0" />
+                        <TextBlock Text="在本窗口搜索内置指南和本机资料，查看完整正文与来源定位" Foreground="{DynamicResource Text.OnDarkMuted}" FontSize="12" Margin="0,8,0,0" />
                         <DockPanel Margin="0,18,0,0">
-                          <Button Content="搜索" DockPanel.Dock="Right" IsEnabled="False" Style="{StaticResource Primary}" />
-                          <TextBox Tag="搜索 PML、API、工程参考与已验证经验" IsEnabled="False" Margin="0,0,12,0" />
+                          <Button x:Name="KnowledgeSearchButton" Content="搜索" DockPanel.Dock="Right" Click="SearchKnowledge" Style="{StaticResource Primary}" />
+                          <TextBox x:Name="KnowledgeQueryBox" Tag="搜索 PML、API、工程参考与本机经验" KeyDown="KnowledgeQueryKeyDown" Margin="0,0,12,0" />
                         </DockPanel>
+                        <CheckBox x:Name="KnowledgeSupplementalBox" Content="同时搜索本机项目、官方、经验与自定义资料" IsChecked="True" Foreground="{DynamicResource Text.OnDark}" Margin="0,10,0,0" />
                       </StackPanel>
                     </Border>
                     <Grid x:Name="KnowledgeColumns">
@@ -1189,39 +1195,42 @@
                         <StackPanel>
                           <TextBlock Text="检索结果" Style="{StaticResource SectionTitle}" />
                           <TextBlock Text="来源、版本、定位与验证状态分别显示" Style="{StaticResource Caption}" Margin="0,8,0,0" />
-                          <DataGrid Height="340" Margin="0,16,0,0">
+                          <DataGrid x:Name="KnowledgeResultsGrid" Height="340" Margin="0,16,0,0" SelectionChanged="KnowledgeSelected">
                             <DataGrid.Columns>
-                              <DataGridTextColumn Header="标题 / 来源" Width="*" />
-                              <DataGridTextColumn Header="层级" Width="*" />
-                              <DataGridTextColumn Header="定位" Width="*" />
-                              <DataGridTextColumn Header="相关性" Width="*" />
+                              <DataGridTextColumn Header="标题 / 符号" Binding="{Binding Title}" Width="1.5*" />
+                              <DataGridTextColumn Header="来源层级" Binding="{Binding Role}" Width="85" />
+                              <DataGridTextColumn Header="定位" Binding="{Binding Location}" Width="*" />
                             </DataGrid.Columns>
                           </DataGrid>
+                          <TextBlock x:Name="KnowledgeStatusText" Text="输入查询，或直接搜索以列出完整内置指南。" Style="{StaticResource Caption}" Margin="0,12,0,0" />
                         </StackPanel>
                       </Border>
                       <Border Style="{StaticResource Card}" Grid.Column="2">
                         <StackPanel>
-                          <TextBlock Text="来源分层" Style="{StaticResource SectionTitle}" />
-                          <Border Style="{StaticResource Pill}" HorizontalAlignment="Left" Background="{DynamicResource Surface.TintWarning}">
-                            <TextBlock Text="Q08 · 保留分层与验证设计" Foreground="{DynamicResource Text.Warning}" FontSize="10" />
-                          </Border>
-                          <TextBlock Text="项目参考" Style="{StaticResource Caption}" Margin="0,8,0,0" />
-                          <TextBlock Text="官方资料" Style="{StaticResource Caption}" Margin="0,8,0,0" />
-                          <TextBlock Text="本机经验" Style="{StaticResource Caption}" Margin="0,8,0,0" />
-                          <TextBlock Text="检索相关性不代表已实测或已获调用权限。" Style="{StaticResource Caption}" Margin="0,30,0,0" />
+                          <TextBlock Text="正文与来源" Style="{StaticResource SectionTitle}" />
+                          <TextBlock x:Name="KnowledgeDetailTitle" Text="选择一个结果查看完整正文" TextWrapping="Wrap" FontWeight="SemiBold" Margin="0,14,0,0" />
+                          <TextBlock x:Name="KnowledgeDetailLocation" Style="{StaticResource Caption}" Margin="0,10,0,0" />
+                          <TextBox x:Name="KnowledgeDetailBody" IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap" Height="250" VerticalScrollBarVisibility="Auto" Margin="0,12,0,0" />
+                          <TextBlock x:Name="KnowledgeDetailVerification" Text="检索相关性不代表已实测或已获调用权限。" Style="{StaticResource Caption}" Margin="0,12,0,0" />
+                          <Button Content="复制来源定位" Click="CopyKnowledgeLocation" Style="{StaticResource Link}" HorizontalAlignment="Left" Margin="0,10,0,0" />
                         </StackPanel>
                       </Border>
                     </Grid>
                     <Border Style="{StaticResource Card}">
                       <StackPanel>
-                        <TextBlock Text="最近检索" Style="{StaticResource SectionTitle}" />
-                        <DataGrid Height="145" Margin="0,16,0,0">
+                        <TextBlock Text="本机知识目录与最近检索" Style="{StaticResource SectionTitle}" />
+                        <DockPanel Margin="0,12,0,8">
+                          <WrapPanel DockPanel.Dock="Right"><Button Content="选择目录" Click="BrowseKnowledgeDirectory" /><Button Content="保存目录" Click="SaveKnowledgeDirectory" /></WrapPanel>
+                          <TextBox x:Name="KnowledgeDirectoryBox" Margin="0,0,8,0" />
+                        </DockPanel>
+                        <TextBlock x:Name="KnowledgeSourcesText" Style="{StaticResource Caption}" />
+                        <DataGrid x:Name="KnowledgeHistoryGrid" Height="145" Margin="0,16,0,0">
                           <DataGrid.Columns>
-                            <DataGridTextColumn Header="时间" Width="*" />
-                            <DataGridTextColumn Header="查询" Width="*" />
-                            <DataGridTextColumn Header="结果范围" Width="*" />
-                            <DataGridTextColumn Header="来源" Width="*" />
-                            <DataGridTextColumn Header="耗时" Width="*" />
+                            <DataGridTextColumn Header="时间" Binding="{Binding Time}" Width="100" />
+                            <DataGridTextColumn Header="查询" Binding="{Binding Query}" Width="*" />
+                            <DataGridTextColumn Header="返回项" Binding="{Binding Count}" Width="80" />
+                            <DataGridTextColumn Header="目录" Binding="{Binding Directory}" Width="*" />
+                            <DataGridTextColumn Header="耗时 ms" Binding="{Binding Milliseconds}" Width="85" />
                           </DataGrid.Columns>
                         </DataGrid>
                       </StackPanel>

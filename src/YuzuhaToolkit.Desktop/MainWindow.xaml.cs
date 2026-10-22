@@ -31,6 +31,7 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent(); _settings = WorkspaceSettings.Load();
+        InitializeKnowledge();
         Width = Math.Min(Width, Math.Max(MinWidth, SystemParameters.WorkArea.Width - 16));
         Height = Math.Min(Height, Math.Max(MinHeight, SystemParameters.WorkArea.Height - 16));
         SessionView.SectionChanged += title => { if (Tabs.SelectedIndex == 3) SetPage(title); };
@@ -43,7 +44,7 @@ public partial class MainWindow : Window
         WarnFilesBox.Text = _settings.WarnFiles.ToString(); WarnSizeBox.Text = (_settings.WarnBytes / 1048576).ToString();
         ReloadProfiles(); if (_settings.Profiles.Count > 0) ProfilesBox.SelectedIndex = 0;
         _timer.Tick += async (_, _) => await RefreshRuntimeAsync(); _timer.Start();
-        Loaded += async (_, _) => { await RefreshRuntimeAsync(); await DiscoverAsync(); };
+        Loaded += async (_, _) => { await RefreshRuntimeAsync(); await DiscoverAsync(); SessionView.RefreshCandidates(); };
         Closed += (_, _) => { _closed = true; _timer.Stop(); SessionView.Dispose(); _journal.Dispose(); };
     }
 
@@ -71,10 +72,10 @@ public partial class MainWindow : Window
     private void SetPage(string? title)
     {
         title = title?.Trim() ?? "总览"; PageTitleText.Text = title;
-        PageSubtitleText.Text = title switch { "总览" => "本机工作台 · 工程环境与近期工具活动", "工程会话" => "先核验 PID 与启动身份，再查询或调用 PML", "能力与函数" => "登记源码、人工授权 · 登记版本与会话加载版本分别核对", "原生 Form / Gadget" => "原生窗体 → 控件 → 属性 · 有界读取与续读", "启动工程" => "复用已有启动配置 · 本次密码不保存", "插件部署" => "来源、复制预览、备份与本机记录", _ => "本机工具与交付记录" };
+        PageSubtitleText.Text = title switch { "总览" => "本机工作台 · 工程环境与近期工具活动", "工程会话" => "先核验 PID 与启动身份，再查询或调用 PML", "能力与函数" => "登记源码、人工授权 · 登记版本与会话加载版本分别核对", "原生 Form / Gadget" => "原生窗体 → 控件 → 属性 · 有界读取与续读", "启动工程" => "保存本机登录配置与凭据，下次自动使用", "知识库" => "本窗口检索、正文、来源与定位", "插件部署" => "来源、复制预览、备份与本机记录", _ => "本机工具与交付记录" };
         HeaderActionText.Text = title switch { "工程会话" => "扫描会话", "能力与函数" => "登记函数", "原生 Form / Gadget" => "重新核验", "AI 运行" => "刷新状态", "工具日志" => "日志目录", "插件部署" => "预览复制", "设置" => "保存设置", _ => "启动工程" };
         if (title is "评审中心" or "测试中心" or "Web 应用" or "知识库") HeaderActionText.Text = title switch { "评审中心" => "审核草稿", "测试中心" => "运行测试", "Web 应用" => "登记应用", _ => "搜索知识" };
-        HeaderActionButton.IsEnabled = title is not ("评审中心" or "测试中心" or "Web 应用" or "知识库");
+        HeaderActionButton.IsEnabled = title is not ("评审中心" or "测试中心" or "Web 应用");
         HeaderActionIcon.Data = (Geometry)FindResource(title is "工程会话" or "原生 Form / Gadget" or "AI 运行" ? "Icon.refresh" : title is "能力与函数" or "Web 应用" ? "Icon.plus" : "Icon.play");
         foreach (var button in SidebarNav.Children.OfType<Button>())
         {
@@ -108,6 +109,7 @@ public partial class MainWindow : Window
         else if (Tabs.SelectedIndex == 6) SaveWorkspace(sender, e);
         else if (Tabs.SelectedIndex == 1) PreviewCopy(sender, e);
         else if (Tabs.SelectedIndex == 0) { if (LaunchButton.IsEnabled) Launch(sender, e); }
+        else if (Tabs.SelectedIndex == 5 && PlannedPages.SelectedIndex == 3) _ = SearchKnowledgeAsync();
         else { Tabs.SelectedIndex = 0; SetPage("启动工程"); }
     }
     private void ShowHelp(object sender, RoutedEventArgs e) => MessageBox.Show(this, "工程会话：扫描 → 选择 → 核验目标。\n能力与函数：登记源码 → 检查源码 → 授予许可 → 预览 → 执行一次。\n原生查询：窗体 → 控件 → 固定属性；使用 NextIndex 继续读取。\n\n源码变化后重新登记和授权；结果未知时先核查回执，不自动重试。\nCtrl+K 可按页面名称导航；所有界面证据与实机验证分别记录。", "Yuzuha · 使用说明");
@@ -141,10 +143,11 @@ public partial class MainWindow : Window
                 "评审中心" => "M3：同一名人工审核差异、契约和测试证据，再批准迁移。复用已有复制、哈希和备份能力，补批准快照、回执与恢复记录。",
                 "测试中心" => "M2a / M2b：先交付源码目录与证据浏览，再从 C# 调用既有按 ID 测试脚本。现阶段可使用 DocFX 测试目录与 PowerShell 独立复刻；人工实机项保持 NotRun。",
                 "Web 应用" => "M5a：C# 管理本机 HTML 应用目录、版本、入口与停用记录。M5b 再验证宿主并开放受控查询桥；窗口打开与调用权限分别表达。",
-                _ => "知识检索已有独立工具入口。本批保留其使用方式；来源、经验与验证证据的新界面按后续设计交付。"
+                _ => "本页直接调用现有 C# 知识仓库，查看完整内置指南或本机资料的正文、来源、行号与数据库身份。索引构建和经验写入尚未接入；检索命中不等于实测或调用许可。"
             };
         }
         if (button.Uid == "工程会话") SessionView.OpenSessions();
+        if (button.Uid == "知识库") { PlannedTitleText.Text = "知识检索 · 资料与实测证据分开"; if (KnowledgeResultsGrid.Items.Count == 0) _ = SearchKnowledgeAsync(); }
         SetPage(button.Uid);
     }
     private void OpenFunctionsPage(object sender, RoutedEventArgs e) { Tabs.SelectedIndex = 3; SessionView.OpenFunctions(); SetPage("能力与函数"); }
@@ -155,7 +158,7 @@ public partial class MainWindow : Window
         Name = NameBox.Text.Trim(), Kind = ((ComboBoxItem)KindBox.SelectedItem).Content.ToString()!, Executable = ExecutableBox.Text.Trim(),
         Initialization = InitializationBox.Text.Trim(), Product = ProductBox.Text.Trim(), WorkingDirectory = WorkingBox.Text.Trim(),
         Project = ProjectBox.Text.Trim(), User = UserBox.Text.Trim(), Mdb = MdbBox.Text.Trim(), Module = ModuleBox.Text.Trim(), License = LicenseBox.Text.Trim(),
-        Environment = _selected?.Environment ?? new(StringComparer.OrdinalIgnoreCase)
+        Environment = _selected?.Environment ?? new(StringComparer.OrdinalIgnoreCase), CredentialKey = _selected?.CredentialKey ?? "", RememberPassword = RememberPasswordBox.IsChecked == true
     };
     private void ProfileSelected(object sender, SelectionChangedEventArgs e)
     {
@@ -164,18 +167,42 @@ public partial class MainWindow : Window
         ExecutableBox.Text = profile.Executable; InitializationBox.Text = profile.Initialization; ProductBox.Text = profile.Product;
         WorkingBox.Text = profile.WorkingDirectory; ProjectBox.Text = profile.Project; UserBox.Text = profile.User;
         MdbBox.Text = profile.Mdb; ModuleBox.Text = profile.Module; LicenseBox.Text = profile.License; PasswordInput.Clear();
+        RememberPasswordBox.IsChecked = profile.RememberPassword;
+        PasswordStatusText.Text = profile.CredentialKey.Length > 0 ? "已关联本机凭据；下次启动自动使用。输入新密码可更新。" : "尚未保存密码。勾选后点击保存配置或保存并启动。";
     }
     private void NewProfile(object sender, RoutedEventArgs e)
     {
         var profile = new LaunchProfile(); _settings.Profiles.Add(profile); ReloadProfiles(); ProfilesBox.SelectedItem = profile;
     }
-    private void SaveProfile(object sender, RoutedEventArgs e) => Try(() =>
+    private void SaveProfile(object sender, RoutedEventArgs e) => Try(() => { var profile = PersistProfile(); Say(profile.CredentialKey.Length > 0 ? "已保存配置并关联本机凭据，下次启动自动使用。" : "已保存配置；当前没有关联已保存的密码。"); });
+    private LaunchProfile PersistProfile()
     {
         var profile = ReadProfile();
         if (string.IsNullOrWhiteSpace(profile.Name)) throw new ArgumentException("请填写配置名称。");
         var index = _selected is null ? -1 : _settings.Profiles.IndexOf(_selected);
-        if (index < 0) _settings.Profiles.Add(profile); else _settings.Profiles[index] = profile;
-        SaveWorkspaceFields(); ReloadProfiles(); ProfilesBox.SelectedItem = profile; Say("已保存本机配置，密码未保存。");
+        var previous = _selected; var oldKey = previous?.CredentialKey ?? "";
+        profile.CredentialKey = WindowsCredentialStore.Prepare(oldKey, PasswordInput.Password, profile.RememberPassword);
+        try
+        {
+            if (index < 0) _settings.Profiles.Add(profile); else _settings.Profiles[index] = profile;
+            SaveWorkspaceFields();
+        }
+        catch
+        {
+            if (index < 0) _settings.Profiles.Remove(profile); else _settings.Profiles[index] = previous!;
+            if (profile.CredentialKey != oldKey) WindowsCredentialStore.Delete(profile.CredentialKey);
+            throw;
+        }
+        ReloadProfiles(); ProfilesBox.SelectedItem = profile;
+        if (oldKey != profile.CredentialKey && !_settings.Profiles.Any(item => item.CredentialKey == oldKey)) WindowsCredentialStore.Delete(oldKey);
+        return profile;
+    }
+    private void ClearSavedPassword(object sender, RoutedEventArgs e) => Try(() =>
+    {
+        if (_selected is null || _selected.CredentialKey.Length == 0) { Say("此配置没有已保存的密码。"); return; }
+        var previous = RememberPasswordBox.IsChecked; RememberPasswordBox.IsChecked = false;
+        try { PersistProfile(); PasswordInput.Clear(); Say("已解除此配置的本机凭据关联。"); }
+        catch { RememberPasswordBox.IsChecked = previous; throw; }
     });
     private void PreviewLaunch(object sender, RoutedEventArgs e) => Try(() => LaunchPreviewBox.Text = LaunchService.Preview(ReadProfile()));
     private async void Launch(object sender, RoutedEventArgs e)
@@ -184,14 +211,15 @@ public partial class MainWindow : Window
         LaunchButton.IsEnabled = false;
         try
         {
-            var profile = ReadProfile(); SaveWorkspaceFields();
+            var enteredPassword = PasswordInput.Password; var profile = PersistProfile();
             if (!string.IsNullOrWhiteSpace(_settings.RegisteredPmlLib))
             {
                 var health = await ScanAsync();
                 if (_closed) return;
                 if (health.NeedsAttention && MessageBox.Show(FormatHealth(health) + "\n\n建议先移出旧插件、备份和开发副本。仍然启动吗？", "PMLLIB 清理提醒", MessageBoxButton.YesNo, MessageBoxImage.Warning) != MessageBoxResult.Yes) return;
             }
-            var start = LaunchService.Build(profile, PasswordInput.Password);
+            var password = enteredPassword.Length > 0 ? enteredPassword : profile.CredentialKey.Length > 0 ? WindowsCredentialStore.Read(profile.CredentialKey) : "";
+            var start = LaunchService.Build(profile, password);
             var id = _journal.Begin("launch_aveva", JsonSerializer.Serialize(new { profile = profile.Name, executable = profile.Executable }));
             try
             {
@@ -226,6 +254,11 @@ public partial class MainWindow : Window
         ExecutableBox.Text = candidate.Path; KindBox.SelectedIndex = Path.GetExtension(candidate.Path).Equals(".exe", StringComparison.OrdinalIgnoreCase) ? 0 : 1;
         WorkingBox.Text = Path.GetDirectoryName(candidate.Path)!;
         var initialization = Path.Combine(WorkingBox.Text, "launch.init"); if (File.Exists(initialization)) InitializationBox.Text = initialization;
+        // Use the existing LaunchDesk working-directory convention when that directory exists.
+        var version = System.Text.RegularExpressions.Regex.Match(WorkingBox.Text, @"\d+\.\d+(?:\.SP\d+)?", System.Text.RegularExpressions.RegexOptions.IgnoreCase).Value;
+        var userDirectory = KindBox.SelectedIndex == 1 ? Path.Combine(Directory.GetParent(WorkingBox.Text)?.FullName ?? WorkingBox.Text, "Data" + version, "pdmsuser")
+            : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments), "AVEVA", "USERDATA");
+        if (Directory.Exists(userDirectory)) WorkingBox.Text = userDirectory;
         Say("已填入所选入口；产品代码、项目、用户及初始化文件请按实际配置保存。");
     }
     private void UseRegistration(object sender, RoutedEventArgs e) { if (RegistrationsBox.SelectedItem is RegistrationCandidate candidate) RegisteredBox.Text = candidate.Path; }
@@ -346,6 +379,30 @@ public partial class MainWindow : Window
         NameBox.Text = "未保存的离线预览草稿"; ExecutableBox.Text = launcher; InitializationBox.Text = initialization; WorkingBox.Text = fixtureDirectory;
         ProjectBox.Text = "SYNTHETIC"; UserBox.Text = "UI_TEST"; MdbBox.Text = "/ALL_NO_MDS"; ModuleBox.Text = "Design";
         PreviewLaunch(this, new()); LaunchButton.IsEnabled = false;
+        var credentialProfile = default(LaunchProfile);
+        try
+        {
+            PasswordInput.Password = "isolated-ui-credential-fixture"; RememberPasswordBox.IsChecked = true;
+            credentialProfile = PersistProfile();
+            if (credentialProfile.CredentialKey.Length == 0 || WindowsCredentialStore.Read(credentialProfile.CredentialKey) != "isolated-ui-credential-fixture" || PasswordInput.Password.Length != 0) throw new InvalidOperationException("GUI 凭据保存或留空沿用验证失败。");
+            var nextLogin = LaunchService.Build(credentialProfile, WindowsCredentialStore.Read(credentialProfile.CredentialKey));
+            if (!nextLogin.ArgumentList.Contains("UI_TEST/isolated-ui-credential-fixture")) throw new InvalidOperationException("保存的凭据没有进入下次启动参数。");
+        }
+        finally
+        {
+            if (credentialProfile is not null) { WindowsCredentialStore.Delete(credentialProfile.CredentialKey); credentialProfile.CredentialKey = ""; _settings.Save(); }
+            PasswordInput.Clear(); PasswordStatusText.Text = "离线凭据存取验证已清理；未启动 AVEVA。";
+        }
+        NameBox.Text = "未保存的离线预览草稿";
+        KnowledgeDirectoryBox.Text = Path.Combine(WorkspaceSettings.StateDirectory, "knowledge");
+        var knowledgeSource = Path.Combine(fixtureDirectory, "knowledge-source"); Directory.CreateDirectory(knowledgeSource);
+        File.WriteAllText(Path.Combine(knowledgeSource, "UiKnowledgeProbe.pmlfnc"), "define function !!UiKnowledgeProbe() is STRING\nreturn 'isolated-knowledge-fixture'\nendfunction");
+        new YuzuhaToolkit.Knowledge.KnowledgeRepository(KnowledgeDirectoryBox.Text).Build(knowledgeSource, null, null, "custom-ui-fixture", KnowledgeDirectoryBox.Text, false, 100);
+        KnowledgeQueryBox.Text = "UiKnowledgeProbe"; await SearchKnowledgeAsync();
+        if (!KnowledgeDetailBody.Text.Contains("isolated-knowledge-fixture", StringComparison.Ordinal)) throw new InvalidOperationException("发布程序的 GUI 无法读取 SQLite 正文。");
+        KnowledgeQueryBox.Text = "当前对象";
+        await SearchKnowledgeAsync();
+        if (KnowledgeResultsGrid.Items.Count == 0 || !KnowledgeDetailBody.Text.Contains("YuzuhaReadCurrentElement", StringComparison.Ordinal)) throw new InvalidOperationException("GUI 知识检索没有显示完整内置正文。");
         using var fixtureJournal = new RuntimeJournal("离线 UI 合成夹具");
         foreach (var tool in new[] { "synthetic_query", "synthetic_registered_call", "synthetic_knowledge_search" })
         {
@@ -363,11 +420,11 @@ public partial class MainWindow : Window
         foreach (var theme in new[] { "Light", "Dark" })
         {
             await SessionView.PrepareSmokeAsync(fixtureDirectory);
-            var state = SessionView.CaptureThemeState();
+            var state = SessionView.CaptureThemeState() + SessionView.CaptureObjectState() + CaptureLaunchDraft();
             var workspaceFile = Path.Combine(WorkspaceSettings.StateDirectory, "workspace.json");
             var workspaceBefore = File.Exists(workspaceFile) ? File.ReadAllText(workspaceFile) : null;
             ChooseTheme(theme == "Light" ? LightThemeButton : DarkThemeButton, new());
-            if (state != SessionView.CaptureThemeState()) throw new InvalidOperationException("主题切换改变了输入、目标或函数许可。");
+            if (state != SessionView.CaptureThemeState() + SessionView.CaptureObjectState() + CaptureLaunchDraft()) throw new InvalidOperationException("主题切换改变了输入、目标或函数许可。");
             if (workspaceBefore != (File.Exists(workspaceFile) ? File.ReadAllText(workspaceFile) : null) || DesktopDisplaySettings.ReadTheme(WorkspaceSettings.StateDirectory) != theme) throw new InvalidOperationException("主题切换未独立保存显示偏好。");
             var expected = ((SolidColorBrush)FindResource("Text.Primary")).Color;
             if (((SolidColorBrush)PageTitleText.Foreground).Color != expected) throw new InvalidOperationException("页面标题没有跟随主题。");
@@ -402,7 +459,7 @@ public partial class MainWindow : Window
         File.WriteAllText(Path.Combine(outputDirectory, "desktop-smoke.json"), JsonSerializer.Serialize(new {
             passed = true, scope = "WPF creation, synthetic bindings and layout; not AVEVA live or human visual acceptance",
             pages = screens.Length, tabs = Tabs.Items.Count, profiles = ProfilesBox.Items.Count, errorStates = 4,
-            themes = new[] { "Light", "Dark" }, themePreservesWork = true,
+            themes = new[] { "Light", "Dark" }, themePreservesWork = true, savedCredentials = true, guiKnowledge = true, objectQueries = true,
             viewports = new[] { "1440x960", "1280x720", "853x480 logical (1280x720 at 150%)" },
             designCanvas = "1440x1024 client", finishedUtc = DateTime.UtcNow, dpi = VisualTreeHelper.GetDpi(this).DpiScaleX, fontSize = FontSize }));
     }
@@ -412,7 +469,7 @@ public partial class MainWindow : Window
         if (tab == 3) SessionView.SelectSmokeFlow(flow);
         if (tab == 5)
         {
-            PlannedPages.SelectedIndex = planned; PlannedTitleText.Text = "离线界面验证 · 功能尚未接入";
+            PlannedPages.SelectedIndex = planned; PlannedTitleText.Text = planned == 3 ? "GUI 知识检索 · 离线验证" : "离线界面验证 · 功能尚未接入";
         }
         var title = tab == 3 ? flow switch { 1 => "能力与函数", 2 => "原生 Form / Gadget", _ => "工程会话" }
             : tab == 5 ? new[] { "评审中心", "测试中心", "Web 应用", "知识库" }[planned] : ((TabItem)Tabs.SelectedItem).Header.ToString();
@@ -431,4 +488,5 @@ public partial class MainWindow : Window
         var encoder = new PngBitmapEncoder(); encoder.Frames.Add(BitmapFrame.Create(bitmap));
         using var output = File.Create(path); encoder.Save(output);
     }
+    private string CaptureLaunchDraft() => JsonSerializer.Serialize(new { profile = ReadProfile(), passwordLength = PasswordInput.Password.Length, knowledgeQuery = KnowledgeQueryBox.Text, knowledgeDirectory = KnowledgeDirectoryBox.Text });
 }

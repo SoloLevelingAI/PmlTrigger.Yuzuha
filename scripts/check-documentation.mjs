@@ -53,6 +53,20 @@ for(const test of graph.tests){
   }
 }
 report.tests=graph.tests.length;
+assert.ok(graph.catalog?.scripts?.length&&graph.catalog.features?.length,'Missing feature/Script catalog');
+assert.equal(new Set(graph.catalog.scripts.map(s=>s.id)).size,graph.catalog.scripts.length,'Duplicate Script ID');
+for(const f of graph.catalog.features){
+  assert.ok(documents.has(path.join(site,f.url)),'Missing feature page: '+f.id);
+  for(const id of f.scripts)assert.ok(graph.catalog.scripts.some(s=>s.id===id&&s.features.includes(f.id)),'Missing reverse feature association: '+id);
+}
+for(const s of graph.catalog.scripts){
+  assert.ok(documents.has(path.join(site,s.url)),'Missing Script page: '+s.id);
+  const [file,line]=s.sourceUrl.split('#');assert.ok(documents.get(path.join(site,file))?.ids.has(line),'Missing Script source line: '+s.id);
+  for(const id of s.features)assert.ok(graph.catalog.features.some(f=>f.id===id&&f.scripts.includes(s.id)),'Missing Script feature: '+s.id);
+  for(const t of s.tests)assert.ok(graph.tests.some(test=>test.id===t.id&&test.url===t.url),'Unknown Script test: '+s.id);
+}
+for(const c of graph.catalog.candidates)assert.ok(documents.has(path.join(site,c.url)),'Missing C# candidate source: '+c.id);
+report.catalog={features:graph.catalog.features.length,scripts:graph.catalog.scripts.length,candidates:graph.catalog.candidates.length};
 assert.ok(graph.uiTrace?.entries>0&&graph.uiTrace.sampleEdges>0,'UI trace must have real entries and a nonempty path');
 assert.ok(documents.has(path.join(site,'reference/ui-trace/index.html')),'Missing UI trace page');
 const trace=JSON.parse(fs.readFileSync(path.join(site,'reference/ui-trace/graph.json'),'utf8'));

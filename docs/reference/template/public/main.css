@@ -421,6 +421,15 @@ pre code > span[id^="L"]:target { background: var(--bs-warning-bg-subtle, #fff3c
 }
 .ui-call-detail { margin-top: 20px; padding: 16px; border: 1px solid var(--bs-border-color); border-radius: 8px; scroll-margin-top: 70px; }
 .ui-call-detail h3 { margin-top: 0; font-size: 20px; }
+.catalog-results { display: grid; gap: 12px; margin: 18px 0; }
+.catalog-row { padding: 14px; border: 1px solid var(--bs-border-color); border-radius: 8px; overflow-wrap: anywhere; }
+.catalog-row h3 { margin: 0 0 8px; font-size: 18px; }
+.catalog-row p { margin: 6px 0; }
+.catalog-row small { display: block; color: var(--bs-secondary-color); }
+.catalog-source { font-size: 12px; color: var(--bs-secondary-color); }
+#script-catalog .scope-controls > label { display: grid; grid-template-columns: minmax(0,1fr); min-width: 0; max-width: 100%; gap: 4px; }
+#script-catalog .scope-controls > label:has(input[type="checkbox"]) { display: flex; align-items: center; gap: 8px; }
+#script-catalog select, #script-catalog input[type=search] { min-width: 0; max-width: 100%; min-height: 36px; padding: 5px 8px; border: 1px solid var(--bs-border-color); border-radius: 6px; background: var(--bs-body-bg); color: var(--bs-body-color); }
 .ui-call-detail pre { white-space: pre-wrap; overflow-wrap: anywhere; max-height: 560px; font-size: 12px; }
 .ui-trace-browser > label { display: grid; grid-template-columns: minmax(0,1fr); min-width: 0; gap: 6px; }
 .ui-trace-browser > label select { width: 100%; min-width: 0; max-width: 100%; min-height: 38px; color: var(--bs-body-color); background: var(--bs-body-bg); border: 1px solid var(--bs-border-color); border-radius: 6px; }

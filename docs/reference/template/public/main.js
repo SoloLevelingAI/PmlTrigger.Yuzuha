@@ -1,6 +1,7 @@
 import {mountExplorer, mountTypeConnections} from './explorer.js';
 import {mountTestCommands,mountRelatedTests,mountTestDirectory,mountPmlTests} from './tests.js';
 import {mountUiTrace} from './ui-trace.js';
+import {mountScriptCatalog} from './catalog.js';
 // Appearance controls adapted from LaunchDesk's documentation theme.
 function mountAppearance() {
   const api = window.YuzuhaAppearance;
@@ -76,13 +77,15 @@ export default {
     const connections = document.querySelector('#type-connections');
     const tests = document.querySelector('#test-explorer');
     const pml = document.querySelector('.pml-tests');
-    if (explorer || connections || tests || pml) fetch(new URL('reference/graph.json', siteRoot)).then(response => {
+    const catalog = document.querySelector('#script-catalog');
+    if (explorer || connections || tests || pml || catalog) fetch(new URL('reference/graph.json', siteRoot)).then(response => {
       if (!response.ok) throw new Error('Documentation graph ' + response.status);
       return response.json();
     }).then(graph => {
       if (explorer) mountExplorer(siteRoot, graph, explorer);
       if (tests) mountTestDirectory(siteRoot, graph, tests);
       if (pml) mountPmlTests(siteRoot, graph, pml);
+      if (catalog) mountScriptCatalog(siteRoot, graph, catalog);
       if (connections) {
         const localPath = location.pathname.slice(siteRoot.pathname.length);
         const type = graph.types.find(item => item.uid === connections.dataset.typeKey || item.url === localPath || item.sourceUrl === localPath);
@@ -93,7 +96,7 @@ export default {
       }
       document.fonts.ready.then(revealAnchor);
     }).catch(error => {
-      (explorer ?? connections ?? tests ?? pml).textContent = '项目索引暂不可用：' + error.message;
+      (explorer ?? connections ?? tests ?? pml ?? catalog).textContent = '项目索引暂不可用：' + error.message;
     });
   }
 };

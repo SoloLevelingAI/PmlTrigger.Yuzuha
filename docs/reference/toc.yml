@@ -1,5 +1,16 @@
 - name: 开发导读
   href: index.md
+- name: PMLTWIN 项目设计约定
+  href: pmltwin-design-contract.md
+- name: 按具体功能阅读
+  href: ../../artifacts/docfx/navigation/features/index.md
+  items:
+  - name: Script 目录
+    href: ../../artifacts/docfx/navigation/scripts/index.md
+  - name: C# 待分类候选
+    href: ../../artifacts/docfx/navigation/scripts/candidates.md
+  - name: 自动发现与人工增删改查
+    href: catalog-maintenance.md
 - name: 流程与入口
   href: flows.md
 - name: CLI / MCP

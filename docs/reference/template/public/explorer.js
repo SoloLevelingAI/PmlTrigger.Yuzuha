@@ -114,6 +114,10 @@ export function mountSidebar(root,graph,initial) {
   for(const module of graph.modules)nav.append(element('a',{href:url(root,module.url,{...initial,module:module.id,view:'types'}),
     'data-module':module.id,'aria-current':initial.module===module.id?'page':'false'},element('span',{},module.name),element('small',{},module.types.length)));
   nav.append(element('div',{class:'nav-section-label'},'全局参考'),
+    element('a',{href:new URL('reference/features/index.html',root).href},'按具体功能阅读'),
+    element('a',{href:new URL('reference/scripts/index.html',root).href},'Script 目录'),
+    element('a',{href:new URL('catalog-maintenance.html',root).href},'目录增删改查'),
+    element('a',{href:new URL('pmltwin-design-contract.html',root).href},'PMLTWIN 设计约定'),
     element('a',{href:url(root,'reference/interfaces/index.html',{kind:'interfaces',view:'types'})},'全部接口'),
     element('a',{href:url(root,'reference/models/index.html',{kind:'models',view:'types'})},'全部模型'),
     element('a',{href:url(root,'reference/pml/index.html',{})},'PML / PMLUI'),

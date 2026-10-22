@@ -13,6 +13,18 @@ _layout: landing
 <p class="docs-lead">从接口、架构与运行流程，理解 AVEVA 工程会话如何与 AI 工具连接。</p>
 
 <div class="docs-grid">
+  <a class="doc-card" href="../../artifacts/docfx/navigation/features/index.md">
+    <span class="card-icon" aria-hidden="true">◎</span>
+    <strong>按具体功能阅读</strong>
+    <span>先看目的、实现范围、复用的 Script 和服务，再进入源码、调用链与测试。</span>
+    <span class="card-link">查看功能清单 →</span>
+  </a>
+  <a class="doc-card" href="../../artifacts/docfx/navigation/scripts/index.md">
+    <span class="card-icon" aria-hidden="true">ƒ</span>
+    <strong>查找 Script</strong>
+    <span>搜索 PML 与 C# 脚本的名称、用途、符号和路径，查看人工说明与真实声明。</span>
+    <span class="card-link">打开 Script 目录 →</span>
+  </a>
   <a class="doc-card" href="api/index.md">
     <span class="card-icon" aria-hidden="true">{ }</span>
     <strong>C# API 参考</strong>
@@ -40,6 +52,8 @@ _layout: landing
 </div>
 
 ## 从这里开始
+
+[PMLTWIN 项目设计约定](pmltwin-design-contract.md) · [自动发现与人工增删改查](catalog-maintenance.md) · [C# 待分类候选](../../artifacts/docfx/navigation/scripts/candidates.md)
 
 [沿六条流程阅读](flows.md) · [CLI / MCP 双入口](cli.md) · [原生工作台与运行日志](workspace.md) · [全部 PML / PMLUI](../../artifacts/docfx/navigation/pml/index.md) · [完整使用文档](../../artifacts/docfx/navigation/repository/index.md)
 

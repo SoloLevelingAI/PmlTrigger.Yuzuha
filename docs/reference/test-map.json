@@ -440,7 +440,7 @@
       "purpose": "核对真实源码签名、默认拒绝和跨实例持久化。",
       "targets": [
         {
-          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Mcp.PmlFunctionRegistry",
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.PmlFunctionRegistry",
           "methods": [
             "Register",
             "List",
@@ -454,7 +454,7 @@
       "purpose": "授权后保持类型和引号转义，撤销后禁止调用。",
       "targets": [
         {
-          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Mcp.PmlFunctionRegistry",
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.PmlFunctionRegistry",
           "methods": [
             "SetPermission",
             "PrepareCall"
@@ -467,7 +467,7 @@
       "purpose": "源码改变后拒绝调用或授权；重新登记撤销已有许可。",
       "targets": [
         {
-          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Mcp.PmlFunctionRegistry",
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.PmlFunctionRegistry",
           "methods": [
             "Register",
             "SetPermission",
@@ -481,7 +481,7 @@
       "purpose": "拒绝多行、带括号和分隔符的函数名称。",
       "targets": [
         {
-          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Mcp.PmlFunctionRegistry",
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.PmlFunctionRegistry",
           "methods": [
             "Register"
           ]
@@ -493,7 +493,7 @@
       "purpose": "注释内声明和不存在的函数不能登记。",
       "targets": [
         {
-          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Mcp.PmlFunctionRegistry",
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.PmlFunctionRegistry",
           "methods": [
             "Register"
           ]
@@ -505,7 +505,7 @@
       "purpose": "参数数量、类型及损坏 JSON 均明确失败。",
       "targets": [
         {
-          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Mcp.PmlFunctionRegistry",
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.PmlFunctionRegistry",
           "methods": [
             "PrepareCall",
             "List"
@@ -518,7 +518,7 @@
       "purpose": "最多读取预算数量的索引槽位并报告续读。",
       "targets": [
         {
-          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Pml.PmlArrayWindow",
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Pml.PmlArrayWindow",
           "methods": [
             "Read"
           ]
@@ -530,7 +530,7 @@
       "purpose": "字符预算不拆行，首行过大失败，其余保留续读索引。",
       "targets": [
         {
-          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Pml.PmlArrayWindow",
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Pml.PmlArrayWindow",
           "methods": [
             "Read"
           ]
@@ -542,7 +542,7 @@
       "purpose": "空数组、超出末端和 Int32 最大索引不越界。",
       "targets": [
         {
-          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Pml.PmlArrayWindow",
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Pml.PmlArrayWindow",
           "methods": [
             "Read"
           ]
@@ -554,7 +554,7 @@
       "purpose": "无效预算在读取任何槽位前失败。",
       "targets": [
         {
-          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Pml.PmlArrayWindow",
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Pml.PmlArrayWindow",
           "methods": [
             "Validate",
             "Read"
@@ -567,7 +567,7 @@
       "purpose": "旧 Host 缺少能力时拒绝请求并验证零次派发。",
       "targets": [
         {
-          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Mcp.BoundedArrayRequest",
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.BoundedArrayRequest",
           "methods": [
             "SendAsync"
           ]
@@ -579,7 +579,7 @@
       "purpose": "支持的 Host 收到准确预算、索引和无表达式的读请求。",
       "targets": [
         {
-          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Mcp.BoundedArrayRequest",
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.BoundedArrayRequest",
           "methods": [
             "SendAsync"
           ]
@@ -591,7 +591,7 @@
       "purpose": "真实 MCP 验证默认拒绝、授权后目标核验、源码变化拒绝及数组工具入口。",
       "targets": [
         {
-          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Mcp.PmlFunctionTools",
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.PmlFunctionTools",
           "methods": [
             "RegisterPmlFunction",
             "SetPmlFunctionPermission",
@@ -605,7 +605,7 @@
       "purpose": "逐 AVEVA 产品验证真实 MAXINDEX、稀疏槽位、临时变量清理；当前未实测。",
       "targets": [
         {
-          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Mcp.PmlCallTools",
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.PmlCallTools",
           "methods": [
             "ReadPmlArray"
           ]
@@ -623,7 +623,7 @@
       "purpose": "验证参数顺序、单引号与 Unicode 的调用文本。",
       "targets": [
         {
-          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Pml.PmlMethodSignatureGenerator"
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Pml.PmlMethodSignatureGenerator"
         }
       ]
     },
@@ -632,7 +632,7 @@
       "purpose": "无 SQLite 环境下匹配已维护别名。",
       "targets": [
         {
-          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Mcp.BuiltinUsageTools",
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.BuiltinUsageTools",
           "methods": [
             "GetBuiltinUsage"
           ]
@@ -644,7 +644,7 @@
       "purpose": "真实 CLI 和 MCP 服务进程生成相同 PML 文本。",
       "targets": [
         {
-          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Mcp.PmlCallTools",
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.PmlCallTools",
           "methods": [
             "GeneratePmlCall"
           ]
@@ -706,7 +706,7 @@
       "purpose": "原生属性数组可能稀疏；跳过不存在的索引且仍计入扫描预算，续读位置保留原始索引。",
       "targets": [
         {
-          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Pml.PmlFormQuery",
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Pml.PmlFormQuery",
           "methods": [
             "Read"
           ]
@@ -724,7 +724,7 @@
       "purpose": "沿用 PMLFORMS 的 set 判定：未设置 GADGET 不列入清单，指定详情明确失败而非空成功。",
       "targets": [
         {
-          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Pml.PmlFormQuery",
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Pml.PmlFormQuery",
           "methods": [
             "Read"
           ]
@@ -742,7 +742,7 @@
       "purpose": "复现原生变量互操作约束：临时变量使用大写规范名，字符串与 REAL 上界分别存放，避免实机空读取或类型冲突。",
       "targets": [
         {
-          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Pml.PmlFormQuery",
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Pml.PmlFormQuery",
           "methods": [
             "Read"
           ]
@@ -760,7 +760,7 @@
       "purpose": "确认窗体枚举使用 FMSYS 原生 Forms/ShownForms，并按槽位预算返回名称、引用与续读索引。",
       "targets": [
         {
-          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Pml.PmlFormQuery",
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Pml.PmlFormQuery",
           "methods": [
             "Read",
             "Validate"
@@ -779,7 +779,7 @@
       "purpose": "沿用 PMLFORMS 的 attributes/attribute/objectType 路径，仅返回 GADGET，普通成员仍占扫描预算。",
       "targets": [
         {
-          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Pml.PmlFormQuery",
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Pml.PmlFormQuery",
           "methods": [
             "Read",
             "Validate"
@@ -798,7 +798,7 @@
       "purpose": "读取指定控件的类型、显示状态和回调文本，确认不读取 val 或执行回调。",
       "targets": [
         {
-          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Pml.PmlFormQuery",
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Pml.PmlFormQuery",
           "methods": [
             "Read",
             "Validate"
@@ -817,7 +817,7 @@
       "purpose": "可选属性失败明确标为 unavailable；必要类型读取失败则整次查询失败并清理。",
       "targets": [
         {
-          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Pml.PmlFormQuery",
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Pml.PmlFormQuery",
           "methods": [
             "Read",
             "Validate"
@@ -836,7 +836,7 @@
       "purpose": "拒绝把普通成员当作控件返回成功，且清理请求临时变量。",
       "targets": [
         {
-          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Pml.PmlFormQuery",
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Pml.PmlFormQuery",
           "methods": [
             "Read",
             "Validate"
@@ -855,7 +855,7 @@
       "purpose": "在成员枚举前拒绝非 FORM 的普通全局对象，防止把任意对象当作窗体。",
       "targets": [
         {
-          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Pml.PmlFormQuery",
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Pml.PmlFormQuery",
           "methods": [
             "Read",
             "Validate"
@@ -874,7 +874,7 @@
       "purpose": "一个临时变量清理失败时仍尝试清理另一个，并拒绝报告整次查询成功。",
       "targets": [
         {
-          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Pml.PmlFormQuery",
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Pml.PmlFormQuery",
           "methods": [
             "Read",
             "Validate"
@@ -893,7 +893,7 @@
       "purpose": "字符预算不拆分查询项，保留未返回项的续读索引；首项超预算明确失败。",
       "targets": [
         {
-          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Pml.PmlFormQuery",
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Pml.PmlFormQuery",
           "methods": [
             "Read",
             "Validate"
@@ -912,7 +912,7 @@
       "purpose": "拒绝带前缀、路径、换行、引号或命令片段的窗体和控件名，在原生调用前失败。",
       "targets": [
         {
-          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Pml.PmlFormQuery",
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Pml.PmlFormQuery",
           "methods": [
             "Read",
             "Validate"
@@ -931,7 +931,7 @@
       "purpose": "拒绝非法预算、查询种类、无关名称及混入原始命令、删除和数组操作的协议请求。",
       "targets": [
         {
-          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Pml.PmlFormQuery",
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Pml.PmlFormQuery",
           "methods": [
             "Read",
             "Validate"
@@ -950,7 +950,7 @@
       "purpose": "空结果或越界不读取条目，原生 MAXINDEX 失败时仍清理请求临时变量。",
       "targets": [
         {
-          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Pml.PmlFormQuery",
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Pml.PmlFormQuery",
           "methods": [
             "Read",
             "Validate"
@@ -969,7 +969,7 @@
       "purpose": "不向旧 Host 发送查询；支持能力版本 1 的 Host 只收到类型化查询且没有 PML 表达式。",
       "targets": [
         {
-          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Mcp.PmlFormQueryRequestSender",
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.PmlFormQueryRequestSender",
           "methods": [
             "SendAsync"
           ]
@@ -981,7 +981,7 @@
       "purpose": "通过真实 MCP 检查三个查询工具及预算参数，确认未选择目标和注入名称返回明确错误。",
       "targets": [
         {
-          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Mcp.PmlFormTools",
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.PmlFormTools",
           "methods": [
             "ListPmlForms",
             "ListPmlGadgets",
@@ -989,7 +989,7 @@
           ]
         },
         {
-          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Mcp.YuzuhaRpcBridge",
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.YuzuhaRpcBridge",
           "methods": [
             "QueryPmlFormsAsync"
           ]
@@ -1001,7 +1001,7 @@
       "purpose": "在独立 AVEVA 测试会话中对照原生 PMLFORMS 验证 loaded/shown 窗体查询、分页与无生命周期修改。",
       "targets": [
         {
-          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Mcp.PmlFormTools",
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.PmlFormTools",
           "methods": [
             "ListPmlForms"
           ]
@@ -1013,7 +1013,7 @@
       "purpose": "在独立 AVEVA 测试会话中对照原生控件验证枚举、固定元数据、失败状态和回调未执行。",
       "targets": [
         {
-          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Mcp.PmlFormTools",
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.PmlFormTools",
           "methods": [
             "ListPmlGadgets",
             "GetPmlGadget"
@@ -1026,7 +1026,7 @@
       "purpose": "控件引用始终存于临时 ARRAY 元素中，清理不对原生 GADGET/FORM 对象调用 delete。",
       "targets": [
         {
-          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Pml.PmlFormQuery",
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Pml.PmlFormQuery",
           "methods": [
             "Read"
           ]
@@ -1041,7 +1041,7 @@
           "uid": "YuzuhaToolkit.PmlHost.Net35::YuzuhaToolkit.Pml.PmlFormQuery"
         },
         {
-          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Mcp.PmlFormQueryRequestSender",
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.PmlFormQueryRequestSender",
           "methods": [
             "SendAsync"
           ]
@@ -1056,7 +1056,7 @@
           "uid": "YuzuhaToolkit.PmlHost.Net48::YuzuhaToolkit.Pml.PmlFormQuery"
         },
         {
-          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Mcp.PmlFormQueryRequestSender",
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.PmlFormQueryRequestSender",
           "methods": [
             "SendAsync"
           ]
@@ -1294,7 +1294,7 @@
       "environment": "Windows x64 / NET10；隔离凭据与合成文件，不连接 AVEVA",
       "targets": [
         {
-          "uid": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Mcp.AvevaSessionDiscovery"
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.AvevaSessionDiscovery"
         }
       ]
     },

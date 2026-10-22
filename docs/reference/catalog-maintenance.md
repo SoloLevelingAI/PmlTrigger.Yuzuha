@@ -59,7 +59,7 @@ check 和 list 都会刷新声明，不以旧清单冒充当前源码。完整�
   "status": "implemented",
   "origin": "user",
   "guide": "docs/reference/form-gadget-query.md",
-  "types": ["YuzuhaToolkit.Mcp::YuzuhaToolkit.Mcp.PmlFormTools"]
+  "types": ["YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.PmlFormTools"]
 }
 ```
 
@@ -87,7 +87,7 @@ status 支持 implemented、partial、planned，仅表示实现范围。origin �
 ```json
 {
   "id": "SCR-CS-ARRAY-WINDOW",
-  "type": "YuzuhaToolkit.Mcp::YuzuhaToolkit.Pml.PmlArrayWindow",
+  "type": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Pml.PmlArrayWindow",
   "entry": "Read",
   "features": ["arrays"],
   "role": "algorithm",

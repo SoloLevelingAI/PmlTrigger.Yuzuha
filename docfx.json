@@ -3,8 +3,8 @@
     { "src": [{ "files": ["src/YuzuhaToolkit.Workspace/YuzuhaToolkit.Workspace.csproj"] }], "dest": "artifacts/docfx/api/workspace" },
     { "src": [{ "files": ["src/YuzuhaToolkit.CommandLine/YuzuhaToolkit.CommandLine.csproj"] }], "dest": "artifacts/docfx/api/cli" },
     { "src": [{ "files": ["src/PlantHost.Rpc.Net10/PlantHost.Rpc.Net10.csproj"] }], "dest": "artifacts/docfx/api/rpc" },
-    { "src": [{ "files": ["src/YuzuhaToolkit.Mcp/YuzuhaToolkit.Mcp.csproj"] }], "dest": "artifacts/docfx/api/mcp" },
-    { "src": [{ "files": ["src/YuzuhaToolkit.Knowledge/YuzuhaToolkit.Knowledge.csproj"] }], "filter": "docs/reference/knowledge-filter.yml", "dest": "artifacts/docfx/api/knowledge" },
+    { "src": [{ "files": ["src/YuzuhaToolkit.Mcp.Core/YuzuhaToolkit.Mcp.Core.csproj"] }], "dest": "artifacts/docfx/api/mcp" },
+    { "src": [{ "files": ["src/YuzuhaToolkit.Knowledge.Core/YuzuhaToolkit.Knowledge.Core.csproj"] }], "filter": "docs/reference/knowledge-filter.yml", "dest": "artifacts/docfx/api/knowledge" },
     { "src": [{ "files": ["src/YuzuhaToolkit.DevHost/YuzuhaToolkit.DevHost.csproj"] }], "dest": "artifacts/docfx/api/devhost" }
   ],
   "build": {

@@ -42,7 +42,7 @@ try {
     } elseif ($Runner -eq 'documentation-contracts') {
         & dotnet build tools/Documentation -c Release
         Check-Exit 'Inventory build'
-        & node --test tests/documentation-tests.test.mjs tests/documentation-inventory.test.mjs tests/documentation-ui-trace.test.mjs tests/documentation-ui-pages.test.mjs
+        & node --test tests/documentation-tests.test.mjs tests/documentation-inventory.test.mjs tests/documentation-ui-trace.test.mjs tests/documentation-ui-pages.test.mjs scripts/catalog-filter.test.mjs
         Check-Exit 'Documentation contract tests'
         & pwsh -NoProfile -File tests/documentation-runner.test.ps1
         Check-Exit 'TRX identity tests'

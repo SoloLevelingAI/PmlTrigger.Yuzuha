@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>YuzuhaToolkit.Knowledge.Core</AssemblyName>
+    <RootNamespace>YuzuhaToolkit.Knowledge</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.0" />
+    <!-- Override the older transitive native SQLite bundle; keep NuGet audit enabled. -->
+    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="2.1.13" />
+    <!-- 工具类随 Core 一起提供，宿主工程只做注册。 -->
+    <PackageReference Include="ModelContextProtocol" Version="1.4.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="../Shared/BuiltinGuideCatalog.cs" Link="Builtins/BuiltinGuideCatalog.cs" />
+    <EmbeddedResource Include="../../docs/builtin/*.md" LogicalName="Yuzuha.Builtin.%(Filename)%(Extension)" />
+  </ItemGroup>
+</Project>

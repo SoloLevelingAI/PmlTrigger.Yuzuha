@@ -12,16 +12,18 @@ _layout: landing
 
 <p class="docs-lead">从接口、架构与运行流程，理解 AVEVA 工程会话如何与 AI 工具连接。</p>
 
+<div class="onboarding-grid">
+  <p><strong>我要用</strong><br>安装、选中工程会话、跑通第一条 PML 调用。<br><a href="flows.md">一条命令跑通 →</a></p>
+  <p><strong>我要查</strong><br>某个功能由哪些脚本实现，某个脚本干什么、怎么验证。<br><a href="../../artifacts/docfx/navigation/features/index.md">按功能翻 →</a></p>
+  <p><strong>我要改</strong><br>依赖方向、契约、测试分层与文档规则。<br><a href="documentation.md">本地开发与维护 →</a></p>
+</div>
+
+## 常用入口
+
 <div class="docs-grid">
-  <a class="doc-card" href="../../artifacts/docfx/navigation/features/index.md">
-    <span class="card-icon" aria-hidden="true">◎</span>
-    <strong>按具体功能阅读</strong>
-    <span>先看目的、实现范围、复用的 Script 和服务，再进入源码、调用链与测试。</span>
-    <span class="card-link">查看功能清单 →</span>
-  </a>
   <a class="doc-card" href="../../artifacts/docfx/navigation/scripts/index.md">
     <span class="card-icon" aria-hidden="true">ƒ</span>
-    <strong>查找 Script</strong>
+    <strong>Script 目录</strong>
     <span>搜索 PML 与 C# 脚本的名称、用途、符号和路径，查看人工说明与真实声明。</span>
     <span class="card-link">打开 Script 目录 →</span>
   </a>
@@ -43,21 +45,15 @@ _layout: landing
     <span>查看完整内置指南，预览 PML 调用和知识检索计划，直接核对请求与响应。</span>
     <span class="card-link">进入 Scalar →</span>
   </a>
-  <a class="doc-card" href="documentation.md">
-    <span class="card-icon" aria-hidden="true">⌘</span>
-    <strong>开发与维护</strong>
-    <span>配置本地环境，生成接口文档，运行行为测试与架构规则，了解验证范围。</span>
-    <span class="card-link">开始本地开发 →</span>
-  </a>
 </div>
 
 ## 从这里开始
 
-[PMLTWIN 项目设计约定](pmltwin-design-contract.md) · [自动发现与人工增删改查](catalog-maintenance.md) · [C# 待分类候选](../../artifacts/docfx/navigation/scripts/candidates.md)
+[设计约定](pmltwin-design-contract.md) · [怎么增删改目录](catalog-maintenance.md) · [待分类的 C# 类型](../../artifacts/docfx/navigation/scripts/candidates.md) · [全部文件清单](../../artifacts/docfx/navigation/scripts/inventory.md)
 
-[沿六条流程阅读](flows.md) · [CLI / MCP 双入口](cli.md) · [原生工作台与运行日志](workspace.md) · [全部 PML / PMLUI](../../artifacts/docfx/navigation/pml/index.md) · [完整使用文档](../../artifacts/docfx/navigation/repository/index.md)
+[按层看：CLI / MCP 双入口](cli.md) · [原生工作台与运行日志](workspace.md) · [全部 PML / PMLUI](../../artifacts/docfx/navigation/pml/index.md) · [完整使用文档](../../artifacts/docfx/navigation/repository/index.md)
 
-[后端调用链与排查](backend-tracing.md)：按输入、计算、判断和结果理解业务实现。 [迭代与意见记录](iteration-log.md)保留已采纳意见及未完成验收项；[理解与排查笔记](understanding-notes.md)按问题选择合适的解释方法。
+[后端调用链](backend-tracing.md)：按输入、计算、判断和结果理解业务实现。[迭代记录](iteration-log.md)保留已采纳意见及未完成验收项；[排查笔记](understanding-notes.md)按问题选择合适的解释方法。
 
 ## 探索全项目与功能
 

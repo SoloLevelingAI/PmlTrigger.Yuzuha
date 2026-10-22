@@ -17,6 +17,7 @@
 | TRACE05 | 引入便于理解的方法；5W2H、康奈尔笔记只是示例，不代表最佳或必选 | 已采纳，建立[按问题选择方法的说明](understanding-notes.md) | 每条笔记解决明确问题，保留来源、证据和结论；无帮助的模板字段不填、不引入额外系统 |
 | TRACE06 | 从按钮/事件到后端命令，再逐级深入使用函数；现有网状图不清晰；用 Roslyn 和模板实现 | 默认改为逐级调用树；同一方法不同调用处分开，父级路径可点击；复用原有分析器、模板、源码和测试关联 | 13 个页面沿真实关系浏览；可定位调用实参、语法条件、包装器和独立回调；Form 查询可继续到两个 Host 的算法与 AVEVA 外部执行边界。见[本批验证](../../artifacts/docfx/navigation/repository/docs/validation/2026-10-22-call-hierarchy.md) |
 | TRACE07 | 依据脚本优先基线形成 PMLTWIN 设计约定，并说明 DocFX 的实际组织、自动发现和人工增删改查 | 已形成[项目设计约定](pmltwin-design-contract.md)、[目录维护说明](catalog-maintenance.md)与可搜索的功能/Script 目录；人工意图集中维护，真实签名与关联继续自动生成 | 原生源码自动发现，C# 候选经人工选择；增删改查可按真实文件与命令复刻，错误引用阻止发布，元数据不授予审核/执行或通过状态。见[本批验证](../../artifacts/docfx/navigation/repository/docs/validation/2026-10-22-design-contract-catalog.md) |
+| TRACE08 | DSH 调整 Web 美术与代码后无法运行，需要保留调整并修复 | 保留五组导航、首页、阅读样式及 Core 拆分；修复 API 元数据归属、Script 类型、源码与兼容夹具引用，并恢复正式预览宿主 | 新增失败回归测试，完整开发、Native AOT、NET35/NET48 离线兼容和 DocFX 验证；实机仍为 NotRun。见[恢复记录](../../artifacts/docfx/navigation/repository/docs/validation/2026-10-22-web-repair.md) |
 
 ## 延续的开发约束
 

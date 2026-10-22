@@ -23,12 +23,12 @@ builder.Services.AddSingleton<PmlFunctionTrustStore>();
 builder.Services.AddSingleton<PmlCallTools>();
 builder.Services.AddSingleton<PmlFunctionRegistry>();
 builder.Services
-    .AddMcpServer(options => { options.ServerInstructions = McpUsageInstructions.Text; })
+    .AddMcpServer(options => { options.ServerInstructions = McpHostSurface.UsageInstructions; })
     .WithStdioServerTransport()
     .WithRequestFilters(filters => filters.AddCallToolFilter(ToolAuditFilter.Create(journal, () => selectedBridge?.SelectedProcessId)))
-    .WithTools<PmlCallTools>(YuzuhaToolJsonContext.Default.Options)
-    .WithTools<PmlFunctionTools>(YuzuhaToolJsonContext.Default.Options)
-    .WithTools<PmlFormTools>(YuzuhaToolJsonContext.Default.Options)
+    .WithTools<PmlCallTools>(McpHostSurface.ToolJsonOptions)
+    .WithTools<PmlFunctionTools>(McpHostSurface.ToolJsonOptions)
+    .WithTools<PmlFormTools>(McpHostSurface.ToolJsonOptions)
     .WithTools<WorkspaceTools>()
     .WithTools<PmlFunctionTrustTools>()
     .WithTools<BuiltinUsageTools>();

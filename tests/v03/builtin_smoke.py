@@ -33,7 +33,7 @@ class Client:
         except subprocess.TimeoutExpired:self.p.kill();self.p.wait()
 
 with tempfile.TemporaryDirectory(prefix='yuzuha-builtin-') as tmp:
-    base=pathlib.Path(tmp);env=dict(os.environ,YUZUHA_KNOWLEDGE_DIR=str(base/'knowledge'))
+    base=pathlib.Path(tmp);env=dict(os.environ,YUZUHA_KNOWLEDGE_DIR=str(base/'knowledge'),YUZUHA_STATE_DIR=str(base/'state'))
     mcp=Client(runtime/'YuzuhaToolkit.Mcp.exe',env)
     kb=Client(runtime/'YuzuhaToolkit.Knowledge.exe',env)
     try:

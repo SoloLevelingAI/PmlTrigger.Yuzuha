@@ -4,8 +4,12 @@ using System.Threading.Tasks;
 
 namespace YuzuhaToolkit.PmlHost;
 
+/// <summary>核验主线程后转发 Host 身份查询与 PML 执行，保留协议失败信息。</summary>
 internal sealed class PmlCommandRpcService : IPmlCommandService
 {
+    /// <summary>只读查询专用管道 Host 的进程、模块与启动身份，用于目标核验。</summary>
+    /// <param name="request">当前操作的请求数据及其显式目标或参数。</param>
+    /// <param name="cancellationToken">取消等待或传输；远端已经开始的命令可能继续执行，不能据此自动重试。</param>
     public Task<HostIdentityResponse> GetHostIdentityAsync(
         HostIdentityRequest request,
         CancellationToken cancellationToken)
@@ -21,12 +25,17 @@ internal sealed class PmlCommandRpcService : IPmlCommandService
             Model = target.Model,
             PipeName = PmlCommandRpcHost.PipeName,
             HostFramework = "net48",
+            BoundedArrayReadVersion = 1,
+            FormQueryVersion = 1,
             HostVersion = typeof(PmlCommandMethod).Assembly
                 .GetName().Version.ToString(),
             ServerTimeUtc = DateTime.UtcNow
         });
     }
 
+    /// <summary>在核验后的目标 Host 主线程执行一次已授权命令；取消或超时不自动重试。</summary>
+    /// <param name="request">当前操作的请求数据及其显式目标或参数。</param>
+    /// <param name="cancellationToken">取消等待或传输；远端已经开始的命令可能继续执行，不能据此自动重试。</param>
     public Task<RunPmlCommandResponse> RunPmlCommandAsync(
         RunPmlCommandRequest request,
         CancellationToken cancellationToken)
@@ -40,6 +49,23 @@ internal sealed class PmlCommandRpcService : IPmlCommandService
         try
         {
             var target = PmlCommandRpcHost.GetTarget();
+
+            if (request != null && request.FormQuery != null)
+            {
+                YuzuhaToolkit.Pml.PmlFormQuery.ValidateEnvelope(request.ReadArray, request.ReturnList, request.PmlCommand, request.GlobalVar, request.DeleteGlobalVar);
+                response = CreateResponse(true, "OK", null, null);
+                response.FormQueryResult = YuzuhaToolkit.Pml.PmlFormQuery.Read(request.FormQuery, new PmlFormQueryHost());
+                return Task.FromResult(response);
+            }
+
+            if (request != null && request.ReadArray)
+            {
+                if (request.ReturnList || !string.IsNullOrEmpty(request.PmlCommand) || request.DeleteGlobalVar)
+                    throw new ArgumentException("ReadArray only reads an existing array; expression, ReturnList and deletion are not allowed.");
+                response = CreateResponse(true, "OK", null, null);
+                response.ArrayWindow = GetRequireFromE3D.GetPmlVariableWindow(request.GlobalVar, request.StartIndex, request.MaxItems, request.MaxCharacters);
+                return Task.FromResult(response);
+            }
 
             if (request != null && request.ReturnList)
             {

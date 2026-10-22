@@ -1,4 +1,9 @@
-# PmlTrigger.Yuzuha
+# PML TWIN / PmlTrigger.Yuzuha
+
+开发分支新增 **PmlTwin.Phayton** 统一命令内核与 CLI，旧 YuzuhaToolkit 保留兼容。
+支持 `op list`、`op describe`、`op invoke`，并与 MCP 共用操作注册和执行策略。
+这是源码增量，尚未纳入正式安装包。[使用与安全契约](docs/phayton-operations.md) ·
+[PML 只读审查](docs/phayton-pml-review.md) · [验证记录](docs/validation/2026-10-16-phayton.md)
 
 面向 AVEVA E3D、PDMS 和 AM 的本机 AI/PML 工具：连接工程会话、查询与执行 PML、检索本地资料，并记录窗体操作过程。
 
@@ -7,6 +12,29 @@ A local AI/PML toolkit for AVEVA E3D, PDMS and AM: connect to engineering sessio
 [最新正式版 v0.3.3 / Latest stable](https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/releases/tag/v0.3.3) · [中文](#中文) · [English](#english)
 
 ## 中文
+
+### 开发文档、架构与测试
+
+参照 [LaunchDesk](https://github.com/SoloLevelingAI/LaunchDesk) 的开发流程，提供可选的 .NET 10 DevHost、OpenAPI / Scalar、DocFX、LikeC4 和 ArchUnitNET / xUnit。需要 Windows x64、.NET 10 SDK、Node.js 22.22.3+、PowerShell 7：
+
+```powershell
+npm ci
+npm test
+npm run docs:build
+npm run docs:serve
+```
+
+本机文档入口为 `http://127.0.0.1:5276/docs/index.html`，Scalar 为 `http://127.0.0.1:5276/scalar/v1`。DevHost 提供内置指南、PML 文本和检索计划预览；产品执行仍通过原有 MCP / Named Pipe 流程。
+
+[文档维护](docs/reference/documentation.md) · [架构与守卫](docs/reference/architecture.md) · [测试说明](docs/reference/testing.md)。开发解决方案为 `YuzuhaToolkit.Development.slnx`；无需 AVEVA SDK 即可执行，原 `src/YuzuhaToolkit.sln` 保留 Host 构建入口。
+
+继续 PMLTWIN 迭代前，先查看[意见与决定](docs/reference/iteration-log.md)中的当前方向和未完成项。[后端调用链与排查](docs/reference/backend-tracing.md)按输入、计算、判断和结果解释业务步骤；[理解与排查笔记](docs/reference/understanding-notes.md)按问题选择表达方法。
+
+[PMLTWIN 项目设计约定](docs/reference/pmltwin-design-contract.md)明确当前职责、原生边界与验证方式。[功能与 Script 维护](docs/reference/catalog-maintenance.md)说明自动发现和人工增删改查；DocFX 首页提供按具体功能和 Script 的独立目录，继续链接已有源码、调用树和测试。
+
+[原始设计基线](docs/design/baselines/README.md)按版本保留用户提供的 Word、来源与 SHA256，原稿维持 Draft。[项目适配记录](docs/reference/design-adaptation.md)逐项说明采用、调整和待完成事项；DocFX 提供原稿正文检索、定位及原文件下载。
+
+PMLTWIN v0.4 第一阶段增加函数源码注册、独立调用权限和已有数组的有界读取，并复用 LaunchDesk 的 DocFX 测试关联与按 ID 运行机制。详见 [第一阶段说明](docs/reference/pmltwin-phase1.md) 和 [FormUse 支持登记](docs/reference/formuse-audit.md)。
 
 ### 核心能力
 
@@ -67,14 +95,11 @@ NET35/NET48 Host 提供：
 
 PML 监控代码需要调用这些接口；并非所有 AI 调用或按钮都会自动被记录。数组支持范围、返回值检查和错误处理见[记录接口说明](docs/session-recording.md)。
 
-### AI 调用日志：当前边界
+### AI 调用日志与原生工作台
 
-**Host 操作记录不等于 AI 工具调用审计。**
+两个 MCP 服务现已记录每次实际工具调用的开始、目标会话、关联编号、有界参数、耗时与结果。默认日志位于 `%LOCALAPPDATA%\YuzuhaToolkit\Activity`，按进程滚动；状态每两秒更新。命名的密码/token 字段脱敏，完整元素数组不写入调用日志。Host 操作截图与记录仍保留，尚未自动关联为完整 AI 分析过程。
 
-- NET10 MCP 目前提供 stderr 诊断输出，调用响应中可包含 RequestId、状态和错误信息；尚未实现覆盖每次工具调用、参数、耗时和结果的统一持久化会话日志。
-- 当前仓库未提供独立的通用 PML 执行 CLI。知识服务提供 `--refresh-project` 维护入口，另有安装/注册脚本；这些入口没有统一的调用审计日志。
-- 外部 AI 客户端或其 CLI 自行保存的历史不属于 Yuzuha 的日志保证。
-- Host 日志可用于后续 AI 分析，但尚未提供自动关联 MCP 请求、截图与分析结论的完整流程。
+`YuzuhaToolkit.Desktop.exe` 把工程启动、插件复制、PMLLIB 清理提醒与 AI 工具状态放在同一原生窗口，运行不需要 Python。相关任务授权覆盖连续开发步骤；原生 `run_pml_command` 直接提供 PML 执行，`markdb` / `endmarkdb` 提供撤销分组。详见[原生工作台](docs/reference/workspace.md)。
 
 ### 支持与验证
 
@@ -129,7 +154,8 @@ Fully restart the AI client after installation/update and AVEVA after Host/envir
 
 Host `BeginLog` / `EndLog` pair before/after records; `Log` captures a single record. Session JSONL and JPEGs are stored under `%LOCALAPPDATA%\YuzuhaToolkit\Records\<session>`. Visible main and same-process floating windows are included; consecutive identical images are reused. PML monitoring must invoke the APIs—recording is not automatically enabled for every button or AI call. See the [API guide](docs/session-recording.md).
 
-**Persistent AI tool-call auditing is not implemented.** NET10 MCP has stderr diagnostics and response metadata, not a unified on-disk history of every tool's arguments, duration and outcome. There is no standalone general-purpose PML execution CLI in this repository; the Knowledge service's `--refresh-project` maintenance entry and deployment scripts do not supply a unified audit log. External AI-client/CLI history is outside Yuzuha's logging guarantees. Automatic correlation of MCP requests, screenshots and AI analysis is not yet provided.
+**Persistent tool-call auditing is available.** Both MCP servers record tool starts, selected target, bounded arguments, duration and outcome in local rolling JSONL files with process heartbeat snapshots. The native C# workspace combines launching, plugin deployment, directory-health reminders and tool status. Named secret fields are redacted; arbitrary PML remains development code. Host recording and screenshots remain separate. See [Native workspace](docs/reference/workspace.md).
+
 
 ### Compatibility and safety
 
@@ -142,3 +168,19 @@ Execute only explicitly authorized commands. Do not automatically retry timeouts
 Project source is licensed under [Apache-2.0](LICENSE); bundled dependencies retain their own licenses. See [THIRD-PARTY.md](THIRD-PARTY.md).
 
 项目源码采用 Apache-2.0；随附依赖保留各自许可证。本次 Host 记录实现、测试和实测报告由 OpenAI Codex 按维护者要求编写；PML 控件监控原型由维护者提供。
+
+
+## CLI / MCP 双入口与开发站点
+
+同一个可执行文件可直接作为 MCP 服务，也可在终端调用原有工具：
+
+```powershell
+.\YuzuhaToolkit.Mcp.exe --mcp
+.\YuzuhaToolkit.Mcp.exe --cli list
+.\YuzuhaToolkit.Mcp.exe --cli call get_builtin_usage --arguments '{"query":"当前元素"}'
+.\YuzuhaToolkit.Knowledge.exe --cli call search_knowledge_layers --arguments '{"query":"当前元素"}'
+```
+
+默认不带参数仍启动 MCP stdio。多步会话使用 `--cli batch --file requests.json`，同一批处理复用一个服务进程，首次失败停止。配置、退出码和参数文件见 [CLI / MCP](docs/reference/cli.md)。
+
+开发站点覆盖 10 个生产项目、10 个模块，以及 Host、安装器、PML/PMLUI 和现有使用文档，提供 LaunchDesk 风格的项目/模块/类型浏览。6 个 .NET 10 项目生成 DocFX API；旧 Framework Host 和安装器提供明确标记的源码参考。详见 [文档维护](docs/reference/documentation.md)和[架构守卫](docs/reference/architecture.md)。

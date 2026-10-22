@@ -1,0 +1,18 @@
+{
+  "Brand.Sidebar": "#071426",
+  "Brand.SidebarPanel": "#0E2340",
+  "Brand.SidebarBorder": "#1D3A5F",
+  "Brand.NavText": "#A9BCD4",
+  "Brand.NavMuted": "#7C97B8",
+  "Brand.NavSelected": "#132B52",
+  "Brand.NavSelectedText": "#F2F7FF",
+  "Brand.NavIndicator": "#38BDF8",
+  "Brand.Hero": "#071426",
+  "Brand.HeroBottom": "#153A66",
+  "Brand.HeroBorder": "#25486F",
+  "Brand.HeroButton": "#1E426B",
+  "Brand.HeroButtonBorder": "#47719C",
+  "Brand.HeroTag": "#16345C",
+  "Brand.Account": "#1E3A8A",
+  "Brand.LogoLine": "#F2F8FF"
+}

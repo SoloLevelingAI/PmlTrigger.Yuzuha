@@ -15,6 +15,7 @@ using Newtonsoft.Json.Linq;
 namespace YuzuhaToolkit.PmlHost
 {
     // Shared by CLR 2 / NET35 and CLR 4 / NET48 hosts. No PML callback execution.
+    /// <summary>记录完整 PML 数组、操作前后截图与连续 JSONL；相邻相同截图按摘要复用。</summary>
     internal sealed class FormRecordWriter
     {
         private readonly object gate = new object();
@@ -31,9 +32,17 @@ namespace YuzuhaToolkit.PmlHost
         }
         private readonly Dictionary<string, JObject> pending = new Dictionary<string, JObject>();
 
+        /// <summary>记录操作前的完整数组和截图，保存未完成配对并返回记录编号。</summary>
+        /// <param name="record">要完整保存的 PML ARRAY 对应 Hashtable 数据。</param>
         internal string Begin(Hashtable record) { return Begin(record, Capture); }
+        /// <summary>完成指定操作记录的后快照并追加 JSONL；未知或已完成编号返回失败。</summary>
+        /// <param name="record">要完整保存的 PML ARRAY 对应 Hashtable 数据。</param>
+        /// <param name="id">来源或记录的稳定编号；重用规则由该操作约定。</param>
         internal bool Complete(Hashtable record, string id) { return Complete(record, id, Capture); }
 
+        /// <summary>记录操作前的完整数组和截图，保存未完成配对并返回记录编号。</summary>
+        /// <param name="record">要完整保存的 PML ARRAY 对应 Hashtable 数据。</param>
+        /// <param name="capture">把当前界面截图写入指定文件的回调；独立测试可提供替身。</param>
         internal string Begin(Hashtable record, Action<string> capture)
         {
             lock (gate)
@@ -64,6 +73,10 @@ namespace YuzuhaToolkit.PmlHost
             }
         }
 
+        /// <summary>完成指定操作记录的后快照并追加 JSONL；未知或已完成编号返回失败。</summary>
+        /// <param name="record">要完整保存的 PML ARRAY 对应 Hashtable 数据。</param>
+        /// <param name="id">来源或记录的稳定编号；重用规则由该操作约定。</param>
+        /// <param name="capture">把当前界面截图写入指定文件的回调；独立测试可提供替身。</param>
         internal bool Complete(Hashtable record, string id, Action<string> capture)
         {
             lock (gate)
@@ -125,14 +138,22 @@ namespace YuzuhaToolkit.PmlHost
             using (FileStream stream = new FileStream(path, FileMode.Append, FileAccess.Write, FileShare.Read))
                 stream.Write(bytes, 0, bytes.Length);
         }
+        /// <summary>最近失败的错误说明；记录器可能包含截图错误。</summary>
         internal string LastError = "";
+        /// <summary>最近一次记录尝试使用的 JSONL 文件路径。</summary>
         internal string LastPath = "";
+        /// <summary>记录会话的根目录，可在独立测试中替换。</summary>
         internal string DirectoryPath = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
             "YuzuhaToolkit\\Records");
 
+        /// <summary>追加一次数组与截图记录；持久化失败保存在 LastError 中。</summary>
+        /// <param name="record">要完整保存的 PML ARRAY 对应 Hashtable 数据。</param>
         internal bool Write(Hashtable record) { return Write(record, Capture); }
 
+        /// <summary>追加一次数组与截图记录；持久化失败保存在 LastError 中。</summary>
+        /// <param name="record">要完整保存的 PML ARRAY 对应 Hashtable 数据。</param>
+        /// <param name="capture">把当前界面截图写入指定文件的回调；独立测试可提供替身。</param>
         internal bool Write(Hashtable record, Action<string> capture)
         {
             lock (gate)
@@ -264,12 +285,18 @@ namespace YuzuhaToolkit.PmlHost
             if (!EnumWindows(visitor, IntPtr.Zero) || !found) throw new InvalidOperationException("No visible AVEVA application windows.");
             return union;
         }
+        /// <summary>枚举当前进程窗口时使用的 Win32 回调。</summary>
+        /// <param name="window">枚举得到的 Win32 窗口句柄。</param>
+        /// <param name="parameter">Win32 枚举传入的调用方上下文指针。</param>
         private delegate bool EnumWindowsProc(IntPtr window, IntPtr parameter);
         [DllImport("user32.dll")] private static extern bool EnumWindows(EnumWindowsProc callback, IntPtr parameter);
         [DllImport("user32.dll")] private static extern bool IsWindowVisible(IntPtr window);
         [DllImport("dwmapi.dll")] private static extern int DwmGetWindowAttribute(IntPtr window, int attribute, out int value, int size);
 
-        [StructLayout(LayoutKind.Sequential)] private struct Rect { public int Left, Top, Right, Bottom; }
+        /// <summary>Win32 窗口矩形的屏幕坐标边界。</summary>
+        [StructLayout(LayoutKind.Sequential)] private struct Rect {
+        /// <summary>Win32 窗口矩形的左、上、右、下屏幕坐标。</summary>
+        public int Left, Top, Right, Bottom; }
         [DllImport("user32.dll")] private static extern IntPtr GetForegroundWindow();
         [DllImport("user32.dll")] private static extern uint GetWindowThreadProcessId(IntPtr window, out uint pid);
         [DllImport("user32.dll")] private static extern bool GetWindowRect(IntPtr window, out Rect rect);

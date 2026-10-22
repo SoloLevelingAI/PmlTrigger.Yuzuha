@@ -1,0 +1,1419 @@
+{
+  "schemaVersion": 1,
+  "details": [
+    {
+      "test": "xunit:YuzuhaToolkit.Architecture.Tests.ArchitectureBoundaryTests.CompiledDependenciesFollowApprovedDirection",
+      "purpose": "针对各生产程序集检查已编译引用与允许依赖方向，并用 ArchUnitNET 核对类型依赖。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Architecture.Tests.ArchitectureBoundaryTests.AllSourceProjectsMatchApprovedGraphAndAreAcyclic",
+      "purpose": "核对源码项目集合和每条 ProjectReference 与白名单一致，并检测项目引用环。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Architecture.Tests.ArchitectureBoundaryTests.DevelopmentHandlersCannotExecuteOrPersist",
+      "purpose": "用编译依赖守卫约束开发 HTTP 处理器，禁止依赖 RPC、持久化、函数注册或实际执行入口。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Architecture.Tests.ArchitectureBoundaryTests.KnowledgeAlgorithmsRemainIndependentOfStorageAndTransport",
+      "purpose": "检查检索规划和切分算法不依赖 KnowledgeRepository 存储实现。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Architecture.Tests.ArchitectureBoundaryTests.ProductionServersDoNotReferenceDevelopmentPackages",
+      "purpose": "检查生产服务不引用 Scalar、ASP.NET 开发宿主、xUnit 或 ArchUnitNET 程序集。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Architecture.Tests.ArchitectureBoundaryTests.GuardRejectsACompiledMethodBodyViolation",
+      "purpose": "使用含 File 依赖的真实 IL 反例，确认架构守卫会拒绝并报告违规类型；不代表产品功能覆盖。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.BackendBehaviorTests.PmlNumbersUseInvariantCulture",
+      "purpose": "在 fr-FR 和 zh-CN 区域设置下生成同一个使用小数点的 PML 数字参数。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.BackendBehaviorTests.InvalidScalarValuesAreRejected",
+      "purpose": "拒绝无法解释的布尔值和包含区域逗号的数字文本。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.BackendBehaviorTests.UnsupportedPmlTypesAreRejected",
+      "purpose": "拒绝现有调用生成器不支持的 object 参数类型。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.BackendBehaviorTests.BuiltinAsciiAliasesRespectWordBoundaries",
+      "purpose": "检索 recipe 时不能把其中的 ce 子串误认为当前元素内置别名。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.BackendBehaviorTests.ChineseCreateIntentProducesWeightedPmlQuery",
+      "purpose": "将“创建方盒”转换为带权重的 NEW AND BOX 检索表达式，并保持变体不重复。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.BackendBehaviorTests.FtsQuotesCannotBreakOutOfLiteral",
+      "purpose": "把检索输入中的双引号转义为 FTS 字面量，避免改变表达式结构。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.BackendBehaviorTests.ChunkWindowsPreserveLineCoordinatesAndMakeProgress",
+      "purpose": "切分窗口保留真实起止行和原文，重叠量过大时仍能推进并在有限步内结束。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DevelopmentApiTests.OpenApiContainsRealRoutesSummariesAndSchemas",
+      "purpose": "请求真实 OpenAPI，核对四条路由、预览 operationId、摘要、400 响应和请求 schema。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DevelopmentApiTests.ScalarUsesTheLocalOpenApiDocument",
+      "purpose": "确认 Scalar 页面使用本机 OpenAPI 地址，且本地 scalar.js 可以返回。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DevelopmentApiTests.GuidesContainCompleteBuiltinContent",
+      "purpose": "通过 HTTP 获取指定指南，核对唯一 ID 与完整内置正文。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DevelopmentApiTests.PreviewFormatsPmlWithoutExecutingIt",
+      "purpose": "HTTP 预览按顺序编码布尔和带单引号的字符串，返回准确 PML 文本。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DevelopmentApiTests.PreviewRejectsCommandSyntaxAsMethodName",
+      "purpose": "拒绝带 !!、括号或换行命令的预览方法名，并返回 HTTP 400。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DevelopmentApiTests.PreviewRejectsInvalidParameters",
+      "purpose": "对 null 参数列表、null 条目、对象值及不支持类型返回 HTTP 400。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DevelopmentApiTests.EmptyKnowledgeQueryIsBadRequest",
+      "purpose": "空白知识查询必须返回 HTTP 400。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DevelopmentApiTests.KnowledgePlanUsesChineseDomainTerms",
+      "purpose": "HTTP 检索规划为中文“创建方盒”生成 NEW AND BOX 变体。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DevelopmentApiTests.DevelopmentHostDoesNotExposePmlExecution",
+      "purpose": "向开发宿主的执行路径发送请求必须返回 404，确认没有暴露真实 PML 执行端点。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.SameExecutableCanListItsRealMcpToolsFromCli",
+      "purpose": "从两个实际服务进程的 CLI 获取真实工具目录，核对各服务的代表工具。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.DefaultAndExplicitMcpModesHaveIdenticalCatalogs",
+      "purpose": "分别启动默认与显式 --mcp 模式，核对同一服务的工具名称集合一致。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.BatchUsesOneMcpSessionAndReturnsOrderedOutcomes",
+      "purpose": "CLI batch 复用一个 MCP 进程，按输入顺序返回两个结果，并只启动一次服务。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.BatchRetainsEarlierResultsAndDoesNotRunAfterProtocolFailure",
+      "purpose": "未知工具导致 batch 停止，保留先前结果且不执行后续信任文件写入。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.DomainFailureStopsTheBatchBeforeAnyLaterWrite",
+      "purpose": "未选定工程会话的业务失败阻止后续 batch 项写入状态。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.InvalidArgumentJsonIsRejectedBeforeStartingMcp",
+      "purpose": "错误 JSON 或非对象参数在启动 MCP 进程前被拒绝，并返回退出码 2。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.InvalidTimeoutDoesNotStartTheServer",
+      "purpose": "零超时参数在启动服务前被拒绝。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.KnowledgeCliUsesBuiltinContentWithoutCreatingDatabase",
+      "purpose": "真实知识服务 CLI 返回当前元素内置内容，并且不建立数据库目录。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.NativeWorkspaceToolsAreCallableAndAuditRealMcpCalls",
+      "purpose": "通过真实 MCP 调用目录检查和状态工具，核对未选择会话的 MARKDB/ENDMARKDB 失败被写入活动记录。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.WorkspaceBehaviorTests.InspectorCountsAllFilesAndWarnsAboutDevelopmentArtifactsWithoutDeletingThem",
+      "purpose": "只读目录检查统计全部文件和 PML 文件，发现开发产物及预算超限时给出提醒，保留原文件。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.WorkspaceBehaviorTests.IncompleteInspectionNeverReportsHealthy",
+      "purpose": "扫描达到条目预算后标记不完整和需关注，不能报告健康。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.WorkspaceBehaviorTests.CopyPathsCannotEscapeTheirRegisteredRoot",
+      "purpose": "拒绝越过注册根目录的路径遍历和 NTFS 流形式路径。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.WorkspaceBehaviorTests.CopyPreviewSkipsDevelopmentOutputsAndCopiesOnlyFrozenPayload",
+      "purpose": "插件预览只冻结可交付内容，跳过 bin、Git 和旧索引，预览阶段不创建目标目录。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.WorkspaceBehaviorTests.CopyWritesPayloadAndKeepsBackupsOutsideTheRegisteredLibrary",
+      "purpose": "交付写入新内容，在注册目录外保留旧文件备份，并保留目标中其他既有文件。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.WorkspaceBehaviorTests.ZipCopyFlattensTheMatchingPluginRootAndPreservesResources",
+      "purpose": "ZIP 交付识别不区分大小写的插件根并保留嵌套资源路径和内容。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.WorkspaceBehaviorTests.ChangedTargetStopsWholeCopyBeforeAnyWrites",
+      "purpose": "预览后目标被外部修改时，在任何交付写入前拒绝整个计划。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.WorkspaceBehaviorTests.ChangedSourceStopsWholeCopyBeforeAnyWrites",
+      "purpose": "预览后来源字节变化时拒绝交付，不创建目标目录。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.WorkspaceBehaviorTests.DevelopmentSourceMustBeOutsideRegisteredLibrary",
+      "purpose": "拒绝使用注册 PMLLIB 内的开发目录作为交付来源。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.WorkspaceBehaviorTests.ZipSlipIsRejectedDuringPreview",
+      "purpose": "包含 ../ 越界条目的 ZIP 在预览阶段被拒绝，不创建外部文件。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.WorkspaceBehaviorTests.NativeLaunchArgumentsPreserveSpacesAndDoNotModifyParentEnvironment",
+      "purpose": "启动计划保留空格和精确参数位置，仅修改子进程许可环境，预览不显示密码。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.WorkspaceBehaviorTests.MarineRejectsArgumentsThatCannotSurviveVendorBatchParsing",
+      "purpose": "Marine 批处理启动在执行前拒绝含不安全操作符的秘密参数。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.WorkspaceBehaviorTests.JournalPersistsCorrelatedStartAndCompletionWithRedactedNamedSecrets",
+      "purpose": "活动记录的开始与完成共享调用 ID，保存状态且脱敏嵌套 password 字段。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.WorkspaceBehaviorTests.JournalRotationBoundsEachProcessLogs",
+      "purpose": "大量工具事件触发轮转，限制每进程日志文件数量与读取条目预算。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.WorkspaceBehaviorTests.ExitedProcessWithUnfinishedCallIsReportedAsUnknownRatherThanSuccess",
+      "purpose": "进程已退出但调用没有完成记录时，报告结果未知而非成功。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.WorkspaceBehaviorTests.LoggingFailureDoesNotTurnAnAlreadyExecutedOperationIntoAnException",
+      "purpose": "活动目录无法写入时记录日志故障，不把已经完成的操作改为执行异常。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.WorkspaceBehaviorTests.MarkDbDescriptionEscapesQuotesAndRejectsCommandSeparators",
+      "purpose": "MARKDB 描述正确转义单引号，并拒绝包含换行命令的描述。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopSessionWorkflowTests.DiscoveryDoesNotSelectOrExecute",
+      "purpose": "发现窗口不自动选择或执行，界面保持未核验状态。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopSessionWorkflowTests.SelectionRequiresDiscoveredIdentityAndDetectedHost",
+      "purpose": "拒绝未发现、启动身份错配或无 Host 管道的候选，不尝试连接。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopSessionWorkflowTests.SamePidWithDifferentStartTimeCannotBecomeVerified",
+      "purpose": "同 PID 不同启动时间不能成为已核验目标。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopSessionWorkflowTests.OldHostRejectsQueriesBeforeExecution",
+      "purpose": "旧 Host 能力不足时不发送 Form/Gadget 请求。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopSessionWorkflowTests.EmptyWindowContinuesFromNativeNextIndex",
+      "purpose": "空页保留原生 NextIndex，续读使用该索引且保留稀疏项原索引。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopSessionWorkflowTests.ChangedBudgetCannotAppendToPreviousQuery",
+      "purpose": "预算变化时拒绝向此前查询拼接新页。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopSessionWorkflowTests.ExpiredSessionClearsResultsAndBlocksNewQuery",
+      "purpose": "目标身份失效清理旧结果并阻止新请求。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopSessionWorkflowTests.RegistrationAndPermissionWorkOfflineAndReregistrationRevokes",
+      "purpose": "登记和权限可离线完成，重新登记关闭许可，拒绝未授权调用。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopSessionWorkflowTests.ChangedSourceIsRejectedBeforeDispatch",
+      "purpose": "源码变化在发送前被拒绝，标为 rejected 而非结果未知。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopSessionWorkflowTests.ExistingTextTransportFailureCannotBecomeAValidReceipt",
+      "purpose": "既有文本传输错误或损坏 JSON 不能冒充有效回执；业务失败 JSON 保持失败。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopSessionWorkflowTests.LostInvocationReplyStaysUnknownAndIsNeverRetried",
+      "purpose": "已发送调用丢失回执后保持 unknown，仅发送一次并释放界面忙状态。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopSessionWorkflowTests.GadgetUnavailableAndEmptyTextRemainDistinct",
+      "purpose": "原生属性成功的空文本与 unavailable/null 分开保留，不推断为 false。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopSessionWorkflowTests.ChangingGadgetSelectionClearsOldDetailsWithoutExecution",
+      "purpose": "切换控件选择清除此前属性和原始回执，不触发任何新查询。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopSessionWorkflowTests.FailedTargetSwitchCannotKeepPreviousSessionCallable",
+      "purpose": "新目标切换失败立即撤销桌面对旧目标的可用状态，后续查询不能误发往旧会话。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopSessionWorkflowTests.DesktopTrustPathSharesManagedRootAndRespectsExistingOverrides",
+      "purpose": "WPF 位于现有 runtime/desktop 布局时复用包根人工信任记录，并保持已有环境覆盖的优先级。"
+    }
+  ],
+  "cases": [
+    {
+      "id": "smoke:native-cli",
+      "kind": "smoke",
+      "category": "native-aot-cli-mcp",
+      "file": "tests/cli_smoke.py",
+      "entryPoint": "def check(runtime):",
+      "runner": "native-cli",
+      "purpose": "发布两个 Native AOT 服务并比较 CLI、默认 MCP、显式 MCP 的工具和真实响应。",
+      "environment": "Windows x64 / .NET 10 SDK / MSVC C++ 工具链 / Python 3；无需 AVEVA",
+      "expected": "离线套件全部断言通过；退出非零即失败。这不代表 AVEVA 实机通过。"
+    },
+    {
+      "id": "smoke:native-builtin",
+      "kind": "smoke",
+      "category": "native-aot-cli-mcp",
+      "file": "tests/v03/builtin_smoke.py",
+      "entryPoint": "with tempfile.TemporaryDirectory(prefix='yuzuha-builtin-')",
+      "runner": "native-builtin",
+      "purpose": "从 Native AOT 服务验证无数据库内置指南及优先级。",
+      "environment": "Windows x64 / .NET 10 SDK / MSVC C++ 工具链 / Python 3；无需 AVEVA",
+      "expected": "离线套件全部断言通过；退出非零即失败。这不代表 AVEVA 实机通过。"
+    },
+    {
+      "id": "smoke:rpc-net35",
+      "kind": "smoke",
+      "category": "host-compatibility-net35",
+      "file": "tests/AotRpcSmoke/Server35/Program.cs",
+      "entryPoint": "static void Main(",
+      "runner": "rpc-net35",
+      "purpose": "NET35 独立 RPC 夹具与 Native AOT 客户端协议兼容。 包含生产 Form/Gadget 查询 DTO、共享读取策略、Unicode 元数据及 unavailable 字段的合成往返。",
+      "environment": "Windows x64 / .NET 10 SDK / MSVC C++ 工具链 / Python 3；无需 AVEVA / .NET 3.5 启用",
+      "expected": "离线套件全部断言通过；退出非零即失败。这不代表 AVEVA 实机通过。"
+    },
+    {
+      "id": "smoke:rpc-net48",
+      "kind": "smoke",
+      "category": "host-compatibility-net48",
+      "file": "tests/AotRpcSmoke/Server/Program.cs",
+      "entryPoint": "static void Main(",
+      "runner": "rpc-net48",
+      "purpose": "NET48 独立 RPC 夹具与 Native AOT 客户端协议兼容。 包含生产 Form/Gadget 查询 DTO、共享读取策略、Unicode 元数据及 unavailable 字段的合成往返。",
+      "environment": "Windows x64 / .NET 10 SDK / MSVC C++ 工具链 / Python 3；无需 AVEVA / .NET Framework 4.8",
+      "expected": "离线套件全部断言通过；退出非零即失败。这不代表 AVEVA 实机通过。"
+    },
+    {
+      "id": "smoke:formrecord-net35",
+      "kind": "smoke",
+      "category": "host-compatibility-net35",
+      "file": "tests/FormRecordSmoke/Program.cs",
+      "entryPoint": "private static void Run(",
+      "runner": "formrecord-net35",
+      "purpose": "NET35 记录器合成数组、配对、JSONL 与测试窗口截图。",
+      "environment": "交互式 Windows / .NET 3.5 / .NET 10 SDK",
+      "expected": "离线套件全部断言通过；退出非零即失败。这不代表 AVEVA 实机通过。"
+    },
+    {
+      "id": "smoke:formrecord-net48",
+      "kind": "smoke",
+      "category": "host-compatibility-net48",
+      "file": "tests/FormRecordSmoke/Program.cs",
+      "entryPoint": "private static void Run(",
+      "runner": "formrecord-net48",
+      "purpose": "NET48 记录器合成数组、配对、JSONL 与测试窗口截图。",
+      "environment": "交互式 Windows / .NET Framework 4.8 / .NET 10 SDK",
+      "expected": "离线套件全部断言通过；退出非零即失败。这不代表 AVEVA 实机通过。"
+    },
+    {
+      "id": "smoke:documentation-contracts",
+      "kind": "smoke",
+      "category": "documentation",
+      "file": "tests/documentation-tests.test.mjs",
+      "entryPoint": "catalog preserves LaunchDesk IDs",
+      "runner": "documentation-contracts",
+      "purpose": "验证目录关联、源码发现、历史状态、TRX 身份、WPF 各页语义溯源、图预算与准确测试关联。",
+      "environment": "Windows / PowerShell 7 / Node.js 22.22.3+ / .NET 10 SDK",
+      "expected": "离线套件全部断言通过；退出非零即失败。这不代表 AVEVA 实机通过。"
+    },
+    {
+      "id": "manual:formuse-get-gadget",
+      "kind": "manual",
+      "category": "aveva-live",
+      "file": "tests/manual/formuse.md",
+      "entryPoint": "## manual:formuse-get-gadget",
+      "purpose": "核对控件枚举和类型排除规则。",
+      "environment": "明确产品版本和 NET35/NET48 Host 的独立 AVEVA 测试会话，使用合成数据与可丢弃状态的窗体",
+      "expected": "逐项按人工步骤记录实际结果、RequestId 和本机证据；原型限制不能报为通过。"
+    },
+    {
+      "id": "manual:formuse-get-gadget-type",
+      "kind": "manual",
+      "category": "aveva-live",
+      "file": "tests/manual/formuse.md",
+      "entryPoint": "## manual:formuse-get-gadget-type",
+      "purpose": "核对类型显示格式和解析失败行为。",
+      "environment": "明确产品版本和 NET35/NET48 Host 的独立 AVEVA 测试会话，使用合成数据与可丢弃状态的窗体",
+      "expected": "逐项按人工步骤记录实际结果、RequestId 和本机证据；原型限制不能报为通过。"
+    },
+    {
+      "id": "manual:formuse-decorated-call",
+      "kind": "manual",
+      "category": "aveva-live",
+      "file": "tests/manual/formuse.md",
+      "entryPoint": "## manual:formuse-decorated-call",
+      "purpose": "核对回调保存、上下文、防重和恢复限制。",
+      "environment": "明确产品版本和 NET35/NET48 Host 的独立 AVEVA 测试会话，使用合成数据与可丢弃状态的窗体",
+      "expected": "逐项按人工步骤记录实际结果、RequestId 和本机证据；原型限制不能报为通过。"
+    },
+    {
+      "id": "manual:formuse-gadget-decorated",
+      "kind": "manual",
+      "category": "aveva-live",
+      "file": "tests/manual/formuse.md",
+      "entryPoint": "## manual:formuse-gadget-decorated",
+      "purpose": "区分回调与日志结果，核对触发控件、时间和相位。",
+      "environment": "明确产品版本和 NET35/NET48 Host 的独立 AVEVA 测试会话，使用合成数据与可丢弃状态的窗体",
+      "expected": "逐项按人工步骤记录实际结果、RequestId 和本机证据；原型限制不能报为通过。"
+    },
+    {
+      "id": "manual:formuse-choose-form",
+      "kind": "manual",
+      "category": "aveva-live",
+      "file": "tests/manual/formuse.md",
+      "entryPoint": "## manual:formuse-choose-form",
+      "purpose": "使用 FMSYS / PMLFORMS 核对列表、刷新、装饰和原生重置。",
+      "environment": "明确产品版本和 NET35/NET48 Host 的独立 AVEVA 测试会话，使用合成数据与可丢弃状态的窗体",
+      "expected": "逐项按人工步骤记录实际结果、RequestId 和本机证据；原型限制不能报为通过。"
+    },
+    {
+      "id": "manual:aveva-bounded-array",
+      "kind": "manual",
+      "category": "aveva-live",
+      "file": "tests/manual/formuse.md",
+      "entryPoint": "## manual:aveva-bounded-array",
+      "purpose": "在指定 AVEVA 中验证数组预算、稀疏数据和旧 Host 拒绝行为。",
+      "environment": "明确产品版本和 NET35/NET48 Host 的独立 AVEVA 测试会话，使用合成数据与可丢弃状态的窗体",
+      "expected": "逐项按人工步骤记录实际结果、RequestId 和本机证据；原型限制不能报为通过。"
+    },
+    {
+      "id": "manual:aveva-form-query",
+      "kind": "manual",
+      "category": "aveva-live",
+      "file": "tests/manual/form-query.md",
+      "entryPoint": "## manual:aveva-form-query",
+      "purpose": "在独立 AVEVA 测试会话中对照原生 PMLFORMS 验证 loaded/shown 窗体查询、分页与无生命周期修改。",
+      "environment": "分别记录 NET35 Marine/PDMS 与 NET48 E3D 的独立测试工程、版本、Host DLL SHA256、提交、模块、PID 和启动时间",
+      "expected": "人工逐项核对并记录 RequestId、UTC 与本机证据；未实测、部分属性 unavailable 和历史结果均不能登记为当前完整通过。"
+    },
+    {
+      "id": "manual:aveva-gadget-query",
+      "kind": "manual",
+      "category": "aveva-live",
+      "file": "tests/manual/form-query.md",
+      "entryPoint": "## manual:aveva-gadget-query",
+      "purpose": "在独立 AVEVA 测试会话中对照原生控件验证枚举、固定元数据、失败状态和回调未执行。",
+      "environment": "分别记录 NET35 Marine/PDMS 与 NET48 E3D 的独立测试工程、版本、Host DLL SHA256、提交、模块、PID 和启动时间",
+      "expected": "人工逐项核对并记录 RequestId、UTC 与本机证据；未实测、部分属性 unavailable 和历史结果均不能登记为当前完整通过。"
+    },
+    {
+      "id": "smoke:desktop-flows",
+      "kind": "smoke",
+      "category": "wpf-offline-ui",
+      "file": "scripts/Test-Desktop.ps1",
+      "entryPoint": "$exe = if ($ExecutablePath)",
+      "runner": "desktop-flows",
+      "purpose": "验证 GUI 保存并复用本机凭据、知识检索完整正文、对象结果，以及明暗主题下 14 页、三种视口与同画布。不是 AVEVA 实机或人工视觉验收。",
+      "environment": "Windows x64 / NET10 SDK 与 WPF；无需 AVEVA",
+      "expected": "本次回执记录 savedCredentials/guiKnowledge/objectQueries 均为 true；116 张截图和绑定错误零。主题保留输入、查询、目标与许可。"
+    },
+    {
+      "id": "manual:desktop-aveva-m1",
+      "kind": "manual",
+      "category": "aveva-live-ui",
+      "file": "tests/manual/desktop-m1.md",
+      "entryPoint": "## manual:desktop-aveva-m1",
+      "purpose": "人工在自有 AVEVA 测试会话中逐步验证会话、登记授权、Form/Gadget 与数组流程及错误恢复，不保存工程。",
+      "environment": "AVEVA NET35/NET48 对应 Host / Windows WPF / 自有测试文件",
+      "expected": "三条流程和错误恢复完成并记录本次环境与证据；未运行保持 NotRun。"
+    }
+  ],
+  "bindings": [
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.FunctionRegistryTests.RegistrationParsesSourceAndStartsDeniedAcrossStoreInstances",
+      "purpose": "核对真实源码签名、默认拒绝和跨实例持久化。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.PmlFunctionRegistry",
+          "methods": [
+            "Register",
+            "List",
+            "PrepareCall"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.FunctionRegistryTests.ExplicitPermissionProducesTypedEscapedCallAndCanBeRevoked",
+      "purpose": "授权后保持类型和引号转义，撤销后禁止调用。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.PmlFunctionRegistry",
+          "methods": [
+            "SetPermission",
+            "PrepareCall"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.FunctionRegistryTests.ChangedSourceRequiresRegistrationAndFreshPermission",
+      "purpose": "源码改变后拒绝调用或授权；重新登记撤销已有许可。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.PmlFunctionRegistry",
+          "methods": [
+            "Register",
+            "SetPermission",
+            "PrepareCall"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.FunctionRegistryTests.InvalidNamesNeverRegister",
+      "purpose": "拒绝多行、带括号和分隔符的函数名称。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.PmlFunctionRegistry",
+          "methods": [
+            "Register"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.FunctionRegistryTests.MissingAndCommentOnlyDeclarationsAreRejected",
+      "purpose": "注释内声明和不存在的函数不能登记。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.PmlFunctionRegistry",
+          "methods": [
+            "Register"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.FunctionRegistryTests.SignatureMismatchAndMalformedPersistenceFailClosed",
+      "purpose": "参数数量、类型及损坏 JSON 均明确失败。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.PmlFunctionRegistry",
+          "methods": [
+            "PrepareCall",
+            "List"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlArrayWindowTests.ItemBudgetLimitsHostReadsAndReportsContinuation",
+      "purpose": "最多读取预算数量的索引槽位并报告续读。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Pml.PmlArrayWindow",
+          "methods": [
+            "Read"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlArrayWindowTests.CharacterBudgetNeverSplitsRowsAndPreservesNextIndex",
+      "purpose": "字符预算不拆行，首行过大失败，其余保留续读索引。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Pml.PmlArrayWindow",
+          "methods": [
+            "Read"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlArrayWindowTests.EmptyAndPastEndDoNotReadOrOverflow",
+      "purpose": "空数组、超出末端和 Int32 最大索引不越界。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Pml.PmlArrayWindow",
+          "methods": [
+            "Read"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlArrayWindowTests.InvalidBudgetsFailBeforeAnyRead",
+      "purpose": "无效预算在读取任何槽位前失败。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Pml.PmlArrayWindow",
+          "methods": [
+            "Validate",
+            "Read"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlArrayWindowTests.OlderHostIsRejectedBeforeAnyCommandIsSent",
+      "purpose": "旧 Host 缺少能力时拒绝请求并验证零次派发。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.BoundedArrayRequest",
+          "methods": [
+            "SendAsync"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlArrayWindowTests.CapableHostReceivesBoundsAndNoExpression",
+      "purpose": "支持的 Host 收到准确预算、索引和无表达式的读请求。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.BoundedArrayRequest",
+          "methods": [
+            "SendAsync"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.RegisteredFunctionPermissionIsEnforcedBeforeRealMcpDispatch",
+      "purpose": "真实 MCP 验证默认拒绝、授权后目标核验、源码变化拒绝及数组工具入口。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.PmlFunctionTools",
+          "methods": [
+            "RegisterPmlFunction",
+            "SetPmlFunctionPermission",
+            "InvokePmlFunction"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "manual:aveva-bounded-array",
+      "purpose": "逐 AVEVA 产品验证真实 MAXINDEX、稀疏槽位、临时变量清理；当前未实测。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.PmlCallTools",
+          "methods": [
+            "ReadPmlArray"
+          ]
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net35::YuzuhaToolkit.PmlHost.GetRequireFromE3D"
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net48::YuzuhaToolkit.PmlHost.GetRequireFromE3D"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.BackendBehaviorTests.PmlArgumentsKeepOrderAndEscapeQuotes",
+      "purpose": "验证参数顺序、单引号与 Unicode 的调用文本。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Pml.PmlMethodSignatureGenerator"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.BackendBehaviorTests.BuiltinGuidesResolveAliasesWithoutDatabase",
+      "purpose": "无 SQLite 环境下匹配已维护别名。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.BuiltinUsageTools",
+          "methods": [
+            "GetBuiltinUsage"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.CliAndMcpReturnTheSameGeneratedPml",
+      "purpose": "真实 CLI 和 MCP 服务进程生成相同 PML 文本。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.PmlCallTools",
+          "methods": [
+            "GeneratePmlCall"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "manual:formuse-get-gadget",
+      "purpose": "实际窗体案例，当前未实测；源码检查不替代实机验收。",
+      "targets": [
+        {
+          "file": "PMLLIB/FormUse/YuzuhaGetGadget.pmlfnc",
+          "symbol": "!!YuzuhaGetGadget"
+        }
+      ]
+    },
+    {
+      "test": "manual:formuse-get-gadget-type",
+      "purpose": "实际窗体案例，当前未实测；源码检查不替代实机验收。",
+      "targets": [
+        {
+          "file": "PMLLIB/FormUse/YuzuhaGetGadgetType.pmlfnc",
+          "symbol": "!!YuzuhaGetGadgetType"
+        }
+      ]
+    },
+    {
+      "test": "manual:formuse-decorated-call",
+      "purpose": "实际窗体案例，当前未实测；源码检查不替代实机验收。",
+      "targets": [
+        {
+          "file": "PMLLIB/FormUse/YuzuhaDecoratedCall.pmlfnc",
+          "symbol": "!!YuzuhaDecoratedCall"
+        }
+      ]
+    },
+    {
+      "test": "manual:formuse-gadget-decorated",
+      "purpose": "实际窗体案例，当前未实测；源码检查不替代实机验收。",
+      "targets": [
+        {
+          "file": "PMLLIB/FormUse/YuzuhaGadgetDecorated.pmlfnc",
+          "symbol": "!!YuzuhaGadgetDecorated"
+        }
+      ]
+    },
+    {
+      "test": "manual:formuse-choose-form",
+      "purpose": "实际窗体案例，当前未实测；源码检查不替代实机验收。",
+      "targets": [
+        {
+          "file": "PMLLIB/FormUse/YuzuhaChooseFormToTrack.pmlfrm",
+          "symbol": "!!YuzuhaChooseFormToTrack"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlFormQueryTests.SparseNativeSlotsConsumeBudgetWithoutReadingMissingValues",
+      "purpose": "原生属性数组可能稀疏；跳过不存在的索引且仍计入扫描预算，续读位置保留原始索引。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Pml.PmlFormQuery",
+          "methods": [
+            "Read"
+          ]
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net35::YuzuhaToolkit.Pml.PmlFormQuery"
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net48::YuzuhaToolkit.Pml.PmlFormQuery"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlFormQueryTests.UnsetGadgetReferencesAreSkippedInListsAndFailDetails",
+      "purpose": "沿用 PMLFORMS 的 set 判定：未设置 GADGET 不列入清单，指定详情明确失败而非空成功。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Pml.PmlFormQuery",
+          "methods": [
+            "Read"
+          ]
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net35::YuzuhaToolkit.Pml.PmlFormQuery"
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net48::YuzuhaToolkit.Pml.PmlFormQuery"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlFormQueryTests.NativeTemporariesUseCanonicalNamesAndPreserveScalarTypes",
+      "purpose": "复现原生变量互操作约束：临时变量使用大写规范名，字符串与 REAL 上界分别存放，避免实机空读取或类型冲突。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Pml.PmlFormQuery",
+          "methods": [
+            "Read"
+          ]
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net35::YuzuhaToolkit.Pml.PmlFormQuery"
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net48::YuzuhaToolkit.Pml.PmlFormQuery"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlFormQueryTests.FormListsUseNativeManagerAndHonorScanBudget",
+      "purpose": "确认窗体枚举使用 FMSYS 原生 Forms/ShownForms，并按槽位预算返回名称、引用与续读索引。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Pml.PmlFormQuery",
+          "methods": [
+            "Read",
+            "Validate"
+          ]
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net35::YuzuhaToolkit.Pml.PmlFormQuery"
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net48::YuzuhaToolkit.Pml.PmlFormQuery"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlFormQueryTests.GadgetListUsesNativeAttributeTypesAndSkipsOrdinaryMembers",
+      "purpose": "沿用 PMLFORMS 的 attributes/attribute/objectType 路径，仅返回 GADGET，普通成员仍占扫描预算。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Pml.PmlFormQuery",
+          "methods": [
+            "Read",
+            "Validate"
+          ]
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net35::YuzuhaToolkit.Pml.PmlFormQuery"
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net48::YuzuhaToolkit.Pml.PmlFormQuery"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlFormQueryTests.GadgetDetailsReadMetadataWithoutInvokingCallbacksOrValues",
+      "purpose": "读取指定控件的类型、显示状态和回调文本，确认不读取 val 或执行回调。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Pml.PmlFormQuery",
+          "methods": [
+            "Read",
+            "Validate"
+          ]
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net35::YuzuhaToolkit.Pml.PmlFormQuery"
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net48::YuzuhaToolkit.Pml.PmlFormQuery"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlFormQueryTests.UnsupportedMetadataIsExplicitAndRequiredReadFailuresFailTheQuery",
+      "purpose": "可选属性失败明确标为 unavailable；必要类型读取失败则整次查询失败并清理。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Pml.PmlFormQuery",
+          "methods": [
+            "Read",
+            "Validate"
+          ]
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net35::YuzuhaToolkit.Pml.PmlFormQuery"
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net48::YuzuhaToolkit.Pml.PmlFormQuery"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlFormQueryTests.MissingOrNonGadgetDoesNotBecomeAnEmptySuccessfulDetail",
+      "purpose": "拒绝把普通成员当作控件返回成功，且清理请求临时变量。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Pml.PmlFormQuery",
+          "methods": [
+            "Read",
+            "Validate"
+          ]
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net35::YuzuhaToolkit.Pml.PmlFormQuery"
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net48::YuzuhaToolkit.Pml.PmlFormQuery"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlFormQueryTests.NonFormGlobalsAreRejectedBeforeEnumeratingMembers",
+      "purpose": "在成员枚举前拒绝非 FORM 的普通全局对象，防止把任意对象当作窗体。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Pml.PmlFormQuery",
+          "methods": [
+            "Read",
+            "Validate"
+          ]
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net35::YuzuhaToolkit.Pml.PmlFormQuery"
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net48::YuzuhaToolkit.Pml.PmlFormQuery"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlFormQueryTests.CleanupFailureFailsAndStillAttemptsBothTemporaries",
+      "purpose": "一个临时变量清理失败时仍尝试清理另一个，并拒绝报告整次查询成功。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Pml.PmlFormQuery",
+          "methods": [
+            "Read",
+            "Validate"
+          ]
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net35::YuzuhaToolkit.Pml.PmlFormQuery"
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net48::YuzuhaToolkit.Pml.PmlFormQuery"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlFormQueryTests.CharacterBudgetKeepsWholeItemsAndContinuation",
+      "purpose": "字符预算不拆分查询项，保留未返回项的续读索引；首项超预算明确失败。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Pml.PmlFormQuery",
+          "methods": [
+            "Read",
+            "Validate"
+          ]
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net35::YuzuhaToolkit.Pml.PmlFormQuery"
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net48::YuzuhaToolkit.Pml.PmlFormQuery"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlFormQueryTests.InvalidNamesFailBeforeNativeAccess",
+      "purpose": "拒绝带前缀、路径、换行、引号或命令片段的窗体和控件名，在原生调用前失败。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Pml.PmlFormQuery",
+          "methods": [
+            "Read",
+            "Validate"
+          ]
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net35::YuzuhaToolkit.Pml.PmlFormQuery"
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net48::YuzuhaToolkit.Pml.PmlFormQuery"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlFormQueryTests.InvalidBudgetsKindsAndMixedOperationsFailBeforeNativeAccess",
+      "purpose": "拒绝非法预算、查询种类、无关名称及混入原始命令、删除和数组操作的协议请求。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Pml.PmlFormQuery",
+          "methods": [
+            "Read",
+            "Validate"
+          ]
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net35::YuzuhaToolkit.Pml.PmlFormQuery"
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net48::YuzuhaToolkit.Pml.PmlFormQuery"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlFormQueryTests.EmptyAndPastEndAvoidItemReadsAndCleanupOnNativeFailure",
+      "purpose": "空结果或越界不读取条目，原生 MAXINDEX 失败时仍清理请求临时变量。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Pml.PmlFormQuery",
+          "methods": [
+            "Read",
+            "Validate"
+          ]
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net35::YuzuhaToolkit.Pml.PmlFormQuery"
+        },
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net48::YuzuhaToolkit.Pml.PmlFormQuery"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlFormQueryTests.OldHostIsRejectedAndCapableHostReceivesOnlyTypedQuery",
+      "purpose": "不向旧 Host 发送查询；支持能力版本 1 的 Host 只收到类型化查询且没有 PML 表达式。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.PmlFormQueryRequestSender",
+          "methods": [
+            "SendAsync"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.FormQueryToolsExposeBoundsAndRequireExplicitTarget",
+      "purpose": "通过真实 MCP 检查三个查询工具及预算参数，确认未选择目标和注入名称返回明确错误。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.PmlFormTools",
+          "methods": [
+            "ListPmlForms",
+            "ListPmlGadgets",
+            "GetPmlGadget"
+          ]
+        },
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.YuzuhaRpcBridge",
+          "methods": [
+            "QueryPmlFormsAsync"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "manual:aveva-form-query",
+      "purpose": "在独立 AVEVA 测试会话中对照原生 PMLFORMS 验证 loaded/shown 窗体查询、分页与无生命周期修改。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.PmlFormTools",
+          "methods": [
+            "ListPmlForms"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "manual:aveva-gadget-query",
+      "purpose": "在独立 AVEVA 测试会话中对照原生控件验证枚举、固定元数据、失败状态和回调未执行。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.PmlFormTools",
+          "methods": [
+            "ListPmlGadgets",
+            "GetPmlGadget"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlFormQueryTests.GadgetReferenceStaysInsideTemporaryArrayDuringCleanup",
+      "purpose": "控件引用始终存于临时 ARRAY 元素中，清理不对原生 GADGET/FORM 对象调用 delete。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Pml.PmlFormQuery",
+          "methods": [
+            "Read"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "smoke:rpc-net35",
+      "purpose": "以实际 Framework Host DTO 和共享查询读取策略进行合成 Named Pipe 往返，核对查询窗口、Unicode 与 unavailable 属性；不代表 AVEVA 实机通过。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net35::YuzuhaToolkit.Pml.PmlFormQuery"
+        },
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.PmlFormQueryRequestSender",
+          "methods": [
+            "SendAsync"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "smoke:rpc-net48",
+      "purpose": "以实际 Framework Host DTO 和共享查询读取策略进行合成 Named Pipe 往返，核对查询窗口、Unicode 与 unavailable 属性；不代表 AVEVA 实机通过。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.PmlHost.Net48::YuzuhaToolkit.Pml.PmlFormQuery"
+        },
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.PmlFormQueryRequestSender",
+          "methods": [
+            "SendAsync"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopSessionWorkflowTests.DiscoveryDoesNotSelectOrExecute",
+      "purpose": "发现窗口不自动选择或执行，界面保持未核验状态。",
+      "environment": "Windows x64 / NET10；桌面状态合成 Host，不连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.SessionWorkbench"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopSessionWorkflowTests.SelectionRequiresDiscoveredIdentityAndDetectedHost",
+      "purpose": "拒绝未发现、启动身份错配或无 Host 管道的候选，不尝试连接。",
+      "environment": "Windows x64 / NET10；桌面状态合成 Host，不连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.SessionWorkbench"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopSessionWorkflowTests.SamePidWithDifferentStartTimeCannotBecomeVerified",
+      "purpose": "同 PID 不同启动时间不能成为已核验目标。",
+      "environment": "Windows x64 / NET10；桌面状态合成 Host，不连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.SessionWorkbench"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopSessionWorkflowTests.OldHostRejectsQueriesBeforeExecution",
+      "purpose": "旧 Host 能力不足时不发送 Form/Gadget 请求。",
+      "environment": "Windows x64 / NET10；桌面状态合成 Host，不连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.SessionWorkbench"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopSessionWorkflowTests.EmptyWindowContinuesFromNativeNextIndex",
+      "purpose": "空页保留原生 NextIndex，续读使用该索引且保留稀疏项原索引。",
+      "environment": "Windows x64 / NET10；桌面状态合成 Host，不连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.SessionWorkbench"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopSessionWorkflowTests.ChangedBudgetCannotAppendToPreviousQuery",
+      "purpose": "预算变化时拒绝向此前查询拼接新页。",
+      "environment": "Windows x64 / NET10；桌面状态合成 Host，不连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.SessionWorkbench"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopSessionWorkflowTests.ExpiredSessionClearsResultsAndBlocksNewQuery",
+      "purpose": "目标身份失效清理旧结果并阻止新请求。",
+      "environment": "Windows x64 / NET10；桌面状态合成 Host，不连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.SessionWorkbench"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopSessionWorkflowTests.RegistrationAndPermissionWorkOfflineAndReregistrationRevokes",
+      "purpose": "登记和权限可离线完成，重新登记关闭许可，拒绝未授权调用。",
+      "environment": "Windows x64 / NET10；桌面状态合成 Host，不连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.SessionWorkbench"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopSessionWorkflowTests.ChangedSourceIsRejectedBeforeDispatch",
+      "purpose": "源码变化在发送前被拒绝，标为 rejected 而非结果未知。",
+      "environment": "Windows x64 / NET10；桌面状态合成 Host，不连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.SessionWorkbench"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopSessionWorkflowTests.ExistingTextTransportFailureCannotBecomeAValidReceipt",
+      "purpose": "既有文本传输错误或损坏 JSON 不能冒充有效回执；业务失败 JSON 保持失败。",
+      "environment": "Windows x64 / NET10；桌面状态合成 Host，不连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.WorkbenchReply"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopSessionWorkflowTests.LostInvocationReplyStaysUnknownAndIsNeverRetried",
+      "purpose": "已发送调用丢失回执后保持 unknown，仅发送一次并释放界面忙状态。",
+      "environment": "Windows x64 / NET10；桌面状态合成 Host，不连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.SessionWorkbench"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopSessionWorkflowTests.GadgetUnavailableAndEmptyTextRemainDistinct",
+      "purpose": "原生属性成功的空文本与 unavailable/null 分开保留，不推断为 false。",
+      "environment": "Windows x64 / NET10；桌面状态合成 Host，不连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.SessionWorkbench"
+        }
+      ]
+    },
+    {
+      "test": "smoke:desktop-flows",
+      "purpose": "界面入口复用既有服务；合成 Smoke 与人工实机证据分别记录。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.SessionWorkbenchView"
+        }
+      ]
+    },
+    {
+      "test": "manual:desktop-aveva-m1",
+      "purpose": "界面入口复用既有服务；合成 Smoke 与人工实机证据分别记录。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.SessionWorkbenchView"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopSessionWorkflowTests.ChangingGadgetSelectionClearsOldDetailsWithoutExecution",
+      "purpose": "切换控件选择清除此前属性和原始回执，不触发任何新查询。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.SessionWorkbench"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopSessionWorkflowTests.FailedTargetSwitchCannotKeepPreviousSessionCallable",
+      "purpose": "新目标切换失败立即撤销桌面对旧目标的可用状态，后续查询不能误发往旧会话。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.SessionWorkbench"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopSessionWorkflowTests.DesktopTrustPathSharesManagedRootAndRespectsExistingOverrides",
+      "purpose": "WPF 位于现有 runtime/desktop 布局时复用包根人工信任记录，并保持已有环境覆盖的优先级。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.WorkbenchPaths"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopPresentationTests.BothThemesProvideEveryDesignTokenAndAllDynamicBrushes",
+      "purpose": "明暗主题键与设计变量齐全，界面引用均可解析。",
+      "environment": "Windows x64 / NET10；本机设计资源与合成日志，不连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.DesktopTheme"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopPresentationTests.BothThemesKeepTextAndSemanticFeedbackReadable",
+      "purpose": "正文、按钮和成功/警告/失败反馈在明暗模式下满足 4.5:1 对比度。",
+      "environment": "Windows x64 / NET10；本机设计资源与合成日志，不连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.DesktopTheme"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopPresentationTests.ThemePreferenceDoesNotSaveLaunchDraftsOrFunctionPermissions",
+      "purpose": "主题偏好独立原子保存，不保存启动草稿或改动函数许可。",
+      "environment": "Windows x64 / NET10；本机设计资源与合成日志，不连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.DesktopDisplaySettings"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopPresentationTests.EmptyActivityDoesNotInventLatencyOrSuccess",
+      "purpose": "无活动时不编造平均耗时、成功率或已完成调用。",
+      "environment": "Windows x64 / NET10；本机设计资源与合成日志，不连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.DesktopActivitySummary"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopPresentationTests.ActivityCountsCompletedToolsAndKeepsUnknownInDenominator",
+      "purpose": "排除开始事件与启动/复制操作，失败和未知保留在工具完成项分母中。",
+      "environment": "Windows x64 / NET10；本机设计资源与合成日志，不连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.DesktopActivitySummary"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopPresentationTests.ActivityUsesDisplayDayAndNeverFillsMissingDaysWithSuccess",
+      "purpose": "按显示日分组已保留记录，跨日时区和缺失日期不补成成功。",
+      "environment": "Windows x64 / NET10；本机设计资源与合成日志，不连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.DesktopActivitySummary"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopFunctionalCorrectionsTests.DiscoveryRequiresEngineeringProcessInsteadOfAvevaWord",
+      "purpose": "标题与工程进程联合识别，排除 LaunchDesk、编辑器与启动控制台。",
+      "environment": "Windows x64 / NET10；隔离凭据与合成文件，不连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.AvevaSessionDiscovery"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopFunctionalCorrectionsTests.InstallationDiscoveryFindsNestedMarineAndPdmsWithoutLaunchingScripts",
+      "purpose": "只读发现 Marine OH 版本目录和 PDMS 批处理入口，不执行脚本。",
+      "environment": "Windows x64 / NET10；隔离凭据与合成文件，不连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Workspace::YuzuhaToolkit.Workspace.RegistrationDiscovery"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopFunctionalCorrectionsTests.SavedCredentialSurvivesBlankEditAndNeverEntersWorkspaceJson",
+      "purpose": "隔离 Windows 凭据实存实取，空编辑保留引用，JSON 不含密码，删除后不可读取。",
+      "environment": "Windows x64 / NET10；隔离凭据与合成文件，不连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.WindowsCredentialStore"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopFunctionalCorrectionsTests.CredentialStoreCannotReadOrDeleteAnotherApplicationsCredential",
+      "purpose": "拒绝读取或删除 LaunchDesk 等其他应用的凭据引用。",
+      "environment": "Windows x64 / NET10；隔离凭据与合成文件，不连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.WindowsCredentialStore"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopFunctionalCorrectionsTests.ObjectQueriesReuseBuiltinsWithSeparateTargetAndMemberPath",
+      "purpose": "当前对象、名称/路径/DBREF、全局变量分别投影到现有内置函数，保留成员路径和参数顺序。",
+      "environment": "Windows x64 / NET10；隔离凭据与合成文件，不连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.DesktopObjectQuery"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopFunctionalCorrectionsTests.ObjectQueriesRejectExpressionsAndInvalidBudgetsBeforeDispatch",
+      "purpose": "不接受方法表达式作为变量或成员路径，非法数量和深度在发送前拒绝。",
+      "environment": "Windows x64 / NET10；隔离凭据与合成文件，不连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.DesktopObjectQuery"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopFunctionalCorrectionsTests.GuiKnowledgeSearchReadsFullBuiltinWithoutCreatingDatabase",
+      "purpose": "GUI 直接取得完整内置正文，不依赖另一个客户端，不创建知识库。",
+      "environment": "Windows x64 / NET10；隔离凭据与合成文件，不连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.DesktopKnowledgeBrowser"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopFunctionalCorrectionsTests.GuiKnowledgeDetailsKeepDatabaseIdentityAndSourceLocation",
+      "purpose": "GUI 按数据库和片段 ID 定位正文及源码行号，不把相关性当作实测证据。",
+      "environment": "Windows x64 / NET10；隔离凭据与合成文件，不连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.DesktopKnowledgeBrowser"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopSessionWorkflowTests.ObjectReadRequiresVerifiedTargetAndRetainsStructuredReceipt",
+      "purpose": "对象读取要求已核验目标，并保留现有列表工具解析的类型、路径与同次回执。",
+      "environment": "Windows x64 / NET10；隔离凭据与合成文件，不连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.SessionWorkbench"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopSessionWorkflowTests.ExpiredIdentityClearsObjectResultsAndDoesNotSendAgain",
+      "purpose": "目标身份失效清理对象结果，阻止再次发送，不保留旧查询为当前结果。",
+      "environment": "Windows x64 / NET10；隔离凭据与合成文件，不连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.SessionWorkbench"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.LaunchProfileCatalogTests.SearchCombinesProjectPathProductAndFavoriteFilters",
+      "purpose": "启动配置筛选组合项目、路径、产品与收藏条件。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Workspace::YuzuhaToolkit.Workspace.LaunchProfileCatalog"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.LaunchProfileCatalogTests.RecentUsesActualStartHistoryAndOrdersNewestFirst",
+      "purpose": "最近配置只使用实际启动记录，并按最近时间排列。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Workspace::YuzuhaToolkit.Workspace.LaunchProfileCatalog"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.LaunchProfileCatalogTests.CopyHasIndependentEnvironmentAndNeverInheritsCredentialsDefaultOrHistory",
+      "purpose": "配置副本具有独立环境变量，不继承凭据、默认和启动历史。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Workspace::YuzuhaToolkit.Workspace.LaunchProfileCatalog"
+        }
+      ]
+    }
+  ]
+}

@@ -10,14 +10,19 @@ namespace YuzuhaToolkit.Pml;
 /// </summary>
 public sealed class DynamicParameter
 {
+    /// <summary>保存外部输入的声明类型和值，格式校验在生成调用时进行。</summary>
+    /// <param name="typeName">string、bool 或 double 等受支持 PML 参数类型名称。</param>
+    /// <param name="value">待校验并按声明类型格式化的值。</param>
     public DynamicParameter(string typeName, object value)
     {
         TypeName = typeName;
         Value = value;
     }
 
+    /// <summary>动态参数显式声明的 PML 类型名称。</summary>
     public string TypeName { get; }
 
+    /// <summary>当前参数或 PML 条目的标量值；空值表示未设置。</summary>
     public object Value { get; }
 }
 
@@ -27,6 +32,9 @@ public sealed class DynamicParameter
 /// </summary>
 public static class PmlMethodSignatureGenerator
 {
+    /// <summary>按顺序格式化带类型参数，转义字符串并生成 !! 方法调用文本；不执行 PML。</summary>
+    /// <param name="methodName">不含 !! 前缀和括号的 PML 全局方法名。</param>
+    /// <param name="parameters">保持原始顺序的带类型 PML 参数集合。</param>
     public static string Build(
         string methodName,
         params DynamicParameter[] parameters)
@@ -50,6 +58,9 @@ public static class PmlMethodSignatureGenerator
         return result.ToString();
     }
 
+    /// <summary>按顺序格式化带类型参数，转义字符串并生成 !! 方法调用文本；不执行 PML。</summary>
+    /// <param name="methodName">不含 !! 前缀和括号的 PML 全局方法名。</param>
+    /// <param name="parameters">保持原始顺序的带类型 PML 参数集合。</param>
     public static string Build(
         string methodName,
         IList<DynamicParameter> parameters)

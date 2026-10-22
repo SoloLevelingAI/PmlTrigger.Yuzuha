@@ -1,0 +1,35 @@
+{
+  "metadata": [
+    { "src": [{ "files": ["src/YuzuhaToolkit.Workspace/YuzuhaToolkit.Workspace.csproj"] }], "dest": "artifacts/docfx/api/workspace" },
+    { "src": [{ "files": ["src/YuzuhaToolkit.CommandLine/YuzuhaToolkit.CommandLine.csproj"] }], "dest": "artifacts/docfx/api/cli" },
+    { "src": [{ "files": ["src/PlantHost.Rpc.Net10/PlantHost.Rpc.Net10.csproj"] }], "dest": "artifacts/docfx/api/rpc" },
+    { "src": [{ "files": ["src/YuzuhaToolkit.Mcp.Core/YuzuhaToolkit.Mcp.Core.csproj"] }], "dest": "artifacts/docfx/api/mcp" },
+    { "src": [{ "files": ["src/YuzuhaToolkit.Knowledge.Core/YuzuhaToolkit.Knowledge.Core.csproj"] }], "filter": "docs/reference/knowledge-filter.yml", "dest": "artifacts/docfx/api/knowledge" },
+    { "src": [{ "files": ["src/YuzuhaToolkit.DevHost/YuzuhaToolkit.DevHost.csproj"] }], "dest": "artifacts/docfx/api/devhost" }
+  ],
+  "build": {
+    "content": [
+      { "files": ["**/*.md", "**/toc.yml"], "exclude": ["knowledge-filter.yml", "template/**"], "src": "docs/reference" },
+      { "files": ["**/*.yml"], "src": "artifacts/docfx/api", "dest": "api" },
+      { "files": ["**/*.md", "**/toc.yml"], "src": "artifacts/docfx/navigation", "dest": "reference" }
+    ],
+    "resource": [
+      { "files": ["**/*"], "src": "artifacts/architecture", "dest": "architecture" },
+      { "files": ["v1.json"], "src": "artifacts/openapi", "dest": "openapi" },
+      { "files": ["LICENSE.docfx.txt"], "src": "docs/reference/template", "dest": "third-party" }
+      ,{ "files": ["**/*.json", "**/*.png", "**/*.jpg", "**/*.svg", "**/*.ico", "**/*.html", "**/*.txt", "**/*.docx"], "src": "artifacts/docfx/navigation", "dest": "reference" }
+    ],
+    "dest": "artifacts/docfx/site",
+    "template": ["default", "modern", "docs/reference/template"],
+    "globalMetadata": {
+      "_appName": "Yuzuha · 开发文档",
+      "_appTitle": "Yuzuha 开发文档",
+      "_enableSearch": true,
+      "_appFooter": "Yuzuha · .NET / MCP / AVEVA · 开发文档",
+      "_appLogoPath": "public/logo.svg",
+      "_appFaviconPath": "public/logo.svg",
+      "_disableContribution": true,
+      "_lang": "zh-cn"
+    }
+  }
+}

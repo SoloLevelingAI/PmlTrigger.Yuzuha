@@ -4,6 +4,10 @@
     <ImplicitUsings>disable</ImplicitUsings><Nullable>disable</Nullable>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="../NativeFormFixture.cs" Link="NativeFormFixture.cs" />
+    <Compile Include="../../../src/Shared/PmlArrayWindow.cs" Link="PmlArrayWindow.cs" />
+    <Compile Include="../../../src/Shared/PmlFormQuery.cs" Link="PmlFormQuery.cs" />
+    <Compile Include="../../../src/YuzuhaToolkit.PmlHost.Net48/PmlCommandRpcContracts.cs" Link="PmlCommandRpcContracts.cs" />
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies.net48" Version="1.0.3" PrivateAssets="all" />
     <Reference Include="PlantHost.Rpc.Abstractions"><HintPath>../../../src/lib/net48/PlantHost.Rpc.Abstractions.dll</HintPath></Reference>
     <Reference Include="PlantHost.Rpc.Net48"><HintPath>../../../src/lib/net48/PlantHost.Rpc.Net48.dll</HintPath></Reference>

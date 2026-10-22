@@ -5,8 +5,14 @@ using System.Threading.Tasks;
 
 namespace PlantHost.Rpc
 {
+    /// <summary>通过有长度前缀的帧读写管道；限制帧大小并拒绝不完整数据。</summary>
     internal static class PipeFraming
     {
+        /// <summary>把完整帧及长度前缀写入流，遵守取消并限制最大帧长度。</summary>
+        /// <param name="stream">承载长度前缀帧的输入或输出流。</param>
+        /// <param name="frame">需要写入的完整帧内容。</param>
+        /// <param name="cancellationToken">取消等待或传输；远端已经开始的命令可能继续执行，不能据此自动重试。</param>
+        /// <returns>表示异步操作完成的任务；取消或传输失败通过异常传播。</returns>
         public static async Task WriteAsync(
             Stream stream,
             byte[] frame,
@@ -26,6 +32,9 @@ namespace PlantHost.Rpc
             await stream.FlushAsync(cancellationToken).ConfigureAwait(false);
         }
 
+        /// <summary>读取并校验长度前缀和完整帧；遇到 EOF 或非法长度时失败。</summary>
+        /// <param name="stream">承载长度前缀帧的输入或输出流。</param>
+        /// <param name="cancellationToken">取消等待或传输；远端已经开始的命令可能继续执行，不能据此自动重试。</param>
         public static async Task<byte[]> ReadAsync(
             Stream stream,
             CancellationToken cancellationToken)

@@ -1,0 +1,4 @@
+apiRules:
+- exclude:
+    uidRegex: ^YuzuhaToolkit\.Builtins($|\.)
+    # This linked source also compiles into MCP; its canonical API page is under api/mcp.

@@ -1,0 +1,30 @@
+name: Phayton command regression
+on: [workflow_dispatch, push, pull_request]
+jobs:
+  commands:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Run operation and bridge regressions without AVEVA
+        run: dotnet run --project tests/Phayton -c Release
+      - name: Build CLI
+        run: dotnet build src/PmlTwin.Phayton.Cli -c Release
+      - name: Build MCP frontend
+        run: dotnet build src/YuzuhaToolkit.Mcp -c Release
+      - name: Check real CLI and MCP processes
+        run: python -X utf8 tests/Phayton/frontends.py --cli src/PmlTwin.Phayton.Cli/bin/Release/net10.0/PmlTwin.Phayton.Cli.exe --mcp src/YuzuhaToolkit.Mcp/bin/Release/net10.0/win-x64/YuzuhaToolkit.Mcp.exe
+      - name: Publish Native AOT frontends
+        shell: pwsh
+        run: |
+          dotnet publish src/PmlTwin.Phayton.Cli -c Release -r win-x64 -p:PublishAot=true -o artifacts/phayton/cli
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          dotnet publish src/YuzuhaToolkit.Mcp -c Release -o artifacts/phayton/mcp
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Check Native AOT frontends
+        run: python -X utf8 tests/Phayton/frontends.py --cli artifacts/phayton/cli/PmlTwin.Phayton.Cli.exe --mcp artifacts/phayton/mcp/YuzuhaToolkit.Mcp.exe

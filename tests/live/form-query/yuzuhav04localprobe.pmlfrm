@@ -1,0 +1,21 @@
+-- Synthetic form for local-only query verification. No database edits or saves.
+setup form !!YuzuhaV04LocalProbe
+  !this.formTitle = 'Yuzuha v0.4 local query test'
+  button .accept 'Probe' at xmin ymin callback '!this.onProbe()'
+  text .message 'Value' at xmin ymax+0.5 width 20 is STRING
+  toggle .enabled 'Synthetic toggle' at xmin ymax+0.5
+  list .items 'Synthetic list' at xmin ymax+0.5 width 20 length 3
+  member .ordinary is STRING
+  member .counter is REAL
+exit
+
+define method .YuzuhaV04LocalProbe()
+  !this.ordinary = 'synthetic-only'
+  !this.counter = 0
+  !this.message.val = 'synthetic'
+  !this.enabled.val = TRUE
+endmethod
+
+define method .onProbe()
+  !this.counter = !this.counter + 1
+endmethod

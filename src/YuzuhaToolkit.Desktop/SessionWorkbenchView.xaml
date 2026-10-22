@@ -3,7 +3,7 @@
     <Border x:Name="FeedbackPanel" DockPanel.Dock="Bottom" Background="{DynamicResource Surface.TintBrand}" CornerRadius="10" Padding="14,8" Margin="0,0,0,10">
       <DockPanel>
         <Button x:Name="CancelWaitButton" DockPanel.Dock="Right" Content="取消等待" Click="CancelWait" Visibility="Collapsed" ToolTip="已发出的操作可能继续" />
-        <TextBlock x:Name="FeedbackText" Text="先发现并选择会话，核验身份后再操作。" TextWrapping="Wrap" Foreground="{DynamicResource Text.Brand}" FontSize="11" />
+        <TextBlock x:Name="FeedbackText" Text="先发现并选择会话，核验身份后再操作。" TextWrapping="Wrap" Foreground="{DynamicResource Text.Brand}" FontSize="12" />
       </DockPanel>
     </Border>
     <TabControl x:Name="FlowTabs" Background="Transparent" BorderThickness="0" SelectionChanged="FlowChanged">
@@ -18,15 +18,15 @@
             <Grid x:Name="SessionColumns">
               <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2.14*" />
-                <ColumnDefinition Width="20" />
+                <ColumnDefinition Width="16" />
                 <ColumnDefinition />
               </Grid.ColumnDefinitions>
               <Border Style="{StaticResource Card}" MinHeight="332">
                 <StackPanel>
                   <DockPanel>
                     <WrapPanel DockPanel.Dock="Right">
-                      <Button Content="♙ 能力与函数" Click="ShowFunctions" FontSize="11" />
-                      <Button Content="⟳ 扫描会话" Click="DiscoverSessions" FontSize="11" />
+                      <Button Content="♙ 能力与函数" Click="ShowFunctions" FontSize="12" />
+                      <Button Content="⟳ 扫描会话" Click="DiscoverSessions" FontSize="12" />
                     </WrapPanel>
                     <StackPanel>
                       <TextBlock Text="工程会话" Style="{StaticResource SectionTitle}" />
@@ -34,9 +34,9 @@
                     </StackPanel>
                   </DockPanel>
                   <DockPanel Margin="0,12,0,10">
-                    <Button DockPanel.Dock="Right" Content="选择并核验  →" Click="SelectSession" Style="{StaticResource Primary}" FontSize="11" />
+                    <Button DockPanel.Dock="Right" Content="选择并核验  →" Click="SelectSession" Style="{StaticResource Primary}" FontSize="12" />
                     <Border Style="{StaticResource Pill}" HorizontalAlignment="Left">
-                      <TextBlock x:Name="CandidateCountText" Text="全部 0" Foreground="{DynamicResource Text.Brand}" FontSize="11" />
+                      <TextBlock x:Name="CandidateCountText" Text="全部 0" Foreground="{DynamicResource Text.Brand}" FontSize="12" />
                     </Border>
                   </DockPanel>
                   <DataGrid x:Name="SessionsGrid" Height="160">
@@ -67,29 +67,29 @@
                 <StackPanel>
                   <DockPanel>
                     <Border DockPanel.Dock="Right" Style="{StaticResource Pill}">
-                      <TextBlock x:Name="IdentityStateText" Text="待核验" Foreground="{DynamicResource Text.Brand}" FontSize="10" />
+                      <TextBlock x:Name="IdentityStateText" Text="待核验" Foreground="{DynamicResource Text.Brand}" FontSize="11" />
                     </Border>
                     <TextBlock Text="当前会话身份" Style="{StaticResource SectionTitle}" />
                   </DockPanel>
                   <TextBlock Text="PID + 进程启动时间 + Host 身份" Style="{StaticResource Caption}" />
                   <TextBlock x:Name="TargetText" Text="尚未选择目标" FontSize="18" FontWeight="SemiBold" TextWrapping="Wrap" Margin="0,16,0,10" />
                   <Border Height="1" Background="{DynamicResource Border.Subtle}" />
-                  <TextBlock x:Name="TargetDetailsText" TextWrapping="Wrap" FontSize="11" Foreground="{DynamicResource Text.Secondary}" LineHeight="23" Margin="0,12,0,16" />
-                  <Button Content="⟳ 重新核验" Click="VerifyTarget" FontSize="11" HorizontalAlignment="Right" />
+                  <TextBlock x:Name="TargetDetailsText" TextWrapping="Wrap" FontSize="12" Foreground="{DynamicResource Text.Secondary}" LineHeight="23" Margin="0,12,0,16" />
+                  <Button Content="⟳ 重新核验" Click="VerifyTarget" FontSize="12" HorizontalAlignment="Right" />
                 </StackPanel>
               </Border>
             </Grid>
             <Grid x:Name="SessionMiddleColumns">
               <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2.14*" />
-                <ColumnDefinition Width="20" />
+                <ColumnDefinition Width="16" />
                 <ColumnDefinition />
               </Grid.ColumnDefinitions>
               <Border Style="{StaticResource Card}" MinHeight="292">
                 <StackPanel>
                   <DockPanel>
                     <Border Style="{StaticResource Pill}" DockPanel.Dock="Right" Background="{DynamicResource Surface.TintWarning}">
-                      <TextBlock Text="现有内置遍历" Foreground="{DynamicResource Text.Brand}" FontSize="10" />
+                      <TextBlock Text="现有内置遍历" Foreground="{DynamicResource Text.Brand}" FontSize="11" />
                     </Border>
                     <TextBlock Text="对象与元素结果" Style="{StaticResource SectionTitle}" />
                   </DockPanel>
@@ -138,13 +138,13 @@
             <Grid x:Name="SessionLowerColumns">
               <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2.14*" />
-                <ColumnDefinition Width="20" />
+                <ColumnDefinition Width="16" />
                 <ColumnDefinition />
               </Grid.ColumnDefinitions>
               <Border Style="{StaticResource Card}" MinHeight="232">
                 <StackPanel>
                   <DockPanel>
-                    <Button DockPanel.Dock="Right" Content="Form / Gadget 查询 →" Click="ShowQueries" Style="{StaticResource Link}" FontSize="11" />
+                    <Button DockPanel.Dock="Right" Content="Form / Gadget 查询 →" Click="ShowQueries" Style="{StaticResource Link}" FontSize="12" />
                     <TextBlock Text="最近查询" Style="{StaticResource SectionTitle}" />
                   </DockPanel>
                   <TextBlock Text="当前窗口最近一次返回 · 不作为历史统计" Style="{StaticResource Caption}" />
@@ -162,11 +162,11 @@
                 <StackPanel>
                   <DockPanel>
                     <Border Style="{StaticResource Pill}" DockPanel.Dock="Right">
-                      <TextBlock Text="原始回执" Foreground="{DynamicResource Text.Brand}" FontSize="10" />
+                      <TextBlock Text="原始回执" Foreground="{DynamicResource Text.Brand}" FontSize="11" />
                     </Border>
                     <TextBlock Text="PML 控制台" Style="{StaticResource SectionTitle}" />
                   </DockPanel>
-                  <TextBox x:Name="SessionReceiptText" IsReadOnly="True" Height="110" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Background="{DynamicResource Surface.Code}" Foreground="{DynamicResource Text.CodeText}" FontFamily="Consolas" FontSize="10" Margin="0,12,0,10" />
+                  <TextBox x:Name="SessionReceiptText" IsReadOnly="True" Height="110" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Background="{DynamicResource Surface.Code}" Foreground="{DynamicResource Text.CodeText}" FontFamily="Consolas" FontSize="11" Margin="0,12,0,10" />
                   <DockPanel>
                     <Button DockPanel.Dock="Right" Content="▶ 执行" IsEnabled="False" />
                     <TextBox Tag="原始命令待接入" IsEnabled="False" Margin="0,0,8,0" />
@@ -181,14 +181,14 @@
       <TabItem Header="能力与函数">
         <ScrollViewer VerticalScrollBarVisibility="Auto">
           <StackPanel>
-            <Button Content="← 返回工程会话" Click="ShowSessions" HorizontalAlignment="Left" Margin="0,0,0,10" FontSize="11" MinHeight="28" Padding="12,5" />
+            <Button Content="← 返回工程会话" Click="ShowSessions" HorizontalAlignment="Left" Margin="0,0,0,10" FontSize="12" MinHeight="28" Padding="12,5" />
             <Border Style="{StaticResource Card}" Padding="18,14">
               <DockPanel>
                 <WrapPanel DockPanel.Dock="Right">
                   <Border Style="{StaticResource Pill}" Margin="0,0,10,0">
-                    <TextBlock Text="FormQuery / 有界数组" Foreground="{DynamicResource Text.Brand}" FontSize="10" />
+                    <TextBlock Text="FormQuery / 有界数组" Foreground="{DynamicResource Text.Brand}" FontSize="11" />
                   </Border>
-                  <Button Content="原生查询  →" Click="ShowQueries" Style="{StaticResource Link}" FontSize="11" />
+                  <Button Content="原生查询  →" Click="ShowQueries" Style="{StaticResource Link}" FontSize="12" />
                 </WrapPanel>
                 <StackPanel>
                   <TextBlock Text="当前目标" Style="{StaticResource Caption}" />
@@ -205,7 +205,7 @@
               <Border Style="{StaticResource Card}" MinHeight="490">
                 <StackPanel>
                   <DockPanel>
-                    <Button DockPanel.Dock="Right" Content="登记函数  +" Click="ExpandRegistration" Style="{StaticResource Primary}" FontSize="11" />
+                    <Button DockPanel.Dock="Right" Content="登记函数  +" Click="ExpandRegistration" Style="{StaticResource Primary}" FontSize="12" />
                     <StackPanel>
                       <TextBlock Text="已登记函数" Style="{StaticResource SectionTitle}" />
                       <TextBlock Text="许可、源码哈希、签名与会话加载分别表达" Style="{StaticResource Caption}" />
@@ -243,25 +243,25 @@
                     </DataGrid.Columns>
                   </DataGrid>
                   <TextBlock Text="默认 AllowInvoke=false · 源码变化后重新登记与人工授权" Style="{StaticResource Caption}" Foreground="{DynamicResource Text.Warning}" Margin="0,18,0,0" />
-                  <TextBox x:Name="SourceDetailsBox" Visibility="Collapsed" IsReadOnly="True" TextWrapping="Wrap" MaxHeight="280" VerticalScrollBarVisibility="Auto" FontFamily="Consolas,Microsoft YaHei UI" FontSize="11" />
+                  <TextBox x:Name="SourceDetailsBox" Visibility="Collapsed" IsReadOnly="True" TextWrapping="Wrap" MaxHeight="280" VerticalScrollBarVisibility="Auto" FontFamily="Consolas,Microsoft YaHei UI" FontSize="12" />
                 </StackPanel>
               </Border>
               <Border Grid.Column="2" Style="{StaticResource Card}">
                 <StackPanel>
                   <DockPanel>
                     <Border DockPanel.Dock="Right" Style="{StaticResource Pill}">
-                      <TextBlock Text="全局函数" Foreground="{DynamicResource Text.Brand}" FontSize="10" />
+                      <TextBlock Text="全局函数" Foreground="{DynamicResource Text.Brand}" FontSize="11" />
                     </Border>
                     <TextBlock Text="函数详情" Style="{StaticResource SectionTitle}" />
                   </DockPanel>
                   <TextBlock x:Name="InvocationNameText" Text="先选择登记项" FontFamily="Consolas,Microsoft YaHei UI" FontSize="19" FontWeight="SemiBold" Margin="0,18,0,8" TextWrapping="Wrap" />
-                  <TextBlock x:Name="FunctionSourceText" Text="选择后显示源码位置" Style="{StaticResource Caption}" FontSize="10" />
+                  <TextBlock x:Name="FunctionSourceText" Text="选择后显示源码位置" Style="{StaticResource Caption}" FontSize="11" />
                   <Border Background="{DynamicResource Surface.Subtle}" BorderBrush="{DynamicResource Border.Subtle}" BorderThickness="1" CornerRadius="10" Padding="12" Margin="0,14,0,14">
-                    <TextBlock x:Name="FunctionHashText" Text="登记与当前源码分别核对" Foreground="{DynamicResource Text.Secondary}" FontFamily="Consolas,Microsoft YaHei UI" FontSize="10" TextWrapping="Wrap" />
+                    <TextBlock x:Name="FunctionHashText" Text="登记与当前源码分别核对" Foreground="{DynamicResource Text.Secondary}" FontFamily="Consolas,Microsoft YaHei UI" FontSize="11" TextWrapping="Wrap" />
                   </Border>
                   <WrapPanel>
-                    <Button Content="授予许可" Click="GrantFunction" Style="{StaticResource Quiet}" FontSize="11" />
-                    <Button Content="撤销许可" Click="RevokeFunction" FontSize="11" />
+                    <Button Content="授予许可" Click="GrantFunction" Style="{StaticResource Quiet}" FontSize="12" />
+                    <Button Content="撤销许可" Click="RevokeFunction" FontSize="12" />
                   </WrapPanel>
                   <Expander Header="调用参数与预览" IsExpanded="False" Margin="0,16,0,12">
                     <StackPanel Margin="0,10,0,0">
@@ -276,15 +276,15 @@
                         </ItemsControl.ItemTemplate>
                       </ItemsControl>
                       <WrapPanel Margin="0,4,0,0">
-                        <Button Content="核验并预览" Click="PreviewFunction" FontSize="11" />
-                        <Button Content="执行一次 ▶" Click="InvokeFunction" Style="{StaticResource Primary}" FontSize="11" />
+                        <Button Content="核验并预览" Click="PreviewFunction" FontSize="12" />
+                        <Button Content="执行一次 ▶" Click="InvokeFunction" Style="{StaticResource Primary}" FontSize="12" />
                       </WrapPanel>
-                      <TextBox x:Name="CallPreviewBox" IsReadOnly="True" TextWrapping="Wrap" MinHeight="38" FontFamily="Consolas" FontSize="11" Margin="0,10,0,0" />
+                      <TextBox x:Name="CallPreviewBox" IsReadOnly="True" TextWrapping="Wrap" MinHeight="38" FontFamily="Consolas" FontSize="12" Margin="0,10,0,0" />
                     </StackPanel>
                   </Expander>
                   <WrapPanel>
-                    <Button Content="查看源码 / 哈希" Click="InspectFunction" FontSize="10" />
-                    <Button Content="重新登记" Click="ExpandRegistration" Style="{StaticResource Primary}" FontSize="10" />
+                    <Button Content="查看源码 / 哈希" Click="InspectFunction" FontSize="11" />
+                    <Button Content="重新登记" Click="ExpandRegistration" Style="{StaticResource Primary}" FontSize="11" />
                   </WrapPanel>
                   <TextBlock Text="Q04 · 登记不代表会话已加载版本；历史差异需 Git。调度完成与业务结果分开。" Style="{StaticResource Caption}" Foreground="{DynamicResource Text.Warning}" Margin="0,12,0,0" />
                 </StackPanel>

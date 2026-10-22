@@ -49,6 +49,14 @@ public sealed class WorkspaceSettings
 /// <summary>AVEVA 启动配置；密码保存在 Windows 凭据库，配置只保留本机引用。</summary>
 public sealed class LaunchProfile
 {
+    /// <summary>启动配置的本机稳定标识，不包含工程凭据。</summary>
+    public string Id { get; set; } = Guid.NewGuid().ToString("N");
+    /// <summary>配置库中的收藏标记。</summary>
+    public bool IsFavorite { get; set; }
+    /// <summary>工作台启动时优先选中的配置；不会自动启动工程。</summary>
+    public bool IsDefault { get; set; }
+    /// <summary>本工作台最近创建启动入口进程的时间，不表示工程登录成功。</summary>
+    public DateTimeOffset? LastStartedUtc { get; set; }
     /// <summary>配置显示名称。</summary>
     public string Name { get; set; } = "新启动配置";
     /// <summary>Windows 凭据管理器中的本应用引用；不是密码，不与其他应用共用。</summary>

@@ -60,7 +60,7 @@
       <Geometry x:Key="Icon.refresh">M20 7 V3 L16 7 M20 7 A9 9 0 1 0 21 14</Geometry>
       <Style TargetType="Window">
         <Setter Property="FontFamily" Value="Segoe UI,Microsoft YaHei UI" />
-        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontSize" Value="13" />
         <Setter Property="Foreground" Value="{DynamicResource Text.Primary}" />
         <Setter Property="Background" Value="{DynamicResource Surface.Page}" />
         <Setter Property="UseLayoutRounding" Value="True" />
@@ -226,12 +226,13 @@
         <Setter Property="Foreground" Value="{DynamicResource Text.Primary}" />
       </Style>
       <Style TargetType="DataGrid">
+        <Setter Property="FontSize" Value="13" />
         <Setter Property="AutoGenerateColumns" Value="False" />
         <Setter Property="IsReadOnly" Value="True" />
         <Setter Property="CanUserAddRows" Value="False" />
         <Setter Property="CanUserResizeRows" Value="False" />
         <Setter Property="GridLinesVisibility" Value="Horizontal" />
-        <Setter Property="HorizontalGridLinesBrush" Value="#EFF3F1" />
+        <Setter Property="HorizontalGridLinesBrush" Value="{DynamicResource Border.Subtle}" />
         <Setter Property="MinRowHeight" Value="50" />
         <Setter Property="HeadersVisibility" Value="Column" />
         <Setter Property="Background" Value="{DynamicResource Surface.Card}" />
@@ -239,13 +240,12 @@
         <Setter Property="RowHeaderWidth" Value="0" />
         <Setter Property="SelectionUnit" Value="FullRow" />
         <Setter Property="SelectionMode" Value="Single" />
-        <Setter Property="FontSize" Value="11" />
       </Style>
       <Style TargetType="DataGridColumnHeader">
         <Setter Property="Padding" Value="8,10" />
         <Setter Property="Background" Value="{DynamicResource Surface.Card}" />
         <Setter Property="Foreground" Value="{DynamicResource Text.Tertiary}" />
-        <Setter Property="FontSize" Value="10.5" />
+        <Setter Property="FontSize" Value="11" />
         <Setter Property="FontWeight" Value="Normal" />
         <Setter Property="BorderBrush" Value="{DynamicResource Border.Subtle}" />
         <Setter Property="BorderThickness" Value="0,0,0,1" />
@@ -290,16 +290,11 @@
       </Style>
       <Style x:Key="Card" TargetType="Border">
         <Setter Property="Background" Value="{DynamicResource Surface.Card}" />
-        <Setter Property="CornerRadius" Value="18" />
-        <Setter Property="Padding" Value="22" />
-        <Setter Property="Margin" Value="0,0,0,18" />
+        <Setter Property="CornerRadius" Value="14" />
+        <Setter Property="Padding" Value="20" />
+        <Setter Property="Margin" Value="0,0,0,16" />
         <Setter Property="BorderBrush" Value="{DynamicResource Border.Default}" />
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="Effect">
-          <Setter.Value>
-            <DropShadowEffect Color="#101828" Opacity="0.045" ShadowDepth="2" BlurRadius="4" />
-          </Setter.Value>
-        </Setter>
       </Style>
       <Style x:Key="SectionTitle" TargetType="TextBlock">
         <Setter Property="FontSize" Value="16" />
@@ -307,7 +302,7 @@
         <Setter Property="Margin" Value="0,0,0,5" />
       </Style>
       <Style x:Key="Caption" TargetType="TextBlock">
-        <Setter Property="FontSize" Value="11" />
+        <Setter Property="FontSize" Value="12" />
         <Setter Property="Foreground" Value="{DynamicResource Text.Tertiary}" />
         <Setter Property="TextWrapping" Value="Wrap" />
       </Style>
@@ -318,13 +313,13 @@
       </Style>
       <Style x:Key="NavGroup" TargetType="TextBlock">
         <Setter Property="Foreground" Value="{DynamicResource Brand.NavMuted}" />
-        <Setter Property="FontSize" Value="9" />
+        <Setter Property="FontSize" Value="11" />
         <Setter Property="Margin" Value="12,14,0,6" />
       </Style>
       <Style x:Key="NavButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{DynamicResource Brand.NavText}" />
-        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontSize" Value="13" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="Padding" Value="14,7" />
         <Setter Property="Margin" Value="0,0,0,3" />

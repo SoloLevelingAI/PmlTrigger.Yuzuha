@@ -27,20 +27,27 @@ public sealed class DesktopPresentationTests
         var light = Palette("Light"); var dark = Palette("Dark");
         Assert.Equal(light.Keys.Order(), dark.Keys.Order());
         Assert.True(light.Count >= 60);
-        using var design = JsonDocument.Parse(File.ReadAllText(Path.Combine(Root(), "design", "figcraft", "theme-tokens.json")));
+        using var design = JsonDocument.Parse(File.ReadAllText(Path.Combine(Root(), "design", "figcraft", "v08-theme-tokens.json")));
+        Assert.Equal(26, design.RootElement.GetProperty("variables").GetArrayLength());
         foreach (var token in design.RootElement.GetProperty("variables").EnumerateArray())
         foreach (var (palette, index) in new[] { (light, 1), (dark, 2) })
         {
             var value = token.GetProperty("values").GetProperty("VariableCollectionId:1/mode" + index).GetProperty("value");
             var expected = "#" + string.Concat(new[] { "r", "g", "b" }.Select(channel => ((int)Math.Round(value.GetProperty(channel).GetDouble() * 255)).ToString("X2")));
-            Assert.Equal(expected, palette[token.GetProperty("name").GetString()!.Replace('/', '.')]);
+            Assert.Equal(expected, palette["V08." + token.GetProperty("name").GetString()!.Replace('/', '.')]);
         }
+        foreach (var palette in new[] { light, dark })
+        foreach (var (alias, token) in new[] { ("Surface.Page", "Surface.Page"), ("Surface.Card", "Surface.Card"), ("Text.Primary", "Text.Primary"),
+            ("Accent.Brand", "Accent.Default"), ("Brand.Sidebar", "Shell.Sidebar"), ("Chart.Query", "Chart.Series1"), ("Chart.Exec", "Chart.Series2"), ("Chart.Search", "Chart.Series3") })
+            Assert.Equal(palette["V08." + token], palette[alias]);
         XNamespace x = "http://schemas.microsoft.com/winfx/2006/xaml";
         var keys = XDocument.Load(Path.Combine(Root(), "src", "YuzuhaToolkit.Desktop", "Themes", "Light.xaml")).Root!.Elements().Select(node => (string)node.Attribute(x + "Key")!).ToArray();
         foreach (var file in Directory.EnumerateFiles(Path.Combine(Root(), "src", "YuzuhaToolkit.Desktop"), "*.xaml", SearchOption.TopDirectoryOnly))
         foreach (var attribute in XDocument.Load(file).Descendants().Attributes())
         {
             var value = attribute.Value;
+            if (attribute.Name.LocalName == "FontSize" && double.TryParse(value, System.Globalization.CultureInfo.InvariantCulture, out var size))
+                Assert.True(size >= 11, file + ": v08 text must be at least 11 DIP");
             if (!value.StartsWith("{DynamicResource ", StringComparison.Ordinal)) continue;
             Assert.Contains(value[17..^1], keys);
         }

@@ -1,6 +1,40 @@
-const uncertain=kind=>/possible-|interface-call|virtual-dispatch|delegate-invoke|callback-body:/.test(kind);
-const names={call:'源码调用',constructor:'构造调用',entry:'UI 入口',unresolved:'静态未知',limit:'未展开','interface-call':'接口调用','possible-implementation':'候选实现','possible-event-handler':'候选处理器','virtual-dispatch':'虚分派','delegate-invoke':'委托目标未知','event-raise':'事件触发','property-write':'写入 setter',boundary:'静态未知'};
-const relation=kind=>names[kind]??(kind.startsWith('callback-body:')?'回调体 · '+relation(kind.slice(14)):kind);
+const uncertain=kind=>/possible-|interface-call|virtual-dispatch|delegate-invoke|callback-body:|callback-argument:|rpc-route/.test(kind);
+const names={call:'源码调用',constructor:'构造调用',entry:'UI 入口',unresolved:'静态未知',limit:'未展开','interface-call':'接口调用','possible-implementation':'候选实现','possible-event-handler':'候选处理器','virtual-dispatch':'虚分派','delegate-invoke':'委托目标未知','event-raise':'事件触发','property-write':'写入 setter','property-read':'读取 getter','rpc-route':'RPC 路由对应 · 非本进程调用',boundary:'静态未知'};
+const relation=kind=>names[kind]??(kind.startsWith('callback-body:')?'回调体 · '+relation(kind.slice(14)):kind.startsWith('callback-argument:')?'传入回调 · '+kind.slice(18):kind);
+
+/** A branch is a call-site occurrence, not a merged symbol. Expansion has no depth cutoff. */
+export function createCallHierarchy(catalog) {
+  const nodes=new Map(catalog.nodes.map(n=>[n.id,n])),outgoing=new Map(),boundaries=new Map();
+  for(const edge of catalog.edges){if(!outgoing.has(edge.from))outgoing.set(edge.from,[]);outgoing.get(edge.from).push(edge);}
+  for(const list of outgoing.values())list.sort((a,b)=>a.file.localeCompare(b.file)||a.line-b.line||(a.offset??0)-(b.offset??0));
+  for(const boundary of catalog.boundaries){if(!boundaries.has(boundary.from))boundaries.set(boundary.from,[]);boundaries.get(boundary.from).push(boundary);}
+  function branch(node,parent=null,via=null,index=0) {
+    const path=[...(parent?.path??[]),node.id],cycle=!!parent?.path.includes(node.id);
+    return {node,via,path,key:(parent?.key??'root')+'/'+index,level:path.length-1,cycle,
+      leafReason:cycle?'递归返回已在本路径中的方法；停止重复展开。':node.reason??node.unknownReason??(!node.file&&!node.entry?'函数体不在本次分析范围。':null)};
+  }
+  function root({entryId,focusId}={}) {
+    if(focusId){const node=nodes.get(focusId);if(!node)throw new Error('Unknown source symbol');return branch(node);}
+    const entry=catalog.entries.find(e=>e.id===entryId);if(!entry)throw new Error('Unknown UI entry');
+    return branch({...entry,id:'entry:'+entry.id,label:entry.control+' · '+entry.member,entry,reason:null});
+  }
+  function children(parent) {
+    if(parent.leafReason)return [];
+    const node=parent.node;
+    if(node.entry)return node.target?[branch(nodes.get(node.target),parent,{kind:'entry',expression:node.expression,sourceUrl:node.sourceUrl})]:[branch({id:'unknown:'+node.id,label:'静态未知',reason:node.entry.reason},parent)];
+    return [...(outgoing.get(node.id)??[]).map((edge,i)=>branch(nodes.get(edge.to),parent,edge,i)),
+      ...(boundaries.get(node.id)??[]).map((b,i)=>branch({id:'boundary:'+node.id+':'+i,label:'静态边界 · '+b.kind,reason:b.reason,body:b.expression,sourceUrl:b.sourceUrl},parent,{kind:'boundary'},'b'+i))];
+  }
+  function findPath(start,targetId) {
+    const queue=[[start]],seen=new Set([start.node.id]);
+    for(let i=0;i<queue.length;i++){
+      const path=queue[i],last=path.at(-1);if(last.node.id===targetId)return path;
+      for(const child of children(last)){if(seen.has(child.node.id))continue;seen.add(child.node.id);queue.push([...path,child]);}
+    }
+    return null;
+  }
+  return {root,children,findPath};
+}
 
 /** Bounded static neighborhood. Cycles and omitted frontiers remain explicit, never imply execution order. */
 export function describeDiagram(catalog,{entryId,focusId,depth=3,maxNodes=36}={}) {
@@ -47,10 +81,102 @@ const el=(tag,attrs={},...children)=>{
 const svg=(tag,attrs={},text)=>{const n=document.createElementNS('http://www.w3.org/2000/svg',tag);for(const [k,v]of Object.entries(attrs))n.setAttribute(k,String(v));if(text!==undefined)n.textContent=text;return n;};
 let sequence=0,catalogPromise;
 export async function mountUiTrace(root,container) {
+  if(new URLSearchParams(location.search).get('display')==='graph')return mountDiagram(root,container);
+  return mountCallHierarchy(root,container);
+}
+
+async function mountCallHierarchy(root,container) {
+  try {
+    catalogPromise??=fetch(new URL('reference/ui-trace/browser.json',root)).then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json();});
+    const c=await catalogPromise,h=createCallHierarchy(c),query=new URLSearchParams(location.search),url=path=>new URL(path,root).href;
+    const edgeTitle=edge=>edge?.callbackReceiver?'传入 '+c.nodes.find(n=>n.id===edge.callbackReceiver)?.label+' · '+edge.kind.slice(18):relation(edge.kind);
+    let focusId=query.get('node')??container.dataset.node,entryId=query.get('entry');
+    const preferred=c.entries.find(e=>e.expression===container.dataset.entryExpression&&e.member==='Click');
+    let pageId=c.entries.find(e=>e.id===entryId)?.pageId??container.dataset.page??preferred?.pageId??c.pages.find(p=>p.kind==='page')?.id;
+    entryId??=preferred?.id;
+    const button=(text,action)=>el('button',{type:'button',onclick:action},text),field=(name,input)=>el('label',{},el('span',{},name),input);
+    const pageSelect=el('select',{'aria-label':'选择 WPF 页面'},c.pages.map(p=>el('option',{value:p.id},p.name)));
+    const entrySelect=el('select',{'aria-label':'选择页面入口'}),targetSelect=el('select',{'aria-label':'定位下游函数'});
+    const status=el('p',{class:'ui-trace-status','aria-live':'polite'}),tree=el('div',{class:'ui-call-tree','aria-label':'逐级调用树'}),detail=el('section',{class:'ui-call-detail','aria-label':'调用节点详情'});
+    const breadcrumb=el('div',{class:'ui-call-breadcrumb'});let start,expanded,rows,rendered;
+    function updateAddress(target){const address=new URL(location.href);address.searchParams.delete('display');if(focusId)address.searchParams.set('node',focusId);else address.searchParams.delete('node');if(entryId)address.searchParams.set('entry',entryId);if(target)address.searchParams.set('target',target);else address.searchParams.delete('target');history.replaceState(null,'',address);}
+    function select(branch) {
+      for(const row of tree.querySelectorAll('.ui-call-row'))row.classList.toggle('selected',row.dataset.key===branch.key);
+      const n=branch.node,via=branch.via;
+      const pathRows=branch.path.map((id,index)=>rows.get(branch.key.split('/').slice(0,index+2).join('/'))?.branch).filter(Boolean);
+      breadcrumb.replaceChildren(el('strong',{},'当前路径 · '+branch.level+' 级'),el('ol',{},pathRows.map(item=>el('li',{},button(item.node.label,()=>{select(item);detail.scrollIntoView({block:'nearest'});}),el('small',{},item.via?edgeTitle(item.via):'按钮 / 事件')))));
+      detail.replaceChildren(el('h3',{},n.label??n.name),el('p',{},n.summary??'源码未提供摘要，请查看下方实际函数体和调用处。'));
+      if(branch.leafReason)detail.append(el('p',{class:'ui-trace-warning'},branch.leafReason));
+      if(via){detail.append(el('strong',{},edgeTitle(via)),el('pre',{},el('code',{},via.expression??'')));
+        if(via.callbackReceiver){const receiver=c.nodes.find(n=>n.id===via.callbackReceiver);if(receiver?.url)detail.append(el('a',{href:url(receiver.url)},'查看接收回调的包装器：'+receiver.label));}
+        if(via.context?.length)detail.append(el('p',{},'调用处的语法条件：'+via.context.join(' → ')));
+        detail.append(el('p',{class:'test-note'},'语法条件不等于完整路径条件；先前的 guard、异常和回调调度请结合调用者函数体核对。'));
+        if(via.sourceUrl)detail.append(el('a',{href:url(via.sourceUrl)},'调用处源码'));
+        for(const evidence of via.evidence??[])detail.append(el('p',{},el('a',{href:url(evidence.sourceUrl)},evidence.role+' · '+evidence.file+':'+evidence.line)));
+      }
+      const links=el('p',{class:'ui-trace-actions'});if(n.sourceUrl)links.append(el('a',{href:url(n.sourceUrl)},'函数定义 / 源码行'));if(n.url)links.append(el('a',{href:url(n.url)},'上下游与测试详情'));if(n.typeUrl)links.append(el('a',{href:url(n.typeUrl)},'所属类型 / API'));detail.append(links);
+      if(n.body)detail.append(el('details',{open:''},el('summary',{},'实际源码 · 计算、校验和返回值'),el('pre',{},el('code',{},n.body))));
+      detail.append(el('h4',{},'关联测试'),el('p',{},'关联不表示覆盖或当前通过。测试详情包含 ID、源码、命令、环境和证据。'));
+      const tests=n.tests??[];
+      if(!tests.length)detail.append(el('p',{},'此节点尚无明确测试关联。'));
+      for(const scope of ['method','type','other-member']){const items=tests.filter(t=>t.scope===scope);if(!items.length)continue;
+        const title={method:'方法关联',type:'类型关联；不代表当前方法覆盖','other-member':'同类型其他方法关联'}[scope],list=el('ul',{},items.map(t=>el('li',{},el('a',{href:url(t.url)},t.name))));
+        detail.append(scope==='other-member'?el('details',{},el('summary',{},title),list):el('section',{},el('strong',{},title),list));
+      }
+    }
+    function add(branch,parent) {
+      const children=h.children(branch),row=el('div',{class:'ui-call-row','data-key':branch.key,style:'--call-depth:'+Math.min(branch.level,6)}),sub=el('div',{class:'ui-call-children'}),group=el('div',{class:'ui-call-branch'});
+      const toggle=button(children.length?'＋':'·',()=>expand(branch));toggle.className='ui-call-toggle';toggle.disabled=!children.length;toggle.setAttribute('aria-label','展开下一级 · '+branch.node.label);toggle.setAttribute('aria-expanded','false');
+      const title=button(branch.node.label??branch.node.name,()=>{select(branch);detail.scrollIntoView({block:'nearest'});});title.className='ui-call-title';
+      row.append(toggle,el('div',{},el('span',{class:'ui-call-relation'+(branch.via&&uncertain(branch.via.kind)?' uncertain':'')},branch.level+' 级 · '+(branch.via?edgeTitle(branch.via):'入口')),title,
+        branch.via?.expression?el('code',{class:'ui-call-expression'},branch.via.expression):null,
+        branch.via?.context?.length?el('small',{},branch.via.context.join(' → ')):null,
+        branch.node.file?el('small',{},branch.node.id.split('::')[0]+' · '+branch.node.file+':'+branch.node.line):null,
+        branch.leafReason?el('small',{class:'ui-call-terminal'},branch.leafReason):!children.length?el('small',{class:'ui-call-terminal'},'本次未发现更下层显式调用；查看实际源码核对计算和赋值。'):el('small',{},children.length+' 个直接下游 / 边界')));
+      group.append(row,sub);parent.append(group);rows.set(branch.key,{branch,toggle,sub,children});rendered++;
+    }
+    function expand(branch,force=false) {
+      const state=rows.get(branch.key);if(!state?.children.length)return;
+      if(expanded.has(branch.key)){if(force)return;state.sub.hidden=!state.sub.hidden;state.toggle.textContent=state.sub.hidden?'＋':'−';state.toggle.setAttribute('aria-expanded',String(!state.sub.hidden));return;}
+      // Bound DOM work, not analysis depth; return to entry to clear other branches if needed.
+      if(rendered+state.children.length>1200){status.textContent='已展示 1200 个调用位置；请返回入口清理展开状态后定位目标。尚未展开不表示没有下游。';return;}
+      expanded.add(branch.key);state.children.forEach(child=>add(child,state.sub));state.toggle.textContent='−';state.toggle.setAttribute('aria-expanded','true');
+    }
+    function locate(target) {
+      const path=h.findPath(start,target);if(!path){status.textContent='此入口没有可静态确定的路径到该函数。';return;}
+      for(const branch of path.slice(0,-1))expand(branch,true);
+      const last=path.at(-1);select(last);targetSelect.value=target;updateAddress(target);
+      status.textContent='已展开 '+(path.length-1)+' 级关系，保留每一级的其他调用。候选、回调和 RPC 对应均需按标签核对。';
+    }
+    function render() {
+      tree.replaceChildren();detail.replaceChildren();expanded=new Set();rows=new Map();rendered=0;
+      if(!focusId&&!entryId){status.textContent='此页面容器没有独立入口，请选择业务页或共享视图。';return;}
+      start=h.root({entryId,focusId});add(start,tree);expand(start,true);const first=h.children(start)[0];if(first)expand(first,true);select(start);
+      status.textContent='点击 ＋ 逐级展开，点击函数名看实际源码。顺序按源码位置排列，不是运行记录。';
+      const reachable=new Set(),queue=[start];for(let i=0;i<queue.length;i++){const b=queue[i];if(reachable.has(b.node.id))continue;reachable.add(b.node.id);queue.push(...h.children(b));}
+      targetSelect.replaceChildren(el('option',{value:''},'选择一个可达函数，展开它的父级路径'),...c.nodes.filter(n=>reachable.has(n.id)).sort((a,b)=>a.name.localeCompare(b.name)).map(n=>el('option',{value:n.id},n.label+' · '+n.id.split('::')[0])));
+    }
+    function changePage() {
+      pageSelect.value=pageId;const entries=c.entries.filter(e=>e.pageId===pageId);if(!entries.some(e=>e.id===entryId))entryId=entries.find(e=>e.member==='Click'&&e.target)?.id??entries[0]?.id;
+      entrySelect.replaceChildren(...entries.map(e=>el('option',{value:e.id},e.control+' · '+e.member+' → '+e.expression+(e.initiallyDisabled?' · 初始禁用':''))));entrySelect.value=entryId??'';entrySelect.disabled=!entries.length;render();
+    }
+    pageSelect.addEventListener('change',()=>{pageId=pageSelect.value;entryId=null;focusId=null;treePanel.open=true;changePage();updateAddress();});
+    entrySelect.addEventListener('change',()=>{entryId=entrySelect.value;focusId=null;treePanel.open=true;render();updateAddress();});
+    targetSelect.addEventListener('change',()=>{if(targetSelect.value)locate(targetSelect.value);});
+    const treePanel=el('details',{open:''},el('summary',{},'逐级展开全部调用与其他分支'),tree);
+    container.replaceChildren(el('div',{class:'ui-trace-controls'},field('页面',pageSelect),field('按钮 / 事件',entrySelect),button('返回入口 / 收起分支',()=>{focusId=null;treePanel.open=true;render();updateAddress();}),button('切换关系图',()=>{const address=new URL(location.href);address.searchParams.set('display','graph');location.assign(address); })),
+      el('p',{class:'ui-trace-legend'},'Roslyn 静态调用树 · 每个调用处独立展开 · 回调需由包装器调度，接口实现只是候选，RPC 路由对应不是运行证据。'),
+      ...(c.omittedProjects??[]).map(text=>el('p',{class:'ui-trace-warning'},text)),field('快速展开到下游函数',targetSelect),status,breadcrumb,treePanel,detail);
+    changePage();if(query.get('target')){locate(query.get('target'));treePanel.open=false;}
+    else if(container.dataset.entryExpression==='ReadForms'&&!focusId){const core=c.nodes.find(n=>n.id==='YuzuhaToolkit.PmlHost.Net48::M:YuzuhaToolkit.Pml.PmlFormQuery.Reader.ReadCore');if(core){locate(core.id);treePanel.open=false;}}
+  } catch(error){container.replaceChildren(el('p',{class:'ui-trace-warning'},'调用树未能加载：'+error.message+'。不展示旧结果作为成功。'));}
+}
+
+async function mountDiagram(root,container) {
   try {
     catalogPromise??=fetch(new URL('reference/ui-trace/browser.json',root)).then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json();});
     const c=await catalogPromise,query=new URLSearchParams(location.search),scopeNames={method:'方法关联',type:'类型关联（不表示此方法已覆盖）','other-member':'同类型其他方法（不表示覆盖当前方法）'};
-    let focusId=query.get('node')??container.dataset.node??null,pageId=container.dataset.page??(focusId?'':c.pages.find(p=>p.kind==='page'&&p.name==='总览')?.id??c.pages.find(p=>p.kind==='page')?.id),entryId=query.get('entry'),selectedId,depth=3,zoom=100;
+    let focusId=query.get('node')??container.dataset.node??null,entryId=query.get('entry')??c.entries.find(e=>e.expression===container.dataset.entryExpression&&e.member==='Click')?.id,pageId=c.entries.find(e=>e.id===entryId)?.pageId??container.dataset.page??(focusId?'':c.pages.find(p=>p.kind==='page'&&p.name==='总览')?.id??c.pages.find(p=>p.kind==='page')?.id),selectedId,depth=3,zoom=100;
     const url=path=>new URL(path,root).href;
     const button=(text,action)=>el('button',{type:'button',onclick:action},text);
     const pageSelect=el('select',{'aria-label':'选择 WPF 页面',onchange:event=>{const p=c.pages.find(p=>p.id===event.target.value);if(p)location.assign(url(p.url));}});

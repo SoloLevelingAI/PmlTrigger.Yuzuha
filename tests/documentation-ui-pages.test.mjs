@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {buildUiTraceCatalog} from '../scripts/documentation-ui-trace.mjs';
-import {describeDiagram} from '../docs/reference/template/public/ui-trace.js';
+import {describeDiagram, createCallHierarchy} from '../docs/reference/template/public/ui-trace.js';
 
 const fixture = () => ({
   kind: 'static-source-trace',
@@ -13,6 +13,30 @@ const fixture = () => ({
 });
 const types = [{uid:'P::App.View',name:'View',sourceUrl:'reference/source/View.html'},{uid:'P::App.Service',name:'Service',sourceUrl:'reference/source/Service.html'}];
 const tests = [{id:'xunit:Exact',name:'Exact',url:'reference/tests/exact.html',kind:'xunit',targets:[{uid:'P::App.Service',methods:[{uid:'App.Service.Run',name:'Run'}]}]},{id:'xunit:Type',name:'Type',url:'reference/tests/type.html',kind:'xunit',targets:[{uid:'P::App.Service',methods:[]}]}];
+
+test('hierarchy expands one level per call site and preserves the full path, conditions, and terminal reasons', () => {
+  const g=fixture();g.edges[0].expression='service.Run(42)';g.edges[0].context=['if (valid)'];
+  g.edges.push({...g.edges[0],line:8,expression:'service.Run(99)',context:['else']});
+  const h=createCallHierarchy(buildUiTraceCatalog(g,types,tests));
+  const root=h.root({entryId:'click'}),start=h.children(root)[0],calls=h.children(start);
+  assert.equal(calls.length,2);assert.notEqual(calls[0].key,calls[1].key);
+  assert.equal(calls[0].via.expression,'service.Run(42)');assert.deepEqual(calls[0].via.context,['if (valid)']);
+  const run=calls[0],other=h.children(run).find(b=>b.node.id==='P::M:App.Service.Other');
+  const leaves=h.children(other),cycle=leaves.find(b=>b.cycle),external=leaves.find(b=>b.node.id==='System::M:External.Send');
+  assert.ok(cycle.leafReason.includes('递归'));assert.equal(h.children(cycle).length,0);
+  assert.ok(external.leafReason.includes('函数体'));assert.equal(external.path.length,5);
+  assert.ok(h.children(run).some(b=>b.leafReason?.includes('运行时')));
+  const unknown=h.children(h.root({entryId:'pending'}))[0];assert.equal(unknown.leafReason,'未声明事件');
+});
+
+test('finding a downstream function exposes its ancestor calls without merging shared branches', () => {
+  const g=fixture();g.edges=g.edges.filter(e=>!(e.from==='P::M:App.Service.Other'&&e.to==='P::M:App.View.Launch'));
+  g.edges.push({from:'P::M:App.View.Launch',to:'P::M:App.Service.Other',kind:'call',file:'View.cs',line:9});
+  const h=createCallHierarchy(buildUiTraceCatalog(g,types,tests)),root=h.root({entryId:'click'});
+  const path=h.findPath(root,'System::M:External.Send');
+  assert.equal(path.at(-1).node.id,'System::M:External.Send');assert.equal(path[0].key,root.key);
+  assert.ok(path.every(b=>!b.cycle));assert.equal(h.findPath(root,'absent'),null);
+});
 
 test('all pages and reachable methods are browsable; method/type test associations stay distinct', () => {
   const c = buildUiTraceCatalog(fixture(), types, tests);

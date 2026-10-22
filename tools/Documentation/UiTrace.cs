@@ -5,14 +5,16 @@ using System.Xml.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Operations;
 
 /// <summary>Produce static UI relationships from actual compiler inputs; never claim runtime execution.</summary>
 internal static class UiTrace
 {
     internal sealed record Project(string Name, string[] Sources, string[] References, string Defines, string? OutputType = null);
-    internal sealed record Manifest(Project[] Projects, string[] Xaml);
-    internal sealed record Node(string Id, string Name, string? File, int? Line, bool Generated, string? SourceSha256, string? TypeId);
-    internal sealed record Edge(string From, string To, string Kind, string File, int Line);
+    internal sealed record Manifest(Project[] Projects, string[] Xaml, string[]? OmittedProjects = null);
+    internal sealed record Node(string Id, string Name, string? File, int? Line, bool Generated, string? SourceSha256, string? TypeId, string? Summary, string? Body);
+    internal sealed record Evidence(string Role, string File, int Line);
+    internal sealed record Edge(string From, string To, string Kind, string File, int Line, string Expression, string[] Context, int Offset, Evidence[]? Evidence = null, string? CallbackReceiver = null);
     internal sealed record Page(string Id, string View, string Name, string Kind, string? ParentId, string[] HostedViews, string File, int Line);
     internal sealed record Entry(string Id, string View, string Control, string Member, string Expression, string? Target, string Resolution, string? Reason, string File, int Line, string PageId, bool InitiallyDisabled, string SourceSha256);
     internal sealed record Boundary(string? From, string Kind, string Expression, string Reason, string File, int Line);
@@ -39,9 +41,16 @@ internal static class UiTrace
         var pages = new List<Page>();
         var symbols = new Dictionary<string, ISymbol>();
         var types = new List<INamedTypeSymbol>();
+        var assignedFields = new HashSet<string>();
         string Relative(string file) => Path.GetRelativePath(repository, file).Replace('\\', '/');
         static ISymbol Canonical(ISymbol symbol) => symbol is IMethodSymbol method ? (method.ReducedFrom ?? method).OriginalDefinition : symbol.OriginalDefinition;
-        static string Id(ISymbol symbol) { symbol = Canonical(symbol); return symbol.ContainingAssembly.Name + "::" + (symbol.GetDocumentationCommentId() ?? symbol.ToDisplayString()); }
+        string Id(ISymbol symbol)
+        {
+            symbol = Canonical(symbol);
+            if (symbol is IMethodSymbol { MethodKind: MethodKind.AnonymousFunction } && symbol.DeclaringSyntaxReferences.FirstOrDefault() is { } lambda)
+                return symbol.ContainingAssembly.Name + "::lambda:" + Relative(lambda.SyntaxTree.FilePath) + ":" + lambda.Span.Start;
+            return symbol.ContainingAssembly.Name + "::" + (symbol.GetDocumentationCommentId() ?? symbol.ToDisplayString());
+        }
         string Add(ISymbol symbol)
         {
             symbol = Canonical(symbol); var id = Id(symbol);
@@ -51,16 +60,20 @@ internal static class UiTrace
             {
                 var file = syntax?.SyntaxTree.FilePath;
                 var owner = symbol as INamedTypeSymbol ?? symbol.ContainingType;
-                nodes[id] = new(id, symbol.ToDisplayString(SymbolDisplayFormat.CSharpErrorMessageFormat), file is null ? null : Relative(file), syntax is null ? null : Line(syntax), file?.EndsWith(".g.cs", StringComparison.OrdinalIgnoreCase) == true || file?.Contains("ui-generated", StringComparison.OrdinalIgnoreCase) == true,
-                    file is null ? null : Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(file))).ToLowerInvariant(), owner is null ? null : owner.ContainingAssembly.Name + "::" + owner.OriginalDefinition.GetDocumentationCommentId()?[2..]);
+                var comment = symbol.GetDocumentationCommentXml();
+                var summary = string.IsNullOrWhiteSpace(comment) ? null : XElement.Parse(comment).Element("summary")?.Value.Trim();
+                nodes[id] = new(id, symbol is IMethodSymbol { MethodKind: MethodKind.AnonymousFunction } ? symbol.ContainingSymbol.Name + ".回调 L" + Line(syntax!) : symbol.ToDisplayString(SymbolDisplayFormat.CSharpErrorMessageFormat), file is null ? null : Relative(file), syntax is null ? null : Line(syntax), file?.EndsWith(".g.cs", StringComparison.OrdinalIgnoreCase) == true || file?.Contains("ui-generated", StringComparison.OrdinalIgnoreCase) == true,
+                    file is null ? null : Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(file))).ToLowerInvariant(), owner is null ? null : owner.ContainingAssembly.Name + "::" + owner.OriginalDefinition.GetDocumentationCommentId()?[2..], summary,
+                    syntax is BaseMethodDeclarationSyntax or AccessorDeclarationSyntax or LocalFunctionStatementSyntax or AnonymousFunctionExpressionSyntax or PropertyDeclarationSyntax ? syntax.ToString() : null);
             }
             return id;
         }
-        void Connect(ISymbol owner, ISymbol target, string kind, SyntaxNode at) => edges.Add(new(Add(owner), Add(target), kind, Relative(at.SyntaxTree.FilePath), Line(at)));
+        void Connect(ISymbol owner, ISymbol target, string kind, SyntaxNode at, ISymbol? callbackReceiver = null) => edges.Add(new(Add(owner), Add(target), kind, Relative(at.SyntaxTree.FilePath), Line(at), at.ToString(), Context(at), at.SpanStart, CallbackReceiver: callbackReceiver is null ? null : Add(callbackReceiver)));
         ISymbol? Owner(SyntaxNode node, SemanticModel model)
         {
             foreach (var ancestor in node.Ancestors())
             {
+                if (ancestor is AnonymousFunctionExpressionSyntax lambda) return model.GetSymbolInfo(lambda).Symbol;
                 if (ancestor is BaseMethodDeclarationSyntax or AccessorDeclarationSyntax or LocalFunctionStatementSyntax) return model.GetDeclaredSymbol(ancestor);
                 if (ancestor is PropertyDeclarationSyntax property) return property.ExpressionBody is not null ? ((IPropertySymbol)model.GetDeclaredSymbol(property)!).GetMethod : model.GetDeclaredSymbol(property);
                 if (ancestor is VariableDeclaratorSyntax variable && variable.Parent?.Parent is FieldDeclarationSyntax) return model.GetDeclaredSymbol(variable);
@@ -84,8 +97,13 @@ internal static class UiTrace
                 {
                     var kind = target.ContainingType.TypeKind == TypeKind.Interface ? "interface-call" : target.IsVirtual || target.IsAbstract || target.IsOverride ? "virtual-dispatch" : target.MethodKind == MethodKind.DelegateInvoke ? "delegate-invoke" : "call";
                     if (kind is "virtual-dispatch" or "delegate-invoke") boundaries.Add(new(Add(owner), kind, invocation.ToString(), "只确认源码中的声明/委托调用；运行时重写方法或委托目标未做数据流推导。", Relative(tree.FilePath), Line(invocation)));
-                    if (invocation.Ancestors().TakeWhile(n => n is not BaseMethodDeclarationSyntax and not AccessorDeclarationSyntax).Any(n => n is AnonymousFunctionExpressionSyntax)) kind = "callback-body:" + kind;
                     Connect(owner, target, kind, invocation);
+                    foreach (var argument in invocation.ArgumentList.Arguments)
+                    {
+                        if (model.GetOperation(argument) is not IArgumentOperation { Parameter: { Type.TypeKind: TypeKind.Delegate } parameter }) continue;
+                        if (model.GetSymbolInfo(argument.Expression).Symbol is IMethodSymbol callback)
+                            Connect(owner, callback, "callback-argument:" + parameter.Name, argument.Expression, target);
+                    }
                     ExpressionSyntax? receiver = invocation.Expression is MemberAccessExpressionSyntax member ? member.Expression : invocation.Expression is MemberBindingExpressionSyntax ? invocation.Ancestors().OfType<ConditionalAccessExpressionSyntax>().FirstOrDefault()?.Expression : invocation.Expression;
                     if (receiver is not null && model.GetSymbolInfo(receiver).Symbol is IEventSymbol raised)
                     {
@@ -95,8 +113,18 @@ internal static class UiTrace
                 }
                 else boundaries.Add(new(Add(owner), "unresolved-call", invocation.ToString(), "Roslyn 未给出唯一方法符号；动态调用、错误或候选歧义不按名称猜测。", Relative(tree.FilePath), Line(invocation)));
             }
+            // Source-defined getters can contain validation/calculation. Framework getters stay external.
+            foreach (var access in root.DescendantNodes().OfType<ExpressionSyntax>().Where(n => n is IdentifierNameSyntax or MemberAccessExpressionSyntax or MemberBindingExpressionSyntax))
+            {
+                if (access.Parent is MemberAccessExpressionSyntax member && member.Name == access || access.Parent is MemberBindingExpressionSyntax) continue;
+                if (access.Parent is AssignmentExpressionSyntax assignment && assignment.Left == access && assignment.IsKind(SyntaxKind.SimpleAssignmentExpression)) continue;
+                if (access.Ancestors().OfType<InvocationExpressionSyntax>().Any(i => i.Expression is IdentifierNameSyntax { Identifier.ValueText: "nameof" })) continue;
+                if (model.GetSymbolInfo(access).Symbol is IPropertySymbol { GetMethod: { } getter } && compilations.Any(c => c.AssemblyName == getter.ContainingAssembly.Name) && Owner(access, model) is { } owner)
+                    Connect(owner, getter, "property-read", access);
+            }
             foreach (var assignment in root.DescendantNodes().OfType<AssignmentExpressionSyntax>())
             {
+                if (model.GetSymbolInfo(assignment.Left).Symbol is IFieldSymbol assignedField) assignedFields.Add(Id(assignedField));
                 if (model.GetSymbolInfo(assignment.Left).Symbol is IPropertySymbol { SetMethod: { } setter } && Owner(assignment, model) is { } owner)
                     Connect(owner, setter, "property-write", assignment);
                 if (model.GetSymbolInfo(assignment.Left).Symbol is IEventSymbol subscription)
@@ -130,6 +158,57 @@ internal static class UiTrace
         foreach (var member in contract.GetMembers(method.Name).OfType<IMethodSymbol>().Where(m => Id(m) == Id(method)))
             if (type.FindImplementationForInterfaceMember(member) is IMethodSymbol implementation && implementation.DeclaringSyntaxReferences.FirstOrDefault()?.GetSyntax() is { } syntax)
                 Connect(method, implementation, "possible-implementation", syntax);
+
+        // Cross-process correspondence is not a C# call. Require all three pieces of source evidence.
+        var registrations = new List<(string Service, string Operation, IMethodSymbol Implementation, SyntaxNode Registration, SyntaxNode Contract)>();
+        static string? RouteAttribute(ISymbol symbol, string name) => symbol.GetAttributes().FirstOrDefault(a => a.AttributeClass?.ToDisplayString() == "PlantHost.Rpc." + name)?.ConstructorArguments.FirstOrDefault().Value as string;
+        foreach (var compilation in compilations)
+        foreach (var tree in compilation.SyntaxTrees)
+        {
+            var model = compilation.GetSemanticModel(tree);
+            foreach (var invocation in tree.GetRoot().DescendantNodes().OfType<InvocationExpressionSyntax>())
+            {
+                if (model.GetSymbolInfo(invocation).Symbol is not IMethodSymbol add || add.ContainingNamespace.ToDisplayString() != "PlantHost.Rpc") continue;
+                INamedTypeSymbol? contract = null;
+                if (add.Name == "AddService" && add.TypeArguments.Length == 1) contract = add.TypeArguments[0] as INamedTypeSymbol;
+                if (add.Name == "AddImplementation" && invocation.Expression is MemberAccessExpressionSyntax { Expression: InvocationExpressionSyntax serviceCall } && model.GetSymbolInfo(serviceCall).Symbol is IMethodSymbol { Name: "ForService" } service && service.ContainingNamespace.ToDisplayString() == "PlantHost.Rpc" && service.TypeArguments.Length == 1) contract = service.TypeArguments[0] as INamedTypeSymbol;
+                if (contract is null) continue;
+                if (invocation.ArgumentList.Arguments.Count != 1 || invocation.ArgumentList.Arguments[0].Expression is not BaseObjectCreationExpressionSyntax creation || model.GetTypeInfo(creation).Type is not INamedTypeSymbol implementation) continue;
+                if (RouteAttribute(contract, "RpcServiceAttribute") is not { } serviceName) continue;
+                foreach (var method in contract.GetMembers().OfType<IMethodSymbol>())
+                    if (RouteAttribute(method, "RpcOperationAttribute") is { } operation && implementation.FindImplementationForInterfaceMember(method) is IMethodSymbol handler && method.DeclaringSyntaxReferences.FirstOrDefault()?.GetSyntax() is { } declaration)
+                        registrations.Add((serviceName, operation, handler, invocation, declaration));
+            }
+        }
+        foreach (var compilation in compilations)
+        foreach (var tree in compilation.SyntaxTrees)
+        {
+            var model = compilation.GetSemanticModel(tree);
+            foreach (var invocation in tree.GetRoot().DescendantNodes().OfType<InvocationExpressionSyntax>())
+            {
+                if (Owner(invocation, model) is not { } owner || model.GetSymbolInfo(invocation).Symbol is not IMethodSymbol { Name: "InvokeAsync" } method || method.ContainingType.ToDisplayString() != "PlantHost.Rpc.RpcClient") continue;
+                var argument = invocation.ArgumentList.Arguments.FirstOrDefault(a => model.GetOperation(a) is IArgumentOperation { Parameter.Ordinal: 0 });
+                if (argument is null || model.GetTypeInfo(argument.Expression).Type is not INamedTypeSymbol { Name: "RpcMethod", Arity: 2 } routeType || routeType.ContainingNamespace.ToDisplayString() != "PlantHost.Rpc") continue;
+                string? service = null, operation = null; SyntaxNode? routeDeclaration = null;
+                if (model.GetSymbolInfo(argument.Expression).Symbol is IFieldSymbol { IsReadOnly: true } field && !assignedFields.Contains(Id(field)) && field.DeclaringSyntaxReferences.FirstOrDefault()?.GetSyntax() is VariableDeclaratorSyntax { Initializer.Value: BaseObjectCreationExpressionSyntax creation })
+                {
+                    var declarationModel = compilation.GetSemanticModel(creation.SyntaxTree);
+                    if (declarationModel.GetOperation(creation) is IObjectCreationOperation route)
+                    {
+                        service = route.Arguments.FirstOrDefault(a => a.Parameter?.Ordinal == 0)?.Value.ConstantValue.Value as string;
+                        operation = route.Arguments.FirstOrDefault(a => a.Parameter?.Ordinal == 1)?.Value.ConstantValue.Value as string;
+                        routeDeclaration = creation;
+                    }
+                }
+                var matches = registrations.Where(r => service is not null && r.Service == service && r.Operation == operation).ToArray();
+                foreach (var match in matches)
+                    edges.Add(new(Add(owner), Add(match.Implementation), "rpc-route", Relative(tree.FilePath), Line(invocation), service + " / " + operation,
+                        [.. Context(invocation), "路由/注册源码对应；未证明 Host 已启动、实际选中该框架或负载兼容"], invocation.SpanStart,
+                        [new("客户端路由常量", Relative(routeDeclaration!.SyntaxTree.FilePath), Line(routeDeclaration)), new("RPC 操作契约", Relative(match.Contract.SyntaxTree.FilePath), Line(match.Contract)), new("Host 服务注册", Relative(match.Registration.SyntaxTree.FilePath), Line(match.Registration))]));
+                if (matches.Length == 0) boundaries.Add(new(Add(owner), "rpc-unmapped", service is null ? invocation.ToString() : service + " / " + operation,
+                    "没有同时满足路由常量、Host 契约与服务注册的源码对应。Host 编译输入可能未提供；不按同名方法补链。", Relative(tree.FilePath), Line(invocation)));
+            }
+        }
 
         var events = new HashSet<string>(["Click", "Checked", "Unchecked", "SelectionChanged", "TextChanged", "Loaded", "KeyDown", "MouseDown", "Closing", "Closed", "SizeChanged"], StringComparer.Ordinal);
         var xmlViews = manifest.Xaml.Order().Select(file => (File: file, Xml: XDocument.Load(file, LoadOptions.SetLineInfo)))
@@ -203,11 +282,28 @@ internal static class UiTrace
             }
         }
         Directory.CreateDirectory(Path.GetDirectoryName(Path.GetFullPath(destination))!);
-        File.WriteAllText(destination, JsonSerializer.Serialize(new { schemaVersion = 2, kind = "static-source-trace", scope = "Potential source relationships; not runtime execution, ordering, coverage or AVEVA evidence", projects = manifest.Projects.Select(p => p.Name), pages, nodes = nodes.Values.OrderBy(n => n.Id), edges = edges.OrderBy(e => e.From).ThenBy(e => e.Line).ThenBy(e => e.To), entries, boundaries }, options));
+        File.WriteAllText(destination, JsonSerializer.Serialize(new { schemaVersion = 3, kind = "static-source-trace", scope = "Potential source relationships; not runtime execution, ordering, coverage or AVEVA evidence", projects = manifest.Projects.Select(p => p.Name), omittedProjects = manifest.OmittedProjects ?? [], pages, nodes = nodes.Values.OrderBy(n => n.Id), edges = edges.OrderBy(e => e.From).ThenBy(e => e.Line).ThenBy(e => e.Offset).ThenBy(e => e.To), entries, boundaries }, options));
         Console.WriteLine($"UI static trace: {entries.Count} XAML entries, {edges.Count} relationships, {boundaries.Count} explicit boundaries.");
     }
 
     private static int Line(SyntaxNode node) => node.SyntaxTree.GetLineSpan(node.Span).StartLinePosition.Line + 1;
+    // Lexical context only: preceding guards and reachability are not data-flow proofs.
+    private static string[] Context(SyntaxNode at) => at.Ancestors().TakeWhile(n => n is not BaseMethodDeclarationSyntax and not AccessorDeclarationSyntax and not LocalFunctionStatementSyntax and not AnonymousFunctionExpressionSyntax)
+        .Select(n => n switch
+        {
+            IfStatementSyntax s when s.Statement.Span.Contains(at.Span) => "if (" + s.Condition + ")",
+            IfStatementSyntax s when s.Else?.Span.Contains(at.Span) == true => "else of (" + s.Condition + ")",
+            ConditionalExpressionSyntax s when s.WhenTrue.Span.Contains(at.Span) => "?: true (" + s.Condition + ")",
+            ConditionalExpressionSyntax s when s.WhenFalse.Span.Contains(at.Span) => "?: false (" + s.Condition + ")",
+            ForStatementSyntax s => "for (" + s.Condition + ")",
+            ForEachStatementSyntax s => "foreach (" + s.Identifier + " in " + s.Expression + ")",
+            WhileStatementSyntax s => "while (" + s.Condition + ")",
+            CatchClauseSyntax s => "catch " + s.Declaration + " " + s.Filter,
+            FinallyClauseSyntax => "finally",
+            LockStatementSyntax s => "lock (" + s.Expression + ")",
+            SwitchSectionSyntax s => string.Join(" ", s.Labels),
+            _ => null
+        }).Where(s => s is not null).Cast<string>().Reverse().ToArray();
     private static XElement? RuntimeContext(XElement element)
     {
         foreach (var ancestor in element.AncestorsAndSelf())

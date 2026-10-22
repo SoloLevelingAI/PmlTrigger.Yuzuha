@@ -384,7 +384,7 @@ pre code > span[id^="L"]:target { background: var(--bs-warning-bg-subtle, #fff3c
 
 .ui-trace-browser { margin: 24px 0; padding: 16px; border: 1px solid var(--bs-border-color); border-radius: 12px; background: var(--ld-surface, var(--bs-body-bg)); }
 .ui-trace-controls { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; }
-.ui-trace-controls label { display: grid; gap: 5px; max-width: 100%; font-size: 12px; color: var(--ld-muted); }
+.ui-trace-controls label { display: grid; grid-template-columns: minmax(0,1fr); min-width: 0; gap: 5px; max-width: 100%; font-size: 12px; color: var(--ld-muted); }
 .ui-trace-controls select { max-width: 360px; min-height: 36px; padding: 5px 8px; border: 1px solid var(--bs-border-color); border-radius: 6px; color: var(--bs-body-color); background: var(--bs-body-bg); }
 .ui-trace-browser button { min-height: 36px; padding: 5px 10px; border: 1px solid var(--bs-border-color); border-radius: 6px; background: var(--ld-soft, var(--bs-tertiary-bg)); color: var(--bs-body-color); }
 .ui-trace-legend, .ui-trace-status { font-size: 12px; line-height: 1.8; margin: 12px 0; }
@@ -398,6 +398,32 @@ pre code > span[id^="L"]:target { background: var(--bs-warning-bg-subtle, #fff3c
 .ui-trace-detail small { display: block; color: var(--ld-muted); font-size: 11px; }
 .ui-trace-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
 .ui-trace-warning, .ui-trace-boundary { padding: 8px; border-left: 3px solid #b7791f; background: var(--bs-warning-bg-subtle, #fff3cd); white-space: pre-wrap; }
+.ui-call-tree { max-height: 620px; overflow: auto; padding: 12px; border: 1px solid var(--bs-border-color); border-radius: 8px; background: var(--bs-body-bg); }
+.ui-call-children { margin: 0; padding: 0; }
+.ui-call-row { display: flex; align-items: start; gap: 8px; padding: 9px 5px 9px calc(4px + var(--call-depth) * 12px); border-bottom: 1px solid var(--bs-border-color); }
+.ui-call-row.selected { background: var(--bs-primary-bg-subtle); box-shadow: inset 3px 0 var(--bs-primary); }
+.ui-call-row > div { min-width: 0; flex: 1; }
+.ui-call-row small { display: block; font-size: 11px; overflow-wrap: anywhere; color: var(--bs-secondary-color); }
+.ui-trace-browser .ui-call-title { display: block; background: transparent; border: 0; padding: 2px 0; text-align: left; font-size: 14px; font-weight: 600; color: var(--bs-link-color); overflow-wrap: anywhere; }
+.ui-call-toggle { flex: 0 0 34px; }
+.ui-call-toggle:disabled { opacity: .45; }
+.ui-call-relation { font-size: 11px; color: var(--bs-secondary-color); }
+.ui-call-relation.uncertain, .ui-call-terminal { color: var(--bs-warning-text-emphasis) !important; }
+.ui-call-expression { display: block; max-height: 52px; overflow: auto; font-size: 11px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.ui-call-breadcrumb { font-size: 12px; overflow-wrap: anywhere; }
+.ui-call-breadcrumb ol { padding-left: 26px; margin: 10px 0 20px; }
+.ui-call-breadcrumb li { padding: 2px 8px; border-left: 2px solid var(--bs-primary-border-subtle); }
+.ui-call-breadcrumb button { border: 0; background: transparent; color: var(--bs-link-color); text-align: left; font-size: 12px; padding: 2px 4px; min-height: 26px; }
+.ui-call-breadcrumb small { color: var(--bs-secondary-color); margin-left: 10px; }
+@media (max-width: 650px) {
+  .ui-call-row { padding-left: calc(4px + var(--call-depth) * 3px); }
+  .ui-call-breadcrumb small { display: block; margin-left: 4px; }
+}
+.ui-call-detail { margin-top: 20px; padding: 16px; border: 1px solid var(--bs-border-color); border-radius: 8px; scroll-margin-top: 70px; }
+.ui-call-detail h3 { margin-top: 0; font-size: 20px; }
+.ui-call-detail pre { white-space: pre-wrap; overflow-wrap: anywhere; max-height: 560px; font-size: 12px; }
+.ui-trace-browser > label { display: grid; grid-template-columns: minmax(0,1fr); min-width: 0; gap: 6px; }
+.ui-trace-browser > label select { width: 100%; min-width: 0; max-width: 100%; min-height: 38px; color: var(--bs-body-color); background: var(--bs-body-bg); border: 1px solid var(--bs-border-color); border-radius: 6px; }
 .ui-graph-node { cursor: pointer; }
 .ui-graph-node rect { fill: var(--bs-body-bg); stroke: #5483ad; stroke-width: 1.5; }
 .ui-graph-node.entry rect { fill: var(--ld-soft, var(--bs-tertiary-bg)); stroke: #3676b5; }

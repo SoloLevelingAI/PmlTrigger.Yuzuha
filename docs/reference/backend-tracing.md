@@ -2,11 +2,19 @@
 
 后端溯源优先解释每一步接收什么、计算或判断什么、输出什么，以及失败如何返回。读者应能从症状定位到改变结果的业务步骤，再跳到源码和测试。前端重点保留 Valid / Validate 所涉及的校验、可执行条件、拒绝原因和状态变化；其余控件及框架关系作为辅助。
 
-[迭代决定 TRACE01 至 TRACE03](iteration-log.md) · [可选的理解方法](understanding-notes.md) · [现有静态调用图](ui-tracing.md) · [测试与运行证据](test-associations.md)
+[迭代决定 TRACE01 至 TRACE06](iteration-log.md) · [可选的理解方法](understanding-notes.md) · [溯源范围](ui-tracing.md) · [测试与运行证据](test-associations.md)
+
+## 从按钮逐级看到后端
+
+选择按钮后，点击 **＋** 展开它直接调用的下一层；点击函数名查看实际函数体、调用参数、语法条件、源码和测试。也可以在“快速展开到下游函数”中选择目标，自动保留从入口到目标的每一级父调用。按源码位置排列，不表示运行顺序。
+
+<div class="ui-trace-browser" data-entry-expression="ReadForms">正在加载 Roslyn 调用树。</div>
+
+回调作为单独节点，和接收它的包装器分别列出，不能据此认为绕过包装器校验。RPC 分成传输实现与路由对应两条关系：后者必须同时有客户端常量、Host 操作契约、服务注册三个源码依据。NET35/NET48 是候选目标，实际使用哪个由所连接的进程决定。原生 AVEVA 库和 PML 的内部实现不在 C# 源码范围内，到此明确停止。
 
 ## 当前能力与未完成范围
 
-现有 Roslyn 分析从 Desktop 的真实项目引用出发，覆盖六个项目中的显式调用和部分 XAML 映射。可点击图能定位源码与关联测试。NET35/NET48 Host 另有仓库源码参考，但尚未自动接入该调用图；RPC 服务路由到 Host 实现、PML 表达式到原生对象行为也没有自动补链。
+Roslyn 从 Desktop 的真实项目引用出发，分析显式调用、源码 getter/setter、回调和部分 XAML 映射。配置本机 AVEVA SDK 后，会额外分析 NET35/NET48 Host 的真实编译输入，并建立有源码依据的 RPC 路由对应。未配置的 Host 会明确显示“未分析”；不能把省略当作没有调用。PML 表达式到原生对象内部行为仍是边界。
 
 下文是对基线 `7050ac8a81cbc95cf7f7eaada5248c53aed4bbb3` 的人工源码核对示例。跨进程对应关系根据稳定路由和 Host 注册代码确认，并非 Roslyn 已经推导出的连续执行轨迹。AVEVA 实机状态保持 **NotRun**。接口实现候选、条件分支、回调与动态调用仍需分别核对。
 
@@ -28,7 +36,7 @@
 | 10 原生执行与清理 | [NET35 适配器](../../artifacts/docfx/navigation/source/YuzuhaToolkit.PmlHost.Net35/YuzuhaToolkit.PmlHost.PmlFormQueryHost.md) / [NET48 适配器](../../artifacts/docfx/navigation/source/YuzuhaToolkit.PmlHost.Net48/YuzuhaToolkit.PmlHost.PmlFormQueryHost.md) 调用 AVEVA Command；false 转异常，并尝试读取 `!!error.text / command / line`。finally 尝试清理本请求变量 | 原生错误详情也可能不可读取；必要读取或清理失败不能冒充成功。Gadget 可选属性失败单独标为 unavailable |
 | 11 回执与接收 | Host 返回结果、请求编号、线程和时间等信息；桌面检查 `Success`、结果种类和起始索引，再接收本页 | 失败不能显示为空查询成功；取消或丢失回执不能证明远端未执行，不自动重放 |
 
-源码中的 `Validate` 不只在界面执行：桥、发送器和共享 Host 查询也有检查。前端给出及时反馈，后端继续维护自身边界。具体代码正文可从现有图中的源码快照查看；Host 源码参考当前以类型和成员声明为主，完整函数体还需在仓库文件中核对。
+源码中的 `Validate` 不只在界面执行：桥、发送器和共享 Host 查询也有检查。前端给出及时反馈，后端继续维护自身边界。点击调用树中的函数可查看本次分析的实际函数体；配置 Host 编译输入后，Host 的函数体与完整源码快照同样可查看。
 
 按上述基线查看完整源码：[会话桥](https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/7050ac8a81cbc95cf7f7eaada5248c53aed4bbb3/src/YuzuhaToolkit.Mcp/YuzuhaRpcBridge.cs#L226)、[NET35 服务](https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/7050ac8a81cbc95cf7f7eaada5248c53aed4bbb3/src/YuzuhaToolkit.PmlHost.Net35/PmlCommandRpcService.cs#L33)、[NET48 服务](https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/7050ac8a81cbc95cf7f7eaada5248c53aed4bbb3/src/YuzuhaToolkit.PmlHost.Net48/PmlCommandRpcService.cs#L39)、[共享扫描与预算计算](https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/7050ac8a81cbc95cf7f7eaada5248c53aed4bbb3/src/Shared/PmlFormQuery.cs#L155)、[原生执行与错误读取](https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/7050ac8a81cbc95cf7f7eaada5248c53aed4bbb3/src/Shared/PmlFormQueryHost.cs#L17)。
 

@@ -11,7 +11,7 @@ const md=value=>String(value??'').replace(/[\\[\]<>|]/g,c=>'\\'+c).replaceAll('\
 const html=value=>String(value).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
 const relative=url=>path.posix.relative('reference/ui-trace',url).replace(/\.html(?=[?#]|$)/,'.md');
 const short=node=>node.name.split('(')[0].split('.').slice(-2).join('.');
-export const relationship=kind=>({call:'源码调用',constructor:'构造函数调用','interface-call':'接口声明调用','possible-implementation':'可能的接口实现','possible-event-handler':'可能的事件处理器','event-raise':'事件触发源码','virtual-dispatch':'虚方法声明，运行时实现未定','delegate-invoke':'委托调用，目标未追踪','property-write':'写入属性 setter'}[kind]??(kind.startsWith('callback-body:')?'回调体中的'+relationship(kind.slice(14)):kind));
+export const relationship=kind=>({call:'源码调用',constructor:'构造函数调用','interface-call':'接口声明调用','possible-implementation':'可能的接口实现','possible-event-handler':'可能的事件处理器','event-raise':'事件触发源码','virtual-dispatch':'虚方法声明，运行时实现未定','delegate-invoke':'委托调用，目标未追踪','property-write':'写入属性 setter','property-read':'读取属性 getter','rpc-route':'RPC 路由对应（契约与注册证据；非本进程调用）'}[kind]??(kind.startsWith('callback-body:')?'回调体中的'+relationship(kind.slice(14)):kind.startsWith('callback-argument:')?'传入回调 · '+kind.slice(18):kind));
 
 /** Use actual symbol owners and reviewed test associations, never infer coverage from reachability. */
 export function buildUiTraceCatalog(graph,types=[],tests=[]) {
@@ -38,10 +38,10 @@ export function buildUiTraceCatalog(graph,types=[],tests=[]) {
     return {...n,label:short(n),url:n.file?methodUrl(id):'reference/ui-trace/index.html?node='+encodeURIComponent(id),sourceUrl:sourceUrl(n.file,n.line),typeUrl:owner?.sourceUrl??null,tests:related,
       unknownReason:n.file?null:'目标声明已由 Roslyn 确定；本次没有可定位的函数体（框架、外部库或编译器隐式成员），不推断其内部调用。'};
   });
-  return {schemaVersion:2,kind:graph.kind,scope:graph.scope,projects:graph.projects,
+  return {schemaVersion:3,kind:graph.kind,scope:graph.scope,projects:graph.projects,omittedProjects:graph.omittedProjects??[],
     pages:graph.pages.map(p=>({...p,url:pageUrl(p.id),sourceUrl:sourceUrl(p.file,p.line),entryIds:graph.entries.filter(e=>e.pageId===p.id).map(e=>e.id),children:graph.pages.filter(c=>c.parentId===p.id||(p.hostedViews??[]).includes(c.view)&&c.kind==='shared').map(c=>c.id)})),
     entries:graph.entries.map(e=>({...e,sourceUrl:sourceUrl(e.file,e.line),url:pageUrl(e.pageId)+'?entry='+encodeURIComponent(e.id)})),
-    nodes:catalogNodes,edges:graph.edges.filter(e=>reachable.has(e.from)&&reachable.has(e.to)&&nodes.get(e.from).file).map(e=>({...e,sourceUrl:sourceUrl(e.file,e.line)})),boundaries:graph.boundaries.filter(b=>!b.from||reachable.has(b.from)).map(b=>({...b,sourceUrl:sourceUrl(b.file,b.line)}))};
+    nodes:catalogNodes,edges:graph.edges.filter(e=>reachable.has(e.from)&&reachable.has(e.to)&&nodes.get(e.from).file).map(e=>({...e,sourceUrl:sourceUrl(e.file,e.line),evidence:e.evidence?.map(item=>({...item,sourceUrl:sourceUrl(item.file,item.line)}))})),boundaries:graph.boundaries.filter(b=>!b.from||reachable.has(b.from)).map(b=>({...b,sourceUrl:sourceUrl(b.file,b.line)}))};
 }
 
 export function publishUiTrace({root,output,types,tests=[]}) {
@@ -57,8 +57,19 @@ export function publishUiTrace({root,output,types,tests=[]}) {
     if(current.id.startsWith('PlantHost.Rpc.Net10::M:PlantHost.Rpc.RpcClient.InvokeAsync``2(PlantHost.Rpc.RpcMethod{')){chain=current.steps;break;}
     for(const e of outgoing.get(current.id)??[])queue.push({id:e.to,steps:[...current.steps,e]});}
   assert.ok(chain?.length,'No UI → RPC path');assert.ok(chain.some(e=>e.kind==='possible-implementation'),'Candidate implementations must remain explicit');
+  const findPath=(start,predicate)=>{const pending=[{id:start,steps:[]}],visited=new Set();for(let i=0;i<pending.length;i++){const item=pending[i];if(visited.has(item.id))continue;visited.add(item.id);if(predicate(item.id))return item.steps;for(const edge of outgoing.get(item.id)??[])pending.push({id:edge.to,steps:[...item.steps,edge]});}return null;};
+  const formEntry=graph.entries.find(e=>e.view==='YuzuhaToolkit.Desktop.SessionWorkbenchView'&&e.member==='Click'&&e.expression==='ReadForms');
+  assert.ok(formEntry?.target,'Missing form query button');
+  const backendSamples=[];
+  for(const project of graph.projects.filter(p=>/^YuzuhaToolkit\.PmlHost\.Net(35|48)$/.test(p))){
+    const core=project+'::M:YuzuhaToolkit.Pml.PmlFormQuery.Reader.ReadCore';
+    const toCore=findPath(formEntry.target,id=>id===core),toNative=findPath(core,id=>/^Aveva\.(Core|Pdms)\.Utilities::M:.*\.Command\.Run$/.test(id));
+    assert.ok(toCore?.length&&toNative?.length,'Incomplete button → Host calculation → native boundary: '+project);
+    assert.ok(toCore.some(e=>e.kind==='rpc-route'&&e.evidence?.length===3),'RPC mapping lacks contract/registration evidence: '+project);
+    backendSamples.push({project,entry:formEntry.id,chain:[...toCore,...toNative]});
+  }
   const write=(file,text)=>{const dest=path.join(output,'ui-trace',file);fs.mkdirSync(path.dirname(dest),{recursive:true});fs.writeFileSync(dest,text);};
-  const files=new Set([...catalog.nodes.map(n=>n.file),...catalog.entries.map(e=>e.file),...catalog.pages.map(p=>p.file),...catalog.edges.map(e=>e.file),...catalog.boundaries.map(b=>b.file)].filter(Boolean));
+  const files=new Set([...catalog.nodes.map(n=>n.file),...catalog.entries.map(e=>e.file),...catalog.pages.map(p=>p.file),...catalog.edges.map(e=>e.file),...catalog.edges.flatMap(e=>(e.evidence??[]).map(item=>item.file)),...catalog.boundaries.map(b=>b.file)].filter(Boolean));
   for(const file of files){
     const absolute=path.resolve(root,file);assert.ok(absolute.startsWith(path.resolve(root)+path.sep),'Source outside repository');
     const bytes=fs.readFileSync(absolute),expected=graph.nodes.find(n=>n.file===file)?.sourceSha256??graph.entries.find(e=>e.file===file)?.sourceSha256;
@@ -93,5 +104,6 @@ export function publishUiTrace({root,output,types,tests=[]}) {
   text+='## 保留样例：读取所选对象至 RPC\n\n| 起点 | 关系 | 下一步 |\n| --- | --- | --- |\n'+chain.map(e=>'| '+link(e.from)+' | '+relationship(e.kind)+' | '+link(e.to)+' |').join('\n')+'\n\nRunVerifiedAsync 是桥方法的直接核验包装器，可从图或方法详情查看。回调体中的边不表示绕过包装器，也不代表执行顺序。\n';
   const global=catalog.boundaries.filter(b=>!b.from);if(global.length)text+='\n## 生成器输入（不代表已调用）\n\n'+global.map(b=>'- '+md(b.expression)+'：'+md(b.reason)+' · '+source(b.file,b.line)).join('\n')+'\n';
   write('index.md',text);write('graph.json',JSON.stringify(graph));write('browser.json',JSON.stringify({...catalog,metadata}));write('metadata.json',JSON.stringify(metadata,null,2));write('sample.json',JSON.stringify({entry:roots[0],chain},null,2));
+  write('backend-samples.json',JSON.stringify({scope:'Static paths through each configured Host; not execution evidence',omittedProjects:catalog.omittedProjects,samples:backendSamples},null,2));
   return {entries:catalog.entries.length,unresolved:catalog.entries.filter(e=>!e.target).length,sampleEdges:chain.length,pages:catalog.pages.filter(p=>p.kind==='page').length,containers:catalog.pages.filter(p=>p.kind==='container').length,shared:catalog.pages.filter(p=>p.kind==='shared').length,sourceMembers:catalog.nodes.filter(n=>n.file).length};
 }

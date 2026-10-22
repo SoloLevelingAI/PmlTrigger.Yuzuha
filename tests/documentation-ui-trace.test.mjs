@@ -24,6 +24,67 @@ function trace(source, xaml, generated = '') {
 const view = body => `<Window xmlns="urn:fixture" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:Demo" x:Class="Demo.View">${body}</Window>`;
 const node = (graph, suffix) => graph.nodes.find(n => n.id.endsWith(suffix));
 
+test('call sites retain arguments and lexical branches; callbacks keep their wrapper and separate bodies', () => {
+  const g = trace(`using System; namespace Demo; class View {
+    /// <summary>Check before invoking a supplied action.</summary>
+    void Run(Action action) { Check(); action(); }
+    void Check() {} void Store(int n) {} void Fail() {}
+    void Start(object s, object e) { if (s != null) Run(() => Store(42)); else Fail(); }
+  }`, view('<Button Content="保存" Click="Start"/>'));
+  const start = node(g, 'M:Demo.View.Start(System.Object,System.Object)'), run = node(g, 'M:Demo.View.Run(System.Action)');
+  const call = g.edges.find(e => e.from === start.id && e.to === run.id);
+  assert.equal(call.expression, 'Run(() => Store(42))');
+  assert.ok(call.context.some(c => c === 'if (s != null)'));
+  assert.match(run.summary, /Check before/);
+  assert.match(run.body, /Check\(\); action\(\)/);
+  const callback = g.edges.find(e => e.from === start.id && e.kind === 'callback-argument:action');
+  assert.ok(callback, 'callback must have its own source node');
+  assert.equal(callback.callbackReceiver,run.id,'callback must identify the wrapper receiving it');
+  assert.ok(g.edges.some(e => e.from === callback.to && e.to === node(g, 'M:Demo.View.Store(System.Int32)').id));
+  assert.ok(!g.edges.some(e => e.from === start.id && e.to === node(g, 'M:Demo.View.Store(System.Int32)').id), 'do not flatten callback under caller');
+  assert.ok(g.edges.some(e => e.to.endsWith('M:Demo.View.Fail') && e.context.includes('else of (s != null)')));
+});
+
+test('source getters and local calculations remain inspectable, automatic properties are not invented bodies', () => {
+  const g = trace('namespace Demo; class View { int Limit { get => Compute(); } int Auto { get; set; } int Compute() => 3 * 4; void Start(object s, object e) { var result = Limit + Auto; } }', view('<Button Click="Start"/>'));
+  assert.ok(g.edges.some(e => e.kind === 'property-read' && e.to.endsWith('M:Demo.View.get_Limit')));
+  assert.match(node(g, 'M:Demo.View.Compute').body, /3 \* 4/);
+});
+
+test('RPC correspondence requires constant route, contract attributes and a matching registration; names alone never connect', () => {
+  const source = `using System;
+    namespace PlantHost.Rpc {
+      class RpcServiceAttribute(string name): Attribute {} class RpcOperationAttribute(string name): Attribute {}
+      class RpcMethod<T,R>(string service,string operation) {}
+      class RpcClient { public void InvokeAsync<T,R>(RpcMethod<T,R> method,T request) {} }
+      class RpcServer { public Builder<T> ForService<T>() => new(); public void AddService<T>(T instance) {} }
+      class Builder<T> { public void AddImplementation(T instance) {} }
+    }
+    namespace Demo { using PlantHost.Rpc;
+      [RpcService("svc")] interface IHost { [RpcOperation("run")] void Run(); }
+      class Host:IHost { public void Run() { Native(); } void Native() {} }
+      class Other:IHost { public void Run() {} }
+      class View {
+        static readonly RpcMethod<int,int> Route = new("svc","run");
+        static readonly RpcMethod<int,int> Missing = new("svc","absent");
+        RpcClient client = new(); void Register() { new RpcServer().ForService<IHost>().AddImplementation(new Host()); }
+        void Start(object s,object e) { client.InvokeAsync(Route,42); client.InvokeAsync(Missing,42); }
+      }
+    }`;
+  const g=trace(source,view('<Button Click="Start"/>'));
+  const edges=g.edges.filter(e=>e.kind==='rpc-route');assert.equal(edges.length,1);
+  assert.equal(edges[0].to,node(g,'M:Demo.Host.Run').id);
+  assert.ok(edges[0].evidence.some(e=>e.role==='Host 服务注册'));
+  assert.ok(edges[0].evidence.some(e=>e.role==='RPC 操作契约'));
+  assert.ok(g.boundaries.some(b=>b.kind==='rpc-unmapped'&&b.expression.includes('absent')));
+  const absent=trace(source.replace('.AddImplementation(new Host())',''),view('<Button Click="Start"/>'));
+  assert.equal(absent.edges.filter(e=>e.kind==='rpc-route').length,0);
+  const legacy=trace(source.replace('.ForService<IHost>().AddImplementation(new Host())','.AddService<IHost>(new Host())'),view('<Button Click="Start"/>'));
+  assert.equal(legacy.edges.filter(e=>e.kind==='rpc-route').length,1,'NET35 AddService registration must be evidenced too');
+  const mutable=trace(source.replace('static readonly RpcMethod<int,int> Route','static RpcMethod<int,int> Route'),view('<Button Click="Start"/>'));
+  assert.equal(mutable.edges.filter(e=>e.kind==='rpc-route').length,0,'mutable route must not be treated as a constant');
+});
+
 test('XAML event resolves exact overload and source coordinates; dynamic call stays unresolved', () => {
   const g = trace('namespace Demo; class Service { public void Go(int n) {} public void Go(string s) {} } class View { Service service = new(); void Start(object s, object e) { service.Go(1); dynamic d = service; d.Go(1); } }', view('<Button x:Name="GoButton" Click="Start"/>'));
   const start = node(g, 'M:Demo.View.Start(System.Object,System.Object)');

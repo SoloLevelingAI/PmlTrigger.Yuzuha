@@ -82,6 +82,10 @@ public static class YuzuhaOperationCatalog
                 return OperationResult.Ok(id, data);
             }
             catch (OperationCanceledException) { throw; }
+            catch (PmlDispatchPreflightException exception)
+            {
+                return OperationResult.Fail(id, exception.ExitCode, exception.Code, exception.Message, mayHaveExecuted: false);
+            }
             catch (Exception exception) when (exception is ArgumentException or FormatException or NotSupportedException)
             {
                 return OperationResult.Fail(id, 2, "INVALID_INPUT", exception.Message);

@@ -90,6 +90,14 @@ public sealed class DevelopmentExecutionTests : IDisposable
         await Assert.ThrowsAsync<UnauthorizedAccessException>(()=>bridge.RunPmlCommandAsync("Q",default)); Assert.Equal(0,service.Commands);
     }
     [Fact]
+    public async Task OperationAuthorizationDenialReportsNoPossibleDispatch()
+    {
+        var executor=YuzuhaOperationCatalog.Create(bridge,new PmlFunctionTrustStore(Path.Combine(root,"trust.json")),bridge.CreateIndependent);
+        using var input=JsonDocument.Parse("{\"pmlCommand\":\"Q\"}");
+        var result=await executor.InvokeAsync(YuzuhaOperationIds.Execute,input.RootElement,new(42,"Design",true));
+        Assert.Equal(4,result.ExitCode); Assert.False(result.Error!.MayHaveExecuted); Assert.Equal(0,service.Commands);
+    }
+    [Fact]
     public async Task OldHostIsRejectedBeforeMutationAndManualBoundariesCannotNest()
     {
         Development("raw-command"); service.MarkDbVersion=0; await bridge.SelectSessionAsync(42,"Design",default);

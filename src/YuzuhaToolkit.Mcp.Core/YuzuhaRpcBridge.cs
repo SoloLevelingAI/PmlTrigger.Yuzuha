@@ -289,6 +289,7 @@ public sealed class YuzuhaRpcBridge : IDisposable
         }
         catch (Exception error)
         {
+            error.Data["YuzuhaDispatched"] = dispatched;
             var unknown = dispatched && error is OperationCanceledException or IOException or TimeoutException;
             if (unknown) _executionUnknown = true;
             if (callId != null) _executionJournal.Complete(callId, unknown ? "cancelled-unknown" : "failed", error.Message, SelectedProcessId, _target?.ProcessStartTimeUtcTicks);

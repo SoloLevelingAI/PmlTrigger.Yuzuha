@@ -1531,6 +1531,15 @@
           "uid": "YuzuhaToolkit.Workspace::YuzuhaToolkit.Workspace.LaunchProfileCatalog"
         }
       ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DevelopmentExecutionTests.OperationAuthorizationDenialReportsNoPossibleDispatch",
+      "purpose": "共享操作入口将授权拒绝报告为明确未派发，不能伪报可能已执行。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.YuzuhaOperationCatalog"
+        }
+      ]
     }
   ]
 }

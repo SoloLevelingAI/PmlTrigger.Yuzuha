@@ -118,6 +118,8 @@ export function mountSidebar(root,graph,initial) {
     element('a',{href:new URL('reference/scripts/index.html',root).href},'Script 目录'),
     element('a',{href:new URL('catalog-maintenance.html',root).href},'目录增删改查'),
     element('a',{href:new URL('pmltwin-design-contract.html',root).href},'PMLTWIN 设计约定'),
+    element('a',{href:new URL('reference/design-baselines/index.html',root).href},'原始设计基线'),
+    element('a',{href:new URL('design-adaptation.html',root).href},'项目适配记录'),
     element('a',{href:url(root,'reference/interfaces/index.html',{kind:'interfaces',view:'types'})},'全部接口'),
     element('a',{href:url(root,'reference/models/index.html',{kind:'models',view:'types'})},'全部模型'),
     element('a',{href:url(root,'reference/pml/index.html',{})},'PML / PMLUI'),

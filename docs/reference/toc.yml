@@ -3,6 +3,10 @@
   items:
   - name: 设计约定
     href: pmltwin-design-contract.md
+  - name: 原始设计基线
+    href: ../../artifacts/docfx/navigation/design-baselines/index.md
+  - name: PMLTWIN 适配记录
+    href: design-adaptation.md
   - name: 一条命令跑通
     href: flows.md
   - name: 架构与边界

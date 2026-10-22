@@ -17,6 +17,8 @@ npm run docs:serve
 
 `Build-Documentation.ps1` 还原固定版本的本地 DocFX 工具，编译 DevHost，启动临时本机进程取得 OpenAPI，验证并构建 LikeC4。随后从六个 .NET 10 项目的源码生成 DocFX 元数据，使用 `tools/Documentation` 中的 Roslyn 工具扫描全部十个生产项目，生成完整项目、模块、类型和源码索引。临时进程按其 PID 关闭。站点输出在 `artifacts/docfx/site`；任何步骤失败都会使脚本和 CI 失败。
 
+设计来源位于 [版本归档](../../artifacts/docfx/navigation/repository/docs/design/baselines/README.md)。`manifest.json` 记录来源、原文件名、版本、Draft 状态、日期、字节数、SHA256 和适配页；新增版本另建目录，不覆盖原稿。现有文档工具的只读 `--read-docx` 入口提取正文、表格及内嵌图，Node 发布器生成[原稿阅读页](../../artifacts/docfx/navigation/design-baselines/index.md)并原样复制 Word。构建检查归档与发布副本的哈希及大小；失效引用和状态不符会失败。[PMLTWIN 适配记录](design-adaptation.md)独立维护项目决定，不回写原始 Draft，也不把历史样例视为当前通过。
+
 WPF 工作台另提供手写源码参考并单独编译。NET35、NET48 Host 与 SetupBridge 安装器提供明确标记的源码签名参考，不使用假 SDK 或编译桩。现有使用、安装、维护文档以及全部 PML/PMLUI 文件纳入导航；Obsolete 文件标明历史状态。[覆盖报告](../../artifacts/docfx/navigation/coverage.md)由实际输入清单生成。
 
 WPF 的 [UI 命令与事件溯源](ui-tracing.md) 从真实编译输入获取方法符号，补充 XAML 入口、Command 委托、setter/OnChanged 和事件候选关系；生成的页面提供调用方、下游、源码行及类型/API/测试链接。它描述静态关系，不替代运行日志或实机测试证据。

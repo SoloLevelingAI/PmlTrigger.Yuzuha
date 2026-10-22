@@ -43,7 +43,7 @@ endobject
 --
 ------------------------------------------------------------------------
 define method .YuzuhaAddin()
-  PML REHASH ALL
+  -- Rehash is an explicit maintenance action, never a module startup action.
   !!YuzuhaRpc = object YuzuhaRpc()
   !!YuzuhaExecuter = object YuzuhaExcuter()
   !this.YuzuhaVersion()

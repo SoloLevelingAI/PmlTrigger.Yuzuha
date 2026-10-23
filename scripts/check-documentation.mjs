@@ -16,12 +16,16 @@ const pages=walk(site).filter(file=>file.endsWith('.html'));
 const documents=new Map(),errors=[];
 let links=0;
 for(const file of pages){
-  const html=fs.readFileSync(file,'utf8'),ids=[...html.matchAll(/\bid="([^"]*)"/g)].map(match=>decode(match[1]));
+  const html=fs.readFileSync(file,'utf8');
+  // Inline scripts may contain templates for mutually exclusive preview routes.
+  // Their strings are not document elements or static resource references.
+  const markup=html.replace(/(<script\b[^>]*>)[\s\S]*?<\/script\s*>/gi,'$1</script>');
+  const ids=[...markup.matchAll(/\bid="([^"]*)"/g)].map(match=>decode(match[1]));
   for(const id of new Set(ids))if(ids.filter(value=>value===id).length>1)errors.push({file:path.relative(site,file),duplicateId:id});
-  documents.set(file,{html,ids:new Set(ids)});
+  documents.set(file,{html,markup,ids:new Set(ids)});
 }
-for(const [file,{html}] of documents){
-  for(const match of html.matchAll(/\b(?:href|src)="([^"]+)"/g)){
+for(const [file,{markup}] of documents){
+  for(const match of markup.matchAll(/\b(?:href|src)="([^"]+)"/g)){
     const href=decode(match[1]);
     if(/^(?:[a-z][a-z0-9+.-]*:|\/\/)/i.test(href))continue;
     const url=new URL(href,'http://documentation.local/'+path.relative(site,file).replaceAll('\\','/'));

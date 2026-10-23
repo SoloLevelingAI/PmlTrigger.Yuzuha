@@ -2,6 +2,9 @@
 
 对应 TRACE35–TRACE37。新版逐步使用 **Phayton** 作为展示名称，过渡期写 **Phayton · Yuzuha**。本批交付设计和演示，正式桌面与正式 DocFX 主题保持现有界面。检查范围见[本批验证](../../artifacts/docfx/navigation/repository/docs/validation/2026-10-23-phayton-preview-demo.md)。
 
+
+后续 TRACE38 已补齐 [R2 完整工作空间](phayton-r2.md)：知识库、设置与 DocFX 均可交互；以下 R1.1 与静态方向稿描述保留为历史批次记录。
+
 ## 宽屏与设计方向
 
 [打开可操作预览](../../artifacts/docfx/navigation/repository/docs/design/phayton-review/prototype.html) · [设计画板](../../artifacts/docfx/navigation/repository/docs/design/phayton-review/README.md)

@@ -2,7 +2,7 @@
 
 本轮桌面接入新增独立 HTML 打开入口和原生 C# 开发流程，使用方式见[工作台](workspace.md)。原有脚本和仅复制按钮继续保留。安装替换与运行验证分开：先复验旧 Walker、编译待更新包并生成预览；用户关闭 AM/E3D 且批准后再更新，随后重新启动并实测。状态见[本轮记录](../../artifacts/docfx/navigation/repository/docs/validation/2026-10-23-desktop-pml-integration.md)。
 
-2026-10-23 按用户提供的 `pmlforms.pmlfrm` 核对需求，并新增可运行的开发脚本，把复制、REHASH ALL、Object/Form 重载和结果核验串联。独立夹具已在 E3D 实测，见[操作说明](../../artifacts/docfx/navigation/repository/tests/live/pml-development/README.md)与[本批报告](../../artifacts/docfx/navigation/repository/docs/validation/2026-10-23-pml-development.md)。该流程尚未接入现有桌面按钮。
+2026-10-23 按用户提供的 `pmlforms.pmlfrm` 核对需求，先新增开发脚本，再接入桌面独立的“复制并验证”流程，把复制、REHASH ALL、Object/Form 重载和结果核验串联。独立夹具已在 E3D 实测，见[操作说明](../../artifacts/docfx/navigation/repository/tests/live/pml-development/README.md)与[脚本批次报告](../../artifacts/docfx/navigation/repository/docs/validation/2026-10-23-pml-development.md)。最新大数组稳定性和 AM 缺口以[能力核对](runtime-capability-audit.md)为准。
 
 ## 需求记在哪里
 
@@ -47,7 +47,7 @@ AVEVA 的 [Storing and Loading PML Files](https://help.aveva.com/AVEVA_E3D_Desig
 
 用户提出 HTML 作为操作界面，后端继续使用现有 C# 服务、Host 主线程和 PML。建议链路为 HTML 操作 → 本地应用桥 → 现有服务/会话核验 → Host → FORM/PML Object → 结构化回执 → HTML 展示。HTML 可承载按钮、属性浏览和部署测试流程，原生 FORM/PML Object 承担 AVEVA 侧能力。
 
-本批把表格展示与导出从 PML 中移出：已有 IPC 返回结构化 Items，`pml-data-table.mjs` 在客户端生成可搜索/导入/导出 CSV 的 HTML 快照。PML 不必负责写表格文件。同日新增的独立 [HTML 应用管理器](html-app-manager.md) 已支持分类、绑定、参数与实时 IPC；任意应用包生命周期和桌面集成仍在[计划功能](features/planned-tools.md)中。
+本批把表格展示与导出从 PML 中移出：已有 IPC 返回结构化 Items，`pml-data-table.mjs` 在客户端生成可搜索/导入/导出 CSV 的 HTML 快照。PML 不必负责写表格文件。同日新增的独立 [HTML 应用管理器](html-app-manager.md) 已支持分类、绑定、参数与实时 IPC，桌面/CLI 已能打开；任意应用包生命周期和 WebView 嵌入仍属后续范围。
 
 对当前的数据浏览/筛选/导出场景，优先 HTML 是工程判断：表格排版和交互更容易独立迭代。WPF 也能做精致界面，适合现有本机设置、窗口和系统集成；PMLFRM 适合 AVEVA 原生拾取、控件和流程嵌入，只是复杂表格与排版需要更多代码，并非不能编写。新夹具已实际运行 PMLFRM 按钮并调用 PMLOBJ/PMLFNC。
 

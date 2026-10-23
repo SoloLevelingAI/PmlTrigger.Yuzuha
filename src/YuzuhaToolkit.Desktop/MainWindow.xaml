@@ -613,23 +613,19 @@
                       <Border Style="{StaticResource Pill}" DockPanel.Dock="Right">
                         <TextBlock Text="本机" Foreground="{DynamicResource Text.Brand}" FontSize="12" />
                       </Border>
-                      <TextBlock Text="PMLLIB 健康度" Style="{StaticResource SectionTitle}" />
+                      <TextBlock Text="PMLLIB 目录统计" Style="{StaticResource SectionTitle}" />
                     </DockPanel>
                     <Grid Margin="0,10,0,6">
                       <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="82" />
+                        <ColumnDefinition Width="0" />
                         <ColumnDefinition />
                       </Grid.ColumnDefinitions>
-                      <Grid Width="68" Height="68">
-                        <Ellipse Stroke="{DynamicResource Surface.Track}" StrokeThickness="7" />
-                        <TextBlock Text="—" FontSize="26" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                      </Grid>
-                      <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="14,0,0,0">
-                        <TextBlock x:Name="OverviewFilesText" Text="尚未扫描" FontSize="20" FontWeight="SemiBold" />
-                        <TextBlock x:Name="OverviewSizeText" Text="文件量与目录体积" Style="{StaticResource Caption}" Margin="0,6,0,0" />
+                      <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                        <TextBlock x:Name="OverviewFilesText" Text="尚未扫描" FontSize="18" FontWeight="SemiBold" TextWrapping="Wrap" />
+                        <TextBlock x:Name="OverviewSizeText" Text="同名重复候选、PML 数量及磁盘占用" Style="{StaticResource Caption}" TextWrapping="Wrap" Margin="0,6,0,0" />
                       </StackPanel>
                     </Grid>
-                    <DockPanel><Button DockPanel.Dock="Right" Content="查看详情" Tag="1" Uid="插件部署" Click="Navigate" Style="{StaticResource Link}" Padding="0" Margin="8,0,0,0" /><TextBlock Text="按本机提醒预算检查" Style="{StaticResource Caption}" VerticalAlignment="Center" /></DockPanel>
+                    <DockPanel><Button DockPanel.Dock="Right" Content="查看详情" Tag="1" Uid="插件部署" Click="Navigate" Style="{StaticResource Link}" Padding="0" Margin="8,0,0,0" /><TextBlock Text="按类型和文件夹统计" Style="{StaticResource Caption}" VerticalAlignment="Center" /></DockPanel>
                   </StackPanel>
                 </Border>
               </Grid>

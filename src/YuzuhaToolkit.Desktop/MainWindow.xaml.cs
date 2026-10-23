@@ -330,12 +330,16 @@ public partial class MainWindow : Window
         var root = RegisteredBox.Text.Trim(); var files = int.Parse(WarnFilesBox.Text); var bytes = checked(long.Parse(WarnSizeBox.Text) * 1048576);
         var health = await Task.Run(() => DirectoryInspector.Scan(root, files, bytes));
         var text = FormatHealth(health); HealthText.Text = text; LaunchHealthText.Text = text;
-        OverviewFilesText.Text = health.Files.ToString("N0") + " 个文件"; OverviewSizeText.Text = (health.Bytes / 1048576d).ToString("N1") + " MiB · " + (health.Complete ? "完整扫描" : "部分扫描");
+        OverviewFilesText.Text = $"{health.DuplicateGroups:N0} 组同名 · 多出 {health.DuplicateExtraFiles:N0} 项";
+        OverviewSizeText.Text = $"{health.PmlFiles:N0} 个 PML · {health.PmlBytes / 1048576d:N2} MiB · " + (health.Complete ? "完整扫描" : "部分扫描，数量为下限");
         HealthText.SetResourceReference(System.Windows.Controls.TextBlock.ForegroundProperty, health.NeedsAttention ? "Text.Warning" : "Text.Success"); return health;
     }
-    private static string FormatHealth(DirectoryHealth health) => $"{(health.Complete ? "完整扫描" : "部分扫描")} · {health.Files:N0} 个文件 · {health.PmlFiles:N0} 个 PML 文件 · {health.Bytes / 1048576d:N1} MiB\n"
+    private static string FormatHealth(DirectoryHealth health) => $"{(health.Complete ? "完整扫描" : "部分扫描，数量仅为下限")} · 目录全部文件 {health.Files:N0} 项 / {health.Bytes / 1048576d:N2} MiB\n"
+        + $"PML 源文件 {health.PmlFiles:N0} 项 / {health.PmlBytes:N0} 字节；同名候选 {health.DuplicateGroups:N0} 组，多出 {health.DuplicateExtraFiles:N0} 项\n"
+        + string.Join("；", health.PmlTypes.OrderBy(pair => pair.Key).Select(pair => $"{pair.Key}: {pair.Value.Files:N0} 项 / {pair.Value.Bytes:N0} 字节")) + "\n"
         + (health.Warnings.Length > 0 ? string.Join("\n", health.Warnings) : "未达到当前清理提醒预算。")
-        + "\n大目录 / 文件：" + string.Join("；", health.LargestFolders.Take(5).Select(pair => pair.Key + " " + (pair.Value / 1048576d).ToString("N1") + " MiB"));
+        + "\nPML 所在目录（各目录直属文件，最多显示 20 项）：\n" + string.Join("\n", health.PmlFolders.OrderByDescending(pair => pair.Value.Bytes).Take(20).Select(pair => $"{pair.Key}: {pair.Value.Files:N0} 项 / {pair.Value.Bytes:N0} 字节"))
+        + (health.DuplicateGroups == 0 ? "" : "\n同名候选路径（未比较内容，最多显示 20 组，每组 10 个路径）：\n" + string.Join("\n", health.DuplicatePmlNames.Take(20).Select(pair => pair.Key + ": " + string.Join("；", pair.Value.Take(10)) + (pair.Value.Length > 10 ? "；其余路径见完整扫描 JSON" : ""))));
     private async void ScanDirectory(object sender, RoutedEventArgs e) { try { await ScanAsync(); } catch (Exception error) { Say(error.Message); } }
     private void OpenRegistered(object sender, RoutedEventArgs e) => Try(() => OpenDirectory(RegisteredBox.Text.Trim()));
     private void OpenLogs(object sender, RoutedEventArgs e) => Try(() => { Directory.CreateDirectory(Path.Combine(WorkspaceSettings.StateDirectory, "Activity")); OpenDirectory(Path.Combine(WorkspaceSettings.StateDirectory, "Activity")); });

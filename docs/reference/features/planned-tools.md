@@ -16,6 +16,6 @@ AI 的试验 PML 放在独立 `tests/ai-pml/<任务名>/`，不直接覆盖原�
 
 独立本地管理器已经实现分类、按钮、参数与真实 IPC，见[操作说明](../html-app-manager.md)。WPF 的 Web 应用页面仍未接入；第三方 HTML 包来源、远程分发与更新生命周期尚待扩展。开发 DevHost 继续仅提供预览，其接口没有增加执行能力。
 
-2026-10-23 已补开发阶段的数据出口：`pml-data-table.mjs` 将既有 IPC 返回数据生成本地 HTML 快照，支持筛选、导入 JSON 和导出 CSV。复制、重载和验证已有独立开发脚本及 E3D 实测；独立 [HTML 管理器](../html-app-manager.md) 已接持续调用桥，现有桌面集成仍未实现，见[开发链路](../pml-development-flow.md)。
+2026-10-23 已补开发阶段的数据出口：`pml-data-table.mjs` 将既有 IPC 返回数据生成本地 HTML 快照，支持筛选、导入 JSON 和导出 CSV。复制、重载和验证已有独立开发脚本、新增桌面流程及 E3D 夹具实测；独立 [HTML 管理器](../html-app-manager.md) 已接持续调用桥，桌面/CLI 已有打开入口。应用包生命周期和 WebView 嵌入仍待实现，见[开发链路](../pml-development-flow.md)。
 
 [项目设计约定](../pmltwin-design-contract.md) · [功能与 Script 维护](../catalog-maintenance.md)

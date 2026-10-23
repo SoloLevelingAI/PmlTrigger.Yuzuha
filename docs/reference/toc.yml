@@ -3,6 +3,8 @@
   items:
   - name: 设计约定
     href: pmltwin-design-contract.md
+  - name: 能力核对、用户数据与调用策略
+    href: runtime-capability-audit.md
   - name: 原始设计基线
     href: ../../artifacts/docfx/navigation/design-baselines/index.md
   - name: PMLTWIN 适配记录

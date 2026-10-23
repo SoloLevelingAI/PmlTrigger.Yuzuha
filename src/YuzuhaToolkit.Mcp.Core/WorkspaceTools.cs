@@ -5,7 +5,7 @@ using YuzuhaToolkit.Workspace;
 
 namespace YuzuhaToolkit.Mcp;
 
-/// <summary>原生开发入口：撤销分组、目录健康和统一 MCP 工具状态。</summary>
+/// <summary>原生开发入口：撤销分组、PML 目录统计和统一 MCP 工具状态。</summary>
 [McpServerToolType]
 public sealed class WorkspaceTools(PmlCallTools pml)
 {
@@ -34,7 +34,7 @@ public sealed class WorkspaceTools(PmlCallTools pml)
     /// <summary>扫描用户指定或工作区保存的注册目录，只读统计并报告清理提醒。</summary>
     /// <param name="directory">可选的已注册 PMLLIB 目录；省略则使用启动台设置。</param>
     [McpServerTool]
-    [Description("Read-only bounded scan of the registered Yuzuha PMLLIB folder. Reports file counts, sizes, large folders, development artifacts and cleanup reminders. Does not delete files, change registration or execute PML REHASH ALL.")]
+    [Description("Read-only bounded scan of the registered Yuzuha PMLLIB folder. Reports total and PML-only file bytes, PML storage by type and direct folder, case-insensitive same-filename duplicate candidates and extra-copy counts. Duplicates are not content comparisons or proven load conflicts; incomplete scans report lower bounds. Does not delete files, change registration or execute PML REHASH ALL.")]
     public string InspectRegisteredPmllib(string? directory = null)
     {
         var settings = WorkspaceSettings.Load();

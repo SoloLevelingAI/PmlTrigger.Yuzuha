@@ -130,6 +130,14 @@
       "purpose": "只读目录检查统计全部文件和 PML 文件，发现开发产物及预算超限时给出提醒，保留原文件。"
     },
     {
+      "test": "xunit:YuzuhaToolkit.Tests.WorkspaceBehaviorTests.InspectorSeparatesPmlStorageAndCountsCaseInsensitiveSameTypeDuplicates",
+      "purpose": "核对大小写不敏感的同类型重复候选、额外条目、PML 专属字节和直属目录聚合，排除索引与备份并检查 JSON 输出。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.WorkspaceBehaviorTests.PartialScanDoesNotClaimAllDuplicateCandidatesWereFound",
+      "purpose": "部分扫描保留下限和需关注状态，不以未发现重复宣称全目录无重复。"
+    },
+    {
       "test": "xunit:YuzuhaToolkit.Tests.WorkspaceBehaviorTests.IncompleteInspectionNeverReportsHealthy",
       "purpose": "扫描达到条目预算后标记不完整和需关注，不能报告健康。"
     },

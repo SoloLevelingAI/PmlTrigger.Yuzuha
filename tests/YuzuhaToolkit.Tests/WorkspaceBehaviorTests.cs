@@ -30,6 +30,44 @@ public sealed class WorkspaceBehaviorTests : IDisposable
         Assert.False(result.Complete); Assert.True(result.NeedsAttention); Assert.True(result.Files <= 1);
     }
 
+    [Fact]
+    public void InspectorSeparatesPmlStorageAndCountsCaseInsensitiveSameTypeDuplicates()
+    {
+        Write("registered/one/Example.pmlfnc", "123");
+        Write("registered/two/EXAMPLE.PMLFNC", "12345");
+        Write("registered/three/example.pmlfnc", "1234567");
+        Write("registered/one/example.pmlobj", "12");
+        Write("registered/empty.pmlfrm", "");
+        Write("registered/pml.index", new string('i', 200));
+        Write("registered/one/ignore.pmlfnc.bak", "backup");
+        var result = DirectoryInspector.Scan(DirectoryPath("registered"));
+        Assert.True(result.Complete);
+        Assert.Equal(5, result.PmlFiles);
+        Assert.Equal(17, result.PmlBytes);
+        Assert.Equal(223, result.Bytes);
+        Assert.Equal(new PmlStorage(3, 15), result.PmlTypes[".pmlfnc"]);
+        Assert.Equal(new PmlStorage(2, 5), result.PmlFolders["one"]);
+        Assert.Equal(new PmlStorage(1, 0), result.PmlFolders["."]);
+        Assert.Equal(1, result.DuplicateGroups);
+        Assert.Equal(2, result.DuplicateExtraFiles);
+        Assert.Equal(3, result.DuplicatePmlNames.Values.Single().Length);
+        Assert.Equal(result.PmlBytes, result.PmlFolders.Values.Sum(folder => folder.Bytes));
+        Assert.True(result.NeedsAttention);
+        var json = JsonSerializer.Serialize(result, WorkspaceJsonContext.Default.DirectoryHealth);
+        Assert.Equal(2, JsonDocument.Parse(json).RootElement.GetProperty("duplicateExtraFiles").GetInt32());
+    }
+
+    [Fact]
+    public void PartialScanDoesNotClaimAllDuplicateCandidatesWereFound()
+    {
+        Write("registered/a/example.pmlfnc", "source");
+        Write("registered/b/example.pmlfnc", "source");
+        var result = DirectoryInspector.Scan(DirectoryPath("registered"), maxEntries: 1);
+        Assert.False(result.Complete);
+        Assert.True(result.NeedsAttention);
+        Assert.Contains(result.Warnings, warning => warning.Contains("下限"));
+    }
+
     [Theory]
     [InlineData("../outside.pmlfnc")]
     [InlineData("folder/../../outside.pmlfnc")]

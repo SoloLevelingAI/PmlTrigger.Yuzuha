@@ -183,4 +183,4 @@ Actual reports and backups are retained in LocalAppData/YuzuhaToolkit/SetupRepor
 
 新安装计划拒绝 Knowledge、Apps、Projects、UserPmlLib、Exports、trust 和内部状态目录的载荷，以及 SQLite/DB 数据文件；含 `.yuzuha-user-data.json` 的目录及其子目录不能作为程序文件目标。程序同名文件若已被用户修改，或不属于上版发布清单，预览停止并保留文件；先复制修改到用户目录，处理冲突后重新预览。原有备份和冻结计划检查继续有效。保持干净构建输入，禁止把个人资料混进发布源码树。
 
-升级前关闭 AM、E3D、Yuzuha 工作台和相关 HTML/知识宿主，再确认具体更新预览。本批只提交源码与离线验证，未更新本机。
+升级前关闭 AM、E3D、Yuzuha 工作台和相关 HTML/知识宿主，再确认具体更新预览。`pml.index` 属于 AVEVA 在本机生成的索引，不进入安装载荷；更新保留现有索引。TRACE32 的源码批次未安装，后续 TRACE33 已完成经授权的本机更新，详见仓库 `docs/validation/2026-10-23-installer-ui-preview.md`；真实 AVEVA 重启与业务复验仍单独记录。

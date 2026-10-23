@@ -87,3 +87,7 @@ No production AVEVA configuration/model or remote GitHub release was changed.
 ## 2026-10-23 user-data protection
 
 NET48 regression passes: unmodified files owned by the previous package may update; local edits and unowned collisions are refused and retained. Reserved user-data paths, normalized paths such as `nested/../Apps/other.json`, database payloads, and marked user-directory descendants are rejected. Existing merge, atomic update, rollback and concurrency tests also pass. This batch does not run an installed-package upgrade or touch live AVEVA clients; full installation acceptance remains separate. See `docs/validation/2026-10-23-user-data-knowledge.md` in the source repository.
+
+## 2026-10-23 follow-up: actual local upgrade (TRACE33)
+
+The generated local `pml.index` caused the new ownership guard to refuse the initial preview. The builder now excludes that generated file and rejects any residual index in the payload. A new package and frozen plan installed successfully after the installed MCP/Knowledge processes were released. All 352 payload hashes match; 31 static user/configuration files, the generated index and both selected environment files retain their hashes. Installed-desktop isolated smoke passes with zero binding errors. No AVEVA process was launched or tested. The local EXE is unsigned; signing remains on the designated other computer. Full evidence and limitations are in `docs/validation/2026-10-23-installer-ui-preview.md`.

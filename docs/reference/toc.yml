@@ -3,6 +3,10 @@
   items:
   - name: 设计约定
     href: pmltwin-design-contract.md
+  - name: Clear Workspace 界面预览
+    href: clear-workspace-design.md
+  - name: 另一台电脑的签名交接
+    href: signing-handoff.md
   - name: 能力核对、用户数据与调用策略
     href: runtime-capability-audit.md
   - name: 原始设计基线

@@ -35,7 +35,8 @@ def main():
     subprocess.run(['dotnet', 'build', str(ROOT / 'installer/SetupBridge/SetupBridge.csproj'),
                     '-c', 'Release'], check=True)
     for name in ['PMLLIB','PMLUI','runtime','skill','docs']:
-        ignored=['*.pdb','*.ps1','__pycache__']
+        # AVEVA owns this generated index; REHASH changes it on the user's machine.
+        ignored=['*.pdb','*.ps1','__pycache__','pml.index']
         if name == 'runtime' and args.desktop:
             ignored.append('desktop')
         shutil.copytree(ROOT / name, stage / name, ignore=shutil.ignore_patterns(*ignored))
@@ -64,7 +65,7 @@ def main():
     for name in ['Yuzuha.SetupBridge.exe','Newtonsoft.Json.dll']:
         shutil.copy2(helper / name, stage / 'setup' / name)
     files = [p for p in stage.rglob('*') if p.is_file()]
-    forbidden = {'pmlnet.dll','aveva.core.utilities.dll','aveva.pdms.utilities.dll'}
+    forbidden = {'pmlnet.dll','aveva.core.utilities.dll','aveva.pdms.utilities.dll','pml.index'}
     for path in files:
         if (path.name.lower() in forbidden or path.name.lower() == '.yuzuha-user-data.json'
             or path.suffix.lower() in {'.ps1','.sqlite3','.db'} or path.name.lower().endswith(('-wal', '-shm'))

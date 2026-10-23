@@ -10,6 +10,8 @@
 
 | 编号 | 用户意见与采纳决定 | 当前状态 | 验收条件与去向 |
 | --- | --- | --- | --- |
+| TRACE34 | 桌面与 DocFX 使用 FigCraft 重做信息组织、自绘窗口视觉、适量动效；用户选择先交付设计和可操作预览 | 独立 R1 设计、七画板与 HTML 交互预览；生产界面与现有调用未替换；未发现 EffectCraft 可用入口 | [设计约定](clear-workspace-design.md)及[本批验证](../../artifacts/docfx/navigation/repository/docs/validation/2026-10-23-installer-ui-preview.md)；原生边框、全功能映射与真实运行状态留待落地验收 |
+| TRACE33 | 打出新版 Inno 包、先给本机预览、保留全部现有配置数据；用户已关闭客户端并授权更新；签名在另一台电脑 | 已真实安装，352 载荷校验一致，31 静态配置/数据及 PML 索引、2 环境文件保持；安装版桌面隔离自检通过 | [安装验证](../../artifacts/docfx/navigation/repository/docs/validation/2026-10-23-installer-ui-preview.md)与[签名交接](signing-handoff.md)；本地包未签名，未重启 AVEVA 复验 |
 | TRACE32 | 先交付统一用户目录、推荐可改路径、知识库可视化增删查改；测试后提交，更新前提醒关闭客户端 | 源码实现目录预览/复制核验/切换，笔记版本与回收站、资料索引管理、升级用户数据保护；现有调用保留，尚未更新本机 | [操作说明](user-data-and-knowledge.md)与[验证记录](../../artifacts/docfx/navigation/repository/docs/validation/2026-10-23-user-data-knowledge.md)；安装需另行预览及关闭客户端确认 |
 | TRACE26 | 核对 AVEVA 读写、Attribute 无响应以及 Form 表格和自主开发链路 | 静态核对完成；原生 LIST/按钮及开发夹具有实测，数据库任意写入、大数组稳定性和 AM 全链路未验收 | 见[能力核对](runtime-capability-audit.md)，恢复后分段测量，不能按事件猜测根因 |
 | TRACE27 | 健康度改为重复条目与 PML 类型/文件夹存储占用 | 源码增加同名候选组/多出文件数、类型/直属目录字节及明确部分扫描；未覆盖本机安装 | 同类型大小写重复、排除索引/备份、聚合总量及部分扫描测试；不冒充内容去重或运行内存 |

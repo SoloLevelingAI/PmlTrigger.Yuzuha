@@ -18,12 +18,15 @@ internal static partial class Program
     /// <param name="legacy">是否使用 AM/PDMS 的旧 Framework 环境规则。</param>
     /// <param name="nl">原文件使用的换行序列。</param>
     /// <param name="edits">用于保存逐项前后差异的预览集合。</param>
-    internal static string EditEnvironmentLines(string body,string root,string profile,bool legacy,string nl,out JArray edits)
+    /// <param name="startupActions">可选的显式启动策略；省略时不添加特殊启动变量。</param>
+    internal static string EditEnvironmentLines(string body,string root,string profile,bool legacy,string nl,out JArray edits,string startupActions=null)
     {
         edits=new JArray();
         if(Regex.IsMatch(body,@"(?m)^\s*\[") || body.Contains("\x1a")) throw Bad("不是支持的批处理格式 / Unsupported batch file format.");
         string ui=legacy?"pdmsui":"pmlui";
-        var targets=new[]{"pmllib",ui,"Yuzuha","YuzuhaFramework"};
+        if(startupActions!=null && startupActions!="none" && startupActions!="rehash-all")
+            throw Bad("startupActions must be none or rehash-all.");
+        var targets=new[]{"pmllib",ui,"Yuzuha","YuzuhaFramework"}.Concat(startupActions==null?new string[0]:new[]{"YUZUHA_STARTUP_ACTIONS"}).ToArray();
         var direct=targets.ToDictionary(x=>x,x=>new List<int>(),StringComparer.OrdinalIgnoreCase);
         var normalized=targets.ToDictionary(x=>x,x=>new List<int>(),StringComparer.OrdinalIgnoreCase);
         var lines=Regex.Matches(body,@"[^\r\n]*(?:\r\n|\n|\r|$)").Cast<Match>().Where(x=>x.Length>0).ToArray();
@@ -68,6 +71,7 @@ internal static partial class Program
             {ui,Path.Combine(root,"PMLUI")+";%"+ui+"%"}, {"Yuzuha",profile}
         };
         if(direct["YuzuhaFramework"].Count>0)values.Add("YuzuhaFramework",legacy?"net35":"net48");
+        if(startupActions!=null)values.Add("YUZUHA_STARTUP_ACTIONS",startupActions);
         int insertion=lines.Length+2;
         foreach(var item in values) {
             string added="set "+item.Key+"="+item.Value;

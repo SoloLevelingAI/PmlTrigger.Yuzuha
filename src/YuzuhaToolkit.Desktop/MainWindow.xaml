@@ -176,6 +176,7 @@
                     <DockPanel>
                       <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
                         <Button Content="配置库" Click="OpenProfileLibrary" Style="{StaticResource Quiet}" />
+                        <Button Content="从 LaunchDesk 带入" Click="ReadLaunchDeskDrafts" FontSize="13" />
                         <Button Content="新建配置  +" Click="NewProfile" FontSize="13" />
                       </StackPanel>
                       <StackPanel>
@@ -184,6 +185,15 @@
                       </StackPanel>
                     </DockPanel>
                     <ComboBox x:Name="ProfilesBox" DisplayMemberPath="Name" SelectionChanged="ProfileSelected" Margin="0,18,0,16" />
+                    <StackPanel x:Name="LaunchDeskDraftsPanel" Visibility="Collapsed" Margin="0,0,0,12">
+                      <TextBlock Text="选择 LaunchDesk 配置（带入后可直接修改）" Style="{StaticResource Caption}"/>
+                      <DockPanel><Button DockPanel.Dock="Right" Content="带入所选配置" Click="UseLaunchDeskDraft"/><ComboBox x:Name="LaunchDeskDraftsBox" DisplayMemberPath="Name"/></DockPanel>
+                      <TextBlock Text="密码在 Yuzuha 首次输入；许可沿用环境，可在高级设置修改。" Style="{StaticResource Caption}"/>
+                    </StackPanel>
+                    <TextBlock Text="1. 选择 AM / E3D 产品" Style="{StaticResource Caption}"/>
+                    <ComboBox x:Name="LaunchApplicationBox" DisplayMemberPath="Label" SelectionChanged="LaunchApplicationSelected"/>
+                    <TextBlock x:Name="LaunchApplicationSummary" Text="选择产品后自动填写入口、初始化文件和工作目录。" Style="{StaticResource Caption}" TextWrapping="Wrap" Margin="0,0,0,14"/>
+                    <TextBlock Text="2. 填写登录信息" Style="{StaticResource Caption}"/>
                     <Grid>
                       <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1.1*" />
@@ -191,41 +201,34 @@
                         <ColumnDefinition />
                       </Grid.ColumnDefinitions>
                       <StackPanel>
-                        <TextBlock Text="程序入口" Style="{StaticResource Caption}" />
-                        <DockPanel>
-                          <Button DockPanel.Dock="Right" Content="…" Width="34" Padding="0" Click="BrowseExecutable" Margin="6,5,0,12" />
-                          <TextBox x:Name="ExecutableBox" FontSize="13" />
-                        </DockPanel>
-                        <TextBlock Text="初始化文件" Style="{StaticResource Caption}" />
-                        <DockPanel>
-                          <Button DockPanel.Dock="Right" Content="…" Width="34" Padding="0" Click="BrowseInitialization" Margin="6,5,0,12" />
-                          <TextBox x:Name="InitializationBox" FontSize="13" />
-                        </DockPanel>
-                        <TextBlock Text="工作目录" Style="{StaticResource Caption}" />
-                        <DockPanel>
-                          <Button DockPanel.Dock="Right" Content="…" Width="34" Padding="0" Click="BrowseWorkingDirectory" Margin="6,5,0,12" />
-                          <TextBox x:Name="WorkingBox" FontSize="13" />
-                        </DockPanel>
-                        <TextBlock Text="MDB" Style="{StaticResource Caption}" />
-                        <TextBox x:Name="MdbBox" Text="/ALL_NO_MDS" FontSize="13" />
-                      </StackPanel>
-                      <StackPanel Grid.Column="2">
                         <TextBlock Text="项目" Style="{StaticResource Caption}" />
                         <TextBox x:Name="ProjectBox" FontSize="13" />
+                        <TextBlock Text="MDB" Style="{StaticResource Caption}" />
+                        <ComboBox x:Name="MdbBox" IsEditable="True" Text="/ALL_NO_MDS" FontSize="13" ToolTip="可填写，也可选择已保存配置的 MDB" />
+                      </StackPanel>
+                      <StackPanel Grid.Column="2">
                         <TextBlock Text="用户名" Style="{StaticResource Caption}" />
                         <TextBox x:Name="UserBox" FontSize="13" />
                         <TextBlock Text="启动模块" Style="{StaticResource Caption}" />
-                        <TextBox x:Name="ModuleBox" Text="Design" FontSize="13" />
+                        <ComboBox x:Name="ModuleBox" IsEditable="True" Text="DESIGN" FontSize="13">
+                          <ComboBoxItem Content="DESIGN"/><ComboBoxItem Content="PARAGON"/><ComboBoxItem Content="DRAW"/><ComboBoxItem Content="Outfitting"/><ComboBoxItem Content="OutfittingDraft"/>
+                        </ComboBox>
                         <TextBlock Text="密码（留空沿用已保存凭据）" Style="{StaticResource Caption}" />
                         <PasswordBox x:Name="PasswordInput" FontSize="13" />
                       </StackPanel>
                     </Grid>
                     <WrapPanel Margin="0,4,0,8">
-                      <CheckBox x:Name="RememberPasswordBox" Content="保存密码到本机凭据，供下次登录" IsChecked="True" VerticalAlignment="Center" />
-                      <Button Content="清除已存密码" Click="ClearSavedPassword" Style="{StaticResource Link}" Margin="12,0,0,0" />
+                      <CheckBox x:Name="RememberPasswordBox" Content="记住本次输入的密码" IsChecked="True" VerticalAlignment="Center" ToolTip="取消后不保存新输入的密码；已存密码在设置中清除" />
                     </WrapPanel>
                     <TextBlock x:Name="PasswordStatusText" Text="尚未保存密码" Style="{StaticResource Caption}" Margin="0,0,0,8" />
-                    <Expander x:Name="ProfileDetailsExpander" Header="配置名称与产品 / 许可" FontSize="13" Margin="0,4,0,12">
+                    <Expander x:Name="LaunchPathsExpander" Header="安装路径（已自动填写，可手动修改）" FontSize="13" Margin="0,4,0,12">
+                      <StackPanel Margin="0,12,0,0">
+                        <TextBlock Text="程序入口" Style="{StaticResource Caption}"/><DockPanel><Button DockPanel.Dock="Right" Content="…" Click="BrowseExecutable"/><TextBox x:Name="ExecutableBox"/></DockPanel>
+                        <TextBlock Text="初始化文件" Style="{StaticResource Caption}"/><DockPanel><Button DockPanel.Dock="Right" Content="…" Click="BrowseInitialization"/><TextBox x:Name="InitializationBox"/></DockPanel>
+                        <TextBlock Text="工作目录" Style="{StaticResource Caption}"/><DockPanel><Button DockPanel.Dock="Right" Content="…" Click="BrowseWorkingDirectory"/><TextBox x:Name="WorkingBox"/></DockPanel>
+                      </StackPanel>
+                    </Expander>
+                    <Expander x:Name="ProfileDetailsExpander" Header="高级设置：名称、产品、许可与启动动作" FontSize="13" Margin="0,4,0,12">
                       <StackPanel Margin="0,12,0,0">
                         <TextBlock Text="配置名称" Style="{StaticResource Caption}" />
                         <TextBox x:Name="NameBox" />
@@ -249,12 +252,14 @@
                         </Grid>
                         <TextBlock Text="许可连接（留空沿用）" Style="{StaticResource Caption}" />
                         <TextBox x:Name="LicenseBox" />
+                          <TextBlock Text="特殊启动策略（YUZUHA_STARTUP_ACTIONS）" Style="{StaticResource Caption}" Margin="0,10,0,0" />
+                          <ComboBox x:Name="StartupPolicyBox" SelectedIndex="0"><ComboBoxItem Content="沿用进程环境"/><ComboBoxItem Content="每次启动后 PML REHASH ALL"/><ComboBoxItem Content="不执行特殊动作"/></ComboBox>
+                          <TextBlock Text="PML 初始化后、Host 建立前执行；特殊启动有独立日志。" Style="{StaticResource Caption}" />
                       </StackPanel>
                     </Expander>
                     <DockPanel Margin="0,5,0,0">
                       <WrapPanel DockPanel.Dock="Right">
                         <Button Content="保存配置" Click="SaveProfile" FontSize="13" />
-                        <Button Content="预览参数" Click="PreviewLaunch" FontSize="13" />
                         <Button x:Name="LaunchButton" Content="▶ 保存并启动工程" Style="{StaticResource Primary}" Click="Launch" FontSize="13" Margin="0" />
                       </WrapPanel>
                     </DockPanel>
@@ -277,6 +282,7 @@
                   </StackPanel>
                 </Border>
               </Grid>
+              <Expander Header="高级诊断：启动参数与产品发现" IsExpanded="False" Margin="0,0,0,16">
               <Grid x:Name="LaunchLowerColumns">
                 <Grid.ColumnDefinitions>
                   <ColumnDefinition Width="2.1*" />
@@ -286,6 +292,7 @@
                 <Border Style="{StaticResource Card}">
                   <StackPanel>
                     <TextBlock Text="启动参数预览" Style="{StaticResource SectionTitle}" />
+                    <Button Content="预览参数" Click="PreviewLaunch" HorizontalAlignment="Left"/>
                     <TextBlock Text="由现有 LaunchService 生成 · 原生参数列表" Style="{StaticResource Caption}" Margin="0,4,0,14" />
                     <TextBox x:Name="LaunchPreviewBox" IsReadOnly="True" TextWrapping="Wrap" MinHeight="138" Background="{DynamicResource Surface.Code}" Foreground="{DynamicResource Text.CodeText}" BorderBrush="{DynamicResource Surface.Code}" FontFamily="Consolas" FontSize="13" />
                     <WrapPanel>
@@ -313,6 +320,7 @@
                   </StackPanel>
                 </Border>
               </Grid>
+              </Expander>
             </StackPanel>
           </ScrollViewer>
         </TabItem>
@@ -353,6 +361,14 @@
                     </DataGrid>
                     <TextBlock x:Name="CopySummaryText" Text="尚未预览复制内容" Style="{StaticResource Caption}" Margin="0,14,0,12" />
                     <Button x:Name="ApplyCopyButton" Content="复制到注册目录" Click="ApplyCopy" IsEnabled="False" Style="{StaticResource Primary}" HorizontalAlignment="Right" />
+                      <Separator Margin="0,18"/><TextBlock Text="开发链路：复制 → REHASH ALL → 重载 → 验证" Style="{StaticResource SectionTitle}"/>
+                      <TextBlock Text="先在工程会话核验目标；清单声明自有类型、验证宏及预期结果。" Style="{StaticResource Caption}"/>
+                      <DockPanel Margin="0,10"><Button DockPanel.Dock="Right" Content="选择清单" Click="BrowseDevelopmentManifest"/><TextBox x:Name="DevelopmentManifestBox" TextChanged="DevelopmentManifestChanged"/></DockPanel>
+                      <WrapPanel><Button Content="预览开发链路" Click="PreviewDevelopment"/><Button x:Name="RunDevelopmentButton" Content="复制、重载并验证" Click="RunDevelopment" IsEnabled="False" Style="{StaticResource Primary}"/></WrapPanel>
+                      <TextBlock x:Name="DevelopmentSummaryText" Text="尚未预览" Style="{StaticResource Caption}" Margin="0,10" TextWrapping="Wrap"/>
+                      <DataGrid x:Name="DevelopmentStepsGrid" Height="180"><DataGrid.Columns><DataGridTextColumn Header="步骤" Binding="{Binding Name}" Width="*"/><DataGridTextColumn Header="状态" Binding="{Binding Status}" Width="150"/></DataGrid.Columns></DataGrid>
+                      <DataGrid x:Name="DevelopmentResultsGrid" Height="150"><DataGrid.Columns><DataGridTextColumn Header="路径" Binding="{Binding Path}" Width="*"/><DataGridTextColumn Header="实际值" Binding="{Binding Value}" Width="*"/></DataGrid.Columns></DataGrid>
+                      <TextBox x:Name="DevelopmentEvidenceBox" IsReadOnly="True" ToolTip="完整本机证据路径"/>
                   </StackPanel>
                 </Border>
                 <Border Grid.Column="2" Style="{StaticResource Card}">
@@ -1019,95 +1035,10 @@
                 </ScrollViewer>
               </TabItem>
               <TabItem Header="Web 应用">
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                  <StackPanel>
-                    <UniformGrid Columns="4" Margin="0,0,-16,0">
-                      <Border Style="{StaticResource Card}" Padding="18" Margin="0,0,16,18">
-                        <StackPanel>
-                          <TextBlock Text="已登记应用" Style="{StaticResource Caption}" />
-                          <TextBlock Text="—" FontSize="28" FontWeight="SemiBold" Margin="0,10,0,6" />
-                          <TextBlock Text="尚未接入记录" Style="{StaticResource Caption}" />
-                        </StackPanel>
-                      </Border>
-                      <Border Style="{StaticResource Card}" Padding="18" Margin="0,0,16,18">
-                        <StackPanel>
-                          <TextBlock Text="正在运行" Style="{StaticResource Caption}" />
-                          <TextBlock Text="—" FontSize="28" FontWeight="SemiBold" Margin="0,10,0,6" />
-                          <TextBlock Text="尚未接入记录" Style="{StaticResource Caption}" />
-                        </StackPanel>
-                      </Border>
-                      <Border Style="{StaticResource Card}" Padding="18" Margin="0,0,16,18">
-                        <StackPanel>
-                          <TextBlock Text="待更新" Style="{StaticResource Caption}" />
-                          <TextBlock Text="—" FontSize="28" FontWeight="SemiBold" Margin="0,10,0,6" />
-                          <TextBlock Text="尚未接入记录" Style="{StaticResource Caption}" />
-                        </StackPanel>
-                      </Border>
-                      <Border Style="{StaticResource Card}" Padding="18" Margin="0,0,16,18">
-                        <StackPanel>
-                          <TextBlock Text="异常" Style="{StaticResource Caption}" />
-                          <TextBlock Text="—" FontSize="28" FontWeight="SemiBold" Margin="0,10,0,6" />
-                          <TextBlock Text="尚未接入记录" Style="{StaticResource Caption}" />
-                        </StackPanel>
-                      </Border>
-                    </UniformGrid>
-                    <Grid x:Name="WebColumns">
-                      <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="2.14*" />
-                        <ColumnDefinition Width="16" />
-                        <ColumnDefinition />
-                      </Grid.ColumnDefinitions>
-                      <Border Style="{StaticResource Card}">
-                        <StackPanel>
-                          <TextBlock Text="应用目录" Style="{StaticResource SectionTitle}" />
-                          <TextBlock Text="登记、部署、打开版本分别表达" Style="{StaticResource Caption}" Margin="0,8,0,0" />
-                          <TextBox Tag="搜索应用名称、版本或目录" IsEnabled="False" Margin="0,14,0,0" />
-                          <DataGrid Height="275" Margin="0,16,0,0">
-                            <DataGrid.Columns>
-                              <DataGridTextColumn Header="应用 / 来源" Width="*" />
-                              <DataGridTextColumn Header="版本" Width="*" />
-                              <DataGridTextColumn Header="登记状态" Width="*" />
-                              <DataGridTextColumn Header="运行状态" Width="*" />
-                            </DataGrid.Columns>
-                          </DataGrid>
-                          <Button Content="登记应用" IsEnabled="False" Style="{StaticResource Primary}" Margin="0,16,0,0" HorizontalAlignment="Right" />
-                        </StackPanel>
-                      </Border>
-                      <Border Style="{StaticResource Card}" Grid.Column="2">
-                        <StackPanel>
-                          <TextBlock Text="应用详情" Style="{StaticResource SectionTitle}" />
-                          <Border Style="{StaticResource Pill}" HorizontalAlignment="Left" Background="{DynamicResource Surface.TintWarning}">
-                            <TextBlock Text="C# 应用管理待接入" Foreground="{DynamicResource Text.Warning}" FontSize="11" />
-                          </Border>
-                          <TextBlock Text="本地目录 / 入口 HTML" Style="{StaticResource Caption}" Margin="0,14,0,0" />
-                          <TextBox Text="" IsEnabled="False" />
-                          <TextBlock Text="登记 / 部署 / 打开版本" Style="{StaticResource Caption}" Margin="0,14,0,0" />
-                          <TextBox Text="" IsEnabled="False" />
-                          <TextBlock Text="打开窗口、桥接可用和调用许可分别判断。" Style="{StaticResource Caption}" Margin="0,8,0,0" />
-                          <Border Background="{DynamicResource Surface.TintWarning}" Padding="12" CornerRadius="8" Margin="0,16,0,0">
-                            <TextBlock Text="页面不能自行登记函数或授予许可；本阶段不开放任意 PML。" Foreground="{DynamicResource Text.Warning}" TextWrapping="Wrap" />
-                          </Border>
-                          <Button Content="打开应用" IsEnabled="False" Style="{StaticResource Primary}" Margin="0,16,0,0" HorizontalAlignment="Right" />
-                        </StackPanel>
-                      </Border>
-                    </Grid>
-                    <Border Style="{StaticResource Card}">
-                      <StackPanel>
-                        <TextBlock Text="最近应用活动" Style="{StaticResource SectionTitle}" />
-                        <TextBlock Text="打开、停用、授权、版本和迁移记录" Style="{StaticResource Caption}" Margin="0,8,0,0" />
-                        <DataGrid Height="145" Margin="0,16,0,0">
-                          <DataGrid.Columns>
-                            <DataGridTextColumn Header="时间" Width="*" />
-                            <DataGridTextColumn Header="应用" Width="*" />
-                            <DataGridTextColumn Header="活动" Width="*" />
-                            <DataGridTextColumn Header="版本" Width="*" />
-                            <DataGridTextColumn Header="结果" Width="*" />
-                          </DataGrid.Columns>
-                        </DataGrid>
-                      </StackPanel>
-                    </Border>
-                  </StackPanel>
-                </ScrollViewer>
+                <ScrollViewer VerticalScrollBarVisibility="Auto"><Grid x:Name="WebColumns"><Grid.ColumnDefinitions><ColumnDefinition Width="2.14*"/><ColumnDefinition Width="16"/><ColumnDefinition/></Grid.ColumnDefinitions>
+                  <Border Style="{StaticResource Card}"><StackPanel><TextBlock Text="本地 HTML 应用管理器" Style="{StaticResource SectionTitle}"/><TextBlock Text="在独立浏览器中管理 Form 分类、按钮绑定、参数和结果表格。" Style="{StaticResource Caption}" Margin="0,12"/><TextBox x:Name="HtmlAddressBox" Text="http://127.0.0.1:5288" IsReadOnly="True"/><Button x:Name="OpenHtmlButton" Content="打开 HTML 管理器" Click="OpenHtmlManager" Style="{StaticResource Primary}" HorizontalAlignment="Right" Margin="0,16,0,0"/><TextBlock x:Name="HtmlStateText" Text="尚未打开；点击后启动或复用本地宿主。" Style="{StaticResource Caption}" Margin="0,12" TextWrapping="Wrap"/></StackPanel></Border>
+                  <Border Grid.Column="2" Style="{StaticResource Card}"><StackPanel><TextBlock Text="共用后端，分开界面" Style="{StaticResource SectionTitle}"/><TextBlock Text="这里打开独立网页，不嵌入 WebView。打开网页不会自动执行 PML。复制、REHASH、Form/Object 重载和精确结果验证，请在插件部署页使用开发清单。" Style="{StaticResource Caption}" Margin="0,12" TextWrapping="Wrap"/><Button Content="打开插件部署" Tag="1" Uid="插件部署" Click="Navigate"/></StackPanel></Border>
+                </Grid></ScrollViewer>
               </TabItem>
               <TabItem Header="知识库">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -1235,7 +1166,7 @@
                 <Border Grid.Column="2" Style="{StaticResource Card}">
                   <StackPanel>
                     <TextBlock Text="显示与主题" Style="{StaticResource SectionTitle}" />
-                    <TextBlock Text="明亮 / 深色" Style="{StaticResource Caption}" Margin="0,10,0,14" />
+                    <TextBlock Text="日常默认浅色，可手动切换" Style="{StaticResource Caption}" Margin="0,10,0,14" />
                     <WrapPanel>
                       <Button Content="☀ 明亮" Tag="Light" Click="ChooseTheme" />
                       <Button Content="☾ 深色" Tag="Dark" Click="ChooseTheme" />
@@ -1246,6 +1177,14 @@
                   </StackPanel>
                 </Border>
               </Grid>
+              <Border Style="{StaticResource Card}">
+                <StackPanel>
+                  <TextBlock Text="已保存的登录密码" Style="{StaticResource SectionTitle}"/>
+                  <TextBlock Text="选择要清除密码的配置；清除前会再次确认，配置本身保留。" Style="{StaticResource Caption}" Margin="0,8,0,12"/>
+                  <ComboBox x:Name="CredentialProfilesBox" DisplayMemberPath="Name"/>
+                  <Button Content="清除此配置的已存密码…" Click="ClearSavedPassword" HorizontalAlignment="Left" Margin="0,10,0,0"/>
+                </StackPanel>
+              </Border>
             </StackPanel>
           </ScrollViewer>
         </TabItem>

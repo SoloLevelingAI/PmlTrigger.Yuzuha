@@ -6,8 +6,18 @@
 
 ## 2026年10月23日 Walker、Form 信息与开发链路
 
+本轮追加：TRACE17–TRACE23 经两份预览获批及客户端关闭后完成本机更新；E3D 自动启动 REHASH、桌面共用后端及 ELDATA 实测通过。AM 发现器漏识别实际进程的兼容性缺口见[桌面接入记录](../../artifacts/docfx/navigation/repository/docs/validation/2026-10-23-desktop-pml-integration.md)。
+
 | 编号 | 用户意见与采纳决定 | 当前状态 | 验收条件与去向 |
 | --- | --- | --- | --- |
+| TRACE24 | 新开 AM/E3D 后核验真实启动 | E3D 自身启动数组回读通过，二者日志及专用管道存在；AM marodes/mardra 不在现有发现器白名单 | AM 的 IPC 选择与全流程未验证；保留核验边界，不用进程枚举结果绕过发现器 |
+| TRACE21 | 日常启动保持浅色，仅填写项目、用户、密码、MDB；模块选择避免反复手填 | 模块/MDB 改为可编辑下拉，安装路径和参数折叠；默认浅色保留 | 新版编译通过，现有配置与启动协议保留；完整新界面实测待后续操作 |
+| TRACE22 | 清除密码易误触，移入设置并加二次确认 | 设置中选配置后确认，默认取消；取消记住本次密码不再暗中删旧凭据 | 确认前不写设置、不删凭据；设置写失败回退，共用引用保留 |
+| TRACE23 | 简单原生 PMLFRM 可以接受，复杂表格优先 HTML | 原生用于简单输入、确认和少量按钮；HTML 用于复杂表格、筛选、排序和导出，仍由 IPC 调用 PML | E3D 原生 Form/Object 部署后端 v1→v2 的 10 步及 8 项结果通过；不扩大为全部控件或 AM 兼容性通过 |
+| TRACE20 | 启动工程新增配置太麻烦 | 产品选择移至主表单，自动填写路径和生成名称；可从 LaunchDesk 读取非密码配置并选择一项带入草稿；高级字段折叠 | 编译及相关 18 项回归通过；尚未安装简化版本，用户停止桌面控制后未继续界面操作 |
+| TRACE17 | 桌面接入 HTML 管理器、复制、REHASH、Object/Form 重载与结果核验；保留既有调用 | 桌面按钮打开独立本地 HTML；新增可预览的完整开发流程，复用现有 IPC；CLI 增加 web open，不内嵌 WebView | 完整运行必须核对固定会话、实际 PMLLIB、来源/目标散列、重载后业务值和证据；离线通过与更新后实机分开记录 |
+| TRACE18 | Phayton 可能仍有逻辑问题，先复验，再提醒关闭 AM/E3D 后更新 | 更新前 40 项离线回归、既有 E3D Walker smoke 和 2410 项 ELDATA 链路复验通过；未改 Walker 源码 | 仅覆盖列明用例；不代表所有输入无缺陷。用户关闭客户端和批准预览前不覆盖安装文件 |
+| TRACE19 | AM/E3D 每次启动可用环境变量控制启动动作，特殊启动需要记录 | 新增 YUZUHA_STARTUP_ACTIONS=none/rehash-all；原生 Addin 在 PML 就绪后、Host 建立前执行并记录；安装预览可显式选择，更新省略时保留已有设置 | 默认 none；桌面显式策略优先；每个 PML 会话仅一次，失败不重发。真实启动及 AM/E3D 分别验证，未运行不能写通过 |
 | TRACE10 | 新版 Walker 保留 VAR SPLIT，接清取值、格式化和下标遍历；DocFX XML 注释，先不改旧调用 | 新对象独立同步，2410 项 ELDATA 实测通过，旧调用保留 | [对象说明](phayton-object-walker.md)与[实测报告](../../artifacts/docfx/navigation/repository/docs/validation/2026-10-23-phayton-object-walker.md)记录哈希、2412 行解析及范围 |
 | TRACE11 | Form/Button 和全量信息参考用户提供的 Marine pmlforms.pmlfrm | 已核对分类与展开；现有工具只有部分属性 | [链路说明](pml-development-flow.md)保留来源指纹、差距与验收；扩展未实现，Marine 未实测 |
 | TRACE12 | 明确需求格式，核实编写、复制 PMLLIB、REHASH ALL、Form/Object reload 链路及文档 | 需求与决定用 Markdown，契约用源码 XML，目录关联用 JSON，DocFX 展示；已有复制和命令入口，通用自动串联待实现 | 每步关联目标、版本、回执和实际行为；见[开发与加载链路](pml-development-flow.md) |

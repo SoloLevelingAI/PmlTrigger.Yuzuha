@@ -38,6 +38,7 @@ public static class LaunchService
             if (variable.Key.Any(c => c is '=' or '\0') || variable.Value.Contains('\0')) throw new ArgumentException("环境变量无效。");
             start.Environment[variable.Key] = variable.Value;
         }
+        StartupPolicy.Prepare(start);
         return start;
     }
 

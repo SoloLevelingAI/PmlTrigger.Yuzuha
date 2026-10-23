@@ -114,7 +114,14 @@ internal static partial class Program
             throw Bad("Malformed managed block.");
         if (root.IndexOfAny(new[] {'&','|','<','>','!','^','(',')','%'}) >= 0) throw Bad("Install path contains batch metacharacters.");
         JArray lineEdits;
-        string after=EditEnvironmentLines(body,root,profile,legacy,nl,out lineEdits);
+        string startupActions=(string)selected["startupActions"];
+        // An update that omits this option preserves an earlier explicit managed setting.
+        if(startupActions==null && starts>0) {
+            var oldBlock=Regex.Match(before,"(?ims)^"+Regex.Escape(start)+@"\r?\n.*?^"+Regex.Escape(end)+@"(?:\r?\n|$)").Value;
+            var oldPolicy=Regex.Match(oldBlock,@"(?im)^set YUZUHA_STARTUP_ACTIONS=(none|rehash-all)\r?$");
+            if(oldPolicy.Success)startupActions=oldPolicy.Groups[1].Value.ToLowerInvariant();
+        }
+        string after=EditEnvironmentLines(body,root,profile,legacy,nl,out lineEdits,startupActions);
         if(starts>0) lineEdits.Insert(0,new JObject{["variable"]="previous managed block",["line"]=0,
             ["before"]=before.Substring(before.IndexOf(start,StringComparison.OrdinalIgnoreCase),
                 before.IndexOf(end,StringComparison.OrdinalIgnoreCase)+end.Length-before.IndexOf(start,StringComparison.OrdinalIgnoreCase)),

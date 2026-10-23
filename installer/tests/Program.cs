@@ -115,6 +115,16 @@ internal static class SetupTests
             Check(((string)focused["afterText"]).Contains(unrelated),"Unrelated IF changed");
             Check(!((string)focused["afterText"]).Contains("YuzuhaFramework"),"Unnecessary framework added");
             Check(((JArray)focused["lineEdits"]).Count==3,"Expected three line edits");
+            picked["startupActions"]="rehash-all";
+            var special=Program.EvarChange(root,picked);
+            Check(((string)special["afterText"]).Contains("set YUZUHA_STARTUP_ACTIONS=rehash-all"),"Explicit startup policy absent");
+            File.WriteAllBytes(init,Convert.FromBase64String((string)special["after"]));
+            picked.Remove("startupActions");
+            Check(Convert.FromBase64String((string)Program.EvarChange(root,picked)["after"]).SequenceEqual(File.ReadAllBytes(init)),"Omitted update lost prior startup policy");
+            picked["startupActions"]="none";
+            Check(((string)Program.EvarChange(root,picked)["afterText"]).Contains("set YUZUHA_STARTUP_ACTIONS=none"),"Explicit policy disable absent");
+            picked["startupActions"]="arbitrary-command";
+            Reject(()=>Invoke("EvarChange",root,picked)); picked.Remove("startupActions");
             Check(((JArray)focused["lineEdits"]).OfType<JObject>().All(x=>!((string)x["after"]).Contains("\"")),"Generated assignments must be unquoted");
             File.WriteAllText(init,unrelated+"set pmllib=old\r\nset pmlui=ui\r\nset YuzuhaFramework=net35\r\n");
             Check(((string)Program.EvarChange(root,picked)["afterText"]).Contains("set YuzuhaFramework=net48"),"Existing framework override not corrected");

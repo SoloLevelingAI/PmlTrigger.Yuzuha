@@ -252,19 +252,154 @@
     {
       "test": "xunit:YuzuhaToolkit.Tests.DesktopSessionWorkflowTests.DesktopTrustPathSharesManagedRootAndRespectsExistingOverrides",
       "purpose": "WPF 位于现有 runtime/desktop 布局时复用包根人工信任记录，并保持已有环境覆盖的优先级。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlDevelopmentWorkflowTests.CopyRehashReloadAndActualResultAreOneOrderedRun",
+      "purpose": "核对文件实际复制以及查询、REHASH、Object/Form 重载、验证宏和结果核对的顺序。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Workspace::YuzuhaToolkit.Workspace.PmlDevelopmentWorkflow"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlDevelopmentWorkflowTests.WrongSessionSearchRootStopsBeforeCopyAndRehash",
+      "purpose": "会话报告的 PMLLIB 与选择目录不符时，在复制和 REHASH 前停止。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Workspace::YuzuhaToolkit.Workspace.PmlDevelopmentWorkflow"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlDevelopmentWorkflowTests.UnknownRehashStopsWithoutAutomaticRetryOrReload",
+      "purpose": "REHASH 失败或未知时只派发一次，保留复制证据，不继续重载或重读。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Workspace::YuzuhaToolkit.Workspace.PmlDevelopmentWorkflow"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlDevelopmentWorkflowTests.CommandSuccessDoesNotHideWrongOrUnparsedBusinessResult",
+      "purpose": "IPC 成功仍需业务值匹配及零未解析行，错误值和未解析行均不能通过。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Workspace::YuzuhaToolkit.Workspace.PmlDevelopmentWorkflow"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlDevelopmentWorkflowTests.ChangedPreviewStopsBeforeAnyDispatch",
+      "purpose": "来源文件在预览后变化时，在任何 IPC 命令派发前拒绝执行。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Workspace::YuzuhaToolkit.Workspace.PmlDevelopmentWorkflow"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlDevelopmentWorkflowTests.ChangedSessionStopsBeforeAnyCommand",
+      "purpose": "固定会话的启动时间变化时，在复制和命令前停止。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Workspace::YuzuhaToolkit.Workspace.PmlDevelopmentWorkflow"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlDevelopmentWorkflowTests.InvalidManifestIsRejectedDuringPreview",
+      "purpose": "验证宏名称为空等无效清单在预览阶段拒绝。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Workspace::YuzuhaToolkit.Workspace.PmlDevelopmentWorkflow"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlDevelopmentWorkflowTests.StartupExplicitNoneOverridesEnvironmentAndClearsStaleCorrelation",
+      "purpose": "桌面显式 none 优先于继承的 rehash-all，并清理陈旧关联标记。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Workspace::YuzuhaToolkit.Workspace.StartupPolicy"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlDevelopmentWorkflowTests.SpecialStartupGetsIndependentCorrelationAndUnknownPolicyIsRejected",
+      "purpose": "每次特殊启动产生独立关联 ID 与日志路径，未知策略在进程创建前拒绝。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Workspace::YuzuhaToolkit.Workspace.StartupPolicy"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.LaunchDraftTests.SelectingProductFillsItsInitializationAndClearsStaleInitializationForBatch",
+      "purpose": "选择产品后使用该产品的初始化文件；切换批处理入口不遗留另一产品的初始化路径。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Workspace::YuzuhaToolkit.Workspace.LaunchDrafts"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.LaunchDraftTests.AnonymousDraftNameUsesProjectModuleAndProductDirectory",
+      "purpose": "未指定名称时由项目、模块与产品目录生成可辨识名称。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Workspace::YuzuhaToolkit.Workspace.LaunchDrafts"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.LaunchDraftTests.LaunchDeskImportKeepsLoginFieldsButNeverCopiesCredentialsOrToolEnvironment",
+      "purpose": "LaunchDesk 草稿带入登录字段与精确路径，不复制密码、凭据引用和工具环境。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Workspace::YuzuhaToolkit.Workspace.LaunchDrafts"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.LaunchDraftTests.MissingApplicationReferenceIsRejectedInsteadOfGuessingAnotherProduct",
+      "purpose": "导入配置引用不存在的应用时拒绝，不猜测或切换其他产品。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Workspace::YuzuhaToolkit.Workspace.LaunchDrafts"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.LaunchDraftTests.ArbitraryJsonAndUnsupportedEntryCannotBecomeALaunchDraft",
+      "purpose": "任意 JSON 和不支持的入口类型不能成为启动草稿。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Workspace::YuzuhaToolkit.Workspace.LaunchDrafts"
+        }
+      ]
     }
   ],
   "cases": [
-    {"id":"manual:pml-html-manager","kind":"manual","category":"aveva-live","file":"tests/live/pml-html-manager.md","entryPoint":"## manual:pml-html-manager","purpose":"本地 HTML 分类、绑定和参数经既有 IPC 读取大 ELDATA，验证全量/下标/预算、PMLFNC 与 Form。","environment":"Windows、.NET 10、已授权 AVEVA 会话与自有大数组夹具；本批 E3D 2.1 / NET48","expected":"全部子项及首中尾值一致，0 未解析，真实函数/Form 回执；重复请求不重放，错误与未知不自动重试。"},
     {
-      "id":"manual:pml-development",
-      "kind":"manual",
-      "category":"aveva-live",
-      "file":"tests/live/pml-development/README.md",
-      "entryPoint":"## manual:pml-development",
-      "purpose":"在准确会话中验证复制、备份、REHASH ALL、Object/Form 重载、版本变化、PMLFNC 与原生按钮，逐项核对 IPC 结果。",
-      "environment":"Windows、PowerShell 7.6/.NET 10、已构建的 Workspace/Phayton CLI；各 AVEVA 产品及 Host 分别实测，不保存工程",
-      "expected":"每步保留回执；失败或未知即停、不自动重发；新版本标记与 8 项结果一致、0 未解析行；现场数据不进入公开夹具。"
+      "id": "manual:pml-html-manager",
+      "kind": "manual",
+      "category": "aveva-live",
+      "file": "tests/live/pml-html-manager.md",
+      "entryPoint": "## manual:pml-html-manager",
+      "purpose": "本地 HTML 分类、绑定和参数经既有 IPC 读取大 ELDATA，验证全量/下标/预算、PMLFNC 与 Form。",
+      "environment": "Windows、.NET 10、已授权 AVEVA 会话与自有大数组夹具；本批 E3D 2.1 / NET48",
+      "expected": "全部子项及首中尾值一致，0 未解析，真实函数/Form 回执；重复请求不重放，错误与未知不自动重试。"
+    },
+    {
+      "id": "manual:pml-development",
+      "kind": "manual",
+      "category": "aveva-live",
+      "file": "tests/live/pml-development/README.md",
+      "entryPoint": "## manual:pml-development",
+      "purpose": "在准确会话中验证复制、备份、REHASH ALL、Object/Form 重载、版本变化、PMLFNC 与原生按钮，逐项核对 IPC 结果。",
+      "environment": "Windows、PowerShell 7.6/.NET 10、已构建的 Workspace/Phayton CLI；各 AVEVA 产品及 Host 分别实测，不保存工程",
+      "expected": "每步保留回执；失败或未知即停、不自动重发；新版本标记与 8 项结果一致、0 未解析行；现场数据不进入公开夹具。"
     },
     {
       "id": "manual:phayton-object-walker",
@@ -456,21 +591,45 @@
     }
   ],
   "bindings": [
-    {"test":"manual:pml-html-manager","purpose":"本地 HTML 分类、绑定和参数经既有 IPC 读取大 ELDATA，验证全量/下标/预算、PMLFNC 与 Form。","targets":[{"uid":"YuzuhaToolkit.WebApps::YuzuhaToolkit.WebApps.ManagerService"},{"file":"tests/ai-pml/html-manager/YuzuhaHtmlData.pmlobj","symbol":"YuzuhaHtmlData"}]},
     {
-      "test":"manual:pml-development",
-      "purpose":"独立合成夹具验证部署重载和原生控件调用，不替换现有调用链。",
-      "targets":[
-        {"file":"tests/ai-pml/development-probe/YuzuhaDevData.pmlobj","symbol":"YuzuhaDevData"},
-        {"file":"tests/ai-pml/development-probe/YuzuhaDevAdd.pmlfnc","symbol":"!!YuzuhaDevAdd"},
-        {"file":"tests/ai-pml/development-probe/YuzuhaDevProbeForm.pmlfrm","symbol":"!!YuzuhaDevProbeForm"}
+      "test": "manual:pml-html-manager",
+      "purpose": "本地 HTML 分类、绑定和参数经既有 IPC 读取大 ELDATA，验证全量/下标/预算、PMLFNC 与 Form。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.WebApps::YuzuhaToolkit.WebApps.ManagerService"
+        },
+        {
+          "file": "tests/ai-pml/html-manager/YuzuhaHtmlData.pmlobj",
+          "symbol": "YuzuhaHtmlData"
+        }
+      ]
+    },
+    {
+      "test": "manual:pml-development",
+      "purpose": "独立合成夹具验证部署重载和原生控件调用，不替换现有调用链。",
+      "targets": [
+        {
+          "file": "tests/ai-pml/development-probe/YuzuhaDevData.pmlobj",
+          "symbol": "YuzuhaDevData"
+        },
+        {
+          "file": "tests/ai-pml/development-probe/YuzuhaDevAdd.pmlfnc",
+          "symbol": "!!YuzuhaDevAdd"
+        },
+        {
+          "file": "tests/ai-pml/development-probe/YuzuhaDevProbeForm.pmlfrm",
+          "symbol": "!!YuzuhaDevProbeForm"
+        }
       ]
     },
     {
       "test": "manual:phayton-object-walker",
       "purpose": "验证独立新版缓存贯通取值、格式化和后续下标遍历，不切换现有调用。",
       "targets": [
-        {"file":"PMLLIB/Traversal/PhaytonObjectWalker.pmlobj","symbol":"PhaytonObjectWalker"}
+        {
+          "file": "PMLLIB/Traversal/PhaytonObjectWalker.pmlobj",
+          "symbol": "PhaytonObjectWalker"
+        }
       ]
     },
     {

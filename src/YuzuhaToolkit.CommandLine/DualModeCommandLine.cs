@@ -25,6 +25,8 @@ public static class DualModeCommandLine
             Console.WriteLine("""
                 默认或 --mcp                         MCP stdio（stdout 仅 JSON-RPC）
                 --cli list                         列出工具及真实 JSON Schema
+                --cli web open                     启动/复用本地 HTML 管理器并打开浏览器
+                --cli web open --no-browser        仅启动/检查本地宿主，输出地址，不执行 PML
                 --cli call <name> --arguments <json> 调用一次工具
                 --cli call <name> --file <path|->     从文件或 stdin 读取参数对象
                 --cli batch --file <path|->          顺序执行 [{"name":"...","arguments":{}}]
@@ -35,6 +37,16 @@ public static class DualModeCommandLine
             return 0;
         }
         if (args[0] != "--cli") return null;
+        if (args.Skip(1).SequenceEqual(new[] { "web", "open" }) || args.Skip(1).SequenceEqual(new[] { "web", "open", "--no-browser" }))
+        {
+            try
+            {
+                var url = await YuzuhaToolkit.Workspace.HtmlAppLauncher.OpenAsync(openBrowser: !args.Contains("--no-browser"), token: cancellationToken);
+                Console.WriteLine(url); return 0;
+            }
+            catch (Exception error) when (error is IOException or ArgumentException or InvalidOperationException)
+            { Console.Error.WriteLine(error.Message); return 1; }
+        }
 
         using var interrupted = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
         ConsoleCancelEventHandler handler = (_, eventArgs) => { eventArgs.Cancel = true; interrupted.Cancel(); };

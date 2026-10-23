@@ -81,9 +81,9 @@ public partial class MainWindow : Window
         title = title?.Trim() ?? "总览"; PageTitleText.Text = title;
         PageSubtitleText.Text = title switch { "总览" => "本机工作台 · 工程环境与近期工具活动", "工程会话" => "先核验 PID 与启动身份，再查询或调用 PML", "能力与函数" => "登记源码、人工授权 · 登记版本与会话加载版本分别核对", "原生 Form / Gadget" => "原生窗体 → 控件 → 属性 · 有界读取与续读", "启动工程" => "保存本机登录配置与凭据，下次自动使用", "启动配置" => "按名称、项目或路径查找，管理多套本机配置", "知识库" => "本窗口检索、正文、来源与定位", "插件部署" => "来源、复制预览、备份与本机记录", _ => "本机工具与交付记录" };
         HeaderActionText.Text = title switch { "工程会话" => "扫描会话", "能力与函数" => "登记函数", "原生 Form / Gadget" => "重新核验", "AI 运行" => "刷新状态", "工具日志" => "日志目录", "插件部署" => "预览复制", "设置" => "保存设置", _ => "启动工程" };
-        if (title is "评审中心" or "测试中心" or "Web 应用" or "知识库") HeaderActionText.Text = title switch { "评审中心" => "审核草稿", "测试中心" => "运行测试", "Web 应用" => "登记应用", _ => "搜索知识" };
+        if (title is "评审中心" or "测试中心" or "Web 应用" or "知识库") HeaderActionText.Text = title switch { "评审中心" => "审核草稿", "测试中心" => "运行测试", "Web 应用" => "打开 HTML 管理器", _ => "搜索知识" };
         if (title == "启动配置") HeaderActionText.Text = "新建配置";
-        HeaderActionButton.IsEnabled = title is not ("评审中心" or "测试中心" or "Web 应用");
+        HeaderActionButton.IsEnabled = title is not ("评审中心" or "测试中心");
         HeaderActionIcon.Data = (Geometry)FindResource(title is "工程会话" or "原生 Form / Gadget" or "AI 运行" ? "Icon.refresh" : title is "能力与函数" or "Web 应用" or "启动配置" ? "Icon.plus" : "Icon.play");
         foreach (var button in SidebarNav.Children.OfType<Button>())
         {
@@ -119,6 +119,7 @@ public partial class MainWindow : Window
         else if (Tabs.SelectedIndex == 1) PreviewCopy(sender, e);
         else if (Tabs.SelectedIndex == 0) { if (LaunchButton.IsEnabled) Launch(sender, e); }
         else if (Tabs.SelectedIndex == 8) { NewProfile(sender, e); Tabs.SelectedIndex = 0; }
+        else if (Tabs.SelectedIndex == 5 && PlannedPages.SelectedIndex == 2) OpenHtmlManager(sender,e);
         else if (Tabs.SelectedIndex == 5 && PlannedPages.SelectedIndex == 3) _ = SearchKnowledgeAsync();
         else { Tabs.SelectedIndex = 0; SetPage("启动工程"); }
     }
@@ -153,17 +154,27 @@ public partial class MainWindow : Window
             {
                 "评审中心" => "M3：同一名人工审核差异、契约和测试证据，再批准迁移。复用已有复制、哈希和备份能力，补批准快照、回执与恢复记录。",
                 "测试中心" => "M2a / M2b：先交付源码目录与证据浏览，再从 C# 调用既有按 ID 测试脚本。现阶段可使用 DocFX 测试目录与 PowerShell 独立复刻；人工实机项保持 NotRun。",
-                "Web 应用" => "M5a：C# 管理本机 HTML 应用目录、版本、入口与停用记录。M5b 再验证宿主并开放受控查询桥；窗口打开与调用权限分别表达。",
+                "Web 应用" => "桌面按钮打开独立 HTML 管理器，共用现有 IPC；打开网页不执行 PML。应用分类、按钮和参数在网页中配置。",
                 _ => "本页直接调用现有 C# 知识仓库，查看完整内置指南或本机资料的正文、来源、行号与数据库身份。索引构建和经验写入尚未接入；检索命中不等于实测或调用许可。"
             };
         }
         if (button.Uid == "工程会话") SessionView.OpenSessions();
+        if (button.Uid == "Web 应用") PlannedTitleText.Text = "Web 应用 · 独立本地管理器";
         if (button.Uid == "知识库") { PlannedTitleText.Text = "知识检索 · 资料与实测证据分开"; if (KnowledgeResultsGrid.Items.Count == 0) _ = SearchKnowledgeAsync(); }
         SetPage(button.Uid);
     }
     private void OpenFunctionsPage(object sender, RoutedEventArgs e) { Tabs.SelectedIndex = 3; SessionView.OpenFunctions(); SetPage("能力与函数"); }
     private void OpenQueriesPage(object sender, RoutedEventArgs e) { Tabs.SelectedIndex = 3; SessionView.OpenQueries(); SetPage("原生 Form / Gadget"); }
-    private void ReloadProfiles() { ProfilesBox.ItemsSource = null; ProfilesBox.ItemsSource = _settings.Profiles; RefreshProfileLibrary(); }
+    private void ReloadProfiles()
+    {
+        var credentialId=(CredentialProfilesBox.SelectedItem as LaunchProfile)?.Id;
+        var mdb=MdbBox.Text;
+        ProfilesBox.ItemsSource = null; ProfilesBox.ItemsSource = _settings.Profiles;
+        CredentialProfilesBox.ItemsSource=null; CredentialProfilesBox.ItemsSource=_settings.Profiles;
+        CredentialProfilesBox.SelectedItem=_settings.Profiles.FirstOrDefault(p=>p.Id==credentialId)??_settings.Profiles.FirstOrDefault(p=>p.Id==_selected?.Id)??_settings.Profiles.FirstOrDefault();
+        MdbBox.ItemsSource=_settings.Profiles.Select(p=>p.Mdb).Where(s=>!string.IsNullOrWhiteSpace(s)).Distinct(StringComparer.OrdinalIgnoreCase).ToArray(); MdbBox.Text=mdb;
+        RefreshProfileLibrary();
+    }
     private LaunchProfile ReadProfile() => new()
     {
         Id = _selected?.Id ?? Guid.NewGuid().ToString("N"), IsFavorite = _selected?.IsFavorite ?? false,
@@ -171,7 +182,7 @@ public partial class MainWindow : Window
         Name = NameBox.Text.Trim(), Kind = ((ComboBoxItem)KindBox.SelectedItem).Content.ToString()!, Executable = ExecutableBox.Text.Trim(),
         Initialization = InitializationBox.Text.Trim(), Product = ProductBox.Text.Trim(), WorkingDirectory = WorkingBox.Text.Trim(),
         Project = ProjectBox.Text.Trim(), User = UserBox.Text.Trim(), Mdb = MdbBox.Text.Trim(), Module = ModuleBox.Text.Trim(), License = LicenseBox.Text.Trim(),
-        Environment = _selected?.Environment ?? new(StringComparer.OrdinalIgnoreCase), CredentialKey = _selected?.CredentialKey ?? "", RememberPassword = RememberPasswordBox.IsChecked == true
+        Environment = ReadStartupEnvironment(), CredentialKey = _selected?.CredentialKey ?? "", RememberPassword = RememberPasswordBox.IsChecked == true
     };
     private void ProfileSelected(object sender, SelectionChangedEventArgs e)
     {
@@ -180,28 +191,42 @@ public partial class MainWindow : Window
     }
     private void FillProfileFields(LaunchProfile profile)
     {
+        FillStartupPolicy(profile);
         NameBox.Text = profile.Name; KindBox.SelectedIndex = profile.Kind == "MarineBatch" ? 1 : 0;
         ExecutableBox.Text = profile.Executable; InitializationBox.Text = profile.Initialization; ProductBox.Text = profile.Product;
         WorkingBox.Text = profile.WorkingDirectory; ProjectBox.Text = profile.Project; UserBox.Text = profile.User;
+        fillingLaunchApplication=true;
+        try { LaunchApplicationBox.SelectedItem=LaunchApplicationBox.Items.OfType<ApplicationChoice>().FirstOrDefault(c=>c.Path.Equals(profile.Executable,StringComparison.OrdinalIgnoreCase)); }
+        finally { fillingLaunchApplication=false; }
+        LaunchApplicationSummary.Text=profile.Executable.Length==0?"选择产品后自动填写路径。":profile.Executable;
         MdbBox.Text = profile.Mdb; ModuleBox.Text = profile.Module; LicenseBox.Text = profile.License; PasswordInput.Clear();
         RememberPasswordBox.IsChecked = profile.RememberPassword;
         PasswordStatusText.Text = profile.CredentialKey.Length > 0 ? "已关联本机凭据；下次启动自动使用。输入新密码可更新。" : "尚未保存密码。勾选后点击保存配置或保存并启动。";
     }
     private void NewProfile(object sender, RoutedEventArgs e)
     {
+        var application=LaunchApplicationBox.SelectedItem as ApplicationChoice;
         ProfilesBox.SelectedItem = null; _selected = null;
-        var profile = new LaunchProfile();
+        var profile = application is null ? new LaunchProfile() : LaunchDrafts.FromApplication(application.Path);
         FillProfileFields(profile);
-        Tabs.SelectedIndex = 0; ProfileDetailsExpander.IsExpanded = true; NameBox.Focus();
+        Tabs.SelectedIndex = 0; ProfileDetailsExpander.IsExpanded = false; LaunchPathsExpander.IsExpanded=false;
+        if(application is null) LaunchApplicationBox.Focus(); else ProjectBox.Focus();
     }
     private void SaveProfile(object sender, RoutedEventArgs e) => Try(() => { var profile = PersistProfile(); Say(profile.CredentialKey.Length > 0 ? "已保存配置并关联本机凭据，下次启动自动使用。" : "已保存配置；当前没有关联已保存的密码。"); });
     private LaunchProfile PersistProfile()
     {
         var profile = ReadProfile();
-        if (string.IsNullOrWhiteSpace(profile.Name)) throw new ArgumentException("请填写配置名称。");
+        if (string.IsNullOrWhiteSpace(profile.Name) || profile.Name=="新启动配置")
+        {
+            profile.Name=LaunchDrafts.SuggestName(profile);
+            if(profile.Name.Length==0) profile.Name="新启动配置";
+        }
         var index = _selected is null ? -1 : _settings.Profiles.IndexOf(_selected);
         var previous = _selected; var oldKey = previous?.CredentialKey ?? "";
-        profile.CredentialKey = WindowsCredentialStore.Prepare(oldKey, PasswordInput.Password, profile.RememberPassword);
+        // Turning off storage must not silently remove an existing password from the daily launch page.
+        // Destructive removal is only available through Settings and its explicit confirmation.
+        profile.CredentialKey = !profile.RememberPassword && oldKey.Length>0 ? oldKey
+            : WindowsCredentialStore.Prepare(oldKey, PasswordInput.Password, profile.RememberPassword);
         try
         {
             if (index < 0) _settings.Profiles.Add(profile); else _settings.Profiles[index] = profile;
@@ -219,10 +244,18 @@ public partial class MainWindow : Window
     }
     private void ClearSavedPassword(object sender, RoutedEventArgs e) => Try(() =>
     {
-        if (_selected is null || _selected.CredentialKey.Length == 0) { Say("此配置没有已保存的密码。"); return; }
-        var previous = RememberPasswordBox.IsChecked; RememberPasswordBox.IsChecked = false;
-        try { PersistProfile(); PasswordInput.Clear(); Say("已解除此配置的本机凭据关联。"); }
-        catch { RememberPasswordBox.IsChecked = previous; throw; }
+        if(CredentialProfilesBox.SelectedItem is not LaunchProfile profile || profile.CredentialKey.Length==0)
+        { Say("此配置没有已保存的密码。"); return; }
+        if(MessageBox.Show(this,$"清除“{profile.Name}”已保存的登录密码？\n下次登录需要重新输入，配置本身会保留。",
+            "确认清除已存密码",MessageBoxButton.YesNo,MessageBoxImage.Warning,MessageBoxResult.No)!=MessageBoxResult.Yes) return;
+        var oldKey=profile.CredentialKey; var remember=profile.RememberPassword;
+        profile.CredentialKey=""; profile.RememberPassword=false;
+        try { _settings.Save(); }
+        catch { profile.CredentialKey=oldKey; profile.RememberPassword=remember; throw; }
+        if(!_settings.Profiles.Any(p=>p.CredentialKey==oldKey)) WindowsCredentialStore.Delete(oldKey);
+        if(_selected?.Id==profile.Id)
+        { RememberPasswordBox.IsChecked=false; PasswordInput.Clear(); PasswordStatusText.Text="已清除保存的密码，下次请重新输入。"; }
+        Say("已清除此配置的本机密码关联；配置保留。");
     });
     private void PreviewLaunch(object sender, RoutedEventArgs e) => Try(() => LaunchPreviewBox.Text = LaunchService.Preview(ReadProfile()));
     private async void Launch(object sender, RoutedEventArgs e)
@@ -240,7 +273,7 @@ public partial class MainWindow : Window
             }
             var password = enteredPassword.Length > 0 ? enteredPassword : profile.CredentialKey.Length > 0 ? WindowsCredentialStore.Read(profile.CredentialKey) : "";
             var start = LaunchService.Build(profile, password);
-            var id = _journal.Begin("launch_aveva", JsonSerializer.Serialize(new { profile = profile.Name, executable = profile.Executable }));
+            var id = _journal.Begin("launch_aveva", JsonSerializer.Serialize(new { profile = profile.Name, executable = profile.Executable, startupPolicy = (start.Environment.TryGetValue(StartupPolicy.Variable,out var startupActions) ? startupActions : "none"), startupId = (start.Environment.TryGetValue("YUZUHA_STARTUP_ID",out var startupId) ? startupId : null), startupLog = (start.Environment.TryGetValue("YUZUHA_STARTUP_LOG",out var startupLog) ? startupLog : null), phase = "requested-before-process-start" }));
             try
             {
                 using var process = Process.Start(start) ?? throw new IOException("未创建启动入口进程。");
@@ -263,6 +296,7 @@ public partial class MainWindow : Window
             var candidates = await Task.Run(RegistrationDiscovery.Discover);
             if (_closed) return;
             ApplicationsBox.ItemsSource = candidates.Where(candidate => candidate.Kind == "application").ToArray();
+            PopulateLaunchApplications(candidates.Where(candidate=>candidate.Kind=="application"));
             RegistrationsBox.ItemsSource = candidates.Where(candidate => candidate.Kind == "pmllib").ToArray();
             if (RegistrationsBox.Items.Count > 0) RegistrationsBox.SelectedIndex = 0;
             if (string.IsNullOrWhiteSpace(RegisteredBox.Text) && RegistrationsBox.Items.Count == 1) RegisteredBox.Text = ((RegistrationCandidate)RegistrationsBox.Items[0]).Path;
@@ -274,15 +308,7 @@ public partial class MainWindow : Window
     private void UseApplication(object sender, RoutedEventArgs e)
     {
         if (ApplicationsBox.SelectedItem is not RegistrationCandidate candidate) return;
-        ExecutableBox.Text = candidate.Path; KindBox.SelectedIndex = Path.GetExtension(candidate.Path).Equals(".exe", StringComparison.OrdinalIgnoreCase) ? 0 : 1;
-        WorkingBox.Text = Path.GetDirectoryName(candidate.Path)!;
-        var initialization = Path.Combine(WorkingBox.Text, "launch.init"); if (File.Exists(initialization)) InitializationBox.Text = initialization;
-        // Use the existing LaunchDesk working-directory convention when that directory exists.
-        var version = System.Text.RegularExpressions.Regex.Match(WorkingBox.Text, @"\d+\.\d+(?:\.SP\d+)?", System.Text.RegularExpressions.RegexOptions.IgnoreCase).Value;
-        var userDirectory = KindBox.SelectedIndex == 1 ? Path.Combine(Directory.GetParent(WorkingBox.Text)?.FullName ?? WorkingBox.Text, "Data" + version, "pdmsuser")
-            : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments), "AVEVA", "USERDATA");
-        if (Directory.Exists(userDirectory)) WorkingBox.Text = userDirectory;
-        Say("已填入所选入口；产品代码、项目、用户及初始化文件请按实际配置保存。");
+        ApplyLaunchApplication(candidate.Path);
     }
     private void UseRegistration(object sender, RoutedEventArgs e) { if (RegistrationsBox.SelectedItem is RegistrationCandidate candidate) RegisteredBox.Text = candidate.Path; }
     private static string? Folder() { var dialog = new OpenFolderDialog(); return dialog.ShowDialog() == true ? dialog.FolderName : null; }
@@ -314,7 +340,7 @@ public partial class MainWindow : Window
     private void OpenRegistered(object sender, RoutedEventArgs e) => Try(() => OpenDirectory(RegisteredBox.Text.Trim()));
     private void OpenLogs(object sender, RoutedEventArgs e) => Try(() => { Directory.CreateDirectory(Path.Combine(WorkspaceSettings.StateDirectory, "Activity")); OpenDirectory(Path.Combine(WorkspaceSettings.StateDirectory, "Activity")); });
     private static void OpenDirectory(string directory) { if (!Directory.Exists(directory)) throw new DirectoryNotFoundException(directory); Process.Start(new ProcessStartInfo(directory) { UseShellExecute = true }); }
-    private void DeploymentInputsChanged(object sender, TextChangedEventArgs e) { _plan = null; if (ApplyCopyButton is not null) ApplyCopyButton.IsEnabled = false; }
+    private void DeploymentInputsChanged(object sender, TextChangedEventArgs e) { developmentPreview=null; if(RunDevelopmentButton is not null) RunDevelopmentButton.IsEnabled=false; _plan = null; if (ApplyCopyButton is not null) ApplyCopyButton.IsEnabled = false; }
     private async void PreviewCopy(object sender, RoutedEventArgs e)
     {
         try

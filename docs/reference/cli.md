@@ -64,3 +64,6 @@ CLI 不维护另一份业务规则。它通过 SDK 启动**同一程序的一个
 | 124 | 请求取消或超时，执行结果需要核验 |
 
 知识服务原有 `--refresh-project` 维护入口继续按既有规则工作。CLI 也可能调用写入知识源或经验的工具；只有用户明确要求的写入才能执行，资料保持在用户选定的本机目录。
+<!-- Desktop HTML entry is shared by both shipped dual-mode executables. -->
+
+本地 HTML 管理器入口：`YuzuhaToolkit.Mcp.exe --cli web open`；追加 `--no-browser` 只启动/复用服务并输出地址。它不执行 PML，保留原有 list/call/batch 操作语义。桌面按钮使用同一个入口服务，HTML 作为独立页面打开。

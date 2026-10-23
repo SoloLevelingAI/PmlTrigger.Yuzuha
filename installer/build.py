@@ -14,7 +14,10 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--iscc', required=True, type=pathlib.Path)
     parser.add_argument('--output', required=True, type=pathlib.Path)
+    parser.add_argument('--desktop', type=pathlib.Path, help='Use a separately published desktop directory without overwriting a running development build.')
     args = parser.parse_args()
+    if args.desktop and not (args.desktop / 'YuzuhaToolkit.Desktop.exe').is_file():
+        raise SystemExit('Missing explicitly selected desktop publish output.')
     out = args.output.resolve()
     out.mkdir(parents=True, exist_ok=True)
     stage = out / 'payload'
@@ -32,7 +35,12 @@ def main():
     subprocess.run(['dotnet', 'build', str(ROOT / 'installer/SetupBridge/SetupBridge.csproj'),
                     '-c', 'Release'], check=True)
     for name in ['PMLLIB','PMLUI','runtime','skill','docs']:
-        shutil.copytree(ROOT / name, stage / name, ignore=shutil.ignore_patterns('*.pdb','*.ps1','__pycache__'))
+        ignored=['*.pdb','*.ps1','__pycache__']
+        if name == 'runtime' and args.desktop:
+            ignored.append('desktop')
+        shutil.copytree(ROOT / name, stage / name, ignore=shutil.ignore_patterns(*ignored))
+    if args.desktop:
+        shutil.copytree(args.desktop.resolve(), stage / 'runtime/desktop', ignore=shutil.ignore_patterns('*.pdb','*.ps1','__pycache__'))
     for name in ['LICENSE','THIRD-PARTY.md','THIRD-PARTY.zh-CN.md']:
         shutil.copy2(ROOT / name, stage / name)
     shutil.copy2(ROOT / 'installer/START-HERE.html', stage / 'START-HERE.html')

@@ -1,0 +1,28 @@
+{
+  "status": "E3DEndToEndPassed",
+  "runtime": "E3D 2.1 / NET48",
+  "automaticStartup": "E3DVerifiedFromFreshProcessReport",
+  "offlineTests": 160,
+  "eldata": {
+    "actions": 7,
+    "directedIndices": 3,
+    "precondition": "$T8+ explicitly requested by user",
+    "count": 2410
+  },
+  "guiStoppedByUser": true,
+  "AM": "StartupLogAndPipeObserved;IpcNotVerifiedBecauseMarodesIsNotDiscovered",
+  "stages": {
+    "v2Steps": 10,
+    "expectedValues": 8,
+    "v1Steps": 10,
+    "unparsed": 0
+  },
+  "schemaVersion": 1,
+  "docfx": {
+    "pages": 2272,
+    "warnings": 0,
+    "errors": 0,
+    "localLinks": 42853
+  },
+  "installedPlanFileCount": 349
+}

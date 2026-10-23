@@ -1,5 +1,7 @@
 # PML 开发、加载与 HTML 界面链路
 
+本轮桌面接入新增独立 HTML 打开入口和原生 C# 开发流程，使用方式见[工作台](workspace.md)。原有脚本和仅复制按钮继续保留。安装替换与运行验证分开：先复验旧 Walker、编译待更新包并生成预览；用户关闭 AM/E3D 且批准后再更新，随后重新启动并实测。状态见[本轮记录](../../artifacts/docfx/navigation/repository/docs/validation/2026-10-23-desktop-pml-integration.md)。
+
 2026-10-23 按用户提供的 `pmlforms.pmlfrm` 核对需求，并新增可运行的开发脚本，把复制、REHASH ALL、Object/Form 重载和结果核验串联。独立夹具已在 E3D 实测，见[操作说明](../../artifacts/docfx/navigation/repository/tests/live/pml-development/README.md)与[本批报告](../../artifacts/docfx/navigation/repository/docs/validation/2026-10-23-pml-development.md)。该流程尚未接入现有桌面按钮。
 
 ## 需求记在哪里
@@ -40,6 +42,8 @@ DocFX 将这些内容组织为可搜索网页。需求不只埋在代码注释�
 AVEVA 的 [Storing and Loading PML Files](https://help.aveva.com/AVEVA_E3D_Design/2.1/PMLPUG/PMLCG4.04.09.html)说明搜索路径；[Rebuilding All PML File Indexes](https://help.aveva.com/AVEVA_E3D_Design/2.1/PMLPUG/PMLCG4.04.10.html)说明 REHASH ALL；[PML Directives](https://help.aveva.com/AVEVA_Everything3D/3.1/PMLPUG/PMLCG14.14.7.html)说明 Form 重载；[Methods on User-Defined Object Types](https://help.aveva.com/AVEVA_E3D_Design/2.1/PMLPUG/PMLCG3.03.18.html)说明 Object 重载。Form 引用带 `!!`，Object 使用类型名，按文件类型选择；不是每次都须两个都执行。引用包含 E3D 2.1/3.1 文档，各现场版本仍需独立验证。
 
 ## HTML 作为界面
+
+用户已确认按复杂度选界面：简单输入、确认和少量按钮可用原生 PMLFRM；复杂表格、筛选、排序及导出优先 HTML。两种界面都复用已有 PML/IPC 能力，保持现有业务入口。原生 Form 并非只能用于测试；选择 HTML 的依据是交互与维护需求，不把外观评价当作原生能力不足的证据。
 
 用户提出 HTML 作为操作界面，后端继续使用现有 C# 服务、Host 主线程和 PML。建议链路为 HTML 操作 → 本地应用桥 → 现有服务/会话核验 → Host → FORM/PML Object → 结构化回执 → HTML 展示。HTML 可承载按钮、属性浏览和部署测试流程，原生 FORM/PML Object 承担 AVEVA 侧能力。
 

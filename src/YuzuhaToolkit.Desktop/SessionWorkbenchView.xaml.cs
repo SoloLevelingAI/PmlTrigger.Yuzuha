@@ -270,6 +270,13 @@ public partial class SessionWorkbenchView : UserControl, IDisposable
     internal string TargetDisplayName { get; private set; } = "尚未选择 AVEVA 工程";
     /// <summary>用同次已核验启动身份标记候选，不把发现到管道当作已连接。</summary>
     internal bool MatchesTarget(AvevaSessionCandidate candidate) => model.Status.TargetVerified && model.Status.Host is { } identity && identity.ProcessId == candidate.ProcessId && identity.ProcessStartTimeUtcTicks == candidate.ProcessStartTimeUtcTicks;
+    /// <summary>取得明确选择且已经核验的目标，开发流程随后仍逐步核验。</summary>
+    internal YuzuhaToolkit.Workspace.DevelopmentTarget DevelopmentTarget()
+    {
+        if (IsRunning || !model.Status.TargetVerified || model.Status.Host is not { } host)
+            throw new InvalidOperationException("请先到工程会话明确选择并核验目标。");
+        return new(host.ProcessId,host.ProcessStartTimeUtcTicks,host.Model!);
+    }
     private void FlowChanged(object sender, SelectionChangedEventArgs e)
     {
         if (!ReferenceEquals(e.Source, FlowTabs)) return;

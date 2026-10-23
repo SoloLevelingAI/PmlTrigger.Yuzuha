@@ -166,3 +166,12 @@ Choose products, review automatically recommended supported Host profiles and fi
 Optional standard MCP JSON merging and Skill copying use user-selected paths. Codex TOML is not edited as JSON. Generate a plan, review before/after content and hashes, obtain user approval, then run Setup with `/PLAN`, `/PLANHASH` and matching `/DIR`. Silent installs without a plan are rejected. An installed toolkit can later be found through the documented HKCU registry key; read this guide and use the same `plan`/`attach` engine to add client integration without reinstalling binaries. `attach` requires unchanged payload files.
 
 Actual reports and backups are retained in LocalAppData/YuzuhaToolkit/SetupReports. Concurrent changes cause refusal or explicit recovery errors. Power-loss recovery and every Windows/AVEVA variation are not guaranteed. The installer is unsigned; existing Host and NET10 runtime binaries are retained in this distribution. Neither installation nor detection opens or saves AVEVA models.
+## 可选的每次启动动作
+
+所选 `environments` 项可显式加入 `"startupActions": "rehash-all"` 或 `"none"`。程序将该值作为 `set YUZUHA_STARTUP_ACTIONS=...` 纳入环境文件的逐行安装预览；未批准预览不写入。新安装省略时不添加特殊启动变量，更新省略时保留此前托管块内的明确策略。未知值拒绝生成计划。
+
+该设置不是安装期间执行 PML。新 AM/E3D 客户端初始化 PML 后，原生 Addin 在 Host 建立前执行一次并写入 `%TEMP%/YuzuhaStartup.log`（桌面启动时使用独立关联文件），失败不重试。关闭已有 AM/E3D 后才替换安装，重新启动才验证该设置；安装成功不能代替真实启动验证。桌面显式选择可用 `YUZUHA_STARTUP_OVERRIDE` 覆盖 INIT/BAT 的默认策略。当前不支持任意命令列表。
+
+桌面和 HTML 发布文件分别位于 `runtime/desktop` 与 `runtime/webapps`。桌面为自包含 Windows 发布；本批 HTML 宿主为框架依赖发布，目标机需有 ASP.NET Core 10。CLI 的 `--cli web open` 和桌面按钮都会打开独立页面；安装器不自动打开服务或调用 AVEVA。
+
+构建时可将桌面发布到独立目录，再用 `installer/build.py --desktop <发布目录> --iscc <ISCC.exe> --output <新目录>` 纳入包，避免覆盖正在运行的开发版。该选项只改变待打包来源，不执行安装，所有发布文件仍进入同一散列清单。

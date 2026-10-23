@@ -1,6 +1,6 @@
 # 2026-10-23 能力核对与后续约定
 
-本页对应 TRACE26–TRACE31。依据当前源码、安装器和已保存实测记录核对，不向无响应的 AVEVA 发送新请求。目录统计已在本批源码实现；其余标为待实现的内容是设计约定，不表示已安装或验收。上一批安装的桌面版本不包含本批目录统计改动。后续 TRACE32 已实现统一用户目录与知识库管理，见下方更新；仍未覆盖本机安装。
+本页对应 TRACE26–TRACE31。依据当前源码、安装器和已保存实测记录核对，不向无响应的 AVEVA 发送新请求。目录统计在该批源码实现；其余标为待实现的内容是设计约定，不表示已安装或验收。后续 TRACE32 已实现统一用户目录与知识库管理，TRACE33 已完成本机安装，见[安装记录](../../artifacts/docfx/navigation/repository/docs/validation/2026-10-23-installer-ui-preview.md)。安装与桌面隔离验证没有关闭 AVEVA 稳定性待验项。
 
 ## AVEVA 读写、Form 与开发链路
 
@@ -72,6 +72,6 @@ DocFX 负责展示共享的契约；程序需要单独的契约读取器和策�
 
 已有 XML API/PML 文档、功能/Script 目录、调用关系、测试关联、操作说明和实测记录。上一批 DocFX 构建 0 错误不能证明每个功能已有教程或实机验收。本次核对还发现开发流程文档残留“尚未接桌面”的过时段落，已同步修正。
 
-后续文档采用同一功能记录关联：用途 → 先决条件 → 最短操作 → 实际支持版本 → 结果/限制 → 故障定位 → 演示。视频是辅助入口，不能代替可搜索文字与失败状态。建议准备四段（尚未制作）：启动工程和个人目录；写 PML/部署/重载/核验；原生 Form 与 HTML 表格/导出；知识库、CLI/MCP、策略和更新恢复。每段标版本、日期、章节和可复现夹具，隐藏账号及项目数据；卡住和未验收的能力不录成成功演示。
+后续文档采用同一功能记录关联：用途 → 先决条件 → 最短操作 → 实际支持版本 → 结果/限制 → 故障定位 → 演示。视频是辅助入口，不能代替可搜索文字与失败状态。TRACE36 已制作约 2 分 22 秒的中文介绍初剪和十幕演示，见[Phayton 演示手册](phayton-demo.md)。原定四段完整操作教学仍待录制：启动工程和个人目录；写 PML/部署/重载/核验；原生 Form 与 HTML 表格/导出；知识库、CLI/MCP、策略和更新恢复。每段标版本、日期、章节和可复现夹具，隐藏账号及项目数据；卡住和未验收的能力不录成成功演示。
 
 代码依据：`Workspace/DirectoryInspector.cs`、`Workspace/PmlDevelopmentWorkflow.cs`、`Desktop/MainWindow.Knowledge.xaml.cs`、`Mcp.Core/PmlFunctionRegistry.cs`、`Mcp.Core/YuzuhaToolkitPaths.cs`、`WebApps/Program.cs`、`installer/build.py`、`installer/SetupBridge/PlanEngine.cs`。实测边界见[桌面接入记录](../../artifacts/docfx/navigation/repository/docs/validation/2026-10-23-desktop-pml-integration.md)。

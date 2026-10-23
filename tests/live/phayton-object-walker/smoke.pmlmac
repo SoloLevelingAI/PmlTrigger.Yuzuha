@@ -1,0 +1,147 @@
+------------------------------------------------------------------------
+-- PhaytonObjectWalker 回归用例。2026-10-23 已在 AVEVA 内通过默认内存数组用例。
+-- 大数组另外通过完整 2410 项实测；本宏的可选大数组分支未启用，详见 validation 记录。
+-- 先重载对象：pml reload object PhaytonObjectWalker
+-- 默认仅用内存数组。大属性用例需选中已知含大 ELDATA 的元素，再将下项改为 true。
+------------------------------------------------------------------------
+!testLargeAttribute = false
+!failures = object array()
+!walker = object PhaytonObjectWalker()
+
+-- 稀疏数组、嵌套数组、字面错误标记；预期 BFS 路径为根、|2|、|5|、|9|、|5|.|4|。
+!branch = object array()
+!branch[4] = 99
+!root = object array()
+!root[2] = 'second'
+!root[5] = !branch
+!root[9] = 'failedToGetValue literal data'
+!input = object array()
+!input.append(!root)
+!walker.InitializeFromArray(!input)
+!walker.MaxArraySize = 20
+!walker.MaxBFSDepth = 2
+!rows = !walker.Read()
+if !rows.size() neq 5 then
+  !failures.append('Sparse/nested arrays: expected 5 rows')
+endif
+if !walker.NodePaths[2] neq '|2|' or !walker.NodePaths[3] neq '|5|' or !walker.NodePaths[4] neq '|9|' then
+  !failures.append('Sparse array indices or BFS order changed')
+endif
+if !walker.NodePaths[5] neq '|5|.|4|' or !walker.NodeDepths[5] neq 2 then
+  !failures.append('Nested child path/depth incorrect')
+endif
+!box = !walker.NodeValues[5]
+if !box[1] neq 99 then
+  !failures.append('Nested array value was not retained')
+endif
+if !walker.IsSuccess(!rows[4]).not() then
+  !failures.append('Literal failedToGetValue data was treated as an error')
+endif
+
+-- 行数上限包含根，且小数预算向下取整。
+!walker.MaxArraySize = 3.9
+!rows = !walker.Read()
+if !rows.size() neq 3 or !walker.NodePaths.size() neq 3 then
+  !failures.append('Row budget did not bound both results and queued nodes')
+endif
+
+-- 深度为零时只输出根。
+!walker.MaxArraySize = 20
+!walker.MaxBFSDepth = 0
+!rows = !walker.Read()
+if !rows.size() neq 1 or !walker.NodePaths.size() neq 1 then
+  !failures.append('Depth zero expanded children')
+endif
+
+-- 空数组可以成功输出摘要，负预算应归一化为一行、零深度。
+!emptyRoot = object array()
+!emptyInput = object array()
+!emptyInput.append(!emptyRoot)
+!walker.InitializeFromArray(!emptyInput)
+!walker.MaxArraySize = -5
+!walker.MaxBFSDepth = -2
+!rows = !walker.Read()
+if !rows.size() neq 1 or !walker.NodeTypes[1] neq 'ARRAY' then
+  !failures.append('Empty array or negative budget was not handled')
+endif
+!walker.InitializeFromArray(!input)
+
+-- 单行定向读取保留目标；[N] 下标可读取嵌套数组。
+!walker.startStr = '5.[4]'
+!walker.MaxArraySize = 1
+!rows = !walker.Read()
+if !rows.size() neq 1 then
+  !failures.append('Targeted one-row read exceeded its budget')
+endif
+!box = !walker.NodeValues[3]
+if !walker.NodePaths[3] neq '5.[4]' or !box[1] neq 99 then
+  !failures.append('Targeted indexed read did not return the requested value')
+endif
+!row = !walker.ResolveAttribute('5.[4]', 7, false)
+if !walker.NodeDepths[3] neq 2 or !row.match('[7] ') neq 1 then
+  !failures.append('Display depth modified cached traversal depth')
+endif
+
+-- 表达式模式不能读取任何节点，即使目标路径不存在。
+!walker.InitializeFromArray(!input)
+!expression = !walker.ResolveAttribute('missing.[4]', 0, true)
+if !walker.NodePaths.size() neq 0 or !expression.match('[4]') eq 0 then
+  !failures.append('Expression-only mode read nodes or lost the array index')
+endif
+
+-- 重新初始化后不能复用旧值；失败节点必须输出错误且停止展开。
+!replacement = object array()
+!replacement.append('new root')
+!walker.InitializeFromArray(!replacement)
+!walker.startStr = ''
+!walker.MaxArraySize = 10
+!walker.MaxBFSDepth = 0
+!rows = !walker.Read()
+!box = !walker.NodeValues[1]
+if !box[1] neq 'new root' then
+  !failures.append('Reinitialization retained stale cached values')
+endif
+!walker.startStr = 'missing'
+!walker.MaxBFSDepth = 2
+!rows = !walker.Read()
+if !rows.size() neq 2 then
+  !failures.append('Missing attribute did not stop at the failed node')
+endif
+if !walker.IsSuccess(!rows.last()) then
+  !failures.append('Missing attribute was not reported as a failure')
+endif
+
+-- 可选真实大数组回归。仅在 CE 已选到已知大 ELDATA 元素时启用。
+if !testLargeAttribute then
+  !walker.InitializeFromCurrentElement()
+  !walker.startStr = 'ELDATA'
+  !walker.MaxArraySize = 8
+  !walker.MaxBFSDepth = 2
+  !rows = !walker.Read()
+  if !walker.NodeErrors[2].length() gt 0 then
+    !failures.append('Large ELDATA read failed; inspect NodeErrors[2]')
+  elseif !walker.NodeSources[2] neq 'VAR SPLIT' then
+    $p SKIP: ordinary ELDATA access succeeded; VAR SPLIT fallback was not exercised.
+  else
+    !box = !walker.NodeValues[2]
+    !values = !box[1]
+    if !values.size() gt 0 then
+      !indices = !values.indices()
+      !firstIndex = !indices.first()
+      !childBox = !walker.NodeValues[3]
+      if !childBox[1] neq !values[!firstIndex] then
+        !failures.append('VAR SPLIT child did not use the extracted array value')
+      endif
+    endif
+    if !rows.size() gt 8 then
+      !failures.append('Large ELDATA read exceeded its row budget')
+    endif
+  endif
+endif
+
+if !failures.size() eq 0 then
+  $p PASS: enabled PhaytonObjectWalker regression cases passed.
+else
+  $p FAIL: PhaytonObjectWalker regression cases failed:
+  q var !failures
+endif

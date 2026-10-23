@@ -1,5 +1,7 @@
 # 原生 Form / Gadget 查询
 
+2026-10-23 补充：用户提供的 Marine `pmlforms.pmlfrm` 已用于核对 Button 和全属性浏览需求。当前工具仍只返回下文列出的有限元数据；属性展开、部署重载自动链路和 HTML 桥的差距见 [PML 开发与加载链路](pml-development-flow.md)。
+
 本批次在现有 C# MCP 与 NET35/NET48 Host 中增加三个只读工具。查询路径与 AVEVA 自带 PMLFORMS 相同：`FMSYS.FORMS()`、`FMSYS.SHOWNFORMS()`、`attributes()`、`attribute()` 和 `objectType()`。不调用 PMLFORMS 的 UI 方法，不替换窗体管理，不修改 PMLLIB/PMLUI 文件。
 
 ## 重点复用的能力

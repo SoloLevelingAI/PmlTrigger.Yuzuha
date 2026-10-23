@@ -123,6 +123,7 @@ assert.equal(missingLinks.length,0,'Unresolved repository links: '+JSON.stringif
 for(const [destination,file] of sourcePages)write(destination,`# ${path.posix.basename(file)}\n\n仓库源码参考：\`${file}\`。下列文本不执行任何操作。\n\n\`\`\`${path.extname(file)==='.cs'?'csharp':''}\n${fs.readFileSync(path.join(root,file),'utf8')}\n\`\`\`\n`);
 for(const file of resources){const destination=path.join(output,'repository',file);fs.mkdirSync(path.dirname(destination),{recursive:true});fs.copyFileSync(path.join(root,file),destination);}
 const pml=discoverPmlFiles(root);
+const pmlXml=JSON.parse(fs.readFileSync(path.join(root,'artifacts/docfx/pml-xml.json'),'utf8'));
 const pmlRows=[];
 for(const file of pml){
   const content=fs.readFileSync(path.join(root,file),'utf8');
@@ -131,7 +132,12 @@ for(const file of pml){
   const symbols=[...content.matchAll(/^\s*(?:define\s+(?:function|object|method)|setup\s+(?:form|object))\s+([^\s(]+)/gim)].map(match=>match[1]);
   const status=obsolete?'历史 / 已废弃':'当前仓库';
   write(destination,`---\ntitle: ${path.posix.basename(file)}\n---\n\n# ${path.posix.basename(file)}\n\n**状态：** ${status} · **来源：** \`${file}\`\n\n${obsolete?'此文件位于 Obsolete，仅用于历史追溯，不能作为当前默认执行入口。':'以此源码说明当前实现；使用流程和参数先参见内置指南。'}\n\n**声明符号：** ${symbols.map(symbol=>'`'+symbol+'`').join('、')||'启动索引、配置或注册数据'}\n\n\`\`\`text\n${content}\n\`\`\`\n`);
-  pmlRows.push({file,status,symbols,url:'reference/'+destination.replace(/\.md$/,'.html')});
+  if(pmlXml[file]) {
+    const generated=path.join(output,destination);
+    const page=fs.readFileSync(generated,'utf8');
+    fs.writeFileSync(generated,page.replace('```text\n',pmlXml[file].markdown+'\n## 完整源码\n\n```text\n'));
+  }
+  pmlRows.push({file,status,symbols,url:'reference/'+destination.replace(/\.md$/,'.html'),xmlDeclarations:pmlXml[file]?.count??0});
   const generated=path.join(output,destination);
   fs.appendFileSync(generated,'\n<div class="pml-tests" data-pml-file="'+escape(file)+'"></div>\n');
 }

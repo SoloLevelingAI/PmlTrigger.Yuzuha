@@ -1,5 +1,7 @@
 # PML 只读审查：VAR、数组与分页边界
 
+2026-10-23 补充：以下为旧版本历史审查。独立新增的 `PhaytonObjectWalker` 保留 `VAR SPLIT` 并完成 2410 项 ELDATA 实测，见[新对象说明](reference/phayton-object-walker.md)和[实测报告](validation/2026-10-23-phayton-object-walker.md)。旧 Walker 及其调用未切换，这次通过不表示实现源数组分页。
+
 审查基线：`04617bf572a637d63509762041108a011ecdc9f3`。
 本阶段没有修改 `PMLLIB/`、`PMLUI/`，也没有向 AVEVA 发送任何 PML。
 本机知识库搜索没有返回相关条目；以下结论来自本仓库当前源码。

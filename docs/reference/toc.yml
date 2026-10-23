@@ -26,6 +26,10 @@
     href: catalog-maintenance.md
   - name: 原生 Form 与 Gadget 查询
     href: form-gadget-query.md
+  - name: PhaytonObjectWalker
+    href: phayton-object-walker.md
+  - name: PML 开发与加载链路
+    href: pml-development-flow.md
   - name: FormUse 登记
     href: formuse-audit.md
 - name: 按层

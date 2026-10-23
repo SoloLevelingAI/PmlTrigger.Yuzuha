@@ -1,5 +1,7 @@
 # 构建和维护文档
 
+PML 可使用 `-- <summary>` 开始的 XML 注释，紧接单行 object、method、function 或 member 声明。支持 summary、param、returns、value、remarks/para、example/code 及行内 c。`Export-PmlXmlDocumentation.ps1` 在构建中验证 XML、参数和返回契约，将说明插入 PML 源码页面；无 XML 的旧文件保留原文展示。错误注释阻止构建，转换产物留在 artifacts，不提交生成网页。参见 [PhaytonObjectWalker](phayton-object-walker.md)和[需求记录与开发链路](pml-development-flow.md)。
+
 需要 Windows x64、.NET 10 SDK、Node.js 22.22.3 或更新版本，以及 PowerShell 7。仓库根目录运行：
 
 ```powershell

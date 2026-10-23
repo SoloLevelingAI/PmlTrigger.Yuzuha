@@ -1,0 +1,594 @@
+------------------------------------------------------------------------
+--
+-- Copyright 2026 to current year. Apecha2.0. All rights reserved in original code only.
+--
+-- File:            PhaytonObjectWalker.pmlobj
+--   Type:          Object Definition
+--   Module:        design
+-- Author:          HuangYuanTai
+-- Created:         25/08/2026 21:34:58
+--
+------------------------------------------------------------------------
+
+-- <summary>
+--   按广度优先读取 CE、DBREF、PML 对象和数组，返回格式为 <c>[depth] path&lt;TYPE&gt; value</c> 的扁平结果。
+-- </summary>
+-- <remarks>
+--   <para>处理流程为 <c>RegisterNode</c> → <c>ReadNode</c> → <c>FormatResult</c> → <c>CollectChildren</c> → <c>Traverse</c>。</para>
+--   <para>节点的实际值、类型、来源及错误保存到同一组缓存；格式化与后续遍历共用已经读取的值。</para>
+--   <para>DBREF 属性普通读取失败时保留 <c>VAR SPLIT</c> 兜底；提取数组直接成为节点值，子项不会重新访问失败的原表达式。</para>
+--   <para><c>InitArray[1]</c> 是根值。<c>InitializeFromArray</c> 接受单项根包装数组，根值本身也可以是数组。</para>
+--   <para><c>MaxArraySize</c> 限制全部返回行，包含根和起点摘要；<c>MaxBFSDepth</c> 限制从根开始的展开深度，根深度为 0。两项预算均向下取整。</para>
+--   <para><c>startStr</c> 支持 <c>member.1</c>、<c>member.|1|</c> 和 <c>member.[1]</c>。定向起点始终尝试读取；单行预算优先输出起点，超出深度预算的起点不再展开。</para>
+--   <para><c>Read</c> 和初始化入口会清空缓存；同一次读取不会刷新已读取节点。行数预算不限制 <c>VAR SPLIT</c> 对单个属性的完整提取量。</para>
+-- </remarks>
+-- <example>
+--   <code language="pml">
+--     !walker = object PhaytonObjectWalker()
+--     !walker.InitializeFromCurrentElement()
+--     !walker.MaxArraySize = 30
+--     !walker.MaxBFSDepth = 2
+--     !walker.startStr = &apos;ELDATA&apos;
+--     !rows = !walker.Read()
+--     q var !rows
+--   </code>
+-- </example>
+define object PhaytonObjectWalker
+  -- <summary>
+  --   全部返回行数的硬上限。
+  -- </summary>
+  -- <value>默认 500；读取时向下取整，最少为 1。</value>
+  -- <remarks>
+  --   <para>包含根和定向起点摘要；待处理节点入队时也预留行数。</para>
+  -- </remarks>
+  member .MaxArraySize    is real
+
+  -- <summary>
+  --   从根开始计算的最大展开深度。
+  -- </summary>
+  -- <value>默认 3；根为 0，负值按 0 处理。</value>
+  -- <remarks>
+  --   <para>达到上限的节点仍可输出，但不再登记子节点。</para>
+  -- </remarks>
+  member .MaxBFSDepth     is real
+
+  -- <summary>
+  --   根节点的单项包装数组。
+  -- </summary>
+  -- <value>实际根值保存在 <c>InitArray[1]</c>；根值可以是任意 PML 类型。</value>
+  member .InitArray       is array
+
+  -- <summary>
+  --   本次读取已经格式化的扁平结果。
+  -- </summary>
+  -- <value>每项为 <c>[depth] path&lt;TYPE&gt; value</c> 或 <c>failedToGetValue</c> 错误行。</value>
+  member .ResArray        is array
+
+  -- <summary>
+  --   相对于根节点的定向起始路径。
+  -- </summary>
+  -- <value>默认空字符串，表示根；属性和数组下标使用点分隔。</value>
+  member .startStr        is string
+
+
+  -- <summary>
+  --   当前 BFS 层待处理的节点编号。
+  -- </summary>
+  -- <value>数组元素为节点编号，不保存访问表达式。</value>
+  member .CurrentLayerArr is array
+
+  -- <summary>
+  --   下一 BFS 层待处理的节点编号。
+  -- </summary>
+  -- <value>处理当前层期间由 <c>CollectChildren</c> 追加。</value>
+  member .memberList      is array
+
+  -- <summary>
+  --   当前层与下一层尚未输出的节点总数。
+  -- </summary>
+  -- <value>默认 0；节点入队时增加，输出前减少。</value>
+  -- <remarks>
+  --   <para>用于为队列预留返回行，避免大数组产生超过剩余预算的队列。</para>
+  -- </remarks>
+  member .PendingCount    is real
+
+
+  -- <summary>
+  --   按节点编号保存完整属性路径。
+  -- </summary>
+  -- <value>根路径为空字符串，数组子项通常表示为 <c>|N|</c>。</value>
+  member .NodePaths       is array
+
+  -- <summary>
+  --   按节点编号保存实际遍历深度。
+  -- </summary>
+  -- <value>根深度为 0，子节点深度为父节点深度加 1。</value>
+  member .NodeDepths      is array
+
+  -- <summary>
+  --   按节点编号保存父节点编号。
+  -- </summary>
+  -- <value>根的父节点编号为 0。</value>
+  member .NodeParents     is array
+
+  -- <summary>
+  --   按节点编号保存相对于父节点的路径段。
+  -- </summary>
+  -- <value>内容为属性名或数组下标段，根段为空字符串。</value>
+  member .NodeSegments    is array
+
+  -- <summary>
+  --   按节点编号保存实际节点值的单项包装数组。
+  -- </summary>
+  -- <value><c>NodeValues[id][1]</c> 是实际值；尚未取得值时包装数组为空。</value>
+  -- <remarks>
+  --   <para>包装层用于保存任意 PML 类型，并区分实际空数组与尚未取得值。</para>
+  -- </remarks>
+  member .NodeValues      is array
+
+  -- <summary>
+  --   按节点编号保存实际值的 PML 类型名。
+  -- </summary>
+  -- <value>读取成功后由 <c>ObjectType()</c> 取得；尚未取得值时为空字符串。</value>
+  member .NodeTypes       is array
+
+  -- <summary>
+  --   按节点编号保存读取错误。
+  -- </summary>
+  -- <value>空字符串表示没有读取错误；普通读取和兜底均失败时保留两条错误。</value>
+  member .NodeErrors      is array
+
+  -- <summary>
+  --   按节点编号记录是否已经尝试读取。
+  -- </summary>
+  -- <value><c>TRUE</c> 表示已经尝试，包含读取失败的情况。</value>
+  -- <remarks>
+  --   <para>失败节点在本次读取中也不会被反复读取。</para>
+  -- </remarks>
+  member .NodeRead        is array
+
+  -- <summary>
+  --   按节点编号记录成功读取的来源。
+  -- </summary>
+  -- <value><c>DIRECT</c> 表示普通读取，<c>VAR SPLIT</c> 表示大数组兜底读取。</value>
+  member .NodeSources     is array
+
+endobject
+
+-- <summary>
+--   设置预算默认值，并初始化输入、结果、队列及节点缓存。
+-- </summary>
+define method .PhaytonObjectWalker()
+  !this.MaxArraySize = 500
+  !this.MaxBFSDepth = 3
+  !this.startStr = ''
+  !this.InitArray = object array()
+  !this.ResetTraversal()
+endmethod
+
+-- <summary>
+--   设置根包装数组；根节点仍然是 arr[1]，而不是整个 arr。
+-- </summary>
+-- <param name="arr">至少含一个根值的包装数组；根值本身可以是数组。</param>
+-- <remarks>
+--   <para>清除上次读取缓存，不改预算和 startStr。</para>
+-- </remarks>
+define method .InitializeFromArray(!arr is array)
+  !this.InitArray = !arr
+  !this.ResetTraversal()
+endmethod
+
+-- <summary>
+--   将当前元素 CE 包装为根；不切换当前元素。
+-- </summary>
+define method .InitializeFromCurrentElement()
+  !arr = object array()
+  !arr.append(ce)
+  !this.InitializeFromArray(!arr)
+endmethod
+
+-- <summary>
+--   将指定全局变量包装为根，保留其实际 PML 类型。
+-- </summary>
+-- <param name="str">全局变量名，不含前导 !!。</param>
+-- <remarks>
+--   <para>变量查找失败时由 PML 向调用方报错。</para>
+-- </remarks>
+define method .InitializeFromGlobal(!str is string)
+  !arr = object array()
+  !arr.append(!!$!str)
+  !this.InitializeFromArray(!arr)
+endmethod
+
+-- <summary>
+--   开始一次新读取，输出定向起点并按 BFS 展开缓存中的节点。
+-- </summary>
+-- <returns>格式化结果；读取失败以 failedToGetValue 行表示。</returns>
+-- <remarks>
+--   <para>两项预算向下取整；MaxArraySize 最少为 1，负深度按 0 处理。</para>
+--   <para>startStr 非空且只允许一行时，优先输出定向起点，省略根摘要。</para>
+-- </remarks>
+define method .Read() is array
+  !this.MaxArraySize = !this.MaxArraySize.int()
+  !this.MaxBFSDepth = !this.MaxBFSDepth.int()
+  if !this.MaxArraySize lt 1 then
+    !this.MaxArraySize = 1
+  endif
+  if !this.MaxBFSDepth lt 0 then
+    !this.MaxBFSDepth = 0
+  endif
+  !this.InitializeResult()
+  !this.Traverse()
+  return !this.ResArray
+endmethod
+
+-- <summary>
+--   清除结果、BFS 队列及节点缓存；保留输入根和读取配置。
+-- </summary>
+define method .ResetTraversal()
+  !this.ResArray = object array()
+  !this.CurrentLayerArr = object array()
+  !this.memberList = object array()
+  !this.PendingCount = 0
+  !this.NodePaths = object array()
+  !this.NodeDepths = object array()
+  !this.NodeParents = object array()
+  !this.NodeSegments = object array()
+  !this.NodeValues = object array()
+  !this.NodeTypes = object array()
+  !this.NodeErrors = object array()
+  !this.NodeRead = object array()
+  !this.NodeSources = object array()
+endmethod
+
+-- <summary>
+--   登记一个尚未读取的节点，不访问数据库或父节点值。
+-- </summary>
+-- <param name="parentId">父节点编号，0 表示根</param>
+-- <param name="segment">属性名或数组下标。</param>
+-- <returns>新节点编号。路径和深度从父节点派生。</returns>
+define method .RegisterNode(!parentId is real, !segment is string) is real
+  !nodeId = !this.NodePaths.size() + 1
+  !path = ''
+  !depth = 0
+  if !parentId gt 0 then
+    !path = !this.JoinPath(!this.NodePaths[!parentId], !segment)
+    !depth = !this.NodeDepths[!parentId] + 1
+  endif
+  !this.NodePaths.append(!path)
+  !this.NodeDepths.append(!depth)
+  !this.NodeParents.append(!parentId)
+  !this.NodeSegments.append(!segment)
+  !emptyBox = object array()
+  !this.NodeValues.append(!emptyBox)
+  !this.NodeTypes.append('')
+  !this.NodeErrors.append('')
+  !this.NodeRead.append(false)
+  !this.NodeSources.append('')
+  return !nodeId
+endmethod
+
+-- <summary>
+--   重建本次缓存，读取根和定向起点，并登记第一层待输出节点。
+-- </summary>
+-- <remarks>
+--   <para>定向起点即使超过 MaxBFSDepth 也会输出，但不会继续展开。</para>
+--   <para>第一层队列由 CollectChildren 按剩余行数生成。</para>
+-- </remarks>
+define method .InitializeResult()
+  !this.ResetTraversal()
+  !rootId = !this.RegisterNode(0, '')
+  !this.ReadNode(!rootId)
+  !startId = !rootId
+  if !this.startStr.length() gt 0 then
+    if !this.MaxArraySize ge 2 then
+      !this.ResArray.append(!this.FormatResult(!rootId, 0))
+    endif
+    !startId = !this.ReadPath(!this.startStr)
+  endif
+  !this.ResArray.append(!this.FormatResult(!startId, !this.NodeDepths[!startId]))
+  !this.CurrentLayerArr = !this.CollectChildren(!startId)
+endmethod
+
+-- <summary>
+--   逐段读取路径；每一段均从父节点缓存取值，支持中途 VAR SPLIT。
+-- </summary>
+-- <param name="path">以点分隔的属性路径，空字符串表示根。</param>
+-- <returns>目标节点编号，或路径中第一个读取失败的节点编号。</returns>
+-- <remarks>
+--   <para>已登记路径复用节点编号；读取失败立即停止，不继续展开失败值。</para>
+-- </remarks>
+define method .ReadPath(!path is string) is real
+  if !this.NodePaths.size() eq 0 then
+    !rootId = !this.RegisterNode(0, '')
+  endif
+  !nodeId = 1
+  !this.ReadNode(!nodeId)
+  if !path.length() eq 0 or !this.NodeErrors[!nodeId].length() gt 0 then
+    return !nodeId
+  endif
+  !segments = !path.split('.')
+  do !i from 1 to !segments.size()
+    !segment = !segments[!i]
+    !nodePath = !this.JoinPath(!this.NodePaths[!nodeId], !segment)
+    !matches = !this.NodePaths.find(!nodePath)
+    if !matches.size() gt 0 then
+      !nodeId = !matches[1]
+    else
+      !nodeId = !this.RegisterNode(!nodeId, !segment)
+    endif
+    !this.ReadNode(!nodeId)
+    if !this.NodeErrors[!nodeId].length() gt 0 then
+      return !nodeId
+    endif
+  enddo
+  return !nodeId
+endmethod
+
+-- <summary>
+--   每个节点最多读取一次，将实际值、类型、来源及错误保存到缓存。
+-- </summary>
+-- <param name="nodeId">RegisterNode 创建的节点编号。</param>
+-- <remarks>
+--   <para>数组按下标从父缓存读取；普通属性先用 attribute，DBREF 失败再用 VAR SPLIT。</para>
+--   <para>VAR SPLIT 的返回数组直接成为节点值；不重新求值原访问表达式。</para>
+--   <para>NodeErrors 非空表示失败，NodeSources 记录 DIRECT 或 VAR SPLIT。</para>
+-- </remarks>
+define method .ReadNode(!nodeId is real)
+  if !this.NodeRead[!nodeId] then
+    return
+  endif
+  !this.NodeRead[!nodeId] = true
+  !valueBox = object array()
+  !source = 'DIRECT'
+  !parentId = !this.NodeParents[!nodeId]
+  if !parentId eq 0 then
+    !valueBox.append(!this.InitArray[1])
+    handle any
+      !this.NodeErrors[!nodeId] = !!error.text
+      return
+    endhandle
+  else
+    !this.ReadNode(!parentId)
+    if !this.NodeErrors[!parentId].length() gt 0 then
+      !this.NodeErrors[!nodeId] = !this.NodeErrors[!parentId]
+      return
+    endif
+    !parentBox = !this.NodeValues[!parentId]
+    !segment = !this.NodeSegments[!nodeId]
+    if !this.NodeTypes[!parentId] eq 'ARRAY' then
+      !indexText = !segment.replace('|', '').replace('[', '').replace(']', '')
+      !index = !indexText.real()
+      handle any
+        !this.NodeErrors[!nodeId] = !!error.text
+        return
+      endhandle
+      !arrayValue = !parentBox[1]
+      !valueBox.append(!arrayValue[!index])
+      handle any
+        !this.NodeErrors[!nodeId] = !!error.text
+        return
+      endhandle
+    else
+      !valueBox.append(!parentBox[1].attribute(!segment))
+      handle any
+        !directError = !!error.text
+        if !this.NodeTypes[!parentId] neq 'DBREF' then
+          !this.NodeErrors[!nodeId] = !directError
+          return
+        endif
+        !valueBox = object array()
+        !valueBox.append(!this.MatchLargeArr(!parentBox, !segment))
+        handle any
+          !splitError = !!error.text
+          !this.NodeErrors[!nodeId] = !directError + ' ; VAR SPLIT: ' + !splitError
+          return
+        endhandle
+        !source = 'VAR SPLIT'
+      endhandle
+    endif
+  endif
+  !this.NodeValues[!nodeId] = !valueBox
+  !this.NodeTypes[!nodeId] = !valueBox[1].objectType()
+  handle any
+    !this.NodeErrors[!nodeId] = !!error.text
+    return
+  endhandle
+  !this.NodeSources[!nodeId] = !source
+endmethod
+
+-- <summary>
+--   使用保留的 VAR SPLIT 命令读取数据库属性，返回实际提取数组。
+-- </summary>
+-- <param name="parentBox">单项包装数组，parentBox[1] 为 DBREF</param>
+-- <param name="lastfixArr">属性名。</param>
+-- <returns>VAR SPLIT 提取结果。失败交由 ReadNode 记录两条读取错误。</returns>
+-- <remarks>
+--   <para>不拆解访问表达式、不生成显示字符串，也不强制转换提取项的数据类型。</para>
+-- </remarks>
+define method .MatchLargeArr(!parentBox is array, !lastfixArr is string) is array
+  !ob = !parentBox[1]
+  !eell = object array()
+  var !eell split $!lastfixArr of $!ob
+  return !eell
+endmethod
+
+-- <summary>
+--   仅从缓存生成一行结果，不读取属性、不执行 VAR SPLIT。
+-- </summary>
+-- <param name="nodeId">已尝试读取的节点编号</param>
+-- <param name="depth">本行显示深度。</param>
+-- <returns>[depth] path&lt;TYPE&gt; value，或 failedToGetValue 错误行。</returns>
+-- <remarks>
+--   <para>数组仅输出元素数量，避免格式化整个大数组；其内容由 BFS 逐项输出。</para>
+-- </remarks>
+define method .FormatResult(!nodeId is real, !depth is real) is string
+  !path = !this.NodePaths[!nodeId]
+  !errorText = !this.NodeErrors[!nodeId]
+  if !errorText.length() gt 0 then
+    return 'failedToGetValue |' + !path + '| |' + !errorText + '|'
+  endif
+  !valueBox = !this.NodeValues[!nodeId]
+  if !this.NodeTypes[!nodeId] eq 'ARRAY' then
+    !arrayValue = !valueBox[1]
+    !count = !arrayValue.size()
+    return '[' + !depth.string() + '] ' + !path + '<ARRAY> ' + !count.string() + ' Elements'
+  endif
+  -- 保留原有 VAR VAR 的类型/值表示，只移除最外层单项 ARRAY 包装头。
+  var !summary var !valueBox
+  handle any
+    !errorText = !!error.text
+    return 'failedToGetValue |' + !path + '| |' + !errorText + '|'
+  endhandle
+  !wrapper = '<ARRAY> [1]'
+  !unsetWrapper = '<ARRAY> - Unset [1]'
+  if !summary.match(!wrapper) eq 1 then
+    !summary = !summary.substring(!wrapper.length() + 1)
+  elseif !summary.match(!unsetWrapper) eq 1 then
+    !summary = !summary.substring(!unsetWrapper.length() + 1)
+  endif
+  return '[' + !depth.string() + '] ' + !path + !summary
+endmethod
+
+-- <summary>
+--   从当前节点的实际缓存值登记子节点，不重新读取当前属性。
+-- </summary>
+-- <param name="nodeId">已读取、已输出的父节点编号。</param>
+-- <returns>下一层节点编号；叶节点、错误或预算用尽时返回空数组。</returns>
+-- <remarks>
+--   <para>数组使用已定义下标，支持稀疏数组；对象使用 attributes 返回的成员名。</para>
+--   <para>每次登记同时预留返回行，避免为大数组创建超过剩余预算的队列。</para>
+-- </remarks>
+define method .CollectChildren(!nodeId is real) is array
+  !children = object array()
+  if !this.NodeErrors[!nodeId].length() gt 0 then
+    return !children
+  endif
+  if !this.NodeDepths[!nodeId] ge !this.MaxBFSDepth then
+    return !children
+  endif
+  !available = !this.MaxArraySize - !this.ResArray.size() - !this.PendingCount
+  if !available lt 1 then
+    return !children
+  endif
+  !valueBox = !this.NodeValues[!nodeId]
+  if !this.NodeTypes[!nodeId] eq 'ARRAY' then
+    !arrayValue = !valueBox[1]
+    do !index indices !arrayValue
+      if !children.size() ge !available then
+        break
+      endif
+      !segment = '|' + !index.string() + '|'
+      !childId = !this.RegisterNode(!nodeId, !segment)
+      !children.append(!childId)
+    enddo
+  else
+    !attributes = !valueBox[1].attributes()
+    handle any
+      return !children
+    endhandle
+    do !i indices !attributes
+      if !children.size() ge !available then
+        break
+      endif
+      !childId = !this.RegisterNode(!nodeId, !attributes[!i])
+      !children.append(!childId)
+    enddo
+  endif
+  !this.PendingCount = !this.PendingCount + !children.size()
+  return !children
+endmethod
+
+-- <summary>
+--   逐层处理节点编号：读取一次、格式化一次，再从缓存登记下一层。
+-- </summary>
+-- <remarks>
+--   <para>按当前位置顺序扫描队列，避免反复 RemoveFirst 搬移数组。</para>
+--   <para>追加 ResArray，并始终遵守全部返回行的上限。</para>
+-- </remarks>
+define method .Traverse()
+  do
+    if !this.CurrentLayerArr.size() eq 0 then
+      break
+    endif
+    !this.memberList = object array()
+    do !i from 1 to !this.CurrentLayerArr.size()
+      if !this.ResArray.size() ge !this.MaxArraySize then
+        return
+      endif
+      !nodeId = !this.CurrentLayerArr[!i]
+      !this.PendingCount = !this.PendingCount - 1
+      !this.ReadNode(!nodeId)
+      !this.ResArray.append(!this.FormatResult(!nodeId, !this.NodeDepths[!nodeId]))
+      !this.memberList.appendArray(!this.CollectChildren(!nodeId))
+    enddo
+    !this.CurrentLayerArr = !this.memberList
+  enddo
+endmethod
+
+-- <summary>
+--   拼接一个路径段；根路径不添加前导点。
+-- </summary>
+-- <param name="parentPath">父路径</param>
+-- <param name="segment">原始属性名或数组下标段。</param>
+-- <returns>完整子路径，保留输入路径段的写法。</returns>
+define method .JoinPath(!parentPath is string, !segment is string) is string
+  if !parentPath.length() eq 0 then
+    return !segment
+  endif
+  return !parentPath + '.' + !segment
+endmethod
+
+-- <summary>
+--   只构造兼容旧接口的访问表达式，不取值、不修改节点缓存。
+-- </summary>
+-- <param name="path">点分路径，支持纯数字、|N| 和 [N] 下标段。</param>
+-- <returns>以 !this.InitArray[1] 开始的访问表达式。</returns>
+-- <remarks>
+--   <para>主读取流程使用父节点缓存；该表达式不用于重新读取 VAR SPLIT 数组。</para>
+-- </remarks>
+define method .BuildAccessPath(!path is string) is string
+  !expression = '!this.InitArray[1]'
+  if !path.length() eq 0 then
+    return !expression
+  endif
+  !segments = !path.split('.')
+  do !i from 1 to !segments.size()
+    !segment = !segments[!i]
+    !indexText = !segment.replace('|', '').replace('[', '').replace(']', '')
+    !index = !indexText.real()
+    handle any
+      !expression = !expression + '.attribute(|' + !segment + '|)'
+      skip
+    endhandle
+    !expression = !expression + '[' + !index.string() + ']'
+  enddo
+  return !expression
+endmethod
+
+-- <summary>
+--   保留旧的字符串接口：表达式模式直接构造路径，结果模式读取缓存。
+-- </summary>
+-- <param name="splitStr">点分路径</param>
+-- <param name="num">显示深度</param>
+-- <param name="isReturnAtt">是否只返回表达式。</param>
+-- <returns>访问表达式或格式化结果；缓存随 Read/初始化入口重置。</returns>
+-- <remarks>
+--   <para>isReturnAtt 为 TRUE 时绝不读取属性；num 只覆盖显示深度，不修改实际深度。</para>
+-- </remarks>
+define method .ResolveAttribute(!splitStr is string, !num is real, !isReturnAtt is boolean) is string
+  if !isReturnAtt then
+    return !this.BuildAccessPath(!splitStr)
+  endif
+  !nodeId = !this.ReadPath(!splitStr)
+  return !this.FormatResult(!nodeId, !num)
+endmethod
+
+-- <summary>
+--   兼容旧结果检查，只将行首 failedToGetValue 标记视为失败。
+-- </summary>
+-- <param name="str">ResolveAttribute 或 FormatResult 返回的结果行。</param>
+-- <returns>普通数据中含有 failedToGetValue 字样仍视为成功。</returns>
+define method .IsSuccess(!str is string) is boolean
+  return !str.match('failedToGetValue ') neq 1
+endmethod

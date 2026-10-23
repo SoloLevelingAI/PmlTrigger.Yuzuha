@@ -5,6 +5,8 @@
 这是源码增量，尚未纳入正式安装包。[使用与安全契约](docs/phayton-operations.md) ·
 [PML 只读审查](docs/phayton-pml-review.md) · [验证记录](docs/validation/2026-10-16-phayton.md)
 
+独立新版 [PhaytonObjectWalker](docs/reference/phayton-object-walker.md) 保留 VAR SPLIT，已有 [2410 项 ELDATA 实测记录](docs/validation/2026-10-23-phayton-object-walker.md)，现有调用未切换。[需求、PML 加载与 HTML 链路](docs/reference/pml-development-flow.md)说明当前支持和待实现范围。
+
 面向 AVEVA E3D、PDMS 和 AM 的本机 AI/PML 工具：连接工程会话、查询与执行 PML、检索本地资料，并记录窗体操作过程。
 
 A local AI/PML toolkit for AVEVA E3D, PDMS and AM: connect to engineering sessions, query and execute PML, retrieve local references, and record form interactions.

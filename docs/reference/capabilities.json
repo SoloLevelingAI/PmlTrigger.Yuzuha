@@ -26,6 +26,7 @@
     {"file":"PMLLIB/Traversal/YuzuhaReadDbref.pmlfnc","features":["objects"],"purpose":"查询指定元素并按既有逻辑恢复 CE，接受范围以源码和契约为准。","guide":"docs/reference/desktop-m1.md"},
     {"file":"PMLLIB/Traversal/YuzuhaReadGlobal.pmlfnc","features":["objects"],"purpose":"读取全局变量和 PML Object，使用已有遍历策略。","guide":"docs/reference/desktop-m1.md"},
     {"file":"PMLLIB/Traversal/YuzuhaObjectWalker.pmlobj","features":["objects"],"purpose":"复用原生对象遍历，控制每层数量与深度，不承诺完整对象快照。"},
+    {"file":"PMLLIB/Traversal/PhaytonObjectWalker.pmlobj","features":["objects","arrays"],"purpose":"独立新版遍历器：VAR SPLIT 提取大属性，取值缓存供格式化与下标遍历复用。","change":"2026-10-23 同步 2410 项实测版本，保留现有调用；范围见对象说明与验证记录。","guide":"docs/reference/phayton-object-walker.md"},
     {"file":"PMLLIB/FormUse/YuzuhaGetGadget.pmlfnc","features":["formuse"],"role":"prototype","purpose":"原型中的 Gadget 枚举与排除；已知限制见支持登记。","guide":"docs/reference/formuse-audit.md"},
     {"file":"PMLLIB/FormUse/YuzuhaGetGadgetType.pmlfnc","features":["formuse"],"role":"prototype","purpose":"从原生显示文本提取控件类型；失败语义与跨版本限制待验证。","guide":"docs/reference/formuse-audit.md"},
     {"file":"PMLLIB/FormUse/YuzuhaDecoratedCall.pmlfnc","features":["formuse"],"role":"prototype","purpose":"原型中的回调装饰，保留已知恢复与清理问题。","guide":"docs/reference/formuse-audit.md"},

@@ -38,6 +38,13 @@ for(const [file,{html}] of documents){
   }
 }
 const graph=JSON.parse(fs.readFileSync(path.join(site,'reference/graph.json'),'utf8'));
+const pmlXml=JSON.parse(fs.readFileSync(path.join(root,'artifacts/docfx/pml-xml.json'),'utf8'));
+for(const [file,doc] of Object.entries(pmlXml)) {
+  const html=documents.get(path.join(site,'reference/pml/'+file+'.html'))?.html;
+  assert.ok(html?.includes('完整源码'),'Missing rendered PML XML documentation: '+file);
+  // Each XML contract renders as a heading, separate from the literal source listing.
+  assert.ok((html.match(/<h2\b/g)??[]).length>=doc.count+1,'PML XML declaration publication gap: '+file);
+}
 const originals=readDesignBaselines(root);
 const searchIndex=JSON.parse(fs.readFileSync(path.join(site,'index.json'),'utf8'));
 assert.equal(graph.designBaselines?.length,originals.length,'Design baseline publication gap');

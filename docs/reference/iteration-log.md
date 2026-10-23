@@ -4,6 +4,15 @@
 
 [后端调用链与排查](backend-tracing.md) · [理解与排查笔记](understanding-notes.md) · [文档维护](documentation.md)
 
+## 2026年10月23日 Walker、Form 信息与开发链路
+
+| 编号 | 用户意见与采纳决定 | 当前状态 | 验收条件与去向 |
+| --- | --- | --- | --- |
+| TRACE10 | 新版 Walker 保留 VAR SPLIT，接清取值、格式化和下标遍历；DocFX XML 注释，先不改旧调用 | 新对象独立同步，2410 项 ELDATA 实测通过，旧调用保留 | [对象说明](phayton-object-walker.md)与[实测报告](../../artifacts/docfx/navigation/repository/docs/validation/2026-10-23-phayton-object-walker.md)记录哈希、2412 行解析及范围 |
+| TRACE11 | Form/Button 和全量信息参考用户提供的 Marine pmlforms.pmlfrm | 已核对分类与展开；现有工具只有部分属性 | [链路说明](pml-development-flow.md)保留来源指纹、差距与验收；扩展未实现，Marine 未实测 |
+| TRACE12 | 明确需求格式，核实编写、复制 PMLLIB、REHASH ALL、Form/Object reload 链路及文档 | 需求与决定用 Markdown，契约用源码 XML，目录关联用 JSON，DocFX 展示；已有复制和命令入口，通用自动串联待实现 | 每步关联目标、版本、回执和实际行为；见[开发与加载链路](pml-development-flow.md) |
+| TRACE13 | HTML 作为界面，复用后端和 AVEVA 能力 | 方向已记录；应用管理与运行桥仍为计划，开发网页不代表生产接通 | 通过本地桥复用服务/Host，关联会话和结果，验收一条真实场景；见[HTML 范围](pml-development-flow.md#html-作为界面) |
+
 ## 2026年10月22日 后端溯源方向
 
 以下意见来自本次用户审阅调用链后的反馈。核对的代码基线为 `7050ac8a81cbc95cf7f7eaada5248c53aed4bbb3`。

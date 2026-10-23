@@ -27,6 +27,7 @@ FileBrowseTest.pmlfnc
 YuzuCollctTest.pmlfnc
 YuzuhaShortCut.pmlfnc
 /Traversal/
+PhaytonObjectWalker.pmlobj
 YuzuhaObjectWalker.pmlobj
 YuzuhaReadCurrentElement.pmlfnc
 YuzuhaReadDbref.pmlfnc

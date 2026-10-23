@@ -256,6 +256,16 @@
   ],
   "cases": [
     {
+      "id": "manual:phayton-object-walker",
+      "kind": "manual",
+      "category": "aveva-live",
+      "file": "tests/live/phayton-object-walker/README.md",
+      "entryPoint": "## manual:phayton-object-walker",
+      "purpose": "在目标 AVEVA 会话执行内存回归，并对自有大 ELDATA 逐项比较 VAR SPLIT 基线、缓存、格式化和下标遍历。",
+      "environment": "记录 AVEVA 产品、模块、Host、会话身份与 Walker 哈希；2026-10-23 历史报告覆盖 E3D 2.1 / NET48，其他版本分别实测",
+      "expected": "内存回归 0 失败；大属性来源 VAR SPLIT，逐项 0 差异，完整遍历行数为数组项数加 2，0 节点错误和未解析行；结果以当次回执为准。"
+    },
+    {
       "id": "smoke:native-cli",
       "kind": "smoke",
       "category": "native-aot-cli-mcp",
@@ -435,6 +445,13 @@
     }
   ],
   "bindings": [
+    {
+      "test": "manual:phayton-object-walker",
+      "purpose": "验证独立新版缓存贯通取值、格式化和后续下标遍历，不切换现有调用。",
+      "targets": [
+        {"file":"PMLLIB/Traversal/PhaytonObjectWalker.pmlobj","symbol":"PhaytonObjectWalker"}
+      ]
+    },
     {
       "test": "xunit:YuzuhaToolkit.Tests.FunctionRegistryTests.RegistrationParsesSourceAndStartsDeniedAcrossStoreInstances",
       "purpose": "核对真实源码签名、默认拒绝和跨实例持久化。",

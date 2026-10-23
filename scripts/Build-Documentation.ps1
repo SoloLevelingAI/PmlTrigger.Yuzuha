@@ -66,6 +66,7 @@ try {
     if ($LASTEXITCODE -ne 0) { throw 'UI semantic trace failed.' }
     dotnet docfx metadata docfx.json --warningsAsErrors
     if ($LASTEXITCODE -ne 0) { throw 'DocFX metadata failed.' }
+    & (Join-Path $root 'scripts/Export-PmlXmlDocumentation.ps1') -Root $root -Output (Join-Path $root 'artifacts/docfx/pml-xml.json')
     node scripts/documentation-index.mjs
     if ($LASTEXITCODE -ne 0) { throw 'Documentation index coverage failed.' }
     dotnet docfx build docfx.json --warningsAsErrors

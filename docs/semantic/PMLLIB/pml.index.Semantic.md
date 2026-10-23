@@ -1,9 +1,8 @@
 # PMLLIB/pml.index
 
 File: PMLLIB/pml.index
-LastWriteTimeUtc: 2026-09-19T14:02:44.2935478Z
-SHA256: 8D3B8D718EDBC416E4CE3ABFB14BD46E4F306B92CBB812E4809C024A972B524A
-RecordedAtUtc: 2026-09-20T13:50:09.5052478Z
+LastWriteTimeUtc: 2026-10-23T06:05:26.4947836Z
+SHA256: C6FBB2018262C321A161CE81916547C9D194AC2B173ECEA6002CFC3CE313DF23
+RecordedAtUtc: 2026-10-23T06:16:51.8214464Z
 
-Maintainer PML snapshot. See docs/semantic/pml-sync.json. Source authored by maintainer; synchronization metadata recorded by OpenAI Codex. No live AVEVA test.
-Timestamp is a fast check; SHA256 verifies content.
+2026-10-23 reviewed update: add Traversal/PhaytonObjectWalker.pmlobj without replacing YuzuhaObjectWalker or existing callers. This fingerprint covers the current index. The historical maintainer synchronization snapshot remains in docs/semantic/pml-sync.json. Evidence: docs/validation/2026-10-23-phayton-object-walker.md.

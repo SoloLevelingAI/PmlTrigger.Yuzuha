@@ -1,5 +1,5 @@
 {
-  "status": "E3DEndToEndPassed",
+  "status": "PartiallyVerified;FinalLargeResultReadUnknown",
   "runtime": "E3D 2.1 / NET48",
   "automaticStartup": "E3DVerifiedFromFreshProcessReport",
   "offlineTests": 160,
@@ -7,7 +7,9 @@
     "actions": 7,
     "directedIndices": 3,
     "precondition": "$T8+ explicitly requested by user",
-    "count": 2410
+    "count": 2410,
+    "passedStage": "Earlier fresh E3D session after explicit $T8+",
+    "finalStage": "ExecuteMacroSucceeded;ReadResultsRpcPeerClosed;UserReportedE3DUnresponsive;NoRetry"
   },
   "guiStoppedByUser": true,
   "AM": "StartupLogAndPipeObserved;IpcNotVerifiedBecauseMarodesIsNotDiscovered",

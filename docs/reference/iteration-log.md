@@ -6,10 +6,11 @@
 
 ## 2026年10月23日 Walker、Form 信息与开发链路
 
-本轮追加：TRACE17–TRACE23 经两份预览获批及客户端关闭后完成本机更新；E3D 自动启动 REHASH、桌面共用后端及 ELDATA 实测通过。AM 发现器漏识别实际进程的兼容性缺口见[桌面接入记录](../../artifacts/docfx/navigation/repository/docs/validation/2026-10-23-desktop-pml-integration.md)。
+本轮追加：TRACE17–TRACE23 经两份预览获批及客户端关闭后完成本机更新；E3D 自动 REHASH 和桌面共用后端通过，较早完整 ELDATA 通过，最终大数组回读发生 IPC 中断和无响应，尚不能验收稳定性。AM 发现缺口与当前未知结果见[桌面接入记录](../../artifacts/docfx/navigation/repository/docs/validation/2026-10-23-desktop-pml-integration.md)。
 
 | 编号 | 用户意见与采纳决定 | 当前状态 | 验收条件与去向 |
 | --- | --- | --- | --- |
+| TRACE25 | 大数组回读后的无响应必须区分提取、传输与加载状态 | 最终 execute-macro 成功，read-results 断管且 mayHaveExecuted=true，用户报告 E3D 无响应；已停止派发 | 当前轮 Unknown，未自动重发或强制结束客户端；保留前一轮成功，不能据此覆盖最终失败/未知；待恢复后诊断回读与主线程耗时 |
 | TRACE24 | 新开 AM/E3D 后核验真实启动 | E3D 自身启动数组回读通过，二者日志及专用管道存在；AM marodes/mardra 不在现有发现器白名单 | AM 的 IPC 选择与全流程未验证；保留核验边界，不用进程枚举结果绕过发现器 |
 | TRACE21 | 日常启动保持浅色，仅填写项目、用户、密码、MDB；模块选择避免反复手填 | 模块/MDB 改为可编辑下拉，安装路径和参数折叠；默认浅色保留 | 新版编译通过，现有配置与启动协议保留；完整新界面实测待后续操作 |
 | TRACE22 | 清除密码易误触，移入设置并加二次确认 | 设置中选配置后确认，默认取消；取消记住本次密码不再暗中删旧凭据 | 确认前不写设置、不删凭据；设置写失败回退，共用引用保留 |

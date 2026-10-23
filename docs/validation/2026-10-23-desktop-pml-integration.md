@@ -1,6 +1,6 @@
 # 2026-10-23 桌面 PML 开发接入：阶段记录
 
-先复验 Phayton，再经用户关闭 AM/E3D 并批准预览完成两次更新；修正版新 E3D 的自动 REHASH 及 ELDATA 链路已通过。以下“更新前”至“后续验收”为保留的初始阶段，末尾是最新结果。现有 Walker 逻辑和 Host 原字节保留，不改业务调用，不保存模型。AM 原生启动有记录和管道，但既有发现器漏识别实际进程，不能宣称 AM 的 IPC 全流程通过。
+先复验 Phayton，再经用户关闭 AM/E3D 并批准预览完成两次更新。修正版新 E3D 的自动 REHASH 已通过，较早一轮完整 ELDATA 复验通过；最终一轮在结果回读时 IPC 中断且 E3D 无响应，因此大数组端到端稳定性尚未验收。以下“更新前”至“后续验收”为保留的初始阶段，末尾是最新结果。现有 Walker 逻辑和 Host 原字节保留，不改业务调用，不保存模型。AM 发现器漏识别实际进程，其 IPC 全流程亦未通过验收。
 
 ## 更新前真实验证
 
@@ -67,7 +67,7 @@
 
 用户从 LaunchDesk 新开 E3D 和 AM。未手动调用启动方法或先发 REHASH，E3D 自身 `!!YuzuhaStartupReport` 读回 Policy=REHASH-ALL、Phase=after-pml-init-before-host、LaunchId=external-launch、Status 包含 Started/Succeeded，6 行、0 未解析行。原生日志也出现对应新启动记录，确认引号修正后的真实自动启动已通过。
 
-新会话再次按用户指定的 `$T8+` 前置条件完成 HTML/IPC 大数组复验：2410 项、7 次动作、3 个定向下标、4 项 HTTP 检查通过。现有 Walker 未改逻辑。
+最终新会话再次按用户指定的 `$T8+` 发起大数组复验，但本轮未通过：execute-macro 回执成功，read-results 时出现 `RPC peer closed the pipe`，mayHaveExecuted=true。用户确认 E3D 暂时无响应；进程仍在，发现仍可见，状态为 Unknown。未重发请求、强制结束客户端或保存模型。此前另一新 E3D 会话中的 2410 项/7 次动作/3 个下标/4 项 HTTP 完整通过记录保留，不能替代这一轮未知结果。现有 Walker 未改逻辑，不能仅凭传输错误判断其是否有缺陷。
 
 AM 此次为 Outfitting，实际进程名 marodes；原生启动后有第二份成功记录，PID 专用管道存在。但当前 AvevaSessionDiscovery 的工程进程白名单未包含 marodes/mardra，内置发现只列 E3D。AM 日志归属依据同轮两个新进程与两份记录，尚未通过 AM 内的结果数组回读；不绕过会话核验选择未被发现的 PID，也不把这个证据扩大为 AM IPC 通过。该兼容性缺口已记录，未在本轮悄悄扩展发现器。
 

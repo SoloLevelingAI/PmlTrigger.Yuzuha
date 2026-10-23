@@ -28,6 +28,8 @@ npm run docs:serve
 
 [文档维护](docs/reference/documentation.md) · [架构与守卫](docs/reference/architecture.md) · [测试说明](docs/reference/testing.md)。开发解决方案为 `YuzuhaToolkit.Development.slnx`；无需 AVEVA SDK 即可执行，原 `src/YuzuhaToolkit.sln` 保留 Host 构建入口。
 
+[弃用与兼容入口登记](docs/reference/deprecations.md)列出停止新增依赖的历史代码、替代入口和保留原因。当前批次仅添加标记；原 PML 文件、索引、交付载荷和仍在使用的兼容入口继续保留。
+
 继续 PMLTWIN 迭代前，先查看[意见与决定](docs/reference/iteration-log.md)中的当前方向和未完成项。[后端调用链与排查](docs/reference/backend-tracing.md)按输入、计算、判断和结果解释业务步骤；[理解与排查笔记](docs/reference/understanding-notes.md)按问题选择表达方法。
 
 [PMLTWIN 项目设计约定](docs/reference/pmltwin-design-contract.md)明确当前职责、原生边界与验证方式。[功能与 Script 维护](docs/reference/catalog-maintenance.md)说明自动发现和人工增删改查；DocFX 首页提供按具体功能和 Script 的独立目录，继续链接已有源码、调用树和测试。

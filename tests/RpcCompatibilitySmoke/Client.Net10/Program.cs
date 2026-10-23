@@ -1,3 +1,5 @@
+// DEPRECATED (2026-10-23): historical dynamic-proxy smoke client, retained.
+// Current protocol validation is tests/AotRpcSmoke; see ../README.md.
 using PlantHost.Rpc;
 
 [RpcService("yuzuha.pml-command.v1")]

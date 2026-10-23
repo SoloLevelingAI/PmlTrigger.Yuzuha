@@ -66,7 +66,9 @@ def main():
     files = [p for p in stage.rglob('*') if p.is_file()]
     forbidden = {'pmlnet.dll','aveva.core.utilities.dll','aveva.pdms.utilities.dll'}
     for path in files:
-        if path.name.lower() in forbidden or path.suffix.lower() in {'.ps1','.sqlite3','.db'}:
+        if (path.name.lower() in forbidden or path.name.lower() == '.yuzuha-user-data.json'
+            or path.suffix.lower() in {'.ps1','.sqlite3','.db'} or path.name.lower().endswith(('-wal', '-shm'))
+            or path.relative_to(stage).parts[0].lower() in {'knowledge','trust','.yuzuha-state','userpmllib','projects','apps','exports','webapps'}):
             raise SystemExit('Forbidden installer payload: ' + str(path))
     (stage / 'SHA256SUMS.txt').write_text(''.join(
         hashlib.sha256(p.read_bytes()).hexdigest() + '  ' + p.relative_to(stage).as_posix() + '\n'

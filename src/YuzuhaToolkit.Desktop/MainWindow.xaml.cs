@@ -155,7 +155,7 @@ public partial class MainWindow : Window
                 "评审中心" => "M3：同一名人工审核差异、契约和测试证据，再批准迁移。复用已有复制、哈希和备份能力，补批准快照、回执与恢复记录。",
                 "测试中心" => "M2a / M2b：先交付源码目录与证据浏览，再从 C# 调用既有按 ID 测试脚本。现阶段可使用 DocFX 测试目录与 PowerShell 独立复刻；人工实机项保持 NotRun。",
                 "Web 应用" => "桌面按钮打开独立 HTML 管理器，共用现有 IPC；打开网页不执行 PML。应用分类、按钮和参数在网页中配置。",
-                _ => "本页直接调用现有 C# 知识仓库，查看完整内置指南或本机资料的正文、来源、行号与数据库身份。索引构建和经验写入尚未接入；检索命中不等于实测或调用许可。"
+                _ => "搜索与个人笔记共用知识目录；笔记保留修订和回收站，资料源支持建库、重建与恢复。官方原文保留，经验仍沿用追加接口；检索命中不等于实测或调用许可。"
             };
         }
         if (button.Uid == "工程会话") SessionView.OpenSessions();
@@ -454,6 +454,15 @@ public partial class MainWindow : Window
         new YuzuhaToolkit.Knowledge.KnowledgeRepository(KnowledgeDirectoryBox.Text).Build(knowledgeSource, null, null, "custom-ui-fixture", KnowledgeDirectoryBox.Text, false, 100);
         KnowledgeQueryBox.Text = "UiKnowledgeProbe"; await SearchKnowledgeAsync();
         if (!KnowledgeDetailBody.Text.Contains("isolated-knowledge-fixture", StringComparison.Ordinal)) throw new InvalidOperationException("发布程序的 GUI 无法读取 SQLite 正文。");
+        await RefreshKnowledgeManagementAsync();
+        NewPersonalNote(this, new()); NoteTitleBox.Text = "目录迁移与个人笔记"; NoteContentBox.Text = "离线验证正文：quartzfixture"; NoteContextBox.Text = "合成资料 · 未连接 AVEVA";
+        await WritePersonalNoteAsync(false);
+        if (editingNote?.Revision != 1) throw new InvalidOperationException("界面新增笔记失败。");
+        NoteContentBox.Text = "修改后的正文：saffronfixture"; await WritePersonalNoteAsync(false);
+        await WritePersonalNoteAsync(true);
+        if (PersonalNotesGrid.Items.Count != 0) throw new InvalidOperationException("界面软删除未更新列表。");
+        await WritePersonalNoteAsync(false);
+        if (editingNote?.Revision != 4 || PersonalNotesGrid.Items.Count != 1 || NoteHistoryBox.Items.Count != 4) throw new InvalidOperationException("界面恢复或历史版本失败。");
         KnowledgeQueryBox.Text = "当前对象";
         await SearchKnowledgeAsync();
         if (KnowledgeResultsGrid.Items.Count == 0 || !KnowledgeDetailBody.Text.Contains("YuzuhaReadCurrentElement", StringComparison.Ordinal)) throw new InvalidOperationException("GUI 知识检索没有显示完整内置正文。");
@@ -502,6 +511,10 @@ public partial class MainWindow : Window
                 SelectSmokeScreen(screen.Tab, screen.Flow, screen.Planned);
                 await CaptureSmokeAsync(Path.Combine(themeDirectory, $"design-{screen.Name}.png"));
             }
+            SelectSmokeScreen(5, 0, 3); OpenPersonalNotes(this, new());
+            await CaptureSmokeAsync(Path.Combine(themeDirectory, "knowledge-editor.png"));
+            OpenKnowledgeLibraries(this, new());
+            await CaptureSmokeAsync(Path.Combine(themeDirectory, "knowledge-libraries.png"));
             Width = 1280; Height = 900; Tabs.SelectedIndex = 3;
             foreach (var unknown in new[] { false, true })
             {
@@ -513,7 +526,7 @@ public partial class MainWindow : Window
         File.WriteAllText(Path.Combine(outputDirectory, "desktop-smoke.json"), JsonSerializer.Serialize(new {
             passed = true, scope = "WPF creation, synthetic bindings and layout; not AVEVA live or human visual acceptance",
             pages = screens.Length, tabs = Tabs.Items.Count, profiles = ProfilesBox.Items.Count, errorStates = 4,
-            themes = new[] { "Light", "Dark" }, themePreservesWork = true, savedCredentials = true, guiKnowledge = true, objectQueries = true, profileLibrary = true,
+            themes = new[] { "Light", "Dark" }, themePreservesWork = true, savedCredentials = true, guiKnowledge = true, personalNotesCrud = true, objectQueries = true, profileLibrary = true,
             viewports = new[] { "1440x960", "1280x720", "853x480 logical (1280x720 at 150%)" },
             designCanvas = "1440x1024 client", finishedUtc = DateTime.UtcNow, dpi = VisualTreeHelper.GetDpi(this).DpiScaleX, fontSize = FontSize }));
     }

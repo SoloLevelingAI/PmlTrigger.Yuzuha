@@ -34,6 +34,10 @@ public static class HtmlAppLauncher
                 using var body = JsonDocument.Parse(await response.Content.ReadAsStringAsync(token));
                 if (!body.RootElement.TryGetProperty("service", out var service) || service.GetString() != "YuzuhaToolkit.WebApps")
                     throw new InvalidOperationException("本地端口不是 Yuzuha HTML 管理器。");
+                if (body.RootElement.TryGetProperty("dataDirectory", out var dataDirectory)
+                    ? !string.Equals(Path.GetFullPath(dataDirectory.GetString()!), UserDataPaths.AppsDirectory, StringComparison.OrdinalIgnoreCase)
+                    : !string.IsNullOrEmpty(WorkspaceSettings.Load().UserDataRoot))
+                    throw new IOException("正在运行的 HTML 服务使用旧数据目录。请关闭该服务后重新打开管理器，已有服务不会被强制结束。");
                 return true;
             }
             catch (HttpRequestException) { return false; }
@@ -50,6 +54,7 @@ public static class HtmlAppLauncher
             start.Environment["Logging__LogLevel__Default"] = "None";
             start.ArgumentList.Add("--port"); start.ArgumentList.Add(port.ToString(System.Globalization.CultureInfo.InvariantCulture));
             start.ArgumentList.Add("--pml-root"); start.ArgumentList.Add(Path.Combine(home, "PMLLIB"));
+            start.ArgumentList.Add("--data-dir"); start.ArgumentList.Add(UserDataPaths.AppsDirectory);
             using var process = Process.Start(start) ?? throw new IOException("未启动 HTML 管理器。");
             var until = DateTime.UtcNow.AddSeconds(20);
             while (!await Ready())

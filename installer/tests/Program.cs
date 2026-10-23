@@ -26,6 +26,19 @@ internal static class SetupTests
         {
             string root = Path.Combine(temp, "PmlTrigger.Test"), json = Path.Combine(temp, "client.json"), tx = Path.Combine(temp, "tx.json");
             Directory.CreateDirectory(root);
+            string isolated = Path.Combine(temp, "UserProtection"); Directory.CreateDirectory(isolated);
+            string programFile = Path.Combine(isolated, "sample.pmlobj"); File.WriteAllText(programFile, "old package");
+            string oldDigest = Program.FileDigest(programFile), nextDigest = Program.Digest(Encoding.UTF8.GetBytes("new package"));
+            File.WriteAllText(Path.Combine(isolated, ".setup-payload.json"), new JObject { ["files"] = new JArray(new JObject { ["path"] = "sample.pmlobj", ["sha256"] = oldDigest }) }.ToString());
+            Program.ProtectUserData(isolated, "sample.pmlobj", nextDigest, true);
+            File.WriteAllText(programFile, "user changes");
+            Reject(() => Invoke("ProtectUserData", isolated, "sample.pmlobj", nextDigest, true));
+            Check(File.ReadAllText(programFile) == "user changes", "User modification overwritten");
+            foreach (string rel in new[] { "Knowledge/personal.sqlite3", ".yuzuha-state/workspace.json", "Apps/apps.json", "nested/../Apps/other.json", "UserPmlLib/custom.pmlfnc", "Projects/mine.txt", "Exports/table.csv", "nested/other.db" })
+                Reject(() => Invoke("ProtectUserData", isolated, rel, nextDigest, true));
+            File.WriteAllText(Path.Combine(isolated, ".yuzuha-user-data.json"), "{}");
+            Reject(() => Invoke("ProtectUserData", isolated, "new-file.txt", nextDigest, true));
+            Console.WriteLine("PASS: upgrades allow unchanged package files, retain local edits, refuse user folders/databases and marked user-directory targets.");
             Reject(()=>Invoke("IntegrationMode",new JObject{["environments"]=new JArray()}));
             Check(Program.IntegrationMode(new JObject{["integrationMode"]="none",["environments"]=new JArray()})=="none","Explicit files-only mode");
             Reject(()=>Invoke("IntegrationMode",new JObject{["integrationMode"]="none",["environments"]=new JArray(new JObject())}));

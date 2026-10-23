@@ -1037,17 +1037,18 @@
                 </Grid></ScrollViewer>
               </TabItem>
               <TabItem Header="知识库">
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ScrollViewer x:Name="KnowledgeScroll" VerticalScrollBarVisibility="Auto">
                   <StackPanel>
                     <Border Background="{DynamicResource Surface.Card}" BorderBrush="{DynamicResource Border.Default}" BorderThickness="1" CornerRadius="14" Padding="24" Margin="0,0,0,16">
                       <StackPanel>
-                        <TextBlock Text="知识检索" Foreground="{DynamicResource Text.OnDark}" FontSize="24" FontWeight="SemiBold" />
-                        <TextBlock Text="在本窗口搜索内置指南和本机资料，查看完整正文与来源定位" Foreground="{DynamicResource Text.OnDarkMuted}" FontSize="13" Margin="0,8,0,0" />
+                        <TextBlock Text="知识检索与管理" Foreground="{DynamicResource Text.Primary}" FontSize="24" FontWeight="SemiBold" />
+                        <TextBlock Text="搜索资料、编辑个人笔记，管理资料源与回收站" Foreground="{DynamicResource Text.Secondary}" FontSize="13" Margin="0,8,0,0" />
+                        <WrapPanel Margin="0,10,0,0"><Button Content="个人笔记" Click="OpenPersonalNotes"/><Button Content="资料库与回收站" Click="OpenKnowledgeLibraries"/></WrapPanel>
                         <DockPanel Margin="0,18,0,0">
                           <Button x:Name="KnowledgeSearchButton" Content="搜索" DockPanel.Dock="Right" Click="SearchKnowledge" Style="{StaticResource Primary}" />
                           <TextBox x:Name="KnowledgeQueryBox" Tag="搜索 PML、API、工程参考与本机经验" KeyDown="KnowledgeQueryKeyDown" Margin="0,0,12,0" />
                         </DockPanel>
-                        <CheckBox x:Name="KnowledgeSupplementalBox" Content="同时搜索本机项目、官方、经验与自定义资料" IsChecked="True" Foreground="{DynamicResource Text.OnDark}" Margin="0,10,0,0" />
+                        <CheckBox x:Name="KnowledgeSupplementalBox" Content="同时搜索本机项目、官方、经验与自定义资料" IsChecked="True" Foreground="{DynamicResource Text.Primary}" Margin="0,10,0,0" />
                       </StackPanel>
                     </Border>
                     <Grid x:Name="KnowledgeColumns">
@@ -1078,12 +1079,13 @@
                           <TextBox x:Name="KnowledgeDetailBody" IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap" Height="250" VerticalScrollBarVisibility="Auto" Margin="0,12,0,0" />
                           <TextBlock x:Name="KnowledgeDetailVerification" Text="检索相关性不代表已实测或已获调用权限。" Style="{StaticResource Caption}" Margin="0,12,0,0" />
                           <Button Content="复制来源定位" Click="CopyKnowledgeLocation" Style="{StaticResource Link}" HorizontalAlignment="Left" Margin="0,10,0,0" />
+                          <Button Content="复制为个人笔记" Click="CopyResultToNote" HorizontalAlignment="Left" />
                         </StackPanel>
                       </Border>
                     </Grid>
                     <Border Style="{StaticResource Card}">
                       <StackPanel>
-                        <TextBlock Text="本机知识目录与最近检索" Style="{StaticResource SectionTitle}" />
+                        <TextBlock Text="共用知识目录与最近检索" Style="{StaticResource SectionTitle}" />
                         <DockPanel Margin="0,12,0,8">
                           <WrapPanel DockPanel.Dock="Right"><Button Content="选择目录" Click="BrowseKnowledgeDirectory" /><Button Content="保存目录" Click="SaveKnowledgeDirectory" /></WrapPanel>
                           <TextBox x:Name="KnowledgeDirectoryBox" Margin="0,0,8,0" />
@@ -1100,6 +1102,37 @@
                         </DataGrid>
                       </StackPanel>
                     </Border>
+                    <StackPanel x:Name="KnowledgeManagementPanel">
+                      <Border Style="{StaticResource Card}"><StackPanel>
+                        <DockPanel><Button Content="刷新" Click="RefreshKnowledgeManagement" DockPanel.Dock="Right"/><TextBlock Text="个人笔记" Style="{StaticResource SectionTitle}"/></DockPanel>
+                        <CheckBox x:Name="IncludeDeletedNotesBox" Content="显示回收站笔记" Click="RefreshKnowledgeManagement" Margin="0,8"/>
+                        <DataGrid x:Name="PersonalNotesGrid" Height="200" IsReadOnly="True" SelectionChanged="SelectPersonalNote"><DataGrid.Columns>
+                          <DataGridTextColumn Header="标题" Binding="{Binding Title}" Width="*"/><DataGridTextColumn Header="修订" Binding="{Binding Revision}" Width="65"/><DataGridCheckBoxColumn Header="已移除" Binding="{Binding Deleted}" Width="75"/><DataGridTextColumn Header="更新时间 UTC" Binding="{Binding UpdatedUtc}" Width="200"/>
+                        </DataGrid.Columns></DataGrid>
+                        <TextBlock Text="标题" Style="{StaticResource Caption}" Margin="0,12,0,0"/><TextBox x:Name="NoteTitleBox"/>
+                        <TextBlock Text="来源 / 验证上下文" Style="{StaticResource Caption}"/><TextBox x:Name="NoteContextBox" AcceptsReturn="True" Height="65" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"/>
+                        <TextBlock Text="正文" Style="{StaticResource Caption}"/><TextBox x:Name="NoteContentBox" AcceptsReturn="True" Height="210" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"/>
+                        <TextBlock x:Name="NoteRevisionText" Text="新笔记" Style="{StaticResource Caption}" Margin="0,8"/>
+                        <WrapPanel><Button Content="新建" Click="NewPersonalNote"/><Button Content="保存新修订" Click="SavePersonalNote" Style="{StaticResource Primary}"/><Button Content="移入回收站…" Click="DeletePersonalNote"/><Button Content="恢复笔记" Click="RestorePersonalNote"/></WrapPanel>
+                        <TextBlock Text="查看历史修订；保存时创建新版本，旧版本保留" Style="{StaticResource Caption}" Margin="0,8"/><ComboBox x:Name="NoteHistoryBox" DisplayMemberPath="Revision" SelectionChanged="SelectNoteHistory"/>
+                      </StackPanel></Border>
+                      <Border Style="{StaticResource Card}"><StackPanel>
+                        <TextBlock Text="资料库与资料源" Style="{StaticResource SectionTitle}"/>
+                        <TextBlock Text="登记本机 PMLLIB、PMLUI 或 WebHelp，建立可检索索引；不会修改来源文件" Style="{StaticResource Caption}" Margin="0,8"/>
+                        <DataGrid x:Name="KnowledgeLibrariesGrid" Height="200" IsReadOnly="True"><DataGrid.Columns>
+                          <DataGridTextColumn Header="名称" Binding="{Binding Name}" Width="*"/><DataGridTextColumn Header="类型" Binding="{Binding Role}" Width="85"/><DataGridTextColumn Header="字节" Binding="{Binding Bytes}" Width="100"/><DataGridTextColumn Header="条目" Binding="{Binding Chunks}" Width="75"/><DataGridTextColumn Header="状态" Binding="{Binding Status}" Width="*"/>
+                        </DataGrid.Columns></DataGrid>
+                        <WrapPanel Margin="0,8"><Button Content="更新所选资料索引…" Click="RebuildKnowledgeLibrary"/><Button Content="移除所选资料库…" Click="ArchiveKnowledgeLibrary"/></WrapPanel>
+                        <TextBlock Text="新增资料库名称" Style="{StaticResource Caption}"/><TextBox x:Name="KnowledgeSourceNameBox"/>
+                        <WrapPanel><ComboBox x:Name="KnowledgeSourceRoleBox" SelectedIndex="0" Width="170"><ComboBoxItem Content="自有资料"/><ComboBoxItem Content="官方资料"/></ComboBox><ComboBox x:Name="KnowledgeSourceKindBox" SelectedIndex="0" Width="170"><ComboBoxItem Content="PMLLIB"/><ComboBoxItem Content="PMLUI"/><ComboBoxItem Content="WebHelp"/></ComboBox></WrapPanel>
+                        <DockPanel Margin="0,8"><Button Content="选择来源目录" Click="BrowseKnowledgeSource" DockPanel.Dock="Right"/><TextBox x:Name="KnowledgeSourcePathBox"/></DockPanel>
+                        <Button Content="添加资料库并建立索引" Click="AddKnowledgeSource" HorizontalAlignment="Left"/>
+                        <TextBlock Text="资料库回收站（仅索引和清单，原文保留）" Style="{StaticResource Caption}" Margin="0,16,0,8"/>
+                        <DataGrid x:Name="KnowledgeTrashGrid" Height="140" IsReadOnly="True"><DataGrid.Columns><DataGridTextColumn Header="资料库" Binding="{Binding Name}" Width="*"/><DataGridTextColumn Header="移除时间 UTC" Binding="{Binding DeletedUtc}" Width="*"/></DataGrid.Columns></DataGrid>
+                        <Button Content="恢复所选资料库" Click="RestoreKnowledgeLibrary" HorizontalAlignment="Left" Margin="0,8"/>
+                      </StackPanel></Border>
+                    </StackPanel>
+                    <TextBlock x:Name="KnowledgeManagementStatus" Text="尚未读取管理列表" Style="{StaticResource Caption}" Margin="0,8"/>
                   </StackPanel>
                 </ScrollViewer>
               </TabItem>
@@ -1112,6 +1145,14 @@
               <Border Style="{StaticResource Card}" Padding="14">
                 <TextBlock Text="常规      环境与路径      AI 客户端      安全与权限      显示" Foreground="{DynamicResource Text.Brand}" />
               </Border>
+              <Border Style="{StaticResource Card}"><StackPanel>
+                <TextBlock Text="用户工作目录" Style="{StaticResource SectionTitle}"/>
+                <TextBlock x:Name="UserDirectoryRecommendation" Style="{StaticResource Caption}" Margin="0,8"/>
+                <DockPanel><WrapPanel DockPanel.Dock="Right"><Button Content="选择目录" Click="BrowseUserDirectory"/><Button Content="使用推荐路径" Click="RecommendUserDirectory"/></WrapPanel><TextBox x:Name="UserDirectoryBox" TextChanged="UserDirectoryChanged"/></DockPanel>
+                <TextBlock Text="Projects 源码 · UserPmlLib 自有插件 · Knowledge 资料 · Apps 应用配置 · Exports 导出。程序升级不覆盖这些用户文件。" Style="{StaticResource Caption}" TextWrapping="Wrap" Margin="0,8"/>
+                <WrapPanel><Button Content="预览目录切换" Click="PreviewUserDirectory"/><Button x:Name="ApplyUserDirectoryButton" Content="复制核验并切换…" Click="ApplyUserDirectory" IsEnabled="False" Style="{StaticResource Primary}"/></WrapPanel>
+                <TextBlock x:Name="UserDirectoryStatus" Text="先预览；复制后保留旧目录，目标存在不同内容时停止。" Style="{StaticResource Caption}" TextWrapping="Wrap" Margin="0,8"/>
+              </StackPanel></Border>
               <Grid x:Name="SettingsColumns">
                 <Grid.ColumnDefinitions>
                   <ColumnDefinition Width="2.14*" />

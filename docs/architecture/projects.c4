@@ -33,6 +33,7 @@ model {
   yuzuha.mcp-core -[build]-> yuzuha.workspace "ProjectReference"
   yuzuha.mcp-core -[build]-> yuzuha.operations "ProjectReference"
   yuzuha.mcp -[build]-> yuzuha.mcp-core "ProjectReference"
+  yuzuha.knowledge-core -[build]-> yuzuha.workspace "ProjectReference"
   yuzuha.knowledge -[build]-> yuzuha.cli "ProjectReference"
   yuzuha.knowledge -[build]-> yuzuha.knowledge-core "ProjectReference"
   yuzuha.knowledge -[build]-> yuzuha.workspace "ProjectReference"

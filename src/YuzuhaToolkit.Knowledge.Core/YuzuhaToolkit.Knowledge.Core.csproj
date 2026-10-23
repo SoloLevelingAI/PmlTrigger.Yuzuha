@@ -14,6 +14,7 @@
     <PackageReference Include="ModelContextProtocol" Version="1.4.1" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="../YuzuhaToolkit.Workspace/YuzuhaToolkit.Workspace.csproj" />
     <Compile Include="../Shared/BuiltinGuideCatalog.cs" Link="Builtins/BuiltinGuideCatalog.cs" />
     <EmbeddedResource Include="../../docs/builtin/*.md" LogicalName="Yuzuha.Builtin.%(Filename)%(Extension)" />
   </ItemGroup>

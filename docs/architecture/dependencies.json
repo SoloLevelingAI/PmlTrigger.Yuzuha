@@ -46,7 +46,9 @@
     "YuzuhaToolkit.Knowledge.Core": {
       "id": "knowledge-core",
       "title": "知识库核心 · 建库、分块与检索",
-      "references": []
+      "references": [
+        "YuzuhaToolkit.Workspace"
+      ]
     },
     "YuzuhaToolkit.Knowledge": {
       "id": "knowledge",

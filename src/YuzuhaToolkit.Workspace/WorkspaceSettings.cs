@@ -20,6 +20,8 @@ public sealed class WorkspaceSettings
     public List<LaunchProfile> Profiles { get; set; } = [];
     /// <summary>GUI 明确选择的本机知识库目录；空值使用现有安装布局。</summary>
     public string KnowledgeDirectory { get; set; } = "";
+    /// <summary>用户确认的独立工作目录；空值使用推荐目录并保留已有知识库路径。</summary>
+    public string UserDataRoot { get; set; } = "";
 
     /// <summary>本机状态根目录；测试和便携环境可通过 YUZUHA_STATE_DIR 隔离。</summary>
     public static string StateDirectory => Path.GetFullPath(Environment.GetEnvironmentVariable("YUZUHA_STATE_DIR")

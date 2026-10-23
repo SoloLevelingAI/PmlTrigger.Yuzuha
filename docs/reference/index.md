@@ -49,6 +49,8 @@ _layout: landing
 
 ## 从这里开始
 
+[用户目录与知识库管理](user-data-and-knowledge.md)：推荐位置、可预览的目录切换、笔记修订与回收站、升级数据保护。
+
 [设计约定](pmltwin-design-contract.md) · [原始基线](../../artifacts/docfx/navigation/design-baselines/index.md) · [项目适配记录](design-adaptation.md) · [怎么增删改目录](catalog-maintenance.md) · [待分类的 C# 类型](../../artifacts/docfx/navigation/scripts/candidates.md) · [全部文件清单](../../artifacts/docfx/navigation/scripts/inventory.md)
 
 [按层看：CLI / MCP 双入口](cli.md) · [原生工作台与运行日志](workspace.md) · [全部 PML / PMLUI](../../artifacts/docfx/navigation/pml/index.md) · [完整使用文档](../../artifacts/docfx/navigation/repository/index.md)

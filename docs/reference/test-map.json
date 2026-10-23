@@ -386,6 +386,50 @@
           "uid": "YuzuhaToolkit.Workspace::YuzuhaToolkit.Workspace.LaunchDrafts"
         }
       ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.UserDataManagementTests.SharedPathsHonorSavedRootAndExplicitOverridesWithoutCreatingData",
+      "purpose": "GUI、知识服务、应用目录共享保存设置，显式环境覆盖优先且读取不创建资料。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.UserDataManagementTests.UnconfiguredExistingKnowledgeRetainsItsLegacyLocation",
+      "purpose": "未配置统一根时保留旧版已有知识目录。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.UserDataManagementTests.MigrationCopiesAndVerifiesAllDataRetainsSourcesAndSettings",
+      "purpose": "真实 SQLite 笔记和应用绑定迁移后可读取，旧源保留，启动配置与凭据引用不丢失。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.UserDataManagementTests.MigrationRefusesConflictsAndChangedSourcesAndAddedFiles",
+      "purpose": "拒绝不同内容目标和预览后源文件修改/新增。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.UserDataManagementTests.MigrationRefusesSettingsChangesAndActiveSqliteWriters",
+      "purpose": "设置变化、数据库写锁或 WAL 存在时拒绝切换。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.UserDataManagementTests.UserRootCannotOverlapInstallationOrInternalStateOrExistingData",
+      "purpose": "拒绝程序/内部状态/现有资料目录之间重叠。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.UserDataManagementTests.NotesCreateEditSearchDeleteAndRestoreKeepEveryRevision",
+      "purpose": "笔记完整 CRUD、全文检索更新和不可变修订历史。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.UserDataManagementTests.StaleEditorCannotOverwriteLatestRevision",
+      "purpose": "过期编辑不能覆盖另一窗口最新修订。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.UserDataManagementTests.LibraryRebuildArchiveAndRestoreNeverChangeOriginalSource",
+      "purpose": "完整重建先备份，索引可回收恢复，外部原文保持。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.UserDataManagementTests.RestoreRefusesCollisionAndReservedLibrariesRemainProtected",
+      "purpose": "恢复冲突不覆盖，project/experience/personal 库保护。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.UserDataManagementTests.MigrationFailureAfterFirstCopyRollsBackNewFilesAndRetainsExistingTargets",
+      "purpose": "实际复制首个文件后遇到目标路径冲突，回退新增文件并保留旧数据、既有目标和设置。"
     }
   ],
   "cases": [
@@ -1619,6 +1663,115 @@
           "uid": "YuzuhaToolkit.Workspace::YuzuhaToolkit.Workspace.LaunchProfileCatalog"
         }
       ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.UserDataManagementTests.SharedPathsHonorSavedRootAndExplicitOverridesWithoutCreatingData",
+      "purpose": "GUI、知识服务、应用目录共享保存设置，显式环境覆盖优先且读取不创建资料。",
+      "environment": "Windows x64 / NET10；临时目录与 SQLite，未连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Workspace::YuzuhaToolkit.Workspace.UserDataPaths"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.UserDataManagementTests.UnconfiguredExistingKnowledgeRetainsItsLegacyLocation",
+      "purpose": "未配置统一根时保留旧版已有知识目录。",
+      "environment": "Windows x64 / NET10；临时目录与 SQLite，未连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Workspace::YuzuhaToolkit.Workspace.UserDataPaths"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.UserDataManagementTests.MigrationCopiesAndVerifiesAllDataRetainsSourcesAndSettings",
+      "purpose": "真实 SQLite 笔记和应用绑定迁移后可读取，旧源保留，启动配置与凭据引用不丢失。",
+      "environment": "Windows x64 / NET10；临时目录与 SQLite，未连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Workspace::YuzuhaToolkit.Workspace.UserDataMigrationService"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.UserDataManagementTests.MigrationRefusesConflictsAndChangedSourcesAndAddedFiles",
+      "purpose": "拒绝不同内容目标和预览后源文件修改/新增。",
+      "environment": "Windows x64 / NET10；临时目录与 SQLite，未连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Workspace::YuzuhaToolkit.Workspace.UserDataMigrationService"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.UserDataManagementTests.MigrationRefusesSettingsChangesAndActiveSqliteWriters",
+      "purpose": "设置变化、数据库写锁或 WAL 存在时拒绝切换。",
+      "environment": "Windows x64 / NET10；临时目录与 SQLite，未连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Workspace::YuzuhaToolkit.Workspace.UserDataMigrationService"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.UserDataManagementTests.UserRootCannotOverlapInstallationOrInternalStateOrExistingData",
+      "purpose": "拒绝程序/内部状态/现有资料目录之间重叠。",
+      "environment": "Windows x64 / NET10；临时目录与 SQLite，未连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Workspace::YuzuhaToolkit.Workspace.UserDataMigrationService"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.UserDataManagementTests.NotesCreateEditSearchDeleteAndRestoreKeepEveryRevision",
+      "purpose": "笔记完整 CRUD、全文检索更新和不可变修订历史。",
+      "environment": "Windows x64 / NET10；临时目录与 SQLite，未连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Knowledge.Core::YuzuhaToolkit.Knowledge.KnowledgeRepository"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.UserDataManagementTests.StaleEditorCannotOverwriteLatestRevision",
+      "purpose": "过期编辑不能覆盖另一窗口最新修订。",
+      "environment": "Windows x64 / NET10；临时目录与 SQLite，未连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Knowledge.Core::YuzuhaToolkit.Knowledge.KnowledgeRepository"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.UserDataManagementTests.LibraryRebuildArchiveAndRestoreNeverChangeOriginalSource",
+      "purpose": "完整重建先备份，索引可回收恢复，外部原文保持。",
+      "environment": "Windows x64 / NET10；临时目录与 SQLite，未连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Knowledge.Core::YuzuhaToolkit.Knowledge.KnowledgeRepository"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.UserDataManagementTests.RestoreRefusesCollisionAndReservedLibrariesRemainProtected",
+      "purpose": "恢复冲突不覆盖，project/experience/personal 库保护。",
+      "environment": "Windows x64 / NET10；临时目录与 SQLite，未连接 AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Knowledge.Core::YuzuhaToolkit.Knowledge.KnowledgeRepository"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.UserDataManagementTests.MigrationFailureAfterFirstCopyRollsBackNewFilesAndRetainsExistingTargets",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Workspace::YuzuhaToolkit.Workspace.UserDataMigrationService"
+        }
+      ],
+      "purpose": "实际复制首个文件后遇到目标路径冲突，回退新增文件并保留旧数据、既有目标和设置。"
     }
   ]
 }

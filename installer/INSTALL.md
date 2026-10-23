@@ -175,3 +175,12 @@ Actual reports and backups are retained in LocalAppData/YuzuhaToolkit/SetupRepor
 桌面和 HTML 发布文件分别位于 `runtime/desktop` 与 `runtime/webapps`。桌面为自包含 Windows 发布；本批 HTML 宿主为框架依赖发布，目标机需有 ASP.NET Core 10。CLI 的 `--cli web open` 和桌面按钮都会打开独立页面；安装器不自动打开服务或调用 AVEVA。
 
 构建时可将桌面发布到独立目录，再用 `installer/build.py --desktop <发布目录> --iscc <ISCC.exe> --output <新目录>` 纳入包，避免覆盖正在运行的开发版。该选项只改变待打包来源，不执行安装，所有发布文件仍进入同一散列清单。
+
+
+## 用户数据与升级保护（TRACE32）
+
+用户工作目录在桌面设置中推荐为 Documents/YuzuhaWorkspace，可显式修改并复制核验后切换。升级不自动迁移用户数据，不自动重建知识库。
+
+新安装计划拒绝 Knowledge、Apps、Projects、UserPmlLib、Exports、trust 和内部状态目录的载荷，以及 SQLite/DB 数据文件；含 `.yuzuha-user-data.json` 的目录及其子目录不能作为程序文件目标。程序同名文件若已被用户修改，或不属于上版发布清单，预览停止并保留文件；先复制修改到用户目录，处理冲突后重新预览。原有备份和冻结计划检查继续有效。保持干净构建输入，禁止把个人资料混进发布源码树。
+
+升级前关闭 AM、E3D、Yuzuha 工作台和相关 HTML/知识宿主，再确认具体更新预览。本批只提交源码与离线验证，未更新本机。

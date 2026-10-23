@@ -17,8 +17,7 @@ if (port is < 1024 or > 65535) throw new ArgumentException("端口范围为 1024
 var origin = "http://127.0.0.1:" + port;
 builder.WebHost.UseUrls(origin);
 builder.WebHost.ConfigureKestrel(o => o.Limits.MaxRequestBodySize = 512 * 1024);
-var directory = Path.GetFullPath(builder.Configuration["data-dir"] ?? Path.Combine(
-    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "YuzuhaToolkit", "WebApps"));
+var directory = Path.GetFullPath(builder.Configuration["data-dir"] ?? YuzuhaToolkit.Workspace.UserDataPaths.AppsDirectory);
 var root = Path.GetFullPath(builder.Configuration["pml-root"] ?? Path.Combine(
     Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "YuzuhaToolkit", "PmlTrigger.Yuzuha", "PMLLIB"));
 if ((directory + root).Any(c => c is '$' or '\r' or '\n')) throw new ArgumentException("本地路径包含不支持的 PML 展开符。");
@@ -50,7 +49,7 @@ app.Use(async (context, next) =>
 });
 app.UseDefaultFiles();
 app.UseStaticFiles();
-app.MapGet("/api/health", () => new { service = "YuzuhaToolkit.WebApps", version = 1 });
+app.MapGet("/api/health", () => new { service = "YuzuhaToolkit.WebApps", version = 1, dataDirectory = directory });
 app.MapGet("/api/bootstrap", () => new { token = nonce, catalog = store.Read(), selected = service.Selected });
 app.MapGet("/api/catalog", store.Read);
 app.MapPut("/api/catalog", (AppCatalog catalog) => store.Save(catalog));

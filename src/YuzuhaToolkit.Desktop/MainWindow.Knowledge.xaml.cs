@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using YuzuhaToolkit.Workspace;
 using System.Windows.Input;
 
 namespace YuzuhaToolkit.Desktop;
@@ -13,10 +14,11 @@ public partial class MainWindow
     private readonly List<KnowledgeHistoryRow> knowledgeHistory = [];
     private void InitializeKnowledge()
     {
-        KnowledgeDirectoryBox.Text = !string.IsNullOrWhiteSpace(_settings.KnowledgeDirectory) ? _settings.KnowledgeDirectory
-            : Environment.GetEnvironmentVariable("YUZUHA_KNOWLEDGE_DIR") is { Length: > 0 } selected ? selected
-            : Path.Combine(Path.GetDirectoryName(WorkbenchPaths.TrustFile(AppContext.BaseDirectory, null, Environment.GetEnvironmentVariable("YUZUHA_TOOLKIT_ROOT")))!, "..", "knowledge");
+        KnowledgeDirectoryBox.Text = YuzuhaToolkit.Workspace.UserDataPaths.KnowledgeDirectory();
         KnowledgeDirectoryBox.Text = Path.GetFullPath(KnowledgeDirectoryBox.Text);
+        UserDirectoryBox.Text = YuzuhaToolkit.Workspace.UserDataPaths.Root;
+        UserDirectoryRecommendation.Text = "推荐：" + YuzuhaToolkit.Workspace.UserDataPaths.RecommendedRoot;
+        _ = RefreshKnowledgeManagementAsync();
     }
     private async void SearchKnowledge(object sender, RoutedEventArgs e) => await SearchKnowledgeAsync();
     private async void KnowledgeQueryKeyDown(object sender, KeyEventArgs e) { if (e.Key == Key.Enter) { e.Handled = true; await SearchKnowledgeAsync(); } }
@@ -35,7 +37,7 @@ public partial class MainWindow
             var rows = await Task.Run(() => browser.Search(query, supplemental));
             knowledgeBrowser = browser; KnowledgeResultsGrid.ItemsSource = rows;
             KnowledgeStatusText.Text = $"本次返回 {rows.Length} 项；搜索不创建或重建数据库。";
-            KnowledgeSourcesText.Text = "内置指南始终可用；" + (Directory.Exists(directory) ? $"此目录有 {Directory.EnumerateFiles(directory, "*.sqlite3").Count()} 个本机数据库。" : "当前目录没有数据库，可选择已有资料目录。") + " 本页尚未接入索引构建和经验写入。";
+            KnowledgeSourcesText.Text = "内置指南始终可用；" + (Directory.Exists(directory) ? $"此目录有 {Directory.EnumerateFiles(directory, "*.sqlite3").Count()} 个本机数据库。" : "当前目录没有数据库，可选择已有资料目录。") + " 下方可管理个人笔记、资料源与回收站。";
             knowledgeHistory.Insert(0, new(DateTime.Now.ToString("HH:mm:ss"), query, rows.Length, directory, clock.ElapsedMilliseconds));
             if (knowledgeHistory.Count > 20) knowledgeHistory.RemoveAt(20);
             KnowledgeHistoryGrid.ItemsSource = knowledgeHistory.ToArray();
@@ -61,9 +63,15 @@ public partial class MainWindow
     private void BrowseKnowledgeDirectory(object sender, RoutedEventArgs e) { var directory = Folder(); if (directory is not null) KnowledgeDirectoryBox.Text = directory; }
     private void SaveKnowledgeDirectory(object sender, RoutedEventArgs e) => Try(() =>
     {
-        var previous = _settings.KnowledgeDirectory; _settings.KnowledgeDirectory = Path.GetFullPath(KnowledgeDirectoryBox.Text);
+        if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("YUZUHA_KNOWLEDGE_DIR"))) throw new IOException("当前有 YUZUHA_KNOWLEDGE_DIR 覆盖，请先调整该环境变量。");
+        var target = Path.GetFullPath(KnowledgeDirectoryBox.Text);
+        PathRules.NoLinks(target);
+        if (!string.Equals(target, UserDataPaths.KnowledgeDirectory(), StringComparison.OrdinalIgnoreCase) && UserDataPaths.Contains(UserDataPaths.InstallRoot, target))
+            throw new IOException("新的知识目录请选择安装目录之外的位置。");
+        var previous = _settings.KnowledgeDirectory; _settings.KnowledgeDirectory = target;
         try { _settings.Save(); } catch { _settings.KnowledgeDirectory = previous; throw; }
-        Say("已保存 GUI 知识库目录，没有构建、重建或上传资料。");
+        Say("已保存共用知识库目录；新启动的 CLI/MCP 使用同一设置，正在运行的知识服务需重启。资料未自动搬移。");
+        _ = RefreshKnowledgeManagementAsync();
     });
     /// <summary>本窗口最近检索的有界显示记录，不冒充持久审计历史。</summary>
     /// <param name="Time">本机显示时间。</param>

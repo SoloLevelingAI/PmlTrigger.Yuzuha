@@ -52,6 +52,6 @@ internal static class YuzuhaToolkitPaths
         if (!string.IsNullOrWhiteSpace(overrideDirectory))
             return Path.GetFullPath(overrideDirectory.Trim());
 
-        return Path.Combine(ToolkitRoot(), "knowledge");
+        return YuzuhaToolkit.Workspace.UserDataPaths.KnowledgeDirectory(ToolkitRoot());
     }
 }

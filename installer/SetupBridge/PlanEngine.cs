@@ -184,6 +184,7 @@ internal static partial class Program
         var payload = new JArray();
         foreach (JObject item in (JArray)manifest["files"])
         {
+            ProtectUserData(root, (string)item["path"], (string)item["sha256"], true);
             string path=Inside(root,(string)item["path"]); string before=FileDigest(path), after=(string)item["sha256"];
             payload.Add(new JObject { ["path"]=path,["relative"]=item["path"],["beforeSha256"]=before,["afterSha256"]=after,
                 ["action"]=before==null?"create":before==after?"unchanged":"update" });
@@ -257,6 +258,7 @@ internal static partial class Program
                 (string)x["afterSha256"]==(string)expected["sha256"])!=1) throw Bad("Payload manifest mismatch.");
         foreach(JObject item in (JArray)plan["payload"])
         {
+            ProtectUserData(root, (string)item["relative"], (string)item["afterSha256"], beforeInstall);
             if(!Same((string)item["path"],Inside(root,(string)item["relative"]))) throw Bad("Invalid payload path.");
             if(FileDigest((string)item["path"])!=(string)item[beforeInstall?"beforeSha256":"afterSha256"])
                 throw Bad("安装文件与预览不一致 / Payload changed: "+item["path"]);

@@ -48,11 +48,21 @@ public sealed partial class KnowledgeRepository
             throw new KnowledgeException("project is reserved for package refresh. Use a custom database name.");
         if (name.Equals("experience", StringComparison.OrdinalIgnoreCase))
             throw new KnowledgeException("The experience database is append-only; use record_local_experience.");
+        if (name.Equals("personal", StringComparison.OrdinalIgnoreCase))
+            throw new KnowledgeException("personal is reserved for versioned notes; use the note editor.");
         var directory = Path.GetFullPath(string.IsNullOrWhiteSpace(dbDir) ? DefaultDirectory : dbDir);
         Directory.CreateDirectory(directory);
         var database = Path.Combine(directory, name + ".sqlite3");
         var manifest = Path.Combine(directory, name + ".manifest.json");
         using var writerLock = AcquireWriter(database);
+        return BuildUnderWriterLock(pmlLibRoot, pmlUiRoot, webHelpRoot, name, directory, rebuild, maxFilesPerRoot);
+    }
+
+    private KnowledgeBuildResult BuildUnderWriterLock(string? pmlLibRoot, string? pmlUiRoot, string? webHelpRoot,
+        string name, string directory, bool rebuild, long maxFilesPerRoot)
+    {
+        var database = Path.Combine(directory, name + ".sqlite3");
+        var manifest = Path.Combine(directory, name + ".manifest.json");
         if (File.Exists(database) && !rebuild)
             throw new KnowledgeException("Database exists. Explicitly request rebuild or use another name.");
         var stage = Path.Combine(directory, ".build-" + Guid.NewGuid().ToString("N"));
@@ -122,6 +132,7 @@ public sealed partial class KnowledgeRepository
             var name = Path.GetFileNameWithoutExtension(database);
             var role = name.Equals("project", StringComparison.OrdinalIgnoreCase) ? "project" :
                 name.Equals("experience", StringComparison.OrdinalIgnoreCase) ? "experience" :
+                name.Equals("personal", StringComparison.OrdinalIgnoreCase) ? "personal" :
                 name.StartsWith("official-", StringComparison.OrdinalIgnoreCase) ? "official" : "custom";
             try {
                 var result = Search(query, null, database, remaining, null, null, null);

@@ -32,31 +32,7 @@ public sealed partial class KnowledgeRepository
     /// <param name="directory">现有安装目录或用户在 GUI 中明确选择的本机目录。</param>
     public KnowledgeRepository(string directory) => DefaultDirectory = Path.GetFullPath(directory);
 
-    private static string ResolveDefaultDirectory()
-    {
-        var overrideDirectory = Environment.GetEnvironmentVariable("YUZUHA_KNOWLEDGE_DIR");
-        if (!string.IsNullOrWhiteSpace(overrideDirectory))
-            return Path.GetFullPath(overrideDirectory.Trim());
-
-        // Managed layout: <root>\runtime\net10\YuzuhaToolkit.Knowledge.exe
-        var exeDirectory = AppContext.BaseDirectory.TrimEnd(
-            Path.DirectorySeparatorChar,
-            Path.AltDirectorySeparatorChar);
-        var parent = Path.GetDirectoryName(exeDirectory);
-        var root = parent is null ? null : Path.GetDirectoryName(parent);
-        if (root is not null &&
-            string.Equals(
-                Path.GetFileName(exeDirectory),
-                "net10",
-                StringComparison.OrdinalIgnoreCase) &&
-            string.Equals(
-                Path.GetFileName(parent),
-                "runtime",
-                StringComparison.OrdinalIgnoreCase))
-            return Path.Combine(root, "knowledge");
-
-        return Path.Combine(exeDirectory, "knowledge");
-    }
+    private static string ResolveDefaultDirectory() => YuzuhaToolkit.Workspace.UserDataPaths.KnowledgeDirectory();
 
     /// <summary>从显式路径或经校验的数据库名称解析本机文件位置，不创建文件。</summary>
     /// <param name="dbName">经校验的不带扩展名的数据库名称。</param>

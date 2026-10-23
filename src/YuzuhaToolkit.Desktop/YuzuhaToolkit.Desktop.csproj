@@ -3,6 +3,10 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net10.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
+    <Product>Phayton</Product>
+    <Title>Phayton</Title>
+    <FileVersion>0.3.4.0</FileVersion>
+    <InformationalVersion>0.3.4</InformationalVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>

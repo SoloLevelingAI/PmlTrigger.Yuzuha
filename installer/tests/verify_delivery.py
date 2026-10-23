@@ -13,12 +13,32 @@ manifest = json.loads((payload / '.setup-payload.json').read_text(encoding='utf-
 for item in manifest['files']:
     assert hashlib.sha256((payload / item['path']).read_bytes()).hexdigest() == item['sha256'], item['path']
 snapshot = json.loads((payload / 'docs/semantic/pml-sync.json').read_text(encoding='utf-8-sig'))
+source = Path(__file__).resolve().parents[2] / 'PMLLIB'
+historical_changes = []
 for item in snapshot['files']:
-    assert hashlib.sha256((payload / 'PMLLIB' / item['path']).read_bytes()).hexdigest().upper() == item['sha256'].upper(), item['path']
+    # This historical source inventory includes AVEVA's generated index.
+    # Updates deliberately preserve the machine's index instead of shipping it.
+    if Path(item['path']).name.lower() == 'pml.index':
+        assert not (payload / 'PMLLIB' / item['path']).exists(), 'Generated index must not be shipped'
+        continue
+    current = (source / item['path']).read_bytes()
+    assert (payload / 'PMLLIB' / item['path']).read_bytes() == current, item['path']
+    if hashlib.sha256(current).hexdigest().upper() != item['sha256'].upper():
+        historical_changes.append(item['path'])
+# The September D-drive snapshot is provenance, not the current release.
+# Check all current sources, including later additions, and exact membership.
+expected_pml = {p.relative_to(source).as_posix() for p in source.rglob('*') if p.is_file() and p.name.lower() != 'pml.index'}
+actual_pml = {p.relative_to(payload / 'PMLLIB').as_posix() for p in (payload / 'PMLLIB').rglob('*') if p.is_file()}
+assert expected_pml == actual_pml, 'PML source/payload membership differs'
+for relative in sorted(expected_pml):
+    assert (payload / 'PMLLIB' / relative).read_bytes() == (source / relative).read_bytes(), relative
+assert (payload / 'runtime/documentation/index.html').is_file()
+assert (payload / 'runtime/documentation-host/YuzuhaToolkit.DevHost.exe').is_file()
+assert manifest['version'] == '0.3.4'
 bootstrap = (payload / 'PMLLIB/Bootstrap/YuzuhaResolveRuntimePath.pmlfnc').read_text(encoding='utf-8-sig')
 assert '!localPaTH = false' in bootstrap
 assert any(x['action'] == 'excluded-keep-portable-bootstrap' for x in snapshot['files'])
-exe = next(folder.glob('Yuzuha-*-Windows-Setup.exe'))
+exe = next(folder.glob('Phayton-*-Windows-Setup.exe'))
 kernel = ctypes.WinDLL('kernel32', use_last_error=True)
 kernel.LoadLibraryExW.argtypes = [wintypes.LPCWSTR, wintypes.HANDLE, wintypes.DWORD]
 kernel.LoadLibraryExW.restype = wintypes.HMODULE
@@ -47,6 +67,7 @@ finally:
     kernel.FreeLibrary(module)
 script = (Path(__file__).resolve().parents[1] / 'Yuzuha.iss').read_text(encoding='utf-8-sig')
 assert 'PrivilegesRequired=admin' in script and 'PrivilegesRequiredOverridesAllowed=' not in script
-print('PASS: payload SHA256 inventory; D-drive snapshot with portable bootstrap exclusion; source configured PrivilegesRequired=admin.')
+print('PASS: payload SHA256 inventory; all current PML sources; generated index excluded; portable bootstrap retained; source configured PrivilegesRequired=admin.')
+print('Current-source changes since the historical D-drive snapshot:', historical_changes)
 print('Outer Inno loader manifest:', levels)
 print('This is not a UAC interaction, GUI walkthrough or live AVEVA test.')

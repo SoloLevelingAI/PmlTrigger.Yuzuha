@@ -39,13 +39,13 @@ public partial class MainWindow : Window
         SessionView.CandidatesChanged += candidates => { _sessionCandidates = candidates; RenderCandidates(); };
         MaintainerText.Text = Environment.UserName;
         try { DesktopTheme.Apply(DesktopDisplaySettings.ReadTheme(WorkspaceSettings.StateDirectory)); } catch (Exception error) { Say("显示偏好读取失败：" + error.Message); }
-        SetPage("总览"); UpdateThemeButtons();
+        SetPage("启动工程"); UpdateThemeButtons(); UpdateModuleButtons();
         RegisteredBox.Text = _settings.RegisteredPmlLib; SourceBox.Text = _settings.PluginSource; PluginBox.Text = _settings.PluginName;
         WarnFilesBox.Text = _settings.WarnFiles.ToString(); WarnSizeBox.Text = (_settings.WarnBytes / 1048576).ToString();
         ReloadProfiles(); if (_settings.Profiles.Count > 0) ProfilesBox.SelectedItem = _settings.Profiles.FirstOrDefault(profile => profile.IsDefault) ?? _settings.Profiles[0];
         _timer.Tick += async (_, _) => await RefreshRuntimeAsync(); _timer.Start();
         Loaded += async (_, _) => { await RefreshRuntimeAsync(); await DiscoverAsync(); SessionView.RefreshCandidates(); };
-        Closed += (_, _) => { _closed = true; _timer.Stop(); SessionView.Dispose(); _journal.Dispose(); };
+        Closed += (_, _) => { _closed = true; _timer.Stop(); StopDocumentation(); SessionView.Dispose(); _journal.Dispose(); };
     }
 
     private void Say(string message) => MessageText.Text = message;
@@ -63,15 +63,17 @@ public partial class MainWindow : Window
             SidebarAccountButton.Visibility = compact ? Visibility.Collapsed : Visibility.Visible;
             SidebarFooter.Visibility = compact ? Visibility.Collapsed : Visibility.Visible;
         }
+        if (ContextSidebar is not null) { var compactNavigation = ActualWidth < 1100; ContextSidebar.Visibility = compactNavigation ? Visibility.Collapsed : Visibility.Visible; ContextColumn.Width = new GridLength(compactNavigation ? 0 : 244); CompactNavigation.Visibility = compactNavigation ? Visibility.Visible : Visibility.Collapsed; }
         if (HeartbeatText is not null) HeartbeatText.Visibility = ActualWidth < 1100 ? Visibility.Collapsed : Visibility.Visible;
         if (SearchPanel is not null) SearchPanel.Visibility = ActualWidth < 1250 ? Visibility.Collapsed : Visibility.Visible;
         if (OverviewKpis is not null)
         {
-            var narrow = ActualWidth < 1100; OverviewKpis.Columns = narrow ? 2 : 4;
-            foreach (var grid in new[] { OverviewColumns1, OverviewColumns2, OverviewColumns3, LaunchColumns, LaunchLowerColumns, RuntimeColumns, RuntimeLowerColumns, LogColumns, SettingsColumns, SettingsLowerColumns, ReviewColumns, TestsColumns, WebColumns, KnowledgeColumns, DeploymentColumns, DeploymentLowerColumns, ProfileLibraryColumns })
+            var narrow = ActualWidth < 1400; OverviewKpis.Columns = narrow ? 2 : 4;
+            foreach (var grid in new[] { OverviewColumns1, OverviewColumns2, OverviewColumns3, LaunchColumns, LaunchLowerColumns, RuntimeColumns, RuntimeLowerColumns, LogColumns, NotesColumns, ReviewColumns, TestsColumns, WebColumns, KnowledgeColumns, DeploymentColumns, DeploymentLowerColumns, ProfileLibraryColumns })
             {
                 if (grid.RowDefinitions.Count == 0) { grid.RowDefinitions.Add(new() { Height = GridLength.Auto }); grid.RowDefinitions.Add(new() { Height = GridLength.Auto }); }
                 var cards = grid.Children.OfType<Border>().ToArray();
+                if (cards.Length != 2) continue;
                 Grid.SetColumnSpan(cards[0], narrow ? 3 : 1); Grid.SetColumn(cards[1], narrow ? 0 : 2); Grid.SetRow(cards[1], narrow ? 1 : 0); Grid.SetColumnSpan(cards[1], narrow ? 3 : 1);
             }
         }
@@ -85,15 +87,9 @@ public partial class MainWindow : Window
         if (title == "启动配置") HeaderActionText.Text = "新建配置";
         HeaderActionButton.IsEnabled = title is not ("评审中心" or "测试中心");
         HeaderActionIcon.Data = (Geometry)FindResource(title is "工程会话" or "原生 Form / Gadget" or "AI 运行" ? "Icon.refresh" : title is "能力与函数" or "Web 应用" or "启动配置" ? "Icon.plus" : "Icon.play");
-        foreach (var button in SidebarNav.Children.OfType<Button>())
-        {
-            var selected = button.Uid == (title is "能力与函数" or "原生 Form / Gadget" ? "工程会话" : title == "启动配置" ? "启动工程" : title);
-            button.SetResourceReference(BackgroundProperty, selected ? "Brand.NavSelected" : "Brand.Sidebar");
-            button.SetResourceReference(ForegroundProperty, selected ? "Brand.NavSelectedText" : "Brand.NavText");
-            button.SetResourceReference(BorderBrushProperty, "Brand.NavIndicator");
-            button.BorderThickness = new Thickness(selected ? 3 : 0, 0, 0, 0);
-        }
+        UpdateR2Navigation(title);
     }
+
     private void ChooseTheme(object sender, RoutedEventArgs e)
     {
         if (sender is not Button button || button.Tag is not string theme) return;
@@ -120,10 +116,10 @@ public partial class MainWindow : Window
         else if (Tabs.SelectedIndex == 0) { if (LaunchButton.IsEnabled) Launch(sender, e); }
         else if (Tabs.SelectedIndex == 8) { NewProfile(sender, e); Tabs.SelectedIndex = 0; }
         else if (Tabs.SelectedIndex == 5 && PlannedPages.SelectedIndex == 2) OpenHtmlManager(sender,e);
-        else if (Tabs.SelectedIndex == 5 && PlannedPages.SelectedIndex == 3) _ = SearchKnowledgeAsync();
+        else if (Tabs.SelectedIndex == 5 && PlannedPages.SelectedIndex == 3) { if (KnowledgePages.SelectedIndex == 1) NewPersonalNote(sender, e); else { KnowledgePages.SelectedIndex = 0; _ = SearchKnowledgeAsync(); } }
         else { Tabs.SelectedIndex = 0; SetPage("启动工程"); }
     }
-    private void ShowHelp(object sender, RoutedEventArgs e) => MessageBox.Show(this, "工程会话：扫描 → 选择 → 核验目标。\n能力与函数：登记源码 → 检查源码 → 授予许可 → 预览 → 执行一次。\n原生查询：窗体 → 控件 → 固定属性；使用 NextIndex 继续读取。\n\n源码变化后重新登记和授权；结果未知时先核查回执，不自动重试。\nCtrl+K 可按页面名称导航；所有界面证据与实机验证分别记录。", "Yuzuha · 使用说明");
+    private void ShowHelp(object sender, RoutedEventArgs e) => MessageBox.Show(this, "工程会话：扫描 → 选择 → 核验目标。\n能力与函数：登记源码 → 检查源码 → 授予许可 → 预览 → 执行一次。\n原生查询：窗体 → 控件 → 固定属性；使用 NextIndex 继续读取。\n\n源码变化后重新登记和授权；结果未知时先核查回执，不自动重试。\nCtrl+K 可按页面名称导航；所有界面证据与实机验证分别记录。", "Phayton · 使用说明");
     private void WindowKeyDown(object sender, KeyEventArgs e)
     {
         if (e.Key == Key.K && Keyboard.Modifiers == ModifierKeys.Control) { SearchPanel.Visibility = Visibility.Visible; NavigationSearch.Focus(); e.Handled = true; }
@@ -133,8 +129,8 @@ public partial class MainWindow : Window
         if (e.Key != Key.Enter) return;
         var name = NavigationSearch.Text.Trim();
         if (name is "启动配置" or "配置库") { OpenProfileLibrary(this, new()); NavigationSearch.Clear(); e.Handled = true; return; }
-        var button = SidebarNav.Children.OfType<Button>().FirstOrDefault(b => name.Length > 0 && b.Uid.Contains(name, StringComparison.OrdinalIgnoreCase));
-        if (button is not null) { Navigate(button, new()); NavigationSearch.Clear(); } else Say("未找到页面。可输入：工程会话、启动工程、工具日志等。");
+        var page = PageNames.FirstOrDefault(page => name.Length > 0 && page.Contains(name, StringComparison.OrdinalIgnoreCase));
+        if (page is not null) { OpenNavigation(new(page, page)); NavigationSearch.Clear(); } else Say("未找到页面。可输入：启动工程、知识库、插件部署、设置等。");
         e.Handled = true;
     }
     private void OpenLogsPage(object sender, RoutedEventArgs e) { Tabs.SelectedIndex = 7; SetPage("工具日志"); }
@@ -199,7 +195,7 @@ public partial class MainWindow : Window
         try { LaunchApplicationBox.SelectedItem=LaunchApplicationBox.Items.OfType<ApplicationChoice>().FirstOrDefault(c=>c.Path.Equals(profile.Executable,StringComparison.OrdinalIgnoreCase)); }
         finally { fillingLaunchApplication=false; }
         LaunchApplicationSummary.Text=profile.Executable.Length==0?"选择产品后自动填写路径。":profile.Executable;
-        MdbBox.Text = profile.Mdb; ModuleBox.Text = profile.Module; LicenseBox.Text = profile.License; PasswordInput.Clear();
+        MdbBox.Text = profile.Mdb; ModuleBox.Text = profile.Module; UpdateModuleButtons(); LicenseBox.Text = profile.License; PasswordInput.Clear();
         RememberPasswordBox.IsChecked = profile.RememberPassword;
         PasswordStatusText.Text = profile.CredentialKey.Length > 0 ? "已关联本机凭据；下次启动自动使用。输入新密码可更新。" : "尚未保存密码。勾选后点击保存配置或保存并启动。";
     }
@@ -466,6 +462,7 @@ public partial class MainWindow : Window
         KnowledgeQueryBox.Text = "当前对象";
         await SearchKnowledgeAsync();
         if (KnowledgeResultsGrid.Items.Count == 0 || !KnowledgeDetailBody.Text.Contains("YuzuhaReadCurrentElement", StringComparison.Ordinal)) throw new InvalidOperationException("GUI 知识检索没有显示完整内置正文。");
+        VerifyR2NavigationSmoke();
         using var fixtureJournal = new RuntimeJournal("离线 UI 合成夹具");
         foreach (var tool in new[] { "synthetic_query", "synthetic_registered_call", "synthetic_knowledge_search" })
         {
@@ -515,6 +512,18 @@ public partial class MainWindow : Window
             await CaptureSmokeAsync(Path.Combine(themeDirectory, "knowledge-editor.png"));
             OpenKnowledgeLibraries(this, new());
             await CaptureSmokeAsync(Path.Combine(themeDirectory, "knowledge-libraries.png"));
+            Width = 1600; Height = 1040;
+            foreach (var item in new[] { ("launch", "启动工程", -1), ("knowledge", "知识库", 0), ("notes", "知识库", 1), ("settings", "设置", 0), ("credentials", "设置", 3) })
+            {
+                OpenNavigation(new(item.Item2, item.Item2, item.Item3));
+                await CaptureSmokeAsync(Path.Combine(themeDirectory, "r2-" + item.Item1 + "-1600.png"));
+            }
+            Width = 853; Height = 680; OpenNavigation(new("设置", "设置", 0));
+            if (ContextSidebar.Visibility != Visibility.Collapsed || CompactNavigation.Visibility != Visibility.Visible) throw new InvalidOperationException("窄屏导航不可用。");
+            CompactNavigation.SelectedIndex = 3;
+            if (SettingsPages.SelectedIndex != 3) throw new InvalidOperationException("窄屏导航没有打开凭据分组。");
+            await CaptureSmokeAsync(Path.Combine(themeDirectory, "r2-settings-compact.png"));
+            SettingsPages.SelectedIndex = 0; KnowledgePages.SelectedIndex = 0;
             Width = 1280; Height = 900; Tabs.SelectedIndex = 3;
             foreach (var unknown in new[] { false, true })
             {
@@ -526,7 +535,7 @@ public partial class MainWindow : Window
         File.WriteAllText(Path.Combine(outputDirectory, "desktop-smoke.json"), JsonSerializer.Serialize(new {
             passed = true, scope = "WPF creation, synthetic bindings and layout; not AVEVA live or human visual acceptance",
             pages = screens.Length, tabs = Tabs.Items.Count, profiles = ProfilesBox.Items.Count, errorStates = 4,
-            themes = new[] { "Light", "Dark" }, themePreservesWork = true, savedCredentials = true, guiKnowledge = true, personalNotesCrud = true, objectQueries = true, profileLibrary = true,
+            themes = new[] { "Light", "Dark" }, themePreservesWork = true, savedCredentials = true, guiKnowledge = true, personalNotesCrud = true, r2Navigation = true, nativeWindowChrome = true, compactNavigation = true, objectQueries = true, profileLibrary = true,
             viewports = new[] { "1440x960", "1280x720", "853x480 logical (1280x720 at 150%)" },
             designCanvas = "1440x1024 client", finishedUtc = DateTime.UtcNow, dpi = VisualTreeHelper.GetDpi(this).DpiScaleX, fontSize = FontSize }));
     }

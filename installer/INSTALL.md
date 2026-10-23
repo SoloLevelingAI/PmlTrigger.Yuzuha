@@ -12,7 +12,7 @@
 
 YuzuhaFramework 是可选的 NET35/NET48 覆盖值；标准 Profile 从 Yuzuha 推断，不额外新增。原文件已有此变量时在末尾块补入匹配框架的覆盖值，并列入预览。
 
-1. 运行 `Yuzuha-0.3.3-Windows-Setup.exe`，先批准管理员权限，再选择简体中文或 English。所有页面均为 Inno 原生向导，不再弹出 WinForms 配置窗口。若使用其他管理员账户提权，默认用户目录及 HKCU 属于该账户，请核对目标目录。
+1. 运行 `Phayton-0.3.4-Windows-Setup.exe`，先批准管理员权限，再选择简体中文或 English。所有页面均为 Inno 原生向导，不再弹出 WinForms 配置窗口。若使用其他管理员账户提权，默认用户目录及 HKCU 属于该账户，请核对目标目录。
 2. 选择名称包含 `PmlTrigger` 的本机安装目录。旧 PS1/preview1 安装不能直接覆盖迁移。随后在“安装目标”页选择“安装并接入 AVEVA”或“仅安装文件 / AI 客户端，不修改 AVEVA”；前者必须选择环境，后者跳过环境页，但仍可选择客户端接入。
 3. 在“选择 AVEVA 环境”向导页查看发现的产品；点击一行可查看或编辑文件、Host、编码和来源。所有环境默认不勾选；可手动添加注册表未登记的 INIT/BAT。
 4. 勾选产品。安装器自动推荐已支持的 Host 和环境文件：E3D 仅 INIT，PDMS/AM 优先 INIT、没有时推荐 BAT。未知版本、多个候选或扫描不完整时才需要人工选择/确认。推荐不表示已经启动 AVEVA 验证。
@@ -94,7 +94,7 @@ AI 请求仍需明确选择文件；confirmed 表示选择该目标，noInitConf
 向用户展示 `plan.json.md`；文件可能含原配置和敏感值，只留本机，不上传。计划文件不要重复使用或手工编辑。用户批准后，读取 `plan.json.sha256`，用同一个 EXE 执行：
 
 ```powershell
-& '.\Yuzuha-0.3.3-Windows-Setup.exe' /LANG=chinesesimp /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /NOCLOSEAPPLICATIONS /NOICONS '/DIR=D:\PmlTrigger.Yuzuha' '/PLAN=D:\Review\plan.json' '/PLANHASH=PASTE_APPROVED_SHA256' '/LOG=D:\Review\inno.log'
+& '.\Phayton-0.3.4-Windows-Setup.exe' /LANG=chinesesimp /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /NOCLOSEAPPLICATIONS /NOICONS '/DIR=D:\PmlTrigger.Yuzuha' '/PLAN=D:\Review\plan.json' '/PLANHASH=PASTE_APPROVED_SHA256' '/LOG=D:\Review\inno.log'
 ```
 
 自动化应等待进程退出并检查退出码。没有批准计划和正确 SHA256，静默安装会拒绝。执行前任何文件或安装包变化都需要重新生成预览、重新确认。上述 PowerShell 仅驱动 EXE，不承担安装实现。
@@ -174,7 +174,7 @@ Actual reports and backups are retained in LocalAppData/YuzuhaToolkit/SetupRepor
 
 桌面和 HTML 发布文件分别位于 `runtime/desktop` 与 `runtime/webapps`。桌面为自包含 Windows 发布；本批 HTML 宿主为框架依赖发布，目标机需有 ASP.NET Core 10。CLI 的 `--cli web open` 和桌面按钮都会打开独立页面；安装器不自动打开服务或调用 AVEVA。
 
-构建时可将桌面发布到独立目录，再用 `installer/build.py --desktop <发布目录> --iscc <ISCC.exe> --output <新目录>` 纳入包，避免覆盖正在运行的开发版。该选项只改变待打包来源，不执行安装，所有发布文件仍进入同一散列清单。
+构建时将桌面与 DevHost 自包含发布到独立目录，再用 `installer/build.py --desktop <桌面发布目录> --documentation <已校验DocFX站点> --documentation-host <DevHost发布目录> --iscc <ISCC.exe> --output <新目录>` 纳入包，避免覆盖正在运行的开发版。这些选项只改变待打包来源，不执行安装，所有发布文件仍进入同一散列清单。
 
 
 ## 用户数据与升级保护（TRACE32）
@@ -184,3 +184,8 @@ Actual reports and backups are retained in LocalAppData/YuzuhaToolkit/SetupRepor
 新安装计划拒绝 Knowledge、Apps、Projects、UserPmlLib、Exports、trust 和内部状态目录的载荷，以及 SQLite/DB 数据文件；含 `.yuzuha-user-data.json` 的目录及其子目录不能作为程序文件目标。程序同名文件若已被用户修改，或不属于上版发布清单，预览停止并保留文件；先复制修改到用户目录，处理冲突后重新预览。原有备份和冻结计划检查继续有效。保持干净构建输入，禁止把个人资料混进发布源码树。
 
 升级前关闭 AM、E3D、Yuzuha 工作台和相关 HTML/知识宿主，再确认具体更新预览。`pml.index` 属于 AVEVA 在本机生成的索引，不进入安装载荷；更新保留现有索引。TRACE32 的源码批次未安装，后续 TRACE33 已完成经授权的本机更新，详见仓库 `docs/validation/2026-10-23-installer-ui-preview.md`；真实 AVEVA 重启与业务复验仍单独记录。
+
+
+## Phayton 0.3.4 / R2
+
+新包展示名为 Phayton，安装身份与 PmlTrigger.Yuzuha 路径保留。旧快捷方式继续使用，新入口位于 Phayton 分组。完整 DocFX 位于 runtime/documentation，工作台的开发文档按钮启动随包自包含只读文档宿主；退出工作台后结束本次宿主。构建时必须提供 --documentation 和 --documentation-host，分别指定已经校验的 DocFX 站点与自包含 DevHost 发布目录。

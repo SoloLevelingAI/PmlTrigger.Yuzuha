@@ -66,6 +66,12 @@ function revealAnchor() {
 export default {
   start() {
     mountAppearance();
+    document.addEventListener('keydown', event => {
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
+        const search = document.getElementById('search-query');
+        if (search && !search.disabled) { event.preventDefault(); document.getElementById('navpanel')?.classList.add('show'); search.focus(); }
+      }
+    });
     mountTestCommands();
     // Keep a single active theme controller when DocFX finishes its asynchronous shell setup.
     window.addEventListener('hashchange', revealAnchor);

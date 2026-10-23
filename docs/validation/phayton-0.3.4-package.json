@@ -1,0 +1,58 @@
+{
+  "release": "Phayton 0.3.4",
+  "createdUtc": "2026-10-23T23:04:09.140141+08:00",
+  "installed": false,
+  "signed": false,
+  "files": [
+    {
+      "name": "Phayton-0.3.4-Windows-Setup.exe",
+      "bytes": 106243497,
+      "sha256": "88bd83aa0ff0a397a46e62954b13edc87614c9bddf657531ebfa0b32cac5bdf4"
+    },
+    {
+      "name": "Phayton-0.3.4-Windows-Agent.zip",
+      "bytes": 106264425,
+      "sha256": "b06dbb9262f7f7de30c32c2f395c61ae3e8ea0c8db6b3bad5d172a182eaec032"
+    },
+    {
+      "name": "Phayton-Windows-Setup-Sources.zip",
+      "bytes": 176374,
+      "sha256": "c1243738a6a9bf588b88f3dc08e44a01e0e7b46fed8f36d4ae1e20e5a0a05e14"
+    }
+  ],
+  "payloadActions": {
+    "unchanged": 331,
+    "create": 2895,
+    "update": 21
+  },
+  "unchangedCompatibilityFiles": 68,
+  "environmentTargets": 2,
+  "environmentChanges": 0,
+  "clientRegistrationChanges": 0,
+  "preservationBaselineFiles": 137,
+  "baselinePayloadOverlap": 0,
+  "tests": {
+    "unit": 173,
+    "architecture": 14,
+    "node": 51,
+    "pmlOfflineScenarios": 6,
+    "desktopPages": 14,
+    "desktopThemes": 2,
+    "desktopViewports": 3,
+    "desktopBindingErrors": 0,
+    "htmlPages": 2484,
+    "localLinks": 53417,
+    "packageInventory": "passed",
+    "agentBundleAndPlanOnly": "passed",
+    "readOnlyDocumentationHost": "passed"
+  },
+  "limits": [
+    "No local installation performed",
+    "No AM/E3D live commands in this batch",
+    "Historical ELDATA hang remains unresolved",
+    "Unsigned; signing on designated separate computer",
+    "Inno admin/per-user warning requires account/path review"
+  ],
+  "recordScope": "Post-build release receipt; installer payload and DocFX snapshot are immutable. Local plan details stay in the task workspace.",
+  "deliveryVerifierCorrection": "Historical September D-drive snapshot retained as provenance; current PML source membership and bytes are checked, with generated pml.index required absent."
+}

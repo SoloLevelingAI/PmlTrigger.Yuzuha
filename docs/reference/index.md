@@ -6,17 +6,29 @@ _disableNextArticle: true
 _layout: landing
 ---
 
-<div class="eyebrow">PMLTRIGGER · DEVELOPER REFERENCE</div>
+<section class="phayton-hero">
+  <div>
+    <div class="eyebrow">BUILD WITH PHAYTON</div>
+    <h1>从会用，<br>到会创造。</h1>
+    <p class="docs-lead">连接 AVEVA，做出自己的 PML 与 HTML 工具。<br>让每一步有解释，让每个结果可核对。</p>
+    <div class="phayton-actions"><a class="primary" href="workspace.md">从这里开始 →</a><a href="pml-development-flow.md">开发第一个工具</a></div>
+  </div>
+  <div class="phayton-flow" aria-label="开发与验证流程">
+    <p><span>FROM IDEA TO TOOL</span><span>开发闭环</span></p>
+    <ol><li>01　描述需求 · AI 编写工具</li><li>02　Phayton · 参数与 IPC</li><li>03　PML / AVEVA · 执行与回读</li></ol>
+    <small>核对结果 → 记录经验 → 继续改进</small>
+  </div>
+</section>
 
-# Yuzuha 开发文档
+## 按你现在要做的事，找到下一步。
 
-<p class="docs-lead">从接口、架构与运行流程，理解 AVEVA 工程会话如何与 AI 工具连接。</p>
-
-<div class="onboarding-grid">
-  <p><strong>我要用</strong><br>安装、选中工程会话、跑通第一条 PML 调用。<br><a href="flows.md">一条命令跑通 →</a></p>
-  <p><strong>我要查</strong><br>某个功能由哪些脚本实现，某个脚本干什么、怎么验证。<br><a href="../../artifacts/docfx/navigation/features/index.md">按功能翻 →</a></p>
-  <p><strong>我要改</strong><br>依赖方向、契约、测试分层与文档规则。<br><a href="documentation.md">本地开发与维护 →</a></p>
+<div class="phayton-paths">
+  <a class="doc-card" href="workspace.md"><span class="step">01</span><strong>连接与启动</strong><span class="description">工程配置、模块与会话。<br>先让每天的工作顺畅起来。</span><span class="card-link">阅读指南 →</span></a>
+  <a class="doc-card" href="pml-development-flow.md"><span class="step">02</span><strong>开发一个工具</strong><span class="description">Function、Object、Form 与 HTML。<br>把想法变成可重复的操作。</span><span class="card-link">阅读指南 →</span></a>
+  <a class="doc-card" href="backend-tracing.md"><span class="step">03</span><strong>理解运行结果</strong><span class="description">数据、回执、错误与验证。<br>知道发生了什么，再继续改进。</span><span class="card-link">阅读指南 →</span></a>
 </div>
+
+[Phayton R2 正式版与兼容约定](phayton-r2-production.md) · [知识库与用户目录](user-data-and-knowledge.md) · [更新记录](iteration-log.md)
 
 ## 常用入口
 
@@ -39,11 +51,11 @@ _layout: landing
     <span>探索项目引用、MCP 通信与 AVEVA Host 边界，在交互式视图中查看系统关系。</span>
     <span class="card-link">打开 LikeC4 架构图 →</span>
   </a>
-  <a class="doc-card" href="http://127.0.0.1:5276/scalar/v1" data-site-path="../scalar/v1">
+  <a class="doc-card" href="documentation.md">
     <span class="card-icon" aria-hidden="true">⇄</span>
-    <strong>HTTP API 试用</strong>
-    <span>查看完整内置指南，预览 PML 调用和知识检索计划，直接核对请求与响应。</span>
-    <span class="card-link">进入 Scalar →</span>
+    <strong>文档与 HTTP API</strong>
+    <span>了解离线文档与开发服务的使用方式，需要试用接口时再启动开发服务。</span>
+    <span class="card-link">阅读使用说明 →</span>
   </a>
 </div>
 

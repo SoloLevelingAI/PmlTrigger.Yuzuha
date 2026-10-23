@@ -138,7 +138,8 @@
                     </ControlTemplate>
                   </ToggleButton.Template>
                 </ToggleButton>
-                <ContentPresenter Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" IsHitTestVisible="False" Margin="12,7,32,7" VerticalAlignment="Center" />
+                <ContentPresenter x:Name="SelectionLabel" Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" IsHitTestVisible="False" Margin="12,7,32,7" VerticalAlignment="Center" />
+                <TextBox x:Name="PART_EditableTextBox" Visibility="Collapsed" IsReadOnly="{TemplateBinding IsReadOnly}" Background="Transparent" BorderThickness="0" Margin="10,3,32,3" Padding="2" VerticalContentAlignment="Center" />
                 <Popup x:Name="PART_Popup" IsOpen="{TemplateBinding IsDropDownOpen}" Placement="Bottom" AllowsTransparency="True" Focusable="False">
                   <Border MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}" MaxHeight="320" CornerRadius="8" Background="{DynamicResource Surface.Card}" BorderBrush="{DynamicResource Border.Input}" BorderThickness="1" Padding="4">
                     <ScrollViewer>
@@ -148,6 +149,11 @@
                 </Popup>
               </Grid>
               <ControlTemplate.Triggers>
+                <Trigger Property="IsEditable" Value="True">
+                  <Setter Property="IsTabStop" Value="False" />
+                  <Setter TargetName="SelectionLabel" Property="Visibility" Value="Collapsed" />
+                  <Setter TargetName="PART_EditableTextBox" Property="Visibility" Value="Visible" />
+                </Trigger>
                 <Trigger Property="IsEnabled" Value="False">
                   <Setter Property="Opacity" Value="0.45" />
                 </Trigger>

@@ -73,6 +73,6 @@ public partial class MainWindow
         ProfilesBox.SelectedItem=null; _selected=null; FillProfileFields(draft);
         ProfileDetailsExpander.IsExpanded=false; LaunchPathsExpander.IsExpanded=false;
         LaunchApplicationSummary.Text="已带入 "+draft.Name+"；路径与登录字段可直接编辑。";
-        Say("已带入未保存草稿；密码需在 Yuzuha 输入一次，许可沿用当前环境。点击保存或保存并启动生效。");
+        Say("已带入未保存草稿；密码需在 Phayton 输入一次，许可沿用当前环境。点击保存或保存并启动生效。");
     }
 }

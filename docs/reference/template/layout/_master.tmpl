@@ -19,6 +19,7 @@
       <script src="{{_rel}}public/appearance.js"></script>
       <link rel="stylesheet" href="{{_rel}}public/docfx.min.css">
       <link rel="stylesheet" href="{{_rel}}public/main.css">
+      <link rel="stylesheet" href="{{_rel}}public/phayton-r2.css">
       <meta name="docfx:navrel" content="{{_navRel}}">
       <meta name="docfx:tocrel" content="{{_tocRel}}">
       {{#_noindex}}<meta name="searchOption" content="noindex">{{/_noindex}}
@@ -57,13 +58,14 @@
 
   {{^redirect_url}}
   <body class="tex2jax_ignore" data-layout="{{_layout}}{{layout}}" data-yaml-mime="{{yamlmime}}">
+    <a class="skip-content" href="#main-content">跳到正文</a>
     <header class="bg-body border-bottom">
       {{^_disableNavbar}}
       <nav id="autocollapse" class="navbar navbar-expand-xl" role="navigation">
         <div class="container-xxl flex-nowrap">
           <a class="navbar-brand" href="{{_appLogoUrl}}{{^_appLogoUrl}}{{_rel}}index.html{{/_appLogoUrl}}">
             <img id="logo" class="svg" src="{{_rel}}{{{_appLogoPath}}}{{^_appLogoPath}}logo.svg{{/_appLogoPath}}" alt="{{_appName}}" >
-            {{_appName}}
+            {{_appName}} <span class="phayton-docs-label">/ Docs</span>
           </a>
           <button class="btn btn-lg d-xl-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
             <i class="bi bi-three-dots"></i>
@@ -113,7 +115,7 @@
           {{/_disableBreadcrumb}}
         </div>
 
-        <article data-uid="{{uid}}">
+        <article id="main-content" tabindex="-1" data-uid="{{uid}}">
           {{!body}}
         </article>
 

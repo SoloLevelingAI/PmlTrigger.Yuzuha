@@ -1,6 +1,6 @@
 // Run before styles and DocFX initialization so saved preferences do not flash the wrong palette.
 (function () {
-  var defaults={theme:'auto',accent:'blue',density:'comfortable'};
+  var defaults={theme:'light',accent:'blue',density:'comfortable'};
   var choices={theme:['auto','light','dark'],accent:['blue','violet','teal'],density:['comfortable','compact']};
   var media=window.matchMedia('(prefers-color-scheme: dark)');
   function read() {

@@ -8,15 +8,16 @@
 
 [Setup]
 AppId={{6F551950-F3A9-4D2F-B771-145415993095}
-AppName=PmlTrigger.Yuzuha
-AppVersion=0.3.3
-AppVerName=Yuzuha 0.3.3 — Windows Setup
+AppName=Phayton
+AppVersion=0.3.4
+AppVerName=Phayton 0.3.4 — Windows Setup
 AppPublisher=SoloLevelingAI
 SetupIconFile=assets\yuzuha.ico
 UninstallDisplayIcon={app}\setup\yuzuha.ico
 AppPublisherURL=https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha
 DefaultDirName={localappdata}\YuzuhaToolkit\PmlTrigger.Yuzuha
-DefaultGroupName=Yuzuha
+DefaultGroupName=Phayton
+UsePreviousGroup=no
 ; Request UAC before the wizard starts, not after a plan has been approved.
 ; Do not allow a command-line downgrade to a non-administrative installation.
 PrivilegesRequired=admin
@@ -30,13 +31,13 @@ DisableDirPage=no
 DisableProgramGroupPage=yes
 LicenseFile=..\LICENSE
 OutputDir={#OutputDir}
-OutputBaseFilename=Yuzuha-0.3.3-Windows-Setup
+OutputBaseFilename=Phayton-0.3.4-Windows-Setup
 Compression=lzma2
 SolidCompression=yes
 SetupLogging=yes
 CloseApplications=no
 RestartApplications=no
-UninstallDisplayName=Yuzuha — Windows Setup 0.3.3
+UninstallDisplayName=Phayton — Windows Setup 0.3.4
 UninstallFilesDir={app}\uninstall
 UsePreviousAppDir=yes
 UsePreviousTasks=no
@@ -54,22 +55,22 @@ Source: "{#PayloadDir}\skill\*"; DestDir: "{tmp}\skill"; Flags: dontcopy recurse
 Source: "{#PayloadDir}\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
-Name: "{group}\Yuzuha Workspace"; Filename: "{app}\runtime\desktop\YuzuhaToolkit.Desktop.exe"; IconFilename: "{app}\setup\yuzuha.ico"; Check: not WizardNoIcons and FileExists(ExpandConstant('{app}\runtime\desktop\YuzuhaToolkit.Desktop.exe'))
-Name: "{group}\Yuzuha — INSTALL"; Filename: "{app}\INSTALL.md"; IconFilename: "{app}\setup\yuzuha.ico"; Check: not WizardNoIcons
-Name: "{group}\Yuzuha — Folder"; Filename: "{app}"; IconFilename: "{app}\setup\yuzuha.ico"; Check: not WizardNoIcons
-Name: "{group}\Uninstall Yuzuha"; Filename: "{uninstallexe}"; Check: not WizardNoIcons
+Name: "{group}\Phayton Workspace"; Filename: "{app}\runtime\desktop\YuzuhaToolkit.Desktop.exe"; IconFilename: "{app}\setup\yuzuha.ico"; Check: not WizardNoIcons and FileExists(ExpandConstant('{app}\runtime\desktop\YuzuhaToolkit.Desktop.exe'))
+Name: "{group}\Phayton — INSTALL"; Filename: "{app}\INSTALL.md"; IconFilename: "{app}\setup\yuzuha.ico"; Check: not WizardNoIcons
+Name: "{group}\Phayton — Folder"; Filename: "{app}"; IconFilename: "{app}\setup\yuzuha.ico"; Check: not WizardNoIcons
+Name: "{group}\Uninstall Phayton"; Filename: "{uninstallexe}"; Check: not WizardNoIcons
 
 [UninstallDelete]
 Type: files; Name: "{app}\.yuzuha-inno.json"
 
 [Messages]
-english.WelcomeLabel1=Welcome to Yuzuha
+english.WelcomeLabel1=Welcome to Phayton
 english.WelcomeLabel2=CONNECT / UNDERSTAND / RECORD%n%nOne Windows installer for people and AI.%n%nSelect environments and client integration, inspect every proposed change, then approve installation.%n%nNothing is connected or indexed without selection.
-english.FinishedHeadingLabel=Your Yuzuha installation is ready
+english.FinishedHeadingLabel=Your Phayton installation is ready
 english.FinishedLabel=The approved plan has been executed.%n%nReports and backups: LocalAppData\YuzuhaToolkit\SetupReports.%n%nRestart the AI client and any AVEVA environment you configured. The installed INSTALL.md explains later AI integration.
-chinesesimp.WelcomeLabel1=欢迎使用 Yuzuha
+chinesesimp.WelcomeLabel1=欢迎使用 Phayton
 chinesesimp.WelcomeLabel2=连接 / 理解 / 记录%n%n为人工与 AI 提供同一个 Windows 安装入口。%n%n选择工程环境与客户端接入，检查每一项变化，确认后再执行。%n%n未勾选的环境不会修改，也不会自动建立知识库。
-chinesesimp.FinishedHeadingLabel=Yuzuha 已准备就绪
+chinesesimp.FinishedHeadingLabel=Phayton 已准备就绪
 chinesesimp.FinishedLabel=已执行批准的安装计划。%n%n实际结果与备份保存在 LocalAppData\YuzuhaToolkit\SetupReports。%n%n请重启 AI 客户端和已配置的 AVEVA 环境。安装目录的 INSTALL.md 提供后续 AI 接入说明。
 
 [Code]

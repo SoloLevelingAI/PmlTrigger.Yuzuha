@@ -1,5 +1,5 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-  <!-- PMLTWIN v08, PR #8: exact design variables; legacy resource names remain aliases. -->
+  <!-- Phayton R2 production palette; V08.* retains the historical design source. -->
   <SolidColorBrush x:Key="V08.Surface.Page" Color="#0E1013" />
   <SolidColorBrush x:Key="V08.Surface.Card" Color="#16181C" />
   <SolidColorBrush x:Key="V08.Surface.Subtle" Color="#1D2126" />
@@ -26,11 +26,11 @@
   <SolidColorBrush x:Key="V08.Chart.Series2" Color="#4E6FB8" />
   <SolidColorBrush x:Key="V08.Chart.Series3" Color="#3B5183" />
   <SolidColorBrush x:Key="V08.Overlay.Track" Color="#1C2128" />
-  <SolidColorBrush x:Key="Surface.Page" Color="#0E1013" />
-  <SolidColorBrush x:Key="Surface.Card" Color="#16181C" />
-  <SolidColorBrush x:Key="Surface.Subtle" Color="#1D2126" />
-  <SolidColorBrush x:Key="Surface.Input" Color="#1D2126" />
-  <SolidColorBrush x:Key="Surface.Selected" Color="#2B323C" />
+  <SolidColorBrush x:Key="Surface.Page" Color="#141A24" />
+  <SolidColorBrush x:Key="Surface.Card" Color="#1B2330" />
+  <SolidColorBrush x:Key="Surface.Subtle" Color="#202B3A" />
+  <SolidColorBrush x:Key="Surface.Input" Color="#202B3A" />
+  <SolidColorBrush x:Key="Surface.Selected" Color="#293C66" />
   <SolidColorBrush x:Key="Surface.Neutral" Color="#1D2126" />
   <SolidColorBrush x:Key="Surface.Code" Color="#0A0E13" />
   <SolidColorBrush x:Key="Surface.Track" Color="#1C2128" />
@@ -38,17 +38,17 @@
   <SolidColorBrush x:Key="Surface.Knob" Color="#16181C" />
   <SolidColorBrush x:Key="Surface.Logo" Color="#7F9FFF" />
   <SolidColorBrush x:Key="Surface.LogoBorder" Color="#7F9FFF" />
-  <SolidColorBrush x:Key="Surface.TintBrand" Color="#1A2440" />
+  <SolidColorBrush x:Key="Surface.TintBrand" Color="#293C66" />
   <SolidColorBrush x:Key="Surface.TintSuccess" Color="#11291F" />
   <SolidColorBrush x:Key="Surface.TintWarning" Color="#2A2113" />
   <SolidColorBrush x:Key="Surface.TintSky" Color="#1A2440" />
   <SolidColorBrush x:Key="Surface.TintPurple" Color="#1A2440" />
   <SolidColorBrush x:Key="Surface.TintNeutral" Color="#1D2126" />
   <SolidColorBrush x:Key="Surface.TintDanger" Color="#2B1719" />
-  <SolidColorBrush x:Key="Text.Primary" Color="#F1F3F6" />
-  <SolidColorBrush x:Key="Text.Secondary" Color="#A7AEB9" />
-  <SolidColorBrush x:Key="Text.Tertiary" Color="#828A96" />
-  <SolidColorBrush x:Key="Text.Brand" Color="#7F9FFF" />
+  <SolidColorBrush x:Key="Text.Primary" Color="#EBF0FA" />
+  <SolidColorBrush x:Key="Text.Secondary" Color="#BAC6DA" />
+  <SolidColorBrush x:Key="Text.Tertiary" Color="#9EADC5" />
+  <SolidColorBrush x:Key="Text.Brand" Color="#B7C8FF" />
   <SolidColorBrush x:Key="Text.Success" Color="#4BD3A0" />
   <SolidColorBrush x:Key="Text.Warning" Color="#F0B45E" />
   <SolidColorBrush x:Key="Text.Danger" Color="#F09090" />
@@ -63,12 +63,12 @@
   <SolidColorBrush x:Key="Text.CodeMuted" Color="#DCE4EF" />
   <SolidColorBrush x:Key="Text.CodeText" Color="#DCE4EF" />
   <SolidColorBrush x:Key="Text.CodeAccent" Color="#7F9FFF" />
-  <SolidColorBrush x:Key="Border.Default" Color="#262B32" />
+  <SolidColorBrush x:Key="Border.Default" Color="#344053" />
   <SolidColorBrush x:Key="Border.Subtle" Color="#262B32" />
   <SolidColorBrush x:Key="Border.Strong" Color="#343B44" />
-  <SolidColorBrush x:Key="Border.Input" Color="#343B44" />
+  <SolidColorBrush x:Key="Border.Input" Color="#52627A" />
   <SolidColorBrush x:Key="Border.Chart" Color="#262B32" />
-  <SolidColorBrush x:Key="Accent.Brand" Color="#7F9FFF" />
+  <SolidColorBrush x:Key="Accent.Brand" Color="#9BB2FF" />
   <SolidColorBrush x:Key="Accent.Amber" Color="#F0B45E" />
   <SolidColorBrush x:Key="Accent.AmberHighlight" Color="#F0B45E" />
   <SolidColorBrush x:Key="Accent.AmberIcon" Color="#F0B45E" />
@@ -86,14 +86,14 @@
   <SolidColorBrush x:Key="Chart.Area" Color="#1A2440" />
   <SolidColorBrush x:Key="Icon.OnAccent" Color="#0B1119" />
   <SolidColorBrush x:Key="Brand.LogoDot" Color="#7F9FFF" />
-  <SolidColorBrush x:Key="Brand.Sidebar" Color="#121417" />
+  <SolidColorBrush x:Key="Brand.Sidebar" Color="#171F2C" />
   <SolidColorBrush x:Key="Brand.SidebarPanel" Color="#1D2126" />
-  <SolidColorBrush x:Key="Brand.SidebarBorder" Color="#23272D" />
-  <SolidColorBrush x:Key="Brand.NavText" Color="#A7AEB9" />
+  <SolidColorBrush x:Key="Brand.SidebarBorder" Color="#344053" />
+  <SolidColorBrush x:Key="Brand.NavText" Color="#BAC6DA" />
   <SolidColorBrush x:Key="Brand.NavMuted" Color="#828A96" />
-  <SolidColorBrush x:Key="Brand.NavSelected" Color="#2B323C" />
-  <SolidColorBrush x:Key="Brand.NavSelectedText" Color="#7F9FFF" />
-  <SolidColorBrush x:Key="Brand.NavIndicator" Color="#7F9FFF" />
+  <SolidColorBrush x:Key="Brand.NavSelected" Color="#293C66" />
+  <SolidColorBrush x:Key="Brand.NavSelectedText" Color="#B7C8FF" />
+  <SolidColorBrush x:Key="Brand.NavIndicator" Color="#9BB2FF" />
   <SolidColorBrush x:Key="Brand.Hero" Color="#16181C" />
   <SolidColorBrush x:Key="Brand.HeroBottom" Color="#16181C" />
   <SolidColorBrush x:Key="Brand.HeroBorder" Color="#262B32" />

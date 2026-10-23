@@ -16,8 +16,8 @@ public partial class MainWindow
     private bool knowledgeManagementBusy;
     private KnowledgeRepository ManagementRepository() => new(Path.GetFullPath(KnowledgeDirectoryBox.Text));
     private void ScrollKnowledgeTo(FrameworkElement element) => KnowledgeScroll.ScrollToVerticalOffset(KnowledgeScroll.VerticalOffset + element.TranslatePoint(new Point(), KnowledgeScroll).Y - 85);
-    private void OpenPersonalNotes(object sender, RoutedEventArgs e) => ScrollKnowledgeTo(PersonalNotesGrid);
-    private void OpenKnowledgeLibraries(object sender, RoutedEventArgs e) => ScrollKnowledgeTo(KnowledgeLibrariesGrid);
+    private void OpenPersonalNotes(object sender, RoutedEventArgs e) { KnowledgePages.SelectedIndex = 1; KnowledgeScroll.ScrollToTop(); }
+    private void OpenKnowledgeLibraries(object sender, RoutedEventArgs e) { KnowledgePages.SelectedIndex = 2; KnowledgeScroll.ScrollToTop(); }
     private void UserDirectoryChanged(object sender, TextChangedEventArgs e) { directoryMigration = null; if (ApplyUserDirectoryButton is not null) ApplyUserDirectoryButton.IsEnabled = false; }
     private void BrowseUserDirectory(object sender, RoutedEventArgs e) { var selected = Folder(); if (selected is not null) UserDirectoryBox.Text = selected; }
     private void RecommendUserDirectory(object sender, RoutedEventArgs e) => UserDirectoryBox.Text = UserDataPaths.RecommendedRoot;
@@ -105,7 +105,7 @@ public partial class MainWindow
     private void CopyResultToNote(object sender, RoutedEventArgs e)
     {
         if (KnowledgeResultsGrid.SelectedItem is not KnowledgeBrowseRow row || knowledgeBrowser is null) return;
-        try { var detail = knowledgeBrowser.Read(row); NewPersonalNote(this, new()); NoteTitleBox.Text = row.Title; NoteContentBox.Text = detail.Content; NoteContextBox.Text = "来源：" + detail.SourcePath + "\n" + detail.Verification; }
+        try { var detail = knowledgeBrowser.Read(row); NewPersonalNote(this, new()); OpenPersonalNotes(this, new()); NoteTitleBox.Text = row.Title; NoteContentBox.Text = detail.Content; NoteContextBox.Text = "来源：" + detail.SourcePath + "\n" + detail.Verification; }
         catch (Exception error) { KnowledgeManagementStatus.Text = error.Message; }
     }
     private void BrowseKnowledgeSource(object sender, RoutedEventArgs e) { var directory = Folder(); if (directory is not null) KnowledgeSourcePathBox.Text = directory; }

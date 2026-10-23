@@ -1,5 +1,7 @@
 # 原生工作台、PML 开发与日志
 
+当前 0.3.4 的正式界面为 [Phayton R2](phayton-r2-production.md)：启动工程、知识库和设置按任务分组；以下调用、配置和数据约定继续适用。
+
 `YuzuhaToolkit.Desktop.exe` 是 Windows C# / WPF 程序，日常启动、复制和状态查看不需要 Python。它复用 LaunchDesk 的 Monitor / Marine 启动协议、安装目录发现和 Windows 凭据 API，把实际操作接到同一 GUI。
 
 ## 启动工程

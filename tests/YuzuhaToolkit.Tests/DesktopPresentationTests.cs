@@ -36,10 +36,10 @@ public sealed class DesktopPresentationTests
             var expected = "#" + string.Concat(new[] { "r", "g", "b" }.Select(channel => ((int)Math.Round(value.GetProperty(channel).GetDouble() * 255)).ToString("X2")));
             Assert.Equal(expected, palette["V08." + token.GetProperty("name").GetString()!.Replace('/', '.')]);
         }
-        foreach (var palette in new[] { light, dark })
-        foreach (var (alias, token) in new[] { ("Surface.Page", "Surface.Page"), ("Surface.Card", "Surface.Card"), ("Text.Primary", "Text.Primary"),
-            ("Accent.Brand", "Accent.Default"), ("Brand.Sidebar", "Shell.Sidebar"), ("Chart.Query", "Chart.Series1"), ("Chart.Exec", "Chart.Series2"), ("Chart.Search", "Chart.Series3") })
-            Assert.Equal(palette["V08." + token], palette[alias]);
+        using var r2 = JsonDocument.Parse(File.ReadAllText(Path.Combine(Root(), "design", "figcraft", "phayton-r2-colors.json")));
+        foreach (var (mode, palette) in new[] { ("Light", light), ("Dark", dark) })
+        foreach (var token in r2.RootElement.GetProperty(mode).EnumerateObject())
+            Assert.Equal(token.Value.GetString(), palette[token.Name]);
         XNamespace x = "http://schemas.microsoft.com/winfx/2006/xaml";
         var keys = XDocument.Load(Path.Combine(Root(), "src", "YuzuhaToolkit.Desktop", "Themes", "Light.xaml")).Root!.Elements().Select(node => (string)node.Attribute(x + "Key")!).ToArray();
         foreach (var file in Directory.EnumerateFiles(Path.Combine(Root(), "src", "YuzuhaToolkit.Desktop"), "*.xaml", SearchOption.TopDirectoryOnly))

@@ -10,6 +10,7 @@
 
 | 编号 | 用户意见与采纳决定 | 当前状态 | 验收条件与去向 |
 | --- | --- | --- | --- |
+| TRACE39 | R2 正式落地到桌面与 DocFX，统一 Phayton，保留调用与用户数据；测试后打包，更新前预览并提醒关闭客户端 | WPF 分组导航、知识库/设置、原生边框和 DocFX 正式源码已接入；业务/架构/文档、发布桌面、只读文档宿主及安装数据保护验证通过；交付 0.3.4 安装包和预览，尚未更新本机 | [正式版说明](phayton-r2-production.md)与[本批记录](../../artifacts/docfx/navigation/repository/docs/validation/2026-10-23-phayton-r2-production.md)；安装须具体预览获批，历史 AVEVA 待验项保持 |
 | TRACE38 | 按 R2 补齐知识库、设置、DocFX，完整可操作，统一 Phayton，正式界面和调用先不改 | 独立 R2 交互预览、七画板原生设计页、知识库修订恢复、设置分组与确认、DocFX 搜索阅读与 API 入口 | [R2 说明](phayton-r2.md)和[浏览器验证](../../artifacts/docfx/navigation/repository/docs/validation/2026-10-23-phayton-r2.md)；演示状态不等于后端接入或 AVEVA 复验 |
 | TRACE37 | 新版逐步使用 Phayton 或 Phayton-Yuzuha 名称 | 设计、预览、演示和视频使用 Phayton；旧可执行文件、方法、环境变量、目录和注册名保留 | [名称过渡](phayton-demo.md)；运行标识迁移属于后续独立兼容性批次 |
 | TRACE36 | 除开发指南还需演示和视频，突出 AI 连接 E3D 并自行开发的能力 | 已制作中文 1080p 介绍初剪、十幕演示、字幕和五分钟复刻脚本 | [演示手册](phayton-demo.md)；历史实测、设计画面和未验收能力分别标注 |

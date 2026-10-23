@@ -23,10 +23,10 @@
     "dest": "artifacts/docfx/site",
     "template": ["default", "modern", "docs/reference/template"],
     "globalMetadata": {
-      "_appName": "Yuzuha · 开发文档",
-      "_appTitle": "Yuzuha 开发文档",
+      "_appName": "Phayton",
+      "_appTitle": "Phayton 开发文档",
       "_enableSearch": true,
-      "_appFooter": "Yuzuha · .NET / MCP / AVEVA · 开发文档",
+      "_appFooter": "Phayton Documentation · AVEVA / PML / AI",
       "_appLogoPath": "public/logo.svg",
       "_appFaviconPath": "public/logo.svg",
       "_disableContribution": true,

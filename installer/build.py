@@ -15,7 +15,11 @@ def main():
     parser.add_argument('--iscc', required=True, type=pathlib.Path)
     parser.add_argument('--output', required=True, type=pathlib.Path)
     parser.add_argument('--desktop', type=pathlib.Path, help='Use a separately published desktop directory without overwriting a running development build.')
+    parser.add_argument('--documentation', required=True, type=pathlib.Path, help='Verified generated DocFX site.')
+    parser.add_argument('--documentation-host', required=True, type=pathlib.Path, help='Published read-only DevHost.')
     args = parser.parse_args()
+    if not (args.documentation/'index.html').is_file() or not (args.documentation_host/'YuzuhaToolkit.DevHost.exe').is_file():
+        raise SystemExit('Complete documentation site and host are required.')
     if args.desktop and not (args.desktop / 'YuzuhaToolkit.Desktop.exe').is_file():
         raise SystemExit('Missing explicitly selected desktop publish output.')
     out = args.output.resolve()
@@ -42,6 +46,9 @@ def main():
         shutil.copytree(ROOT / name, stage / name, ignore=shutil.ignore_patterns(*ignored))
     if args.desktop:
         shutil.copytree(args.desktop.resolve(), stage / 'runtime/desktop', ignore=shutil.ignore_patterns('*.pdb','*.ps1','__pycache__'))
+    shutil.copytree(ROOT/'src/YuzuhaToolkit.WebApps/wwwroot', stage/'runtime/webapps/wwwroot', dirs_exist_ok=True)
+    shutil.copytree(args.documentation.resolve(), stage/'runtime/documentation')
+    shutil.copytree(args.documentation_host.resolve(), stage/'runtime/documentation-host', ignore=shutil.ignore_patterns('*.pdb'))
     for name in ['LICENSE','THIRD-PARTY.md','THIRD-PARTY.zh-CN.md']:
         shutil.copy2(ROOT / name, stage / name)
     shutil.copy2(ROOT / 'installer/START-HERE.html', stage / 'START-HERE.html')
@@ -76,10 +83,10 @@ def main():
         for p in sorted(files)), encoding='utf-8')
     inventory=[{'path':p.relative_to(stage).as_posix(),'sha256':hashlib.sha256(p.read_bytes()).hexdigest()}
                for p in sorted(stage.rglob('*')) if p.is_file()]
-    (stage/'.setup-payload.json').write_text(json.dumps({'version':'0.3.3','files':inventory},indent=2),encoding='utf-8')
+    (stage/'.setup-payload.json').write_text(json.dumps({'version':'0.3.4','files':inventory},indent=2),encoding='utf-8')
     subprocess.run([str(args.iscc.resolve()), '/DPayloadDir=' + str(stage),
                     '/DOutputDir=' + str(out), str(ROOT / 'installer/Yuzuha.iss')], check=True)
-    exe = out / 'Yuzuha-0.3.3-Windows-Setup.exe'
+    exe = out / 'Phayton-0.3.4-Windows-Setup.exe'
     (out / 'installer.sha256').write_text(hashlib.sha256(exe.read_bytes()).hexdigest() + '  ' + exe.name + '\n', encoding='ascii')
     bundle=out/'AI-install'
     shutil.copytree(stage/'setup',bundle/'setup')
@@ -97,10 +104,10 @@ def main():
     (bundle/'BUNDLE-SHA256SUMS.txt').write_text(''.join(
         hashlib.sha256(p.read_bytes()).hexdigest()+'  '+p.relative_to(bundle).as_posix()+'\n'
         for p in sorted(bundle.rglob('*')) if p.is_file()),encoding='utf-8')
-    with zipfile.ZipFile(out/'Yuzuha-0.3.3-Windows-Agent.zip','w',zipfile.ZIP_DEFLATED) as archive:
+    with zipfile.ZipFile(out/'Phayton-0.3.4-Windows-Agent.zip','w',zipfile.ZIP_DEFLATED) as archive:
         for path in bundle.rglob('*'):
             if path.is_file():archive.write(path,path.relative_to(bundle))
-    source_zip = out / 'Yuzuha-Windows-Setup-Sources.zip'
+    source_zip = out / 'Phayton-Windows-Setup-Sources.zip'
     with zipfile.ZipFile(source_zip, 'w', zipfile.ZIP_DEFLATED) as archive:
         for folder in ['installer', 'PMLLIB', 'docs/semantic']:
             for path in sorted((ROOT / folder).rglob('*')):
@@ -112,7 +119,7 @@ def main():
             'Build requires Python, .NET SDK with NET48 targeting support, Inno Setup,\n'
             'src/lib/net35/Newtonsoft.Json.dll and the existing verified release runtimes.\n'
             'Entry points: installer/Yuzuha.iss and installer/build.py. No AVEVA vendor assemblies included.\n')
-    deliverables=[exe,out/'Yuzuha-0.3.3-Windows-Agent.zip',source_zip]
+    deliverables=[exe,out/'Phayton-0.3.4-Windows-Agent.zip',source_zip]
     (out/'SHA256SUMS.txt').write_text(''.join(hashlib.sha256(p.read_bytes()).hexdigest()+'  '+p.name+'\n' for p in deliverables),encoding='ascii')
     print(exe)
 

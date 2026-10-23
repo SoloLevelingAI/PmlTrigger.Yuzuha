@@ -37,7 +37,7 @@ public partial class App : Application
         catch (Exception error)
         {
             if (option >= 0) { System.IO.Directory.CreateDirectory(e.Args[option + 1]); System.IO.File.WriteAllText(System.IO.Path.Combine(e.Args[option + 1], "smoke-error.txt"), error.ToString()); }
-            else MessageBox.Show(error.Message, "Yuzuha 启动失败");
+            else MessageBox.Show(error.Message, "Phayton 启动失败");
             Shutdown(1);
         }
     }

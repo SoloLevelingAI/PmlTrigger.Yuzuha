@@ -1,0 +1,55 @@
+/* Phayton R2: production shell; document/search/API semantics remain DocFX. */
+:root, [data-bs-theme="light"] {
+  --bs-body-bg: #fff; --bs-body-color: #233247; --bs-border-color: #e0e6ef;
+  --ld-ink: #233247; --ld-muted: #62718a; --ld-soft: #f7f8fa; --ld-surface: #fff;
+  --ld-read-width: 960px; --ld-accent-soft: #eaf0ff;
+}
+:root[data-accent="blue"] { --bs-link-color: #365de6; --bs-link-hover-color: #2544b0; --bs-primary: #365de6; --ld-accent-soft: #eaf0ff; }
+[data-bs-theme="dark"] { --ld-ink: #ebf0fa; --ld-muted: #bac6da; --ld-soft: #202b3a; --ld-surface: #1b2330; }
+[data-bs-theme="dark"][data-accent="blue"] { --bs-link-color: #a8beff; --bs-link-hover-color: #cedaff; --ld-accent-soft: #293c66; }
+header .navbar { min-height: 78px; }
+.navbar-brand { font-size: 20px; gap: 12px; white-space: nowrap; }
+.navbar-brand img { width: 32px; height: 32px; border-radius: 9px; }
+.phayton-docs-label { color: var(--ld-muted); font-size: 14px; font-weight: 400; margin-left: 8px; }
+.container-xxl { max-width: 1680px; padding-inline: 36px; }
+main.container-xxl { column-gap: 38px; }
+.content { padding-top: 28px; }
+.toc-offcanvas { background: var(--ld-surface); padding-top: 12px; }
+.toc a { padding-block: 8px; }
+.affix { padding-top: 14px; }
+article h1 { font-size: clamp(30px, 2.6vw, 42px); letter-spacing: -1px; line-height: 1.3; }
+article h2 { margin-top: 38px; }
+.actionbar { margin-bottom: 24px; }
+article pre { border-radius: 12px; padding: 20px; }
+article pre code { font-size: 13px; line-height: 1.8; }
+.api-member { border-radius: 16px; padding: 24px; }
+.skip-content { position: fixed; z-index: 2000; left: 16px; top: -80px; padding: 12px 20px; background: var(--ld-surface); color: var(--bs-link-color); border: 2px solid currentColor; border-radius: 8px; }
+.skip-content:focus { top: 12px; }
+body[data-layout="landing"] .content { padding-top: 0; }
+body[data-layout="landing"] article { max-width: none; }
+.phayton-hero { display: grid; grid-template-columns: 1.15fr 1fr; gap: 64px; align-items: center; padding: 68px 28px 54px; background: linear-gradient(135deg, var(--ld-accent-soft), var(--ld-surface) 68%); border-radius: 0 0 24px 24px; margin: 0 -8px; }
+.phayton-hero .eyebrow { font-size: 11px; letter-spacing: 1.8px; margin: 0 0 24px; }
+.phayton-hero h1 { font-size: clamp(42px, 4.2vw, 64px); line-height: 1.3; font-weight: 700; margin: 0 0 24px; }
+.phayton-hero .docs-lead { font-size: 16px; line-height: 2; margin: 0 0 28px; }
+.phayton-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.phayton-actions a { display: inline-flex; padding: 12px 20px; text-decoration: none; border: 1px solid var(--bs-border-color); border-radius: 9px; background: var(--ld-surface); color: var(--ld-ink); font-weight: 600; font-size: 14px; }
+.phayton-actions .primary { background: #365de6; color: #fff; border-color: #365de6; }
+.phayton-flow { border: 1px solid var(--bs-border-color); border-radius: 18px; padding: 28px; background: var(--ld-surface); box-shadow: 0 12px 36px #23324705; }
+.phayton-flow > p { display: flex; justify-content: space-between; font-size: 11px; letter-spacing: .7px; color: var(--ld-muted); margin-bottom: 26px; }
+.phayton-flow ol { list-style: none; padding: 0; margin: 0; }
+.phayton-flow li { padding: 17px 18px; margin: 0 0 26px; background: var(--ld-soft); border-radius: 9px; font-size: 14px; position: relative; }
+.phayton-flow li:not(:last-child)::after { content: "↓"; position: absolute; top: 100%; left: 50%; color: var(--ld-muted); }
+.phayton-flow li:nth-child(2) { background: #365de6; color: #fff; }
+.phayton-flow small { color: var(--ld-muted); font-size: 12px; }
+.phayton-paths { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin: 24px 0 44px; }
+.phayton-paths .doc-card { min-height: 224px; padding: 28px; box-shadow: none; gap: 18px; }
+.phayton-paths .step { color: var(--bs-link-color); font-size: 12px; }
+.phayton-paths strong { font-size: 21px; }
+.phayton-paths .description { color: var(--ld-muted); font-size: 14px; line-height: 1.8; }
+.phayton-paths .card-link { color: var(--bs-link-color); }
+.phayton-secondary { padding: 22px 0; border-top: 1px solid var(--bs-border-color); }
+:focus-visible { outline: 2px solid var(--bs-link-color); outline-offset: 3px; }
+@media (min-width: 1200px) { main.container-xxl { grid-template-columns: 258px minmax(0, 1fr) 180px; } }
+@media (max-width: 1199px) { .phayton-hero { gap: 32px; padding: 44px 16px; } .container-xxl { padding-inline: 24px; } }
+@media (max-width: 767px) { .container-xxl { padding-inline: 18px; } .phayton-hero, .phayton-paths { grid-template-columns: 1fr; } .phayton-hero { padding: 30px 8px; gap: 28px; } .phayton-docs-label { display: none; } .phayton-paths .doc-card { min-height: 180px; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }

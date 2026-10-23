@@ -1,192 +1,132 @@
-# PML TWIN / PmlTrigger.Yuzuha
+# Phayton
 
-开发分支新增 **PmlTwin.Phayton** 统一命令内核与 CLI，旧 YuzuhaToolkit 保留兼容。
-支持 `op list`、`op describe`、`op invoke`，并与 MCP 共用操作注册和执行策略。
-这是源码增量，尚未纳入正式安装包。[使用与安全契约](docs/phayton-operations.md) ·
-[PML 只读审查](docs/phayton-pml-review.md) · [验证记录](docs/validation/2026-10-16-phayton.md)
+**把 AI 接入已有的工程工作流。**
 
-独立新版 [PhaytonObjectWalker](docs/reference/phayton-object-walker.md) 保留 VAR SPLIT，已有 [2410 项 ELDATA 实测记录](docs/validation/2026-10-23-phayton-object-walker.md)，现有调用未切换。[需求、PML 加载与 HTML 链路](docs/reference/pml-development-flow.md)说明当前支持和待实现范围。
+Phayton 是面向 AVEVA E3D、AM / PDMS 的本机连接层与开发工作台。它把 AI 的理解与判断接到工程软件内部的 PML 能力：读取数据、查阅资料、执行授权操作并回传结果，让具体任务有一条可追溯的实施路线。
 
-[开发部署入口](scripts/Invoke-PmlDevelopment.ps1)已串联复制、REHASH ALL、Object/Form 重载和 IPC 结果核验；[复刻说明](tests/live/pml-development/README.md)与[E3D 实测](docs/validation/2026-10-23-pml-development.md)记录版本更新和按钮调用。`pml-data-table.mjs` 可把已有 IPC 结果导出为本地 HTML 表格。
+**至少 5 位已知线上用户 · 数十人的交流社群 · Apache-2.0 开源**¹
 
-面向 AVEVA E3D、PDMS 和 AM 的本机 AI/PML 工具：连接工程会话、查询与执行 PML、检索本地资料，并记录窗体操作过程。
+[观看演示](docs/media/Phayton-Workflow-zh-CN.mp4) · [演示章节与复刻](docs/reference/portfolio-demo.md) · [安装发行版](https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/releases) · [使用文档](docs/reference/workspace.md) · [English](#english)
 
-A local AI/PML toolkit for AVEVA E3D, PDMS and AM: connect to engineering sessions, query and execute PML, retrieve local references, and record form interactions.
+![Phayton 正式 WPF 桌面：浅色工作空间、原生窗口圆角与外部阴影](docs/media/screenshots/desktop-light.png)
 
-[最新正式版 v0.3.3 / Latest stable](https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/releases/tag/v0.3.3) · [中文](#中文) · [English](#english)
+*上图为 0.3.4.1 桌面源码发布后的实际运行截图，使用隔离的空配置。窗口外阴影由 Windows 绘制。*
 
-## 中文
+## 一个连接层，两种工作方式
 
-### 开发文档、架构与测试
+### 开发工具：把需求变成可复用的功能
 
-参照 [LaunchDesk](https://github.com/SoloLevelingAI/LaunchDesk) 的开发流程，提供可选的 .NET 10 DevHost、OpenAPI / Scalar、DocFX、LikeC4 和 ArchUnitNET / xUnit。需要 Windows x64、.NET 10 SDK、Node.js 22.22.3+、PowerShell 7：
+描述需求 → AI 查资料并编写 PML → 预览与备份复制 → 加载 / 重载 → 读取结果 → 修正与再次验证。
+
+函数、对象和原生窗体可以组合成一个小工具。Phayton 为加载和验证提供清楚的路径，留下文件版本、操作步骤与结果，方便继续改进。知识库与按功能、Script 组织的文档帮助 AI 和使用者理解已有能力。
+
+### 直接协作：围绕数据与视图一起分析
+
+AI 可以结合对象数据、视图与本地资料形成判断，通过 PML 继续核查，或执行用户授权的模型 / 视图操作。发现问题、追查不明显的对象关系，是这条路线的价值所在。
+
+Phayton 提供连接、读取、执行与回传；分析质量还取决于 AI、上下文和 AVEVA 可提供的能力。具体任务需按环境验证，不能由“连接成功”推导为“任意工程任务自动完成”。[能力范围](docs/reference/runtime-capability-audit.md) · [Host 数据与截图记录](docs/session-recording.md)
+
+## 看一个完整的小工具过程
+
+[![播放：从需求到脚本加载、调试与结果核对](docs/media/poster.jpg)](docs/media/Phayton-Workflow-zh-CN.mp4)
+
+演示围绕一个自有 PML 小工具：按钮调用函数和对象，显示结果与版本。内容包括新桌面实拍截图、源码演示，以及 **2026-10-23 E3D 2.1 实测记录重放**；没有把历史回执当成本次新执行。
+
+| 环节 | 可查看的证据 |
+| --- | --- |
+| 写脚本 | [Function](tests/ai-pml/development-probe/YuzuhaDevAdd.pmlfnc) / [Object](tests/ai-pml/development-probe/YuzuhaDevData.pmlobj) / [Form](tests/ai-pml/development-probe/YuzuhaDevProbeForm.pmlfrm) / [验证宏](tests/ai-pml/development-probe/validate.pmlmac) |
+| 加载 | 核验会话与 PMLLIB，备份复制，REHASH，重载 Object / Form |
+| 调试 | 首次遇到 GADGET / MENU 类型不兼容，停止并保留回执，修正后独立重跑 |
+| 验证 | 10 步通过、8 项结果匹配；Object / Form v1 → v2；真实按钮计数与 IPC 回读一致 |
+| 复刻 | [操作说明](tests/live/pml-development/README.md) · [实测报告](docs/validation/2026-10-23-pml-development.md) · [公开结果摘要](docs/validation/2026-10-23-pml-development.summary.json) |
+
+## 工作台里有什么
+
+| 使用者要做的事 | Phayton 提供的支持 |
+| --- | --- |
+| 快速进入工程 | 保存工程启动配置与可选的本机凭据 |
+| 确认连接是否可用 | 会话发现、目标身份核验、IPC 状态与运行记录 |
+| 找到可用资料 | 随版本提供的内置指南；可选的本地知识检索与资料管理 |
+| 让脚本真正加载起来 | 文件部署、备份、REHASH、Object / Form 重载与结果比对 |
+| 查清调用出了什么问题 | 工具调用日志、关联编号、耗时和失败 / 未知结果 |
+| 从常用 AI 工具接入 | CLI 与 MCP 两种入口，复用现有操作能力 |
+| 管理函数调用 | 源码登记、版本哈希与独立调用许可；完整范围见下方说明 |
+
+<details>
+<summary>查看深色桌面与知识库界面</summary>
+
+![实际运行的深色桌面与外部阴影](docs/media/screenshots/desktop-dark.png)
+
+![知识库检索：正式 WPF 程序，隔离测试数据](docs/media/screenshots/knowledge.png)
+
+</details>
+
+## 版本、安装与运行
+
+仓库名仍为 `PmlTrigger.Yuzuha`，Phayton 是展示名称；既有可执行文件名、环境变量、CLI / MCP 标识和 PML 名称保留兼容。
+
+- **下载使用：** 从 [Releases](https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/releases) 选择发行包，并按该包的 [安装说明](installer/INSTALL.md) 配置目标环境。预览版和开发分支的功能范围以各自说明为准。
+- **本分支桌面：** `0.3.4.1` 修复窗口圆角、外阴影及最大化内容边界；[运行验证](docs/validation/2026-10-24-window-portfolio.md)对应本次源码构建。此版本号不表示 GitHub 已发布同版本完整安装器。
+- **初次连接：** 先发现会话，再选择并核验目标。可先读取内置指南与少量数据，确认具体环境行为。
+
+Windows 上从源码运行桌面（需要 .NET 10 SDK）：
+
+```powershell
+dotnet run --project src/YuzuhaToolkit.Desktop -c Release
+```
+
+已有安装中的 CLI / MCP 入口：
+
+```powershell
+.\YuzuhaToolkit.Mcp.exe --cli list
+.\YuzuhaToolkit.Mcp.exe --cli call get_builtin_usage --arguments '{"query":"当前元素"}'
+.\YuzuhaToolkit.Mcp.exe --mcp
+```
+
+多步 CLI 调用可以使用同一批处理保留会话。具体参数、返回值和退出码见 [CLI / MCP](docs/reference/cli.md)。
+
+## 已验证范围
+
+| 环境 / 能力 | 当前证据 |
+| --- | --- |
+| E3D 2.1 / NET48 | 已有会话记录、PML 部署重载、原生按钮与回读实测 |
+| E3D 3.1.0 / 3.1.6、AM / PDMS / NET35 | 有对应 Host 配置和构建记录；不代表各版本均已实机验收 |
+| 原生桌面 0.3.4.1 | Windows 11 本机实际窗口验证；14 页、两主题、三尺寸隔离回归 |
+| 知识库 | 本地检索、资料管理、个人笔记与修订；用户资料及其本地索引不随公开发行包分发 |
+| 函数权限 | 已登记版本的独立许可已实现；统一覆盖原始 PML、HTML、CLI / MCP 所有入口的模式仍在规划 |
+
+大 ELDATA 回读的无响应、AM 发现与完整链路等问题仍按 [当前能力核对](docs/reference/runtime-capability-audit.md) 跟进。出现超时或结果未知时先查回执，不自动重复执行。原生命令入口可修改活动模型，函数许可不等于通用 PML 沙箱。
+
+## 维护与贡献
+
+用户带来具体问题，连接层与工具链围绕实际反馈改进。报告问题时提供版本、使用的 AVEVA 环境、最短操作与脱敏后的结果；工程数据、凭据与原始私有日志留在本机。[提交问题](https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/issues)
 
 ```powershell
 npm ci
 npm test
 npm run docs:build
-npm run docs:serve
 ```
 
-独立[本地 HTML 应用管理器](docs/reference/html-app-manager.md)已提供 Form 分类、按钮绑定和参数配置，经现有 IPC 完成 ELDATA 实测；使用 `scripts/Start-HtmlAppManager.ps1` 启动，默认地址 `http://127.0.0.1:5288`，无需 PMLCMD。
-
-本机文档入口为 `http://127.0.0.1:5276/docs/index.html`，Scalar 为 `http://127.0.0.1:5276/scalar/v1`。DevHost 提供内置指南、PML 文本和检索计划预览；产品执行仍通过原有 MCP / Named Pipe 流程。
-
-[文档维护](docs/reference/documentation.md) · [架构与守卫](docs/reference/architecture.md) · [测试说明](docs/reference/testing.md)。开发解决方案为 `YuzuhaToolkit.Development.slnx`；无需 AVEVA SDK 即可执行，原 `src/YuzuhaToolkit.sln` 保留 Host 构建入口。
-
-继续 PMLTWIN 迭代前，先查看[意见与决定](docs/reference/iteration-log.md)中的当前方向和未完成项。[后端调用链与排查](docs/reference/backend-tracing.md)按输入、计算、判断和结果解释业务步骤；[理解与排查笔记](docs/reference/understanding-notes.md)按问题选择表达方法。
-
-[PMLTWIN 项目设计约定](docs/reference/pmltwin-design-contract.md)明确当前职责、原生边界与验证方式。[功能与 Script 维护](docs/reference/catalog-maintenance.md)说明自动发现和人工增删改查；DocFX 首页提供按具体功能和 Script 的独立目录，继续链接已有源码、调用树和测试。
-
-[原始设计基线](docs/design/baselines/README.md)按版本保留用户提供的 Word、来源与 SHA256，原稿维持 Draft。[项目适配记录](docs/reference/design-adaptation.md)逐项说明采用、调整和待完成事项；DocFX 提供原稿正文检索、定位及原文件下载。
-
-PMLTWIN v0.4 第一阶段增加函数源码注册、独立调用权限和已有数组的有界读取，并复用 LaunchDesk 的 DocFX 测试关联与按 ID 运行机制。详见 [第一阶段说明](docs/reference/pmltwin-phase1.md) 和 [FormUse 支持登记](docs/reference/formuse-audit.md)。
-
-### 核心能力
-
-| 能力 | 已提供的功能 |
-| --- | --- |
-| 会话连接 | 发现多个 AVEVA 会话，显式选择 PID，核验进程启动时间、专用管道和 Host 身份 |
-| PML 查询与执行 | 生成带类型参数的调用；查询当前元素、指定 DBREF 和全局对象；在 AVEVA 主线程执行授权命令 |
-| 内置使用指南 | 通过 `get_builtin_usage` 获取随版本维护的说明；无需先建立 SQLite 知识库 |
-| 本地资料检索 | 可选的 PMLLIB/PMLUI/WebHelp 切分与全文检索；项目、官方资料和本地经验分库管理 |
-| 经验与信任管理 | 追加用户确认的经验；维护函数信任记录，避免把传输失败当成函数缺陷 |
-| Host 操作记录 | 完整 PML Array、操作前后截图、连续会话 JSONL、相同截图复用 |
-| 安装与升级 | 通用 MCP 客户端注册、冲突预检与失败回滚；升级保留知识库、信任记录和自定义 Profile |
-| 源文件校验 | `docs/semantic` 集中保存一一对应的 UTC 修改时间及 SHA256 元数据 |
-
-### 从 0.3 开始更新了什么
-
-- **0.3.0：本地知识与可靠升级。** 增加知识库服务、资料切分、分层检索、经验持久化和函数信任管理；改进升级数据保留、部分注册失败回滚及自定义 Framework 选择。
-- **0.3.1：部署与调用入口。** 两个 NET10 MCP 服务统一 Native AOT，目标机器无需安装 .NET 10 Runtime；增加内置指南，SQLite 改为可选；完善非 Codex 客户端注册、INIT/BAT 配置和协议测试。
-- **0.3.2：Host 新功能。** 增加连续会话日志、主界面与浮动窗体截图、操作前后配对、截图复用和 Semantic 校验，并完成 E3D 2.1 操作记录实测。
-
-详细记录：[0.3.0](docs/release-v0.3.0.md) · [0.3.1](docs/release-v0.3.1.md) · [0.3.2](docs/release-v0.3.2.md)。
-
-### 快速开始
-
-v0.3.3 新增原生 Inno 安装器、程序自动环境计划、Agent 安装包，并补齐 PML 源文件。维护者已反馈安装测试成功；PML 注释整理留到后续更新。详见 [v0.3.3 更新说明](docs/release-v0.3.3.md)。
-
-1. 人工运行 Release 的 `Yuzuha-0.3.3-Windows-Setup.exe`；Agent 使用 `Yuzuha-0.3.3-Windows-Agent.zip`，解压后先读 `START-HERE.md`。安装目录名保留 `PmlTrigger`。
-2. 按[安装说明](installer/INSTALL.md)确认 AVEVA 接入范围，以及可选 MCP/Skill 客户端目标。支持通用 `mcpServers` JSON，不要求使用 Codex。
-3. 程序探测配置并生成前后预览，确认后执行；接入 AVEVA 时不能提交空环境。只有明确选择不接入时才保持 EVARS 不变。
-4. 完全退出并重启 AI 客户端；修改 Host 或 AVEVA 环境后，也要完全重启 AVEVA。
-5. 让 AI 获取内置指南、列出会话，再明确选择目标 PID，确认身份后执行查询。
-
-可从这些请求开始：
-
-- “列出 AVEVA 会话，先不要执行 PML。”
-- “读取当前元素，先用 30 项、深度 2。”
-- “检索我已经注册的本机 PML 资料。”
-
-安装、更新和卸载是三个独立操作，请按需选择，不要依次全部执行：
-
-```powershell
-.\scripts\Install-YuzuhaAgent.ps1
-.\scripts\Update-YuzuhaAgent.ps1
-.\scripts\Uninstall-YuzuhaAgent.ps1
-```
-
-升级前关闭相关 MCP/AVEVA 进程，从新解压的包执行更新。PML 文件或路径变更后，在重新启动的 AVEVA 中执行 `PML REHASH ALL`。索引重建作为显式维护操作执行；Addin 启动使用已有索引。重复索引导致启动卡住的处理和实测边界见[启动诊断记录](docs/validation/2026-10-13-addin-startup.md)。
-
-### Host 日志与截图
-
-NET35/NET48 Host 提供：
-
-- `BeginLog(!record)`：保存操作前 Array 和截图，返回记录 ID。
-- `EndLog(!record, !recordId)`：保存操作后记录及截图，与同一 ID 配对。
-- `Log(!record)`：保存一次 Array 与截图。
-
-日志连续写入 `%LOCALAPPDATA%\YuzuhaToolkit\Records\<session>\session.jsonl`，JPEG 位于同目录 `images`。截图覆盖可见的 AVEVA 主界面及同进程浮动窗体，不是只截当前控件。连续相同截图复用。
-
-PML 监控代码需要调用这些接口；并非所有 AI 调用或按钮都会自动被记录。数组支持范围、返回值检查和错误处理见[记录接口说明](docs/session-recording.md)。
-
-### AI 调用日志与原生工作台
-
-两个 MCP 服务现已记录每次实际工具调用的开始、目标会话、关联编号、有界参数、耗时与结果。默认日志位于 `%LOCALAPPDATA%\YuzuhaToolkit\Activity`，按进程滚动；状态每两秒更新。命名的密码/token 字段脱敏，完整元素数组不写入调用日志。Host 操作截图与记录仍保留，尚未自动关联为完整 AI 分析过程。
-
-`YuzuhaToolkit.Desktop.exe` 把工程启动、插件复制、PMLLIB 清理提醒与 AI 工具状态放在同一原生窗口，运行不需要 Python。相关任务授权覆盖连续开发步骤；原生 `run_pml_command` 直接提供 PML 执行，`markdb` / `endmarkdb` 提供撤销分组。详见[原生工作台](docs/reference/workspace.md)。
-
-### 支持与验证
-
-预置配置：AM、PDMS 使用 NET35；E3D 2.1、3.1.0、3.1.6 使用 NET48。自定义 Profile 明确设置 `Yuzuha` 和 `YuzuhaFramework`。
-
-E3D 2.1 的会话操作记录已实测；NET35/NET48 独立记录测试及五个标准 Host 配置构建已通过。**构建通过不代表所有产品版本均已实机验证**；AM/PDMS、其他 E3D 版本及多屏混合 DPI 的覆盖范围见[实测报告](docs/validation/2026-09-19-e3d.md)。
-
-执行工具可以修改活动模型，只应执行明确授权的命令。超时后不要自动重试：第一次调用可能已经执行。查询失败也不能直接判定 PML 函数有缺陷。
-
-### 数据与开发
-
-知识库在本机按需建立，不随发行包分发；官方资料建库需要明确指定来源。截图和日志可能包含工程信息，分享前请检查内容。AVEVA 专有 SDK 不随仓库或 Release 分发。
+[功能与 Script 目录](docs/reference/catalog-maintenance.md) · [开发加载流程](docs/reference/pml-development-flow.md) · [架构](docs/reference/architecture.md) · [测试](docs/reference/testing.md) · [窗口实机检查脚本](scripts/Test-WindowFrame.ps1) · [演示素材与制作方式](docs/media/README.md)
 
 ```text
-PMLLIB/   PML 启动、查询、命令和窗体监控
-PMLUI/    AVEVA Addin 注册
-src/      NET10 MCP 与 NET35/NET48 Host 源码
-scripts/  构建、安装、更新、注册和校验
-skill/    AI 使用规范与工具参考
-docs/     功能、部署、验证及 semantic 元数据
-tests/    自动化测试与实测宏
+PMLLIB/ + PMLUI/   AVEVA 原生入口与脚本
+src/              Framework Host、CLI / MCP、工作台与知识服务
+tests/            离线回归、自有 PML 夹具与实测说明
+docs/             功能文档、验证记录与可播放演示
+scripts/          构建、部署、验证与视频制作
 ```
 
-开发构建参见[构建配置](docs/build-configuration.md)；缺少适配配置时参见[Host 本地构建](skill/references/local-build.zh-CN.md)。
+¹ 使用情况由维护者于 2026-10-23 提供：至少 5 位已知线上用户、数十人交流社群，线下熟人不计入。开源分发的实际总用户数未知；群成员数不等于活跃用户数，没有以此推算日活或提效比例。
 
 ## English
 
-### Capabilities
+**Phayton connects AI to existing AVEVA engineering workflows.** It is a local connection layer and development workspace for E3D, AM and PDMS, with legacy NET35 / NET48 hosts and CLI / MCP access.
 
-- Discover AVEVA sessions and explicitly select a PID; verify process identity and the PID-bound Host.
-- Generate typed PML calls, read the current element, named DBREFs and global objects, and execute authorized commands on the AVEVA main thread.
-- Retrieve release-maintained built-in guides without creating a SQLite database.
-- Optionally index local PMLLIB/PMLUI/WebHelp; keep project, official and experience sources separate.
-- Persist user-confirmed experience and function trust records.
-- Record complete PML arrays and paired main-UI/floating-window screenshots through NET35/NET48 Host APIs.
-- Register with generic MCP clients, detect conflicts, roll back supported failures and preserve local state during upgrades.
-- Verify source metadata centrally stored under `docs/semantic` using UTC modification times and SHA256.
+Two workflows share this foundation: **build reusable PML tools**, or **collaborate directly with AI using object data, views and local references** to investigate problems and verify actions. Domain-specific outcomes depend on the AI, available context and host capabilities.
 
-### The 0.3 series
+The [video](docs/media/Phayton-Workflow-zh-CN.mp4) combines current desktop captures with a clearly dated replay of existing E3D 2.1 validation: deploy, reload, diagnose a type error, and verify the updated tool. [Evidence and reproduction](docs/reference/portfolio-demo.md). Compatibility, large-array limitations and permission boundaries are documented above.
 
-**0.3.0** added local knowledge infrastructure, layered retrieval, persistent experience, function trust management and recoverable deployment. **0.3.1** unified both NET10 services on Native AOT, added built-in guides, made SQLite optional and improved generic client registration and AVEVA environment configuration. **0.3.2** added Host session logging, paired UI capture, image reuse and semantic verification, with live E3D 2.1 recording checks.
+## License
 
-See [0.3.0](docs/release-v0.3.0.md), [0.3.1](docs/release-v0.3.1.md) and [0.3.2](docs/release-v0.3.2.md) release notes.
-
-### Getting started
-
-Use `Yuzuha-0.3.3-Windows-Setup.exe` for manual installation, or extract `Yuzuha-0.3.3-Windows-Agent.zip` and read START-HERE.md for Agent setup. Follow the [Inno installation guide](installer/INSTALL.md). Confirm AVEVA scope and optional client MCP/Skill targets before approving the preview. Empty AVEVA integration requests are rejected; files/client-only mode must be explicit. Retain `PmlTrigger` in the install folder name. See [v0.3.3 notes](docs/release-v0.3.3.md) for the native installer, PML additions and maintainer-reported installation validation.
-
-Fully restart the AI client after installation/update and AVEVA after Host/environment changes. Start with built-in guides, list sessions, explicitly select a target, then request a small read. Close affected processes before updating from a freshly extracted archive. After PML changes, restart AVEVA and execute `PML REHASH ALL` as explicit maintenance. Addin startup uses the existing index. See the [startup investigation](docs/validation/2026-10-13-addin-startup.md) for duplicate-index recovery and live-test limits.
-
-### Recording and audit boundaries
-
-Host `BeginLog` / `EndLog` pair before/after records; `Log` captures a single record. Session JSONL and JPEGs are stored under `%LOCALAPPDATA%\YuzuhaToolkit\Records\<session>`. Visible main and same-process floating windows are included; consecutive identical images are reused. PML monitoring must invoke the APIs—recording is not automatically enabled for every button or AI call. See the [API guide](docs/session-recording.md).
-
-**Persistent tool-call auditing is available.** Both MCP servers record tool starts, selected target, bounded arguments, duration and outcome in local rolling JSONL files with process heartbeat snapshots. The native C# workspace combines launching, plugin deployment, directory-health reminders and tool status. Named secret fields are redacted; arbitrary PML remains development code. Host recording and screenshots remain separate. See [Native workspace](docs/reference/workspace.md).
-
-
-### Compatibility and safety
-
-Standard profiles target AM/PDMS NET35 and E3D 2.1/3.1.0/3.1.6 NET48. E3D 2.1 recording was live-tested; independent NET35/NET48 recorder tests and five standard Host builds passed. This does not establish live compatibility with every product version or multi-monitor/DPI configuration. See the [validation report](docs/validation/2026-09-19-e3d.md).
-
-Execute only explicitly authorized commands. Do not automatically retry timeouts or mistake transport errors for defective PML functions. Local reference databases and proprietary AVEVA SDKs are not distributed. Review screenshots/logs for engineering information before sharing.
-
-## License / 许可证
-
-Project source is licensed under [Apache-2.0](LICENSE); bundled dependencies retain their own licenses. See [THIRD-PARTY.md](THIRD-PARTY.md).
-
-项目源码采用 Apache-2.0；随附依赖保留各自许可证。本次 Host 记录实现、测试和实测报告由 OpenAI Codex 按维护者要求编写；PML 控件监控原型由维护者提供。
-
-
-## CLI / MCP 双入口与开发站点
-
-同一个可执行文件可直接作为 MCP 服务，也可在终端调用原有工具：
-
-```powershell
-.\YuzuhaToolkit.Mcp.exe --mcp
-.\YuzuhaToolkit.Mcp.exe --cli list
-.\YuzuhaToolkit.Mcp.exe --cli call get_builtin_usage --arguments '{"query":"当前元素"}'
-.\YuzuhaToolkit.Knowledge.exe --cli call search_knowledge_layers --arguments '{"query":"当前元素"}'
-```
-
-默认不带参数仍启动 MCP stdio。多步会话使用 `--cli batch --file requests.json`，同一批处理复用一个服务进程，首次失败停止。配置、退出码和参数文件见 [CLI / MCP](docs/reference/cli.md)。
-
-开发站点覆盖 10 个生产项目、10 个模块，以及 Host、安装器、PML/PMLUI 和现有使用文档，提供 LaunchDesk 风格的项目/模块/类型浏览。6 个 .NET 10 项目生成 DocFX API；旧 Framework Host 和安装器提供明确标记的源码参考。详见 [文档维护](docs/reference/documentation.md)和[架构守卫](docs/reference/architecture.md)。
+[Apache-2.0](LICENSE) · [Third-party notices](THIRD-PARTY.md) · [Security](SECURITY.md). AVEVA proprietary SDKs and user knowledge databases are not distributed.

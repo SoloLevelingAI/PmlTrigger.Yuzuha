@@ -1,6 +1,8 @@
 - name: 开始
   href: index.md
   items:
+  - name: AI 开发与直接协作演示
+    href: portfolio-demo.md
   - name: Phayton R2 正式版
     href: phayton-r2-production.md
   - name: 设计约定

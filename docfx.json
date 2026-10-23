@@ -15,10 +15,11 @@
       { "files": ["**/*.md", "**/toc.yml"], "src": "artifacts/docfx/navigation", "dest": "reference" }
     ],
     "resource": [
+      { "files": ["**/*"], "src": "docs/media", "dest": "media" },
       { "files": ["**/*"], "src": "artifacts/architecture", "dest": "architecture" },
       { "files": ["v1.json"], "src": "artifacts/openapi", "dest": "openapi" },
       { "files": ["LICENSE.docfx.txt"], "src": "docs/reference/template", "dest": "third-party" }
-      ,{ "files": ["**/*.json", "**/*.png", "**/*.jpg", "**/*.svg", "**/*.ico", "**/*.html", "**/*.txt", "**/*.docx"], "src": "artifacts/docfx/navigation", "dest": "reference" }
+      ,{ "files": ["**/*.json", "**/*.png", "**/*.jpg", "**/*.svg", "**/*.ico", "**/*.html", "**/*.txt", "**/*.docx", "**/*.mp4", "**/*.srt"], "src": "artifacts/docfx/navigation", "dest": "reference" }
     ],
     "dest": "artifacts/docfx/site",
     "template": ["default", "modern", "docs/reference/template"],

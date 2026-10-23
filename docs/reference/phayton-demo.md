@@ -1,5 +1,7 @@
 # Phayton：预览、演示与名称过渡
 
+> 本页保留早期设计与演示记录。当前正式 WPF 界面、中文视频和证据说明见 [AI 开发与直接协作演示](portfolio-demo.md)。
+
 对应 TRACE35–TRACE37。新版逐步使用 **Phayton** 作为展示名称，过渡期写 **Phayton · Yuzuha**。本批交付设计和演示，正式桌面与正式 DocFX 主题保持现有界面。检查范围见[本批验证](../../artifacts/docfx/navigation/repository/docs/validation/2026-10-23-phayton-preview-demo.md)。
 
 

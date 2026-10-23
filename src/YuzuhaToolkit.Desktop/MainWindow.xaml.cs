@@ -31,6 +31,7 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent(); _settings = WorkspaceSettings.Load();
+        Loaded += (_, _) => NativeWindowFrame.Attach(this);
         InitializeKnowledge();
         Width = Math.Min(Width, Math.Max(MinWidth, SystemParameters.WorkArea.Width - 16));
         Height = Math.Min(Height, Math.Max(MinHeight, SystemParameters.WorkArea.Height - 16));
@@ -422,6 +423,7 @@ public partial class MainWindow : Window
     public async Task RunSmokeAsync(string outputDirectory)
     {
         Directory.CreateDirectory(outputDirectory); _timer.Stop(); await DiscoverAsync();
+        MaintainerText.Text = "演示工作空间";
         var fixtureDirectory = Path.Combine(outputDirectory, "fixture"); Directory.CreateDirectory(fixtureDirectory);
         var launcher = Path.Combine(fixtureDirectory, "mon.exe"); File.WriteAllBytes(launcher, []);
         var initialization = Path.Combine(fixtureDirectory, "launch.init"); File.WriteAllText(initialization, "UI fixture only");

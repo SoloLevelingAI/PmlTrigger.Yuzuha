@@ -104,7 +104,7 @@ function targetLink(from,href){
   if(guides.has(target))return path.posix.relative(path.posix.dirname(from),target)+(fragment?'#'+fragment:'');
   const absolute=path.join(root,target);
   if(fs.existsSync(absolute)&&fs.statSync(absolute).isFile()){
-    if(/\.(?:png|jpg|jpeg|svg|gif|ico|html|json|txt|docx)$/i.test(target)){resources.add(target);return path.posix.relative(path.posix.dirname(from),target)+(fragment?'#'+fragment:'');}
+    if(/\.(?:png|jpg|jpeg|svg|gif|ico|html|json|txt|docx|mp4|srt)$/i.test(target)){resources.add(target);return path.posix.relative(path.posix.dirname(from),target)+(fragment?'#'+fragment:'');}
     if(/\.(?:cs|csproj|ps1|py|mjs|sln|slnx|props|pml\w*|iss|ya?ml)$/i.test(target)||path.posix.basename(target)==='LICENSE'){
       const destination='repository-source/'+target+'.md';sourcePages.set(destination,target);
       return path.posix.relative('repository/'+path.posix.dirname(from),destination);

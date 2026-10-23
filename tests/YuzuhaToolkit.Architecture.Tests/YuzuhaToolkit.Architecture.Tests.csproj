@@ -12,6 +12,7 @@
     <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" PrivateAssets="all" />
     <PackageReference Include="TngTech.ArchUnitNET.xUnit" Version="0.13.4" />
     <ProjectReference Include="../../src/YuzuhaToolkit.DevHost/YuzuhaToolkit.DevHost.csproj" />
+    <ProjectReference Include="../../src/YuzuhaToolkit.WebApps/YuzuhaToolkit.WebApps.csproj" />
     <!-- 工具入口类型位于两个可执行工程，架构测试需要直接引用它们做黑名单断言。 -->
     <ProjectReference Include="../../src/YuzuhaToolkit.Mcp/YuzuhaToolkit.Mcp.csproj" />
     <ProjectReference Include="../../src/YuzuhaToolkit.Knowledge/YuzuhaToolkit.Knowledge.csproj" />

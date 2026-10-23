@@ -30,6 +30,8 @@
     href: phayton-object-walker.md
   - name: PML 开发与加载链路
     href: pml-development-flow.md
+  - name: HTML 应用管理器
+    href: html-app-manager.md
   - name: FormUse 登记
     href: formuse-audit.md
 - name: 按层

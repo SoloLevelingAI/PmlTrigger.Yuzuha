@@ -255,6 +255,7 @@
     }
   ],
   "cases": [
+    {"id":"manual:pml-html-manager","kind":"manual","category":"aveva-live","file":"tests/live/pml-html-manager.md","entryPoint":"## manual:pml-html-manager","purpose":"本地 HTML 分类、绑定和参数经既有 IPC 读取大 ELDATA，验证全量/下标/预算、PMLFNC 与 Form。","environment":"Windows、.NET 10、已授权 AVEVA 会话与自有大数组夹具；本批 E3D 2.1 / NET48","expected":"全部子项及首中尾值一致，0 未解析，真实函数/Form 回执；重复请求不重放，错误与未知不自动重试。"},
     {
       "id":"manual:pml-development",
       "kind":"manual",
@@ -455,6 +456,7 @@
     }
   ],
   "bindings": [
+    {"test":"manual:pml-html-manager","purpose":"本地 HTML 分类、绑定和参数经既有 IPC 读取大 ELDATA，验证全量/下标/预算、PMLFNC 与 Form。","targets":[{"uid":"YuzuhaToolkit.WebApps::YuzuhaToolkit.WebApps.ManagerService"},{"file":"tests/ai-pml/html-manager/YuzuhaHtmlData.pmlobj","symbol":"YuzuhaHtmlData"}]},
     {
       "test":"manual:pml-development",
       "purpose":"独立合成夹具验证部署重载和原生控件调用，不替换现有调用链。",

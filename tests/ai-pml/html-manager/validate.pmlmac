@@ -1,0 +1,3 @@
+!!YuzuhaHtmlProbe = object array()
+!adapter = object YuzuhaHtmlData()
+!!YuzuhaHtmlProbe.append('[0] AdapterType<STRING> ' + !adapter.objectType())

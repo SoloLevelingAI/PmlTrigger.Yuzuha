@@ -22,6 +22,7 @@ model {
     setup = component "安装计划桥 · .NET 4.8" { description "SetupBridge" }
     operations = component "共享操作契约与执行内核" { description "PmlTwin.Phayton" }
     operations-cli = component "操作命令行入口" { description "PmlTwin.Phayton.Cli" }
+    webapps = component "本地 HTML 应用管理器与 IPC 适配" { description "YuzuhaToolkit.WebApps" }
   }
   yuzuha.desktop -[build]-> yuzuha.mcp-core "ProjectReference"
   yuzuha.desktop -[build]-> yuzuha.knowledge-core "ProjectReference"
@@ -39,6 +40,7 @@ model {
   yuzuha.devhost -[build]-> yuzuha.knowledge-core "ProjectReference"
   yuzuha.operations-cli -[build]-> yuzuha.operations "ProjectReference"
   yuzuha.operations-cli -[build]-> yuzuha.mcp-core "ProjectReference"
+  yuzuha.webapps -[build]-> yuzuha.mcp-core "ProjectReference"
 }
 views {
   view project_dependencies {

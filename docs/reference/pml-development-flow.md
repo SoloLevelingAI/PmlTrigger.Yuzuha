@@ -43,8 +43,10 @@ AVEVA 的 [Storing and Loading PML Files](https://help.aveva.com/AVEVA_E3D_Desig
 
 用户提出 HTML 作为操作界面，后端继续使用现有 C# 服务、Host 主线程和 PML。建议链路为 HTML 操作 → 本地应用桥 → 现有服务/会话核验 → Host → FORM/PML Object → 结构化回执 → HTML 展示。HTML 可承载按钮、属性浏览和部署测试流程，原生 FORM/PML Object 承担 AVEVA 侧能力。
 
-本批把表格展示与导出从 PML 中移出：已有 IPC 返回结构化 Items，`pml-data-table.mjs` 在客户端生成可搜索/导入/导出 CSV 的 HTML 快照。PML 不必负责写表格文件。HTML 页面尚无持续执行桥，应用登记、生命周期和生产调用仍在[计划功能](features/planned-tools.md)中。
+本批把表格展示与导出从 PML 中移出：已有 IPC 返回结构化 Items，`pml-data-table.mjs` 在客户端生成可搜索/导入/导出 CSV 的 HTML 快照。PML 不必负责写表格文件。同日新增的独立 [HTML 应用管理器](html-app-manager.md) 已支持分类、绑定、参数与实时 IPC；任意应用包生命周期和桌面集成仍在[计划功能](features/planned-tools.md)中。
 
 对当前的数据浏览/筛选/导出场景，优先 HTML 是工程判断：表格排版和交互更容易独立迭代。WPF 也能做精致界面，适合现有本机设置、窗口和系统集成；PMLFRM 适合 AVEVA 原生拾取、控件和流程嵌入，只是复杂表格与排版需要更多代码，并非不能编写。新夹具已实际运行 PMLFRM 按钮并调用 PMLOBJ/PMLFNC。
 
 浏览器页面不能直接使用 .NET 命名管道。后续可用 WebView2 作为薄宿主，通过 [Web messaging](https://learn.microsoft.com/en-us/microsoft-edge/webview2/concepts/overview-features-apis) 传结构化请求，再复用现有 C# / IPC / Host 主线程。来源、会话、请求 ID、错误和权限应保留在本地桥中。AVEVA 也提供 [CONTAINER Gadget](https://help.aveva.com/AVEVA_E3D_Design/2.1/PMLPUG/PMLCG21.22.10.html) 承载外部控件；选用何种宿主须按实际产品/运行时验证，本批没有增加该部署依赖。
+
+当前管理器采用独立本地 .NET HTTP 宿主供浏览器访问，后段复用原命名管道，不向旧版 AVEVA 添加 WebView2 依赖。无需 E3D 命令注册或 PMLCMD，只部署新增适配器并复用现有加载链路。

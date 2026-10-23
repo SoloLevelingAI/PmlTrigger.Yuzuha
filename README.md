@@ -28,6 +28,8 @@ npm run docs:build
 npm run docs:serve
 ```
 
+独立[本地 HTML 应用管理器](docs/reference/html-app-manager.md)已提供 Form 分类、按钮绑定和参数配置，经现有 IPC 完成 ELDATA 实测；使用 `scripts/Start-HtmlAppManager.ps1` 启动，默认地址 `http://127.0.0.1:5288`，无需 PMLCMD。
+
 本机文档入口为 `http://127.0.0.1:5276/docs/index.html`，Scalar 为 `http://127.0.0.1:5276/scalar/v1`。DevHost 提供内置指南、PML 文本和检索计划预览；产品执行仍通过原有 MCP / Named Pipe 流程。
 
 [文档维护](docs/reference/documentation.md) · [架构与守卫](docs/reference/architecture.md) · [测试说明](docs/reference/testing.md)。开发解决方案为 `YuzuhaToolkit.Development.slnx`；无需 AVEVA SDK 即可执行，原 `src/YuzuhaToolkit.sln` 保留 Host 构建入口。

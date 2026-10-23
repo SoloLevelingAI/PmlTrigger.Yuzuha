@@ -12,6 +12,7 @@
 | 知识 MCP | <xref:YuzuhaToolkit.Knowledge.KnowledgeRepository>、<xref:YuzuhaToolkit.Knowledge.Search.QueryPlanner> | 本地知识索引、查询规划与检索 |
 | RPC | <xref:PlantHost.Rpc> | .NET 10 Named Pipe 客户端、帧协议与序列化 |
 | DevHost | <xref:YuzuhaToolkit.DevHost.DevelopmentEndpoints> | 内置指南、PML 文本预览、查询计划与 OpenAPI |
+| WebApps | <xref:YuzuhaToolkit.WebApps.ManagerService>、<xref:YuzuhaToolkit.WebApps.ActionCompiler> | 本地 HTML 分类、按钮、参数与既有 IPC 适配 |
 | CLI/MCP | <xref:YuzuhaToolkit.CommandLine.DualModeCommandLine> | 同程序双模式与会话内顺序批处理 |
 
 [Host 源码参考](../../../artifacts/docfx/navigation/modules/host/index.md) · [安装器源码参考](../../../artifacts/docfx/navigation/modules/setup/index.md) · [源码与文档覆盖报告](../../../artifacts/docfx/navigation/coverage.md)

@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "pluginName": "YuzuhaHtmlManager",
+  "objects": ["YuzuhaHtmlData"],
+  "forms": [],
+  "validationMacro": "validate.pmlmac",
+  "resultGlobal": "YuzuhaHtmlProbe",
+  "expected": {"AdapterType":"YUZUHAHTMLDATA"}
+}

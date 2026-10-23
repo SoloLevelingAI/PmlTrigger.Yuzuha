@@ -5,7 +5,8 @@
     { "src": [{ "files": ["src/PlantHost.Rpc.Net10/PlantHost.Rpc.Net10.csproj"] }], "dest": "artifacts/docfx/api/rpc" },
     { "src": [{ "files": ["src/YuzuhaToolkit.Mcp.Core/YuzuhaToolkit.Mcp.Core.csproj"] }], "dest": "artifacts/docfx/api/mcp" },
     { "src": [{ "files": ["src/YuzuhaToolkit.Knowledge.Core/YuzuhaToolkit.Knowledge.Core.csproj"] }], "filter": "docs/reference/knowledge-filter.yml", "dest": "artifacts/docfx/api/knowledge" },
-    { "src": [{ "files": ["src/YuzuhaToolkit.DevHost/YuzuhaToolkit.DevHost.csproj"] }], "dest": "artifacts/docfx/api/devhost" }
+    { "src": [{ "files": ["src/YuzuhaToolkit.DevHost/YuzuhaToolkit.DevHost.csproj"] }], "dest": "artifacts/docfx/api/devhost" },
+    { "src": [{ "files": ["src/YuzuhaToolkit.WebApps/YuzuhaToolkit.WebApps.csproj"] }], "dest": "artifacts/docfx/api/webapps" }
   ],
   "build": {
     "content": [

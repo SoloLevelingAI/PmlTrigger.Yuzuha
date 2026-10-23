@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Yuzuha · 本地应用</title><link rel="stylesheet" href="/style.css"><script type="module" src="/app.js"></script></head>
+<body>
+<aside class="sidebar"><a class="brand" href="/">Y<span>YUZUHA<small>本地应用工作台</small></span></a><div class="nav-caption">应用分类</div><nav id="categories" aria-label="应用分类"></nav><div class="sidebar-note"><span class="dot"></span>本机运行<br><small>界面、配置和结果保存在本地。</small></div></aside>
+<main>
+<header><div><div class="eyebrow">WORKSPACE / LOCAL APPS</div><h1>你的工具，一个入口。</h1><p>管理 HTML 数据界面和 AVEVA 原生 Form，明确每个按钮的去向。</p></div><button id="new-app" class="primary">＋ 登记应用 / Form</button></header>
+<section class="connection" aria-label="AVEVA 连接"><span class="connection-icon">↔</span><div><strong>AVEVA 会话</strong><small id="connection-status">尚未连接</small></div><select id="session" aria-label="选择 AVEVA 会话"><option value="">请选择会话</option></select><button id="refresh-sessions">刷新</button><button id="connect">连接</button></section>
+<div id="notice" class="notice" role="status" hidden></div>
+<div class="section-heading"><h2 id="category-title">全部应用</h2><div><input id="search-apps" type="search" placeholder="搜索应用或 Form…" aria-label="搜索应用"><button id="edit-categories">管理分类</button></div></div>
+<div id="category-editor" class="panel category-editor" hidden><label>分类名称（每行一个）<textarea id="category-lines" rows="4"></textarea></label><p>已有应用使用的分类需要保留，或先修改应用分类。</p><button id="save-categories" class="primary">保存分类</button></div>
+<section id="apps" class="cards" aria-label="应用目录"></section>
+<section id="workspace" class="panel workspace" hidden>
+<div class="workspace-head"><div><span id="app-type" class="tag"></span><h2 id="app-title"></h2><p id="app-description"></p></div><button id="edit-app">编辑应用与按钮绑定</button></div>
+<div id="binding-editor" class="editor" hidden>
+<h3>应用与 Form 配置</h3><div class="fields"><label>稳定标识<input id="edit-id"></label><label>显示名称<input id="edit-name"></label><label>分类<select id="edit-category"></select></label><label>界面<select id="edit-view"><option value="table">HTML 数据表</option><option value="form">原生 PML Form</option></select></label><label class="wide">说明<input id="edit-description"></label><label class="check"><input id="edit-enabled" type="checkbox">启用应用</label></div>
+<div class="editor-actions"><h3>按钮绑定</h3><select id="edit-action" aria-label="编辑哪个按钮"></select><button id="add-action">＋ 按钮</button><button id="remove-action">移除按钮</button></div>
+<div class="fields"><label>动作标识<input id="edit-action-id"></label><label>按钮文字<input id="edit-label"></label><label>目标类型<select id="edit-kind"><option value="object">PMLOBJ 方法</option><option value="function">PMLFNC 函数</option><option value="form">PML Form</option></select></label><label>目标名称<input id="edit-target"></label><label>方法<input id="edit-method" placeholder="Read / show / Call"></label><label>返回协议<select id="edit-result"><option value="array">格式化数组</option><option value="scalar">标量值</option><option value="none">执行回执</option></select></label></div>
+<p class="hint">PMLOBJ 每次创建新实例。Form 的 show 表示打开窗体；PMLFNC 的方法栏用 Call。数组需使用现有 [depth] path&lt;TYPE&gt; value 格式。</p>
+<div class="editor-actions"><h3>有序参数与默认值</h3><button id="add-parameter">＋ 参数</button></div><div class="scroll"><table class="parameter-table"><thead><tr><th>参数名</th><th>显示名称</th><th>类型</th><th>默认值</th><th>最小值</th><th>最大值</th><th></th></tr></thead><tbody id="parameter-editor"></tbody></table></div>
+<div class="editor-footer"><button id="save-binding" class="primary">保存应用与绑定</button><button id="cancel-edit">取消编辑</button><span>保存后下一次调用生效；不会自动执行。</span></div>
+</div>
+<div class="run-area"><div class="run-heading"><h3>运行</h3><select id="action" aria-label="选择按钮动作"></select><span id="binding-summary" class="binding-summary"></span></div><form id="run-form"><div id="parameters" class="fields"></div><div class="run-footer"><button id="run" class="primary" type="submit">执行</button><span id="run-status">选择会话并填写参数后执行。</span></div></form></div>
+<div id="results" class="results" hidden><div class="result-stats"><div><b id="result-count">0</b><span>返回行数</span></div><div><b id="array-total">—</b><span>属性数组项数</span></div><div><b id="read-source">—</b><span>读取来源</span></div><div><b id="unparsed">0</b><span>未解析</span></div></div><div class="result-toolbar"><h3>读取结果</h3><input type="search" id="filter-results" aria-label="筛选结果" placeholder="搜索路径、类型或值…"><button id="export-csv">导出 CSV</button><button id="export-json">调用记录 JSON</button></div><div class="scroll result-scroll"><table><thead><tr><th>路径</th><th>类型</th><th>值</th></tr></thead><tbody id="result-rows"></tbody></table></div><div class="pagination"><span id="page-label"></span><button id="previous">上一页</button><button id="next">下一页</button></div></div>
+</section>
+<section class="panel history"><div class="section-heading"><h2>最近调用</h2><button id="refresh-history">刷新记录</button></div><div id="history"></div></section>
+<footer>HTML → 本地应用桥 → 既有 IPC → AVEVA PML <span>无需 PMLCMD · 保留现有调用</span></footer>
+</main></body></html>

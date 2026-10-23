@@ -86,6 +86,12 @@
       "description": "复用执行 Core 的 CLI 前端。",
       "sourceOnly": true,
       "role": "production"
+    },
+    "YuzuhaToolkit.WebApps": {
+      "name": "本地 HTML 应用管理器",
+      "description": "Form 分类、动作绑定、参数配置与既有 IPC 适配。",
+      "alias": "webapps",
+      "role": "production"
     }
   },
   "modules": [
@@ -165,6 +171,13 @@
       "description": "CLI/MCP 共享的操作注册、参数契约与调度。",
       "match": "src/PmlTwin.Phayton|src/YuzuhaToolkit.Mcp.Core/(Operation|PmlRpcConnection|YuzuhaOperation)",
       "guide": "cli.html"
+    },
+    {
+      "id": "webapps",
+      "name": "HTML 应用与绑定",
+      "description": "本地分类目录、类型化按钮与参数、原有 IPC 连接和运行证据。",
+      "match": "src/YuzuhaToolkit.WebApps/",
+      "guide": "html-app-manager.html"
     }
   ]
 }

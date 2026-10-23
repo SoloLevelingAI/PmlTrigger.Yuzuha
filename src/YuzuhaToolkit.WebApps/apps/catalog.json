@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "revision": 1,
+  "categories": ["数据浏览", "原生窗体", "开发工具"],
+  "apps": [
+    {
+      "id": "attribute-browser", "name": "属性与大数组", "category": "数据浏览", "description": "读取指定元素属性，支持 VAR SPLIT 大数组与单个下标查看。", "view": "table", "enabled": true,
+      "actions": [
+        {
+          "id": "attribute.read", "label": "读取属性", "kind": "object", "target": "YuzuhaHtmlData", "method": "Read", "result": "array",
+          "parameters": [
+            {"name":"ref", "label":"元素 DBREF", "type":"dbref", "default":"=0/0"},
+            {"name":"attribute", "label":"属性名称", "type":"attribute", "default":"ELDATA"},
+            {"name":"index", "label":"数组下标（0 表示全部）", "type":"integer", "default":0, "min":0, "max":1000000},
+            {"name":"maxRows", "label":"最多结果行", "type":"integer", "default":5000, "min":3, "max":20000}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "native-probe", "name": "原生 Form 示例", "category": "原生窗体", "description": "打开已部署的测试窗体，保留 AVEVA 原生交互。", "view": "form", "enabled": true,
+      "actions": [{"id":"form.open", "label":"打开 Form", "kind":"form", "target":"YuzuhaDevProbeForm", "method":"show", "result":"none", "parameters":[]}]
+    },
+    {
+      "id": "function-probe", "name": "PML 函数示例", "category": "开发工具", "description": "配置两个数，验证 HTML 参数直接传入现有 PMLFNC。", "view": "table", "enabled": true,
+      "actions": [{"id":"function.add", "label":"计算", "kind":"function", "target":"YuzuhaDevAdd", "method":"Call", "result":"scalar", "parameters":[
+        {"name":"left", "label":"第一个数", "type":"real", "default":2},
+        {"name":"right", "label":"第二个数", "type":"real", "default":3}
+      ]}]
+    }
+  ]
+}

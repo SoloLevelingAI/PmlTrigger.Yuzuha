@@ -1,0 +1,42 @@
+{
+  "status": "Passed",
+  "date": "2026-10-23",
+  "product": "E3D 2.1",
+  "host": "NET48 0.3.2.0",
+  "itemCount": 2410,
+  "walkerRows": 2412,
+  "totalRows": 2418,
+  "unparsed": 0,
+  "source": "VAR SPLIT",
+  "adapterRevision": "html-data-v1",
+  "directedIndices": [
+    1,
+    1205,
+    2410
+  ],
+  "directedMatches": 3,
+  "budgetRows": 5,
+  "budgetHasMore": true,
+  "functionResult": 20,
+  "formDispatched": true,
+  "formVisuallyConfirmed": true,
+  "realActions": 7,
+  "httpGuards": 4,
+  "duplicateReplayed": false,
+  "oldBaselineItemCount": 2410,
+  "oldBaselineDifferences": 0,
+  "pmlSourceSha256": "07888D24329D5CE5E8186A4945B9016556D5A746FDE9F9005B7F50C7AF6B8B67",
+  "mainThread": 1,
+  "existingCallersChanged": false,
+  "pmlcmdAdded": false,
+  "offlineChecks": 10,
+  "frontendChecks": 3,
+  "architectureChecks": 14,
+  "combinedNodeChecks": 45,
+  "docfx": {
+    "warnings": 0,
+    "errors": 0,
+    "htmlPages": 2233,
+    "localLinks": 41996
+  }
+}

@@ -1,0 +1,63 @@
+-- <summary>HTML 管理器的数据适配器；保留新版 Walker 的 VAR SPLIT 大数组读取。</summary>
+-- <remarks><para>仅查询属性，不切换 CE，不注册 PMLCMD，不修改数据库。</para></remarks>
+define object YuzuhaHtmlData
+endobject
+
+-- <summary>建立无状态适配器。</summary>
+define method .YuzuhaHtmlData()
+endmethod
+
+-- <summary>读取属性或指定下标，将读取来源、总量和格式化节点一起返回。</summary>
+-- <param name="ref">规范的元素 DBREF 字符串，由客户端进行格式校验。</param>
+-- <param name="attribute">属性名，由客户端进行名称校验。</param>
+-- <param name="index">0 表示整个属性，大于 0 表示定向读取该下标。</param>
+-- <param name="maxRows">Walker 格式化结果行上限，不限制 VAR SPLIT 的完整提取量。</param>
+-- <returns>元信息和 Walker 扁平结果；使用现有 IPC 的 Items 解析格式。</returns>
+define method .Read(!ref is string, !attribute is string, !index is real, !maxRows is real) is array
+  !root = object array()
+  !root.append(!ref.dbref())
+  !walker = object PhaytonObjectWalker()
+  !walker.InitializeFromArray(!root)
+  !walker.MaxArraySize = !maxRows
+  !walker.MaxBFSDepth = 2
+  !walker.startStr = !attribute
+  if !index gt 0 then
+    !walker.startStr = !attribute + '.' + !index.string()
+  endif
+  !rows = !walker.Read()
+  !result = object array()
+  !result.append('[0] Meta.Revision<STRING> html-data-v1')
+  !result.append('[0] Meta.Rows<REAL> ' + !rows.size().string())
+  do !i indices !walker.NodePaths
+    if !walker.NodePaths[!i] eq !attribute then
+      !result.append('[0] Meta.Source<STRING> ' + !walker.NodeSources[!i])
+      if !walker.NodeTypes[!i] eq 'ARRAY' then
+        !total = !walker.NodeValues[!i][1].size()
+        !result.append('[0] Meta.Total<REAL> ' + !total.string())
+        !shown = 0
+        do !row values !rows
+          if !row.matchwild('*' + !attribute + '.|*') then
+            !shown = !shown + 1
+          endif
+        enddo
+        if !index gt 0 then
+          do !node indices !walker.NodePaths
+            if !walker.NodePaths[!node] eq !walker.startStr and !walker.NodeErrors[!node].length() eq 0 then
+              !shown = 1
+            endif
+          enddo
+        endif
+        !result.append('[0] Meta.Returned<REAL> ' + !shown.string())
+        !more = false
+        if !index eq 0 and !shown lt !total then
+          !more = true
+        endif
+        !result.append('[0] Meta.HasMore<BOOLEAN> ' + !more.string())
+      endif
+    endif
+  enddo
+  do !row values !rows
+    !result.append(!row)
+  enddo
+  return !result
+endmethod

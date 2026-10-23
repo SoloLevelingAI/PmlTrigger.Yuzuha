@@ -92,6 +92,13 @@
         "PmlTwin.Phayton",
         "YuzuhaToolkit.Mcp.Core"
       ]
+    },
+    "YuzuhaToolkit.WebApps": {
+      "id": "webapps",
+      "title": "本地 HTML 应用管理器与 IPC 适配",
+      "references": [
+        "YuzuhaToolkit.Mcp.Core"
+      ]
     }
   }
 }

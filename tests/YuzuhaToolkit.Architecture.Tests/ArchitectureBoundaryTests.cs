@@ -12,7 +12,7 @@ public sealed class ArchitectureBoundaryTests
 {
     private static readonly Dictionary<string, Assembly> Assemblies = new[]
     {
-        "PlantHost.Rpc.Net10", "YuzuhaToolkit.Mcp", "YuzuhaToolkit.Mcp.Core", "YuzuhaToolkit.Knowledge", "YuzuhaToolkit.Knowledge.Core", "YuzuhaToolkit.DevHost", "YuzuhaToolkit.CommandLine", "YuzuhaToolkit.Workspace"
+        "PlantHost.Rpc.Net10", "YuzuhaToolkit.Mcp", "YuzuhaToolkit.Mcp.Core", "YuzuhaToolkit.Knowledge", "YuzuhaToolkit.Knowledge.Core", "YuzuhaToolkit.DevHost", "YuzuhaToolkit.CommandLine", "YuzuhaToolkit.Workspace", "YuzuhaToolkit.WebApps"
     }.ToDictionary(name => name, Assembly.Load);
     private static readonly ArchUnitNET.Domain.Architecture Compiled = new ArchLoader()
         .LoadAssemblies(Assemblies.Values.ToArray()).Build();
@@ -24,6 +24,7 @@ public sealed class ArchitectureBoundaryTests
     [InlineData("YuzuhaToolkit.Knowledge")]
     [InlineData("YuzuhaToolkit.Knowledge.Core")]
     [InlineData("YuzuhaToolkit.DevHost")]
+    [InlineData("YuzuhaToolkit.WebApps")]
     [InlineData("YuzuhaToolkit.CommandLine")]
     [InlineData("YuzuhaToolkit.Workspace")]
     public void CompiledDependenciesFollowApprovedDirection(string project)

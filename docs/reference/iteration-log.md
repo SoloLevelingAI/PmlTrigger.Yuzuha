@@ -14,6 +14,7 @@
 | TRACE13 | HTML 作为界面，复用后端和 AVEVA 能力 | 方向已记录；应用管理与运行桥仍为计划，开发网页不代表生产接通 | 通过本地桥复用服务/Host，关联会话和结果，验收一条真实场景；见[HTML 范围](pml-development-flow.md#html-作为界面) |
 | TRACE14 | 推送 Walker 提交，打通复制到 PMLLIB、REHASH ALL、Form/Object 重载和验证，保留现有调用 | 833fc9a 已推送；开发脚本已串联并在 E3D 完成 v1→v2、备份及 8 项值核对；旧桌面入口不变 | [本批实测](../../artifacts/docfx/navigation/repository/docs/validation/2026-10-23-pml-development.md)记录失败诊断、原生按钮交互、版本/哈希和跨版本边界 |
 | TRACE15 | PML 导出数据繁琐，改用 IPC 信道和 HTML 表格；从 pmlforms 借鉴编程思路 | PML 负责取值，IPC 返回 Items；已提供 HTML 快照的筛选/JSON 导入/CSV 导出。原生 Form 用属性分类方式实现，修正 GADGET/MENU 局部变量类型冲突 | 当前是已读数据的展示导出；持续 HTML 调用桥待接入，不把生成网页当作实时联通；见[链路与界面选择](pml-development-flow.md) |
+| TRACE16 | 做本地 HTML 应用管理器，提供 Form 分类、按钮绑定、参数配置，经现有 IPC 实测 ELDATA 和结果表；接入由程序负责，兼容性优先且不用 PMLCMD | 独立 WebApps 已提供本地分类与编辑、对象/函数/Form 实时调用；E3D 2.1 的 2410 项、首中尾、预算、函数与 Form 通过；现有调用不改 | [使用及边界](html-app-manager.md)、[实测](../../artifacts/docfx/navigation/repository/docs/validation/2026-10-23-html-app-manager.md)；远程市场、第三方 HTML 包及其他版本兼容性待完成；ELDATA 业务编码未解码 |
 
 ## 2026年10月22日 后端溯源方向
 

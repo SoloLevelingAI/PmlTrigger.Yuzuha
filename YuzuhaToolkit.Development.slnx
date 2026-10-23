@@ -11,6 +11,7 @@
     <Project Path="src/YuzuhaToolkit.Knowledge.Core/YuzuhaToolkit.Knowledge.Core.csproj" />
     <Project Path="src/YuzuhaToolkit.Knowledge/YuzuhaToolkit.Knowledge.csproj" />
     <Project Path="src/YuzuhaToolkit.DevHost/YuzuhaToolkit.DevHost.csproj" />
+    <Project Path="src/YuzuhaToolkit.WebApps/YuzuhaToolkit.WebApps.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/YuzuhaToolkit.Tests/YuzuhaToolkit.Tests.csproj" />

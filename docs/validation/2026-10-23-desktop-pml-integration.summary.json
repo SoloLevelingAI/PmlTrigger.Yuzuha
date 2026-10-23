@@ -12,6 +12,16 @@
     "finalStage": "ExecuteMacroSucceeded;ReadResultsRpcPeerClosed;UserReportedE3DUnresponsive;NoRetry"
   },
   "guiStoppedByUser": true,
+  "unresponsiveDiagnosis": {
+    "scope": "ReadOnlyOperatingSystemProcessCounters;NoFurtherIpcOrUiInput",
+    "sampleLocalTime": "2026-10-23T18:09:12+08:00",
+    "responding": false,
+    "sampleSeconds": 2.07,
+    "processCpuSeconds": 2.05,
+    "busiestThreadCpuSeconds": 2.02,
+    "privateMemoryMiB": 644,
+    "rootCause": "NotEstablished;NoRuntimeStackCaptured"
+  },
   "AM": "StartupLogAndPipeObserved;IpcNotVerifiedBecauseMarodesIsNotDiscovered",
   "stages": {
     "v2Steps": 10,

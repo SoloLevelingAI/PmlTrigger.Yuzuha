@@ -16,4 +16,6 @@ AI 的试验 PML 放在独立 `tests/ai-pml/<任务名>/`，不直接覆盖原�
 
 C# 负责登记应用来源、目录、版本、入口、启停状态、授权和记录。打开页面与允许 RPC 调用是不同操作。后续桥接复用既有业务服务、身份核验与权限，先定义来源和生命周期，再实现真实调用。开发 DevHost 的预览接口不代表已经交付 HTML 应用运行桥。
 
+2026-10-23 已补开发阶段的数据出口：`pml-data-table.mjs` 将既有 IPC 返回数据生成本地 HTML 快照，支持筛选、导入 JSON 和导出 CSV。复制、重载和验证已有独立开发脚本及 E3D 实测；页面持续调用桥与现有桌面集成仍未实现，见[开发链路](../pml-development-flow.md)。
+
 [项目设计约定](../pmltwin-design-contract.md) · [功能与 Script 维护](../catalog-maintenance.md)

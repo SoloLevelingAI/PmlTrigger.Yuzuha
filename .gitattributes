@@ -10,6 +10,8 @@
 *.pmlfrm text eol=lf
 *.pmlmac text eol=lf
 *.ps1 text eol=lf
+*.psm1 text eol=lf
+*.mjs text eol=lf
 *.pmlobj text eol=lf
 PMLUI/**/Addins/YuzuhaAddin text eol=lf
 PMLUI/version.dat text eol=lf

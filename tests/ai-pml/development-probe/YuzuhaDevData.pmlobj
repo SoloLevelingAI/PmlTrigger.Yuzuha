@@ -1,0 +1,20 @@
+-- Synthetic development object. No model reads, edits or saves.
+-- <summary>Provide owned data and a revision marker for deployment/reload verification.</summary>
+define object YuzuhaDevData
+endobject
+
+-- <summary>Return the revision compiled into this object source.</summary>
+-- <returns>Exact revision marker.</returns>
+define method .Revision() is STRING
+  return 'object-v2'
+endmethod
+
+-- <summary>Return three synthetic rows for IPC table verification.</summary>
+-- <returns>Owned row values.</returns>
+define method .Rows() is ARRAY
+  !rows = object array()
+  !rows.append('alpha')
+  !rows.append('beta')
+  !rows.append('gamma')
+  return !rows
+endmethod

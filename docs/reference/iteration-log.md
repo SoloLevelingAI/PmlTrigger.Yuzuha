@@ -12,6 +12,8 @@
 | TRACE11 | Form/Button 和全量信息参考用户提供的 Marine pmlforms.pmlfrm | 已核对分类与展开；现有工具只有部分属性 | [链路说明](pml-development-flow.md)保留来源指纹、差距与验收；扩展未实现，Marine 未实测 |
 | TRACE12 | 明确需求格式，核实编写、复制 PMLLIB、REHASH ALL、Form/Object reload 链路及文档 | 需求与决定用 Markdown，契约用源码 XML，目录关联用 JSON，DocFX 展示；已有复制和命令入口，通用自动串联待实现 | 每步关联目标、版本、回执和实际行为；见[开发与加载链路](pml-development-flow.md) |
 | TRACE13 | HTML 作为界面，复用后端和 AVEVA 能力 | 方向已记录；应用管理与运行桥仍为计划，开发网页不代表生产接通 | 通过本地桥复用服务/Host，关联会话和结果，验收一条真实场景；见[HTML 范围](pml-development-flow.md#html-作为界面) |
+| TRACE14 | 推送 Walker 提交，打通复制到 PMLLIB、REHASH ALL、Form/Object 重载和验证，保留现有调用 | 833fc9a 已推送；开发脚本已串联并在 E3D 完成 v1→v2、备份及 8 项值核对；旧桌面入口不变 | [本批实测](../../artifacts/docfx/navigation/repository/docs/validation/2026-10-23-pml-development.md)记录失败诊断、原生按钮交互、版本/哈希和跨版本边界 |
+| TRACE15 | PML 导出数据繁琐，改用 IPC 信道和 HTML 表格；从 pmlforms 借鉴编程思路 | PML 负责取值，IPC 返回 Items；已提供 HTML 快照的筛选/JSON 导入/CSV 导出。原生 Form 用属性分类方式实现，修正 GADGET/MENU 局部变量类型冲突 | 当前是已读数据的展示导出；持续 HTML 调用桥待接入，不把生成网页当作实时联通；见[链路与界面选择](pml-development-flow.md) |
 
 ## 2026年10月22日 后端溯源方向
 

@@ -256,6 +256,16 @@
   ],
   "cases": [
     {
+      "id":"manual:pml-development",
+      "kind":"manual",
+      "category":"aveva-live",
+      "file":"tests/live/pml-development/README.md",
+      "entryPoint":"## manual:pml-development",
+      "purpose":"在准确会话中验证复制、备份、REHASH ALL、Object/Form 重载、版本变化、PMLFNC 与原生按钮，逐项核对 IPC 结果。",
+      "environment":"Windows、PowerShell 7.6/.NET 10、已构建的 Workspace/Phayton CLI；各 AVEVA 产品及 Host 分别实测，不保存工程",
+      "expected":"每步保留回执；失败或未知即停、不自动重发；新版本标记与 8 项结果一致、0 未解析行；现场数据不进入公开夹具。"
+    },
+    {
       "id": "manual:phayton-object-walker",
       "kind": "manual",
       "category": "aveva-live",
@@ -445,6 +455,15 @@
     }
   ],
   "bindings": [
+    {
+      "test":"manual:pml-development",
+      "purpose":"独立合成夹具验证部署重载和原生控件调用，不替换现有调用链。",
+      "targets":[
+        {"file":"tests/ai-pml/development-probe/YuzuhaDevData.pmlobj","symbol":"YuzuhaDevData"},
+        {"file":"tests/ai-pml/development-probe/YuzuhaDevAdd.pmlfnc","symbol":"!!YuzuhaDevAdd"},
+        {"file":"tests/ai-pml/development-probe/YuzuhaDevProbeForm.pmlfrm","symbol":"!!YuzuhaDevProbeForm"}
+      ]
+    },
     {
       "test": "manual:phayton-object-walker",
       "purpose": "验证独立新版缓存贯通取值、格式化和后续下标遍历，不切换现有调用。",

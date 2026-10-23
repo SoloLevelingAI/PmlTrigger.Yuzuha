@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "pluginName": "YuzuhaDevelopmentProbe",
+  "objects": ["YuzuhaDevData"],
+  "forms": ["YuzuhaDevProbeForm"],
+  "validationMacro": "validate.pmlmac",
+  "resultGlobal": "YuzuhaDevProbeReport",
+  "expected": {
+    "ObjectRevision": "object-v2",
+    "FormRevision": "form-v2",
+    "FunctionSum": "5",
+    "ObjectRowCount": "3",
+    "FormRunCount": "1",
+    "ButtonType": "BUTTON",
+    "FirstRow": "alpha",
+    "LastRow": "gamma"
+  }
+}

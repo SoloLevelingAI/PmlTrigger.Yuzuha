@@ -1,0 +1,232 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-23",
+  "timeZone": "Asia/Shanghai",
+  "baseCommit": "833fc9aa3bb4a45a6aec8dd59466984cfce8d971",
+  "product": "E3D 2.1",
+  "hostFramework": "net48",
+  "hostVersion": "0.3.2.0",
+  "runs": [
+    {
+      "name": "live-v1-corrected",
+      "status": "Passed",
+      "steps": [
+        {
+          "name": "verify-session",
+          "status": "Passed"
+        },
+        {
+          "name": "query-pmllib",
+          "status": "Passed"
+        },
+        {
+          "name": "verify-pmllib",
+          "status": "Passed"
+        },
+        {
+          "name": "copy-payload",
+          "status": "Passed"
+        },
+        {
+          "name": "rehash-all",
+          "status": "Passed"
+        },
+        {
+          "name": "reload-object:YuzuhaDevData",
+          "status": "Passed"
+        },
+        {
+          "name": "reload-form:YuzuhaDevProbeForm",
+          "status": "Passed"
+        },
+        {
+          "name": "execute-validation",
+          "status": "Passed"
+        },
+        {
+          "name": "read-results",
+          "status": "Passed"
+        },
+        {
+          "name": "verify-results",
+          "status": "Passed"
+        }
+      ],
+      "matched": 8
+    },
+    {
+      "name": "live-v2",
+      "status": "Passed",
+      "steps": [
+        {
+          "name": "verify-session",
+          "status": "Passed"
+        },
+        {
+          "name": "query-pmllib",
+          "status": "Passed"
+        },
+        {
+          "name": "verify-pmllib",
+          "status": "Passed"
+        },
+        {
+          "name": "copy-payload",
+          "status": "Passed"
+        },
+        {
+          "name": "rehash-all",
+          "status": "Passed"
+        },
+        {
+          "name": "reload-object:YuzuhaDevData",
+          "status": "Passed"
+        },
+        {
+          "name": "reload-form:YuzuhaDevProbeForm",
+          "status": "Passed"
+        },
+        {
+          "name": "execute-validation",
+          "status": "Passed"
+        },
+        {
+          "name": "read-results",
+          "status": "Passed"
+        },
+        {
+          "name": "verify-results",
+          "status": "Passed"
+        }
+      ],
+      "matched": 8
+    },
+    {
+      "name": "live v2 quoted",
+      "status": "Passed",
+      "steps": [
+        {
+          "name": "verify-session",
+          "status": "Passed"
+        },
+        {
+          "name": "query-pmllib",
+          "status": "Passed"
+        },
+        {
+          "name": "verify-pmllib",
+          "status": "Passed"
+        },
+        {
+          "name": "copy-payload",
+          "status": "Passed"
+        },
+        {
+          "name": "rehash-all",
+          "status": "Passed"
+        },
+        {
+          "name": "reload-object:YuzuhaDevData",
+          "status": "Passed"
+        },
+        {
+          "name": "reload-form:YuzuhaDevProbeForm",
+          "status": "Passed"
+        },
+        {
+          "name": "execute-validation",
+          "status": "Passed"
+        },
+        {
+          "name": "read-results",
+          "status": "Passed"
+        },
+        {
+          "name": "verify-results",
+          "status": "Passed"
+        }
+      ],
+      "matched": 8
+    }
+  ],
+  "payload": [
+    {
+      "file": "tests/ai-pml/development-probe/validate.pmlmac",
+      "sha256": "00d9fa6eac0d99d6916c7831e613f2db9357cafc5993d1b501388463709b10d6"
+    },
+    {
+      "file": "tests/ai-pml/development-probe/YuzuhaDevAdd.pmlfnc",
+      "sha256": "2ee33c8e6636cde679ed9f2efe2b64ec40ea5a2f9eab669d407df3e0db1d4873"
+    },
+    {
+      "file": "tests/ai-pml/development-probe/YuzuhaDevData.pmlobj",
+      "sha256": "8d55579dd077e30e33558c9941be784fd3ccbe5e35107072584beca9d73c0f8b"
+    },
+    {
+      "file": "tests/ai-pml/development-probe/YuzuhaDevProbeForm.pmlfrm",
+      "sha256": "2e343d8d54b462101a3db56acfb1e0e66eef9bc9f4652e51255cea75e2d479ba"
+    }
+  ],
+  "results": [
+    {
+      "path": "ObjectRevision",
+      "type": "STRING",
+      "value": "object-v2"
+    },
+    {
+      "path": "FormRevision",
+      "type": "STRING",
+      "value": "form-v2"
+    },
+    {
+      "path": "FunctionSum",
+      "type": "REAL",
+      "value": "5"
+    },
+    {
+      "path": "ObjectRowCount",
+      "type": "REAL",
+      "value": "3"
+    },
+    {
+      "path": "FormRunCount",
+      "type": "REAL",
+      "value": "1"
+    },
+    {
+      "path": "ButtonType",
+      "type": "STRING",
+      "value": "BUTTON"
+    },
+    {
+      "path": "FirstRow",
+      "type": "STRING",
+      "value": "alpha"
+    },
+    {
+      "path": "LastRow",
+      "type": "STRING",
+      "value": "gamma"
+    }
+  ],
+  "button": {
+    "counterAfterClick": 2,
+    "result": "object-v2 / sum=5 / run=2"
+  },
+  "diagnostics": [
+    {
+      "stage": "execute-validation",
+      "error": "(2,761) incompatible types (GADGET=MENU)",
+      "resolution": "Read attribute types directly from the parent, following pmlforms; do not reuse a typed local for unlike native types."
+    },
+    {
+      "stage": "macro-path-probe",
+      "resolution": "Quote macro paths; final full run used an evidence directory containing spaces."
+    }
+  ],
+  "initialFailureRetained": true,
+  "backupHashesVerified": true,
+  "cleanupSuccess": true,
+  "existingCallersChanged": false,
+  "scope": "Synthetic owned fixture; no model writes or saves. HTML is a snapshot renderer, not a live execution bridge."
+}

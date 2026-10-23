@@ -1,0 +1,15 @@
+-- All data is owned by this fixture. The result ARRAY is consumed/deleted by the workflow.
+!!YuzuhaDevProbeReport = object array()
+!data = object YuzuhaDevData()
+!rows = !data.Rows()
+!sum = !!YuzuhaDevAdd(2,3)
+!!YuzuhaDevProbeForm.runProbe()
+!!YuzuhaDevProbeReport.append('[0] ObjectRevision<STRING> ' + !data.Revision())
+!!YuzuhaDevProbeReport.append('[0] FormRevision<STRING> ' + !!YuzuhaDevProbeForm.revision)
+!!YuzuhaDevProbeReport.append('[0] FunctionSum<REAL> ' + !sum.string())
+!!YuzuhaDevProbeReport.append('[0] ObjectRowCount<REAL> ' + !rows.size().string())
+!!YuzuhaDevProbeReport.append('[0] FormRunCount<REAL> ' + !!YuzuhaDevProbeForm.counter.string())
+!!YuzuhaDevProbeReport.append('[0] ButtonType<STRING> ' + !!YuzuhaDevProbeForm.run.type())
+!!YuzuhaDevProbeReport.append('[0] FirstRow<STRING> ' + !rows[1])
+!!YuzuhaDevProbeReport.append('[0] LastRow<STRING> ' + !rows[3])
+show !!YuzuhaDevProbeForm

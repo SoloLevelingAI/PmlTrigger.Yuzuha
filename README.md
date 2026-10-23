@@ -7,6 +7,8 @@
 
 独立新版 [PhaytonObjectWalker](docs/reference/phayton-object-walker.md) 保留 VAR SPLIT，已有 [2410 项 ELDATA 实测记录](docs/validation/2026-10-23-phayton-object-walker.md)，现有调用未切换。[需求、PML 加载与 HTML 链路](docs/reference/pml-development-flow.md)说明当前支持和待实现范围。
 
+[开发部署入口](scripts/Invoke-PmlDevelopment.ps1)已串联复制、REHASH ALL、Object/Form 重载和 IPC 结果核验；[复刻说明](tests/live/pml-development/README.md)与[E3D 实测](docs/validation/2026-10-23-pml-development.md)记录版本更新和按钮调用。`pml-data-table.mjs` 可把已有 IPC 结果导出为本地 HTML 表格。
+
 面向 AVEVA E3D、PDMS 和 AM 的本机 AI/PML 工具：连接工程会话、查询与执行 PML、检索本地资料，并记录窗体操作过程。
 
 A local AI/PML toolkit for AVEVA E3D, PDMS and AM: connect to engineering sessions, query and execute PML, retrieve local references, and record form interactions.

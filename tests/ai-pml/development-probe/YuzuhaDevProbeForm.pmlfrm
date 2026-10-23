@@ -1,0 +1,38 @@
+-- Synthetic native form; use pmlforms-style attribute classification without copying vendor source.
+setup form !!YuzuhaDevProbeForm
+  !this.formTitle = 'Yuzuha | IPC development probe'
+  button .run 'Run probe' at xmin ymin callback '!this.runProbe()' width 22
+  text .result 'Result' at xmin ymax+0.5 width 38 is STRING
+  list .items 'Data / metadata' at xmin ymax+0.5 width 54 length 8
+  member .counter is REAL
+  member .revision is STRING
+exit
+
+-- <summary>Initialize revision and callback state for a newly loaded form.</summary>
+define method .YuzuhaDevProbeForm()
+  !this.counter = 0
+  !this.revision = 'form-v2'
+  !this.result.val = 'Ready'
+endmethod
+
+-- <summary>Invoke the owned PMLOBJ and PMLFNC and show values plus typed form attributes.</summary>
+define method .runProbe()
+  !this.counter = !this.counter + 1
+  !data = object YuzuhaDevData()
+  !sum = !!YuzuhaDevAdd(2,3)
+  !this.result.val = !data.Revision() + ' / sum=' + !sum.string() + ' / run=' + !this.counter.string()
+  !display = !data.Rows()
+  !attributes = !this.attributes()
+  do !index indices !attributes
+    !name = !attributes[!index]
+    !kind = !this.attribute(!name).objectType()
+    if !kind eq 'GADGET' then
+      if !this.attribute(!name).set() then
+        !kind = !this.attribute(!name).type()
+      endif
+    endif
+    !display.append(!name + ' <' + !kind + '>')
+  enddo
+  !this.items.dtext = !display
+  !this.items.rtext = !display
+endmethod

@@ -16,6 +16,11 @@
     {"id":"web","name":"HTML 应用管理","summary":"用 C# 管理应用来源、版本、入口、停用和权限；当前 GUI 与运行桥待接入。","status":"planned","origin":"user","guide":"docs/reference/features/planned-tools.md","types":[]}
   ],
   "scripts": [
+    {"file":"scripts/Invoke-PmlDevelopment.ps1","features":["deployment","forms","functions"],"role":"runtime","purpose":"复用冻结复制与 Phayton IPC，串联 REHASH ALL、Object/Form 重载、结果读取和精确核验。","guide":"docs/reference/pml-development-flow.md","change":"2026-10-23 E3D 独立合成夹具 v1→v2 通过；现有调用和桌面按钮不变。"},
+    {"file":"scripts/pml-data-table.mjs","features":["arrays"],"role":"build","purpose":"把已有 IPC 返回行生成本地 HTML 表格，支持筛选、JSON 导入和 CSV 导出，不提供实时 PML 执行桥。","guide":"docs/reference/pml-development-flow.md"},
+    {"file":"tests/ai-pml/development-probe/YuzuhaDevData.pmlobj","features":["objects","deployment"],"role":"draft","purpose":"独立部署重载夹具，返回版本标记和三项合成数据。","guide":"docs/reference/pml-development-flow.md"},
+    {"file":"tests/ai-pml/development-probe/YuzuhaDevAdd.pmlfnc","features":["functions","deployment"],"role":"draft","purpose":"独立 PMLFNC 加法夹具，验证原生 Form 方法和 IPC 读取的调用链。","guide":"docs/reference/pml-development-flow.md"},
+    {"file":"tests/ai-pml/development-probe/YuzuhaDevProbeForm.pmlfrm","features":["forms","deployment"],"role":"draft","purpose":"独立原生按钮和属性分类夹具，复用 pmlforms 的分类思路并验证真实回调。","guide":"docs/reference/pml-development-flow.md"},
     {"id":"SCR-CS-ARRAY-WINDOW","type":"YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Pml.PmlArrayWindow","entry":"Read","features":["arrays"],"role":"algorithm","purpose":"计算已有数组的有界索引窗口，字符预算不拆行，保留续读索引。","guide":"docs/reference/pmltwin-phase1.md","change":"v0.4 第一阶段加入原生索引和字符预算策略；实现及当时证据见第一阶段报告。"},
     {"id":"SCR-CS-FORM-QUERY","type":"YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Pml.PmlFormQuery","features":["forms"],"role":"runtime","purpose":"验证固定查询并组织扫描、预算、元数据读取和请求专有变量清理；原生执行由既有适配器提供。","guide":"docs/reference/form-gadget-query.md","change":"v0.4 增加原生 Form/Gadget 查询，共享源码编译到 NET10、NET35、NET48；当前实机状态见人工案例。"},
     {"id":"SCR-CS-PML-CALL","type":"YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Pml.PmlMethodSignatureGenerator","features":["functions","objects"],"role":"algorithm","purpose":"复用已有 PML 调用文本生成器，按参数类型与顺序编码。","guide":"docs/reference/pmltwin-phase1.md"},

@@ -1,0 +1,7 @@
+-- <summary>Add two synthetic numbers without accessing model state.</summary>
+-- <param name="left">First number.</param>
+-- <param name="right">Second number.</param>
+-- <returns>The sum.</returns>
+define function !!YuzuhaDevAdd(!left is REAL, !right is REAL) is REAL
+  return (!left + !right)
+endfunction

@@ -1,9 +1,11 @@
 # PMLLIB/Obsolete/YuzuCollctTest.pmlfnc
 
 File: PMLLIB/Obsolete/YuzuCollctTest.pmlfnc
-LastWriteTimeUtc: 2026-09-19T01:35:33.2921636Z
-SHA256: 328A55E52E55E3178F674F3C9031582377963F6B6A6AC81A99FFBAEC2E4CF741
-RecordedAtUtc: 2026-09-20T13:50:09.5893323Z
+LastWriteTimeUtc: 2026-10-23T00:55:28.769063Z
+SHA256: CDAA13504DDA7EB217B01759E6E00039A79BF7E7763AA1BEB5A8952CA4D08587
+RecordedAtUtc: 2026-10-23T01:03:39.891717Z
 
 Maintainer PML snapshot. See docs/semantic/pml-sync.json. Source authored by maintainer; synchronization metadata recorded by OpenAI Codex. No live AVEVA test.
 Timestamp is a fast check; SHA256 verifies content.
+
+2026-10-23 deprecation marking: retained source and compatibility paths; PML executable bodies compared with main 5efe62a1292ca936c76e5c08e230dcca85c74e4e. Historical pml-sync.json is unchanged. No live AVEVA test.

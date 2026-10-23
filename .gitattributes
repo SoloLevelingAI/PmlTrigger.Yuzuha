@@ -1,4 +1,5 @@
 * text=auto
+.gitattributes text eol=lf
 *.cs text eol=lf
 *.csproj text eol=lf
 *.props text eol=lf
@@ -6,10 +7,13 @@
 *.sln text eol=lf
 *.md text eol=lf
 *.pmlcmd text eol=lf
+*.pmlcmd.obsolete text eol=lf
+*.pmlcmd.obsolote text eol=lf
 *.pmlfnc text eol=lf
 *.pmlfrm text eol=lf
 *.pmlmac text eol=lf
 *.ps1 text eol=lf
+scripts/Package-Release.py text eol=lf
 *.pmlobj text eol=lf
 PMLUI/**/Addins/YuzuhaAddin text eol=lf
 PMLUI/version.dat text eol=lf

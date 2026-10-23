@@ -1,4 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
+  <!-- DEPRECATED (2026-10-23): retained partner of the historical dynamic-proxy
+       client. Current CI uses tests/AotRpcSmoke. See ../README.md. -->
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net35</TargetFramework>

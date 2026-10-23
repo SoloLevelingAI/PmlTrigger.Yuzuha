@@ -72,6 +72,8 @@
   items:
   - name: 文档维护
     href: documentation.md
+  - name: 弃用与兼容入口
+    href: deprecations.md
   - name: 迭代记录
     href: iteration-log.md
   - name: 排查笔记

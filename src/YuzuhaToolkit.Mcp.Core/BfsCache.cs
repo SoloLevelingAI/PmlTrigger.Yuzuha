@@ -1,10 +1,15 @@
 namespace YuzuhaToolkit.Mcp;
 
 /// <summary>
-///     Optional cache contract for raw BFS rows. The SQLite implementation is
-///     intentionally excluded from this delivery until storage and deployment
-///     policy are decided. Consumers must work when no implementation is present.
+///     Deprecated, unused contract for raw BFS rows, retained for source compatibility.
+///     No implementation is shipped. New integrations must use the existing query
+///     tools without depending on this optional cache contract.
 /// </summary>
+/// <remarks>
+/// Deprecated since 2026-10-23; see docs/reference/deprecations.md. The public
+/// contract remains available without a compiler warning, so existing consumers
+/// that treat warnings as errors can still build during the migration period.
+/// </remarks>
 public interface IBfsCache
 {
     /// <summary>为 PML 命令与全局变量计算一致的缓存键。</summary>

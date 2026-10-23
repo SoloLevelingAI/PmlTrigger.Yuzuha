@@ -1,5 +1,7 @@
 # Net10 / Net48 Build and Publishing
 
+> **Historical publishing record; no longer recommended (2026-10-23).** The matrix and commands below retain their original context and do not describe current release status. Both current servers use Native AOT through `scripts/Build-NativeServers.ps1`; use `scripts/Build-Desktop.ps1` for the desktop and the [installer build guide](../installer/README.md) for Windows Setup/Agent packaging. Existing profiles and the v0.3.2 ZIP packager remain available; see the [deprecation register](reference/deprecations.md) for migration boundaries.
+
 ## Verified matrix
 
 | Target | Result | Notes |

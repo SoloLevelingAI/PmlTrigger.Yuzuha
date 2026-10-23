@@ -1,5 +1,7 @@
 # Net10 / Net48 构建与发布
 
+> **历史发布记录，已停止推荐（2026-10-23）。** 下文验证矩阵和发布命令保留原始上下文，不能作为当前版本的发布状态。当前两个服务使用 Native AOT，统一入口为 `scripts/Build-NativeServers.ps1`；桌面使用 `scripts/Build-Desktop.ps1`，Windows Setup/Agent 打包见 [安装器构建说明](../installer/README.md)。旧 profile 和 v0.3.2 ZIP 脚本继续保留，状态与迁移边界见[弃用登记](reference/deprecations.md)。
+
 ## 已验证组合
 
 | 目标 | 结果 | 备注 |

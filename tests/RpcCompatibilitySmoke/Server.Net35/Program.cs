@@ -1,3 +1,5 @@
+// DEPRECATED (2026-10-23): historical dynamic-proxy smoke server, retained.
+// Keep paired with Client.Net10 until explicitly retired; see ../README.md.
 using System;
 using System.Diagnostics;
 using System.Threading;

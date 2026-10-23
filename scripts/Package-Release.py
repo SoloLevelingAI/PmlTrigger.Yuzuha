@@ -1,8 +1,13 @@
-"""Package already-built artifacts. Does not install/register anything."""
+"""DEPRECATED: historical v0.3.2 ZIP packager, retained for reproducibility.
+
+For the current Windows Setup/Agent distribution use installer/build.py.
+This entry point and its output names remain available during migration.
+See docs/reference/deprecations.md. Does not install/register anything.
+"""
 import hashlib, json, pathlib, shutil, zipfile, argparse
 
 root=pathlib.Path(__file__).resolve().parent.parent
-parser=argparse.ArgumentParser()
+parser=argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--output',type=pathlib.Path,default=root.parent/'outputs'/'release-v0.3.2')
 out=parser.parse_args().output.resolve()
 manifest_path=root/'runtime/net10/native-aot-manifest.json'

@@ -8,14 +8,19 @@ namespace PmlTwin.Phayton;
 /// <summary>共享操作的稳定标识、契约版本、输入结构及目标和执行要求。</summary>
 public sealed record OperationDescriptor(
     string Id, int ContractVersion, string Description, JsonElement InputSchema,
-    bool RequiresPid = false, bool RequiresExecution = false);
+    bool RequiresPid = false, bool RequiresExecution = false,
+    bool RequiresWrite = false, bool RequiresLaunch = false, string[]? LegacyTools = null);
 
 /// <summary>本次调用显式指定的目标 PID、模块和执行许可。</summary>
 public sealed record OperationContext(
-    int? ProcessId = null, string? ExpectedModel = null, bool AllowExecution = false);
+    int? ProcessId = null, string? ExpectedModel = null, bool AllowExecution = false,
+    bool AllowWrite = false, bool AllowLaunch = false);
 
 /// <summary>操作错误代码、可读原因及远端可能已执行的标记。</summary>
 public sealed record OperationError(string Code, string Message, bool MayHaveExecuted = false);
+
+/// <summary>顺序执行的实际回执；首个失败后停止，先前结果保留，不自动回滚或重试。</summary>
+public sealed record OperationBatchResult(bool Success, bool StoppedOnError, int Completed, OperationResult[] Results);
 
 /// <summary>操作的成功状态、退出码、原始数据与错误信息。</summary>
 public sealed record OperationResult(
@@ -60,6 +65,15 @@ public sealed class DelegateOperationHandler(
 /// <summary>将操作描述和实际处理器关联成注册项。</summary>
 public sealed record OperationRegistration(OperationDescriptor Descriptor, IOperationHandler Handler);
 
+/// <summary>观察一次统一操作的开始和结束；不参与业务授权或结果判断。</summary>
+public interface IOperationObserver
+{
+    /// <summary>记录脱敏输入与目标，返回本次关联标识。</summary>
+    string Begin(string id, JsonElement input, OperationContext context);
+    /// <summary>保存同一次操作的实际结果与结束状态。</summary>
+    void Complete(string correlationId, OperationResult result, OperationContext context);
+}
+
 /// <summary>校验并保存唯一的操作注册项，提供稳定排序的描述目录。</summary>
 public sealed class OperationRegistry
 {
@@ -94,7 +108,7 @@ public sealed class OperationRegistry
 }
 
 /// <summary>在调用处理器前统一验证参数、显式目标和执行许可。</summary>
-public sealed class OperationExecutor(OperationRegistry registry)
+public sealed class OperationExecutor(OperationRegistry registry, IOperationObserver? observer = null)
 {
     /// <summary>本执行器使用的操作注册表。</summary>
     public OperationRegistry Registry { get; } = registry;
@@ -102,6 +116,15 @@ public sealed class OperationExecutor(OperationRegistry registry)
     /// <summary>执行一次操作并保留失败或未知状态；不自动重试。</summary>
     public async Task<OperationResult> InvokeAsync(string id, JsonElement input,
         OperationContext context, CancellationToken cancellationToken = default)
+    {
+        var correlation = observer?.Begin(id, input, context);
+        var result = await InvokeCoreAsync(id, input, context, cancellationToken).ConfigureAwait(false);
+        if (correlation is not null) observer!.Complete(correlation, result, context);
+        return result;
+    }
+
+    private async Task<OperationResult> InvokeCoreAsync(string id, JsonElement input,
+        OperationContext context, CancellationToken cancellationToken)
     {
         if (!Registry.TryGet(id, out var registration))
             return OperationResult.Fail(id, 3, "UNKNOWN_OPERATION", "Unknown operation ID: " + id);
@@ -113,6 +136,10 @@ public sealed class OperationExecutor(OperationRegistry registry)
         if (registration.Descriptor.RequiresExecution && !context.AllowExecution)
             return OperationResult.Fail(id, 4, "EXECUTION_NOT_AUTHORIZED",
                 "Execution requires explicit authorization. No PML was sent.");
+        if (registration.Descriptor.RequiresWrite && !context.AllowWrite)
+            return OperationResult.Fail(id, 4, "WRITE_NOT_AUTHORIZED", "This operation requires --allow-write. No configuration or knowledge data was changed.");
+        if (registration.Descriptor.RequiresLaunch && !context.AllowLaunch)
+            return OperationResult.Fail(id, 4, "LAUNCH_NOT_AUTHORIZED", "This operation requires --allow-launch. No process was started.");
         try
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -137,5 +164,6 @@ public sealed class OperationExecutor(OperationRegistry registry)
 [JsonSerializable(typeof(OperationDescriptor))]
 [JsonSerializable(typeof(OperationDescriptor[]))]
 [JsonSerializable(typeof(OperationResult))]
+[JsonSerializable(typeof(OperationBatchResult))]
 [JsonSerializable(typeof(string))]
 public partial class OperationJsonContext : JsonSerializerContext;

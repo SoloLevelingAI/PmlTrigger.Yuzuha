@@ -27,10 +27,18 @@ internal sealed class PmlCommandRpcService : IPmlCommandService
             HostFramework = "net48",
             BoundedArrayReadVersion = 1,
             FormQueryVersion = 1,
-            HostVersion = typeof(PmlCommandMethod).Assembly
-                .GetName().Version.ToString(),
+            HostVersion = BuildVersion(),
             ServerTimeUtc = DateTime.UtcNow
         });
+    }
+
+    /// <summary>报告实际构建版本，同时保留程序集版本用于旧 PMLNet 二进制绑定。</summary>
+    private static string BuildVersion()
+    {
+        var assembly = typeof(PmlCommandMethod).Assembly;
+        var attributes = assembly.GetCustomAttributes(typeof(System.Reflection.AssemblyInformationalVersionAttribute), false);
+        return attributes.Length == 0 ? assembly.GetName().Version.ToString()
+            : ((System.Reflection.AssemblyInformationalVersionAttribute)attributes[0]).InformationalVersion;
     }
 
     /// <summary>在核验后的目标 Host 主线程执行一次已授权命令；取消或超时不自动重试。</summary>

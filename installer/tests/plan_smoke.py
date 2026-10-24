@@ -18,7 +18,7 @@ def digest(path):return hashlib.sha256(path.read_bytes()).hexdigest()
 def main():
     parser=argparse.ArgumentParser();parser.add_argument('bundle',type=pathlib.Path)
     parser.add_argument('--source-bat',type=pathlib.Path);parser.add_argument('--source-init',type=pathlib.Path);args=parser.parse_args()
-    bundle=args.bundle.resolve();helper=bundle/'setup/Yuzuha.SetupBridge.exe';setup=bundle/'Phayton-0.3.4-Windows-Setup.exe'
+    bundle=args.bundle.resolve();helper=bundle/'setup/Yuzuha.SetupBridge.exe';setup=bundle/('Phayton-'+json.loads((bundle/'.setup-payload.json').read_text(encoding='utf-8-sig'))['version']+'-Windows-Setup.exe')
     base=pathlib.Path(tempfile.mkdtemp(prefix='YuzuhaPlanVM-')).resolve();root=base/'PmlTrigger.Test'
     print('Fixture:',base,flush=True)
     pdms=base/'PDMS/evars.bat';e3d=base/'Program Files (x86)/AVEVA/Everything3D2.10/EVARS.INIT';mcp=base/'client.json';skill=base/'client-skills/yuzuha-toolkit'
@@ -33,7 +33,7 @@ def main():
             supplied[source]=source.read_bytes();target.write_bytes(supplied[source])
     mcp.write_text(json.dumps({'other':42,'mcpServers':{'Other':{'command':'other.exe'}}}),encoding='utf-8')
     original={p:p.read_bytes() for p in [pdms,e3d,mcp]}
-    request={'root':str(root),'mcpJson':str(mcp),'skillTarget':str(skill),'environments':[
+    request={'root':str(root),'mcpJson':'','skillTarget':str(skill),'environments':[
         {'path':str(pdms),'profile':'PDMS','confirmed':True,'noInitConfirmed':True,'encoding':'auto'},
         {'path':str(e3d),'profile':'E3D2.1','confirmed':True,'encoding':'auto'}]}
     req=base/'request.json';req.write_text(json.dumps(request),encoding='utf-8')
@@ -53,6 +53,9 @@ def main():
     assert not root.exists();pdms.write_bytes(original[pdms])
     call(setup,*flags,'/LANG=chinesesimp',f'/LOG={base / "install.log"}')
     assert not list(root.rglob('*.ps1'))
+    assert (root/'runtime/cli/PmlTwin.Phayton.Cli.exe').is_file()
+    assert not (root/'runtime/net10').exists()
+    assert mcp.read_bytes()==original[mcp]
     assert 'PMLUI' in pdms.read_text() and 'PMLUI' in e3d.read_text(encoding='utf-8-sig')
     assert pdms.read_bytes().startswith(original[pdms]) and e3d.read_bytes().startswith(original[e3d])
     assert b'YuzuhaFramework' not in e3d.read_bytes()
@@ -70,8 +73,8 @@ def main():
     # Discover the installed root, then attach a second optional client without reinstalling.
     located=base/'located.json';call(helper,'locate',located)
     assert any(x['root']==str(root) for x in json.loads(located.read_text(encoding='utf-8-sig')))
-    extra=base/'second-client.json';attachreq=base/'attach-request.json'
-    attachreq.write_text(json.dumps({'integrationMode':'none','root':str(root),'mcpJson':str(extra),'skillTarget':'','environments':[]}),encoding='utf-8')
+    extra=base/'second-client-skills/yuzuha-toolkit';attachreq=base/'attach-request.json'
+    attachreq.write_text(json.dumps({'integrationMode':'none','root':str(root),'mcpJson':'','skillTarget':str(extra),'environments':[]}),encoding='utf-8')
     attachplan=base/'attach-plan.json'
     installedhelper=root/'setup/Yuzuha.SetupBridge.exe'
     call(installedhelper,'plan',attachreq,root/'.setup-payload.json',root/'skill',attachplan)
@@ -80,15 +83,16 @@ def main():
     for source,content in supplied.items():assert source.read_bytes()==content
     if supplied:print('PASS: supplied vendor files tested only as copies; originals unchanged; original bytes and final appended configuration preserved.',flush=True)
     call(installedhelper,'attach',attachplan,digest(attachplan),root/'.setup-payload.json')
-    assert len(json.loads(extra.read_text(encoding='utf-8-sig'))['mcpServers'])==2
+    assert (extra/'SKILL.md').is_file()
+    assert mcp.read_bytes()==original[mcp]
     uninstaller=(root/'uninstall/unins000.exe').resolve();assert uninstaller.is_relative_to(base)
     call(uninstaller,'/VERYSILENT','/SUPPRESSMSGBOXES','/NORESTART',f'/LOG={base / "uninstall.log"}')
     assert retained.read_bytes()==b'user-data'
     for p,b in original.items():assert p.read_bytes()==b
     assert not (skill/'SKILL.md').exists()
-    assert not extra.exists()
+    assert not (extra/'SKILL.md').exists()
     print('PASS: installed registry locate, bad plan hash refusal, subsequent client attach and uninstall restoration.',flush=True)
-    print('PASS: preview no mutation, concurrency refusal, two environments, BOM preservation, MCP + Skill, registry discovery, actual reports, English update, Chinese installation, uninstall restores originals and retains data.',flush=True)
+    print('PASS: preview no mutation, concurrency refusal, two environments, BOM preservation, CLI-only payload + optional Skill + untouched MCP configuration, registry discovery, actual reports, English update, Chinese installation, uninstall restores originals and retains data.',flush=True)
     print('Reports:',report,flush=True)
     # Rejection matrix uses only synthetic files.
     bad=request.copy();bad['root']=str(base/'PmlTrigger.Rejections');bad['skillTarget']='';bad['mcpJson']=''

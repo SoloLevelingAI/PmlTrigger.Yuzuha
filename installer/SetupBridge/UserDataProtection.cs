@@ -17,7 +17,7 @@ internal static partial class Program
         string normalized = path.Substring(root.TrimEnd('\\').Length + 1).Replace('\\', '/');
         string first = normalized.Split('/')[0];
         string[] reserved = { "knowledge", "trust", ".yuzuha-state", "UserPmlLib", "Projects", "Apps", "Exports", "WebApps", ".yuzuha-user-data.json" };
-        if (reserved.Contains(first, StringComparer.OrdinalIgnoreCase) ||
+        if (reserved.Contains(first, StringComparer.OrdinalIgnoreCase) || Same(Path.GetFileName(path), "pml.index") ||
             new[] { ".sqlite3", ".db", "-wal", "-shm" }.Any(s => normalized.EndsWith(s, StringComparison.OrdinalIgnoreCase)))
             throw Bad("程序包包含用户数据路径，拒绝覆盖 / User data in payload: " + relative);
         for (string dir = Path.GetDirectoryName(path); !string.IsNullOrEmpty(dir); dir = Path.GetDirectoryName(dir))

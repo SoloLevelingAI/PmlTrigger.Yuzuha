@@ -99,19 +99,12 @@ begin
   SelectProduct(nil);
 end;
 
-procedure BrowseMcp(Sender: TObject);
-var Path: String;
-begin
-  Path := AIPage.Values[0];
-  if GetOpenFileName(T('选择客户端 JSON 配置','Select client JSON configuration'),Path,'','JSON|*.json','json') then AIPage.Values[0] := Path;
-end;
-
 procedure BrowseSkill(Sender: TObject);
 var Path: String;
 begin
-  Path := AIPage.Values[1];
+  Path := AIPage.Values[0];
   if BrowseForFolder(T('选择 skills 父目录，将添加 yuzuha-toolkit','Choose skills parent; yuzuha-toolkit will be appended'),Path,True) then
-    AIPage.Values[1] := AddBackslash(Path) + 'yuzuha-toolkit';
+    AIPage.Values[0] := AddBackslash(Path) + 'yuzuha-toolkit';
 end;
 
 procedure NativeButton(Page: TWizardPage; X, Y, W: Integer; Caption: String; Handler: TNotifyEvent);
@@ -151,20 +144,18 @@ begin
   ProfileBox := TNewComboBox.Create(ProductPage); ProfileBox.Parent := ProductPage.Surface;
   ProfileBox.SetBounds(0,ScaleY(184),ScaleX(210),ScaleY(23)); ProfileBox.Style := csDropDownList;
   ProfileBox.Items.Add(''); ProfileBox.Items.Add('AM'); ProfileBox.Items.Add('PDMS');
-  ProfileBox.Items.Add('E3D2.1'); ProfileBox.Items.Add('E3D3.1.0'); ProfileBox.Items.Add('E3D3.1.6'); ProfileBox.OnChange := @EditProduct;
+  ProfileBox.Items.Add('E3D2.1'); ProfileBox.Items.Add('E3D3.1.6'); ProfileBox.OnChange := @EditProduct;
   EncodingBox := TNewComboBox.Create(ProductPage); EncodingBox.Parent := ProductPage.Surface;
   EncodingBox.SetBounds(ScaleX(220),ScaleY(184),ScaleX(150),ScaleY(23)); EncodingBox.Style := csDropDownList;
   EncodingBox.Items.Add('auto'); EncodingBox.Items.Add('utf-8'); EncodingBox.Items.Add('system'); EncodingBox.OnChange := @EditProduct;
   Details := TNewMemo.Create(ProductPage); Details.Parent := ProductPage.Surface;
   Details.SetBounds(0,ScaleY(217),ProductPage.SurfaceWidth,ProductPage.SurfaceHeight-ScaleY(217));
   Details.ReadOnly := True; Details.ScrollBars := ssVertical;
-  AIPage := CreateInputQueryPage(ProductPage.ID,T('可选：AI 客户端接入','Optional: AI client integration'),
-    T('与 AVEVA 配置独立，可以全部留空','Independent of AVEVA; both fields may be left blank'),
-    T('JSON 指客户端 MCP 配置文件；技能目标填写完整的 yuzuha-toolkit 目录。不会将 TOML 当成 JSON。','JSON means the client MCP configuration. Skill target is the full yuzuha-toolkit directory. TOML is not treated as JSON.'));
-  AIPage.Add(T('MCP 配置文件（JSON）','MCP configuration (JSON)'),False);
+  AIPage := CreateInputQueryPage(ProductPage.ID,T('可选：CLI 使用 Skill','Optional: CLI usage Skill'),
+    T('CLI 随程序安装，Skill 可选','CLI is installed with the program; Skill is optional'),
+    T('AI 直接调用 runtime/cli/PmlTwin.Phayton.Cli.exe。本版本不注册 MCP 服务。技能目标填写完整的 yuzuha-toolkit 目录，留空则不复制。','AI invokes runtime/cli/PmlTwin.Phayton.Cli.exe directly. This version does not register MCP servers. Enter the full yuzuha-toolkit directory, or leave blank to skip Skill copying.'));
   AIPage.Add(T('技能安装目标（完整目录）','Skill target (full directory)'),False);
-  NativeButton(AIPage,0,200,160,T('浏览 JSON…','Browse JSON…'),@BrowseMcp);
-  NativeButton(AIPage,170,200,180,T('选择 skills 父目录…','Choose skills parent…'),@BrowseSkill);
+  NativeButton(AIPage,0,160,210,T('选择 skills 父目录…','Choose skills parent…'),@BrowseSkill);
 end;
 
 function NativeRequest: String;
@@ -192,8 +183,8 @@ begin
   if (Mode = 'aveva') and (Environments = '') then begin
     MsgBox(T('尚未选择 AVEVA 环境。请返回选择，或明确改为仅安装文件。','No AVEVA environment selected. Go back to select one or explicitly choose files-only mode.'),mbError,MB_OK); Exit;
   end;
-  Result := '{"integrationMode":'+JsonString(Mode)+',"root":'+JsonString(ExpandConstant('{app}'))+',"mcpJson":'+JsonString(Trim(AIPage.Values[0]))+
-    ',"skillTarget":'+JsonString(Trim(AIPage.Values[1]))+',"environments":['+Environments+']}';
+  Result := '{"integrationMode":'+JsonString(Mode)+',"root":'+JsonString(ExpandConstant('{app}'))+',"mcpJson":""'+
+    ',"skillTarget":'+JsonString(Trim(AIPage.Values[0]))+',"environments":['+Environments+']}';
 end;
 
 function ShouldSkipPage(PageID: Integer): Boolean;

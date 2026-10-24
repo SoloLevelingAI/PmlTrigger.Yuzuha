@@ -7,7 +7,7 @@ using YuzuhaToolkit.Workspace;
 
 namespace YuzuhaToolkit.Desktop;
 
-/// <summary>启动配置的产品选择和只读 LaunchDesk 草稿带入。</summary>
+/// <summary>按安装入口带入产品信息，并刷新对应的模块目录。</summary>
 public partial class MainWindow
 {
     private bool fillingLaunchApplication;
@@ -35,44 +35,17 @@ public partial class MainWindow
     private void ApplyLaunchApplication(string path)
     {
         var draft=LaunchDrafts.FromApplication(path);
-        ExecutableBox.Text=draft.Executable; InitializationBox.Text=draft.Initialization;
-        WorkingBox.Text=draft.WorkingDirectory; ProductBox.Text=draft.Product; KindBox.SelectedIndex=draft.Kind=="Monitor"?0:1;
-        if(_selected is null && string.IsNullOrWhiteSpace(ProjectBox.Text)) ModuleBox.Text=draft.Module;
-        LaunchApplicationSummary.Text=$"{draft.Kind} · {draft.Executable}\n工作目录：{draft.WorkingDirectory}";
-        Say("已自动填入产品入口、初始化文件和工作目录；填写项目、用户即可继续。");
-    }
-    private void ReadLaunchDeskDrafts(object sender,RoutedEventArgs e)
-    {
+        _fillingLaunchDraft = true;
         try
         {
-            string? detected=null;
-            foreach(var process in Process.GetProcessesByName("LaunchDesk"))
-            {
-                using(process)
-                {
-                    try
-                    {
-                        var directory=Path.GetDirectoryName(process.MainModule?.FileName);
-                        if(directory is not null && File.Exists(Path.Combine(directory,"Data","workspace.json"))) detected=Path.Combine(directory,"Data","workspace.json");
-                    }
-                    catch(System.ComponentModel.Win32Exception) { }
-                }
-            }
-            var dialog=new OpenFileDialog { Title="选择 LaunchDesk 的 Data/workspace.json",Filter="LaunchDesk 配置|workspace.json|JSON 文件|*.json",
-                FileName=detected??"workspace.json",InitialDirectory=detected is null?"":Path.GetDirectoryName(detected)! };
-            if(dialog.ShowDialog(this)!=true) return;
-            LaunchDeskDraftsBox.ItemsSource=LaunchDrafts.ReadLaunchDesk(dialog.FileName);
-            LaunchDeskDraftsPanel.Visibility=Visibility.Visible; LaunchDeskDraftsBox.SelectedIndex=0;
-            Say("已读取 LaunchDesk 非密码配置；选择一项带入草稿，尚未保存或启动。");
+            ExecutableBox.Text = draft.Executable; InitializationBox.Text = draft.Initialization;
+            WorkingBox.Text = draft.WorkingDirectory; ProductBox.Text = draft.Product; VersionBox.Text = draft.Version;
+            KindBox.SelectedIndex = draft.Kind == "Monitor" ? 0 : 1;
         }
-        catch(Exception error) { Say(error.Message); }
-    }
-    private void UseLaunchDeskDraft(object sender,RoutedEventArgs e)
-    {
-        if(LaunchDeskDraftsBox.SelectedItem is not LaunchProfile draft) return;
-        ProfilesBox.SelectedItem=null; _selected=null; FillProfileFields(draft);
-        ProfileDetailsExpander.IsExpanded=false; LaunchPathsExpander.IsExpanded=false;
-        LaunchApplicationSummary.Text="已带入 "+draft.Name+"；路径与登录字段可直接编辑。";
-        Say("已带入未保存草稿；密码需在 Phayton 输入一次，许可沿用当前环境。点击保存或保存并启动生效。");
+        finally { _fillingLaunchDraft = false; }
+        RefreshProductModules(draft.Module, chooseDefault: true);
+        LaunchApplicationSummary.Text = $"{draft.Product} {draft.Version} · {draft.Executable}\n工作目录：{draft.WorkingDirectory}";
+        UpdateLaunchDraftState();
+        Say("已带入产品与入口，并切换到对应模块列表；请核对工程、用户和 MDB 后保存。");
     }
 }

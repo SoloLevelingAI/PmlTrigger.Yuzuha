@@ -21,16 +21,15 @@ internal static partial class Program
     internal static string RecommendProfile(string product, string version, string location)
     {
         string name=(product??"").ToLowerInvariant();
+        if(name.Contains("marine")) return "AM";
+        if(name.Contains("pdms") || (name.Contains("plant") && (location??"").IndexOf("PDMS",StringComparison.OrdinalIgnoreCase)>=0)) return "PDMS";
         Version v;
         if(!Version.TryParse(version,out v)) return "";
         if(name.Contains("everything3d")) {
             if(v.Major==2 && v.Minor==1) return "E3D2.1";
-            if(v.Major==3 && v.Minor==1 && (v.Build==0 || v.Build==6)) return "E3D3.1."+v.Build;
+            if(v.Major==3 && v.Minor==1) return "E3D3.1.6";
             return "";
         }
-        if(v.Major!=12 || v.Minor!=1) return "";
-        if(name.Contains("marine")) return "AM";
-        if(name.Contains("pdms") || (name.Contains("plant") && location.IndexOf("PDMS",StringComparison.OrdinalIgnoreCase)>=0)) return "PDMS";
         return "";
     }
     /// <summary>在候选文件中优先选择能够承载环境配置的初始化入口。</summary>

@@ -9,7 +9,7 @@ builder.Services.AddOpenApi("v1", options => options.AddDocumentTransformer((doc
     document.Info.Title = "Yuzuha 开发 API";
     document.Info.Version = "v1";
     document.Servers = [new() { Url = "/" }];
-    document.Info.Description = "内置指南与纯文本预览。AVEVA 会话选择、PML 执行和知识库写入继续使用原 MCP 服务。";
+    document.Info.Description = "内置指南与纯文本预览。AVEVA 会话核验、PML 执行和知识库写入通过原生 CLI 调用；独立 MCP 服务已禁用。";
     return Task.CompletedTask;
 }));
 

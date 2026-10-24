@@ -78,7 +78,8 @@ public static class YuzuhaOperationCatalog
                     return OperationResult.Fail(id, 5, "TARGET_NOT_VERIFIED", "Host identity was not verified.", data);
                 if (data.TryGetProperty("Success", out var success) && !success.GetBoolean())
                     return OperationResult.Fail(id, 6, "HOST_FAILED",
-                        data.GetProperty("ErrorMessage").GetString() ?? "Host rejected the command.", data);
+                        data.GetProperty("ErrorMessage").GetString() ?? "Host rejected the command.", data,
+                        mayHaveExecuted: dispatchStarted);
                 return OperationResult.Ok(id, data);
             }
             catch (OperationCanceledException) { throw; }

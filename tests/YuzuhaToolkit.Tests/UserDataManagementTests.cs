@@ -38,7 +38,8 @@ public sealed class UserDataManagementTests : IDisposable
     [Fact]
     public void UnconfiguredExistingKnowledgeRetainsItsLegacyLocation()
     {
-        new WorkspaceSettings().Save(); var legacy = Path.Combine(root, "install", "knowledge"); Directory.CreateDirectory(legacy);
+        var unconfigured = WorkspaceSettings.Load(); unconfigured.UserDataRoot = ""; unconfigured.KnowledgeDirectory = ""; unconfigured.Save();
+        var legacy = Path.Combine(root, "install", "knowledge"); Directory.CreateDirectory(legacy);
         Assert.Equal(legacy, new KnowledgeRepository().DefaultDirectory);
         Assert.False(Directory.Exists(UserDataPaths.RecommendedRoot) && UserDataPaths.RecommendedRoot.StartsWith(root));
     }

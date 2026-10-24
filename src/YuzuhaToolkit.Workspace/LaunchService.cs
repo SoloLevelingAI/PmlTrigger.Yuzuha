@@ -7,17 +7,19 @@ public static class LaunchService
 {
     /// <summary>生成无密码启动预览；不创建进程，也不读凭据。</summary>
     /// <param name="profile">用户选定的产品和登录字段。</param>
-    public static string Preview(LaunchProfile profile) => string.Join(" ", Arguments(profile, "{本机凭据或本次输入}").Select(argument => argument.Contains(' ') ? '"' + argument + '"' : argument));
+    /// <param name="modules">可替换的产品模块目录；未提供时使用本机产品目录。</param>
+    public static string Preview(LaunchProfile profile, IProductModuleCatalog? modules = null) => string.Join(" ", Arguments(profile, "{本机凭据或本次输入}", modules).Select(argument => argument.Contains(' ') ? '"' + argument + '"' : argument));
 
     /// <summary>生成实际启动描述，密码只在进程边界注入；不会保存到工作区或日志。</summary>
     /// <param name="profile">启动配置。</param>
     /// <param name="password">本次输入密码。</param>
-    public static ProcessStartInfo Build(LaunchProfile profile, string password)
+    /// <param name="modules">可替换的产品模块目录，保持调用服务与进程参数使用同一模块规则。</param>
+    public static ProcessStartInfo Build(LaunchProfile profile, string password, IProductModuleCatalog? modules = null)
     {
         if (!File.Exists(profile.Executable)) throw new FileNotFoundException("程序入口不存在。", profile.Executable);
         if (!Directory.Exists(profile.WorkingDirectory)) throw new DirectoryNotFoundException("工作目录不存在。");
         if (password.Any(char.IsControl)) throw new ArgumentException("密码不能包含控制字符。");
-        var arguments = Arguments(profile, password);
+        var arguments = Arguments(profile, password, modules);
         var start = new ProcessStartInfo { UseShellExecute = false, WorkingDirectory = profile.WorkingDirectory };
         if (profile.Kind == "Monitor")
         {
@@ -42,8 +44,12 @@ public static class LaunchService
         return start;
     }
 
-    private static string[] Arguments(LaunchProfile profile, string password)
+    private static string[] Arguments(LaunchProfile profile, string password, IProductModuleCatalog? modules)
     {
+        var catalog = (modules ?? new ProductModuleCatalog()).Get(new(profile.Executable, profile.Product, profile.Version, profile.Kind));
+        if (!catalog.Options.Any(m => m.Value.Equals(profile.Module, StringComparison.OrdinalIgnoreCase)) ||
+            (catalog.Product == "AM" && profile.Kind != "MarineBatch") || (catalog.Product == "E3D" && profile.Kind != "Monitor"))
+            throw new ArgumentException("启动产品、入口类型与模块不匹配，请重新选择该产品的模块。");
         var mdb = "/" + profile.Mdb.Trim().TrimStart('/');
         if (new[] { profile.Project, profile.User, mdb.TrimStart('/'), profile.Module }.Any(value => string.IsNullOrWhiteSpace(value) || value.Any(c => char.IsWhiteSpace(c) || char.IsControl(c) || c == '"')))
             throw new ArgumentException("请填写不含空白或控制字符的项目、用户、MDB 与模块。");

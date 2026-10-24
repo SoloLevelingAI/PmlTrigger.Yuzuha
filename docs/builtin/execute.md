@@ -2,9 +2,9 @@
 
 ## Native development entry
 
-Use `run_pml_command` directly to execute PML through the verified AVEVA Host main thread. `run_pml_command_list` handles expressions returning arrays. An authorized plugin-development task covers related edit/load/test operations without repeated per-command confirmation. Select the actual engineering session first; never automatically retry after a timeout.
+Use `op invoke pml.command.execute --pid <pid> --expected-model <module> --allow-execution --input-file <json>` to execute PML through the verified AVEVA Host main thread. `pml.array.read` accepts an array-returning expression: pass `!!Function(...)`, not `!!Output = !!Function(...)`, because the Host adds the assignment. An authorized plugin-development task covers related edit/load/test operations without repeated per-command confirmation. Never automatically retry after a timeout or a failure marked `mayHaveExecuted`.
 
-Use `markdb(description)` before related changes and `endmarkdb()` afterwards to expose AVEVA undo-group boundaries. They do not save work or undo changes. Tool calls are recorded locally with target PID, bounded arguments, duration and result; inspect with `get_ai_runtime_status` / `get_recent_tool_calls` or the native workspace.
+Use `pml.undo.begin` and `pml.undo.end` for AVEVA undo-group boundaries. They do not save work or undo changes. Calls are recorded locally with target PID, bounded arguments, duration and result; inspect with `runtime.status` / `runtime.calls` or the native workspace. Configuration and knowledge writes use `--allow-write`; creating an AVEVA entry process uses `--allow-launch`. These permissions are independent of PML execution.
 
 ## Legacy execution object
 

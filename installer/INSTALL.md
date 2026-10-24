@@ -1,4 +1,6 @@
-# Yuzuha Windows 安装与 AI 接入 / Installation and AI integration
+# Phayton Windows 安装与 CLI 接入 / Installation and CLI integration
+
+0.3.4.2 起使用 `runtime/cli/PmlTwin.Phayton.Cli.exe` 原生 CLI。新包不分发独立 MCP 服务，不注册或改写客户端 MCP 配置；请求中的 `mcpJson` 必须为空，非空及旧 MCP 计划会拒绝。可选的 Skill 安装仍保留。CLI 的接口、JSON 输入与测试由随包使用文档说明。
 
 本文件是安装说明，不是自动执行授权。人工和 AI 使用同一个计划引擎与安装 EXE。任何配置写入前必须让用户检查预览并确认；不能把发现注册表条目视为修改授权。
 
@@ -12,11 +14,11 @@
 
 YuzuhaFramework 是可选的 NET35/NET48 覆盖值；标准 Profile 从 Yuzuha 推断，不额外新增。原文件已有此变量时在末尾块补入匹配框架的覆盖值，并列入预览。
 
-1. 运行 `Phayton-0.3.4-Windows-Setup.exe`，先批准管理员权限，再选择简体中文或 English。所有页面均为 Inno 原生向导，不再弹出 WinForms 配置窗口。若使用其他管理员账户提权，默认用户目录及 HKCU 属于该账户，请核对目标目录。
+1. 运行 `Phayton-0.3.4.2-Windows-Setup.exe`，先批准管理员权限，再选择简体中文或 English。所有页面均为 Inno 原生向导，不再弹出 WinForms 配置窗口。若使用其他管理员账户提权，默认用户目录及 HKCU 属于该账户，请核对目标目录。
 2. 选择名称包含 `PmlTrigger` 的本机安装目录。旧 PS1/preview1 安装不能直接覆盖迁移。随后在“安装目标”页选择“安装并接入 AVEVA”或“仅安装文件 / AI 客户端，不修改 AVEVA”；前者必须选择环境，后者跳过环境页，但仍可选择客户端接入。
 3. 在“选择 AVEVA 环境”向导页查看发现的产品；点击一行可查看或编辑文件、Host、编码和来源。所有环境默认不勾选；可手动添加注册表未登记的 INIT/BAT。
 4. 勾选产品。安装器自动推荐已支持的 Host 和环境文件：E3D 仅 INIT，PDMS/AM 优先 INIT、没有时推荐 BAT。未知版本、多个候选或扫描不完整时才需要人工选择/确认。推荐不表示已经启动 AVEVA 验证。
-5. 点击“下一步”进入“可选：AI 客户端接入”，在预览前决定 MCP 注册和 Skill 安装：两项都选、只选一项或暂不接入。只有不接入的项才留空。JSON 是目标客户端的服务配置，Skill 是它读取使用说明的目录；先核对客户端、Windows 账户和真实路径，不能仅凭客户端名称猜目录。浏览 Skill 时选择父目录，自动添加 yuzuha-toolkit。已有冲突不覆盖。
+5. 点击“下一步”进入“可选：CLI 使用 Skill”。CLI 随软件安装；如需为 AI 提供使用说明，填写客户端实际读取的完整 yuzuha-toolkit 目录，否则留空。先核对客户端、Windows 账户和真实目录。该页没有 MCP 注册选项；安装器不会修改已存在的 MCP 服务配置。
 6. 再点“下一步”生成修改预览，查看每个文件的修改前后内容、SHA256 和动作。返回修改选项会重新生成计划；确认后继续点击“安装”。
 7. 重启 AI 客户端和受影响的 AVEVA。修改 PML 后按需执行 `PML REHASH ALL`；安装器不会启动 AVEVA 或执行该命令。
 
@@ -24,21 +26,9 @@ YuzuhaFramework 是可选的 NET35/NET48 覆盖值；标准 Profile 从 Yuzuha �
 
 ### 生成预览前：先确认客户端接入选择
 
-若用户未明确 MCP/Skill 选择，Agent 必须先询问一次并等待回答：
+若用户未明确 Skill 选择，先询问是否复制 CLI 使用 Skill，并等待回答；用户已经明确的选择不重复询问。核对目标客户端、Windows 账户及客户端实际读取的 Skill 目录。CLI 可直接调用，不依赖注册后台服务。
 
-> 是否同时为目标 AI 客户端注册 MCP、安装 Skill？可以都安装、只选其中一项，或暂不接入。
-
-用户已经明确要求或拒绝的项目不重复询问；不能把未提到、未回答当作拒绝。
-确认要接入后，核对目标客户端、Windows 账户、实际 MCP 配置格式与路径、
-Skill 安装目录和客户端是否支持 Skill。运行在 Workbuddy 内不等于已经确定
-其配置路径。通过既有配置或客户端说明核实；仍不确定时先问，不能猜目录写入。
-不支持标准 MCP JSON 的客户端不得交给 JSON 写入器；说明限制并另行确认接入方式。
-
-把选定的 AVEVA、MCP、Skill 修改纳入同一份预览，确认后再执行；
-不是安装结束后再补问。用户明确只安装软件/暂不接入的项才留空。
-结束时分别汇报：软件文件、AVEVA 配置、MCP 配置、Skill 文件、实际加载验证。
-未选择的项目标记“未请求”，不能宣称所有项目均已接入。
-这是 Agent 的交互要求，JSON 引擎不会替 Agent 弹出此问题；不要绕过此步骤直接生成请求。
+把选定的 AVEVA 和 Skill 修改纳入同一份预览，确认后执行。结束时分别汇报软件/CLI 文件、AVEVA 配置、Skill 文件及实际加载验证。`mcpJson` 必须留空；安装器不会重新启用已禁用的 MCP，也不会改动其他客户端服务。
 
 ### 自动查找并生成接入计划（默认入口）
 
@@ -67,14 +57,14 @@ agent-skills/yuzuha-setup/SKILL.md 和其中引用的安装说明。先验证
 BUNDLE-SHA256SUMS.txt，再调用后台工具。读取 Skill 不代表已永久注册到客户端。
 该安装 Skill 与用于可选客户端复制的 runtime `skill` 目录不同。
 
-解压 VM/AI 安装包。只修改 `request.example.json` 的副本，不直接改用户环境文件。`root` 必须是明确的本机绝对路径。`mcpJson` 和 `skillTarget` 留空即不接入；非空路径必须由用户选择并符合客户端格式。Codex TOML 不是标准 MCP JSON，不能传给本写入器；应使用客户端正式支持的注册方式并另行预览，不猜测改写格式。
+解压 VM/AI 安装包。只修改 `request.example.json` 的副本，不直接改用户环境文件。`root` 必须是明确的本机绝对路径。`mcpJson` 必须为空，非空时明确拒绝生成计划。`skillTarget` 留空则不复制 Skill，非空目录必须由用户选择并由目标客户端支持。安装器不改写 Codex TOML 或其他 MCP 配置。
 
 同装 PDMS 和 E3D 的请求示例（路径及 Profile 需实际核对）：
 
 ```json
 {
   "root": "D:\\PmlTrigger.Yuzuha",
-  "mcpJson": "D:\\AIClient\\mcp.json",
+  "mcpJson": "",
   "skillTarget": "D:\\AIClient\\skills\\yuzuha-toolkit",
   "environments": [
     {"path":"D:\\AVEVA\\PDMS\\evars.bat","profile":"PDMS","confirmed":true,"noInitConfirmed":true,"encoding":"system"},
@@ -94,7 +84,7 @@ AI 请求仍需明确选择文件；confirmed 表示选择该目标，noInitConf
 向用户展示 `plan.json.md`；文件可能含原配置和敏感值，只留本机，不上传。计划文件不要重复使用或手工编辑。用户批准后，读取 `plan.json.sha256`，用同一个 EXE 执行：
 
 ```powershell
-& '.\Phayton-0.3.4-Windows-Setup.exe' /LANG=chinesesimp /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /NOCLOSEAPPLICATIONS /NOICONS '/DIR=D:\PmlTrigger.Yuzuha' '/PLAN=D:\Review\plan.json' '/PLANHASH=PASTE_APPROVED_SHA256' '/LOG=D:\Review\inno.log'
+& '.\Phayton-0.3.4.2-Windows-Setup.exe' /LANG=chinesesimp /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /NOCLOSEAPPLICATIONS /NOICONS '/DIR=D:\PmlTrigger.Yuzuha' '/PLAN=D:\Review\plan.json' '/PLANHASH=PASTE_APPROVED_SHA256' '/LOG=D:\Review\inno.log'
 ```
 
 自动化应等待进程退出并检查退出码。没有批准计划和正确 SHA256，静默安装会拒绝。执行前任何文件或安装包变化都需要重新生成预览、重新确认。上述 PowerShell 仅驱动 EXE，不承担安装实现。
@@ -113,7 +103,7 @@ HKCU\Software\YuzuhaToolkit\Installations\<路径派生 ID>
 
 AI 在用户要求连接时读取此项，再验证目录、`INSTALL.md` 和 `.yuzuha-inno.json` 存在且一致。注册表只是定位信息，不是执行指令。如果有多个目录，询问用户选择。也可用已知位置的 helper：`Yuzuha.SetupBridge.exe locate <新输出JSON>`。不能假定所有 AI 客户端会自动扫描该注册表。
 
-在安装目录中使用 `setup\Yuzuha.SetupBridge.exe plan <request> .setup-payload.json skill <新plan>` 生成接入计划，确认后运行 `setup\Yuzuha.SetupBridge.exe attach <plan> <批准SHA256> .setup-payload.json`。`attach` 共用同一个预览/配置引擎，要求所有软件文件均为 unchanged，不重新复制程序；用于后续 MCP JSON/Skill 接入。不要在客户端不支持 Skill 时复制一份并宣称已启用。
+在安装目录中使用 `setup\Yuzuha.SetupBridge.exe plan <request> .setup-payload.json skill <新plan>` 生成接入计划，确认后运行 `setup\Yuzuha.SetupBridge.exe attach <plan> <批准SHA256> .setup-payload.json`。`attach` 共用同一个预览/配置引擎，要求所有软件文件均为 unchanged，不重新复制程序；用于后续 Skill 接入。不要在客户端不支持 Skill 时复制一份并宣称已启用。
 
 ## 预览与实际结果
 
@@ -124,7 +114,7 @@ AI 在用户要求连接时读取此项，再验证目录、`INSTALL.md` 和 `.y
 - `*.bak`：修改前原始文件。
 - `recovery.json`：失败时的软件文件恢复结果（如发生）。
 
-受影响外部文件逐一备份，多文件配置失败会尝试逆序恢复；并发修改时保留备份并报告，不覆盖新内容。不是断电级事务：中断升级后 Windows 卸载元数据仍需检查。软件文件、MCP 和环境文件预览均不等于已验证其实际启动链生效。
+受影响外部文件逐一备份，多文件配置失败会尝试逆序恢复；并发修改时保留备份并报告，不覆盖新内容。不是断电级事务：中断升级后 Windows 卸载元数据仍需检查。软件文件、Skill 和环境文件预览均不等于已验证其实际启动链生效。
 
 ## 更新与卸载
 
@@ -132,17 +122,9 @@ AI 在用户要求连接时读取此项，再验证目录、`INSTALL.md` 和 `.y
 
 ## English
 
-Before generating a plan, ask once whether to register MCP and install the
-runtime Skill if the user has not already decided: both, either one, or neither.
-Wait for an answer; omission or silence is not a decline. Respect explicit
-prior choices without asking again. Confirm the target client, Windows account,
-actual configuration format/path and supported Skill directory. The agent's
-current client name is not evidence of those paths. Verify existing settings or
-client documentation; ask if unresolved, and never feed TOML to the JSON writer.
-Include all selected AVEVA/MCP/Skill changes in one preview before installation,
-not a follow-up question after completion. Report each selected/skipped outcome
-and separate file/configuration writes from actual client loading verification.
-This is an Agent interaction requirement, not a new automatic registration gate.
+This CLI-only distribution installs `runtime/cli/PmlTwin.Phayton.Cli.exe` and does not ship or register standalone MCP servers. Nonempty `mcpJson` requests and frozen plans containing MCP changes are rejected before external writes. Existing client settings, including disabled servers and unrelated services, are not changed. Optional Skill copying remains available.
+
+Before planning, resolve the user's Skill choice if not already stated. Confirm the client, Windows account and supported Skill directory; include selected AVEVA and Skill changes in the same review. Report file installation, configuration writes and actual loading verification separately.
 
 The native Installation scope page offers AVEVA integration or files/client-only.
 For AVEVA, use `integrationMode: "aveva"` and `plan-auto` with the same arguments
@@ -152,7 +134,7 @@ or incompletely scanned candidates stop automatic planning and are recorded in
 `<plan>.discovery.json`; read it and obtain an explicit selection before using
 `plan`. Do not silently drop products. An empty AVEVA request is rejected.
 Use `integrationMode: "none"` with empty environments only when no AVEVA changes
-are intended; this still permits separately approved MCP/Skill integration.
+are intended; this still permits separately approved Skill integration.
 Results distinguish `not-requested` from `configured-not-launch-tested` through
 `avevaIntegration` and `environmentCount`; inspect per-file hashes as well.
 
@@ -163,9 +145,9 @@ review explicit target paths. The headless C# helper handles discovery and plans
 
 Choose products, review automatically recommended supported Host profiles and files, then preview and approve. E3D requires INIT; legacy profiles prefer INIT, then BAT if none is found. Ambiguity requires manual review; discovery is not live launch verification. AI integration is on the next native wizard page; encoding is editable below the selected environment. Auto encoding preserves BOM and original bytes; non-ASCII installation paths with no-BOM files require an explicit encoding. Original scalar assignments, derived directories, verified short-path conversions and returning custom-config calls are preserved. Three integration assignments are added at the end, not before normalization. The managed block is replaced on update. Unknown target writes, early exits and unresolved jumps require review. Supplied scripts and external calls are never executed by Setup. Standard profiles infer the framework from Yuzuha.
 
-Optional standard MCP JSON merging and Skill copying use user-selected paths. Codex TOML is not edited as JSON. Generate a plan, review before/after content and hashes, obtain user approval, then run Setup with `/PLAN`, `/PLANHASH` and matching `/DIR`. Silent installs without a plan are rejected. An installed toolkit can later be found through the documented HKCU registry key; read this guide and use the same `plan`/`attach` engine to add client integration without reinstalling binaries. `attach` requires unchanged payload files.
+Optional Skill copying uses a user-selected directory; no MCP JSON merging is available, and Codex TOML is not modified. Generate a plan, review before/after content and hashes, obtain user approval, then run Setup with `/PLAN`, `/PLANHASH` and matching `/DIR`. Silent installs without a plan are rejected. An installed toolkit can later be found through the documented HKCU registry key; read this guide and use the same `plan`/`attach` engine to add client integration without reinstalling binaries. `attach` requires unchanged payload files.
 
-Actual reports and backups are retained in LocalAppData/YuzuhaToolkit/SetupReports. Concurrent changes cause refusal or explicit recovery errors. Power-loss recovery and every Windows/AVEVA variation are not guaranteed. The installer is unsigned; existing Host and NET10 runtime binaries are retained in this distribution. Neither installation nor detection opens or saves AVEVA models.
+Actual reports and backups are retained in LocalAppData/YuzuhaToolkit/SetupReports. Concurrent changes cause refusal or explicit recovery errors. Power-loss recovery and every Windows/AVEVA variation are not guaranteed. The installer is unsigned. Product-specific NET35/NET48 Hosts remain separate from the Native AOT CLI. Neither installation nor detection opens or saves AVEVA models.
 ## 可选的每次启动动作
 
 所选 `environments` 项可显式加入 `"startupActions": "rehash-all"` 或 `"none"`。程序将该值作为 `set YUZUHA_STARTUP_ACTIONS=...` 纳入环境文件的逐行安装预览；未批准预览不写入。新安装省略时不添加特殊启动变量，更新省略时保留此前托管块内的明确策略。未知值拒绝生成计划。
@@ -174,7 +156,9 @@ Actual reports and backups are retained in LocalAppData/YuzuhaToolkit/SetupRepor
 
 桌面和 HTML 发布文件分别位于 `runtime/desktop` 与 `runtime/webapps`。桌面为自包含 Windows 发布；本批 HTML 宿主为框架依赖发布，目标机需有 ASP.NET Core 10。CLI 的 `--cli web open` 和桌面按钮都会打开独立页面；安装器不自动打开服务或调用 AVEVA。
 
-构建时将桌面与 DevHost 自包含发布到独立目录，再用 `installer/build.py --desktop <桌面发布目录> --documentation <已校验DocFX站点> --documentation-host <DevHost发布目录> --iscc <ISCC.exe> --output <新目录>` 纳入包，避免覆盖正在运行的开发版。这些选项只改变待打包来源，不执行安装，所有发布文件仍进入同一散列清单。
+0.3.4.1 安装包将 HTML 宿主也改为自包含发布，无需另装 ASP.NET Core 10。桌面、完整 DocFX、中文视频与只读文档宿主一并交付；上述历史版本依赖说明保留用于识别旧包。
+
+构建时将桌面与 DevHost 自包含发布到独立目录，再用 `installer/build.py --version 0.3.4.2 --cli <原生CLI发布目录> --desktop <桌面发布目录> --documentation <已校验DocFX站点> --documentation-host <DevHost发布目录> --iscc <ISCC.exe> --output <新目录>` 纳入包，避免覆盖正在运行的开发版。这些选项只改变待打包来源，不执行安装，所有发布文件仍进入同一散列清单。
 
 
 ## 用户数据与升级保护（TRACE32）
@@ -183,9 +167,20 @@ Actual reports and backups are retained in LocalAppData/YuzuhaToolkit/SetupRepor
 
 新安装计划拒绝 Knowledge、Apps、Projects、UserPmlLib、Exports、trust 和内部状态目录的载荷，以及 SQLite/DB 数据文件；含 `.yuzuha-user-data.json` 的目录及其子目录不能作为程序文件目标。程序同名文件若已被用户修改，或不属于上版发布清单，预览停止并保留文件；先复制修改到用户目录，处理冲突后重新预览。原有备份和冻结计划检查继续有效。保持干净构建输入，禁止把个人资料混进发布源码树。
 
-升级前关闭 AM、E3D、Yuzuha 工作台和相关 HTML/知识宿主，再确认具体更新预览。`pml.index` 属于 AVEVA 在本机生成的索引，不进入安装载荷；更新保留现有索引。TRACE32 的源码批次未安装，后续 TRACE33 已完成经授权的本机更新，详见仓库 `docs/validation/2026-10-23-installer-ui-preview.md`；真实 AVEVA 重启与业务复验仍单独记录。
+升级前关闭 AM、E3D、Yuzuha 工作台和相关 HTML/知识宿主，再确认具体更新预览。`pml.index` 属于 AVEVA 在本机生成的索引，不进入安装载荷。0.3.4.2 增加 `YuzuhaStartupPolicy.pmlobj`：受管理的旧安装若已有 `PMLLIB/pml.index`，计划仅在 `/Bootstrap/` 节补入缺失的这一行，保留原编码、BOM、其他字节和条目顺序；若没有该节则在末尾补节。已有该项不重复添加，缺少索引的新安装不生成索引。目标名在其他节或节重复等歧义会拒绝并保留原文件。
+
+这项 `pml-index` 改动会显示前后内容与 SHA256，批准后和环境配置处于同一事务：写前备份、冻结哈希校验，失败时恢复原字节；期间如又被修改则保留备份并报告冲突。只针对选定安装根的这个文件，不扫描其他用户 PMLLIB，不执行 REHASH。生成索引不加入长期 `managed` 所有权记录，后续合法 REHASH 不会因此阻止更新或卸载；安装成功不等于已验证 AVEVA 重启。
+
+TRACE32 的源码批次未安装，后续 TRACE33 已完成经授权的本机更新，详见仓库 `docs/validation/2026-10-23-installer-ui-preview.md`；真实 AVEVA 重启与业务复验仍单独记录。
 
 
 ## Phayton 0.3.4 / R2
 
 新包展示名为 Phayton，安装身份与 PmlTrigger.Yuzuha 路径保留。旧快捷方式继续使用，新入口位于 Phayton 分组。完整 DocFX 位于 runtime/documentation，工作台的开发文档按钮启动随包自包含只读文档宿主；退出工作台后结束本次宿主。构建时必须提供 --documentation 和 --documentation-host，分别指定已经校验的 DocFX 站点与自包含 DevHost 发布目录。
+
+
+## CLI 发行版构建与 Host 选择
+
+`--cli` 必须指向已验证的独立发布目录，至少包含 PmlTwin.Phayton.Cli.exe 和 e_sqlite3.dll。构建器将其复制到 runtime/cli，排除旧 runtime/net10 MCP 程序。`--version` 同时控制载荷清单、Inno 显示版本、Setup EXE 和 Agent ZIP 文件名。构建不执行安装。
+
+Host 策略按维护者约定：E3D 2.1 使用 E3D2.1；E3D 3.1 系列统一使用 E3D3.1.6；AM/PDMS 使用各自已编译的 NET35 Host。发现版本只选择交付 Profile，不代替真实登录、Host 握手和操作测试。

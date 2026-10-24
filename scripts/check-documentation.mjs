@@ -25,7 +25,7 @@ for(const file of pages){
   documents.set(file,{html,markup,ids:new Set(ids)});
 }
 for(const [file,{markup}] of documents){
-  for(const match of markup.matchAll(/\b(?:href|src)="([^"]+)"/g)){
+  for(const match of markup.matchAll(/\b(?:href|src|poster)="([^"]+)"/g)){
     const href=decode(match[1]);
     if(/^(?:[a-z][a-z0-9+.-]*:|\/\/)/i.test(href))continue;
     const url=new URL(href,'http://documentation.local/'+path.relative(site,file).replaceAll('\\','/'));

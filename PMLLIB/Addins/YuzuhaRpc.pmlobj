@@ -75,6 +75,11 @@ define method .AgentSetup()
       !!YuzuhaAutoSetup = FALSE
       return
     endhandle
+    !!YuzuhaRpcHost.RefreshModel(!!YuzuhaModel)
+    handle any
+      !!YuzuhaAutoSetup = FALSE
+      return
+    endhandle
     !!YuzuhaRpcHost.GetRpcServerStatus()
     handle any
       !!YuzuhaAutoSetup = FALSE

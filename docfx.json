@@ -1,27 +1,164 @@
 {
   "metadata": [
-    { "src": [{ "files": ["src/YuzuhaToolkit.Workspace/YuzuhaToolkit.Workspace.csproj"] }], "dest": "artifacts/docfx/api/workspace" },
-    { "src": [{ "files": ["src/YuzuhaToolkit.CommandLine/YuzuhaToolkit.CommandLine.csproj"] }], "dest": "artifacts/docfx/api/cli" },
-    { "src": [{ "files": ["src/PlantHost.Rpc.Net10/PlantHost.Rpc.Net10.csproj"] }], "dest": "artifacts/docfx/api/rpc" },
-    { "src": [{ "files": ["src/YuzuhaToolkit.Mcp.Core/YuzuhaToolkit.Mcp.Core.csproj"] }], "dest": "artifacts/docfx/api/mcp" },
-    { "src": [{ "files": ["src/YuzuhaToolkit.Knowledge.Core/YuzuhaToolkit.Knowledge.Core.csproj"] }], "filter": "docs/reference/knowledge-filter.yml", "dest": "artifacts/docfx/api/knowledge" },
-    { "src": [{ "files": ["src/YuzuhaToolkit.DevHost/YuzuhaToolkit.DevHost.csproj"] }], "dest": "artifacts/docfx/api/devhost" },
-    { "src": [{ "files": ["src/YuzuhaToolkit.WebApps/YuzuhaToolkit.WebApps.csproj"] }], "dest": "artifacts/docfx/api/webapps" }
+    {
+      "src": [
+        {
+          "files": [
+            "src/YuzuhaToolkit.Workspace/YuzuhaToolkit.Workspace.csproj"
+          ]
+        }
+      ],
+      "dest": "artifacts/docfx/api/workspace"
+    },
+    {
+      "src": [
+        {
+          "files": [
+            "src/YuzuhaToolkit.CommandLine/YuzuhaToolkit.CommandLine.csproj"
+          ]
+        }
+      ],
+      "dest": "artifacts/docfx/api/cli"
+    },
+    {
+      "src": [
+        {
+          "files": [
+            "src/PlantHost.Rpc.Net10/PlantHost.Rpc.Net10.csproj"
+          ]
+        }
+      ],
+      "dest": "artifacts/docfx/api/rpc"
+    },
+    {
+      "src": [
+        {
+          "files": [
+            "src/YuzuhaToolkit.Mcp.Core/YuzuhaToolkit.Mcp.Core.csproj"
+          ]
+        }
+      ],
+      "dest": "artifacts/docfx/api/mcp"
+    },
+    {
+      "src": [
+        {
+          "files": [
+            "src/YuzuhaToolkit.Knowledge.Core/YuzuhaToolkit.Knowledge.Core.csproj"
+          ]
+        }
+      ],
+      "dest": "artifacts/docfx/api/knowledge"
+    },
+    {
+      "src": [
+        {
+          "files": [
+            "src/YuzuhaToolkit.DevHost/YuzuhaToolkit.DevHost.csproj"
+          ]
+        }
+      ],
+      "dest": "artifacts/docfx/api/devhost"
+    },
+    {
+      "src": [
+        {
+          "files": [
+            "src/YuzuhaToolkit.WebApps/YuzuhaToolkit.WebApps.csproj"
+          ]
+        }
+      ],
+      "dest": "artifacts/docfx/api/webapps"
+    }
   ],
   "build": {
     "content": [
-      { "files": ["**/*.md", "**/toc.yml"], "exclude": ["knowledge-filter.yml", "template/**"], "src": "docs/reference" },
-      { "files": ["**/*.yml"], "src": "artifacts/docfx/api", "dest": "api" },
-      { "files": ["**/*.md", "**/toc.yml"], "src": "artifacts/docfx/navigation", "dest": "reference" }
+      {
+        "files": [
+          "**/*.md",
+          "**/toc.yml"
+        ],
+        "exclude": [
+          "knowledge-filter.yml",
+          "template/**"
+        ],
+        "src": "docs/reference"
+      },
+      {
+        "files": [
+          "**/*.yml"
+        ],
+        "src": "artifacts/docfx/api",
+        "dest": "api"
+      },
+      {
+        "files": [
+          "**/*.md",
+          "**/toc.yml"
+        ],
+        "src": "artifacts/docfx/navigation",
+        "dest": "reference"
+      }
     ],
     "resource": [
-      { "files": ["**/*"], "src": "artifacts/architecture", "dest": "architecture" },
-      { "files": ["v1.json"], "src": "artifacts/openapi", "dest": "openapi" },
-      { "files": ["LICENSE.docfx.txt"], "src": "docs/reference/template", "dest": "third-party" }
-      ,{ "files": ["**/*.json", "**/*.png", "**/*.jpg", "**/*.svg", "**/*.ico", "**/*.html", "**/*.txt", "**/*.docx"], "src": "artifacts/docfx/navigation", "dest": "reference" }
+      {
+        "files": [
+          "**/*"
+        ],
+        "src": "docs/media",
+        "dest": "media"
+      },
+      {
+        "files": [
+          "2026-10-24-launch-cli.summary.json"
+        ],
+        "src": "docs/validation",
+        "dest": "validation"
+      },
+      {
+        "files": [
+          "**/*"
+        ],
+        "src": "artifacts/architecture",
+        "dest": "architecture"
+      },
+      {
+        "files": [
+          "v1.json"
+        ],
+        "src": "artifacts/openapi",
+        "dest": "openapi"
+      },
+      {
+        "files": [
+          "LICENSE.docfx.txt"
+        ],
+        "src": "docs/reference/template",
+        "dest": "third-party"
+      },
+      {
+        "files": [
+          "**/*.json",
+          "**/*.png",
+          "**/*.jpg",
+          "**/*.svg",
+          "**/*.ico",
+          "**/*.html",
+          "**/*.txt",
+          "**/*.docx",
+          "**/*.mp4",
+          "**/*.srt"
+        ],
+        "src": "artifacts/docfx/navigation",
+        "dest": "reference"
+      }
     ],
     "dest": "artifacts/docfx/site",
-    "template": ["default", "modern", "docs/reference/template"],
+    "template": [
+      "default",
+      "modern",
+      "docs/reference/template"
+    ],
     "globalMetadata": {
       "_appName": "Phayton",
       "_appTitle": "Phayton 开发文档",

@@ -1,0 +1,82 @@
+{
+  "width": 1920,
+  "height": 1080,
+  "fps": 24,
+  "duration": 142.667,
+  "sha256": "e5750fcab708a3180549625e8b796d2b534daacfd0a27bff2c1468885e372b88",
+  "bytes": 4028077,
+  "chapters": [
+    {
+      "id": "intro",
+      "title": "让 AI 进入工程工作流",
+      "start": 0,
+      "duration": 14.541666666666666,
+      "sourceTag": "PHAYTON  /  AVEVA × AI"
+    },
+    {
+      "id": "routes",
+      "title": "一个连接层，两种工作方式",
+      "start": 14.542,
+      "duration": 14.5,
+      "sourceTag": "产品定位"
+    },
+    {
+      "id": "write",
+      "title": "从一个小工具开始",
+      "start": 29.042,
+      "duration": 15.708333333333334,
+      "sourceTag": "源码演示 · 已有自有测试夹具"
+    },
+    {
+      "id": "load",
+      "title": "写完之后，有路可走",
+      "start": 44.75,
+      "duration": 13.791666666666666,
+      "sourceTag": "E3D 2.1 · 2026-10-23 实测记录重放"
+    },
+    {
+      "id": "debug",
+      "title": "遇到错误，能够继续查清",
+      "start": 58.542,
+      "duration": 13.291666666666666,
+      "sourceTag": "E3D 2.1 · 历史失败与修正记录"
+    },
+    {
+      "id": "verify",
+      "title": "看见结果，也核对结果",
+      "start": 71.833,
+      "duration": 14.916666666666666,
+      "sourceTag": "E3D 2.1 · 历史实测摘要"
+    },
+    {
+      "id": "collaborate",
+      "title": "让判断有可核查的依据",
+      "start": 86.75,
+      "duration": 15.291666666666666,
+      "sourceTag": "直接协作路线 · 能力示意"
+    },
+    {
+      "id": "workspace",
+      "title": "日常工作，放进一个工作空间",
+      "start": 102.042,
+      "duration": 14.041666666666666,
+      "sourceTag": "正式 WPF 程序 · 隔离数据界面实录截图"
+    },
+    {
+      "id": "users",
+      "title": "已经有人在使用",
+      "start": 116.083,
+      "duration": 13.75,
+      "sourceTag": "维护者提供的使用情况 · 2026-10-23"
+    },
+    {
+      "id": "outro",
+      "title": "连接能力，让想法继续生长",
+      "start": 129.833,
+      "duration": 12.833333333333334,
+      "sourceTag": "开源项目 · 可查看源码与验证记录"
+    }
+  ],
+  "audio": "Local Windows SAPI Huihui; no remote TTS",
+  "evidence": "New WPF captures + existing 2026-10-23 E3D 2.1 public receipts. No new AVEVA execution."
+}

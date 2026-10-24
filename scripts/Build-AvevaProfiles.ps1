@@ -1,4 +1,4 @@
-﻿[CmdletBinding()]
+[CmdletBinding()]
 param(
     [string] $ProfileRoot = $(
         if ($env:AVEVA_PROFILE_ROOT) { $env:AVEVA_PROFILE_ROOT }
@@ -6,7 +6,7 @@ param(
     ),
     [string] $Configuration = 'Release',
     [string] $OutputRoot = '',
-    [switch] $SkipMcp
+    [Alias('SkipMcp')][switch] $SkipCli
 )
 
 Set-StrictMode -Version 3.0
@@ -30,7 +30,6 @@ $projectRoot = Split-Path -Parent $PSScriptRoot
 $sourceRoot = Join-Path $projectRoot 'src'
 $net35Project = Join-Path $sourceRoot 'YuzuhaToolkit.PmlHost.Net35\YuzuhaToolkit.PmlHost.Net35.csproj'
 $net48Project = Join-Path $sourceRoot 'YuzuhaToolkit.PmlHost.Net48\YuzuhaToolkit.PmlHost.Net48.csproj'
-$mcpProject = Join-Path $sourceRoot 'YuzuhaToolkit.Mcp\YuzuhaToolkit.Mcp.csproj'
 
 if (-not (Test-Path -LiteralPath $ProfileRoot -PathType Container)) {
     throw "AVEVA profile root does not exist: $ProfileRoot"
@@ -40,7 +39,6 @@ $profiles = @(
     [pscustomobject]@{ Name = 'AM'; Framework = 'net35'; Project = $net35Project },
     [pscustomobject]@{ Name = 'PDMS'; Framework = 'net35'; Project = $net35Project },
     [pscustomobject]@{ Name = 'E3D2.1'; Framework = 'net48'; Project = $net48Project },
-    [pscustomobject]@{ Name = 'E3D3.1.0'; Framework = 'net48'; Project = $net48Project },
     [pscustomobject]@{ Name = 'E3D3.1.6'; Framework = 'net48'; Project = $net48Project }
 )
 
@@ -69,24 +67,24 @@ foreach ($profile in $profiles) {
     )
 }
 
-if (-not $SkipMcp) {
-    $mcpOutput = Join-Path $projectRoot 'runtime\net10'
+if (-not $SkipCli) {
+    $cliOutput = Join-Path $projectRoot 'runtime\cli'
     $resolvedProjectRoot = [System.IO.Path]::GetFullPath($projectRoot).TrimEnd('\')
-    $resolvedMcpOutput = [System.IO.Path]::GetFullPath($mcpOutput)
-    if (-not $resolvedMcpOutput.StartsWith(
+    $resolvedCliOutput = [System.IO.Path]::GetFullPath($cliOutput)
+    if (-not $resolvedCliOutput.StartsWith(
             $resolvedProjectRoot + '\',
             [System.StringComparison]::OrdinalIgnoreCase) -or
-        [System.IO.Path]::GetFileName($resolvedMcpOutput) -ne 'net10') {
-        throw "Refusing to clean unexpected MCP output path: $resolvedMcpOutput"
+        [System.IO.Path]::GetFileName($resolvedCliOutput) -ne 'cli') {
+        throw "Refusing to clean unexpected CLI output path: $resolvedCliOutput"
     }
 
-    New-Item -ItemType Directory -Path $resolvedMcpOutput -Force | Out-Null
+    New-Item -ItemType Directory -Path $resolvedCliOutput -Force | Out-Null
 
-    & (Join-Path $PSScriptRoot 'Build-NativeServers.ps1') -OutputRoot $mcpOutput -Configuration $Configuration
+    & (Join-Path $PSScriptRoot 'Build-NativeCli.ps1') -OutputRoot $cliOutput -Configuration $Configuration
 
 }
 
 Write-Host "All AVEVA profiles built under: $OutputRoot"
-if (-not $SkipMcp) {
-    Write-Host "Native AOT MCP: $mcpOutput\YuzuhaToolkit.Mcp.exe"
+if (-not $SkipCli) {
+    Write-Host "Native AOT CLI: $cliOutput\PmlTwin.Phayton.Cli.exe"
 }

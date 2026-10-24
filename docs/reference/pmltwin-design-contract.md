@@ -1,5 +1,7 @@
 # PMLTWIN 项目设计约定
 
+2026-10-24 补充：[工作台的开发 测试与使用约定](workbench-lifecycle.md)定义功能优先的应用用例、可替换配置存储、JSON/TOML 场景、持久化与恢复、界面绑定和三阶段文档。启动配置接口已接入正式 WPF 与原生 CLI，JSON/TOML 场景实际运行并保存结果；其他工作台切面仍按各自验收状态推进。
+
 版本 0.1，日期 2026年10月22日，随 PR 人工审阅。依据[已归档的《软件设计要求》v0.3 Draft](../../artifacts/docfx/navigation/design-baselines/software-design-20261022-v03-draft/index.md)，将 Script、Feature、应用装配、验证和文档要求适配到现有 PMLTWIN。[逐项适配记录](design-adaptation.md)保留采用、调整、暂缓及未完成项；原稿仍是 Draft。产品版本、协议版本与本约定版本分别管理。
 
 PMLTWIN 面向 AVEVA AM、PDMS、E3D 的本机开发与排查：选择真实目标，复用 PML 和 C# 能力完成查询与已授权操作，保留可复刻测试及可定位记录。用户应能找到具体脚本、理解其计算和调用关系，再核对实现、设计与运行证据。
@@ -11,7 +13,7 @@ PMLTWIN 面向 AVEVA AM、PDMS、E3D 的本机开发与排查：选择真实目�
 | 责任 | 当前落点 | 项目约定 |
 | --- | --- | --- |
 | 桌面与装配 | 现有 WPF Desktop、App、MainWindow 与 SessionWorkbench | 保留当前项目引用和业务接口，按功能组织说明；不为 CAF 名称新建框架或强制拆包 |
-| 业务服务与通道 | Mcp.Core/Knowledge.Core 工具、既有 CLI/MCP 薄宿主、YuzuhaRpcBridge、Named Pipe | 功能定义场景语义，适配器处理通道；复用已有工具名、参数和 RPC 路由 |
+| 业务服务与通道 | Mcp.Core/Knowledge.Core 工具、既有 原生 CLI 薄宿主、YuzuhaRpcBridge、Named Pipe | 功能定义场景语义，适配器处理通道；复用已有工具名、参数和 RPC 路由 |
 | 原生 Host | AM/PDMS NET35，E3D NET48 | 在目标主线程操作；版本与能力显式核验；不能将 NET10 示例 API 直接用于旧框架 |
 | 文档工具 | tools/Documentation 的 Roslyn、DocFX、LikeC4 | 扩充已有源码、测试与调用关系索引，不另建大型文档平台 |
 | 测试 | 现有 xUnit、ArchUnitNET、PowerShell 执行器、Native AOT Smoke | 先增加适用测试再实现，验证通过后提交，PR 保留人工审查 |
@@ -51,7 +53,7 @@ AI 新写的测试 PML 放在 `tests/ai-pml/<任务名>/` 的独立目录；本�
 | 说明与结构 | 对象身份、有效关联、ArchUnitNET 和工程引用检查 | 已检查的程序集之外也全部合规 |
 | Script 直接验证 | 真实算法/脚本及边界断言，可复用已有夹具 | 仅调用完整 Feature 就覆盖了所有算法分支 |
 | 独立功能 | 会话状态、权限、预算、错误、分页等真实用例 | 合成 Host 就是 AVEVA 实机 |
-| 接入与协作 | CLI/MCP、RPC 兼容、参数映射和实际应用装配 | 工具目录存在就证明命令已执行 |
+| 接入与协作 | 原生 CLI、RPC 兼容、参数映射和实际应用装配 | 工具目录存在就证明命令已执行 |
 | 应用与实机 | WPF 实际入口、生命周期及按产品/Host 分类的人工案例 | 离线截图、旧报告或其他产品通过就是当前通过 |
 
 测试继续使用既有 test-map、按 ID 运行器和证据目录，不复制一套测试状态。运行报告标明提交、dirty、环境和范围；通过、失败、未执行、跳过、不适用及结果未知按实际含义保留。静态调用关系与测试关联均不是运行结果。

@@ -1,4 +1,14 @@
-# Agent 托管的生命周期
+# Phayton 生命周期 — CLI 0.3.4.2
+
+> **当前入口：** `runtime/cli/PmlTwin.Phayton.Cli.exe`。独立 MCP 服务已禁用，不再注册或重新启用。
+
+安装、更新、接入 AVEVA 或卸载请使用正式 Inno 发行包 `Phayton-0.3.4.2-Windows-Setup.exe`（Windows-Agent 压缩包也包含该安装器），按其中 `INSTALL.md` 生成具体预览、确认计划与 SHA256 后执行，保留现有知识库和用户配置。开发/源码补充 ZIP 不提供安装或客户端接入入口。
+
+安装后阅读[当前 Skill](../SKILL.md)，直接通过已安装 CLI 的 `op list`、`op describe <id>`、`op invoke <id>` 发现和调用能力。接入客户端时不使用历史 PS1 安装脚本或 MCP 注册命令。
+
+## 历史 0.3.2 PS1 记录 — 不适用于 CLI 0.3.4.2
+
+**以下内容只用于辨认旧安装。下方 PS1 命令、MCP 注册步骤和旧安装默认值均不是当前操作说明，不得用于本次发行版。**
 
 > AVEVA 配置：先用 `Get-ItemProperty` / `reg query` 查询注册表，优先有效的 `Evar.INIT`；PDMS/AM 确认无 INIT 且仅使用 BAT 时才改 `EVAR.BAT`。`-EvarBat` 接受 BAT 风格文件，包括 `Evar.INIT`（本身即批处理语法）；写入前自动备份，托管块尾置。默认本机注册不改 EVAR。详见 [定位和选择规则](aveva-discovery.md)。
 

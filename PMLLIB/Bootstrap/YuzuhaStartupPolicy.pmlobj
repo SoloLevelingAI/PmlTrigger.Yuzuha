@@ -1,0 +1,146 @@
+-- <summary>Extensible native startup action boundary: configuration, dispatch, execution and reporting.</summary>
+-- <remarks><para>Apply() reads the process environment. Apply(policy, logPath, launchId) accepts explicit configuration for tests and future callers.</para><para>Only rehash-all executes an action. none or empty disables actions without consuming the session guard. Unknown values are rejected, never interpreted as PML.</para><para>The start log must be written before execution. Once execution starts, the session guard prevents retries even if the action fails.</para></remarks>
+define object YuzuhaStartupPolicy
+  member .Policy is STRING
+  member .LogPath is STRING
+  member .LaunchId is STRING
+  member .ConfigurationSource is STRING
+  member .Report is ARRAY
+endobject
+
+-- <summary>Read environment configuration. An explicit desktop override takes precedence over the base setting.</summary>
+define method .ReadConfiguration()
+  !this.Policy = ''
+  !this.ConfigurationSource = 'environment:YUZUHA_STARTUP_ACTIONS'
+  var !policy evar 'YUZUHA_STARTUP_ACTIONS'
+  handle any
+    !policy = ''
+  endhandle
+  var !override evar 'YUZUHA_STARTUP_OVERRIDE'
+  handle any
+    !override = ''
+  endhandle
+  if !override neq '' then
+    !policy = !override
+    !this.ConfigurationSource = 'environment:YUZUHA_STARTUP_OVERRIDE'
+  endif
+  !this.Policy = !policy.upcase()
+  var !launchId evar 'YUZUHA_STARTUP_ID'
+  handle any
+    !launchId = ''
+  endhandle
+  if !launchId eq '' then
+    !launchId = 'external-launch'
+  endif
+  !this.LaunchId = !launchId
+  var !logPath evar 'YUZUHA_STARTUP_LOG'
+  handle any
+    !logPath = ''
+  endhandle
+  if !logPath eq '' then
+    var !temp evar TEMP
+    !logPath = !temp + '\YuzuhaStartup.log'
+  endif
+  !this.LogPath = !logPath
+endmethod
+
+-- <summary>Apply the process environment policy after session initialization and before Host setup.</summary>
+define method .Apply()
+  !this.ReadConfiguration()
+  !this.ApplyConfigured()
+endmethod
+
+-- <summary>Apply explicit configuration through the same dispatch and execution path; never changes EVAR.</summary>
+-- <param name="policy">none or empty disables startup actions; rehash-all requests one guarded execution. Other values are rejected.</param>
+-- <param name="logPath">Append-only native trace destination. The start record must be writable before execution is allowed.</param>
+-- <param name="launchId">Caller-provided correlation identifier retained in the CommandSessionStartup trace.</param>
+define method .Apply(!policy is STRING, !logPath is STRING, !launchId is STRING)
+  !this.Policy = !policy.upcase()
+  !this.LogPath = !logPath
+  !this.LaunchId = !launchId
+  !this.ConfigurationSource = 'explicit-configuration'
+  !this.ApplyConfigured()
+endmethod
+
+-- <summary>Validate and dispatch a configured action. Disabled and rejected settings do not consume the session guard.</summary>
+define method .ApplyConfigured()
+  !this.BeginReport()
+  if !this.Policy eq '' or !this.Policy eq 'NONE' then
+    !this.Record('SkippedDisabled', '')
+    return
+  endif
+  if !this.Policy neq 'REHASH-ALL' then
+    !this.Record('Rejected', 'Unknown startup policy')
+    return
+  endif
+  !already = false
+  !already = !!YuzuhaStartupApplied
+  handle any
+    !already = false
+  endhandle
+  if !already then
+    !this.Record('SkippedAlreadyApplied', '')
+    return
+  endif
+  !this.Record('Started', '')
+  !log = object FILE(!this.LogPath)
+  !log.writeFile('APPEND', !this.Report)
+  handle any
+    !this.Record('LogFailedBeforeExecution', !!error.text)
+    $p Phayton startup action was not executed: start log failed. Inspect !!YuzuhaStartupReport.
+    return
+  endhandle
+  !!YuzuhaStartupApplied = true
+  !startCount = !this.Report.size()
+  !this.ExecuteAction()
+  !outcome = object ARRAY()
+  do !n indices !this.Report
+    if !n gt !startCount then
+      !outcome.append(!this.Report[!n])
+    endif
+  enddo
+  !log.writeFile('APPEND', !outcome)
+  handle any
+    !this.Record('ResultLogFailed', !!error.text)
+    $p Phayton startup result log failed. Inspect !!YuzuhaStartupReport; do not retry the action automatically.
+  endhandle
+endmethod
+
+-- <summary>Execute only a recognized built-in action. Add future action handlers here after validation in ApplyConfigured.</summary>
+-- <remarks><para>Internal execution hook: callers must use Apply(), Apply(policy, logPath, launchId), or ApplyConfigured(). This hook assumes the dispatcher has validated configuration, written the start trace, and set the session guard. It is not an independent public execution entry.</para></remarks>
+define method .ExecuteAction()
+  if !this.Policy eq 'REHASH-ALL' then
+    PML REHASH ALL
+    handle any
+      !this.Record('Failed', !!error.text)
+    elsehandle none
+      !this.Record('Succeeded', '')
+    endhandle
+  else
+    !this.Record('Rejected', 'Unknown startup policy')
+  endif
+endmethod
+
+-- <summary>Start a correlated CommandSessionStartup trace without invoking an action or writing a log.</summary>
+define method .BeginReport()
+  !this.Report = object ARRAY()
+  var !stamp CLOCK
+  !this.Report.append('[0] Trace<STRING> CommandSessionStartup')
+  !this.Report.append('[0] Time<STRING> ' + !stamp)
+  !this.Report.append('[0] Policy<STRING> ' + !this.Policy)
+  !this.Report.append('[0] ConfigurationSource<STRING> ' + !this.ConfigurationSource)
+  !this.Report.append('[0] Phase<STRING> after-pml-init-before-host')
+  !this.Report.append('[0] LaunchId<STRING> ' + !this.LaunchId)
+  !!YuzuhaStartupReport = !this.Report
+endmethod
+
+-- <summary>Keep the object report and global inspection report in sync, preserving exact native error text.</summary>
+-- <param name="status">Exact lifecycle status, including disabled, rejected, started, succeeded, failed and log failure outcomes.</param>
+-- <param name="errorText">Native error text to retain, or an empty string when no error occurred.</param>
+define method .Record(!status is STRING, !errorText is STRING)
+  !this.Report.append('[0] Status<STRING> ' + !status)
+  if !errorText neq '' then
+    !this.Report.append('[0] Error<STRING> ' + !errorText)
+  endif
+  !!YuzuhaStartupReport = !this.Report
+endmethod

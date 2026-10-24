@@ -16,5 +16,6 @@ internal static class DesktopTheme
         var old = dictionaries.FirstOrDefault(item => item.Source?.OriginalString.StartsWith("Themes/", StringComparison.Ordinal) == true);
         if (old is null) dictionaries.Add(next); else dictionaries[dictionaries.IndexOf(old)] = next;
         Current = mode;
+        if (Application.Current.MainWindow is { } window) NativeWindowFrame.Apply(window);
     }
 }

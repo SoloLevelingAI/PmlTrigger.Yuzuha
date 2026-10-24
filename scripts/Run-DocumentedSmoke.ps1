@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-    [Parameter(Mandatory)][ValidateSet('native-cli','native-builtin','rpc-net35','rpc-net48','formrecord-net35','formrecord-net48','documentation-contracts','desktop-flows')][string]$Runner,
+    [Parameter(Mandatory)][ValidateSet('native-cli','native-builtin','rpc-net35','rpc-net48','formrecord-net35','formrecord-net48','documentation-contracts','desktop-flows','workbench-lifecycle')][string]$Runner,
     [Parameter(Mandatory)][string]$ReportDirectory
 )
 $ErrorActionPreference = 'Stop'
@@ -9,17 +9,30 @@ function Check-Exit([string]$Step) { if ($LASTEXITCODE -ne 0) { throw "$Step fai
 Push-Location $root
 try {
     $pythonVersion = $null
-    if ($Runner.StartsWith('native-') -or $Runner.StartsWith('rpc-')) {
+    if ($Runner.StartsWith('native-') -or $Runner.StartsWith('rpc-') -or $Runner -eq 'workbench-lifecycle') {
         $python = if ($env:YUZUHA_TEST_PYTHON) { $env:YUZUHA_TEST_PYTHON } else { 'python' }
         $pythonVersion = & $python --version 2>&1
         Check-Exit 'Python prerequisite (install Python 3 or set YUZUHA_TEST_PYTHON)'
     }
     if ($Runner -in @('native-cli','native-builtin')) {
         $runtime = Join-Path $ReportDirectory 'native'
-        & "$PSScriptRoot/Build-NativeServers.ps1" -OutputRoot $runtime
+        & "$PSScriptRoot/Build-NativeCli.ps1" -OutputRoot $runtime
         $script = if ($Runner -eq 'native-cli') { 'tests/cli_smoke.py' } else { 'tests/v03/builtin_smoke.py' }
         & $python -X utf8 $script $runtime
         Check-Exit $script
+    } elseif ($Runner -eq 'workbench-lifecycle') {
+        & dotnet build src/PmlTwin.Phayton.Cli/PmlTwin.Phayton.Cli.csproj -c Release
+        Check-Exit 'Native CLI build'
+        $cli = Join-Path $root 'src/PmlTwin.Phayton.Cli/bin/Release/net10.0/PmlTwin.Phayton.Cli.exe'
+        & $python -X utf8 tests/workbench-scenario.test.py
+        Check-Exit 'Scenario parser tests'
+        foreach ($format in @('toml','json')) {
+            $scenarioDirectory = Join-Path $ReportDirectory $format
+            & $python -X utf8 scripts/run-workbench-scenario.py --scenario "tests/scenarios/launch-lifecycle.$format" --cli $cli --output $scenarioDirectory
+            Check-Exit "Launch lifecycle $format scenario"
+            $scenarioResult = Get-Content -LiteralPath (Join-Path $scenarioDirectory 'run.json') -Raw | ConvertFrom-Json
+            if ($scenarioResult.status -cne 'Passed' -or $scenarioResult.executed -ne 15) { throw 'Incomplete launch scenario receipt.' }
+        }
     } elseif ($Runner.StartsWith('rpc-')) {
         $framework = $Runner.Substring(4)
         $project = if ($framework -eq 'net35') { 'tests/AotRpcSmoke/Server35/Server.csproj' } else { 'tests/AotRpcSmoke/Server/Server.csproj' }

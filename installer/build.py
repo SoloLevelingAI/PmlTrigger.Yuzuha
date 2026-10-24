@@ -7,6 +7,7 @@ import shutil
 import subprocess
 import zipfile
 import sys
+import re
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 
@@ -15,9 +16,15 @@ def main():
     parser.add_argument('--iscc', required=True, type=pathlib.Path)
     parser.add_argument('--output', required=True, type=pathlib.Path)
     parser.add_argument('--desktop', type=pathlib.Path, help='Use a separately published desktop directory without overwriting a running development build.')
+    parser.add_argument('--cli', required=True, type=pathlib.Path, help='Separately published Native AOT CLI directory; copied to runtime/cli. Legacy MCP binaries are excluded.')
+    parser.add_argument('--version', default='0.3.4.2', help='Four-part numeric package, manifest and executable filename version.')
     parser.add_argument('--documentation', required=True, type=pathlib.Path, help='Verified generated DocFX site.')
     parser.add_argument('--documentation-host', required=True, type=pathlib.Path, help='Published read-only DevHost.')
     args = parser.parse_args()
+    if not re.fullmatch(r'[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+', args.version) or any(int(part)>65535 for part in args.version.split('.')):
+        raise SystemExit('Version must contain four numeric components between 0 and 65535.')
+    if not (args.cli / 'PmlTwin.Phayton.Cli.exe').is_file() or not (args.cli / 'e_sqlite3.dll').is_file():
+        raise SystemExit('Complete Native AOT CLI publish output (EXE and e_sqlite3.dll) is required.')
     if not (args.documentation/'index.html').is_file() or not (args.documentation_host/'YuzuhaToolkit.DevHost.exe').is_file():
         raise SystemExit('Complete documentation site and host are required.')
     if args.desktop and not (args.desktop / 'YuzuhaToolkit.Desktop.exe').is_file():
@@ -27,12 +34,7 @@ def main():
     stage = out / 'payload'
     if stage.exists():
         raise SystemExit('Use a fresh output directory; existing payload will not be overwritten.')
-    manifest = json.loads((ROOT / 'runtime/net10/native-aot-manifest.json').read_text(encoding='utf-8-sig'))
-    for item in manifest['components']:
-        binary = ROOT / 'runtime/net10' / item['name']
-        if hashlib.sha256(binary.read_bytes()).hexdigest() != item['sha256']:
-            raise SystemExit('Runtime manifest mismatch: ' + item['name'])
-    for profile, framework in [('AM','35'),('PDMS','35'),('E3D2.1','48'),('E3D3.1.0','48'),('E3D3.1.6','48')]:
+    for profile, framework in [('AM','35'),('PDMS','35'),('E3D2.1','48'),('E3D3.1.6','48')]:
         if not (ROOT / f'runtime/profiles/{profile}/net{framework}/YuzuhaToolkit.PmlHost.Net{framework}.dll').is_file():
             raise SystemExit('Missing Host: ' + profile)
     subprocess.run([sys.executable,str(ROOT/'installer/build_icon.py')],check=True)
@@ -43,9 +45,12 @@ def main():
         ignored=['*.pdb','*.ps1','__pycache__','pml.index']
         if name == 'runtime' and args.desktop:
             ignored.append('desktop')
+        if name == 'runtime':
+            ignored.extend(['net10', 'cli', 'E3D3.1.0'])
         shutil.copytree(ROOT / name, stage / name, ignore=shutil.ignore_patterns(*ignored))
     if args.desktop:
         shutil.copytree(args.desktop.resolve(), stage / 'runtime/desktop', ignore=shutil.ignore_patterns('*.pdb','*.ps1','__pycache__'))
+    shutil.copytree(args.cli.resolve(), stage / 'runtime/cli', ignore=shutil.ignore_patterns('*.pdb','*.ps1','__pycache__'))
     shutil.copytree(ROOT/'src/YuzuhaToolkit.WebApps/wwwroot', stage/'runtime/webapps/wwwroot', dirs_exist_ok=True)
     shutil.copytree(args.documentation.resolve(), stage/'runtime/documentation')
     shutil.copytree(args.documentation_host.resolve(), stage/'runtime/documentation-host', ignore=shutil.ignore_patterns('*.pdb'))
@@ -83,10 +88,10 @@ def main():
         for p in sorted(files)), encoding='utf-8')
     inventory=[{'path':p.relative_to(stage).as_posix(),'sha256':hashlib.sha256(p.read_bytes()).hexdigest()}
                for p in sorted(stage.rglob('*')) if p.is_file()]
-    (stage/'.setup-payload.json').write_text(json.dumps({'version':'0.3.4','files':inventory},indent=2),encoding='utf-8')
+    (stage/'.setup-payload.json').write_text(json.dumps({'version':args.version,'entryPoint':'runtime/cli/PmlTwin.Phayton.Cli.exe','transport':'cli','files':inventory},indent=2),encoding='utf-8')
     subprocess.run([str(args.iscc.resolve()), '/DPayloadDir=' + str(stage),
-                    '/DOutputDir=' + str(out), str(ROOT / 'installer/Yuzuha.iss')], check=True)
-    exe = out / 'Phayton-0.3.4-Windows-Setup.exe'
+                    '/DOutputDir=' + str(out), '/DAppVersion=' + args.version, str(ROOT / 'installer/Yuzuha.iss')], check=True)
+    exe = out / ('Phayton-' + args.version + '-Windows-Setup.exe')
     (out / 'installer.sha256').write_text(hashlib.sha256(exe.read_bytes()).hexdigest() + '  ' + exe.name + '\n', encoding='ascii')
     bundle=out/'AI-install'
     shutil.copytree(stage/'setup',bundle/'setup')
@@ -104,7 +109,8 @@ def main():
     (bundle/'BUNDLE-SHA256SUMS.txt').write_text(''.join(
         hashlib.sha256(p.read_bytes()).hexdigest()+'  '+p.relative_to(bundle).as_posix()+'\n'
         for p in sorted(bundle.rglob('*')) if p.is_file()),encoding='utf-8')
-    with zipfile.ZipFile(out/'Phayton-0.3.4-Windows-Agent.zip','w',zipfile.ZIP_DEFLATED) as archive:
+    agent_zip = out / ('Phayton-' + args.version + '-Windows-Agent.zip')
+    with zipfile.ZipFile(agent_zip,'w',zipfile.ZIP_DEFLATED) as archive:
         for path in bundle.rglob('*'):
             if path.is_file():archive.write(path,path.relative_to(bundle))
     source_zip = out / 'Phayton-Windows-Setup-Sources.zip'
@@ -119,7 +125,7 @@ def main():
             'Build requires Python, .NET SDK with NET48 targeting support, Inno Setup,\n'
             'src/lib/net35/Newtonsoft.Json.dll and the existing verified release runtimes.\n'
             'Entry points: installer/Yuzuha.iss and installer/build.py. No AVEVA vendor assemblies included.\n')
-    deliverables=[exe,out/'Phayton-0.3.4-Windows-Agent.zip',source_zip]
+    deliverables=[exe,agent_zip,source_zip]
     (out/'SHA256SUMS.txt').write_text(''.join(hashlib.sha256(p.read_bytes()).hexdigest()+'  '+p.name+'\n' for p in deliverables),encoding='ascii')
     print(exe)
 

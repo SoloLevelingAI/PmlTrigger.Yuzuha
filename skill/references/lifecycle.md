@@ -1,4 +1,14 @@
-# Agent-managed lifecycle
+# Phayton lifecycle — CLI 0.3.4.2
+
+> **Current entry point:** `runtime/cli/PmlTwin.Phayton.Cli.exe`. Independent MCP servers are disabled. Do not register or reactivate them.
+
+For installation, update, AVEVA integration or removal, use the formal Inno distribution (`Phayton-0.3.4.2-Windows-Setup.exe`, also included in the Windows-Agent archive) and its `INSTALL.md`. Follow its concrete preview/plan/SHA256 workflow; preserve existing knowledge and user configuration. A development/source supplement ZIP provides no installation or client-integration entry point.
+
+After installation, read [the current Skill](../SKILL.md) and use `op list`, `op describe <id>` and `op invoke <id>` directly through the installed CLI. Do not use a historical PS1 installer or MCP registration command to connect the client.
+
+## Historical 0.3.2 PS1 reference — not applicable to CLI 0.3.4.2
+
+**Everything below is retained only to identify older installations. Its PS1 commands, MCP registration steps and old installation defaults are not current instructions and must not be executed for this release.**
 
 > AVEVA 配置：先用 `Get-ItemProperty` / `reg query` 查询注册表，优先有效的 `Evar.INIT`；PDMS/AM 确认无 INIT 且仅使用 BAT 时才改 `EVAR.BAT`。`-EvarBat` 接受 BAT 风格文件，包括 `Evar.INIT`（本身即批处理语法）；写入前自动备份，托管块尾置。默认本机注册不改 EVAR。详见 [定位和选择规则](aveva-discovery.md)。
 

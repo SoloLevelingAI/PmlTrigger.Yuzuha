@@ -12,12 +12,12 @@
     <ProjectReference Include="../PlantHost.Rpc.Net10/PlantHost.Rpc.Net10.csproj" />
     <ProjectReference Include="../PmlTwin.Phayton/PmlTwin.Phayton.csproj" />
     <ProjectReference Include="../YuzuhaToolkit.Workspace/YuzuhaToolkit.Workspace.csproj" />
+    <ProjectReference Include="../YuzuhaToolkit.Knowledge.Core/YuzuhaToolkit.Knowledge.Core.csproj" />
     <ProjectReference Include="../YuzuhaToolkit.CommandLine/YuzuhaToolkit.CommandLine.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\Shared\PmlMethodSignatureGenerator.cs"
              Link="Generator\PmlMethodSignatureGenerator.cs"/>
-    <Compile Include="../Shared/BuiltinGuideCatalog.cs" Link="Builtins/BuiltinGuideCatalog.cs" />
     <Compile Include="../Shared/PmlArrayWindow.cs" Link="PmlArrayWindow.cs" />
     <Compile Include="../Shared/PmlFormQuery.cs" Link="PmlFormQuery.cs" />
     <EmbeddedResource Include="../../docs/builtin/*.md" LogicalName="Yuzuha.Builtin.%(Filename)%(Extension)" />

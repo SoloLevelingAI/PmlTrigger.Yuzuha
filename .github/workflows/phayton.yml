@@ -15,16 +15,13 @@ jobs:
         run: dotnet run --project tests/Phayton -c Release
       - name: Build CLI
         run: dotnet build src/PmlTwin.Phayton.Cli -c Release
-      - name: Build MCP frontend
+      - name: Build disabled legacy filename for migration verification
         run: dotnet build src/YuzuhaToolkit.Mcp -c Release
-      - name: Check real CLI and MCP processes
+      - name: Check native CLI and rejected legacy MCP process
         run: python -X utf8 tests/Phayton/frontends.py --cli src/PmlTwin.Phayton.Cli/bin/Release/net10.0/PmlTwin.Phayton.Cli.exe --mcp src/YuzuhaToolkit.Mcp/bin/Release/net10.0/win-x64/YuzuhaToolkit.Mcp.exe
-      - name: Publish Native AOT frontends
+      - name: Publish Native AOT CLI
         shell: pwsh
         run: |
-          dotnet publish src/PmlTwin.Phayton.Cli -c Release -r win-x64 -p:PublishAot=true -o artifacts/phayton/cli
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          dotnet publish src/YuzuhaToolkit.Mcp -c Release -o artifacts/phayton/mcp
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-      - name: Check Native AOT frontends
-        run: python -X utf8 tests/Phayton/frontends.py --cli artifacts/phayton/cli/PmlTwin.Phayton.Cli.exe --mcp artifacts/phayton/mcp/YuzuhaToolkit.Mcp.exe
+          ./scripts/Build-NativeCli.ps1 -OutputRoot artifacts/phayton/cli
+      - name: Check Native AOT CLI
+        run: python -X utf8 tests/Phayton/frontends.py --cli artifacts/phayton/cli/PmlTwin.Phayton.Cli.exe --report artifacts/phayton/native-processes.json

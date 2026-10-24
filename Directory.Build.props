@@ -2,10 +2,10 @@
     <PropertyGroup>
         <LangVersion>latest</LangVersion>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-        <Version>0.3.2</Version>
+        <Version>0.3.4.2</Version>
         <AssemblyVersion>0.3.2.0</AssemblyVersion>
-        <FileVersion>0.3.2.0</FileVersion>
-        <InformationalVersion>0.3.2</InformationalVersion>
+        <FileVersion>0.3.4.2</FileVersion>
+        <InformationalVersion>0.3.4.2</InformationalVersion>
     </PropertyGroup>
     <PropertyGroup Condition="'$(MSBuildProjectName)' == 'PlantHost.Rpc.Net10' Or '$(MSBuildProjectName)' == 'YuzuhaToolkit.Mcp' Or '$(MSBuildProjectName)' == 'YuzuhaToolkit.Mcp.Core' Or '$(MSBuildProjectName)' == 'YuzuhaToolkit.Knowledge' Or '$(MSBuildProjectName)' == 'YuzuhaToolkit.Knowledge.Core' Or '$(MSBuildProjectName)' == 'YuzuhaToolkit.CommandLine' Or '$(MSBuildProjectName)' == 'YuzuhaToolkit.PmlHost.Net35' Or '$(MSBuildProjectName)' == 'YuzuhaToolkit.PmlHost.Net48' Or '$(MSBuildProjectName)' == 'SetupBridge'">
         <GenerateDocumentationFile>true</GenerateDocumentationFile>

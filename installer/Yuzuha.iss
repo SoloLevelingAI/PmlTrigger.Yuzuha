@@ -2,6 +2,9 @@
 #ifndef PayloadDir
   #error PayloadDir must identify a verified staged payload.
 #endif
+#ifndef AppVersion
+  #define AppVersion "0.3.4.2"
+#endif
 #ifndef OutputDir
   #define OutputDir "..\artifacts\installer"
 #endif
@@ -9,8 +12,8 @@
 [Setup]
 AppId={{6F551950-F3A9-4D2F-B771-145415993095}
 AppName=Phayton
-AppVersion=0.3.4
-AppVerName=Phayton 0.3.4 — Windows Setup
+AppVersion={#AppVersion}
+AppVerName=Phayton {#AppVersion} — Windows Setup
 AppPublisher=SoloLevelingAI
 SetupIconFile=assets\yuzuha.ico
 UninstallDisplayIcon={app}\setup\yuzuha.ico
@@ -31,13 +34,13 @@ DisableDirPage=no
 DisableProgramGroupPage=yes
 LicenseFile=..\LICENSE
 OutputDir={#OutputDir}
-OutputBaseFilename=Phayton-0.3.4-Windows-Setup
+OutputBaseFilename=Phayton-{#AppVersion}-Windows-Setup
 Compression=lzma2
 SolidCompression=yes
 SetupLogging=yes
 CloseApplications=no
 RestartApplications=no
-UninstallDisplayName=Phayton — Windows Setup 0.3.4
+UninstallDisplayName=Phayton — Windows Setup {#AppVersion}
 UninstallFilesDir={app}\uninstall
 UsePreviousAppDir=yes
 UsePreviousTasks=no
@@ -121,15 +124,15 @@ end;
 procedure InitializeWizard;
 begin
   WizardForm.SelectDirLabel.Caption := T(
-    '请选择安装目录。若使用其他管理员账户提权，请核对用户目录及后续 MCP/Skill 目标。',
-    'Choose the installation directory. If elevated as another administrator, review user folders and subsequent MCP/Skill targets.');
+    '请选择安装目录。若使用其他管理员账户提权，请核对用户目录及后续 Skill 目标。',
+    'Choose the installation directory. If elevated as another administrator, review user folders and the Skill target.');
   ReportFile := ExpandConstant('{tmp}\yuzuha-error.txt');
   ManifestPath := ExpandConstant('{tmp}\.setup-payload.json');
   PlanPath := ExpandConstant('{param:PLAN|}');
   PlanHash := ExpandConstant('{param:PLANHASH|}');
   CreateNativePages;
   SummaryPage := CreateCustomPage(AIPage.ID, T('安装计划预览','Installation plan preview'),
-    T('查看文件、MCP、Skill 和环境配置的具体变化','Review payload, MCP, Skill and environment changes'));
+    T('查看 CLI 文件、Skill 和环境配置的具体变化','Review CLI payload, Skill and environment changes'));
   Summary := TNewMemo.Create(SummaryPage);
   Summary.Parent := SummaryPage.Surface;
   Summary.SetBounds(0,0,SummaryPage.SurfaceWidth,SummaryPage.SurfaceHeight);

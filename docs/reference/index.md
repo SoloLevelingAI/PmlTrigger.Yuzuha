@@ -28,7 +28,7 @@ _layout: landing
   <a class="doc-card" href="backend-tracing.md"><span class="step">03</span><strong>理解运行结果</strong><span class="description">数据、回执、错误与验证。<br>知道发生了什么，再继续改进。</span><span class="card-link">阅读指南 →</span></a>
 </div>
 
-[Phayton R2 正式版与兼容约定](phayton-r2-production.md) · [知识库与用户目录](user-data-and-knowledge.md) · [更新记录](iteration-log.md)
+[启动配置与CLI验收](workbench-validation.md) · [Phayton R2 历史版本](phayton-r2-production.md) · [知识库与用户目录](user-data-and-knowledge.md) · [更新记录](iteration-log.md)
 
 ## 常用入口
 
@@ -42,13 +42,13 @@ _layout: landing
   <a class="doc-card" href="api/index.md">
     <span class="card-icon" aria-hidden="true">{ }</span>
     <strong>C# API 参考</strong>
-    <span>MCP 工具、知识检索、Named Pipe RPC 与开发接口。按项目阅读真实类型和成员。</span>
+    <span>原生 CLI 操作、知识检索、Named Pipe RPC 与开发接口。按项目阅读真实类型和成员。</span>
     <span class="card-link">浏览全部项目与类型 →</span>
   </a>
   <a class="doc-card" href="../../artifacts/architecture/index.html">
     <span class="card-icon" aria-hidden="true">↗</span>
     <strong>架构与依赖</strong>
-    <span>探索项目引用、MCP 通信与 AVEVA Host 边界，在交互式视图中查看系统关系。</span>
+    <span>探索项目引用、CLI 与 IPC 通信与 AVEVA Host 边界，在交互式视图中查看系统关系。</span>
     <span class="card-link">打开 LikeC4 架构图 →</span>
   </a>
   <a class="doc-card" href="documentation.md">
@@ -65,7 +65,7 @@ _layout: landing
 
 [设计约定](pmltwin-design-contract.md) · [原始基线](../../artifacts/docfx/navigation/design-baselines/index.md) · [项目适配记录](design-adaptation.md) · [怎么增删改目录](catalog-maintenance.md) · [待分类的 C# 类型](../../artifacts/docfx/navigation/scripts/candidates.md) · [全部文件清单](../../artifacts/docfx/navigation/scripts/inventory.md)
 
-[按层看：CLI / MCP 双入口](cli.md) · [原生工作台与运行日志](workspace.md) · [全部 PML / PMLUI](../../artifacts/docfx/navigation/pml/index.md) · [完整使用文档](../../artifacts/docfx/navigation/repository/index.md)
+[按层看：原生CLI](cli.md) · [原生工作台与运行日志](workspace.md) · [全部 PML / PMLUI](../../artifacts/docfx/navigation/pml/index.md) · [完整使用文档](../../artifacts/docfx/navigation/repository/index.md)
 
 [后端调用链](backend-tracing.md)：按输入、计算、判断和结果理解业务实现。[迭代记录](iteration-log.md)保留已采纳意见及未完成验收项；[排查笔记](understanding-notes.md)按问题选择合适的解释方法。
 
@@ -73,11 +73,11 @@ _layout: landing
 
 <div id="workspace-explorer" data-view="projects">正在加载项目与功能索引…</div>
 
-1. [了解架构边界](architecture.md)：区分编译依赖、MCP 与 Named Pipe 的运行关系。
+1. [了解架构边界](architecture.md)：区分编译依赖、原生CLI与Named Pipe的运行关系。
 2. [按项目阅读 API](api/index.md)：从工具入口到会话桥、查询规划与 RPC 客户端。
 3. [运行测试与验证](testing.md)：检查行为、HTTP 契约和依赖方向。
 
-<div class="docs-note">开发 HTTP 接口提供内置指南与计算预览。AVEVA 会话选择和模型执行通过 MCP 的身份核验流程。<a href="../../artifacts/openapi/v1.json">下载 OpenAPI 契约 ↗</a></div>
+<div class="docs-note">开发HTTP接口提供内置指南与计算预览。AVEVA调用由原生适配器核验目标身份，并通过Named Pipe进入Host。独立MCP服务已禁用。<a href="../../artifacts/openapi/v1.json">下载 OpenAPI 契约 ↗</a></div>
 
 ## 文档范围
 

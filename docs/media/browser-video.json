@@ -1,0 +1,20 @@
+{
+  "playing": true,
+  "duration": 142.687667,
+  "currentTime": 75,
+  "width": 1920,
+  "height": 1080,
+  "readyState": 4,
+  "posterStatus": 200,
+  "rangeStatus": 206,
+  "mime": "video/mp4",
+  "error": null,
+  "desktopLayout": {
+    "videoWidth": 1159,
+    "overflow": false
+  },
+  "mobileLayout": {
+    "videoWidth": 339,
+    "overflow": false
+  }
+}

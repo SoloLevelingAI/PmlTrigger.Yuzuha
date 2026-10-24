@@ -1,4 +1,2 @@
-apiRules:
-- exclude:
-    uidRegex: ^YuzuhaToolkit\.Builtins($|\.)
-    # This linked source also compiles into MCP; its canonical API page is under api/mcp.
+# Historical filter retained for reference. Current metadata uses the single BuiltinGuideCatalog in Knowledge.Core.
+apiRules: []

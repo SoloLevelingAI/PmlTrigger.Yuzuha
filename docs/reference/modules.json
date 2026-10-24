@@ -20,8 +20,8 @@
       "role": "production"
     },
     "YuzuhaToolkit.CommandLine": {
-      "name": "CLI / MCP 适配",
-      "description": "同一可执行程序支持终端调用与 MCP stdio，复用实际工具和连接状态。",
+      "name": "历史命令行支持",
+      "description": "Historical command-line and audit support; the new frontend dispatches operations natively.",
       "alias": "cli",
       "role": "production"
     },
@@ -33,7 +33,7 @@
     },
     "YuzuhaToolkit.Mcp": {
       "name": "执行工具入口",
-      "description": "CLI / MCP 宿主装配，复用执行工具 Core。",
+      "description": "Historical executable retained in source; standalone MCP entry is disabled. New packages use the native CLI.",
       "sourceOnly": true,
       "referenceNote": "薄宿主入口的手写源码参考；实际工具 API 由 Mcp.Core 生成。",
       "role": "production"
@@ -46,7 +46,7 @@
     },
     "YuzuhaToolkit.Knowledge": {
       "name": "知识工具入口",
-      "description": "CLI / MCP 宿主装配，复用知识库 Core。",
+      "description": "Historical executable retained in source; standalone MCP entry is disabled. New packages use the native CLI.",
       "sourceOnly": true,
       "referenceNote": "薄宿主入口的手写源码参考；实际知识 API 由 Knowledge.Core 生成。",
       "role": "production"
@@ -83,7 +83,7 @@
     },
     "PmlTwin.Phayton.Cli": {
       "name": "操作命令行",
-      "description": "复用执行 Core 的 CLI 前端。",
+      "description": "Native CLI directly invokes execution, knowledge and launch services with JSON and explicit permissions.",
       "sourceOnly": true,
       "role": "production"
     },
@@ -105,7 +105,7 @@
     {
       "id": "activity",
       "name": "AI 运行与日志",
-      "description": "所有 MCP 工具的开始、目标、耗时、结果、日志故障与进程心跳。",
+      "description": "本机操作的开始、目标、耗时、结果、日志故障与进程心跳。",
       "match": "src/(YuzuhaToolkit.Workspace/Runtime|YuzuhaToolkit.CommandLine/ToolAudit|YuzuhaToolkit.Mcp.Core/WorkspaceTools)",
       "guide": "workspace.html"
     },
@@ -113,7 +113,7 @@
       "id": "sessions",
       "name": "会话与身份",
       "description": "从可见工程窗口发现候选，锁定 PID、启动时间、模块和专用管道。",
-      "match": "src/YuzuhaToolkit.Mcp.Core/(Aveva|YuzuhaRpcBridge|YuzuhaTargetOptions|PmlCallTools|PmlCommandRpcContracts)",
+      "match": "src/YuzuhaToolkit.Mcp.Core/(HostCapabilityException|Aveva|YuzuhaRpcBridge|YuzuhaTargetOptions|PmlCallTools|PmlCommandRpcContracts)",
       "guide": "repository/docs/builtin/connection.html"
     },
     {
@@ -160,16 +160,16 @@
     },
     {
       "id": "entrypoints",
-      "name": "CLI / MCP / HTTP 入口",
-      "description": "同程序双模式、MCP 初始化、隔离预览与开发文档宿主。",
-      "match": "src/(YuzuhaToolkit.CommandLine/|YuzuhaToolkit.DevHost/|YuzuhaToolkit.Mcp.Core/(McpUsage|McpHostSurface|YuzuhaToolkitPaths)|YuzuhaToolkit.Knowledge/KnowledgeUsage|YuzuhaToolkit.Knowledge.Core/KnowledgeJson)",
+      "name": "CLI / HTTP 与历史入口",
+      "description": "原生CLI、已禁用的历史MCP服务入口、开发预览与文档宿主。",
+      "match": "src/(YuzuhaToolkit.CommandLine/|YuzuhaToolkit.DevHost/|YuzuhaToolkit.Mcp.Core/(NativeCliHost|McpUsage|McpHostSurface|YuzuhaToolkitPaths)|YuzuhaToolkit.Knowledge/KnowledgeUsage|YuzuhaToolkit.Knowledge.Core/KnowledgeJson)",
       "guide": "cli.html"
     },
     {
       "id": "operations",
       "name": "共享操作内核",
-      "description": "CLI/MCP 共享的操作注册、参数契约与调度。",
-      "match": "src/PmlTwin.Phayton|src/YuzuhaToolkit.Mcp.Core/(Operation|PmlRpcConnection|YuzuhaOperation)",
+      "description": "原生CLI共享的操作注册、参数契约、独立权限与直接调度。",
+      "match": "src/PmlTwin.Phayton|src/YuzuhaToolkit.Mcp.Core/(Operation|PmlRpcConnection|YuzuhaOperation|NativeOperation|LaunchOperation)",
       "guide": "cli.html"
     },
     {

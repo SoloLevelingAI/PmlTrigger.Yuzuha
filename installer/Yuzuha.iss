@@ -9,8 +9,8 @@
 [Setup]
 AppId={{6F551950-F3A9-4D2F-B771-145415993095}
 AppName=Phayton
-AppVersion=0.3.4
-AppVerName=Phayton 0.3.4 — Windows Setup
+AppVersion=0.3.4.1
+AppVerName=Phayton 0.3.4.1 — Windows Setup
 AppPublisher=SoloLevelingAI
 SetupIconFile=assets\yuzuha.ico
 UninstallDisplayIcon={app}\setup\yuzuha.ico
@@ -31,13 +31,13 @@ DisableDirPage=no
 DisableProgramGroupPage=yes
 LicenseFile=..\LICENSE
 OutputDir={#OutputDir}
-OutputBaseFilename=Phayton-0.3.4-Windows-Setup
+OutputBaseFilename=Phayton-0.3.4.1-Windows-Setup
 Compression=lzma2
 SolidCompression=yes
 SetupLogging=yes
 CloseApplications=no
 RestartApplications=no
-UninstallDisplayName=Phayton — Windows Setup 0.3.4
+UninstallDisplayName=Phayton — Windows Setup 0.3.4.1
 UninstallFilesDir={app}\uninstall
 UsePreviousAppDir=yes
 UsePreviousTasks=no

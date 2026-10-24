@@ -12,7 +12,7 @@
 
 YuzuhaFramework 是可选的 NET35/NET48 覆盖值；标准 Profile 从 Yuzuha 推断，不额外新增。原文件已有此变量时在末尾块补入匹配框架的覆盖值，并列入预览。
 
-1. 运行 `Phayton-0.3.4-Windows-Setup.exe`，先批准管理员权限，再选择简体中文或 English。所有页面均为 Inno 原生向导，不再弹出 WinForms 配置窗口。若使用其他管理员账户提权，默认用户目录及 HKCU 属于该账户，请核对目标目录。
+1. 运行 `Phayton-0.3.4.1-Windows-Setup.exe`，先批准管理员权限，再选择简体中文或 English。所有页面均为 Inno 原生向导，不再弹出 WinForms 配置窗口。若使用其他管理员账户提权，默认用户目录及 HKCU 属于该账户，请核对目标目录。
 2. 选择名称包含 `PmlTrigger` 的本机安装目录。旧 PS1/preview1 安装不能直接覆盖迁移。随后在“安装目标”页选择“安装并接入 AVEVA”或“仅安装文件 / AI 客户端，不修改 AVEVA”；前者必须选择环境，后者跳过环境页，但仍可选择客户端接入。
 3. 在“选择 AVEVA 环境”向导页查看发现的产品；点击一行可查看或编辑文件、Host、编码和来源。所有环境默认不勾选；可手动添加注册表未登记的 INIT/BAT。
 4. 勾选产品。安装器自动推荐已支持的 Host 和环境文件：E3D 仅 INIT，PDMS/AM 优先 INIT、没有时推荐 BAT。未知版本、多个候选或扫描不完整时才需要人工选择/确认。推荐不表示已经启动 AVEVA 验证。
@@ -94,7 +94,7 @@ AI 请求仍需明确选择文件；confirmed 表示选择该目标，noInitConf
 向用户展示 `plan.json.md`；文件可能含原配置和敏感值，只留本机，不上传。计划文件不要重复使用或手工编辑。用户批准后，读取 `plan.json.sha256`，用同一个 EXE 执行：
 
 ```powershell
-& '.\Phayton-0.3.4-Windows-Setup.exe' /LANG=chinesesimp /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /NOCLOSEAPPLICATIONS /NOICONS '/DIR=D:\PmlTrigger.Yuzuha' '/PLAN=D:\Review\plan.json' '/PLANHASH=PASTE_APPROVED_SHA256' '/LOG=D:\Review\inno.log'
+& '.\Phayton-0.3.4.1-Windows-Setup.exe' /LANG=chinesesimp /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /NOCLOSEAPPLICATIONS /NOICONS '/DIR=D:\PmlTrigger.Yuzuha' '/PLAN=D:\Review\plan.json' '/PLANHASH=PASTE_APPROVED_SHA256' '/LOG=D:\Review\inno.log'
 ```
 
 自动化应等待进程退出并检查退出码。没有批准计划和正确 SHA256，静默安装会拒绝。执行前任何文件或安装包变化都需要重新生成预览、重新确认。上述 PowerShell 仅驱动 EXE，不承担安装实现。
@@ -173,6 +173,8 @@ Actual reports and backups are retained in LocalAppData/YuzuhaToolkit/SetupRepor
 该设置不是安装期间执行 PML。新 AM/E3D 客户端初始化 PML 后，原生 Addin 在 Host 建立前执行一次并写入 `%TEMP%/YuzuhaStartup.log`（桌面启动时使用独立关联文件），失败不重试。关闭已有 AM/E3D 后才替换安装，重新启动才验证该设置；安装成功不能代替真实启动验证。桌面显式选择可用 `YUZUHA_STARTUP_OVERRIDE` 覆盖 INIT/BAT 的默认策略。当前不支持任意命令列表。
 
 桌面和 HTML 发布文件分别位于 `runtime/desktop` 与 `runtime/webapps`。桌面为自包含 Windows 发布；本批 HTML 宿主为框架依赖发布，目标机需有 ASP.NET Core 10。CLI 的 `--cli web open` 和桌面按钮都会打开独立页面；安装器不自动打开服务或调用 AVEVA。
+
+0.3.4.1 安装包将 HTML 宿主也改为自包含发布，无需另装 ASP.NET Core 10。桌面、完整 DocFX、中文视频与只读文档宿主一并交付；上述历史版本依赖说明保留用于识别旧包。
 
 构建时将桌面与 DevHost 自包含发布到独立目录，再用 `installer/build.py --desktop <桌面发布目录> --documentation <已校验DocFX站点> --documentation-host <DevHost发布目录> --iscc <ISCC.exe> --output <新目录>` 纳入包，避免覆盖正在运行的开发版。这些选项只改变待打包来源，不执行安装，所有发布文件仍进入同一散列清单。
 

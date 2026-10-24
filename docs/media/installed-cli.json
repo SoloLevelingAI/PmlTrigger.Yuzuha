@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "catalogs": {
+    "YuzuhaToolkit.Mcp": 25,
+    "YuzuhaToolkit.Knowledge": 8
+  },
+  "nativeCli": true,
+  "defaultAndExplicitMcp": true,
+  "identicalSchemas": true,
+  "batchStopsOnError": true,
+  "cleanStdout": true,
+  "builtinsWithoutDatabase": true
+}

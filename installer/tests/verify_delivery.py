@@ -34,7 +34,7 @@ for relative in sorted(expected_pml):
     assert (payload / 'PMLLIB' / relative).read_bytes() == (source / relative).read_bytes(), relative
 assert (payload / 'runtime/documentation/index.html').is_file()
 assert (payload / 'runtime/documentation-host/YuzuhaToolkit.DevHost.exe').is_file()
-assert manifest['version'] == '0.3.4'
+assert manifest['version'] == '0.3.4.1'
 bootstrap = (payload / 'PMLLIB/Bootstrap/YuzuhaResolveRuntimePath.pmlfnc').read_text(encoding='utf-8-sig')
 assert '!localPaTH = false' in bootstrap
 assert any(x['action'] == 'excluded-keep-portable-bootstrap' for x in snapshot['files'])

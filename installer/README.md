@@ -1,6 +1,6 @@
-# Phayton Windows Setup v0.3.4
+# Phayton Windows Setup v0.3.4.1
 
-发行版 0.3.4，交付 Phayton R2 桌面、完整 DocFX 与本地只读文档宿主，保留 Host 0.3.2 与 NET10 Native AOT 0.3.1。Inno Setup + NET48 helper 实现安装，不分发或调用安装 PS1。复用已有 NET10 Native AOT 与五套 NET35/NET48 Host。需要 Windows 10/11 x64 和 .NET Framework 4.8，生成 EXE 尚未签名。
+发行版 0.3.4.1，交付修复原生窗口的 Phayton 桌面、完整 DocFX、中文演示及本地只读文档宿主。NET10 Native AOT 使用同一桌面修复提交通过 CI 的产物；五套 NET35/NET48 Host 逐文件核对 v0.3.3 已发布清单后复用。Inno Setup + NET48 helper 实现安装，不分发或调用安装 PS1。桌面、文档与 HTML 应用宿主均自包含。需要 Windows 10/11 x64 和 .NET Framework 4.8；Windows 11 圆角效果已实测，生成 EXE 尚未签名。
 
 人工运行 EXE，选择中文或 English、安装目录，查看注册表候选并明确选择环境/Profile；可选 MCP JSON 与 Skill。生成并检查前后预览，确认后安装。AI 从同一个包读取 INSTALL.md，生成计划、获准后用 SHA256 驱动同一个 EXE；已安装软件可通过注册表定位并使用 plan/attach 接入客户端。
 
@@ -23,9 +23,11 @@ Use a fresh output directory, .NET SDK/net48 and Inno Setup 6.7.3:
 python installer/build.py --iscc "C:/Tools/Inno Setup 6/ISCC.exe" --output "C:/Builds/PhaytonSetup" --desktop "C:/Builds/DesktopPublish" --documentation "artifacts/docfx/site" --documentation-host "C:/Builds/DocHostPublish"
 dotnet run --project installer/tests/SetupTests.csproj -c Release
 python installer/tests/verify_delivery.py "C:/Builds/PhaytonSetup"
-python installer/tests/verify_agent_bundle.py "C:/Builds/PhaytonSetup/Phayton-0.3.4-Windows-Agent.zip" "C:/Builds/PhaytonSetup/Phayton-0.3.4-Windows-Setup.exe"
+python installer/tests/verify_agent_bundle.py "C:/Builds/PhaytonSetup/Phayton-0.3.4.1-Windows-Agent.zip" "C:/Builds/PhaytonSetup/Phayton-0.3.4.1-Windows-Setup.exe"
 ```
 
 Builder verifies AOT hashes and excludes PS1, proprietary references and local databases. VM ZIP includes the EXE, helper, Skill, request template and instructions.
 
-Authored by OpenAI Codex at the maintainer's request. Release v0.3.4. This batch's evidence and remaining live acceptance items are recorded in docs/validation/2026-10-23-phayton-r2-production.md. Historical installer evidence remains in VALIDATION.md. Installation smoke scripts change machine registration and must only run in an approved disposable environment.
+Authored by OpenAI Codex at the maintainer's request. Release v0.3.4.1. Desktop and media evidence is recorded in docs/validation/2026-10-24-window-portfolio.md. Historical installer evidence remains in VALIDATION.md and docs/validation/2026-10-23-phayton-r2-production.md. Installation smoke scripts change machine registration and must only run in an approved disposable environment.
+
+The approved local installation, E3D 2.1 configuration, Codex migration and installed-program checks are recorded in [formal installation validation](../docs/validation/2026-10-24-formal-installation.md), including the frozen package hash and the auxiliary registry-version fix that takes effect in the next rebuilt package.

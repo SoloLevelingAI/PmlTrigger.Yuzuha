@@ -31,7 +31,7 @@ public partial class MainWindow
             if (!string.Equals(root, UserDirectoryBox.Text.Trim(), StringComparison.OrdinalIgnoreCase)) return;
             directoryMigration = plan;
             UserDirectoryStatus.Text = $"目标：{plan.Root}\n复制/核对 {plan.Files.Length} 个文件；旧数据保留。\n" + string.Join("\n", plan.Files.Take(20).Select(file => file.Source + " → " + file.Target))
-                + (plan.Files.Length > 20 ? "\n其余文件按相同目录映射复制。" : "") + "\n切换前请关闭知识 CLI/MCP 和 HTML 宿主，避免继续写入旧目录。";
+                + (plan.Files.Length > 20 ? "\n其余文件按相同目录映射复制。" : "") + "\n切换前请关闭知识 CLI 和 HTML 宿主，避免继续写入旧目录。";
             ApplyUserDirectoryButton.IsEnabled = true;
         }
         catch (Exception error) { UserDirectoryStatus.Text = error.Message; }

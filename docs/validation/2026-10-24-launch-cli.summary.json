@@ -1,0 +1,2474 @@
+{
+  "schemaVersion": 1,
+  "generatedUtc": "2026-10-24T04:32:25.378342+00:00",
+  "version": "0.3.4.2",
+  "status": "Installed_E3D21FocusedAcceptancePassed_OtherPlatformsNotRun",
+  "publication": {
+    "containsRawUserData": false,
+    "evidencePathsRelativeToRepository": true,
+    "rawEvidenceIncluded": false,
+    "note": "公开内容只投影操作标识、授权、环境、结果、数量和哈希；原始用户路径、用户名、模型和知识库不复制。",
+    "packagedReportSha256": "643d201d32cf9895167af821ea3fd45a262708bccda22dc072a36c888e05babd",
+    "installedDocumentationContainsPostInstallationAddendum": false,
+    "postInstallationAddendumLocation": [
+      "docs/reference/workbench-validation.md",
+      "docs/validation/2026-10-24-launch-cli.summary.json",
+      "artifacts/install-0342-plan/acceptance-final.html"
+    ]
+  },
+  "cli": {
+    "entryPoint": "runtime/cli/PmlTwin.Phayton.Cli.exe",
+    "publishDirectory": "artifacts/native-cli-release-final",
+    "publishMode": "NativeAOT",
+    "fileVersion": "0.3.4.2",
+    "sha256": "4f704ac26cc532906d23188c7b1c9e52522f00cb6dc9c088d56fe5eeda291988",
+    "businessOperations": 46,
+    "legacyToolsMapped": 33,
+    "legacyBusinessToolsMapped": 30,
+    "legacyMetaToolsMapped": 3,
+    "standaloneMcp": "Disabled"
+  },
+  "environmentDefinitions": {
+    "syntheticDiscovery": "合成会话发现数据；真实目录与选择逻辑，不证明本机 AVEVA 发现。",
+    "syntheticHost": "真实原生适配器、身份/协议核验和请求分派；Host 响应由测试替身提供，不执行 AVEVA/PML。",
+    "realTempService": "直接执行真实本地服务；文件、源码和 SQLite 使用隔离测试资料，不接触 AVEVA。纯计算/内置指南操作无需外部存储。",
+    "syntheticProcessFactory": "真实配置服务与启动权限检查；进程工厂注入固定结果，不启动 AVEVA。"
+  },
+  "operations": [
+    {
+      "operationId": "aveva.session.select",
+      "contractVersion": 1,
+      "legacyTools": [
+        "select_aveva_session"
+      ],
+      "authorization": {
+        "explicitPid": true,
+        "allowExecution": false,
+        "allowWrite": false,
+        "allowLaunch": false,
+        "unchangedRegisteredFunctionPermission": false
+      },
+      "requiredCliFlags": [
+        "--pid"
+      ],
+      "offline": {
+        "status": "Passed",
+        "environment": "syntheticHost",
+        "noAveva": true,
+        "exitCode": 0,
+        "permissionRejection": null,
+        "unknownFieldRejection": "INVALID_INPUT",
+        "evidence": "business"
+      },
+      "liveStatus": "PreviousArtifactPassed_NotRerunAfterErrorClassificationPatch",
+      "live": {
+        "evidence": "liveBeforePatch",
+        "cliSha256": "3117e2c79fa9764beccf76593f7ae376949f2a9ee1edb20778c2d279fc845b7f",
+        "cases": [
+          {
+            "id": "session-select",
+            "operationId": "aveva.session.select",
+            "status": "Passed",
+            "receipt": "artifacts/native-cli-live/capabilities-release-02/session-select.json"
+          }
+        ]
+      }
+    },
+    {
+      "operationId": "aveva.session.status",
+      "contractVersion": 1,
+      "legacyTools": [
+        "get_connection_status"
+      ],
+      "authorization": {
+        "explicitPid": true,
+        "allowExecution": false,
+        "allowWrite": false,
+        "allowLaunch": false,
+        "unchangedRegisteredFunctionPermission": false
+      },
+      "requiredCliFlags": [
+        "--pid"
+      ],
+      "offline": {
+        "status": "Passed",
+        "environment": "syntheticHost",
+        "noAveva": true,
+        "exitCode": 0,
+        "permissionRejection": null,
+        "unknownFieldRejection": "INVALID_INPUT",
+        "evidence": "business"
+      },
+      "liveStatus": "InstalledNewHostRecordedScopePassed",
+      "live": {
+        "stage": "PostInstallationAddendum",
+        "status": "Passed",
+        "hostVersion": "0.3.4.2",
+        "productVersion": "2.1.0.6",
+        "evidence": "postInstallLive",
+        "cliSha256": "4f704ac26cc532906d23188c7b1c9e52522f00cb6dc9c088d56fe5eeda291988",
+        "cases": [
+          {
+            "id": "session-status",
+            "operationId": "aveva.session.status",
+            "status": "Passed",
+            "exitCode": 0,
+            "receipt": "artifacts/native-cli-live/new-host-acceptance/session-status.json"
+          }
+        ],
+        "scopeIsLimitedToListedCases": true
+      },
+      "liveHistory": [
+        {
+          "stage": "PackagedSnapshot",
+          "liveStatus": "FinalArtifactStatusPassed",
+          "live": {
+            "evidence": "liveFinal",
+            "cliSha256": "4f704ac26cc532906d23188c7b1c9e52522f00cb6dc9c088d56fe5eeda291988",
+            "cases": [
+              {
+                "operationId": "aveva.session.status",
+                "status": "Passed",
+                "code": null,
+                "exitCode": 0,
+                "mayHaveExecuted": false,
+                "receipt": "artifacts/native-cli-live/capabilities-final/session-status.json"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "operationId": "aveva.sessions.list",
+      "contractVersion": 1,
+      "legacyTools": [
+        "list_aveva_sessions"
+      ],
+      "authorization": {
+        "explicitPid": false,
+        "allowExecution": false,
+        "allowWrite": false,
+        "allowLaunch": false,
+        "unchangedRegisteredFunctionPermission": false
+      },
+      "requiredCliFlags": [],
+      "offline": {
+        "status": "Passed",
+        "environment": "syntheticDiscovery",
+        "noAveva": true,
+        "exitCode": 0,
+        "permissionRejection": null,
+        "unknownFieldRejection": "INVALID_INPUT",
+        "evidence": "business"
+      },
+      "liveStatus": "PreviousArtifactPassed_NotRerunAfterErrorClassificationPatch",
+      "live": {
+        "evidence": "liveBeforePatch",
+        "cliSha256": "3117e2c79fa9764beccf76593f7ae376949f2a9ee1edb20778c2d279fc845b7f",
+        "cases": [
+          {
+            "id": "sessions-list",
+            "operationId": "aveva.sessions.list",
+            "status": "Passed",
+            "receipt": "artifacts/native-cli-live/capabilities-release-02/sessions-list.json"
+          }
+        ]
+      }
+    },
+    {
+      "operationId": "builtin.usage",
+      "contractVersion": 1,
+      "legacyTools": [
+        "get_builtin_usage"
+      ],
+      "authorization": {
+        "explicitPid": false,
+        "allowExecution": false,
+        "allowWrite": false,
+        "allowLaunch": false,
+        "unchangedRegisteredFunctionPermission": false
+      },
+      "requiredCliFlags": [],
+      "offline": {
+        "status": "Passed",
+        "environment": "realTempService",
+        "noAveva": true,
+        "exitCode": 0,
+        "permissionRejection": null,
+        "unknownFieldRejection": "INVALID_INPUT",
+        "evidence": "business"
+      },
+      "liveStatus": "PreviousArtifactPassed_NotRerunAfterErrorClassificationPatch",
+      "live": {
+        "evidence": "liveBeforePatch",
+        "cliSha256": "3117e2c79fa9764beccf76593f7ae376949f2a9ee1edb20778c2d279fc845b7f",
+        "cases": [
+          {
+            "id": "builtin-guidance",
+            "operationId": "builtin.usage",
+            "status": "Passed",
+            "receipt": "artifacts/native-cli-live/capabilities-release-02/builtin-guidance.json"
+          }
+        ]
+      }
+    },
+    {
+      "operationId": "knowledge.chunk.read",
+      "contractVersion": 1,
+      "legacyTools": [
+        "get_knowledge_chunk"
+      ],
+      "authorization": {
+        "explicitPid": false,
+        "allowExecution": false,
+        "allowWrite": false,
+        "allowLaunch": false,
+        "unchangedRegisteredFunctionPermission": false
+      },
+      "requiredCliFlags": [],
+      "offline": {
+        "status": "Passed",
+        "environment": "realTempService",
+        "noAveva": true,
+        "exitCode": 0,
+        "permissionRejection": null,
+        "unknownFieldRejection": "INVALID_INPUT",
+        "evidence": "business"
+      },
+      "liveStatus": "NotRun"
+    },
+    {
+      "operationId": "knowledge.database.build",
+      "contractVersion": 1,
+      "legacyTools": [
+        "build_knowledge_database"
+      ],
+      "authorization": {
+        "explicitPid": false,
+        "allowExecution": false,
+        "allowWrite": true,
+        "allowLaunch": false,
+        "unchangedRegisteredFunctionPermission": false
+      },
+      "requiredCliFlags": [
+        "--allow-write"
+      ],
+      "offline": {
+        "status": "Passed",
+        "environment": "realTempService",
+        "noAveva": true,
+        "exitCode": 0,
+        "permissionRejection": "WRITE_NOT_AUTHORIZED",
+        "unknownFieldRejection": "INVALID_INPUT",
+        "evidence": "business"
+      },
+      "liveStatus": "NotRun"
+    },
+    {
+      "operationId": "knowledge.database.check",
+      "contractVersion": 1,
+      "legacyTools": [
+        "check_knowledge_database"
+      ],
+      "authorization": {
+        "explicitPid": false,
+        "allowExecution": false,
+        "allowWrite": false,
+        "allowLaunch": false,
+        "unchangedRegisteredFunctionPermission": false
+      },
+      "requiredCliFlags": [],
+      "offline": {
+        "status": "Passed",
+        "environment": "realTempService",
+        "noAveva": true,
+        "exitCode": 0,
+        "permissionRejection": null,
+        "unknownFieldRejection": "INVALID_INPUT",
+        "evidence": "business"
+      },
+      "liveStatus": "NotRun"
+    },
+    {
+      "operationId": "knowledge.databases.list",
+      "contractVersion": 1,
+      "legacyTools": [
+        "list_knowledge_databases"
+      ],
+      "authorization": {
+        "explicitPid": false,
+        "allowExecution": false,
+        "allowWrite": false,
+        "allowLaunch": false,
+        "unchangedRegisteredFunctionPermission": false
+      },
+      "requiredCliFlags": [],
+      "offline": {
+        "status": "Passed",
+        "environment": "realTempService",
+        "noAveva": true,
+        "exitCode": 0,
+        "permissionRejection": null,
+        "unknownFieldRejection": "INVALID_INPUT",
+        "evidence": "business"
+      },
+      "liveStatus": "NotRun"
+    },
+    {
+      "operationId": "knowledge.experience.record",
+      "contractVersion": 1,
+      "legacyTools": [
+        "record_local_experience"
+      ],
+      "authorization": {
+        "explicitPid": false,
+        "allowExecution": false,
+        "allowWrite": true,
+        "allowLaunch": false,
+        "unchangedRegisteredFunctionPermission": false
+      },
+      "requiredCliFlags": [
+        "--allow-write"
+      ],
+      "offline": {
+        "status": "Passed",
+        "environment": "realTempService",
+        "noAveva": true,
+        "exitCode": 0,
+        "permissionRejection": "WRITE_NOT_AUTHORIZED",
+        "unknownFieldRejection": "INVALID_INPUT",
+        "evidence": "business"
+      },
+      "liveStatus": "NotRun"
+    },
+    {
+      "operationId": "knowledge.layers.search",
+      "contractVersion": 1,
+      "legacyTools": [
+        "search_knowledge_layers"
+      ],
+      "authorization": {
+        "explicitPid": false,
+        "allowExecution": false,
+        "allowWrite": false,
+        "allowLaunch": false,
+        "unchangedRegisteredFunctionPermission": false
+      },
+      "requiredCliFlags": [],
+      "offline": {
+        "status": "Passed",
+        "environment": "realTempService",
+        "noAveva": true,
+        "exitCode": 0,
+        "permissionRejection": null,
+        "unknownFieldRejection": "INVALID_INPUT",
+        "evidence": "business"
+      },
+      "liveStatus": "NotRun"
+    },
+    {
+      "operationId": "knowledge.search",
+      "contractVersion": 1,
+      "legacyTools": [
+        "search_knowledge"
+      ],
+      "authorization": {
+        "explicitPid": false,
+        "allowExecution": false,
+        "allowWrite": false,
+        "allowLaunch": false,
+        "unchangedRegisteredFunctionPermission": false
+      },
+      "requiredCliFlags": [],
+      "offline": {
+        "status": "Passed",
+        "environment": "realTempService",
+        "noAveva": true,
+        "exitCode": 0,
+        "permissionRejection": null,
+        "unknownFieldRejection": "INVALID_INPUT",
+        "evidence": "business"
+      },
+      "liveStatus": "NotRun"
+    },
+    {
+      "operationId": "knowledge.source.register",
+      "contractVersion": 1,
+      "legacyTools": [
+        "register_knowledge_source"
+      ],
+      "authorization": {
+        "explicitPid": false,
+        "allowExecution": false,
+        "allowWrite": true,
+        "allowLaunch": false,
+        "unchangedRegisteredFunctionPermission": false
+      },
+      "requiredCliFlags": [
+        "--allow-write"
+      ],
+      "offline": {
+        "status": "Passed",
+        "environment": "realTempService",
+        "noAveva": true,
+        "exitCode": 0,
+        "permissionRejection": "WRITE_NOT_AUTHORIZED",
+        "unknownFieldRejection": "INVALID_INPUT",
+        "evidence": "business"
+      },
+      "liveStatus": "NotRun"
+    },
+    {
+      "operationId": "launch.modules.list",
+      "contractVersion": 1,
+      "legacyTools": [],
+      "authorization": {
+        "explicitPid": false,
+        "allowExecution": false,
+        "allowWrite": false,
+        "allowLaunch": false,
+        "unchangedRegisteredFunctionPermission": false
+      },
+      "requiredCliFlags": [],
+      "offline": {
+        "status": "Passed",
+        "environment": "realTempService",
+        "noAveva": true,
+        "exitCode": 0,
+        "permissionRejection": null,
+        "unknownFieldRejection": null,
+        "evidence": "launch"
+      },
+      "liveStatus": "NotRun"
+    },
+    {
+      "operationId": "launch.profile.default",
+      "contractVersion": 1,
+      "legacyTools": [],
+      "authorization": {
+        "explicitPid": false,
+        "allowExecution": false,
+        "allowWrite": true,
+        "allowLaunch": false,
+        "unchangedRegisteredFunctionPermission": false
+      },
+      "requiredCliFlags": [
+        "--allow-write"
+      ],
+      "offline": {
+        "status": "Passed",
+        "environment": "realTempService",
+        "noAveva": true,
+        "exitCode": 0,
+        "permissionRejection": "WRITE_NOT_AUTHORIZED",
+        "unknownFieldRejection": null,
+        "evidence": "launch"
+      },
+      "liveStatus": "NotRun"
+    },
+    {
+      "operationId": "launch.profile.delete",
+      "contractVersion": 1,
+      "legacyTools": [],
+      "authorization": {
+        "explicitPid": false,
+        "allowExecution": false,
+        "allowWrite": true,
+        "allowLaunch": false,
+        "unchangedRegisteredFunctionPermission": false
+      },
+      "requiredCliFlags": [
+        "--allow-write"
+      ],
+      "offline": {
+        "status": "Passed",
+        "environment": "realTempService",
+        "noAveva": true,
+        "exitCode": 0,
+        "permissionRejection": "WRITE_NOT_AUTHORIZED",
+        "unknownFieldRejection": null,
+        "evidence": "launch"
+      },
+      "liveStatus": "NotRun"
+    },
+    {
+      "operationId": "launch.profile.duplicate",
+      "contractVersion": 1,
+      "legacyTools": [],
+      "authorization": {
+        "explicitPid": false,
+        "allowExecution": false,
+        "allowWrite": true,
+        "allowLaunch": false,
+        "unchangedRegisteredFunctionPermission": false
+      },
+      "requiredCliFlags": [
+        "--allow-write"
+      ],
+      "offline": {
+        "status": "Passed",
+        "environment": "realTempService",
+        "noAveva": true,
+        "exitCode": 0,
+        "permissionRejection": "WRITE_NOT_AUTHORIZED",
+        "unknownFieldRejection": null,
+        "evidence": "launch"
+      },
+      "liveStatus": "NotRun"
+    },
+    {
+      "operationId": "launch.profile.favorite",
+      "contractVersion": 1,
+      "legacyTools": [],
+      "authorization": {
+        "explicitPid": false,
+        "allowExecution": false,
+        "allowWrite": true,
+        "allowLaunch": false,
+        "unchangedRegisteredFunctionPermission": false
+      },
+      "requiredCliFlags": [
+        "--allow-write"
+      ],
+      "offline": {
+        "status": "Passed",
+        "environment": "realTempService",
+        "noAveva": true,
+        "exitCode": 0,
+        "permissionRejection": "WRITE_NOT_AUTHORIZED",
+        "unknownFieldRejection": null,
+        "evidence": "launch"
+      },
+      "liveStatus": "NotRun"
+    },
+    {
+      "operationId": "launch.profile.history",
+      "contractVersion": 1,
+      "legacyTools": [],
+      "authorization": {
+        "explicitPid": false,
+        "allowExecution": false,
+        "allowWrite": false,
+        "allowLaunch": false,
+        "unchangedRegisteredFunctionPermission": false
+      },
+      "requiredCliFlags": [],
+      "offline": {
+        "status": "Passed",
+        "environment": "realTempService",
+        "noAveva": true,
+        "exitCode": 0,
+        "permissionRejection": null,
+        "unknownFieldRejection": null,
+        "evidence": "launch"
+      },
+      "liveStatus": "NotRun"
+    },
+    {
+      "operationId": "launch.profile.list",
+      "contractVersion": 1,
+      "legacyTools": [],
+      "authorization": {
+        "explicitPid": false,
+        "allowExecution": false,
+        "allowWrite": false,
+        "allowLaunch": false,
+        "unchangedRegisteredFunctionPermission": false
+      },
+      "requiredCliFlags": [],
+      "offline": {
+        "status": "Passed",
+        "environment": "realTempService",
+        "noAveva": true,
+        "exitCode": 0,
+        "permissionRejection": null,
+        "unknownFieldRejection": null,
+        "evidence": "launch"
+      },
+      "liveStatus": "NotRun"
+    },
+    {
+      "operationId": "launch.profile.preview",
+      "contractVersion": 1,
+      "legacyTools": [],
+      "authorization": {
+        "explicitPid": false,
+        "allowExecution": false,
+        "allowWrite": false,
+        "allowLaunch": false,
+        "unchangedRegisteredFunctionPermission": false
+      },
+      "requiredCliFlags": [],
+      "offline": {
+        "status": "Passed",
+        "environment": "realTempService",
+        "noAveva": true,
+        "exitCode": 0,
+        "permissionRejection": null,
+        "unknownFieldRejection": null,
+        "evidence": "launch"
+      },
+      "liveStatus": "NotRun"
+    },
+    {
+      "operationId": "launch.profile.read",
+      "contractVersion": 1,
+      "legacyTools": [],
+      "authorization": {
+        "explicitPid": false,
+        "allowExecution": false,
+        "allowWrite": false,
+        "allowLaunch": false,
+        "unchangedRegisteredFunctionPermission": false
+      },
+      "requiredCliFlags": [],
+      "offline": {
+        "status": "Passed",
+        "environment": "realTempService",
+        "noAveva": true,
+        "exitCode": 0,
+        "permissionRejection": null,
+        "unknownFieldRejection": null,
+        "evidence": "launch"
+      },
+      "liveStatus": "NotRun"
+    },
+    {
+      "operationId": "launch.profile.restore",
+      "contractVersion": 1,
+      "legacyTools": [],
+      "authorization": {
+        "explicitPid": false,
+        "allowExecution": false,
+        "allowWrite": true,
+        "allowLaunch": false,
+        "unchangedRegisteredFunctionPermission": false
+      },
+      "requiredCliFlags": [
+        "--allow-write"
+      ],
+      "offline": {
+        "status": "Passed",
+        "environment": "realTempService",
+        "noAveva": true,
+        "exitCode": 0,
+        "permissionRejection": "WRITE_NOT_AUTHORIZED",
+        "unknownFieldRejection": null,
+        "evidence": "launch"
+      },
+      "liveStatus": "NotRun"
+    },
+    {
+      "operationId": "launch.profile.restore.preview",
+      "contractVersion": 1,
+      "legacyTools": [],
+      "authorization": {
+        "explicitPid": false,
+        "allowExecution": false,
+        "allowWrite": false,
+        "allowLaunch": false,
+        "unchangedRegisteredFunctionPermission": false
+      },
+      "requiredCliFlags": [],
+      "offline": {
+        "status": "Passed",
+        "environment": "realTempService",
+        "noAveva": true,
+        "exitCode": 0,
+        "permissionRejection": null,
+        "unknownFieldRejection": null,
+        "evidence": "launch"
+      },
+      "liveStatus": "NotRun"
+    },
+    {
+      "operationId": "launch.profile.save",
+      "contractVersion": 1,
+      "legacyTools": [],
+      "authorization": {
+        "explicitPid": false,
+        "allowExecution": false,
+        "allowWrite": true,
+        "allowLaunch": false,
+        "unchangedRegisteredFunctionPermission": false
+      },
+      "requiredCliFlags": [
+        "--allow-write"
+      ],
+      "offline": {
+        "status": "Passed",
+        "environment": "realTempService",
+        "noAveva": true,
+        "exitCode": 0,
+        "permissionRejection": "WRITE_NOT_AUTHORIZED",
+        "unknownFieldRejection": null,
+        "evidence": "launch"
+      },
+      "liveStatus": "NotRun"
+    },
+    {
+      "operationId": "launch.profile.start",
+      "contractVersion": 1,
+      "legacyTools": [],
+      "authorization": {
+        "explicitPid": false,
+        "allowExecution": false,
+        "allowWrite": false,
+        "allowLaunch": true,
+        "unchangedRegisteredFunctionPermission": false
+      },
+      "requiredCliFlags": [
+        "--allow-launch"
+      ],
+      "offline": {
+        "status": "Passed",
+        "environment": "syntheticProcessFactory",
+        "noAveva": true,
+        "exitCode": 0,
+        "permissionRejection": "LAUNCH_NOT_AUTHORIZED",
+        "unknownFieldRejection": null,
+        "evidence": "launch"
+      },
+      "liveStatus": "NotRun"
+    },
+    {
+      "operationId": "launch.profile.update",
+      "contractVersion": 1,
+      "legacyTools": [],
+      "authorization": {
+        "explicitPid": false,
+        "allowExecution": false,
+        "allowWrite": true,
+        "allowLaunch": false,
+        "unchangedRegisteredFunctionPermission": false
+      },
+      "requiredCliFlags": [
+        "--allow-write"
+      ],
+      "offline": {
+        "status": "Passed",
+        "environment": "realTempService",
+        "noAveva": true,
+        "exitCode": 0,
+        "permissionRejection": "WRITE_NOT_AUTHORIZED",
+        "unknownFieldRejection": null,
+        "evidence": "launch"
+      },
+      "liveStatus": "NotRun"
+    },
+    {
+      "operationId": "launch.profile.validate",
+      "contractVersion": 1,
+      "legacyTools": [],
+      "authorization": {
+        "explicitPid": false,
+        "allowExecution": false,
+        "allowWrite": false,
+        "allowLaunch": false,
+        "unchangedRegisteredFunctionPermission": false
+      },
+      "requiredCliFlags": [],
+      "offline": {
+        "status": "Passed",
+        "environment": "realTempService",
+        "noAveva": true,
+        "exitCode": 0,
+        "permissionRejection": null,
+        "unknownFieldRejection": null,
+        "evidence": "launch"
+      },
+      "liveStatus": "NotRun"
+    },
+    {
+      "operationId": "launch.workspace.read",
+      "contractVersion": 1,
+      "legacyTools": [],
+      "authorization": {
+        "explicitPid": false,
+        "allowExecution": false,
+        "allowWrite": false,
+        "allowLaunch": false,
+        "unchangedRegisteredFunctionPermission": false
+      },
+      "requiredCliFlags": [],
+      "offline": {
+        "status": "Passed",
+        "environment": "realTempService",
+        "noAveva": true,
+        "exitCode": 0,
+        "permissionRejection": null,
+        "unknownFieldRejection": null,
+        "evidence": "launch"
+      },
+      "liveStatus": "NotRun"
+    },
+    {
+      "operationId": "pml.array.read",
+      "contractVersion": 1,
+      "legacyTools": [
+        "run_pml_command_list"
+      ],
+      "authorization": {
+        "explicitPid": true,
+        "allowExecution": true,
+        "allowWrite": false,
+        "allowLaunch": false,
+        "unchangedRegisteredFunctionPermission": false
+      },
+      "requiredCliFlags": [
+        "--pid",
+        "--allow-execution"
+      ],
+      "offline": {
+        "status": "Passed",
+        "environment": "syntheticHost",
+        "noAveva": true,
+        "exitCode": 0,
+        "permissionRejection": "EXECUTION_NOT_AUTHORIZED",
+        "unknownFieldRejection": "INVALID_INPUT",
+        "evidence": "business"
+      },
+      "liveStatus": "InstalledNewHostRecordedScopePassed",
+      "live": {
+        "stage": "PostInstallationAddendum",
+        "status": "Passed",
+        "hostVersion": "0.3.4.2",
+        "productVersion": "2.1.0.6",
+        "evidence": "postInstallLive",
+        "cliSha256": "4f704ac26cc532906d23188c7b1c9e52522f00cb6dc9c088d56fe5eeda291988",
+        "cases": [
+          {
+            "id": "startup-report",
+            "operationId": "pml.array.read",
+            "status": "Passed",
+            "exitCode": 0,
+            "receipt": "artifacts/native-cli-live/new-host-acceptance/startup-report.json"
+          },
+          {
+            "id": "initialized-session",
+            "operationId": "pml.array.read",
+            "status": "Passed",
+            "exitCode": 0,
+            "receipt": "artifacts/native-cli-live/new-host-acceptance/initialized-session.json"
+          },
+          {
+            "id": "native-identity",
+            "operationId": "pml.array.read",
+            "status": "Passed",
+            "exitCode": 0,
+            "receipt": "artifacts/native-cli-live/new-host-acceptance/native-identity.json"
+          }
+        ],
+        "scopeIsLimitedToListedCases": true
+      },
+      "liveHistory": [
+        {
+          "stage": "PackagedSnapshot",
+          "liveStatus": "PreviousArtifactPassed_NotRerunAfterErrorClassificationPatch",
+          "live": {
+            "evidence": "liveBeforePatch",
+            "cliSha256": "3117e2c79fa9764beccf76593f7ae376949f2a9ee1edb20778c2d279fc845b7f",
+            "cases": [
+              {
+                "id": "read-owned-global",
+                "operationId": "pml.array.read",
+                "status": "Passed",
+                "receipt": "artifacts/native-cli-live/capabilities-release-02/read-owned-global.json"
+              },
+              {
+                "id": "current-element",
+                "operationId": "pml.array.read",
+                "status": "Passed",
+                "receipt": "artifacts/native-cli-live/capabilities-release-02/current-element.json"
+              },
+              {
+                "id": "current-element-reference",
+                "operationId": "pml.array.read",
+                "status": "Passed",
+                "receipt": "artifacts/native-cli-live/capabilities-release-02/current-element-reference.json"
+              },
+              {
+                "id": "read-current-dbref",
+                "operationId": "pml.array.read",
+                "status": "Passed",
+                "receipt": "artifacts/native-cli-live/capabilities-release-02/read-current-dbref.json"
+              },
+              {
+                "id": "current-reference-after-dbref",
+                "operationId": "pml.array.read",
+                "status": "Passed",
+                "receipt": "artifacts/native-cli-live/capabilities-release-02/current-reference-after-dbref.json"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "operationId": "pml.array.window",
+      "contractVersion": 1,
+      "legacyTools": [
+        "read_pml_array"
+      ],
+      "authorization": {
+        "explicitPid": true,
+        "allowExecution": true,
+        "allowWrite": false,
+        "allowLaunch": false,
+        "unchangedRegisteredFunctionPermission": false
+      },
+      "requiredCliFlags": [
+        "--pid",
+        "--allow-execution"
+      ],
+      "offline": {
+        "status": "Passed",
+        "environment": "syntheticHost",
+        "noAveva": true,
+        "exitCode": 0,
+        "permissionRejection": "EXECUTION_NOT_AUTHORIZED",
+        "unknownFieldRejection": "INVALID_INPUT",
+        "evidence": "business"
+      },
+      "liveStatus": "InstalledNewHostRecordedScopePassed",
+      "live": {
+        "stage": "PostInstallationAddendum",
+        "status": "Passed",
+        "hostVersion": "0.3.4.2",
+        "productVersion": "2.1.0.6",
+        "evidence": "postInstallLive",
+        "cliSha256": "4f704ac26cc532906d23188c7b1c9e52522f00cb6dc9c088d56fe5eeda291988",
+        "cases": [
+          {
+            "id": "array-window-first",
+            "operationId": "pml.array.window",
+            "status": "Passed",
+            "exitCode": 0,
+            "receipt": "artifacts/native-cli-live/new-host-acceptance/array-window-first.json"
+          },
+          {
+            "id": "array-window-next",
+            "operationId": "pml.array.window",
+            "status": "Passed",
+            "exitCode": 0,
+            "receipt": "artifacts/native-cli-live/new-host-acceptance/array-window-next.json"
+          }
+        ],
+        "scopeIsLimitedToListedCases": true,
+        "details": {
+          "operationId": "pml.array.window",
+          "status": "Passed",
+          "pages": 2,
+          "indexUpperBound": 3,
+          "emptyStringPreserved": true,
+          "continuationVerified": true
+        }
+      },
+      "liveHistory": [
+        {
+          "stage": "PackagedSnapshot",
+          "liveStatus": "UnsupportedByLoadedHost",
+          "live": {
+            "evidence": "liveFinal",
+            "cliSha256": "4f704ac26cc532906d23188c7b1c9e52522f00cb6dc9c088d56fe5eeda291988",
+            "cases": [
+              {
+                "operationId": "pml.array.window",
+                "status": "Unsupported",
+                "guardContractVerified": true,
+                "code": "PML_BOUNDED_ARRAY_UNSUPPORTED",
+                "exitCode": 6,
+                "mayHaveExecuted": false,
+                "receipt": "artifacts/native-cli-live/capabilities-final/bounded-array.json"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "operationId": "pml.call.generate",
+      "contractVersion": 1,
+      "legacyTools": [
+        "generate_pml_call"
+      ],
+      "authorization": {
+        "explicitPid": false,
+        "allowExecution": false,
+        "allowWrite": false,
+        "allowLaunch": false,
+        "unchangedRegisteredFunctionPermission": false
+      },
+      "requiredCliFlags": [],
+      "offline": {
+        "status": "Passed",
+        "environment": "realTempService",
+        "noAveva": true,
+        "exitCode": 0,
+        "permissionRejection": null,
+        "unknownFieldRejection": "INVALID_INPUT",
+        "evidence": "business"
+      },
+      "liveStatus": "NotRun"
+    },
+    {
+      "operationId": "pml.command.execute",
+      "contractVersion": 1,
+      "legacyTools": [
+        "run_pml_command"
+      ],
+      "authorization": {
+        "explicitPid": true,
+        "allowExecution": true,
+        "allowWrite": false,
+        "allowLaunch": false,
+        "unchangedRegisteredFunctionPermission": false
+      },
+      "requiredCliFlags": [
+        "--pid",
+        "--allow-execution"
+      ],
+      "offline": {
+        "status": "Passed",
+        "environment": "syntheticHost",
+        "noAveva": true,
+        "exitCode": 0,
+        "permissionRejection": "EXECUTION_NOT_AUTHORIZED",
+        "unknownFieldRejection": "INVALID_INPUT",
+        "evidence": "business"
+      },
+      "liveStatus": "InstalledNewHostRecordedScopePassed",
+      "live": {
+        "stage": "PostInstallationAddendum",
+        "status": "Passed",
+        "hostVersion": "0.3.4.2",
+        "productVersion": "2.1.0.6",
+        "evidence": "postInstallLive",
+        "cliSha256": "4f704ac26cc532906d23188c7b1c9e52522f00cb6dc9c088d56fe5eeda291988",
+        "cases": [
+          {
+            "id": "prepare-owned-probe",
+            "operationId": "pml.command.execute",
+            "status": "Passed",
+            "exitCode": 0,
+            "receipt": "artifacts/native-cli-live/new-host-acceptance/prepare-owned-probe.json"
+          },
+          {
+            "id": "cleanup-globals",
+            "operationId": "pml.command.execute",
+            "status": "Passed",
+            "exitCode": 0,
+            "receipt": "artifacts/native-cli-live/new-host-acceptance/cleanup-globals.json"
+          }
+        ],
+        "scopeIsLimitedToListedCases": true
+      },
+      "liveHistory": [
+        {
+          "stage": "PackagedSnapshot",
+          "liveStatus": "PreviousArtifactPassed_NotRerunAfterErrorClassificationPatch",
+          "live": {
+            "evidence": "liveBeforePatch",
+            "cliSha256": "3117e2c79fa9764beccf76593f7ae376949f2a9ee1edb20778c2d279fc845b7f",
+            "cases": [
+              {
+                "id": "create-owned-global",
+                "operationId": "pml.command.execute",
+                "status": "Passed",
+                "receipt": "artifacts/native-cli-live/capabilities-release-02/create-owned-global.json"
+              },
+              {
+                "id": "cleanup-owned-global",
+                "operationId": "pml.command.execute",
+                "status": "Passed",
+                "receipt": "artifacts/native-cli-live/capabilities-release-02/cleanup-owned-global.json"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "operationId": "pml.forms.list",
+      "contractVersion": 1,
+      "legacyTools": [
+        "list_pml_forms"
+      ],
+      "authorization": {
+        "explicitPid": true,
+        "allowExecution": true,
+        "allowWrite": false,
+        "allowLaunch": false,
+        "unchangedRegisteredFunctionPermission": false
+      },
+      "requiredCliFlags": [
+        "--pid",
+        "--allow-execution"
+      ],
+      "offline": {
+        "status": "Passed",
+        "environment": "syntheticHost",
+        "noAveva": true,
+        "exitCode": 0,
+        "permissionRejection": "EXECUTION_NOT_AUTHORIZED",
+        "unknownFieldRejection": "INVALID_INPUT",
+        "evidence": "business"
+      },
+      "liveStatus": "InstalledNewHostRecordedScopePassed",
+      "live": {
+        "stage": "PostInstallationAddendum",
+        "status": "Passed",
+        "hostVersion": "0.3.4.2",
+        "productVersion": "2.1.0.6",
+        "evidence": "postInstallLive",
+        "cliSha256": "4f704ac26cc532906d23188c7b1c9e52522f00cb6dc9c088d56fe5eeda291988",
+        "cases": [
+          {
+            "id": "forms-list",
+            "operationId": "pml.forms.list",
+            "status": "Passed",
+            "exitCode": 0,
+            "receipt": "artifacts/native-cli-live/new-host-acceptance/forms-list.json"
+          }
+        ],
+        "scopeIsLimitedToListedCases": true,
+        "details": {
+          "operationId": "pml.forms.list",
+          "status": "Passed",
+          "returnedItems": 25,
+          "scanned": 25,
+          "indexUpperBound": 270,
+          "truncated": true,
+          "nextIndex": 26
+        }
+      },
+      "liveHistory": [
+        {
+          "stage": "PackagedSnapshot",
+          "liveStatus": "UnsupportedByLoadedHost",
+          "live": {
+            "evidence": "liveFinal",
+            "cliSha256": "4f704ac26cc532906d23188c7b1c9e52522f00cb6dc9c088d56fe5eeda291988",
+            "cases": [
+              {
+                "operationId": "pml.forms.list",
+                "status": "Unsupported",
+                "guardContractVerified": true,
+                "code": "PML_UI_HOST_UNSUPPORTED",
+                "exitCode": 6,
+                "mayHaveExecuted": false,
+                "receipt": "artifacts/native-cli-live/capabilities-final/forms-list.json"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "operationId": "pml.function.invoke",
+      "contractVersion": 1,
+      "legacyTools": [
+        "invoke_pml_function"
+      ],
+      "authorization": {
+        "explicitPid": true,
+        "allowExecution": true,
+        "allowWrite": false,
+        "allowLaunch": false,
+        "unchangedRegisteredFunctionPermission": true
+      },
+      "requiredCliFlags": [
+        "--pid",
+        "--allow-execution"
+      ],
+      "offline": {
+        "status": "Passed",
+        "environment": "syntheticHost",
+        "noAveva": true,
+        "exitCode": 0,
+        "permissionRejection": "EXECUTION_NOT_AUTHORIZED",
+        "unknownFieldRejection": "INVALID_INPUT",
+        "evidence": "business"
+      },
+      "liveStatus": "NotRun"
+    },
+    {
+      "operationId": "pml.function.permission",
+      "contractVersion": 1,
+      "legacyTools": [
+        "set_pml_function_permission"
+      ],
+      "authorization": {
+        "explicitPid": false,
+        "allowExecution": false,
+        "allowWrite": true,
+        "allowLaunch": false,
+        "unchangedRegisteredFunctionPermission": false
+      },
+      "requiredCliFlags": [
+        "--allow-write"
+      ],
+      "offline": {
+        "status": "Passed",
+        "environment": "realTempService",
+        "noAveva": true,
+        "exitCode": 0,
+        "permissionRejection": "WRITE_NOT_AUTHORIZED",
+        "unknownFieldRejection": "INVALID_INPUT",
+        "evidence": "business"
+      },
+      "liveStatus": "NotRun"
+    },
+    {
+      "operationId": "pml.function.register",
+      "contractVersion": 1,
+      "legacyTools": [
+        "register_pml_function"
+      ],
+      "authorization": {
+        "explicitPid": false,
+        "allowExecution": false,
+        "allowWrite": true,
+        "allowLaunch": false,
+        "unchangedRegisteredFunctionPermission": false
+      },
+      "requiredCliFlags": [
+        "--allow-write"
+      ],
+      "offline": {
+        "status": "Passed",
+        "environment": "realTempService",
+        "noAveva": true,
+        "exitCode": 0,
+        "permissionRejection": "WRITE_NOT_AUTHORIZED",
+        "unknownFieldRejection": "INVALID_INPUT",
+        "evidence": "business"
+      },
+      "liveStatus": "NotRun"
+    },
+    {
+      "operationId": "pml.functions.list",
+      "contractVersion": 1,
+      "legacyTools": [
+        "list_registered_pml_functions"
+      ],
+      "authorization": {
+        "explicitPid": false,
+        "allowExecution": false,
+        "allowWrite": false,
+        "allowLaunch": false,
+        "unchangedRegisteredFunctionPermission": false
+      },
+      "requiredCliFlags": [],
+      "offline": {
+        "status": "Passed",
+        "environment": "realTempService",
+        "noAveva": true,
+        "exitCode": 0,
+        "permissionRejection": null,
+        "unknownFieldRejection": "INVALID_INPUT",
+        "evidence": "business"
+      },
+      "liveStatus": "NotRun"
+    },
+    {
+      "operationId": "pml.gadget.read",
+      "contractVersion": 1,
+      "legacyTools": [
+        "get_pml_gadget"
+      ],
+      "authorization": {
+        "explicitPid": true,
+        "allowExecution": true,
+        "allowWrite": false,
+        "allowLaunch": false,
+        "unchangedRegisteredFunctionPermission": false
+      },
+      "requiredCliFlags": [
+        "--pid",
+        "--allow-execution"
+      ],
+      "offline": {
+        "status": "Passed",
+        "environment": "syntheticHost",
+        "noAveva": true,
+        "exitCode": 0,
+        "permissionRejection": "EXECUTION_NOT_AUTHORIZED",
+        "unknownFieldRejection": "INVALID_INPUT",
+        "evidence": "business"
+      },
+      "liveStatus": "InstalledNewHostRecordedScopePassed",
+      "live": {
+        "stage": "PostInstallationAddendum",
+        "status": "Passed",
+        "hostVersion": "0.3.4.2",
+        "productVersion": "2.1.0.6",
+        "evidence": "postInstallLive",
+        "cliSha256": "4f704ac26cc532906d23188c7b1c9e52522f00cb6dc9c088d56fe5eeda291988",
+        "cases": [
+          {
+            "id": "gadget-read",
+            "operationId": "pml.gadget.read",
+            "status": "Passed",
+            "exitCode": 0,
+            "receipt": "artifacts/native-cli-live/new-host-acceptance/gadget-read.json"
+          }
+        ],
+        "scopeIsLimitedToListedCases": true,
+        "details": {
+          "operationId": "pml.gadget.read",
+          "status": "Passed",
+          "type": "BUTTON",
+          "propertiesAvailable": [
+            "shown",
+            "active",
+            "visible",
+            "callback"
+          ],
+          "propertiesUnavailable": [
+            "tooltip"
+          ],
+          "unavailablePreservesNativeError": true
+        }
+      },
+      "liveHistory": [
+        {
+          "stage": "PackagedSnapshot",
+          "liveStatus": "UnsupportedByLoadedHost",
+          "live": {
+            "evidence": "liveFinal",
+            "cliSha256": "4f704ac26cc532906d23188c7b1c9e52522f00cb6dc9c088d56fe5eeda291988",
+            "cases": [
+              {
+                "operationId": "pml.gadget.read",
+                "status": "Unsupported",
+                "guardContractVerified": true,
+                "code": "PML_UI_HOST_UNSUPPORTED",
+                "exitCode": 6,
+                "mayHaveExecuted": false,
+                "receipt": "artifacts/native-cli-live/capabilities-final/gadget-read.json"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "operationId": "pml.gadgets.list",
+      "contractVersion": 1,
+      "legacyTools": [
+        "list_pml_gadgets"
+      ],
+      "authorization": {
+        "explicitPid": true,
+        "allowExecution": true,
+        "allowWrite": false,
+        "allowLaunch": false,
+        "unchangedRegisteredFunctionPermission": false
+      },
+      "requiredCliFlags": [
+        "--pid",
+        "--allow-execution"
+      ],
+      "offline": {
+        "status": "Passed",
+        "environment": "syntheticHost",
+        "noAveva": true,
+        "exitCode": 0,
+        "permissionRejection": "EXECUTION_NOT_AUTHORIZED",
+        "unknownFieldRejection": "INVALID_INPUT",
+        "evidence": "business"
+      },
+      "liveStatus": "InstalledNewHostRecordedScopePassed",
+      "live": {
+        "stage": "PostInstallationAddendum",
+        "status": "Passed",
+        "hostVersion": "0.3.4.2",
+        "productVersion": "2.1.0.6",
+        "evidence": "postInstallLive",
+        "cliSha256": "4f704ac26cc532906d23188c7b1c9e52522f00cb6dc9c088d56fe5eeda291988",
+        "cases": [
+          {
+            "id": "gadgets-list",
+            "operationId": "pml.gadgets.list",
+            "status": "Passed",
+            "exitCode": 0,
+            "receipt": "artifacts/native-cli-live/new-host-acceptance/gadgets-list.json"
+          }
+        ],
+        "scopeIsLimitedToListedCases": true,
+        "details": {
+          "operationId": "pml.gadgets.list",
+          "status": "Passed",
+          "source": "existing official AVEVA form",
+          "returnedItems": 6,
+          "scanned": 35,
+          "nonGadgetMembersExcluded": true
+        }
+      },
+      "liveHistory": [
+        {
+          "stage": "PackagedSnapshot",
+          "liveStatus": "UnsupportedByLoadedHost",
+          "live": {
+            "evidence": "liveFinal",
+            "cliSha256": "4f704ac26cc532906d23188c7b1c9e52522f00cb6dc9c088d56fe5eeda291988",
+            "cases": [
+              {
+                "operationId": "pml.gadgets.list",
+                "status": "Unsupported",
+                "guardContractVerified": true,
+                "code": "PML_UI_HOST_UNSUPPORTED",
+                "exitCode": 6,
+                "mayHaveExecuted": false,
+                "receipt": "artifacts/native-cli-live/capabilities-final/gadgets-list.json"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "operationId": "pml.trust.list",
+      "contractVersion": 1,
+      "legacyTools": [
+        "list_pml_function_trust"
+      ],
+      "authorization": {
+        "explicitPid": false,
+        "allowExecution": false,
+        "allowWrite": false,
+        "allowLaunch": false,
+        "unchangedRegisteredFunctionPermission": false
+      },
+      "requiredCliFlags": [],
+      "offline": {
+        "status": "Passed",
+        "environment": "realTempService",
+        "noAveva": true,
+        "exitCode": 0,
+        "permissionRejection": null,
+        "unknownFieldRejection": "INVALID_INPUT",
+        "evidence": "business"
+      },
+      "liveStatus": "NotRun"
+    },
+    {
+      "operationId": "pml.trust.set",
+      "contractVersion": 1,
+      "legacyTools": [
+        "set_pml_function_trust"
+      ],
+      "authorization": {
+        "explicitPid": false,
+        "allowExecution": false,
+        "allowWrite": true,
+        "allowLaunch": false,
+        "unchangedRegisteredFunctionPermission": false
+      },
+      "requiredCliFlags": [
+        "--allow-write"
+      ],
+      "offline": {
+        "status": "Passed",
+        "environment": "realTempService",
+        "noAveva": true,
+        "exitCode": 0,
+        "permissionRejection": "WRITE_NOT_AUTHORIZED",
+        "unknownFieldRejection": "INVALID_INPUT",
+        "evidence": "business"
+      },
+      "liveStatus": "NotRun"
+    },
+    {
+      "operationId": "pml.undo.begin",
+      "contractVersion": 1,
+      "legacyTools": [
+        "markdb"
+      ],
+      "authorization": {
+        "explicitPid": true,
+        "allowExecution": true,
+        "allowWrite": false,
+        "allowLaunch": false,
+        "unchangedRegisteredFunctionPermission": false
+      },
+      "requiredCliFlags": [
+        "--pid",
+        "--allow-execution"
+      ],
+      "offline": {
+        "status": "Passed",
+        "environment": "syntheticHost",
+        "noAveva": true,
+        "exitCode": 0,
+        "permissionRejection": "EXECUTION_NOT_AUTHORIZED",
+        "unknownFieldRejection": "INVALID_INPUT",
+        "evidence": "business"
+      },
+      "liveStatus": "NotRun"
+    },
+    {
+      "operationId": "pml.undo.end",
+      "contractVersion": 1,
+      "legacyTools": [
+        "endmarkdb"
+      ],
+      "authorization": {
+        "explicitPid": true,
+        "allowExecution": true,
+        "allowWrite": false,
+        "allowLaunch": false,
+        "unchangedRegisteredFunctionPermission": false
+      },
+      "requiredCliFlags": [
+        "--pid",
+        "--allow-execution"
+      ],
+      "offline": {
+        "status": "Passed",
+        "environment": "syntheticHost",
+        "noAveva": true,
+        "exitCode": 0,
+        "permissionRejection": "EXECUTION_NOT_AUTHORIZED",
+        "unknownFieldRejection": "INVALID_INPUT",
+        "evidence": "business"
+      },
+      "liveStatus": "NotRun"
+    },
+    {
+      "operationId": "runtime.calls",
+      "contractVersion": 1,
+      "legacyTools": [
+        "get_recent_tool_calls"
+      ],
+      "authorization": {
+        "explicitPid": false,
+        "allowExecution": false,
+        "allowWrite": false,
+        "allowLaunch": false,
+        "unchangedRegisteredFunctionPermission": false
+      },
+      "requiredCliFlags": [],
+      "offline": {
+        "status": "Passed",
+        "environment": "realTempService",
+        "noAveva": true,
+        "exitCode": 0,
+        "permissionRejection": null,
+        "unknownFieldRejection": "INVALID_INPUT",
+        "evidence": "business"
+      },
+      "liveStatus": "PreviousArtifactPassed_NotRerunAfterErrorClassificationPatch",
+      "live": {
+        "evidence": "liveBeforePatch",
+        "cliSha256": "3117e2c79fa9764beccf76593f7ae376949f2a9ee1edb20778c2d279fc845b7f",
+        "cases": [
+          {
+            "id": "runtime-calls",
+            "operationId": "runtime.calls",
+            "status": "Passed",
+            "receipt": "artifacts/native-cli-live/capabilities-release-02/runtime-calls.json"
+          }
+        ]
+      }
+    },
+    {
+      "operationId": "runtime.status",
+      "contractVersion": 1,
+      "legacyTools": [
+        "get_ai_runtime_status"
+      ],
+      "authorization": {
+        "explicitPid": false,
+        "allowExecution": false,
+        "allowWrite": false,
+        "allowLaunch": false,
+        "unchangedRegisteredFunctionPermission": false
+      },
+      "requiredCliFlags": [],
+      "offline": {
+        "status": "Passed",
+        "environment": "realTempService",
+        "noAveva": true,
+        "exitCode": 0,
+        "permissionRejection": null,
+        "unknownFieldRejection": "INVALID_INPUT",
+        "evidence": "business"
+      },
+      "liveStatus": "PreviousArtifactPassed_NotRerunAfterErrorClassificationPatch",
+      "live": {
+        "evidence": "liveBeforePatch",
+        "cliSha256": "3117e2c79fa9764beccf76593f7ae376949f2a9ee1edb20778c2d279fc845b7f",
+        "cases": [
+          {
+            "id": "runtime-status",
+            "operationId": "runtime.status",
+            "status": "Passed",
+            "receipt": "artifacts/native-cli-live/capabilities-release-02/runtime-status.json"
+          }
+        ]
+      }
+    },
+    {
+      "operationId": "workspace.pmllib.inspect",
+      "contractVersion": 1,
+      "legacyTools": [
+        "inspect_registered_pmllib"
+      ],
+      "authorization": {
+        "explicitPid": false,
+        "allowExecution": false,
+        "allowWrite": false,
+        "allowLaunch": false,
+        "unchangedRegisteredFunctionPermission": false
+      },
+      "requiredCliFlags": [],
+      "offline": {
+        "status": "Passed",
+        "environment": "realTempService",
+        "noAveva": true,
+        "exitCode": 0,
+        "permissionRejection": null,
+        "unknownFieldRejection": "INVALID_INPUT",
+        "evidence": "business"
+      },
+      "liveStatus": "PreviousArtifactPassed_NotRerunAfterErrorClassificationPatch",
+      "live": {
+        "evidence": "liveBeforePatch",
+        "cliSha256": "3117e2c79fa9764beccf76593f7ae376949f2a9ee1edb20778c2d279fc845b7f",
+        "cases": [
+          {
+            "id": "workspace-inspect",
+            "operationId": "workspace.pmllib.inspect",
+            "status": "Passed",
+            "receipt": "artifacts/native-cli-live/capabilities-release-02/workspace-inspect.json"
+          }
+        ]
+      }
+    }
+  ],
+  "legacyMetaCommands": [
+    {
+      "legacyTool": "op_list",
+      "method": "OpList",
+      "source": "src/YuzuhaToolkit.Mcp.Core/OperationTools.cs",
+      "line": 13,
+      "cliOperation": "op list"
+    },
+    {
+      "legacyTool": "op_describe",
+      "method": "OpDescribe",
+      "source": "src/YuzuhaToolkit.Mcp.Core/OperationTools.cs",
+      "line": 19,
+      "cliOperation": "op describe"
+    },
+    {
+      "legacyTool": "op_invoke",
+      "method": "OpInvoke",
+      "source": "src/YuzuhaToolkit.Mcp.Core/OperationTools.cs",
+      "line": 27,
+      "cliOperation": "op invoke"
+    }
+  ],
+  "verification": {
+    "solution": {
+      "status": "Passed",
+      "total": 217,
+      "passed": 217,
+      "failed": 0,
+      "suites": [
+        {
+          "name": "architecture",
+          "total": 14,
+          "passed": 14,
+          "failed": 0,
+          "evidence": "artifacts/workbench-complete-tests/release-final/release_net10.0_20261024115902.trx"
+        },
+        {
+          "name": "application",
+          "total": 203,
+          "passed": 203,
+          "failed": 0,
+          "evidence": "artifacts/workbench-complete-tests/release-final/release_net10.0_20261024115915.trx"
+        }
+      ],
+      "note": "46能力代码用例属于此套件；专项重跑不得再次相加。"
+    },
+    "aotProcesses": {
+      "status": "Passed",
+      "checks": 63,
+      "evidence": "aot",
+      "scope": "真实独立CLI进程；46项describe以及输入、权限、错误、批处理。目录核验不单独充当46项底层执行证据。"
+    },
+    "aotKnowledge": {
+      "status": "Passed",
+      "calls": 10,
+      "evidence": "knowledge",
+      "scope": "内置指南、隔离SQLite、测试资料导入及分层查询。"
+    },
+    "hostCapabilityPatch": {
+      "status": "Passed",
+      "tests": 70,
+      "evidence": "patchTests",
+      "scope": "四项旧Host拒绝的明确错误码/exit6/零发送，以及数组、窗体、桌面桥和CLI回归；也包含在最终完整suite中。"
+    },
+    "negativePaths": {
+      "status": "Passed",
+      "evidence": [
+        "failurePaths",
+        "serviceFailures"
+      ],
+      "automaticRetries": 0,
+      "cases": [
+        {
+          "operationId": "pml.array.window",
+          "expectedFailure": true,
+          "exitCode": 5,
+          "errorCode": "PID_REQUIRED",
+          "mayHaveExecuted": false
+        },
+        {
+          "operationId": "pml.array.window",
+          "expectedFailure": true,
+          "exitCode": 4,
+          "errorCode": "EXECUTION_NOT_AUTHORIZED",
+          "mayHaveExecuted": false
+        },
+        {
+          "operationId": "pml.array.window",
+          "expectedFailure": true,
+          "exitCode": 6,
+          "errorCode": "PML_BOUNDED_ARRAY_UNSUPPORTED",
+          "mayHaveExecuted": false
+        },
+        {
+          "operationId": "pml.forms.list",
+          "expectedFailure": true,
+          "exitCode": 6,
+          "errorCode": "PML_UI_HOST_UNSUPPORTED",
+          "mayHaveExecuted": false
+        },
+        {
+          "operationId": "pml.gadgets.list",
+          "expectedFailure": true,
+          "exitCode": 6,
+          "errorCode": "PML_UI_HOST_UNSUPPORTED",
+          "mayHaveExecuted": false
+        },
+        {
+          "operationId": "pml.gadget.read",
+          "expectedFailure": true,
+          "exitCode": 6,
+          "errorCode": "PML_UI_HOST_UNSUPPORTED",
+          "mayHaveExecuted": false
+        },
+        {
+          "operationId": "pml.forms.list",
+          "expectedFailure": true,
+          "exitCode": 5,
+          "errorCode": "TARGET_FAILED",
+          "mayHaveExecuted": false
+        },
+        {
+          "operationId": "pml.undo.end",
+          "expectedFailure": true,
+          "exitCode": 7,
+          "errorCode": "RPC_FAILED",
+          "mayHaveExecuted": true
+        },
+        {
+          "operationId": "pml.gadget.read",
+          "expectedFailure": true,
+          "exitCode": 6,
+          "errorCode": "HOST_FAILED",
+          "mayHaveExecuted": true
+        },
+        {
+          "operationId": "pml.command.execute",
+          "expectedFailure": true,
+          "exitCode": 6,
+          "errorCode": "HOST_FAILED",
+          "mayHaveExecuted": true
+        },
+        {
+          "operationId": "pml.function.invoke",
+          "expectedFailure": true,
+          "exitCode": 2,
+          "errorCode": "INVALID_INPUT",
+          "mayHaveExecuted": false
+        },
+        {
+          "operationId": "knowledge.database.check",
+          "expectedFailure": true,
+          "exitCode": 2,
+          "errorCode": "OPERATION_REJECTED",
+          "mayHaveExecuted": false
+        }
+      ]
+    },
+    "scenarios": [
+      {
+        "format": "json",
+        "caseId": "launch.profile.complete-lifecycle",
+        "status": "Passed",
+        "executed": 15,
+        "newCliProcessPerStep": true,
+        "noAveva": true,
+        "sourceSha256": "d66f97ddbdbf0f6a9f0181d97fb2c9c097a9ef81ba53e4126fe6bd75a2c11503",
+        "evidence": "json"
+      },
+      {
+        "format": "toml",
+        "caseId": "launch.profile.complete-lifecycle",
+        "status": "Passed",
+        "executed": 15,
+        "newCliProcessPerStep": true,
+        "noAveva": true,
+        "sourceSha256": "7775ef95f271c5a7a98f3159650ba0ebf449d050656b0207cc3a7a7428bb3cbb",
+        "evidence": "toml"
+      }
+    ],
+    "scenarioAuthoring": {
+      "status": "Passed",
+      "tests": 8,
+      "evidence": "runner",
+      "includes": [
+        "JSON/TOML等价",
+        "非法字段与隐式权限拒绝",
+        "失败报告",
+        "中断步骤终态",
+        "超时部分输出保留"
+      ]
+    },
+    "wpf": {
+      "status": "Passed",
+      "noAveva": true,
+      "lifecycleBaseline": {
+        "checks": 20,
+        "evidence": "ui",
+        "version": "0.3.4.2",
+        "binarySha256": "e749de3c335b743bb111a41ce5437cdabcd4eec3c845dbe448c6f989dc97b7c1",
+        "checksPerformed": [
+          "E3D module list is product-specific",
+          "save button persists a new profile",
+          "configuration is written to the real isolated file",
+          "preview shows field differences without writing",
+          "saving other workbench settings advances revision without discarding the launch draft",
+          "saved values are read by a new service instance with a new revision",
+          "reload button restores the persisted editor values",
+          "changing product updates AM modules and entry kind",
+          "AM Design mismatch is rejected without writing",
+          "AM profile saves with its native module value",
+          "product dropdown favorite dropdown and text search combine",
+          "empty filter state is visible",
+          "stale save keeps draft and refuses to overwrite the second editor",
+          "reload asks before discarding an unsaved draft",
+          "confirmed reload loads the current revision",
+          "history selection previews restoration differences",
+          "restore preview awaits an explicit confirmation",
+          "confirmed restore creates a new revision and preserves later history",
+          "restore preserves the other product profile",
+          "a newly opened workbench reads saved profiles and their history"
+        ]
+      },
+      "finalArtifactSmoke": {
+        "checks": 2,
+        "evidence": "uiFinal",
+        "version": "0.3.4.2",
+        "desktopSha256": "7c0d70f3409f5d8426b8748acf13a5a6ea7b12cdacce7fc4388c8c28e196bbc0",
+        "coreSha256": "03d6e481fb9f81e8e14a353833db9aafb4b0d0bfb4a0bb0b3e7a7af8e18eaa85",
+        "bindingErrors": 0,
+        "hostOperations": 0,
+        "checksPerformed": [
+          {
+            "code": "PML_BOUNDED_ARRAY_UNSUPPORTED",
+            "outcome": "rejected",
+            "messageVisible": true,
+            "windowInteractive": true
+          },
+          {
+            "code": "PML_UI_HOST_UNSUPPORTED",
+            "outcome": "rejected",
+            "messageVisible": true,
+            "windowInteractive": true
+          }
+        ]
+      },
+      "screenshots": [],
+      "note": "20项是此前发布版业务基线，最终Core补丁发布复验2项异常显示与窗口交互；不声称20项在最终二进制重测。19项更早记录保留为历史。"
+    },
+    "installer": {
+      "status": "Passed",
+      "fixtureGroups": 9,
+      "builderTests": 3,
+      "evidence": [
+        "installerFinal",
+        "installer"
+      ],
+      "realSetupExecuted": false,
+      "compilerInBuilderTests": "Fake",
+      "note": "不代表实际UAC、安装、升级和卸载通过。新包不含旧MCP二进制；已安装旧文件不会因此自动删除。"
+    },
+    "documentationHost": {
+      "status": "Passed",
+      "getIndex": 200,
+      "postIndex": 403,
+      "developmentApi": 404,
+      "evidence": "documentationHost",
+      "scope": "发布宿主与隔离HTML夹具；不是最终DocFX内容或浏览器视觉验收。"
+    }
+  },
+  "live": {
+    "beforeErrorClassificationPatch": {
+      "evidence": "liveBeforePatch",
+      "cliSha256": "3117e2c79fa9764beccf76593f7ae376949f2a9ee1edb20778c2d279fc845b7f",
+      "calls": 18,
+      "counts": {
+        "Passed": 14,
+        "Unsupported": 4,
+        "Failed": 0
+      },
+      "uniqueOperations": 13,
+      "modelWritesPerformed": false,
+      "ownedProbeAssertions": {
+        "blank": 1,
+        "unset": 1,
+        "zero": 1,
+        "emptyArray": 1,
+        "falseIsPreserved": true,
+        "unparsed": 0,
+        "cleanupSucceeded": true
+      },
+      "dbrefRestoresCurrentElement": true,
+      "note": "14次通过属于前一冻结CLI的历史证据；包括自有内存变量、当前元素和DBREF回读，未在最终CLI重复。4项旧Host拒绝不计能力通过。"
+    },
+    "finalErrorClassificationVerification": {
+      "evidence": "liveFinal",
+      "cliSha256": "4f704ac26cc532906d23188c7b1c9e52522f00cb6dc9c088d56fe5eeda291988",
+      "calls": 5,
+      "counts": {
+        "Passed": 1,
+        "Unsupported": 4,
+        "Failed": 0,
+        "GuardContractsVerified": 4
+      },
+      "modelOrGlobalWritesPerformed": false,
+      "note": "只复核状态和四项拒绝；exit6及准确UNSUPPORTED码正确，并不使旧Host获得这些功能。"
+    },
+    "E3D21": {
+      "status": "FocusedAcceptancePassedInNewProcess",
+      "evidence": "postInstallLive",
+      "reportedHostVersion": "0.3.4.2",
+      "boundedArrayReadVersion": 1,
+      "formQueryVersion": 1,
+      "productVersion": "2.1.0.6",
+      "module": "DESIGN",
+      "newHost": {
+        "fileVersion": "0.3.4.2",
+        "status": "DeployedAndVerifiedInNewProcess"
+      },
+      "counts": {
+        "Passed": 11,
+        "Unsupported": 0,
+        "Failed": 0,
+        "GadgetPropertiesUnavailable": 1
+      },
+      "all46OperationsLiveTested": false
+    },
+    "E3D31": {
+      "status": "MappingOnly",
+      "hostFamily": "E3D3.1.6/net48",
+      "realSessionTested": false
+    },
+    "AM": {
+      "status": "NotRun",
+      "hostFamily": "AM/net35"
+    },
+    "PDMS": {
+      "status": "NotRun",
+      "hostFamily": "PDMS/net35"
+    },
+    "startupPolicyObject": {
+      "status": "Passed",
+      "casesPassed": 7,
+      "product": "E3D",
+      "productVersion": "2.1.0.6",
+      "reportedHostVersion": "0.3.2.0",
+      "environment": "existing-live-E3D-session",
+      "newProcessStartupTested": false,
+      "realEnvironmentModified": false,
+      "environmentReadVerified": true,
+      "actualEnvironmentEmptyPolicy": "SkippedDisabled",
+      "actionPolicySource": "Explicit Apply(policy, logPath, launchId) test injection",
+      "cases": [
+        {
+          "id": "empty-disabled",
+          "status": "Passed",
+          "expectedNativeStatus": "SkippedDisabled",
+          "nativeStatuses": [
+            "SkippedDisabled"
+          ],
+          "guardApplied": false,
+          "indexAndLogUnchanged": true,
+          "receipt": "artifacts/native-cli-live/startup-policy-empty-disabled-report.json"
+        },
+        {
+          "id": "none-disabled",
+          "status": "Passed",
+          "expectedNativeStatus": "SkippedDisabled",
+          "nativeStatuses": [
+            "SkippedDisabled"
+          ],
+          "guardApplied": false,
+          "indexAndLogUnchanged": true,
+          "receipt": "artifacts/native-cli-live/startup-policy-none-disabled-report.json"
+        },
+        {
+          "id": "unknown-rejected",
+          "status": "Passed",
+          "expectedNativeStatus": "Rejected",
+          "nativeStatuses": [
+            "Rejected"
+          ],
+          "guardApplied": false,
+          "indexAndLogUnchanged": true,
+          "receipt": "artifacts/native-cli-live/startup-policy-unknown-rejected-report.json"
+        },
+        {
+          "id": "start-log-failure",
+          "status": "Passed",
+          "expectedNativeStatus": "LogFailedBeforeExecution",
+          "nativeStatuses": [
+            "Started",
+            "LogFailedBeforeExecution"
+          ],
+          "guardApplied": false,
+          "indexAndLogUnchanged": true,
+          "receipt": "artifacts/native-cli-live/startup-policy-start-log-failure-report.json"
+        },
+        {
+          "id": "enabled-once",
+          "status": "Passed",
+          "expectedNativeStatus": "Succeeded",
+          "nativeStatuses": [
+            "Started",
+            "Succeeded"
+          ],
+          "guardApplied": true,
+          "indexAndLogUnchanged": false,
+          "receipt": "artifacts/native-cli-live/startup-policy-enabled-once-report.json"
+        },
+        {
+          "id": "enabled-repeat",
+          "status": "Passed",
+          "expectedNativeStatus": "SkippedAlreadyApplied",
+          "nativeStatuses": [
+            "SkippedAlreadyApplied"
+          ],
+          "guardApplied": true,
+          "indexAndLogUnchanged": true,
+          "receipt": "artifacts/native-cli-live/startup-policy-enabled-repeat-report.json"
+        },
+        {
+          "id": "disabled-after-enabled",
+          "status": "Passed",
+          "expectedNativeStatus": "SkippedDisabled",
+          "nativeStatuses": [
+            "SkippedDisabled"
+          ],
+          "guardApplied": true,
+          "indexAndLogUnchanged": true,
+          "receipt": "artifacts/native-cli-live/startup-policy-disabled-after-enabled-report.json"
+        }
+      ],
+      "traceStartedCount": 1,
+      "traceSucceededCount": 1,
+      "oldIndexBootstrap": {
+        "status": "Passed",
+        "action": "one precise Bootstrap index line plus PML INDEX; no discovery rehash"
+      },
+      "guardRestored": true,
+      "temporaryInstallationRestored": true,
+      "evidence": "startupPolicy"
+    },
+    "E3D21History": [
+      {
+        "status": "Partial",
+        "verified": [
+          "Current Session及当前模块读取",
+          "原生BANNER产品版本读取",
+          "原YuzuhaAddin构造和YuzuhaVersion缺失错误修复"
+        ],
+        "existingLoadedHost": {
+          "reportedHostVersion": "0.3.2.0",
+          "boundedArrayReadVersion": 0,
+          "formQueryVersion": 0
+        },
+        "newHost": {
+          "fileVersion": "0.3.4.2",
+          "status": "BuiltAwaitingDeploymentAndRestart"
+        },
+        "evidencePaths": [
+          "artifacts/native-cli-live/current-session.json",
+          "artifacts/native-cli-live/banner-probe-read.json",
+          "artifacts/native-cli-live/create-patched-original-addin-final.json",
+          "artifacts/native-cli-live/status-patched-addin.json"
+        ]
+      }
+    ]
+  },
+  "notClaimed": [
+    "离线46项通过不等于AVEVA内部全部能力实机通过。",
+    "旧Host不支持v1数组窗口与Form/Gadget协议；未将该边界标为通过。",
+    "入口进程创建不等于工程登录、模块许可或Host连接已成功。",
+    "官方HTML/源码默认优先知识流程及其他配置页面不属于本次启动配置切面的完成声明。"
+  ],
+  "evidence": {
+    "business": {
+      "path": "artifacts/native-cli-migration/capabilities.json",
+      "sha256": "fdf2edbf99e0b15e44c65b6ee127e63a008343f452af5fee0cc7e8e250abce38"
+    },
+    "launch": {
+      "path": "artifacts/native-cli-migration/launch-capabilities.json",
+      "sha256": "44d5cc4ce3cd08a7bb122ee08c0b07fe4a9a9ae5d24083651331290cbb3c6fa6"
+    },
+    "legacy": {
+      "path": "artifacts/native-cli-migration/legacy-tool-coverage-final.json",
+      "sha256": "827b00652204bf0f4b7cbe8342d7542019a5bc9e811fd9349ce528f378cbd543"
+    },
+    "aot": {
+      "path": "artifacts/native-cli-migration/native-aot-processes-final.json",
+      "sha256": "70a90a99da012318634a5c4fa1fb0c814394976e60da79c14f6ea32e577e1415"
+    },
+    "knowledge": {
+      "path": "artifacts/native-cli-migration/native-aot-builtin-final.json",
+      "sha256": "3a0eaa31d497769b7b4f4d58da6bd2c26b8b3dcbdc72bae860a45346ca45485d"
+    },
+    "failurePaths": {
+      "path": "artifacts/native-cli-migration/failure-paths.json",
+      "sha256": "53b503f90b761dfdd1a987f674726522d93d050e6ab12c736146fa5517f38766"
+    },
+    "serviceFailures": {
+      "path": "artifacts/native-cli-migration/service-failures.json",
+      "sha256": "d65a4367e4de7252a08059d55c31ca2985330b8fe3806d8a0c2662b427bd7fc0"
+    },
+    "startupPolicy": {
+      "path": "artifacts/native-cli-live/startup-policy.summary.json",
+      "sha256": "384cbba495f4695c0af9ee0362310e0b264877ca7628725c052709c4bc2fdcff"
+    },
+    "liveBeforePatch": {
+      "path": "artifacts/native-cli-live/capabilities-release-02/summary.json",
+      "sha256": "a671582ee8391d3942811784bca4f574acc4087fcad9a1829cdeed44fa797126"
+    },
+    "liveFinal": {
+      "path": "artifacts/native-cli-live/capabilities-final/summary.json",
+      "sha256": "45bf0359a8a8f65344ec982bc5ffe418c650ce30562f8a2381c80ae7d9b5e3f7"
+    },
+    "toml": {
+      "path": "artifacts/launch-lifecycle-scenarios/final-host-errors-toml-retry/run.json",
+      "sha256": "2ebd0aa12b994805bbddf06853690ee0d3bf8a88d92d500661e890e1695313ca"
+    },
+    "json": {
+      "path": "artifacts/launch-lifecycle-scenarios/final-host-errors-json/run.json",
+      "sha256": "b6fb3bdafc8d89e88f0846044438707a36c78c1268093fd642144bbab769e71d"
+    },
+    "ui": {
+      "path": "artifacts/launch-lifecycle-ui/published-20/launch-lifecycle-ui.json",
+      "sha256": "bb9840a71473a8bbccdbeb7390a48b57cbdb29ef18d26c40ff9817ea73abdb26"
+    },
+    "uiFinal": {
+      "path": "artifacts/launch-lifecycle-ui/final-core-verified/final-published-ui-smoke.json",
+      "sha256": "840a0ccd62302a8876e2dd18212bf7aa3492f3cf19f37080daf4689b0b3fb71e"
+    },
+    "installer": {
+      "path": "artifacts/launch-lifecycle-ui/installer-cli-migration.json",
+      "sha256": "85dbe1d1bc2ca351cdc0a3c90c0e10d230705e1aa535079ba94d0563b73bbb23"
+    },
+    "installerFinal": {
+      "path": "artifacts/install-0342-plan/installer-index-tests-final-reviewed.log",
+      "sha256": "3e5d21e83b3a0ab879ee0c830341896ba88671094ecb959c83b69fc3c88e511b"
+    },
+    "documentationHost": {
+      "path": "artifacts/launch-lifecycle-ui/documentation-host-final-smoke.json",
+      "sha256": "bb64639f1bfbb08a8cb5b43c2f838496ac836b26caabc3e2f201824ff63f1e48"
+    },
+    "patchTests": {
+      "path": "artifacts/native-cli-migration/host-capability-errors-final.trx",
+      "sha256": "8cbad7774947212046b8586b8c1bca9f444f1c07b93db37da9ceb16bf8ea8060"
+    },
+    "tomlInterrupted": {
+      "path": "artifacts/native-cli-migration/final-toml-storage-interruption.json",
+      "sha256": "4fba1bbc84b027b7bfed6a8aa14e42c3b91e7d697b6edf9a384036af51fbfe9c"
+    },
+    "runner": {
+      "path": "artifacts/native-cli-migration/scenario-runner-audit-tests.log",
+      "sha256": "a44e18917c01911911f8b73003b0a1a6a58fb8a780ed08d6f0d69d7bf32eb9a9"
+    },
+    "solution-architecture": {
+      "path": "artifacts/workbench-complete-tests/release-final/release_net10.0_20261024115902.trx",
+      "sha256": "51398ba1dde07117b264b0383b822699e4bcf661a023e025ed825cc7e77717ee"
+    },
+    "solution-application": {
+      "path": "artifacts/workbench-complete-tests/release-final/release_net10.0_20261024115915.trx",
+      "sha256": "356b9ae67a606d892ffeef73ef76a1b40e3d89362facea59ab1474fecf12a7ab"
+    },
+    "postInstallLive": {
+      "path": "artifacts/native-cli-live/new-host-acceptance/summary.json",
+      "sha256": "74bc92bb349cf152fdec0d0e56770adb33a1242f739ec207ba31e31111d169e0"
+    },
+    "installedVerification": {
+      "path": "artifacts/install-0342-plan/installed-verification.json",
+      "sha256": "71b1fce68925d71eed87c6de6dbb25a83711e077d50f38b76c352cc2aad6bf21"
+    },
+    "skillApplied": {
+      "path": "artifacts/install-0342-plan/skill-final-01-apply-result.json",
+      "sha256": "c1745b915a0d764fc96152c200c08997251668b0616ff30b1c3e91a340e4d0f8"
+    },
+    "skillVerified": {
+      "path": "artifacts/install-0342-plan/skill-final-01-installed-verification.json",
+      "sha256": "54edafa9f445bdac5e5ca7e50e131881a0f034dacc58ceb4ec7968554cddca75"
+    },
+    "mcpRetirement": {
+      "path": "artifacts/install-0342-plan/legacy-mcp-retirement-result.json",
+      "sha256": "7173eaa9705df58d938c58e985d1e9e790b071e4754d47d9bc77e2f748093a4c"
+    },
+    "installedDocumentation": {
+      "path": "artifacts/install-0342-plan/installed-documentation.json",
+      "sha256": "377b33448dd29d217eae45aeb9125cde2192a8ee873876da3d09e18544844d5d"
+    },
+    "packagedDeliverySnapshot": {
+      "path": "artifacts/install-0342-plan/delivery-state-packaged.snapshot.json",
+      "sha256": "8a7504815cc75ef9e09e9f5331af7e2cfe74093751e50baad3330321505fde77"
+    },
+    "packagedReportSnapshot": {
+      "path": "artifacts/install-0342-plan/validation-packaged.snapshot.json",
+      "sha256": "643d201d32cf9895167af821ea3fd45a262708bccda22dc072a36c888e05babd"
+    }
+  },
+  "postInstallationAcceptance": {
+    "stage": "PostInstallationAddendum",
+    "status": "PassedForRecordedE3D21Scope",
+    "finishedUtc": "2026-10-24T04:25:26.056836+00:00",
+    "newProcessStartupTested": true,
+    "installedCliSha256": "4f704ac26cc532906d23188c7b1c9e52522f00cb6dc9c088d56fe5eeda291988",
+    "product": "E3D",
+    "nativeVersion": "2.1.0.6",
+    "module": "DESIGN",
+    "host": {
+      "HostVersion": "0.3.4.2",
+      "HostFramework": "net48",
+      "Model": "DESIGN",
+      "BoundedArrayReadVersion": 1,
+      "FormQueryVersion": 1
+    },
+    "counts": {
+      "Passed": 11,
+      "Unsupported": 0,
+      "Failed": 0,
+      "GadgetPropertiesUnavailable": 1
+    },
+    "cases": [
+      {
+        "id": "session-status",
+        "operationId": "aveva.session.status",
+        "status": "Passed",
+        "exitCode": 0,
+        "receipt": "artifacts/native-cli-live/new-host-acceptance/session-status.json"
+      },
+      {
+        "id": "startup-report",
+        "operationId": "pml.array.read",
+        "status": "Passed",
+        "exitCode": 0,
+        "receipt": "artifacts/native-cli-live/new-host-acceptance/startup-report.json"
+      },
+      {
+        "id": "initialized-session",
+        "operationId": "pml.array.read",
+        "status": "Passed",
+        "exitCode": 0,
+        "receipt": "artifacts/native-cli-live/new-host-acceptance/initialized-session.json"
+      },
+      {
+        "id": "prepare-owned-probe",
+        "operationId": "pml.command.execute",
+        "status": "Passed",
+        "exitCode": 0,
+        "receipt": "artifacts/native-cli-live/new-host-acceptance/prepare-owned-probe.json"
+      },
+      {
+        "id": "native-identity",
+        "operationId": "pml.array.read",
+        "status": "Passed",
+        "exitCode": 0,
+        "receipt": "artifacts/native-cli-live/new-host-acceptance/native-identity.json"
+      },
+      {
+        "id": "array-window-first",
+        "operationId": "pml.array.window",
+        "status": "Passed",
+        "exitCode": 0,
+        "receipt": "artifacts/native-cli-live/new-host-acceptance/array-window-first.json"
+      },
+      {
+        "id": "array-window-next",
+        "operationId": "pml.array.window",
+        "status": "Passed",
+        "exitCode": 0,
+        "receipt": "artifacts/native-cli-live/new-host-acceptance/array-window-next.json"
+      },
+      {
+        "id": "forms-list",
+        "operationId": "pml.forms.list",
+        "status": "Passed",
+        "exitCode": 0,
+        "receipt": "artifacts/native-cli-live/new-host-acceptance/forms-list.json"
+      },
+      {
+        "id": "gadgets-list",
+        "operationId": "pml.gadgets.list",
+        "status": "Passed",
+        "exitCode": 0,
+        "receipt": "artifacts/native-cli-live/new-host-acceptance/gadgets-list.json"
+      },
+      {
+        "id": "gadget-read",
+        "operationId": "pml.gadget.read",
+        "status": "Passed",
+        "exitCode": 0,
+        "receipt": "artifacts/native-cli-live/new-host-acceptance/gadget-read.json"
+      },
+      {
+        "id": "cleanup-globals",
+        "operationId": "pml.command.execute",
+        "status": "Passed",
+        "exitCode": 0,
+        "receipt": "artifacts/native-cli-live/new-host-acceptance/cleanup-globals.json"
+      }
+    ],
+    "capabilities": [
+      {
+        "operationId": "pml.array.window",
+        "status": "Passed",
+        "pages": 2,
+        "indexUpperBound": 3,
+        "emptyStringPreserved": true,
+        "continuationVerified": true
+      },
+      {
+        "operationId": "pml.forms.list",
+        "status": "Passed",
+        "returnedItems": 25,
+        "scanned": 25,
+        "indexUpperBound": 270,
+        "truncated": true,
+        "nextIndex": 26
+      },
+      {
+        "operationId": "pml.gadgets.list",
+        "status": "Passed",
+        "source": "existing official AVEVA form",
+        "returnedItems": 6,
+        "scanned": 35,
+        "nonGadgetMembersExcluded": true
+      },
+      {
+        "operationId": "pml.gadget.read",
+        "status": "Passed",
+        "type": "BUTTON",
+        "propertiesAvailable": [
+          "shown",
+          "active",
+          "visible",
+          "callback"
+        ],
+        "propertiesUnavailable": [
+          "tooltip"
+        ],
+        "unavailablePreservesNativeError": true
+      }
+    ],
+    "startup": {
+      "policy": "NONE",
+      "source": "environment:YUZUHA_STARTUP_ACTIONS",
+      "status": "SkippedDisabled",
+      "phase": "after-pml-init-before-host",
+      "readBeforeManualProbe": true,
+      "environmentReadVerified": true,
+      "ApplyInvokedDuringTest": false
+    },
+    "modelWritesPerformed": false,
+    "callbacksInvoked": false,
+    "formLifecycleChanged": false,
+    "ownGlobalCleanupSucceeded": true,
+    "installation": {
+      "status": "success",
+      "version": "0.3.4.2",
+      "filesVerified": 4738,
+      "failedFiles": 0,
+      "environmentCount": 1,
+      "configurationChanges": [
+        {
+          "kind": "environment",
+          "matches": true
+        },
+        {
+          "kind": "pml-index",
+          "matches": true
+        }
+      ],
+      "installerAvevaStatusAtInstallTime": "configured-not-launch-tested",
+      "subsequentNewProcessAcceptance": "11Passed_0Unsupported_0Failed",
+      "resultSha256": "24c1b9e4e260c9875cd35fb754e931658d23ab396592697bdef873f0815e6c42",
+      "evidence": "installedVerification"
+    },
+    "skill": {
+      "status": "applied-and-verified",
+      "verificationStatus": "verified",
+      "verifiedTargets": 14,
+      "updatedFiles": 4,
+      "verifiedBackups": 4,
+      "protectedFilesUnchanged": true,
+      "deletedUserFiles": 0,
+      "installerOwnershipModified": false,
+      "mcpConfigurationModified": false,
+      "planSha256": "93fb24dd9a680d8eb25bbccc3177fdd9e6a36ba87d4cfad2f11275da501a1464",
+      "evidence": [
+        "skillApplied",
+        "skillVerified"
+      ]
+    },
+    "legacyMcp": {
+      "status": "success",
+      "entriesBackedUpAndDisabled": 2,
+      "evidence": "mcpRetirement"
+    },
+    "installedDocumentation": {
+      "status": "Passed",
+      "indexStatus": 200,
+      "validationStatus": 200,
+      "startupPolicyStatus": 200,
+      "containsThisAddendum": false,
+      "evidence": "installedDocumentation"
+    },
+    "publicationBoundary": {
+      "repackaged": false,
+      "installedFilesModifiedByReportUpdate": false,
+      "packagedReportSha256": "643d201d32cf9895167af821ea3fd45a262708bccda22dc072a36c888e05babd",
+      "packagedReportSnapshot": "artifacts/install-0342-plan/validation-packaged.snapshot.json",
+      "packagedMarkdownSha256": "705a8650e5fb2c0a79b9a8061e75770d6af3865813a4982f382bcb569889e40a",
+      "packagedMarkdownSnapshot": "artifacts/install-0342-plan/workbench-validation-packaged.snapshot.md",
+      "standaloneHtml": "artifacts/install-0342-plan/acceptance-final.html",
+      "note": "安装包及已安装DocFX保持打包时快照；此追加结果只更新仓库报告与独立HTML。"
+    },
+    "limitations": [
+      "本次是E3D2.1.0.6 / DESIGN / NET48的指定实机范围，不能推广到AM、PDMS或E3D3.1。",
+      "官方BUTTON的tooltip没有可读成员，保留unavailable与原生错误；shown/active/visible/callback可读，不声称全部属性支持。",
+      "Form列表仅核验有界第一页，不是完整盘点；数组验证两页及空字符串保留。",
+      "真实新进程只验证环境NONE自动SkippedDisabled；启用等七项仍以此前参数注入记录为准。",
+      "启动配置以外的默认官方知识流程和完整工作台业务仍按各自实现范围验收。"
+    ]
+  }
+}

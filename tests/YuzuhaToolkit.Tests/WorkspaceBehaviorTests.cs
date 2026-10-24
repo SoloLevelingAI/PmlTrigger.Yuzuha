@@ -150,7 +150,7 @@ public sealed class WorkspaceBehaviorTests : IDisposable
     [Fact]
     public void MarineRejectsArgumentsThatCannotSurviveVendorBatchParsing()
     {
-        var profile = new LaunchProfile { Kind = "MarineBatch", Executable = Write("marine.bat", "fixture"), WorkingDirectory = DirectoryPath("working"), Project = "PRJ", User = "USER", Mdb = "/ALL", Module = "Design" };
+        var profile = new LaunchProfile { Product = "AM", Kind = "MarineBatch", Executable = Write("marine.bat", "fixture"), WorkingDirectory = DirectoryPath("working"), Project = "PRJ", User = "USER", Mdb = "/ALL", Module = "Outfitting" };
         Assert.Throws<ArgumentException>(() => LaunchService.Build(profile, "contains&operator"));
     }
 

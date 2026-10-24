@@ -1,6 +1,6 @@
 ---
 name: yuzuha-setup
-description: Install or update the extracted Yuzuha Windows Inno Setup distribution, or prepare optional MCP and runtime Skill integration, using a reviewed installation plan. Use for this archive's lifecycle, not live AVEVA operations.
+description: Install or update the extracted Yuzuha Windows Inno Setup distribution, or prepare optional CLI usage Skill integration, using a reviewed installation plan. Use for this archive's lifecycle, not live AVEVA operations.
 ---
 
 # Yuzuha Windows Setup
@@ -23,19 +23,13 @@ root as two levels above this skill directory; it contains `setup`, `skill`,
 3. Confirm the install directory and selected environment files/profiles.
    Keep `PmlTrigger` in the install folder name. Registry discovery is a
    recommendation, not authorization. Before generating a plan, resolve the
-   client's MCP/Skill choice. If the user has not specified it, ask once:
-   "是否同时为目标 AI 客户端注册 MCP、安装 Skill？可以都安装、仅选其中一项，或暂不接入。"
-   ("Register MCP and install the runtime Skill for your AI client as part of
-   this installation? Choose both, either one, or neither.") Wait for an answer;
-   silence is not a decline. Respect an already explicit choice without asking
-   again, including files-only/no-client requests.
-   For selected integrations, confirm the client, Windows account, exact MCP
-   configuration file and/or runtime Skill directory. Being invoked from
-   Workbuddy does not prove its configuration paths or supported format.
-   Verify existing configuration or client documentation; ask if unresolved.
-   Never treat TOML as JSON. Leave only declined/not-applicable targets blank.
-   Include AVEVA and selected client changes in the same preview. Do not defer
-   this question until installation finishes or register anything automatically.
+   client's runtime Skill choice. If it is not already explicit, ask once whether
+   to install the CLI usage Skill, then wait for the answer. Respect earlier choices.
+   Confirm the client, Windows account and exact supported runtime Skill directory.
+   CLI is installed as runtime/cli/PmlTwin.Phayton.Cli.exe and needs no MCP service.
+   This CLI-only distribution rejects any nonempty mcpJson request and does not
+   modify existing MCP entries. Never re-enable a disabled MCP as an installation
+   side effect. Include selected AVEVA and Skill changes in the same preview.
 4. Create a new request using `request.example.json` as a schema example,
    not as real paths. Keep `integrationMode: "aveva"` and initially empty
    environments; invoke `plan-auto` as documented, using the bundle's
@@ -63,5 +57,5 @@ installation side effect. Preserve user data and D-drive development files.
 
 Reading this skill guides the current task; it does not register a skill in
 the client. Permanent runtime Skill copying occurs only through the approved
-`skillTarget`. Report separately: files installed, client configuration written,
+`skillTarget`. Report separately: CLI/files installed, AVEVA configuration written,
 Skill files copied, and actual client loading tested or not tested.

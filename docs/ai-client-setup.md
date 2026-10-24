@@ -1,61 +1,46 @@
-# PmlTrigger：AI 客户端接入说明 / AI client setup
+# Phayton：AI 客户端接入 / AI client setup
 
-PmlTrigger 用于在 AVEVA PDMS、AM、E3D 中查询元素、读取属性和执行 PML。两个 EXE 是通过标准输入/输出通信的 **MCP stdio 服务端**，不是需要手动双击的桌面程序。AI 客户端启动它们并通过 MCP 获取工具清单。
+0.3.4.2 通过 `runtime/cli/PmlTwin.Phayton.Cli.exe` 接入 AI 客户端。客户端需要能够在 AVEVA 所在的 Windows 环境运行本地命令、传入 JSON 并读取 stdout 和退出码。CLI 直接调用业务服务或 AVEVA Host，独立 MCP 服务已禁用，无需配置 `mcpServers`。
 
-## 安装后必须重启
+## 安装与定位
 
-**安装、升级或修改 MCP 配置后，必须完全退出并重新启动使用它的 AI 客户端，再检查工具是否加载。仅新建聊天不等于重启。**
+使用正式 Inno 发行包 `Phayton-0.3.4.2-Windows-Setup.exe`，或包含该安装器的 `Phayton-0.3.4.2-Windows-Agent.zip`。按发行包中的 `INSTALL.md` 确认安装目录、AVEVA 环境和可选 Skill，并审阅具体计划后执行。开发/源码补充 ZIP 不提供安装或接入入口；旧 PS1 安装、更新及 MCP 注册步骤不适用。
 
-本机默认安装不需要修改 EVAR；不要为了注册 MCP 自动修改 EVAR。AVEVA Host 的环境配置是独立步骤。只有实际更改 Host 或 AVEVA 环境配置时，才需要完全重启 AVEVA。
+从安装目录找到 `runtime/cli/PmlTwin.Phayton.Cli.exe`；也可读取 `HKCU\Software\YuzuhaToolkit\Installations` 中的安装记录，核对实际路径和文件。将该绝对路径提供给客户端。支持 Skill 的客户端可加载随包 `yuzuha-toolkit`，其他客户端可将本页和 [CLI 契约](reference/cli.md) 作为调用说明。不同客户端不会自动共享 Skill；若客户端缓存了旧 Skill，按该客户端的方式重新加载后再核对当前入口。
 
-## 两个服务的职责
+## 先验证可用契约
 
-| 服务 | 程序 | 用途 |
-|---|---|---|
-| YuzuhaToolkit | runtime/net10/YuzuhaToolkit.Mcp.exe | 发现及连接 AVEVA 会话、生成和执行 PML、返回查询结果 |
-| YuzuhaToolkitKnowledge | runtime/net10/YuzuhaToolkit.Knowledge.exe | 检索本地项目、官方资料和经验知识库 |
+将下面路径替换为已经核对的安装路径：
 
-读取当前元素时，发现会话并连接目标后，查阅 `YuzuhaReadCurrentElement` 的签名及参数，再通过执行侧现有工具读取结果。`YuzuhaReadCurrentElement` 是 PML 函数，不是独立 MCP 工具。不要把知识库来源注册与连接 AVEVA 会话混为一谈。
-
-## 注册到 AI 客户端
-
-现有安装脚本自动注册的是 Codex。其他客户端不会自动继承 Codex 配置，也不会扫描 EXE 或自动读取 Codex Skill。请在目标客户端的 MCP 设置中添加两个本地 stdio 服务，使用各程序的绝对路径，参数为空。客户端必须支持启动本地 stdio 进程。
-
-支持 `mcpServers` JSON 的客户端可按下面结构合并配置；不要覆盖原有其他服务。将示例路径替换为实际安装目录。某些客户端使用不同配置结构，应使用其 MCP 设置页面。
-
-```json
-{
-  "mcpServers": {
-    "YuzuhaToolkit": {
-      "command": "C:\\Users\\YOUR_USER\\AppData\\Local\\YuzuhaToolkit\\PmlTrigger.Yuzuha\\runtime\\net10\\YuzuhaToolkit.Mcp.exe",
-      "args": []
-    },
-    "YuzuhaToolkitKnowledge": {
-      "command": "C:\\Users\\YOUR_USER\\AppData\\Local\\YuzuhaToolkit\\PmlTrigger.Yuzuha\\runtime\\net10\\YuzuhaToolkit.Knowledge.exe",
-      "args": []
-    }
-  }
-}
+```powershell
+$cli = 'C:\实际安装目录\PmlTrigger.Yuzuha\runtime\cli\PmlTwin.Phayton.Cli.exe'
+& $cli op list
+& $cli op describe aveva.session.status
+& $cli op invoke builtin.usage --input '{"query":"当前元素"}'
+& $cli op invoke aveva.sessions.list
 ```
 
-## 重启后的验收
+`op list` 和 `op describe` 提供实际操作 ID 与输入 Schema。返回零个 AVEVA 会话表示当前未发现目标，不等于 CLI 安装失败。知识查询同样通过此 CLI 的 `knowledge.*` 操作完成；普通检索与安装不会自动重建知识库。
 
-1. 在客户端工具列表确认两个服务均已加载；配置存在不等于握手成功。
-2. 调用 `list_aveva_sessions`。零会话表示没有发现可见目标窗口，不等于 MCP 安装失败。
-3. 选择返回的目标会话，确认 `TargetVerified=true`。未选择会话时出现 `E3D_TARGET_NOT_SELECTED` 是预期状态。
-4. 用知识库搜索 `YuzuhaReadCurrentElement`，再测试“查询当前元素”。精确名称也找不到时检查项目索引；仅自然语言找不到时检查检索映射。
+从发现结果选择正确 PID 和模块，再调用 `aveva.session.status --pid <实际PID> --expected-model <实际模块>`。AM 与 E3D 的模块不同，不要把 `DESIGN` 当作所有产品的固定值。每次 CLI 调用均独立核验目标，不共享前一进程中的选择状态。Host 或 AVEVA 环境配置更新后，先完整重启对应 AVEVA，再重新发现和核验。
 
-虚拟机使用时，本地 stdio MCP 和 AVEVA 应运行在同一台 Windows 环境。宿主机上的 MCP 不会通过现有本地会话发现和命名管道自动连接虚拟机里的 AVEVA。
+## JSON 输入与权限
 
-排障时记录：AI 客户端名称、两个 EXE 的绝对路径、服务启动错误、实际调用的工具及返回值。不要仅用“AI 不知道这个工具”判断安装结果。
+客户端可以通过 `--input-file` 或 `--input-stdin` 传入复杂 JSON。例如 `query.json` 内容为 `{"query":"当前元素"}`：
+
+```powershell
+& $cli op invoke builtin.usage --input-file query.json
+Get-Content query.json -Raw | & $cli op invoke builtin.usage --input-stdin
+```
+
+一次调用只使用一种输入来源。持久化写入、启动程序和执行 PML 分别需要 `--allow-write`、`--allow-launch`、`--allow-execution`；仅在用户已授权对应操作时传入。JSON 字段本身不能授予这些权限。
+
+保留 JSON 回执及退出码，检查 `success`、`error` 和底层 `data`；传输成功不等于业务成功。遇到超时、连接中断或 `mayHaveExecuted=true`，先核验实际结果，不自动重试可能已执行的命令。完整操作、批处理及退出码见 [CLI 文档](reference/cli.md)。
+
+CLI 和 AVEVA 必须位于同一台 Windows 环境；虚拟机内的 AVEVA 应由虚拟机内的 CLI 访问。排障时记录 CLI 绝对路径、操作 ID、目标 PID/模块和脱敏回执。不要重新启用旧 MCP 作为排障手段。
 
 ## English quick setup
 
-These executables are local MCP **stdio servers** launched by the AI client. Register both absolute executable paths with empty arguments in each supported client; Codex registration and Skills are not shared with other clients. Merge entries without replacing unrelated servers. Default local MCP setup does not require EVAR changes.
+Install the formal Inno distribution and follow its `INSTALL.md` preview/plan workflow. Locate the installed `runtime/cli/PmlTwin.Phayton.Cli.exe` and give its absolute path to a client capable of invoking local Windows commands. Load the optional Skill if supported, then inspect `op list` and `op describe` before invoking operations with JSON. There is no MCP registration step; independent MCP servers are disabled.
 
-**After installation, update, or MCP configuration changes, fully exit and restart the AI client. Opening another chat is not a restart.** Verify tools load, then call `list_aveva_sessions`. Keep the MCP process and AVEVA in the same Windows environment, including inside a VM. Restart AVEVA when its Host or environment configuration changes.
-## AVEVA 环境定位规则 / Environment setup
-
-通过注册表 `Get-ItemProperty` 或 `reg query` 定位安装，优先修改有效的 `Evar.INIT`；PDMS/AM 确认没有 INIT、只有 BAT 时才修改 `EVAR.BAT`。仅本机 MCP 注册不修改 EVAR。`-EvarBat` 接受 BAT 风格文件：`Evar.INIT` 本身即批处理语法，可直接传入，写入前自动备份，托管块尾置。
-
-[完整步骤 / Full procedure](aveva-discovery.md)
+Discover the actual AVEVA PID and module on the same Windows machine, verify them on each target call, and preserve both JSON receipts and exit codes. Write, launch and PML execution flags are separate and require authorization. Restart AVEVA after Host/environment changes. See the [CLI contract](reference/cli.md) for input formats, permissions and failure handling.

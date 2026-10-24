@@ -3,6 +3,7 @@ YuzuhaAddin.pmlobj
 YuzuhaRpc.pmlobj
 /Bootstrap/
 YuzuhaResolveRuntimePath.pmlfnc
+YuzuhaStartupPolicy.pmlobj
 /Examples/
 YuzuhaBoxExample.pmlobj
 YuzuhaCreateBoxExample.pmlfnc

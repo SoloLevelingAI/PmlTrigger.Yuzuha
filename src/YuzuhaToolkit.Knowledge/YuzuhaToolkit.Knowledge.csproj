@@ -27,6 +27,7 @@
     <ItemGroup>
         <!-- 检索与建库在 Core；本工程只保留 MCP 工具面与宿主编排。 -->
         <ProjectReference Include="../YuzuhaToolkit.Knowledge.Core/YuzuhaToolkit.Knowledge.Core.csproj" />
+        <ProjectReference Include="../YuzuhaToolkit.Mcp.Core/YuzuhaToolkit.Mcp.Core.csproj" />
         <ProjectReference Include="../YuzuhaToolkit.CommandLine/YuzuhaToolkit.CommandLine.csproj" />
         <ProjectReference Include="../YuzuhaToolkit.Workspace/YuzuhaToolkit.Workspace.csproj" />
         <PackageReference Include="Microsoft.Extensions.Hosting"

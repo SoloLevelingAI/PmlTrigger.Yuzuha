@@ -29,7 +29,7 @@ export function evidenceStatus(run,expected) {
 /** Explicit associations are validated against real declarations, API metadata and native PML sources. */
 export function createTestCatalog({declarations,cases=[],details=[],bindings,types,metadata,pml=[],repositoryUrl,revision}) {
   const tests=[...declarations,...cases].map(entry=>({...entry,id:testId(entry),
-    category:entry.category??(entry.project.includes('Architecture')?'architecture':entry.file.includes('DualModeCommandLine')?'cli-mcp-integration':'xunit'),
+    category:entry.category??(entry.project.includes('Architecture')?'architecture':entry.file.includes('DualModeCommandLine')?'native-cli-integration':'xunit'),
     url:'reference/tests/test-'+hash(testId(entry))+'.html',
     sourceUrl:repositoryUrl+'/blob/'+revision+'/'+entry.file.split('/').map(encodeURIComponent).join('/')+'#L'+entry.line+'-L'+entry.endLine,
     command:'& .\\scripts\\run-documented-test.ps1 -TestId '+quote(testId(entry)),

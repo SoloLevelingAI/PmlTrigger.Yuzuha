@@ -1,114 +1,74 @@
-------------------------------------------------------------------------
---
--- Copyright 2026 to current year. Apecha2.0. All rights reserved in original code only.
---
--- File:            YuzuhaResolveRuntimePath.pmlfnc
---   Type:          Function
---  
---
---    
---   Module:        design
---   Replaces:
---
--- Author:          HuangYuanTai
--- Created:         01/09/2026 19:35:25
---
---
--- Description:
--- Resolve the YuzuhaToolkit runtime path and namespace for the current
--- AVEVA application (E3D / Marine / PDMS). Sets !!YuzuhaRuntimePath,
--- !!YuzuhaNamespace and !!YuzuhaAutoSetup so the Addin can import the host.
---
--- NOTE: !folderName is the token matched against every PMLUI path. The
--- installer expects the package folder name to contain 'PmlTrigger'; a
--- Windows 8.3 short name (PMLTRI~1) still matches. When an install must
--- use a different folder name, the installer rewrites this token to the
--- first 6 upper-case letters/digits of that folder name and warns the
--- user, because a generic token can match the wrong PMLUI entry.
-------------------------------------------------------------------------
---
--- Functions defined:
---
---  Method call                                                           Return          Description
---  ===========                                                           ======          ===========
---  !!YuzuhaResolveRuntimePath()                                          -               Resolves the runtime path/namespace for E3D, Marine or PDMS and sets !!YuzuhaRuntimePath etc.
---
+-- <summary>Resolve the existing Host DLL from the current native product/version and registered PMLUI roots.</summary>
+-- <remarks><para>E3D 2.1 uses E3D2.1/net48; all E3D 3.1 patch releases use E3D3.1.6/net48; AM and PDMS use their compiled net35 profiles.</para><para>The installation folder token remains replaceable by Setup. Missing mappings or DLLs never claim a successful setup.</para></remarks>
 define function !!YuzuhaResolveRuntimePath()
-  -- $P 222
   !folderName = 'PMLTRI'
-  !localPaTH = false
-  !strPath = ''
-  !profile = ''
-  !dllPath = ''
   !!YuzuhaAutoSetup = FALSE
   !!YuzuhaRuntimePath = ''
+  !!YuzuhaInstallRoot = ''
   !!YuzuhaNamespace = 'YuzuhaToolkit.PmlHost'
-  !infoArr = !!fmsys.FMINFO()
-  !MODEL = !infoArr[0].SPLIT()[3]
-  if !localPaTH then
-    if !infoArr[0].MATCHwild('*Everything3D*') then
-      if !infoArr[2].MATCHwild('*1.1.0.0*') then
-        !!YuzuhaRuntimePath ='D:\AVEVA\AgentRuntimes\profiles\E3D2.1\net48\YuzuhaToolkit.PmlHost.Net48'
-      elseif !infoArr[0].MATCHwild('*Marine*') then
-        !!YuzuhaRuntimePath ='D:\AVEVA\AgentRuntimes\profiles\AM\net35\YuzuhaToolkit.PmlHost.Net35'
-      elseif !infoArr[0].MATCHwild('*PDMS*')   then
-        !!YuzuhaRuntimePath ='D:\AVEVA\AgentRuntimes\profiles\PDMS\net35\YuzuhaToolkit.PmlHost.Net35'
-      else
-      endif
+  -- Keep initialization in this already-indexed entry for upgrades with an existing pml.index.
+  !!PhaytonSession = Current Session
+  !!YuzuhaModel = !!PhaytonSession.module()
+  var !banner BANNER
+  var !productName BANNER NAME
+  !!PhaytonBanner = !banner
+  !!PhaytonProductName = !productName
+  !!PhaytonVersion = !banner.after(' Mk').before('[').split()[1]
+  !!PhaytonProduct = ''
+  !!YuzuhaProfile = ''
+  !!YuzuhaFramework = ''
+  !!YuzuhaInE3D = false
+  !upper = !banner.upcase()
+  if !upper.matchwild('*EVERYTHING3D*') or !upper.matchwild('*E3D*') then
+    !!PhaytonProduct = 'E3D'
+    !!YuzuhaInE3D = true
+    !!YuzuhaFramework = 'net48'
+    if !!PhaytonVersion.matchwild('2.1.*') or !!PhaytonVersion eq '2.1' then
+      !!YuzuhaProfile = 'E3D2.1'
+    elseif !!PhaytonVersion.matchwild('3.1.*') or !!PhaytonVersion eq '3.1' then
+      !!YuzuhaProfile = 'E3D3.1.6'
     endif
-    !!YuzuhaAutoSetup = TRUE
+  elseif !upper.matchwild('*MARINE*') or !upper.matchwild('*HULL AND OUTFITTING*') then
+    !!PhaytonProduct = 'AM'
+    !!YuzuhaProfile = 'AM'
+    !!YuzuhaFramework = 'net35'
+  elseif !upper.matchwild('*PDMS*') then
+    !!PhaytonProduct = 'PDMS'
+    !!YuzuhaProfile = 'PDMS'
+    !!YuzuhaFramework = 'net35'
+  endif
+  !!PhaytonSessionInfo = object ARRAY()
+  !!PhaytonSessionInfo.append('[0] Product<STRING> ' + !!PhaytonProduct)
+  !!PhaytonSessionInfo.append('[0] ProductName<STRING> ' + !!PhaytonProductName)
+  !!PhaytonSessionInfo.append('[0] Version<STRING> ' + !!PhaytonVersion)
+  !!PhaytonSessionInfo.append('[0] Module<STRING> ' + !!YuzuhaModel)
+  !!PhaytonSessionInfo.append('[0] HostProfile<STRING> ' + !!YuzuhaProfile)
+  !!PhaytonSessionInfo.append('[0] HostFramework<STRING> ' + !!YuzuhaFramework)
+  if !!YuzuhaProfile eq '' then
+    $p Phayton: no supported Host mapping for this native product/version.
+  endif
+  if !!YuzuhaProfile eq '' then
     return
+  endif
+  if !!YuzuhaFramework eq 'net35' then
+    !dllPath = 'runtime\profiles\' + !!YuzuhaProfile + '\net35\YuzuhaToolkit.PmlHost.Net35'
   else
-    var !profile evar Yuzuha
-    handle any
-      !profile = ''
-    endhandle
-    if !profile.length() gt 0 then
-      !!YuzuhaProfile = !profile
-      var !framework evar YuzuhaFramework
-      handle any
-        !framework = ''
-      endhandle
-      !framework = !framework.UPCASE()
-      if !framework.length() eq 0 then
-        if !profile.UPCASE() eq 'AM' or !profile.UPCASE() eq 'PDMS' then
-          !framework = 'NET35'
-        else
-          !framework = 'NET48'
-        endif
-      endif
-      if !framework eq 'NET35' then
-        !dllPath = 'runtime\profiles\' + !profile + '\net35\YuzuhaToolkit.PmlHost.Net35'
-      elseif !framework eq 'NET48' then
-        !dllPath = 'runtime\profiles\' + !profile + '\net48\YuzuhaToolkit.PmlHost.Net48'
-      else
-        $p Invalid YuzuhaFramework - expected net35 or net48
+    !dllPath = 'runtime\profiles\' + !!YuzuhaProfile + '\net48\YuzuhaToolkit.PmlHost.Net48'
+  endif
+  var !path evar PMLUI
+  !pathArr = !path.split(';')
+  do !mem values !pathArr
+    if !mem.UPCASE().match(!folderName) gt 0 then
+      !strPath = !mem.replace('PMLUI\','').replace('PMLUI','').replace('pmlui\','').replace('pmlui','')
+      !fullPath = !strPath + !dllPath
+      !dllFile = object FILE(!fullPath + '.dll')
+      if !dllFile.exists() then
+        !!YuzuhaInstallRoot = !strPath
+        !!YuzuhaRuntimePath = !fullPath
+        !!YuzuhaAutoSetup = TRUE
         return
       endif
     endif
-  endif
-  
-  var !path evar PMLUI
-  !pathArr = !path.split(';')
-  -- q var !pathArr
-  do !mem values !pathArr
-    if !mem.UPCASE().match(!folderName) gt 0 then
-      Q VAR !MEM
-      !str = part(!mem, -1, '\')
-      !strPath = !mem.replace('PMLUI\','').replace('PMLUI','')
-    Q VAR !STRPATH
-    endif
   enddo
-  if !strPath.length() gt 0 then
-    !fullpath = !strPath + !dllPath
-    !!YuzuhaRuntimePath = !fullpath
-    !!YuzuhaAutoSetup = TRUE
-    $p success Launch YuzuhaToolkit
-  else
-    $p YuzuhaResolveRuntimePath WARNING: no PMLUI path matched the folder token - the host DLL was not resolved
-    q var !folderName
-    q var !dllPath
-    q var !path
-    $p YuzuhaResolveRuntimePath hint: keep PmlTrigger in the install folder name, or fix the EVAR so the PMLUI path contains the token above
-  endif
+  $p Phayton: no installed Host DLL matches the native product/version and registered PMLUI roots.
 endfunction

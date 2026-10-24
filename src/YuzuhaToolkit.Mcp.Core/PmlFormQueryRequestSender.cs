@@ -11,7 +11,7 @@ public static class PmlFormQueryRequestSender
     {
         PmlFormQuery.Validate(query);
         if (identity.FormQueryVersion != 1)
-            throw new NotSupportedException("PML_UI_HOST_UNSUPPORTED: Form queries require Host protocol v1; rebuild and load the matching NET35/NET48 Host.");
+            throw new HostCapabilityException("PML_UI_HOST_UNSUPPORTED", "Form queries require Host protocol v1; rebuild and load the matching NET35/NET48 Host. No command was sent.");
         return service.RunPmlCommandAsync(new RunPmlCommandRequest { FormQuery = query }, cancellationToken);
     }
 }

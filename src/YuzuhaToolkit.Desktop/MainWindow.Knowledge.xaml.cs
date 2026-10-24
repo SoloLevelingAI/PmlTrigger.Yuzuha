@@ -69,8 +69,8 @@ public partial class MainWindow
         if (!string.Equals(target, UserDataPaths.KnowledgeDirectory(), StringComparison.OrdinalIgnoreCase) && UserDataPaths.Contains(UserDataPaths.InstallRoot, target))
             throw new IOException("新的知识目录请选择安装目录之外的位置。");
         var previous = _settings.KnowledgeDirectory; _settings.KnowledgeDirectory = target;
-        try { _settings.Save(); } catch { _settings.KnowledgeDirectory = previous; throw; }
-        Say("已保存共用知识库目录；新启动的 CLI/MCP 使用同一设置，正在运行的知识服务需重启。资料未自动搬移。");
+        try { SaveWorkspaceSnapshot("知识库目录设置"); } catch { _settings.KnowledgeDirectory = previous; throw; }
+        Say("已保存共用知识库目录；新启动的 CLI 使用同一设置，正在运行的知识服务需重启。资料未自动搬移。");
         _ = RefreshKnowledgeManagementAsync();
     });
     /// <summary>本窗口最近检索的有界显示记录，不冒充持久审计历史。</summary>

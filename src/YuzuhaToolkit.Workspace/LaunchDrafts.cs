@@ -12,10 +12,12 @@ public static class LaunchDrafts
         var folder = Path.GetDirectoryName(executable)!;
         var batch = Path.GetExtension(executable).Equals(".bat",StringComparison.OrdinalIgnoreCase) || Path.GetExtension(executable).Equals(".cmd",StringComparison.OrdinalIgnoreCase);
         var legacy = folder.Contains("PDMS",StringComparison.OrdinalIgnoreCase);
+        var marine = batch && !legacy && !Path.GetFileNameWithoutExtension(executable).Equals("pdms", StringComparison.OrdinalIgnoreCase);
         var profile = new LaunchProfile { Executable=executable, Kind=batch?"MarineBatch":"Monitor",
-            Product=legacy?"PDMS":"E3D", WorkingDirectory=folder, Module=batch?"Outfitting":"Design" };
+            Product=marine?"AM":legacy||batch?"PDMS":"E3D", WorkingDirectory=folder, Module=marine?"Outfitting":"Design" };
         if(!batch && File.Exists(Path.Combine(folder,"launch.init"))) profile.Initialization=Path.Combine(folder,"launch.init");
         var version = System.Text.RegularExpressions.Regex.Match(folder,@"\d+\.\d+(?:\.SP\d+)?",System.Text.RegularExpressions.RegexOptions.IgnoreCase).Value;
+        profile.Version = version;
         var userDirectory = batch ? Path.Combine(Directory.GetParent(folder)?.FullName??folder,"Data"+version,"pdmsuser")
             : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments),"AVEVA","USERDATA");
         if(Directory.Exists(userDirectory)) profile.WorkingDirectory=userDirectory;

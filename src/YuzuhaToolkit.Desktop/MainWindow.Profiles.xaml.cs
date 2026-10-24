@@ -41,6 +41,7 @@ public partial class MainWindow
         }
         finally { _refreshingProfileLibrary = false; }
         ShowProfileLibrarySelection();
+        RefreshLaunchProfileList();
     }
 
     private void ProfileLibraryFilterChanged(object sender, RoutedEventArgs e) => RefreshProfileLibrary();
@@ -61,60 +62,48 @@ public partial class MainWindow
     private void EditLibraryProfile(object sender, RoutedEventArgs e)
     {
         if (LibrarySelection(sender) is not { } profile) return;
-        ProfilesBox.SelectedItem = profile; Tabs.SelectedIndex = 0; ProfileDetailsExpander.IsExpanded = true; NameBox.Focus();
+        if (!AllowDiscardLaunchDraft()) return;
+        SelectLaunchProfile(profile); Tabs.SelectedIndex = 0; NameBox.Focus();
     }
 
-    private void DuplicateLibraryProfile(object sender, RoutedEventArgs e) => Try(() =>
+    private void DuplicateLibraryProfile(object sender, RoutedEventArgs e) => RunLaunchAction(() =>
     {
         if (LibrarySelection(sender) is not { } profile) return;
-        var copy = LaunchProfileCatalog.Duplicate(profile);
-        var names = _settings.Profiles.Select(item => item.Name).ToHashSet(StringComparer.OrdinalIgnoreCase);
-        for (var suffix = 2; names.Contains(copy.Name); suffix++) copy.Name = profile.Name + " · 副本 " + suffix;
-        _settings.Profiles.Add(copy);
-        try { _settings.Save(); } catch { _settings.Profiles.Remove(copy); throw; }
-        ReloadProfiles(); ProfileLibraryGrid.SelectedItem = copy;
-        Say("已保存独立副本。副本不复制密码，请在编辑时单独设置本机凭据。");
+        if (!AllowDiscardLaunchDraft()) return;
+        var copy = _launchProfiles.Duplicate(profile.Id, _profileRevision, true);
+        ReloadLaunchSnapshot(copy.Profile.Id);
+        ProfileLibraryGrid.SelectedItem = _settings.Profiles.FirstOrDefault(item => item.Id == copy.Profile.Id);
+        LifecycleMessage("已保存独立副本并记录修订。副本不复制密码，请单独设置本机凭据。");
     });
 
-    private void ToggleFavoriteProfile(object sender, RoutedEventArgs e) => Try(() =>
+    private void ToggleFavoriteProfile(object sender, RoutedEventArgs e) => RunLaunchAction(() =>
     {
         if (LibrarySelection(sender) is not { } profile) return;
-        profile.IsFavorite = !profile.IsFavorite;
-        try { _settings.Save(); } catch { profile.IsFavorite = !profile.IsFavorite; throw; }
-        RefreshProfileLibrary();
+        if (!AllowDiscardLaunchDraft()) return;
+        ApplyProfileCommit(_launchProfiles.SetFavorite(profile.Id, !profile.IsFavorite, _profileRevision, true), _selected?.Id);
     });
 
-    private void SetDefaultProfile(object sender, RoutedEventArgs e) => Try(() =>
+    private void SetDefaultProfile(object sender, RoutedEventArgs e) => RunLaunchAction(() =>
     {
         if (LibrarySelection(sender) is not { } profile) return;
-        var before = _settings.Profiles.Select(item => item.IsDefault).ToArray();
-        for (var index = 0; index < _settings.Profiles.Count; index++) _settings.Profiles[index].IsDefault = ReferenceEquals(_settings.Profiles[index], profile);
-        try { _settings.Save(); }
-        catch { for (var index = 0; index < before.Length; index++) _settings.Profiles[index].IsDefault = before[index]; throw; }
-        RefreshProfileLibrary(); Say("默认配置已更新；下次打开工作台时优先选中，不会自动启动工程。");
+        if (!AllowDiscardLaunchDraft()) return;
+        ApplyProfileCommit(_launchProfiles.SetDefault(profile.Id, _profileRevision, true), _selected?.Id);
+        LifecycleMessage("默认配置已更新；下次打开工作台时优先选中，不会自动启动工程。");
     });
 
     private void DeleteLibraryProfile(object sender, RoutedEventArgs e) => Try(() =>
     {
         if (LibrarySelection(sender) is not { } profile) return;
+        if (!AllowDiscardLaunchDraft()) return;
         var dialog = new ProfileDeleteDialog(profile, _settings.Profiles.Count - 1) { Owner = this };
         if (dialog.ShowDialog() == true) DeleteSavedProfile(profile);
     });
 
     private void DeleteSavedProfile(LaunchProfile profile)
     {
-        var index = _settings.Profiles.IndexOf(profile); if (index < 0) return;
-        _settings.Profiles.RemoveAt(index);
-        var next = profile.IsDefault ? _settings.Profiles.FirstOrDefault() : null;
-        var previousDefault = next?.IsDefault ?? false; if (next is not null) next.IsDefault = true;
-        try { _settings.Save(); }
-        catch { _settings.Profiles.Insert(index, profile); if (next is not null) next.IsDefault = previousDefault; throw; }
-        if (ReferenceEquals(_selected, profile))
-        {
-            _selected = null; ProfilesBox.SelectedItem = null; FillProfileFields(new());
-        }
-        ReloadProfiles();
-        Say("已删除本机配置。工程文件和运行中的会话保持原状。");
+        var selected = _selected?.Id == profile.Id ? null : _selected?.Id;
+        ApplyProfileCommit(_launchProfiles.Delete(profile.Id, _profileRevision, true), selected);
+        LifecycleMessage("已删除本机配置并保留历史。工程文件和运行中的会话保持原状。");
         if (profile.CredentialKey.Length > 0 && !_settings.Profiles.Any(item => item.CredentialKey == profile.CredentialKey))
         {
             try { WindowsCredentialStore.Delete(profile.CredentialKey); }
@@ -136,6 +125,7 @@ public partial class MainWindow
 
     private void VerifyProfileLibrarySmoke()
     {
+        MarkLaunchDraftClean();
         var original = _settings.Profiles[0];
         RefreshProfileLibrary(); ProfileLibraryGrid.SelectedItem = original;
         ToggleFavoriteProfile(this, new()); SetDefaultProfile(this, new());
@@ -155,6 +145,6 @@ public partial class MainWindow
         if (!confirmation.DeleteButton.IsEnabled) throw new InvalidOperationException("完整配置名称未解除删除确认。");
         confirmation.Close(); DeleteSavedProfile(copy);
         if (WorkspaceSettings.Load().Profiles.Any(profile => profile.Id == copy.Id)) throw new InvalidOperationException("被删除的配置仍残留在持久设置。");
-        ProfileLibrarySearch.Clear(); ProfilesBox.SelectedItem = original; NameBox.Text = "未保存的离线预览草稿";
+        ProfileLibrarySearch.Clear(); ProfilesBox.SelectedItem = _settings.Profiles.Single(profile => profile.Id == original.Id); NameBox.Text = "未保存的离线预览草稿";
     }
 }

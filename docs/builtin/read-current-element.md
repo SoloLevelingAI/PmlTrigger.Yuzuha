@@ -3,7 +3,7 @@
 Built-in function: !!YuzuhaReadCurrentElement(!size is REAL, !depth is REAL, !startStr is STRING) is ARRAY.
 Source: PMLLIB/Traversal/YuzuhaReadCurrentElement.pmlfnc.
 
-查询 PDMS/AM/E3D 当前元素时优先使用本函数。会话已经校验后，用 run_pml_command_list 读取表达式的返回数组。例如参数：
+查询 PDMS/AM/E3D 当前元素时优先使用本函数。会话已经校验后，用 CLI 的 `pml.array.read` 操作（显式 PID、模块与执行许可）读取表达式的返回数组。例如参数：
 ```json
 {"pmlCommand":"!!YuzuhaReadCurrentElement(30,2,'')","globalVar":"YuzuhaCurrentElementResult","deleteGlobalVar":true,"includeEmpty":false}
 ```

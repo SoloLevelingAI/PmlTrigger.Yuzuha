@@ -13,5 +13,6 @@
     <Compile Include="../../../src/Shared/PmlFormQuery.cs" Link="PmlFormQuery.cs" />
     <Compile Include="../../../src/YuzuhaToolkit.Mcp.Core/PmlFormQueryRequestSender.cs" Link="PmlFormQueryRequestSender.cs" />
     <Compile Include="../../../src/YuzuhaToolkit.Mcp.Core/BoundedArrayRequest.cs" Link="BoundedArrayRequest.cs" />
+    <Compile Include="../../../src/YuzuhaToolkit.Mcp.Core/HostCapabilityException.cs" Link="HostCapabilityException.cs" />
   </ItemGroup>
 </Project>

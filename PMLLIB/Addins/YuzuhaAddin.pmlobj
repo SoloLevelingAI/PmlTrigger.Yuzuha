@@ -43,113 +43,35 @@ endobject
 --
 ------------------------------------------------------------------------
 define method .YuzuhaAddin()
+  !this.YuzuhaVersion()
   -- Explicit opt-in startup policy; existing Host/Object calls retain their order.
   !this.ApplyStartupPolicy()
   handle any
-    $p Yuzuha startup policy failed; inspect the native error and startup report.
+    !!YuzuhaStartupReport = object ARRAY()
+    !!YuzuhaStartupReport.append('[0] Trace<STRING> CommandSessionStartup')
+    !!YuzuhaStartupReport.append('[0] Status<STRING> PolicyLoadFailed')
+    !!YuzuhaStartupReport.append('[0] Error<STRING> ' + !!error.text)
+    $p Phayton startup policy failed. Inspect !!YuzuhaStartupReport.
   endhandle
   !!YuzuhaRpc = object YuzuhaRpc()
   !!YuzuhaExecuter = object YuzuhaExcuter()
-  !this.YuzuhaVersion()
 endmethod
 
--- <summary>读取特殊启动环境，在 PML 就绪后、Host 建立前执行一次并保留日志。</summary>
--- <remarks><para>默认 none 不改变原行为。rehash-all 需要先写入开始记录；失败不重试，不保存模型。</para><para>EVAR 的下划线名称必须用引号；未定义的环境变量可能返回空串而不报错。</para></remarks>
+-- <summary>Apply the independent startup policy after native session initialization and before Host setup.</summary>
+-- <remarks><para>The installer adds the Bootstrap object to an existing pml.index transactionally; runtime startup does not rebuild the index merely to discover the policy.</para></remarks>
 define method .ApplyStartupPolicy()
-  !policy = ''
-  var !policy evar 'YUZUHA_STARTUP_ACTIONS'
-  handle any
-    !policy = ''
-  endhandle
-  !override = ''
-  var !override evar 'YUZUHA_STARTUP_OVERRIDE'
-  handle any
-    !override = ''
-  endhandle
-  if !override neq '' then
-    !policy = !override
-  endif
-  !policy = !policy.upcase()
-  if !policy eq '' or !policy eq 'NONE' then
-    return
-  endif
-  !already = false
-  !already = !!YuzuhaStartupApplied
-  handle any
-    !already = false
-  endhandle
-  if !already then
-    return
-  endif
-  !!YuzuhaStartupApplied = true
-  !!YuzuhaStartupReport = object array()
-  var !stamp CLOCK
-  !!YuzuhaStartupReport.append('[0] Time<STRING> ' + !stamp)
-  !!YuzuhaStartupReport.append('[0] Policy<STRING> ' + !policy)
-  !!YuzuhaStartupReport.append('[0] Phase<STRING> after-pml-init-before-host')
-  !launchId = 'external-launch'
-  var !launchId evar 'YUZUHA_STARTUP_ID'
-  handle any
-    !launchId = 'external-launch'
-  endhandle
-  if !launchId eq '' then
-    !launchId = 'external-launch'
-  endif
-  !!YuzuhaStartupReport.append('[0] LaunchId<STRING> ' + !launchId)
-  !logPath = ''
-  var !logPath evar 'YUZUHA_STARTUP_LOG'
-  handle any
-    !logPath = ''
-  endhandle
-  if !logPath eq '' then
-    var !temp evar TEMP
-    !logPath = !temp + '\YuzuhaStartup.log'
-  endif
-  !!YuzuhaStartupReport.append('[0] Status<STRING> Started')
-  !log = object FILE(!logPath)
-  !log.writeFile('APPEND', !!YuzuhaStartupReport)
-  handle any
-    !!YuzuhaStartupReport.append('[0] Error<STRING> ' + !!error.text)
-    $p Yuzuha startup action not executed: cannot write startup log.
-    return
-  endhandle
-  !outcome = object array()
-  if !policy eq 'REHASH-ALL' then
-    PML REHASH ALL
-    handle any
-      !outcome.append('[0] Status<STRING> Failed: ' + !!error.text)
-    elsehandle none
-      !outcome.append('[0] Status<STRING> Succeeded')
-    endhandle
-  else
-    !outcome.append('[0] Status<STRING> Rejected: unknown startup policy')
-  endif
-  !!YuzuhaStartupReport.appendArray(!outcome)
-  !log.writeFile('APPEND', !outcome)
-  handle any
-    $p Yuzuha startup result log failed; inspect !!YuzuhaStartupReport.
-  endhandle
+  !startup = object YuzuhaStartupPolicy()
+  !startup.Apply()
 endmethod
 
 define method .YuzuhaVersion()
-  !!YuzuhaInE3D = TRUE
-  VAR !Model VAR !!FMSYS.FMINFO()[1]
-  if !Model.upcase().matchwild('*DESIGN*').not() and !Model.upcase().matchwild('*OUTFITTING*').not()  then
-    return
-  endif
-  VAR !VERSION VAR !!FMSYS.FMINFO()[0]
-  !namespace = ''
-  if (!VERSION.upcase().matchwild('*EVERY*') ) then
-    !namespace =  'Aveva.Core.Presentation'
-  else
-    !namespace =  'Aveva.Pdms.Presentation'
-    !!YuzuhaInE3D = FALSE
-  endif
+  !!YuzuhaResolveRuntimePath()
   !this.YuzuhaInitTable()
 endmethod
 
 define method .YuzuhaInitTable()
   !this.Headings    = ARRAY()
+  !this.Data        = ARRAY()
   !this.Headings[1] = 'Name'
   !this.Headings[2] = 'DllName'
   !this.YuzuhaSetNameSpaceTable('Presentation', 'Aveva.Core.Presentation', 'Aveva.Pdms.Presentation')

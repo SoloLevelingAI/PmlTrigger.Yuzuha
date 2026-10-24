@@ -90,40 +90,40 @@
       "purpose": "向开发宿主的执行路径发送请求必须返回 404，确认没有暴露真实 PML 执行端点。"
     },
     {
-      "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.SameExecutableCanListItsRealMcpToolsFromCli",
-      "purpose": "从两个实际服务进程的 CLI 获取真实工具目录，核对各服务的代表工具。"
+      "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.NativeCliListsBothExecutionAndKnowledgeOperations",
+      "purpose": "Run the native CLI process and verify all execution, knowledge and launch operations are discoverable."
     },
     {
-      "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.DefaultAndExplicitMcpModesHaveIdenticalCatalogs",
-      "purpose": "分别启动默认与显式 --mcp 模式，核对同一服务的工具名称集合一致。"
+      "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.RemovedTransportModesExitWithoutStartingServer",
+      "purpose": "Verify default and explicit legacy MCP modes return MCP_DISABLED and terminate."
     },
     {
-      "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.BatchUsesOneMcpSessionAndReturnsOrderedOutcomes",
-      "purpose": "CLI batch 复用一个 MCP 进程，按输入顺序返回两个结果，并只启动一次服务。"
+      "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.NativeBatchReturnsOrderedOutcomesFromOneDispatcher",
+      "purpose": "Verify native batch returns ordered results through one direct dispatcher."
     },
     {
-      "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.BatchRetainsEarlierResultsAndDoesNotRunAfterProtocolFailure",
-      "purpose": "未知工具导致 batch 停止，保留先前结果且不执行后续信任文件写入。"
+      "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.NativeBatchRetainsEarlierResultsAndStopsOnUnknownOperation",
+      "purpose": "Retain earlier results and stop before later writes when a batch operation is unknown."
     },
     {
-      "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.DomainFailureStopsTheBatchBeforeAnyLaterWrite",
-      "purpose": "未选定工程会话的业务失败阻止后续 batch 项写入状态。"
+      "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.NativeBatchStopsOnTargetFailureBeforeLaterWrite",
+      "purpose": "Stop native batch on target failure before any later persistence."
     },
     {
-      "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.InvalidArgumentJsonIsRejectedBeforeStartingMcp",
-      "purpose": "错误 JSON 或非对象参数在启动 MCP 进程前被拒绝，并返回退出码 2。"
+      "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.InvalidJsonFailsBeforeNativeOperationDispatch",
+      "purpose": "Reject malformed and non-object JSON before native dispatch."
     },
     {
-      "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.InvalidTimeoutDoesNotStartTheServer",
-      "purpose": "零超时参数在启动服务前被拒绝。"
+      "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.InvalidTimeoutFailsBeforeDispatch",
+      "purpose": "Reject out-of-range timeout before operation dispatch."
     },
     {
-      "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.KnowledgeCliUsesBuiltinContentWithoutCreatingDatabase",
-      "purpose": "真实知识服务 CLI 返回当前元素内置内容，并且不建立数据库目录。"
+      "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.NativeKnowledgeUsesBuiltinContentWithoutCreatingDatabase",
+      "purpose": "Read embedded knowledge through the CLI without creating a database."
     },
     {
-      "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.NativeWorkspaceToolsAreCallableAndAuditRealMcpCalls",
-      "purpose": "通过真实 MCP 调用目录检查和状态工具，核对未选择会话的 MARKDB/ENDMARKDB 失败被写入活动记录。"
+      "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.WorkspaceOperationsAuditActualNativeCalls",
+      "purpose": "Persist real native operation outcomes and target failures in the local activity audit."
     },
     {
       "test": "xunit:YuzuhaToolkit.Tests.WorkspaceBehaviorTests.InspectorCountsAllFilesAndWarnsAboutDevelopmentArtifactsWithoutDeletingThem",
@@ -430,6 +430,110 @@
     {
       "test": "xunit:YuzuhaToolkit.Tests.UserDataManagementTests.MigrationFailureAfterFirstCopyRollsBackNewFilesAndRetainsExistingTargets",
       "purpose": "实际复制首个文件后遇到目标路径冲突，回退新增文件并保留旧数据、既有目标和设置。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.LaunchLifecycleTests.SavedProfileIsReadByNewServiceAndDraftDoesNotMutateFile",
+      "purpose": "Save to real temporary files, reopen through a new service, and keep unsaved drafts isolated."
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.LaunchLifecycleTests.InvalidProductModuleRejectsBeforePersistence",
+      "purpose": "Reject cross-product module values without writing configuration."
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.LaunchLifecycleTests.ProductCatalogUsesActualMarineValuesAndNeverClaimsMissingInstallationWasVerified",
+      "purpose": "Use native AM module values and distinguish fallback mapping from verified installation metadata."
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.LaunchLifecycleTests.ModuleMetadataIsResolvedFromSelectedInstallationOnly",
+      "purpose": "Read module evidence only from the selected installation."
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.LaunchLifecycleTests.JsonUpdatePreservesUnknownWorkspaceAndProfileFields",
+      "purpose": "Preserve unrelated extension fields during JSON patch updates."
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.LaunchLifecycleTests.FullProfileEditorAlsoPreservesExistingUnknownFields",
+      "purpose": "Preserve stored extension fields during complete profile replacement."
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.LaunchLifecycleTests.ConcurrentEditorsCannotOverwriteTheFirstSavedChange",
+      "purpose": "Reject a stale editor revision without overwriting the first commit."
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.LaunchLifecycleTests.SimultaneousCommitsHaveExactlyOneWinner",
+      "purpose": "Serialize competing commits and accept exactly one matching revision."
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.LaunchLifecycleTests.ExternalFileEditInvalidatesPreviouslyReadRevision",
+      "purpose": "Detect external file changes before a previously read revision can commit."
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.LaunchLifecycleTests.RestoreCreatesNewRevisionAndKeepsOtherProfilesAndOldHistory",
+      "purpose": "Restore one profile as a new revision while retaining unrelated changes and history."
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.LaunchLifecycleTests.RestoreRevalidatesCurrentPathsAndCannotSilentlyAcceptMissingEntry",
+      "purpose": "Revalidate a historical profile against current filesystem paths before restore."
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.LaunchLifecycleTests.DeletedProfileCanBeRecoveredFromPreviousRevision",
+      "purpose": "Recover a deleted profile from its archived revision."
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.LaunchLifecycleTests.InterruptedCommitRecoversToOldOrCommittedStateWithoutFalseHistory",
+      "purpose": "Inject commit interruptions and recover a consistent file/history state."
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.LaunchLifecycleTests.CorruptHistoricalSnapshotIsRejectedBeforeRestore",
+      "purpose": "Reject a modified historical snapshot rather than restore unverified content."
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.LaunchLifecycleTests.HigherSchemaAndDuplicateFieldsCannotBeSilentlyRewritten",
+      "purpose": "Reject future schema versions and ambiguous duplicate JSON fields."
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.LaunchLifecycleTests.LegacyWorkspaceWithoutSchemaOrRevisionIsArchivedBeforeFirstSave",
+      "purpose": "Archive legacy configuration before its first versioned save."
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.LaunchLifecycleTests.PermissionDenialAndUnknownPatchFieldsLeaveFileUntouched",
+      "purpose": "Reject missing write permission and unknown patch fields before persistence."
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.LaunchLifecycleTests.DuplicateDropsCredentialsAndDefaultButPreservesVersionAndExtensions",
+      "purpose": "Copy a profile without credentials/default state while retaining supported data."
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.LaunchLifecycleTests.FiltersFavoritesDefaultsAndHistoryUseSameService",
+      "purpose": "Verify combined filters, favorites, default selection and history through the service."
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.LaunchLifecycleTests.LegacyLoadSaveParticipatesInRevisionHistoryAndDetectsStaleEdit",
+      "purpose": "Keep legacy Load/Save callers within revision history and conflict detection."
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.LaunchOperationTests.EveryLaunchOperationUsesTheVersionedServiceAndOnlyExplicitStartCreatesAProcess",
+      "purpose": "Exercise all 16 launch operations through OperationExecutor with real temporary files; only explicit launch reaches the process test double."
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.NativeCliCapabilityTests.EveryFormerToolHasARealNativePositivePathAndRecordedFailureGates",
+      "purpose": "Exercise all 30 former business tools through native handlers and preserve per-operation positive and permission/input failure receipts; Host is synthetic."
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.NativeCliCapabilityTests.FileStdinAndInlineJsonUseTheSameDispatcherAndRejectAmbiguity",
+      "purpose": "Verify all JSON input transports and reject ambiguous sources."
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.NativeCliCapabilityTests.CliMetaCommandsDescribeEveryOperationAndNeverStartMcp",
+      "purpose": "Check list, describe and invocation contracts without starting MCP."
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.NativeCliCapabilityTests.ExplicitTargetAuthorizationProtocolAndTransportFailuresPreserveTruth",
+      "purpose": "Verify PID, module, authorization, protocol and transport errors remain failures with execution uncertainty."
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.NativeCliCapabilityTests.ChangedFunctionAndKnowledgeFailureDoNotBecomeSuccessfulWrappers",
+      "purpose": "Reject changed function source and failed knowledge operations without returning false success."
     }
   ],
   "cases": [
@@ -466,22 +570,22 @@
     {
       "id": "smoke:native-cli",
       "kind": "smoke",
-      "category": "native-aot-cli-mcp",
+      "category": "native-aot-cli",
       "file": "tests/cli_smoke.py",
       "entryPoint": "def check(runtime):",
       "runner": "native-cli",
-      "purpose": "发布两个 Native AOT 服务并比较 CLI、默认 MCP、显式 MCP 的工具和真实响应。",
+      "purpose": "发布原生 CLI，逐项核对全部操作契约，并实跑 UTF-8 JSON/file/stdin、目标与权限拒绝、批处理首错停止和 MCP_DISABLED。",
       "environment": "Windows x64 / .NET 10 SDK / MSVC C++ 工具链 / Python 3；无需 AVEVA",
       "expected": "离线套件全部断言通过；退出非零即失败。这不代表 AVEVA 实机通过。"
     },
     {
       "id": "smoke:native-builtin",
       "kind": "smoke",
-      "category": "native-aot-cli-mcp",
+      "category": "native-aot-cli",
       "file": "tests/v03/builtin_smoke.py",
       "entryPoint": "with tempfile.TemporaryDirectory(prefix='yuzuha-builtin-')",
       "runner": "native-builtin",
-      "purpose": "从 Native AOT 服务验证无数据库内置指南及优先级。",
+      "purpose": "从原生 CLI 验证无数据库内置指南、当前安装指引、隔离 SQLite 资料导入与官方补充资料查询。",
       "environment": "Windows x64 / .NET 10 SDK / MSVC C++ 工具链 / Python 3；无需 AVEVA",
       "expected": "离线套件全部断言通过；退出非零即失败。这不代表 AVEVA 实机通过。"
     },
@@ -640,6 +744,17 @@
       "purpose": "人工在自有 AVEVA 测试会话中逐步验证会话、登记授权、Form/Gadget 与数组流程及错误恢复，不保存工程。",
       "environment": "AVEVA NET35/NET48 对应 Host / Windows WPF / 自有测试文件",
       "expected": "三条流程和错误恢复完成并记录本次环境与证据；未运行保持 NotRun。"
+    },
+    {
+      "id": "smoke:workbench-launch-lifecycle",
+      "name": "Launch lifecycle JSON and TOML",
+      "kind": "smoke",
+      "runner": "workbench-lifecycle",
+      "file": "scripts/run-workbench-scenario.py",
+      "entryPoint": "def run_scenario(",
+      "purpose": "Execute equivalent TOML and JSON launch lifecycle scenarios using fresh CLI processes and real isolated configuration files; retain input/output, revisions and HTML reports.",
+      "environment": "Windows / .NET 10 SDK / Python 3.11+; isolated files, no AVEVA launch",
+      "expected": "Both formats execute all 15 steps successfully; parser rejection tests pass; zero execution fails."
     }
   ],
   "bindings": [
@@ -836,8 +951,8 @@
       ]
     },
     {
-      "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.RegisteredFunctionPermissionIsEnforcedBeforeRealMcpDispatch",
-      "purpose": "真实 MCP 验证默认拒绝、授权后目标核验、源码变化拒绝及数组工具入口。",
+      "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.NativeFunctionPermissionAndSourceAreCheckedBeforeHostConnection",
+      "purpose": "Reject denied or changed registered functions before connecting to the Host.",
       "targets": [
         {
           "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.PmlFunctionTools",
@@ -889,8 +1004,8 @@
       ]
     },
     {
-      "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.CliAndMcpReturnTheSameGeneratedPml",
-      "purpose": "真实 CLI 和 MCP 服务进程生成相同 PML 文本。",
+      "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.InlineFileAndStdinReturnIdenticalGeneratedPml",
+      "purpose": "Verify inline, file and stdin JSON produce the same PML without a server subprocess.",
       "targets": [
         {
           "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.PmlCallTools",
@@ -1226,8 +1341,8 @@
       ]
     },
     {
-      "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.FormQueryToolsExposeBoundsAndRequireExplicitTarget",
-      "purpose": "通过真实 MCP 检查三个查询工具及预算参数，确认未选择目标和注入名称返回明确错误。",
+      "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.NativeFormQueriesDescribeBoundsAndRequireExplicitTarget",
+      "purpose": "Expose form-query bounds and reject requests without an explicit target.",
       "targets": [
         {
           "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.PmlFormTools",

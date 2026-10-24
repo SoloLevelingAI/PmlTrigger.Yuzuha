@@ -101,21 +101,8 @@ public partial class MainWindow
         if (ReferenceEquals(e.Source, KnowledgePages) || ReferenceEquals(e.Source, SettingsPages)) UpdateR2Navigation(PageTitleText.Text);
     }
 
-    private void ChooseModule(object sender, RoutedEventArgs e)
-    {
-        if (sender is Button { Tag: string module }) { ModuleBox.Text = module; UpdateModuleButtons(); }
-    }
-    private void ModuleChanged(object sender, RoutedEventArgs e) => UpdateModuleButtons();
-    private void UpdateModuleButtons()
-    {
-        if (DesignModuleButton is null || ModuleBox is null) return;
-        foreach (var button in new[] { DesignModuleButton, ParagonModuleButton, DrawModuleButton })
-        {
-            var active = string.Equals(ModuleBox.Text, button.Tag?.ToString(), StringComparison.OrdinalIgnoreCase);
-            button.SetResourceReference(BackgroundProperty, active ? "Surface.TintBrand" : "Surface.Card");
-            button.SetResourceReference(BorderBrushProperty, active ? "Accent.Brand" : "Border.Default");
-        }
-    }
+    private void ModuleChanged(object sender, RoutedEventArgs e) => UpdateLaunchDraftState();
+    private void UpdateModuleButtons() => UpdateLaunchDraftState();
 
     private void MinimizeWindow(object sender, RoutedEventArgs e) => SystemCommands.MinimizeWindow(this);
     private void ToggleMaximizeWindow(object sender, RoutedEventArgs e)
@@ -154,10 +141,10 @@ public partial class MainWindow
         var mdb = MdbBox.Text; editor.Text = "/CUSTOM_R2";
         if (ReadProfile().Mdb != "/CUSTOM_R2") throw new InvalidOperationException("MDB 手动输入未进入启动草稿。");
         MdbBox.Text = mdb;
-        var module = ModuleBox.Text;
-        ChooseModule(ParagonModuleButton, new());
-        if (ReadProfile().Module != "PARAGON") throw new InvalidOperationException("模块卡片未连接既有启动参数。");
-        ModuleBox.Text = module; UpdateModuleButtons();
+        var module = ReadModuleValue();
+        ModuleBox.SelectedValue = "Paragon";
+        if (!ReadProfile().Module.Equals("Paragon", StringComparison.OrdinalIgnoreCase)) throw new InvalidOperationException("模块选项未连接既有启动参数。");
+        RefreshProductModules(module, false);
         SettingsPages.SelectedIndex = 0; KnowledgePages.SelectedIndex = 0;
     }
 }

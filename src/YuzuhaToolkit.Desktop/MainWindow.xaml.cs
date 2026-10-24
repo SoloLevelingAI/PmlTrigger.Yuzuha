@@ -16,7 +16,7 @@ namespace YuzuhaToolkit.Desktop;
 /// <summary>同一窗口管理启动、插件目录和本机 AI 工具活动；后台扫描不阻塞 UI。</summary>
 public partial class MainWindow : Window
 {
-    private readonly WorkspaceSettings _settings;
+    private WorkspaceSettings _settings;
     private readonly RuntimeJournal _journal = new("Yuzuha 原生启动台");
     private readonly DispatcherTimer _timer = new() { Interval = TimeSpan.FromSeconds(2) };
     private DeploymentPlan? _plan;
@@ -30,7 +30,8 @@ public partial class MainWindow : Window
     /// <summary>读取已有无密码配置，建立状态轮询；不自动启动 AVEVA 或复制插件。</summary>
     public MainWindow()
     {
-        InitializeComponent(); _settings = WorkspaceSettings.Load();
+        InitializeComponent(); _settings = _launchProfiles.Read().Value;
+        SidebarFooter.Text = "Phayton · " + FileVersionInfo.GetVersionInfo(typeof(MainWindow).Assembly.Location).FileVersion;
         Loaded += (_, _) => NativeWindowFrame.Attach(this);
         InitializeKnowledge();
         Width = Math.Min(Width, Math.Max(MinWidth, SystemParameters.WorkArea.Width - 16));
@@ -44,6 +45,7 @@ public partial class MainWindow : Window
         RegisteredBox.Text = _settings.RegisteredPmlLib; SourceBox.Text = _settings.PluginSource; PluginBox.Text = _settings.PluginName;
         WarnFilesBox.Text = _settings.WarnFiles.ToString(); WarnSizeBox.Text = (_settings.WarnBytes / 1048576).ToString();
         ReloadProfiles(); if (_settings.Profiles.Count > 0) ProfilesBox.SelectedItem = _settings.Profiles.FirstOrDefault(profile => profile.IsDefault) ?? _settings.Profiles[0];
+        InitializeLaunchLifecycle();
         _timer.Tick += async (_, _) => await RefreshRuntimeAsync(); _timer.Start();
         Loaded += async (_, _) => { await RefreshRuntimeAsync(); await DiscoverAsync(); SessionView.RefreshCandidates(); };
         Closed += (_, _) => { _closed = true; _timer.Stop(); StopDocumentation(); SessionView.Dispose(); _journal.Dispose(); };
@@ -174,70 +176,81 @@ public partial class MainWindow : Window
     }
     private LaunchProfile ReadProfile() => new()
     {
-        Id = _selected?.Id ?? Guid.NewGuid().ToString("N"), IsFavorite = _selected?.IsFavorite ?? false,
+        Id = _selected?.Id ?? _draftId, IsFavorite = _selected?.IsFavorite ?? false,
         IsDefault = _selected?.IsDefault ?? false, LastStartedUtc = _selected?.LastStartedUtc,
         Name = NameBox.Text.Trim(), Kind = ((ComboBoxItem)KindBox.SelectedItem).Content.ToString()!, Executable = ExecutableBox.Text.Trim(),
-        Initialization = InitializationBox.Text.Trim(), Product = ProductBox.Text.Trim(), WorkingDirectory = WorkingBox.Text.Trim(),
-        Project = ProjectBox.Text.Trim(), User = UserBox.Text.Trim(), Mdb = MdbBox.Text.Trim(), Module = ModuleBox.Text.Trim(), License = LicenseBox.Text.Trim(),
+        Initialization = InitializationBox.Text.Trim(), Product = ProductBox.Text.Trim(), Version = VersionBox.Text.Trim(), WorkingDirectory = WorkingBox.Text.Trim(),
+        Project = ProjectBox.Text.Trim(), User = UserBox.Text.Trim(), Mdb = MdbBox.Text.Trim(), Module = ReadModuleValue(), License = LicenseBox.Text.Trim(),
         Environment = ReadStartupEnvironment(), CredentialKey = _selected?.CredentialKey ?? "", RememberPassword = RememberPasswordBox.IsChecked == true
     };
     private void ProfileSelected(object sender, SelectionChangedEventArgs e)
     {
-        if (ProfilesBox.SelectedItem is not LaunchProfile profile) return; _selected = profile;
-        FillProfileFields(profile);
+        if (_fillingLaunchDraft || ProfilesBox.SelectedItem is not LaunchProfile profile || profile.Id == _selected?.Id) return;
+        if (_launchLifecycleReady && !AllowDiscardLaunchDraft())
+        {
+            _fillingLaunchDraft = true; ProfilesBox.SelectedItem = _selected; _fillingLaunchDraft = false; return;
+        }
+        _selected = profile; FillProfileFields(profile);
+        if (_launchLifecycleReady) { RefreshLaunchProfileList(); LoadLaunchHistory(); }
     }
     private void FillProfileFields(LaunchProfile profile)
     {
-        FillStartupPolicy(profile);
-        NameBox.Text = profile.Name; KindBox.SelectedIndex = profile.Kind == "MarineBatch" ? 1 : 0;
-        ExecutableBox.Text = profile.Executable; InitializationBox.Text = profile.Initialization; ProductBox.Text = profile.Product;
-        WorkingBox.Text = profile.WorkingDirectory; ProjectBox.Text = profile.Project; UserBox.Text = profile.User;
-        fillingLaunchApplication=true;
-        try { LaunchApplicationBox.SelectedItem=LaunchApplicationBox.Items.OfType<ApplicationChoice>().FirstOrDefault(c=>c.Path.Equals(profile.Executable,StringComparison.OrdinalIgnoreCase)); }
-        finally { fillingLaunchApplication=false; }
-        LaunchApplicationSummary.Text=profile.Executable.Length==0?"选择产品后自动填写路径。":profile.Executable;
-        MdbBox.Text = profile.Mdb; ModuleBox.Text = profile.Module; UpdateModuleButtons(); LicenseBox.Text = profile.License; PasswordInput.Clear();
-        RememberPasswordBox.IsChecked = profile.RememberPassword;
-        PasswordStatusText.Text = profile.CredentialKey.Length > 0 ? "已关联本机凭据；下次启动自动使用。输入新密码可更新。" : "尚未保存密码。勾选后点击保存配置或保存并启动。";
+        _fillingLaunchDraft = true;
+        try
+        {
+            _draftId = profile.Id; FillStartupPolicy(profile);
+            NameBox.Text = profile.Name; KindBox.SelectedIndex = profile.Kind == "MarineBatch" ? 1 : 0;
+            ExecutableBox.Text = profile.Executable; InitializationBox.Text = profile.Initialization; ProductBox.Text = profile.Product; VersionBox.Text = profile.Version;
+            WorkingBox.Text = profile.WorkingDirectory; ProjectBox.Text = profile.Project; UserBox.Text = profile.User;
+            fillingLaunchApplication = true;
+            try { LaunchApplicationBox.SelectedItem = LaunchApplicationBox.Items.OfType<ApplicationChoice>().FirstOrDefault(choice => choice.Path.Equals(profile.Executable, StringComparison.OrdinalIgnoreCase)); }
+            finally { fillingLaunchApplication = false; }
+            LaunchApplicationSummary.Text = profile.Executable.Length == 0 ? "选择本机入口后自动填写安装路径。" : profile.Executable;
+            MdbBox.Text = profile.Mdb; ModuleBox.Text = profile.Module; LicenseBox.Text = profile.License; PasswordInput.Clear();
+            RememberPasswordBox.IsChecked = profile.RememberPassword;
+            PasswordStatusText.Text = profile.CredentialKey.Length > 0 ? "已关联本机凭据；若该凭据已删除，请重新输入密码。" : "尚未保存密码。密码正文不会进入配置历史。";
+        }
+        finally { _fillingLaunchDraft = false; }
+        RefreshProductModules(profile.Module, chooseDefault: false); MarkLaunchDraftClean();
     }
     private void NewProfile(object sender, RoutedEventArgs e)
     {
-        var application=LaunchApplicationBox.SelectedItem as ApplicationChoice;
-        ProfilesBox.SelectedItem = null; _selected = null;
+        if (!AllowDiscardLaunchDraft()) return;
+        var application = LaunchApplicationBox.SelectedItem as ApplicationChoice;
+        _fillingLaunchDraft = true; ProfilesBox.SelectedItem = null; _fillingLaunchDraft = false; _selected = null;
         var profile = application is null ? new LaunchProfile() : LaunchDrafts.FromApplication(application.Path);
-        FillProfileFields(profile);
-        Tabs.SelectedIndex = 0; ProfileDetailsExpander.IsExpanded = false; LaunchPathsExpander.IsExpanded=false;
-        if(application is null) LaunchApplicationBox.Focus(); else ProjectBox.Focus();
+        FillProfileFields(profile); RefreshProductModules(profile.Module, chooseDefault: true); MarkLaunchDraftClean();
+        Tabs.SelectedIndex = 0; ProfileDetailsExpander.IsExpanded = false; LaunchPathsExpander.IsExpanded = false;
+        RefreshLaunchProfileList(); LoadLaunchHistory();
+        if (application is null) LaunchApplicationBox.Focus(); else ProjectBox.Focus();
     }
-    private void SaveProfile(object sender, RoutedEventArgs e) => Try(() => { var profile = PersistProfile(); Say(profile.CredentialKey.Length > 0 ? "已保存配置并关联本机凭据，下次启动自动使用。" : "已保存配置；当前没有关联已保存的密码。"); });
+    private void SaveProfile(object sender, RoutedEventArgs e) => RunLaunchAction(() =>
+    {
+        var profile = PersistProfile();
+        LifecycleMessage("已保存配置并生成修订；重新打开仍会保留。下一次启动使用这些参数。" +
+            (profile.CredentialKey.Length > 0 ? "已关联本机凭据。" : "当前未关联密码。"));
+    });
     private LaunchProfile PersistProfile()
     {
         var profile = ReadProfile();
-        if (string.IsNullOrWhiteSpace(profile.Name) || profile.Name=="新启动配置")
-        {
-            profile.Name=LaunchDrafts.SuggestName(profile);
-            if(profile.Name.Length==0) profile.Name="新启动配置";
-        }
-        var index = _selected is null ? -1 : _settings.Profiles.IndexOf(_selected);
-        var previous = _selected; var oldKey = previous?.CredentialKey ?? "";
-        // Turning off storage must not silently remove an existing password from the daily launch page.
-        // Destructive removal is only available through Settings and its explicit confirmation.
-        profile.CredentialKey = !profile.RememberPassword && oldKey.Length>0 ? oldKey
+        if (string.IsNullOrWhiteSpace(profile.Name) || profile.Name == "新启动配置")
+            profile.Name = LaunchDrafts.SuggestName(profile);
+        var preview = _launchProfiles.PreviewSave(profile, _profileRevision);
+        if (!preview.Validation.IsValid)
+            throw new ArgumentException(string.Join("\n", preview.Validation.Issues.Select(issue => issue.Field + "：" + issue.Message)));
+        var oldKey = _selected?.CredentialKey ?? "";
+        profile.CredentialKey = !profile.RememberPassword && oldKey.Length > 0 ? oldKey
             : WindowsCredentialStore.Prepare(oldKey, PasswordInput.Password, profile.RememberPassword);
-        try
-        {
-            if (index < 0) _settings.Profiles.Add(profile); else _settings.Profiles[index] = profile;
-            SaveWorkspaceFields();
-        }
+        ConfigCommit<WorkspaceSettings> commit;
+        try { commit = _launchProfiles.Save(profile, _profileRevision, true); }
         catch
         {
-            if (index < 0) _settings.Profiles.Remove(profile); else _settings.Profiles[index] = previous!;
             if (profile.CredentialKey != oldKey) WindowsCredentialStore.Delete(profile.CredentialKey);
             throw;
         }
-        ReloadProfiles(); ProfilesBox.SelectedItem = profile;
+        ApplyProfileCommit(commit, profile.Id);
         if (oldKey != profile.CredentialKey && !_settings.Profiles.Any(item => item.CredentialKey == oldKey)) WindowsCredentialStore.Delete(oldKey);
-        return profile;
+        return _settings.Profiles.Single(item => item.Id == profile.Id);
     }
     private void ClearSavedPassword(object sender, RoutedEventArgs e) => Try(() =>
     {
@@ -245,10 +258,10 @@ public partial class MainWindow : Window
         { Say("此配置没有已保存的密码。"); return; }
         if(MessageBox.Show(this,$"清除“{profile.Name}”已保存的登录密码？\n下次登录需要重新输入，配置本身会保留。",
             "确认清除已存密码",MessageBoxButton.YesNo,MessageBoxImage.Warning,MessageBoxResult.No)!=MessageBoxResult.Yes) return;
-        var oldKey=profile.CredentialKey; var remember=profile.RememberPassword;
-        profile.CredentialKey=""; profile.RememberPassword=false;
-        try { _settings.Save(); }
-        catch { profile.CredentialKey=oldKey; profile.RememberPassword=remember; throw; }
+        var oldKey = profile.CredentialKey;
+        var copy = JsonSerializer.Deserialize<LaunchProfile>(JsonSerializer.Serialize(profile))!;
+        copy.CredentialKey = ""; copy.RememberPassword = false;
+        ApplyProfileCommit(_launchProfiles.Save(copy, _profileRevision, true, "清除配置凭据关联"), copy.Id);
         if(!_settings.Profiles.Any(p=>p.CredentialKey==oldKey)) WindowsCredentialStore.Delete(oldKey);
         if(_selected?.Id==profile.Id)
         { RememberPasswordBox.IsChecked=false; PasswordInput.Clear(); PasswordStatusText.Text="已清除保存的密码，下次请重新输入。"; }
@@ -275,14 +288,14 @@ public partial class MainWindow : Window
             {
                 using var process = Process.Start(start) ?? throw new IOException("未创建启动入口进程。");
                 _journal.Complete(id, "succeeded", "启动入口进程 PID " + process.Id);
-                Say("启动入口已创建，PID " + process.Id + "。工程会话就绪后可由 MCP 发现并选择；入口进程创建不等于登录完成。");
+                Say("启动入口已创建，PID " + process.Id + "。工程会话就绪后可由工作台或 CLI 发现并选择；入口进程创建不等于登录完成。");
                 profile.LastStartedUtc = DateTimeOffset.UtcNow;
-                try { _settings.Save(); RefreshProfileLibrary(); }
+                try { ApplyProfileCommit(_launchProfiles.Save(profile, _profileRevision, true, "记录启动入口创建时间"), profile.Id); }
                 catch (Exception error) { Say("启动入口已创建，PID " + process.Id + "；最近启动记录未保存：" + error.Message); }
             }
             catch (Exception error) { _journal.Complete(id, "failed", error.Message); throw; }
         }
-        catch (Exception error) { Say(error.Message); }
+        catch (Exception error) { LifecycleMessage(error.Message, true); }
         finally { PasswordInput.Clear(); LaunchButton.IsEnabled = true; }
     }
 
@@ -319,7 +332,7 @@ public partial class MainWindow : Window
     private void SaveWorkspaceFields()
     {
         _settings.RegisteredPmlLib = RegisteredBox.Text.Trim(); _settings.PluginSource = SourceBox.Text.Trim(); _settings.PluginName = PluginBox.Text.Trim();
-        _settings.WarnFiles = int.Parse(WarnFilesBox.Text); _settings.WarnBytes = checked(long.Parse(WarnSizeBox.Text) * 1048576); _settings.Save();
+        _settings.WarnFiles = int.Parse(WarnFilesBox.Text); _settings.WarnBytes = checked(long.Parse(WarnSizeBox.Text) * 1048576); SaveWorkspaceSnapshot("目录与清理提醒设置");
     }
     private void SaveWorkspace(object sender, RoutedEventArgs e) => Try(() => { SaveWorkspaceFields(); Say("已保存目录设置；未修改 EVAR 或注册表。"); });
     private async Task<DirectoryHealth> ScanAsync()
@@ -422,13 +435,13 @@ public partial class MainWindow : Window
     /// <param name="outputDirectory">本机截图和合成验证报告目录。</param>
     public async Task RunSmokeAsync(string outputDirectory)
     {
-        Directory.CreateDirectory(outputDirectory); _timer.Stop(); await DiscoverAsync();
+        _launchSmokeRunning = true; Directory.CreateDirectory(outputDirectory); _timer.Stop(); await DiscoverAsync();
         MaintainerText.Text = "演示工作空间";
         var fixtureDirectory = Path.Combine(outputDirectory, "fixture"); Directory.CreateDirectory(fixtureDirectory);
         var launcher = Path.Combine(fixtureDirectory, "mon.exe"); File.WriteAllBytes(launcher, []);
         var initialization = Path.Combine(fixtureDirectory, "launch.init"); File.WriteAllText(initialization, "UI fixture only");
         NameBox.Text = "未保存的离线预览草稿"; ExecutableBox.Text = launcher; InitializationBox.Text = initialization; WorkingBox.Text = fixtureDirectory;
-        ProjectBox.Text = "SYNTHETIC"; UserBox.Text = "UI_TEST"; MdbBox.Text = "/ALL_NO_MDS"; ModuleBox.Text = "Design";
+        ProjectBox.Text = "SYNTHETIC"; UserBox.Text = "UI_TEST"; MdbBox.Text = "/ALL_NO_MDS"; VersionBox.Text = "2.1"; RefreshProductModules("DESIGN", true);
         PreviewLaunch(this, new()); LaunchButton.IsEnabled = false;
         var credentialProfile = default(LaunchProfile);
         try
@@ -441,7 +454,7 @@ public partial class MainWindow : Window
         }
         finally
         {
-            if (credentialProfile is not null) { WindowsCredentialStore.Delete(credentialProfile.CredentialKey); credentialProfile.CredentialKey = ""; _settings.Save(); }
+            if (credentialProfile is not null) { WindowsCredentialStore.Delete(credentialProfile.CredentialKey); credentialProfile.CredentialKey = ""; ApplyProfileCommit(_launchProfiles.Save(credentialProfile, _profileRevision, true, "清理隔离凭据夹具"), credentialProfile.Id); }
             PasswordInput.Clear(); PasswordStatusText.Text = "离线凭据存取验证已清理；未启动 AVEVA。";
         }
         NameBox.Text = "未保存的离线预览草稿";

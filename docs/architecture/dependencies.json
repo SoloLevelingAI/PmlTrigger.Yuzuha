@@ -21,7 +21,7 @@
     },
     "YuzuhaToolkit.CommandLine": {
       "id": "cli",
-      "title": "CLI / MCP 双入口适配",
+      "title": "历史命令行兼容支持",
       "references": [
         "YuzuhaToolkit.Workspace"
       ]
@@ -32,13 +32,14 @@
       "references": [
         "PlantHost.Rpc.Net10",
         "YuzuhaToolkit.CommandLine",
+        "YuzuhaToolkit.Knowledge.Core",
         "YuzuhaToolkit.Workspace",
         "PmlTwin.Phayton"
       ]
     },
     "YuzuhaToolkit.Mcp": {
       "id": "mcp",
-      "title": "执行工具入口 · CLI / MCP · Native AOT",
+      "title": "历史执行入口 · MCP 已禁用",
       "references": [
         "YuzuhaToolkit.Mcp.Core"
       ]
@@ -52,10 +53,11 @@
     },
     "YuzuhaToolkit.Knowledge": {
       "id": "knowledge",
-      "title": "知识工具入口 · CLI / MCP · Native AOT",
+      "title": "历史知识入口 · MCP 已禁用",
       "references": [
         "YuzuhaToolkit.CommandLine",
         "YuzuhaToolkit.Knowledge.Core",
+        "YuzuhaToolkit.Mcp.Core",
         "YuzuhaToolkit.Workspace"
       ]
     },
@@ -89,7 +91,7 @@
     },
     "PmlTwin.Phayton.Cli": {
       "id": "operations-cli",
-      "title": "操作命令行入口",
+      "title": "原生 CLI 主入口 · JSON 与底层直接调用",
       "references": [
         "PmlTwin.Phayton",
         "YuzuhaToolkit.Mcp.Core"

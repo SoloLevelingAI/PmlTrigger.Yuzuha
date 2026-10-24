@@ -208,7 +208,8 @@ public sealed class PmlFormQueryTests
     public async Task OldHostIsRejectedAndCapableHostReceivesOnlyTypedQuery()
     {
         var service = new FakeService();
-        await Assert.ThrowsAsync<NotSupportedException>(() => PmlFormQueryRequestSender.SendAsync(service, new(), Request("forms"), default));
+        var error = await Assert.ThrowsAsync<HostCapabilityException>(() => PmlFormQueryRequestSender.SendAsync(service, new(), Request("forms"), default));
+        Assert.Equal("PML_UI_HOST_UNSUPPORTED", error.Code);
         Assert.Null(service.Request);
         await PmlFormQueryRequestSender.SendAsync(service, new() { FormQueryVersion = 1 }, Request("forms"), default);
         Assert.NotNull(service.Request!.FormQuery); Assert.Null(service.Request.PmlCommand);

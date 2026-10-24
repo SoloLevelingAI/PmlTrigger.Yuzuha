@@ -37,3 +37,5 @@ node_modules/
 .tools/
 docs/reference/obj/
 .cache/
+
+__pycache__/

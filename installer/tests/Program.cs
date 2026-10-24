@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using Newtonsoft.Json.Linq;
 
-internal static class SetupTests
+internal static partial class SetupTests
 {
     static object Invoke(string name, params object[] args)
     { return typeof(Program).GetMethod(name, BindingFlags.NonPublic | BindingFlags.Static).Invoke(null, args); }
@@ -57,6 +57,7 @@ internal static class SetupTests
             Check(((JArray)autoRequest["environments"]).Count==2,"Automatic E3D+PDMS selection");
             string emptyManifest=Path.Combine(temp,"manifest.json"); File.WriteAllText(emptyManifest,"{\"files\":[]}");
             var autoPlan=Program.CreatePlan(autoRequest,emptyManifest,temp);
+            Check(Program.Profiles.SequenceEqual(new[] { "AM", "PDMS", "E3D2.1", "E3D3.1.6" }), "New plans must expose only maintained Host families");
             Check(((JArray)autoPlan["changes"]).Count==2 && Program.Preview(autoPlan).Contains(autoBat),"Automatic plan omitted environment");
             Check(File.ReadAllText(autoBat)=="set pmllib=old\r\nset pdmsui=old\r\n","Automatic preview changed BAT");
             autoCandidates[0]["preferredFiles"]=new JArray(autoInit,autoInit+".other");
@@ -90,7 +91,11 @@ internal static class SetupTests
             Check(Program.RecommendProfile("AVEVA Plant 12.1.SP4","12.1.4.48",@"C:\AVEVA\Plant\PDMS12.1.SP4") == "PDMS", "Plant profile");
             Check(Program.RecommendProfile("AVEVA Everything3D 2.1.0","2.1.0.0",temp) == "E3D2.1", "E3D profile");
             Check(Program.RecommendProfile("AVEVA Marine","12.1.4.0",temp) == "AM", "Marine profile");
-            Check(Program.RecommendProfile("AVEVA Everything3D","3.1.9.0",temp) == "", "Unknown version guessed");
+            Check(Program.RecommendProfile("AVEVA Marine","unknown",temp) == "AM", "Marine uses the maintained NET35 Host policy");
+            Check(Program.RecommendProfile("AVEVA PDMS","12.0.0.0",temp) == "PDMS", "PDMS uses the maintained NET35 Host policy");
+            Check(Program.RecommendProfile("AVEVA Everything3D","3.1.9.0",temp) == "E3D3.1.6", "E3D 3.1 family must use the supported 3.1.6 Host");
+            Check(Program.RecommendProfile("AVEVA Everything3D","3.1.11.0",temp) == "E3D3.1.6", "E3D 3.1.11 Host policy");
+            Check(Program.RecommendProfile("AVEVA Everything3D","4.0.0.0",temp) == "", "Unknown family guessed");
             Check(Program.PreferredFiles(new[]{"evars.bat","Evar.INIT"},"PDMS").SequenceEqual(new[]{"Evar.INIT"}), "INIT priority");
             Check(Program.PreferredFiles(new[]{"evars.bat"},"E3D2.1").Length==0,"E3D must not use BAT");
             string env=Path.Combine(temp,"evars.bat");
@@ -186,30 +191,39 @@ internal static class SetupTests
             Console.WriteLine("PASS: controlled CMD normalization, final search lists, original derived directory and Yuzuha profile.");
             string original = "{\"unrelated\":42,\"mcpServers\":{\"Other\":{\"command\":\"other.exe\"}}}";
             File.WriteAllText(json, original);
-            var merged = (JObject)Invoke("Merge", json, root);
-            Check((int)merged["unrelated"] == 42 && merged["mcpServers"]["Other"] != null, "Unrelated values lost");
-            Check(((JObject)merged["mcpServers"]).Count == 3, "Both MCP entries required");
-            File.WriteAllText(json, merged.ToString());
-            Check(JToken.DeepEquals(merged, (JObject)Invoke("Merge", json, root)), "Merge not idempotent");
-            merged["mcpServers"]["YuzuhaToolkit"]["disabled"] = true;
-            File.WriteAllText(json, merged.ToString()); Reject(() => Invoke("Merge", json, root));
-            File.WriteAllText(json, "{\"mcpServers\":{\"Other\":{\"command\":\"C:\\\\Other\\\\YuzuhaToolkit.Mcp.exe\"}}}");
             Reject(() => Invoke("Merge", json, root));
-            File.WriteAllText(json, "{\"mcpServers\":{},\"mcpServers\":{}}"); Reject(() => Invoke("Merge", json, root));
+            Check(File.ReadAllText(json) == original, "Rejected MCP registration changed another client's data");
+            var cliRequest = new JObject { ["integrationMode"] = "none", ["root"] = root, ["mcpJson"] = json, ["environments"] = new JArray() };
+            Reject(() => Invoke("CreatePlan", cliRequest, emptyManifest, temp));
+            Reject(() => Invoke("Preflight", root, json, tx));
+            File.WriteAllText(tx, new JObject { ["root"] = root, ["config"] = json, ["before"] = Convert.ToBase64String(File.ReadAllBytes(json)), ["after"] = "modified" }.ToString());
+            Reject(() => Invoke("Apply", tx));
+            Check(File.ReadAllText(json) == original, "Legacy MCP entry changed client configuration");
+            string skillSource = Path.Combine(temp, "skill-source"); Directory.CreateDirectory(skillSource);
+            File.WriteAllText(Path.Combine(skillSource, "SKILL.md"), "CLI usage fixture");
+            var skillManifest = new JObject { ["version"] = "0.3.4.2", ["files"] = new JArray(new JObject { ["path"] = "skill/SKILL.md", ["sha256"] = Program.FileDigest(Path.Combine(skillSource, "SKILL.md")) }) };
+            string cliManifest = Path.Combine(temp, "cli-manifest.json"); File.WriteAllText(cliManifest, skillManifest.ToString());
+            cliRequest["mcpJson"] = ""; cliRequest["skillTarget"] = Path.Combine(temp, "client-skills", "yuzuha-toolkit");
+            var cliPlan = Program.CreatePlan(cliRequest, cliManifest, skillSource);
+            Check(((JArray)cliPlan["changes"]).Count == 1 && (string)cliPlan["changes"][0]["kind"] == "skill", "CLI-only plan must retain optional Skill copying");
+            Check(!Directory.Exists((string)cliRequest["skillTarget"]) && File.ReadAllText(json) == original, "Preview changed files");
+            string oldPlan = Path.Combine(temp, "old-mcp-plan.json");
+            cliPlan["request"]["mcpJson"] = json;
+            File.WriteAllText(oldPlan, cliPlan.ToString());
+            Reject(() => Invoke("VerifyPlan", oldPlan, Program.FileDigest(oldPlan), cliManifest, true));
+            cliPlan["request"]["mcpJson"] = "";
+            cliPlan["changes"][0]["kind"] = "mcp";
+            File.WriteAllText(oldPlan, cliPlan.ToString());
+            Reject(() => Invoke("VerifyPlan", oldPlan, Program.FileDigest(oldPlan), cliManifest, true));
+            Check(File.ReadAllText(json) == original, "Rejected frozen plan changed client data");
             Reject(() => Invoke("CheckPath", Path.GetPathRoot(root)));
             Reject(() => Invoke("CheckPath", Path.Combine(temp, "WrongName")));
-            File.WriteAllText(json, original);
-            var state = new JObject { ["root"] = root, ["config"] = json,
-                ["before"] = Convert.ToBase64String(File.ReadAllBytes(json)),
-                ["after"] = ((JObject)Invoke("Merge", json, root)).ToString() + Environment.NewLine };
-            File.WriteAllText(tx, state.ToString());
-            Invoke("Apply", tx);
-            Check(File.Exists(Path.Combine(root, ".yuzuha-inno.json")), "Ownership missing");
-            Invoke("Rollback", tx); Check(File.ReadAllText(json) == original, "Byte-preserving rollback failed");
-            Invoke("Apply", tx);
-            File.AppendAllText(json, " "); Reject(() => Invoke("Rollback", tx));
-            File.WriteAllText(json, original + " "); Reject(() => Invoke("Apply", tx));
-            Console.WriteLine("PASS: merge, two servers, idempotence, conflicts, duplicates, invalid JSON, path protection, atomic configuration update, exact rollback, concurrency refusal.");
+            string atomic = Path.Combine(temp, "atomic-fixture.json");
+            Invoke("AtomicBytes", atomic, Encoding.UTF8.GetBytes("before"));
+            Invoke("AtomicBytes", atomic, Encoding.UTF8.GetBytes("after"));
+            Check(File.ReadAllText(atomic) == "after", "Atomic file replacement failed");
+            Console.WriteLine("PASS: CLI-only plan and legacy entry reject MCP registration, retain other-client bytes, preserve Skill preview, reject old or forged MCP plans, and keep atomic file writes.");
+            VerifyPmlIndexLifecycle(temp);
             Console.WriteLine("Artifacts: " + temp); return 0;
         }
         catch (Exception ex) { Console.Error.WriteLine(ex); return 1; }

@@ -6,6 +6,19 @@ namespace YuzuhaToolkit.Workspace;
 /// <summary>启动和插件复制所用的本机设置；只保存凭据引用，不保存密码正文。</summary>
 public sealed class WorkspaceSettings
 {
+    /// <summary>持久化格式版本；没有此字段的旧文件按版本 1 读取。</summary>
+    public int SchemaVersion { get; set; } = 1;
+    /// <summary>每次提交生成的新标记，使内容恢复也产生独立修订。</summary>
+    public string ConfigurationRevision { get; set; } = "";
+    /// <summary>保留本版本不认识的扩展字段，避免保存时丢失其他配置。</summary>
+    [JsonExtensionData]
+    public Dictionary<string, JsonElement>? ExtensionData { get; set; }
+    /// <summary>读取时对应的内容修订，仅供兼容保存入口检查过期编辑。</summary>
+    [JsonIgnore]
+    internal string LoadedRevision { get; set; } = "missing";
+    /// <summary>读取时使用的状态目录，不因编辑期间环境变化而切换目标。</summary>
+    [JsonIgnore]
+    internal string? PersistenceDirectory { get; set; }
     /// <summary>实际已注册到 PMLLIB 搜索路径的目录。</summary>
     public string RegisteredPmlLib { get; set; } = "";
     /// <summary>插件源目录或 ZIP；开发副本不应位于注册目录内。</summary>
@@ -31,26 +44,25 @@ public sealed class WorkspaceSettings
     /// <summary>读取已有设置；未配置时返回空工作区，不猜测注册目录。</summary>
     public static WorkspaceSettings Load()
     {
-        var file = Path.Combine(StateDirectory, "workspace.json");
-        return File.Exists(file) ? JsonSerializer.Deserialize(File.ReadAllText(file), WorkspaceJsonContext.Default.WorkspaceSettings)
-            ?? throw new InvalidDataException("工作区设置为空。") : new();
+        return new WorkspaceConfigurationStore().Read().Value;
     }
 
     /// <summary>原子保存非秘密设置；不修改任何 AVEVA 环境文件或注册表。</summary>
     public void Save()
     {
-        if (WarnFiles < 1 || WarnBytes < 1) throw new ArgumentException("目录提醒阈值必须为正数。");
-        Directory.CreateDirectory(StateDirectory);
-        var file = Path.Combine(StateDirectory, "workspace.json");
-        var temporary = file + "." + Guid.NewGuid().ToString("N") + ".tmp";
-        try { File.WriteAllText(temporary, JsonSerializer.Serialize(this, WorkspaceJsonContext.Default.WorkspaceSettings)); File.Move(temporary, file, true); }
-        finally { if (File.Exists(temporary)) File.Delete(temporary); }
+        var result = new WorkspaceConfigurationStore(PersistenceDirectory).Commit(this, LoadedRevision,
+            new ConfigurationChangeReason("工作区设置保存"));
+        LoadedRevision = result.Snapshot.Revision;
+        ConfigurationRevision = result.Snapshot.Value.ConfigurationRevision;
     }
 }
 
 /// <summary>AVEVA 启动配置；密码保存在 Windows 凭据库，配置只保留本机引用。</summary>
 public sealed class LaunchProfile
 {
+    /// <summary>保留未知配置字段；界面修改已知字段不会抹除扩展。</summary>
+    [JsonExtensionData]
+    public Dictionary<string, JsonElement>? ExtensionData { get; set; }
     /// <summary>启动配置的本机稳定标识，不包含工程凭据。</summary>
     public string Id { get; set; } = Guid.NewGuid().ToString("N");
     /// <summary>配置库中的收藏标记。</summary>
@@ -73,6 +85,8 @@ public sealed class LaunchProfile
     public string Initialization { get; set; } = "";
     /// <summary>产品代码；不从模块名推断。</summary>
     public string Product { get; set; } = "E3D";
+    /// <summary>所选安装版本，不从模块名称推断。</summary>
+    public string Version { get; set; } = "";
     /// <summary>程序的工作目录。</summary>
     public string WorkingDirectory { get; set; } = "";
     /// <summary>项目代码。</summary>

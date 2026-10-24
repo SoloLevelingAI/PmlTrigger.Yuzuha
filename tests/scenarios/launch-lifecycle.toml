@@ -1,0 +1,203 @@
+schemaVersion = 1
+caseId = "launch.profile.complete-lifecycle"
+description = "AM/E3D 分离、保存重开、冲突拒绝、历史恢复与其他配置保留"
+environment = "isolated-files"
+fixture = "workspace.launch-pair"
+
+[[steps]]
+id = "am-modules"
+operation = "launch.modules.list"
+transport = "inline"
+[steps.input]
+product = "AM"
+version = "12.1"
+[[steps.assertions]]
+pointer = "/data/options/0/value"
+equals = "Outfitting"
+
+[[steps]]
+id = "e3d-modules"
+operation = "launch.modules.list"
+transport = "stdin"
+[steps.input]
+product = "E3D"
+version = "3.1.11"
+[[steps.assertions]]
+pointer = "/data/options/0/value"
+equals = "Design"
+
+[[steps]]
+id = "before"
+operation = "launch.profile.read"
+[steps.input]
+profileId = "sample-e3d"
+[[steps.assertions]]
+pointer = "/data/profile/mdb"
+equals = "/ALL"
+
+[[steps]]
+id = "save"
+operation = "launch.profile.update"
+permissions = ["write"]
+[steps.input]
+profileId = "sample-e3d"
+[steps.input.changes]
+mdb = "/REVIEW"
+[steps.bindings.expectedRevision]
+step = "before"
+pointer = "/data/revision"
+[[steps.assertions]]
+pointer = "/data/snapshot/value/profiles/0/mdb"
+equals = "/REVIEW"
+
+[[steps]]
+id = "reopen"
+operation = "launch.profile.read"
+transport = "stdin"
+[steps.input]
+profileId = "sample-e3d"
+[[steps.assertions]]
+pointer = "/data/profile/mdb"
+equals = "/REVIEW"
+
+[[steps]]
+id = "stale-save"
+operation = "launch.profile.update"
+permissions = ["write"]
+expectExitCode = 10
+[steps.input]
+profileId = "sample-e3d"
+[steps.input.changes]
+mdb = "/MUST_NOT_SAVE"
+[steps.bindings.expectedRevision]
+step = "before"
+pointer = "/data/revision"
+[[steps.assertions]]
+pointer = "/error/code"
+equals = "CONFIGURATION_CONFLICT"
+
+[[steps]]
+id = "am-before"
+operation = "launch.profile.read"
+[steps.input]
+profileId = "sample-am"
+[[steps.assertions]]
+pointer = "/data/profile/module"
+equals = "Outfitting"
+
+[[steps]]
+id = "wrong-am-module"
+operation = "launch.profile.update"
+permissions = ["write"]
+expectExitCode = 2
+[steps.input]
+profileId = "sample-am"
+[steps.input.changes]
+module = "Design"
+[steps.bindings.expectedRevision]
+step = "am-before"
+pointer = "/data/revision"
+[[steps.assertions]]
+pointer = "/error/code"
+equals = "LAUNCH_VALIDATION_FAILED"
+[[steps.assertions]]
+pointer = "/data/validation/issues/0/code"
+equals = "MODULE_PRODUCT_MISMATCH"
+
+[[steps]]
+id = "save-am"
+operation = "launch.profile.update"
+permissions = ["write"]
+transport = "inline"
+[steps.input]
+profileId = "sample-am"
+[steps.input.changes]
+module = "HullDesign"
+[steps.bindings.expectedRevision]
+step = "am-before"
+pointer = "/data/revision"
+[[steps.assertions]]
+pointer = "/data/snapshot/value/profiles/1/module"
+equals = "HullDesign"
+
+[[steps]]
+id = "history"
+operation = "launch.profile.history"
+[steps.input]
+profileId = "sample-e3d"
+limit = 20
+[[steps.assertions]]
+pointer = "/data"
+length = 2
+
+[[steps]]
+id = "restore-preview"
+operation = "launch.profile.restore.preview"
+[steps.input]
+profileId = "sample-e3d"
+[steps.bindings.revision]
+step = "before"
+pointer = "/data/revision"
+[steps.bindings.expectedRevision]
+step = "save-am"
+pointer = "/data/snapshot/revision"
+[[steps.assertions]]
+pointer = "/data/profile/mdb"
+equals = "/ALL"
+[[steps.assertions]]
+pointer = "/data/validation/isValid"
+equals = true
+
+[[steps]]
+id = "restore"
+operation = "launch.profile.restore"
+permissions = ["write"]
+[steps.input]
+profileId = "sample-e3d"
+[steps.bindings.revision]
+step = "before"
+pointer = "/data/revision"
+[steps.bindings.expectedRevision]
+step = "save-am"
+pointer = "/data/snapshot/revision"
+[[steps.assertions]]
+pointer = "/data/snapshot/value/profiles/0/mdb"
+equals = "/ALL"
+[[steps.assertions]]
+pointer = "/data/snapshot/value/profiles/1/module"
+equals = "HullDesign"
+
+[[steps]]
+id = "reopen-restored"
+operation = "launch.profile.read"
+[steps.input]
+profileId = "sample-e3d"
+[[steps.assertions]]
+pointer = "/data/profile/mdb"
+equals = "/ALL"
+
+[[steps]]
+id = "restored-history"
+operation = "launch.profile.history"
+[steps.input]
+profileId = "sample-e3d"
+[[steps.assertions]]
+pointer = "/data"
+length = 3
+[[steps.assertions]]
+pointer = "/data/0/reason"
+equals = "恢复启动配置历史"
+
+[[steps]]
+id = "search-am"
+operation = "launch.profile.list"
+[steps.input]
+product = "AM"
+scope = "all"
+query = "scenario"
+[[steps.assertions]]
+pointer = "/data"
+length = 1
+[[steps.assertions]]
+pointer = "/data/0/profile/id"
+equals = "sample-am"

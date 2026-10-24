@@ -12,6 +12,10 @@ Phayton 是面向 AVEVA E3D、AM / PDMS 的本机连接层与开发工作台。�
 
 *上图为 0.3.4.1 桌面源码发布后的实际运行截图，使用隔离的空配置。窗口外阴影由 Windows 绘制。*
 
+当前分支为 **0.3.4.2**。启动配置已经接入正式工作台：按产品选择模块，预览、保存、重新读取，以及查看历史并恢复为新修订。AI 通过原生 CLI 直接调用本地服务与 Host，独立 MCP 服务已禁用；此分支版本不代表 GitHub 已发布同版本安装器。
+
+启动配置已通过实际 WPF 控件和配置文件的隔离验证，AM 模块联动已验证；该项测试未启动 AVEVA。完整流程与验证边界见[启动配置生命周期](docs/reference/workbench-lifecycle.md)。
+
 ## 一个连接层，两种工作方式
 
 ### 开发工具：把需求变成可复用的功能
@@ -30,7 +34,7 @@ Phayton 提供连接、读取、执行与回传；分析质量还取决于 AI、
 
 [![播放：从需求到脚本加载、调试与结果核对](docs/media/poster.jpg)](docs/media/Phayton-Workflow-zh-CN.mp4)
 
-演示围绕一个自有 PML 小工具：按钮调用函数和对象，显示结果与版本。内容包括新桌面实拍截图、源码演示，以及 **2026-10-23 E3D 2.1 实测记录重放**；没有把历史回执当成本次新执行。
+这段已有视频围绕一个自有 PML 小工具：按钮调用函数和对象，显示结果与版本。内容包括 **0.3.4.1 桌面截图**、源码演示，以及 **2026-10-23 E3D 2.1 实测记录重放**。它尚未演示 0.3.4.2 的配置历史、恢复或原生 CLI 完整流程；新流程的验证范围见[本次验收报告](docs/reference/workbench-validation.md)。
 
 | 环节 | 可查看的证据 |
 | --- | --- |
@@ -44,12 +48,13 @@ Phayton 提供连接、读取、执行与回传；分析质量还取决于 AI、
 
 | 使用者要做的事 | Phayton 提供的支持 |
 | --- | --- |
-| 快速进入工程 | 保存工程启动配置与可选的本机凭据 |
+| 快速进入工程 | AM / E3D / PDMS 独立模块、安装发现与可选的本机凭据 |
+| 管理多套工程配置 | 产品 / 收藏下拉和关键词组合筛选，差异预览、保存、重新读取、历史恢复及并发冲突保护 |
 | 确认连接是否可用 | 会话发现、目标身份核验、IPC 状态与运行记录 |
 | 找到可用资料 | 随版本提供的内置指南；可选的本地知识检索与资料管理 |
 | 让脚本真正加载起来 | 文件部署、备份、REHASH、Object / Form 重载与结果比对 |
 | 查清调用出了什么问题 | 工具调用日志、关联编号、耗时和失败 / 未知结果 |
-| 从常用 AI 工具接入 | CLI 与 MCP 两种入口，复用现有操作能力 |
+| 从 AI 工具或代码接入 | 原生 CLI 的操作目录、JSON 文件 / stdin 和批处理；直接调用现有服务，独立 MCP 已禁用 |
 | 管理函数调用 | 源码登记、版本哈希与独立调用许可；完整范围见下方说明 |
 
 <details>
@@ -63,10 +68,10 @@ Phayton 提供连接、读取、执行与回传；分析质量还取决于 AI、
 
 ## 版本、安装与运行
 
-仓库名仍为 `PmlTrigger.Yuzuha`，Phayton 是展示名称；既有可执行文件名、环境变量、CLI / MCP 标识和 PML 名称保留兼容。
+仓库名仍为 `PmlTrigger.Yuzuha`，Phayton 是展示名称。原有环境变量、Host 与 PML 名称保留兼容；当前命令行入口为 `runtime/cli/PmlTwin.Phayton.Cli.exe`，不再启动独立 MCP 服务。
 
 - **下载使用：** 从 [Releases](https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/releases) 选择发行包，并按该包的 [安装说明](installer/INSTALL.md) 配置目标环境。预览版和开发分支的功能范围以各自说明为准。
-- **本分支桌面：** `0.3.4.1` 修复窗口圆角、外阴影及最大化内容边界；[运行验证](docs/validation/2026-10-24-window-portfolio.md)对应本次源码构建。此版本号不表示 GitHub 已发布同版本完整安装器。
+- **本分支桌面：** `0.3.4.2` 增加正式启动配置生命周期，并保留 `0.3.4.1` 的窗口圆角、外阴影及最大化内容边界。窗口外观的[历史运行验证](docs/validation/2026-10-24-window-portfolio.md)和本次[启动配置验证](docs/reference/workbench-lifecycle.md)分别记录。
 - **初次连接：** 先发现会话，再选择并核验目标。可先读取内置指南与少量数据，确认具体环境行为。
 
 Windows 上从源码运行桌面（需要 .NET 10 SDK）：
@@ -75,25 +80,25 @@ Windows 上从源码运行桌面（需要 .NET 10 SDK）：
 dotnet run --project src/YuzuhaToolkit.Desktop -c Release
 ```
 
-已有安装中的 CLI / MCP 入口：
+0.3.4.2 发行布局中的 CLI 入口：
 
 ```powershell
-.\YuzuhaToolkit.Mcp.exe --cli list
-.\YuzuhaToolkit.Mcp.exe --cli call get_builtin_usage --arguments '{"query":"当前元素"}'
-.\YuzuhaToolkit.Mcp.exe --mcp
+.\runtime\cli\PmlTwin.Phayton.Cli.exe op list
+.\runtime\cli\PmlTwin.Phayton.Cli.exe op describe launch.profile.save
+.\runtime\cli\PmlTwin.Phayton.Cli.exe op invoke builtin.usage --input '{"query":"当前元素"}'
 ```
 
-多步 CLI 调用可以使用同一批处理保留会话。具体参数、返回值和退出码见 [CLI / MCP](docs/reference/cli.md)。
+复杂参数可由 JSON 文件或 stdin 传入。多步操作可使用批处理；写配置、执行 PML 与创建进程分别声明权限，AVEVA 操作仍核验目标 PID。具体参数、返回值和退出码见[原生 CLI](docs/reference/cli.md)。新安装器不注册 MCP，现有其他客户端服务保持原样。
 
 ## 已验证范围
 
 | 环境 / 能力 | 当前证据 |
 | --- | --- |
 | E3D 2.1 / NET48 | 已有会话记录、PML 部署重载、原生按钮与回读实测 |
-| E3D 3.1.0 / 3.1.6、AM / PDMS / NET35 | 有对应 Host 配置和构建记录；不代表各版本均已实机验收 |
-| 原生桌面 0.3.4.1 | Windows 11 本机实际窗口验证；14 页、两主题、三尺寸隔离回归 |
+| E3D 3.1 系列、AM / PDMS | E3D 3.1 统一映射至 3.1.6 Host；AM / PDMS 使用 NET35 Host。构建和映射不代表各环境均已实机验收 |
+| 原生桌面 | 0.3.4.2 启动配置 20 项实际 WPF 流程验证；全站 14 页、两主题、三尺寸隔离回归另有记录 |
 | 知识库 | 本地检索、资料管理、个人笔记与修订；用户资料及其本地索引不随公开发行包分发 |
-| 函数权限 | 已登记版本的独立许可已实现；统一覆盖原始 PML、HTML、CLI / MCP 所有入口的模式仍在规划 |
+| 执行权限 | CLI 区分写配置、启动进程和执行能力；已有函数许可仍可使用。权限检查不把任意 PML 转换为安全沙箱 |
 
 大 ELDATA 回读的无响应、AM 发现与完整链路等问题仍按 [当前能力核对](docs/reference/runtime-capability-audit.md) 跟进。出现超时或结果未知时先查回执，不自动重复执行。原生命令入口可修改活动模型，函数许可不等于通用 PML 沙箱。
 
@@ -111,7 +116,7 @@ npm run docs:build
 
 ```text
 PMLLIB/ + PMLUI/   AVEVA 原生入口与脚本
-src/              Framework Host、CLI / MCP、工作台与知识服务
+src/              Framework Host、原生 CLI、工作台与知识服务
 tests/            离线回归、自有 PML 夹具与实测说明
 docs/             功能文档、验证记录与可播放演示
 scripts/          构建、部署、验证与视频制作
@@ -121,11 +126,11 @@ scripts/          构建、部署、验证与视频制作
 
 ## English
 
-**Phayton connects AI to existing AVEVA engineering workflows.** It is a local connection layer and development workspace for E3D, AM and PDMS, with legacy NET35 / NET48 hosts and CLI / MCP access.
+**Phayton connects AI to existing AVEVA engineering workflows.** It is a local connection layer and development workspace for E3D, AM and PDMS, with legacy NET35 / NET48 hosts and direct native CLI access. This 0.3.4.2 branch disables standalone MCP servers and implements the launch-profile lifecycle in the production WPF workbench.
 
 Two workflows share this foundation: **build reusable PML tools**, or **collaborate directly with AI using object data, views and local references** to investigate problems and verify actions. Domain-specific outcomes depend on the AI, available context and host capabilities.
 
-The [video](docs/media/Phayton-Workflow-zh-CN.mp4) combines current desktop captures with a clearly dated replay of existing E3D 2.1 validation: deploy, reload, diagnose a type error, and verify the updated tool. [Evidence and reproduction](docs/reference/portfolio-demo.md). Compatibility, large-array limitations and permission boundaries are documented above.
+The existing [video](docs/media/Phayton-Workflow-zh-CN.mp4) combines 0.3.4.1 desktop captures with a dated replay of E3D 2.1 validation: deploy, reload, diagnose a type error, and verify the updated tool. It does not yet demonstrate the new 0.3.4.2 launch lifecycle or CLI. [Evidence and reproduction](docs/reference/portfolio-demo.md). Compatibility, large-array limitations and permission boundaries are documented above.
 
 ## License
 

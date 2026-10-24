@@ -42,7 +42,8 @@ public sealed class PmlArrayWindowTests
     public async Task OlderHostIsRejectedBeforeAnyCommandIsSent()
     {
         var service=new FakeService();
-        await Assert.ThrowsAsync<NotSupportedException>(()=>BoundedArrayRequest.SendAsync(service,new(){BoundedArrayReadVersion=0},"Sample",1,10,100,default));
+        var error = await Assert.ThrowsAsync<HostCapabilityException>(()=>BoundedArrayRequest.SendAsync(service,new(){BoundedArrayReadVersion=0},"Sample",1,10,100,default));
+        Assert.Equal("PML_BOUNDED_ARRAY_UNSUPPORTED", error.Code);
         Assert.Equal(0,service.Calls);
     }
     [Fact]

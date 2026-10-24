@@ -11,7 +11,7 @@ public static class BoundedArrayRequest
     {
         PmlArrayWindow.Validate(startIndex,maxItems,maxCharacters);
         if(string.IsNullOrEmpty(globalVar)||!Regex.IsMatch(globalVar,@"\A[A-Za-z][A-Za-z0-9_]{0,127}\z",RegexOptions.None,TimeSpan.FromSeconds(1)))throw new ArgumentException("Use a plain PML global array name without !!.",nameof(globalVar));
-        if(identity.BoundedArrayReadVersion!=1)throw new NotSupportedException("PML_BOUNDED_ARRAY_UNSUPPORTED: update the selected NET35/NET48 Host; no command was sent.");
+        if(identity.BoundedArrayReadVersion!=1)throw new HostCapabilityException("PML_BOUNDED_ARRAY_UNSUPPORTED", "update the selected NET35/NET48 Host; no command was sent.");
         return service.RunPmlCommandAsync(new RunPmlCommandRequest{ReadArray=true,GlobalVar=globalVar,StartIndex=startIndex,MaxItems=maxItems,MaxCharacters=maxCharacters},cancellationToken);
     }
 }

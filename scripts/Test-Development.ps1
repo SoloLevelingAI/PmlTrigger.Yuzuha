@@ -19,6 +19,10 @@ try {
        finishedUtc=[DateTime]::UtcNow.ToString('o'); scope='xUnit and ArchUnitNET; not AVEVA live';
        ciRun=$env:GITHUB_RUN_ID } | ConvertTo-Json | Set-Content artifacts/tests/run-metadata.json -Encoding utf8
     if ($testExit -ne 0) { throw 'Development tests failed.' }
+    $scenarioReports = Join-Path $root ('artifacts/tests/launch-scenarios/' + [guid]::NewGuid().ToString('N'))
+    New-Item -ItemType Directory -Path $scenarioReports -Force | Out-Null
+    & "$PSScriptRoot/Run-DocumentedSmoke.ps1" -Runner workbench-lifecycle -ReportDirectory $scenarioReports
+    if ($LASTEXITCODE -ne 0) { throw 'Launch lifecycle scenario tests failed.' }
     & pwsh -NoProfile -File tests/pml-development.test.ps1
     if ($LASTEXITCODE -ne 0) { throw 'PML deployment workflow offline tests failed.' }
 }

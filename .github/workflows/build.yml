@@ -11,15 +11,15 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.x'
-      - name: Publish both Native AOT servers
+      - name: Publish Native AOT CLI
         shell: pwsh
-        run: ./scripts/Build-NativeServers.ps1
+        run: ./scripts/Build-NativeCli.ps1
       - name: Verify built-in priority without SQLite
         id: builtin
-        run: python -X utf8 tests/v03/builtin_smoke.py runtime/net10
-      - name: Verify Native AOT CLI and MCP share tools
+        run: python -X utf8 tests/v03/builtin_smoke.py runtime/cli
+      - name: Verify Native AOT CLI operations and JSON inputs
         id: cli
-        run: python -X utf8 tests/cli_smoke.py runtime/net10
+        run: python -X utf8 tests/cli_smoke.py runtime/cli
       - name: Record offline test provenance
         if: always()
         shell: pwsh
@@ -45,7 +45,7 @@ jobs:
           name: yuzuha-windows-workspace-${{ github.sha }}-${{ runner.os }}
           path: |
             runtime/desktop
-            runtime/net10
+            runtime/cli
   framework-compatibility:
     runs-on: windows-latest
     strategy:

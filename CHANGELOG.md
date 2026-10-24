@@ -1,5 +1,15 @@
 # Changelog / 更新日志
 
+## 0.3.4.2 — 2026-10-24（源码与本机正式安装验证）
+
+- 将启动配置接入正式工作台与共享服务：区分 AM/E3D/PDMS 模块，支持组合筛选、差异预览、保存、重开、历史及恢复，并保留并发冲突保护。
+- 改用 Native AOT CLI 直接调用本地服务与 Host，提供 46 项操作、JSON 文件/stdin 与批处理；独立 MCP 程序停用，写配置、启动进程与执行 PML 分别授权。
+- 修复 PML 初始化的 `YuzuhaVersion()` 错误；初始化读取 Current Session 与原生产品信息，E3D 3.1 统一使用 3.1.6 Host，AM/PDMS 使用 NET35。
+- 增加可扩展的 `YuzuhaStartupPolicy` Object，通过环境变量控制 REHASH，默认关闭；保留日志与每会话重复执行保护。
+- 增加代码测试、JSON/TOML 场景及可保存报告，更新 DocFX、CLI Skill 和仅修改目标环境的安装升级流程。
+- 本机验证通过 217 项代码测试、JSON/TOML 各 15 步，以及正式安装后 E3D 2.1 新进程的 11 项检查。AM、PDMS、E3D 3.1 尚未实机验证；完整范围见[验收报告](docs/reference/workbench-validation.md)。
+- 此记录不表示已发布 GitHub Release。现有视频仍为 0.3.4.1 桌面与历史 PML 实测重放，尚未涵盖新版完整流程。
+
 ## Desktop 0.3.4.1 — 2026-10-24（源码与桌面构建）
 
 - 修复正式 WPF 窗口的 Windows 11 原生圆角与外部阴影；最大化保留工作区裁剪与页脚，恢复后重新应用原生边框。

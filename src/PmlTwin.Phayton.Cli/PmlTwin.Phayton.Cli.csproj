@@ -6,6 +6,9 @@
     <Nullable>enable</Nullable>
     <IsAotCompatible>true</IsAotCompatible>
     <AssemblyName>PmlTwin.Phayton.Cli</AssemblyName>
+    <Version>0.3.4.2</Version>
+    <FileVersion>0.3.4.2</FileVersion>
+    <InformationalVersion>0.3.4.2</InformationalVersion>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="../PmlTwin.Phayton/PmlTwin.Phayton.csproj" />

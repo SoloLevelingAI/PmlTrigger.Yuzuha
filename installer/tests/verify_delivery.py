@@ -17,7 +17,7 @@ source = Path(__file__).resolve().parents[2] / 'PMLLIB'
 historical_changes = []
 for item in snapshot['files']:
     # This historical source inventory includes AVEVA's generated index.
-    # Updates deliberately preserve the machine's index instead of shipping it.
+    # Upgrade plans may add the known startup object; generated indices are not payload.
     if Path(item['path']).name.lower() == 'pml.index':
         assert not (payload / 'PMLLIB' / item['path']).exists(), 'Generated index must not be shipped'
         continue
@@ -34,11 +34,18 @@ for relative in sorted(expected_pml):
     assert (payload / 'PMLLIB' / relative).read_bytes() == (source / relative).read_bytes(), relative
 assert (payload / 'runtime/documentation/index.html').is_file()
 assert (payload / 'runtime/documentation-host/YuzuhaToolkit.DevHost.exe').is_file()
-assert manifest['version'] == '0.3.4.1'
+assert manifest['transport'] == 'cli'
+assert manifest['entryPoint'] == 'runtime/cli/PmlTwin.Phayton.Cli.exe'
+assert (payload / manifest['entryPoint']).is_file()
+assert not (payload / 'runtime/net10').exists(), 'Legacy standalone MCP runtimes must not be shipped'
+assert not (payload / 'runtime/profiles/E3D3.1.0').exists(), 'All E3D 3.1 installations use the maintained 3.1.6 Host'
 bootstrap = (payload / 'PMLLIB/Bootstrap/YuzuhaResolveRuntimePath.pmlfnc').read_text(encoding='utf-8-sig')
-assert '!localPaTH = false' in bootstrap
+assert 'var !path evar PMLUI' in bootstrap, 'Portable bootstrap must resolve registered PMLUI roots'
+assert '!!PhaytonSession = Current Session' in bootstrap
+assert (payload / 'PMLLIB/Bootstrap/YuzuhaStartupPolicy.pmlobj').is_file()
 assert any(x['action'] == 'excluded-keep-portable-bootstrap' for x in snapshot['files'])
 exe = next(folder.glob('Phayton-*-Windows-Setup.exe'))
+assert exe.name == 'Phayton-' + manifest['version'] + '-Windows-Setup.exe'
 kernel = ctypes.WinDLL('kernel32', use_last_error=True)
 kernel.LoadLibraryExW.argtypes = [wintypes.LPCWSTR, wintypes.HANDLE, wintypes.DWORD]
 kernel.LoadLibraryExW.restype = wintypes.HMODULE

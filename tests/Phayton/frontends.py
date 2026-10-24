@@ -1,100 +1,104 @@
-"""Real process smoke tests; never send PML to a live AVEVA PID."""
+"""Native CLI process smoke. Uses isolated state and never executes PML in AVEVA."""
 import argparse
+import hashlib
 import json
-import queue
-import subprocess
-import threading
+import os
 from pathlib import Path
+import subprocess
+import tempfile
+from datetime import datetime, timezone
 
-parser = argparse.ArgumentParser()
-parser.add_argument("--cli", required=True, type=Path)
-parser.add_argument("--mcp", required=True, type=Path)
-args = parser.parse_args()
 
-def command(path):
-    return (["dotnet", str(path.resolve())] if path.suffix == ".dll" else [str(path.resolve())])
+def check(executable, report=None, legacy=None):
+    executable = Path(executable).resolve()
+    records = []
+    command = ["dotnet", str(executable)] if executable.suffix == ".dll" else [str(executable)]
+    with tempfile.TemporaryDirectory(prefix="phayton-native-cli-") as temporary:
+        root = Path(temporary)
+        env = dict(os.environ, YUZUHA_STATE_DIR=str(root / "state"),
+                   YUZUHA_KNOWLEDGE_DIR=str(root / "knowledge"),
+                   YUZUHA_TRUST_FILE=str(root / "trust.json"),
+                   YUZUHA_FUNCTION_REGISTRY=str(root / "functions.json"))
 
-def cli(arguments, code):
-    result = subprocess.run(command(args.cli) + arguments, capture_output=True, text=True,
-                            encoding="utf-8", timeout=20)
-    assert result.returncode == code, (arguments, result.returncode, result.stderr)
-    data = json.loads(result.stdout)
-    assert data["exitCode"] == code and data["success"] == (code == 0), data
-    return data
+        def invoke(arguments, expected=0, stdin=None):
+            result = subprocess.run(command + arguments, input=stdin, env=env, capture_output=True,
+                                    text=True, encoding="utf-8", timeout=45)
+            data = json.loads(result.stdout)
+            records.append(dict(arguments=arguments, expectedExitCode=expected,
+                                exitCode=result.returncode, result=data))
+            assert result.returncode == expected, (arguments, result.returncode, result.stdout, result.stderr)
+            assert data["exitCode"] == expected and data["success"] == (expected == 0), data
+            assert "Application started." not in result.stderr
+            return data
 
-assert len(cli(["op", "list"], 0)["data"]) == 6
-description = cli(["op", "describe", "pml.command.execute"], 0)["data"]
-assert description["requiresPid"] and description["requiresExecution"]
-cli(["op", "describe", "not.found"], 3)
-assert cli(["op", "invoke", "pml.call.generate", "--input", json.dumps({
-    "methodName": "Example", "parameters": [{"type": "str", "value": "O'Brien 中文"}]}, ensure_ascii=False)], 0)["data"] == "!!Example('O''Brien 中文')"
-assert cli(["op", "invoke", "pml.call.generate", "--input", '{"methodName":"YuzuhaExecuter.ExecuteFile"}'], 0)["data"] == "!!YuzuhaExecuter.ExecuteFile()"
-cli(["op", "invoke", "pml.command.execute", "--input", '{"pmlCommand":"!!Example()"}'], 5)
-cli(["op", "invoke", "pml.command.execute", "--pid", "2147483647", "--input", '{"pmlCommand":"!!Example()"}'], 4)
-cli(["op", "invoke", "pml.command.execute", "--pid", "2147483647", "--allow-execution",
-     "--input", '{"pmlCommand":"!!Example()"}'], 5)
-cli(["op", "invoke", "aveva.session.status"], 5)  # Another CLI process cannot inherit selection.
-cli(["op", "invoke", "pml.call.generate", "--input", "{bad}"], 2)
-cli(["op", "invoke", "pml.call.generate", "--pid", "0"], 2)
-print("PASS 11 real CLI process checks")
+        try:
+            operations = invoke(["op", "list"])["data"]
+            assert len(operations) >= 46
+            aliases = {name for op in operations for name in op.get("legacyTools") or []}
+            assert len(aliases) == 30, aliases
+            for operation in operations:
+                described = invoke(["op", "describe", operation["id"]])["data"]
+                assert described == operation
+            execute = next(op for op in operations if op["id"] == "pml.command.execute")
+            assert execute["requiresPid"] and execute["requiresExecution"]
+            invoke(["op", "describe", "not.found"], 3)
+            payload = json.dumps({"methodName": "Example", "parameters": [{"type": "str", "value": "O'Brien 中文"}]}, ensure_ascii=False)
+            input_file = root / "input.json"
+            input_file.write_text(payload, encoding="utf-8")
+            first = invoke(["op", "invoke", "pml.call.generate", "--input", payload])
+            second = invoke(["op", "invoke", "pml.call.generate", "--input-file", str(input_file)])
+            third = invoke(["op", "invoke", "pml.call.generate", "--input-stdin"], stdin=payload)
+            assert first == second == third
+            assert first["data"] == "!!Example('O''Brien 中文')"
+            invoke(["op", "invoke", "pml.command.execute", "--input", '{"pmlCommand":"!!Example()"}'], 5)
+            invoke(["op", "invoke", "pml.command.execute", "--pid", "2147483647", "--input", '{"pmlCommand":"!!Example()"}'], 4)
+            invoke(["op", "invoke", "pml.command.execute", "--pid", "2147483647", "--allow-execution", "--input", '{"pmlCommand":"!!Example()"}'], 5)
+            invoke(["op", "invoke", "aveva.session.status"], 5)
+            invoke(["op", "invoke", "pml.call.generate", "--input", "{bad}"], 2)
+            invoke(["op", "invoke", "pml.call.generate", "--pid", "0"], 2)
+            invoke(["op", "invoke", "builtin.usage", "--timeout-seconds", "0"], 2)
+            assert invoke(["op", "invoke", "builtin.usage", "--input", '{"query":"current element"}'])["data"]
+            assert invoke(["op", "invoke", "knowledge.layers.search", "--input", '{"query":"当前元素"}'])["data"][0]["Role"] == "builtin"
+            assert not (root / "knowledge").exists()
+            invoke(["op", "invoke", "pml.trust.set", "--input", '{"functionName":"Example","state":"untrusted"}'], 4)
+            assert not (root / "trust.json").exists()
+            batch = [
+                {"operationId": "pml.call.generate", "input": {"methodName": "Example"}},
+                {"operationId": "does.not.exist", "input": {}},
+                {"operationId": "pml.trust.set", "input": {"functionName": "Example", "state": "untrusted"}}
+            ]
+            outcome = invoke(["op", "batch", "--input", json.dumps(batch), "--allow-write"], 3)
+            assert outcome["data"]["completed"] == 2 and outcome["data"]["stoppedOnError"]
+            assert outcome["data"]["results"][0]["data"] == "!!Example()"
+            assert not (root / "trust.json").exists()
+            assert invoke(["--mcp"], 3)["error"]["code"] == "MCP_DISABLED"
+            if legacy:
+                for arguments in ([], ["--mcp"]):
+                    old = subprocess.run([str(Path(legacy).resolve()), *arguments], env=env, capture_output=True,
+                                         text=True, encoding="utf-8", timeout=20)
+                    assert old.returncode == 3 and json.loads(old.stdout)["error"]["code"] == "MCP_DISABLED"
+            passed = True
+        except Exception:
+            passed = False
+            raise
+        finally:
+            receipt = dict(schemaVersion=1, passed=locals().get("passed", False),
+                           executable=str(executable), sha256=hashlib.sha256(executable.read_bytes()).hexdigest(),
+                           finishedUtc=datetime.now(timezone.utc).isoformat(),
+                           scope="native-cli-real-processes-isolated-state-no-live-AVEVA",
+                           executed=len(records), operations=locals().get("operations", []), cases=records)
+            if report:
+                target = Path(report).resolve()
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_text(json.dumps(receipt, ensure_ascii=False, indent=2), encoding="utf-8")
+    print(f"PASS {len(records)} native CLI process checks; no MCP transport; no live AVEVA execution.")
+    return receipt
 
-process = subprocess.Popen(command(args.mcp), stdin=subprocess.PIPE, stdout=subprocess.PIPE,
-                           stderr=subprocess.PIPE, text=True, encoding="utf-8", bufsize=1)
-messages = queue.Queue()
-stderr_lines = []
-def drain_stdout():
-    for line in process.stdout:
-        messages.put(line)
-    messages.put(None)
-def drain_stderr():
-    for line in process.stderr:
-        stderr_lines.append(line)
-threading.Thread(target=drain_stdout, daemon=True).start()
-threading.Thread(target=drain_stderr, daemon=True).start()
-request_id = 0
-def rpc(method, params):
-    global request_id
-    request_id += 1
-    process.stdin.write(json.dumps({"jsonrpc": "2.0", "id": request_id,
-                                   "method": method, "params": params}) + "\n")
-    process.stdin.flush()
-    while True:
-        line = messages.get(timeout=20)
-        assert line is not None, "MCP exited: " + "".join(stderr_lines)
-        message = json.loads(line)  # Any stray stdout log fails the test.
-        if message.get("id") == request_id:
-            assert "error" not in message, message
-            return message["result"]
-def tool(name, arguments):
-    result = rpc("tools/call", {"name": name, "arguments": arguments})
-    assert not result.get("isError"), result
-    return "".join(c["text"] for c in result["content"] if c["type"] == "text")
-try:
-    rpc("initialize", {"protocolVersion": "2025-03-26", "capabilities": {},
-                       "clientInfo": {"name": "phayton-regression", "version": "1"}})
-    process.stdin.write('{"jsonrpc":"2.0","method":"notifications/initialized"}\n')
-    process.stdin.flush()
-    names = {t["name"] for t in rpc("tools/list", {})["tools"]}
-    assert {"list_aveva_sessions", "select_aveva_session", "get_connection_status",
-            "generate_pml_call", "run_pml_command", "run_pml_command_list",
-            "list_pml_function_trust", "set_pml_function_trust", "get_builtin_usage",
-            "op_list", "op_describe", "op_invoke"} <= names, names
-    assert len(json.loads(tool("op_list", {}))) == 6
-    assert tool("generate_pml_call", {"methodName": "Example", "parameters": []}) == "!!Example()"
-    assert tool("generate_pml_call", {"methodName": " YuzuhaExecuter.ExecuteFile ",
-                "parameters": [{"type": " STR ", "value": "example.pmlmac"}]}) == "!!YuzuhaExecuter.ExecuteFile('example.pmlmac')"
-    assert json.loads(tool("get_builtin_usage", {"query": "read-current-element"}))
-    assert tool("run_pml_command", {"pmlCommand": "!!Example()"}).startswith("PML RPC failed:")
-    result = json.loads(tool("op_invoke", {"operationId": "pml.command.execute", "processId": 2147483647,
-                      "inputJson": '{"pmlCommand":"!!Example()"}'}))
-    assert result["exitCode"] == 4, result
-    result = json.loads(tool("op_invoke", {"operationId": "pml.call.generate", "inputJson": "{bad}"}))
-    assert result["exitCode"] == 2
-    print("PASS MCP stdio handshake, legacy tool names/output, shared registration and execution gate")
-finally:
-    process.stdin.close()
-    try:
-        process.wait(timeout=10)
-    except subprocess.TimeoutExpired:
-        process.kill()
-        process.wait(timeout=5)
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--cli", required=True, type=Path)
+    parser.add_argument("--mcp", type=Path, help="Optional legacy filename; verify disabled transport only.")
+    parser.add_argument("--report", type=Path)
+    options = parser.parse_args()
+    check(options.cli, options.report, options.mcp)

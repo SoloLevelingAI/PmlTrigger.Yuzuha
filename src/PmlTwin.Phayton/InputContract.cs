@@ -20,7 +20,7 @@ internal static class InputContract
             "array" => value.ValueKind == JsonValueKind.Array,
             "string" => value.ValueKind == JsonValueKind.String,
             "boolean" => value.ValueKind is JsonValueKind.True or JsonValueKind.False,
-            "integer" => value.ValueKind == JsonValueKind.Number && value.TryGetInt32(out _),
+            "integer" => value.ValueKind == JsonValueKind.Number && value.TryGetInt64(out _),
             "number" => value.ValueKind == JsonValueKind.Number && value.TryGetDouble(out var n) && double.IsFinite(n),
             "null" => value.ValueKind == JsonValueKind.Null,
             _ => false
@@ -29,6 +29,12 @@ internal static class InputContract
         if (schema.TryGetProperty("enum", out var options) &&
             !options.EnumerateArray().Any(e => JsonElement.DeepEquals(e, value)))
             return path + " is not an allowed value.";
+        if (type is "integer" or "number")
+        {
+            var number = value.GetDouble();
+            if (schema.TryGetProperty("minimum", out var min) && number < min.GetDouble()) return path + " is below minimum.";
+            if (schema.TryGetProperty("maximum", out var max) && number > max.GetDouble()) return path + " is above maximum.";
+        }
         if (type == "object")
         {
             var properties = schema.GetProperty("properties");
@@ -37,7 +43,12 @@ internal static class InputContract
             {
                 if (!seen.Add(property.Name)) return path + "." + property.Name + " is duplicated.";
                 if (!properties.TryGetProperty(property.Name, out var child))
-                    return path + "." + property.Name + " is not a known parameter.";
+                {
+                    if (!schema.TryGetProperty("additionalProperties", out var additional) || additional.ValueKind == JsonValueKind.False)
+                        return path + "." + property.Name + " is not a known parameter.";
+                    if (additional.ValueKind == JsonValueKind.True) continue;
+                    child = additional;
+                }
                 var error = Validate(property.Value, child, path + "." + property.Name);
                 if (error != null) return error;
             }
@@ -59,6 +70,8 @@ internal static class InputContract
             var text = value.GetString()!;
             if (schema.TryGetProperty("minLength", out var minimum) && text.Trim().Length < minimum.GetInt32())
                 return path + " must not be blank.";
+            if (schema.TryGetProperty("maxLength", out var maximum) && text.Length > maximum.GetInt32())
+                return path + " is too long.";
             if (schema.TryGetProperty("pattern", out var pattern) &&
                 !Regex.IsMatch(text, pattern.GetString()!, RegexOptions.CultureInvariant, TimeSpan.FromSeconds(1)))
                 return path + " has an invalid format.";

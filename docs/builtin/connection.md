@@ -1,5 +1,5 @@
 # 连接和故障定位 / Connect and diagnose
 
-Call list_aveva_sessions, then select_aveva_session using a returned PID. Never guess a PID; do not auto-select among multiple candidates. Continue only with TargetVerified=true. MCP and AVEVA must be in the same Windows environment (also inside a VM).
+Run `op invoke aveva.sessions.list`, then `op invoke aveva.session.status --pid <discovered-pid>`. Never guess a PID or select among multiple candidates without resolving the intended engineering session. Continue only with TargetVerified=true. CLI and AVEVA must run in the same Windows environment (also inside a VM). Each CLI process starts independently: pass `--pid` and the verified `--expected-model` on each Host operation; selection is not persisted between CLI processes.
 
 Count=0 means no visible matching AVEVA window was found. E3D_TARGET_NOT_SELECTED means select a session first. Pipe/identity errors mean check the Host, profile, target process and module. A function load error means check the packaged PML and actual loaded version; do not replace the built-in implementation with a snippet from an index. No automatic retries after execution timeout. If a built-in is confirmed faulty, report the failure and follow the user's decision on a fix or replacement; priority does not make an incorrect function safe.

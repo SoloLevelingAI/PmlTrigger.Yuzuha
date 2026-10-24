@@ -1,0 +1,306 @@
+{
+  "schemaVersion": 1,
+  "caseId": "launch.profile.complete-lifecycle",
+  "description": "AM/E3D 分离、保存重开、冲突拒绝、历史恢复与其他配置保留",
+  "environment": "isolated-files",
+  "fixture": "workspace.launch-pair",
+  "steps": [
+    {
+      "id": "am-modules",
+      "operation": "launch.modules.list",
+      "transport": "inline",
+      "input": {
+        "product": "AM",
+        "version": "12.1"
+      },
+      "assertions": [
+        {
+          "pointer": "/data/options/0/value",
+          "equals": "Outfitting"
+        }
+      ]
+    },
+    {
+      "id": "e3d-modules",
+      "operation": "launch.modules.list",
+      "transport": "stdin",
+      "input": {
+        "product": "E3D",
+        "version": "3.1.11"
+      },
+      "assertions": [
+        {
+          "pointer": "/data/options/0/value",
+          "equals": "Design"
+        }
+      ]
+    },
+    {
+      "id": "before",
+      "operation": "launch.profile.read",
+      "input": {
+        "profileId": "sample-e3d"
+      },
+      "assertions": [
+        {
+          "pointer": "/data/profile/mdb",
+          "equals": "/ALL"
+        }
+      ]
+    },
+    {
+      "id": "save",
+      "operation": "launch.profile.update",
+      "permissions": [
+        "write"
+      ],
+      "input": {
+        "profileId": "sample-e3d",
+        "changes": {
+          "mdb": "/REVIEW"
+        }
+      },
+      "bindings": {
+        "expectedRevision": {
+          "step": "before",
+          "pointer": "/data/revision"
+        }
+      },
+      "assertions": [
+        {
+          "pointer": "/data/snapshot/value/profiles/0/mdb",
+          "equals": "/REVIEW"
+        }
+      ]
+    },
+    {
+      "id": "reopen",
+      "operation": "launch.profile.read",
+      "transport": "stdin",
+      "input": {
+        "profileId": "sample-e3d"
+      },
+      "assertions": [
+        {
+          "pointer": "/data/profile/mdb",
+          "equals": "/REVIEW"
+        }
+      ]
+    },
+    {
+      "id": "stale-save",
+      "operation": "launch.profile.update",
+      "permissions": [
+        "write"
+      ],
+      "expectExitCode": 10,
+      "input": {
+        "profileId": "sample-e3d",
+        "changes": {
+          "mdb": "/MUST_NOT_SAVE"
+        }
+      },
+      "bindings": {
+        "expectedRevision": {
+          "step": "before",
+          "pointer": "/data/revision"
+        }
+      },
+      "assertions": [
+        {
+          "pointer": "/error/code",
+          "equals": "CONFIGURATION_CONFLICT"
+        }
+      ]
+    },
+    {
+      "id": "am-before",
+      "operation": "launch.profile.read",
+      "input": {
+        "profileId": "sample-am"
+      },
+      "assertions": [
+        {
+          "pointer": "/data/profile/module",
+          "equals": "Outfitting"
+        }
+      ]
+    },
+    {
+      "id": "wrong-am-module",
+      "operation": "launch.profile.update",
+      "permissions": [
+        "write"
+      ],
+      "expectExitCode": 2,
+      "input": {
+        "profileId": "sample-am",
+        "changes": {
+          "module": "Design"
+        }
+      },
+      "bindings": {
+        "expectedRevision": {
+          "step": "am-before",
+          "pointer": "/data/revision"
+        }
+      },
+      "assertions": [
+        {
+          "pointer": "/error/code",
+          "equals": "LAUNCH_VALIDATION_FAILED"
+        },
+        {
+          "pointer": "/data/validation/issues/0/code",
+          "equals": "MODULE_PRODUCT_MISMATCH"
+        }
+      ]
+    },
+    {
+      "id": "save-am",
+      "operation": "launch.profile.update",
+      "permissions": [
+        "write"
+      ],
+      "transport": "inline",
+      "input": {
+        "profileId": "sample-am",
+        "changes": {
+          "module": "HullDesign"
+        }
+      },
+      "bindings": {
+        "expectedRevision": {
+          "step": "am-before",
+          "pointer": "/data/revision"
+        }
+      },
+      "assertions": [
+        {
+          "pointer": "/data/snapshot/value/profiles/1/module",
+          "equals": "HullDesign"
+        }
+      ]
+    },
+    {
+      "id": "history",
+      "operation": "launch.profile.history",
+      "input": {
+        "profileId": "sample-e3d",
+        "limit": 20
+      },
+      "assertions": [
+        {
+          "pointer": "/data",
+          "length": 2
+        }
+      ]
+    },
+    {
+      "id": "restore-preview",
+      "operation": "launch.profile.restore.preview",
+      "input": {
+        "profileId": "sample-e3d"
+      },
+      "bindings": {
+        "revision": {
+          "step": "before",
+          "pointer": "/data/revision"
+        },
+        "expectedRevision": {
+          "step": "save-am",
+          "pointer": "/data/snapshot/revision"
+        }
+      },
+      "assertions": [
+        {
+          "pointer": "/data/profile/mdb",
+          "equals": "/ALL"
+        },
+        {
+          "pointer": "/data/validation/isValid",
+          "equals": true
+        }
+      ]
+    },
+    {
+      "id": "restore",
+      "operation": "launch.profile.restore",
+      "permissions": [
+        "write"
+      ],
+      "input": {
+        "profileId": "sample-e3d"
+      },
+      "bindings": {
+        "revision": {
+          "step": "before",
+          "pointer": "/data/revision"
+        },
+        "expectedRevision": {
+          "step": "save-am",
+          "pointer": "/data/snapshot/revision"
+        }
+      },
+      "assertions": [
+        {
+          "pointer": "/data/snapshot/value/profiles/0/mdb",
+          "equals": "/ALL"
+        },
+        {
+          "pointer": "/data/snapshot/value/profiles/1/module",
+          "equals": "HullDesign"
+        }
+      ]
+    },
+    {
+      "id": "reopen-restored",
+      "operation": "launch.profile.read",
+      "input": {
+        "profileId": "sample-e3d"
+      },
+      "assertions": [
+        {
+          "pointer": "/data/profile/mdb",
+          "equals": "/ALL"
+        }
+      ]
+    },
+    {
+      "id": "restored-history",
+      "operation": "launch.profile.history",
+      "input": {
+        "profileId": "sample-e3d"
+      },
+      "assertions": [
+        {
+          "pointer": "/data",
+          "length": 3
+        },
+        {
+          "pointer": "/data/0/reason",
+          "equals": "恢复启动配置历史"
+        }
+      ]
+    },
+    {
+      "id": "search-am",
+      "operation": "launch.profile.list",
+      "input": {
+        "product": "AM",
+        "scope": "all",
+        "query": "scenario"
+      },
+      "assertions": [
+        {
+          "pointer": "/data",
+          "length": 1
+        },
+        {
+          "pointer": "/data/0/profile/id",
+          "equals": "sample-am"
+        }
+      ]
+    }
+  ]
+}

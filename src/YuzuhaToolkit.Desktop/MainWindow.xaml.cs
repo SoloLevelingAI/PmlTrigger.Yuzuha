@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.ComponentModel;
 using System.IO;
+using System.Reflection;
 using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
@@ -26,12 +27,13 @@ public partial class MainWindow : Window
     private LaunchProfile? _selected;
     private ActivityEntry[] _recentActivity = [];
     private IReadOnlyList<YuzuhaToolkit.Mcp.AvevaSessionCandidate> _sessionCandidates = [];
+    private static string DesktopVersion => typeof(MainWindow).Assembly.GetCustomAttribute<AssemblyFileVersionAttribute>()?.Version ?? "unknown";
 
     /// <summary>读取已有无密码配置，建立状态轮询；不自动启动 AVEVA 或复制插件。</summary>
     public MainWindow()
     {
         InitializeComponent(); _settings = _launchProfiles.Read().Value;
-        SidebarFooter.Text = "Phayton · " + FileVersionInfo.GetVersionInfo(typeof(MainWindow).Assembly.Location).FileVersion;
+        SidebarFooter.Text = "Phayton · " + DesktopVersion;
         Loaded += (_, _) => NativeWindowFrame.Attach(this);
         InitializeKnowledge();
         Width = Math.Min(Width, Math.Max(MinWidth, SystemParameters.WorkArea.Width - 16));

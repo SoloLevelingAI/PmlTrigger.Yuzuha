@@ -1,4 +1,5 @@
 using System.IO;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,6 +11,20 @@ namespace YuzuhaToolkit.Desktop;
 /// <summary>通过正式控件事件验证隔离启动配置流程；不创建 AVEVA 进程。</summary>
 public partial class MainWindow
 {
+    [UnconditionalSuppressMessage("SingleFile", "IL3000", Justification = "An empty Location is the expected bundled/in-memory case; it is recorded as unavailable, never passed to a file API or replaced by the executable path.")]
+    private static string? StandaloneDesktopAssemblyPath()
+    {
+        var location = typeof(MainWindow).Assembly.Location;
+        return string.IsNullOrEmpty(location) ? null : location;
+    }
+
+    private static string? SmokeFileHash(string? path)
+    {
+        if (path is null) return null;
+        using var stream = File.OpenRead(path);
+        return Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(stream));
+    }
+
     /// <summary>运行正式 WPF 保存、模块联动、筛选、冲突和恢复流程，并保存截图及逐项结果。</summary>
     /// <param name="outputDirectory">调用者选择的隔离输出目录。</param>
     public async Task RunLaunchLifecycleSmokeAsync(string outputDirectory)
@@ -23,12 +38,19 @@ public partial class MainWindow
             checks.Add(name);
         }
         static void Click(Button button) => button.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
-        void Receipt(string status, Exception? error = null) => File.WriteAllText(Path.Combine(outputDirectory, "launch-lifecycle-ui.json"),
-            JsonSerializer.Serialize(new { status, scope = "Actual WPF controls and application service with isolated files; no AVEVA process started",
-                startedUtc = started, finishedUtc = DateTimeOffset.UtcNow, checks, error = error?.ToString(),
-                stateDirectory = WorkspaceSettings.StateDirectory, hostOperations = 0,
-                version = System.Diagnostics.FileVersionInfo.GetVersionInfo(typeof(MainWindow).Assembly.Location).FileVersion,
-                binarySha256 = Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(File.ReadAllBytes(typeof(MainWindow).Assembly.Location))) }, new JsonSerializerOptions { WriteIndented = true }));
+        void Receipt(string status, Exception? error = null)
+        {
+            var managedAssemblyPath = StandaloneDesktopAssemblyPath();
+            var processExecutablePath = Environment.ProcessPath;
+            File.WriteAllText(Path.Combine(outputDirectory, "launch-lifecycle-ui.json"),
+                JsonSerializer.Serialize(new { status, scope = "Actual WPF controls and application service with isolated files; no AVEVA process started",
+                    startedUtc = started, finishedUtc = DateTimeOffset.UtcNow, checks, error = error?.ToString(),
+                    stateDirectory = WorkspaceSettings.StateDirectory, hostOperations = 0, version = DesktopVersion,
+                    managedAssemblyPath, managedAssemblyFileAvailable = managedAssemblyPath is not null,
+                    binaryHashKind = "standalone-managed-assembly", binarySha256 = SmokeFileHash(managedAssemblyPath),
+                    processExecutablePath, processExecutableSha256 = SmokeFileHash(processExecutablePath) },
+                    new JsonSerializerOptions { WriteIndented = true }));
+        }
         try
         {
             await Dispatcher.InvokeAsync(() => { }, DispatcherPriority.ApplicationIdle);

@@ -69,6 +69,10 @@ try {
     & (Join-Path $root 'scripts/Export-PmlXmlDocumentation.ps1') -Root $root -Output (Join-Path $root 'artifacts/docfx/pml-xml.json')
     node scripts/documentation-index.mjs
     if ($LASTEXITCODE -ne 0) { throw 'Documentation index coverage failed.' }
+    node scripts/build-handoff.mjs
+    if ($LASTEXITCODE -ne 0) { throw 'Handoff specification references or compression failed.' }
+    node scripts/run-handoff-checks.mjs
+    if ($LASTEXITCODE -ne 0) { throw 'Handoff metadata, native prototype or traceability checks failed.' }
     dotnet docfx build docfx.json --warningsAsErrors
     if ($LASTEXITCODE -ne 0) { throw 'DocFX build failed.' }
     node scripts/check-documentation.mjs

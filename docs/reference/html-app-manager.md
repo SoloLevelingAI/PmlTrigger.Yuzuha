@@ -27,7 +27,7 @@ pwsh -NoProfile -File scripts/Start-HtmlAppManager.ps1
 
 默认地址 `http://127.0.0.1:5288`。`-DataDirectory` 指定配置和证据目录，`-PmlLib` 指定已部署源码根目录，`-Executable` 可指定发布包。启动和选择会话不执行 PML，按钮运行才派发。
 
-属性示例依赖新版 `PhaytonObjectWalker` 和 `tests/ai-pml/html-manager/YuzuhaHtmlData.pmlobj`；函数/Form 示例复用前批 `YuzuhaDevelopmentProbe`。先使用已有 `Invoke-PmlDevelopment.ps1` 部署新增目录，清单为 `tests/live/pml-html-manager-manifest.json`。流程核对会话实际 PMLLIB，再复制、REHASH ALL、Object 重载和适配器类型验证。设置 `-PmlLib` 不等于文件已进入会话搜索路径，见[复刻步骤](../../artifacts/docfx/navigation/repository/tests/live/pml-html-manager.md)。
+属性示例依赖新版 `PhaytonObjectWalker` 和 `tests/ai-pml/html-manager/YuzuhaHtmlData.pmlobj`；函数/Form 示例复用前批 `YuzuhaDevelopmentProbe`。先使用已有 `Invoke-PmlDevelopment.ps1` 部署新增目录，清单为 `tests/live/pml-html-manager-manifest.json`。流程核对会话实际 PMLLIB，再复制、REHASH ALL、Object 重载和适配器类型验证。设置 `-PmlLib` 不等于文件已进入会话搜索路径，见`tests/live/pml-html-manager.md`。
 
 ## 调用模型
 
@@ -63,4 +63,4 @@ ELDATA 是 AVEVA 数据库属性名，本次是现场归档元素子项上的大
 
 ## 验证入口
 
-离线契约：`dotnet run --project tests/WebApps -c Release`。前端：`node --test tests/web-apps-ui.test.mjs`。真实 IPC：`tests/live/pml-html-manager.ps1`，DBREF 由现场提供。见[本批实测](../../artifacts/docfx/navigation/repository/docs/validation/2026-10-23-html-app-manager.md)。
+离线契约：`dotnet run --project tests/WebApps -c Release`。前端：`node --test tests/web-apps-ui.test.mjs`。真实 IPC：`tests/live/pml-html-manager.ps1`，DBREF 由现场提供。见`docs/validation/2026-10-23-html-app-manager.md`。

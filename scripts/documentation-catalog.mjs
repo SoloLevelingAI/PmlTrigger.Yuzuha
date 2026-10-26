@@ -110,10 +110,11 @@ export function buildScriptCatalog({root,source,types,pml,tests=[],configuration
 export function publishScriptCatalog({root,output,source,types,pml,tests,trace}) {
   const configuration=JSON.parse(fs.readFileSync(path.join(root,'docs/reference/capabilities.json'),'utf8'));
   const catalog=buildScriptCatalog({root,source,types,pml,tests,configuration,trace});
+  for(const f of catalog.features)if(f.status==='planned')f.url='features/planned-tools.html';
   const write=(file,body)=>{const target=path.join(output,file);fs.mkdirSync(path.dirname(target),{recursive:true});fs.writeFileSync(target,body);};
-  const link=(label,url)=>'['+md(label)+'](~/'+'artifacts/docfx/navigation/'+url.replace(/^reference\//,'').replace(/\.html(?=[?#]|$)/,'.md')+')';
+  const link=(label,url)=>'['+md(label)+'](~/'+(url==='features/planned-tools.html'?'docs/reference/features/planned-tools.md':'artifacts/docfx/navigation/'+url.replace(/^reference\//,'').replace(/\.html(?=[?#]|$)/,'.md'))+')';
   const guide=file=>'[人工维护的说明](~/'+file+')';
-  const help='[设计约定](~/docs/reference/pmltwin-design-contract.md) · [如何发现与增删改查](~/docs/reference/catalog-maintenance.md)';
+  const help='[规格](~/docs/reference/specs/index.md) · [维护](~/docs/reference/documentation.md)';
   const testLinks=items=>items.length?items.map(t=>'- '+link(t.name,t.url)+(t.scope?' · '+(t.scope==='type'?'类型关联；不表示当前方法覆盖':'文件关联'):'')).join('\n'):'尚无已维护的关联。';
   for(const file of new Set(catalog.scripts.map(s=>s.file))){const bytes=fs.readFileSync(ownedFile(root,file),'utf8');write('scripts/sources/'+hash(file)+'.md','# '+md(path.posix.basename(file))+'\n\n仓库源码快照：`'+file+'`。仅供阅读。\n\n<pre><code class="nohighlight">'+bytes.split(/\r?\n/).map((line,i)=>'<span id="L'+(i+1)+'">'+(i+1)+'  '+html(line)+'</span>').join('\n')+'</code></pre>\n');}
   for(const s of catalog.scripts){
@@ -122,6 +123,7 @@ export function publishScriptCatalog({root,output,source,types,pml,tests,trace})
     write(s.url.replace(/^reference\//,'').replace('.html','.md'),'# '+md(catalogTitle(s))+'\n\n'+s.purpose+'\n\n**ID：** `'+s.id+'` · **语言：** '+s.language+' · **用途类别：** '+s.role+' · **目录状态：** '+(s.historical?'历史文件':s.discovery==='automatic'?'自动发现，说明待维护':'已维护说明')+'\n\n**功能：** '+featureLinks+'\n\n'+link('查看完整源码 '+s.file+':'+s.line,s.sourceUrl)+(s.typeUrl?' · '+link('C# 类型与 API',s.typeUrl):'')+(s.traceUrl?' · '+link('查看下游调用树',s.traceUrl):'')+'\n\n'+(s.guide?guide(s.guide)+'\n\n':'')+'## 真实声明\n\n```text\n'+(s.signatures.length?s.signatures.join('\n'):s.symbols.join('\n'))+'\n```\n\n**源码 SHA256：** `'+s.sourceSha256+'`\n\n'+traces+'## 变更说明\n\n'+s.change+'\n\n## 验证入口\n\n关联不表示覆盖、审核通过或本次运行通过。请打开测试详情核对命令、环境和证据。\n\n'+testLinks(s.tests)+'\n\n## 编辑位置\n\n用途、归属和变更摘要维护在 `docs/reference/capabilities.json`；签名和源码在 `'+s.file+'`。'+help+'\n\n[返回 Script 目录](index.md)\n');
   }
   for(const f of catalog.features){
+    if(f.status==='planned')continue;
     const selected=catalog.scripts.filter(s=>f.scripts.includes(s.id)),targets=f.types.map(uid=>types.find(t=>t.uid===uid));
     write('features/'+f.id+'.md','# '+f.name+'\n\n'+f.summary+'\n\n**实现状态：** '+featureStates[f.status]+' · **需求来源：** '+({user:'用户要求',existing:'已有能力',ai:'AI 建议'}[f.origin])+'。状态不表示测试或实机通过。\n\n'+guide(f.guide)+'\n\n## 使用和复用的 Script\n\n'+(selected.length?selected.map(s=>'- '+link(catalogTitle(s),s.url)+'：'+s.purpose).join('\n'):'尚未登记 Script，实现入口以计划说明为准。')+'\n\n## 现有接口与编排\n\n'+(targets.length?targets.map(t=>'- '+link(t.name,t.sourceUrl)+'：'+t.summary).join('\n'):'尚未登记实际接口。')+'\n\n## 测试与人工验证\n\n'+testLinks(f.tests)+'\n\n测试关联不表示当前通过；GUI、离线夹具、Host 兼容和 AVEVA 实机分别验收。\n\n'+help+'\n\n[返回功能目录](index.md)\n');
   }
@@ -130,10 +132,10 @@ export function publishScriptCatalog({root,output,source,types,pml,tests,trace})
     const page=path.join(output,original.replace(/^reference\//,'').replace(/\.html$/,'.md'));
     if(fs.existsSync(page))fs.appendFileSync(page,'\n## Script 与具体功能\n\n'+link(s.name+' · '+s.id,s.url)+'\n\n'+s.features.map(id=>{const f=catalog.features.find(f=>f.id===id);return '- '+link(f.name,f.url);}).join('\n')+'\n');
   }
-  write('scripts/index.md','# Script 目录\n\n按名称、声明符号、用途、路径、功能和语言查找。原生文件自动发现；C# Script 由人工声明实际类型或方法，再由 Roslyn 提供签名。历史文件默认隐藏；包含历史与废弃条目的完整目录见[全部文件清单](inventory.md)。\n\n'+help+'\n\n<div id="script-catalog" data-kind="scripts"></div>\n\n[C# 待分类候选](candidates.md)\n');
-  write('scripts/inventory.md','# 全部文件清单\n\n包含历史与废弃文件（例如 PMLLIB/Obsolete/ 下的旧命令），它们不参与筛选，也不代表可调用能力。\n\n'+help+'\n\n| Script | 语言 | 功能 | 目录状态 |\n| --- | --- | --- | --- |\n'+catalog.scripts.map(s=>'| '+link(catalogTitle(s),s.url)+' | '+s.language+' | '+(s.features.map(id=>{const f=catalog.features.find(f=>f.id===id);return link(f.name,f.url);}).join('、')||'未归属')+' | '+(s.historical?'历史':s.discovery==='curated'?'说明已维护':'自动发现')+' |').join('\n')+'\n');
+  write('scripts/index.md','# Script 目录\n\n按名称、声明符号、用途、路径、功能和语言查找。原生文件自动发现；C# Script 由人工声明实际类型或方法，再由 Roslyn 提供签名。当前文件见[文件清单](inventory.md)；废弃文件不发布。\n\n'+help+'\n\n<div id="script-catalog" data-kind="scripts"></div>\n\n[C# 待分类候选](candidates.md)\n');
+  write('scripts/inventory.md','# 全部文件清单\n\n仅当前源码；关联不表示当前会话可执行。\n\n'+help+'\n\n| Script | 语言 | 功能 | 目录状态 |\n| --- | --- | --- | --- |\n'+catalog.scripts.map(s=>'| '+link(catalogTitle(s),s.url)+' | '+s.language+' | '+(s.features.map(id=>{const f=catalog.features.find(f=>f.id===id);return link(f.name,f.url);}).join('、')||'未归属')+' | '+(s.historical?'历史':s.discovery==='curated'?'说明已维护':'自动发现')+' |').join('\n')+'\n');
   write('scripts/candidates.md','# C# 待分类候选\n\n这些是 Roslyn 发现且包含方法的类型，不代表已认定为 Script。先查看职责和源码，再在人工清单选择应纳入的类型或唯一方法。\n\n'+help+'\n\n<div id="script-catalog" data-kind="candidates"></div>\n\n<details><summary>全部静态候选清单 不参与筛选</summary>\n\n'+catalog.candidates.map(c=>'- '+link(c.id,c.url)).join('\n')+'\n\n</details>\n');
-  write('features/index.md','# 按功能阅读\n\n先查看功能目的、实现范围、复用的 Script 与入口，再按需要进入调用树和测试。\n\n'+help+'\n\n<div id="script-catalog" data-kind="features"></div>\n\n<details><summary>全部静态功能清单 不参与筛选</summary>\n\n'+catalog.features.map(f=>'- '+link(f.name,f.url)+' · '+featureStates[f.status]+'：'+f.summary).join('\n')+'\n\n</details>\n');
+  write('features/index.md','# 按功能阅读\n\n先查看功能目的、实现范围、复用的 Script 与入口，再按需要进入调用树和测试。\n\n'+help+'\n\n<div id="script-catalog" data-kind="features"></div>\n\n<details><summary>全部静态功能清单 不参与筛选</summary>\n\n'+catalog.features.filter(f=>f.status!=='planned').map(f=>'- '+link(f.name,f.url)+' · '+featureStates[f.status]+'：'+f.summary).join('\n')+'\n\n</details>\n');
   return catalog;
 }
 

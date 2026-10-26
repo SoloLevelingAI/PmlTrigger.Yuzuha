@@ -19,8 +19,7 @@ function mountAppearance() {
   controls.append(title);
   for (const [key, name, choices] of [
     ['theme', '颜色模式', [['auto', '跟随系统'], ['light', '浅色'], ['dark', '深色']]],
-    ['accent', '强调色', [['blue', '蓝色'], ['violet', '紫色'], ['teal', '青绿']]],
-    ['density', '信息密度', [['comfortable', '标准'], ['compact', '紧凑']]]
+    ['accent', '强调色', [['blue', '蓝色'], ['violet', '紫色'], ['teal', '青绿']]]
   ]) {
     const label = document.createElement('label');
     label.className = 'scope-field';

@@ -1887,6 +1887,24 @@
         }
       ],
       "purpose": "实际复制首个文件后遇到目标路径冲突，回退新增文件并保留旧数据、既有目标和设置。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopActivityFilterTests.ConditionsIntersectWithoutChangingSourceOrOrdering",
+      "purpose": "组合状态、操作、大小写无关文字筛选，验证空结果、重置和原始顺序不变。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.DesktopActivityFilter"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopActivityFilterTests.UnknownIncludesLostRepliesAndIdentityIsSearchable",
+      "purpose": "未知结果包含取消后回执丢失，按目标和关联编号查找；空输入保持空集合。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.DesktopActivityFilter"
+        }
+      ]
     }
   ]
 }

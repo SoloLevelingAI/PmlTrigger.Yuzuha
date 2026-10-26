@@ -12,13 +12,13 @@ public partial class MainWindow
     /// <param name="Page">已有主页面名称。</param>
     /// <param name="Section">子页面序号，负数表示不改变当前子页面。</param>
     private sealed record NavigationItem(string Label, string Page, int Section = -1);
-    private static readonly string[] PageNames = ["启动工程", "启动配置", "总览", "工程会话", "能力与函数", "原生 Form / Gadget", "Web 应用", "插件部署", "评审中心", "测试中心", "知识库", "AI 运行", "工具日志", "设置"];
+    private static readonly string[] PageNames = ["启动工程", "启动配置", "总览", "工程会话", "能力与函数", "原生 Form / Gadget", "Web 应用", "插件部署", "知识库", "AI 运行", "工具日志", "设置"];
 
     private static string NavigationGroup(string title) => title switch
     {
         "总览" or "启动配置" => "启动工程",
         "能力与函数" or "原生 Form / Gadget" => "工程会话",
-        "插件部署" or "评审中心" or "测试中心" => "Web 应用",
+        "插件部署" => "Web 应用",
         "工具日志" => "AI 运行",
         _ => title
     };
@@ -31,7 +31,7 @@ public partial class MainWindow
         {
             "启动工程" => [new("启动工程", "启动工程"), new("全部配置", "启动配置"), new("工作空间总览", "总览")],
             "工程会话" => [new("工程会话", "工程会话"), new("能力与函数", "能力与函数"), new("原生 Form / Gadget", "原生 Form / Gadget")],
-            "Web 应用" => [new("HTML 应用管理器", "Web 应用"), new("PML 部署与验证", "插件部署"), new("评审中心", "评审中心"), new("测试中心", "测试中心")],
+            "Web 应用" => [new("HTML 应用管理器", "Web 应用"), new("PML 部署与验证", "插件部署")],
             "知识库" => [new("检索资料", "知识库", 0), new("个人笔记", "知识库", 1), new("资料源与回收站", "知识库", 2), new("目录与检索记录", "知识库", 3)],
             "设置" => [new("用户目录", "设置", 0), new("环境与路径", "设置", 1), new("外观", "设置", 2), new("登录凭据", "设置", 3), new("AI 客户端", "设置", 4), new("关于 Phayton", "设置", 5)],
             _ => [new("AI 运行", "AI 运行"), new("工具日志", "工具日志")]
@@ -64,7 +64,6 @@ public partial class MainWindow
                 button.SetResourceReference(ForegroundProperty, active ? "Brand.NavSelectedText" : "Brand.NavText");
                 button.BorderThickness = new(0);
             }
-            PlannedIntro.Visibility = title is "评审中心" or "测试中心" ? Visibility.Visible : Visibility.Collapsed;
             HeaderActionButton.Visibility = title == "设置" && SettingsPages.SelectedIndex != 1 ? Visibility.Collapsed : Visibility.Visible;
             if (title == "设置") PageSubtitleText.Text = selected?.Label + " · 修改由你决定";
             if (title == "知识库")

@@ -1,4 +1,4 @@
-// Adapted from LaunchDesk main; see docs/reference/test-associations.md.
+// Adapted from LaunchDesk main; see docs/reference/testing.md.
 const el=(tag,attributes={},...children)=>{
   const node=document.createElement(tag);
   for(const [key,value]of Object.entries(attributes))if(key.startsWith('on'))node.addEventListener(key.slice(2),value);else node.setAttribute(key,value);

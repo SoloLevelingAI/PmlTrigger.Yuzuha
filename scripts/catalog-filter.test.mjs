@@ -49,3 +49,8 @@ test('没有匹配时返回空数组而不是全部条目', () => {
   assert.deepEqual(selectCatalogItems(catalog, {q: '不存在的名字'}), []);
   assert.deepEqual(selectCatalogItems(catalog, {feature: 'forms', language: 'PML'}), []);
 });
+
+test('待定功能不进入可用功能目录', () => {
+  const data = {...catalog, features: [{id:'ready',name:'现有功能',status:'implemented'}, {id:'later',name:'待定功能',status:'planned'}]};
+  assert.deepEqual(selectCatalogItems(data, {kind:'features'}).map(item=>item.id), ['ready']);
+});

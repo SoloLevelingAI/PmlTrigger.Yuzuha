@@ -74,7 +74,7 @@ public partial class MainWindow : Window
         if (OverviewKpis is not null)
         {
             var narrow = ActualWidth < 1400; OverviewKpis.Columns = narrow ? 2 : 4;
-            foreach (var grid in new[] { OverviewColumns1, OverviewColumns2, OverviewColumns3, LaunchColumns, LaunchLowerColumns, RuntimeColumns, RuntimeLowerColumns, LogColumns, NotesColumns, ReviewColumns, TestsColumns, WebColumns, KnowledgeColumns, DeploymentColumns, DeploymentLowerColumns, ProfileLibraryColumns })
+            foreach (var grid in new[] { OverviewColumns1, OverviewColumns2, OverviewColumns3, LaunchColumns, LaunchLowerColumns, RuntimeColumns, RuntimeLowerColumns, LogColumns, NotesColumns, WebColumns, KnowledgeColumns, DeploymentColumns, DeploymentLowerColumns, ProfileLibraryColumns })
             {
                 if (grid.RowDefinitions.Count == 0) { grid.RowDefinitions.Add(new() { Height = GridLength.Auto }); grid.RowDefinitions.Add(new() { Height = GridLength.Auto }); }
                 var cards = grid.Children.OfType<Border>().ToArray();
@@ -88,9 +88,9 @@ public partial class MainWindow : Window
         title = title?.Trim() ?? "总览"; PageTitleText.Text = title;
         PageSubtitleText.Text = title switch { "总览" => "本机工作台 · 工程环境与近期工具活动", "工程会话" => "先核验 PID 与启动身份，再查询或调用 PML", "能力与函数" => "登记源码、人工授权 · 登记版本与会话加载版本分别核对", "原生 Form / Gadget" => "原生窗体 → 控件 → 属性 · 有界读取与续读", "启动工程" => "保存本机登录配置与凭据，下次自动使用", "启动配置" => "按名称、项目或路径查找，管理多套本机配置", "知识库" => "本窗口检索、正文、来源与定位", "插件部署" => "来源、复制预览、备份与本机记录", _ => "本机工具与交付记录" };
         HeaderActionText.Text = title switch { "工程会话" => "扫描会话", "能力与函数" => "登记函数", "原生 Form / Gadget" => "重新核验", "AI 运行" => "刷新状态", "工具日志" => "日志目录", "插件部署" => "预览复制", "设置" => "保存设置", _ => "启动工程" };
-        if (title is "评审中心" or "测试中心" or "Web 应用" or "知识库") HeaderActionText.Text = title switch { "评审中心" => "审核草稿", "测试中心" => "运行测试", "Web 应用" => "打开 HTML 管理器", _ => "搜索知识" };
+        if (title is "Web 应用" or "知识库") HeaderActionText.Text = title switch { "Web 应用" => "打开 HTML 管理器", _ => "搜索知识" };
         if (title == "启动配置") HeaderActionText.Text = "新建配置";
-        HeaderActionButton.IsEnabled = title is not ("评审中心" or "测试中心");
+        HeaderActionButton.IsEnabled = true;
         HeaderActionIcon.Data = (Geometry)FindResource(title is "工程会话" or "原生 Form / Gadget" or "AI 运行" ? "Icon.refresh" : title is "能力与函数" or "Web 应用" or "启动配置" ? "Icon.plus" : "Icon.play");
         UpdateR2Navigation(title);
     }
@@ -120,8 +120,8 @@ public partial class MainWindow : Window
         else if (Tabs.SelectedIndex == 1) PreviewCopy(sender, e);
         else if (Tabs.SelectedIndex == 0) { if (LaunchButton.IsEnabled) Launch(sender, e); }
         else if (Tabs.SelectedIndex == 8) { NewProfile(sender, e); Tabs.SelectedIndex = 0; }
-        else if (Tabs.SelectedIndex == 5 && PlannedPages.SelectedIndex == 2) OpenHtmlManager(sender,e);
-        else if (Tabs.SelectedIndex == 5 && PlannedPages.SelectedIndex == 3) { if (KnowledgePages.SelectedIndex == 1) NewPersonalNote(sender, e); else { KnowledgePages.SelectedIndex = 0; _ = SearchKnowledgeAsync(); } }
+        else if (Tabs.SelectedIndex == 5 && ResourcePages.SelectedIndex == 0) OpenHtmlManager(sender,e);
+        else if (Tabs.SelectedIndex == 5 && ResourcePages.SelectedIndex == 1) { if (KnowledgePages.SelectedIndex == 1) NewPersonalNote(sender, e); else { KnowledgePages.SelectedIndex = 0; _ = SearchKnowledgeAsync(); } }
         else { Tabs.SelectedIndex = 0; SetPage("启动工程"); }
     }
     private void ShowHelp(object sender, RoutedEventArgs e) => MessageBox.Show(this, "工程会话：扫描 → 选择 → 核验目标。\n能力与函数：登记源码 → 检查源码 → 授予许可 → 预览 → 执行一次。\n原生查询：窗体 → 控件 → 固定属性；使用 NextIndex 继续读取。\n\n源码变化后重新登记和授权；结果未知时先核查回执，不自动重试。\nCtrl+K 可按页面名称导航；所有界面证据与实机验证分别记录。", "Phayton · 使用说明");
@@ -149,19 +149,12 @@ public partial class MainWindow : Window
         if (int.TryParse(button.Tag?.ToString(), out var index)) Tabs.SelectedIndex = index;
         else
         {
-            Tabs.SelectedIndex = 5; PlannedTitleText.Text = button.Uid + " · 功能待接入，保留原稿布局";
-            PlannedPages.SelectedIndex = button.Uid switch { "评审中心" => 0, "测试中心" => 1, "Web 应用" => 2, _ => 3 };
-            PlannedDescriptionText.Text = button.Uid switch
-            {
-                "评审中心" => "M3：同一名人工审核差异、契约和测试证据，再批准迁移。复用已有复制、哈希和备份能力，补批准快照、回执与恢复记录。",
-                "测试中心" => "M2a / M2b：先交付源码目录与证据浏览，再从 C# 调用既有按 ID 测试脚本。现阶段可使用 DocFX 测试目录与 PowerShell 独立复刻；人工实机项保持 NotRun。",
-                "Web 应用" => "桌面按钮打开独立 HTML 管理器，共用现有 IPC；打开网页不执行 PML。应用分类、按钮和参数在网页中配置。",
-                _ => "搜索与个人笔记共用知识目录；笔记保留修订和回收站，资料源支持建库、重建与恢复。官方原文保留，经验仍沿用追加接口；检索命中不等于实测或调用许可。"
-            };
+            if (button.Uid is not ("Web 应用" or "知识库")) { Say("该功能未列入当前可用范围，见文档待定清单。"); return; }
+            Tabs.SelectedIndex = 5;
+            ResourcePages.SelectedIndex = button.Uid == "Web 应用" ? 0 : 1;
         }
         if (button.Uid == "工程会话") SessionView.OpenSessions();
-        if (button.Uid == "Web 应用") PlannedTitleText.Text = "Web 应用 · 独立本地管理器";
-        if (button.Uid == "知识库") { PlannedTitleText.Text = "知识检索 · 资料与实测证据分开"; if (KnowledgeResultsGrid.Items.Count == 0) _ = SearchKnowledgeAsync(); }
+        if (button.Uid == "知识库") { if (KnowledgeResultsGrid.Items.Count == 0) _ = SearchKnowledgeAsync(); }
         SetPage(button.Uid);
     }
     private void OpenFunctionsPage(object sender, RoutedEventArgs e) { Tabs.SelectedIndex = 3; SessionView.OpenFunctions(); SetPage("能力与函数"); }
@@ -400,8 +393,8 @@ public partial class MainWindow : Window
             if (_closed) return;
             var selectedActivity = ActivityGrid.SelectedItem as ActivityEntry;
             _recentActivity = data.Events;
-            RuntimeGrid.ItemsSource = data.Statuses; RuntimeCards.ItemsSource = data.Statuses.Take(3).ToArray(); RuntimeActivityGrid.ItemsSource = data.Events.Take(8).ToArray(); ActivityGrid.ItemsSource = data.Events;
-            if (selectedActivity is not null) ActivityGrid.SelectedItem = data.Events.FirstOrDefault(item => item.CallId == selectedActivity.CallId && item.ProcessId == selectedActivity.ProcessId && item.Phase == selectedActivity.Phase && item.TimeUtc == selectedActivity.TimeUtc);
+            RuntimeGrid.ItemsSource = data.Statuses; RuntimeCards.ItemsSource = data.Statuses.Take(3).ToArray(); RuntimeActivityGrid.ItemsSource = data.Events.Take(8).ToArray(); RefreshActivityFilters();
+            if (selectedActivity is not null) ActivityGrid.SelectedItem = ActivityGrid.Items.OfType<ActivityEntry>().FirstOrDefault(item => item.CallId == selectedActivity.CallId && item.ProcessId == selectedActivity.ProcessId && item.Phase == selectedActivity.Phase && item.TimeUtc == selectedActivity.TimeUtc);
             HeartbeatText.Text = $"{data.Statuses.Count(status => status.State is "idle" or "running")} 个本机服务在线 · {data.Statuses.Sum(status => status.ActiveTools.Length)} 个工具运行中";
             var summary = DesktopActivitySummary.Create(data.Events, DateTimeOffset.Now);
             OverviewCalls.Text = summary.Completed.ToString("N0");
@@ -429,6 +422,7 @@ public partial class MainWindow : Window
             ActivityRequestText.Text = string.IsNullOrEmpty(entry.Arguments) ? _recentActivity.FirstOrDefault(item => item.CallId == entry.CallId && item.ProcessId == entry.ProcessId && item.Service == entry.Service && item.Phase == "started")?.Arguments ?? "开始记录不在当前保留范围，无法恢复请求参数。" : entry.Arguments;
             ActivityDetails.Text = entry.Summary;
         }
+        else { ActivityIdentityText.Text = "选择一条调用记录"; ActivityRequestText.Clear(); ActivityDetails.Clear(); }
     }
     private void CopyActivity(object sender, RoutedEventArgs e) => Try(() => { Clipboard.SetText(ActivityIdentityText.Text + "\n请求：" + ActivityRequestText.Text + "\n结果：" + ActivityDetails.Text); Say("已复制当前调用详情。"); });
     private void Try(Action action) { try { action(); } catch (Exception error) { Say(error.Message); } }
@@ -490,10 +484,10 @@ public partial class MainWindow : Window
         // Otherwise its in-flight guard can skip this refresh and leave an empty log selection.
         for (var attempt = 0; _refreshing && attempt < 500; attempt++) await Task.Delay(10);
         if (_refreshing) throw new InvalidOperationException("初始状态读取未完成，无法核对本次合成日志。");
-        await RefreshRuntimeAsync();
+        await RefreshRuntimeAsync(); VerifyActivityFiltersSmoke();
         (int Tab, int Flow, int Planned, string Name)[] screens = {
             (Tab: 4, Flow: 0, Planned: 0, Name: "overview"), (0,0,0,"launch"), (1,0,0,"deployment"), (2,0,0,"runtime"), (7,0,0,"logs"),
-            (3,0,0,"sessions"), (3,1,0,"functions"), (3,2,0,"queries"), (5,0,0,"review"), (5,0,1,"tests"), (5,0,2,"web"), (5,0,3,"knowledge"), (6,0,0,"settings"), (8,0,0,"profiles") };
+            (3,0,0,"sessions"), (3,1,0,"functions"), (3,2,0,"queries"), (5,0,0,"web"), (5,0,1,"knowledge"), (6,0,0,"settings"), (8,0,0,"profiles") };
         foreach (var theme in new[] { "Light", "Dark" })
         {
             await SessionView.PrepareSmokeAsync(fixtureDirectory);
@@ -525,7 +519,7 @@ public partial class MainWindow : Window
                 SelectSmokeScreen(screen.Tab, screen.Flow, screen.Planned);
                 await CaptureSmokeAsync(Path.Combine(themeDirectory, $"design-{screen.Name}.png"));
             }
-            SelectSmokeScreen(5, 0, 3); OpenPersonalNotes(this, new());
+            SelectSmokeScreen(5, 0, 1); OpenPersonalNotes(this, new());
             await CaptureSmokeAsync(Path.Combine(themeDirectory, "knowledge-editor.png"));
             OpenKnowledgeLibraries(this, new());
             await CaptureSmokeAsync(Path.Combine(themeDirectory, "knowledge-libraries.png"));
@@ -552,7 +546,7 @@ public partial class MainWindow : Window
         File.WriteAllText(Path.Combine(outputDirectory, "desktop-smoke.json"), JsonSerializer.Serialize(new {
             passed = true, scope = "WPF creation, synthetic bindings and layout; not AVEVA live or human visual acceptance",
             pages = screens.Length, tabs = Tabs.Items.Count, profiles = ProfilesBox.Items.Count, errorStates = 4,
-            themes = new[] { "Light", "Dark" }, themePreservesWork = true, savedCredentials = true, guiKnowledge = true, personalNotesCrud = true, r2Navigation = true, nativeWindowChrome = true, compactNavigation = true, objectQueries = true, profileLibrary = true,
+            themes = new[] { "Light", "Dark" }, themePreservesWork = true, savedCredentials = true, guiKnowledge = true, personalNotesCrud = true, activityFilters = true, r2Navigation = true, nativeWindowChrome = true, compactNavigation = true, objectQueries = true, profileLibrary = true,
             viewports = new[] { "1440x960", "1280x720", "853x480 logical (1280x720 at 150%)" },
             designCanvas = "1440x1024 client", finishedUtc = DateTime.UtcNow, dpi = VisualTreeHelper.GetDpi(this).DpiScaleX, fontSize = FontSize }));
     }
@@ -562,10 +556,10 @@ public partial class MainWindow : Window
         if (tab == 3) SessionView.SelectSmokeFlow(flow);
         if (tab == 5)
         {
-            PlannedPages.SelectedIndex = planned; PlannedTitleText.Text = planned == 3 ? "GUI 知识检索 · 离线验证" : "离线界面验证 · 功能尚未接入";
+            ResourcePages.SelectedIndex = planned;
         }
         var title = tab == 3 ? flow switch { 1 => "能力与函数", 2 => "原生 Form / Gadget", _ => "工程会话" }
-            : tab == 5 ? new[] { "评审中心", "测试中心", "Web 应用", "知识库" }[planned] : ((TabItem)Tabs.SelectedItem).Header.ToString();
+            : tab == 5 ? new[] { "Web 应用", "知识库" }[planned] : ((TabItem)Tabs.SelectedItem).Header.ToString();
         SetPage(title); PageSubtitleText.Text = "离线合成验证 · 非 AVEVA 实机";
         if (tab == 7)
         {

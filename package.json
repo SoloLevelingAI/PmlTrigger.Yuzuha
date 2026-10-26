@@ -14,7 +14,10 @@
     "architecture:check": "node scripts/architecture.mjs check",
     "architecture:validate": "likec4 validate docs/architecture",
     "architecture:build": "likec4 build docs/architecture -o artifacts/architecture --base ./ --use-hash-history",
-    "architecture:serve": "likec4 serve docs/architecture"
+    "architecture:serve": "likec4 serve docs/architecture",
+    "docs:handoff:build": "node scripts/build-handoff.mjs",
+    "docs:handoff:check": "node scripts/run-handoff-checks.mjs",
+    "docs:handoff:prototype": "python scripts/build-handoff-prototype.py"
   },
   "devDependencies": {
     "likec4": "1.60.0",

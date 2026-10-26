@@ -30,7 +30,7 @@ try {
     $request=[Net.Http.HttpRequestMessage]::new([Net.Http.HttpMethod]::Get,"$address/docs/index.html")
     $request.Headers.Host='untrusted.example'
     if ([int]$client.SendAsync($request).GetAwaiter().GetResult().StatusCode -ne 403) { throw 'Unexpected Host header accepted.' }
-    if ([int]$client.GetAsync("$address/docs/public/phayton-r2.css").GetAwaiter().GetResult().StatusCode -ne 200) { throw 'R2 stylesheet not served.' }
+    if ([int]$client.GetAsync("$address/docs/public/reading.css").GetAwaiter().GetResult().StatusCode -ne 200) { throw 'Documentation stylesheet not served.' }
     @{passed=$true; scope='Actual packaged loopback documentation host; no AVEVA'; indexSha256=$served;
       readOnly=$true; noDevelopmentRoutes=$true; hostGuard=$true; finishedUtc=[DateTime]::UtcNow.ToString('o')} |
         ConvertTo-Json | Set-Content -LiteralPath (Join-Path $OutputDirectory 'documentation-host.json') -Encoding utf8

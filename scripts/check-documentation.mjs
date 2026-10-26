@@ -2,8 +2,6 @@ import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
 import {fileURLToPath} from 'node:url';
-import {createHash} from 'node:crypto';
-import {readDesignBaselines} from './documentation-baselines.mjs';
 
 const root=fileURLToPath(new URL('../',import.meta.url));
 const site=path.join(root,'artifacts/docfx/site');
@@ -44,29 +42,25 @@ for(const [file,{markup}] of documents){
 const graph=JSON.parse(fs.readFileSync(path.join(site,'reference/graph.json'),'utf8'));
 const pmlXml=JSON.parse(fs.readFileSync(path.join(root,'artifacts/docfx/pml-xml.json'),'utf8'));
 for(const [file,doc] of Object.entries(pmlXml)) {
+  if(/(?:^|\/)Obsolete\//i.test(file))continue;
   const html=documents.get(path.join(site,'reference/pml/'+file+'.html'))?.html;
   assert.ok(html?.includes('完整源码'),'Missing rendered PML XML documentation: '+file);
   // Each XML contract renders as a heading, separate from the literal source listing.
   assert.ok((html.match(/<h2\b/g)??[]).length>=doc.count+1,'PML XML declaration publication gap: '+file);
 }
-const originals=readDesignBaselines(root);
 const searchIndex=JSON.parse(fs.readFileSync(path.join(site,'index.json'),'utf8'));
-assert.equal(graph.designBaselines?.length,originals.length,'Design baseline publication gap');
-for(const b of graph.designBaselines){
-  const original=originals.find(item=>item.id===b.id);assert.ok(original,'Unknown published baseline');
-  assert.equal(b.status,original.status);assert.equal(b.sha256,original.sha256);
-  assert.ok(documents.has(path.join(site,b.url))&&documents.has(path.join(site,b.sourceUrl)),'Missing baseline source/overview page');
-  assert.ok(searchIndex[b.sourceUrl]?.summary.includes(b.documentId)&&searchIndex[b.sourceUrl].summary.includes(b.status),'Design source missing from search index');
-  const download=fs.readFileSync(path.join(site,b.downloadUrl));
-  assert.equal(download.length,original.bytes,'Published Word size mismatch');
-  assert.equal(createHash('sha256').update(download).digest('hex'),original.sha256,'Published Word hash mismatch');
-}
+for(const file of walk(site))assert.ok(!/^(?:media\/)|(?:\.docx|phayton-r2\.css)$/i.test(path.relative(site,file).replaceAll('\\','/')),'Retired resource: '+file);
+const retired=/^(?:design-baselines|repository)\/|(?:^|\/)Obsolete\/|^(?:phayton-r2(?:-production)?|phayton-demo|desktop-m1|clear-workspace-design|pmltwin-phase1|pmltwin-design-contract|portfolio-demo|workbench-lifecycle|workbench-validation|design-adaptation|iteration-log|understanding-notes|flows|signing-handoff|runtime-capability-audit|catalog-maintenance|test-associations)\.html$/i;
+for(const file of walk(site))assert.ok(!retired.test(path.relative(site,file).replaceAll('\\','/').replace(/^reference\//,'')),'Retired published file: '+file);
+assert.ok(!fs.existsSync(path.join(site,'reference/specifications/prototype.html')),'Unconnected workbench must not be published');
+for(const id of ['review','tests','formuse'])assert.ok(!fs.existsSync(path.join(site,'reference/features/'+id+'.html')),'Pending feature published as available: '+id);
+for(const key of Object.keys(searchIndex))assert.ok(!retired.test(key.replace(/^reference\//,'')),'Retired search entry: '+key);
 assert.equal(new Set(graph.types.map(type=>type.uid)).size,graph.types.length,'Duplicate graph type IDs');
 for(const type of graph.types)for(const property of ['url','sourceUrl']){
   if(!documents.has(path.join(site,type[property])))errors.push({type:type.uid,missingTypeTarget:type[property]});
 }
 const report={htmlPages:pages.length,checkedLocalLinks:links,projects:graph.projects.length,modules:graph.modules.length,types:graph.types.length,errors};
-report.designBaselines=graph.designBaselines.map(b=>({id:b.id,status:b.status,sha256:b.sha256,bytes:b.bytes,paragraphs:b.paragraphs,images:b.images}));
+report.retiredContentAbsent=true;
 assert.ok(graph.tests?.length,'Test catalog must not be empty');
 assert.equal(new Set(graph.tests.map(test=>test.id)).size,graph.tests.length,'Duplicate test IDs');
 for(const test of graph.tests){

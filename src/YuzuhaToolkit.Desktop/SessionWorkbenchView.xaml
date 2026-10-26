@@ -164,14 +164,11 @@
                     <Border Style="{StaticResource Pill}" DockPanel.Dock="Right">
                       <TextBlock Text="原始回执" Foreground="{DynamicResource Text.Brand}" FontSize="11" />
                     </Border>
-                    <TextBlock Text="PML 控制台" Style="{StaticResource SectionTitle}" />
+                    <TextBlock Text="会话回执" Style="{StaticResource SectionTitle}" />
                   </DockPanel>
                   <TextBox x:Name="SessionReceiptText" IsReadOnly="True" Height="110" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Background="{DynamicResource Surface.Code}" Foreground="{DynamicResource Text.CodeText}" FontFamily="Consolas" FontSize="11" Margin="0,12,0,10" />
-                  <DockPanel>
-                    <Button DockPanel.Dock="Right" Content="▶ 执行" IsEnabled="False" />
-                    <TextBox Tag="原始命令待接入" IsEnabled="False" Margin="0,0,8,0" />
-                  </DockPanel>
-                  <TextBlock Text="Q03 · 本批使用注册调用或原生只读查询。" Style="{StaticResource Caption}" Foreground="{DynamicResource Text.Warning}" Margin="0,10,0,0" />
+
+                  <TextBlock Text="会话核验与查询回执；原始命令使用明确授权的 CLI。" Style="{StaticResource Caption}" Foreground="{DynamicResource Text.Warning}" Margin="0,10,0,0" />
                 </StackPanel>
               </Border>
             </Grid>

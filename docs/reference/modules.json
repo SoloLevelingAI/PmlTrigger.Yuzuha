@@ -114,49 +114,49 @@
       "name": "会话与身份",
       "description": "从可见工程窗口发现候选，锁定 PID、启动时间、模块和专用管道。",
       "match": "src/YuzuhaToolkit.Mcp.Core/(HostCapabilityException|Aveva|YuzuhaRpcBridge|YuzuhaTargetOptions|PmlCallTools|PmlCommandRpcContracts)",
-      "guide": "repository/docs/builtin/connection.html"
+      "guide": "cli.html"
     },
     {
       "id": "pml",
       "name": "PML 调用与信任",
       "description": "带类型参数生成、函数注册与权限、有界数组、原生窗体控件查询、BFS 与人工函数信任。",
       "match": "src/(Shared/Pml(MethodSignatureGenerator|ArrayWindow|FormQuery)|YuzuhaToolkit.Mcp.Core/(Pml|Bfs|BoundedArray))",
-      "guide": "pmltwin-phase1.html"
+      "guide": "pml-development-flow.html"
     },
     {
       "id": "builtin",
       "name": "内置指南",
       "description": "无需 SQLite 的版本内置主题、别名、完整正文与替代授权边界。",
       "match": "src/(Shared/BuiltinGuideCatalog|YuzuhaToolkit.Mcp.Core/Builtin)",
-      "guide": "repository/docs/builtin-policy.html"
+      "guide": "user-data-and-knowledge.html"
     },
     {
       "id": "knowledge",
       "name": "知识与经验",
       "description": "PML / WebHelp 切分、FTS5 查询、来源隔离、索引校验和本机经验。",
       "match": "src/YuzuhaToolkit.Knowledge.Core/",
-      "guide": "repository/skill/references/knowledge-base.zh-CN.html"
+      "guide": "user-data-and-knowledge.html"
     },
     {
       "id": "rpc",
       "name": "RPC 与心跳",
       "description": "稳定路由、帧编解码、取消、后台作业与客户端心跳状态。",
       "match": "src/PlantHost.Rpc.Net10/|src/YuzuhaToolkit.Mcp.Core/AotPml",
-      "guide": "flows.html"
+      "guide": "backend-tracing.html"
     },
     {
       "id": "host",
       "name": "Host 与操作记录",
       "description": "NET35 / NET48 主线程绑定、PMLNet、完整数组、截图及 JSONL 配对。",
       "match": "src/(YuzuhaToolkit.PmlHost|Shared/FormRecordWriter)",
-      "guide": "repository/docs/session-recording.html"
+      "guide": "startup-policy.html"
     },
     {
       "id": "setup",
       "name": "安装与生命周期",
       "description": "发现产品与环境入口，生成预览，按明确批准的计划安装、更新或恢复。",
       "match": "installer/SetupBridge/",
-      "guide": "repository/installer/INSTALL.html"
+      "guide": "installation.html"
     },
     {
       "id": "entrypoints",

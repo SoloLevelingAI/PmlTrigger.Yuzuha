@@ -49,4 +49,4 @@
 
 API XML：`UserDataPaths`、`UserDataMigrationService`、`KnowledgeRepository.SaveNote/ListNotes/NoteHistory/RebuildLibrary/ArchiveLibrary/RestoreLibrary`。新管理逻辑复用原 KnowledgeRepository 检索与建库，不更改既有 MCP 工具签名。
 
-验证入口：[本批记录](../../artifacts/docfx/navigation/repository/docs/validation/2026-10-23-user-data-knowledge.md)。
+验证入口：`docs/validation/2026-10-23-user-data-knowledge.md`。

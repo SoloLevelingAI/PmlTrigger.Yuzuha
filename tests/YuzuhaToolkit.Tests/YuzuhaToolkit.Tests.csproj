@@ -10,6 +10,7 @@
     <Compile Include="../../src/YuzuhaToolkit.Desktop/SessionWorkbench.cs" Link="Desktop/SessionWorkbench.cs" />
     <Compile Include="../../src/YuzuhaToolkit.Desktop/DesktopDisplaySettings.cs" Link="Desktop/DesktopDisplaySettings.cs" />
     <Compile Include="../../src/YuzuhaToolkit.Desktop/DesktopActivitySummary.cs" Link="Desktop/DesktopActivitySummary.cs" />
+    <Compile Include="../../src/YuzuhaToolkit.Desktop/DesktopActivityFilter.cs" Link="Desktop/DesktopActivityFilter.cs" />
     <Compile Include="../../src/YuzuhaToolkit.Desktop/WindowsCredentialStore.cs" Link="Desktop/WindowsCredentialStore.cs" />
     <Compile Include="../../src/YuzuhaToolkit.Desktop/DesktopObjectQuery.cs" Link="Desktop/DesktopObjectQuery.cs" />
     <Compile Include="../../src/YuzuhaToolkit.Desktop/DesktopKnowledgeBrowser.cs" Link="Desktop/DesktopKnowledgeBrowser.cs" />

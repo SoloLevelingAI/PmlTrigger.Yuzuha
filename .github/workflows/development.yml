@@ -34,6 +34,8 @@ jobs:
           path: |
             artifacts/tests/*.trx
             artifacts/tests/run-metadata.json
+            artifacts/handoff-validation/**/*.json
+            artifacts/handoff-validation/**/*.tap
             artifacts/tests/launch-scenarios/**/*.json
             artifacts/tests/launch-scenarios/**/*.toml
             artifacts/tests/launch-scenarios/**/*.html

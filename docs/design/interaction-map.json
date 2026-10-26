@@ -1,0 +1,2194 @@
+{
+  "schema": 1,
+  "generator": "scripts/build-handoff-prototype.py",
+  "screens": {
+    "S01": 2,
+    "S02": 3,
+    "S03": 4,
+    "S04": 5,
+    "S05": 6,
+    "S06": 7,
+    "S07": 8,
+    "S08": 9,
+    "S09": 10,
+    "S10": 11,
+    "S11": 12,
+    "S12": 13,
+    "S13": 14,
+    "S14": 15,
+    "S15": 16,
+    "S16": 17,
+    "S17": 18,
+    "S18": 19,
+    "S19": 20,
+    "S20": 21,
+    "S21": 22,
+    "S22": 23,
+    "S23": 24,
+    "S24": 25,
+    "S25": 26,
+    "S26": 27,
+    "S27": 28,
+    "S28": 29,
+    "S29": 30,
+    "S30": 31
+  },
+  "links": [
+    {
+      "from": "S01",
+      "key": "nav/S01",
+      "names": [
+        "S01/control/nav/S01/hit",
+        "S01/control/nav/S01/label"
+      ],
+      "to": "S01",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S01",
+      "key": "nav/S10",
+      "names": [
+        "S01/control/nav/S10/hit",
+        "S01/control/nav/S10/label"
+      ],
+      "to": "S10",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S01",
+      "key": "nav/S13",
+      "names": [
+        "S01/control/nav/S13/hit",
+        "S01/control/nav/S13/label"
+      ],
+      "to": "S13",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S01",
+      "key": "records",
+      "names": [
+        "S01/control/records/hit",
+        "S01/control/records/label"
+      ],
+      "to": "S15",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S01",
+      "key": "permissions",
+      "names": [
+        "S01/control/permissions/hit",
+        "S01/control/permissions/label"
+      ],
+      "to": "S16",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S01",
+      "key": "filter",
+      "names": [
+        "S01/control/filter/hit",
+        "S01/control/filter/label"
+      ],
+      "to": "S02",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S01",
+      "key": "edit",
+      "names": [
+        "S01/control/edit/hit",
+        "S01/control/edit/label"
+      ],
+      "to": "S03",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S01",
+      "key": "missing",
+      "names": [
+        "S01/control/missing/hit",
+        "S01/control/missing/label"
+      ],
+      "to": "S24",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S01",
+      "key": "start",
+      "names": [
+        "S01/control/start/hit",
+        "S01/control/start/label"
+      ],
+      "to": "S25",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S02",
+      "key": "nav/S01",
+      "names": [
+        "S02/control/nav/S01/hit",
+        "S02/control/nav/S01/label"
+      ],
+      "to": "S01",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S02",
+      "key": "nav/S10",
+      "names": [
+        "S02/control/nav/S10/hit",
+        "S02/control/nav/S10/label"
+      ],
+      "to": "S10",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S02",
+      "key": "nav/S13",
+      "names": [
+        "S02/control/nav/S13/hit",
+        "S02/control/nav/S13/label"
+      ],
+      "to": "S13",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S02",
+      "key": "records",
+      "names": [
+        "S02/control/records/hit",
+        "S02/control/records/label"
+      ],
+      "to": "S15",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S02",
+      "key": "permissions",
+      "names": [
+        "S02/control/permissions/hit",
+        "S02/control/permissions/label"
+      ],
+      "to": "S16",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S02",
+      "key": "reset",
+      "names": [
+        "S02/control/reset/hit",
+        "S02/control/reset/label"
+      ],
+      "to": "S01",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S03",
+      "key": "nav/S01",
+      "names": [
+        "S03/control/nav/S01/hit",
+        "S03/control/nav/S01/label"
+      ],
+      "to": "S01",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S03",
+      "key": "nav/S10",
+      "names": [
+        "S03/control/nav/S10/hit",
+        "S03/control/nav/S10/label"
+      ],
+      "to": "S10",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S03",
+      "key": "nav/S13",
+      "names": [
+        "S03/control/nav/S13/hit",
+        "S03/control/nav/S13/label"
+      ],
+      "to": "S13",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S03",
+      "key": "records",
+      "names": [
+        "S03/control/records/hit",
+        "S03/control/records/label"
+      ],
+      "to": "S15",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S03",
+      "key": "permissions",
+      "names": [
+        "S03/control/permissions/hit",
+        "S03/control/permissions/label"
+      ],
+      "to": "S16",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S03",
+      "key": "preview",
+      "names": [
+        "S03/control/preview/hit",
+        "S03/control/preview/label"
+      ],
+      "to": "S04",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S04",
+      "key": "nav/S01",
+      "names": [
+        "S04/control/nav/S01/hit",
+        "S04/control/nav/S01/label"
+      ],
+      "to": "S01",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S04",
+      "key": "nav/S10",
+      "names": [
+        "S04/control/nav/S10/hit",
+        "S04/control/nav/S10/label"
+      ],
+      "to": "S10",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S04",
+      "key": "nav/S13",
+      "names": [
+        "S04/control/nav/S13/hit",
+        "S04/control/nav/S13/label"
+      ],
+      "to": "S13",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S04",
+      "key": "records",
+      "names": [
+        "S04/control/records/hit",
+        "S04/control/records/label"
+      ],
+      "to": "S15",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S04",
+      "key": "permissions",
+      "names": [
+        "S04/control/permissions/hit",
+        "S04/control/permissions/label"
+      ],
+      "to": "S16",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S04",
+      "key": "save",
+      "names": [
+        "S04/control/save/hit",
+        "S04/control/save/label"
+      ],
+      "to": "S05",
+      "guard": "writeAllowed",
+      "otherwise": "S30"
+    },
+    {
+      "from": "S04",
+      "key": "conflict",
+      "names": [
+        "S04/control/conflict/hit",
+        "S04/control/conflict/label"
+      ],
+      "to": "S06",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S05",
+      "key": "nav/S01",
+      "names": [
+        "S05/control/nav/S01/hit",
+        "S05/control/nav/S01/label"
+      ],
+      "to": "S01",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S05",
+      "key": "nav/S10",
+      "names": [
+        "S05/control/nav/S10/hit",
+        "S05/control/nav/S10/label"
+      ],
+      "to": "S10",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S05",
+      "key": "nav/S13",
+      "names": [
+        "S05/control/nav/S13/hit",
+        "S05/control/nav/S13/label"
+      ],
+      "to": "S13",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S05",
+      "key": "records",
+      "names": [
+        "S05/control/records/hit",
+        "S05/control/records/label"
+      ],
+      "to": "S15",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S05",
+      "key": "permissions",
+      "names": [
+        "S05/control/permissions/hit",
+        "S05/control/permissions/label"
+      ],
+      "to": "S16",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S05",
+      "key": "reopen",
+      "names": [
+        "S05/control/reopen/hit",
+        "S05/control/reopen/label"
+      ],
+      "to": "S05",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S05",
+      "key": "history",
+      "names": [
+        "S05/control/history/hit",
+        "S05/control/history/label"
+      ],
+      "to": "S07",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S05",
+      "key": "start",
+      "names": [
+        "S05/control/start/hit",
+        "S05/control/start/label"
+      ],
+      "to": "S25",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S06",
+      "key": "nav/S01",
+      "names": [
+        "S06/control/nav/S01/hit",
+        "S06/control/nav/S01/label"
+      ],
+      "to": "S01",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S06",
+      "key": "nav/S10",
+      "names": [
+        "S06/control/nav/S10/hit",
+        "S06/control/nav/S10/label"
+      ],
+      "to": "S10",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S06",
+      "key": "nav/S13",
+      "names": [
+        "S06/control/nav/S13/hit",
+        "S06/control/nav/S13/label"
+      ],
+      "to": "S13",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S06",
+      "key": "records",
+      "names": [
+        "S06/control/records/hit",
+        "S06/control/records/label"
+      ],
+      "to": "S15",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S06",
+      "key": "permissions",
+      "names": [
+        "S06/control/permissions/hit",
+        "S06/control/permissions/label"
+      ],
+      "to": "S16",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S06",
+      "key": "compare",
+      "names": [
+        "S06/control/compare/hit",
+        "S06/control/compare/label"
+      ],
+      "to": "S03",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S07",
+      "key": "nav/S01",
+      "names": [
+        "S07/control/nav/S01/hit",
+        "S07/control/nav/S01/label"
+      ],
+      "to": "S01",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S07",
+      "key": "nav/S10",
+      "names": [
+        "S07/control/nav/S10/hit",
+        "S07/control/nav/S10/label"
+      ],
+      "to": "S10",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S07",
+      "key": "nav/S13",
+      "names": [
+        "S07/control/nav/S13/hit",
+        "S07/control/nav/S13/label"
+      ],
+      "to": "S13",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S07",
+      "key": "records",
+      "names": [
+        "S07/control/records/hit",
+        "S07/control/records/label"
+      ],
+      "to": "S15",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S07",
+      "key": "permissions",
+      "names": [
+        "S07/control/permissions/hit",
+        "S07/control/permissions/label"
+      ],
+      "to": "S16",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S07",
+      "key": "restore",
+      "names": [
+        "S07/control/restore/hit",
+        "S07/control/restore/label"
+      ],
+      "to": "S08",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S08",
+      "key": "nav/S01",
+      "names": [
+        "S08/control/nav/S01/hit",
+        "S08/control/nav/S01/label"
+      ],
+      "to": "S01",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S08",
+      "key": "nav/S10",
+      "names": [
+        "S08/control/nav/S10/hit",
+        "S08/control/nav/S10/label"
+      ],
+      "to": "S10",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S08",
+      "key": "nav/S13",
+      "names": [
+        "S08/control/nav/S13/hit",
+        "S08/control/nav/S13/label"
+      ],
+      "to": "S13",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S08",
+      "key": "records",
+      "names": [
+        "S08/control/records/hit",
+        "S08/control/records/label"
+      ],
+      "to": "S15",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S08",
+      "key": "permissions",
+      "names": [
+        "S08/control/permissions/hit",
+        "S08/control/permissions/label"
+      ],
+      "to": "S16",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S08",
+      "key": "confirm",
+      "names": [
+        "S08/control/confirm/hit",
+        "S08/control/confirm/label"
+      ],
+      "to": "S09",
+      "guard": "writeAllowed",
+      "otherwise": "S30"
+    },
+    {
+      "from": "S08",
+      "key": "cancel",
+      "names": [
+        "S08/control/cancel/hit",
+        "S08/control/cancel/label"
+      ],
+      "to": "S07",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S09",
+      "key": "nav/S01",
+      "names": [
+        "S09/control/nav/S01/hit",
+        "S09/control/nav/S01/label"
+      ],
+      "to": "S01",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S09",
+      "key": "nav/S10",
+      "names": [
+        "S09/control/nav/S10/hit",
+        "S09/control/nav/S10/label"
+      ],
+      "to": "S10",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S09",
+      "key": "nav/S13",
+      "names": [
+        "S09/control/nav/S13/hit",
+        "S09/control/nav/S13/label"
+      ],
+      "to": "S13",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S09",
+      "key": "records",
+      "names": [
+        "S09/control/records/hit",
+        "S09/control/records/label"
+      ],
+      "to": "S15",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S09",
+      "key": "permissions",
+      "names": [
+        "S09/control/permissions/hit",
+        "S09/control/permissions/label"
+      ],
+      "to": "S16",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S10",
+      "key": "nav/S01",
+      "names": [
+        "S10/control/nav/S01/hit",
+        "S10/control/nav/S01/label"
+      ],
+      "to": "S01",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S10",
+      "key": "nav/S10",
+      "names": [
+        "S10/control/nav/S10/hit",
+        "S10/control/nav/S10/label"
+      ],
+      "to": "S10",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S10",
+      "key": "nav/S13",
+      "names": [
+        "S10/control/nav/S13/hit",
+        "S10/control/nav/S13/label"
+      ],
+      "to": "S13",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S10",
+      "key": "records",
+      "names": [
+        "S10/control/records/hit",
+        "S10/control/records/label"
+      ],
+      "to": "S15",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S10",
+      "key": "permissions",
+      "names": [
+        "S10/control/permissions/hit",
+        "S10/control/permissions/label"
+      ],
+      "to": "S16",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S10",
+      "key": "search",
+      "names": [
+        "S10/control/search/hit",
+        "S10/control/search/label"
+      ],
+      "to": "S11",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S11",
+      "key": "nav/S01",
+      "names": [
+        "S11/control/nav/S01/hit",
+        "S11/control/nav/S01/label"
+      ],
+      "to": "S01",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S11",
+      "key": "nav/S10",
+      "names": [
+        "S11/control/nav/S10/hit",
+        "S11/control/nav/S10/label"
+      ],
+      "to": "S10",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S11",
+      "key": "nav/S13",
+      "names": [
+        "S11/control/nav/S13/hit",
+        "S11/control/nav/S13/label"
+      ],
+      "to": "S13",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S11",
+      "key": "records",
+      "names": [
+        "S11/control/records/hit",
+        "S11/control/records/label"
+      ],
+      "to": "S15",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S11",
+      "key": "permissions",
+      "names": [
+        "S11/control/permissions/hit",
+        "S11/control/permissions/label"
+      ],
+      "to": "S16",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S11",
+      "key": "discover",
+      "names": [
+        "S11/control/discover/hit",
+        "S11/control/discover/label"
+      ],
+      "to": "S12",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S12",
+      "key": "nav/S01",
+      "names": [
+        "S12/control/nav/S01/hit",
+        "S12/control/nav/S01/label"
+      ],
+      "to": "S01",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S12",
+      "key": "nav/S10",
+      "names": [
+        "S12/control/nav/S10/hit",
+        "S12/control/nav/S10/label"
+      ],
+      "to": "S10",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S12",
+      "key": "nav/S13",
+      "names": [
+        "S12/control/nav/S13/hit",
+        "S12/control/nav/S13/label"
+      ],
+      "to": "S13",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S12",
+      "key": "records",
+      "names": [
+        "S12/control/records/hit",
+        "S12/control/records/label"
+      ],
+      "to": "S15",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S12",
+      "key": "permissions",
+      "names": [
+        "S12/control/permissions/hit",
+        "S12/control/permissions/label"
+      ],
+      "to": "S16",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S12",
+      "key": "plan",
+      "names": [
+        "S12/control/plan/hit",
+        "S12/control/plan/label"
+      ],
+      "to": "S17",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S13",
+      "key": "nav/S01",
+      "names": [
+        "S13/control/nav/S01/hit",
+        "S13/control/nav/S01/label"
+      ],
+      "to": "S01",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S13",
+      "key": "nav/S10",
+      "names": [
+        "S13/control/nav/S10/hit",
+        "S13/control/nav/S10/label"
+      ],
+      "to": "S10",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S13",
+      "key": "nav/S13",
+      "names": [
+        "S13/control/nav/S13/hit",
+        "S13/control/nav/S13/label"
+      ],
+      "to": "S13",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S13",
+      "key": "records",
+      "names": [
+        "S13/control/records/hit",
+        "S13/control/records/label"
+      ],
+      "to": "S15",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S13",
+      "key": "permissions",
+      "names": [
+        "S13/control/permissions/hit",
+        "S13/control/permissions/label"
+      ],
+      "to": "S16",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S13",
+      "key": "filter",
+      "names": [
+        "S13/control/filter/hit",
+        "S13/control/filter/label"
+      ],
+      "to": "S14",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S13",
+      "key": "unavailable",
+      "names": [
+        "S13/control/unavailable/hit",
+        "S13/control/unavailable/label"
+      ],
+      "to": "S20",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S14",
+      "key": "nav/S01",
+      "names": [
+        "S14/control/nav/S01/hit",
+        "S14/control/nav/S01/label"
+      ],
+      "to": "S01",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S14",
+      "key": "nav/S10",
+      "names": [
+        "S14/control/nav/S10/hit",
+        "S14/control/nav/S10/label"
+      ],
+      "to": "S10",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S14",
+      "key": "nav/S13",
+      "names": [
+        "S14/control/nav/S13/hit",
+        "S14/control/nav/S13/label"
+      ],
+      "to": "S13",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S14",
+      "key": "records",
+      "names": [
+        "S14/control/records/hit",
+        "S14/control/records/label"
+      ],
+      "to": "S15",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S14",
+      "key": "permissions",
+      "names": [
+        "S14/control/permissions/hit",
+        "S14/control/permissions/label"
+      ],
+      "to": "S16",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S14",
+      "key": "reset",
+      "names": [
+        "S14/control/reset/hit",
+        "S14/control/reset/label"
+      ],
+      "to": "S13",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S15",
+      "key": "nav/S01",
+      "names": [
+        "S15/control/nav/S01/hit",
+        "S15/control/nav/S01/label"
+      ],
+      "to": "S01",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S15",
+      "key": "nav/S10",
+      "names": [
+        "S15/control/nav/S10/hit",
+        "S15/control/nav/S10/label"
+      ],
+      "to": "S10",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S15",
+      "key": "nav/S13",
+      "names": [
+        "S15/control/nav/S13/hit",
+        "S15/control/nav/S13/label"
+      ],
+      "to": "S13",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S15",
+      "key": "records",
+      "names": [
+        "S15/control/records/hit",
+        "S15/control/records/label"
+      ],
+      "to": "S15",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S15",
+      "key": "permissions",
+      "names": [
+        "S15/control/permissions/hit",
+        "S15/control/permissions/label"
+      ],
+      "to": "S16",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S15",
+      "key": "permission",
+      "names": [
+        "S15/control/permission/hit",
+        "S15/control/permission/label"
+      ],
+      "to": "S16",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S16",
+      "key": "nav/S01",
+      "names": [
+        "S16/control/nav/S01/hit",
+        "S16/control/nav/S01/label"
+      ],
+      "to": "S01",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S16",
+      "key": "nav/S10",
+      "names": [
+        "S16/control/nav/S10/hit",
+        "S16/control/nav/S10/label"
+      ],
+      "to": "S10",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S16",
+      "key": "nav/S13",
+      "names": [
+        "S16/control/nav/S13/hit",
+        "S16/control/nav/S13/label"
+      ],
+      "to": "S13",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S16",
+      "key": "records",
+      "names": [
+        "S16/control/records/hit",
+        "S16/control/records/label"
+      ],
+      "to": "S15",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S16",
+      "key": "permissions",
+      "names": [
+        "S16/control/permissions/hit",
+        "S16/control/permissions/label"
+      ],
+      "to": "S16",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S16",
+      "key": "enable",
+      "names": [
+        "S16/control/enable/hit",
+        "S16/control/enable/label"
+      ],
+      "to": "S22",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S16",
+      "key": "enableLaunch",
+      "names": [
+        "S16/control/enableLaunch/hit",
+        "S16/control/enableLaunch/label"
+      ],
+      "to": "S28",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S16",
+      "key": "disableWrite",
+      "names": [
+        "S16/control/disableWrite/hit",
+        "S16/control/disableWrite/label"
+      ],
+      "to": "S30",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S17",
+      "key": "nav/S01",
+      "names": [
+        "S17/control/nav/S01/hit",
+        "S17/control/nav/S01/label"
+      ],
+      "to": "S01",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S17",
+      "key": "nav/S10",
+      "names": [
+        "S17/control/nav/S10/hit",
+        "S17/control/nav/S10/label"
+      ],
+      "to": "S10",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S17",
+      "key": "nav/S13",
+      "names": [
+        "S17/control/nav/S13/hit",
+        "S17/control/nav/S13/label"
+      ],
+      "to": "S13",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S17",
+      "key": "records",
+      "names": [
+        "S17/control/records/hit",
+        "S17/control/records/label"
+      ],
+      "to": "S15",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S17",
+      "key": "permissions",
+      "names": [
+        "S17/control/permissions/hit",
+        "S17/control/permissions/label"
+      ],
+      "to": "S16",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S17",
+      "key": "apply",
+      "names": [
+        "S17/control/apply/hit",
+        "S17/control/apply/label"
+      ],
+      "to": "S18",
+      "guard": "executionAllowed",
+      "otherwise": "S23"
+    },
+    {
+      "from": "S18",
+      "key": "nav/S01",
+      "names": [
+        "S18/control/nav/S01/hit",
+        "S18/control/nav/S01/label"
+      ],
+      "to": "S01",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S18",
+      "key": "nav/S10",
+      "names": [
+        "S18/control/nav/S10/hit",
+        "S18/control/nav/S10/label"
+      ],
+      "to": "S10",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S18",
+      "key": "nav/S13",
+      "names": [
+        "S18/control/nav/S13/hit",
+        "S18/control/nav/S13/label"
+      ],
+      "to": "S13",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S18",
+      "key": "records",
+      "names": [
+        "S18/control/records/hit",
+        "S18/control/records/label"
+      ],
+      "to": "S15",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S18",
+      "key": "permissions",
+      "names": [
+        "S18/control/permissions/hit",
+        "S18/control/permissions/label"
+      ],
+      "to": "S16",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S18",
+      "key": "verify",
+      "names": [
+        "S18/control/verify/hit",
+        "S18/control/verify/label"
+      ],
+      "to": "S15",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S18",
+      "key": "timeout",
+      "names": [
+        "S18/control/timeout/hit",
+        "S18/control/timeout/label"
+      ],
+      "to": "S19",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S19",
+      "key": "nav/S01",
+      "names": [
+        "S19/control/nav/S01/hit",
+        "S19/control/nav/S01/label"
+      ],
+      "to": "S01",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S19",
+      "key": "nav/S10",
+      "names": [
+        "S19/control/nav/S10/hit",
+        "S19/control/nav/S10/label"
+      ],
+      "to": "S10",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S19",
+      "key": "nav/S13",
+      "names": [
+        "S19/control/nav/S13/hit",
+        "S19/control/nav/S13/label"
+      ],
+      "to": "S13",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S19",
+      "key": "records",
+      "names": [
+        "S19/control/records/hit",
+        "S19/control/records/label"
+      ],
+      "to": "S15",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S19",
+      "key": "permissions",
+      "names": [
+        "S19/control/permissions/hit",
+        "S19/control/permissions/label"
+      ],
+      "to": "S16",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S19",
+      "key": "inspect",
+      "names": [
+        "S19/control/inspect/hit",
+        "S19/control/inspect/label"
+      ],
+      "to": "S15",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S20",
+      "key": "nav/S01",
+      "names": [
+        "S20/control/nav/S01/hit",
+        "S20/control/nav/S01/label"
+      ],
+      "to": "S01",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S20",
+      "key": "nav/S10",
+      "names": [
+        "S20/control/nav/S10/hit",
+        "S20/control/nav/S10/label"
+      ],
+      "to": "S10",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S20",
+      "key": "nav/S13",
+      "names": [
+        "S20/control/nav/S13/hit",
+        "S20/control/nav/S13/label"
+      ],
+      "to": "S13",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S20",
+      "key": "records",
+      "names": [
+        "S20/control/records/hit",
+        "S20/control/records/label"
+      ],
+      "to": "S15",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S20",
+      "key": "permissions",
+      "names": [
+        "S20/control/permissions/hit",
+        "S20/control/permissions/label"
+      ],
+      "to": "S16",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S20",
+      "key": "retry",
+      "names": [
+        "S20/control/retry/hit",
+        "S20/control/retry/label"
+      ],
+      "to": "S13",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S21",
+      "key": "nav/S01",
+      "names": [
+        "S21/control/nav/S01/hit",
+        "S21/control/nav/S01/label"
+      ],
+      "to": "S01",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S21",
+      "key": "nav/S10",
+      "names": [
+        "S21/control/nav/S10/hit",
+        "S21/control/nav/S10/label"
+      ],
+      "to": "S10",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S21",
+      "key": "nav/S13",
+      "names": [
+        "S21/control/nav/S13/hit",
+        "S21/control/nav/S13/label"
+      ],
+      "to": "S13",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S21",
+      "key": "records",
+      "names": [
+        "S21/control/records/hit",
+        "S21/control/records/label"
+      ],
+      "to": "S15",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S21",
+      "key": "permissions",
+      "names": [
+        "S21/control/permissions/hit",
+        "S21/control/permissions/label"
+      ],
+      "to": "S16",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S22",
+      "key": "nav/S01",
+      "names": [
+        "S22/control/nav/S01/hit",
+        "S22/control/nav/S01/label"
+      ],
+      "to": "S01",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S22",
+      "key": "nav/S10",
+      "names": [
+        "S22/control/nav/S10/hit",
+        "S22/control/nav/S10/label"
+      ],
+      "to": "S10",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S22",
+      "key": "nav/S13",
+      "names": [
+        "S22/control/nav/S13/hit",
+        "S22/control/nav/S13/label"
+      ],
+      "to": "S13",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S22",
+      "key": "records",
+      "names": [
+        "S22/control/records/hit",
+        "S22/control/records/label"
+      ],
+      "to": "S15",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S22",
+      "key": "permissions",
+      "names": [
+        "S22/control/permissions/hit",
+        "S22/control/permissions/label"
+      ],
+      "to": "S16",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S22",
+      "key": "continue",
+      "names": [
+        "S22/control/continue/hit",
+        "S22/control/continue/label"
+      ],
+      "to": "S17",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S22",
+      "key": "disable",
+      "names": [
+        "S22/control/disable/hit",
+        "S22/control/disable/label"
+      ],
+      "to": "S16",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S23",
+      "key": "nav/S01",
+      "names": [
+        "S23/control/nav/S01/hit",
+        "S23/control/nav/S01/label"
+      ],
+      "to": "S01",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S23",
+      "key": "nav/S10",
+      "names": [
+        "S23/control/nav/S10/hit",
+        "S23/control/nav/S10/label"
+      ],
+      "to": "S10",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S23",
+      "key": "nav/S13",
+      "names": [
+        "S23/control/nav/S13/hit",
+        "S23/control/nav/S13/label"
+      ],
+      "to": "S13",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S23",
+      "key": "records",
+      "names": [
+        "S23/control/records/hit",
+        "S23/control/records/label"
+      ],
+      "to": "S15",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S23",
+      "key": "permissions",
+      "names": [
+        "S23/control/permissions/hit",
+        "S23/control/permissions/label"
+      ],
+      "to": "S16",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S23",
+      "key": "permission",
+      "names": [
+        "S23/control/permission/hit",
+        "S23/control/permission/label"
+      ],
+      "to": "S16",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S23",
+      "key": "preview",
+      "names": [
+        "S23/control/preview/hit",
+        "S23/control/preview/label"
+      ],
+      "to": "S17",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S24",
+      "key": "nav/S01",
+      "names": [
+        "S24/control/nav/S01/hit",
+        "S24/control/nav/S01/label"
+      ],
+      "to": "S01",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S24",
+      "key": "nav/S10",
+      "names": [
+        "S24/control/nav/S10/hit",
+        "S24/control/nav/S10/label"
+      ],
+      "to": "S10",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S24",
+      "key": "nav/S13",
+      "names": [
+        "S24/control/nav/S13/hit",
+        "S24/control/nav/S13/label"
+      ],
+      "to": "S13",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S24",
+      "key": "records",
+      "names": [
+        "S24/control/records/hit",
+        "S24/control/records/label"
+      ],
+      "to": "S15",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S24",
+      "key": "permissions",
+      "names": [
+        "S24/control/permissions/hit",
+        "S24/control/permissions/label"
+      ],
+      "to": "S16",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S24",
+      "key": "locate",
+      "names": [
+        "S24/control/locate/hit",
+        "S24/control/locate/label"
+      ],
+      "to": "S03",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S25",
+      "key": "nav/S01",
+      "names": [
+        "S25/control/nav/S01/hit",
+        "S25/control/nav/S01/label"
+      ],
+      "to": "S01",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S25",
+      "key": "nav/S10",
+      "names": [
+        "S25/control/nav/S10/hit",
+        "S25/control/nav/S10/label"
+      ],
+      "to": "S10",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S25",
+      "key": "nav/S13",
+      "names": [
+        "S25/control/nav/S13/hit",
+        "S25/control/nav/S13/label"
+      ],
+      "to": "S13",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S25",
+      "key": "records",
+      "names": [
+        "S25/control/records/hit",
+        "S25/control/records/label"
+      ],
+      "to": "S15",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S25",
+      "key": "permissions",
+      "names": [
+        "S25/control/permissions/hit",
+        "S25/control/permissions/label"
+      ],
+      "to": "S16",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S25",
+      "key": "launch",
+      "names": [
+        "S25/control/launch/hit",
+        "S25/control/launch/label"
+      ],
+      "to": "S26",
+      "guard": "launchAllowed",
+      "otherwise": "S27"
+    },
+    {
+      "from": "S25",
+      "key": "cancel",
+      "names": [
+        "S25/control/cancel/hit",
+        "S25/control/cancel/label"
+      ],
+      "to": "S01",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S26",
+      "key": "nav/S01",
+      "names": [
+        "S26/control/nav/S01/hit",
+        "S26/control/nav/S01/label"
+      ],
+      "to": "S01",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S26",
+      "key": "nav/S10",
+      "names": [
+        "S26/control/nav/S10/hit",
+        "S26/control/nav/S10/label"
+      ],
+      "to": "S10",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S26",
+      "key": "nav/S13",
+      "names": [
+        "S26/control/nav/S13/hit",
+        "S26/control/nav/S13/label"
+      ],
+      "to": "S13",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S26",
+      "key": "records",
+      "names": [
+        "S26/control/records/hit",
+        "S26/control/records/label"
+      ],
+      "to": "S15",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S26",
+      "key": "permissions",
+      "names": [
+        "S26/control/permissions/hit",
+        "S26/control/permissions/label"
+      ],
+      "to": "S16",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S26",
+      "key": "verify",
+      "names": [
+        "S26/control/verify/hit",
+        "S26/control/verify/label"
+      ],
+      "to": "S29",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S26",
+      "key": "unavailable",
+      "names": [
+        "S26/control/unavailable/hit",
+        "S26/control/unavailable/label"
+      ],
+      "to": "S20",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S27",
+      "key": "nav/S01",
+      "names": [
+        "S27/control/nav/S01/hit",
+        "S27/control/nav/S01/label"
+      ],
+      "to": "S01",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S27",
+      "key": "nav/S10",
+      "names": [
+        "S27/control/nav/S10/hit",
+        "S27/control/nav/S10/label"
+      ],
+      "to": "S10",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S27",
+      "key": "nav/S13",
+      "names": [
+        "S27/control/nav/S13/hit",
+        "S27/control/nav/S13/label"
+      ],
+      "to": "S13",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S27",
+      "key": "records",
+      "names": [
+        "S27/control/records/hit",
+        "S27/control/records/label"
+      ],
+      "to": "S15",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S27",
+      "key": "permissions",
+      "names": [
+        "S27/control/permissions/hit",
+        "S27/control/permissions/label"
+      ],
+      "to": "S16",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S27",
+      "key": "permission",
+      "names": [
+        "S27/control/permission/hit",
+        "S27/control/permission/label"
+      ],
+      "to": "S16",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S28",
+      "key": "nav/S01",
+      "names": [
+        "S28/control/nav/S01/hit",
+        "S28/control/nav/S01/label"
+      ],
+      "to": "S01",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S28",
+      "key": "nav/S10",
+      "names": [
+        "S28/control/nav/S10/hit",
+        "S28/control/nav/S10/label"
+      ],
+      "to": "S10",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S28",
+      "key": "nav/S13",
+      "names": [
+        "S28/control/nav/S13/hit",
+        "S28/control/nav/S13/label"
+      ],
+      "to": "S13",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S28",
+      "key": "records",
+      "names": [
+        "S28/control/records/hit",
+        "S28/control/records/label"
+      ],
+      "to": "S15",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S28",
+      "key": "permissions",
+      "names": [
+        "S28/control/permissions/hit",
+        "S28/control/permissions/label"
+      ],
+      "to": "S16",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S28",
+      "key": "continue",
+      "names": [
+        "S28/control/continue/hit",
+        "S28/control/continue/label"
+      ],
+      "to": "S25",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S28",
+      "key": "disableLaunch",
+      "names": [
+        "S28/control/disableLaunch/hit",
+        "S28/control/disableLaunch/label"
+      ],
+      "to": "S16",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S29",
+      "key": "nav/S01",
+      "names": [
+        "S29/control/nav/S01/hit",
+        "S29/control/nav/S01/label"
+      ],
+      "to": "S01",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S29",
+      "key": "nav/S10",
+      "names": [
+        "S29/control/nav/S10/hit",
+        "S29/control/nav/S10/label"
+      ],
+      "to": "S10",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S29",
+      "key": "nav/S13",
+      "names": [
+        "S29/control/nav/S13/hit",
+        "S29/control/nav/S13/label"
+      ],
+      "to": "S13",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S29",
+      "key": "records",
+      "names": [
+        "S29/control/records/hit",
+        "S29/control/records/label"
+      ],
+      "to": "S15",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S29",
+      "key": "permissions",
+      "names": [
+        "S29/control/permissions/hit",
+        "S29/control/permissions/label"
+      ],
+      "to": "S16",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S29",
+      "key": "query",
+      "names": [
+        "S29/control/query/hit",
+        "S29/control/query/label"
+      ],
+      "to": "S13",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S30",
+      "key": "nav/S01",
+      "names": [
+        "S30/control/nav/S01/hit",
+        "S30/control/nav/S01/label"
+      ],
+      "to": "S01",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S30",
+      "key": "nav/S10",
+      "names": [
+        "S30/control/nav/S10/hit",
+        "S30/control/nav/S10/label"
+      ],
+      "to": "S10",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S30",
+      "key": "nav/S13",
+      "names": [
+        "S30/control/nav/S13/hit",
+        "S30/control/nav/S13/label"
+      ],
+      "to": "S13",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S30",
+      "key": "records",
+      "names": [
+        "S30/control/records/hit",
+        "S30/control/records/label"
+      ],
+      "to": "S15",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S30",
+      "key": "permissions",
+      "names": [
+        "S30/control/permissions/hit",
+        "S30/control/permissions/label"
+      ],
+      "to": "S16",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S30",
+      "key": "enableWrite",
+      "names": [
+        "S30/control/enableWrite/hit",
+        "S30/control/enableWrite/label"
+      ],
+      "to": "S03",
+      "guard": null,
+      "otherwise": null
+    },
+    {
+      "from": "S30",
+      "key": "permission",
+      "names": [
+        "S30/control/permission/hit",
+        "S30/control/permission/label"
+      ],
+      "to": "S16",
+      "guard": null,
+      "otherwise": null
+    }
+  ],
+  "flowCount": 3,
+  "executionVariable": "VariableID:1",
+  "variables": {
+    "executionAllowed": "VariableID:1",
+    "launchAllowed": "VariableID:2",
+    "writeAllowed": "VariableID:3"
+  },
+  "editableNodes": 1989,
+  "sha256": "1cb5fe12368469d104f19aa8d012d02467a457a28d1bad87ccb3ea9ba7eccc28",
+  "data": "Synthetic; no user configuration or engineering data",
+  "basis": "Three task workspaces with contextual reference, result and run-history panels"
+}

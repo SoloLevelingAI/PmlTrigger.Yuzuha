@@ -1,0 +1,36 @@
+- name: 交接入口
+  href: index.md
+- name: BRD · 业务
+  href: BRD.md
+- name: PRD · 任务与交互
+  href: PRD.md
+- name: 前端
+  items:
+  - name: SRS · 验收
+    href: frontend/SRS.md
+  - name: FRD · 规则
+    href: frontend/FRD.md
+  - name: SDD · 结构
+    href: frontend/SDD.md
+  - name: SDS · 实现
+    href: frontend/SDS.md
+- name: 后端
+  items:
+  - name: SRS · 验收
+    href: backend/SRS.md
+  - name: FRD · 规则
+    href: backend/FRD.md
+  - name: SDD · 结构
+    href: backend/SDD.md
+  - name: SDS · 实现
+    href: backend/SDS.md
+- name: 需求 实现 验收
+  href: ../../../artifacts/docfx/navigation/specifications/traceability.md
+- name: 压缩与表达成本
+  href: ../../../artifacts/docfx/navigation/specifications/compression.md
+- name: 构建与验证
+  href: verification.md
+- name: 维护提示词
+  href: AUTHORING.md
+- name: 待定清单
+  href: ../features/planned-tools.md

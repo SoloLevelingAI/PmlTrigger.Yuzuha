@@ -47,4 +47,4 @@ q var !rows
 
 源码使用 `--` 注释前缀，内部采用 `summary`、`param`、`returns`、`value`、`remarks/para`、`example/code` XML 标签。构建通过 `scripts/Export-PmlXmlDocumentation.ps1` 解析并验证参数、返回声明及 XML，再插入 DocFX 的 [PML 源码页面](../../artifacts/docfx/navigation/pml/PMLLIB/Traversal/PhaytonObjectWalker.pmlobj.md)。PML 不走 C# 元数据扫描，不依赖 VSIX 才能展示注释。
 
-36 个声明均有注释：1 个对象、17 个成员、18 个方法。[实测记录](../../artifacts/docfx/navigation/repository/docs/validation/2026-10-23-phayton-object-walker.md)记录了 2410 项提取、2412 行格式化、逐项核对及定向下标读取。[内存数组回归宏](../../artifacts/docfx/navigation/repository/tests/live/phayton-object-walker/README.md)可独立复刻。
+36 个声明均有注释：1 个对象、17 个成员、18 个方法。`docs/validation/2026-10-23-phayton-object-walker.md`记录了 2410 项提取、2412 行格式化、逐项核对及定向下标读取。`tests/live/phayton-object-walker/README.md`可独立复刻。

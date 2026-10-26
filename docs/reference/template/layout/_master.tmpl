@@ -19,7 +19,7 @@
       <script src="{{_rel}}public/appearance.js"></script>
       <link rel="stylesheet" href="{{_rel}}public/docfx.min.css">
       <link rel="stylesheet" href="{{_rel}}public/main.css">
-      <link rel="stylesheet" href="{{_rel}}public/phayton-r2.css">
+      <link rel="stylesheet" href="{{_rel}}public/reading.css">
       <meta name="docfx:navrel" content="{{_navRel}}">
       <meta name="docfx:tocrel" content="{{_tocRel}}">
       {{#_noindex}}<meta name="searchOption" content="noindex">{{/_noindex}}
@@ -65,8 +65,9 @@
         <div class="container-xxl flex-nowrap">
           <a class="navbar-brand" href="{{_appLogoUrl}}{{^_appLogoUrl}}{{_rel}}index.html{{/_appLogoUrl}}">
             <img id="logo" class="svg" src="{{_rel}}{{{_appLogoPath}}}{{^_appLogoPath}}logo.svg{{/_appLogoPath}}" alt="{{_appName}}" >
-            {{_appName}} <span class="phayton-docs-label">/ Docs</span>
+            {{_appName}} <span class="phayton-docs-label">/ 规格与源码</span>
           </a>
+          <div class="docs-switch" aria-label="文档区域"><a href="{{_rel}}specs/index.html">规格</a><a href="{{_rel}}workspace.html">使用</a><a href="{{_rel}}reference/modules/index.html">源码</a><a href="{{_rel}}testing.html">测试</a></div>
           <button class="btn btn-lg d-xl-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
             <i class="bi bi-three-dots"></i>
           </button>
@@ -85,7 +86,7 @@
       {{/_disableNavbar}}
     </header>
 
-    <main class="container-xxl">
+    <main class="container-xxl documentation-layout">
       {{^_disableToc}}
       <div class="toc-offcanvas">
         <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">

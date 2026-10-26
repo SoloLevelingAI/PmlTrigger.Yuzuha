@@ -1,0 +1,44 @@
+/* Current documentation shell. Graph/API widgets retain main.css. */
+/* A page without navigation has one content column. Explicit areas prevent a
+   conditional/removed sidebar from moving the article into a narrow track. */
+body:not([data-search])[data-layout] > main.documentation-layout {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  grid-template-areas: "navigation content";
+  max-width: 1480px;
+  column-gap: 42px;
+  align-items: start;
+  padding: 0 30px;
+}
+body:not([data-search])[data-layout] > main.documentation-layout > .content {
+  grid-area: content;
+  min-width: 0;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 24px 0 40px;
+}
+body:not([data-search])[data-layout] > main.documentation-layout > .toc-offcanvas { grid-area: navigation; }
+body:not([data-search])[data-layout] > main.documentation-layout:not(:has(> .toc-offcanvas)) {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: "content";
+  max-width: 1240px;
+}
+body.has-explorer:not([data-search])[data-layout] > main.documentation-layout { max-width: 1480px; }
+@media (max-width: 1100px) {
+  body:not([data-search])[data-layout] > main.documentation-layout { grid-template-columns: 200px minmax(0, 1fr); column-gap: 25px; padding: 0 20px; }
+}
+@media (max-width: 767px) {
+  body:not([data-search])[data-layout] > main.documentation-layout { display: block; padding: 0 18px; }
+  body:not([data-search])[data-layout] > main.documentation-layout > .content { width: 100%; padding-top: 18px; }
+}
+.skip-content{position:fixed;top:-80px;left:16px;z-index:2000;background:var(--ld-surface);padding:8px 14px;border:1px solid var(--bs-border-color);border-radius:4px}.skip-content:focus{top:8px}
+:root[data-bs-theme="dark"]{--ld-soft:#1b2731;--ld-muted:#b1bfc9;--bs-border-color:#344551;--ld-accent-soft:#203e3a}
+article table.table{display:table;--bs-table-color:var(--ld-ink);--bs-table-bg:transparent;--bs-table-border-color:var(--bs-border-color)}
+article table:has(#B01){table-layout:fixed}article table:has(#B01) :is(th,td):first-child{width:56px;white-space:nowrap}article table:has(#B01) :is(th,td):nth-child(2){width:27%}
+:root{--bs-body-font-size:14px;--bs-body-line-height:1.7;--ld-accent-soft:#eaf3ef;--ld-header-height:58px;--bs-border-color:#dfe5e8;--ld-soft:#f5f7f8;--ld-muted:#647781}
+body{background:var(--ld-surface);font-size:14px}header .navbar{min-height:58px;padding:7px 0}header .container-xxl{padding:0 28px;max-width:1600px;display:flex!important;gap:28px}.navbar-brand{font-size:18px;gap:8px;margin-right:0}.navbar-brand img{width:26px;height:26px}.phayton-docs-label{font-size:11px;color:var(--ld-muted);font-weight:400}.docs-switch{display:flex;gap:4px;align-items:center}.docs-switch a{font-size:12px;padding:6px 12px;color:var(--ld-muted);border-radius:5px;text-decoration:none}.docs-switch a.active,.docs-switch a:hover{background:var(--ld-accent-soft);color:var(--bs-link-color)}#navbar .navbar-nav{display:none!important}#navbar{justify-content:flex-end}#search{margin:0 12px 0 auto}#search-query{min-width:190px;width:230px;border-radius:5px;font-size:12px}.appearance-host{font-size:12px}.appearance-host>summary{padding:6px 10px}
+.toc-offcanvas{width:220px;min-width:0}.offcanvas-md{width:220px!important;top:58px;max-height:calc(100vh - 58px);overflow:auto}.offcanvas-body{padding:22px 0 30px!important}.toc{font-size:12px;line-height:1.7}.toc .filter{margin-bottom:14px}.toc a{padding-top:4px;padding-bottom:4px;overflow-wrap:anywhere}.toc .nav-link.active{font-weight:650;border-left:2px solid var(--bs-link-color);background:var(--ld-accent-soft)}.content{padding:20px 0 40px;min-width:0;max-width:1050px}.actionbar{font-size:11px;min-height:18px;margin-bottom:12px}.breadcrumb{margin-bottom:0}article{max-width:none;font-size:14px}article h1{font-size:26px;line-height:1.4;letter-spacing:-.6px;margin:0 0 16px;font-weight:650}article h2{font-size:18px;line-height:1.4;margin:24px 0 12px}article h3{font-size:15px;line-height:1.5;margin:18px 0 8px}article p{margin:0 0 13px}article table{width:100%;font-size:12px;line-height:1.75;margin:16px 0 20px;table-layout:auto;border-color:var(--bs-border-color)}article th{padding:9px 12px;background:var(--ld-soft);font-size:11px;color:var(--ld-muted);font-weight:600;border-bottom:1px solid var(--bs-border-color)}article td{padding:10px 12px;vertical-align:top;overflow-wrap:anywhere;min-width:0;border-bottom:1px solid var(--bs-border-color)}article pre{border-radius:5px;margin:14px 0;padding:14px 16px}article pre code{font-size:12px;line-height:1.65}article code:not(pre code){font-size:11px;overflow-wrap:anywhere;white-space:normal}article>p>img{border-radius:7px;border:1px solid var(--bs-border-color);max-width:100%;height:auto}article :is(h1,h2,h3,h4,tr[id]){scroll-margin-top:80px}.affix{display:none!important}.next-article{margin-top:28px;padding-top:14px!important;font-size:12px}.contribution{font-size:11px}body>footer{font-size:10px;padding:14px 0;color:var(--ld-muted)}.handoff-entry{display:grid;grid-template-columns:1.35fr 1fr;gap:12px;margin:20px 0 26px}.handoff-entry>a{display:block;border:1px solid var(--bs-border-color);border-radius:7px;padding:18px 20px;font-size:15px;color:var(--ld-ink);font-weight:600;background:var(--ld-soft);text-decoration:none}.handoff-entry>a span{display:block;font-size:11px;color:var(--ld-muted);font-weight:400;margin-top:6px}.handoff-entry>a.entry-primary{background:#153d3b;color:#fff;border-color:#153d3b}.handoff-entry>a.entry-primary span{color:#bbd3c8}.handoff-entry>a:hover{border-color:#73a493;box-shadow:0 3px 12px #123b3010}.docs-note{border-left:2px solid #8cb5a5;background:var(--ld-soft);font-size:12px;padding:10px 14px;margin:14px 0}.api-member{border-radius:6px;padding:16px;margin:12px 0}.api-table-wrap{border-radius:5px}.search-results{padding-top:24px}.trace-title{font-size:14px}
+@media(min-width:1800px){.content{max-width:1100px}}
+@media(max-width:1100px){header .container-xxl{gap:14px;padding:0 20px}.docs-switch a{padding:6px 9px}.phayton-docs-label{display:none}.toc-offcanvas,.offcanvas-md{width:200px!important}.handoff-entry{grid-template-columns:1fr 1fr}}
+@media(max-width:767px){header .container-xxl{flex-wrap:wrap!important}.docs-switch{order:3;width:100%;justify-content:space-between}.navbar-brand{margin-right:auto}#search-query{width:100%;min-width:0}.content{padding-top:18px}.toc-offcanvas{width:auto!important}.offcanvas-md{width:280px!important;top:0}.handoff-entry{grid-template-columns:1fr}article h1{font-size:23px}article table{font-size:11px}article td,article th{padding:8px}}

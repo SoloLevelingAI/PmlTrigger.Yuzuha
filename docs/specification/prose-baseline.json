@@ -1,0 +1,78 @@
+{
+  "method": "Unicode non-whitespace rendered text; Markdown links retain labels, not destinations; tags and formatting omitted. Same spec surface, including expanded requirement/state includes.",
+  "files": {
+    "docs/reference/specs/AUTHORING.md": {
+      "characters": 701,
+      "sha256": "9b6a472a2cde2a727dd1f430caf6a979223a81112761e41c0b3b560fb17f428c"
+    },
+    "docs/reference/specs/BRD.md": {
+      "characters": 660,
+      "sha256": "d05923a9c7e47fdd1252260710af7bb385e8e0587ed0a4f9e9c7db58899e4b3e"
+    },
+    "docs/reference/specs/index.md": {
+      "characters": 431,
+      "sha256": "39b5229a42a8fbbf86fa31ad1528fdcc91f4c68dd529bb748eab9b1f65749ec8"
+    },
+    "docs/reference/specs/PRD.md": {
+      "characters": 606,
+      "sha256": "581747c36f300638449efcf70e0be720f64fee5f5233e202a1b9d878095d85a0"
+    },
+    "docs/reference/specs/verification.md": {
+      "characters": 823,
+      "sha256": "690198f2ba23d6b522535e1174cc9a3e7eb7eb98a1b546453685cc9170b5c51d"
+    },
+    "docs/reference/specs/backend/FRD.md": {
+      "characters": 237,
+      "sha256": "2232acee86e737771682cd3b05408a0893eaf3d521f650d47e506b1243a7d57c"
+    },
+    "docs/reference/specs/backend/SDD.md": {
+      "characters": 519,
+      "sha256": "3d7beb5f1607b02d8171d53176bf4f0fb3b751a1c1308fc10925ff02e3573aed"
+    },
+    "docs/reference/specs/backend/SDS.md": {
+      "characters": 613,
+      "sha256": "34c81837b6eca1626a6302e6c12f5a6db7faf9152bc6a04f659e91099b8d9c54"
+    },
+    "docs/reference/specs/backend/SRS.md": {
+      "characters": 319,
+      "sha256": "765476e6b5b497ea3531c0d1c3fee4b9d98b76eec1503e3bfaf09ed6c041278b"
+    },
+    "docs/reference/specs/frontend/FRD.md": {
+      "characters": 248,
+      "sha256": "3def7e65c70f21324f4b8bd831580afa6253fbc397a34cc2af5709ed18a381ac"
+    },
+    "docs/reference/specs/frontend/SDD.md": {
+      "characters": 449,
+      "sha256": "ee28216886443d3cdd38afd46385ba2cae4e4d80c1792d59fb707ad2ce78407a"
+    },
+    "docs/reference/specs/frontend/SDS.md": {
+      "characters": 518,
+      "sha256": "b93772da05f7d69a7ad76d5d6f7935725619625d9e79fbd572e26e31942afc15"
+    },
+    "docs/reference/specs/frontend/SRS.md": {
+      "characters": 348,
+      "sha256": "9863e8429608ba7c9e42f44630749ea8c142c31940fd3034b8a8a9675aa5deb0"
+    },
+    "artifacts/docfx/navigation/specifications/acceptance-FE.md": {
+      "characters": 637,
+      "sha256": "261dfcfdff5e1585e50756cf4981a0baee00e6129db793e152f16d13fc883953"
+    },
+    "artifacts/docfx/navigation/specifications/acceptance-BE.md": {
+      "characters": 690,
+      "sha256": "d9345449b6a014d3f0b0082a53bebf1551757fd5513fa4459d72173891cd3620"
+    },
+    "artifacts/docfx/navigation/specifications/rules-FE.md": {
+      "characters": 945,
+      "sha256": "6a13b2e192f455953801f660db01ebed7c5e0ef617ff5dc7c38baa74e92ddbe6"
+    },
+    "artifacts/docfx/navigation/specifications/rules-BE.md": {
+      "characters": 961,
+      "sha256": "8abc3cdc75911d38fce17d1636e8cc31748ee8b7654303e28c4080b919e661dc"
+    },
+    "artifacts/docfx/navigation/specifications/screens.md": {
+      "characters": 1482,
+      "sha256": "4554a0924982ca0daa2589779c85de79d24bd30c8ee1c66a5edf258779e5f807"
+    }
+  },
+  "characters": 11187
+}

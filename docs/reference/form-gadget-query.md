@@ -47,9 +47,9 @@
 
 每项自动测试和人工案例均进入[测试目录](../../artifacts/docfx/navigation/tests/index.md)，可通过既有 `scripts/run-documented-test.ps1 -TestId <ID>` 确认源码后复刻。例如 `xunit:YuzuhaToolkit.Tests.PmlFormQueryTests.GadgetListUsesNativeAttributeTypesAndSkipsOrdinaryMembers`。
 
-NET35/NET48 RPC Smoke 使用生产 DTO 和共享查询读取策略，但原生返回值来自合成夹具。它验证协议兼容性，不证明 AVEVA 的实际查询语法或属性支持。`manual:aveva-form-query` 与 `manual:aveva-gadget-query` 的人工步骤见[测试源码](../../artifacts/docfx/navigation/repository/tests/manual/form-query.md)，未实测时保持 NotRun。运行输出留在本机 artifacts；CI 只上传离线结果及提交和环境信息。
+NET35/NET48 RPC Smoke 使用生产 DTO 和共享查询读取策略，但原生返回值来自合成夹具。它验证协议兼容性，不证明 AVEVA 的实际查询语法或属性支持。`manual:aveva-form-query` 与 `manual:aveva-gadget-query` 的人工步骤见`tests/manual/form-query.md`，未实测时保持 NotRun。运行输出留在本机 artifacts；CI 只上传离线结果及提交和环境信息。
 
-实机合成脚本、Git 管理的 PMLFNC/PMLFRM 和运行参数见[独立复刻说明](../../artifacts/docfx/navigation/repository/tests/live/form-query/README.md)。脚本先比较部署文件与源码 SHA256，再核验会话与 Host 能力；检查真实返回值、分页、普通成员拒绝、预算拒绝和查询前后的计数器/值/回调/显示状态。它不会保存工程，也不会把脚本成功扩展为所有产品、所有控件的完整验收。
+实机合成脚本、Git 管理的 PMLFNC/PMLFRM 和运行参数见`tests/live/form-query/README.md`。脚本先比较部署文件与源码 SHA256，再核验会话与 Host 能力；检查真实返回值、分页、普通成员拒绝、预算拒绝和查询前后的计数器/值/回调/显示状态。它不会保存工程，也不会把脚本成功扩展为所有产品、所有控件的完整验收。
 
 ## 后续 Web 应用管理边界
 

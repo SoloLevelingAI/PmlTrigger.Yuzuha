@@ -1,0 +1,119 @@
+{
+  "schema": 3,
+  "date": "2026-10-26",
+  "branch": "codex/quality-baseline-20261026",
+  "status": "BaselineVerifiedWithPendingItems",
+  "scope": "Actual WPF controls with isolated data; all generated C# source/API reading layouts; no new AVEVA execution or human usability acceptance",
+  "codeTests": [
+    {
+      "file": "artifacts/quality-final-code-tests/final-quality_net10.0_20261026225746.trx",
+      "sha256": "dfac7214a45bdcaf8f651d369e38beb6f12b1da6c9a80759dfc1a8b8f53f463a",
+      "total": 14,
+      "passed": 14,
+      "failed": 0
+    },
+    {
+      "file": "artifacts/quality-final-code-tests/final-quality_net10.0_20261026225751.trx",
+      "sha256": "2480cdc413edfe2c98a2adc97f9432686c71abbaedb0d5f79ecda4f36281f885",
+      "total": 205,
+      "passed": 205,
+      "failed": 0
+    }
+  ],
+  "contractTests": {
+    "passed": 8,
+    "failed": 0,
+    "receiptSha256": "a21a0954feda41b12517b2f74539b897d54b0abe491a6bef1730022ee8620186"
+  },
+  "documentationTests": {
+    "passed": 42,
+    "failed": 0,
+    "sha256": "bc15c4d019196400d755e7d0bf5c9b31d00f25863abbe215dd052102c67dbe01"
+  },
+  "wpf": {
+    "pages": 12,
+    "themes": [
+      "Light",
+      "Dark"
+    ],
+    "viewports": [
+      "1440x960",
+      "1280x720",
+      "853x480 logical (1280x720 at 150%)"
+    ],
+    "activityFilters": true,
+    "bindingErrors": 0,
+    "programSha256": "7243415cffd0f5e7701dd8829c3a3d35e0947b56907b078bb68d970c85e9ed5b",
+    "receiptSha256": "e6474eea077d0b1aa5c6cc6281a71434ef5919a8a82f305c8d2d8733bd7e8f38"
+  },
+  "browser": {
+    "sourcePages": 322,
+    "apiPages": 184,
+    "layoutChecks": 556,
+    "receiptSha256": "cb900a323a9bacb636f1351229c34e1b3d44e44e226c53b0114927308b86200a",
+    "htmlManifestSha256": "19f5744b2b8c4636aa5a9a7a49614a5a75fa5574bd0dbaa2cb61fdc1f6d71796",
+    "darkMode": true
+  },
+  "inputs": {
+    "artifacts/docfx/site/public/main.css": "65ff7febe6dc85dcbb3bc63b0fe0c4a0b6c82bb121ac7ea2ee2475c2e51da313",
+    "artifacts/docfx/site/public/reading.css": "9acc767970fac7c0dc7c58e94c7332fbc939cf70d357985c4460d1428f635996",
+    "docs/reference/template/layout/_master.tmpl": "12cab650d17d7e8ffb54a923f8d32602d88a67047070a37dbe3b98d2fe9a0076",
+    "scripts/test-handoff-browser.py": "6dbc94605656303a4bb0a7dc75dcbe8838fade85208e46a3046042f5a4353e32",
+    "src/YuzuhaToolkit.Desktop/bin/Release/net10.0-windows/YuzuhaToolkit.Desktop.dll": "7243415cffd0f5e7701dd8829c3a3d35e0947b56907b078bb68d970c85e9ed5b"
+  },
+  "pending": [
+    [
+      "long-path-knowledge-build",
+      "Reproduced SQLite open/WAL failure; short-path flow passes",
+      "1241978f1f8fc182d1dbdbb585f40ec66eac3f5ff3ae9b18902a2c98212eb23b"
+    ],
+    [
+      "review-and-test-centres",
+      "Empty pages deleted; return only after executable workflows and evidence"
+    ],
+    [
+      "unconnected-workbench",
+      "Browser demo removed; future flow stays pending"
+    ],
+    [
+      "official-defaults-and-pml-discovery",
+      "Local capabilities retained; automatic source integration remains pending"
+    ]
+  ],
+  "compression": {
+    "prose": {
+      "beforeCharacters": 11187,
+      "afterCharacters": 5266,
+      "reduction": 0.5292750513989453,
+      "baseline": "previous delivered specification pages plus expanded requirement/state includes; excludes API/source listings and JSON byte counts",
+      "method": "Unicode non-whitespace rendered text; Markdown links retain labels, not destinations; tags and formatting omitted. Same spec surface, including expanded requirement/state includes.",
+      "files": [
+        "docs/reference/specs/AUTHORING.md",
+        "docs/reference/specs/backend/FRD.md",
+        "docs/reference/specs/backend/SDD.md",
+        "docs/reference/specs/backend/SDS.md",
+        "docs/reference/specs/backend/SRS.md",
+        "docs/reference/specs/BRD.md",
+        "docs/reference/specs/frontend/FRD.md",
+        "docs/reference/specs/frontend/SDD.md",
+        "docs/reference/specs/frontend/SDS.md",
+        "docs/reference/specs/frontend/SRS.md",
+        "docs/reference/specs/index.md",
+        "docs/reference/specs/PRD.md",
+        "docs/reference/specs/verification.md",
+        "artifacts/docfx/navigation/specifications/acceptance-FE.md",
+        "artifacts/docfx/navigation/specifications/acceptance-BE.md",
+        "artifacts/docfx/navigation/specifications/rules-FE.md",
+        "artifacts/docfx/navigation/specifications/rules-BE.md"
+      ]
+    },
+    "metadataReduction": 0.6562784938909099,
+    "roundTripEqual": true
+  },
+  "publication": {
+    "htmlPages": 2702,
+    "checkedLocalLinks": 70589,
+    "retiredContentAbsent": true,
+    "errors": []
+  }
+}

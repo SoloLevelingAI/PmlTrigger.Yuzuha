@@ -491,11 +491,11 @@
                     <DockPanel>
                       <Border DockPanel.Dock="Right" Background="{DynamicResource Surface.Neutral}" CornerRadius="8" Padding="3">
                         <StackPanel Orientation="Horizontal">
-                          <Button Content="24H" IsEnabled="False" Style="{StaticResource Link}" Padding="8,3" FontSize="11" ToolTip="Q01：当前显示已保留记录的七日分组"/>
+
                           <Border Background="{DynamicResource Surface.Card}" CornerRadius="5" Padding="10,4">
                             <TextBlock Text="7D" FontSize="11"/>
                           </Border>
-                          <Button Content="30D" IsEnabled="False" Style="{StaticResource Link}" Padding="8,3" FontSize="11" ToolTip="Q01：长期统计未接入"/>
+
                         </StackPanel>
                       </Border>
                       <StackPanel>
@@ -639,210 +639,17 @@
             </StackPanel>
           </ScrollViewer>
         </TabItem>
-        <TabItem Header="后续功能">
+        <TabItem Header="资料与应用">
           <DockPanel>
-            <Border DockPanel.Dock="Bottom" Background="{DynamicResource Surface.TintWarning}" CornerRadius="10" Padding="12,8" Margin="0,0,0,10" x:Name="PlannedIntro">
-              <StackPanel>
-                <TextBlock x:Name="PlannedTitleText" Foreground="{DynamicResource Text.Warning}" FontSize="12"/>
-                <Expander Header="设计与实现边界" FontSize="11">
-                  <TextBlock x:Name="PlannedDescriptionText" TextWrapping="Wrap" Foreground="{DynamicResource Text.Secondary}" Margin="0,8,0,0"/>
-                </Expander>
-              </StackPanel>
-            </Border>
-            <TabControl x:Name="PlannedPages">
+
+            <TabControl x:Name="ResourcePages">
               <TabControl.Template>
                 <ControlTemplate TargetType="TabControl">
                   <ContentPresenter ContentSource="SelectedContent"/>
                 </ControlTemplate>
               </TabControl.Template>
-              <TabItem Header="评审中心">
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                  <StackPanel>
-                    <UniformGrid Columns="4" Margin="0,0,-16,0">
-                      <Border Style="{StaticResource Card}" Padding="18" Margin="0,0,16,18">
-                        <StackPanel>
-                          <TextBlock Text="待审核" Style="{StaticResource Caption}"/>
-                          <TextBlock Text="—" FontSize="28" FontWeight="SemiBold" Margin="0,10,0,6"/>
-                          <TextBlock Text="尚未接入记录" Style="{StaticResource Caption}"/>
-                        </StackPanel>
-                      </Border>
-                      <Border Style="{StaticResource Card}" Padding="18" Margin="0,0,16,18">
-                        <StackPanel>
-                          <TextBlock Text="本周已批准" Style="{StaticResource Caption}"/>
-                          <TextBlock Text="—" FontSize="28" FontWeight="SemiBold" Margin="0,10,0,6"/>
-                          <TextBlock Text="尚未接入记录" Style="{StaticResource Caption}"/>
-                        </StackPanel>
-                      </Border>
-                      <Border Style="{StaticResource Card}" Padding="18" Margin="0,0,16,18">
-                        <StackPanel>
-                          <TextBlock Text="平均审核时长" Style="{StaticResource Caption}"/>
-                          <TextBlock Text="—" FontSize="28" FontWeight="SemiBold" Margin="0,10,0,6"/>
-                          <TextBlock Text="尚未接入记录" Style="{StaticResource Caption}"/>
-                        </StackPanel>
-                      </Border>
-                      <Border Style="{StaticResource Card}" Padding="18" Margin="0,0,16,18">
-                        <StackPanel>
-                          <TextBlock Text="最近迁移" Style="{StaticResource Caption}"/>
-                          <TextBlock Text="—" FontSize="28" FontWeight="SemiBold" Margin="0,10,0,6"/>
-                          <TextBlock Text="尚未接入记录" Style="{StaticResource Caption}"/>
-                        </StackPanel>
-                      </Border>
-                    </UniformGrid>
-                    <Grid x:Name="ReviewColumns">
-                      <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="2.14*"/>
-                        <ColumnDefinition Width="16"/>
-                        <ColumnDefinition/>
-                      </Grid.ColumnDefinitions>
-                      <Border Style="{StaticResource Card}">
-                        <StackPanel>
-                          <TextBlock Text="待审核草稿" Style="{StaticResource SectionTitle}"/>
-                          <TextBlock Text="同一维护者审核 · 批准绑定源码、契约与证据快照" Style="{StaticResource Caption}" Margin="0,8,0,0"/>
-                          <WrapPanel Margin="0,14,0,0">
-                            <Button Content="全部" IsEnabled="False"/>
-                            <Button Content="待审核" IsEnabled="False"/>
-                            <Button Content="需补证据" IsEnabled="False"/>
-                          </WrapPanel>
-                          <DataGrid Height="275" Margin="0,16,0,0">
-                            <DataGrid.Columns>
-                              <DataGridTextColumn Header="变更 / 名称" Width="*"/>
-                              <DataGridTextColumn Header="工程 / 模块" Width="*"/>
-                              <DataGridTextColumn Header="测试证据" Width="*"/>
-                              <DataGridTextColumn Header="状态" Width="*"/>
-                            </DataGrid.Columns>
-                          </DataGrid>
-                          <TextBlock Text="没有可用审核队列；这里不写入示意通过结果。" Style="{StaticResource Caption}" Margin="0,8,0,0"/>
-                        </StackPanel>
-                      </Border>
-                      <Border Style="{StaticResource Card}" Grid.Column="2">
-                        <StackPanel>
-                          <TextBlock Text="变更详情" Style="{StaticResource SectionTitle}"/>
-                          <Border Style="{StaticResource Pill}" HorizontalAlignment="Left" Background="{DynamicResource Surface.TintWarning}">
-                            <TextBlock Text="审核与迁移待接入" Foreground="{DynamicResource Text.Warning}" FontSize="11"/>
-                          </Border>
-                          <TextBlock Text="来源" Style="{StaticResource Caption}" Margin="0,14,0,0"/>
-                          <TextBox Text="" IsEnabled="False"/>
-                          <TextBlock Text="正式目标" Style="{StaticResource Caption}" Margin="0,14,0,0"/>
-                          <TextBox Text="" IsEnabled="False"/>
-                          <TextBlock Text="快照 / 契约影响" Style="{StaticResource Caption}" Margin="0,14,0,0"/>
-                          <TextBox Text="" IsEnabled="False"/>
-                          <TextBlock Text="差异正文、必需测试与当前快照需先核对。" Style="{StaticResource Caption}" Margin="0,8,0,0"/>
-                          <Border Background="{DynamicResource Surface.TintWarning}" Padding="12" CornerRadius="8" Margin="0,16,0,0">
-                            <TextBlock Text="必需测试 NotRun 时不能批准迁移。" Foreground="{DynamicResource Text.Warning}" TextWrapping="Wrap"/>
-                          </Border>
-                          <Button Content="批准并迁移" IsEnabled="False" Style="{StaticResource Primary}" Margin="0,16,0,0" HorizontalAlignment="Right"/>
-                        </StackPanel>
-                      </Border>
-                    </Grid>
-                    <Border Style="{StaticResource Card}">
-                      <StackPanel>
-                        <TextBlock Text="最近迁移回执" Style="{StaticResource SectionTitle}"/>
-                        <TextBlock Text="测试、批准、复制、重加载与恢复分别留结果" Style="{StaticResource Caption}" Margin="0,8,0,0"/>
-                        <DataGrid Height="145" Margin="0,16,0,0">
-                          <DataGrid.Columns>
-                            <DataGridTextColumn Header="变更 ID" Width="*"/>
-                            <DataGridTextColumn Header="审核人" Width="*"/>
-                            <DataGridTextColumn Header="正式目标" Width="*"/>
-                            <DataGridTextColumn Header="阶段结果" Width="*"/>
-                            <DataGridTextColumn Header="时间" Width="*"/>
-                          </DataGrid.Columns>
-                        </DataGrid>
-                      </StackPanel>
-                    </Border>
-                  </StackPanel>
-                </ScrollViewer>
-              </TabItem>
-              <TabItem Header="测试中心">
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                  <StackPanel>
-                    <UniformGrid Columns="4" Margin="0,0,-16,0">
-                      <Border Style="{StaticResource Card}" Padding="18" Margin="0,0,16,18">
-                        <StackPanel>
-                          <TextBlock Text="测试入口" Style="{StaticResource Caption}"/>
-                          <TextBlock Text="—" FontSize="28" FontWeight="SemiBold" Margin="0,10,0,6"/>
-                          <TextBlock Text="尚未接入记录" Style="{StaticResource Caption}"/>
-                        </StackPanel>
-                      </Border>
-                      <Border Style="{StaticResource Card}" Padding="18" Margin="0,0,16,18">
-                        <StackPanel>
-                          <TextBlock Text="本次通过" Style="{StaticResource Caption}"/>
-                          <TextBlock Text="—" FontSize="28" FontWeight="SemiBold" Margin="0,10,0,6"/>
-                          <TextBlock Text="尚未接入记录" Style="{StaticResource Caption}"/>
-                        </StackPanel>
-                      </Border>
-                      <Border Style="{StaticResource Card}" Padding="18" Margin="0,0,16,18">
-                        <StackPanel>
-                          <TextBlock Text="人工案例" Style="{StaticResource Caption}"/>
-                          <TextBlock Text="—" FontSize="28" FontWeight="SemiBold" Margin="0,10,0,6"/>
-                          <TextBlock Text="尚未接入记录" Style="{StaticResource Caption}"/>
-                        </StackPanel>
-                      </Border>
-                      <Border Style="{StaticResource Card}" Padding="18" Margin="0,0,16,18">
-                        <StackPanel>
-                          <TextBlock Text="上次运行" Style="{StaticResource Caption}"/>
-                          <TextBlock Text="—" FontSize="28" FontWeight="SemiBold" Margin="0,10,0,6"/>
-                          <TextBlock Text="尚未接入记录" Style="{StaticResource Caption}"/>
-                        </StackPanel>
-                      </Border>
-                    </UniformGrid>
-                    <Grid x:Name="TestsColumns">
-                      <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="2.14*"/>
-                        <ColumnDefinition Width="16"/>
-                        <ColumnDefinition/>
-                      </Grid.ColumnDefinitions>
-                      <Border Style="{StaticResource Card}">
-                        <StackPanel>
-                          <TextBlock Text="用例目录" Style="{StaticResource SectionTitle}"/>
-                          <TextBlock Text="复用既有 DocFX 目录与按 ID 的运行器" Style="{StaticResource Caption}" Margin="0,8,0,0"/>
-                          <TextBox Tag="搜索测试 ID、方法或源码路径" IsEnabled="False" Margin="0,14,0,0"/>
-                          <DataGrid Height="275" Margin="0,16,0,0">
-                            <DataGrid.Columns>
-                              <DataGridTextColumn Header="测试 ID / 名称" Width="*"/>
-                              <DataGridTextColumn Header="类别" Width="*"/>
-                              <DataGridTextColumn Header="环境" Width="*"/>
-                              <DataGridTextColumn Header="最近" Width="*"/>
-                              <DataGridTextColumn Header="本次状态" Width="*"/>
-                            </DataGrid.Columns>
-                          </DataGrid>
-                          <TextBlock Text="xUnit / Native AOT / NET35 / NET48 / AVEVA 实测分开。" Style="{StaticResource Caption}" Margin="0,8,0,0"/>
-                        </StackPanel>
-                      </Border>
-                      <Border Style="{StaticResource Card}" Grid.Column="2">
-                        <StackPanel>
-                          <TextBlock Text="测试详情" Style="{StaticResource SectionTitle}"/>
-                          <Border Style="{StaticResource Pill}" HorizontalAlignment="Left" Background="{DynamicResource Surface.TintWarning}">
-                            <TextBlock Text="测试中心 UI 待接入" Foreground="{DynamicResource Text.Warning}" FontSize="11"/>
-                          </Border>
-                          <TextBlock Text="完整测试 ID" Style="{StaticResource Caption}" Margin="0,14,0,0"/>
-                          <TextBox Text="" IsEnabled="False"/>
-                          <TextBlock Text="验证目的 / 源码" Style="{StaticResource Caption}" Margin="0,14,0,0"/>
-                          <TextBox Text="" IsEnabled="False"/>
-                          <TextBlock Text="环境与运行命令" Style="{StaticResource Caption}" Margin="0,14,0,0"/>
-                          <TextBox Text="" IsEnabled="False"/>
-                          <TextBlock Text="预期结果 / 本次证据" Style="{StaticResource Caption}" Margin="0,14,0,0"/>
-                          <TextBox Text="" IsEnabled="False"/>
-                          <TextBlock Text="源码变化后，本次证据失效；历史通过只在历史区显示。" Style="{StaticResource Caption}" Margin="0,8,0,0"/>
-                          <Button Content="运行离线用例" IsEnabled="False" Style="{StaticResource Primary}" Margin="0,16,0,0" HorizontalAlignment="Right"/>
-                        </StackPanel>
-                      </Border>
-                    </Grid>
-                    <Border Style="{StaticResource Card}">
-                      <StackPanel>
-                        <TextBlock Text="执行队列与证据" Style="{StaticResource SectionTitle}"/>
-                        <TextBlock Text="单个运行任务 · 不把取消等待当作终止执行" Style="{StaticResource Caption}" Margin="0,8,0,0"/>
-                        <DataGrid Height="130" Margin="0,16,0,0">
-                          <DataGrid.Columns>
-                            <DataGridTextColumn Header="当前运行" Width="*"/>
-                            <DataGridTextColumn Header="上次完成" Width="*"/>
-                            <DataGridTextColumn Header="证据位置" Width="*"/>
-                          </DataGrid.Columns>
-                        </DataGrid>
-                      </StackPanel>
-                    </Border>
-                  </StackPanel>
-                </ScrollViewer>
-              </TabItem>
+
+
               <TabItem Header="Web 应用">
                 <ScrollViewer VerticalScrollBarVisibility="Auto"><Grid x:Name="WebColumns"><Grid.ColumnDefinitions><ColumnDefinition Width="2.14*"/><ColumnDefinition Width="16"/><ColumnDefinition/></Grid.ColumnDefinitions>
                   <Border Style="{StaticResource Card}"><StackPanel><TextBlock Text="本地 HTML 应用管理器" Style="{StaticResource SectionTitle}"/><TextBlock Text="在独立浏览器中管理 Form 分类、按钮绑定、参数和结果表格。" Style="{StaticResource Caption}" Margin="0,12"/><TextBox x:Name="HtmlAddressBox" Text="http://127.0.0.1:5288" IsReadOnly="True"/><Button x:Name="OpenHtmlButton" Content="打开 HTML 管理器" Click="OpenHtmlManager" Style="{StaticResource Primary}" HorizontalAlignment="Right" Margin="0,16,0,0"/><TextBlock x:Name="HtmlStateText" Text="尚未打开；点击后启动或复用本地宿主。" Style="{StaticResource Caption}" Margin="0,12" TextWrapping="Wrap"/></StackPanel></Border>
@@ -1021,10 +828,15 @@
           <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel>
               <Border Style="{StaticResource Card}" Padding="14">
-                <DockPanel>
-                  <TextBlock DockPanel.Dock="Right" Text="检索筛选与导出待接入" Foreground="{DynamicResource Text.Warning}" VerticalAlignment="Center" FontSize="11"/>
-                  <TextBox Tag="搜索工具、关联编号或 PID" IsEnabled="False" Width="300" HorizontalAlignment="Left" Margin="0"/>
-                </DockPanel>
+                <WrapPanel VerticalAlignment="Bottom">
+                  <StackPanel Width="160" Margin="0,0,12,8"><TextBlock Text="状态" Style="{StaticResource Caption}"/>
+                    <ComboBox x:Name="ActivityStatusBox" SelectedIndex="0" SelectionChanged="ActivityFilterChanged">
+                      <ComboBoxItem Content="全部状态" Tag="all"/><ComboBoxItem Content="进行中" Tag="started"/><ComboBoxItem Content="成功" Tag="succeeded"/><ComboBoxItem Content="失败" Tag="failed"/><ComboBoxItem Content="结果未知" Tag="unknown"/>
+                    </ComboBox></StackPanel>
+                  <StackPanel Width="230" Margin="0,0,12,8"><TextBlock Text="操作" Style="{StaticResource Caption}"/><ComboBox x:Name="ActivityOperationBox" SelectionChanged="ActivityFilterChanged"/></StackPanel>
+                  <StackPanel Width="280" Margin="0,0,12,8"><TextBlock Text="查找工具、编号、PID、摘要" Style="{StaticResource Caption}"/><TextBox x:Name="ActivitySearchBox" TextChanged="ActivitySearchChanged"/></StackPanel>
+                  <Button Content="清空条件" Click="ResetActivityFilters" VerticalAlignment="Bottom" Margin="0,0,0,8"/>
+                </WrapPanel>
               </Border>
               <Grid x:Name="LogColumns">
                 <Grid.ColumnDefinitions>
@@ -1035,7 +847,7 @@
                 <Border Style="{StaticResource Card}">
                   <StackPanel>
                     <TextBlock Text="调用日志" Style="{StaticResource SectionTitle}"/>
-                    <TextBlock Text="最近 200 条 · 本机滚动范围 · 不作为 24h 全量" Style="{StaticResource Caption}"/>
+                    <TextBlock x:Name="ActivityFilterSummary" Text="最近 200 条 · 本机滚动范围" Style="{StaticResource Caption}"/>
                     <DataGrid x:Name="ActivityGrid" Height="510" Margin="0,14,0,0" SelectionChanged="ActivitySelected">
                       <DataGrid.Columns>
                         <DataGridTextColumn Header="时间 +08" Binding="{Binding DisplayTime}" Width="70"/>

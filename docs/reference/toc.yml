@@ -1,108 +1,34 @@
-- name: 开始
-  href: index.md
+- name: 交接台
+  href: specs/
+- name: 使用
+  href: workspace.md
   items:
-  - name: AI 开发与直接协作演示
-    href: portfolio-demo.md
-  - name: Phayton R2 正式版
-    href: phayton-r2-production.md
-  - name: 设计约定
-    href: pmltwin-design-contract.md
-  - name: 工作台开发 测试与使用约定
-    href: workbench-lifecycle.md
-  - name: 启动工作台与 CLI 验收
-    href: workbench-validation.md
-  - name: Clear Workspace 界面预览
-    href: clear-workspace-design.md
-  - name: Phayton R2 完整工作空间
-    href: phayton-r2.md
-  - name: Phayton 宽屏、演示与名称过渡
-    href: phayton-demo.md
-  - name: 另一台电脑的签名交接
-    href: signing-handoff.md
-  - name: 能力核对、用户数据与调用策略
-    href: runtime-capability-audit.md
-  - name: 原始设计基线
-    href: ../../artifacts/docfx/navigation/design-baselines/index.md
-  - name: PMLTWIN 适配记录
-    href: design-adaptation.md
-  - name: 一条命令跑通
-    href: flows.md
-  - name: 架构与边界
-    href: architecture.md
-- name: 按功能
-  href: ../../artifacts/docfx/navigation/features/index.md
-  items:
-  - name: 功能清单
-    href: ../../artifacts/docfx/navigation/features/index.md
-  - name: Script 目录
-    href: ../../artifacts/docfx/navigation/scripts/index.md
-  - name: 全部文件清单（含历史）
-    href: ../../artifacts/docfx/navigation/scripts/inventory.md
-  - name: 待分类的 C# 类型
-    href: ../../artifacts/docfx/navigation/scripts/candidates.md
-  - name: 怎么增删改目录
-    href: catalog-maintenance.md
-  - name: 环境变量与启动策略 Object
-    href: startup-policy.md
-  - name: 原生 Form 与 Gadget 查询
-    href: form-gadget-query.md
-  - name: PhaytonObjectWalker
-    href: phayton-object-walker.md
-  - name: PML 开发与加载链路
-    href: pml-development-flow.md
-  - name: HTML 应用管理器
-    href: html-app-manager.md
-  - name: 用户目录与知识库管理
-    href: user-data-and-knowledge.md
-  - name: FormUse 登记
-    href: formuse-audit.md
-- name: 按层
-  href: cli.md
-  items:
-  - name: 原生 CLI
-    href: cli.md
-  - name: 桌面工作台
+  - name: 工作台
     href: workspace.md
-  - name: 桌面三条主流程
-    href: desktop-m1.md
-  - name: 界面命令溯源
-    href: ui-tracing.md
-  - name: 后端调用链
-    href: backend-tracing.md
-- name: 参考
-  href: api/index.md
+  - name: 安装与更新
+    href: installation.md
+  - name: CLI
+    href: cli.md
+  - name: PML 开发
+    href: pml-development-flow.md
+  - name: 官方资料与知识库
+    href: user-data-and-knowledge.md
+  - name: 启动策略
+    href: startup-policy.md
+- name: 待定清单
+  href: features/planned-tools.md
+- name: 源码
+  href: ../../artifacts/docfx/navigation/toc.yml
+- name: 验证与维护
+  href: testing.md
   items:
-  - name: C# API
-    href: api/index.md
-    items:
-    - name: 项目、模块与完整文档
-      href: ../../artifacts/docfx/navigation/toc.yml
-    - name: 执行服务核心（保留MCP程序集名）
-      href: ../../artifacts/docfx/api/mcp/toc.yml
-    - name: 知识服务核心
-      href: ../../artifacts/docfx/api/knowledge/toc.yml
-    - name: Named Pipe RPC
-      href: ../../artifacts/docfx/api/rpc/toc.yml
-    - name: 开发 HTTP API
-      href: ../../artifacts/docfx/api/devhost/toc.yml
-    - name: 原生操作适配
-      href: ../../artifacts/docfx/api/cli/toc.yml
-    - name: 共享工作区
-      href: ../../artifacts/docfx/api/workspace/toc.yml
-  - name: 测试与验证
+  - name: 测试
     href: testing.md
-  - name: 测试目录
-    href: ../../artifacts/docfx/navigation/tests/index.md
-  - name: 测试关联维护
-    href: test-associations.md
-- name: 维护
-  href: documentation.md
-  items:
   - name: 文档维护
     href: documentation.md
-  - name: 迭代记录
-    href: iteration-log.md
-  - name: 排查笔记
-    href: understanding-notes.md
-  - name: v0.4 第一阶段
-    href: pmltwin-phase1.md
+  - name: 架构
+    href: architecture.md
+  - name: 界面调用
+    href: ui-tracing.md
+  - name: 后端调用
+    href: backend-tracing.md

@@ -75,8 +75,28 @@
     "content": [
       {
         "files": [
-          "**/*.md",
-          "**/toc.yml"
+          "api/index.md",
+          "architecture.md",
+          "backend-tracing.md",
+          "cli.md",
+          "documentation.md",
+          "features/planned-tools.md",
+          "form-gadget-query.md",
+          "formuse-audit.md",
+          "html-app-manager.md",
+          "index.md",
+          "installation.md",
+          "phayton-object-walker.md",
+          "pml-development-flow.md",
+          "pml-development-plan.md",
+          "startup-policy.md",
+          "testing.md",
+          "ui-tracing.md",
+          "user-data-and-knowledge.md",
+          "workspace.md",
+          "toc.yml",
+          "specs/**/*.md",
+          "specs/**/toc.yml"
         ],
         "exclude": [
           "knowledge-filter.yml",
@@ -101,13 +121,6 @@
       }
     ],
     "resource": [
-      {
-        "files": [
-          "**/*"
-        ],
-        "src": "docs/media",
-        "dest": "media"
-      },
       {
         "files": [
           "2026-10-24-launch-cli.summary.json"
@@ -145,12 +158,21 @@
           "**/*.ico",
           "**/*.html",
           "**/*.txt",
-          "**/*.docx",
-          "**/*.mp4",
-          "**/*.srt"
+          "**/*.js",
+          "**/*.mjs",
+          "**/*.css"
         ],
         "src": "artifacts/docfx/navigation",
         "dest": "reference"
+      },
+      {
+        "files": [
+          "*.figcraft",
+          "*.png",
+          "interaction-map.json"
+        ],
+        "src": "docs/design",
+        "dest": "design"
       }
     ],
     "dest": "artifacts/docfx/site",

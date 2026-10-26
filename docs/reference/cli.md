@@ -46,7 +46,7 @@ PID 必须来自本机发现结果，不能照抄示例。每次目标调用核�
 & $cli op invoke launch.profile.history --input '{"profileId":"my-e3d"}'
 ```
 
-完整操作为 `launch.workspace.read`，以及 `launch.profile.list/read/validate/preview/save/update/history/restore.preview/restore/delete/duplicate/favorite/default/start`、`launch.modules.list`。恢复先预览，再带当前修订写入。保存不自动启动，启动另外需要 `--allow-launch`。见[开发、测试与使用约定](workbench-lifecycle.md)。
+完整操作为 `launch.workspace.read`，以及 `launch.profile.list/read/validate/preview/save/update/history/restore.preview/restore/delete/duplicate/favorite/default/start`、`launch.modules.list`。恢复先预览，再带当前修订写入。保存不自动启动，启动另外需要 `--allow-launch`。见[配置契约](specs/backend/SDS.md)。
 
 ## 批处理
 

@@ -1,4 +1,4 @@
-"""Exercise the PRD fixture in an isolated Edge process and preserve receipts."""
+"""Verify published DocFX reading layouts and source navigation in isolated Edge."""
 from pathlib import Path
 from functools import partial
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
@@ -77,18 +77,6 @@ def main():
         results.append({'id': name, 'status': 'Passed' if result is True else 'Failed', 'observed': result})
         assert result is True, (name, result)
 
-    def click(selector):
-        browser.evaluate(f'document.querySelector({json.dumps(selector)}).click()')
-
-    def value(control, new_value, event='change'):
-        browser.evaluate(f'(()=>{{const e=document.getElementById({json.dumps(control)});e.value={json.dumps(new_value)};e.dispatchEvent(new Event({json.dumps(event)},{{bubbles:true}}));}})()')
-
-    def action(name):
-        click('[data-action="' + name + '"]')
-
-    def navigate(state):
-        browser.evaluate('window.PhaytonPrototype.go(' + json.dumps(state) + ')')
-
     def screenshot(name):
         picture = browser.call('Page.captureScreenshot', {'format': 'png', 'captureBeyondViewport': False})
         (OUTPUT / name).write_bytes(base64.b64decode(picture['data']))
@@ -110,6 +98,8 @@ def main():
         source_pages=sorted({t['sourceUrl'] for t in graph['types']})
         api_pages=sorted({t['url'] for t in graph['types'] if t['url']!=t['sourceUrl']})
         assert len(source_pages)>100,'Source publication unexpectedly empty'
+        role_pages={name:next(t['sourceUrl'] for t in graph['types'] if t['name']==name and t['project']==project)
+                    for name,project in [('LaunchProfileService','YuzuhaToolkit.Workspace'),('IConfigurationStore','YuzuhaToolkit.Workspace'),('WorkspaceSettings','YuzuhaToolkit.Workspace'),('AvevaLaunchScript','YuzuhaToolkit.Workspace'),('NativeOperationCatalog','YuzuhaToolkit.Mcp.Core'),('SessionWorkbench','YuzuhaToolkit.Desktop'),('SessionWorkbenchView','YuzuhaToolkit.Desktop')]}
         cases=[
             ('specs/index.html','specifications'),('specs/backend/SDS.html','backend-specification'),
             ('workspace.html','usage'),('cli.html','cli'),('features/planned-tools.html','pending'),
@@ -117,6 +107,9 @@ def main():
             ('reference/features/index.html','feature-catalog'),('reference/scripts/index.html','script-catalog'),
             ('reference/tests/index.html','test-catalog'),('reference/ui-trace/index.html','ui-trace'),
             ('reference/specifications/bindings.html','roslyn-bindings'),
+            ('source-reading.html','source-guide'),
+            ('reference/frontend/index.html','frontend-index'),('reference/orchestration/index.html','orchestration-index'),('reference/implementations/index.html','implementation-index'),
+            *[(url,'source-'+name) for name,url in role_pages.items()],
             ('reference/source/YuzuhaToolkit.Desktop/YuzuhaToolkit.Desktop.MainWindow.ApplicationChoice.html?module=workspace&project=all&kind=all&view=types','reported-source'),
         ]
         measurements=[]
@@ -149,6 +142,40 @@ def main():
                 inspect_page(relative,width,height,f'{label}-{width}.png')
         for relative in source_pages+api_pages:
             inspect_page(relative,1440,900)
+        for name,role in [('SessionWorkbench','viewmodel'),('SessionWorkbenchView','view'),('LaunchProfileService','workflow'),('IConfigurationStore','support-interface'),('WorkspaceSettings','data'),('AvevaLaunchScript','workflow'),('NativeOperationCatalog','composition')]:
+            inspect_page(role_pages[name],1440,900)
+            check('first-screen-role-'+name,'(()=>{const e=document.querySelector(".source-role");return e?.dataset.sourceRole==='+json.dumps(role)+' && e.getBoundingClientRect().bottom<innerHeight})()')
+            if name=='IConfigurationStore':
+                check('generic-interface-links-real-store','document.querySelector("article").textContent.includes("WorkspaceConfigurationStore")')
+            if name=='AvevaLaunchScript':
+                check('shared-backend-actions-listed','["AvevaLaunchScript.SaveProfile","AvevaLaunchScript.StartSavedProfile","AvevaLaunchScript.StartWithPassword"].every(s=>document.querySelector("article").textContent.includes(s))')
+        check('composition-shows-concrete-downstream','document.querySelector("article").textContent.includes("直接调用的功能脚本")')
+        def ready_explorer(relative):
+            inspect_page(relative,1440,900)
+            deadline=time.time()+15
+            while not browser.evaluate('document.querySelector("#workspace-explorer")?.dataset.ready==="true"'):
+                if time.time()>deadline:raise TimeoutError('Explorer readiness')
+                time.sleep(.05)
+        ready_explorer('reference/implementations/index.html')
+        check('backend-list-excludes-frontend-and-orchestration', '(()=>{return [...document.querySelectorAll("tr[data-type]")].length>0 && [...document.querySelectorAll("tr[data-type]")].every(e=>!e.dataset.type.startsWith("YuzuhaToolkit.Desktop::")) && !document.querySelector("article").textContent.includes("NativeOperationCatalog")})()')
+        ready_explorer('reference/orchestration/index.html?q=NativeOperationCatalog')
+        check('wiring-listed-as-orchestration', 'Boolean(document.querySelector("tr[data-type*=NativeOperationCatalog]"))')
+        ready_explorer('reference/frontend/index.html?q=SessionWorkbench')
+        check('frontend-index-includes-view-and-viewmodel', '[...document.querySelectorAll("tr[data-type]")].some(e=>e.dataset.type.endsWith(".SessionWorkbench")) && [...document.querySelectorAll("tr[data-type]")].some(e=>e.dataset.type.endsWith(".SessionWorkbenchView"))')
+        check('frontend-metric-counts-projects-in-area', 'document.querySelector(".explorer-metrics strong").textContent==="1"')
+        check('frontend-table-labels-viewmodels', '[...document.querySelectorAll("tr[data-type]")].some(e=>e.dataset.type.endsWith(".SessionWorkbench") && e.querySelector(".kind-label").textContent.includes("ViewModel"))')
+        check('frontend-area-filter-selected', 'document.querySelector("select[aria-label=前后端]").value==="frontend"')
+        browser.evaluate('(()=>{const e=document.querySelector("select[aria-label=前后端]");e.value="backend";e.dispatchEvent(new Event("change"))})()')
+        check('area-dropdown-combines-with-text-search', 'new URLSearchParams(location.search).get("area")==="backend" && new URLSearchParams(location.search).get("q")==="SessionWorkbench" && [...document.querySelectorAll("tr[data-type]")].some(e=>e.dataset.type.endsWith(".IWorkbenchHost")) && [...document.querySelectorAll("tr[data-type]")].every(e=>!e.dataset.type.startsWith("YuzuhaToolkit.Desktop::"))')
+        inspect_page(role_pages['LaunchProfileService'],1440,900)
+        check('concrete-method-before-signatures','(()=>{const t=document.querySelector("article").textContent;return t.indexOf("LaunchProfileService.Save")>0 && t.indexOf("LaunchProfileService.Save")<t.indexOf("手写成员")})()')
+        destination=browser.evaluate('document.querySelector("article table td:nth-child(2) a").href')
+        browser.call('Page.navigate',{'url':destination})
+        deadline=time.time()+15
+        while not browser.evaluate('document.readyState==="complete" && location.href==='+json.dumps(destination)):
+            if time.time()>deadline:raise TimeoutError('Concrete source link')
+            time.sleep(.05)
+        check('concrete-source-line-opens','location.hash.startsWith("#L") && Boolean(document.getElementById(decodeURIComponent(location.hash.slice(1))))')
         for relative,label in [('specs/index.html','specifications'),(cases[-1][0],'reported-source')]:
             inspect_page(relative,1440,900)
             browser.evaluate('YuzuhaAppearance.set({theme:"dark"})')
@@ -179,7 +206,7 @@ def main():
         report = {'status': 'Passed', 'scope': 'Actual Edge reading layouts for every published C# source/API page and page families at four widths; excludes AVEVA and human usability acceptance',
                   'passed': len(results), 'failed': 0, 'layoutPages':len(measurements),'sourcePages':len(source_pages),'apiPages':len(api_pages),'checks': results, 'javascriptErrors': browser.errors,
                   'inputs': {str(file.relative_to(ROOT)).replace('\\', '/'): hashlib.sha256(file.read_bytes()).hexdigest() for file in
-                             [SITE/'public/main.css',SITE/'public/reading.css',ROOT/'docs/reference/template/layout/_master.tmpl',ROOT/'scripts/test-handoff-browser.py']},
+                             [SITE/'public/main.css',SITE/'public/reading.css',SITE/'public/explorer.js',SITE/'reference/graph.json',ROOT/'docs/reference/template/layout/_master.tmpl',ROOT/'scripts/test-handoff-browser.py']},
                   'htmlManifestSha256':hashlib.sha256('\n'.join(f'{m["page"]}:{hashlib.sha256((SITE/m["page"].split("?")[0]).read_bytes()).hexdigest()}' for m in measurements).encode()).hexdigest()}
         (OUTPUT / 'result.json').write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
         (BASE_OUTPUT / 'latest.json').write_text(json.dumps({'result': str((OUTPUT / 'result.json').relative_to(ROOT)).replace('\\', '/'), 'status': 'Passed'}), encoding='utf-8')

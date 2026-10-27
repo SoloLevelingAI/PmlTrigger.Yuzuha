@@ -70,15 +70,15 @@ public sealed class DesktopFunctionalCorrectionsTests : IDisposable
     [InlineData("element", "=123/456", "", "!!YuzuhaReadDbref(30,2,'','=123/456')")]
     [InlineData("global", "!!fmsys", "forms.1", "!!YuzuhaReadGlobal(30,2,'forms.1','fmsys')")]
     public void ObjectQueriesReuseBuiltinsWithSeparateTargetAndMemberPath(string kind, string target, string member, string expected) =>
-        Assert.Equal(expected, DesktopObjectQuery.Build(kind, target, member, 30, 2).Expression);
+        Assert.Equal(expected, PmlObjectQuery.Build(kind, target, member, 30, 2).Expression);
 
     [Fact]
     public void ObjectQueriesRejectExpressionsAndInvalidBudgetsBeforeDispatch()
     {
-        Assert.Throws<ArgumentException>(() => DesktopObjectQuery.Build("global", "fmsys.Reset()", "", 30, 2));
-        Assert.Throws<ArgumentException>(() => DesktopObjectQuery.Build("global", "fmsys", "forms.Delete()", 30, 2));
-        Assert.Throws<ArgumentOutOfRangeException>(() => DesktopObjectQuery.Build("current", "", "", 0, 2));
-        Assert.Throws<ArgumentOutOfRangeException>(() => DesktopObjectQuery.Build("current", "", "", 30, 99));
+        Assert.Throws<ArgumentException>(() => PmlObjectQuery.Build("global", "fmsys.Reset()", "", 30, 2));
+        Assert.Throws<ArgumentException>(() => PmlObjectQuery.Build("global", "fmsys", "forms.Delete()", 30, 2));
+        Assert.Throws<ArgumentOutOfRangeException>(() => PmlObjectQuery.Build("current", "", "", 0, 2));
+        Assert.Throws<ArgumentOutOfRangeException>(() => PmlObjectQuery.Build("current", "", "", 30, 99));
     }
 
     [Fact]

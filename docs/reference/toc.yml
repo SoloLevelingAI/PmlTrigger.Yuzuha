@@ -19,6 +19,8 @@
   href: features/planned-tools.md
 - name: 源码
   href: ../../artifacts/docfx/navigation/toc.yml
+- name: 源码导读
+  href: source-reading.md
 - name: 验证与维护
   href: testing.md
   items:

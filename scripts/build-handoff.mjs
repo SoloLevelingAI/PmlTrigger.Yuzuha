@@ -104,14 +104,14 @@ export function collectMetadata(root,contract){
     trace.edges.filter(e=>ids.has(e.from)&&ids.has(e.to)).reduce((sum,e)=>sum+count(e.expression)+count((e.context??[]).join('')),0);
   const tests=rows(contract.testFields,contract.tests).map(test=>{
     const file=path.join(root,test.file);assert.ok(fs.existsSync(file),'Missing test file: '+test.file);
-    let declaration=testDeclarations.find(t=>t.file===test.file&&(t.name===test.method||t.method?.endsWith('.'+test.method)));
+    let declaration=testDeclarations.find(t=>t.file===test.file&&(t.name===test.method||t.method===test.method||t.method?.endsWith('.'+test.method)));
     if(!declaration&&test.file.endsWith('.mjs')){
       const sourceText=fs.readFileSync(file,'utf8'),marker="test('"+test.method+"'",offset=sourceText.indexOf(marker);
       if(offset>=0)declaration={line:sourceText.slice(0,offset).split('\n').length,sourceSha256:hash(file),kind:'node-source-declaration'};
     }
     assert.ok(declaration,'Missing test declaration: '+test.id+' '+test.method);
     assert.equal(hash(file),declaration.sourceSha256,'Stale test inventory: '+test.file);
-    const published=graph.tests?.find(t=>t.file===test.file&&(t.name===test.method||t.method?.endsWith('.'+test.method)));
+    const published=graph.tests?.find(t=>t.file===test.file&&(t.name===test.method||t.method===test.method||t.method?.endsWith('.'+test.method)));
     return {...test,line:declaration.line,sourceSha256:declaration.sourceSha256,kind:declaration.kind,
       url:published?.url??`reference/specifications/tests/${test.id}.html`};
   });

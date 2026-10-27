@@ -12,6 +12,26 @@ const root=fileURLToPath(new URL('../',import.meta.url));
 const read=relative=>JSON.parse(fs.readFileSync(path.join(root,relative),'utf8').replace(/^\uFEFF/,''));
 const contract=read('docs/specification/contract.json');
 
+test('launch UI and CLI share a concrete backend while settings remain pure data and UI cannot reach credential or process APIs directly',()=>{
+  const source=read('artifacts/docfx/source-index.json'),trace=read('artifacts/docfx/ui-trace.json');
+  const data=source.types.find(t=>t.project==='YuzuhaToolkit.Workspace'&&t.name==='WorkspaceSettings');
+  assert.ok(data);assert.ok(!data.members.some(m=>m.kind==='MethodDeclaration'),'Settings cannot retain Load/Save behavior');
+  assert.ok(!data.members.some(m=>/\bstatic\b/.test(m.signature)),'Environment paths belong to infrastructure');
+  const nodes=new Map(trace.nodes.map(n=>[n.id,n]));
+  const calls=(fromType,fromName,toName)=>trace.edges.some(e=>{
+    const from=nodes.get(e.from),to=nodes.get(e.to);
+    return from?.typeId===fromType&&from.name.includes(fromName)&&to?.name.includes(toName);
+  });
+  const ui='YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.MainWindow';
+  assert.ok(calls(ui,'LaunchAsync','AvevaLaunchScript.StartSavedProfile('));
+  assert.ok(calls(ui,'PersistProfile','AvevaLaunchScript.SaveProfile('));
+  assert.ok(calls('YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.LaunchOperationCatalog','Registrations','AvevaLaunchScript.StartWithPassword('));
+  for(const e of trace.edges){const from=nodes.get(e.from),to=nodes.get(e.to);
+    if(from?.typeId===ui&&['LaunchAsync','PersistProfile','ClearSavedPassword','DeleteSavedProfile'].some(name=>from.name.includes(name)))
+      assert.ok(!/WindowsCredentialStore\.|Process\.Start\(/.test(to?.name??''),'UI launch flow reaches an OS side effect: '+from.name);
+  }
+});
+
 test('compact metadata preserves every value',()=>{
   const value={contract,unicode:'模型与脚本',repeated:'模型与脚本',types:[0,1,-7,2.75,true,false,null,[],{},''],nested:{contract}};
   assert.deepEqual(unpack(pack(value)),value);

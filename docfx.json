@@ -89,14 +89,15 @@
           "phayton-object-walker.md",
           "pml-development-flow.md",
           "pml-development-plan.md",
+          "source-reading.md",
+          "specs/**/*.md",
+          "specs/**/toc.yml",
           "startup-policy.md",
           "testing.md",
+          "toc.yml",
           "ui-tracing.md",
           "user-data-and-knowledge.md",
-          "workspace.md",
-          "toc.yml",
-          "specs/**/*.md",
-          "specs/**/toc.yml"
+          "workspace.md"
         ],
         "exclude": [
           "knowledge-filter.yml",

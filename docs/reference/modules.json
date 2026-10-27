@@ -99,28 +99,28 @@
       "id": "workspace",
       "name": "启动与插件目录",
       "description": "C# 原生启动、注册目录发现、复制预览、目录体积与清理提醒。",
-      "match": "src/YuzuhaToolkit.(Workspace/|Desktop/)",
+      "match": "src/YuzuhaToolkit.(Workspace/|Desktop/)|src/YuzuhaToolkit.Mcp.Core/Infrastructure/PmlDevelopmentHost",
       "guide": "workspace.html"
     },
     {
       "id": "activity",
       "name": "AI 运行与日志",
       "description": "本机操作的开始、目标、耗时、结果、日志故障与进程心跳。",
-      "match": "src/(YuzuhaToolkit.Workspace/Runtime|YuzuhaToolkit.CommandLine/ToolAudit|YuzuhaToolkit.Mcp.Core/WorkspaceTools)",
+      "match": "src/(YuzuhaToolkit.Workspace/Infrastructure/Runtime|YuzuhaToolkit.CommandLine/ToolAudit|YuzuhaToolkit.Mcp.Core/WorkspaceTools)",
       "guide": "workspace.html"
     },
     {
       "id": "sessions",
       "name": "会话与身份",
       "description": "从可见工程窗口发现候选，锁定 PID、启动时间、模块和专用管道。",
-      "match": "src/YuzuhaToolkit.Mcp.Core/(HostCapabilityException|Aveva|YuzuhaRpcBridge|YuzuhaTargetOptions|PmlCallTools|PmlCommandRpcContracts)",
+      "match": "src/YuzuhaToolkit.Mcp.Core/(HostCapabilityException|Aveva|YuzuhaRpcBridge|YuzuhaTargetOptions|PmlCallTools|PmlCommandRpcContracts)|src/YuzuhaToolkit.Mcp.Core/Infrastructure/(IWorkbenchHost|WorkbenchHost|WorkbenchPaths|WorkbenchReply)",
       "guide": "cli.html"
     },
     {
       "id": "pml",
       "name": "PML 调用与信任",
       "description": "带类型参数生成、函数注册与权限、有界数组、原生窗体控件查询、BFS 与人工函数信任。",
-      "match": "src/(Shared/Pml(MethodSignatureGenerator|ArrayWindow|FormQuery)|YuzuhaToolkit.Mcp.Core/(Pml|Bfs|BoundedArray))",
+      "match": "src/(Shared/Pml(MethodSignatureGenerator|ArrayWindow|FormQuery)|YuzuhaToolkit.Mcp.Core/(Pml|Bfs|BoundedArray))|src/YuzuhaToolkit.Mcp.Core/Scripts/PmlObjectQuery",
       "guide": "pml-development-flow.html"
     },
     {
@@ -169,7 +169,7 @@
       "id": "operations",
       "name": "共享操作内核",
       "description": "原生CLI共享的操作注册、参数契约、独立权限与直接调度。",
-      "match": "src/PmlTwin.Phayton|src/YuzuhaToolkit.Mcp.Core/(Operation|PmlRpcConnection|YuzuhaOperation|NativeOperation|LaunchOperation)",
+      "match": "src/PmlTwin.Phayton|src/YuzuhaToolkit.Mcp.Core/(Composition/|Operation|PmlRpcConnection|YuzuhaOperation|NativeOperation|LaunchOperation)",
       "guide": "cli.html"
     },
     {

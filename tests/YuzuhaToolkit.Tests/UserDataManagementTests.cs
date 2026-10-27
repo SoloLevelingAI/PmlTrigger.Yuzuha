@@ -21,7 +21,7 @@ public sealed class UserDataManagementTests : IDisposable
         { environment[name] = Environment.GetEnvironmentVariable(name); Environment.SetEnvironmentVariable(name, null); }
         Environment.SetEnvironmentVariable("YUZUHA_TOOLKIT_ROOT", Path.Combine(root, "install"));
         Environment.SetEnvironmentVariable("YUZUHA_STATE_DIR", Path.Combine(root, "state"));
-        new WorkspaceSettings { UserDataRoot = Old, PluginName = "KeepMyPlugin", Profiles = [new() { Name = "KeepMyProject", CredentialKey = "reference-only" }] }.Save();
+        new WorkspaceConfigurationStore().Commit(new WorkspaceSettings { UserDataRoot = Old, PluginName = "KeepMyPlugin", Profiles = [new() { Name = "KeepMyProject", CredentialKey = "reference-only" }] }, "missing", new("创建迁移夹具"));
     }
     private string Write(string relative, string text)
     { var path = Path.Combine(root, relative); Directory.CreateDirectory(Path.GetDirectoryName(path)!); File.WriteAllText(path, text); return path; }
@@ -38,7 +38,9 @@ public sealed class UserDataManagementTests : IDisposable
     [Fact]
     public void UnconfiguredExistingKnowledgeRetainsItsLegacyLocation()
     {
-        var unconfigured = WorkspaceSettings.Load(); unconfigured.UserDataRoot = ""; unconfigured.KnowledgeDirectory = ""; unconfigured.Save();
+        var store = new WorkspaceConfigurationStore(); var snapshot = store.Read();
+        snapshot.Value.UserDataRoot = ""; snapshot.Value.KnowledgeDirectory = "";
+        store.Commit(snapshot.Value, snapshot.Revision, new("未配置目录夹具"));
         var legacy = Path.Combine(root, "install", "knowledge"); Directory.CreateDirectory(legacy);
         Assert.Equal(legacy, new KnowledgeRepository().DefaultDirectory);
         Assert.False(Directory.Exists(UserDataPaths.RecommendedRoot) && UserDataPaths.RecommendedRoot.StartsWith(root));
@@ -50,7 +52,7 @@ public sealed class UserDataManagementTests : IDisposable
         Write("old/Apps/apps.json", "saved button binding"); Write("old/Projects/model.txt", "project");
         var plan = UserDataMigrationService.Preview(Next); Assert.False(Directory.Exists(Next));
         UserDataMigrationService.Apply(plan);
-        var settings = WorkspaceSettings.Load(); Assert.Equal(Next, settings.UserDataRoot); Assert.Equal("KeepMyPlugin", settings.PluginName);
+        var settings = new WorkspaceConfigurationStore().Read().Value; Assert.Equal(Next, settings.UserDataRoot); Assert.Equal("KeepMyPlugin", settings.PluginName);
         Assert.Equal("reference-only", Assert.Single(settings.Profiles).CredentialKey);
         Assert.Equal(note, Assert.Single(new KnowledgeRepository().ListNotes())); Assert.Equal(note, Assert.Single(Repository.ListNotes()));
         Assert.Equal("saved button binding", File.ReadAllText(Path.Combine(Next, "Apps/apps.json")));
@@ -64,7 +66,7 @@ public sealed class UserDataManagementTests : IDisposable
         File.Delete(Path.Combine(Next, "Apps/apps.json")); var plan = UserDataMigrationService.Preview(Next);
         File.WriteAllText(source, "changed"); Assert.Throws<IOException>(() => UserDataMigrationService.Apply(plan));
         plan = UserDataMigrationService.Preview(Next); Write("old/Apps/new.json", "new");
-        Assert.Throws<IOException>(() => UserDataMigrationService.Apply(plan)); Assert.Equal(Old, WorkspaceSettings.Load().UserDataRoot);
+        Assert.Throws<IOException>(() => UserDataMigrationService.Apply(plan)); Assert.Equal(Old, new WorkspaceConfigurationStore().Read().Value.UserDataRoot);
     }
     [Fact]
     public void MigrationFailureAfterFirstCopyRollsBackNewFilesAndRetainsExistingTargets()
@@ -77,7 +79,7 @@ public sealed class UserDataManagementTests : IDisposable
         Assert.False(File.Exists(Path.Combine(Next, "Apps/a.json")));
         Assert.Equal("existing user file", File.ReadAllText(conflict));
         Assert.Equal("new", File.ReadAllText(Path.Combine(Old, "Apps/a.json")));
-        Assert.Equal(Old, WorkspaceSettings.Load().UserDataRoot);
+        Assert.Equal(Old, new WorkspaceConfigurationStore().Read().Value.UserDataRoot);
     }
     [Fact]
     public void MigrationRefusesSettingsChangesAndActiveSqliteWriters()
@@ -86,8 +88,9 @@ public sealed class UserDataManagementTests : IDisposable
         using (var held = new FileStream(Path.Combine(Old, "Knowledge/personal.sqlite3.lock"), FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None))
             Assert.Throws<IOException>(() => UserDataMigrationService.Apply(plan));
         Write("old/Knowledge/personal.sqlite3-wal", "busy"); Assert.Throws<IOException>(() => UserDataMigrationService.Preview(Next));
-        File.Delete(Path.Combine(Old, "Knowledge/personal.sqlite3-wal")); var settings = WorkspaceSettings.Load(); settings.PluginName = "changed"; settings.Save();
-        Assert.Throws<IOException>(() => UserDataMigrationService.Apply(plan)); Assert.Equal(Old, WorkspaceSettings.Load().UserDataRoot);
+        File.Delete(Path.Combine(Old, "Knowledge/personal.sqlite3-wal")); var store = new WorkspaceConfigurationStore(); var snapshot = store.Read();
+        snapshot.Value.PluginName = "changed"; store.Commit(snapshot.Value, snapshot.Revision, new("并发编辑夹具"));
+        Assert.Throws<IOException>(() => UserDataMigrationService.Apply(plan)); Assert.Equal(Old, new WorkspaceConfigurationStore().Read().Value.UserDataRoot);
     }
     [Fact]
     public void UserRootCannotOverlapInstallationOrInternalStateOrExistingData()

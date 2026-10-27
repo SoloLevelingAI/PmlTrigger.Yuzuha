@@ -45,7 +45,7 @@ Discover the selected AVEVA installation using PowerShell `Get-ItemProperty` or 
 
 ## 没有 Codex 的客户端 / Clients without Codex
 
-无需安装或模拟 Codex。先使用 `Install-YuzuhaAgent.ps1 -SkipMcpRegistration` 部署文件，再运行 `Register-YuzuhaMcp.ps1 -McpJsonPath <当前客户端的真实配置路径> -McpExecutable <安装后的执行程序路径> -KnowledgeExecutable <安装后的知识库程序路径>`。两个程序均为 MCP stdio 服务端。配置路径必须对应当前客户端，不猜测、不覆盖其他服务；更新同样可使用 `-SkipMcpRegistration` 后复用该注册步骤。通用客户端卸载前先从该客户端移除对应注册，避免遗留指向不存在程序的配置。
+正式安装与 AVEVA 接入使用包内 INSTALL.md 的预览/应用流程。当前入口是原生 CLI，不需要安装或模拟 AI 客户端，不注册旧 MCP stdio 服务；独立 MCP 保持禁用。
 
 没有 EVAR.BAT/INIT 写权限时报告实际路径和权限错误，不创建替代环境文件、不改其他版本、不通过伪造 Codex 命令绕过失败。只注册 MCP 不传 AvevaProfile/EvarBat，因而不修改本机 EVAR。
 

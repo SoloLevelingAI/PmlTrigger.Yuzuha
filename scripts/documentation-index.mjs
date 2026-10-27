@@ -6,11 +6,13 @@ import YAML from 'yaml';
 import {buildTestDocumentation} from './documentation-tests.mjs';
 import {publishUiTrace} from './documentation-ui-trace.mjs';
 import {discoverPmlFiles,publishScriptCatalog} from './documentation-catalog.mjs';
+import {publishSourceReading,resolveDocumentationType,classifySourceType,documentationConstructorParameters} from './documentation-source-reading.mjs';
 
 const root=fileURLToPath(new URL('../',import.meta.url));
 const output=path.join(root,'artifacts/docfx/navigation');
 const source=JSON.parse(fs.readFileSync(path.join(root,'artifacts/docfx/source-index.json'),'utf8'));
 const configuration=JSON.parse(fs.readFileSync(path.join(root,'docs/reference/modules.json'),'utf8'));
+const readingScripts=JSON.parse(fs.readFileSync(path.join(root,'docs/reference/capabilities.json'),'utf8')).scripts;
 const approved=JSON.parse(fs.readFileSync(path.join(root,'docs/architecture/dependencies.json'),'utf8')).projects;
 assert.equal(source.failures.length,0,'Source syntax diagnostics must be resolved');
 assert.equal(source.missing.length,0,'Missing source summaries must be resolved');
@@ -47,6 +49,7 @@ const types=[...grouped].map(([uid,parts])=>{
     sourceOnly:!!settings.sourceOnly,files:[...new Set(parts.map(part=>part.file))],
     interfaces:[],implementations:[],dependencies:[],consumers:[],presentationDependencies:[],presentationConsumers:[],
     members:members.length};
+  Object.assign(type,classifySourceType(type,readingScripts));
   const note=settings.referenceNote??(settings.sourceOnly?'本页由 Roslyn 解析仓库原始源码生成。未替换 AVEVA SDK、未编造编译桩，也不代表 Host 或安装器已经实机验证。':'本页列出仓库中手写的类型和成员声明，包括内部实现；编译器生成的成员不计入源码覆盖。');
   let body=`---\ntitle: ${first.name} · ${settings.name}\n_disableAffix: false\n---\n\n# ${first.name}\n\n${summary}\n\n<div class="docs-note">${note}</div>\n\n**项目：** \`${first.project}\` · **命名空间：** \`${first.namespace||'全局'}\`\n\n`;
   body+=`<section id="type-connections" data-type-key="${escape(uid)}" class="type-connections"></section>\n\n`;
@@ -61,17 +64,12 @@ const types=[...grouped].map(([uid,parts])=>{
   return type;
 });
 const byUid=new Map(types.map(type=>[type.uid,type]));
-const resolve=(name,owner)=>{
-  const clean=name.replace(/^global::/,'').replace(/<.*>/,'').replace(/[?\[\]]/g,'');
-  const allowed=new Set([owner.project,...(approved[owner.project]?.references??[])]);
-  const matches=types.filter(type=>allowed.has(type.project)&&(type.originalUid===clean||type.name===clean||type.originalUid.replace(/`\d+$/,'')===clean));
-  return matches.length===1?matches[0]:undefined;
-};
+const resolve=(name,owner)=>resolveDocumentationType(name,owner,types,approved);
 for(const type of types) {
   const parts=grouped.get(type.uid),compiled=metadata.get(type.uid);
   const bases=compiled?.item.implements??parts.flatMap(part=>part.bases);
   for(const name of bases){const target=resolve(name,type);if(target?.kind==='interfaces'&&!type.interfaces.includes(target.uid)){type.interfaces.push(target.uid);target.implementations.push(type.uid);}}
-  for(const parameter of parts.flatMap(part=>part.members.filter(member=>member.kind==='ConstructorDeclaration').flatMap(member=>member.parameters))){
+  for(const parameter of documentationConstructorParameters(parts,source.annotations)){
     const target=resolve(parameter.type??'',type);
     if(target?.kind==='interfaces'&&!type.dependencies.includes(target.uid)){type.dependencies.push(target.uid);target.consumers.push(type.uid);}
   }
@@ -83,9 +81,10 @@ for(const module of modules){
   const starts=selected.filter(type=>type.kind==='implementations').slice(0,3);
   write('modules/'+module.id+'/index.md',`---\ntitle: ${module.name}\n_disableAffix: true\n---\n\n# ${module.name}\n\n${module.description}\n\n[阅读当前功能说明](~/${module.guide.startsWith('repository/')?'artifacts/docfx/navigation/'+module.guide.replace(/\.html$/,'.md'):'docs/reference/'+module.guide.replace(/\.html$/,'.md')})\n\n## 建议入口\n\n${starts.map(type=>`- [${type.name}](~/${type.referenceMode==='docfx'?'artifacts/docfx/api/'+configuration.projects[type.project].alias+'/'+path.basename(type.url,'.html')+'.yml':'artifacts/docfx/navigation/'+type.sourceUrl.replace(/^reference\//,'').replace(/\.html$/,'.md')})：${type.summary}`).join('\n')}\n\n<div id="workspace-explorer" data-module="${module.id}" data-view="types"></div>\n`);
 }
-for(const [kind,title] of [['interfaces','全部接口'],['models','数据模型'],['implementations','功能实现']])
-  write(kind+'/index.md',`---\ntitle: ${title}\n_disableAffix: true\n---\n\n# ${title}\n\n<div id="workspace-explorer" data-kind="${kind}" data-view="types"></div>\n`);
+for(const [kind,title] of [['interfaces','支撑接口'],['models','数据模型'],['implementations','后端功能实现'],['orchestration','编排与接线'],['infrastructure','支撑代码']])
+  write(kind+'/index.md',`---\ntitle: ${title}\n_disableAffix: true\n---\n\n# ${title}\n\n${kind==='interfaces'?'接口约定调用、存储或传输边界；具体动作从[源码导读](~/docs/reference/source-reading.md)进入。\n\n':''}<div id="workspace-explorer" data-kind="${kind}" data-view="types"></div>\n`);
 write('modules/index.md','# 功能模块\n\n<div id="workspace-explorer" data-view="modules"></div>\n');
+write('frontend/index.md','# 前端 · View / ViewModel\n\n界面文件与状态集中在 Desktop；按界面任务查找，不强套模式。后端功能与编排另列。\n\n<div id="workspace-explorer" data-area="frontend" data-view="types"></div>\n');
 const graph={schemaVersion:3,projects,modules,types,coreFeatures:[],stats:{projects:projects.length,modules:modules.length,types:types.length,interfaces:types.filter(type=>type.kind==='interfaces').length,implementationEdges:types.reduce((sum,type)=>sum+type.interfaces.length,0)}};
 
 // Only the maintained reference tree is published. Repository-wide prose and
@@ -115,6 +114,7 @@ for(const file of pml){
 graph.tests=buildTestDocumentation({root,navigation:output,types,modules,metadata,pml:pmlRows}).tests;
 graph.uiTrace=publishUiTrace({root,output,types,tests:graph.tests});
 graph.catalog=publishScriptCatalog({root,output,source,types,pml:pmlRows,tests:graph.tests,trace:JSON.parse(fs.readFileSync(path.join(output,'ui-trace/browser.json'),'utf8'))});
+graph.sourceReading=publishSourceReading({root,output,types,catalog:graph.catalog,trace:JSON.parse(fs.readFileSync(path.join(root,'artifacts/docfx/ui-trace.json'),'utf8'))});
 write('graph.json',JSON.stringify(graph,null,2));
 write('pml/index.md','# PML / PMLUI 全部源码\n\n| 文件 | 状态 | 声明符号 |\n| --- | --- | --- |\n'+pmlRows.map(row=>`| [${row.file}](${row.file}.md) | ${row.status} | ${row.symbols.join('、')} |`).join('\n')+'\n');
 const coverage={projects:projects.map(project=>({id:project.id,files:project.files.length,types:project.types.length,referenceMode:project.sourceOnly?'source':'docfx-and-source'})),typeDeclarations:source.types.length,documentedTypes:types.length,sourceFiles:new Set(projects.flatMap(project=>project.files)).size,sourceMembers:[...grouped.values()].reduce((sum,parts)=>sum+new Set(parts.flatMap(part=>part.members.map(member=>member.signature))).size,0),missingSummaries:source.missing.length,guides:markdownFiles,pmlFiles:pmlRows,preexistingMissingRepositoryLinks:missingLinks};
@@ -132,7 +132,10 @@ write('toc.yml',YAML.stringify([
     {name:'技术模块',href:'modules/index.md',items:modules.map(module=>({name:module.name,href:module.url.replace(/^reference\//,'').replace(/\.html$/,'.md')}))},
     {name:'全部接口',href:'interfaces/index.md'},
     {name:'数据模型',href:'models/index.md'},
-    {name:'功能实现',href:'implementations/index.md'},
+    {name:'前端 View / ViewModel',href:'frontend/index.md'},
+    {name:'后端功能实现',href:'implementations/index.md'},
+    {name:'编排与接线',href:'orchestration/index.md'},
+    {name:'支撑代码',href:'infrastructure/index.md'},
     {name:'PML / PMLUI',href:'pml/index.md'},
 
     {name:'覆盖报告',href:'coverage.md'}]}

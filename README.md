@@ -30,7 +30,7 @@
 .\runtime\cli\PmlTwin.Phayton.Cli.exe op invoke builtin.usage --input '{"query":"当前元素"}'
 ```
 
-源码开发需要 Windows / .NET 10 SDK；Host 另需对应 AVEVA SDK。
+源码开发从[具体功能入口](src/README.md)开始；需要 Windows / .NET 10 SDK，Host 另需对应 AVEVA SDK。
 
 ```powershell
 dotnet run --project src/YuzuhaToolkit.Desktop -c Release

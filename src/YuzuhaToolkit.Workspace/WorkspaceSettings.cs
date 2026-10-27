@@ -13,12 +13,6 @@ public sealed class WorkspaceSettings
     /// <summary>保留本版本不认识的扩展字段，避免保存时丢失其他配置。</summary>
     [JsonExtensionData]
     public Dictionary<string, JsonElement>? ExtensionData { get; set; }
-    /// <summary>读取时对应的内容修订，仅供兼容保存入口检查过期编辑。</summary>
-    [JsonIgnore]
-    internal string LoadedRevision { get; set; } = "missing";
-    /// <summary>读取时使用的状态目录，不因编辑期间环境变化而切换目标。</summary>
-    [JsonIgnore]
-    internal string? PersistenceDirectory { get; set; }
     /// <summary>实际已注册到 PMLLIB 搜索路径的目录。</summary>
     public string RegisteredPmlLib { get; set; } = "";
     /// <summary>插件源目录或 ZIP；开发副本不应位于注册目录内。</summary>
@@ -36,25 +30,6 @@ public sealed class WorkspaceSettings
     /// <summary>用户确认的独立工作目录；空值使用推荐目录并保留已有知识库路径。</summary>
     public string UserDataRoot { get; set; } = "";
 
-    /// <summary>本机状态根目录；测试和便携环境可通过 YUZUHA_STATE_DIR 隔离。</summary>
-    public static string StateDirectory => Path.GetFullPath(Environment.GetEnvironmentVariable("YUZUHA_STATE_DIR")
-        ?? (Environment.GetEnvironmentVariable("YUZUHA_TOOLKIT_ROOT") is { Length: > 0 } root ? Path.Combine(root, ".yuzuha-state")
-            : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "YuzuhaToolkit")));
-
-    /// <summary>读取已有设置；未配置时返回空工作区，不猜测注册目录。</summary>
-    public static WorkspaceSettings Load()
-    {
-        return new WorkspaceConfigurationStore().Read().Value;
-    }
-
-    /// <summary>原子保存非秘密设置；不修改任何 AVEVA 环境文件或注册表。</summary>
-    public void Save()
-    {
-        var result = new WorkspaceConfigurationStore(PersistenceDirectory).Commit(this, LoadedRevision,
-            new ConfigurationChangeReason("工作区设置保存"));
-        LoadedRevision = result.Snapshot.Revision;
-        ConfigurationRevision = result.Snapshot.Value.ConfigurationRevision;
-    }
 }
 
 /// <summary>AVEVA 启动配置；密码保存在 Windows 凭据库，配置只保留本机引用。</summary>
@@ -106,6 +81,7 @@ public sealed class LaunchProfile
 /// <summary>工作区、日志和目录报告的 Native AOT JSON 元数据。</summary>
 [JsonSourceGenerationOptions(WriteIndented = true, PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase)]
 [JsonSerializable(typeof(WorkspaceSettings))]
+[JsonSerializable(typeof(Dictionary<string, string>))]
 [JsonSerializable(typeof(DirectoryHealth))]
 [JsonSerializable(typeof(RuntimeStatus[]))]
 [JsonSerializable(typeof(ActivityEntry[]))]

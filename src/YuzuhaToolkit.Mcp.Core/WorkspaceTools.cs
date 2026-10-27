@@ -37,7 +37,7 @@ public sealed class WorkspaceTools(PmlCallTools pml)
     [Description("Read-only bounded scan of the registered Yuzuha PMLLIB folder. Reports total and PML-only file bytes, PML storage by type and direct folder, case-insensitive same-filename duplicate candidates and extra-copy counts. Duplicates are not content comparisons or proven load conflicts; incomplete scans report lower bounds. Does not delete files, change registration or execute PML REHASH ALL.")]
     public string InspectRegisteredPmllib(string? directory = null)
     {
-        var settings = WorkspaceSettings.Load();
+        var settings = new WorkspaceConfigurationStore().Read().Value;
         var root = directory ?? settings.RegisteredPmlLib;
         if (string.IsNullOrWhiteSpace(root)) throw new ArgumentException("请在原生启动台选择已注册 PMLLIB 目录，或提供 directory。");
         return JsonSerializer.Serialize(DirectoryInspector.Scan(root, settings.WarnFiles, settings.WarnBytes), WorkspaceJsonContext.Default.DirectoryHealth);

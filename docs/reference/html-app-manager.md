@@ -20,14 +20,13 @@
 
 需要 Windows、本机 .NET 10 / ASP.NET Core 运行时及已加载 Yuzuha Host 的 AVEVA 会话。本批仅实测 E3D 2.1 / NET48 Host 0.3.2.0；Marine、PDMS 和其他版本分别验证。
 
-```powershell
+```text
 dotnet build src/YuzuhaToolkit.WebApps -c Release
-pwsh -NoProfile -File scripts/Start-HtmlAppManager.ps1
 ```
 
-默认地址 `http://127.0.0.1:5288`。`-DataDirectory` 指定配置和证据目录，`-PmlLib` 指定已部署源码根目录，`-Executable` 可指定发布包。启动和选择会话不执行 PML，按钮运行才派发。
+编译后从工作台“Web 应用”打开；C# `HtmlAppLauncher` 选择实际布局、数据目录和 PMLLIB，不再另设 PowerShell 启动器。默认地址 `http://127.0.0.1:5288`。独立宿主接受 `--data-dir`、`--pml-root`，后者应提供已部署源码的绝对路径。启动和选择会话不执行 PML，按钮运行才派发。
 
-属性示例依赖新版 `PhaytonObjectWalker` 和 `tests/ai-pml/html-manager/YuzuhaHtmlData.pmlobj`；函数/Form 示例复用前批 `YuzuhaDevelopmentProbe`。先使用已有 `Invoke-PmlDevelopment.ps1` 部署新增目录，清单为 `tests/live/pml-html-manager-manifest.json`。流程核对会话实际 PMLLIB，再复制、REHASH ALL、Object 重载和适配器类型验证。设置 `-PmlLib` 不等于文件已进入会话搜索路径，见`tests/live/pml-html-manager.md`。
+属性示例依赖 `PhaytonObjectWalker` 和 `tests/ai-pml/html-manager/YuzuhaHtmlData.pmlobj`；函数/Form 示例复用 `YuzuhaDevelopmentProbe`。通过桌面 C# 部署流程核对会话实际 PMLLIB，再复制、加载和验证；清单为 `tests/live/pml-html-manager-manifest.json`。旧 PowerShell 编排仍留用但不再扩写，见[待定清单](features/planned-tools.md)。设置 `--pml-root` 不等于文件已进入会话搜索路径，见`tests/live/pml-html-manager.md`。
 
 ## 调用模型
 

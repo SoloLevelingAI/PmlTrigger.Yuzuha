@@ -1,4 +1,5 @@
-const kinds={all:'全部类型',interfaces:'接口',models:'模型',implementations:'功能实现'};
+const kinds={all:'全部类型',frontend:'View / ViewModel',interfaces:'支撑接口',models:'数据',implementations:'后端功能',orchestration:'编排与接线',infrastructure:'支撑代码'};
+const areas={all:'前后端',frontend:'前端',backend:'后端'};
 const pageSize=30;
 const byId=(items,id)=>items.find(item=>item.id===id);
 
@@ -17,20 +18,21 @@ function stateFromUrl(graph,defaults={}) {
   const project=query.get('project')??'all';
   const kind=query.get('kind')??defaults.kind??'all';
   const view=query.get('view')??defaults.view??'types';
+  const area=query.get('area')??defaults.area??'all';
   return {module:module==='all'||byId(graph.modules,module)?module:'all',project:project==='all'||byId(graph.projects,project)?project:'all',
-    kind:Object.hasOwn(kinds,kind)?kind:'all',view:['projects','modules','types'].includes(view)?view:'types',q:query.get('q')??'',
+    area:Object.hasOwn(areas,area)?area:'all',kind:Object.hasOwn(kinds,kind)?kind:'all',view:['projects','modules','types'].includes(view)?view:'types',q:query.get('q')??'',
     page:Math.max(1,Math.min(100000,Number.parseInt(query.get('page'),10)||1))};
 }
 function queryFor(state) {
   const query=new URLSearchParams();
-  for(const key of ['module','project','kind','view','q','page'])if(state[key])query.set(key,state[key]);
+  for(const key of ['module','project','area','kind','view','q','page'])if(state[key])query.set(key,state[key]);
   return query;
 }
 function url(root,path,state) {
   const result=new URL(path,root);result.search=queryFor(state).toString();return result.href;
 }
 function matches(type,state) {
-  return (state.module==='all'||type.modules.includes(state.module))&&(state.project==='all'||type.project===state.project);
+  return (state.module==='all'||type.modules.includes(state.module))&&(state.project==='all'||type.project===state.project)&&(state.area==='all'||type.area===state.area);
 }
 function typeLink(root,type,state,label=type.name) {
   return element('a',{href:url(root,type.url,state),'data-type-link':type.uid},label);
@@ -41,7 +43,7 @@ function selectedTypes(graph,state) {
     if(!matches(type,state)||(state.kind!=='all'&&type.kind!==state.kind))return false;
     const related=[...new Set([...type.interfaces,...type.dependencies,...type.implementations,...type.consumers,
       ...(type.presentationDependencies??[]),...(type.presentationConsumers??[])])];
-    const searchText=[type.name,type.summary,type.project,...type.modules.map(id=>byId(graph.modules,id).name),
+    const searchText=[type.name,type.summary,type.project,graph.sourceReading?.roles[type.readingRole],...(type.files??[]),...type.modules.map(id=>byId(graph.modules,id).name),
       ...related.map(id=>{const item=graph.types.find(candidate=>candidate.uid===id);return item.name+' '+item.summary;})].join(' ').toLocaleLowerCase();
     return searchText.includes(query);
   }).sort((a,b)=>a.name.localeCompare(b.name,'en')||a.uid.localeCompare(b.uid,'en'));
@@ -63,7 +65,7 @@ function mountTypePager(root,graph,type,state,article) {
 }
 function scopeTitle(graph,state) {
   const module=byId(graph.modules,state.module),project=byId(graph.projects,state.project);
-  return [module?.name??'全功能',project?.name??'全部项目'].join(' / ');
+  return [module?.name??'全功能',project?.name??'全部项目',areas[state.area]].filter(Boolean).join(' / ');
 }
 function selector(label,options,value,change) {
   const select=element('select',{'aria-label':label,onchange:event=>change(event.target.value)},options.map(option=>element('option',{value:option.id},option.name)));
@@ -73,6 +75,7 @@ function scopes(root,graph,state,change) {
   return element('div',{class:'scope-controls'},
     selector('功能范围',[{id:'all',name:'全功能 · 项目通览'},...graph.modules],state.module,value=>change({module:value,view:'types'})),
     selector('项目范围',[{id:'all',name:'全部 '+graph.projects.length+' 个项目'},...graph.projects],state.project,value=>change({project:value,view:'types'})),
+    selector('前后端',Object.entries(areas).map(([id,name])=>({id,name})),state.area,value=>change({area:value,kind:'all',view:'types'})),
     element('a',{class:'scope-reset',href:url(root,'index.html',{view:'projects'})},'回到全项目'));
 }
 
@@ -138,6 +141,13 @@ export function mountTypeConnections(root,graph,uid) {
     element('a',{href:url(root,'index.html',state)},'返回当前目录'),element('a',{href:url(root,'index.html',{view:'projects'})},'全项目'));
   if(state.project!=='all'&&state.project!==type.project)context.prepend(element('small',{class:'cross-project'},'跨项目参考 · '+type.project.replace('YuzuhaToolkit.','')));
   const article=document.querySelector('article');article.prepend(context);
+  if(type.readingRole&&!article.querySelector('.source-role')) {
+    const label=graph.sourceReading?.roles[type.readingRole]??'具体实现';
+    const note=type.kind==='interfaces'?'支撑边界；具体功能在实现和 Script 中。':'具体动作、源码行及直接下游见源码页。';
+    container.append(element('div',{class:'source-role','data-source-role':type.readingRole},element('strong',{},label),element('span',{},note)));
+    const scripts=graph.catalog?.scripts.filter(s=>s.type===type.uid)??[];
+    if(scripts.length)container.append(element('div',{class:'connection-row'},element('span',{class:'connection-label'},'具体动作'),...scripts.map(s=>element('a',{href:new URL(s.url,root).href},s.name))));
+  }
   const core=graph.coreFeatures?.find(feature=>feature.uid===type.uid);
   if(core) {
     container.append(element('aside',{class:'core-feature','aria-label':'核心功能导读'},element('strong',{},core.label),
@@ -177,7 +187,7 @@ export function mountTypeConnections(root,graph,uid) {
 
 export function mountExplorer(root,graph,container) {
   document.body.classList.add('has-explorer');
-  const defaults={module:container.dataset.module,view:container.dataset.view??'types',kind:container.dataset.kind??'all'};
+  const defaults={module:container.dataset.module,view:container.dataset.view??'types',kind:container.dataset.kind??'all',area:container.dataset.area??'all'};
   let state=stateFromUrl(graph,defaults);
   const header=element('div',{class:'explorer-header'}),content=element('div',{class:'explorer-content'});
   const result=element('div',{'aria-live':'polite',class:'explorer-status'});
@@ -186,7 +196,7 @@ export function mountExplorer(root,graph,container) {
     history.replaceState(null,'',location.pathname+'?'+queryFor(state));render();
   };
   const tabs=element('div',{class:'explorer-tabs',role:'group','aria-label':'浏览方式'},
-    ...[['projects','项目概览'],['modules','功能模块'],['types','类型目录']].map(([value,label])=>element('button',{type:'button','data-view':value,onclick:()=>update(value==='types'?{view:value}:{view:value,module:'all',project:'all',kind:'all',q:''})},label)));
+    ...[['projects','项目概览'],['modules','功能模块'],['types','类型目录']].map(([value,label])=>element('button',{type:'button','data-view':value,onclick:()=>update(value==='types'?{view:value}:{view:value,module:'all',project:'all',area:'all',kind:'all',q:''})},label)));
   const search=element('input',{type:'search','aria-label':'筛选功能或类型',placeholder:'搜索功能、职责、类型或接口…',value:state.q,oninput:event=>update({q:event.target.value,view:'types'})});
   header.append(element('div',{class:'explorer-metrics'},
     [['项目',graph.stats.projects],['功能模块',graph.stats.modules],['接口',graph.stats.interfaces],['实现关联',graph.stats.implementationEdges]].map(([label,count])=>element('div',{},element('strong',{},count),element('span',{},label)))),
@@ -198,15 +208,15 @@ export function mountExplorer(root,graph,container) {
     if(search.value!==state.q)search.value=state.q;
     for(const link of document.querySelectorAll('.workspace-nav [data-module]'))link.setAttribute('aria-current',link.dataset.module===state.module?'page':'false');
     for(const button of tabs.querySelectorAll('button'))button.setAttribute('aria-pressed',button.dataset.view===state.view);
-    const selects=header.querySelectorAll('.scope-controls select');selects[0].value=state.module;selects[1].value=state.project;
+    const selects=header.querySelectorAll('.scope-controls select');selects[0].value=state.module;selects[1].value=state.project;selects[2].value=state.area;
     content.replaceChildren();
     const scoped=graph.types.filter(type=>matches(type,state));
     const scopeIds=new Set(scoped.map(type=>type.uid));
     const scopedEdges=graph.types.reduce((sum,type)=>sum+type.interfaces.filter(uid=>scopeIds.has(type.uid)||scopeIds.has(uid)).length,0);
     const focused=state.view==='types';
     const metrics=focused?[
-      state.project!=='all'?1:state.module==='all'?graph.stats.projects:new Set(scoped.map(type=>type.project)).size,
-      state.module!=='all'?1:new Set(scoped.flatMap(type=>type.modules)).size,
+      new Set(scoped.map(type=>type.project)).size,
+      new Set(scoped.flatMap(type=>type.modules)).size,
       scoped.filter(type=>type.kind==='interfaces').length,scopedEdges
     ]:[graph.stats.projects,graph.stats.modules,graph.stats.interfaces,graph.stats.implementationEdges];
     [...header.querySelectorAll('.explorer-metrics strong')].forEach((node,index)=>node.textContent=metrics[index]);
@@ -233,7 +243,7 @@ export function mountExplorer(root,graph,container) {
     content.append(roleTabs);
     const selected=selectedTypes(graph,state);
     result.textContent=scopeTitle(graph,state)+' · '+selected.length+' 个类型';
-    if(!selected.length){content.append(element('div',{class:'explorer-empty'},'当前条件下没有类型。',element('button',{type:'button',onclick:()=>update({module:'all',project:'all',kind:'all',q:''})},'清除筛选')));return;}
+    if(!selected.length){content.append(element('div',{class:'explorer-empty'},'当前条件下没有类型。',element('button',{type:'button',onclick:()=>update({module:'all',project:'all',area:'all',kind:'all',q:''})},'清除筛选')));return;}
     const body=element('tbody');
     const table=element('table',{class:'api-table explorer-table'},element('thead',{},element('tr',{},...['类型与职责','类别 / 项目','关联接口或实现'].map(text=>element('th',{scope:'col'},text)))),body);
     content.append(element('div',{class:'api-table-wrap'},table));
@@ -247,7 +257,7 @@ export function mountExplorer(root,graph,container) {
         const links=(type.kind==='interfaces'?type.implementations:[...new Set([...type.interfaces,...type.dependencies])]).map(id=>graph.types.find(item=>item.uid===id));
         return element('tr',{'data-type':type.uid},
           element('td',{},typeLink(root,type,state),element('p',{},type.summary)),
-          element('td',{},element('span',{class:'kind-label'},kinds[type.kind]),element('small',{},type.project.replace('YuzuhaToolkit.',''))),
+          element('td',{},element('span',{class:'kind-label'},graph.sourceReading?.roles[type.readingRole]??kinds[type.kind]),element('small',{},type.project.replace('YuzuhaToolkit.',''))),
           element('td',{class:'explorer-related'},links.length?links.map(item=>typeLink(root,item,state)):element('span',{class:'text-secondary'},type.kind==='models'?'数据模型':'无本项目接口声明')));
       }));
     }

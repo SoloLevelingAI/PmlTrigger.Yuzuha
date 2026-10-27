@@ -1,7 +1,7 @@
 {
   "schema": "phayton.handoff/1",
   "baseline": "0923e4a09eb72112373fbab0df4da0ebca51b2a1",
-  "date": "2026-10-26",
+  "date": "2026-10-27",
   "terms": {
     "BRD": "业务目标与边界",
     "PRD": "产品任务与交互",
@@ -337,8 +337,8 @@
       "G3",
       "P0",
       "verified",
-      "WPF 与 CLI 共用启动配置服务；存储与产品目录按实际变化点替换。",
-      "同输入经两个适配器得到相同规则/修订；替换存储或目录不改用例；不为每个方法新增接口。",
+      "纯配置数据；WPF/CLI共享具体脚本，存储/目录按实际变化点替换。",
+      "同输入规则/修订一致；UI不读凭据或创建工程进程；替换存储/目录不改用例，不逐方法建接口。",
       [
         "S04"
       ],
@@ -349,11 +349,16 @@
         "B03",
         "B07",
         "B08",
-        "B13"
+        "B13",
+        "B26",
+        "B27",
+        "B28"
       ],
       [
         "T01",
-        "T02"
+        "T02",
+        "T16",
+        "T18"
       ]
     ],
     [
@@ -378,7 +383,8 @@
       ],
       [
         "T03",
-        "T05"
+        "T05",
+        "T17"
       ]
     ],
     [
@@ -544,11 +550,13 @@
       ],
       [
         "B18",
-        "B19"
+        "B19",
+        "B27"
       ],
       [
         "T11",
-        "T13"
+        "T13",
+        "T19"
       ]
     ],
     [
@@ -792,6 +800,24 @@
       "YuzuhaToolkit.PmlHost.Net48",
       "YuzuhaToolkit.PmlHost.PmlCommandRpcService",
       null
+    ],
+    [
+      "B26",
+      "YuzuhaToolkit.Workspace",
+      "YuzuhaToolkit.Workspace.WorkspaceSettings",
+      null
+    ],
+    [
+      "B27",
+      "YuzuhaToolkit.Workspace",
+      "YuzuhaToolkit.Workspace.AvevaLaunchScript",
+      null
+    ],
+    [
+      "B28",
+      "YuzuhaToolkit.Workspace",
+      "YuzuhaToolkit.Workspace.WindowsCredentialStore",
+      null
     ]
   ],
   "testFields": [
@@ -874,6 +900,26 @@
       "T15",
       "tests/handoff-specifications.test.mjs",
       "compact metadata preserves every value"
+    ],
+    [
+      "T16",
+      "tests/YuzuhaToolkit.Tests/AvevaLaunchScriptTests.cs",
+      "YuzuhaToolkit.Tests.AvevaLaunchScriptTests.WorkspaceSettingsHasOnlyInstanceDataAndRoundTripsWithoutPersistenceBehavior"
+    ],
+    [
+      "T17",
+      "tests/YuzuhaToolkit.Tests/AvevaLaunchScriptTests.cs",
+      "YuzuhaToolkit.Tests.AvevaLaunchScriptTests.StorageExceptionAfterReplacementDoesNotDeleteTheCredentialNowReferencedOnDisk"
+    ],
+    [
+      "T18",
+      "tests/YuzuhaToolkit.Tests/AvevaLaunchScriptTests.cs",
+      "YuzuhaToolkit.Tests.AvevaLaunchScriptTests.DefaultBackendCreatesARealHarmlessBatchProcessWithoutOpeningWpfOrAveva"
+    ],
+    [
+      "T19",
+      "tests/YuzuhaToolkit.Tests/AvevaLaunchScriptTests.cs",
+      "YuzuhaToolkit.Tests.AvevaLaunchScriptTests.RevisionConflictAfterProcessCreationReturnsItsPidAndWarningWithoutRetry"
     ]
   ],
   "screenFields": [

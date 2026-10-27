@@ -81,6 +81,18 @@ test('manual add, edit and remove only changes catalog metadata; native source r
   } finally {rmSync(f.root,{recursive:true,force:true});}
 });
 
+test('a concrete entry declared in another partial file links to that file and its real method name',()=>{
+  const f=catalogFixture();try {
+    writeFileSync(join(f.root,'src/Other.cs'),'partial class Core { void Search() {} }');
+    f.source.types.push({...f.source.types[0],file:'src/Other.cs',members:[{name:'Search',kind:'MethodDeclaration',signature:'void Search()',line:12}]});
+    f.configuration.scripts[0].entry='Search';
+    const script=buildScriptCatalog(f).scripts.find(s=>s.id==='csharp:core');
+    assert.equal(script.name,'Core.Search');assert.equal(script.file,'src/Other.cs');assert.equal(script.line,12);
+    assert.deepEqual(script.locations,[{file:'src/Other.cs',line:12,name:'Search'}]);
+    assert.match(script.sourceUrl,/#L12$/);assert.ok(!script.sourceUrl.includes('Core.cs'));
+  } finally {rmSync(f.root,{recursive:true,force:true});}
+});
+
 test('duplicate identity, stale selector, unknown feature, missing guide and escaping paths fail with diagnostics',()=>{
   for(const mutate of [
     f=>f.configuration.scripts.push({...f.configuration.scripts[0]}),

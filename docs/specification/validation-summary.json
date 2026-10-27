@@ -115,5 +115,374 @@
     "checkedLocalLinks": 70589,
     "retiredContentAbsent": true,
     "errors": []
-  }
+  },
+  "latestFollowUp": {
+    "date": "2026-10-28",
+    "status": "FrontendBackendSeparatedAndReadingGroupsVerified",
+    "baseCommit": "abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143",
+    "workingTree": true,
+    "scope": "Practical source organization and DocFX reading groups; reusable query/session/documentation hosting code outside Desktop. Actual isolated WPF and native CLI; no AVEVA model operation or new platform acceptance.",
+    "codeTests": [
+      {
+        "passed": 14,
+        "failed": 0,
+        "skipped": 0,
+        "file": "artifacts/frontend-verified-tests/frontend-verified_net10.0_20261027235028.trx",
+        "sha256": "df0e83bb919097e51930e5b60e2e8f4201568b9e8dabab4c046b83e1ca14ad1c"
+      },
+      {
+        "passed": 223,
+        "failed": 0,
+        "skipped": 0,
+        "file": "artifacts/frontend-verified-tests/frontend-verified_net10.0_20261027235041.trx",
+        "sha256": "5b3e717d6881f029d68097b4bf064425b6c0c8480deb3b4333180a275f643640"
+      }
+    ],
+    "documentationTests": {
+      "passed": 52,
+      "failed": 0,
+      "file": "artifacts/frontend-boundary-documentation.tap",
+      "sha256": "991d359f9789708a5846caf85b9c077788b9fac5afe4aebd2ac7779b2c0b857c"
+    },
+    "contractTests": {
+      "passed": 9,
+      "failed": 0,
+      "file": "artifacts/handoff-validation/2026-10-27T15-59-18-274Z-567bd5c0/result.json",
+      "sha256": "872bb9281e550cab2d02ef1b7ce0d323adef5d7822152fcc29206af10bc776ce"
+    },
+    "nativeCli": {
+      "manifest": {
+        "file": "artifacts/frontend-boundary-native/native-aot-manifest.json",
+        "sha256": "a2191613249343ca85569079fa30d56f3229118fbef48446153c02f30cb08441"
+      },
+      "executable": {
+        "file": "artifacts/frontend-boundary-native/PmlTwin.Phayton.Cli.exe",
+        "sha256": "f8c7c17beb2861ed5e77c8c70e4912f2a64e6090703cd339251dcb590ec80e55"
+      }
+    },
+    "scenarios": {
+      "json": {
+        "executed": 15,
+        "file": "artifacts/fbj/run.json",
+        "sha256": "e8023c755f24e66a202cb9bf809905e92e04764957c4072a7a47f78f71c0235b"
+      },
+      "toml": {
+        "executed": 15,
+        "file": "artifacts/fbt/run.json",
+        "sha256": "f422a9ab01ab99122b55b169718265285a08219294bc639db9dab4e31f43fc2f"
+      }
+    },
+    "scenarioParser": {
+      "passed": 8,
+      "file": "artifacts/frontend-boundary-parser.log",
+      "sha256": "df25ad0afc6c065b1f4bd7f2d6577ee242e440bc6bdbcf55a6abb8618a2dc330"
+    },
+    "wpf": {
+      "pages": 12,
+      "themes": [
+        "Light",
+        "Dark"
+      ],
+      "viewports": [
+        "1440x960",
+        "1280x720",
+        "853x480 logical (1280x720 at 150%)"
+      ],
+      "backendLaunch": true,
+      "actualAvevaStarted": false,
+      "bindingErrors": 0,
+      "binary": {
+        "file": "src/YuzuhaToolkit.Desktop/bin/Release/net10.0-windows/YuzuhaToolkit.Desktop.dll",
+        "sha256": "208a62b113d651f053f8ca5747df403248059b700f1bb21ed31724b649d6b98e"
+      },
+      "receipt": {
+        "file": "artifacts/fbv/desktop-smoke.json",
+        "sha256": "fe82cc669628674bb97c09b8b7f4d7576f762ef92bcb16bbc84100baa0ada4b0"
+      },
+      "lifecycle": {
+        "checks": 20,
+        "file": "artifacts/fbl/launch-lifecycle-ui.json",
+        "sha256": "59e59c52f5a09c21865095d08147c82409fb34483b81ee0a3733410a1a0a54f0"
+      }
+    },
+    "browser": {
+      "checks": 25,
+      "layouts": 628,
+      "sourcePages": 327,
+      "apiPages": 196,
+      "screenshots": 94,
+      "htmlManifestSha256": "c379fb5575992cba6fe68369216412d9d1c2e1dc11bfd6158d420472e40c12a3",
+      "file": "artifacts/handoff-browser/run-1793116819182190200/result.json",
+      "sha256": "1e2fe0465b260e889fbae9c0098ea436e06ffd0695da2b89ba255490b301e601"
+    },
+    "powershell": {
+      "newScripts": 0,
+      "cleanupEvidence": "artifacts/powershell-cleanup.json",
+      "remainingTracked": 22
+    },
+    "docfx": {
+      "htmlPages": 2789,
+      "localLinks": 73039,
+      "warnings": 0,
+      "errors": 0,
+      "log": {
+        "file": "artifacts/frontend-boundary-docfx-final.log",
+        "sha256": "484d2cf2466a6ead20857a886c0b4683607efb853b356c9c3c193aed75e6c86f"
+      }
+    },
+    "compression": {
+      "metadataByteReduction": 0.6572299020348505,
+      "specificationProseReduction": 0.5061231786895504
+    },
+    "inputs": {
+      "src/YuzuhaToolkit.Mcp.Core/Infrastructure/IWorkbenchHost.cs": "6308cd8e93f091b3376c8ce276fe7dec235b86be126c6f670c70a44e16d0fbf6",
+      "src/YuzuhaToolkit.Mcp.Core/Infrastructure/PmlDevelopmentHost.cs": "46e94dd9369541d534767e6f7510b965701ef25b8b9eccb014333b822a2fc087",
+      "src/YuzuhaToolkit.Mcp.Core/Infrastructure/WorkbenchHost.cs": "0ac307d0bc901d122d78d995524dd778b59bd4152dd1c44ed0ea3a0738543fed",
+      "src/YuzuhaToolkit.Mcp.Core/Infrastructure/WorkbenchPaths.cs": "4d6662215f12b4432d1178b31f030efb403f3f17895faa1a75e3eee5d8ed3e41",
+      "src/YuzuhaToolkit.Mcp.Core/Infrastructure/WorkbenchReply.cs": "9750e4f297a66a0df973d377ef5b77e02543c66e11a920fb6305b81470e46a85",
+      "src/YuzuhaToolkit.Mcp.Core/Scripts/PmlObjectQuery.cs": "ea45fd4087c02071844c58f8e20b266a8a05a4ed0f0565e7d79410812fcaedd6",
+      "src/YuzuhaToolkit.Workspace/Infrastructure/LocalDocumentationHost.cs": "aa950b34967ea471aa075349fd34c3c25cb4e50595d65a6790f6bb1bdf31dd2a",
+      "tests/YuzuhaToolkit.Tests/WorkbenchBackendTests.cs": "2c5f725b6ef49db56b6864383c0e2e45aa56318ab7753836b2dcbab3729b1d5b",
+      "src/README.md": "1ef2bf1b1619b472bf6b604282cdb97c68bf00ceb262a0f2d03a85350717265c",
+      "tests/YuzuhaToolkit.Tests/YuzuhaToolkit.Tests.csproj": "9f3a442136b0d130b46929f64c6c9e9fe290b7dc465f0e90a34e5e676700804d",
+      "scripts/documentation-source-reading.mjs": "81d904b68dae4f6c394c94ee558fa29d0eb80b1706b947f035cc2a3163ffebde",
+      "scripts/documentation-index.mjs": "134b31013b679a2f6666780d1969f131c2c9237ae18ebb922441c7aa52fd25a0",
+      "scripts/documentation-catalog.mjs": "25209fe6a83af1c1aee7791976408438546774fa130be800a3ab162f92c62913",
+      "docs/reference/template/public/explorer.js": "2aab2a914253d143c519ac37a976df730dd029ad92c5b5553b42d33cfbaaa2b4",
+      "docs/reference/template/public/reading.css": "1b1769589aa7f8a2af38bb6b94e4186a0e3a87a1b5114d6ba304103ec31ebad4",
+      "docs/reference/template/public/catalog.js": "bc0378bf54ce74a0fcfc6a7e71bbbebe88769e321c27c68439cee6c0b490f393",
+      "docs/reference/source-reading.md": "7d60b12f977d93efc967e384667e90f3cc746f2667cbb7a84e422f1d2d527057",
+      "docs/reference/capabilities.json": "51368fc4439f88fec49521188fa0526a53533ed68032ea834682d1dddc00d112",
+      "docs/reference/test-map.json": "b6999a85efb8556fb7caf58141d6d459753f88aaffff905eccd6764327416fdb",
+      "docs/reference/modules.json": "6803865521c627b715960496d1b3bcfa0b6aa40aace4a94c989cb702e09ab609",
+      "scripts/test-handoff-browser.py": "e0241108b8aa5015845c4483639a6e2033ba86c69eedf0c7f18435b898af1d5c",
+      "tests/documentation-source-reading.test.mjs": "ccc113daae682593c43d88a77977b20331caf8ec5f06dcd477b9a42d441b829f",
+      "artifacts/docfx/source-index.json": "7b66b705a0b7268150d782ffc0416afd3cbba93d1ef166a25618fbd96b869a18",
+      "artifacts/docfx/ui-trace.json": "a8f39c652333297e0fa7bf59f3f292a862ed69d0ee61cc57ffc20ec62f396ff2",
+      "artifacts/docfx/navigation/graph.json": "cdf2923b9fc124ff0ed39dc4326acfbc56b3f0ebf572c6eca9ad420dcfb59706"
+    }
+  },
+  "previousFollowUps": [
+    {
+      "date": "2026-10-27",
+      "status": "SourceReadingVerified",
+      "scope": "Source organization, extracted AVEVA entry-process script, explicit function links and generic interface implementation resolution; no new AVEVA execution or WPF usability acceptance",
+      "movedSourceFiles": 15,
+      "codeTests": [
+        {
+          "file": "artifacts/source-reading-tests/source-reading_net10.0_20261027195019.trx",
+          "sha256": "1be6d916f137aef46cbd6a12468fe026a53c9f3c738b248d1e48a64f5c9fb311",
+          "total": 14,
+          "passed": 14,
+          "failed": 0
+        },
+        {
+          "file": "artifacts/source-reading-tests/source-reading_net10.0_20261027195038.trx",
+          "sha256": "500962a35c9e7249a4bb13c474fee90942fa8cdbbce7772a14ae373a84a596ce",
+          "total": 205,
+          "passed": 205,
+          "failed": 0
+        }
+      ],
+      "documentationTests": {
+        "passed": 50,
+        "failed": 0,
+        "file": "artifacts/source-reading-documentation-tests.tap",
+        "sha256": "a24247da2d8dc9b4ae1ed4437bf91f840d9fd36dcea6b877f68efd758652f754"
+      },
+      "contractTests": {
+        "passed": 8,
+        "failed": 0,
+        "file": "artifacts/handoff-validation/2026-10-27T12-05-22-529Z-cdd7362e/result.json",
+        "sha256": "771c0b089ae21106d2c93f89da16ac03923b28bf277e6ff6b71acb119a394ea0"
+      },
+      "browser": {
+        "checks": 13,
+        "sourcePages": 323,
+        "apiPages": 185,
+        "layouts": 578,
+        "screenshots": 66,
+        "htmlManifestSha256": "209184ef8e64d5ea9c959d98f75fd718ed4c8fd26b41e70e94c3d0135df7d8f1",
+        "file": "artifacts/handoff-browser/run-1793102574814523400/result.json",
+        "sha256": "f07da1770e4ea3b66182c44290d4de2b211229eee5cba06f86bf3ba9ffa4acad"
+      },
+      "docfx": {
+        "htmlPages": 2730,
+        "localLinks": 71215,
+        "warnings": 0,
+        "errors": 0
+      },
+      "compression": {
+        "metadataByteReduction": 0.6598850301498737,
+        "specificationProseReduction": 0.5189952623580942
+      },
+      "inputs": {
+        "src/PmlTwin.Phayton/Infrastructure/Operations.cs": "6046ebbcde93901603ec8577fc21b7c7beb5f7f23a0326b6bb0e577b6b7958b6",
+        "src/YuzuhaToolkit.Mcp.Core/Composition/NativeOperationCatalog.cs": "cfb09a63ef3b84bd0eccc6a0665f27c53815aa9043902903eb763615cdb9b5ad",
+        "src/YuzuhaToolkit.Mcp.Core/Composition/LaunchOperationCatalog.cs": "5085eaa067a9d16f8bb6d3c1eba0c3692007d309c7d2782ac87969aa574fc9f7",
+        "src/YuzuhaToolkit.Mcp.Core/Scripts/StartAvevaScript.cs": "ec05619a2da601eb28556113824f6ddb56c7f0d25c58a86d2613e314da99a302",
+        "src/YuzuhaToolkit.Workspace/Infrastructure/ConfigurationContracts.cs": "0d0c4dc5c3da287b0c5329572120f763224f3dee4c48b3fa39d38c356170826d",
+        "scripts/documentation-source-reading.mjs": "741a75ccbc5a094217194cb84d03a125fbd5938ba992f352ec1d4c8b181fd693",
+        "scripts/documentation-index.mjs": "caa7f98bea5875f1c0999ddebefd142c355c00f1cd68f83566d5f8d18457fe5b",
+        "scripts/documentation-catalog.mjs": "0b34e4a420c1df054942f9e27043f77df5c8063c0167a69fe1408831a83d37c7",
+        "docs/reference/capabilities.json": "1de2fd025f0ed3eef4837f85ab41cda8a65ff1c137d18f0a61bb757746e29b06",
+        "docs/reference/template/public/explorer.js": "405bfdb4dc818d502c123da0155f6762e2febe67b8ec82bd03acf3cf94b8d4e6",
+        "docs/reference/template/public/reading.css": "2170196aa4c82458e92e18dfec00e7987984eca0b8b72bd2e136f5213e6f3f1c",
+        "scripts/test-handoff-browser.py": "50562c4ff29e53f267055d9da1566e9ddb358f769663d49d13ff9a36958f288e"
+      }
+    },
+    {
+      "date": "2026-10-27",
+      "status": "BackendBoundaryVerifiedWithLegacyPmlEntryDeclared",
+      "baseCommit": "abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143",
+      "scope": "Compiled C# launch/credential workflows and pure settings; real harmless CMD fixture and isolated WPF; no AVEVA model operation or new platform acceptance",
+      "codeTests": [
+        {
+          "file": "artifacts/backend-separation-final-tests/backend-separation_net10.0_20261027210550.trx",
+          "sha256": "d9f9ef6d437403480c053e6470b8a07cdd2316f23171239cc0788cdf69f902ab",
+          "total": 14,
+          "passed": 14,
+          "failed": 0
+        },
+        {
+          "file": "artifacts/backend-separation-final-tests/backend-separation_net10.0_20261027210609.trx",
+          "sha256": "eee0f61ad313b1d1fc8d69ba0cc9a5d26e3feaace24f676cdc2868f589afeabd",
+          "total": 218,
+          "passed": 218,
+          "failed": 0
+        }
+      ],
+      "documentationTests": {
+        "passed": 50,
+        "failed": 0,
+        "file": "artifacts/backend-separation-documentation-tests.tap",
+        "sha256": "8e4ba58929357526ca1f7d3aad565ea345b53895c61dfe40cde8a32779a88c49"
+      },
+      "contractTests": {
+        "passed": 9,
+        "failed": 0,
+        "file": "artifacts/handoff-validation/2026-10-27T13-50-46-221Z-84fab58b/result.json",
+        "sha256": "9cf9c154d9d74ec0cead7581fcec4c29e7c733b79c919674b9ff52af53208b69"
+      },
+      "nativeCli": {
+        "manifest": {
+          "file": "artifacts/backend-separation-native/native-aot-manifest.json",
+          "sha256": "09c5ee0521d0ef510be0868aeb1f12b2def87091c5a1213bbd083033934bc096"
+        },
+        "executable": {
+          "file": "artifacts/backend-separation-native/PmlTwin.Phayton.Cli.exe",
+          "sha256": "668db154d063b7cc7c52fb8ce021783b7c35b0b2dec3be415458484b187c5d8a"
+        }
+      },
+      "scenarios": {
+        "json": {
+          "executed": 15,
+          "file": "artifacts/bsj/run.json",
+          "sha256": "6ea634ee6404c90ec7c3a44de3964732f4153a4af280d2edb519c301816ccc5a"
+        },
+        "toml": {
+          "executed": 15,
+          "file": "artifacts/bst/run.json",
+          "sha256": "881bfad3e23e2f5dea55e7d74cb74db14abefd6ed04ea61d3c0e961c86df43e6"
+        }
+      },
+      "scenarioParser": {
+        "passed": 8,
+        "file": "artifacts/backend-separation-scenario-parser.log",
+        "sha256": "8f3231f6986b9dd923720958f12289c8e3516f8457dac4fc649f75e7a3bb4b18"
+      },
+      "wpf": {
+        "pages": 12,
+        "themes": [
+          "Light",
+          "Dark"
+        ],
+        "viewports": [
+          "1440x960",
+          "1280x720",
+          "853x480 logical (1280x720 at 150%)"
+        ],
+        "backendLaunch": true,
+        "actualAvevaStarted": false,
+        "bindingErrors": 0,
+        "binary": {
+          "file": "src/YuzuhaToolkit.Desktop/bin/Release/net10.0-windows/YuzuhaToolkit.Desktop.dll",
+          "sha256": "06e4ed9c44de4ad81329bfb2419fedfaeffc0736bd8ace8426624f152175f7de"
+        },
+        "receipt": {
+          "file": "artifacts/bs2/desktop-smoke.json",
+          "sha256": "fddb05762882aa41d36ead7369f39f23aa7cc091c68c91c2a623fd4d828c99d0"
+        },
+        "lifecycle": {
+          "checks": 20,
+          "file": "artifacts/bsl2/launch-lifecycle-ui.json",
+          "sha256": "74114255dc82066059e3e537e12e087bc4622f3bf43b1e9440020ba02f930d73"
+        }
+      },
+      "browser": {
+        "checks": 16,
+        "layouts": 594,
+        "sourcePages": 326,
+        "apiPages": 188,
+        "screenshots": 74,
+        "htmlManifestSha256": "ba78e551747829afd652d6e76ca925a93f9f2f01766dc988f7a00690fbdc3652",
+        "file": "artifacts/handoff-browser/run-1793109384259199800/result.json",
+        "sha256": "f5884ebf317c1aa35ed750e34d45d9b08dbe7d916da99b738edb8b07ff580fba"
+      },
+      "packagingTests": {
+        "passed": 4,
+        "failed": 0,
+        "file": "artifacts/backend-separation-package-tests.log",
+        "sha256": "d240c6994e9cd95e7fc7df17e25e6a1337c3a7c551482553dc15a405bcb8fea6"
+      },
+      "powershell": {
+        "scope": "Tracked repository PowerShell files present before cleanup",
+        "before": 31,
+        "removed": [
+          "scripts/Build-NativeServers.ps1",
+          "scripts/Install-YuzuhaAgent.ps1",
+          "scripts/Update-YuzuhaAgent.ps1",
+          "scripts/Uninstall-YuzuhaAgent.ps1",
+          "scripts/YuzuhaAgentLifecycle.ps1",
+          "scripts/Register-YuzuhaMcp.ps1",
+          "scripts/Start-HtmlAppManager.ps1",
+          "tests/v03/lifecycle_smoke.ps1",
+          "tests/v03/generic_registration_smoke.ps1"
+        ],
+        "removedLines": 1479,
+        "after": 22,
+        "status": "RemovedRetiredRoutes"
+      },
+      "docfx": {
+        "htmlPages": 2773,
+        "localLinks": 72677,
+        "warnings": 0,
+        "errors": 0
+      },
+      "compression": {
+        "metadataByteReduction": 0.655665266149903,
+        "specificationProseReduction": 0.5021900420130508
+      },
+      "inputs": {
+        "src/YuzuhaToolkit.Workspace/WorkspaceSettings.cs": "8398fb0cfff890c72c63f2bf26bac233f71be68bc64d04c738a233e9db425be0",
+        "src/YuzuhaToolkit.Workspace/Infrastructure/WorkspaceConfigurationStore.cs": "86f64e2e84280cb0956104b382d715c14a8ef4f85a41ccd180abf6f348255599",
+        "src/YuzuhaToolkit.Workspace/Infrastructure/UserDataPaths.cs": "4996006df9947d9bb695baffa3f9288230c6f3d7c33c6839780fa34f092e89d7",
+        "src/YuzuhaToolkit.Workspace/Infrastructure/WindowsCredentialStore.cs": "3b57687654fe57121eb50fe0ab17bd2d5827e6cc6ee6b277a9cf4b0cb06ebd30",
+        "src/YuzuhaToolkit.Workspace/Scripts/AvevaLaunchScript.cs": "a1830b28281df784cf62c35c22f4c257ef39d7c4088983788e518ee65fd347d8",
+        "src/YuzuhaToolkit.Mcp.Core/Composition/LaunchOperationCatalog.cs": "cfaa6762fc1485c567ec562be22071a977417aa2ab32bf0e4b6c934d5a190c30",
+        "src/YuzuhaToolkit.Desktop/MainWindow.xaml.cs": "93a8e7786bde80aa41914fc8be99e6732bc0786d05ccbdf6f66864e2aa5c8ebf",
+        "src/YuzuhaToolkit.Desktop/MainWindow.Profiles.xaml.cs": "9a4c554411a33b302dfecec24674ccf655d6a6d2855dbd2584f0c7f44dc3e7a0",
+        "src/YuzuhaToolkit.Desktop/MainWindow.LaunchLifecycleSmoke.cs": "543adf2c4d562b59f5131478a9ae69ddd4b232873e3aa09d3d230c46a3526e6a",
+        "src/YuzuhaToolkit.Desktop/App.xaml.cs": "924520ecfaf8d3de2d17a7fd1466fc7fb1abb75691d987c3820cf941b7232c44",
+        "tests/YuzuhaToolkit.Tests/AvevaLaunchScriptTests.cs": "6c90a3e87824da05431f89320235f7892f7f5efa2a94c6b506c63b07fd44f238",
+        "tests/handoff-specifications.test.mjs": "9ef336ad3795d7f560beae665b79a0cdc7a149165fdcccc49d3562168a199cc0",
+        "scripts/build-handoff.mjs": "72268e7befbdf86d6ae4ccad538d8375dbb92c37afa6004df651f8554ecc5ef6",
+        "scripts/test-handoff-browser.py": "62c50b47784d10b20b657b11f83c8b38d7a03cbf1ae6cd2e66ee159439898ccc",
+        "scripts/Test-Desktop.ps1": "f8597dabe224c894429cb375ea902fa822aa41a580af4599c1cbc6458b61f7fc",
+        "docs/reference/capabilities.json": "3b9c021775b54a2f8e8d55c09795ed7e5ec019c2509ba57c51b6704b46ff7df6",
+        "docs/reference/specs/AUTHORING.md": "aa3fc86aff8595e826c130c95eabca5b88991afa458197a2337b2aaf8aae7fe7",
+        "skill/references/lifecycle.md": "5649a20dffeea828b62ce91e2a668e315d2845d16afa3b96a9395b5e22f89cfe"
+      }
+    }
+  ]
 }

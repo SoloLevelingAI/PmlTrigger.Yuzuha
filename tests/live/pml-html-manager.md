@@ -7,7 +7,7 @@
 1. 按前批开发链部署 `tests/ai-pml/development-probe`，复用其清单。
 2. 确认新版 `PhaytonObjectWalker` 已部署、重载。
 3. 使用 `scripts/Invoke-PmlDevelopment.ps1` 部署 `tests/ai-pml/html-manager`，清单为 `tests/live/pml-html-manager-manifest.json`。准确 PID 和 PMLLIB 从现场发现及查询取得。
-4. 构建并用 `scripts/Start-HtmlAppManager.ps1` 启动，打开 `http://127.0.0.1:5288`，明确选择会话。
+4. 构建后从工作台“Web 应用”打开管理器（C# HtmlAppLauncher），地址为 `http://127.0.0.1:5288`，明确选择会话。
 5. 网页新增分类，修改按钮及默认值，登记原生 Form；重启核对保存。属性示例填写自有 DBREF、ELDATA、下标 0。
 6. 核对来源 VAR SPLIT、总数/输出数及截断状态。搜索末项，导出 CSV；首、中、尾定向结果与完整读取逐项比较。
 7. 函数参数验证 `12.5+7.5=20`；Form 按钮打开 `YuzuhaDevProbeForm`，通过原生窗口确认可见。

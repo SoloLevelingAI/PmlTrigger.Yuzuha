@@ -36,7 +36,7 @@ public static class HtmlAppLauncher
                     throw new InvalidOperationException("本地端口不是 Yuzuha HTML 管理器。");
                 if (body.RootElement.TryGetProperty("dataDirectory", out var dataDirectory)
                     ? !string.Equals(Path.GetFullPath(dataDirectory.GetString()!), UserDataPaths.AppsDirectory, StringComparison.OrdinalIgnoreCase)
-                    : !string.IsNullOrEmpty(WorkspaceSettings.Load().UserDataRoot))
+                    : !string.IsNullOrEmpty(new WorkspaceConfigurationStore().Read().Value.UserDataRoot))
                     throw new IOException("正在运行的 HTML 服务使用旧数据目录。请关闭该服务后重新打开管理器，已有服务不会被强制结束。");
                 return true;
             }

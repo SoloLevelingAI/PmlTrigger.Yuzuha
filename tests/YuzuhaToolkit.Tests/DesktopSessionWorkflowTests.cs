@@ -183,7 +183,7 @@ public sealed class DesktopSessionWorkflowTests : IDisposable
     [Fact]
     public async Task ObjectReadRequiresVerifiedTargetAndRetainsStructuredReceipt()
     {
-        var model = Create(); var query = DesktopObjectQuery.Build("global", "fmsys", "forms.1", 30, 2);
+        var model = Create(); var query = PmlObjectQuery.Build("global", "fmsys", "forms.1", 30, 2);
         await Assert.ThrowsAsync<InvalidOperationException>(() => model.ReadObjectAsync(query));
         Assert.Equal(0, host.Executions);
         model.Discover(); await model.SelectAsync(host.Candidate); await model.ReadObjectAsync(query);
@@ -196,7 +196,7 @@ public sealed class DesktopSessionWorkflowTests : IDisposable
     public async Task ExpiredIdentityClearsObjectResultsAndDoesNotSendAgain()
     {
         var model = Create(); model.Discover(); await model.SelectAsync(host.Candidate);
-        var query = DesktopObjectQuery.Build("current", "", "", 30, 2); await model.ReadObjectAsync(query);
+        var query = PmlObjectQuery.Build("current", "", "", 30, 2); await model.ReadObjectAsync(query);
         host.Connection.TargetVerified = false;
         await Assert.ThrowsAsync<InvalidOperationException>(() => model.ReadObjectAsync(query));
         Assert.Null(model.ObjectResult); Assert.Equal(1, host.Executions);
@@ -216,10 +216,10 @@ public sealed class DesktopSessionWorkflowTests : IDisposable
         public Task<YuzuhaConnectionStatus> StatusAsync(CancellationToken token) => Task.FromResult(Connection);
         public Task<RunPmlCommandResponse> QueryAsync(PmlFormQueryRequest request, CancellationToken token) { Executions++; Starts.Add(request.StartIndex); return Task.FromResult(new RunPmlCommandResponse { Success = true, FormQueryResult = Pages.Dequeue() }); }
         public Task<RunPmlCommandResponse> ReadArrayAsync(string name, int start, int items, int chars, CancellationToken token) => throw new NotImplementedException();
-        public Task<DesktopObjectReadReply> ReadObjectAsync(DesktopObjectQuery query, CancellationToken token)
+        public Task<PmlObjectReadReply> ReadObjectAsync(PmlObjectQuery query, CancellationToken token)
         {
             Executions++; ObjectExpression = query.Expression;
-            return Task.FromResult(DesktopObjectReadReply.Parse("{\"Success\":true,\"RequestId\":\"object-fixture\",\"Items\":[{\"Path\":\"fmsys.forms.1\",\"Type\":\"FORM\",\"Depth\":2,\"Value\":\"fixture\"}],\"Unparsed\":[]}"));
+            return Task.FromResult(PmlObjectReadReply.Parse("{\"Success\":true,\"RequestId\":\"object-fixture\",\"Items\":[{\"Path\":\"fmsys.forms.1\",\"Type\":\"FORM\",\"Depth\":2,\"Value\":\"fixture\"}],\"Unparsed\":[]}"));
         }
         public Task<RunPmlCommandResponse> InvokeAsync(string name, List<DynamicParameterInput> parameters, CancellationToken token) { Executions++; if (InvocationError is not null) throw InvocationError; return Task.FromResult(new RunPmlCommandResponse { Success = true }); }
     }

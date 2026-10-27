@@ -11,5 +11,6 @@
 | 能力自动发现 | CLI 契约可枚举；PML 自动发现未实现 | 无手工登记即可发现签名、来源和可用性 |
 | FormUse 跟踪 | 原有回调原型缺少完整解除/恢复验收 | 明确对象生命周期、失败退出和兼容验证 |
 | 长路径知识建库 | 本轮长路径 SQLite 创建失败，短路径通过 | 无损重现并修复长路径；旧库保持可恢复 |
+| PML 旧命令行编排 | Invoke-PmlDevelopment.ps1 / PmlDevelopment.psm1 仍有调用，不再扩写 | 原生 CLI 复用现有 C# 开发流程并验证后删除旧入口 |
 
 [候选 FigCraft](../../design/Phayton-Workbench-PRD.figcraft)仅供后续交互讨论。当前不承诺评审/测试、自动发现或连续工作台的完成时间。

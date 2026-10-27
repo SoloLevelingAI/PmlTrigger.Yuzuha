@@ -14,7 +14,7 @@
 | Apps | HTML 应用分类、按钮绑定和服务端运行资料；新启动 WebApps 共用 |
 | Exports | 建议保存导出成果；浏览器下载仍由用户选择位置，不强改浏览器设置 |
 
-内部设置、启动配置、凭据引用、活动日志和部署备份仍使用 `WorkspaceSettings.StateDirectory`，通常为 LocalAppData/YuzuhaToolkit，或现有 `YUZUHA_STATE_DIR` / 安装根回退。密码仍在 Windows 凭据库。函数登记、信任记录的现有路径和调用权限本轮不变；安装器保护这些内部目录。
+内部设置、启动配置、凭据引用、活动日志和部署备份仍使用 `UserDataPaths.StateDirectory`，通常为 LocalAppData/YuzuhaToolkit，或现有 `YUZUHA_STATE_DIR` / 安装根回退。密码仍在 Windows 凭据库。函数登记、信任记录的现有路径和调用权限本轮不变；安装器保护这些内部目录。
 
 首次打开不创建、不搬移资料。旧安装 knowledge 和旧 LocalAppData/WebApps 存在时继续沿用，直到用户明确切换。知识路径优先级：`YUZUHA_KNOWLEDGE_DIR` → 保存的独立知识目录 → 已配置用户根/Knowledge → 未配置统一根时已有旧 knowledge → 推荐根/Knowledge。应用路径优先级：显式 `--data-dir` → `YUZUHA_WEBAPPS_DIR` → 已配置根/Apps → 未配置根时已有旧 WebApps → 推荐根/Apps。`YUZUHA_USER_DIR` 覆盖保存的用户根。存在目录环境覆盖时，设置中的迁移拒绝执行并解释原因，避免保存一个实际不生效的路径。
 

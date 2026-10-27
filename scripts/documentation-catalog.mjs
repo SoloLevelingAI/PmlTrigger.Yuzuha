@@ -69,7 +69,7 @@ export function buildScriptCatalog({root,source,types,pml,tests=[],configuration
     assert.ok(Array.isArray(s.features),'Script features must be an array: '+selector);
     assert.equal(new Set(s.features).size,s.features.length,'Duplicate feature association: '+selector);
     for(const id of s.features)assert.ok(features.has(id),'Unknown Script feature: '+id);
-    if(s.role)assert.ok(['algorithm','adapter','runtime','build','native','prototype','draft'].includes(s.role),'Unknown Script role: '+s.role);
+    if(s.role)assert.ok(['algorithm','workflow','adapter','runtime','build','native','prototype','draft'].includes(s.role),'Unknown Script role: '+s.role);
     text(s.purpose,'Script purpose');
     if(s.guide)ownedFile(root,s.guide);
     registrations.set(selector,s);
@@ -78,20 +78,22 @@ export function buildScriptCatalog({root,source,types,pml,tests=[],configuration
   const scripts=[];
   for(const [selector,declaration]of declarations){
     const maintained=registrations.get(selector),s=maintained??{},typeParts=s.type?parts.get(s.type):null;
-    const file=typeParts?.[0].file??declaration.file,absolute=ownedFile(root,file),uid=s.type??null;
-    const members=typeParts?[...new Map(typeParts.flatMap(t=>t.members).filter(m=>m.kind==='MethodDeclaration').map(m=>[m.signature,m])).values()]:[];
+    const uid=s.type??null;
+    const members=typeParts?[...new Map(typeParts.flatMap(t=>t.members.map(m=>({...m,file:t.file}))).filter(m=>m.kind==='MethodDeclaration').map(m=>[m.signature,m])).values()]:[];
     const chosen=s.entry?members.filter(m=>m.name===s.entry||m.signature===s.entry):members;
     if(s.entry)assert.equal(chosen.length,1,'Entry missing/ambiguous; use its complete signature: '+s.entry);
+    const file=(s.entry?chosen[0].file:typeParts?.[0].file)??declaration.file,absolute=ownedFile(root,file);
     const line=s.entry?chosen[0].line:typeParts?.[0].line??1,id=s.id??(s.type?'csharp:'+s.type:(nativePattern.test(file)?'pml:':'file:')+file);
     assert.ok(!ids.has(id),'Duplicate Script ID: '+id);ids.add(id);
     const related=tests.filter(t=>t.targets.some(target=>target.file===file||uid&&target.uid===uid));
-    const traceEntries=(trace?.nodes??[]).filter(n=>n.typeId===uid&&chosen.some(m=>n.file===file&&n.line===m.line&&n.name.includes('.'+m.name+'(')))
+    const traceEntries=(trace?.nodes??[]).filter(n=>n.typeId===uid&&chosen.some(m=>n.file===m.file&&n.line===m.line&&n.name.includes('.'+m.name+'(')))
       .map(n=>({id:n.id,name:n.name,url:'reference/ui-trace/index.html?node='+encodeURIComponent(n.id)}));
     const language=s.type?'C#':nativePattern.test(file)?'PML':/\.ps1$/i.test(file)?'PowerShell':path.extname(file).slice(1);
-    const item={id,name:s.type?typeParts[0].name:path.posix.basename(file),type:uid,file,line,language,
+    const item={id,name:s.type?typeParts[0].name+(s.entry?'.'+chosen[0].name:''):path.posix.basename(file),type:uid,file,line,language,
       features:s.features??[],role:s.role??(file.startsWith('tests/ai-pml/')?'draft':'native'),
       discovery:maintained?'curated':'automatic',historical:file.includes('/Obsolete/'),purpose:s.purpose??'尚未维护用途与功能归属',change:s.change??'尚未维护行为变更摘要',
       symbols:declaration.symbols??chosen.map(m=>typeParts[0].uid+'.'+m.name),signatures:chosen.map(m=>m.signature),summary:typeParts?.[0].summary??null,
+      locations:chosen.map(m=>({file:m.file,line:m.line,name:m.name})),
       url:scriptUrl(id),sourceUrl:sourceUrl(file,line),sourceSha256:createHash('sha256').update(fs.readFileSync(absolute)).digest('hex'),
       typeUrl:uid?byType.get(uid).sourceUrl:null,guide:s.guide??null,tests:related.map(t=>({id:t.id,name:t.name,url:t.url,scope:uid?'type':'file'})),
       traceEntries,traceUrl:traceEntries.length===1?traceEntries[0].url:traceEntries.length?scriptUrl(id)+'#调用树':null};
@@ -125,12 +127,12 @@ export function publishScriptCatalog({root,output,source,types,pml,tests,trace})
   for(const f of catalog.features){
     if(f.status==='planned')continue;
     const selected=catalog.scripts.filter(s=>f.scripts.includes(s.id)),targets=f.types.map(uid=>types.find(t=>t.uid===uid));
-    write('features/'+f.id+'.md','# '+f.name+'\n\n'+f.summary+'\n\n**实现状态：** '+featureStates[f.status]+' · **需求来源：** '+({user:'用户要求',existing:'已有能力',ai:'AI 建议'}[f.origin])+'。状态不表示测试或实机通过。\n\n'+guide(f.guide)+'\n\n## 使用和复用的 Script\n\n'+(selected.length?selected.map(s=>'- '+link(catalogTitle(s),s.url)+'：'+s.purpose).join('\n'):'尚未登记 Script，实现入口以计划说明为准。')+'\n\n## 现有接口与编排\n\n'+(targets.length?targets.map(t=>'- '+link(t.name,t.sourceUrl)+'：'+t.summary).join('\n'):'尚未登记实际接口。')+'\n\n## 测试与人工验证\n\n'+testLinks(f.tests)+'\n\n测试关联不表示当前通过；GUI、离线夹具、Host 兼容和 AVEVA 实机分别验收。\n\n'+help+'\n\n[返回功能目录](index.md)\n');
+    write('features/'+f.id+'.md','# '+f.name+'\n\n'+f.summary+'\n\n**实现状态：** '+featureStates[f.status]+' · **需求来源：** '+({user:'用户要求',existing:'已有能力',ai:'AI 建议'}[f.origin])+'。状态不表示测试或实机通过。\n\n'+guide(f.guide)+'\n\n## 使用和复用的 Script\n\n'+(selected.length?selected.map(s=>'- '+link(catalogTitle(s),s.url)+'：'+s.purpose).join('\n'):'尚未维护 Script 用途，实现入口以说明为准。')+'\n\n## 相关源码\n\n'+(targets.length?targets.map(t=>'- '+link(t.name,t.sourceUrl)+'：'+t.summary).join('\n'):'尚无已维护的源码接点。')+'\n\n## 测试与人工验证\n\n'+testLinks(f.tests)+'\n\n测试关联不表示当前通过；GUI、离线夹具、Host 兼容和 AVEVA 实机分别验收。\n\n'+help+'\n\n[返回功能目录](index.md)\n');
   }
-  // Existing type/native pages link back to the curated Script and its feature owners.
-  for(const s of catalog.scripts){const original=s.typeUrl??pml.find(p=>p.file===s.file)?.url;if(!original)continue;
+  // Native pages show concrete Script intent first; C# pages are handled by the Roslyn reading guide.
+  for(const s of catalog.scripts){if(s.type)continue;const original=pml.find(p=>p.file===s.file)?.url;if(!original)continue;
     const page=path.join(output,original.replace(/^reference\//,'').replace(/\.html$/,'.md'));
-    if(fs.existsSync(page))fs.appendFileSync(page,'\n## Script 与具体功能\n\n'+link(s.name+' · '+s.id,s.url)+'\n\n'+s.features.map(id=>{const f=catalog.features.find(f=>f.id===id);return '- '+link(f.name,f.url);}).join('\n')+'\n');
+    if(fs.existsSync(page)){const text=fs.readFileSync(page,'utf8');fs.writeFileSync(page,text.replace(/(\n# [^\n]+\n\n)/,'$1'+link(s.name+' · '+s.id,s.url)+'：'+s.purpose+'\n\n'));}
   }
   write('scripts/index.md','# Script 目录\n\n按名称、声明符号、用途、路径、功能和语言查找。原生文件自动发现；C# Script 由人工声明实际类型或方法，再由 Roslyn 提供签名。当前文件见[文件清单](inventory.md)；废弃文件不发布。\n\n'+help+'\n\n<div id="script-catalog" data-kind="scripts"></div>\n\n[C# 待分类候选](candidates.md)\n');
   write('scripts/inventory.md','# 全部文件清单\n\n仅当前源码；关联不表示当前会话可执行。\n\n'+help+'\n\n| Script | 语言 | 功能 | 目录状态 |\n| --- | --- | --- | --- |\n'+catalog.scripts.map(s=>'| '+link(catalogTitle(s),s.url)+' | '+s.language+' | '+(s.features.map(id=>{const f=catalog.features.find(f=>f.id===id);return link(f.name,f.url);}).join('、')||'未归属')+' | '+(s.historical?'历史':s.discovery==='curated'?'说明已维护':'自动发现')+' |').join('\n')+'\n');

@@ -259,16 +259,21 @@ public sealed class LaunchLifecycleTests : IDisposable
     }
 
     [Fact]
-    public void LegacyLoadSaveParticipatesInRevisionHistoryAndDetectsStaleEdit()
+    public void ExplicitSnapshotsPreserveHistoryRejectStaleEditsAndDoNotMutateInput()
     {
         var previous = Environment.GetEnvironmentVariable("YUZUHA_STATE_DIR");
         Environment.SetEnvironmentVariable("YUZUHA_STATE_DIR", State);
         try
         {
-            new WorkspaceSettings().Save(); var first = WorkspaceSettings.Load(); var stale = WorkspaceSettings.Load();
-            first.PluginName = "one"; first.Save(); first.PluginName = "two"; first.Save();
-            Assert.Throws<ConfigurationConflictException>(() => stale.Save());
-            Assert.Equal("two", WorkspaceSettings.Load().PluginName); Assert.Equal(3, Store.History().Length);
+            var store = new WorkspaceConfigurationStore();
+            var initial = new WorkspaceSettings();
+            store.Commit(initial, "missing", new("创建设置"));
+            Assert.Empty(initial.ConfigurationRevision);
+            var first = store.Read(); var stale = store.Read();
+            first.Value.PluginName = "one"; var committed = store.Commit(first.Value, first.Revision, new("首次修改"));
+            first.Value.PluginName = "two"; store.Commit(first.Value, committed.Snapshot.Revision, new("再次修改"));
+            Assert.Throws<ConfigurationConflictException>(() => store.Commit(stale.Value, stale.Revision, new("过期修改")));
+            Assert.Equal("two", new WorkspaceConfigurationStore().Read().Value.PluginName); Assert.Equal(3, Store.History().Length);
             Assert.Equal(FilePath, new LaunchProfileService().Read().FilePath);
         }
         finally { Environment.SetEnvironmentVariable("YUZUHA_STATE_DIR", previous); }

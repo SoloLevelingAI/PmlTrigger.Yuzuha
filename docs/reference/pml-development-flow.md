@@ -10,7 +10,7 @@
 | 4 | 新实例/构造版本及验证宏核对实际值；加载回执不等于行为正确 |
 | 5 | 保存输入、预期、回读、错误和清理记录；失败/未知停止，不自动重发 |
 
-桌面“部署”提供复制并验证；命令行复用 `scripts/Invoke-PmlDevelopment.ps1` / `PmlDevelopment.psm1`。样例：`tests/ai-pml/development-probe` 与 `tests/live/pml-development/manifest.json`。不要求 PMLCMD，不改 Host 协议；备份和原始模型证据留本机。历史 E3D 夹具结果不替代当前环境重测。
+桌面“部署”提供复制并验证；桌面复用 C# 流程；`scripts/Invoke-PmlDevelopment.ps1` / `PmlDevelopment.psm1` 为待收敛的旧命令行入口，不再扩写。样例：`tests/ai-pml/development-probe` 与 `tests/live/pml-development/manifest.json`。不要求 PMLCMD，不改 Host 协议；备份和原始模型证据留本机。历史 E3D 夹具结果不替代当前环境重测。
 
 Form 重载引用带 `!!`，Object 用类型名；不必每次全量重载。普通复制按钮仍只复制。
 

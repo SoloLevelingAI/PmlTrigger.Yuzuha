@@ -1,5 +1,5 @@
 export const featureStates={implemented:'已接入',partial:'部分接入',planned:'待定'};
-const roles={algorithm:'算法',runtime:'查询与运行编排',adapter:'框架适配',build:'构建与验证工具',native:'原生脚本',prototype:'已有原型',draft:'AI 草稿'};
+const roles={algorithm:'具体功能',workflow:'编排流程',runtime:'查询与运行',adapter:'框架适配',build:'构建与验证工具',native:'原生脚本',prototype:'已有原型',draft:'AI 草稿'};
 export const catalogTitle=item=>item.name+(item.type?' · '+item.type.split('::')[0].replace('YuzuhaToolkit.',''):'');
 
 export function selectCatalogItems(catalog,{kind='scripts',q='',feature='all',language='all',history=false}={}) {

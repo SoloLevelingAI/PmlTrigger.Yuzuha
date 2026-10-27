@@ -27,11 +27,15 @@ public partial class App : Application
                 PresentationTraceSources.DataBindingSource.Switch.Level = SourceLevels.Error;
                 PresentationTraceSources.DataBindingSource.Listeners.Add(bindingTrace);
             }
-            var window = new MainWindow(); MainWindow = window; window.Show();
+            var syntheticLaunches = 0;
+            var launchScript = option < 0 ? null : new YuzuhaToolkit.Workspace.AvevaLaunchScript(
+                startProcess: (_, _) => { syntheticLaunches++; return 424242; });
+            var window = new MainWindow(launchScript); MainWindow = window; window.Show();
             if (option >= 0)
             {
                 if (launchOnly >= 0) await window.RunLaunchLifecycleSmokeAsync(e.Args[option + 1]);
                 else await window.RunSmokeAsync(e.Args[option + 1]);
+                if (launchOnly < 0 && syntheticLaunches != 1) throw new InvalidOperationException("桌面启动流程应调用一次后端进程边界。");
                 bindingTrace!.Flush(); bindingTrace.Dispose(); PresentationTraceSources.DataBindingSource.Listeners.Remove(bindingTrace);
                 if (new System.IO.FileInfo(System.IO.Path.Combine(e.Args[option + 1], "binding-errors.log")).Length > 0) throw new InvalidOperationException("WPF 数据绑定产生错误，请检查 binding-errors.log。");
                 Shutdown(0);

@@ -49,7 +49,7 @@ It reads the `Yuzuha` EVAR (no underscore; values like `E3D2.1` / `AM` /
 
 ### EVAR 托管块规则 / EVAR managed-block rules（安装脚本写入）
 
-安装脚本（`Register-YuzuhaMcp.ps1`）在 EVAR 批处理文件中写入托管块，
+正式安装器按已确认预览在所选 AVEVA 接入文件中写入托管块，
 规则如下 / the installer writes a managed block with these rules:
 
 ```bat

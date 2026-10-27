@@ -508,7 +508,7 @@
       "purpose": "Verify combined filters, favorites, default selection and history through the service."
     },
     {
-      "test": "xunit:YuzuhaToolkit.Tests.LaunchLifecycleTests.LegacyLoadSaveParticipatesInRevisionHistoryAndDetectsStaleEdit",
+      "test": "xunit:YuzuhaToolkit.Tests.LaunchLifecycleTests.ExplicitSnapshotsPreserveHistoryRejectStaleEditsAndDoNotMutateInput",
       "purpose": "Keep legacy Load/Save callers within revision history and conflict detection."
     },
     {
@@ -1523,7 +1523,7 @@
       "environment": "Windows x64 / NET10；桌面状态合成 Host，不连接 AVEVA",
       "targets": [
         {
-          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.WorkbenchReply"
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.WorkbenchReply"
         }
       ]
     },
@@ -1588,7 +1588,7 @@
       "purpose": "WPF 位于现有 runtime/desktop 布局时复用包根人工信任记录，并保持已有环境覆盖的优先级。",
       "targets": [
         {
-          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.WorkbenchPaths"
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.WorkbenchPaths"
         }
       ]
     },
@@ -1678,7 +1678,7 @@
       "environment": "Windows x64 / NET10；隔离凭据与合成文件，不连接 AVEVA",
       "targets": [
         {
-          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.WindowsCredentialStore"
+          "uid": "YuzuhaToolkit.Workspace::YuzuhaToolkit.Workspace.WindowsCredentialStore"
         }
       ]
     },
@@ -1688,7 +1688,7 @@
       "environment": "Windows x64 / NET10；隔离凭据与合成文件，不连接 AVEVA",
       "targets": [
         {
-          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.WindowsCredentialStore"
+          "uid": "YuzuhaToolkit.Workspace::YuzuhaToolkit.Workspace.WindowsCredentialStore"
         }
       ]
     },
@@ -1698,7 +1698,7 @@
       "environment": "Windows x64 / NET10；隔离凭据与合成文件，不连接 AVEVA",
       "targets": [
         {
-          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.DesktopObjectQuery"
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.PmlObjectQuery"
         }
       ]
     },
@@ -1708,7 +1708,7 @@
       "environment": "Windows x64 / NET10；隔离凭据与合成文件，不连接 AVEVA",
       "targets": [
         {
-          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.DesktopObjectQuery"
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.PmlObjectQuery"
         }
       ]
     },
@@ -1903,6 +1903,218 @@
       "targets": [
         {
           "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.DesktopActivityFilter"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.AvevaLaunchScriptTests.WorkspaceSettingsHasOnlyInstanceDataAndRoundTripsWithoutPersistenceBehavior",
+      "purpose": "仅实例数据、无读写行为，JSON 往返保留扩展字段。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Workspace::YuzuhaToolkit.Workspace.WorkspaceSettings"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.AvevaLaunchScriptTests.BlankPasswordAndDisablingRememberPreserveTheSavedCredentialWithoutMutatingDraft",
+      "purpose": "留空沿用与取消记住保留原凭据；调用者草稿不被改动。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Workspace::YuzuhaToolkit.Workspace.AvevaLaunchScript",
+          "methods": [
+            "SaveProfile"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.AvevaLaunchScriptTests.DenialStaleRevisionAndInvalidProductModuleHaveNoCredentialOrProcessSideEffects",
+      "purpose": "拒绝授权、修订过期和模块不匹配均不触发凭据或进程副作用。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Workspace::YuzuhaToolkit.Workspace.AvevaLaunchScript",
+          "methods": [
+            "SaveProfile",
+            "StartSavedProfile"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.AvevaLaunchScriptTests.ConflictAfterCredentialPreparationCleansOnlyTheUncommittedNewKey",
+      "purpose": "凭据准备后的并发提交冲突只清理未提交的新引用。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Workspace::YuzuhaToolkit.Workspace.AvevaLaunchScript",
+          "methods": [
+            "SaveProfile"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.AvevaLaunchScriptTests.StorageExceptionAfterReplacementDoesNotDeleteTheCredentialNowReferencedOnDisk",
+      "purpose": "配置替换后抛错仍保留磁盘正在引用的凭据，支持恢复。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Workspace::YuzuhaToolkit.Workspace.AvevaLaunchScript",
+          "methods": [
+            "SaveProfile"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.AvevaLaunchScriptTests.ClearingAndDeletingProfilesPreserveSharedKeysUntilTheLastReferenceIsRemoved",
+      "purpose": "清除/删除配置保留共享引用，最后一个解除后才清理。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Workspace::YuzuhaToolkit.Workspace.AvevaLaunchScript",
+          "methods": [
+            "ClearSavedPassword",
+            "DeleteProfile"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.AvevaLaunchScriptTests.CredentialCleanupFailureReturnsTheCommittedStateAndAWarning",
+      "purpose": "清理失败保留已提交状态并独立返回警告。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Workspace::YuzuhaToolkit.Workspace.AvevaLaunchScript",
+          "methods": [
+            "ClearSavedPassword"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.AvevaLaunchScriptTests.DesktopLaunchResolvesSavedPasswordOrExplicitOverrideAndRecordsTimeWithoutPersistingSecrets",
+      "purpose": "桌面空输入解析已存密码，临时输入覆盖；时间持久化而秘密不落盘。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Workspace::YuzuhaToolkit.Workspace.AvevaLaunchScript",
+          "methods": [
+            "StartSavedProfile"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.AvevaLaunchScriptTests.CliExplicitEmptyPasswordDoesNotReadSavedCredentialsOrWriteARevision",
+      "purpose": "CLI 显式空密码不读取已存凭据，也不写配置修订。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Workspace::YuzuhaToolkit.Workspace.AvevaLaunchScript",
+          "methods": [
+            "StartWithPassword"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.AvevaLaunchScriptTests.ProcessFailureIsAttemptedOnceLoggedWithoutSecretsAndDoesNotRecordStartTime",
+      "purpose": "进程失败只尝试一次，脱敏日志不泄露秘密，也不记录启动时间。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Workspace::YuzuhaToolkit.Workspace.AvevaLaunchScript",
+          "methods": [
+            "StartWithPassword"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.AvevaLaunchScriptTests.RevisionConflictAfterProcessCreationReturnsItsPidAndWarningWithoutRetry",
+      "purpose": "进程创建后的时间提交冲突返回 PID 和警告，不重试进程。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Workspace::YuzuhaToolkit.Workspace.AvevaLaunchScript",
+          "methods": [
+            "StartSavedProfile"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.AvevaLaunchScriptTests.PreflightReturnsDirectoryWarningAndMaskedPreviewWithoutReadingCredentialsOrStarting",
+      "purpose": "启动前检查返回目录预算和脱敏预览，不读密码或创建进程。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Workspace::YuzuhaToolkit.Workspace.AvevaLaunchScript",
+          "methods": [
+            "InspectBeforeLaunch"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.AvevaLaunchScriptTests.DefaultBackendCreatesARealHarmlessBatchProcessWithoutOpeningWpfOrAveva",
+      "purpose": "不打开 WPF/AVEVA，由默认后端真实创建无害 CMD 夹具并验证输出。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Workspace::YuzuhaToolkit.Workspace.AvevaLaunchScript",
+          "methods": [
+            "StartWithPassword"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.WorkbenchBackendTests.QueryAndSessionAdaptersDoNotReferencePresentationAssemblies",
+      "purpose": "脱离 Desktop 使用查询与会话适配，核对程序集不引用 WPF。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.PmlObjectQuery"
+        },
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.WorkbenchHost"
+        },
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.PmlDevelopmentHost"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.WorkbenchBackendTests.OptionalListValuesRemainCompatibleWithExistingReplies",
+      "purpose": "列表缺省及空值保持旧回执兼容性。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.PmlObjectReadReply",
+          "methods": [
+            "Parse"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.WorkbenchBackendTests.MissingReceiptOrSuccessfulListIsUnknownRatherThanSuccess",
+      "purpose": "缺失成功状态或成功列表不得误报通过。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.WorkbenchReply",
+          "methods": [
+            "ParseRegisteredCall"
+          ]
+        },
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Mcp.PmlObjectReadReply",
+          "methods": [
+            "Parse"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.WorkbenchBackendTests.IncompleteDocumentationInstallationFailsBeforeStartingAService",
+      "purpose": "安装文件不全时直接报错，不启动文档服务。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Workspace::YuzuhaToolkit.Workspace.LocalDocumentationHost",
+          "methods": [
+            "GetAddressAsync"
+          ]
         }
       ]
     }

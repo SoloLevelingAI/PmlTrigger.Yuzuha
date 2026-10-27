@@ -1,0 +1,56 @@
+{
+  "schema": "phayton.openspec-review-verification/1",
+  "sourceCommit": "abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143",
+  "date": "2026-10-27",
+  "actualAvevaExecuted": false,
+  "sdk": "10.0.400-preview.0.26322.102",
+  "openspecVersion": "1.15.0",
+  "openspecStrictValidation": "Passed",
+  "dotnet": [
+    {
+      "skipped": 0,
+      "sha256": "6e335c13c63440b1f84dda0005640b1d08d008230139f4074ea80c7231176b8a",
+      "passed": 14,
+      "file": "artifacts/tests/openspec-contract-review/openspec-contract-review_net10.0_20261027091915.trx",
+      "failed": 0,
+      "total": 14
+    },
+    {
+      "skipped": 0,
+      "sha256": "af35f19af2b4210de642dd4e838b008194aa20329ab97b276cdf18e68c0aa1fa",
+      "passed": 205,
+      "file": "artifacts/tests/openspec-contract-review/openspec-contract-review_net10.0_20261027091922.trx",
+      "failed": 0,
+      "total": 205
+    }
+  ],
+  "handoff": {
+    "finishedUtc": "2026-10-27T01:22:21.573Z",
+    "startedUtc": "2026-10-27T01:22:20.823Z",
+    "reportSha256": "3417915f98817d9ffc7367a6017ca6ad62573593cfb201fa20d0bac75f7ddd5e",
+    "passed": 8,
+    "status": "Passed",
+    "failed": 0
+  },
+  "documentation": {
+    "htmlPages": 2702,
+    "checkedLocalLinks": 70589,
+    "reportSha256": "0951a6ff21ca9a5488e7bb542dda8a2e98a4371b9acde21c67c8ef98846f2cd3",
+    "errors": [],
+    "build": "Passed"
+  },
+  "extractionIntegrity": {
+    "status": "Passed",
+    "requirements": 24,
+    "bindings": 28,
+    "tests": 15,
+    "operations": 46,
+    "sourceFiles": 43,
+    "sourceLinks": 123,
+    "localLinks": 13,
+    "canonicalSourceUnchanged": true,
+    "productionFilesUnchanged": true,
+    "noAcceptedOpenSpecSpecs": true,
+    "codexSkills": 6
+  }
+}

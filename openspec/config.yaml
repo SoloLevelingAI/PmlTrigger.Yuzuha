@@ -1,0 +1,52 @@
+schema: spec-driven
+
+context: |
+  Language: zh-CN
+  All artifacts must be written in zh-CN.
+  Keep OpenSpec structural headings and SHALL/MUST keywords in English.
+  Project: Phayton / PmlTrigger.Yuzuha, a Windows .NET 10 CLI and WPF workbench
+  connected to AVEVA through NET48/NET35 hosts. Historical MCP assembly names
+  remain in source; standalone MCP service entry points are disabled.
+  docs/specification/contract.json is the existing canonical requirement source;
+  docs/reference/specs contains its projections and handwritten explanations.
+  OpenSpec changes are review proposals, not a second accepted specification.
+  Preserve requirement, binding and test IDs and verified/partial/planned states.
+  Distinguish source inspection, offline/synthetic tests and AVEVA live evidence.
+  Current live evidence is limited to E3D 2.1; do not generalize it to AM/PDMS.
+  Contract extraction must not change production behavior or claim review approval.
+
+rules:
+  proposal:
+    - State the exact repository branch and commit used as evidence.
+    - Preserve the authority of contract.json until an explicit migration is approved.
+  specs:
+    - Use English Requirement/Scenario/WHEN/THEN headings and SHALL/MUST keywords.
+    - Link each extracted requirement to source symbols and existing tests where available.
+    - Label planned/partial behavior explicitly; never present it as implemented.
+  design:
+    - Separate observed behavior, existing requirements and unresolved review decisions.
+  tasks:
+    - Keep reviewer acceptance and any future implementation tasks unchecked.
+    - Do not archive or synchronize candidate specs before review approval.
+
+# Per-artifact rules (optional)
+# Add custom rules for specific artifacts.
+# Example:
+#   rules:
+#     proposal:
+#       - Keep proposals under 500 words
+#       - Always state what is out of scope
+#     tasks:
+#       - Break tasks into chunks of max 2 hours
+
+# Per-operation guidance (optional)
+# Add advisory guidance for how apply and archive work should be conducted.
+# This is separate from artifact rules above.
+# Example:
+#   operations:
+#     apply:
+#       guidance:
+#         - Keep test summaries concise
+#     archive:
+#       guidance:
+#         - Summarize the archive outcome before finishing

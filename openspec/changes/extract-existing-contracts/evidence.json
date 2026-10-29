@@ -1,0 +1,1596 @@
+{
+  "schema": "phayton.openspec-contract-review/1",
+  "reviewStatus": "pending",
+  "repository": "SoloLevelingAI/PmlTrigger.Yuzuha",
+  "baseRef": "codex/quality-baseline-20261026",
+  "sourceCommit": "abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143",
+  "extractionDate": "2026-10-27",
+  "openspecVersion": "1.15.0",
+  "canonicalSource": "docs/specification/contract.json",
+  "canonicalDeclaredBaseline": "0923e4a09eb72112373fbab0df4da0ebca51b2a1",
+  "canonicalDeclaredDate": "2026-10-26",
+  "authority": "Frozen review evidence only; contract.json remains canonical. No review approval or behavior change.",
+  "scope": {
+    "requirements": 24,
+    "bindings": 28,
+    "tests": 15,
+    "screens": 30,
+    "transitions": 45,
+    "operations": 46,
+    "states": {
+      "planned": 4,
+      "verified": 15,
+      "partial": 5
+    },
+    "actualAvevaExecuted": false,
+    "outputSchemasComplete": false,
+    "rpcBinaryContractsComplete": false,
+    "installationContractsComplete": false,
+    "omittedSemanticProjects": [
+      "YuzuhaToolkit.PmlHost.Net35 : no local AVEVA SDK configured; not analyzed",
+      "YuzuhaToolkit.PmlHost.Net48 : no local AVEVA SDK configured; not analyzed"
+    ]
+  },
+  "requirements": [
+    {
+      "id": "R01",
+      "layer": "FE",
+      "goal": "G3",
+      "priority": "P0",
+      "status": "planned",
+      "rule": "常用任务从工作台完成；字段、下一步与失败出口可见。",
+      "acceptance": "非实现者按 PRD 完成启动配置、检索、查询、历史恢复；不编辑 JSON，不需要解释控件含义；记录步骤、阻塞和误操作。",
+      "screens": [
+        "S01",
+        "S02",
+        "S04",
+        "S08"
+      ],
+      "operations": [],
+      "bindings": [
+        "B20"
+      ],
+      "tests": []
+    },
+    {
+      "id": "R02",
+      "layer": "FE",
+      "goal": "G1",
+      "priority": "P0",
+      "status": "verified",
+      "rule": "产品改变即更新模块；AM 不出现 DESIGN；安装发现与登录成功分别显示。",
+      "acceptance": "E3D/AM 切换后模块属于当前产品；无安装只显示未发现；保存无效组合被拒绝。",
+      "screens": [
+        "S01",
+        "S02",
+        "S24",
+        "S25",
+        "S26"
+      ],
+      "operations": [
+        "launch.modules.list",
+        "launch.profile.validate"
+      ],
+      "bindings": [
+        "B02",
+        "B08",
+        "B09",
+        "B22"
+      ],
+      "tests": [
+        "T02"
+      ]
+    },
+    {
+      "id": "R03",
+      "layer": "FE",
+      "goal": "G3",
+      "priority": "P0",
+      "status": "verified",
+      "rule": "配置列表同时应用产品、收藏/最近下拉与输入搜索；空结果可清空条件。",
+      "acceptance": "两个下拉和关键字取交集；重置后恢复全部；保留当前草稿。",
+      "screens": [
+        "S01",
+        "S02"
+      ],
+      "operations": [
+        "launch.profile.list"
+      ],
+      "bindings": [
+        "B01",
+        "B21"
+      ],
+      "tests": [
+        "T10"
+      ]
+    },
+    {
+      "id": "R04",
+      "layer": "FE",
+      "goal": "G3",
+      "priority": "P0",
+      "status": "verified",
+      "rule": "编辑→差异预览→保存→重开；未保存草稿离开需确认。",
+      "acceptance": "保存显示修订；新服务重读相同值；取消离开保留草稿；保存失败不显示成功。",
+      "screens": [
+        "S03",
+        "S04",
+        "S05"
+      ],
+      "operations": [
+        "launch.profile.preview",
+        "launch.profile.save",
+        "launch.profile.read"
+      ],
+      "bindings": [
+        "B03",
+        "B20"
+      ],
+      "tests": [
+        "T01"
+      ]
+    },
+    {
+      "id": "R05",
+      "layer": "FE",
+      "goal": "G3",
+      "priority": "P0",
+      "status": "verified",
+      "rule": "过期修订进入冲突状态；保留草稿，允许重新读取并比较。",
+      "acceptance": "外部修改后保存被拒绝；界面不悄悄覆盖，草稿仍可查看。",
+      "screens": [
+        "S06"
+      ],
+      "operations": [
+        "launch.profile.save"
+      ],
+      "bindings": [
+        "B03",
+        "B25"
+      ],
+      "tests": [
+        "T03"
+      ]
+    },
+    {
+      "id": "R06",
+      "layer": "FE",
+      "goal": "G3",
+      "priority": "P0",
+      "status": "verified",
+      "rule": "历史先预览再恢复；恢复生成新修订。",
+      "acceptance": "选历史→查看差异→确认；取消不写入；恢复后其他配置不变。",
+      "screens": [
+        "S07",
+        "S08",
+        "S09"
+      ],
+      "operations": [
+        "launch.profile.history",
+        "launch.profile.restore.preview",
+        "launch.profile.restore"
+      ],
+      "bindings": [
+        "B05",
+        "B06",
+        "B23"
+      ],
+      "tests": [
+        "T04"
+      ]
+    },
+    {
+      "id": "R07",
+      "layer": "FE",
+      "goal": "G1",
+      "priority": "P0",
+      "status": "planned",
+      "rule": "知识入口默认官方 HTML 与源码；个人经验为补充，结果显示来源、产品与版本。",
+      "acceptance": "首次使用无需手动登记函数；无官方资料显示定位/导入入口；经验不会覆盖官方来源。",
+      "screens": [
+        "S10",
+        "S11"
+      ],
+      "operations": [
+        "knowledge.layers.search"
+      ],
+      "bindings": [
+        "B17"
+      ],
+      "tests": []
+    },
+    {
+      "id": "R08",
+      "layer": "FE",
+      "goal": "G1",
+      "priority": "P0",
+      "status": "partial",
+      "rule": "能力从 CLI 契约和已选源码发现，显示签名、来源与可用性。",
+      "acceptance": "CLI 契约已可枚举；PML 自动发现仍需实现；缺协议或未授权显示原因，不能冒充不可发现。",
+      "screens": [
+        "S12"
+      ],
+      "operations": [
+        "pml.functions.list"
+      ],
+      "bindings": [
+        "B13",
+        "B30"
+      ],
+      "tests": [
+        "T07"
+      ]
+    },
+    {
+      "id": "R09",
+      "layer": "FE",
+      "goal": "G2",
+      "priority": "P0",
+      "status": "partial",
+      "rule": "查询结果与运行记录分开展示；两表均有下拉条件和输入筛选。",
+      "acceptance": "改变查询种类/目标清除旧续页；结果可空；记录按状态/操作及文字筛选，保留关联编号。",
+      "screens": [
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "operations": [
+        "pml.forms.list",
+        "pml.gadgets.list",
+        "runtime.calls"
+      ],
+      "bindings": [
+        "B24",
+        "B19"
+      ],
+      "tests": [
+        "T14"
+      ]
+    },
+    {
+      "id": "R10",
+      "layer": "FE",
+      "goal": "G1",
+      "priority": "P0",
+      "status": "partial",
+      "rule": "脚本流程包含写入计划、备份、加载、执行与结果对比。",
+      "acceptance": "先看文件差异与执行目标；加载失败有回执；修正后独立验证，不用脚本合集替代工作流。",
+      "screens": [
+        "S17",
+        "S18"
+      ],
+      "operations": [
+        "workspace.pmllib.inspect",
+        "pml.command.execute"
+      ],
+      "bindings": [
+        "B16"
+      ],
+      "tests": [
+        "T12"
+      ]
+    },
+    {
+      "id": "R11",
+      "layer": "FE",
+      "goal": "G2",
+      "priority": "P0",
+      "status": "partial",
+      "rule": "执行模式与权限可见；结果不明有单独状态和核验入口。",
+      "acceptance": "关闭执行仍可查资料/看计划；未知结果不显示成功，不出现自动重试按钮。",
+      "screens": [
+        "S16",
+        "S19",
+        "S22",
+        "S23",
+        "S27",
+        "S28"
+      ],
+      "operations": [
+        "runtime.status"
+      ],
+      "bindings": [
+        "B18",
+        "B19"
+      ],
+      "tests": [
+        "T09",
+        "T13"
+      ]
+    },
+    {
+      "id": "R12",
+      "layer": "FE",
+      "goal": "G3",
+      "priority": "P1",
+      "status": "planned",
+      "rule": "业务错误定位字段或动作，并保留可恢复上下文。",
+      "acceptance": "键盘完成筛选与确认；焦点可见；空/加载/拒绝/冲突/未知状态都有文案和出口；可用性实测另记。",
+      "screens": [
+        "S06",
+        "S19",
+        "S20"
+      ],
+      "operations": [],
+      "bindings": [
+        "B20"
+      ],
+      "tests": []
+    },
+    {
+      "id": "R13",
+      "layer": "BE",
+      "goal": "G3",
+      "priority": "P0",
+      "status": "verified",
+      "rule": "WPF 与 CLI 共用启动配置服务；存储与产品目录按实际变化点替换。",
+      "acceptance": "同输入经两个适配器得到相同规则/修订；替换存储或目录不改用例；不为每个方法新增接口。",
+      "screens": [
+        "S04"
+      ],
+      "operations": [
+        "launch.profile.save"
+      ],
+      "bindings": [
+        "B03",
+        "B07",
+        "B08",
+        "B13"
+      ],
+      "tests": [
+        "T01",
+        "T02"
+      ]
+    },
+    {
+      "id": "R14",
+      "layer": "BE",
+      "goal": "G3",
+      "priority": "P0",
+      "status": "verified",
+      "rule": "提交使用 expectedRevision、文件锁与历史；未知字段保留。",
+      "acceptance": "并发只有一个胜者；外部编辑被检测；旧字段不丢；中断只能恢复到旧态或已提交态。",
+      "screens": [
+        "S05",
+        "S06"
+      ],
+      "operations": [
+        "launch.profile.update"
+      ],
+      "bindings": [
+        "B04",
+        "B07",
+        "B25"
+      ],
+      "tests": [
+        "T03",
+        "T05"
+      ]
+    },
+    {
+      "id": "R15",
+      "layer": "BE",
+      "goal": "G3",
+      "priority": "P0",
+      "status": "verified",
+      "rule": "恢复重新校验当前环境，只恢复目标配置，产生新历史。",
+      "acceptance": "失效路径拒绝；其他配置、旧历史与独立凭据不被回写。",
+      "screens": [
+        "S08",
+        "S09"
+      ],
+      "operations": [
+        "launch.profile.restore"
+      ],
+      "bindings": [
+        "B05",
+        "B06"
+      ],
+      "tests": [
+        "T04"
+      ]
+    },
+    {
+      "id": "R16",
+      "layer": "BE",
+      "goal": "G1",
+      "priority": "P0",
+      "status": "verified",
+      "rule": "CLI 原生分派 JSON；写配置、启动与执行分别授权。",
+      "acceptance": "inline/file/stdin 仅选一种；JSON 不能自授权限；禁用独立 MCP；全部 46 项操作可描述。",
+      "screens": [
+        "S12",
+        "S16"
+      ],
+      "operations": [
+        "builtin.usage",
+        "launch.profile.save"
+      ],
+      "bindings": [
+        "B11",
+        "B12",
+        "B13"
+      ],
+      "tests": [
+        "T06",
+        "T07",
+        "T08"
+      ]
+    },
+    {
+      "id": "R17",
+      "layer": "BE",
+      "goal": "G2",
+      "priority": "P0",
+      "status": "verified",
+      "rule": "每次目标调用核验 PID、启动时间、模块与 Host 协议。",
+      "acceptance": "错误身份/旧协议在分派前拒绝；不得回退为无约束原始命令。",
+      "screens": [
+        "S13",
+        "S20",
+        "S26",
+        "S29"
+      ],
+      "operations": [
+        "aveva.session.status",
+        "pml.forms.list"
+      ],
+      "bindings": [
+        "B14",
+        "B15"
+      ],
+      "tests": [
+        "T09"
+      ]
+    },
+    {
+      "id": "R18",
+      "layer": "BE",
+      "goal": "G2",
+      "priority": "P0",
+      "status": "verified",
+      "rule": "查询受项数/字符预算约束；续页保留边界与原生缺失值。",
+      "acceptance": "空字符串、0、false 不互换；未支持属性保留原生原因；条件变化不能拼接旧页。",
+      "screens": [
+        "S13",
+        "S14"
+      ],
+      "operations": [
+        "pml.array.window",
+        "pml.gadget.read"
+      ],
+      "bindings": [
+        "B15",
+        "B24",
+        "B31"
+      ],
+      "tests": [
+        "T14"
+      ]
+    },
+    {
+      "id": "R19",
+      "layer": "BE",
+      "goal": "G1",
+      "priority": "P0",
+      "status": "partial",
+      "rule": "复制计划冻结源/目标哈希，执行保留备份；与 PML 加载/调试串联。",
+      "acceptance": "复制前变更任一端即拒绝；路径不能越界；部署成功与运行成功分开记录。",
+      "screens": [
+        "S17",
+        "S18"
+      ],
+      "operations": [
+        "workspace.pmllib.inspect",
+        "pml.command.execute"
+      ],
+      "bindings": [
+        "B16",
+        "B29"
+      ],
+      "tests": [
+        "T12"
+      ]
+    },
+    {
+      "id": "R20",
+      "layer": "BE",
+      "goal": "G1",
+      "priority": "P0",
+      "status": "planned",
+      "rule": "官方 HTML/源码是知识主源；按产品版本建立引用，个人资料独立补充。",
+      "acceptance": "保留来源/版本/块 ID；旧索引可辨识；无资料不编造答案；默认官方流程尚待实现。",
+      "screens": [
+        "S10",
+        "S11"
+      ],
+      "operations": [
+        "knowledge.layers.search"
+      ],
+      "bindings": [
+        "B17"
+      ],
+      "tests": []
+    },
+    {
+      "id": "R21",
+      "layer": "BE",
+      "goal": "G3",
+      "priority": "P0",
+      "status": "verified",
+      "rule": "日志关联开始、结束、耗时与目标；未结束操作归为未知。",
+      "acceptance": "命名秘密脱敏；日志故障不把已执行改成失败并诱发重试；记录结果与业务结果分别保存。",
+      "screens": [
+        "S15",
+        "S19"
+      ],
+      "operations": [
+        "runtime.calls",
+        "runtime.status"
+      ],
+      "bindings": [
+        "B18",
+        "B19"
+      ],
+      "tests": [
+        "T11",
+        "T13"
+      ]
+    },
+    {
+      "id": "R22",
+      "layer": "BE",
+      "goal": "G3",
+      "priority": "P0",
+      "status": "verified",
+      "rule": "代码、JSON、TOML 用同一业务路径测试，逐步保存输入、输出与结论。",
+      "acceptance": "解析失败/超时保留部分结果；历史证据与本轮运行区分；报告按新目录保存。",
+      "screens": [
+        "S18"
+      ],
+      "operations": [
+        "launch.workspace.read",
+        "launch.profile.save"
+      ],
+      "bindings": [
+        "B03",
+        "B12"
+      ],
+      "tests": [
+        "T07",
+        "T08"
+      ]
+    },
+    {
+      "id": "R23",
+      "layer": "BE",
+      "goal": "G1",
+      "priority": "P0",
+      "status": "verified",
+      "rule": "启动初始化读 Current Session；产品系列选择 Host；REHASH 由独立策略和环境值控制。",
+      "acceptance": "E3D2.1→2.1/net48；3.1→3.1.6/net48；AM/PDMS→net35；none/空关闭，rehash-all 每新会话一次；改值下次进程生效。",
+      "screens": [
+        "S01",
+        "S16"
+      ],
+      "operations": [
+        "launch.profile.preview"
+      ],
+      "bindings": [
+        "B10"
+      ],
+      "tests": []
+    },
+    {
+      "id": "R24",
+      "layer": "BE",
+      "goal": "G3",
+      "priority": "P1",
+      "status": "verified",
+      "rule": "文档从 Roslyn 生成签名、源码定位、静态调用与实现候选；手写只写业务约束。",
+      "acceptance": "缺符号/失效源码哈希/悬空需求引用使构建失败；静态候选不得描述为实机执行；契约元数据可无损展开。",
+      "screens": [
+        "S21"
+      ],
+      "operations": [],
+      "bindings": [
+        "B03",
+        "B04",
+        "B07",
+        "B08"
+      ],
+      "tests": [
+        "T15"
+      ]
+    }
+  ],
+  "bindings": [
+    {
+      "id": "B01",
+      "project": "YuzuhaToolkit.Workspace",
+      "type": "YuzuhaToolkit.Workspace.LaunchProfileService",
+      "member": "List",
+      "resolution": "Roslyn-semantic",
+      "symbols": [
+        "YuzuhaToolkit.Workspace::M:YuzuhaToolkit.Workspace.LaunchProfileService.List(System.String,System.String,System.String)"
+      ],
+      "declarations": [
+        {
+          "file": "src/YuzuhaToolkit.Workspace/LaunchProfileService.cs",
+          "line": 28,
+          "signature": "public LaunchProfileRead[] List(string query = \"\", string? product = null, string scope = \"all\")",
+          "summary": "组合文本、产品和收藏/最近条件查询配置。",
+          "sourceSha256": "72b1d2f7600e24595c0deba40bdb1f8efd9120213209b091f12471b29b614815",
+          "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/YuzuhaToolkit.Workspace/LaunchProfileService.cs#L28"
+        }
+      ]
+    },
+    {
+      "id": "B02",
+      "project": "YuzuhaToolkit.Workspace",
+      "type": "YuzuhaToolkit.Workspace.LaunchProfileService",
+      "member": "Validate",
+      "resolution": "Roslyn-semantic",
+      "symbols": [
+        "YuzuhaToolkit.Workspace::M:YuzuhaToolkit.Workspace.LaunchProfileService.Validate(YuzuhaToolkit.Workspace.LaunchProfile)"
+      ],
+      "declarations": [
+        {
+          "file": "src/YuzuhaToolkit.Workspace/LaunchProfileService.cs",
+          "line": 36,
+          "signature": "public LaunchValidation Validate(LaunchProfile profile)",
+          "summary": "校验产品模块及实际路径，结果可定位到具体字段。",
+          "sourceSha256": "72b1d2f7600e24595c0deba40bdb1f8efd9120213209b091f12471b29b614815",
+          "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/YuzuhaToolkit.Workspace/LaunchProfileService.cs#L36"
+        }
+      ]
+    },
+    {
+      "id": "B03",
+      "project": "YuzuhaToolkit.Workspace",
+      "type": "YuzuhaToolkit.Workspace.LaunchProfileService",
+      "member": "Save",
+      "resolution": "Roslyn-semantic",
+      "symbols": [
+        "YuzuhaToolkit.Workspace::M:YuzuhaToolkit.Workspace.LaunchProfileService.Save(YuzuhaToolkit.Workspace.LaunchProfile,System.String,System.Boolean,System.String)"
+      ],
+      "declarations": [
+        {
+          "file": "src/YuzuhaToolkit.Workspace/LaunchProfileService.cs",
+          "line": 78,
+          "signature": "public ConfigCommit<WorkspaceSettings> Save(LaunchProfile profile, string expectedRevision, bool allowWrite, string reason = \"编辑启动配置\")",
+          "summary": "统一保存完整配置，保护已有未知字段，授权只来自可信调用方。",
+          "sourceSha256": "72b1d2f7600e24595c0deba40bdb1f8efd9120213209b091f12471b29b614815",
+          "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/YuzuhaToolkit.Workspace/LaunchProfileService.cs#L78"
+        }
+      ]
+    },
+    {
+      "id": "B04",
+      "project": "YuzuhaToolkit.Workspace",
+      "type": "YuzuhaToolkit.Workspace.WorkspaceConfigurationStore",
+      "member": "Commit",
+      "resolution": "Roslyn-semantic",
+      "symbols": [
+        "YuzuhaToolkit.Workspace::M:YuzuhaToolkit.Workspace.WorkspaceConfigurationStore.Commit(YuzuhaToolkit.Workspace.WorkspaceSettings,System.String,YuzuhaToolkit.Workspace.ConfigurationChangeReason)"
+      ],
+      "declarations": [
+        {
+          "file": "src/YuzuhaToolkit.Workspace/WorkspaceConfigurationStore.cs",
+          "line": 33,
+          "signature": "public ConfigCommit<WorkspaceSettings> Commit(WorkspaceSettings candidate, string expectedRevision, ConfigurationChangeReason reason)",
+          "summary": "先冻结历史和日志，再替换当前文件；每次提交都有独立修订。",
+          "sourceSha256": "9c501172a60f8788da642f029dc5d455a5a7e7c8cb3a47265d6d1a3aae65574c",
+          "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/YuzuhaToolkit.Workspace/WorkspaceConfigurationStore.cs#L33"
+        }
+      ]
+    },
+    {
+      "id": "B05",
+      "project": "YuzuhaToolkit.Workspace",
+      "type": "YuzuhaToolkit.Workspace.LaunchProfileService",
+      "member": "PreviewRestore",
+      "resolution": "Roslyn-semantic",
+      "symbols": [
+        "YuzuhaToolkit.Workspace::M:YuzuhaToolkit.Workspace.LaunchProfileService.PreviewRestore(System.String,System.String,System.String)"
+      ],
+      "declarations": [
+        {
+          "file": "src/YuzuhaToolkit.Workspace/LaunchProfileService.cs",
+          "line": 146,
+          "signature": "public LaunchProfilePreview PreviewRestore(string profileId, string revision, string expectedRevision)",
+          "summary": "比较指定配置的历史内容和当前内容，其他配置不会恢复。",
+          "sourceSha256": "72b1d2f7600e24595c0deba40bdb1f8efd9120213209b091f12471b29b614815",
+          "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/YuzuhaToolkit.Workspace/LaunchProfileService.cs#L146"
+        }
+      ]
+    },
+    {
+      "id": "B06",
+      "project": "YuzuhaToolkit.Workspace",
+      "type": "YuzuhaToolkit.Workspace.LaunchProfileService",
+      "member": "Restore",
+      "resolution": "Roslyn-semantic",
+      "symbols": [
+        "YuzuhaToolkit.Workspace::M:YuzuhaToolkit.Workspace.LaunchProfileService.Restore(System.String,System.String,System.String,System.Boolean)"
+      ],
+      "declarations": [
+        {
+          "file": "src/YuzuhaToolkit.Workspace/LaunchProfileService.cs",
+          "line": 155,
+          "signature": "public ConfigCommit<WorkspaceSettings> Restore(string profileId, string revision, string expectedRevision, bool allowWrite)",
+          "summary": "恢复指定配置并产生新修订；当前校验仍有效，不自动启动或恢复密码。",
+          "sourceSha256": "72b1d2f7600e24595c0deba40bdb1f8efd9120213209b091f12471b29b614815",
+          "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/YuzuhaToolkit.Workspace/LaunchProfileService.cs#L155"
+        }
+      ]
+    },
+    {
+      "id": "B07",
+      "project": "YuzuhaToolkit.Workspace",
+      "type": "YuzuhaToolkit.Workspace.IConfigurationStore`1",
+      "member": "Commit",
+      "resolution": "Roslyn-semantic",
+      "symbols": [
+        "YuzuhaToolkit.Workspace::M:YuzuhaToolkit.Workspace.IConfigurationStore`1.Commit(`0,System.String,YuzuhaToolkit.Workspace.ConfigurationChangeReason)"
+      ],
+      "declarations": [
+        {
+          "file": "src/YuzuhaToolkit.Workspace/ConfigurationContracts.cs",
+          "line": 23,
+          "signature": "ConfigCommit<T> Commit(T candidate, string expectedRevision, ConfigurationChangeReason reason);",
+          "summary": "在写锁内核验预期修订并提交一个新版本。",
+          "sourceSha256": "1512043fbeb0ba6a3007cce379e893fa6bc1fede6ad444cfff922c9fe583c247",
+          "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/YuzuhaToolkit.Workspace/ConfigurationContracts.cs#L23"
+        }
+      ]
+    },
+    {
+      "id": "B08",
+      "project": "YuzuhaToolkit.Workspace",
+      "type": "YuzuhaToolkit.Workspace.IProductModuleCatalog",
+      "member": "Get",
+      "resolution": "Roslyn-semantic",
+      "symbols": [
+        "YuzuhaToolkit.Workspace::M:YuzuhaToolkit.Workspace.IProductModuleCatalog.Get(YuzuhaToolkit.Workspace.InstalledProductIdentity)"
+      ],
+      "declarations": [
+        {
+          "file": "src/YuzuhaToolkit.Workspace/ConfigurationContracts.cs",
+          "line": 46,
+          "signature": "ProductModuleSet Get(InstalledProductIdentity installation);",
+          "summary": "读取指定安装实例的模块列表。",
+          "sourceSha256": "1512043fbeb0ba6a3007cce379e893fa6bc1fede6ad444cfff922c9fe583c247",
+          "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/YuzuhaToolkit.Workspace/ConfigurationContracts.cs#L46"
+        }
+      ]
+    },
+    {
+      "id": "B09",
+      "project": "YuzuhaToolkit.Workspace",
+      "type": "YuzuhaToolkit.Workspace.ProductModuleCatalog",
+      "member": "Get",
+      "resolution": "Roslyn-semantic",
+      "symbols": [
+        "YuzuhaToolkit.Workspace::M:YuzuhaToolkit.Workspace.ProductModuleCatalog.Get(YuzuhaToolkit.Workspace.InstalledProductIdentity)"
+      ],
+      "declarations": [
+        {
+          "file": "src/YuzuhaToolkit.Workspace/ProductModuleCatalog.cs",
+          "line": 9,
+          "signature": "public ProductModuleSet Get(InstalledProductIdentity installation)",
+          "summary": "列出产品模块；安装元数据证实与实机启动验证分别标记。",
+          "sourceSha256": "7279662315c7bd35c66e96ea7806cd9d0feef7382b922232325790eba9acea7a",
+          "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/YuzuhaToolkit.Workspace/ProductModuleCatalog.cs#L9"
+        }
+      ]
+    },
+    {
+      "id": "B10",
+      "project": "YuzuhaToolkit.Workspace",
+      "type": "YuzuhaToolkit.Workspace.LaunchService",
+      "member": "Preview",
+      "resolution": "Roslyn-semantic",
+      "symbols": [
+        "YuzuhaToolkit.Workspace::lambda:src/YuzuhaToolkit.Workspace/LaunchService.cs:502",
+        "YuzuhaToolkit.Workspace::M:YuzuhaToolkit.Workspace.LaunchService.Preview(YuzuhaToolkit.Workspace.LaunchProfile,YuzuhaToolkit.Workspace.IProductModuleCatalog)"
+      ],
+      "declarations": [
+        {
+          "file": "src/YuzuhaToolkit.Workspace/LaunchService.cs",
+          "line": 11,
+          "signature": "public static string Preview(LaunchProfile profile, IProductModuleCatalog? modules = null)",
+          "summary": "生成无密码启动预览；不创建进程，也不读凭据。",
+          "sourceSha256": "4fa1b41be26408bc74d6153227136bf127fcad9740d607b43b2ad7dfc67b4598",
+          "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/YuzuhaToolkit.Workspace/LaunchService.cs#L11"
+        }
+      ]
+    },
+    {
+      "id": "B11",
+      "project": "YuzuhaToolkit.Mcp.Core",
+      "type": "YuzuhaToolkit.Mcp.NativeCliHost",
+      "member": null,
+      "resolution": "Roslyn-semantic",
+      "symbols": [
+        "YuzuhaToolkit.Mcp.Core::T:YuzuhaToolkit.Mcp.NativeCliHost"
+      ],
+      "declarations": [
+        {
+          "file": "src/YuzuhaToolkit.Mcp.Core/NativeCliHost.cs",
+          "line": 11,
+          "signature": "public static class NativeCliHost",
+          "summary": "独立原生 CLI 的进程入口；旧 MCP 文件名仅保留命令兼容，不启动 stdio 服务。",
+          "sourceSha256": "d149760f230001d8bdf6301fcdcdfb1f8327a14f98e9a090b5db591a1715d07c",
+          "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/YuzuhaToolkit.Mcp.Core/NativeCliHost.cs#L11"
+        }
+      ]
+    },
+    {
+      "id": "B12",
+      "project": "PmlTwin.Phayton",
+      "type": "PmlTwin.Phayton.OperationExecutor",
+      "member": "InvokeAsync",
+      "resolution": "Roslyn-semantic",
+      "symbols": [
+        "PmlTwin.Phayton::M:PmlTwin.Phayton.OperationExecutor.InvokeAsync(System.String,System.Text.Json.JsonElement,PmlTwin.Phayton.OperationContext,System.Threading.CancellationToken)"
+      ],
+      "declarations": [
+        {
+          "file": "src/PmlTwin.Phayton/Operations.cs",
+          "line": 117,
+          "signature": "public async Task<OperationResult> InvokeAsync(string id, JsonElement input,\n        OperationContext context, CancellationToken cancellationToken = default)",
+          "summary": "执行一次操作并保留失败或未知状态；不自动重试。",
+          "sourceSha256": "67d83deffb117508bf646aea8379cd443536bf94e3dd00499681e0a1fe1f0ec5",
+          "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/PmlTwin.Phayton/Operations.cs#L117"
+        }
+      ]
+    },
+    {
+      "id": "B13",
+      "project": "YuzuhaToolkit.Mcp.Core",
+      "type": "YuzuhaToolkit.Mcp.NativeOperationCatalog",
+      "member": "Create",
+      "resolution": "Roslyn-semantic",
+      "symbols": [
+        "YuzuhaToolkit.Mcp.Core::M:YuzuhaToolkit.Mcp.NativeOperationCatalog.Create(YuzuhaToolkit.Mcp.YuzuhaRpcBridge,YuzuhaToolkit.Mcp.PmlFunctionTrustStore,System.Func{YuzuhaToolkit.Mcp.YuzuhaRpcBridge},YuzuhaToolkit.Mcp.PmlFunctionRegistry,YuzuhaToolkit.Knowledge.KnowledgeRepository,YuzuhaToolkit.Workspace.RuntimeJournal,System.Collections.Generic.IEnumerable{PmlTwin.Phayton.OperationRegistration})"
+      ],
+      "declarations": [
+        {
+          "file": "src/YuzuhaToolkit.Mcp.Core/NativeOperationCatalog.cs",
+          "line": 13,
+          "signature": "public static OperationExecutor Create(YuzuhaRpcBridge bridge, PmlFunctionTrustStore trust,\n        Func<YuzuhaRpcBridge> createBridge, PmlFunctionRegistry? functions = null,\n        KnowledgeRepository? knowledge = null, RuntimeJournal? journal = null,\n        IEnumerable<OperationRegistration>? additional = null)",
+          "summary": "组合既有 RPC、知识、工作区操作；可注入隔离存储与合成 Host 进行相同路径测试。",
+          "sourceSha256": "af0fbf433144e41fde8abe351ff2d968b9c250597a0f147f9152ad0fecc8859a",
+          "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/YuzuhaToolkit.Mcp.Core/NativeOperationCatalog.cs#L13"
+        }
+      ]
+    },
+    {
+      "id": "B14",
+      "project": "YuzuhaToolkit.Mcp.Core",
+      "type": "YuzuhaToolkit.Mcp.YuzuhaRpcBridge",
+      "member": "SelectSessionAsync",
+      "resolution": "Roslyn-semantic",
+      "symbols": [
+        "YuzuhaToolkit.Mcp.Core::M:YuzuhaToolkit.Mcp.YuzuhaRpcBridge.SelectSessionAsync(System.Int32,System.String,System.Threading.CancellationToken)"
+      ],
+      "declarations": [
+        {
+          "file": "src/YuzuhaToolkit.Mcp.Core/YuzuhaRpcBridge.cs",
+          "line": 72,
+          "signature": "public async Task<YuzuhaConnectionStatus> SelectSessionAsync(\n        int processId,\n        string? expectedModel,\n        CancellationToken cancellationToken)",
+          "summary": "锁定显式 PID 的专用管道，并核验进程启动时间与 Host 模块身份。",
+          "sourceSha256": "cf0a9eb5e2ebc3239579dbb7f505e211054b22baf089361a7bf25a92aaa5b28c",
+          "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/YuzuhaToolkit.Mcp.Core/YuzuhaRpcBridge.cs#L72"
+        }
+      ]
+    },
+    {
+      "id": "B15",
+      "project": "YuzuhaToolkit.Mcp.Core",
+      "type": "YuzuhaToolkit.Mcp.PmlFormQueryRequestSender",
+      "member": "SendAsync",
+      "resolution": "Roslyn-semantic",
+      "symbols": [
+        "YuzuhaToolkit.Mcp.Core::M:YuzuhaToolkit.Mcp.PmlFormQueryRequestSender.SendAsync(YuzuhaToolkit.Mcp.IPmlCommandService,YuzuhaToolkit.Mcp.HostIdentityResponse,YuzuhaToolkit.Pml.PmlFormQueryRequest,System.Threading.CancellationToken)"
+      ],
+      "declarations": [
+        {
+          "file": "src/YuzuhaToolkit.Mcp.Core/PmlFormQueryRequestSender.cs",
+          "line": 9,
+          "signature": "public static Task<RunPmlCommandResponse> SendAsync(IPmlCommandService service, HostIdentityResponse identity,\n        PmlFormQueryRequest query, CancellationToken cancellationToken)",
+          "summary": "在身份核验后发送类型化查询；请求不携带可执行表达式或全局变量删除选项。",
+          "sourceSha256": "bdb4ac735bba7c0eb1a425c5b3d63338a1791ffd1694981c3c473583bcc2cbaa",
+          "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/YuzuhaToolkit.Mcp.Core/PmlFormQueryRequestSender.cs#L9"
+        }
+      ]
+    },
+    {
+      "id": "B16",
+      "project": "YuzuhaToolkit.Mcp.Core",
+      "type": "YuzuhaToolkit.Mcp.WorkspaceTools",
+      "member": null,
+      "resolution": "Roslyn-semantic",
+      "symbols": [
+        "YuzuhaToolkit.Mcp.Core::T:YuzuhaToolkit.Mcp.WorkspaceTools"
+      ],
+      "declarations": [
+        {
+          "file": "src/YuzuhaToolkit.Mcp.Core/WorkspaceTools.cs",
+          "line": 9,
+          "signature": "[McpServerToolType]\npublic sealed class WorkspaceTools(PmlCallTools pml)",
+          "summary": "原生开发入口：撤销分组、PML 目录统计和统一 MCP 工具状态。",
+          "sourceSha256": "730bf114606d2c870e94b2a8076fcb87fae8a7d7e4606642525312b3eb11a787",
+          "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/YuzuhaToolkit.Mcp.Core/WorkspaceTools.cs#L9"
+        }
+      ]
+    },
+    {
+      "id": "B17",
+      "project": "YuzuhaToolkit.Knowledge.Core",
+      "type": "YuzuhaToolkit.Knowledge.KnowledgeRepository",
+      "member": null,
+      "resolution": "Roslyn-semantic",
+      "symbols": [
+        "YuzuhaToolkit.Knowledge.Core::T:YuzuhaToolkit.Knowledge.KnowledgeRepository"
+      ],
+      "declarations": [
+        {
+          "file": "src/YuzuhaToolkit.Knowledge.Core/KnowledgeLayers.cs",
+          "line": 27,
+          "signature": "public sealed partial class KnowledgeRepository",
+          "summary": "维护本机知识源角色、内置优先检索与独立经验存储的仓库扩展。",
+          "sourceSha256": "bfac5017a5838f5f24bba8b150dfe3c0808963c3e829083e6a61e8482e229e53",
+          "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/YuzuhaToolkit.Knowledge.Core/KnowledgeLayers.cs#L27"
+        },
+        {
+          "file": "src/YuzuhaToolkit.Knowledge.Core/KnowledgeManagement.cs",
+          "line": 37,
+          "signature": "public sealed partial class KnowledgeRepository",
+          "summary": "个人笔记的版本化编辑及资料索引的备份、回收与恢复。",
+          "sourceSha256": "1c3c7b57beef43f8845f3e7e4d600aeb60df9d67733a68166712c929d8bb20ac",
+          "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/YuzuhaToolkit.Knowledge.Core/KnowledgeManagement.cs#L37"
+        },
+        {
+          "file": "src/YuzuhaToolkit.Knowledge.Core/KnowledgeRepository.cs",
+          "line": 18,
+          "signature": "public sealed partial class KnowledgeRepository",
+          "summary": "Local knowledge database lifecycle: build (rebuild) the SQLite/FTS5\ndatabase from PMLLIB / PMLUI / WebHelp directories the user owns,\nsearch it read-only, and validate databases copied from elsewhere.\nDatabases are never created or overwritten silently.",
+          "sourceSha256": "b61f841542473d1857c62c1a5f277a9cb63c22af68b98ccf61babf10469c091c",
+          "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/YuzuhaToolkit.Knowledge.Core/KnowledgeRepository.cs#L18"
+        }
+      ]
+    },
+    {
+      "id": "B18",
+      "project": "YuzuhaToolkit.Workspace",
+      "type": "YuzuhaToolkit.Workspace.RuntimeJournal",
+      "member": "Complete",
+      "resolution": "Roslyn-semantic",
+      "symbols": [
+        "YuzuhaToolkit.Workspace::M:YuzuhaToolkit.Workspace.RuntimeJournal.Complete(System.String,System.String,System.String,System.Nullable{System.Int32})"
+      ],
+      "declarations": [
+        {
+          "file": "src/YuzuhaToolkit.Workspace/RuntimeJournal.cs",
+          "line": 98,
+          "signature": "public void Complete(string callId, string phase, string summary, int? targetPid = null)",
+          "summary": "结束关联调用；取消标记为结果待核验，绝不触发重试或模型回滚。",
+          "sourceSha256": "88627b8a69e047fd9d8108294a61e3e1274896402f58316175efebf4df7469fe",
+          "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/YuzuhaToolkit.Workspace/RuntimeJournal.cs#L98"
+        }
+      ]
+    },
+    {
+      "id": "B19",
+      "project": "YuzuhaToolkit.Workspace",
+      "type": "YuzuhaToolkit.Workspace.RuntimeReader",
+      "member": "Recent",
+      "resolution": "Roslyn-semantic",
+      "symbols": [
+        "YuzuhaToolkit.Workspace::M:YuzuhaToolkit.Workspace.RuntimeReader.Recent(System.Int32,System.String)"
+      ],
+      "declarations": [
+        {
+          "file": "src/YuzuhaToolkit.Workspace/RuntimeJournal.cs",
+          "line": 209,
+          "signature": "public static ActivityEntry[] Recent(int limit = 100, string? stateDirectory = null)",
+          "summary": "读取最多 200 条最近事件，最多检查最近 16 个日志段，每段最多约 2 MiB。",
+          "sourceSha256": "88627b8a69e047fd9d8108294a61e3e1274896402f58316175efebf4df7469fe",
+          "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/YuzuhaToolkit.Workspace/RuntimeJournal.cs#L209"
+        }
+      ]
+    },
+    {
+      "id": "B20",
+      "project": "YuzuhaToolkit.Desktop",
+      "type": "YuzuhaToolkit.Desktop.MainWindow",
+      "member": "PreviewProfileChanges",
+      "resolution": "Roslyn-semantic",
+      "symbols": [
+        "YuzuhaToolkit.Desktop::lambda:src/YuzuhaToolkit.Desktop/MainWindow.LaunchLifecycle.xaml.cs:5710",
+        "YuzuhaToolkit.Desktop::M:YuzuhaToolkit.Desktop.MainWindow.PreviewProfileChanges(System.Object,System.Windows.RoutedEventArgs)"
+      ],
+      "declarations": [
+        {
+          "file": "src/YuzuhaToolkit.Desktop/MainWindow.LaunchLifecycle.xaml.cs",
+          "line": 106,
+          "signature": "private void PreviewProfileChanges(object sender, RoutedEventArgs e)",
+          "summary": "",
+          "sourceSha256": "59816ea6948003ddfb133598f087675d681f4a119beecefe8278771164368c93",
+          "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/YuzuhaToolkit.Desktop/MainWindow.LaunchLifecycle.xaml.cs#L106"
+        }
+      ]
+    },
+    {
+      "id": "B21",
+      "project": "YuzuhaToolkit.Desktop",
+      "type": "YuzuhaToolkit.Desktop.MainWindow",
+      "member": "LaunchProfileFilterChanged",
+      "resolution": "Roslyn-semantic",
+      "symbols": [
+        "YuzuhaToolkit.Desktop::M:YuzuhaToolkit.Desktop.MainWindow.LaunchProfileFilterChanged(System.Object,System.Windows.RoutedEventArgs)"
+      ],
+      "declarations": [
+        {
+          "file": "src/YuzuhaToolkit.Desktop/MainWindow.LaunchLifecycle.xaml.cs",
+          "line": 190,
+          "signature": "private void LaunchProfileFilterChanged(object sender, RoutedEventArgs e)",
+          "summary": "",
+          "sourceSha256": "59816ea6948003ddfb133598f087675d681f4a119beecefe8278771164368c93",
+          "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/YuzuhaToolkit.Desktop/MainWindow.LaunchLifecycle.xaml.cs#L190"
+        }
+      ]
+    },
+    {
+      "id": "B22",
+      "project": "YuzuhaToolkit.Desktop",
+      "type": "YuzuhaToolkit.Desktop.MainWindow",
+      "member": "ProductIdentityChanged",
+      "resolution": "Roslyn-semantic",
+      "symbols": [
+        "YuzuhaToolkit.Desktop::M:YuzuhaToolkit.Desktop.MainWindow.ProductIdentityChanged(System.Object,System.Windows.RoutedEventArgs)"
+      ],
+      "declarations": [
+        {
+          "file": "src/YuzuhaToolkit.Desktop/MainWindow.LaunchLifecycle.xaml.cs",
+          "line": 62,
+          "signature": "private void ProductIdentityChanged(object sender, RoutedEventArgs e)",
+          "summary": "",
+          "sourceSha256": "59816ea6948003ddfb133598f087675d681f4a119beecefe8278771164368c93",
+          "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/YuzuhaToolkit.Desktop/MainWindow.LaunchLifecycle.xaml.cs#L62"
+        }
+      ]
+    },
+    {
+      "id": "B23",
+      "project": "YuzuhaToolkit.Desktop",
+      "type": "YuzuhaToolkit.Desktop.MainWindow",
+      "member": "ConfirmRestoreProfile",
+      "resolution": "Roslyn-semantic",
+      "symbols": [
+        "YuzuhaToolkit.Desktop::lambda:src/YuzuhaToolkit.Desktop/MainWindow.LaunchLifecycle.xaml.cs:14680",
+        "YuzuhaToolkit.Desktop::M:YuzuhaToolkit.Desktop.MainWindow.ConfirmRestoreProfile(System.Object,System.Windows.RoutedEventArgs)"
+      ],
+      "declarations": [
+        {
+          "file": "src/YuzuhaToolkit.Desktop/MainWindow.LaunchLifecycle.xaml.cs",
+          "line": 248,
+          "signature": "private void ConfirmRestoreProfile(object sender, RoutedEventArgs e)",
+          "summary": "",
+          "sourceSha256": "59816ea6948003ddfb133598f087675d681f4a119beecefe8278771164368c93",
+          "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/YuzuhaToolkit.Desktop/MainWindow.LaunchLifecycle.xaml.cs#L248"
+        }
+      ]
+    },
+    {
+      "id": "B24",
+      "project": "YuzuhaToolkit.Desktop",
+      "type": "YuzuhaToolkit.Desktop.SessionWorkbench",
+      "member": "QueryAsync",
+      "resolution": "Roslyn-semantic",
+      "symbols": [
+        "YuzuhaToolkit.Desktop::lambda:src/YuzuhaToolkit.Desktop/SessionWorkbench.cs:6418",
+        "YuzuhaToolkit.Desktop::M:YuzuhaToolkit.Desktop.SessionWorkbench.QueryAsync(YuzuhaToolkit.Pml.PmlFormQueryRequest,System.Boolean,System.Threading.CancellationToken)"
+      ],
+      "declarations": [
+        {
+          "file": "src/YuzuhaToolkit.Desktop/SessionWorkbench.cs",
+          "line": 122,
+          "signature": "public Task QueryAsync(PmlFormQueryRequest input, bool append = false, CancellationToken token = default)",
+          "summary": "读取或续读原生窗口；条件变化不能拼接旧窗口。",
+          "sourceSha256": "69cdb62f425e2ffdcd94a439516f9046eb7521d1b44d71d5372dffb8ac115693",
+          "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/YuzuhaToolkit.Desktop/SessionWorkbench.cs#L122"
+        }
+      ]
+    },
+    {
+      "id": "B25",
+      "project": "YuzuhaToolkit.Workspace",
+      "type": "YuzuhaToolkit.Workspace.ConfigurationConflictException",
+      "member": null,
+      "resolution": "Roslyn-semantic",
+      "symbols": [
+        "YuzuhaToolkit.Workspace::M:YuzuhaToolkit.Workspace.ConfigurationConflictException.#ctor(System.String)",
+        "YuzuhaToolkit.Workspace::T:YuzuhaToolkit.Workspace.ConfigurationConflictException"
+      ],
+      "declarations": [
+        {
+          "file": "src/YuzuhaToolkit.Workspace/ConfigurationContracts.cs",
+          "line": 30,
+          "signature": "public sealed class ConfigurationConflictException(string actualRevision)\n    : IOException(\"配置已被其他窗口、CLI 或外部编辑器修改，请重新读取并比较后再保存。\")",
+          "summary": "修改基于过期文件；保留实际修订供客户端重新读取。",
+          "sourceSha256": "1512043fbeb0ba6a3007cce379e893fa6bc1fede6ad444cfff922c9fe583c247",
+          "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/YuzuhaToolkit.Workspace/ConfigurationContracts.cs#L30"
+        }
+      ]
+    },
+    {
+      "id": "B29",
+      "project": "YuzuhaToolkit.Workspace",
+      "type": "YuzuhaToolkit.Workspace.DirectoryInspector",
+      "member": "Scan",
+      "resolution": "Roslyn-semantic",
+      "symbols": [
+        "YuzuhaToolkit.Workspace::M:YuzuhaToolkit.Workspace.DirectoryInspector.Scan(System.String,System.Int32,System.Int64,System.Int32,System.Nullable{System.TimeSpan},System.Threading.CancellationToken)"
+      ],
+      "declarations": [
+        {
+          "file": "src/YuzuhaToolkit.Workspace/DirectoryInspector.cs",
+          "line": 50,
+          "signature": "public static DirectoryHealth Scan(string root, int warnFiles = 3000, long warnBytes = 209715200,\n        int maxEntries = 50000, TimeSpan? budget = null, CancellationToken cancellationToken = default)",
+          "summary": "递归统计文件及大目录；不跟随符号链接或目录联接，不删除内容。",
+          "sourceSha256": "d68dabce21b714940fe18cf4f2f7f78de71191631cda954ee89b0c5f349a8842",
+          "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/YuzuhaToolkit.Workspace/DirectoryInspector.cs#L50"
+        }
+      ]
+    },
+    {
+      "id": "B30",
+      "project": "YuzuhaToolkit.Mcp.Core",
+      "type": "YuzuhaToolkit.Mcp.PmlFunctionRegistry",
+      "member": null,
+      "resolution": "Roslyn-semantic",
+      "symbols": [
+        "YuzuhaToolkit.Mcp.Core::T:YuzuhaToolkit.Mcp.PmlFunctionRegistry"
+      ],
+      "declarations": [
+        {
+          "file": "src/YuzuhaToolkit.Mcp.Core/PmlFunctionRegistry.cs",
+          "line": 43,
+          "signature": "public sealed class PmlFunctionRegistry",
+          "summary": "登记真实源码、显式授予权限并在调用前核对身份和参数；不加载或修改原生 PMLLIB。",
+          "sourceSha256": "2efd847564cbe5d4c4cfa8109176178171c7153bb89c860c548a01c6a03b97bf",
+          "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/YuzuhaToolkit.Mcp.Core/PmlFunctionRegistry.cs#L43"
+        }
+      ]
+    },
+    {
+      "id": "B31",
+      "project": "YuzuhaToolkit.PmlHost.Net48",
+      "type": "YuzuhaToolkit.PmlHost.PmlCommandRpcService",
+      "member": null,
+      "resolution": "Roslyn-declaration",
+      "symbols": [],
+      "declarations": [
+        {
+          "file": "src/YuzuhaToolkit.PmlHost.Net48/PmlCommandRpcService.cs",
+          "line": 8,
+          "signature": "internal sealed class PmlCommandRpcService : IPmlCommandService",
+          "summary": "核验主线程后转发 Host 身份查询与 PML 执行，保留协议失败信息。",
+          "sourceSha256": "355103b3d8352475124b913a1103a929d495b7525cf5db66a312e48dc1b76194",
+          "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/YuzuhaToolkit.PmlHost.Net48/PmlCommandRpcService.cs#L8"
+        }
+      ]
+    }
+  ],
+  "tests": [
+    {
+      "id": "T01",
+      "file": "tests/YuzuhaToolkit.Tests/LaunchLifecycleTests.cs",
+      "method": "SavedProfileIsReadByNewServiceAndDraftDoesNotMutateFile",
+      "line": 30,
+      "sourceSha256": "0c01f26f73a0509e3090524b59a8b801715a6073f13f422fbb59e139eb8bbdf0",
+      "kind": "xunit",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/tests/YuzuhaToolkit.Tests/LaunchLifecycleTests.cs#L30"
+    },
+    {
+      "id": "T02",
+      "file": "tests/YuzuhaToolkit.Tests/LaunchLifecycleTests.cs",
+      "method": "InvalidProductModuleRejectsBeforePersistence",
+      "line": 43,
+      "sourceSha256": "0c01f26f73a0509e3090524b59a8b801715a6073f13f422fbb59e139eb8bbdf0",
+      "kind": "xunit",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/tests/YuzuhaToolkit.Tests/LaunchLifecycleTests.cs#L43"
+    },
+    {
+      "id": "T03",
+      "file": "tests/YuzuhaToolkit.Tests/LaunchLifecycleTests.cs",
+      "method": "ConcurrentEditorsCannotOverwriteTheFirstSavedChange",
+      "line": 114,
+      "sourceSha256": "0c01f26f73a0509e3090524b59a8b801715a6073f13f422fbb59e139eb8bbdf0",
+      "kind": "xunit",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/tests/YuzuhaToolkit.Tests/LaunchLifecycleTests.cs#L114"
+    },
+    {
+      "id": "T04",
+      "file": "tests/YuzuhaToolkit.Tests/LaunchLifecycleTests.cs",
+      "method": "RestoreCreatesNewRevisionAndKeepsOtherProfilesAndOldHistory",
+      "line": 148,
+      "sourceSha256": "0c01f26f73a0509e3090524b59a8b801715a6073f13f422fbb59e139eb8bbdf0",
+      "kind": "xunit",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/tests/YuzuhaToolkit.Tests/LaunchLifecycleTests.cs#L148"
+    },
+    {
+      "id": "T05",
+      "file": "tests/YuzuhaToolkit.Tests/LaunchLifecycleTests.cs",
+      "method": "JsonUpdatePreservesUnknownWorkspaceAndProfileFields",
+      "line": 88,
+      "sourceSha256": "0c01f26f73a0509e3090524b59a8b801715a6073f13f422fbb59e139eb8bbdf0",
+      "kind": "xunit",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/tests/YuzuhaToolkit.Tests/LaunchLifecycleTests.cs#L88"
+    },
+    {
+      "id": "T06",
+      "file": "tests/YuzuhaToolkit.Tests/LaunchLifecycleTests.cs",
+      "method": "PermissionDenialAndUnknownPatchFieldsLeaveFileUntouched",
+      "line": 228,
+      "sourceSha256": "0c01f26f73a0509e3090524b59a8b801715a6073f13f422fbb59e139eb8bbdf0",
+      "kind": "xunit",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/tests/YuzuhaToolkit.Tests/LaunchLifecycleTests.cs#L228"
+    },
+    {
+      "id": "T07",
+      "file": "tests/YuzuhaToolkit.Tests/NativeCliCapabilityTests.cs",
+      "method": "EveryFormerToolHasARealNativePositivePathAndRecordedFailureGates",
+      "line": 17,
+      "sourceSha256": "60ad502ad7928da88f2d58cb9fbc55afb8e38e8c652b8c8529ef63b705f65cb7",
+      "kind": "xunit",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/tests/YuzuhaToolkit.Tests/NativeCliCapabilityTests.cs#L17"
+    },
+    {
+      "id": "T08",
+      "file": "tests/YuzuhaToolkit.Tests/NativeCliCapabilityTests.cs",
+      "method": "FileStdinAndInlineJsonUseTheSameDispatcherAndRejectAmbiguity",
+      "line": 94,
+      "sourceSha256": "60ad502ad7928da88f2d58cb9fbc55afb8e38e8c652b8c8529ef63b705f65cb7",
+      "kind": "xunit",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/tests/YuzuhaToolkit.Tests/NativeCliCapabilityTests.cs#L94"
+    },
+    {
+      "id": "T09",
+      "file": "tests/YuzuhaToolkit.Tests/NativeCliCapabilityTests.cs",
+      "method": "ExplicitTargetAuthorizationProtocolAndTransportFailuresPreserveTruth",
+      "line": 134,
+      "sourceSha256": "60ad502ad7928da88f2d58cb9fbc55afb8e38e8c652b8c8529ef63b705f65cb7",
+      "kind": "xunit",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/tests/YuzuhaToolkit.Tests/NativeCliCapabilityTests.cs#L134"
+    },
+    {
+      "id": "T10",
+      "file": "tests/YuzuhaToolkit.Tests/LaunchLifecycleTests.cs",
+      "method": "FiltersFavoritesDefaultsAndHistoryUseSameService",
+      "line": 249,
+      "sourceSha256": "0c01f26f73a0509e3090524b59a8b801715a6073f13f422fbb59e139eb8bbdf0",
+      "kind": "xunit",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/tests/YuzuhaToolkit.Tests/LaunchLifecycleTests.cs#L249"
+    },
+    {
+      "id": "T11",
+      "file": "tests/YuzuhaToolkit.Tests/WorkspaceBehaviorTests.cs",
+      "method": "JournalPersistsCorrelatedStartAndCompletionWithRedactedNamedSecrets",
+      "line": 157,
+      "sourceSha256": "280485e184067cd43c0b65ee1e0dd767546640d4b5de0d731217ee7fb058c539",
+      "kind": "xunit",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/tests/YuzuhaToolkit.Tests/WorkspaceBehaviorTests.cs#L157"
+    },
+    {
+      "id": "T12",
+      "file": "tests/YuzuhaToolkit.Tests/WorkspaceBehaviorTests.cs",
+      "method": "ChangedTargetStopsWholeCopyBeforeAnyWrites",
+      "line": 107,
+      "sourceSha256": "280485e184067cd43c0b65ee1e0dd767546640d4b5de0d731217ee7fb058c539",
+      "kind": "xunit",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/tests/YuzuhaToolkit.Tests/WorkspaceBehaviorTests.cs#L107"
+    },
+    {
+      "id": "T13",
+      "file": "tests/YuzuhaToolkit.Tests/WorkspaceBehaviorTests.cs",
+      "method": "ExitedProcessWithUnfinishedCallIsReportedAsUnknownRatherThanSuccess",
+      "line": 178,
+      "sourceSha256": "280485e184067cd43c0b65ee1e0dd767546640d4b5de0d731217ee7fb058c539",
+      "kind": "xunit",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/tests/YuzuhaToolkit.Tests/WorkspaceBehaviorTests.cs#L178"
+    },
+    {
+      "id": "T14",
+      "file": "tests/YuzuhaToolkit.Tests/PmlFormQueryTests.cs",
+      "method": "FormListsUseNativeManagerAndHonorScanBudget",
+      "line": 44,
+      "sourceSha256": "fc9ab9475b2e52cdc3c447758363541e96d8c23a0b4c99daf79a4cb2862d286d",
+      "kind": "xunit",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/tests/YuzuhaToolkit.Tests/PmlFormQueryTests.cs#L44"
+    },
+    {
+      "id": "T15",
+      "file": "tests/handoff-specifications.test.mjs",
+      "method": "compact metadata preserves every value",
+      "line": 15,
+      "sourceSha256": "6d35d89397ad3afc1c52d78c631a4228a2e815cc3aeee3bfc22c2537c1cd0238",
+      "kind": "node-source-declaration",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/tests/handoff-specifications.test.mjs#L15"
+    }
+  ],
+  "operationInventory": {
+    "file": "operation-inventory.json",
+    "sha256": "74f931153d77b3622b9aa22379338863a0e93fe50a5e65416beeaba1d27471a7",
+    "producer": "dotnet src/PmlTwin.Phayton.Cli/bin/Release/net10.0/PmlTwin.Phayton.Cli.dll op list",
+    "buildConfiguration": "Release",
+    "targetFramework": "net10.0",
+    "runtimeInvocations": [
+      "op list"
+    ]
+  },
+  "sourceHashMode": "sha256 = Git blob bytes at sourceCommit; workingTreeSha256 = exact extraction checkout bytes (may use CRLF)",
+  "sources": [
+    {
+      "file": "README.md",
+      "sha256": "07edae0402dfc04ada6fbf5e8b34e3c957222ef724b7a626c9b6f91a4b50ce4c",
+      "workingTreeSha256": "07edae0402dfc04ada6fbf5e8b34e3c957222ef724b7a626c9b6f91a4b50ce4c",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/README.md"
+    },
+    {
+      "file": "docs/architecture/dependencies.json",
+      "sha256": "20d7372a8d6027834f5655e1abf937e3b30c6d90594c6e8b2496f9882e18a5c3",
+      "workingTreeSha256": "0278586c23935f084f11b01fa3ea36dee02ad7ad9ec74065fd9841b24409b474",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/docs/architecture/dependencies.json"
+    },
+    {
+      "file": "docs/reference/cli.md",
+      "sha256": "7656d286d2c9874b1b94495c78bc63a8ef44ca82673af640ae20771d8463c45d",
+      "workingTreeSha256": "7656d286d2c9874b1b94495c78bc63a8ef44ca82673af640ae20771d8463c45d",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/docs/reference/cli.md"
+    },
+    {
+      "file": "docs/reference/specs/backend/SDS.md",
+      "sha256": "3a46a11001e7cddc12b21a34309b93a6f9df8bd212f68655daef920c5a34e392",
+      "workingTreeSha256": "3a46a11001e7cddc12b21a34309b93a6f9df8bd212f68655daef920c5a34e392",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/docs/reference/specs/backend/SDS.md"
+    },
+    {
+      "file": "docs/reference/specs/frontend/FRD.md",
+      "sha256": "88c5232a2ee2f7d8a1b7365151a3307f7d2af64f67d1ef72b59e400e577fadef",
+      "workingTreeSha256": "88c5232a2ee2f7d8a1b7365151a3307f7d2af64f67d1ef72b59e400e577fadef",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/docs/reference/specs/frontend/FRD.md"
+    },
+    {
+      "file": "docs/specification/README.md",
+      "sha256": "148440d41d4440f4d16c3b2124b058749f0b6c88a847a8d18938955d52a1ea0f",
+      "workingTreeSha256": "148440d41d4440f4d16c3b2124b058749f0b6c88a847a8d18938955d52a1ea0f",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/docs/specification/README.md"
+    },
+    {
+      "file": "docs/specification/contract.json",
+      "sha256": "d54a7bb1b93ae895203c647f03dad0d2fde9bd97c7ab2609b0026d6ab88c1f08",
+      "workingTreeSha256": "292eb60792529c383678a4c748547019fb486e4051469193247f99ae6515f716",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/docs/specification/contract.json"
+    },
+    {
+      "file": "docs/validation/2026-10-24-launch-cli.summary.json",
+      "sha256": "6afedd06c6e639d69ddf4865b89b7c637fa8af95781af10afb79139b5fb6262e",
+      "workingTreeSha256": "f2a9f45f51428d566df8074a8dce429b7174da2c43d3a3aa28da62b9a627d2b7",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/docs/validation/2026-10-24-launch-cli.summary.json"
+    },
+    {
+      "file": "src/PmlTwin.Phayton/OperationCli.cs",
+      "sha256": "e796766501ec68b165ef54d57dccc9ff9ad8e93769ba01faf75aa1ce81ee7bd2",
+      "workingTreeSha256": "e796766501ec68b165ef54d57dccc9ff9ad8e93769ba01faf75aa1ce81ee7bd2",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/PmlTwin.Phayton/OperationCli.cs"
+    },
+    {
+      "file": "src/PmlTwin.Phayton/Operations.cs",
+      "sha256": "67d83deffb117508bf646aea8379cd443536bf94e3dd00499681e0a1fe1f0ec5",
+      "workingTreeSha256": "67d83deffb117508bf646aea8379cd443536bf94e3dd00499681e0a1fe1f0ec5",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/PmlTwin.Phayton/Operations.cs"
+    },
+    {
+      "file": "src/YuzuhaToolkit.Desktop/MainWindow.LaunchLifecycle.xaml.cs",
+      "sha256": "59816ea6948003ddfb133598f087675d681f4a119beecefe8278771164368c93",
+      "workingTreeSha256": "59816ea6948003ddfb133598f087675d681f4a119beecefe8278771164368c93",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/YuzuhaToolkit.Desktop/MainWindow.LaunchLifecycle.xaml.cs"
+    },
+    {
+      "file": "src/YuzuhaToolkit.Desktop/SessionWorkbench.cs",
+      "sha256": "69cdb62f425e2ffdcd94a439516f9046eb7521d1b44d71d5372dffb8ac115693",
+      "workingTreeSha256": "69cdb62f425e2ffdcd94a439516f9046eb7521d1b44d71d5372dffb8ac115693",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/YuzuhaToolkit.Desktop/SessionWorkbench.cs"
+    },
+    {
+      "file": "src/YuzuhaToolkit.Knowledge.Core/KnowledgeLayers.cs",
+      "sha256": "bfac5017a5838f5f24bba8b150dfe3c0808963c3e829083e6a61e8482e229e53",
+      "workingTreeSha256": "bfac5017a5838f5f24bba8b150dfe3c0808963c3e829083e6a61e8482e229e53",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/YuzuhaToolkit.Knowledge.Core/KnowledgeLayers.cs"
+    },
+    {
+      "file": "src/YuzuhaToolkit.Knowledge.Core/KnowledgeManagement.cs",
+      "sha256": "1c3c7b57beef43f8845f3e7e4d600aeb60df9d67733a68166712c929d8bb20ac",
+      "workingTreeSha256": "1c3c7b57beef43f8845f3e7e4d600aeb60df9d67733a68166712c929d8bb20ac",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/YuzuhaToolkit.Knowledge.Core/KnowledgeManagement.cs"
+    },
+    {
+      "file": "src/YuzuhaToolkit.Knowledge.Core/KnowledgeRepository.cs",
+      "sha256": "b61f841542473d1857c62c1a5f277a9cb63c22af68b98ccf61babf10469c091c",
+      "workingTreeSha256": "b61f841542473d1857c62c1a5f277a9cb63c22af68b98ccf61babf10469c091c",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/YuzuhaToolkit.Knowledge.Core/KnowledgeRepository.cs"
+    },
+    {
+      "file": "src/YuzuhaToolkit.Mcp.Core/BoundedArrayRequest.cs",
+      "sha256": "3b8bb6428a445fbf105f4c545a21c9da4f862ff45b5367d7814bd31cb8ba50dd",
+      "workingTreeSha256": "3b8bb6428a445fbf105f4c545a21c9da4f862ff45b5367d7814bd31cb8ba50dd",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/YuzuhaToolkit.Mcp.Core/BoundedArrayRequest.cs"
+    },
+    {
+      "file": "src/YuzuhaToolkit.Mcp.Core/LaunchOperationCatalog.cs",
+      "sha256": "96124be9ec72c347f0d6eef1e15b5852e79f792b897db153246a96b9fd8ffb73",
+      "workingTreeSha256": "96124be9ec72c347f0d6eef1e15b5852e79f792b897db153246a96b9fd8ffb73",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/YuzuhaToolkit.Mcp.Core/LaunchOperationCatalog.cs"
+    },
+    {
+      "file": "src/YuzuhaToolkit.Mcp.Core/NativeCliHost.cs",
+      "sha256": "d149760f230001d8bdf6301fcdcdfb1f8327a14f98e9a090b5db591a1715d07c",
+      "workingTreeSha256": "d149760f230001d8bdf6301fcdcdfb1f8327a14f98e9a090b5db591a1715d07c",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/YuzuhaToolkit.Mcp.Core/NativeCliHost.cs"
+    },
+    {
+      "file": "src/YuzuhaToolkit.Mcp.Core/NativeOperationCatalog.cs",
+      "sha256": "af0fbf433144e41fde8abe351ff2d968b9c250597a0f147f9152ad0fecc8859a",
+      "workingTreeSha256": "af0fbf433144e41fde8abe351ff2d968b9c250597a0f147f9152ad0fecc8859a",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/YuzuhaToolkit.Mcp.Core/NativeOperationCatalog.cs"
+    },
+    {
+      "file": "src/YuzuhaToolkit.Mcp.Core/PmlFormQueryRequestSender.cs",
+      "sha256": "bdb4ac735bba7c0eb1a425c5b3d63338a1791ffd1694981c3c473583bcc2cbaa",
+      "workingTreeSha256": "bdb4ac735bba7c0eb1a425c5b3d63338a1791ffd1694981c3c473583bcc2cbaa",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/YuzuhaToolkit.Mcp.Core/PmlFormQueryRequestSender.cs"
+    },
+    {
+      "file": "src/YuzuhaToolkit.Mcp.Core/PmlFunctionRegistry.cs",
+      "sha256": "2efd847564cbe5d4c4cfa8109176178171c7153bb89c860c548a01c6a03b97bf",
+      "workingTreeSha256": "2efd847564cbe5d4c4cfa8109176178171c7153bb89c860c548a01c6a03b97bf",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/YuzuhaToolkit.Mcp.Core/PmlFunctionRegistry.cs"
+    },
+    {
+      "file": "src/YuzuhaToolkit.Mcp.Core/WorkspaceTools.cs",
+      "sha256": "730bf114606d2c870e94b2a8076fcb87fae8a7d7e4606642525312b3eb11a787",
+      "workingTreeSha256": "730bf114606d2c870e94b2a8076fcb87fae8a7d7e4606642525312b3eb11a787",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/YuzuhaToolkit.Mcp.Core/WorkspaceTools.cs"
+    },
+    {
+      "file": "src/YuzuhaToolkit.Mcp.Core/YuzuhaRpcBridge.cs",
+      "sha256": "cf0a9eb5e2ebc3239579dbb7f505e211054b22baf089361a7bf25a92aaa5b28c",
+      "workingTreeSha256": "cf0a9eb5e2ebc3239579dbb7f505e211054b22baf089361a7bf25a92aaa5b28c",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/YuzuhaToolkit.Mcp.Core/YuzuhaRpcBridge.cs"
+    },
+    {
+      "file": "src/YuzuhaToolkit.PmlHost.Net48/PmlCommandRpcService.cs",
+      "sha256": "355103b3d8352475124b913a1103a929d495b7525cf5db66a312e48dc1b76194",
+      "workingTreeSha256": "355103b3d8352475124b913a1103a929d495b7525cf5db66a312e48dc1b76194",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/YuzuhaToolkit.PmlHost.Net48/PmlCommandRpcService.cs"
+    },
+    {
+      "file": "src/YuzuhaToolkit.Workspace/ConfigurationContracts.cs",
+      "sha256": "1512043fbeb0ba6a3007cce379e893fa6bc1fede6ad444cfff922c9fe583c247",
+      "workingTreeSha256": "1512043fbeb0ba6a3007cce379e893fa6bc1fede6ad444cfff922c9fe583c247",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/YuzuhaToolkit.Workspace/ConfigurationContracts.cs"
+    },
+    {
+      "file": "src/YuzuhaToolkit.Workspace/DirectoryInspector.cs",
+      "sha256": "d68dabce21b714940fe18cf4f2f7f78de71191631cda954ee89b0c5f349a8842",
+      "workingTreeSha256": "d68dabce21b714940fe18cf4f2f7f78de71191631cda954ee89b0c5f349a8842",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/YuzuhaToolkit.Workspace/DirectoryInspector.cs"
+    },
+    {
+      "file": "src/YuzuhaToolkit.Workspace/LaunchProfileService.cs",
+      "sha256": "72b1d2f7600e24595c0deba40bdb1f8efd9120213209b091f12471b29b614815",
+      "workingTreeSha256": "72b1d2f7600e24595c0deba40bdb1f8efd9120213209b091f12471b29b614815",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/YuzuhaToolkit.Workspace/LaunchProfileService.cs"
+    },
+    {
+      "file": "src/YuzuhaToolkit.Workspace/LaunchService.cs",
+      "sha256": "4fa1b41be26408bc74d6153227136bf127fcad9740d607b43b2ad7dfc67b4598",
+      "workingTreeSha256": "4fa1b41be26408bc74d6153227136bf127fcad9740d607b43b2ad7dfc67b4598",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/YuzuhaToolkit.Workspace/LaunchService.cs"
+    },
+    {
+      "file": "src/YuzuhaToolkit.Workspace/PmlDevelopmentWorkflow.cs",
+      "sha256": "bf1564359e25c325858117b0492163264511254c3b6e58985a55104a7fb46567",
+      "workingTreeSha256": "bf1564359e25c325858117b0492163264511254c3b6e58985a55104a7fb46567",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/YuzuhaToolkit.Workspace/PmlDevelopmentWorkflow.cs"
+    },
+    {
+      "file": "src/YuzuhaToolkit.Workspace/ProductModuleCatalog.cs",
+      "sha256": "7279662315c7bd35c66e96ea7806cd9d0feef7382b922232325790eba9acea7a",
+      "workingTreeSha256": "7279662315c7bd35c66e96ea7806cd9d0feef7382b922232325790eba9acea7a",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/YuzuhaToolkit.Workspace/ProductModuleCatalog.cs"
+    },
+    {
+      "file": "src/YuzuhaToolkit.Workspace/RuntimeJournal.cs",
+      "sha256": "88627b8a69e047fd9d8108294a61e3e1274896402f58316175efebf4df7469fe",
+      "workingTreeSha256": "88627b8a69e047fd9d8108294a61e3e1274896402f58316175efebf4df7469fe",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/YuzuhaToolkit.Workspace/RuntimeJournal.cs"
+    },
+    {
+      "file": "src/YuzuhaToolkit.Workspace/StartupPolicy.cs",
+      "sha256": "0a5a8a41689df8389c49738fef52ea35941f1238f752350a786039e7f08a3c9e",
+      "workingTreeSha256": "0a5a8a41689df8389c49738fef52ea35941f1238f752350a786039e7f08a3c9e",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/YuzuhaToolkit.Workspace/StartupPolicy.cs"
+    },
+    {
+      "file": "src/YuzuhaToolkit.Workspace/WorkspaceConfigurationStore.cs",
+      "sha256": "9c501172a60f8788da642f029dc5d455a5a7e7c8cb3a47265d6d1a3aae65574c",
+      "workingTreeSha256": "9c501172a60f8788da642f029dc5d455a5a7e7c8cb3a47265d6d1a3aae65574c",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/src/YuzuhaToolkit.Workspace/WorkspaceConfigurationStore.cs"
+    },
+    {
+      "file": "tests/YuzuhaToolkit.Architecture.Tests/ArchitectureBoundaryTests.cs",
+      "sha256": "7bb8886f85c9ac13a62f88f136ea1712ae0ffbf512010ae182a65a0d5e737d46",
+      "workingTreeSha256": "7bb8886f85c9ac13a62f88f136ea1712ae0ffbf512010ae182a65a0d5e737d46",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/tests/YuzuhaToolkit.Architecture.Tests/ArchitectureBoundaryTests.cs"
+    },
+    {
+      "file": "tests/YuzuhaToolkit.Tests/DesktopSessionWorkflowTests.cs",
+      "sha256": "386fc0089378c4dbb8a30c52f15fffdcf8a8ec40433c97be1d0c8a83e59acd74",
+      "workingTreeSha256": "386fc0089378c4dbb8a30c52f15fffdcf8a8ec40433c97be1d0c8a83e59acd74",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/tests/YuzuhaToolkit.Tests/DesktopSessionWorkflowTests.cs"
+    },
+    {
+      "file": "tests/YuzuhaToolkit.Tests/FunctionRegistryTests.cs",
+      "sha256": "9dddbb80bdb31e609b1c43a985c29d62a893d791a6faccbec6a0d999b3866dbb",
+      "workingTreeSha256": "9dddbb80bdb31e609b1c43a985c29d62a893d791a6faccbec6a0d999b3866dbb",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/tests/YuzuhaToolkit.Tests/FunctionRegistryTests.cs"
+    },
+    {
+      "file": "tests/YuzuhaToolkit.Tests/LaunchLifecycleTests.cs",
+      "sha256": "0c01f26f73a0509e3090524b59a8b801715a6073f13f422fbb59e139eb8bbdf0",
+      "workingTreeSha256": "0c01f26f73a0509e3090524b59a8b801715a6073f13f422fbb59e139eb8bbdf0",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/tests/YuzuhaToolkit.Tests/LaunchLifecycleTests.cs"
+    },
+    {
+      "file": "tests/YuzuhaToolkit.Tests/NativeCliCapabilityTests.cs",
+      "sha256": "60ad502ad7928da88f2d58cb9fbc55afb8e38e8c652b8c8529ef63b705f65cb7",
+      "workingTreeSha256": "60ad502ad7928da88f2d58cb9fbc55afb8e38e8c652b8c8529ef63b705f65cb7",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/tests/YuzuhaToolkit.Tests/NativeCliCapabilityTests.cs"
+    },
+    {
+      "file": "tests/YuzuhaToolkit.Tests/PmlArrayWindowTests.cs",
+      "sha256": "64aba69856eb2f968d2cfc8b7ae8dd815c8a7d436ca280d77f2d4ac6922f9bff",
+      "workingTreeSha256": "64aba69856eb2f968d2cfc8b7ae8dd815c8a7d436ca280d77f2d4ac6922f9bff",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/tests/YuzuhaToolkit.Tests/PmlArrayWindowTests.cs"
+    },
+    {
+      "file": "tests/YuzuhaToolkit.Tests/PmlDevelopmentWorkflowTests.cs",
+      "sha256": "a9168baaf8b7a4ce8d03e92d5403c6ff64df9110d0e7c194ffa4e6b6d477fe3e",
+      "workingTreeSha256": "a9168baaf8b7a4ce8d03e92d5403c6ff64df9110d0e7c194ffa4e6b6d477fe3e",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/tests/YuzuhaToolkit.Tests/PmlDevelopmentWorkflowTests.cs"
+    },
+    {
+      "file": "tests/YuzuhaToolkit.Tests/PmlFormQueryTests.cs",
+      "sha256": "fc9ab9475b2e52cdc3c447758363541e96d8c23a0b4c99daf79a4cb2862d286d",
+      "workingTreeSha256": "fc9ab9475b2e52cdc3c447758363541e96d8c23a0b4c99daf79a4cb2862d286d",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/tests/YuzuhaToolkit.Tests/PmlFormQueryTests.cs"
+    },
+    {
+      "file": "tests/YuzuhaToolkit.Tests/WorkspaceBehaviorTests.cs",
+      "sha256": "280485e184067cd43c0b65ee1e0dd767546640d4b5de0d731217ee7fb058c539",
+      "workingTreeSha256": "280485e184067cd43c0b65ee1e0dd767546640d4b5de0d731217ee7fb058c539",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/tests/YuzuhaToolkit.Tests/WorkspaceBehaviorTests.cs"
+    },
+    {
+      "file": "tests/handoff-specifications.test.mjs",
+      "sha256": "6d35d89397ad3afc1c52d78c631a4228a2e815cc3aeee3bfc22c2537c1cd0238",
+      "workingTreeSha256": "6d35d89397ad3afc1c52d78c631a4228a2e815cc3aeee3bfc22c2537c1cd0238",
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/abd89defa6d2f6e4d36ef5ca6bfdcb1dd173a143/tests/handoff-specifications.test.mjs"
+    }
+  ]
+}

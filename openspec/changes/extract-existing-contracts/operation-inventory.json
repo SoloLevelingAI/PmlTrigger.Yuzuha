@@ -1,0 +1,1783 @@
+{
+  "operationId": "op.list",
+  "success": true,
+  "exitCode": 0,
+  "data": [
+    {
+      "id": "aveva.session.select",
+      "contractVersion": 1,
+      "description": "Verify an explicit PID for this invocation only. Every subsequent CLI call must supply --pid again.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {},
+        "required": []
+      },
+      "requiresPid": true,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": [
+        "select_aveva_session"
+      ]
+    },
+    {
+      "id": "aveva.session.status",
+      "contractVersion": 1,
+      "description": "Verify an explicit PID for this invocation only. Every subsequent CLI call must supply --pid again.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {},
+        "required": []
+      },
+      "requiresPid": true,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": [
+        "get_connection_status"
+      ]
+    },
+    {
+      "id": "aveva.sessions.list",
+      "contractVersion": 1,
+      "description": "Discover visible AVEVA sessions without connecting or running PML.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {},
+        "required": []
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": [
+        "list_aveva_sessions"
+      ]
+    },
+    {
+      "id": "builtin.usage",
+      "contractVersion": 1,
+      "description": "Read complete embedded usage guides without SQLite or AVEVA.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "query": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": []
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": [
+        "get_builtin_usage"
+      ]
+    },
+    {
+      "id": "knowledge.chunk.read",
+      "contractVersion": 1,
+      "description": "Read complete chunk text and local source provenance from its database.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "chunkId": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "dbName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "dbPath": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "chunkId"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": [
+        "get_knowledge_chunk"
+      ]
+    },
+    {
+      "id": "knowledge.database.build",
+      "contractVersion": 1,
+      "description": "Build a user-selected local index; overwrite additionally requires rebuild=true.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "pmlLibRoot": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "pmlUiRoot": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "webHelpRoot": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "dbName": {
+            "type": "string",
+            "minLength": 1
+          },
+          "dbDir": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "rebuild": {
+            "type": "boolean"
+          },
+          "maxFilesPerRoot": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "required": []
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": true,
+      "requiresLaunch": false,
+      "legacyTools": [
+        "build_knowledge_database"
+      ]
+    },
+    {
+      "id": "knowledge.database.check",
+      "contractVersion": 1,
+      "description": "Validate SQLite integrity, schema and recorded roots.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "dbPath": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "dbPath"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": [
+        "check_knowledge_database"
+      ]
+    },
+    {
+      "id": "knowledge.databases.list",
+      "contractVersion": 1,
+      "description": "List existing local indices and optional source freshness without creating indices.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "checkFreshness": {
+            "type": "boolean"
+          }
+        },
+        "required": []
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": [
+        "list_knowledge_databases"
+      ]
+    },
+    {
+      "id": "knowledge.experience.record",
+      "contractVersion": 1,
+      "description": "Append a local lesson with verification context; identical retries may use the same ID.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "content": {
+            "type": "string",
+            "minLength": 1
+          },
+          "context": {
+            "type": "string",
+            "minLength": 1
+          },
+          "id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "title",
+          "content",
+          "context"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": true,
+      "requiresLaunch": false,
+      "legacyTools": [
+        "record_local_experience"
+      ]
+    },
+    {
+      "id": "knowledge.layers.search",
+      "contractVersion": 1,
+      "description": "Search embedded guides and optional local source layers using the existing retrieval policy.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 1
+          },
+          "topK": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 50
+          },
+          "includeSupplemental": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": [
+        "search_knowledge_layers"
+      ]
+    },
+    {
+      "id": "knowledge.search",
+      "contractVersion": 1,
+      "description": "Search a selected local index with source/module/chunk filters.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 1
+          },
+          "dbName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "dbPath": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "topK": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 50
+          },
+          "sourceType": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "module": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "chunkType": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "query"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": [
+        "search_knowledge"
+      ]
+    },
+    {
+      "id": "knowledge.source.register",
+      "contractVersion": 1,
+      "description": "Index an explicitly selected official/custom source; no automatic indexing during update.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "role": {
+            "type": "string",
+            "minLength": 1
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "pmlLibRoot": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "pmlUiRoot": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "webHelpRoot": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "rebuild": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "role",
+          "name"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": true,
+      "requiresLaunch": false,
+      "legacyTools": [
+        "register_knowledge_source"
+      ]
+    },
+    {
+      "id": "launch.modules.list",
+      "contractVersion": 1,
+      "description": "Get product/version-specific module options with source and verification state.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "product": {
+            "type": "string",
+            "minLength": 1
+          },
+          "executable": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "product"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "launch.profile.default",
+      "contractVersion": 1,
+      "description": "Set the sole default profile without starting it.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "profileId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "expectedRevision": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "profileId",
+          "expectedRevision"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": true,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "launch.profile.delete",
+      "contractVersion": 1,
+      "description": "Delete only the saved profile; preserve independent credentials and running processes.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "profileId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "expectedRevision": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "profileId",
+          "expectedRevision"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": true,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "launch.profile.duplicate",
+      "contractVersion": 1,
+      "description": "Save a distinct copy without copying credentials, default state or launch time.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "profileId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "expectedRevision": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "profileId",
+          "expectedRevision"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": true,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "launch.profile.favorite",
+      "contractVersion": 1,
+      "description": "Change favorite state with the same versioned configuration service.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "profileId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "expectedRevision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "favorite": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "profileId",
+          "expectedRevision",
+          "favorite"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": true,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "launch.profile.history",
+      "contractVersion": 1,
+      "description": "Read bounded configuration history, optionally for one profile.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "profileId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 500
+          }
+        },
+        "required": []
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "launch.profile.list",
+      "contractVersion": 1,
+      "description": "Search saved profiles with product and favorite/recent filters.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "query": {
+            "type": "string"
+          },
+          "product": {
+            "type": "string"
+          },
+          "scope": {
+            "type": "string",
+            "enum": [
+              "all",
+              "favorites",
+              "recent"
+            ]
+          }
+        },
+        "required": []
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "launch.profile.preview",
+      "contractVersion": 1,
+      "description": "Preview field changes and validation against an expected document revision.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "profile": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "kind": {
+                "type": "string"
+              },
+              "executable": {
+                "type": "string"
+              },
+              "initialization": {
+                "type": "string"
+              },
+              "product": {
+                "type": "string"
+              },
+              "version": {
+                "type": "string"
+              },
+              "workingDirectory": {
+                "type": "string"
+              },
+              "project": {
+                "type": "string"
+              },
+              "user": {
+                "type": "string"
+              },
+              "mdb": {
+                "type": "string"
+              },
+              "module": {
+                "type": "string"
+              },
+              "license": {
+                "type": "string"
+              },
+              "credentialKey": {
+                "type": "string"
+              },
+              "rememberPassword": {
+                "type": "boolean"
+              },
+              "isFavorite": {
+                "type": "boolean"
+              },
+              "isDefault": {
+                "type": "boolean"
+              },
+              "environment": {
+                "type": "object",
+                "properties": {},
+                "additionalProperties": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "expectedRevision": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "profile",
+          "expectedRevision"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "launch.profile.read",
+      "contractVersion": 1,
+      "description": "Read one saved profile with revision and effect information.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "profileId": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "profileId"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "launch.profile.restore",
+      "contractVersion": 1,
+      "description": "Restore one historical profile as a new revision without launching or restoring passwords.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "profileId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "expectedRevision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "revision": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "profileId",
+          "expectedRevision",
+          "revision"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": true,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "launch.profile.restore.preview",
+      "contractVersion": 1,
+      "description": "Preview restoring one historical profile under current validation rules.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "profileId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "expectedRevision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "revision": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "profileId",
+          "expectedRevision",
+          "revision"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "launch.profile.save",
+      "contractVersion": 1,
+      "description": "Create or update one complete profile and persist a recoverable revision.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "profile": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "kind": {
+                "type": "string"
+              },
+              "executable": {
+                "type": "string"
+              },
+              "initialization": {
+                "type": "string"
+              },
+              "product": {
+                "type": "string"
+              },
+              "version": {
+                "type": "string"
+              },
+              "workingDirectory": {
+                "type": "string"
+              },
+              "project": {
+                "type": "string"
+              },
+              "user": {
+                "type": "string"
+              },
+              "mdb": {
+                "type": "string"
+              },
+              "module": {
+                "type": "string"
+              },
+              "license": {
+                "type": "string"
+              },
+              "credentialKey": {
+                "type": "string"
+              },
+              "rememberPassword": {
+                "type": "boolean"
+              },
+              "isFavorite": {
+                "type": "boolean"
+              },
+              "isDefault": {
+                "type": "boolean"
+              },
+              "environment": {
+                "type": "object",
+                "properties": {},
+                "additionalProperties": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "expectedRevision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "profile",
+          "expectedRevision"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": true,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "launch.profile.start",
+      "contractVersion": 1,
+      "description": "Validate the saved revision and create its entry process; does not claim login or Host verification.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "profileId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "expectedRevision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "profileId",
+          "expectedRevision",
+          "password"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": true,
+      "legacyTools": null
+    },
+    {
+      "id": "launch.profile.update",
+      "contractVersion": 1,
+      "description": "Apply known-field changes to one profile with optimistic revision checking.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "profileId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "expectedRevision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "changes": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "kind": {
+                "type": "string"
+              },
+              "executable": {
+                "type": "string"
+              },
+              "initialization": {
+                "type": "string"
+              },
+              "product": {
+                "type": "string"
+              },
+              "version": {
+                "type": "string"
+              },
+              "workingDirectory": {
+                "type": "string"
+              },
+              "project": {
+                "type": "string"
+              },
+              "user": {
+                "type": "string"
+              },
+              "mdb": {
+                "type": "string"
+              },
+              "module": {
+                "type": "string"
+              },
+              "license": {
+                "type": "string"
+              },
+              "credentialKey": {
+                "type": "string"
+              },
+              "rememberPassword": {
+                "type": "boolean"
+              },
+              "isFavorite": {
+                "type": "boolean"
+              },
+              "isDefault": {
+                "type": "boolean"
+              },
+              "environment": {
+                "type": "object",
+                "properties": {},
+                "additionalProperties": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "profileId",
+          "expectedRevision",
+          "changes"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": true,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "launch.profile.validate",
+      "contractVersion": 1,
+      "description": "Validate the same profile rules used by the desktop without writing or launching.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "profile": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "kind": {
+                "type": "string"
+              },
+              "executable": {
+                "type": "string"
+              },
+              "initialization": {
+                "type": "string"
+              },
+              "product": {
+                "type": "string"
+              },
+              "version": {
+                "type": "string"
+              },
+              "workingDirectory": {
+                "type": "string"
+              },
+              "project": {
+                "type": "string"
+              },
+              "user": {
+                "type": "string"
+              },
+              "mdb": {
+                "type": "string"
+              },
+              "module": {
+                "type": "string"
+              },
+              "license": {
+                "type": "string"
+              },
+              "credentialKey": {
+                "type": "string"
+              },
+              "rememberPassword": {
+                "type": "boolean"
+              },
+              "isFavorite": {
+                "type": "boolean"
+              },
+              "isDefault": {
+                "type": "boolean"
+              },
+              "environment": {
+                "type": "object",
+                "properties": {},
+                "additionalProperties": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "profile"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "launch.workspace.read",
+      "contractVersion": 1,
+      "description": "Read an independent workspace snapshot and current revision.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {},
+        "required": []
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "pml.array.read",
+      "contractVersion": 1,
+      "description": "Execute an expression and read its global result array through the Host; may mutate state, including optional cleanup. Returns structured items and summary, without claiming walker completeness.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "pmlCommand": {
+            "type": "string",
+            "minLength": 1
+          },
+          "globalVar": {
+            "type": "string",
+            "pattern": "^[A-Za-z_][A-Za-z0-9_]*$"
+          },
+          "deleteGlobalVar": {
+            "type": "boolean"
+          },
+          "includeEmpty": {
+            "type": "boolean",
+            "default": true
+          }
+        },
+        "required": [
+          "pmlCommand",
+          "globalVar",
+          "deleteGlobalVar"
+        ]
+      },
+      "requiresPid": true,
+      "requiresExecution": true,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": [
+        "run_pml_command_list"
+      ]
+    },
+    {
+      "id": "pml.array.window",
+      "contractVersion": 1,
+      "description": "Read a bounded existing array through verified Host v1; no producer evaluation or deletion.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "globalVar": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_]{0,127}$"
+          },
+          "startIndex": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2147483647
+          },
+          "maxItems": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000
+          },
+          "maxCharacters": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 262144
+          }
+        },
+        "required": [
+          "globalVar"
+        ]
+      },
+      "requiresPid": true,
+      "requiresExecution": true,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": [
+        "read_pml_array"
+      ]
+    },
+    {
+      "id": "pml.call.generate",
+      "contractVersion": 1,
+      "description": "Generate PML call text only; never executes it.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "methodName": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[A-Za-z_][A-Za-z0-9_]*(\\.[A-Za-z_][A-Za-z0-9_]*)*$"
+          },
+          "parameters": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "string",
+                    "str",
+                    "bool",
+                    "boolean",
+                    "double",
+                    "real",
+                    "number"
+                  ]
+                },
+                "value": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "boolean"
+                    },
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "type",
+                "value"
+              ]
+            }
+          }
+        },
+        "required": [
+          "methodName"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": [
+        "generate_pml_call"
+      ]
+    },
+    {
+      "id": "pml.command.execute",
+      "contractVersion": 1,
+      "description": "Execute PML exactly once through the existing verified RPC/Host path. No automatic retry.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "pmlCommand": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "pmlCommand"
+        ]
+      },
+      "requiresPid": true,
+      "requiresExecution": true,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": [
+        "run_pml_command"
+      ]
+    },
+    {
+      "id": "pml.forms.list",
+      "contractVersion": 1,
+      "description": "List native shown or loaded forms through verified Host v1 without changing forms.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "shownOnly": {
+            "type": "boolean"
+          },
+          "startIndex": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2147483647
+          },
+          "maxItems": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000
+          },
+          "maxCharacters": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 262144
+          }
+        },
+        "required": []
+      },
+      "requiresPid": true,
+      "requiresExecution": true,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": [
+        "list_pml_forms"
+      ]
+    },
+    {
+      "id": "pml.function.invoke",
+      "contractVersion": 1,
+      "description": "Verify source, permission and ordered typed parameters, then dispatch once to the explicit Host.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "functionName": {
+            "type": "string",
+            "minLength": 1
+          },
+          "parameters": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "string",
+                    "str",
+                    "bool",
+                    "boolean",
+                    "double",
+                    "real",
+                    "number"
+                  ]
+                },
+                "value": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "boolean"
+                    },
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "type",
+                "value"
+              ]
+            }
+          }
+        },
+        "required": [
+          "functionName",
+          "parameters"
+        ]
+      },
+      "requiresPid": true,
+      "requiresExecution": true,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": [
+        "invoke_pml_function"
+      ]
+    },
+    {
+      "id": "pml.function.permission",
+      "contractVersion": 1,
+      "description": "Grant or revoke invocation permission for an unchanged source revision.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "functionName": {
+            "type": "string",
+            "minLength": 1
+          },
+          "allowInvoke": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "functionName",
+          "allowInvoke"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": true,
+      "requiresLaunch": false,
+      "legacyTools": [
+        "set_pml_function_permission"
+      ]
+    },
+    {
+      "id": "pml.function.register",
+      "contractVersion": 1,
+      "description": "Register a local source identity and scalar signature; defaults denied and does not load PML.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "sourceFile": {
+            "type": "string",
+            "minLength": 1
+          },
+          "functionName": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "sourceFile",
+          "functionName"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": true,
+      "requiresLaunch": false,
+      "legacyTools": [
+        "register_pml_function"
+      ]
+    },
+    {
+      "id": "pml.functions.list",
+      "contractVersion": 1,
+      "description": "List persisted source identities and invocation permission.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {},
+        "required": []
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": [
+        "list_registered_pml_functions"
+      ]
+    },
+    {
+      "id": "pml.gadget.read",
+      "contractVersion": 1,
+      "description": "Read fixed metadata of one native gadget; unavailable properties retain status and errors.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "formName": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_]{0,63}$"
+          },
+          "gadgetName": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_]{0,63}$"
+          },
+          "maxCharacters": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 262144
+          }
+        },
+        "required": [
+          "formName",
+          "gadgetName"
+        ]
+      },
+      "requiresPid": true,
+      "requiresExecution": true,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": [
+        "get_pml_gadget"
+      ]
+    },
+    {
+      "id": "pml.gadgets.list",
+      "contractVersion": 1,
+      "description": "Read bounded native gadget metadata for a loaded form.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "formName": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_]{0,63}$"
+          },
+          "startIndex": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2147483647
+          },
+          "maxItems": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000
+          },
+          "maxCharacters": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 262144
+          }
+        },
+        "required": [
+          "formName"
+        ]
+      },
+      "requiresPid": true,
+      "requiresExecution": true,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": [
+        "list_pml_gadgets"
+      ]
+    },
+    {
+      "id": "pml.trust.list",
+      "contractVersion": 1,
+      "description": "Read user-maintained advisory trust records.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {},
+        "required": []
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": [
+        "list_pml_function_trust"
+      ]
+    },
+    {
+      "id": "pml.trust.set",
+      "contractVersion": 1,
+      "description": "Persist explicitly requested advisory trust changes; transport errors are not evidence of untrustworthiness.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "functionName": {
+            "type": "string",
+            "minLength": 1
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "untrusted",
+              "trusted",
+              "remove"
+            ]
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "failingCommand": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "functionName",
+          "state"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": true,
+      "requiresLaunch": false,
+      "legacyTools": [
+        "set_pml_function_trust"
+      ]
+    },
+    {
+      "id": "pml.undo.begin",
+      "contractVersion": 1,
+      "description": "Start an AVEVA undo group; does not implement a transactional rollback.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "description": {
+            "type": "string",
+            "maxLength": 256
+          }
+        },
+        "required": []
+      },
+      "requiresPid": true,
+      "requiresExecution": true,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": [
+        "markdb"
+      ]
+    },
+    {
+      "id": "pml.undo.end",
+      "contractVersion": 1,
+      "description": "Finish the AVEVA undo group without saving or undoing edits.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {},
+        "required": []
+      },
+      "requiresPid": true,
+      "requiresExecution": true,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": [
+        "endmarkdb"
+      ]
+    },
+    {
+      "id": "runtime.calls",
+      "contractVersion": 1,
+      "description": "Read bounded, correlated, redacted operation log events.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 200
+          }
+        },
+        "required": []
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": [
+        "get_recent_tool_calls"
+      ]
+    },
+    {
+      "id": "runtime.status",
+      "contractVersion": 1,
+      "description": "Read CLI/desktop process heartbeats and active operations.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {},
+        "required": []
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": [
+        "get_ai_runtime_status"
+      ]
+    },
+    {
+      "id": "workspace.pmllib.inspect",
+      "contractVersion": 1,
+      "description": "Bounded read-only directory inspection; duplicates are candidates, not proven load conflicts.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "directory": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": []
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": [
+        "inspect_registered_pmllib"
+      ]
+    }
+  ],
+  "error": null,
+  "schemaVersion": 1
+}

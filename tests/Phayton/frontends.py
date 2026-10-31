@@ -67,7 +67,10 @@ def check(executable, report=None, legacy=None):
                 {"operationId": "does.not.exist", "input": {}},
                 {"operationId": "pml.trust.set", "input": {"functionName": "Example", "state": "untrusted"}}
             ]
-            outcome = invoke(["op", "batch", "--input", json.dumps(batch), "--allow-write"], 3)
+            denied = invoke(["op", "batch", "--input", json.dumps(batch), "--allow-write"], 2)
+            assert denied["error"]["code"] == "SECRET_INPUT_SOURCE_REQUIRED"
+            assert not (root / "trust.json").exists()
+            outcome = invoke(["op", "batch", "--input-stdin", "--allow-write"], 3, stdin=json.dumps(batch))
             assert outcome["data"]["completed"] == 2 and outcome["data"]["stoppedOnError"]
             assert outcome["data"]["results"][0]["data"] == "!!Example()"
             assert not (root / "trust.json").exists()

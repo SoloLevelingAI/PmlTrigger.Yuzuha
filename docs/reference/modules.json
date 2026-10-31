@@ -3,7 +3,7 @@
     "PmlTwin.Database.Contracts": {
       "name": "应用数据库契约",
       "description": "产品与版本隔离、预期修订和原子提交；不公开供应商连接。",
-      "alias": "database",
+      "alias": "database-contracts",
       "role": "production"
     },
     "PmlTwin.Database": {
@@ -108,7 +108,7 @@
     "YuzuhaToolkit.Manager.Core": {
       "name": "管理内核",
       "description": "部署、EVARS、启动、复制、数据与知识管理、可选插件，以及独立通信 CLI 适配。",
-      "sourceOnly": true,
+      "alias": "manager",
       "role": "production"
     },
     "YuzuhaToolkit.Manager.Cli": {

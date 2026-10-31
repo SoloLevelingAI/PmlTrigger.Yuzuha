@@ -1,4 +1,5 @@
 import test from 'node:test';
+import {readFileSync} from 'node:fs';
 import assert from 'node:assert/strict';
 import {buildUiTraceCatalog} from '../scripts/documentation-ui-trace.mjs';
 import {describeDiagram, createCallHierarchy} from '../docs/reference/template/public/ui-trace.js';
@@ -78,4 +79,20 @@ test('a shared downstream node in a diamond is not mislabeled as a recursive cyc
   g.edges.push({from:'P::M:App.View.Launch',to:'P::M:App.Service.Other',kind:'call',file:'View.cs',line:5});
   const d=describeDiagram(buildUiTraceCatalog(g,types,tests),{entryId:'click',depth:8});
   assert.ok(d.edges.every(e=>!e.cycle));
+});
+
+// abd89de removed the unimplemented review/test center pages. Keep the smoke
+// producer, receipt count, and both screenshot loops aligned as pages evolve.
+test('desktop smoke receipt and screenshot contracts cover every current screen', () => {
+  const source=readFileSync('src/YuzuhaToolkit.Desktop/MainWindow.xaml.cs','utf8');
+  const runner=readFileSync('scripts/Test-Desktop.ps1','utf8');
+  const declaration=source.match(/\[\] screens = \{([\s\S]*?)\};/);
+  assert.ok(declaration, 'Desktop smoke screen declaration is missing');
+  const screens=[...declaration[1].matchAll(/"([a-z]+)"/g)].map(match=>match[1]);
+  assert.equal(new Set(screens).size,screens.length, 'Screen names must be unique');
+  assert.equal(Number(runner.match(/\$receipt.pages -ne (\d+)/)?.[1]),screens.length);
+  const loops=[...runner.matchAll(/foreach \(\$screen in ([^)]+)\)/g)];
+  assert.equal(loops.length,2, 'Verify viewport and design screenshot loops');
+  for(const loop of loops)
+    assert.deepEqual([...loop[1].matchAll(/'([^']+)'/g)].map(match=>match[1]),screens);
 });

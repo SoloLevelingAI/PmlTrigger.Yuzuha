@@ -1,0 +1,1590 @@
+{
+  "operationId": "op.batch",
+  "success": true,
+  "exitCode": 0,
+  "data": {
+    "success": true,
+    "stoppedOnError": false,
+    "completed": 10,
+    "results": [
+      {
+        "operationId": "aveva.session.select",
+        "success": true,
+        "exitCode": 0,
+        "data": {
+          "SessionSelected": true,
+          "Connected": true,
+          "TargetVerified": true,
+          "SelectedSession": {
+            "ProcessId": 25624,
+            "ProcessStartTimeUtcTicks": 639290226957908482,
+            "ProcessName": "des",
+            "ExecutablePath": "C:\\Program Files (x86)\\AVEVA\\Everything3D2.10\\des.exe",
+            "WindowTitle": "ProjAPS | ALL | Model - AVEVA Everything3D",
+            "Product": "E3D",
+            "Project": "ProjAPS",
+            "PipeName": "yuzuha.pml.command.v1.pid-25624",
+            "PipeDetected": true
+          },
+          "PipeName": "yuzuha.pml.command.v1.pid-25624",
+          "ExpectedProcessId": 25624,
+          "ExpectedProcessStartTimeUtcTicks": 639290226957908482,
+          "ExpectedModel": "DESIGN",
+          "Host": {
+            "FormQueryVersion": 1,
+            "BoundedArrayReadVersion": 1,
+            "ProcessId": 25624,
+            "ProcessStartTimeUtcTicks": 639290226957908482,
+            "Model": "DESIGN",
+            "PipeName": "yuzuha.pml.command.v1.pid-25624",
+            "HostFramework": "net48",
+            "HostVersion": "0.3.4.2",
+            "ServerTimeUtc": "2026-10-31T05:52:09.4065787Z"
+          },
+          "Error": null
+        },
+        "error": null,
+        "schemaVersion": 1
+      },
+      {
+        "operationId": "pml.forms.list",
+        "success": true,
+        "exitCode": 0,
+        "data": {
+          "FormQueryResult": {
+            "Kind": "forms",
+            "IndexUpperBound": 150,
+            "StartIndex": 1,
+            "Scanned": 150,
+            "NextIndex": 0,
+            "Truncated": false,
+            "Characters": 3484,
+            "Items": [
+              {
+                "Index": 1,
+                "Name": "YUZUHAV04LOCALPROBE",
+                "Reference": "!!YUZUHAV04LOCALPROBE",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 2,
+                "Name": "EDGELEMENTFILTER",
+                "Reference": "!!EDGELEMENTFILTER",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 3,
+                "Name": "ALERTONCEDELSEL",
+                "Reference": "!!ALERTONCEDELSEL",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 4,
+                "Name": "EDGPOINTFILTER",
+                "Reference": "!!EDGPOINTFILTER",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 5,
+                "Name": "EDGPLINEFILTER",
+                "Reference": "!!EDGPLINEFILTER",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 6,
+                "Name": "FMCLFILEMOTIF",
+                "Reference": "!!FMCLFILEMOTIF",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 7,
+                "Name": "GPH3DDESIGN1",
+                "Reference": "!!GPH3DDESIGN1",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 8,
+                "Name": "CDCHSDATACON",
+                "Reference": "!!CDCHSDATACON",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 9,
+                "Name": "CDCADVMEMBER",
+                "Reference": "!!CDCADVMEMBER",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 10,
+                "Name": "FMCLDIRLIST",
+                "Reference": "!!FMCLDIRLIST",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 11,
+                "Name": "CDGEOM3DDIR",
+                "Reference": "!!CDGEOM3DDIR",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 12,
+                "Name": "CDCSPECLIST",
+                "Reference": "!!CDCSPECLIST",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 13,
+                "Name": "CDCRULEDEFD",
+                "Reference": "!!CDCRULEDEFD",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 14,
+                "Name": "CDCLISTSELD",
+                "Reference": "!!CDCLISTSELD",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 15,
+                "Name": "CDCFILTPPNT",
+                "Reference": "!!CDCFILTPPNT",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 16,
+                "Name": "CDCFILTPLIN",
+                "Reference": "!!CDCFILTPLIN",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 17,
+                "Name": "CDCFILTELEM",
+                "Reference": "!!CDCFILTELEM",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 18,
+                "Name": "CDCDSETPURP",
+                "Reference": "!!CDCDSETPURP",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 19,
+                "Name": "CDCDDEFPURP",
+                "Reference": "!!CDCDDEFPURP",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 20,
+                "Name": "CDCCHKDFLTS",
+                "Reference": "!!CDCCHKDFLTS",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 21,
+                "Name": "CDSTPRIMCL",
+                "Reference": "!!CDSTPRIMCL",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 22,
+                "Name": "CDPICKDEFD",
+                "Reference": "!!CDPICKDEFD",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 23,
+                "Name": "CDGEOMPICK",
+                "Reference": "!!CDGEOMPICK",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 24,
+                "Name": "CDGEOMDATA",
+                "Reference": "!!CDGEOMDATA",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 25,
+                "Name": "CDCTMPLIST",
+                "Reference": "!!CDCTMPLIST",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 26,
+                "Name": "CDCSUDPURP",
+                "Reference": "!!CDCSUDPURP",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 27,
+                "Name": "CDCSPECKEY",
+                "Reference": "!!CDCSPECKEY",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 28,
+                "Name": "CDCRULEDEF",
+                "Reference": "!!CDCRULEDEF",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 29,
+                "Name": "CDCRTPURPD",
+                "Reference": "!!CDCRTPURPD",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 30,
+                "Name": "CDCLOADAPP",
+                "Reference": "!!CDCLOADAPP",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 31,
+                "Name": "CDCLISTSEL",
+                "Reference": "!!CDCLISTSEL",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 32,
+                "Name": "CDCLISTNAM",
+                "Reference": "!!CDCLISTNAM",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 33,
+                "Name": "CDCINCLUDE",
+                "Reference": "!!CDCINCLUDE",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 34,
+                "Name": "CDCFACCESS",
+                "Reference": "!!CDCFACCESS",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 35,
+                "Name": "CDCERRMESS",
+                "Reference": "!!CDCERRMESS",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 36,
+                "Name": "CDCDELNAME",
+                "Reference": "!!CDCDELNAME",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 37,
+                "Name": "CD3DPMTDAT",
+                "Reference": "!!CD3DPMTDAT",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 38,
+                "Name": "CD2DPMTDAT",
+                "Reference": "!!CD2DPMTDAT",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 39,
+                "Name": "CDWRTNAME",
+                "Reference": "!!CDWRTNAME",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 40,
+                "Name": "CDUTILDEF",
+                "Reference": "!!CDUTILDEF",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 41,
+                "Name": "CDSTPRIMP",
+                "Reference": "!!CDSTPRIMP",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 42,
+                "Name": "CDSTPRIMC",
+                "Reference": "!!CDSTPRIMC",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 43,
+                "Name": "CDSPECTYP",
+                "Reference": "!!CDSPECTYP",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 44,
+                "Name": "CDSETPDAT",
+                "Reference": "!!CDSETPDAT",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 45,
+                "Name": "CDSETMATR",
+                "Reference": "!!CDSETMATR",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 46,
+                "Name": "CDPICKDEF",
+                "Reference": "!!CDPICKDEF",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 47,
+                "Name": "CDMOVETHR",
+                "Reference": "!!CDMOVETHR",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 48,
+                "Name": "CDMOVEDIS",
+                "Reference": "!!CDMOVEDIS",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 49,
+                "Name": "CDMOVECLE",
+                "Reference": "!!CDMOVECLE",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 50,
+                "Name": "CDMOPLTHR",
+                "Reference": "!!CDMOPLTHR",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 51,
+                "Name": "CDMOPLDIS",
+                "Reference": "!!CDMOPLDIS",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 52,
+                "Name": "CDMOPLCLE",
+                "Reference": "!!CDMOPLCLE",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 53,
+                "Name": "CDMEASURE",
+                "Reference": "!!CDMEASURE",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 54,
+                "Name": "CDGROUMOD",
+                "Reference": "!!CDGROUMOD",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 55,
+                "Name": "CDELIMITS",
+                "Reference": "!!CDELIMITS",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 56,
+                "Name": "CDDRAGTHR",
+                "Reference": "!!CDDRAGTHR",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 57,
+                "Name": "CDDRAGDIS",
+                "Reference": "!!CDDRAGDIS",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 58,
+                "Name": "CDDRAGCLE",
+                "Reference": "!!CDDRAGCLE",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 59,
+                "Name": "CDDATUOPT",
+                "Reference": "!!CDDATUOPT",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 60,
+                "Name": "CDDATSOPT",
+                "Reference": "!!CDDATSOPT",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 61,
+                "Name": "CDDATPOPT",
+                "Reference": "!!CDDATPOPT",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 62,
+                "Name": "CDDATNAME",
+                "Reference": "!!CDDATNAME",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 63,
+                "Name": "CDCSYSDEF",
+                "Reference": "!!CDCSYSDEF",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 64,
+                "Name": "CDCSUPURP",
+                "Reference": "!!CDCSUPURP",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 65,
+                "Name": "CDCRTPURP",
+                "Reference": "!!CDCRTPURP",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 66,
+                "Name": "CDCREOAFT",
+                "Reference": "!!CDCREOAFT",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 67,
+                "Name": "CDCREATED",
+                "Reference": "!!CDCREATED",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 68,
+                "Name": "CDCPLINES",
+                "Reference": "!!CDCPLINES",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 69,
+                "Name": "CDCOPYXYZ",
+                "Reference": "!!CDCOPYXYZ",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 70,
+                "Name": "CDCOPYROT",
+                "Reference": "!!CDCOPYROT",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 71,
+                "Name": "CDCMEMRES",
+                "Reference": "!!CDCMEMRES",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 72,
+                "Name": "CDCMEMBER",
+                "Reference": "!!CDCMEMBER",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 73,
+                "Name": "CDCDELSEL",
+                "Reference": "!!CDCDELSEL",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 74,
+                "Name": "CDCDDESAN",
+                "Reference": "!!CDCDDESAN",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 75,
+                "Name": "CD3DFORMS",
+                "Reference": "!!CD3DFORMS",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 76,
+                "Name": "PDMSMAIN",
+                "Reference": "!!PDMSMAIN",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 77,
+                "Name": "CDVOLDAT",
+                "Reference": "!!CDVOLDAT",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 78,
+                "Name": "CDUPLANE",
+                "Reference": "!!CDUPLANE",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 79,
+                "Name": "CDUARRAY",
+                "Reference": "!!CDUARRAY",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 80,
+                "Name": "CDSYSNAM",
+                "Reference": "!!CDSYSNAM",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 81,
+                "Name": "CDSYSDEF",
+                "Reference": "!!CDSYSDEF",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 82,
+                "Name": "CDSTPRIM",
+                "Reference": "!!CDSTPRIM",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 83,
+                "Name": "CDREPSET",
+                "Reference": "!!CDREPSET",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 84,
+                "Name": "CDRELPOS",
+                "Reference": "!!CDRELPOS",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 85,
+                "Name": "CDMOVETO",
+                "Reference": "!!CDMOVETO",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 86,
+                "Name": "CDMIRROR",
+                "Reference": "!!CDMIRROR",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 87,
+                "Name": "CDGEOM3D",
+                "Reference": "!!CDGEOM3D",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 88,
+                "Name": "CDDATCHK",
+                "Reference": "!!CDDATCHK",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 89,
+                "Name": "CDCUSERS",
+                "Reference": "!!CDCUSERS",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 90,
+                "Name": "CDCREATE",
+                "Reference": "!!CDCREATE",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 91,
+                "Name": "CDCLASYS",
+                "Reference": "!!CDCLASYS",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 92,
+                "Name": "CDCLASUM",
+                "Reference": "!!CDCLASUM",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 93,
+                "Name": "CDCLASPC",
+                "Reference": "!!CDCLASPC",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 94,
+                "Name": "CDCLASET",
+                "Reference": "!!CDCLASET",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 95,
+                "Name": "CDCLAOBS",
+                "Reference": "!!CDCLAOBS",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 96,
+                "Name": "CDCLALIM",
+                "Reference": "!!CDCLALIM",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 97,
+                "Name": "CDCLADEF",
+                "Reference": "!!CDCLADEF",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 98,
+                "Name": "CDCLADAT",
+                "Reference": "!!CDCLADAT",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 99,
+                "Name": "CDCGOREF",
+                "Reference": "!!CDCGOREF",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 100,
+                "Name": "CDCFORMS",
+                "Reference": "!!CDCFORMS",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 101,
+                "Name": "CDADDREM",
+                "Reference": "!!CDADDREM",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 102,
+                "Name": "CD3DVDAT",
+                "Reference": "!!CD3DVDAT",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 103,
+                "Name": "CD3DPOSR",
+                "Reference": "!!CD3DPOSR",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 104,
+                "Name": "CD3DPDAT",
+                "Reference": "!!CD3DPDAT",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 105,
+                "Name": "CD3DDIR2",
+                "Reference": "!!CD3DDIR2",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 106,
+                "Name": "CD3DDDAT",
+                "Reference": "!!CD3DDDAT",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 107,
+                "Name": "CD2DPOSR",
+                "Reference": "!!CD2DPOSR",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 108,
+                "Name": "CD1GVSEL",
+                "Reference": "!!CD1GVSEL",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 109,
+                "Name": "CDUNITS",
+                "Reference": "!!CDUNITS",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 110,
+                "Name": "CDUCREF",
+                "Reference": "!!CDUCREF",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 111,
+                "Name": "CDROTAT",
+                "Reference": "!!CDROTAT",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 112,
+                "Name": "CDNNAME",
+                "Reference": "!!CDNNAME",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 113,
+                "Name": "CDCRDAT",
+                "Reference": "!!CDCRDAT",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 114,
+                "Name": "CDCPATH",
+                "Reference": "!!CDCPATH",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 115,
+                "Name": "CDCOORD",
+                "Reference": "!!CDCOORD",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 116,
+                "Name": "CDCNAME",
+                "Reference": "!!CDCNAME",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 117,
+                "Name": "CDCLIST",
+                "Reference": "!!CDCLIST",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 118,
+                "Name": "CDCDREP",
+                "Reference": "!!CDCDREP",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 119,
+                "Name": "CDBOLTQ",
+                "Reference": "!!CDBOLTQ",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 120,
+                "Name": "CD3DVOL",
+                "Reference": "!!CD3DVOL",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 121,
+                "Name": "CD3DPOS",
+                "Reference": "!!CD3DPOS",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 122,
+                "Name": "CD3DPMT",
+                "Reference": "!!CD3DPMT",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 123,
+                "Name": "CD3DDIR",
+                "Reference": "!!CD3DDIR",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 124,
+                "Name": "CD2DPMT",
+                "Reference": "!!CD2DPMT",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 125,
+                "Name": "CDUTIL",
+                "Reference": "!!CDUTIL",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 126,
+                "Name": "CDSPEC",
+                "Reference": "!!CDSPEC",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 127,
+                "Name": "CDSNOU",
+                "Reference": "!!CDSNOU",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 128,
+                "Name": "CDSLCY",
+                "Reference": "!!CDSLCY",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 129,
+                "Name": "CDRTOR",
+                "Reference": "!!CDRTOR",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 130,
+                "Name": "CDPYRA",
+                "Reference": "!!CDPYRA",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 131,
+                "Name": "CDORIP",
+                "Reference": "!!CDORIP",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 132,
+                "Name": "CDNSNO",
+                "Reference": "!!CDNSNO",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 133,
+                "Name": "CDNSLC",
+                "Reference": "!!CDNSLC",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 134,
+                "Name": "CDNRTO",
+                "Reference": "!!CDNRTO",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 135,
+                "Name": "CDNPYR",
+                "Reference": "!!CDNPYR",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 136,
+                "Name": "CDNDIS",
+                "Reference": "!!CDNDIS",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 137,
+                "Name": "CDNCYL",
+                "Reference": "!!CDNCYL",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 138,
+                "Name": "CDNCTO",
+                "Reference": "!!CDNCTO",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 139,
+                "Name": "CDNCON",
+                "Reference": "!!CDNCON",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 140,
+                "Name": "CDNBOX",
+                "Reference": "!!CDNBOX",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 141,
+                "Name": "CDNAME",
+                "Reference": "!!CDNAME",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 142,
+                "Name": "CDLOCK",
+                "Reference": "!!CDLOCK",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 143,
+                "Name": "CDGROU",
+                "Reference": "!!CDGROU",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 144,
+                "Name": "CDGENQ",
+                "Reference": "!!CDGENQ",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 145,
+                "Name": "CDEPIN",
+                "Reference": "!!CDEPIN",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 146,
+                "Name": "CDDISH",
+                "Reference": "!!CDDISH",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 147,
+                "Name": "CDCYLI",
+                "Reference": "!!CDCYLI",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 148,
+                "Name": "CDCTOR",
+                "Reference": "!!CDCTOR",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 149,
+                "Name": "CDCONE",
+                "Reference": "!!CDCONE",
+                "Type": "FORM",
+                "Properties": []
+              },
+              {
+                "Index": 150,
+                "Name": "CDBOX",
+                "Reference": "!!CDBOX",
+                "Type": "FORM",
+                "Properties": []
+              }
+            ]
+          },
+          "ArrayWindow": null,
+          "Success": true,
+          "Code": "OK",
+          "ErrorMessage": null,
+          "PmlCommand": "",
+          "ResultList": null,
+          "RequestId": "33f00efff17a489eb6428e2ec8aedba3",
+          "ExecutionThreadId": 1,
+          "ServerRuntime": "4.0.30319.42000",
+          "ServerTimeUtc": "2026-10-31T05:52:09.4681527Z",
+          "FunctionTrustWarning": null
+        },
+        "error": null,
+        "schemaVersion": 1
+      },
+      {
+        "operationId": "pml.gadgets.list",
+        "success": true,
+        "exitCode": 0,
+        "data": {
+          "FormQueryResult": {
+            "Kind": "gadgets",
+            "IndexUpperBound": 32,
+            "StartIndex": 1,
+            "Scanned": 32,
+            "NextIndex": 0,
+            "Truncated": false,
+            "Characters": 199,
+            "Items": [
+              {
+                "Index": 1,
+                "Name": "ITEMS",
+                "Reference": "!!YuzuhaV04LocalProbe.ITEMS",
+                "Type": "LIST",
+                "Properties": []
+              },
+              {
+                "Index": 3,
+                "Name": "ACCEPT",
+                "Reference": "!!YuzuhaV04LocalProbe.ACCEPT",
+                "Type": "BUTTON",
+                "Properties": []
+              },
+              {
+                "Index": 7,
+                "Name": "ENABLED",
+                "Reference": "!!YuzuhaV04LocalProbe.ENABLED",
+                "Type": "TOGGLE",
+                "Properties": []
+              },
+              {
+                "Index": 8,
+                "Name": "FLIMITS",
+                "Reference": "!!YuzuhaV04LocalProbe.FLIMITS",
+                "Type": "FRAME",
+                "Properties": []
+              },
+              {
+                "Index": 9,
+                "Name": "MESSAGE",
+                "Reference": "!!YuzuhaV04LocalProbe.MESSAGE",
+                "Type": "TEXT",
+                "Properties": []
+              }
+            ]
+          },
+          "ArrayWindow": null,
+          "Success": true,
+          "Code": "OK",
+          "ErrorMessage": null,
+          "PmlCommand": "",
+          "ResultList": null,
+          "RequestId": "1e0c246add5d40baa6a5985afd4eb4c8",
+          "ExecutionThreadId": 1,
+          "ServerRuntime": "4.0.30319.42000",
+          "ServerTimeUtc": "2026-10-31T05:52:09.6078915Z",
+          "FunctionTrustWarning": null
+        },
+        "error": null,
+        "schemaVersion": 1
+      },
+      {
+        "operationId": "pml.gadget.read",
+        "success": true,
+        "exitCode": 0,
+        "data": {
+          "FormQueryResult": {
+            "Kind": "gadget",
+            "IndexUpperBound": 1,
+            "StartIndex": 1,
+            "Scanned": 1,
+            "NextIndex": 0,
+            "Truncated": false,
+            "Characters": 641,
+            "Items": [
+              {
+                "Index": 1,
+                "Name": "accept",
+                "Reference": "!!YuzuhaV04LocalProbe.accept",
+                "Type": "BUTTON",
+                "Properties": [
+                  {
+                    "Name": "shown",
+                    "Status": "available",
+                    "Value": "FALSE",
+                    "Error": null
+                  },
+                  {
+                    "Name": "active",
+                    "Status": "available",
+                    "Value": "TRUE",
+                    "Error": null
+                  },
+                  {
+                    "Name": "visible",
+                    "Status": "available",
+                    "Value": "TRUE",
+                    "Error": null
+                  },
+                  {
+                    "Name": "tooltip",
+                    "Status": "unavailable",
+                    "Value": null,
+                    "Error": "Native form query command failed: !!YUZUHAUIVALUEC2D9FF70A2DA42F58BD752119E8C3637 = !!YUZUHAUISNAPSHOTC2D9FF70A2DA42F58BD752119E8C3637[1].tooltip | PML_UI_READ_FAILED: !!YUZUHAUIVALUEC2D9FF70A2DA42F58BD752119E8C3637 = !!YUZUHAUISNAPSHOTC2D9FF70A2DA42F58BD752119E8C3637[1].tooltip | (2,759)   Object does not have a member TOOLTIP | !!YUZUHAUIVALUEC2D9FF70A2DA42F58BD752119E8C3637 = !!YUZUHAUISNAPSHOTC2D9FF70A2DA42F58BD752119E8C3637[1].tooltip |  In line 1 of Internal Command Internal Command"
+                  },
+                  {
+                    "Name": "callback",
+                    "Status": "available",
+                    "Value": "!this.onProbe()",
+                    "Error": null
+                  }
+                ]
+              }
+            ]
+          },
+          "ArrayWindow": null,
+          "Success": true,
+          "Code": "OK",
+          "ErrorMessage": null,
+          "PmlCommand": "",
+          "ResultList": null,
+          "RequestId": "3891bbb308574eae8d0b38a507a572b1",
+          "ExecutionThreadId": 1,
+          "ServerRuntime": "4.0.30319.42000",
+          "ServerTimeUtc": "2026-10-31T05:52:09.6857375Z",
+          "FunctionTrustWarning": null
+        },
+        "error": null,
+        "schemaVersion": 1
+      },
+      {
+        "operationId": "pml.gadget.read",
+        "success": true,
+        "exitCode": 0,
+        "data": {
+          "FormQueryResult": {
+            "Kind": "gadget",
+            "IndexUpperBound": 1,
+            "StartIndex": 1,
+            "Scanned": 1,
+            "NextIndex": 0,
+            "Truncated": false,
+            "Characters": 626,
+            "Items": [
+              {
+                "Index": 1,
+                "Name": "message",
+                "Reference": "!!YuzuhaV04LocalProbe.message",
+                "Type": "TEXT",
+                "Properties": [
+                  {
+                    "Name": "shown",
+                    "Status": "available",
+                    "Value": "FALSE",
+                    "Error": null
+                  },
+                  {
+                    "Name": "active",
+                    "Status": "available",
+                    "Value": "TRUE",
+                    "Error": null
+                  },
+                  {
+                    "Name": "visible",
+                    "Status": "available",
+                    "Value": "TRUE",
+                    "Error": null
+                  },
+                  {
+                    "Name": "tooltip",
+                    "Status": "unavailable",
+                    "Value": null,
+                    "Error": "Native form query command failed: !!YUZUHAUIVALUED5DE22D2BB0943D8A1E86BEE9ECB6B05 = !!YUZUHAUISNAPSHOTD5DE22D2BB0943D8A1E86BEE9ECB6B05[1].tooltip | PML_UI_READ_FAILED: !!YUZUHAUIVALUED5DE22D2BB0943D8A1E86BEE9ECB6B05 = !!YUZUHAUISNAPSHOTD5DE22D2BB0943D8A1E86BEE9ECB6B05[1].tooltip | (2,759)   Object does not have a member TOOLTIP | !!YUZUHAUIVALUED5DE22D2BB0943D8A1E86BEE9ECB6B05 = !!YUZUHAUISNAPSHOTD5DE22D2BB0943D8A1E86BEE9ECB6B05[1].tooltip |  In line 1 of Internal Command Internal Command"
+                  },
+                  {
+                    "Name": "callback",
+                    "Status": "available",
+                    "Value": "",
+                    "Error": null
+                  }
+                ]
+              }
+            ]
+          },
+          "ArrayWindow": null,
+          "Success": true,
+          "Code": "OK",
+          "ErrorMessage": null,
+          "PmlCommand": "",
+          "ResultList": null,
+          "RequestId": "c6abd297639343ab9cd9023784ead6d9",
+          "ExecutionThreadId": 1,
+          "ServerRuntime": "4.0.30319.42000",
+          "ServerTimeUtc": "2026-10-31T05:52:09.7581879Z",
+          "FunctionTrustWarning": null
+        },
+        "error": null,
+        "schemaVersion": 1
+      },
+      {
+        "operationId": "pml.gadget.read",
+        "success": true,
+        "exitCode": 0,
+        "data": {
+          "FormQueryResult": {
+            "Kind": "gadget",
+            "IndexUpperBound": 1,
+            "StartIndex": 1,
+            "Scanned": 1,
+            "NextIndex": 0,
+            "Truncated": false,
+            "Characters": 628,
+            "Items": [
+              {
+                "Index": 1,
+                "Name": "enabled",
+                "Reference": "!!YuzuhaV04LocalProbe.enabled",
+                "Type": "TOGGLE",
+                "Properties": [
+                  {
+                    "Name": "shown",
+                    "Status": "available",
+                    "Value": "FALSE",
+                    "Error": null
+                  },
+                  {
+                    "Name": "active",
+                    "Status": "available",
+                    "Value": "TRUE",
+                    "Error": null
+                  },
+                  {
+                    "Name": "visible",
+                    "Status": "available",
+                    "Value": "TRUE",
+                    "Error": null
+                  },
+                  {
+                    "Name": "tooltip",
+                    "Status": "unavailable",
+                    "Value": null,
+                    "Error": "Native form query command failed: !!YUZUHAUIVALUE0B34E3A0DB0E4D0794E6AC290ED97EC3 = !!YUZUHAUISNAPSHOT0B34E3A0DB0E4D0794E6AC290ED97EC3[1].tooltip | PML_UI_READ_FAILED: !!YUZUHAUIVALUE0B34E3A0DB0E4D0794E6AC290ED97EC3 = !!YUZUHAUISNAPSHOT0B34E3A0DB0E4D0794E6AC290ED97EC3[1].tooltip | (2,759)   Object does not have a member TOOLTIP | !!YUZUHAUIVALUE0B34E3A0DB0E4D0794E6AC290ED97EC3 = !!YUZUHAUISNAPSHOT0B34E3A0DB0E4D0794E6AC290ED97EC3[1].tooltip |  In line 1 of Internal Command Internal Command"
+                  },
+                  {
+                    "Name": "callback",
+                    "Status": "available",
+                    "Value": "",
+                    "Error": null
+                  }
+                ]
+              }
+            ]
+          },
+          "ArrayWindow": null,
+          "Success": true,
+          "Code": "OK",
+          "ErrorMessage": null,
+          "PmlCommand": "",
+          "ResultList": null,
+          "RequestId": "c035442525794722933542349db80ab1",
+          "ExecutionThreadId": 1,
+          "ServerRuntime": "4.0.30319.42000",
+          "ServerTimeUtc": "2026-10-31T05:52:09.8253797Z",
+          "FunctionTrustWarning": null
+        },
+        "error": null,
+        "schemaVersion": 1
+      },
+      {
+        "operationId": "pml.gadget.read",
+        "success": true,
+        "exitCode": 0,
+        "data": {
+          "FormQueryResult": {
+            "Kind": "gadget",
+            "IndexUpperBound": 1,
+            "StartIndex": 1,
+            "Scanned": 1,
+            "NextIndex": 0,
+            "Truncated": false,
+            "Characters": 622,
+            "Items": [
+              {
+                "Index": 1,
+                "Name": "items",
+                "Reference": "!!YuzuhaV04LocalProbe.items",
+                "Type": "LIST",
+                "Properties": [
+                  {
+                    "Name": "shown",
+                    "Status": "available",
+                    "Value": "FALSE",
+                    "Error": null
+                  },
+                  {
+                    "Name": "active",
+                    "Status": "available",
+                    "Value": "TRUE",
+                    "Error": null
+                  },
+                  {
+                    "Name": "visible",
+                    "Status": "available",
+                    "Value": "TRUE",
+                    "Error": null
+                  },
+                  {
+                    "Name": "tooltip",
+                    "Status": "unavailable",
+                    "Value": null,
+                    "Error": "Native form query command failed: !!YUZUHAUIVALUED23E8760AF1A4FDA9415EE414314497B = !!YUZUHAUISNAPSHOTD23E8760AF1A4FDA9415EE414314497B[1].tooltip | PML_UI_READ_FAILED: !!YUZUHAUIVALUED23E8760AF1A4FDA9415EE414314497B = !!YUZUHAUISNAPSHOTD23E8760AF1A4FDA9415EE414314497B[1].tooltip | (2,759)   Object does not have a member TOOLTIP | !!YUZUHAUIVALUED23E8760AF1A4FDA9415EE414314497B = !!YUZUHAUISNAPSHOTD23E8760AF1A4FDA9415EE414314497B[1].tooltip |  In line 1 of Internal Command Internal Command"
+                  },
+                  {
+                    "Name": "callback",
+                    "Status": "available",
+                    "Value": "",
+                    "Error": null
+                  }
+                ]
+              }
+            ]
+          },
+          "ArrayWindow": null,
+          "Success": true,
+          "Code": "OK",
+          "ErrorMessage": null,
+          "PmlCommand": "",
+          "ResultList": null,
+          "RequestId": "592581f8c488454c838b8b0a638104df",
+          "ExecutionThreadId": 1,
+          "ServerRuntime": "4.0.30319.42000",
+          "ServerTimeUtc": "2026-10-31T05:52:09.8868551Z",
+          "FunctionTrustWarning": null
+        },
+        "error": null,
+        "schemaVersion": 1
+      },
+      {
+        "operationId": "pml.forms.list",
+        "success": true,
+        "exitCode": 0,
+        "data": {
+          "FormQueryResult": {
+            "Kind": "shown-forms",
+            "IndexUpperBound": 1,
+            "StartIndex": 1,
+            "Scanned": 1,
+            "NextIndex": 0,
+            "Truncated": false,
+            "Characters": 30,
+            "Items": [
+              {
+                "Index": 1,
+                "Name": "GPH3DDESIGN1",
+                "Reference": "!!GPH3DDESIGN1",
+                "Type": "FORM",
+                "Properties": []
+              }
+            ]
+          },
+          "ArrayWindow": null,
+          "Success": true,
+          "Code": "OK",
+          "ErrorMessage": null,
+          "PmlCommand": "",
+          "ResultList": null,
+          "RequestId": "e2ec421e719d406ebf51c1f6b6c49bf7",
+          "ExecutionThreadId": 1,
+          "ServerRuntime": "4.0.30319.42000",
+          "ServerTimeUtc": "2026-10-31T05:52:09.9486745Z",
+          "FunctionTrustWarning": null
+        },
+        "error": null,
+        "schemaVersion": 1
+      },
+      {
+        "operationId": "pml.gadgets.list",
+        "success": true,
+        "exitCode": 0,
+        "data": {
+          "FormQueryResult": {
+            "Kind": "gadgets",
+            "IndexUpperBound": 32,
+            "StartIndex": 1,
+            "Scanned": 2,
+            "NextIndex": 3,
+            "Truncated": true,
+            "Characters": 36,
+            "Items": [
+              {
+                "Index": 1,
+                "Name": "ITEMS",
+                "Reference": "!!YuzuhaV04LocalProbe.ITEMS",
+                "Type": "LIST",
+                "Properties": []
+              }
+            ]
+          },
+          "ArrayWindow": null,
+          "Success": true,
+          "Code": "OK",
+          "ErrorMessage": null,
+          "PmlCommand": "",
+          "ResultList": null,
+          "RequestId": "2f74e56f80234cb28cf39dd193f049aa",
+          "ExecutionThreadId": 1,
+          "ServerRuntime": "4.0.30319.42000",
+          "ServerTimeUtc": "2026-10-31T05:52:10.0119015Z",
+          "FunctionTrustWarning": null
+        },
+        "error": null,
+        "schemaVersion": 1
+      },
+      {
+        "operationId": "pml.gadgets.list",
+        "success": true,
+        "exitCode": 0,
+        "data": {
+          "FormQueryResult": {
+            "Kind": "gadgets",
+            "IndexUpperBound": 32,
+            "StartIndex": 3,
+            "Scanned": 2,
+            "NextIndex": 5,
+            "Truncated": true,
+            "Characters": 40,
+            "Items": [
+              {
+                "Index": 3,
+                "Name": "ACCEPT",
+                "Reference": "!!YuzuhaV04LocalProbe.ACCEPT",
+                "Type": "BUTTON",
+                "Properties": []
+              }
+            ]
+          },
+          "ArrayWindow": null,
+          "Success": true,
+          "Code": "OK",
+          "ErrorMessage": null,
+          "PmlCommand": "",
+          "ResultList": null,
+          "RequestId": "6f4bc75355914406a4c51df6960bd45b",
+          "ExecutionThreadId": 1,
+          "ServerRuntime": "4.0.30319.42000",
+          "ServerTimeUtc": "2026-10-31T05:52:10.0713844Z",
+          "FunctionTrustWarning": null
+        },
+        "error": null,
+        "schemaVersion": 1
+      }
+    ]
+  },
+  "error": null,
+  "schemaVersion": 1
+}

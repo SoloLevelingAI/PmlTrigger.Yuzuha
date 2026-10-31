@@ -1,0 +1,33 @@
+[
+  {
+    "operationId": "aveva.session.select",
+    "processId": 25624,
+    "input": {},
+    "expectedProcessStartTimeUtcTicks": 639290226957908482,
+    "expectedModel": "DESIGN"
+  },
+  {
+    "operationId": "pml.array.window",
+    "processId": 25624,
+    "input": {
+      "maxItems": 2,
+      "globalVar": "YUZUHAV04ARRAY",
+      "maxCharacters": 1024,
+      "startIndex": 1
+    },
+    "expectedProcessStartTimeUtcTicks": 639290226957908482,
+    "expectedModel": "DESIGN"
+  },
+  {
+    "operationId": "pml.array.window",
+    "processId": 25624,
+    "input": {
+      "maxItems": 2,
+      "globalVar": "YUZUHAV04ARRAY",
+      "maxCharacters": 1024,
+      "startIndex": 3
+    },
+    "expectedProcessStartTimeUtcTicks": 639290226957908482,
+    "expectedModel": "DESIGN"
+  }
+]

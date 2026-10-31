@@ -1,0 +1,63 @@
+{
+  "id": "02-deployment",
+  "title": "环境部署",
+  "short": "部署",
+  "eyebrow": "ENVIRONMENT / DEPLOY",
+  "action": "预览部署",
+  "left": "安装与运行目录",
+  "right": "本次变更预览",
+  "rows": [
+    [
+      "产品版本",
+      "E3D 2.1 / .NET 4.8",
+      "已选择"
+    ],
+    [
+      "安装入口",
+      "C:\\AVEVA\\E3D21\\mon.exe",
+      "已识别"
+    ],
+    [
+      "生效环境文件",
+      "Evars.init",
+      "已绑定"
+    ],
+    [
+      "部署方式",
+      "复制到独立目录",
+      "可切换"
+    ],
+    [
+      "运行目录",
+      "D:\\Tools\\Yuzuha",
+      "新目录"
+    ],
+    [
+      "载荷来源",
+      "已选定的程序包",
+      "待检查"
+    ]
+  ],
+  "detail": [
+    "pmllib → D:\\Tools\\Yuzuha\\PMLLIB;原值",
+    "PMLUI → D:\\Tools\\Yuzuha\\PMLUI;原值",
+    "Yuzuha → E3D2.1",
+    "YuzuhaFramework → net48"
+  ],
+  "noteTitle": "先核对目标，再确认应用",
+  "note": "预览固定所选安装、环境文件与程序内容。预览后文件改变时，重新生成计划。原文件备份可定位。",
+  "ops": [
+    "installation.discover",
+    "deployment.preview",
+    "deployment.apply",
+    "deployment.restore"
+  ],
+  "states": [
+    "未配置：选择程序包与产品安装。",
+    "处理中：按复制、环境、回读显示阶段。",
+    "计划过期：保留输入并重新预览。",
+    "写入失败：展示错误和备份位置。",
+    "部分恢复：列出未恢复项供人工处理。",
+    "回执未知：先检查记录，不自动重发。"
+  ]
+}

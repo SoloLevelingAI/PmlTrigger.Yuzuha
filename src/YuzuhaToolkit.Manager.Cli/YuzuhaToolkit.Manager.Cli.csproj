@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>Yuzuha.Manager.Cli</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../YuzuhaToolkit.Manager.Core/YuzuhaToolkit.Manager.Core.csproj" />
+    <Content Include="../../docs/design/launch-workflow/index.html;../../docs/design/launch-workflow/*.css;../../docs/design/launch-workflow/launch-workflow.js" Link="workbench/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="../YuzuhaToolkit.Manager.Core/LaunchDiscovery*.cs;../YuzuhaToolkit.Manager.Core/LaunchWorkflow*.cs;../YuzuhaToolkit.Manager.Core/LaunchOperationCatalog.cs" Link="workbench/source/src/YuzuhaToolkit.Manager.Core/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="../../docs/reference/launch-workflow.md" Link="workbench/source/docs/reference/launch-workflow.md" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="../../openspec/changes/integrate-pmltwin-product-platform/contracts.md" Link="workbench/source/openspec/changes/integrate-pmltwin-product-platform/contracts.md" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

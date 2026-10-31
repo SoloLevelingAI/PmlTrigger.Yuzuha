@@ -1,0 +1,6 @@
+!!YUZUHAV04AFTER = ARRAY()
+!!YUZUHAV04AFTER[1] = !!YuzuhaV04LocalProbe.counter.string()
+!!YUZUHAV04AFTER[2] = !!YuzuhaV04LocalProbe.message.val
+!!YUZUHAV04AFTER[3] = !!YuzuhaV04LocalProbe.enabled.val.string()
+!!YUZUHAV04AFTER[4] = !!YuzuhaV04LocalProbe.accept.callback
+!!YUZUHAV04AFTER[5] = !!YuzuhaV04LocalProbe.shown().string()

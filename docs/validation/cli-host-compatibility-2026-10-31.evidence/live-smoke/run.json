@@ -1,0 +1,51 @@
+{
+  "startedUtc": "2026-10-31T05:52:07.8895746Z",
+  "scope": "AVEVA synthetic fixture; no engineering saves",
+  "finishedUtc": "2026-10-31T05:52:11.7827769Z",
+  "identity": {
+    "SessionSelected": true,
+    "Connected": true,
+    "TargetVerified": true,
+    "SelectedSession": {
+      "ProcessId": 25624,
+      "ProcessStartTimeUtcTicks": 639290226957908482,
+      "ProcessName": "des",
+      "ExecutablePath": "C:\\Program Files (x86)\\AVEVA\\Everything3D2.10\\des.exe",
+      "WindowTitle": "ProjAPS | ALL | Model - AVEVA Everything3D",
+      "Product": "E3D",
+      "Project": "ProjAPS",
+      "PipeName": "yuzuha.pml.command.v1.pid-25624",
+      "PipeDetected": true
+    },
+    "PipeName": "yuzuha.pml.command.v1.pid-25624",
+    "ExpectedProcessId": 25624,
+    "ExpectedProcessStartTimeUtcTicks": 639290226957908482,
+    "ExpectedModel": "DESIGN",
+    "Host": {
+      "FormQueryVersion": 1,
+      "BoundedArrayReadVersion": 1,
+      "ProcessId": 25624,
+      "ProcessStartTimeUtcTicks": 639290226957908482,
+      "Model": "DESIGN",
+      "PipeName": "yuzuha.pml.command.v1.pid-25624",
+      "HostFramework": "net48",
+      "HostVersion": "0.3.4.2",
+      "ServerTimeUtc": "2026-10-31T05:52:07.6849274Z"
+    },
+    "Error": null
+  },
+  "dirty": true,
+  "status": "Passed",
+  "commit": "57e6e8d51a0271b2fae5f2a60363af51a5a32da3",
+  "hostDllSha256": "1F1A0E30C60BACA342F173AE90EB4958AEE08B83D406BF76DDE6A5C03BC4B7F9",
+  "sources": [
+    {
+      "file": "yuzuhav04localadd.pmlfnc",
+      "sha256": "0B9C40B9FF628EC03C84918527FABCD5161A568025657264B104F9D293B4B04F"
+    },
+    {
+      "file": "yuzuhav04localprobe.pmlfrm",
+      "sha256": "7A176D3A1D1C0052EDBE5DA40F0509DF4799007C7A294366EA174307433ED22B"
+    }
+  ]
+}

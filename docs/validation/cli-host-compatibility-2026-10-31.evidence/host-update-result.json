@@ -1,0 +1,12 @@
+{
+  "receipt": {
+    "Id": "20261031T054039-4a15135a0cdb4fdb947385bb62fe8a70",
+    "Target": "C:\\Users\\26648\\AppData\\Local\\YuzuhaToolkit\\PmlTrigger.Yuzuha",
+    "Files": [
+      "runtime/profiles/E3D2.1/net48/YuzuhaToolkit.PmlHost.Net48.dll"
+    ],
+    "BackupDirectory": "C:\\Users\\26648\\Documents\\ChatGPT\\Example\\PmlTrigger.Yuzuha\\artifacts\\manager\\cli-host-compat\\Deployments\\20261031T054039-4a15135a0cdb4fdb947385bb62fe8a70\\backups"
+  },
+  "backupHash": "EF6CDB934D7F69BD429B66F6C83F52928B3A14A66BF49B1EF3ABF28046C48987",
+  "installedHash": "1F1A0E30C60BACA342F173AE90EB4958AEE08B83D406BF76DDE6A5C03BC4B7F9"
+}

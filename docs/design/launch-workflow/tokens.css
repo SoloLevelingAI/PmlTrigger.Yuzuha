@@ -1,0 +1,31 @@
+:root {
+  color-scheme:light;
+  --bg:#f3f5f7;
+  --surface:#ffffff;
+  --soft:#f7f9fb;
+  --text:#172d3e;
+  --muted:#627789;
+  --line:#dce4ea;
+  --accent:#087d76;
+  --accent-soft:#e5f4f0;
+  --warn:#986522;
+  --danger:#b34343;
+  --radius:18px;
+  --shadow:0 14px 44px #19354808;
+  --font:"Segoe UI","Microsoft YaHei",sans-serif;
+  --mono:Consolas,monospace
+}
+[data-theme=dark] {
+  color-scheme:dark;
+  --bg:#101b25;
+  --surface:#192833;
+  --soft:#14222e;
+  --text:#e1ebf2;
+  --muted:#a1b3c1;
+  --line:#304452;
+  --accent:#67d5bd;
+  --accent-soft:#203f3c;
+  --warn:#e9bd74;
+  --danger:#f09696;
+  --shadow:0 14px 44px #0002
+}

@@ -99,8 +99,32 @@ public sealed class LaunchProfile
     public string Module { get; set; } = "Design";
     /// <summary>仅传给本次子进程的许可连接；空值沿用当前进程设置。</summary>
     public string License { get; set; } = "";
+    /// <summary>可选启动前策略；未设置时沿用厂商启动链，不探测许可。</summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public LaunchLicensePrecheck? LicensePrecheck { get; set; }
     /// <summary>仅传给本次子进程的额外环境；不能包含密码。</summary>
     public Dictionary<string, string> Environment { get; set; } = new(StringComparer.OrdinalIgnoreCase);
+}
+
+/// <summary>显式预检只约束声明的端口/本机服务；可达证据不等于签出成功。</summary>
+public sealed class LaunchLicensePrecheck
+{
+    /// <summary>off 或 required；默认关闭。</summary>
+    public string Mode { get; set; } = "off";
+    /// <summary>固定使用可选 license 插件。</summary>
+    public string Host { get; set; } = "";
+    /// <summary>RMS TCP 端口。</summary>
+    public int RmsPort { get; set; }
+    /// <summary>可选 Rules TCP 端口。</summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] public int? RulesPort { get; set; }
+    /// <summary>可选本机 Windows 服务名。</summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] public string? ServiceName { get; set; }
+    /// <summary>每个 TCP 探针的超时，毫秒。</summary>
+    public int TimeoutMilliseconds { get; set; } = 1500;
+    /// <summary>要求实际签出证明时，当前只读插件不能满足，启动将明确拒绝。</summary>
+    public bool RequireCheckout { get; set; }
+    /// <summary>保留其他版本增加的策略字段。</summary>
+    [JsonExtensionData] public Dictionary<string, JsonElement>? ExtensionData { get; set; }
 }
 
 /// <summary>工作区、日志和目录报告的 Native AOT JSON 元数据。</summary>

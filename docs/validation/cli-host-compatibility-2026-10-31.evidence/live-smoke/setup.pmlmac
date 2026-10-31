@@ -1,0 +1,13 @@
+PML REHASH ALL
+!!YUZUHAV04NATIVESUM = !!YuzuhaV04LocalAdd(2,3)
+PML RELOAD FORM !!YuzuhaV04LocalProbe
+!!YUZUHAV04ARRAY = ARRAY()
+!!YUZUHAV04ARRAY[1] = 'alpha'
+!!YUZUHAV04ARRAY[2] = 'beta'
+!!YUZUHAV04ARRAY[3] = 'gamma'
+!!YUZUHAV04BEFORE = ARRAY()
+!!YUZUHAV04BEFORE[1] = !!YuzuhaV04LocalProbe.counter.string()
+!!YUZUHAV04BEFORE[2] = !!YuzuhaV04LocalProbe.message.val
+!!YUZUHAV04BEFORE[3] = !!YuzuhaV04LocalProbe.enabled.val.string()
+!!YUZUHAV04BEFORE[4] = !!YuzuhaV04LocalProbe.accept.callback
+!!YUZUHAV04BEFORE[5] = !!YuzuhaV04LocalProbe.shown().string()

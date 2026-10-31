@@ -2,11 +2,15 @@
 
 **让 AI 在 AVEVA 内部协助开发和三维核查。**
 
+当前平台集成候选的实现、验证边界与接手顺序见 [平台交接](openspec/changes/integrate-pmltwin-product-platform/features/platform-foundation-handoff.md)。管理器已有独立 CLI 和接同一后端的本机启动 HTML；Database 修订 DLL、函数入口、Ribbon HTTP 适配与 CAF 编译切片正在逐项融合，不能将这些切片视为完整 WPF/CAF 产品已交付。APS 启动及 Host/PML 实证见 [核验报告](docs/validation/cli-host-compatibility-2026-10-31.md)。
+
 面向 E3D、AM / PDMS 的本机连接层与工作台：查资料、写 PML、备份部署、加载调试、回读结果；也可结合对象数据与视图追查问题和隐含关系。任务能力受平台、脚本与 AI 上下文约束，不承诺自动布管。
 
 **≥5 位已知线上用户 · 数十人交流社群 · Apache-2.0**¹
 
 [安装发行版](https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/releases) · [使用](docs/reference/workspace.md) · [规格与交接](docs/reference/specs/index.md) · [PRD / FigCraft](docs/reference/specs/PRD.md) · [CLI](docs/reference/cli.md)
+
+管理器重构的当前审阅入口：[独立管理 CLI](docs/reference/manager-cli.md) · [按 Feature 拆分的 FigCraft 草稿](docs/design/yuzuha-manager-features/README.md) · [并行作品集验收与剩余门槛](docs/validation/portfolio-review-2026-10-30/README.md)。这组候选交付不代表新管理界面、完整安装包或产品实机验收已完成。
 
 ![正式 WPF 工作台：运行记录与组合筛选](docs/design/current-workbench.png)
 

@@ -1,0 +1,12 @@
+{
+  "exitCode": 0,
+  "elapsedMilliseconds": 374,
+  "captureCompletedAtUtc": "2026-10-31T05:51:32.4271439Z",
+  "avevaProcesses": [
+    {
+      "Id": 21624,
+      "ProcessName": "mon",
+      "MainWindowTitle": ""
+    }
+  ]
+}

@@ -1,0 +1,128 @@
+{
+  "operationId": "op.batch",
+  "success": true,
+  "exitCode": 0,
+  "data": {
+    "success": true,
+    "stoppedOnError": false,
+    "completed": 4,
+    "results": [
+      {
+        "operationId": "aveva.session.select",
+        "success": true,
+        "exitCode": 0,
+        "data": {
+          "SessionSelected": true,
+          "Connected": true,
+          "TargetVerified": true,
+          "SelectedSession": {
+            "ProcessId": 25624,
+            "ProcessStartTimeUtcTicks": 639290226957908482,
+            "ProcessName": "des",
+            "ExecutablePath": "C:\\Program Files (x86)\\AVEVA\\Everything3D2.10\\des.exe",
+            "WindowTitle": "ProjAPS | ALL | Model - AVEVA Everything3D",
+            "Product": "E3D",
+            "Project": "ProjAPS",
+            "PipeName": "yuzuha.pml.command.v1.pid-25624",
+            "PipeDetected": true
+          },
+          "PipeName": "yuzuha.pml.command.v1.pid-25624",
+          "ExpectedProcessId": 25624,
+          "ExpectedProcessStartTimeUtcTicks": 639290226957908482,
+          "ExpectedModel": "DESIGN",
+          "Host": {
+            "FormQueryVersion": 1,
+            "BoundedArrayReadVersion": 1,
+            "ProcessId": 25624,
+            "ProcessStartTimeUtcTicks": 639290226957908482,
+            "Model": "DESIGN",
+            "PipeName": "yuzuha.pml.command.v1.pid-25624",
+            "HostFramework": "net48",
+            "HostVersion": "0.3.4.2",
+            "ServerTimeUtc": "2026-10-31T05:52:11.0510449Z"
+          },
+          "Error": null
+        },
+        "error": null,
+        "schemaVersion": 1
+      },
+      {
+        "operationId": "pml.command.execute",
+        "success": true,
+        "exitCode": 0,
+        "data": {
+          "FormQueryResult": null,
+          "ArrayWindow": null,
+          "Success": true,
+          "Code": "OK",
+          "ErrorMessage": null,
+          "PmlCommand": "!!YuzuhaExecuter.InitArgs(\u0027C:\\Users\\26648\\Documents\\ChatGPT\\Example\\PmlTrigger.Yuzuha\\artifacts\\manager\\cli-host-compat\\live-smoke\\after.pmlmac\u0027)",
+          "ResultList": null,
+          "RequestId": "853df633dd0843ab976fae85b8f9365a",
+          "ExecutionThreadId": 1,
+          "ServerRuntime": "4.0.30319.42000",
+          "ServerTimeUtc": "2026-10-31T05:52:11.1133247Z",
+          "FunctionTrustWarning": null
+        },
+        "error": null,
+        "schemaVersion": 1
+      },
+      {
+        "operationId": "pml.command.execute",
+        "success": true,
+        "exitCode": 0,
+        "data": {
+          "FormQueryResult": null,
+          "ArrayWindow": null,
+          "Success": true,
+          "Code": "OK",
+          "ErrorMessage": null,
+          "PmlCommand": "!!YuzuhaExecuter.execute(\u0027ExecuteFile\u0027)",
+          "ResultList": null,
+          "RequestId": "93b075496c5c4fd6a793644e23f68a15",
+          "ExecutionThreadId": 1,
+          "ServerRuntime": "4.0.30319.42000",
+          "ServerTimeUtc": "2026-10-31T05:52:11.1944685Z",
+          "FunctionTrustWarning": null
+        },
+        "error": null,
+        "schemaVersion": 1
+      },
+      {
+        "operationId": "pml.array.read",
+        "success": true,
+        "exitCode": 0,
+        "data": {
+          "Success": true,
+          "Code": "OK",
+          "ErrorMessage": null,
+          "PmlCommand": "!!YuzuhaExecuter.Query()",
+          "Summary": {
+            "total": 0,
+            "unset": 0,
+            "blank": 0,
+            "zero": 0,
+            "emptyArray": 0,
+            "hasValue": 0,
+            "byType": {}
+          },
+          "Count": 0,
+          "Items": [],
+          "IncludeEmpty": true,
+          "UnparsedCount": 1,
+          "Unparsed": [
+            "\u003CSTRING\u003E \u0027Success,C:\\Users\\26648\\Documents\\ChatGPT\\Example\\PmlTrigger.Yuzuha\\artifacts\\manager\\cli-host-compat\\live-smoke\\after.pmlmac Donnot Support Return Any Info\u0027"
+          ],
+          "RequestId": "57181d31e7e24b5fb7ff4f758b450399",
+          "ServerRuntime": "4.0.30319.42000",
+          "ServerTimeUtc": "2026-10-31T05:52:11.255601Z",
+          "FunctionTrustWarning": null
+        },
+        "error": null,
+        "schemaVersion": 1
+      }
+    ]
+  },
+  "error": null,
+  "schemaVersion": 1
+}

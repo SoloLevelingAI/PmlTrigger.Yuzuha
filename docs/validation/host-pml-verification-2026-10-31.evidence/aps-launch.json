@@ -1,0 +1,26 @@
+{
+  "operationId": "launch.execute",
+  "success": true,
+  "exitCode": 0,
+  "data": {
+    "operationId": "4d25776e-354a-46ff-87f3-9a71fe61f979",
+    "planDigest": "1E9D184C7B91FEF3A92EED5A8012BB88EF1FD62BB6391B331E0FC878E41E058C",
+    "attemptId": "86e15817a333412b99d4f87c727d6649",
+    "requestId": "e3c59b6e-4c43-43d0-be9f-154c2a8b6fb4",
+    "state": "success",
+    "phase": "entry-process-created",
+    "code": "ENTRY_PROCESS_CREATED",
+    "message": "\u5165\u53E3\u8FDB\u7A0B\u5DF2\u521B\u5EFA\uFF1B\u5DE5\u7A0B\u767B\u5F55\u53CA Host \u8EAB\u4EFD\u5C1A\u672A\u6838\u9A8C\u3002",
+    "updatedAt": "2026-10-31T05:30:36.8331635\u002B00:00",
+    "processId": 34188,
+    "processStartUtcTicks": 639290214368028428,
+    "processObservation": "not-observed",
+    "hostVerification": "unverified",
+    "recoveryActions": null,
+    "entryExecutable": "C:\\Program Files (x86)\\AVEVA\\Everything3D2.10\\mon.exe",
+    "childCandidates": null
+  },
+  "error": null,
+  "schemaVersion": 1
+}
+

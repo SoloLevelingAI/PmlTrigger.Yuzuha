@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="pmltwin-token" content="">
+    <title>
+      启动工作台 · PMLTWIN
+    </title>
+    <link rel="stylesheet" href="tokens.css">
+    <link rel="stylesheet" href="launch-workflow.css">
+    <script src="launch-workflow.js" defer>
+    </script>
+  </head>
+  <body>
+    <header>
+      <div class="brand">
+        PMLTWIN
+        <span>
+          ENGINEERING WORKSPACE
+        </span>
+      </div>
+      <button id="theme" aria-label="切换浅色或深色主题">
+        切换主题 ◐
+      </button>
+    </header>
+    <div class="shell">
+      <nav aria-label="工作台导航">
+        <strong>
+          WORKSPACE / 01
+        </strong>
+        <a class="active" href="#">
+          ◈　环境与启动
+        </a>
+        <a href="#diagnostics">
+          ⌘　诊断与源码
+        </a>
+        <a href="/guide">
+          ↗　使用文档
+        </a>
+        <small>
+          发现 · 解析 · 计划
+          <br>
+          执行 · 观察
+          <br>
+          <br>
+          每一步都有依据。
+        </small>
+      </nav>
+      <main>
+        <div class="title">
+          <div>
+            <div class="eyebrow">
+              LAUNCH WORKFLOW
+            </div>
+            <h1>
+              从环境到工程，一路可追溯。
+            </h1>
+            <p>
+              自动收集本机候选，保留你的选择；确认计划后再启动。
+            </p>
+          </div>
+          <span class="badge" id="connection" role="status">
+            ● 正在连接本机服务
+          </span>
+        </div>
+        <div class="steps">
+          <span>
+            <b>
+              01
+            </b>
+            发现环境
+          </span>
+          <span>
+            <b>
+              02
+            </b>
+            确认与覆盖
+          </span>
+          <span>
+            <b>
+              03
+            </b>
+            审阅计划
+          </span>
+          <span>
+            <b>
+              04
+            </b>
+            启动与观察
+          </span>
+        </div>
+        <div class="grid">
+          <section>
+            <article class="card">
+              <div class="card-head">
+                <h2>
+                  <span class="number">
+                    01 /
+                  </span>
+                  选择工程环境
+                </h2>
+                <button id="refresh">
+                  重新收集 ↻
+                </button>
+              </div>
+              <div class="fields">
+                <div class="field wide">
+                  <label for="saved-profile">
+                    启动配置
+                  </label>
+                  <select id="saved-profile">
+                    <option value="">
+                      正在读取保存的配置
+                    </option>
+                  </select>
+                  <span class="hint" id="profile-hint">
+                    已有配置优先复用，口令始终单独输入。
+                  </span>
+                </div>
+                <div class="field wide">
+                  <label for="installation">
+                    产品安装
+                  </label>
+                  <select id="installation">
+                    <option value="">
+                      等待本机发现
+                    </option>
+                  </select>
+                  <span class="hint" id="coverage">
+                    下拉打开前收集候选；静态发现不代表已登录。
+                  </span>
+                </div>
+                <div class="field">
+                  <label for="project">
+                    工程项目
+                  </label>
+                  <input id="project" list="projects" placeholder="先选择安装">
+                  <datalist id="projects">
+                  </datalist>
+                  <span class="hint" data-origin="project">
+                    来源待发现
+                  </span>
+                </div>
+                <div class="field">
+                  <label for="module">
+                    模块
+                  </label>
+                  <input id="module" list="modules" placeholder="自动收集，可覆盖">
+                  <datalist id="modules">
+                  </datalist>
+                  <span class="hint" data-origin="module">
+                    来源待发现
+                  </span>
+                </div>
+                <div class="field">
+                  <label for="user">
+                    用户
+                  </label>
+                  <input id="user" autocomplete="username" placeholder="输入工程用户">
+                </div>
+                <div class="field">
+                  <label for="mdb">
+                    MDB
+                  </label>
+                  <input id="mdb" placeholder="按工程要求填写">
+                </div>
+              </div>
+              <details>
+                <summary>
+                  路径与启动参数 · 可人工覆盖
+                </summary>
+                <div class="fields">
+                  <div class="field wide">
+                    <label for="executable">
+                      入口程序
+                    </label>
+                    <input id="executable" readonly>
+                  </div>
+                  <div class="field wide">
+                    <label for="initialization">
+                      初始化文件
+                    </label>
+                    <input id="initialization">
+                  </div>
+                  <div class="field wide">
+                    <label for="workingDirectory">
+                      工作目录
+                    </label>
+                    <input id="workingDirectory">
+                  </div>
+                </div>
+              </details>
+            </article>
+            <article class="card">
+              <div class="card-head">
+                <h2>
+                  <span class="number">
+                    02 /
+                  </span>
+                  审阅启动计划
+                </h2>
+                <span class="badge" id="plan-state">
+                  尚未生成
+                </span>
+              </div>
+              <div id="plan-summary" class="empty">
+                完成必要字段后生成计划，检查目标、修订与有效期。
+              </div>
+              <div class="notice">
+                生成计划会保存当前启动配置。启动由单独按钮确认；口令只用于本次请求，不写入浏览器存储。
+              </div>
+              <div class="actions">
+                <button id="plan" class="primary" disabled>
+                  保存配置并生成计划 →
+                </button>
+              </div>
+              <div class="field password-field">
+                <label for="password">
+                  本次登录口令
+                </label>
+                <input type="password" id="password" autocomplete="current-password" placeholder="仅保留在本页内存">
+              </div>
+              <div class="actions">
+                <button id="execute" class="primary" disabled>
+                  确认计划并启动 ↗
+                </button>
+                <button id="observe" disabled>
+                  刷新执行状态
+                </button>
+              </div>
+            </article>
+          </section>
+          <aside>
+            <article class="card">
+              <div class="eyebrow">
+                LIVE EVIDENCE
+              </div>
+              <h2 class="evidence-heading">
+                本次工作流
+              </h2>
+              <div class="state" id="workflow-state">
+                <span class="dot">
+                </span>
+                等待环境证据
+              </div>
+              <p id="message" role="status" aria-live="polite">
+                正在读取操作目录与本机环境。
+              </p>
+              <div class="execution-evidence" aria-live="polite">
+                <div>
+                  <span>入口进程</span>
+                  <strong id="process-observation">尚未观察</strong>
+                </div>
+                <div>
+                  <span>模块交接证据 · 非登录证明</span>
+                  <strong id="child-candidates">尚未观察</strong>
+                </div>
+                <div>
+                  <span>登录与 Host</span>
+                  <strong id="host-verification">登录尚未核验</strong>
+                </div>
+              </div>
+              <details>
+                <summary>按操作编号恢复观察</summary>
+                <label for="restore-operation-id">已有 operationId</label>
+                <input id="restore-operation-id" placeholder="从持久回执或日志复制" autocomplete="off">
+                <div class="actions">
+                  <button id="restore-observe">恢复观察</button>
+                </div>
+                <p class="hint">只读取原操作事实，不会重新启动。</p>
+              </details>
+              <dl class="facts">
+                <dt>
+                  证据类型
+                </dt>
+                <dd id="evidence">
+                  尚未采集
+                </dd>
+                <dt>
+                  收集时间
+                </dt>
+                <dd id="observed">
+                  —
+                </dd>
+                <dt>
+                  待处理字段
+                </dt>
+                <dd id="needs">
+                  —
+                </dd>
+                <dt>
+                  操作编号
+                </dt>
+                <dd id="operation-id">
+                  —
+                </dd>
+              </dl>
+            </article>
+            <article class="card" id="diagnostics">
+              <div class="card-head">
+                <h2>
+                  诊断有据可查
+                </h2>
+                <span class="number">
+                  SOURCE MAP
+                </span>
+              </div>
+              <p>
+                错误保留后端代码、影响与回执。入口进程创建不等于 Host 已连接。
+              </p>
+              <details open>
+                <summary>
+                  最近一次后端回执（不含口令）
+                </summary>
+                <pre id="receipt">
+                  尚无回执。未连接时不会显示演示工程。
+                </pre>
+              </details>
+              <details>
+                <summary>
+                  实现与契约入口
+                </summary>
+                <ul>
+                  <li>
+                    <a href="/source/src/YuzuhaToolkit.Manager.Core/LaunchDiscovery.cs">
+                      环境发现与字段来源
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/source/src/YuzuhaToolkit.Manager.Core/LaunchOperationCatalog.cs">
+                      配置修订与启动适配
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/source/openspec/changes/integrate-pmltwin-product-platform/contracts.md">
+                      工作流契约
+                    </a>
+                  </li>
+                </ul>
+                <p class="hint">
+                  若宿主未提供源码路由，请按上述仓库路径定位；交接文档列出完整映射。
+                </p>
+              </details>
+            </article>
+          </aside>
+        </div>
+        <div class="foot">
+          <span>
+            PMLTWIN / 启动 Feature
+          </span>
+          <span>
+            真实后端适配 · 无外部资产
+          </span>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

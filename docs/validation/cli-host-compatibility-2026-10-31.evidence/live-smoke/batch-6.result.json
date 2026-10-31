@@ -1,0 +1,82 @@
+{
+  "operationId": "op.batch",
+  "success": false,
+  "exitCode": 6,
+  "data": {
+    "success": false,
+    "stoppedOnError": true,
+    "completed": 2,
+    "results": [
+      {
+        "operationId": "aveva.session.select",
+        "success": true,
+        "exitCode": 0,
+        "data": {
+          "SessionSelected": true,
+          "Connected": true,
+          "TargetVerified": true,
+          "SelectedSession": {
+            "ProcessId": 25624,
+            "ProcessStartTimeUtcTicks": 639290226957908482,
+            "ProcessName": "des",
+            "ExecutablePath": "C:\\Program Files (x86)\\AVEVA\\Everything3D2.10\\des.exe",
+            "WindowTitle": "ProjAPS | ALL | Model - AVEVA Everything3D",
+            "Product": "E3D",
+            "Project": "ProjAPS",
+            "PipeName": "yuzuha.pml.command.v1.pid-25624",
+            "PipeDetected": true
+          },
+          "PipeName": "yuzuha.pml.command.v1.pid-25624",
+          "ExpectedProcessId": 25624,
+          "ExpectedProcessStartTimeUtcTicks": 639290226957908482,
+          "ExpectedModel": "DESIGN",
+          "Host": {
+            "FormQueryVersion": 1,
+            "BoundedArrayReadVersion": 1,
+            "ProcessId": 25624,
+            "ProcessStartTimeUtcTicks": 639290226957908482,
+            "Model": "DESIGN",
+            "PipeName": "yuzuha.pml.command.v1.pid-25624",
+            "HostFramework": "net48",
+            "HostVersion": "0.3.4.2",
+            "ServerTimeUtc": "2026-10-31T05:52:10.6928983Z"
+          },
+          "Error": null
+        },
+        "error": null,
+        "schemaVersion": 1
+      },
+      {
+        "operationId": "pml.gadget.read",
+        "success": false,
+        "exitCode": 6,
+        "data": {
+          "FormQueryResult": null,
+          "ArrayWindow": null,
+          "Success": false,
+          "Code": "PML_COMMAND_EXCEPTION",
+          "ErrorMessage": "PML_UI_ITEM_TOO_LARGE: One result item exceeds maxCharacters; increase the budget.",
+          "PmlCommand": "",
+          "ResultList": null,
+          "RequestId": "82d30ec2057d4ddd8d8469e5acb851f3",
+          "ExecutionThreadId": 1,
+          "ServerRuntime": "4.0.30319.42000",
+          "ServerTimeUtc": "2026-10-31T05:52:10.7591481Z",
+          "FunctionTrustWarning": null
+        },
+        "error": {
+          "code": "HOST_FAILED",
+          "message": "PML_UI_ITEM_TOO_LARGE: One result item exceeds maxCharacters; increase the budget.",
+          "mayHaveExecuted": true
+        },
+        "schemaVersion": 1
+      }
+    ]
+  },
+  "error": {
+    "code": "HOST_FAILED",
+    "message": "Batch stopped; earlier results are retained and no operation is retried. PML_UI_ITEM_TOO_LARGE: One result item exceeds maxCharacters; increase the budget.",
+    "mayHaveExecuted": true
+  },
+  "schemaVersion": 1
+}

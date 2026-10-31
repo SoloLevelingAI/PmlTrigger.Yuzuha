@@ -44,6 +44,16 @@ public static class LaunchService
         return start;
     }
 
+    /// <summary>启动产品入口并返回入口 PID；不注入标准设备或继承调用方句柄，保持原生 GUI 启动合同并释放 CLI 输出管道。</summary>
+    /// <param name="profile">已验证的启动配置。</param>
+    /// <param name="password">仅在进程边界注入的本次密码。</param>
+    /// <param name="modules">产品模块目录。</param>
+    public static int Start(LaunchProfile profile, string password, IProductModuleCatalog? modules = null) => Start(Build(profile, password, modules));
+
+    /// <summary>启动已准备的产品入口描述，保留本次启动策略的关联信息。</summary>
+    /// <param name="start">由 Build 生成的启动描述。</param>
+    public static int Start(ProcessStartInfo start) => DetachedProcess.Start(start);
+
     private static string[] Arguments(LaunchProfile profile, string password, IProductModuleCatalog? modules)
     {
         var catalog = (modules ?? new ProductModuleCatalog()).Get(new(profile.Executable, profile.Product, profile.Version, profile.Kind));

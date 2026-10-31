@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "installation": "C:\\Users\\26648\\AppData\\Local\\YuzuhaToolkit\\PmlTrigger.Yuzuha",
+  "backupRoot": "C:\\Users\\26648\\AppData\\Local\\YuzuhaToolkit\\PmlTrigger.Yuzuha\\backups\\host-bootstrap-20261031T052842-f7febc7e",
+  "createdAtUtc": "2026-10-31T05:28:42.5076055Z",
+  "state": "installed-and-hash-verified",
+  "files": [
+    {
+      "path": "PMLLIB/Bootstrap/YuzuhaResolveRuntimePath.pmlfnc",
+      "target": "C:\\Users\\26648\\AppData\\Local\\YuzuhaToolkit\\PmlTrigger.Yuzuha\\PMLLIB\\Bootstrap\\YuzuhaResolveRuntimePath.pmlfnc",
+      "backup": "C:\\Users\\26648\\AppData\\Local\\YuzuhaToolkit\\PmlTrigger.Yuzuha\\backups\\host-bootstrap-20261031T052842-f7febc7e\\PMLLIB\\Bootstrap\\YuzuhaResolveRuntimePath.pmlfnc",
+      "beforeSha256": "E134D87C9DDDB7864D56AEB617CEE3239D64162FFD0B0827B5AD55ABDE873950",
+      "afterSha256": "D38A4FDE4BFD8CE723E49EFDEF4856ACBA1138AC85950783541F020131F78BF2",
+      "updated": true
+    },
+    {
+      "path": "PMLLIB/Addins/YuzuhaRpc.pmlobj",
+      "target": "C:\\Users\\26648\\AppData\\Local\\YuzuhaToolkit\\PmlTrigger.Yuzuha\\PMLLIB\\Addins\\YuzuhaRpc.pmlobj",
+      "backup": "C:\\Users\\26648\\AppData\\Local\\YuzuhaToolkit\\PmlTrigger.Yuzuha\\backups\\host-bootstrap-20261031T052842-f7febc7e\\PMLLIB\\Addins\\YuzuhaRpc.pmlobj",
+      "beforeSha256": "4D65EBBFF161EB71C9EFC49B7E2EE3C2A3F9F4F0AA3A88B83746CE859C153677",
+      "afterSha256": "8E4486A10BEE89545783F85F90B6B29BCEB447DEDD1360A41881E0452785F560",
+      "updated": true
+    },
+    {
+      "path": "PMLLIB/pml.index",
+      "target": "C:\\Users\\26648\\AppData\\Local\\YuzuhaToolkit\\PmlTrigger.Yuzuha\\PMLLIB\\pml.index",
+      "backup": "C:\\Users\\26648\\AppData\\Local\\YuzuhaToolkit\\PmlTrigger.Yuzuha\\backups\\host-bootstrap-20261031T052842-f7febc7e\\PMLLIB\\pml.index",
+      "beforeSha256": "E222A8CDB1764FA697CE3D1CC8BB1119142ADE733CEFF0A5C79A4CF92390BF29",
+      "afterSha256": "E222A8CDB1764FA697CE3D1CC8BB1119142ADE733CEFF0A5C79A4CF92390BF29",
+      "updated": false
+    }
+  ]
+}

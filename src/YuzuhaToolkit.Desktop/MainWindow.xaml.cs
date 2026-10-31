@@ -176,7 +176,7 @@ public partial class MainWindow : Window
         Name = NameBox.Text.Trim(), Kind = ((ComboBoxItem)KindBox.SelectedItem).Content.ToString()!, Executable = ExecutableBox.Text.Trim(),
         Initialization = InitializationBox.Text.Trim(), Product = ProductBox.Text.Trim(), Version = VersionBox.Text.Trim(), WorkingDirectory = WorkingBox.Text.Trim(),
         Project = ProjectBox.Text.Trim(), User = UserBox.Text.Trim(), Mdb = MdbBox.Text.Trim(), Module = ReadModuleValue(), License = LicenseBox.Text.Trim(),
-        Environment = ReadStartupEnvironment(), CredentialKey = _selected?.CredentialKey ?? "", RememberPassword = RememberPasswordBox.IsChecked == true
+        Environment = ReadStartupEnvironment(), LicensePrecheck = _selected?.LicensePrecheck, CredentialKey = _selected?.CredentialKey ?? "", RememberPassword = RememberPasswordBox.IsChecked == true
     };
     private void ProfileSelected(object sender, SelectionChangedEventArgs e)
     {
@@ -269,24 +269,27 @@ public partial class MainWindow : Window
         LaunchButton.IsEnabled = false;
         try
         {
-            var enteredPassword = PasswordInput.Password; var profile = PersistProfile();
+            var enteredPassword = PasswordInput.Password; var profile = PersistProfile(); var expectedRevision = _profileRevision;
             if (!string.IsNullOrWhiteSpace(_settings.RegisteredPmlLib))
             {
                 var health = await ScanAsync();
                 if (_closed) return;
                 if (health.NeedsAttention && MessageBox.Show(FormatHealth(health) + "\n\n建议先移出旧插件、备份和开发副本。仍然启动吗？", "PMLLIB 清理提醒", MessageBoxButton.YesNo, MessageBoxImage.Warning) != MessageBoxResult.Yes) return;
             }
+            var precheck = await YuzuhaToolkit.Manager.LaunchLicensePreflight.CheckAsync(profile);
+            if (!precheck.Allowed) throw new InvalidOperationException(precheck.Code + ": " + precheck.Message);
+            if (_launchProfiles.Read().Revision != expectedRevision) throw new ConfigurationConflictException(_launchProfiles.Read().Revision);
             var password = enteredPassword.Length > 0 ? enteredPassword : profile.CredentialKey.Length > 0 ? WindowsCredentialStore.Read(profile.CredentialKey) : "";
             var start = LaunchService.Build(profile, password);
             var id = _journal.Begin("launch_aveva", JsonSerializer.Serialize(new { profile = profile.Name, executable = profile.Executable, startupPolicy = (start.Environment.TryGetValue(StartupPolicy.Variable,out var startupActions) ? startupActions : "none"), startupId = (start.Environment.TryGetValue("YUZUHA_STARTUP_ID",out var startupId) ? startupId : null), startupLog = (start.Environment.TryGetValue("YUZUHA_STARTUP_LOG",out var startupLog) ? startupLog : null), phase = "requested-before-process-start" }));
             try
             {
-                using var process = Process.Start(start) ?? throw new IOException("未创建启动入口进程。");
-                _journal.Complete(id, "succeeded", "启动入口进程 PID " + process.Id);
-                Say("启动入口已创建，PID " + process.Id + "。工程会话就绪后可由工作台或 CLI 发现并选择；入口进程创建不等于登录完成。");
+                var processId = LaunchService.Start(start);
+                _journal.Complete(id, "succeeded", "启动入口进程 PID " + processId);
+                Say("启动入口已创建，PID " + processId + "。工程会话就绪后可由工作台或 CLI 发现并选择；入口进程创建不等于登录完成。");
                 profile.LastStartedUtc = DateTimeOffset.UtcNow;
                 try { ApplyProfileCommit(_launchProfiles.Save(profile, _profileRevision, true, "记录启动入口创建时间"), profile.Id); }
-                catch (Exception error) { Say("启动入口已创建，PID " + process.Id + "；最近启动记录未保存：" + error.Message); }
+                catch (Exception error) { Say("启动入口已创建，PID " + processId + "；最近启动记录未保存：" + error.Message); }
             }
             catch (Exception error) { _journal.Complete(id, "failed", error.Message); throw; }
         }

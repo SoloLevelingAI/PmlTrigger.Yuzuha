@@ -1,0 +1,158 @@
+{
+  "schema": 1,
+  "date": "2026-10-29",
+  "timezone": "Asia/Shanghai",
+  "status": "planning-only-not-approved",
+  "repositories": [
+    {
+      "name": "PmlTrigger.Yuzuha",
+      "branch": "codex/openspec-contract-review-20261027",
+      "commit": "57e6e8d51a0271b2fae5f2a60363af51a5a32da3",
+      "trackedChangesBeforePlanning": []
+    },
+    {
+      "name": "LaunchDesk.Next",
+      "branch": "codex/remote-portable-design-review",
+      "commit": "78b8dc48b4b1746d67e5cc40b1012fecd38bef41",
+      "existingTrackedChanges": [
+        ".gitignore",
+        "PROJECT-MODULES.md",
+        "README.md",
+        "REFACTOR-SCRIPTS.md",
+        "RELEASE-V1.md",
+        "SNAPSHOT.md",
+        "docs/INDEX.md",
+        "docs/decisions/architecture.md",
+        "docs/decisions/toml-selection.md",
+        "docs/dependencies.md",
+        "docs/design/index.md",
+        "docs/design/remote-portable-review.md",
+        "docs/development/INDEX.md",
+        "docs/development/addins.md",
+        "docs/development/model-driven-review.md",
+        "docs/development/original-deploy-diagnostic.md",
+        "docs/docfx.json",
+        "docs/features/launch-by-profile.md",
+        "docs/openspec.md",
+        "docs/reviews/licence-checkout.md",
+        "docs/reviews/remote-portable.md",
+        "docs/reviews/remote-project-lab-results.md",
+        "docs/reviews/remote-project-lab.md",
+        "docs/specifications/index.md",
+        "docs/toc.yml",
+        "docs/verification.md",
+        "openspec/changes/portable-profiles-and-credential-grants/specs/portable-profiles-and-credential-grants/spec.md",
+        "openspec/changes/portable-profiles-and-credential-grants/tasks.md",
+        "openspec/requirements.md"
+      ]
+    }
+  ],
+  "sourceFingerprints": [
+    {
+      "path": "src/YuzuhaToolkit.Mcp.Core/NativeCliHost.cs",
+      "sha256": "d149760f230001d8bdf6301fcdcdfb1f8327a14f98e9a090b5db591a1715d07c"
+    },
+    {
+      "path": "src/YuzuhaToolkit.Mcp.Core/NativeOperationCatalog.cs",
+      "sha256": "af0fbf433144e41fde8abe351ff2d968b9c250597a0f147f9152ad0fecc8859a"
+    },
+    {
+      "path": "src/YuzuhaToolkit.Mcp.Core/LaunchOperationCatalog.cs",
+      "sha256": "96124be9ec72c347f0d6eef1e15b5852e79f792b897db153246a96b9fd8ffb73"
+    },
+    {
+      "path": "src/PmlTwin.Phayton/OperationCli.cs",
+      "sha256": "e796766501ec68b165ef54d57dccc9ff9ad8e93769ba01faf75aa1ce81ee7bd2"
+    },
+    {
+      "path": "src/YuzuhaToolkit.Desktop/YuzuhaToolkit.Desktop.csproj",
+      "sha256": "841ad31b7ec2f08d6a9255a4e90e0849155881b32591c0afaa20aa08adc43733"
+    },
+    {
+      "path": "src/YuzuhaToolkit.Desktop/SessionWorkbench.cs",
+      "sha256": "69cdb62f425e2ffdcd94a439516f9046eb7521d1b44d71d5372dffb8ac115693"
+    },
+    {
+      "path": "src/YuzuhaToolkit.Desktop/MainWindow.UserData.xaml.cs",
+      "sha256": "aa08ec8227fe68c8b3be58985b2b8ec8e8d8a68d9a085fdb48c23424561622b8"
+    },
+    {
+      "path": "src/YuzuhaToolkit.Workspace/PluginDeployment.cs",
+      "sha256": "df20267504641bf46c388dad81de3b11577ede32e0157321312cbee5921e17ea"
+    },
+    {
+      "path": "src/YuzuhaToolkit.Workspace/LaunchService.cs",
+      "sha256": "4fa1b41be26408bc74d6153227136bf127fcad9740d607b43b2ad7dfc67b4598"
+    },
+    {
+      "path": "src/YuzuhaToolkit.Workspace/UserDataPaths.cs",
+      "sha256": "57cda3b5d457690448d92a8ce689b9b2694d686956e4565929ccd34280ec1056"
+    },
+    {
+      "path": "src/YuzuhaToolkit.Workspace/WorkspaceSettings.cs",
+      "sha256": "cce3b6514e28790b39507bced1c984ee820d9ce02ec4b43f493bb7e769d20b79"
+    },
+    {
+      "path": "src/YuzuhaToolkit.Knowledge.Core/KnowledgeRepository.cs",
+      "sha256": "b61f841542473d1857c62c1a5f277a9cb63c22af68b98ccf61babf10469c091c"
+    },
+    {
+      "path": "src/YuzuhaToolkit.Knowledge.Core/KnowledgeManagement.cs",
+      "sha256": "1c3c7b57beef43f8845f3e7e4d600aeb60df9d67733a68166712c929d8bb20ac"
+    },
+    {
+      "path": "scripts/Register-YuzuhaMcp.ps1",
+      "sha256": "c2e9f18d9205e50be50a22744bfd64c4c997a8df0c29f8e54f356892652931a8"
+    },
+    {
+      "path": "PMLLIB/Bootstrap/YuzuhaResolveRuntimePath.pmlfnc",
+      "sha256": "d38a4fde4bfd8ce723e49efdef4856acba1138ac85950783541f020131f78bf2"
+    },
+    {
+      "path": "docs/specification/contract.json",
+      "sha256": "292eb60792529c383678a4c748547019fb486e4051469193247f99ae6515f716"
+    }
+  ],
+  "prototypeFingerprints": [
+    {
+      "path": "D:\\DeepSeek-Harness\\202608-Inc\\LaunchDesk-review\\LaunchDesk.App\\ToolOperations.cs",
+      "sha256": "b6774b36ea4ea6698299f17a7ff062938569c4231a6a7855db6c9e829e808d49"
+    },
+    {
+      "path": "D:\\DeepSeek-Harness\\202608-Inc\\LaunchDesk-review\\LaunchDesk.Update\\UpdateEngine.cs",
+      "sha256": "fb1cd318e9d338b78869b5c116c65a2d1d333d6629791788cffe9085ff26bb94"
+    }
+  ],
+  "observations": {
+    "scope": "Tool responses and selected default/legacy paths only; not an exhaustive machine scan",
+    "deepSeekModelCall": "NotRun",
+    "knowledgeServiceDatabases": 0,
+    "realKnowledgeImport": "NotRun",
+    "liveExecution": "NotRun",
+    "avevaSessions": 0,
+    "deepSeekHeadlessHelp": "Passed with isolated DSH_HOME",
+    "deepSeekVersion": "0.2.1-rc.3",
+    "figcraftGeneration": "NotRun"
+  },
+  "testBaseline": {
+    "passed": false,
+    "build": "No successful build result",
+    "prebuiltRun": "Aborted: testhost did not connect within 90 seconds",
+    "report": "artifacts/planning/2026-10-29/yuzuha-manager-prebuilt-baseline.trx"
+  },
+  "planningValidation": {
+    "status": "Passed",
+    "openSpecStrict": "Valid",
+    "artifactsComplete": "4/4",
+    "capabilities": 6,
+    "requirements": 19,
+    "scenarios": 33,
+    "implementationTasks": 48,
+    "completedImplementationTasks": 0,
+    "markdownFiles": 10,
+    "brokenLocalLinks": 0,
+    "sourceFingerprintsUnchanged": true,
+    "canonicalContractUnchanged": true,
+    "productionCodeEdited": false
+  }
+}

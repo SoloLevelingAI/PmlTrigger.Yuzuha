@@ -1,0 +1,17 @@
+{
+  "Source": "C:\\Users\\26648\\Documents\\ChatGPT\\Example\\PmlTrigger.Yuzuha\\artifacts\\manager\\cli-host-compat\\stage",
+  "Target": "C:\\Users\\26648\\AppData\\Local\\YuzuhaToolkit\\PmlTrigger.Yuzuha",
+  "Files": [
+    {
+      "RelativePath": "runtime/profiles/E3D2.1/net48/YuzuhaToolkit.PmlHost.Net48.dll",
+      "Bytes": 43008,
+      "SourceHash": "1F1A0E30C60BACA342F173AE90EB4958AEE08B83D406BF76DDE6A5C03BC4B7F9",
+      "TargetHash": "EF6CDB934D7F69BD429B66F6C83F52928B3A14A66BF49B1EF3ABF28046C48987",
+      "Action": "\u8986\u76D6 \u00B7 \u5148\u5907\u4EFD"
+    }
+  ],
+  "Skipped": 0,
+  "SelectedPaths": [
+    "runtime/profiles/E3D2.1/net48/YuzuhaToolkit.PmlHost.Net48.dll"
+  ]
+}

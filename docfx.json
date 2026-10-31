@@ -1,6 +1,14 @@
 {
   "metadata": [
     {
+      "src": [{ "files": ["src/PmlTwin.Database.Contracts/PmlTwin.Database.Contracts.csproj", "src/PmlTwin.Database/PmlTwin.Database.csproj"] }],
+      "dest": "artifacts/docfx/api/database"
+    },
+    {
+      "src": [{ "files": ["src/YuzuhaToolkit.Manager.Core/YuzuhaToolkit.Manager.Core.csproj"] }],
+      "dest": "artifacts/docfx/api/manager"
+    },
+    {
       "src": [
         {
           "files": [
@@ -86,6 +94,13 @@
           "html-app-manager.md",
           "index.md",
           "installation.md",
+          "launch-workflow.md",
+          "manager-cli.md",
+          "database.md",
+          "ribbon-adapter.md",
+          "manager-launch.md",
+          "manager-knowledge.md",
+          "manager-plugins.md",
           "phayton-object-walker.md",
           "pml-development-flow.md",
           "pml-development-plan.md",

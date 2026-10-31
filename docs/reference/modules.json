@@ -1,5 +1,23 @@
 {
   "projects": {
+    "PmlTwin.Database.Contracts": {
+      "name": "应用数据库契约",
+      "description": "产品与版本隔离、预期修订和原子提交；不公开供应商连接。",
+      "alias": "database",
+      "role": "production"
+    },
+    "PmlTwin.Database": {
+      "name": "独立应用数据库",
+      "description": "SQLite 修订存储切片，尚未切换原有 JSON 工作区。",
+      "alias": "database",
+      "role": "production"
+    },
+    "PmlTwin.Caf.Adapter": {
+      "name": "CAF 宿主薄适配",
+      "description": "使用本机 SDK 单独编译的 NET48 生命周期入口，尚未实机加载。",
+      "sourceOnly": true,
+      "role": "production"
+    },
     "YuzuhaToolkit.Workspace": {
       "name": "共享工作区",
       "description": "原生启动、插件复制、有界目录扫描和本机工具运行日志。",
@@ -83,7 +101,55 @@
     },
     "PmlTwin.Phayton.Cli": {
       "name": "操作命令行",
-      "description": "Native CLI directly invokes execution, knowledge and launch services with JSON and explicit permissions.",
+      "description": "通信进程协议仅组合通信与诊断；原生 op 入口经兼容层保留执行、知识和启动操作。",
+      "sourceOnly": true,
+      "role": "production"
+    },
+    "YuzuhaToolkit.Manager.Core": {
+      "name": "管理内核",
+      "description": "部署、EVARS、启动、复制、数据与知识管理、可选插件，以及独立通信 CLI 适配。",
+      "sourceOnly": true,
+      "role": "production"
+    },
+    "YuzuhaToolkit.Manager.Cli": {
+      "name": "管理器命令行",
+      "description": "管理服务的无窗口 JSON 入口；不直接引用通信 RPC 实现。",
+      "sourceOnly": true,
+      "role": "production"
+    },
+    "YuzuhaToolkit.Communication.Contracts": {
+      "name": "通信进程契约",
+      "description": "版本化请求、响应、目标身份、超时预算与通信能力描述。",
+      "sourceOnly": true,
+      "role": "production"
+    },
+    "YuzuhaToolkit.Plugins.Contracts": {
+      "name": "可选工作包契约",
+      "description": "插件包清单、能力握手、授权声明与单次工作进程协议。",
+      "sourceOnly": true,
+      "role": "production"
+    },
+    "YuzuhaToolkit.Plugin.License": {
+      "name": "可选许可诊断包",
+      "description": "独立工作进程的 TCP 与 Windows 服务只读检查；不证明许可签出。",
+      "sourceOnly": true,
+      "role": "production"
+    },
+    "YuzuhaToolkit.Plugin.Vm": {
+      "name": "可选 VMware 任务包",
+      "description": "明确根下的只读发现、冻结计划、模拟，以及独立授权的任务执行和证据回收。",
+      "sourceOnly": true,
+      "role": "production"
+    },
+    "YuzuhaToolkit.Cli.Compatibility": {
+      "name": "历史 CLI 兼容组合层",
+      "description": "保留原生操作 ID 与字段，组合通信及管理服务；不进入通信协议内核。",
+      "sourceOnly": true,
+      "role": "production"
+    },
+    "YuzuhaToolkit.Builtins": {
+      "name": "内置指南",
+      "description": "无需 SQLite 或通信依赖的版本内指南、别名与授权边界。",
       "sourceOnly": true,
       "role": "production"
     },
@@ -127,7 +193,7 @@
       "id": "builtin",
       "name": "内置指南",
       "description": "无需 SQLite 的版本内置主题、别名、完整正文与替代授权边界。",
-      "match": "src/(Shared/BuiltinGuideCatalog|YuzuhaToolkit.Mcp.Core/Builtin)",
+      "match": "src/(Shared/BuiltinGuideCatalog|YuzuhaToolkit[.]Builtins/|YuzuhaToolkit[.]Mcp[.]Core/Builtin)",
       "guide": "user-data-and-knowledge.html"
     },
     {
@@ -155,22 +221,50 @@
       "id": "setup",
       "name": "安装与生命周期",
       "description": "发现产品与环境入口，生成预览，按明确批准的计划安装、更新或恢复。",
-      "match": "installer/SetupBridge/",
+      "match": "installer/SetupBridge/|src/Shared/(EnvironmentTextEditor|PathRules)",
       "guide": "installation.html"
     },
     {
       "id": "entrypoints",
       "name": "CLI / HTTP 与历史入口",
-      "description": "原生CLI、已禁用的历史MCP服务入口、开发预览与文档宿主。",
-      "match": "src/(YuzuhaToolkit.CommandLine/|YuzuhaToolkit.DevHost/|YuzuhaToolkit.Mcp.Core/(NativeCliHost|McpUsage|McpHostSurface|YuzuhaToolkitPaths)|YuzuhaToolkit.Knowledge/KnowledgeUsage|YuzuhaToolkit.Knowledge.Core/KnowledgeJson)",
+      "description": "管理与通信 CLI、已禁用的历史 MCP 服务入口、开发预览与文档宿主。",
+      "match": "src/(PmlTwin[.]Phayton[.]Cli/|YuzuhaToolkit[.](Manager[.]Cli/|Cli[.]Compatibility/NativeCliHost|CommandLine/|DevHost/|Mcp/|Mcp[.]Core/(AssemblyInfo|McpUsage|McpHostSurface|YuzuhaToolkitPaths)|Knowledge/|Knowledge[.]Core/KnowledgeJson))",
       "guide": "cli.html"
     },
     {
       "id": "operations",
       "name": "共享操作内核",
-      "description": "原生CLI共享的操作注册、参数契约、独立权限与直接调度。",
-      "match": "src/PmlTwin.Phayton|src/YuzuhaToolkit.Mcp.Core/(Operation|PmlRpcConnection|YuzuhaOperation|NativeOperation|LaunchOperation)",
+      "description": "共享操作注册、参数契约、独立权限与直接调度；通信目录不组合管理实现。",
+      "match": "src/PmlTwin[.]Phayton/|src/YuzuhaToolkit[.]Mcp[.]Core/(Operation|PmlRpcConnection|YuzuhaOperation|CommunicationOperation|CommunicationCliEndpoint)",
       "guide": "cli.html"
+    },
+    {
+      "id": "manager",
+      "name": "管理服务与 CLI",
+      "description": "GUI/CLI 共用的配置修订、部署与 EVARS 冻结计划、复制恢复、知识导入和数据迁移。",
+      "match": "src/YuzuhaToolkit[.]Manager[.](Core|Cli)/",
+      "guide": "manager-cli.html"
+    },
+    {
+      "id": "communication",
+      "name": "通信进程边界",
+      "description": "管理器与桌面的独立 CLI 适配、目标身份、版本和请求关联契约。",
+      "match": "src/YuzuhaToolkit[.](Communication[.]Contracts/|Manager[.]Core/(Communication|Connection)|Mcp[.]Core/Communication|Desktop/(DesktopCliSession|DesktopDevelopmentHost|McpWorkbenchHost))",
+      "guide": "manager-cli.html"
+    },
+    {
+      "id": "manager-plugins",
+      "name": "可选许可与 VM 工作包",
+      "description": "显式登记、启停、包指纹与独立 worker；许可诊断、VM 计划/模拟/授权执行及证据回收。",
+      "match": "src/YuzuhaToolkit[.](Plugins[.]Contracts/|Plugin[.](License|Vm)/|Manager[.]Core/(Plugin|License))",
+      "guide": "manager-plugins.html"
+    },
+    {
+      "id": "compatibility",
+      "name": "历史 CLI 兼容层",
+      "description": "旧 NativeCliHost/NativeOperationCatalog 与启动操作转接；保留旧 ID，不扩大通信协议范围。",
+      "match": "src/YuzuhaToolkit[.]Cli[.]Compatibility/",
+      "guide": "manager-cli.html"
     },
     {
       "id": "webapps",

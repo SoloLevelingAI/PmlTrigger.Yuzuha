@@ -1,5 +1,20 @@
 {
   "projects": {
+    "PmlTwin.Database.Contracts": {
+      "id": "database-contracts",
+      "title": "应用数据库契约 · 隔离范围与修订",
+      "references": []
+    },
+    "PmlTwin.Database": {
+      "id": "database",
+      "title": "独立 SQLite 修订存储 · 现代管理进程",
+      "references": ["PmlTwin.Database.Contracts"]
+    },
+    "PmlTwin.Caf.Adapter": {
+      "id": "caf-adapter",
+      "title": "CAF 薄适配 · 独立 NET48 编译验收",
+      "references": []
+    },
     "PlantHost.Rpc.Net10": {
       "id": "rpc",
       "title": "Named Pipe RPC · .NET 10",
@@ -16,7 +31,8 @@
       "references": [
         "YuzuhaToolkit.Mcp.Core",
         "YuzuhaToolkit.Knowledge.Core",
-        "YuzuhaToolkit.Workspace"
+        "YuzuhaToolkit.Workspace",
+        "YuzuhaToolkit.Manager.Core"
       ]
     },
     "YuzuhaToolkit.CommandLine": {
@@ -31,24 +47,26 @@
       "title": "执行工具核心 · 会话桥、工具与函数注册",
       "references": [
         "PlantHost.Rpc.Net10",
-        "YuzuhaToolkit.CommandLine",
-        "YuzuhaToolkit.Knowledge.Core",
+        "PmlTwin.Phayton",
+        "YuzuhaToolkit.Communication.Contracts",
         "YuzuhaToolkit.Workspace",
-        "PmlTwin.Phayton"
+        "YuzuhaToolkit.Builtins"
       ]
     },
     "YuzuhaToolkit.Mcp": {
       "id": "mcp",
       "title": "历史执行入口 · MCP 已禁用",
       "references": [
-        "YuzuhaToolkit.Mcp.Core"
+        "YuzuhaToolkit.Mcp.Core",
+        "YuzuhaToolkit.Cli.Compatibility"
       ]
     },
     "YuzuhaToolkit.Knowledge.Core": {
       "id": "knowledge-core",
       "title": "知识库核心 · 建库、分块与检索",
       "references": [
-        "YuzuhaToolkit.Workspace"
+        "YuzuhaToolkit.Workspace",
+        "YuzuhaToolkit.Builtins"
       ]
     },
     "YuzuhaToolkit.Knowledge": {
@@ -58,7 +76,8 @@
         "YuzuhaToolkit.CommandLine",
         "YuzuhaToolkit.Knowledge.Core",
         "YuzuhaToolkit.Mcp.Core",
-        "YuzuhaToolkit.Workspace"
+        "YuzuhaToolkit.Workspace",
+        "YuzuhaToolkit.Cli.Compatibility"
       ]
     },
     "YuzuhaToolkit.PmlHost.Net35": {
@@ -94,7 +113,8 @@
       "title": "原生 CLI 主入口 · JSON 与底层直接调用",
       "references": [
         "PmlTwin.Phayton",
-        "YuzuhaToolkit.Mcp.Core"
+        "YuzuhaToolkit.Mcp.Core",
+        "YuzuhaToolkit.Cli.Compatibility"
       ]
     },
     "YuzuhaToolkit.WebApps": {
@@ -103,6 +123,68 @@
       "references": [
         "YuzuhaToolkit.Mcp.Core"
       ]
+    },
+    "YuzuhaToolkit.Communication.Contracts": {
+      "id": "communication-contracts",
+      "title": "通信进程契约",
+      "references": [
+        "PmlTwin.Phayton"
+      ]
+    },
+    "YuzuhaToolkit.Plugins.Contracts": {
+      "id": "plugin-contracts",
+      "title": "可选工作包契约",
+      "references": [
+        "PmlTwin.Phayton",
+        "YuzuhaToolkit.Communication.Contracts"
+      ]
+    },
+    "YuzuhaToolkit.Manager.Core": {
+      "id": "manager-core",
+      "title": "管理内核 · 计划、数据与独立 CLI 适配",
+      "references": [
+        "PmlTwin.Phayton",
+        "YuzuhaToolkit.Communication.Contracts",
+        "YuzuhaToolkit.Plugins.Contracts",
+        "YuzuhaToolkit.Workspace",
+        "YuzuhaToolkit.Knowledge.Core"
+      ]
+    },
+    "YuzuhaToolkit.Manager.Cli": {
+      "id": "manager-cli",
+      "title": "管理器 CLI",
+      "references": [
+        "YuzuhaToolkit.Manager.Core"
+      ]
+    },
+    "YuzuhaToolkit.Plugin.License": {
+      "id": "plugin-license",
+      "title": "可选许可只读诊断工作包",
+      "references": [
+        "YuzuhaToolkit.Plugins.Contracts"
+      ]
+    },
+    "YuzuhaToolkit.Plugin.Vm": {
+      "id": "plugin-vm",
+      "title": "可选 VMware 任务与模拟工作包",
+      "references": [
+        "YuzuhaToolkit.Plugins.Contracts"
+      ]
+    },
+    "YuzuhaToolkit.Cli.Compatibility": {
+      "id": "cli-compatibility",
+      "title": "历史 CLI 管理操作组合层",
+      "references": [
+        "YuzuhaToolkit.Manager.Core",
+        "YuzuhaToolkit.Mcp.Core",
+        "YuzuhaToolkit.Knowledge.Core",
+        "YuzuhaToolkit.Workspace"
+      ]
+    },
+    "YuzuhaToolkit.Builtins": {
+      "id": "builtin-guides",
+      "title": "内置指南 · 无 SQLite/通信依赖",
+      "references": []
     }
   }
 }

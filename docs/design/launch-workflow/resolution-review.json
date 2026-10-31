@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "source": "read-only DOM of local workbench; text and shapes remain editable; user field redacted",
+  "limitations": "Full-content frames record required scrolling, not a browser emulator; font metrics may differ.",
+  "frames": [
+    {
+      "id": 2,
+      "name": "1180 × 800 / Light / full content",
+      "capture": "1180-light.dom.json",
+      "viewport": {
+        "height": 800,
+        "width": 1180
+      },
+      "document": {
+        "height": 1500,
+        "width": 1165
+      },
+      "verticalScroll": true,
+      "horizontalScroll": false
+    },
+    {
+      "id": 114,
+      "name": "1440 × 1000 / Dark / full content",
+      "capture": "1440-dark.dom.json",
+      "viewport": {
+        "height": 1000,
+        "width": 1440
+      },
+      "document": {
+        "height": 1463,
+        "width": 1440
+      },
+      "verticalScroll": true,
+      "horizontalScroll": false
+    },
+    {
+      "id": 221,
+      "name": "1440 × 1000 / Light / full content",
+      "capture": "1440-light.dom.json",
+      "viewport": {
+        "height": 1000,
+        "width": 1440
+      },
+      "document": {
+        "height": 1463,
+        "width": 1425
+      },
+      "verticalScroll": true,
+      "horizontalScroll": false
+    },
+    {
+      "id": 328,
+      "name": "390 × 844 / Light / full content",
+      "capture": "390-light.dom.json",
+      "viewport": {
+        "height": 844,
+        "width": 390
+      },
+      "document": {
+        "height": 2737,
+        "width": 375
+      },
+      "verticalScroll": true,
+      "horizontalScroll": false
+    },
+    {
+      "id": 438,
+      "name": "960 × 800 / Light / full content",
+      "capture": "960-light.dom.json",
+      "viewport": {
+        "height": 800,
+        "width": 960
+      },
+      "document": {
+        "height": 2253,
+        "width": 945
+      },
+      "verticalScroll": true,
+      "horizontalScroll": false
+    }
+  ]
+}

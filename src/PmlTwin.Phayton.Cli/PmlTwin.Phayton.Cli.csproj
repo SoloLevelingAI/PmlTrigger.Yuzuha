@@ -13,5 +13,6 @@
   <ItemGroup>
     <ProjectReference Include="../PmlTwin.Phayton/PmlTwin.Phayton.csproj" />
     <ProjectReference Include="../YuzuhaToolkit.Mcp.Core/YuzuhaToolkit.Mcp.Core.csproj" />
+    <ProjectReference Include="../YuzuhaToolkit.Cli.Compatibility/YuzuhaToolkit.Cli.Compatibility.csproj" />
 </ItemGroup>
 </Project>

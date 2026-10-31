@@ -18,6 +18,8 @@ public partial class SessionWorkbenchView : UserControl, IDisposable
     private SessionWorkbench model;
     private CancellationTokenSource? pending;
     private bool initialized;
+    private bool disposed;
+    private readonly CancellationTokenSource discoveryCancellation = new();
     private bool rendering;
     private bool smokeMode;
     private DesktopSmokeHost? smokeHost;
@@ -42,10 +44,19 @@ public partial class SessionWorkbenchView : UserControl, IDisposable
         Grid.SetColumnSpan(cards[0], narrow ? 3 : 1); Grid.SetColumn(cards[1], narrow ? 0 : 2); Grid.SetRow(cards[1], narrow ? 1 : 0); Grid.SetColumnSpan(cards[1], narrow ? 3 : 1);
     }
     private CancellationToken Token => pending?.Token ?? CancellationToken.None;
-    private void DiscoverNow()
+    private async void DiscoverNow()
     {
-        try { var rows = model.Discover().Sessions.Select(c => new SessionRow(c)).ToArray(); SessionsGrid.ItemsSource = rows; CandidateCountText.Text = "全部 " + rows.Length; CandidatesChanged?.Invoke(rows.Select(row => row.Candidate).ToArray()); }
-        catch (Exception error) { FeedbackText.Text = error.Message; }
+        if (disposed || model.IsBusy) return;
+        var source = model;
+        try
+        {
+            var response = await source.DiscoverAsync(discoveryCancellation.Token);
+            if (disposed || !ReferenceEquals(source, model)) return;
+            var rows = response.Sessions.Select(c => new SessionRow(c)).ToArray(); SessionsGrid.ItemsSource = rows; CandidateCountText.Text = "全部 " + rows.Length;
+            CandidatesChanged?.Invoke(rows.Select(row => row.Candidate).ToArray());
+        }
+        catch (Exception error) { if (!disposed) FeedbackText.Text = error.Message; }
+        finally { if (!disposed) Render(); }
     }
     private void DiscoverSessions(object sender, RoutedEventArgs e) { DiscoverNow(); Render(); }
     /// <summary>让总览复用运行会话发现，不连接或执行目标。</summary>
@@ -243,7 +254,7 @@ public partial class SessionWorkbenchView : UserControl, IDisposable
     private static string Describe(PmlFormQueryResult? r) => r is null ? "尚未读取" : $"本页起点 {r.StartIndex} · 返回 {r.Items?.Length ?? 0}\n扫描 {r.Scanned} · 索引上界 {r.IndexUpperBound}\n字符 {r.Characters} · NextIndex {r.NextIndex}\n" + (r.NextIndex > 0 ? "仍有后续；空页也可继续。" : "本次枚举到达末端。");
     private void Local(Action action) { try { action(); } catch (Exception error) { FeedbackText.Text = error.Message + "\n请核对源码或注册表后重试。"; FeedbackText.SetResourceReference(TextBlock.ForegroundProperty, "Text.Danger"); } }
     /// <summary>释放本窗口资源；不关闭 AVEVA 或保存工程。</summary>
-    public void Dispose() { pending?.Cancel(); host.Dispose(); }
+    public void Dispose() { disposed = true; discoveryCancellation.Cancel(); discoveryCancellation.Dispose(); pending?.Cancel(); host.Dispose(); }
     /// <summary>窗口关闭前检查是否仍在等待操作结果。</summary>
     internal bool IsRunning => pending is not null;
     /// <summary>从总览进入函数二级入口。</summary>

@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><TargetFramework>net10.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable><IsTestProject>true</IsTestProject><IsPackable>false</IsPackable></PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+    <PackageReference Include="xunit" Version="2.9.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" PrivateAssets="all" />
+    <ProjectReference Include="../../src/PmlTwin.Database/PmlTwin.Database.csproj" />
+    <ProjectReference Include="../PmlTwin.Database.ProcessFixture/PmlTwin.Database.ProcessFixture.csproj" ReferenceOutputAssembly="false" />
+  </ItemGroup>
+  <Target Name="CopyDatabaseFixture" AfterTargets="Build">
+    <ItemGroup><FixtureFiles Include="../PmlTwin.Database.ProcessFixture/bin/$(Configuration)/net10.0/*" /></ItemGroup>
+    <Copy SourceFiles="@(FixtureFiles)" DestinationFolder="$(OutDir)DatabaseFixture" />
+    <ItemGroup><FixtureNative Include="../PmlTwin.Database.ProcessFixture/bin/$(Configuration)/net10.0/runtimes/**/*" /></ItemGroup>
+    <Copy SourceFiles="@(FixtureNative)" DestinationFiles="@(FixtureNative->'$(OutDir)DatabaseFixture/runtimes/%(RecursiveDir)%(Filename)%(Extension)')" />
+  </Target>
+</Project>

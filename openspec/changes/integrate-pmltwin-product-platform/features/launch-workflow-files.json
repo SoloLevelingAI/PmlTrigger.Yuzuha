@@ -1,0 +1,467 @@
+{
+  "schemaVersion": 1,
+  "scope": "launch feature implementation/design/document identities, not all platform sources",
+  "observedAt": "2026-10-31T05:54:39.6785261Z",
+  "files": [
+    {
+      "path": "docfx.json",
+      "sha256": "0ae0535fd31000ae1949f6a9e57f7d5a7ce4abfaf56389b2624a31182bceae95"
+    },
+    {
+      "path": "docs/design/launch-workflow/design-review.md",
+      "sha256": "7774ce15767e0ef9ed454b0e97b36fa7863b909b8d6a614d4443113521015fa5"
+    },
+    {
+      "path": "docs/design/launch-workflow/handoff.md",
+      "sha256": "0cdec834060c9a0565b4ae72561e4fa348a32c318677a65dae6bb9fa119d0039"
+    },
+    {
+      "path": "docs/design/launch-workflow/index.html",
+      "sha256": "612a07f5692049c12edbb806bd7b7280d008b3193cdcfbb2909ab8aa047b459b"
+    },
+    {
+      "path": "docs/design/launch-workflow/launch-workflow.css",
+      "sha256": "a1231f052a38b5071f40deab3840e7dedc503677f47de6c8306315f8d2196120"
+    },
+    {
+      "path": "docs/design/launch-workflow/launch-workflow.figcraft",
+      "sha256": "5d6a9b2c8bbd8edb1b82580a832656238f1a2844331ada5a6d159416bde56a12"
+    },
+    {
+      "path": "docs/design/launch-workflow/launch-workflow.js",
+      "sha256": "be4e181291930a36e08f2215a6ec93b02790a97db102fcede689813178d25ac7"
+    },
+    {
+      "path": "docs/design/launch-workflow/resolution-review.json",
+      "sha256": "d1397583c0acc39ade39ac98c2b5e93d21e80761c8bc826044015612d4928021"
+    },
+    {
+      "path": "docs/design/launch-workflow/source/build-figcraft.mjs",
+      "sha256": "8b1e68471409f45e2b6e271919dd9f7c76310892fe03a62927f6d02aa59817e9"
+    },
+    {
+      "path": "docs/design/launch-workflow/source/capture-dom.js",
+      "sha256": "009e0e318c0e29875cd509ec0674d412587dc2a17c8929f9561a90c7152e1477"
+    },
+    {
+      "path": "docs/design/launch-workflow/source/captures/1180-light.dom.json",
+      "sha256": "c26201aad30a16939479b946095dce97ee79731e2118adad6963f146f6604770"
+    },
+    {
+      "path": "docs/design/launch-workflow/source/captures/1440-dark.dom.json",
+      "sha256": "e8b1d937bf8b0d89ea163d881e42beb55afa9fda2108898b0e8e60e8fbaf2950"
+    },
+    {
+      "path": "docs/design/launch-workflow/source/captures/1440-light.dom.json",
+      "sha256": "1d4b56c181d633ebb14a2f77b08988ffb9a17f6b53bdefc0ae5c796ad641ffb1"
+    },
+    {
+      "path": "docs/design/launch-workflow/source/captures/390-light.dom.json",
+      "sha256": "b600ac329629c4c54596531e1b58b59ccd50d4ed4c384ac5218431043f7d58dc"
+    },
+    {
+      "path": "docs/design/launch-workflow/source/captures/960-light.dom.json",
+      "sha256": "60969a36f5a221cb85902ed678992926c6f738249d8d269986c098c684054053"
+    },
+    {
+      "path": "docs/design/launch-workflow/source/sync-tokens.mjs",
+      "sha256": "51fbf39620fdae0aab8fb50bfbc25c8d5884dc28e2c3e6bffbb6c33a65f68388"
+    },
+    {
+      "path": "docs/design/launch-workflow/test-workflow.cjs",
+      "sha256": "32d5eaa24dee04d17f55c577009dc290495544b616d7ea25fcd5be6db034bd58"
+    },
+    {
+      "path": "docs/design/launch-workflow/tokens.css",
+      "sha256": "673c6267c5e395d335e04932741d46a517976b2c50dd52c82a31c01d039e0d02"
+    },
+    {
+      "path": "docs/reference/launch-workflow.md",
+      "sha256": "4f60b06d219060cc007f3174bea1cb309b898a2cd71a787be0773997e45e9927"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/aps-capture-first.json",
+      "sha256": "2c1f775b3781acb00ad23cd818eaf2ae4680e35e70ff72eb6573c396d7e37575"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/aps-capture-fourth.json",
+      "sha256": "9b146b07ad07d86f6aeb0aee5e7034eac707b62a1d9ea5f440166d6b3fe8bedd"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/aps-capture-second.json",
+      "sha256": "d88d427c5ba7bdc230976f9ed764e339abcf4d17cc7d365d4925b80ace81b60c"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/aps-capture-third.json",
+      "sha256": "135b1d00047d105a37ee5f549b2d327efafb5047a106b16815acebd6473fd986"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/aps-capture-timing.json",
+      "sha256": "1d04ac559ce77f13309166a6f47a50090049b2aee40e87f0c974c04d05d38e48"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/aps-communications-error.png",
+      "sha256": "ada1adb2d46208b75aa0653621034d373f522323ae81b2e084cca24e4abf1efe"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/aps-launch-first.json",
+      "sha256": "1e57555dd370ee421e70d1d89320baa059bae0b95b59a5cfda1d81642f644815"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/aps-launch-fourth.json",
+      "sha256": "316a671245541879149b46265a4fcd8e86b80ad9e330f135240e3d88aa816b19"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/aps-launch-second.json",
+      "sha256": "3975ce46f501dec12aaca44afc60b027dc5161e4a3ed66f56eb4db8bb0b84c70"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/aps-launch-third.json",
+      "sha256": "c0784f26fb0b9beec51050cc19cb09a739d981f7ba1f9539434c5ed1ef9a96b6"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/aps-launch.json",
+      "sha256": "ebf26d7a3a3ee26764b9dc7ab7e4c0114dd15c87208a5f8782611c91f99f56d9"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/aps-verified.png",
+      "sha256": "904d3d9c4f6702e85dbc4655240a7c70ee6948c640efd9aceafcaa7261866a91"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/ce-input.json",
+      "sha256": "1ee5f6d8a3f87bab5dabd35deccfc216092ac61cfb01a7ecf9c9c48219dd54a4"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/ce-result.json",
+      "sha256": "ec0c4acba85e63d6e7a6063efed708dba7416a210985c6150536c9dd5b05321d"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/cli-capture-native-detached.trx",
+      "sha256": "3f5aa37c7b01449d5c96b02f89a462e684d24570ad2cc2cef31cafc4d14c98dc"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/docfx-native-detached.log",
+      "sha256": "cd7a41b8c251697ae98f718e18a84465fad676acf4d9600ae3142ada5c3577ed"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/host-plan.json",
+      "sha256": "27925f8b6e7b248ea18886244cfbee00fbc3b500daf7303ab608b7b9fd8194ba"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/host-query-protocol.trx",
+      "sha256": "8b1f1532ea012c917f6d84cf4100fcbac486ea7828da94f5fdcb61e2dd61e9e5"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/host-receipt.json",
+      "sha256": "6b1feaf1a6694dd72d9bd3c643dcadfe1513b94d5ec65a250ce1cc0d866e05de"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/host-update-result.json",
+      "sha256": "c1c42431876bbb6185eff1f97cf40dc3276586a32cb78c4646df9ad595ebc5fc"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/live-smoke/after.pmlmac",
+      "sha256": "8a2413c0bb5b7b2525718a4c26df2194f1ca20ceab1ccb7ee89bb517c70ee62e"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/live-smoke/batch-1.input.json",
+      "sha256": "26b691dbb87530dd25de79c79e53fc87c5ebd08eb3cd839fdd9cbf0e8814708b"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/live-smoke/batch-1.result.json",
+      "sha256": "a246dcd8cd5e8449f9269a7c7f7a61e3ad214a86a206a3c73ae83a4bff84397e"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/live-smoke/batch-1.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/live-smoke/batch-2.input.json",
+      "sha256": "f9daeb0f758385b8bb2cfc9a7711b7c9f37eeb5f79f94fab3ca880c3f4cf4208"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/live-smoke/batch-2.result.json",
+      "sha256": "35d805ec8e06ed905ea592c62943ceaef54369b12f82210b6358f7f448eebea4"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/live-smoke/batch-2.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/live-smoke/batch-3.input.json",
+      "sha256": "b635332720b7a8da59bcbfcef130a39a3190eb7e2f5abdabdefc9df9278d642d"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/live-smoke/batch-3.result.json",
+      "sha256": "3bc6a0e0681341d3ff992aff10dbce8c2e4d1758f50c9e3484abbfe097a82142"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/live-smoke/batch-3.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/live-smoke/batch-4.input.json",
+      "sha256": "c1822a6c158f5fb4b80a4de6c05c61151cb89a6fd469d8ffb4da0ea6f4693f29"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/live-smoke/batch-4.result.json",
+      "sha256": "9787ba0108cf983606bbe01fc2a51e96600baab58167710a904deeb552b53b6b"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/live-smoke/batch-4.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/live-smoke/batch-5.input.json",
+      "sha256": "f4f523e9fd14b34a1d2c9197541557d1d1f9579484ef2f71b0c1d0869b31c899"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/live-smoke/batch-5.result.json",
+      "sha256": "587c617de1b0d4fa86091ff2f982260a1bf899fa49dec6f9f30b5f880b0e2a41"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/live-smoke/batch-5.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/live-smoke/batch-6.input.json",
+      "sha256": "4d28c0f94fd4f846e44b5e7178f5f65d72f1804bc4f0a1e94ff45830ab217b3a"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/live-smoke/batch-6.result.json",
+      "sha256": "f6758317f05afacde8903e6e2ff535f5c0c3973efb88d31f166dc046eb27b209"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/live-smoke/batch-6.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/live-smoke/batch-7.input.json",
+      "sha256": "6a04d685fb376387badaccb4bd6b10119932889fe735c303db80b8cafb909fa8"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/live-smoke/batch-7.result.json",
+      "sha256": "6e9f3f213d524592c4de2b802578f978cbe409a0042c6190429f0e8f26ea5c60"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/live-smoke/batch-7.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/live-smoke/batch-8.input.json",
+      "sha256": "8aaf0012256a074dbb5785c05662380df929f59ac644756b869b0c4123202ccb"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/live-smoke/batch-8.result.json",
+      "sha256": "05266632142e14ec2bc5de287eae3a05627647cbb5979a8eed510af864159a83"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/live-smoke/batch-8.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/live-smoke/run.json",
+      "sha256": "abeef811b668357100485d32c3d40576ae2846bd3bdde09ad242d4ba7e810d72"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/live-smoke/setup.pmlmac",
+      "sha256": "603c932eace12c84c2e874c7e2891536cf50c1db4e3b44d07e3bf36e284b49f0"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/native-detached.log",
+      "sha256": "0f75c055a176fb6dd55a1c40dd09e15775288d46307758dbd4b004be0e44aede"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/session-cleanup.json",
+      "sha256": "06c364a9e9d289cdfa742ce5664d59493cdd20616ea102386453560622993432"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/strict-after-owner-exit.json",
+      "sha256": "8db0b0280d02d434a395d5d2496302c3a26fc4951de3f37396990f9fddc1d2b1"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/strict-host-ready.json",
+      "sha256": "6cbe75edea2bf65d888b3f597dadee64503d95d7d9e71c453789e8a4eaa4189c"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/unchanged-before.json",
+      "sha256": "73a7583aa6d97391188d964117b7dc73ff0c1e5c7ddfac8fc3f93d1b244be28a"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.evidence/workbench-update.json",
+      "sha256": "c1511a921bcec8e86f619307d58563ac31f9308f109b0bf205bd3bac1887977d"
+    },
+    {
+      "path": "docs/validation/cli-host-compatibility-2026-10-31.md",
+      "sha256": "24529ed9e5dc9363ecd3e89a1593687b53a6c849a4d27dd3108b798df7349c76"
+    },
+    {
+      "path": "docs/validation/host-pml-verification-2026-10-31.evidence/aps-launch.json",
+      "sha256": "2016f491536916c254742f3c95345041ce2e8e381bd4b9507d91e61cd759e73d"
+    },
+    {
+      "path": "docs/validation/host-pml-verification-2026-10-31.evidence/aps-verified.png",
+      "sha256": "16c156e2a6f5d9be2287eb43b777d8df0dab9a5d37244abd89712b24c1a720b5"
+    },
+    {
+      "path": "docs/validation/host-pml-verification-2026-10-31.evidence/current-element.raw.json",
+      "sha256": "79c016b551afac26e2120f54c9d6d96d510f34f726d6832d1b7ed2840fe16891"
+    },
+    {
+      "path": "docs/validation/host-pml-verification-2026-10-31.evidence/deployment-manifest.json",
+      "sha256": "c26585ea2082ae087f69ee9d821839aadb9a3434648c9f4f9582c1324ccbc5f9"
+    },
+    {
+      "path": "docs/validation/host-pml-verification-2026-10-31.evidence/live-evidence.json",
+      "sha256": "2207f2273f965f767c6ff3a6ddfa1d88d1f278d06622302d0b945ab0e903f979"
+    },
+    {
+      "path": "docs/validation/host-pml-verification-2026-10-31.evidence/runtime-read.raw.json",
+      "sha256": "6a80415d1a2e5b97d08b63412f91d7996fbfe6ddc52af374544d41d2ebea93b2"
+    },
+    {
+      "path": "docs/validation/host-pml-verification-2026-10-31.evidence/strict-selection.raw.json",
+      "sha256": "a618709b3394dddfa5aeb419ff6e0108ef3cb498dc18aae395a91a255eae1ee5"
+    },
+    {
+      "path": "docs/validation/host-pml-verification-2026-10-31.md",
+      "sha256": "e55753c44c96f671f84016bd9639b34e1eaeacd28fd398cfaee4f91053850c0e"
+    },
+    {
+      "path": "docs/validation/launch-workflow-2026-10-31.md",
+      "sha256": "c1a993c63ad0886c18006d385b61d94f36cde1a473af03e45d915d35beb9d2f8"
+    },
+    {
+      "path": "openspec/changes/integrate-pmltwin-product-platform/features/launch-workflow-handoff.md",
+      "sha256": "45d840cfea22fa191f5ec08f9ea5355511dc0b8f809fbba1f42935526e32d6fb"
+    },
+    {
+      "path": "openspec/changes/integrate-pmltwin-product-platform/features/launch-workflow-host-followup.md",
+      "sha256": "80981c1b0401ce8010d30c20584e8c81315ab96f0e9c33f369908f2b1661d21c"
+    },
+    {
+      "path": "openspec/changes/integrate-pmltwin-product-platform/features/launch-workflow.md",
+      "sha256": "eb1eb628857d736c103961fb14ad7aa86cd89fd4d9c29d6e8994ef3cd9bc8cd1"
+    },
+    {
+      "path": "openspec/changes/integrate-pmltwin-product-platform/tasks.md",
+      "sha256": "0f58469cdb686c2fc082a7f850005e5ba850d0fb78d789ff77743291edb7a672"
+    },
+    {
+      "path": "scripts/Export-LaunchWorkflowSchema.ps1",
+      "sha256": "c631fb168a9cc84ac8120f55880d7c17271faf56af90a908a6278b01591285c1"
+    },
+    {
+      "path": "scripts/Start-LaunchWorkbench.ps1",
+      "sha256": "2592123b0e524df48a0d534c60db58126248a44732985f0ec70bd287f8217d9e"
+    },
+    {
+      "path": "src/YuzuhaToolkit.Cli.Compatibility/NativeCliHost.cs",
+      "sha256": "dc4b37b8e301254d6c2ab0a8e82ef444d219dd2c54dc96f61e510a9ae4151944"
+    },
+    {
+      "path": "src/YuzuhaToolkit.Manager.Cli/LaunchWorkbenchCommand.cs",
+      "sha256": "88320865221528fce2840e4a103a7fedd62d18700599e28ebb2fa8817cbe3586"
+    },
+    {
+      "path": "src/YuzuhaToolkit.Manager.Cli/Program.cs",
+      "sha256": "9bff6d2b4945369480828ec386e89dafb20ab765cae4a319860474893f882f5d"
+    },
+    {
+      "path": "src/YuzuhaToolkit.Manager.Cli/YuzuhaToolkit.Manager.Cli.csproj",
+      "sha256": "5cded93543c2a3c16cbbd1eee98b0479043ea3c23acabde9ce61d3f5de748b01"
+    },
+    {
+      "path": "src/YuzuhaToolkit.Manager.Core/ConnectionEvidence.cs",
+      "sha256": "2a6c0f9d7bb8a58c1cf65778804f9030b525ce6ff978618577e2ed1bf15e8f61"
+    },
+    {
+      "path": "src/YuzuhaToolkit.Manager.Core/InstallationDiscovery.cs",
+      "sha256": "f8fac430b111e8ba51950787e3962848ad1b5aa7316628a0b2178fad39965cc9"
+    },
+    {
+      "path": "src/YuzuhaToolkit.Manager.Core/LaunchChildObservation.cs",
+      "sha256": "6a73c680af967968b0f7d56335dde05fd4b9a33b6e715f3ac8f9ccd4eb667705"
+    },
+    {
+      "path": "src/YuzuhaToolkit.Manager.Core/LaunchDiscovery.cs",
+      "sha256": "0bf76e1edc2eeb24796403dbb214351201b4accd6b352f69df5d3bb7f2c608a4"
+    },
+    {
+      "path": "src/YuzuhaToolkit.Manager.Core/LaunchDiscoveryOperations.cs",
+      "sha256": "ce285b580bde129949b89bce61243a0bd6cfaed73fb09644682a1e28f9db1680"
+    },
+    {
+      "path": "src/YuzuhaToolkit.Manager.Core/LaunchWorkbenchServer.cs",
+      "sha256": "5a09d135052785226ca6067e195ae9aac4fc772bb83ce41fb1a430531a5337fa"
+    },
+    {
+      "path": "src/YuzuhaToolkit.Manager.Core/LaunchWorkflow.cs",
+      "sha256": "85083b0552fb15efb0a1abb9ba68ed76a5967c0fc698da8ff100fd2e02d9ec26"
+    },
+    {
+      "path": "src/YuzuhaToolkit.Manager.Core/LaunchWorkflowOperations.cs",
+      "sha256": "761543a8cb1c8fcd7e119934cb56a6d5aada4938aaebb7e4f17d5abc75cd5b61"
+    },
+    {
+      "path": "src/YuzuhaToolkit.Manager.Core/ManagerCliHost.cs",
+      "sha256": "9400b3ffede1d6fcc819591a5f73e2b33bf0f1d79ede08d92ae52c74932e57d6"
+    },
+    {
+      "path": "src/YuzuhaToolkit.Manager.Core/ManagerOperationCatalog.cs",
+      "sha256": "a71ce961564e07e629fb99f1ec6aca7be2ea9d69fc25acdca71e570a342b4fa9"
+    },
+    {
+      "path": "src/YuzuhaToolkit.Workspace/DetachedProcess.cs",
+      "sha256": "6f1f7ff764b5c1b77bc753a0d5c55548d335956daac8bb8dff2c30b781391630"
+    },
+    {
+      "path": "src/YuzuhaToolkit.Workspace/LaunchService.cs",
+      "sha256": "7de0b4c215184906dfd5553420fd266992b99c710f14f460e1778ffedae2d41f"
+    },
+    {
+      "path": "tests/live/form-query/Invoke-FormQuerySmoke.ps1",
+      "sha256": "b8e628c78abffa5ddf7510525ff632ede0fad5102e8aae512994379766fecbf1"
+    },
+    {
+      "path": "tests/YuzuhaToolkit.Manager.ProcessFixture/Program.cs",
+      "sha256": "4f694531cbfeb148c886dccf6c36cf124aea49174ae4bcef8f69e0249e7271e1"
+    },
+    {
+      "path": "tests/YuzuhaToolkit.Manager.ProcessFixture/YuzuhaToolkit.Manager.ProcessFixture.csproj",
+      "sha256": "f48b75f2d8c5270e2d82c33543cfb82ce317acf5170111d14d5eca863011e813"
+    },
+    {
+      "path": "tests/YuzuhaToolkit.Manager.Tests/CommunicationProcessTests.cs",
+      "sha256": "b423d0c24ce87d189976c654a0e988ae586bfbf41863f4c33ed1980deef5f6da"
+    },
+    {
+      "path": "tests/YuzuhaToolkit.Manager.Tests/ConnectionEvidenceTests.cs",
+      "sha256": "895fcddb6eadc1aa842f129ee554ffeda707a212d19ba7e505367469121f34f3"
+    },
+    {
+      "path": "tests/YuzuhaToolkit.Manager.Tests/LaunchDeskImportTests.cs",
+      "sha256": "48ad21a98d0d52f90d3f772bae6d79f0ea25650e1a1f71c100eb15b498c7fb73"
+    },
+    {
+      "path": "tests/YuzuhaToolkit.Manager.Tests/LaunchDiscoveryTests.cs",
+      "sha256": "0b657f27b34fdafd18da25f23a5e737e7ae90ff9040d37a6214ae7ca97965644"
+    },
+    {
+      "path": "tests/YuzuhaToolkit.Manager.Tests/LaunchOutputIsolationTests.cs",
+      "sha256": "d2a32709a8397e65780b79c7644a2f2200df0872dee5c6627606560af242c496"
+    },
+    {
+      "path": "tests/YuzuhaToolkit.Manager.Tests/LaunchPreflightTests.cs",
+      "sha256": "5c7ba440777bbf4840b8b4c5f7ecee51c8d38d0619c94f7f9b07bc9d9c626490"
+    },
+    {
+      "path": "tests/YuzuhaToolkit.Manager.Tests/LaunchWorkbenchServerTests.cs",
+      "sha256": "8d6010bf2ee17416cd05471852dff43e432aa5a582b972f8a56ed340726114d9"
+    },
+    {
+      "path": "tests/YuzuhaToolkit.Manager.Tests/LaunchWorkflowTests.cs",
+      "sha256": "551b08d190260f3cd95a09243277b630c0e145d2a20ae05099c706d74171f252"
+    }
+  ]
+}

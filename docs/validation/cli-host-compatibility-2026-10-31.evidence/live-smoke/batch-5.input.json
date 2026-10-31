@@ -1,0 +1,19 @@
+[
+  {
+    "operationId": "aveva.session.select",
+    "processId": 25624,
+    "input": {},
+    "expectedProcessStartTimeUtcTicks": 639290226957908482,
+    "expectedModel": "DESIGN"
+  },
+  {
+    "operationId": "pml.gadget.read",
+    "processId": 25624,
+    "input": {
+      "gadgetName": "ordinary",
+      "formName": "YuzuhaV04LocalProbe"
+    },
+    "expectedProcessStartTimeUtcTicks": 639290226957908482,
+    "expectedModel": "DESIGN"
+  }
+]

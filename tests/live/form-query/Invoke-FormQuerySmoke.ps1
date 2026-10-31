@@ -1,6 +1,7 @@
 [CmdletBinding()]
 param(
-    [Parameter(Mandatory)][string]$McpExecutable,
+    [Parameter(Mandatory)][Alias('McpExecutable')][string]$CliExecutable,
+    [string]$DotnetExecutable = 'dotnet',
     [Parameter(Mandatory)][ValidateRange(1,2147483647)][int]$ProcessId,
     [Parameter(Mandatory)][string]$PmlDirectory,
     [Parameter(Mandatory)][string]$HostDll,
@@ -8,7 +9,7 @@ param(
 )
 $ErrorActionPreference = 'Stop'
 $repository = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../..'))
-$McpExecutable = (Get-Item -LiteralPath $McpExecutable).FullName
+$CliExecutable = (Get-Item -LiteralPath $CliExecutable).FullName
 $PmlDirectory = (Get-Item -LiteralPath $PmlDirectory).FullName
 $HostDll = (Get-Item -LiteralPath $HostDll).FullName
 if (!$OutputDirectory) { $OutputDirectory = Join-Path $repository ('artifacts/manual/form-query/' + [DateTime]::UtcNow.ToString('yyyyMMddTHHmmssZ')) }
@@ -24,21 +25,35 @@ $sources = foreach ($name in @('yuzuhav04localadd.pmlfnc','yuzuhav04localprobe.p
 }
 $script:batchNumber = 0
 $script:expectedStart = $null
-function Request([string]$Name, [hashtable]$Arguments) { @{name=$Name;arguments=$Arguments} }
+function Request([string]$Name, [hashtable]$Arguments) {
+    $ids = @{select_aveva_session='aveva.session.select';run_pml_command='pml.command.execute';run_pml_command_list='pml.array.read';read_pml_array='pml.array.window';list_pml_forms='pml.forms.list';list_pml_gadgets='pml.gadgets.list';get_pml_gadget='pml.gadget.read'}
+    Check ($ids.ContainsKey($Name)) "Unknown smoke operation: $Name"
+    $request = @{operationId=$ids[$Name];input=$Arguments;processId=$ProcessId;expectedModel='DESIGN'}
+    if ($script:expectedStart) { $request.expectedProcessStartTimeUtcTicks = $script:expectedStart }
+    return $request
+}
 function Check([bool]$Condition, [string]$Message) { if (!$Condition) { throw $Message } }
 function Batch([object[]]$Requests, [switch]$RejectLast) {
     $script:batchNumber++
     $prefix = Join-Path $OutputDirectory ('batch-' + $script:batchNumber)
     $inputFile = $prefix + '.input.json'
-    $requestsWithIdentity = @(Request 'select_aveva_session' @{processId=$ProcessId}) + $Requests
+    $requestsWithIdentity = @(Request 'select_aveva_session' @{}) + $Requests
     ConvertTo-Json -InputObject $requestsWithIdentity -Depth 15 | Set-Content -LiteralPath $inputFile -Encoding utf8
-    & $McpExecutable --cli batch --file $inputFile 1> ($prefix + '.result.json') 2> ($prefix + '.stderr.log')
+    $cliArguments = @('op','batch','--input-file',$inputFile,'--pid',"$ProcessId",'--expected-model','DESIGN','--allow-execution')
+    if ([IO.Path]::GetExtension($CliExecutable) -eq '.dll') {
+        & $DotnetExecutable $CliExecutable @cliArguments 1> ($prefix + '.result.json') 2> ($prefix + '.stderr.log')
+    } else {
+        & $CliExecutable @cliArguments 1> ($prefix + '.result.json') 2> ($prefix + '.stderr.log')
+    }
     $exitCode = $LASTEXITCODE
     $response = Get-Content -LiteralPath ($prefix + '.result.json') -Raw | ConvertFrom-Json
-    if ($RejectLast) { Check ($exitCode -ne 0 -and !$response.success -and $response.stoppedOnError) 'Expected rejection was reported as success.' }
-    else { Check ($exitCode -eq 0 -and $response.success -and !$response.stoppedOnError) "CLI batch failed; see $prefix.result.json" }
+    $envelope = $response
+    $response = $envelope.data
+    Check ($null -ne $response) 'CLI returned no batch data.'
+    if ($RejectLast) { Check (!$envelope.success -and $exitCode -ne 0 -and !$response.success -and $response.stoppedOnError) 'Expected rejection was reported as success.' }
+    else { Check ($exitCode -eq 0 -and $envelope.success -and $response.success -and !$response.stoppedOnError) "CLI batch failed; see $prefix.result.json" }
     Check ($response.completed -eq $requestsWithIdentity.Count) 'CLI returned an incomplete batch.'
-    $decoded = @($response.results | ForEach-Object { ($_.result.content | Where-Object type -eq text | Select-Object -First 1).text | ConvertFrom-Json })
+    $decoded = @($response.results | ForEach-Object { $_.data })
     Check ($decoded[0].TargetVerified -eq $true) 'Target identity was not verified.'
     $start = $decoded[0].Host.ProcessStartTimeUtcTicks
     if ($script:expectedStart) { Check ($start -eq $script:expectedStart) 'Target process changed during the test.' }

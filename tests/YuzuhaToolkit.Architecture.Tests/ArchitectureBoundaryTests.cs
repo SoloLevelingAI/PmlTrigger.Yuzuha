@@ -12,7 +12,8 @@ public sealed class ArchitectureBoundaryTests
 {
     private static readonly Dictionary<string, Assembly> Assemblies = new[]
     {
-        "PlantHost.Rpc.Net10", "YuzuhaToolkit.Mcp", "YuzuhaToolkit.Mcp.Core", "YuzuhaToolkit.Knowledge", "YuzuhaToolkit.Knowledge.Core", "YuzuhaToolkit.DevHost", "YuzuhaToolkit.CommandLine", "YuzuhaToolkit.Workspace", "YuzuhaToolkit.WebApps"
+        "PlantHost.Rpc.Net10", "YuzuhaToolkit.Mcp", "YuzuhaToolkit.Mcp.Core", "YuzuhaToolkit.Knowledge", "YuzuhaToolkit.Knowledge.Core", "YuzuhaToolkit.DevHost", "YuzuhaToolkit.CommandLine", "YuzuhaToolkit.Workspace", "YuzuhaToolkit.WebApps",
+        "YuzuhaToolkit.Manager.Core", "YuzuhaToolkit.Communication.Contracts", "YuzuhaToolkit.Plugins.Contracts", "YuzuhaToolkit.Cli.Compatibility", "YuzuhaToolkit.Builtins"
     }.ToDictionary(name => name, Assembly.Load);
     private static readonly ArchUnitNET.Domain.Architecture Compiled = new ArchLoader()
         .LoadAssemblies(Assemblies.Values.ToArray()).Build();
@@ -27,6 +28,11 @@ public sealed class ArchitectureBoundaryTests
     [InlineData("YuzuhaToolkit.WebApps")]
     [InlineData("YuzuhaToolkit.CommandLine")]
     [InlineData("YuzuhaToolkit.Workspace")]
+    [InlineData("YuzuhaToolkit.Manager.Core")]
+    [InlineData("YuzuhaToolkit.Communication.Contracts")]
+    [InlineData("YuzuhaToolkit.Plugins.Contracts")]
+    [InlineData("YuzuhaToolkit.Cli.Compatibility")]
+    [InlineData("YuzuhaToolkit.Builtins")]
     public void CompiledDependenciesFollowApprovedDirection(string project)
     {
         var graph = ReadGraph();
@@ -39,12 +45,8 @@ public sealed class ArchitectureBoundaryTests
         foreach (var forbidden in Assemblies.Keys.Except(allowed))
         {
             Assert.DoesNotContain(Assemblies[project].GetReferencedAssemblies(), reference => reference.Name == forbidden);
-            // Both MCP executables compile the same linked Builtins source. ArchUnitNET
-            // identifies those duplicate types by full name. The assembly check above
-            // still rejects any real reference, including one to a linked Builtins type.
             Types().That().ResideInAssembly(Assemblies[project].FullName!).Should()
-                .NotDependOnAny(Types().That().ResideInAssembly(Assemblies[forbidden].FullName!)
-                    .And().DoNotResideInNamespace("YuzuhaToolkit.Builtins"))
+                .NotDependOnAny(Types().That().ResideInAssembly(Assemblies[forbidden].FullName!))
                 .Because("依赖方向由 docs/architecture/dependencies.json 定义").Check(Compiled);
         }
     }
@@ -95,6 +97,28 @@ public sealed class ArchitectureBoundaryTests
         Types().That().ResideInNamespace("YuzuhaToolkit.Knowledge.Search").Or()
             .ResideInNamespace("YuzuhaToolkit.Knowledge.Chunking").Should()
             .NotDependOnAny(typeof(YuzuhaToolkit.Knowledge.KnowledgeRepository)).Check(Compiled);
+    }
+
+    [Fact]
+    public void ManagerAndCommunicationCannotDependOnEachOthersImplementationsOrOptionalWorkers()
+    {
+        foreach (var reference in Assemblies["YuzuhaToolkit.Manager.Core"].GetReferencedAssemblies())
+            Assert.False(reference.Name?.Contains("Rpc", StringComparison.Ordinal) == true || reference.Name?.Contains("Mcp", StringComparison.Ordinal) == true ||
+                reference.Name?.StartsWith("Yuzuha.Manager.Plugin.", StringComparison.Ordinal) == true);
+        foreach (var reference in Assemblies["YuzuhaToolkit.Mcp.Core"].GetReferencedAssemblies())
+            Assert.DoesNotContain(reference.Name, new[] { "YuzuhaToolkit.Manager.Core", "YuzuhaToolkit.Cli.Compatibility", "YuzuhaToolkit.Knowledge.Core", "YuzuhaToolkit.CommandLine", "Microsoft.Data.Sqlite", "Yuzuha.Manager.Plugin.License", "Yuzuha.Manager.Plugin.Vm" });
+    }
+
+    [Fact]
+    public void DesktopSourcesCannotReferenceRpcImplementations()
+    {
+        var root = Path.Combine(Repository(), "src/YuzuhaToolkit.Desktop");
+        foreach (var file in Directory.EnumerateFiles(root, "*.cs", SearchOption.AllDirectories).Where(f => !f.Split(Path.DirectorySeparatorChar).Any(p => p is "obj" or "bin")))
+        {
+            var text = File.ReadAllText(file);
+            foreach (var forbidden in new[] { "YuzuhaRpcBridge", "IPmlRpcConnection", "YuzuhaOperationBackend", "PmlCallTools", "PlantHost.Rpc" })
+                Assert.DoesNotContain(forbidden, text);
+        }
     }
 
     [Fact]

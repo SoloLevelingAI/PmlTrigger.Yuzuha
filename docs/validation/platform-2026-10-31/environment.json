@@ -1,0 +1,159 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-10-31T14:02:51.5723589+08:00",
+  "expiresAt": "2026-10-31T14:07:51.5723589+08:00",
+  "evidenceKind": "static-metadata",
+  "complete": false,
+  "filesSeen": 7080,
+  "candidates": [
+    {
+      "installationId": "9150da157afca9880d318a2905bc1a687f38048914752e2948297a850278c316",
+      "product": "AM",
+      "productVersion": "",
+      "versionHint": "OH12.1.SP4",
+      "entryKind": "MarineBatch",
+      "entryName": "marine.bat",
+      "entrySha256": "7530d17ee5cd3f3d57d669b33d3a70392bcc81127903fb668a196cd99f8f4013",
+      "environmentSha256": "d4e3c156e7743bbded34720ecbb29eaa755d56cd2cc05b895b23f313ee3970af",
+      "sources": [
+        "default-install-directory"
+      ],
+      "apsAvailable": false,
+      "modules": [
+        "Outfitting",
+        "HullDesign",
+        "OutfittingDraft",
+        "MarineDrafting",
+        "Paragon",
+        "Isodraft",
+        "Spooler",
+        "Admin",
+        "Monitor"
+      ],
+      "cafAssemblies": [
+        {
+          "name": "Aveva.ApplicationFramework.dll",
+          "status": "metadata-only",
+          "identity": "Aveva.ApplicationFramework, Version=1.1.20.0, Culture=neutral, PublicKeyToken=17c64733a9775004",
+          "sha256": "36c8297e171d06e431a3fce120675eee4c1f1d2b1a80559640d26e2a3d4c1ec1"
+        },
+        {
+          "name": "Aveva.ApplicationFramework.Implementation.dll",
+          "status": "metadata-only",
+          "identity": "Aveva.ApplicationFramework.Implementation, Version=101.0.20.0, Culture=neutral, PublicKeyToken=17c64733a9775004",
+          "sha256": "2e2e5a3b1f16efeb90c0185dd6cbf0f0984672faa81c9d957a63f837adee7dee"
+        },
+        {
+          "name": "Aveva.ApplicationFramework.Presentation.dll",
+          "status": "metadata-only",
+          "identity": "Aveva.ApplicationFramework.Presentation, Version=108.8100.20.0, Culture=neutral, PublicKeyToken=17c64733a9775004",
+          "sha256": "c600cfed3a3752e8c7bedf5e7857fee860f303f5b2af9cc707e76e0312c1a4fc"
+        }
+      ],
+      "cafAdapterStatus": "unverified",
+      "licenseCheckout": "not-tested",
+      "login": "not-tested"
+    },
+    {
+      "installationId": "068d0ed4789816dd9144ed1a0dffc73d9086d1545f1f0005e207b20f654292c0",
+      "product": "E3D",
+      "productVersion": "1.2.2.0[21375]",
+      "versionHint": "Everything3D2.10",
+      "entryKind": "Monitor",
+      "entryName": "mon.exe",
+      "entrySha256": "9269ac785a3b06802741d7e2c13d1f095bb58a6cc461baf432627f1bcd846e02",
+      "environmentSha256": "824c8044613bb9eec13bbfc6e631474406214bf5a6609333fdb8def48df79bc5",
+      "sources": [
+        "default-install-directory"
+      ],
+      "apsAvailable": true,
+      "modules": [
+        "Design",
+        "Draw",
+        "Paragon",
+        "Isodraft",
+        "Spooler",
+        "Monitor"
+      ],
+      "cafAssemblies": [
+        {
+          "name": "Aveva.ApplicationFramework.dll",
+          "status": "metadata-only",
+          "identity": "Aveva.ApplicationFramework, Version=1.2.2.0, Culture=neutral, PublicKeyToken=17c64733a9775004",
+          "sha256": "7512b5fa5a6b9920f638035e016516f2998c89b7ca20cf095269ae52a3df24d0"
+        },
+        {
+          "name": "Aveva.ApplicationFramework.Implementation.dll",
+          "status": "metadata-only",
+          "identity": "Aveva.ApplicationFramework.Implementation, Version=1.2.2.0, Culture=neutral, PublicKeyToken=17c64733a9775004",
+          "sha256": "5242a8208a124c005733a5032a0392fac9db66defc099cec552c7674f82d5ead"
+        },
+        {
+          "name": "Aveva.ApplicationFramework.Presentation.dll",
+          "status": "metadata-only",
+          "identity": "Aveva.ApplicationFramework.Presentation, Version=1.2.2.0, Culture=neutral, PublicKeyToken=17c64733a9775004",
+          "sha256": "391fe666f3a1e531046bbe4341770e643216e57a97e9ded5b71b5cb88a43c76c"
+        }
+      ],
+      "cafAdapterStatus": "unverified",
+      "licenseCheckout": "not-tested",
+      "login": "not-tested"
+    },
+    {
+      "installationId": "490de075cad5f99f3728de5d68abd67d98a7aee1824795ebbc41bc4239414d57",
+      "product": "E3D",
+      "productVersion": "1.3.15.0[C13150-090]",
+      "versionHint": "Everything3D3.1",
+      "entryKind": "Monitor",
+      "entryName": "mon.exe",
+      "entrySha256": "26515087710737d71388ddd05fe44d30dc95954c335a32fc6ea31f1448174ef1",
+      "environmentSha256": "4694b528b2b7c9f8a47155d1a4bbba426eaebd5143ecb080d7f5dea0924d2806",
+      "sources": [
+        "default-install-directory"
+      ],
+      "apsAvailable": true,
+      "modules": [
+        "Design",
+        "Draw",
+        "Paragon",
+        "Isodraft",
+        "Spooler",
+        "Monitor"
+      ],
+      "cafAssemblies": [
+        {
+          "name": "Aveva.ApplicationFramework.dll",
+          "status": "metadata-only",
+          "identity": "Aveva.ApplicationFramework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=17c64733a9775004",
+          "sha256": "a3ff70e804cd304ea42926b923038040df4ccec51055d0f0e565609ef83e718c"
+        },
+        {
+          "name": "Aveva.ApplicationFramework.Implementation.dll",
+          "status": "metadata-only",
+          "identity": "Aveva.ApplicationFramework.Implementation, Version=4.0.0.0, Culture=neutral, PublicKeyToken=17c64733a9775004",
+          "sha256": "66e9d26258caf96b494efa22bb1d1553c49ba5744eee3ecde935b26dd580d1aa"
+        },
+        {
+          "name": "Aveva.ApplicationFramework.Presentation.dll",
+          "status": "metadata-only",
+          "identity": "Aveva.ApplicationFramework.Presentation, Version=4.0.0.0, Culture=neutral, PublicKeyToken=17c64733a9775004",
+          "sha256": "cec17bd5b2d1d8445e6ae761f4047bf5c676470590ac4a8d31a8505a9ff7d085"
+        }
+      ],
+      "cafAdapterStatus": "unverified",
+      "licenseCheckout": "not-tested",
+      "login": "not-tested"
+    }
+  ],
+  "diagnosticCodes": [
+    "ControlFlowNotEvaluated",
+    "RegistryReadFailed",
+    "RootMissing",
+    "UnresolvedExpression"
+  ],
+  "limitations": [
+    "No login or license checkout.",
+    "Assembly presence is not CAF API compatibility.",
+    "No credentials, user paths or initialization contents are exported."
+  ]
+}

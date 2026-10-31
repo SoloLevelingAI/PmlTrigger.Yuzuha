@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable>
+    <IsTestProject>true</IsTestProject><IsPackable>false</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../Shared/FixturePluginDefinition.cs" Link="FixturePluginDefinition.cs" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+    <PackageReference Include="xunit" Version="2.9.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" PrivateAssets="all" />
+    <ProjectReference Include="../../src/YuzuhaToolkit.Manager.Core/YuzuhaToolkit.Manager.Core.csproj" />
+    <ProjectReference Include="../../src/YuzuhaToolkit.Plugin.License/YuzuhaToolkit.Plugin.License.csproj" />
+    <ProjectReference Include="../../src/YuzuhaToolkit.Plugin.Vm/YuzuhaToolkit.Plugin.Vm.csproj" />
+    <ProjectReference Include="../YuzuhaToolkit.Manager.ProcessFixture/YuzuhaToolkit.Manager.ProcessFixture.csproj" ReferenceOutputAssembly="false" />
+  </ItemGroup>
+  <Target Name="CopyCommunicationFixture" AfterTargets="Build">
+    <ItemGroup><FixtureFiles Include="../YuzuhaToolkit.Manager.ProcessFixture/bin/$(Configuration)/net10.0/*" /></ItemGroup>
+    <Copy SourceFiles="@(FixtureFiles)" DestinationFolder="$(OutDir)ProcessFixture" />
+    <ItemGroup><LicenseFiles Include="../../src/YuzuhaToolkit.Plugin.License/bin/$(Configuration)/net10.0/*" /><VmFiles Include="../../src/YuzuhaToolkit.Plugin.Vm/bin/$(Configuration)/net10.0/*" /></ItemGroup>
+    <Copy SourceFiles="@(LicenseFiles)" DestinationFolder="$(OutDir)LicenseFixture" />
+    <Copy SourceFiles="@(VmFiles)" DestinationFolder="$(OutDir)VmFixture" />
+  </Target>
+</Project>

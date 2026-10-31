@@ -39,8 +39,10 @@ public sealed partial class KnowledgeRepository
     /// <param name="rebuild">是否明确允许覆盖重建；调用方必须先取得用户授权。</param>
     /// <param name="maxFilesPerRoot">每个来源目录的文件处理上限；0 表示不限。</param>
     /// <param name="packageRefresh">此次刷新是否来自包升级，而非用户资料重建。</param>
+    /// <param name="cancellationToken">取消时保留旧库，不发布暂存结果。</param>
     public KnowledgeBuildResult Build(string? pmlLibRoot, string? pmlUiRoot,
-        string? webHelpRoot, string dbName, string? dbDir, bool rebuild, long maxFilesPerRoot, bool packageRefresh = false)
+        string? webHelpRoot, string dbName, string? dbDir, bool rebuild, long maxFilesPerRoot, bool packageRefresh = false,
+        CancellationToken cancellationToken = default)
     {
         var name = string.IsNullOrWhiteSpace(dbName) ? "pml-knowledge" : dbName.Trim();
         ValidateDbName(name);
@@ -55,11 +57,11 @@ public sealed partial class KnowledgeRepository
         var database = Path.Combine(directory, name + ".sqlite3");
         var manifest = Path.Combine(directory, name + ".manifest.json");
         using var writerLock = AcquireWriter(database);
-        return BuildUnderWriterLock(pmlLibRoot, pmlUiRoot, webHelpRoot, name, directory, rebuild, maxFilesPerRoot);
+        return BuildUnderWriterLock(pmlLibRoot, pmlUiRoot, webHelpRoot, name, directory, rebuild, maxFilesPerRoot, cancellationToken);
     }
 
     private KnowledgeBuildResult BuildUnderWriterLock(string? pmlLibRoot, string? pmlUiRoot, string? webHelpRoot,
-        string name, string directory, bool rebuild, long maxFilesPerRoot)
+        string name, string directory, bool rebuild, long maxFilesPerRoot, CancellationToken cancellationToken = default)
     {
         var database = Path.Combine(directory, name + ".sqlite3");
         var manifest = Path.Combine(directory, name + ".manifest.json");
@@ -69,7 +71,7 @@ public sealed partial class KnowledgeRepository
         Directory.CreateDirectory(stage);
         try
         {
-            var built = BuildCore(pmlLibRoot, pmlUiRoot, webHelpRoot, name, stage, false, maxFilesPerRoot);
+            var built = BuildCore(pmlLibRoot, pmlUiRoot, webHelpRoot, name, stage, false, maxFilesPerRoot, cancellationToken);
             if (!Check(built.Database).Ok)
                 throw new KnowledgeException("Staged database failed validation; the previous database was retained.");
             // The database is authoritative. The freshness sidecar is only advisory.
@@ -77,6 +79,7 @@ public sealed partial class KnowledgeRepository
                 JsonSerializer.Serialize(built.Database, LayerJsonContext.Default.String),
                 JsonSerializer.Serialize(database, LayerJsonContext.Default.String));
             File.WriteAllText(built.Manifest, json);
+            cancellationToken.ThrowIfCancellationRequested();
             File.Move(built.Database, database, overwrite: rebuild);
             File.Move(built.Manifest, manifest, overwrite: true);
             return built with { Database = database, Manifest = manifest };

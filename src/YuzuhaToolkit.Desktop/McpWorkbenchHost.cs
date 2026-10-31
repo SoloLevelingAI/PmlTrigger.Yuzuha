@@ -1,58 +1,72 @@
 using System.IO;
 using System.Text.Json;
-using Microsoft.Extensions.Logging.Abstractions;
 using YuzuhaToolkit.Mcp;
 using YuzuhaToolkit.Pml;
 using YuzuhaToolkit.Workspace;
 
 namespace YuzuhaToolkit.Desktop;
 
-/// <summary>WPF 直接复用已有会话桥和注册调用服务；不启动 HTTP 或另建窗体管理。</summary>
-internal sealed class McpWorkbenchHost : IWorkbenchHost, IDisposable
+/// <summary>旧桌面接口转接独立通信 CLI；本地注册表保留，界面不持有 RPC 连接。</summary>
+internal sealed class McpWorkbenchHost(PmlFunctionRegistry registry, DesktopCliSession? channel = null) : IWorkbenchHost, IDisposable
 {
-    private readonly YuzuhaRpcBridge bridge = new(NullLogger<YuzuhaRpcBridge>.Instance, new AvevaSessionDiscovery());
+    private readonly DesktopCliSession session = channel ?? new();
     private readonly RuntimeJournal journal = new("PMLTWIN 桌面会话");
-    private readonly PmlFunctionTools functions;
-    private readonly PmlCallTools calls;
-    /// <summary>复用同一个本机函数注册表建立调用服务。</summary>
-    internal McpWorkbenchHost(PmlFunctionRegistry registry)
+    /// <inheritdoc />
+    public AvevaSessionListResponse Discover() => session.DiscoverAsync().GetAwaiter().GetResult();
+    /// <inheritdoc />
+    public Task<AvevaSessionListResponse> DiscoverAsync(CancellationToken token = default) => session.DiscoverAsync(token);
+    /// <inheritdoc />
+    public Task<YuzuhaConnectionStatus> SelectAsync(int pid, string? model, CancellationToken token) => session.SelectAsync(pid, model, token);
+    /// <inheritdoc />
+    public Task<YuzuhaConnectionStatus> StatusAsync(CancellationToken token) => session.StatusAsync(token);
+    /// <inheritdoc />
+    public Task<RunPmlCommandResponse> QueryAsync(PmlFormQueryRequest request, CancellationToken token)
     {
-        calls = new(bridge, new PmlFunctionTrustStore(WorkbenchPaths.TrustFile(AppContext.BaseDirectory, Environment.GetEnvironmentVariable("YUZUHA_TRUST_FILE"), Environment.GetEnvironmentVariable("YUZUHA_TOOLKIT_ROOT")))); functions = new(registry, calls);
+        var operation = request.Kind switch { "forms" or "shown-forms" => "pml.forms.list", "gadgets" => "pml.gadgets.list", "gadget" => "pml.gadget.read", _ => throw new ArgumentException("未知窗体查询。") };
+        object input = request.Kind switch
+        {
+            "forms" or "shown-forms" => new { shownOnly = request.Kind == "shown-forms", startIndex = request.StartIndex, maxItems = request.MaxItems, maxCharacters = request.MaxCharacters },
+            "gadgets" => new { formName = request.FormName, startIndex = request.StartIndex, maxItems = request.MaxItems, maxCharacters = request.MaxCharacters },
+            _ => new { formName = request.FormName, gadgetName = request.GadgetName, maxCharacters = request.MaxCharacters }
+        };
+        return Record(operation, input, async () => DesktopCliSession.Receipt(await session.InvokeAsync(operation, input, token).ConfigureAwait(false)));
     }
-    /// <summary>只读发现已有 AVEVA 窗口。</summary>
-    public AvevaSessionListResponse Discover() => bridge.DiscoverSessions();
-    /// <summary>显式连接并核验已有专用管道。</summary>
-    public Task<YuzuhaConnectionStatus> SelectAsync(int pid, string? model, CancellationToken token) => bridge.SelectSessionAsync(pid, model, token);
-    /// <summary>核验已选目标而不执行 PML。</summary>
-    public Task<YuzuhaConnectionStatus> StatusAsync(CancellationToken token) => bridge.GetConnectionStatusAsync(token);
-    /// <summary>复用生产桥和原生 Form/Gadget 查询策略。</summary>
-    public Task<RunPmlCommandResponse> QueryAsync(PmlFormQueryRequest request, CancellationToken token) => Record("desktop_form_query", new { request.Kind, request.FormName, request.GadgetName, request.StartIndex, request.MaxItems, request.MaxCharacters }, () => bridge.QueryPmlFormsAsync(request, token));
-    /// <summary>复用生产有界数组入口。</summary>
-    public Task<RunPmlCommandResponse> ReadArrayAsync(string name, int start, int items, int chars, CancellationToken token) => Record("desktop_array_query", new { name, start, items, chars }, () => bridge.ReadPmlArrayAsync(name, start, items, chars, token));
-    /// <summary>直接使用现有列表工具及其解析器，临时输出数组在读取后删除。</summary>
+    /// <inheritdoc />
+    public Task<RunPmlCommandResponse> ReadArrayAsync(string name, int start, int items, int chars, CancellationToken token)
+    {
+        var input = new { globalVar = name, startIndex = start, maxItems = items, maxCharacters = chars };
+        return Record("pml.array.window", input, async () => DesktopCliSession.Receipt(await session.InvokeAsync("pml.array.window", input, token).ConfigureAwait(false)));
+    }
+    /// <inheritdoc />
     public async Task<DesktopObjectReadReply> ReadObjectAsync(DesktopObjectQuery query, CancellationToken token)
     {
+        var input = new { pmlCommand = query.Expression, globalVar = "YuzuhaDesktopRead" + Guid.NewGuid().ToString("N"), deleteGlobalVar = true, includeEmpty = true };
         DesktopObjectReadReply? reply = null;
-        await Record("desktop_object_query", new { query.Kind, query.Expression }, async () =>
+        await Record("pml.array.read", new { query.Kind, query.Expression }, async () =>
         {
-            reply = DesktopObjectReadReply.Parse(await calls.RunPmlCommandList(query.Expression, "YuzuhaDesktopRead" + Guid.NewGuid().ToString("N"), true, true, token));
-            return reply.Receipt;
-        });
+            var response = await session.InvokeAsync("pml.array.read", input, token).ConfigureAwait(false);
+            var receipt = DesktopCliSession.Receipt(response);
+            reply = DesktopObjectReadReply.Parse(response.Result.Success ? response.Result.Data?.GetRawText() ?? JsonSerializer.Serialize(receipt) : JsonSerializer.Serialize(receipt)); return receipt;
+        }).ConfigureAwait(false);
         return reply!;
     }
-    /// <summary>复用注册函数工具，包括权限、源码和人工信任提示。</summary>
-    public Task<RunPmlCommandResponse> InvokeAsync(string name, List<DynamicParameterInput> parameters, CancellationToken token) => Record("desktop_registered_function", new { name, parameterCount = parameters.Count }, async () => WorkbenchReply.ParseRegisteredCall(await functions.InvokePmlFunction(name, parameters, token)));
-    private async Task<RunPmlCommandResponse> Record(string tool, object parameters, Func<Task<RunPmlCommandResponse>> action)
+    /// <inheritdoc />
+    public Task<RunPmlCommandResponse> InvokeAsync(string name, List<DynamicParameterInput> parameters, CancellationToken token)
     {
-        var id = journal.Begin(tool, JsonSerializer.Serialize(parameters), bridge.SelectedProcessId);
+        _ = registry.PrepareCall(name, parameters);
+        return Record("pml.function.invoke", new { name, parameterCount = parameters.Count }, async () => DesktopCliSession.Receipt(
+            await session.InvokeAsync("pml.function.invoke", new { functionName = name, parameters }, token).ConfigureAwait(false)));
+    }
+    private async Task<RunPmlCommandResponse> Record(string operation, object parameters, Func<Task<RunPmlCommandResponse>> action)
+    {
+        var id = journal.Begin(operation, JsonSerializer.Serialize(parameters), session.ProcessId);
         try
         {
-            var result = await action();
-            journal.Complete(id, result.Success ? "succeeded" : "failed", $"request={result.RequestId}; code={result.Code}; {result.ErrorMessage}", bridge.SelectedProcessId);
-            return result;
+            var result = await action().ConfigureAwait(false);
+            journal.Complete(id, result.Success ? "succeeded" : "failed", $"request={result.RequestId}; code={result.Code}; {result.ErrorMessage}", session.ProcessId); return result;
         }
-        catch (Exception error) { journal.Complete(id, error is OperationCanceledException or IOException or TimeoutException ? "unknown" : "failed", error.Message, bridge.SelectedProcessId); throw; }
+        catch (Exception error) { journal.Complete(id, error is OperationCanceledException or IOException or TimeoutException ? "unknown" : "failed", error.Message, session.ProcessId); throw; }
     }
-    /// <summary>释放本窗口持有的连接和本机日志。</summary>
-    public void Dispose() { bridge.Dispose(); journal.Dispose(); }
+    /// <inheritdoc />
+    public void Dispose() => journal.Dispose();
 }

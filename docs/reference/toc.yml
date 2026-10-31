@@ -9,6 +9,23 @@
     href: installation.md
   - name: CLI
     href: cli.md
+  - name: 管理器（当前候选）
+    href: manager-cli.md
+    items:
+    - name: 管理 CLI 与通信边界
+      href: manager-cli.md
+    - name: 自动发现、启动与回执
+      href: launch-workflow.md
+    - name: 启动、复制与原型迁移
+      href: manager-launch.md
+    - name: 知识导入与检查
+      href: manager-knowledge.md
+    - name: 独立数据库与修订
+      href: database.md
+    - name: Ribbon HTTP 兼容入口
+      href: ribbon-adapter.md
+    - name: 可选许可与 VM 插件
+      href: manager-plugins.md
   - name: PML 开发
     href: pml-development-flow.md
   - name: 官方资料与知识库

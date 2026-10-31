@@ -30,6 +30,12 @@ public static class LaunchProfileCatalog
         Name = source.Name + " · 副本", Kind = source.Kind, Executable = source.Executable,
         Initialization = source.Initialization, Product = source.Product, Version = source.Version, WorkingDirectory = source.WorkingDirectory,
         Project = source.Project, User = source.User, Mdb = source.Mdb, Module = source.Module, License = source.License,
+        LicensePrecheck = source.LicensePrecheck is not { } policy ? null : new()
+        {
+            Mode = policy.Mode, Host = policy.Host, RmsPort = policy.RmsPort, RulesPort = policy.RulesPort,
+            ServiceName = policy.ServiceName, TimeoutMilliseconds = policy.TimeoutMilliseconds, RequireCheckout = policy.RequireCheckout,
+            ExtensionData = policy.ExtensionData?.ToDictionary(p => p.Key, p => p.Value.Clone(), StringComparer.Ordinal)
+        },
         Environment = new(source.Environment, StringComparer.OrdinalIgnoreCase), RememberPassword = source.RememberPassword,
         ExtensionData = source.ExtensionData?.ToDictionary(p => p.Key, p => p.Value.Clone(), StringComparer.Ordinal)
     };

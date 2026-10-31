@@ -1,0 +1,308 @@
+{
+  "schemaVersion": 1,
+  "kind": "operation-input-contract-snapshot",
+  "source": "LaunchDiscoveryOperations.Registrations and LaunchWorkflowOperations.Registrations via Manager CLI op list",
+  "scope": "Input schemas and operation authorization only; this is not a responseSchema. Result DTOs use LaunchDiscoveryJsonContext, LaunchWorkflowJsonContext and OperationJsonContext.",
+  "operations": [
+    {
+      "id": "environment.discover",
+      "contractVersion": 1,
+      "description": "Read-only bounded environment discovery and explicit override resolution; returns needsInput without prompting or launching.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "roots": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 32,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "product": {
+            "type": "string",
+            "enum": [
+              "E3D",
+              "AM",
+              "PDMS"
+            ]
+          },
+          "version": {
+            "type": "string"
+          },
+          "maximumDepth": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 8
+          },
+          "maximumFiles": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 300000
+          },
+          "timeoutSeconds": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 120
+          },
+          "candidateId": {
+            "type": "string"
+          },
+          "preferredExecutable": {
+            "type": "string"
+          },
+          "overrides": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "project": {
+                "type": "string"
+              },
+              "module": {
+                "type": "string"
+              },
+              "user": {
+                "type": "string"
+              },
+              "mdb": {
+                "type": "string"
+              },
+              "workingDirectory": {
+                "type": "string"
+              },
+              "initialization": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "environment.resolve",
+      "contractVersion": 1,
+      "description": "Read-only bounded environment discovery and explicit override resolution; returns needsInput without prompting or launching.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "roots": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 32,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "product": {
+            "type": "string",
+            "enum": [
+              "E3D",
+              "AM",
+              "PDMS"
+            ]
+          },
+          "version": {
+            "type": "string"
+          },
+          "maximumDepth": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 8
+          },
+          "maximumFiles": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 300000
+          },
+          "timeoutSeconds": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 120
+          },
+          "candidateId": {
+            "type": "string"
+          },
+          "preferredExecutable": {
+            "type": "string"
+          },
+          "overrides": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "project": {
+                "type": "string"
+              },
+              "module": {
+                "type": "string"
+              },
+              "user": {
+                "type": "string"
+              },
+              "mdb": {
+                "type": "string"
+              },
+              "workingDirectory": {
+                "type": "string"
+              },
+              "initialization": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "launch.execute",
+      "contractVersion": 1,
+      "description": "先持久受理再启动；重复操作返回已有事实，未知结果禁止重放。",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "plan": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "operationId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "profileId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "expectedRevision": {
+                "type": "string",
+                "minLength": 1
+              },
+              "files": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "path": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "sha256": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "path",
+                    "sha256"
+                  ]
+                }
+              },
+              "expiresAt": {
+                "type": "string",
+                "minLength": 1
+              },
+              "planDigest": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "operationId",
+              "profileId",
+              "expectedRevision",
+              "files",
+              "expiresAt",
+              "planDigest"
+            ]
+          },
+          "password": {
+            "type": "string"
+          },
+          "requestId": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "plan",
+          "password"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": true,
+      "legacyTools": null
+    },
+    {
+      "id": "launch.observe",
+      "contractVersion": 1,
+      "description": "观察持久启动回执；入口进程存在不代表已登录。",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "operationId"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "launch.plan",
+      "contractVersion": 1,
+      "description": "只读目标并缓存非秘密冻结计划，不改变启动配置或厂商文件。",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "profileId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "expectedRevision": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "operationId",
+          "profileId",
+          "expectedRevision"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    }
+  ]
+}

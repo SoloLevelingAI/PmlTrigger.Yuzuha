@@ -14,7 +14,7 @@ public sealed record OperationDescriptor(
 /// <summary>本次调用显式指定的目标 PID、模块和执行许可。</summary>
 public sealed record OperationContext(
     int? ProcessId = null, string? ExpectedModel = null, bool AllowExecution = false,
-    bool AllowWrite = false, bool AllowLaunch = false);
+    bool AllowWrite = false, bool AllowLaunch = false, long? ExpectedProcessStartTimeUtcTicks = null);
 
 /// <summary>操作错误代码、可读原因及远端可能已执行的标记。</summary>
 public sealed record OperationError(string Code, string Message, bool MayHaveExecuted = false);
@@ -133,6 +133,9 @@ public sealed class OperationExecutor(OperationRegistry registry, IOperationObse
             return OperationResult.Fail(id, 2, "INVALID_INPUT", error);
         if (context.ProcessId is <= 0 || (registration.Descriptor.RequiresPid && context.ProcessId == null))
             return OperationResult.Fail(id, 5, "PID_REQUIRED", "Specify a positive AVEVA PID explicitly.");
+        if (context.ExpectedProcessStartTimeUtcTicks is <= 0 ||
+            context.ExpectedProcessStartTimeUtcTicks is not null && context.ProcessId is null)
+            return OperationResult.Fail(id, 2, "INVALID_PROCESS_IDENTITY", "A start time requires a positive explicit PID and positive UTC ticks.");
         if (registration.Descriptor.RequiresExecution && !context.AllowExecution)
             return OperationResult.Fail(id, 4, "EXECUTION_NOT_AUTHORIZED",
                 "Execution requires explicit authorization. No PML was sent.");

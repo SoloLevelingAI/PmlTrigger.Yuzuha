@@ -1,0 +1,34 @@
+{
+  "Success": true,
+  "Code": "OK",
+  "ErrorMessage": null,
+  "PmlCommand": "!!YuzuhaReadGlobal(5,1,\u0027\u0027,\u0027YuzuhaRuntimePath\u0027)",
+  "Summary": {
+    "total": 1,
+    "unset": 0,
+    "blank": 0,
+    "zero": 0,
+    "emptyArray": 0,
+    "hasValue": 1,
+    "byType": {
+      "STRING": 1
+    }
+  },
+  "Count": 1,
+  "Items": [
+    {
+      "Depth": 0,
+      "Path": "",
+      "Type": "STRING",
+      "Value": "C:\\Users\\26648\\AppData\\Local\\YuzuhaToolkit\\PmlTrigger.Yuzuha\\runtime\\profiles\\E3D2.1\\net48\\YuzuhaToolkit.PmlHost.Net48",
+      "Empty": false
+    }
+  ],
+  "IncludeEmpty": false,
+  "UnparsedCount": 0,
+  "Unparsed": [],
+  "RequestId": "d9db1307fdfa4624b591d3d19b36d4dd",
+  "ServerRuntime": "4.0.30319.42000",
+  "ServerTimeUtc": "2026-10-31T05:31:50.1712246Z",
+  "FunctionTrustWarning": null
+}

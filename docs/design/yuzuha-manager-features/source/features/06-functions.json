@@ -1,0 +1,64 @@
+{
+  "id": "06-functions",
+  "title": "函数与调用权限",
+  "short": "函数",
+  "eyebrow": "FUNCTIONS / SOURCE IDENTITY",
+  "action": "预览调用",
+  "left": "本机函数登记",
+  "right": "所选函数 · DemoPipeTag",
+  "rows": [
+    [
+      "DemoPipeTag",
+      "STRING · REAL · BOOLEAN",
+      "已登记"
+    ],
+    [
+      "调用许可",
+      "当前源码版本",
+      "关闭"
+    ],
+    [
+      "源码哈希",
+      "7c91…a82f / 示例",
+      "已记录"
+    ],
+    [
+      "人工信任",
+      "独立维护的建议记录",
+      "未标记"
+    ],
+    [
+      "会话加载版本",
+      "尚未验证实际已加载内容",
+      "未验证"
+    ],
+    [
+      "目标会话",
+      "E3D 2.1 / Design",
+      "待核验"
+    ]
+  ],
+  "detail": [
+    "1  选择 .pmlfnc 并解析唯一声明。",
+    "2  检查签名和源码，显式授予调用许可。",
+    "3  输入有序标量参数，先生成调用文本。",
+    "4  核验目标与源码后，仅调度一次。"
+  ],
+  "noteTitle": "本机登记与 AVEVA 实际加载分开",
+  "note": "登记保存源码身份和参数签名。源码变化后拒绝调用，重新登记默认关闭许可；实际加载需独立核验。",
+  "ops": [
+    "pml.function.register",
+    "pml.functions.list",
+    "pml.function.permission",
+    "pml.function.invoke"
+  ],
+  "owner": "communication CLI / 旧GUI本机登记；Manager CLI统一入口待补齐",
+  "states": [
+    "未登记：选择源码并填写匹配函数名。",
+    "处理中：核验源码与目标后调度一次。",
+    "源码变化：拒绝调用并要求重新登记。",
+    "许可关闭：检查后人工授予。",
+    "会话加载未验证：展示独立提示。",
+    "调用结果未知：保留回执，不自动重发。"
+  ]
+}

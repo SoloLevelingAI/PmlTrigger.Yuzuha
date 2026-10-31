@@ -57,6 +57,14 @@ public sealed class LaunchProfileService
             Issue("initialization", "INIT_NOT_FOUND", "Monitor 初始化文件不存在。");
         if (profile.Environment is null || profile.Environment.Any(p => string.IsNullOrWhiteSpace(p.Key) || p.Key.Any(c => c is '=' or '\0') || p.Value is null || p.Value.Contains('\0')))
             Issue("environment", "INVALID_ENVIRONMENT", "环境变量名称或值无效。");
+        if (profile.LicensePrecheck is { } precheck)
+        {
+            if (precheck.Mode is not ("off" or "required")) Issue("licensePrecheck.mode", "INVALID_LICENSE_POLICY", "许可预检模式应为 off 或 required。");
+            if (precheck.Mode == "required" && (string.IsNullOrWhiteSpace(precheck.Host) || precheck.Host.Length > 255 || precheck.Host.Any(c => char.IsWhiteSpace(c) || char.IsControl(c)) ||
+                precheck.RmsPort is < 1 or > 65535 || precheck.RulesPort is < 1 or > 65535 || precheck.TimeoutMilliseconds is < 1 or > 10000 ||
+                precheck.ServiceName is { } serviceName && (serviceName.Length is < 1 or > 128 || serviceName.Any(c => !char.IsAsciiLetterOrDigit(c) && !" _.()-".Contains(c)))))
+                Issue("licensePrecheck", "INVALID_LICENSE_POLICY", "强制预检需要有效的主机、端口、超时及可选本机服务名。");
+        }
         if (issues.Count == 0)
         {
             try { _ = LaunchService.Preview(profile, modules); }
@@ -92,7 +100,7 @@ public sealed class LaunchProfileService
         var profile = Find(current.Value, id);
         if (changes.ValueKind != JsonValueKind.Object) throw new ArgumentException("changes 必须是对象。");
         var node = JsonSerializer.SerializeToNode(profile, LaunchLifecycleJsonContext.Default.LaunchProfile)!.AsObject();
-        var allowed = new HashSet<string>(["name", "kind", "executable", "initialization", "product", "version", "workingDirectory", "project", "user", "mdb", "module", "license", "environment", "rememberPassword", "isFavorite", "isDefault"], StringComparer.Ordinal);
+        var allowed = new HashSet<string>(["name", "kind", "executable", "initialization", "product", "version", "workingDirectory", "project", "user", "mdb", "module", "license", "licensePrecheck", "environment", "rememberPassword", "isFavorite", "isDefault"], StringComparer.Ordinal);
         var seen = new HashSet<string>(StringComparer.Ordinal);
         foreach (var field in changes.EnumerateObject())
         {
@@ -182,10 +190,18 @@ public sealed class LaunchProfileService
         var candidate = WorkspaceConfigurationStore.Clone(original);
         var copy = CloneProfile(profile);
         var existing = candidate.Profiles.SingleOrDefault(p => p.Id == copy.Id);
+        // Older editors do not expose this optional policy. Clearing uses explicit mode=off.
+        if (copy.LicensePrecheck is null && existing?.LicensePrecheck is not null)
+            copy.LicensePrecheck = CloneProfile(existing).LicensePrecheck;
         if (existing?.ExtensionData is not null)
         {
             copy.ExtensionData ??= new(StringComparer.Ordinal);
             foreach (var field in existing.ExtensionData) copy.ExtensionData.TryAdd(field.Key, field.Value.Clone());
+        }
+        if (existing?.LicensePrecheck?.ExtensionData is { } policyFields && copy.LicensePrecheck is { } policy)
+        {
+            policy.ExtensionData ??= new(StringComparer.Ordinal);
+            foreach (var field in policyFields) policy.ExtensionData.TryAdd(field.Key, field.Value.Clone());
         }
         if (existing is not null) candidate.Profiles[candidate.Profiles.IndexOf(existing)] = copy;
         else candidate.Profiles.Add(copy);

@@ -1,0 +1,102 @@
+[
+  {
+    "operationId": "aveva.session.select",
+    "processId": 25624,
+    "input": {},
+    "expectedProcessStartTimeUtcTicks": 639290226957908482,
+    "expectedModel": "DESIGN"
+  },
+  {
+    "operationId": "pml.forms.list",
+    "processId": 25624,
+    "input": {
+      "maxItems": 1000,
+      "shownOnly": false,
+      "maxCharacters": 262144
+    },
+    "expectedProcessStartTimeUtcTicks": 639290226957908482,
+    "expectedModel": "DESIGN"
+  },
+  {
+    "operationId": "pml.gadgets.list",
+    "processId": 25624,
+    "input": {
+      "maxItems": 1000,
+      "formName": "YuzuhaV04LocalProbe"
+    },
+    "expectedProcessStartTimeUtcTicks": 639290226957908482,
+    "expectedModel": "DESIGN"
+  },
+  {
+    "operationId": "pml.gadget.read",
+    "processId": 25624,
+    "input": {
+      "gadgetName": "accept",
+      "formName": "YuzuhaV04LocalProbe"
+    },
+    "expectedProcessStartTimeUtcTicks": 639290226957908482,
+    "expectedModel": "DESIGN"
+  },
+  {
+    "operationId": "pml.gadget.read",
+    "processId": 25624,
+    "input": {
+      "gadgetName": "message",
+      "formName": "YuzuhaV04LocalProbe"
+    },
+    "expectedProcessStartTimeUtcTicks": 639290226957908482,
+    "expectedModel": "DESIGN"
+  },
+  {
+    "operationId": "pml.gadget.read",
+    "processId": 25624,
+    "input": {
+      "gadgetName": "enabled",
+      "formName": "YuzuhaV04LocalProbe"
+    },
+    "expectedProcessStartTimeUtcTicks": 639290226957908482,
+    "expectedModel": "DESIGN"
+  },
+  {
+    "operationId": "pml.gadget.read",
+    "processId": 25624,
+    "input": {
+      "gadgetName": "items",
+      "formName": "YuzuhaV04LocalProbe"
+    },
+    "expectedProcessStartTimeUtcTicks": 639290226957908482,
+    "expectedModel": "DESIGN"
+  },
+  {
+    "operationId": "pml.forms.list",
+    "processId": 25624,
+    "input": {
+      "maxItems": 1000,
+      "shownOnly": true,
+      "maxCharacters": 262144
+    },
+    "expectedProcessStartTimeUtcTicks": 639290226957908482,
+    "expectedModel": "DESIGN"
+  },
+  {
+    "operationId": "pml.gadgets.list",
+    "processId": 25624,
+    "input": {
+      "maxItems": 2,
+      "formName": "YuzuhaV04LocalProbe"
+    },
+    "expectedProcessStartTimeUtcTicks": 639290226957908482,
+    "expectedModel": "DESIGN"
+  },
+  {
+    "operationId": "pml.gadgets.list",
+    "processId": 25624,
+    "input": {
+      "maxItems": 2,
+      "formName": "YuzuhaV04LocalProbe",
+      "startIndex": 3
+    },
+    "expectedProcessStartTimeUtcTicks": 639290226957908482,
+    "expectedModel": "DESIGN"
+  }
+]

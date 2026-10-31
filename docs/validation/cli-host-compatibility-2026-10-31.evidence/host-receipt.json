@@ -1,0 +1,8 @@
+{
+  "Id": "20261031T054039-4a15135a0cdb4fdb947385bb62fe8a70",
+  "Target": "C:\\Users\\26648\\AppData\\Local\\YuzuhaToolkit\\PmlTrigger.Yuzuha",
+  "Files": [
+    "runtime/profiles/E3D2.1/net48/YuzuhaToolkit.PmlHost.Net48.dll"
+  ],
+  "BackupDirectory": "C:\\Users\\26648\\Documents\\ChatGPT\\Example\\PmlTrigger.Yuzuha\\artifacts\\manager\\cli-host-compat\\Deployments\\20261031T054039-4a15135a0cdb4fdb947385bb62fe8a70\\backups"
+}

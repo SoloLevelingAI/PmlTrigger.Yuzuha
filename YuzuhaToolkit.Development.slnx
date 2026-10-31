@@ -1,5 +1,15 @@
 <Solution>
   <Folder Name="/src/">
+    <Project Path="src/PmlTwin.Database.Contracts/PmlTwin.Database.Contracts.csproj" />
+    <Project Path="src/PmlTwin.Database/PmlTwin.Database.csproj" />
+    <Project Path="src/YuzuhaToolkit.Communication.Contracts/YuzuhaToolkit.Communication.Contracts.csproj" />
+    <Project Path="src/YuzuhaToolkit.Builtins/YuzuhaToolkit.Builtins.csproj" />
+    <Project Path="src/YuzuhaToolkit.Plugins.Contracts/YuzuhaToolkit.Plugins.Contracts.csproj" />
+    <Project Path="src/YuzuhaToolkit.Plugin.License/YuzuhaToolkit.Plugin.License.csproj" />
+    <Project Path="src/YuzuhaToolkit.Plugin.Vm/YuzuhaToolkit.Plugin.Vm.csproj" />
+    <Project Path="src/YuzuhaToolkit.Manager.Core/YuzuhaToolkit.Manager.Core.csproj" />
+    <Project Path="src/YuzuhaToolkit.Manager.Cli/YuzuhaToolkit.Manager.Cli.csproj" />
+    <Project Path="src/YuzuhaToolkit.Cli.Compatibility/YuzuhaToolkit.Cli.Compatibility.csproj" />
     <Project Path="src/YuzuhaToolkit.Workspace/YuzuhaToolkit.Workspace.csproj" />
     <Project Path="src/YuzuhaToolkit.Desktop/YuzuhaToolkit.Desktop.csproj" />
     <Project Path="src/PlantHost.Rpc.Net10/PlantHost.Rpc.Net10.csproj" />
@@ -14,6 +24,10 @@
     <Project Path="src/YuzuhaToolkit.WebApps/YuzuhaToolkit.WebApps.csproj" />
   </Folder>
   <Folder Name="/tests/">
+    <Project Path="tests/PmlTwin.Database.Tests/PmlTwin.Database.Tests.csproj" />
+    <Project Path="tests/PmlTwin.Database.ProcessFixture/PmlTwin.Database.ProcessFixture.csproj" />
+    <Project Path="tests/YuzuhaToolkit.Manager.Tests/YuzuhaToolkit.Manager.Tests.csproj" />
+    <Project Path="tests/YuzuhaToolkit.Manager.ProcessFixture/YuzuhaToolkit.Manager.ProcessFixture.csproj" />
     <Project Path="tests/YuzuhaToolkit.Tests/YuzuhaToolkit.Tests.csproj" />
     <Project Path="tests/YuzuhaToolkit.Architecture.Tests/YuzuhaToolkit.Architecture.Tests.csproj" />
   </Folder>

@@ -1,0 +1,39 @@
+[
+  {
+    "operationId": "aveva.session.select",
+    "processId": 25624,
+    "input": {},
+    "expectedProcessStartTimeUtcTicks": 639290226957908482,
+    "expectedModel": "DESIGN"
+  },
+  {
+    "operationId": "pml.command.execute",
+    "processId": 25624,
+    "input": {
+      "pmlCommand": "!!YuzuhaExecuter.InitArgs('C:\\Users\\26648\\Documents\\ChatGPT\\Example\\PmlTrigger.Yuzuha\\artifacts\\manager\\cli-host-compat\\live-smoke\\after.pmlmac')"
+    },
+    "expectedProcessStartTimeUtcTicks": 639290226957908482,
+    "expectedModel": "DESIGN"
+  },
+  {
+    "operationId": "pml.command.execute",
+    "processId": 25624,
+    "input": {
+      "pmlCommand": "!!YuzuhaExecuter.execute('ExecuteFile')"
+    },
+    "expectedProcessStartTimeUtcTicks": 639290226957908482,
+    "expectedModel": "DESIGN"
+  },
+  {
+    "operationId": "pml.array.read",
+    "processId": 25624,
+    "input": {
+      "pmlCommand": "!!YuzuhaExecuter.Query()",
+      "globalVar": "YUZUHAV04SMOKERESULT",
+      "deleteGlobalVar": true,
+      "includeEmpty": true
+    },
+    "expectedProcessStartTimeUtcTicks": 639290226957908482,
+    "expectedModel": "DESIGN"
+  }
+]

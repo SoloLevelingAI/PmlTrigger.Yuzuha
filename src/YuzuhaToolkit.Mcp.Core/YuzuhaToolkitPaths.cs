@@ -9,23 +9,21 @@ namespace YuzuhaToolkit.Mcp;
 internal static class YuzuhaToolkitPaths
 {
     /// <summary>优先使用显式环境覆盖，否则解析托管安装根目录。</summary>
-    internal static string ToolkitRoot()
+    internal static string ToolkitRoot() => ResolveRoot(AppContext.BaseDirectory, Environment.GetEnvironmentVariable("YUZUHA_TOOLKIT_ROOT"));
+
+    internal static string ResolveRoot(string baseDirectory, string? overrideRoot)
     {
-        var overrideRoot = Environment.GetEnvironmentVariable("YUZUHA_TOOLKIT_ROOT");
         if (!string.IsNullOrWhiteSpace(overrideRoot))
             return Path.GetFullPath(overrideRoot.Trim());
 
-        var exeDirectory = AppContext.BaseDirectory.TrimEnd(
+        var exeDirectory = Path.GetFullPath(baseDirectory).TrimEnd(
             Path.DirectorySeparatorChar,
             Path.AltDirectorySeparatorChar);
         var parent = Path.GetDirectoryName(exeDirectory);
         var root = parent is null ? null : Path.GetDirectoryName(parent);
 
         if (root is not null &&
-            string.Equals(
-                Path.GetFileName(exeDirectory),
-                "net10",
-                StringComparison.OrdinalIgnoreCase) &&
+            new[] { "net10", "cli", "desktop", "manager" }.Contains(Path.GetFileName(exeDirectory), StringComparer.OrdinalIgnoreCase) &&
             string.Equals(
                 Path.GetFileName(parent),
                 "runtime",

@@ -18,6 +18,9 @@ public sealed class YuzuhaRpcBridge : IDisposable
     /// <summary>当前已选择的目标 PID，用于本机运行日志；执行前仍重新核验完整身份。</summary>
     public int? SelectedProcessId => _selectedSession?.ProcessId;
 
+    /// <summary>管理器发现时冻结的启动身份；独立桥沿用此约束，防止 PID 重用。</summary>
+    public long? RequiredProcessStartTimeUtcTicks { get; init; }
+
     /// <summary>配置只读会话发现与诊断依赖，尚未选择任何 AVEVA 目标。</summary>
     /// <param name="logger">仅写诊断流的日志记录器。</param>
     /// <param name="discovery">用于重新核验候选的发现器或本机发现结果。</param>
@@ -38,7 +41,8 @@ public sealed class YuzuhaRpcBridge : IDisposable
     }
 
     /// <summary>创建共享发现器但连接状态独立的会话桥，避免并发调用切换目标。</summary>
-    public YuzuhaRpcBridge CreateIndependent() => new(_logger, _discovery, _connections);
+    public YuzuhaRpcBridge CreateIndependent() => new(_logger, _discovery, _connections)
+    { RequiredProcessStartTimeUtcTicks = RequiredProcessStartTimeUtcTicks };
 
     /// <summary>停止持有的心跳或连接资源；重复释放不会再次发起操作。</summary>
     public void Dispose()
@@ -69,10 +73,12 @@ public sealed class YuzuhaRpcBridge : IDisposable
     /// <param name="processId">从会话发现结果取得的准确目标 PID，不能猜测。</param>
     /// <param name="expectedModel">可选的预期 AVEVA 模块；提供时必须与 Host 身份匹配。</param>
     /// <param name="cancellationToken">取消等待或传输；远端已经开始的命令可能继续执行，不能据此自动重试。</param>
+    /// <param name="expectedProcessStartTimeUtcTicks">可选的发现快照启动身份，防止 PID 重用。</param>
     public async Task<YuzuhaConnectionStatus> SelectSessionAsync(
         int processId,
         string? expectedModel,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        long? expectedProcessStartTimeUtcTicks = null)
     {
         ObjectDisposedException.ThrowIf(_disposed, this);
         await _connectionGate.WaitAsync(cancellationToken).ConfigureAwait(false);
@@ -80,6 +86,10 @@ public sealed class YuzuhaRpcBridge : IDisposable
         {
             DisconnectCore();
             var candidate = _discovery.RequireCandidate(processId);
+
+            if ((RequiredProcessStartTimeUtcTicks is { } required && candidate.ProcessStartTimeUtcTicks != required) ||
+                (expectedProcessStartTimeUtcTicks is { } expected && candidate.ProcessStartTimeUtcTicks != expected))
+                throw new InvalidOperationException("AVEVA_PROCESS_IDENTITY_CHANGED: PID now belongs to a different process start time. Rediscover the target.");
 
             if (!candidate.PipeDetected)
                 throw new InvalidOperationException(

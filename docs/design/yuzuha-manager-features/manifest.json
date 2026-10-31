@@ -1,0 +1,288 @@
+{
+  "version": 1,
+  "tokenVersion": "1.0.0",
+  "tokenSha256": "81d6cc19f20e92b19854c335cdae175109b8fd3d3027699c47e180200d62948a",
+  "shared": {
+    "id": "00-design-system",
+    "file": "00-design-system.figcraft",
+    "frames": {
+      "system": 2
+    },
+    "nextNode": 53
+  },
+  "features": [
+    {
+      "id": "01-overview-connections",
+      "title": "总览与连接",
+      "file": "01-overview-connections.figcraft",
+      "frames": {
+        "light": 54,
+        "dark": 120,
+        "narrow": 186,
+        "states": 253
+      },
+      "tokenVersion": "1.0.0",
+      "tokenSha256": "81d6cc19f20e92b19854c335cdae175109b8fd3d3027699c47e180200d62948a",
+      "operations": [
+        "connection.sessions",
+        "connection.select",
+        "connection.status",
+        "connection.test"
+      ],
+      "backendOwner": "Manager CLI / Manager.Core",
+      "status": "design-draft-not-production",
+      "model": "current-model",
+      "scenarios": [
+        "无会话：转到启动工程。",
+        "处理中：显示目标，禁用重复测试。",
+        "目标改变：清除旧灯态并重新选择。",
+        "管道缺失：显示产品和诊断入口。",
+        "协议不足：保留各项独立结果。",
+        "测试过期：回到待复测。"
+      ]
+    },
+    {
+      "id": "02-deployment",
+      "title": "环境部署",
+      "file": "02-deployment.figcraft",
+      "frames": {
+        "light": 54,
+        "dark": 120,
+        "narrow": 186,
+        "states": 253
+      },
+      "tokenVersion": "1.0.0",
+      "tokenSha256": "81d6cc19f20e92b19854c335cdae175109b8fd3d3027699c47e180200d62948a",
+      "operations": [
+        "installation.discover",
+        "deployment.preview",
+        "deployment.apply",
+        "deployment.restore"
+      ],
+      "backendOwner": "Manager CLI / Manager.Core",
+      "status": "design-draft-not-production",
+      "model": "current-model",
+      "scenarios": [
+        "未配置：选择程序包与产品安装。",
+        "处理中：按复制、环境、回读显示阶段。",
+        "计划过期：保留输入并重新预览。",
+        "写入失败：展示错误和备份位置。",
+        "部分恢复：列出未恢复项供人工处理。",
+        "回执未知：先检查记录，不自动重发。"
+      ]
+    },
+    {
+      "id": "03-launch-profiles",
+      "title": "启动工程",
+      "file": "03-launch-profiles.figcraft",
+      "frames": {
+        "light": 54,
+        "dark": 120,
+        "narrow": 186,
+        "states": 253
+      },
+      "tokenVersion": "1.0.0",
+      "tokenSha256": "81d6cc19f20e92b19854c335cdae175109b8fd3d3027699c47e180200d62948a",
+      "operations": [
+        "launch.profile.preview",
+        "launch.profile.save",
+        "launch.profile.history",
+        "launch.profile.start"
+      ],
+      "backendOwner": "Manager CLI / Manager.Core",
+      "status": "design-draft-not-production",
+      "model": "current-model",
+      "scenarios": [
+        "未配置：新建或导入启动配置。",
+        "处理中：禁止重复创建入口进程。",
+        "修订冲突：保留草稿并比较当前版本。",
+        "入口缺失：定位字段并重新选择。",
+        "入口已创建：Host 仍待核验。",
+        "结果未知：查看创建记录，避免重复启动。"
+      ]
+    },
+    {
+      "id": "04-tool-copy",
+      "title": "工具与目录复制",
+      "file": "04-tool-copy.figcraft",
+      "frames": {
+        "light": 54,
+        "dark": 120,
+        "narrow": 186,
+        "states": 253
+      },
+      "tokenVersion": "1.0.0",
+      "tokenSha256": "81d6cc19f20e92b19854c335cdae175109b8fd3d3027699c47e180200d62948a",
+      "operations": [
+        "copy.formats",
+        "copy.preview",
+        "copy.apply",
+        "copy.restore"
+      ],
+      "backendOwner": "Manager CLI / Manager.Core",
+      "status": "design-draft-not-production",
+      "model": "current-model",
+      "scenarios": [
+        "未配置：选择载荷和目标目录。",
+        "处理中：显示检查、暂存、写入、回读。",
+        "目标变化：重新生成差异计划。",
+        "解压失败：显示完整性错误和日志。",
+        "恢复待处理：列出被占用或外部修改项。",
+        "结果未知：先回收回执，不自动复制。"
+      ]
+    },
+    {
+      "id": "05-knowledge",
+      "title": "知识导入与检查",
+      "file": "05-knowledge.figcraft",
+      "frames": {
+        "light": 54,
+        "dark": 120,
+        "narrow": 186,
+        "states": 253
+      },
+      "tokenVersion": "1.0.0",
+      "tokenSha256": "81d6cc19f20e92b19854c335cdae175109b8fd3d3027699c47e180200d62948a",
+      "operations": [
+        "knowledge.import.preview",
+        "knowledge.import.apply",
+        "knowledge.inspect",
+        "knowledge.libraries.list",
+        "knowledge.library.search",
+        "knowledge.library.chunk"
+      ],
+      "backendOwner": "Manager CLI / Manager.Core",
+      "status": "design-draft-not-production",
+      "model": "current-model",
+      "scenarios": [
+        "未配置：明确选择资料源或已有库。",
+        "处理中：构建、检查、发布分阶段。",
+        "同名冲突：保留旧库，选择新名称。",
+        "结构失败：禁止启用并展开具体检查。",
+        "缺少来源：保留可搜索与新鲜度提示。",
+        "活动写入：取得一致快照后重试。"
+      ]
+    },
+    {
+      "id": "06-functions",
+      "title": "函数与调用权限",
+      "file": "06-functions.figcraft",
+      "frames": {
+        "light": 54,
+        "dark": 120,
+        "narrow": 186,
+        "states": 253,
+        "registration": 287
+      },
+      "tokenVersion": "1.0.0",
+      "tokenSha256": "81d6cc19f20e92b19854c335cdae175109b8fd3d3027699c47e180200d62948a",
+      "operations": [
+        "pml.function.register",
+        "pml.functions.list",
+        "pml.function.permission",
+        "pml.function.invoke"
+      ],
+      "backendOwner": "communication CLI / 旧GUI本机登记；Manager CLI统一入口待补齐",
+      "status": "design-draft-not-production",
+      "model": "current-model",
+      "scenarios": [
+        "未登记：选择源码并填写匹配函数名。",
+        "处理中：核验源码与目标后调度一次。",
+        "源码变化：拒绝调用并要求重新登记。",
+        "许可关闭：检查后人工授予。",
+        "会话加载未验证：展示独立提示。",
+        "调用结果未知：保留回执，不自动重发。"
+      ]
+    },
+    {
+      "id": "07-user-data",
+      "title": "用户数据目录",
+      "file": "07-user-data.figcraft",
+      "frames": {
+        "light": 54,
+        "dark": 120,
+        "narrow": 186,
+        "states": 253
+      },
+      "tokenVersion": "1.0.0",
+      "tokenSha256": "81d6cc19f20e92b19854c335cdae175109b8fd3d3027699c47e180200d62948a",
+      "operations": [
+        "manager.status",
+        "data.migration.preview",
+        "data.migration.apply"
+      ],
+      "backendOwner": "Manager CLI / Manager.Core",
+      "status": "design-draft-not-production",
+      "model": "current-model",
+      "scenarios": [
+        "未配置：显示推荐目录及现有旧位置。",
+        "处理中：复制、校验、切换分阶段。",
+        "路径冲突：选择独立目标。",
+        "活动库占用：关闭写入后再迁移。",
+        "复制失败：保留旧源和原设置。",
+        "环境覆盖：说明当前最终生效来源。"
+      ]
+    },
+    {
+      "id": "08-plugins",
+      "title": "可选插件",
+      "file": "08-plugins.figcraft",
+      "frames": {
+        "light": 54,
+        "dark": 120,
+        "narrow": 186,
+        "states": 253
+      },
+      "tokenVersion": "1.0.0",
+      "tokenSha256": "81d6cc19f20e92b19854c335cdae175109b8fd3d3027699c47e180200d62948a",
+      "operations": [
+        "plugin.list",
+        "plugin.describe",
+        "plugin.install.preview",
+        "plugin.install.apply",
+        "plugin.enable",
+        "plugin.invoke",
+        "plugin.unregister"
+      ],
+      "backendOwner": "Manager CLI / Manager.Core",
+      "status": "design-draft-not-production",
+      "model": "current-model",
+      "scenarios": [
+        "未安装：选择明确的本机包。",
+        "处理中：校验、复制、登记分阶段。",
+        "包变化：重新预览身份与文件。",
+        "不兼容：保留原因并禁止调用。",
+        "停用：基础功能继续可用。",
+        "VM 模拟：不点亮真实连接成功灯。"
+      ]
+    },
+    {
+      "id": "09-records",
+      "title": "记录与问题定位",
+      "file": "09-records.figcraft",
+      "frames": {
+        "light": 54,
+        "dark": 120,
+        "narrow": 186,
+        "states": 253
+      },
+      "tokenVersion": "1.0.0",
+      "tokenSha256": "81d6cc19f20e92b19854c335cdae175109b8fd3d3027699c47e180200d62948a",
+      "operations": [
+        "runtime.calls",
+        "runtime.status"
+      ],
+      "backendOwner": "旧通信诊断 + 管理回执；统一记录页查询待接线",
+      "status": "design-draft-not-production",
+      "model": "current-model",
+      "scenarios": [
+        "暂无记录：说明何时生成记录。",
+        "处理中：显示当前阶段与关联号。",
+        "筛选无结果：保留筛选并提供重置。",
+        "错误定位：展开日志、目标与异常类型。",
+        "恢复待处理：定位每个未完成项。",
+        "结果未知：先回收回执，不自动重发。"
+      ]
+    }
+  ]
+}

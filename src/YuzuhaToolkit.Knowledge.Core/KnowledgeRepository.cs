@@ -156,7 +156,7 @@ public sealed partial class KnowledgeRepository
         var (sources, chunks, callRefs, ftsRows) =
             schemaOk ? ReadCounts(connection) : (0L, 0L, 0L, 0L);
         return new KnowledgeCheckResult(
-            integrity == "ok" && schemaOk,
+            integrity == "ok" && schemaOk && schemaVersion == SchemaVersion.ToString(CultureInfo.InvariantCulture),
             dbPath,
             true,
             integrity,
@@ -170,7 +170,7 @@ public sealed partial class KnowledgeRepository
             ftsRows,
             roots,
             schemaOk
-                ? null
+                ? schemaVersion == SchemaVersion.ToString(CultureInfo.InvariantCulture) ? null : "Unsupported schema version: " + schemaVersion
                 : "The tables of a Yuzuha knowledge database are missing; " +
                   "this file is not a compatible knowledge base.");
     }
@@ -182,7 +182,7 @@ public sealed partial class KnowledgeRepository
         string dbName,
         string? dbDir,
         bool rebuild,
-        long maxFilesPerRoot)
+        long maxFilesPerRoot, CancellationToken cancellationToken = default)
     {
         var requested = new List<(string Kind, string? Path)>
         {
@@ -252,6 +252,7 @@ public sealed partial class KnowledgeRepository
                 SchemaVersion.ToString(CultureInfo.InvariantCulture) + "');" +
                 "INSERT INTO meta(key, value) VALUES ('generator', '" +
                 GeneratorName + "');" +
+                "INSERT INTO meta(key, value) VALUES ('source_hash_algorithm', 'sha256-bytes-v1');" +
                 "INSERT INTO meta(key, value) VALUES ('built_at_utc', '" +
                 DateTime.UtcNow.ToString("o") + "');" +
                 "INSERT INTO meta(key, value) VALUES ('roots_json', '" +
@@ -262,6 +263,7 @@ public sealed partial class KnowledgeRepository
             {
                 foreach (var (kind, path) in roots)
                 {
+                    cancellationToken.ThrowIfCancellationRequested();
                     var files = EnumerateSourceFiles(path, kind).ToList();
                     rootStats.Add(CollectStats(kind, path, files));
                     if (maxFilesPerRoot > 0 && files.Count > maxFilesPerRoot)
@@ -280,6 +282,9 @@ public sealed partial class KnowledgeRepository
 
                         try
                         {
+                            cancellationToken.ThrowIfCancellationRequested();
+                            // Keep the parsed bytes and their recorded content fingerprint in the same read lease.
+                            using var sourceLease = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read);
                             var text = ReadTextBestEffort(file, ref skippedBinaries);
                             if (text is null)
                                 continue;
@@ -940,18 +945,20 @@ public sealed partial class KnowledgeRepository
         return new KnowledgeFreshnessReport(overall, details);
     }
 
-    private static IEnumerable<string> EnumerateSourceFiles(string root, string kind)
+    private static IEnumerable<string> EnumerateSourceFiles(string root, string kind) => EnumerateIndexFiles(root, kind);
+
+    /// <summary>建库与冻结来源计划共用的文件选择规则；无法读取或链接目录均明确拒绝。</summary>
+    public static IEnumerable<string> EnumerateIndexFiles(string root, string kind)
     {
-        foreach (var file in Directory.EnumerateFiles(
-                     root,
-                     "*",
-                     new EnumerationOptions
-                     {
-                         RecurseSubdirectories = true,
-                         IgnoreInaccessible = true,
-                         AttributesToSkip = FileAttributes.ReparsePoint
-                     }))
+        var pending = new Stack<string>(); pending.Push(Path.GetFullPath(root));
+        while (pending.Count > 0)
         {
+            var directory = pending.Pop(); YuzuhaToolkit.Workspace.PathRules.NoLinks(directory);
+            foreach (var child in Directory.EnumerateDirectories(directory))
+            { YuzuhaToolkit.Workspace.PathRules.NoLinks(child); pending.Push(child); }
+            foreach (var file in Directory.EnumerateFiles(directory))
+            {
+            YuzuhaToolkit.Workspace.PathRules.NoLinks(file);
             var name = Path.GetFileName(file);
             if (name.Equals("version.dat", StringComparison.OrdinalIgnoreCase) ||
                 name.Equals("pml.index", StringComparison.OrdinalIgnoreCase))
@@ -969,6 +976,7 @@ public sealed partial class KnowledgeRepository
                 continue;
 
             yield return file;
+            }
         }
     }
 
@@ -1098,7 +1106,7 @@ public sealed partial class KnowledgeRepository
             JsonSerializer.Serialize(metadata, KnowledgeResponseJsonContext.Default.DictionaryStringString));
         command.Parameters.AddWithValue(
             "$contentHash",
-            HtmlChunker.Sha256Hex(path + size.ToString(CultureInfo.InvariantCulture)));
+            Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(File.ReadAllBytes(path))).ToLowerInvariant());
         return Convert.ToInt64(command.ExecuteScalar());
     }
 

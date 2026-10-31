@@ -1,0 +1,108 @@
+{
+  "recordedAt": "2026-10-31T06:12:53.3062273+00:00",
+  "checks": [
+    {
+      "name": "register-denied",
+      "operationId": "pml.function.register",
+      "exitCode": 0,
+      "code": null,
+      "message": null,
+      "mayHaveExecuted": false,
+      "passed": true
+    },
+    {
+      "name": "list",
+      "operationId": "pml.functions.list",
+      "exitCode": 0,
+      "code": null,
+      "message": null,
+      "mayHaveExecuted": false,
+      "passed": true
+    },
+    {
+      "name": "deny-before-target",
+      "operationId": "pml.function.invoke",
+      "exitCode": 4,
+      "code": "ACCESS_DENIED",
+      "message": "PML_FUNCTION_INVOKE_DENIED: grant permission for this source revision first.",
+      "mayHaveExecuted": false,
+      "passed": true
+    },
+    {
+      "name": "grant",
+      "operationId": "pml.function.permission",
+      "exitCode": 0,
+      "code": null,
+      "message": null,
+      "mayHaveExecuted": false,
+      "passed": true
+    },
+    {
+      "name": "absent-host-refused",
+      "operationId": "pml.function.invoke",
+      "exitCode": 5,
+      "code": "TARGET_FAILED",
+      "message": "AVEVA_SESSION_NOT_DISCOVERED: PID 2147483647 does not own a recognized visible AVEVA window. Call list_aveva_sessions again and select one returned PID.",
+      "mayHaveExecuted": false,
+      "passed": true
+    },
+    {
+      "name": "changed-source-refused",
+      "operationId": "pml.function.invoke",
+      "exitCode": 2,
+      "code": "INVALID_INPUT",
+      "message": "PML_FUNCTION_SOURCE_CHANGED: register again and explicitly grant fresh permission.",
+      "mayHaveExecuted": false,
+      "passed": true
+    },
+    {
+      "name": "changed-source-grant-refused",
+      "operationId": "pml.function.permission",
+      "exitCode": 2,
+      "code": "INVALID_INPUT",
+      "message": "PML_FUNCTION_SOURCE_CHANGED: register again and explicitly grant fresh permission.",
+      "mayHaveExecuted": false,
+      "passed": true
+    },
+    {
+      "name": "reregister-revokes",
+      "operationId": "pml.function.register",
+      "exitCode": 0,
+      "code": null,
+      "message": null,
+      "mayHaveExecuted": false,
+      "passed": true
+    },
+    {
+      "name": "grant-new-source",
+      "operationId": "pml.function.permission",
+      "exitCode": 0,
+      "code": null,
+      "message": null,
+      "mayHaveExecuted": false,
+      "passed": true
+    },
+    {
+      "name": "revoke",
+      "operationId": "pml.function.permission",
+      "exitCode": 0,
+      "code": null,
+      "message": null,
+      "mayHaveExecuted": false,
+      "passed": true
+    },
+    {
+      "name": "revoked-call-refused",
+      "operationId": "pml.function.invoke",
+      "exitCode": 4,
+      "code": "ACCESS_DENIED",
+      "message": "PML_FUNCTION_INVOKE_DENIED: grant permission for this source revision first.",
+      "mayHaveExecuted": false,
+      "passed": true
+    }
+  ],
+  "actualAvevaDispatch": false,
+  "retries": 0,
+  "managerSha256": "B6BE3BCFE04EFE50B70A5588CF3DE91F5E0C83D6856EE85AAF789C6AD3C8D231",
+  "communicationSha256": "796695776C770A7A0E261229162DF501B7AF2E49BB41D85F6BE1BA531FB2255C"
+}

@@ -22,5 +22,6 @@
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.0" />
         <!-- 只保留 MCP 宿主入口；工具、桥和注册表都在 Core 中，桌面与 DevHost 直接复用 Core。 -->
         <ProjectReference Include="../YuzuhaToolkit.Mcp.Core/YuzuhaToolkit.Mcp.Core.csproj" />
+        <ProjectReference Include="../YuzuhaToolkit.Cli.Compatibility/YuzuhaToolkit.Cli.Compatibility.csproj" />
     </ItemGroup>
 </Project>

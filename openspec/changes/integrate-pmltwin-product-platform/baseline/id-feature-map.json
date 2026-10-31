@@ -1,0 +1,4730 @@
+{
+  "schema": 1,
+  "policy": "one accountable owner per source-qualified original ID; explicit ID groups reviewed against original records; original records/status retained; no implementation approval implied",
+  "counts": {
+    "Archon": 49,
+    "Next": 39,
+    "PMLTWIN": 103
+  },
+  "rows": [
+    {
+      "source": "Archon",
+      "id": "BRD-001",
+      "owner": "launch",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "待确认",
+      "locator": "docs/reference/specifications/catalog.json#BRD-001",
+      "original": {
+        "id": "BRD-001",
+        "title": "降低多版本配置与启动成本",
+        "status": "待确认",
+        "scope": "business-inference",
+        "description": "集中管理版本、登录与许可，降低重复配置成本；收益待确认。",
+        "questions": [
+          "主要用户是谁？",
+          "配置/切换耗时基线、目标及测法？"
+        ],
+        "basisRef": "product-brief",
+        "verificationGapRef": "reviewGap"
+      }
+    },
+    {
+      "source": "Archon",
+      "id": "BRD-002",
+      "owner": "tools-deployment",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "待确认",
+      "locator": "docs/reference/specifications/catalog.json#BRD-002",
+      "original": {
+        "id": "BRD-002",
+        "title": "降低工具变更与不确定结果的处理成本",
+        "status": "待确认",
+        "scope": "business-inference",
+        "description": "预览、回执和恢复降低更新排障成本；业务容忍度待确认。",
+        "questions": [
+          "首批工具和目录？",
+          "恢复时限、备份期限及容许损失？"
+        ],
+        "basisRef": "product-brief",
+        "verificationGapRef": "reviewGap"
+      }
+    },
+    {
+      "source": "Archon",
+      "id": "BRD-003",
+      "owner": "configuration",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "待确认",
+      "locator": "docs/reference/specifications/catalog.json#BRD-003",
+      "original": {
+        "id": "BRD-003",
+        "title": "支持配置复用并保留本机秘密边界",
+        "status": "待确认",
+        "scope": "business-inference",
+        "description": "跨机复用非秘密配置；路径、凭据及资源绑定另行确认。",
+        "questions": [
+          "个人多机还是团队分享？",
+          "谁审核接收机绑定？"
+        ],
+        "basisRef": "product-brief",
+        "verificationGapRef": "reviewGap"
+      }
+    },
+    {
+      "source": "Archon",
+      "id": "BRD-004",
+      "owner": "composition",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "待确认",
+      "locator": "docs/reference/specifications/catalog.json#BRD-004",
+      "original": {
+        "id": "BRD-004",
+        "title": "明确当前产品与迁移范围",
+        "status": "待确认",
+        "scope": "coexistence",
+        "description": "原界面仍为日常入口；确认后端接入与界面兼容边界。",
+        "questions": [
+          "首批接入功能、验收范围及里程碑？",
+          "哪些原绑定和行为必须回归？"
+        ],
+        "basis": [
+          "README.md",
+          "docs/rewrite/IMPLEMENTATION.md",
+          "docs/verification/2026-10-20-original-view-boundary.md"
+        ],
+        "verificationGapRef": "reviewGap"
+      }
+    },
+    {
+      "source": "Archon",
+      "id": "BRD-005",
+      "owner": "composition",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "待确认",
+      "locator": "docs/reference/specifications/catalog.json#BRD-005",
+      "original": {
+        "id": "BRD-005",
+        "title": "确定收益、支持责任与产品边界",
+        "status": "待确认",
+        "scope": "business-inference",
+        "description": "用户规模、收费、支持与收益待确认；远程能力未交付。",
+        "questions": [
+          "个人工具还是团队产品？",
+          "谁负责发布、支持和验收？",
+          "指标、预算及多机功能优先级？"
+        ],
+        "basisRef": "product-brief",
+        "verificationGapRef": "reviewGap"
+      }
+    },
+    {
+      "source": "Archon",
+      "id": "PRD-001",
+      "owner": "composition",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "待确认",
+      "locator": "docs/reference/specifications/catalog.json#PRD-001",
+      "original": {
+        "id": "PRD-001",
+        "title": "Windows 本机工作台与用户边界",
+        "status": "待确认",
+        "scope": "coexistence",
+        "description": "Windows 本机工作台：原 EXE 日常使用，Archon 外壳验证架构。",
+        "parents": [
+          "BRD-001",
+          "BRD-004",
+          "BRD-005"
+        ],
+        "evidence": [
+          {
+            "uid": "@bootstrap/DesktopCompositionRoot",
+            "methods": []
+          }
+        ],
+        "tests": [
+          {
+            "id": "@architecture/ArchitectureBoundaryTests.AspireRemainsOptional",
+            "reason": "普通程序集无 Aspire 引用。"
+          }
+        ],
+        "questions": [
+          "Windows/AVEVA 支持矩阵？",
+          "目标用户、版本及优先级？"
+        ],
+        "basisRef": "product-brief"
+      }
+    },
+    {
+      "source": "Archon",
+      "id": "PRD-002",
+      "owner": "launch",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "实现观察",
+      "locator": "docs/reference/specifications/catalog.json#PRD-002",
+      "original": {
+        "id": "PRD-002",
+        "title": "应用版本与登录配置管理",
+        "status": "实现观察",
+        "scope": "rewrite",
+        "description": "配置管理应用、登录、许可与工具；保存和复制使用稳定提交。",
+        "parents": [
+          "BRD-001"
+        ],
+        "evidence": [
+          {
+            "uid": "@usecases/WorkspaceCatalogService",
+            "methods": [
+              "SaveProfileAsync"
+            ]
+          },
+          {
+            "uid": "@desktop/ProfilesPageViewModel",
+            "methods": []
+          }
+        ],
+        "tests": [
+          {
+            "id": "scenario:F05 stable copy identity, historical receipt and no credential copying",
+            "reason": "复制身份、回执与凭据隔离。"
+          },
+          {
+            "id": "scenario:F05 switch outcome unknown remains verifiable by CommitId",
+            "reason": "未知提交按原号核验。"
+          }
+        ],
+        "questions": [
+          "原界面编辑接入清单及验收顺序？"
+        ]
+      }
+    },
+    {
+      "source": "Archon",
+      "id": "PRD-003",
+      "owner": "launch",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "实现观察",
+      "locator": "docs/reference/specifications/catalog.json#PRD-003",
+      "original": {
+        "id": "PRD-003",
+        "title": "可解释的多产品启动",
+        "status": "实现观察",
+        "scope": "shared-launch",
+        "description": "按 Monitor/Marine 协议启动，隔离环境，区分受理、窗口和会话。",
+        "parents": [
+          "BRD-001"
+        ],
+        "evidence": [
+          {
+            "uid": "@usecases/LaunchPlanBuilder",
+            "methods": [
+              "BuildMonitorArguments",
+              "BuildMarineArguments"
+            ]
+          },
+          {
+            "uid": "@windows/WindowsProcessGateway",
+            "methods": [
+              "StartAsync"
+            ]
+          }
+        ],
+        "tests": [
+          {
+            "id": "@architecture/LaunchPlanExamplesTests.MonitorHonorsExplicitProductAndInitialization",
+            "reason": "产品、init 和模块大小写。"
+          },
+          {
+            "id": "@architecture/LaunchPlanExamplesTests.MarineExampleIsAnExecutableContract",
+            "reason": "Marine 五参数与秘密插槽。"
+          },
+          {
+            "id": "scenario:AR10 window observation never confirms a project login",
+            "reason": "窗口不推断项目登录。"
+          }
+        ],
+        "questions": [
+          "厂商入口、版本组合及真实登录验收环境？"
+        ],
+        "basis": [
+          "LaunchDesk.Core/LaunchService.cs"
+        ]
+      }
+    },
+    {
+      "source": "Archon",
+      "id": "PRD-004",
+      "owner": "health",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "实现观察",
+      "locator": "docs/reference/specifications/catalog.json#PRD-004",
+      "original": {
+        "id": "PRD-004",
+        "title": "许可关联资源的监测与复查",
+        "status": "实现观察",
+        "scope": "rewrite",
+        "description": "监测资源并复查抖动；可达证据与许可签出、登录分别表达。",
+        "parents": [
+          "BRD-001"
+        ],
+        "evidence": [
+          {
+            "uid": "@usecases/ResourceSupervisor",
+            "methods": [
+              "RequireFreshAsync"
+            ]
+          },
+          {
+            "uid": "@kernel/ConnectionHealthPolicy",
+            "methods": []
+          }
+        ],
+        "tests": [
+          {
+            "id": "scenario:AR06-08 health rounds debounce and bind evidence identity",
+            "reason": "健康轮次、去抖及身份。"
+          },
+          {
+            "id": "scenario:F04 RequireFresh uses frozen endpoint and never reuses another revision",
+            "reason": "冻结端点/修订与新鲜度。"
+          }
+        ],
+        "questions": [
+          "检测延迟、通知方式及真实资源矩阵？"
+        ]
+      }
+    },
+    {
+      "source": "Archon",
+      "id": "PRD-005",
+      "owner": "tools-deployment",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "实现观察",
+      "locator": "docs/reference/specifications/catalog.json#PRD-005",
+      "original": {
+        "id": "PRD-005",
+        "title": "工具交付与持久变量的明确执行",
+        "status": "实现观察",
+        "scope": "rewrite",
+        "description": "来源选择、部署与持久变量先预览确认，再写入和核验。",
+        "parents": [
+          "BRD-002"
+        ],
+        "evidence": [
+          {
+            "uid": "@usecases/DeploymentPlanner",
+            "methods": [
+              "PreviewAsync"
+            ]
+          },
+          {
+            "uid": "@usecases/VariablePlanner",
+            "methods": [
+              "PreviewAsync"
+            ]
+          }
+        ],
+        "tests": [
+          {
+            "id": "scenario:AR13-17 folder delivery, interrupted write, explicit recovery and rollback",
+            "reason": "隔离文件交付、中断和恢复。"
+          },
+          {
+            "id": "scenario:AR17 variable rename checks baseline and keeps old value on uncertain new write",
+            "reason": "改名比基线，未知时留旧值。"
+          }
+        ],
+        "questions": [
+          "首批工具、备份策略及管理员角色？"
+        ]
+      }
+    },
+    {
+      "source": "Archon",
+      "id": "PRD-006",
+      "owner": "configuration",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "实现观察",
+      "locator": "docs/reference/specifications/catalog.json#PRD-006",
+      "original": {
+        "id": "PRD-006",
+        "title": "非秘密分享与旧数据迁移",
+        "status": "实现观察",
+        "scope": "rewrite",
+        "description": "分享经 CommitId 保存非秘密配置；迁移经 OperationId 核验副本后激活。",
+        "parents": [
+          "BRD-003"
+        ],
+        "evidence": [
+          {
+            "uid": "@usecases/ConfigurationShareService",
+            "methods": [
+              "ExportAsync",
+              "CommitAsync"
+            ]
+          },
+          {
+            "uid": "@usecases/WorkspaceMigrationService",
+            "methods": [
+              "ExecuteAsync"
+            ]
+          }
+        ],
+        "tests": [
+          {
+            "id": "scenario:AR19 import has no execution and export contains no credential reference",
+            "reason": "导入不执行，导出无凭据。"
+          },
+          {
+            "id": "scenario:AR22 legacy migration preserves identities and credential references without changing source",
+            "reason": "迁移保留身份、引用和来源。"
+          }
+        ],
+        "questions": [
+          "旧格式版本及分享兼容策略？"
+        ]
+      }
+    },
+    {
+      "source": "Archon",
+      "id": "PRD-007",
+      "owner": "composition",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "待确认",
+      "locator": "docs/reference/specifications/catalog.json#PRD-007",
+      "original": {
+        "id": "PRD-007",
+        "title": "发布与整体迁移验收",
+        "status": "待确认",
+        "scope": "coexistence",
+        "description": "发布需验收原界面接入与真实环境；开发宿主不代替产品验收。",
+        "parents": [
+          "BRD-004",
+          "BRD-005"
+        ],
+        "questions": [
+          "完整迁移的里程碑、负责人、清单？",
+          "界面、性能、升级、可访问性及兼容目标？"
+        ],
+        "basis": [
+          "README.md",
+          "docs/rewrite/IMPLEMENTATION.md"
+        ],
+        "verificationGapRef": "reviewGap"
+      }
+    },
+    {
+      "source": "Archon",
+      "id": "SRS-001",
+      "owner": "composition",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "实现观察",
+      "locator": "docs/reference/specifications/catalog.json#SRS-001",
+      "original": {
+        "id": "SRS-001",
+        "title": "原桌面入口与可选开发编排",
+        "status": "实现观察",
+        "scope": "coexistence",
+        "description": "普通桌面不依赖 Aspire；原界面和 Archon 验证入口分开。",
+        "parents": [
+          "PRD-001",
+          "PRD-007"
+        ],
+        "acceptance": [
+          "日常入口为 LaunchDesk.App，候选单列。",
+          "普通程序集无 Aspire 引用；发布另验。"
+        ],
+        "evidence": [
+          {
+            "uid": "@bootstrap/DesktopCompositionRoot",
+            "methods": []
+          }
+        ],
+        "tests": [
+          {
+            "id": "@architecture/ArchitectureBoundaryTests.AspireRemainsOptional",
+            "reason": "普通程序集无 Aspire 引用。"
+          }
+        ],
+        "basis": [
+          "README.md",
+          "LaunchDesk.App/LaunchDesk.App.csproj"
+        ]
+      }
+    },
+    {
+      "source": "Archon",
+      "id": "SRS-002",
+      "owner": "configuration",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "实现观察",
+      "locator": "docs/reference/specifications/catalog.json#SRS-002",
+      "original": {
+        "id": "SRS-002",
+        "title": "配置提交保持稳定身份与历史结果",
+        "status": "实现观察",
+        "scope": "rewrite",
+        "description": "CommitId 绑定原内容与预期修订；未知提交按原回执核验。",
+        "parents": [
+          "PRD-002"
+        ],
+        "acceptance": [
+          "重复提交不新增复制实体。",
+          "旧修订冲突；未知结果可查原 CommitId。"
+        ],
+        "evidence": [
+          {
+            "uid": "@usecases/WorkspaceCatalogService",
+            "methods": [
+              "SaveProfileAsync"
+            ]
+          },
+          {
+            "uid": "@windows/JsonWorkspaceStore",
+            "methods": []
+          }
+        ],
+        "tests": [
+          {
+            "id": "scenario:F05 stable copy identity, historical receipt and no credential copying",
+            "reason": "复制身份、回执与凭据隔离。"
+          },
+          {
+            "id": "scenario:F05 switch outcome unknown remains verifiable by CommitId",
+            "reason": "未知提交按原号核验。"
+          }
+        ]
+      }
+    },
+    {
+      "source": "Archon",
+      "id": "SRS-003",
+      "owner": "composition",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "实现观察",
+      "locator": "docs/reference/specifications/catalog.json#SRS-003",
+      "original": {
+        "id": "SRS-003",
+        "title": "后台操作的重复提交不得重复执行",
+        "status": "实现观察",
+        "scope": "rewrite",
+        "description": "同 OperationId、同摘要返回原操作；冲突拒绝；唯一租约才派发。",
+        "parents": [
+          "PRD-003",
+          "PRD-005"
+        ],
+        "acceptance": [
+          "跨进程竞争最多一次副作用。",
+          "不同内容报 OperationConflict；Existing 不派发。"
+        ],
+        "evidence": [
+          {
+            "uid": "@usecases/OperationCoordinator",
+            "methods": [
+              "SubmitAsync"
+            ]
+          },
+          {
+            "uid": "@windows/JsonRunJournal",
+            "methods": [
+              "TryBeginExecutionAsync"
+            ]
+          }
+        ],
+        "tests": [
+          {
+            "id": "scenario:F01 two real processes admit at most one side effect",
+            "reason": "跨进程竞态最多一次副作用。"
+          }
+        ]
+      }
+    },
+    {
+      "source": "Archon",
+      "id": "SRS-004",
+      "owner": "launch",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "实现观察",
+      "locator": "docs/reference/specifications/catalog.json#SRS-004",
+      "original": {
+        "id": "SRS-004",
+        "title": "启动参数与环境遵循入口协议",
+        "status": "实现观察",
+        "scope": "shared-launch",
+        "description": "Monitor 用配置产品/init；Marine 用五参数；MDB 规范化、子环境隔离。",
+        "parents": [
+          "PRD-003"
+        ],
+        "acceptance": [
+          "核对顺序、大小写和独立环境。",
+          "批处理不安全输入先拒绝；原 Core 适配另验。"
+        ],
+        "evidence": [
+          {
+            "uid": "@usecases/LaunchPlanBuilder",
+            "methods": [
+              "BuildMonitorArguments",
+              "BuildMarineArguments",
+              "Build"
+            ]
+          },
+          {
+            "uid": "@kernel/ProcessEnvironmentPolicy",
+            "methods": []
+          }
+        ],
+        "tests": [
+          {
+            "id": "@architecture/LaunchPlanExamplesTests.MonitorHonorsExplicitProductAndInitialization",
+            "reason": "产品、init 和模块大小写。"
+          },
+          {
+            "id": "@architecture/LaunchPlanExamplesTests.MarineExampleIsAnExecutableContract",
+            "reason": "Marine 五参数与秘密插槽。"
+          },
+          {
+            "id": "scenario:AR05 child environments isolate license bindings",
+            "reason": "子许可环境隔离，父环境不变。"
+          },
+          {
+            "id": "@architecture/LaunchPlanExamplesTests.UnsupportedMarineSecretsFailBeforeCreatingAProcess",
+            "reason": "批处理不安全秘密先拒绝。"
+          }
+        ],
+        "basis": [
+          "LaunchDesk.Core/LaunchService.cs"
+        ]
+      }
+    },
+    {
+      "source": "Archon",
+      "id": "SRS-005",
+      "owner": "configuration",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "实现观察",
+      "locator": "docs/reference/specifications/catalog.json#SRS-005",
+      "original": {
+        "id": "SRS-005",
+        "title": "秘密保持临时解析和非序列化边界",
+        "status": "实现观察",
+        "scope": "rewrite",
+        "description": "秘密按需租约解析，不回填、不作普通序列化；分享无凭据引用。",
+        "parents": [
+          "PRD-002",
+          "PRD-003",
+          "PRD-006"
+        ],
+        "acceptance": [
+          "秘密与能力对象拒绝 JSON 序列化。",
+          "分享无秘密；原输入生命周期和全日志另验。"
+        ],
+        "evidence": [
+          {
+            "uid": "@contracts/SecretLease",
+            "methods": []
+          },
+          {
+            "uid": "@contracts/TransientSecret",
+            "methods": []
+          },
+          {
+            "uid": "@windows/WindowsSecretVault",
+            "methods": []
+          }
+        ],
+        "tests": [
+          {
+            "id": "scenario:Runtime secrets and capabilities reject JSON serialization",
+            "reason": "秘密/能力拒绝 JSON。"
+          },
+          {
+            "id": "scenario:AR19 import has no execution and export contains no credential reference",
+            "reason": "导入不执行，导出无凭据。"
+          }
+        ]
+      }
+    },
+    {
+      "source": "Archon",
+      "id": "SRS-006",
+      "owner": "launch",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "实现观察",
+      "locator": "docs/reference/specifications/catalog.json#SRS-006",
+      "original": {
+        "id": "SRS-006",
+        "title": "运行事实不得夸大为登录成功",
+        "status": "实现观察",
+        "scope": "rewrite",
+        "description": "区分受理、交接、窗口、会话和失败；窗口/端口不证明登录。",
+        "parents": [
+          "PRD-003",
+          "PRD-004"
+        ],
+        "acceptance": [
+          "窗口证据不产生 SessionConfirmed。",
+          "模拟进程不替代真实登录/签出。"
+        ],
+        "evidence": [
+          {
+            "uid": "@windows/WindowsProcessGateway",
+            "methods": [
+              "ObserveAsync"
+            ]
+          },
+          {
+            "uid": "@contracts/RunSnapshot",
+            "methods": []
+          },
+          {
+            "uid": "@contracts/ProcessEvidence",
+            "methods": []
+          }
+        ],
+        "tests": [
+          {
+            "id": "scenario:AR10 window observation never confirms a project login",
+            "reason": "窗口不推断项目登录。"
+          },
+          {
+            "id": "scenario:AR12 native process receives exact arguments and isolated environment",
+            "reason": "模拟进程接收参数与环境。"
+          }
+        ]
+      }
+    },
+    {
+      "source": "Archon",
+      "id": "SRS-007",
+      "owner": "composition",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "实现观察",
+      "locator": "docs/reference/specifications/catalog.json#SRS-007",
+      "original": {
+        "id": "SRS-007",
+        "title": "停止等待不得自动撤销或重放",
+        "status": "实现观察",
+        "scope": "rewrite",
+        "description": "受理任务独立于等待者；停止观察不杀外部应用、不撤销或重放。",
+        "parents": [
+          "PRD-003",
+          "PRD-005"
+        ],
+        "acceptance": [
+          "取消等待不撤销受理操作。",
+          "保留原编号核验，不重复副作用。"
+        ],
+        "evidence": [
+          {
+            "uid": "@usecases/OperationCoordinator",
+            "methods": [
+              "CancelAsync"
+            ]
+          },
+          {
+            "uid": "@usecases/OperationExecutionContext",
+            "methods": []
+          }
+        ],
+        "tests": [
+          {
+            "id": "scenario:AR11 accepted operations outlive callers and explicit stop does not replay",
+            "reason": "停等不撤销受理、不重放。"
+          }
+        ]
+      }
+    },
+    {
+      "source": "Archon",
+      "id": "SRS-008",
+      "owner": "health",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "实现观察",
+      "locator": "docs/reference/specifications/catalog.json#SRS-008",
+      "original": {
+        "id": "SRS-008",
+        "title": "资源证据绑定完整身份与新鲜度",
+        "status": "实现观察",
+        "scope": "rewrite",
+        "description": "按完整身份与策略归约健康；新鲜证据须匹配冻结端点和修订。",
+        "parents": [
+          "PRD-004"
+        ],
+        "acceptance": [
+          "区分抖动与持续失败。",
+          "端点、修订或策略变化后证据不串用。"
+        ],
+        "evidence": [
+          {
+            "uid": "@usecases/ResourceSupervisor",
+            "methods": [
+              "RequireFreshAsync"
+            ]
+          },
+          {
+            "uid": "@kernel/ConnectionHealthPolicy",
+            "methods": [
+              "Reduce"
+            ]
+          }
+        ],
+        "tests": [
+          {
+            "id": "scenario:AR06-08 health rounds debounce and bind evidence identity",
+            "reason": "健康轮次、去抖及身份。"
+          },
+          {
+            "id": "scenario:F04 RequireFresh uses frozen endpoint and never reuses another revision",
+            "reason": "冻结端点/修订与新鲜度。"
+          }
+        ]
+      }
+    },
+    {
+      "source": "Archon",
+      "id": "SRS-009",
+      "owner": "tools-deployment",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "实现观察",
+      "locator": "docs/reference/specifications/catalog.json#SRS-009",
+      "original": {
+        "id": "SRS-009",
+        "title": "来源刷新与交付确认绑定实际内容",
+        "status": "实现观察",
+        "scope": "rewrite",
+        "description": "刷新保留人工来源；确认绑定内容，来源变化失效，越界先拒绝。",
+        "parents": [
+          "PRD-005"
+        ],
+        "acceptance": [
+          "保留旧包，明确选最新才切换。",
+          "来源变化或路径越界拒用旧确认。"
+        ],
+        "evidence": [
+          {
+            "uid": "@usecases/ToolSourceCatalog",
+            "methods": [
+              "RefreshAsync"
+            ]
+          },
+          {
+            "uid": "@usecases/DeploymentPlanner",
+            "methods": [
+              "PreviewAsync"
+            ]
+          },
+          {
+            "uid": "@windows/PrivateStagingStore",
+            "methods": []
+          }
+        ],
+        "tests": [
+          {
+            "id": "scenario:AR12 sources preserve a manual older package when refreshed",
+            "reason": "刷新保留人工旧包。"
+          },
+          {
+            "id": "scenario:AR14 changing source invalidates a confirmed plan",
+            "reason": "来源变化使确认失效。"
+          },
+          {
+            "id": "scenario:AR14 ZIP traversal and file-map traversal are rejected",
+            "reason": "拒绝压缩/映射越界。"
+          }
+        ]
+      }
+    },
+    {
+      "source": "Archon",
+      "id": "SRS-010",
+      "owner": "tools-deployment",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "实现观察",
+      "locator": "docs/reference/specifications/catalog.json#SRS-010",
+      "original": {
+        "id": "SRS-010",
+        "title": "目标写入保护与恢复必须可核验",
+        "status": "实现观察",
+        "scope": "rewrite",
+        "description": "保护工作空间/恢复资料，互斥写入并留回执；恢复重新预览确认。",
+        "parents": [
+          "PRD-005"
+        ],
+        "acceptance": [
+          "拒绝保护根和目标冲突。",
+          "中断查回执；目标外变后拒用旧计划。",
+          "Worker 认证原请求；真实 UAC 另验。"
+        ],
+        "evidence": [
+          {
+            "uid": "@usecases/DeploymentPlanner",
+            "methods": [
+              "PreviewRecoveryAsync"
+            ]
+          },
+          {
+            "uid": "@windows/FileDeliveryPort",
+            "methods": [
+              "ApplyAsync"
+            ]
+          },
+          {
+            "uid": "@windows/JsonRunJournal",
+            "methods": []
+          }
+        ],
+        "tests": [
+          {
+            "id": "scenario:AR13-17 folder delivery, interrupted write, explicit recovery and rollback",
+            "reason": "隔离文件交付、中断和恢复。"
+          },
+          {
+            "id": "scenario:F02 reject workspace, ancestor, traversal and held target conflicts",
+            "reason": "保护根、越界及目标互斥。"
+          },
+          {
+            "id": "scenario:AR16 external target changes invalidate recovery and application",
+            "reason": "目标外变拒用旧计划。"
+          },
+          {
+            "id": "scenario:AR18 worker authenticates its parent and writes only the admitted plan",
+            "reason": "模拟 Worker 认证；真实 UAC 另验。"
+          }
+        ]
+      }
+    },
+    {
+      "source": "Archon",
+      "id": "SRS-011",
+      "owner": "environment-variables",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "实现观察",
+      "locator": "docs/reference/specifications/catalog.json#SRS-011",
+      "original": {
+        "id": "SRS-011",
+        "title": "持久变量应用核对原值并读后验证",
+        "status": "实现观察",
+        "scope": "rewrite",
+        "description": "持久变量先预览确认、核对基线；未知新值保留旧值，禁改许可专用名。",
+        "parents": [
+          "PRD-005"
+        ],
+        "acceptance": [
+          "基线外变拒绝覆盖。",
+          "未知结果保留旧值/检查点；保存不等于应用。"
+        ],
+        "evidence": [
+          {
+            "uid": "@usecases/VariablePlanner",
+            "methods": [
+              "PreviewAsync"
+            ]
+          },
+          {
+            "uid": "@usecases/VariableOperationHandler",
+            "methods": [
+              "ExecuteAsync"
+            ]
+          },
+          {
+            "uid": "@windows/WindowsEnvironmentStore",
+            "methods": [
+              "ApplyVerifiedAsync"
+            ]
+          }
+        ],
+        "tests": [
+          {
+            "id": "scenario:AR17 variable rename checks baseline and keeps old value on uncertain new write",
+            "reason": "改名比基线，未知时留旧值。"
+          }
+        ]
+      }
+    },
+    {
+      "source": "Archon",
+      "id": "SRS-012",
+      "owner": "configuration",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "实现观察",
+      "locator": "docs/reference/specifications/catalog.json#SRS-012",
+      "original": {
+        "id": "SRS-012",
+        "title": "分享不执行且本机绑定需要确认",
+        "status": "实现观察",
+        "scope": "rewrite",
+        "description": "分享仅非秘密定义；预览确认后保存，不执行；本机绑定另确认。",
+        "parents": [
+          "PRD-006"
+        ],
+        "acceptance": [
+          "导出无密码/凭据引用。",
+          "导入只存配置；入口须本机确认。"
+        ],
+        "evidence": [
+          {
+            "uid": "@usecases/ConfigurationShareService",
+            "methods": [
+              "ExportAsync",
+              "PreviewImportAsync",
+              "CommitAsync"
+            ]
+          }
+        ],
+        "tests": [
+          {
+            "id": "scenario:AR19 import has no execution and export contains no credential reference",
+            "reason": "导入不执行，导出无凭据。"
+          }
+        ]
+      }
+    },
+    {
+      "source": "Archon",
+      "id": "SRS-013",
+      "owner": "configuration",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "实现观察",
+      "locator": "docs/reference/specifications/catalog.json#SRS-013",
+      "original": {
+        "id": "SRS-013",
+        "title": "迁移与数据位置保持原资料和稳定身份",
+        "status": "实现观察",
+        "scope": "rewrite",
+        "description": "迁移副本核验后按修订激活，保留原资料；portable 相对 EXE。",
+        "parents": [
+          "PRD-006"
+        ],
+        "acceptance": [
+          "保留身份、引用和来源摘要。",
+          "缺控制历史拒迁；工作目录不影响便携路径。"
+        ],
+        "evidence": [
+          {
+            "uid": "@usecases/WorkspaceMigrationService",
+            "methods": [
+              "ExecuteAsync"
+            ]
+          },
+          {
+            "uid": "@windows/MigrationPlanningService",
+            "methods": []
+          },
+          {
+            "uid": "@windows/WorkspaceLocationResolver",
+            "methods": [
+              "Resolve"
+            ]
+          }
+        ],
+        "tests": [
+          {
+            "id": "scenario:AR22 legacy migration preserves identities and credential references without changing source",
+            "reason": "迁移保留身份、引用和来源。"
+          },
+          {
+            "id": "scenario:AR22 current format cannot be migrated without its control history",
+            "reason": "缺控制历史拒迁。"
+          },
+          {
+            "id": "scenario:AR21 portable location is relative to executable rather than current directory",
+            "reason": "便携路径相对 EXE。"
+          }
+        ]
+      }
+    },
+    {
+      "source": "Archon",
+      "id": "SRS-014",
+      "owner": "composition",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "待确认",
+      "locator": "docs/reference/specifications/catalog.json#SRS-014",
+      "original": {
+        "id": "SRS-014",
+        "title": "量化质量与界面接入验收基线",
+        "status": "待确认",
+        "scope": "coexistence",
+        "description": "性能、界面、平台、保留和兼容指标待确认，默认值不作承诺。",
+        "parents": [
+          "PRD-007"
+        ],
+        "acceptance": [
+          "确定指标、环境、测法和阈值后建验收。"
+        ],
+        "questions": [
+          "规模、启动/刷新延迟及恢复时限？",
+          "平台/AVEVA 矩阵、界面和可访问性条件？",
+          "备份/日志期限及升级回退策略？"
+        ],
+        "basis": [
+          "README.md",
+          "docs/rewrite/IMPLEMENTATION.md",
+          "docs/rewrite/PRODUCT-BRIEF.md"
+        ],
+        "verificationGapRef": "reviewGap"
+      }
+    },
+    {
+      "source": "Archon",
+      "id": "FRD-001",
+      "owner": "configuration",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "实现观察",
+      "locator": "docs/reference/specifications/catalog.json#FRD-001",
+      "original": {
+        "id": "FRD-001",
+        "title": "配置编辑、复制与提交核验",
+        "status": "实现观察",
+        "scope": "rewrite",
+        "description": "编辑字段，以 CommitId/修订提交；未知查回执，确认后刷新目录。",
+        "parents": [
+          "SRS-002",
+          "SRS-005"
+        ],
+        "acceptance": [
+          "分开显示输入、回执和目录。",
+          "原桌面编辑接入逐项验收。"
+        ],
+        "evidence": [
+          {
+            "uid": "@desktop/ProfilesPageViewModel",
+            "methods": []
+          },
+          {
+            "uid": "@usecases/WorkspaceCatalogService",
+            "methods": [
+              "SaveProfileAsync"
+            ]
+          }
+        ],
+        "tests": [
+          {
+            "id": "scenario:F05 stable copy identity, historical receipt and no credential copying",
+            "reason": "复制身份、回执与凭据隔离。"
+          },
+          {
+            "id": "scenario:F05 switch outcome unknown remains verifiable by CommitId",
+            "reason": "未知提交按原号核验。"
+          }
+        ]
+      }
+    },
+    {
+      "source": "Archon",
+      "id": "FRD-002",
+      "owner": "launch",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "实现观察",
+      "locator": "docs/reference/specifications/catalog.json#FRD-002",
+      "original": {
+        "id": "FRD-002",
+        "title": "启动从选择配置到事实投影",
+        "status": "实现观察",
+        "scope": "rewrite",
+        "description": "提交配置与操作编号；冻结、唯一准入、资源复查后启动，投影回 UI。",
+        "parents": [
+          "SRS-003",
+          "SRS-004",
+          "SRS-006",
+          "SRS-007"
+        ],
+        "acceptance": [
+          "绑定、修订、资源失败给对应原因。",
+          "窗口不足保留未确认；停等不重派。"
+        ],
+        "evidence": [
+          {
+            "uid": "@desktop/ProfilesPageViewModel",
+            "methods": [
+              "LaunchSelectedAsync"
+            ]
+          },
+          {
+            "uid": "@usecases/LaunchOperationHandler",
+            "methods": [
+              "ExecuteAsync"
+            ]
+          },
+          {
+            "uid": "@usecases/OperationCoordinator",
+            "methods": [
+              "SubmitAsync"
+            ]
+          }
+        ],
+        "tests": [
+          {
+            "id": "scenario:F01 two real processes admit at most one side effect",
+            "reason": "跨进程竞态最多一次副作用。"
+          },
+          {
+            "id": "scenario:AR12 native process receives exact arguments and isolated environment",
+            "reason": "模拟进程接收参数与环境。"
+          },
+          {
+            "id": "scenario:AR10 window observation never confirms a project login",
+            "reason": "窗口不推断项目登录。"
+          },
+          {
+            "id": "scenario:AR11 accepted operations outlive callers and explicit stop does not replay",
+            "reason": "停等不撤销受理、不重放。"
+          }
+        ]
+      }
+    },
+    {
+      "source": "Archon",
+      "id": "FRD-003",
+      "owner": "health",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "实现观察",
+      "locator": "docs/reference/specifications/catalog.json#FRD-003",
+      "original": {
+        "id": "FRD-003",
+        "title": "持续轮询、主动复查与启动前新鲜证据",
+        "status": "实现观察",
+        "scope": "rewrite",
+        "description": "轮询/刷新/启动复查共享冻结身份；探测归约后独立订阅，不写操作日志。",
+        "parents": [
+          "SRS-008"
+        ],
+        "acceptance": [
+          "旧修订不用作当前证据。",
+          "停轮询不改变许可/VM 生命周期。"
+        ],
+        "evidence": [
+          {
+            "uid": "@usecases/ResourceSupervisor",
+            "methods": [
+              "PollAsync",
+              "RefreshAsync",
+              "RequireFreshAsync",
+              "WatchAsync"
+            ]
+          },
+          {
+            "uid": "@desktop/LicensePageViewModel",
+            "methods": [
+              "RefreshAsync"
+            ]
+          }
+        ],
+        "tests": [
+          {
+            "id": "scenario:AR06-08 health rounds debounce and bind evidence identity",
+            "reason": "健康轮次、去抖及身份。"
+          },
+          {
+            "id": "scenario:F04 RequireFresh uses frozen endpoint and never reuses another revision",
+            "reason": "冻结端点/修订与新鲜度。"
+          }
+        ]
+      }
+    },
+    {
+      "source": "Archon",
+      "id": "FRD-004",
+      "owner": "tools-deployment",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "实现观察",
+      "locator": "docs/reference/specifications/catalog.json#FRD-004",
+      "original": {
+        "id": "FRD-004",
+        "title": "工具来源、预览、执行及恢复",
+        "status": "实现观察",
+        "scope": "rewrite",
+        "description": "选来源→冻结预览→确认受理→租约或 Worker 写入→回执；恢复再预览。",
+        "parents": [
+          "SRS-009",
+          "SRS-010"
+        ],
+        "acceptance": [
+          "预览非写入；来源/目标变化使确认失效。",
+          "未知结果先核验，不重放。"
+        ],
+        "evidence": [
+          {
+            "uid": "@desktop/ToolPageViewModel",
+            "methods": []
+          },
+          {
+            "uid": "@usecases/DeploymentPlanner",
+            "methods": [
+              "PreviewAsync",
+              "PreviewRecoveryAsync"
+            ]
+          },
+          {
+            "uid": "@usecases/DeliveryOperationHandler",
+            "methods": [
+              "ExecuteAsync"
+            ]
+          }
+        ],
+        "tests": [
+          {
+            "id": "scenario:AR12 sources preserve a manual older package when refreshed",
+            "reason": "刷新保留人工旧包。"
+          },
+          {
+            "id": "scenario:AR14 changing source invalidates a confirmed plan",
+            "reason": "来源变化使确认失效。"
+          },
+          {
+            "id": "scenario:AR13-17 folder delivery, interrupted write, explicit recovery and rollback",
+            "reason": "隔离文件交付、中断和恢复。"
+          },
+          {
+            "id": "scenario:AR16 external target changes invalidate recovery and application",
+            "reason": "目标外变拒用旧计划。"
+          }
+        ]
+      }
+    },
+    {
+      "source": "Archon",
+      "id": "FRD-005",
+      "owner": "environment-variables",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "实现观察",
+      "locator": "docs/reference/specifications/catalog.json#FRD-005",
+      "original": {
+        "id": "FRD-005",
+        "title": "变量预览与确认应用",
+        "status": "实现观察",
+        "scope": "rewrite",
+        "description": "新旧名、值、作用域形成确认计划；比较基线、写入、留检查点并核验；管理员走有限 Worker。",
+        "parents": [
+          "SRS-011"
+        ],
+        "acceptance": [
+          "保存定义不写持久变量。",
+          "改名不确定显示部分完成/待核验。"
+        ],
+        "evidence": [
+          {
+            "uid": "@usecases/VariablePlanner",
+            "methods": [
+              "PreviewAsync"
+            ]
+          },
+          {
+            "uid": "@usecases/VariableOperationHandler",
+            "methods": [
+              "ExecuteAsync"
+            ]
+          },
+          {
+            "uid": "@contracts/IEnvironmentStore",
+            "methods": [
+              "ApplyVerifiedAsync"
+            ]
+          }
+        ],
+        "tests": [
+          {
+            "id": "scenario:AR17 variable rename checks baseline and keeps old value on uncertain new write",
+            "reason": "改名比基线，未知时留旧值。"
+          }
+        ]
+      }
+    },
+    {
+      "source": "Archon",
+      "id": "FRD-006",
+      "owner": "configuration",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "实现观察",
+      "locator": "docs/reference/specifications/catalog.json#FRD-006",
+      "original": {
+        "id": "FRD-006",
+        "title": "分享导出、预览与配置导入",
+        "status": "实现观察",
+        "scope": "rewrite",
+        "description": "选非秘密配置导出；校验文件、预览并确认绑定，再按 CommitId 导入。",
+        "parents": [
+          "SRS-012"
+        ],
+        "acceptance": [
+          "分享无秘密，入口需本机确认。",
+          "回执只证明配置，不证明登录/工具可用。"
+        ],
+        "evidence": [
+          {
+            "uid": "@desktop/SharingPageViewModel",
+            "methods": []
+          },
+          {
+            "uid": "@usecases/ConfigurationShareService",
+            "methods": [
+              "ExportAsync",
+              "PreviewImportAsync",
+              "CommitAsync",
+              "InspectCommitAsync"
+            ]
+          }
+        ],
+        "tests": [
+          {
+            "id": "scenario:AR19 import has no execution and export contains no credential reference",
+            "reason": "导入不执行，导出无凭据。"
+          },
+          {
+            "id": "scenario:F05 switch outcome unknown remains verifiable by CommitId",
+            "reason": "未知提交按原号核验。"
+          }
+        ]
+      }
+    },
+    {
+      "source": "Archon",
+      "id": "FRD-007",
+      "owner": "configuration",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "实现观察",
+      "locator": "docs/reference/specifications/catalog.json#FRD-007",
+      "original": {
+        "id": "FRD-007",
+        "title": "旧数据迁移与位置解析",
+        "status": "实现观察",
+        "scope": "rewrite",
+        "description": "冻结旧来源摘要，确认后准备、核验并激活副本；数据位置单独解析。",
+        "parents": [
+          "SRS-013"
+        ],
+        "acceptance": [
+          "原文件保留；不明结果查原 OperationId。",
+          "缺控制历史不能冒充旧格式迁移。"
+        ],
+        "evidence": [
+          {
+            "uid": "@usecases/WorkspaceMigrationService",
+            "methods": [
+              "ExecuteAsync"
+            ]
+          },
+          {
+            "uid": "@windows/MigrationPlanningService",
+            "methods": []
+          },
+          {
+            "uid": "@windows/WorkspaceLocationResolver",
+            "methods": [
+              "Resolve"
+            ]
+          }
+        ],
+        "tests": [
+          {
+            "id": "scenario:AR22 legacy migration preserves identities and credential references without changing source",
+            "reason": "迁移保留身份、引用和来源。"
+          },
+          {
+            "id": "scenario:AR22 current format cannot be migrated without its control history",
+            "reason": "缺控制历史拒迁。"
+          },
+          {
+            "id": "scenario:AR21 portable location is relative to executable rather than current directory",
+            "reason": "便携路径相对 EXE。"
+          }
+        ]
+      }
+    },
+    {
+      "source": "Archon",
+      "id": "FRD-008",
+      "owner": "design-evidence",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "实现观察",
+      "locator": "docs/reference/specifications/catalog.json#FRD-008",
+      "original": {
+        "id": "FRD-008",
+        "title": "只读开发诊断与文档查询",
+        "status": "实现观察",
+        "scope": "rewrite",
+        "description": "DevHost 只读查询健康/操作，托管 OpenAPI、Scalar 与静态文档。",
+        "parents": [
+          "SRS-001",
+          "SRS-006"
+        ],
+        "acceptance": [
+          "检查仅两条 GET 路由及 DTO。",
+          "隔离空目录查空；健康不证明登录。"
+        ],
+        "evidence": [
+          {
+            "uid": "@diagnostics/DiagnosticEndpoints",
+            "methods": []
+          }
+        ],
+        "basis": [
+          "scripts/check-documentation.mjs"
+        ],
+        "verificationGap": "无直接 xUnit；文档检查验路由/DTO/隔离宿主。"
+      }
+    },
+    {
+      "source": "Archon",
+      "id": "SDD-001",
+      "owner": "composition",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "实现观察",
+      "locator": "docs/reference/specifications/catalog.json#SDD-001",
+      "original": {
+        "id": "SDD-001",
+        "title": "原界面与分层后端共存及渐进接入",
+        "status": "实现观察",
+        "scope": "coexistence",
+        "description": "原 View 日常使用；Core 共享参数；rewrite 装配独立外壳，完整迁移未完。",
+        "parents": [
+          "SRS-001",
+          "SRS-004",
+          "SRS-014"
+        ],
+        "evidence": [
+          {
+            "uid": "@usecases/LaunchPlanBuilder",
+            "methods": [
+              "BuildMonitorArguments",
+              "BuildMarineArguments"
+            ]
+          },
+          {
+            "uid": "@bootstrap/DesktopCompositionRoot",
+            "methods": []
+          }
+        ],
+        "tests": [
+          {
+            "id": "legacy:LaunchDesk.Tests:Original desktop Monitor adapter preserves explicit Catalogue configuration and module case",
+            "reason": "原 Core Monitor 适配；整套执行。"
+          },
+          {
+            "id": "legacy:LaunchDesk.Tests:Original desktop Marine adapter preserves vendor module comparison and nested handoff",
+            "reason": "原 Core Marine 适配；整套执行。"
+          }
+        ],
+        "basis": [
+          "README.md",
+          "LaunchDesk.Core/LaunchService.cs",
+          "docs/rewrite/IMPLEMENTATION.md"
+        ]
+      }
+    },
+    {
+      "source": "Archon",
+      "id": "SDD-002",
+      "owner": "composition",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "实现观察",
+      "locator": "docs/reference/specifications/catalog.json#SDD-002",
+      "original": {
+        "id": "SDD-002",
+        "title": "分层与副作用端口",
+        "status": "实现观察",
+        "scope": "rewrite",
+        "description": "纯规则、端口、协调、平台副作用、交互及装配按层依赖；测试独立。",
+        "parents": [
+          "SRS-001",
+          "FRD-002",
+          "FRD-004"
+        ],
+        "evidence": [
+          {
+            "uid": "@usecases/LaunchOperationHandler",
+            "methods": []
+          },
+          {
+            "uid": "@desktop/ProfilesPageViewModel",
+            "methods": []
+          },
+          {
+            "uid": "@bootstrap/DesktopCompositionRoot",
+            "methods": []
+          }
+        ],
+        "tests": [
+          {
+            "id": "@architecture/ArchitectureBoundaryTests.CompiledDependenciesFollowApprovedLayers",
+            "reason": "编译依赖方向；原界面另验。"
+          },
+          {
+            "id": "@architecture/ArchitectureBoundaryTests.InteractionAndUseCasesDoNotBypassSideEffectPorts",
+            "reason": "交互/用例不绕副作用端口。"
+          },
+          {
+            "id": "@architecture/ArchitectureBoundaryTests.ProjectGraphMatchesApprovedEdgesAndHasNoCycles",
+            "reason": "引用白名单与无环。"
+          }
+        ],
+        "basis": [
+          "rewrite/architecture.json"
+        ]
+      }
+    },
+    {
+      "source": "Archon",
+      "id": "SDD-003",
+      "owner": "composition",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "实现观察",
+      "locator": "docs/reference/specifications/catalog.json#SDD-003",
+      "original": {
+        "id": "SDD-003",
+        "title": "提交、持久操作与资源投影分开",
+        "status": "实现观察",
+        "scope": "rewrite",
+        "description": "配置用 CommitId/回执；操作用 OperationId/租约/日志；监测用资源身份和缓存。",
+        "parents": [
+          "FRD-001",
+          "FRD-002",
+          "FRD-003"
+        ],
+        "evidence": [
+          {
+            "uid": "@usecases/WorkspaceCatalogService",
+            "methods": []
+          },
+          {
+            "uid": "@usecases/OperationCoordinator",
+            "methods": []
+          },
+          {
+            "uid": "@usecases/ResourceSupervisor",
+            "methods": []
+          }
+        ],
+        "tests": [
+          {
+            "id": "scenario:F05 switch outcome unknown remains verifiable by CommitId",
+            "reason": "未知提交按原号核验。"
+          },
+          {
+            "id": "scenario:F01 two real processes admit at most one side effect",
+            "reason": "跨进程竞态最多一次副作用。"
+          },
+          {
+            "id": "scenario:F04 RequireFresh uses frozen endpoint and never reuses another revision",
+            "reason": "冻结端点/修订与新鲜度。"
+          }
+        ],
+        "questions": [
+          "原界面完整接入与用户文案需验收。"
+        ]
+      }
+    },
+    {
+      "source": "Archon",
+      "id": "SDD-004",
+      "owner": "composition",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "实现观察",
+      "locator": "docs/reference/specifications/catalog.json#SDD-004",
+      "original": {
+        "id": "SDD-004",
+        "title": "秘密租约与有限管理员边界",
+        "status": "实现观察",
+        "scope": "rewrite",
+        "description": "秘密临时租约化；Worker 认证父进程和原计划，仅执行有限操作。",
+        "parents": [
+          "SRS-005",
+          "SRS-010",
+          "FRD-005"
+        ],
+        "evidence": [
+          {
+            "uid": "@contracts/SecretLease",
+            "methods": []
+          },
+          {
+            "uid": "@windows/WindowsSecretVault",
+            "methods": []
+          },
+          {
+            "uid": "@windows/WindowsPrivilegeBroker",
+            "methods": []
+          }
+        ],
+        "tests": [
+          {
+            "id": "scenario:Runtime secrets and capabilities reject JSON serialization",
+            "reason": "秘密/能力拒绝 JSON。"
+          },
+          {
+            "id": "scenario:AR18 worker authenticates its parent and writes only the admitted plan",
+            "reason": "模拟 Worker 认证；真实 UAC 另验。"
+          }
+        ],
+        "questions": [
+          "真实 UAC、执行账户及权限分工待验收。"
+        ]
+      }
+    },
+    {
+      "source": "Archon",
+      "id": "SDD-005",
+      "owner": "composition",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "实现观察",
+      "locator": "docs/reference/specifications/catalog.json#SDD-005",
+      "original": {
+        "id": "SDD-005",
+        "title": "计划、检查点与回执支撑明确恢复",
+        "status": "实现观察",
+        "scope": "rewrite",
+        "description": "来源、目标、修订和摘要冻结后写入；检查点/回执支持确认恢复，变量与迁移分别核验。",
+        "parents": [
+          "SRS-010",
+          "SRS-011",
+          "SRS-013"
+        ],
+        "evidence": [
+          {
+            "uid": "@usecases/DeploymentPlanner",
+            "methods": [
+              "PreviewRecoveryAsync"
+            ]
+          },
+          {
+            "uid": "@windows/FileDeliveryPort",
+            "methods": []
+          },
+          {
+            "uid": "@windows/JsonMigrationStore",
+            "methods": []
+          }
+        ],
+        "tests": [
+          {
+            "id": "scenario:AR13-17 folder delivery, interrupted write, explicit recovery and rollback",
+            "reason": "隔离文件交付、中断和恢复。"
+          },
+          {
+            "id": "scenario:AR16 external target changes invalidate recovery and application",
+            "reason": "目标外变拒用旧计划。"
+          },
+          {
+            "id": "scenario:AR17 variable rename checks baseline and keeps old value on uncertain new write",
+            "reason": "改名比基线，未知时留旧值。"
+          },
+          {
+            "id": "scenario:AR22 legacy migration preserves identities and credential references without changing source",
+            "reason": "迁移保留身份、引用和来源。"
+          }
+        ]
+      }
+    },
+    {
+      "source": "Archon",
+      "id": "SDD-006",
+      "owner": "composition",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "实现观察",
+      "locator": "docs/reference/specifications/catalog.json#SDD-006",
+      "original": {
+        "id": "SDD-006",
+        "title": "开发诊断与普通桌面发布隔离",
+        "status": "实现观察",
+        "scope": "rewrite",
+        "description": "DevHost 只读，Aspire 可选；普通发布独立，编排结束不误杀目标进程。",
+        "parents": [
+          "SRS-001",
+          "SRS-007",
+          "FRD-008"
+        ],
+        "evidence": [
+          {
+            "uid": "@diagnostics/DiagnosticEndpoints",
+            "methods": []
+          },
+          {
+            "uid": "@windows/WindowsProcessGateway",
+            "methods": []
+          }
+        ],
+        "tests": [
+          {
+            "id": "@architecture/ArchitectureBoundaryTests.AspireRemainsOptional",
+            "reason": "普通程序集无 Aspire 引用。"
+          },
+          {
+            "id": "scenario:AR24 target process survives an orchestrator job closing",
+            "reason": "编排 Job 关闭不杀目标。"
+          }
+        ]
+      }
+    },
+    {
+      "source": "Archon",
+      "id": "SDS-001",
+      "owner": "configuration",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "实现观察",
+      "locator": "docs/reference/specifications/catalog.json#SDS-001",
+      "original": {
+        "id": "SDS-001",
+        "title": "配置端口、修订和提交回执契约",
+        "status": "实现观察",
+        "scope": "rewrite",
+        "description": "配置入口绑定 CommitId/修订；存储维护原内容和回执，未知结果按原号查。",
+        "parents": [
+          "SRS-002",
+          "FRD-001",
+          "SDD-003"
+        ],
+        "acceptance": [
+          "API 为签名依据；重复不新增实体。",
+          "内容/修订冲突不能报成功。"
+        ],
+        "evidence": [
+          {
+            "uid": "@contracts/ICatalogService",
+            "methods": [
+              "SaveProfileAsync"
+            ]
+          },
+          {
+            "uid": "@windows/JsonWorkspaceStore",
+            "methods": [
+              "BeginCommitAsync",
+              "CommitAsync"
+            ]
+          }
+        ],
+        "tests": [
+          {
+            "id": "scenario:F05 stable copy identity, historical receipt and no credential copying",
+            "reason": "复制身份、回执与凭据隔离。"
+          },
+          {
+            "id": "scenario:F05 switch outcome unknown remains verifiable by CommitId",
+            "reason": "未知提交按原号核验。"
+          }
+        ]
+      }
+    },
+    {
+      "source": "Archon",
+      "id": "SDS-002",
+      "owner": "composition",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "实现观察",
+      "locator": "docs/reference/specifications/catalog.json#SDS-002",
+      "original": {
+        "id": "SDS-002",
+        "title": "操作请求、准入及状态事实契约",
+        "status": "实现观察",
+        "scope": "rewrite",
+        "description": "请求摘要冻结受理；执行租约准入；RunEvent 按序号和状态策略追加。",
+        "parents": [
+          "SRS-003",
+          "SRS-007",
+          "SDD-003"
+        ],
+        "acceptance": [
+          "Existing 不派发，摘要冲突拒绝。",
+          "正确租约、序号、阶段才准追加。"
+        ],
+        "evidence": [
+          {
+            "uid": "@contracts/OperationRequest",
+            "methods": []
+          },
+          {
+            "uid": "@contracts/RunEvent",
+            "methods": []
+          },
+          {
+            "uid": "@kernel/OperationStatePolicy",
+            "methods": []
+          },
+          {
+            "uid": "@windows/JsonRunJournal",
+            "methods": [
+              "AcceptAsync",
+              "TryBeginExecutionAsync",
+              "AppendAsync"
+            ]
+          }
+        ],
+        "tests": [
+          {
+            "id": "scenario:F01 two real processes admit at most one side effect",
+            "reason": "跨进程竞态最多一次副作用。"
+          },
+          {
+            "id": "scenario:AR11 accepted operations outlive callers and explicit stop does not replay",
+            "reason": "停等不撤销受理、不重放。"
+          }
+        ]
+      }
+    },
+    {
+      "source": "Archon",
+      "id": "SDS-003",
+      "owner": "launch",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "实现观察",
+      "locator": "docs/reference/specifications/catalog.json#SDS-003",
+      "original": {
+        "id": "SDS-003",
+        "title": "启动计划与秘密插槽契约",
+        "status": "实现观察",
+        "scope": "shared-launch",
+        "description": "按 EntryKind 构造独立环境：Monitor 用 PROD/产品/init，Marine 五参数；网关填秘密插槽。",
+        "parents": [
+          "SRS-004",
+          "SRS-005",
+          "FRD-002",
+          "SDD-001"
+        ],
+        "acceptance": [
+          "参数和秘密插槽与示例一致。",
+          "Core 仅共享参数；新网关/操作仍属 rewrite。"
+        ],
+        "evidence": [
+          {
+            "uid": "@usecases/LaunchPlanBuilder",
+            "methods": [
+              "Build",
+              "BuildMonitorArguments",
+              "BuildMarineArguments"
+            ]
+          },
+          {
+            "uid": "@windows/WindowsProcessGateway",
+            "methods": [
+              "StartAsync"
+            ]
+          }
+        ],
+        "tests": [
+          {
+            "id": "@architecture/LaunchPlanExamplesTests.MonitorHonorsExplicitProductAndInitialization",
+            "reason": "产品、init 和模块大小写。"
+          },
+          {
+            "id": "@architecture/LaunchPlanExamplesTests.MarineExampleIsAnExecutableContract",
+            "reason": "Marine 五参数与秘密插槽。"
+          },
+          {
+            "id": "@architecture/LaunchPlanExamplesTests.UnsupportedMarineSecretsFailBeforeCreatingAProcess",
+            "reason": "批处理不安全秘密先拒绝。"
+          },
+          {
+            "id": "scenario:AR12 native process receives exact arguments and isolated environment",
+            "reason": "模拟进程接收参数与环境。"
+          }
+        ],
+        "basis": [
+          "LaunchDesk.Core/LaunchService.cs"
+        ]
+      }
+    },
+    {
+      "source": "Archon",
+      "id": "SDS-004",
+      "owner": "health",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "实现观察",
+      "locator": "docs/reference/specifications/catalog.json#SDS-004",
+      "original": {
+        "id": "SDS-004",
+        "title": "资源身份、策略与快照订阅契约",
+        "status": "实现观察",
+        "scope": "rewrite",
+        "description": "冻结资源按 IdentityKey 隔离缓存和并发；按时间、策略归约并发布快照。",
+        "parents": [
+          "SRS-008",
+          "FRD-003",
+          "SDD-003"
+        ],
+        "acceptance": [
+          "身份不符/过期不能作就绪证据。",
+          "监测不用操作日志；默认值非 SLA。"
+        ],
+        "evidence": [
+          {
+            "uid": "@kernel/ResourceDescriptor",
+            "methods": []
+          },
+          {
+            "uid": "@kernel/ConnectionHealthPolicy",
+            "methods": [
+              "Reduce"
+            ]
+          },
+          {
+            "uid": "@usecases/ResourceSupervisor",
+            "methods": [
+              "RequireFreshAsync",
+              "WatchAsync"
+            ]
+          }
+        ],
+        "tests": [
+          {
+            "id": "scenario:AR06-08 health rounds debounce and bind evidence identity",
+            "reason": "健康轮次、去抖及身份。"
+          },
+          {
+            "id": "scenario:F04 RequireFresh uses frozen endpoint and never reuses another revision",
+            "reason": "冻结端点/修订与新鲜度。"
+          }
+        ]
+      }
+    },
+    {
+      "source": "Archon",
+      "id": "SDS-005",
+      "owner": "tools-deployment",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "实现观察",
+      "locator": "docs/reference/specifications/catalog.json#SDS-005",
+      "original": {
+        "id": "SDS-005",
+        "title": "部署确认、目标保护及交付回执契约",
+        "status": "实现观察",
+        "scope": "rewrite",
+        "description": "预览冻结摘要；处理器核确认、取租约或 Worker；适配器写检查点/回执。",
+        "parents": [
+          "SRS-009",
+          "SRS-010",
+          "FRD-004",
+          "SDD-005"
+        ],
+        "acceptance": [
+          "来源、目标、摘要一致才写入。",
+          "保护恢复资料，部分写入留回执。"
+        ],
+        "evidence": [
+          {
+            "uid": "@usecases/DeploymentPlanner",
+            "methods": [
+              "PreviewAsync",
+              "PreviewRecoveryAsync"
+            ]
+          },
+          {
+            "uid": "@usecases/DeliveryOperationHandler",
+            "methods": [
+              "ExecuteAsync"
+            ]
+          },
+          {
+            "uid": "@windows/FileDeliveryPort",
+            "methods": [
+              "ApplyAsync"
+            ]
+          }
+        ],
+        "tests": [
+          {
+            "id": "scenario:AR14 changing source invalidates a confirmed plan",
+            "reason": "来源变化使确认失效。"
+          },
+          {
+            "id": "scenario:F02 reject workspace, ancestor, traversal and held target conflicts",
+            "reason": "保护根、越界及目标互斥。"
+          },
+          {
+            "id": "scenario:AR13-17 folder delivery, interrupted write, explicit recovery and rollback",
+            "reason": "隔离文件交付、中断和恢复。"
+          },
+          {
+            "id": "scenario:AR18 worker authenticates its parent and writes only the admitted plan",
+            "reason": "模拟 Worker 认证；真实 UAC 另验。"
+          }
+        ]
+      }
+    },
+    {
+      "source": "Archon",
+      "id": "SDS-006",
+      "owner": "environment-variables",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "实现观察",
+      "locator": "docs/reference/specifications/catalog.json#SDS-006",
+      "original": {
+        "id": "SDS-006",
+        "title": "变量原值、计划与核验应用契约",
+        "status": "实现观察",
+        "scope": "rewrite",
+        "description": "冻结新旧名原值与摘要；应用比较基线、留检查点并读后核验。",
+        "parents": [
+          "SRS-011",
+          "FRD-005",
+          "SDD-005"
+        ],
+        "acceptance": [
+          "工具禁改保留名。",
+          "冲突失败；未知新值不删旧名。"
+        ],
+        "evidence": [
+          {
+            "uid": "@usecases/VariablePlanner",
+            "methods": [
+              "PreviewAsync"
+            ]
+          },
+          {
+            "uid": "@windows/WindowsEnvironmentStore",
+            "methods": [
+              "ApplyVerifiedAsync"
+            ]
+          },
+          {
+            "uid": "@contracts/ConfirmedVariablePlan",
+            "methods": []
+          }
+        ],
+        "tests": [
+          {
+            "id": "scenario:AR17 variable rename checks baseline and keeps old value on uncertain new write",
+            "reason": "改名比基线，未知时留旧值。"
+          }
+        ]
+      }
+    },
+    {
+      "source": "Archon",
+      "id": "SDS-007",
+      "owner": "configuration",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "实现观察",
+      "locator": "docs/reference/specifications/catalog.json#SDS-007",
+      "original": {
+        "id": "SDS-007",
+        "title": "分享格式、本机绑定与导入提交契约",
+        "status": "实现观察",
+        "scope": "rewrite",
+        "description": "分享格式 v3，剔除秘密引用、VM 路径和旧记录目录；校验关联、稳定映射标识，入口需本机绑定。",
+        "parents": [
+          "SRS-012",
+          "FRD-006",
+          "SDD-004"
+        ],
+        "acceptance": [
+          "拒绝错格式、重复 ID 和缺失关联。",
+          "绑定/摘要未确认拒绝；导入不执行。"
+        ],
+        "evidence": [
+          {
+            "uid": "@usecases/ConfigurationShareService",
+            "methods": [
+              "ExportAsync",
+              "PreviewImportAsync",
+              "CommitAsync"
+            ]
+          },
+          {
+            "uid": "@contracts/ShareBundle",
+            "methods": []
+          }
+        ],
+        "tests": [
+          {
+            "id": "scenario:AR19 import has no execution and export contains no credential reference",
+            "reason": "导入不执行，导出无凭据。"
+          }
+        ]
+      }
+    },
+    {
+      "source": "Archon",
+      "id": "SDS-008",
+      "owner": "configuration",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "实现观察",
+      "locator": "docs/reference/specifications/catalog.json#SDS-008",
+      "original": {
+        "id": "SDS-008",
+        "title": "迁移副本、激活与本机位置契约",
+        "status": "实现观察",
+        "scope": "rewrite",
+        "description": "迁移 Prepare→Validate→Activate，按原操作和修订激活；位置解析独立。",
+        "parents": [
+          "SRS-013",
+          "FRD-007",
+          "SDD-005"
+        ],
+        "acceptance": [
+          "保留原来源、身份及凭据引用。",
+          "位置失败给原因；缺控制历史拒迁。"
+        ],
+        "evidence": [
+          {
+            "uid": "@contracts/IMigrationStore",
+            "methods": [
+              "PrepareAsync",
+              "ValidateAsync",
+              "ActivateAsync"
+            ]
+          },
+          {
+            "uid": "@windows/WorkspaceLocationResolver",
+            "methods": [
+              "Resolve"
+            ]
+          }
+        ],
+        "tests": [
+          {
+            "id": "scenario:AR22 legacy migration preserves identities and credential references without changing source",
+            "reason": "迁移保留身份、引用和来源。"
+          },
+          {
+            "id": "scenario:AR22 current format cannot be migrated without its control history",
+            "reason": "缺控制历史拒迁。"
+          },
+          {
+            "id": "scenario:AR21 portable location is relative to executable rather than current directory",
+            "reason": "便携路径相对 EXE。"
+          }
+        ]
+      }
+    },
+    {
+      "source": "Archon",
+      "id": "SDS-009",
+      "owner": "composition",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "实现观察",
+      "locator": "docs/reference/specifications/catalog.json#SDS-009",
+      "original": {
+        "id": "SDS-009",
+        "title": "运行投影与只读 HTTP 契约",
+        "status": "实现观察",
+        "scope": "rewrite",
+        "description": "ITaskQueries 投影脱敏事实回 Dispatcher；诊断仅两条 GET；窗口不合成会话。",
+        "parents": [
+          "SRS-006",
+          "FRD-008",
+          "SDD-006"
+        ],
+        "acceptance": [
+          "保留阶段、原因与时间。",
+          "路由/DTO 由文档检查；窗口测试不覆盖 HTTP。"
+        ],
+        "evidence": [
+          {
+            "uid": "@usecases/OperationProjectionService",
+            "methods": []
+          },
+          {
+            "uid": "@contracts/ITaskQueries",
+            "methods": [
+              "WatchAsync"
+            ]
+          },
+          {
+            "uid": "@diagnostics/DiagnosticEndpoints",
+            "methods": []
+          }
+        ],
+        "tests": [
+          {
+            "id": "scenario:AR10 window observation never confirms a project login",
+            "reason": "窗口不推断项目登录。"
+          }
+        ],
+        "basis": [
+          "scripts/check-documentation.mjs"
+        ]
+      }
+    },
+    {
+      "source": "Next",
+      "id": "PM-01",
+      "owner": "environment",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "已实现并通过验证",
+      "locator": "openspec/requirements.md#PM-01",
+      "original": {
+        "request": "E3D3.1主动共用E3D2.1项目，保留配置，不按版本替换Proj路径",
+        "status": "已实现并通过验证"
+      }
+    },
+    {
+      "source": "Next",
+      "id": "PM-02",
+      "owner": "environment",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "已实现并通过验证",
+      "locator": "openspec/requirements.md#PM-02",
+      "original": {
+        "request": "从evars.bat、evars.init、launch.init及引用、下级目录查找Project",
+        "status": "已实现并通过验证"
+      }
+    },
+    {
+      "source": "Next",
+      "id": "PM-03",
+      "owner": "environment",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "已实现并通过验证",
+      "locator": "openspec/requirements.md#PM-03",
+      "original": {
+        "request": "Module也要实际查找，并显示声明、启动分支或文件线索的来源",
+        "status": "已实现并通过验证"
+      }
+    },
+    {
+      "source": "Next",
+      "id": "PM-04",
+      "owner": "environment",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "已实现并通过验证",
+      "locator": "openspec/requirements.md#PM-04",
+      "original": {
+        "request": "多候选和未知结果不乱选；预设可改，保留手动修改",
+        "status": "已实现并通过验证"
+      }
+    },
+    {
+      "source": "Next",
+      "id": "PM-05",
+      "owner": "environment",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "已实现并通过验证；当前只查目录",
+      "locator": "openspec/requirements.md#PM-05",
+      "original": {
+        "request": "明示AM/Marine、E3D、PDMS的发现来源和覆盖；注册表是否参与要如实说明",
+        "status": "已实现并通过验证；当前只查目录"
+      }
+    },
+    {
+      "source": "Next",
+      "id": "RP-01",
+      "owner": "environment",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "方案已补齐，待评审/实现",
+      "locator": "openspec/requirements.md#RP-01",
+      "original": {
+        "request": "远程Proj先检查配置与路径可访问性，不把连接问题说成数据库损坏",
+        "status": "方案已补齐，待评审/实现"
+      }
+    },
+    {
+      "source": "Next",
+      "id": "RP-02",
+      "owner": "environment",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "方案已补齐，待评审/实现",
+      "locator": "openspec/requirements.md#RP-02",
+      "original": {
+        "request": "未配置连接时，软件给出手动连接配置、重新检查和取消入口",
+        "status": "方案已补齐，待评审/实现"
+      }
+    },
+    {
+      "source": "Next",
+      "id": "RP-03",
+      "owner": "environment",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "方案已补齐，待评审/实现",
+      "locator": "openspec/requirements.md#RP-03",
+      "original": {
+        "request": "连接检查失败或未配置时，阻止本次启动并保留配置，提示可操作原因",
+        "status": "方案已补齐，待评审/实现"
+      }
+    },
+    {
+      "source": "Next",
+      "id": "PF-01",
+      "owner": "configuration",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "用户已批准Tomlyn 2.10.1；明确暂不安装",
+      "locator": "openspec/requirements.md#PF-01",
+      "original": {
+        "request": "前后端分离后，登录数据可持久化为TOML等可读格式",
+        "status": "用户已批准Tomlyn 2.10.1；明确暂不安装"
+      }
+    },
+    {
+      "source": "Next",
+      "id": "PF-02",
+      "owner": "configuration",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "方案已补齐，待评审/实现",
+      "locator": "openspec/requirements.md#PF-02",
+      "original": {
+        "request": "登录项及关联关系可预览导出/导入，支持版本与路径修订",
+        "status": "方案已补齐，待评审/实现"
+      }
+    },
+    {
+      "source": "Next",
+      "id": "CR-01",
+      "owner": "configuration",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "基础能力已有；导出边界方案待评审/实现",
+      "locator": "openspec/requirements.md#CR-01",
+      "original": {
+        "request": "密码只在本机凭据管理器，不随配置、日志、快照或导出迁移",
+        "status": "基础能力已有；导出边界方案待评审/实现"
+      }
+    },
+    {
+      "source": "Next",
+      "id": "CR-02",
+      "owner": "configuration",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "共享引用与授权图稿已设计；待评审/实现",
+      "locator": "openspec/requirements.md#CR-02",
+      "original": {
+        "request": "一个密码供同Proj多个Module使用，用共享引用，不复制密码到各项",
+        "status": "共享引用与授权图稿已设计；待评审/实现"
+      }
+    },
+    {
+      "source": "Next",
+      "id": "CR-03",
+      "owner": "configuration",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "方案已补齐，待评审/实现",
+      "locator": "openspec/requirements.md#CR-03",
+      "original": {
+        "request": "弹列表预览，用户勾选后批量授权；允许显式跨Module、跨Proj",
+        "status": "方案已补齐，待评审/实现"
+      }
+    },
+    {
+      "source": "Next",
+      "id": "CR-04",
+      "owner": "configuration",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "方案已补齐，待评审/实现",
+      "locator": "openspec/requirements.md#CR-04",
+      "original": {
+        "request": "从发现的Project/Module生成登录项，先预览修改，授权只作用于选中项",
+        "status": "方案已补齐，待评审/实现"
+      }
+    },
+    {
+      "source": "Next",
+      "id": "CR-05",
+      "owner": "configuration",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "方案已补齐，待评审/实现",
+      "locator": "openspec/requirements.md#CR-05",
+      "original": {
+        "request": "可撤销单项授权；更新/删除凭据前能看见受影响登录项",
+        "status": "方案已补齐，待评审/实现"
+      }
+    },
+    {
+      "source": "Next",
+      "id": "CR-06",
+      "owner": "configuration",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "方案已补齐，待评审/实现",
+      "locator": "openspec/requirements.md#CR-06",
+      "original": {
+        "request": "导入其他机器后先绑定本机凭据，不按同名自动授权",
+        "status": "方案已补齐，待评审/实现"
+      }
+    },
+    {
+      "source": "Next",
+      "id": "CR-07",
+      "owner": "configuration",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "边界已具体化，待评审/落实",
+      "locator": "openspec/requirements.md#CR-07",
+      "original": {
+        "request": "说明Windows当前用户/本机边界；应用内授权不是独立操作系统安全边界",
+        "status": "边界已具体化，待评审/落实"
+      }
+    },
+    {
+      "source": "Next",
+      "id": "VM-01",
+      "owner": "optional-diagnostics",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "G0/G1环境与10项OS检查通过；16项产品场景仍待实现后分层验证",
+      "locator": "openspec/requirements.md#VM-01",
+      "original": {
+        "request": "无真实远程Proj案例时用隔离VM验证；通用连接和真实AVEVA分层验收",
+        "status": "G0/G1环境与10项OS检查通过；16项产品场景仍待实现后分层验证"
+      }
+    },
+    {
+      "source": "Next",
+      "id": "VM-02",
+      "owner": "optional-diagnostics",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "G0/G1通过，配置前和Ready快照保留；原VMX哈希例外未掩盖，见[实际记录](xref:remote-project-lab-results)",
+      "locator": "openspec/requirements.md#VM-02",
+      "original": {
+        "request": "采用VMware Host-only与专用账户，写清网络、SMB/NTFS配置、基线恢复及验收顺序",
+        "status": "G0/G1通过，配置前和Ready快照保留；原VMX哈希例外未掩盖，见[实际记录](xref:remote-project-lab-results)"
+      }
+    },
+    {
+      "source": "Next",
+      "id": "LC-01",
+      "owner": "optional-diagnostics",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "只读清单已核对；恢复主机名后AVEVA201签出/归还通过；现有厂商启动链已进入Model，未改许可密钥",
+      "locator": "openspec/requirements.md#LC-01",
+      "original": {
+        "request": "分开说明E3D客户端、许可服务、许可文件和实际签出；不把端口通过当有效许可",
+        "status": "只读清单已核对；恢复主机名后AVEVA201签出/归还通过；现有厂商启动链已进入Model，未改许可密钥"
+      }
+    },
+    {
+      "source": "Next",
+      "id": "UX-01",
+      "owner": "design-evidence",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "图稿与8张预览已交付，待评审",
+      "locator": "openspec/requirements.md#UX-01",
+      "original": {
+        "request": "新前端先使用FigCraft，交付可编辑图稿、操作状态和组件",
+        "status": "图稿与8张预览已交付，待评审"
+      }
+    },
+    {
+      "source": "Next",
+      "id": "LC-02",
+      "owner": "optional-diagnostics",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "已查明：克隆改名使0008主机名绑定失配，RMS拒绝加载许可",
+      "locator": "openspec/requirements.md#LC-02",
+      "original": {
+        "request": "查清4546超时，区分RULES监听、RMS明细、防火墙来源与Clash TUN",
+        "status": "已查明：克隆改名使0008主机名绑定失配，RMS拒绝加载许可"
+      }
+    },
+    {
+      "source": "Next",
+      "id": "LC-03",
+      "owner": "optional-diagnostics",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "首次失败；恢复主机名后签出/归还通过，后续已定位实验器重定向模式并用原生启动进入Model；清理完成",
+      "locator": "openspec/requirements.md#LC-03",
+      "original": {
+        "request": "宿主机E3D连接测试VM，验证实际许可签出，保护原机与工作会话",
+        "status": "首次失败；恢复主机名后签出/归还通过，后续已定位实验器重定向模式并用原生启动进入Model；清理完成"
+      }
+    },
+    {
+      "source": "Next",
+      "id": "LC-04",
+      "owner": "optional-diagnostics",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "已确认失配；后续按LC-05授权恢复名称，指纹重新匹配",
+      "locator": "openspec/requirements.md#LC-04",
+      "original": {
+        "request": "用厂商工具只读核对克隆身份与许可绑定，不猜改许可或时间，不影响原机",
+        "status": "已确认失配；后续按LC-05授权恢复名称，指纹重新匹配"
+      }
+    },
+    {
+      "source": "Next",
+      "id": "LC-05",
+      "owner": "optional-diagnostics",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "UID3保留；配置与10项SMB通过，4546及AVEVA201签出通过；应用FNF7，克隆关机",
+      "locator": "openspec/requirements.md#LC-05",
+      "original": {
+        "request": "先快照再恢复测试克隆主机名，保留隔离/账户/共享，复测4546与真实签出；不改许可或时间",
+        "status": "UID3保留；配置与10项SMB通过，4546及AVEVA201签出通过；应用FNF7，克隆关机"
+      }
+    },
+    {
+      "source": "Next",
+      "id": "LC-06",
+      "owner": "optional-diagnostics",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "A/B失败、C/D原生句柄启动成功；并非目录缺失，详见开发对照",
+      "locator": "openspec/requirements.md#LC-06",
+      "original": {
+        "request": "核对原工作目录、init、TEMP并用SYSTEM测试凭据复查FNF；不记录密码、保护实验环境",
+        "status": "A/B失败、C/D原生句柄启动成功；并非目录缺失，详见开发对照"
+      }
+    },
+    {
+      "source": "Next",
+      "id": "DV-01",
+      "owner": "optional-diagnostics",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "dev/RemoteProjectLab已拆分；机器/用户绑定开关默认关闭，6项开关检查及48项架构测试通过",
+      "locator": "openspec/requirements.md#DV-01",
+      "original": {
+        "request": "VM远程模拟作为隐藏开发功能，代码独立保留；仅开发机显式启用，产品初始化不加载，普通远程呈现不标VM",
+        "status": "dev/RemoteProjectLab已拆分；机器/用户绑定开关默认关闭，6项开关检查及48项架构测试通过"
+      }
+    },
+    {
+      "source": "Next",
+      "id": "DV-02",
+      "owner": "optional-diagnostics",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "调用链与图示已补齐；主题仅构建通过，视觉验收重开，见UX-03",
+      "locator": "openspec/requirements.md#DV-02",
+      "original": {
+        "request": "本机开关仅控制脚手架，普通远程不依赖；八节索引列明每步源码、失败返回和图示，参考Yuzuha改进DocFX阅读主题",
+        "status": "调用链与图示已补齐；主题仅构建通过，视觉验收重开，见UX-03"
+      }
+    },
+    {
+      "source": "Next",
+      "id": "MD-01",
+      "owner": "launch",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "已实现LaunchModel/LaunchWorkspace；原UI不变，草稿版本冲突、快照与记录失败均阻止执行",
+      "locator": "openspec/requirements.md#MD-01",
+      "original": {
+        "request": "前端双向编辑同一模型并保存文件；执行时持久化冻结快照，后端仅收快照提取参数与执行业务",
+        "status": "已实现LaunchModel/LaunchWorkspace；原UI不变，草稿版本冲突、快照与记录失败均阻止执行"
+      }
+    },
+    {
+      "source": "Next",
+      "id": "DV-03",
+      "owner": "optional-diagnostics",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "用户已确认双包；LabSettings可配置VM，LaunchModel统一许可参数，默认关闭；真实VM参数回归未执行",
+      "locator": "openspec/requirements.md#DV-03",
+      "original": {
+        "request": "实验VM路径/预期身份、远程地址与许可服务参数可调，前端不承载实验业务；开关不随模型导入启用",
+        "status": "用户已确认双包；LabSettings可配置VM，LaunchModel统一许可参数，默认关闭；真实VM参数回归未执行"
+      }
+    },
+    {
+      "source": "Next",
+      "id": "FM-01",
+      "owner": "composition",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "WorkspaceHost为唯一login.launch装配入口；两包比较共用DLL哈希，具体CAF插件API适配未实施",
+      "locator": "openspec/requirements.md#FM-01",
+      "original": {
+        "request": "像CAF的Feature一样由宿主装配/移除，分包只隔离交付和依赖，不复制模型或后端事实",
+        "status": "WorkspaceHost为唯一login.launch装配入口；两包比较共用DLL哈希，具体CAF插件API适配未实施"
+      }
+    },
+    {
+      "source": "Next",
+      "id": "AD-01",
+      "owner": "composition",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "已采用无新依赖的XML清单，工厂与入口受清单约束；启动时装配，VM动作仍需本机授权；TOML解析适配/热卸载未实现",
+      "locator": "openspec/requirements.md#AD-01",
+      "original": {
+        "request": "用TOML/XML Addin控制启用：代码存在而不加Addin，Feature仍不可见且不装配",
+        "status": "已采用无新依赖的XML清单，工厂与入口受清单约束；启动时装配，VM动作仍需本机授权；TOML解析适配/热卸载未实现"
+      }
+    },
+    {
+      "source": "Next",
+      "id": "DG-01",
+      "owner": "tools-deployment",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "已发现三份空Error；同包校验/隔离复制通过，历史底层原因因证据丢失仍未确定，原程序未修复",
+      "locator": "openspec/requirements.md#DG-01",
+      "original": {
+        "request": "查原LaunchDesk部署复制失败为何不显示原因；不猜测、不修改实际SeaGend和原程序",
+        "status": "已发现三份空Error；同包校验/隔离复制通过，历史底层原因因证据丢失仍未确定，原程序未修复"
+      }
+    },
+    {
+      "source": "Next",
+      "id": "UX-04",
+      "owner": "design-evidence",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "新主题已实现；实际呈现与功能检查，视觉仍待评审",
+      "locator": "openspec/requirements.md#UX-04",
+      "original": {
+        "request": "同时修改DocFX，与作品集使用统一风格；改善导航、阅读层级、代码、表格和图示，保留真实页面与样式来源",
+        "status": "新主题已实现；实际呈现与功能检查，视觉仍待评审"
+      }
+    },
+    {
+      "source": "Next",
+      "id": "UX-03",
+      "owner": "design-evidence",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "2026-10-31新主题已实现并检查，仍待用户视觉评审",
+      "locator": "openspec/requirements.md#UX-03",
+      "original": {
+        "request": "当前DocFX主题未获认可，重新对照Yuzuha完整导航和阅读层级评审，不以构建通过代替主题通过",
+        "status": "2026-10-31新主题已实现并检查，仍待用户视觉评审"
+      }
+    },
+    {
+      "source": "Next",
+      "id": "DOC-03",
+      "owner": "design-evidence",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "8幕导入、6变量/11项回写验证及逐页对照已落地，待用户视觉评审",
+      "locator": "openspec/requirements.md#DOC-03",
+      "original": {
+        "request": "先从实际HTML导入FigCraft，再将原稿样式回写CSS；保留同尺寸截图、图层映射、哈希和限制，不能两份独立排版冒充一致",
+        "status": "8幕导入、6变量/11项回写验证及逐页对照已落地，待用户视觉评审"
+      }
+    },
+    {
+      "source": "Next",
+      "id": "DOC-02",
+      "owner": "design-evidence",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "八幕HTML与8张FigCraft画板已交付；交互/窄屏/链接校验通过，展示不操作产品或VM",
+      "locator": "openspec/requirements.md#DOC-02",
+      "original": {
+        "request": "FigCraft＋HTML八幕作品集，以项目经理视角解释技术、易用性、内部逻辑与维护性；同源叙事并保留已实现/拟议/历史边界",
+        "status": "八幕HTML与8张FigCraft画板已交付；交互/窄屏/链接校验通过，展示不操作产品或VM"
+      }
+    },
+    {
+      "source": "Next",
+      "id": "DOC-01",
+      "owner": "design-evidence",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "文档入口与元信息已整理；理解成本未做计时实测",
+      "locator": "openspec/requirements.md#DOC-01",
+      "original": {
+        "request": "统一已实现/拟议/历史及证据日期，以同一八股正文组织使用、开发、演示入口；评估相对原版的可理解性，不虚报提升数值",
+        "status": "文档入口与元信息已整理；理解成本未做计时实测"
+      }
+    },
+    {
+      "source": "Next",
+      "id": "UX-02",
+      "owner": "design-evidence",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "验收契约已写；尚未实施WPF",
+      "locator": "openspec/requirements.md#UX-02",
+      "original": {
+        "request": "防止WPF默认样式偏离设计；显式模板及三档DPI实际截图校验",
+        "status": "验收契约已写；尚未实施WPF"
+      }
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "G1",
+      "owner": "composition",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#goals/G1",
+      "original": [
+        "G1",
+        "开发更便捷",
+        "AI 查资料、写 PML、部署、加载、调试并核对结果。"
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "G2",
+      "owner": "composition",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#goals/G2",
+      "original": [
+        "G2",
+        "辅助三维使用",
+        "AI 结合对象数据、视图与资料核查问题及隐含关系。"
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "G3",
+      "owner": "composition",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#goals/G3",
+      "original": [
+        "G3",
+        "可持续接手",
+        "同一行为由界面、CLI、测试与文档引用；配置可回溯。"
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "R01",
+      "owner": "composition",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "planned",
+      "locator": "docs/specification/contract.json#requirements/R01",
+      "original": [
+        "R01",
+        "FE",
+        "G3",
+        "P0",
+        "planned",
+        "常用任务从工作台完成；字段、下一步与失败出口可见。",
+        "非实现者按 PRD 完成启动配置、检索、查询、历史恢复；不编辑 JSON，不需要解释控件含义；记录步骤、阻塞和误操作。",
+        [
+          "S01",
+          "S02",
+          "S04",
+          "S08"
+        ],
+        [],
+        [
+          "B20"
+        ],
+        []
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "R02",
+      "owner": "environment",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "verified",
+      "locator": "docs/specification/contract.json#requirements/R02",
+      "original": [
+        "R02",
+        "FE",
+        "G1",
+        "P0",
+        "verified",
+        "产品改变即更新模块；AM 不出现 DESIGN；安装发现与登录成功分别显示。",
+        "E3D/AM 切换后模块属于当前产品；无安装只显示未发现；保存无效组合被拒绝。",
+        [
+          "S01",
+          "S02",
+          "S24",
+          "S25",
+          "S26"
+        ],
+        [
+          "launch.modules.list",
+          "launch.profile.validate"
+        ],
+        [
+          "B02",
+          "B08",
+          "B09",
+          "B22"
+        ],
+        [
+          "T02"
+        ]
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "R03",
+      "owner": "launch",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "verified",
+      "locator": "docs/specification/contract.json#requirements/R03",
+      "original": [
+        "R03",
+        "FE",
+        "G3",
+        "P0",
+        "verified",
+        "配置列表同时应用产品、收藏/最近下拉与输入搜索；空结果可清空条件。",
+        "两个下拉和关键字取交集；重置后恢复全部；保留当前草稿。",
+        [
+          "S01",
+          "S02"
+        ],
+        [
+          "launch.profile.list"
+        ],
+        [
+          "B01",
+          "B21"
+        ],
+        [
+          "T10"
+        ]
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "R04",
+      "owner": "configuration",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "verified",
+      "locator": "docs/specification/contract.json#requirements/R04",
+      "original": [
+        "R04",
+        "FE",
+        "G3",
+        "P0",
+        "verified",
+        "编辑→差异预览→保存→重开；未保存草稿离开需确认。",
+        "保存显示修订；新服务重读相同值；取消离开保留草稿；保存失败不显示成功。",
+        [
+          "S03",
+          "S04",
+          "S05"
+        ],
+        [
+          "launch.profile.preview",
+          "launch.profile.save",
+          "launch.profile.read"
+        ],
+        [
+          "B03",
+          "B20"
+        ],
+        [
+          "T01"
+        ]
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "R05",
+      "owner": "configuration",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "verified",
+      "locator": "docs/specification/contract.json#requirements/R05",
+      "original": [
+        "R05",
+        "FE",
+        "G3",
+        "P0",
+        "verified",
+        "过期修订进入冲突状态；保留草稿，允许重新读取并比较。",
+        "外部修改后保存被拒绝；界面不悄悄覆盖，草稿仍可查看。",
+        [
+          "S06"
+        ],
+        [
+          "launch.profile.save"
+        ],
+        [
+          "B03",
+          "B25"
+        ],
+        [
+          "T03"
+        ]
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "R06",
+      "owner": "configuration",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "verified",
+      "locator": "docs/specification/contract.json#requirements/R06",
+      "original": [
+        "R06",
+        "FE",
+        "G3",
+        "P0",
+        "verified",
+        "历史先预览再恢复；恢复生成新修订。",
+        "选历史→查看差异→确认；取消不写入；恢复后其他配置不变。",
+        [
+          "S07",
+          "S08",
+          "S09"
+        ],
+        [
+          "launch.profile.history",
+          "launch.profile.restore.preview",
+          "launch.profile.restore"
+        ],
+        [
+          "B05",
+          "B06",
+          "B23"
+        ],
+        [
+          "T04"
+        ]
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "R07",
+      "owner": "knowledge",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "planned",
+      "locator": "docs/specification/contract.json#requirements/R07",
+      "original": [
+        "R07",
+        "FE",
+        "G1",
+        "P0",
+        "planned",
+        "知识入口默认官方 HTML 与源码；个人经验为补充，结果显示来源、产品与版本。",
+        "首次使用无需手动登记函数；无官方资料显示定位/导入入口；经验不会覆盖官方来源。",
+        [
+          "S10",
+          "S11"
+        ],
+        [
+          "knowledge.layers.search"
+        ],
+        [
+          "B17"
+        ],
+        []
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "R08",
+      "owner": "communication",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "partial",
+      "locator": "docs/specification/contract.json#requirements/R08",
+      "original": [
+        "R08",
+        "FE",
+        "G1",
+        "P0",
+        "partial",
+        "能力从 CLI 契约和已选源码发现，显示签名、来源与可用性。",
+        "CLI 契约已可枚举；PML 自动发现仍需实现；缺协议或未授权显示原因，不能冒充不可发现。",
+        [
+          "S12"
+        ],
+        [
+          "pml.functions.list"
+        ],
+        [
+          "B13",
+          "B30"
+        ],
+        [
+          "T07"
+        ]
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "R09",
+      "owner": "communication",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "partial",
+      "locator": "docs/specification/contract.json#requirements/R09",
+      "original": [
+        "R09",
+        "FE",
+        "G2",
+        "P0",
+        "partial",
+        "查询结果与运行记录分开展示；两表均有下拉条件和输入筛选。",
+        "改变查询种类/目标清除旧续页；结果可空；记录按状态/操作及文字筛选，保留关联编号。",
+        [
+          "S13",
+          "S14",
+          "S15"
+        ],
+        [
+          "pml.forms.list",
+          "pml.gadgets.list",
+          "runtime.calls"
+        ],
+        [
+          "B24",
+          "B19"
+        ],
+        [
+          "T14"
+        ]
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "R10",
+      "owner": "tools-deployment",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "partial",
+      "locator": "docs/specification/contract.json#requirements/R10",
+      "original": [
+        "R10",
+        "FE",
+        "G1",
+        "P0",
+        "partial",
+        "脚本流程包含写入计划、备份、加载、执行与结果对比。",
+        "先看文件差异与执行目标；加载失败有回执；修正后独立验证，不用脚本合集替代工作流。",
+        [
+          "S17",
+          "S18"
+        ],
+        [
+          "workspace.pmllib.inspect",
+          "pml.command.execute"
+        ],
+        [
+          "B16"
+        ],
+        [
+          "T12"
+        ]
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "R11",
+      "owner": "communication",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "partial",
+      "locator": "docs/specification/contract.json#requirements/R11",
+      "original": [
+        "R11",
+        "FE",
+        "G2",
+        "P0",
+        "partial",
+        "执行模式与权限可见；结果不明有单独状态和核验入口。",
+        "关闭执行仍可查资料/看计划；未知结果不显示成功，不出现自动重试按钮。",
+        [
+          "S16",
+          "S19",
+          "S22",
+          "S23",
+          "S27",
+          "S28"
+        ],
+        [
+          "runtime.status"
+        ],
+        [
+          "B18",
+          "B19"
+        ],
+        [
+          "T09",
+          "T13"
+        ]
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "R12",
+      "owner": "composition",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "planned",
+      "locator": "docs/specification/contract.json#requirements/R12",
+      "original": [
+        "R12",
+        "FE",
+        "G3",
+        "P1",
+        "planned",
+        "业务错误定位字段或动作，并保留可恢复上下文。",
+        "键盘完成筛选与确认；焦点可见；空/加载/拒绝/冲突/未知状态都有文案和出口；可用性实测另记。",
+        [
+          "S06",
+          "S19",
+          "S20"
+        ],
+        [],
+        [
+          "B20"
+        ],
+        []
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "R13",
+      "owner": "composition",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "verified",
+      "locator": "docs/specification/contract.json#requirements/R13",
+      "original": [
+        "R13",
+        "BE",
+        "G3",
+        "P0",
+        "verified",
+        "WPF 与 CLI 共用启动配置服务；存储与产品目录按实际变化点替换。",
+        "同输入经两个适配器得到相同规则/修订；替换存储或目录不改用例；不为每个方法新增接口。",
+        [
+          "S04"
+        ],
+        [
+          "launch.profile.save"
+        ],
+        [
+          "B03",
+          "B07",
+          "B08",
+          "B13"
+        ],
+        [
+          "T01",
+          "T02"
+        ]
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "R14",
+      "owner": "configuration",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "verified",
+      "locator": "docs/specification/contract.json#requirements/R14",
+      "original": [
+        "R14",
+        "BE",
+        "G3",
+        "P0",
+        "verified",
+        "提交使用 expectedRevision、文件锁与历史；未知字段保留。",
+        "并发只有一个胜者；外部编辑被检测；旧字段不丢；中断只能恢复到旧态或已提交态。",
+        [
+          "S05",
+          "S06"
+        ],
+        [
+          "launch.profile.update"
+        ],
+        [
+          "B04",
+          "B07",
+          "B25"
+        ],
+        [
+          "T03",
+          "T05"
+        ]
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "R15",
+      "owner": "configuration",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "verified",
+      "locator": "docs/specification/contract.json#requirements/R15",
+      "original": [
+        "R15",
+        "BE",
+        "G3",
+        "P0",
+        "verified",
+        "恢复重新校验当前环境，只恢复目标配置，产生新历史。",
+        "失效路径拒绝；其他配置、旧历史与独立凭据不被回写。",
+        [
+          "S08",
+          "S09"
+        ],
+        [
+          "launch.profile.restore"
+        ],
+        [
+          "B05",
+          "B06"
+        ],
+        [
+          "T04"
+        ]
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "R16",
+      "owner": "communication",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "verified",
+      "locator": "docs/specification/contract.json#requirements/R16",
+      "original": [
+        "R16",
+        "BE",
+        "G1",
+        "P0",
+        "verified",
+        "CLI 原生分派 JSON；写配置、启动与执行分别授权。",
+        "inline/file/stdin 仅选一种；JSON 不能自授权限；禁用独立 MCP；全部 46 项操作可描述。",
+        [
+          "S12",
+          "S16"
+        ],
+        [
+          "builtin.usage",
+          "launch.profile.save"
+        ],
+        [
+          "B11",
+          "B12",
+          "B13"
+        ],
+        [
+          "T06",
+          "T07",
+          "T08"
+        ]
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "R17",
+      "owner": "communication",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "verified",
+      "locator": "docs/specification/contract.json#requirements/R17",
+      "original": [
+        "R17",
+        "BE",
+        "G2",
+        "P0",
+        "verified",
+        "每次目标调用核验 PID、启动时间、模块与 Host 协议。",
+        "错误身份/旧协议在分派前拒绝；不得回退为无约束原始命令。",
+        [
+          "S13",
+          "S20",
+          "S26",
+          "S29"
+        ],
+        [
+          "aveva.session.status",
+          "pml.forms.list"
+        ],
+        [
+          "B14",
+          "B15"
+        ],
+        [
+          "T09"
+        ]
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "R18",
+      "owner": "communication",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "verified",
+      "locator": "docs/specification/contract.json#requirements/R18",
+      "original": [
+        "R18",
+        "BE",
+        "G2",
+        "P0",
+        "verified",
+        "查询受项数/字符预算约束；续页保留边界与原生缺失值。",
+        "空字符串、0、false 不互换；未支持属性保留原生原因；条件变化不能拼接旧页。",
+        [
+          "S13",
+          "S14"
+        ],
+        [
+          "pml.array.window",
+          "pml.gadget.read"
+        ],
+        [
+          "B15",
+          "B24",
+          "B31"
+        ],
+        [
+          "T14"
+        ]
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "R19",
+      "owner": "tools-deployment",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "partial",
+      "locator": "docs/specification/contract.json#requirements/R19",
+      "original": [
+        "R19",
+        "BE",
+        "G1",
+        "P0",
+        "partial",
+        "复制计划冻结源/目标哈希，执行保留备份；与 PML 加载/调试串联。",
+        "复制前变更任一端即拒绝；路径不能越界；部署成功与运行成功分开记录。",
+        [
+          "S17",
+          "S18"
+        ],
+        [
+          "workspace.pmllib.inspect",
+          "pml.command.execute"
+        ],
+        [
+          "B16",
+          "B29"
+        ],
+        [
+          "T12"
+        ]
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "R20",
+      "owner": "knowledge",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "planned",
+      "locator": "docs/specification/contract.json#requirements/R20",
+      "original": [
+        "R20",
+        "BE",
+        "G1",
+        "P0",
+        "planned",
+        "官方 HTML/源码是知识主源；按产品版本建立引用，个人资料独立补充。",
+        "保留来源/版本/块 ID；旧索引可辨识；无资料不编造答案；默认官方流程尚待实现。",
+        [
+          "S10",
+          "S11"
+        ],
+        [
+          "knowledge.layers.search"
+        ],
+        [
+          "B17"
+        ],
+        []
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "R21",
+      "owner": "communication",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "verified",
+      "locator": "docs/specification/contract.json#requirements/R21",
+      "original": [
+        "R21",
+        "BE",
+        "G3",
+        "P0",
+        "verified",
+        "日志关联开始、结束、耗时与目标；未结束操作归为未知。",
+        "命名秘密脱敏；日志故障不把已执行改成失败并诱发重试；记录结果与业务结果分别保存。",
+        [
+          "S15",
+          "S19"
+        ],
+        [
+          "runtime.calls",
+          "runtime.status"
+        ],
+        [
+          "B18",
+          "B19"
+        ],
+        [
+          "T11",
+          "T13"
+        ]
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "R22",
+      "owner": "composition",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "verified",
+      "locator": "docs/specification/contract.json#requirements/R22",
+      "original": [
+        "R22",
+        "BE",
+        "G3",
+        "P0",
+        "verified",
+        "代码、JSON、TOML 用同一业务路径测试，逐步保存输入、输出与结论。",
+        "解析失败/超时保留部分结果；历史证据与本轮运行区分；报告按新目录保存。",
+        [
+          "S18"
+        ],
+        [
+          "launch.workspace.read",
+          "launch.profile.save"
+        ],
+        [
+          "B03",
+          "B12"
+        ],
+        [
+          "T07",
+          "T08"
+        ]
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "R23",
+      "owner": "launch",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "verified",
+      "locator": "docs/specification/contract.json#requirements/R23",
+      "original": [
+        "R23",
+        "BE",
+        "G1",
+        "P0",
+        "verified",
+        "启动初始化读 Current Session；产品系列选择 Host；REHASH 由独立策略和环境值控制。",
+        "E3D2.1→2.1/net48；3.1→3.1.6/net48；AM/PDMS→net35；none/空关闭，rehash-all 每新会话一次；改值下次进程生效。",
+        [
+          "S01",
+          "S16"
+        ],
+        [
+          "launch.profile.preview"
+        ],
+        [
+          "B10"
+        ],
+        []
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "R24",
+      "owner": "design-evidence",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "verified",
+      "locator": "docs/specification/contract.json#requirements/R24",
+      "original": [
+        "R24",
+        "BE",
+        "G3",
+        "P1",
+        "verified",
+        "文档从 Roslyn 生成签名、源码定位、静态调用与实现候选；手写只写业务约束。",
+        "缺符号/失效源码哈希/悬空需求引用使构建失败；静态候选不得描述为实机执行；契约元数据可无损展开。",
+        [
+          "S21"
+        ],
+        [],
+        [
+          "B03",
+          "B04",
+          "B07",
+          "B08"
+        ],
+        [
+          "T15"
+        ]
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "B01",
+      "owner": "launch",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#bindings/B01",
+      "original": [
+        "B01",
+        "YuzuhaToolkit.Workspace",
+        "YuzuhaToolkit.Workspace.LaunchProfileService",
+        "List"
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "B02",
+      "owner": "launch",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#bindings/B02",
+      "original": [
+        "B02",
+        "YuzuhaToolkit.Workspace",
+        "YuzuhaToolkit.Workspace.LaunchProfileService",
+        "Validate"
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "B03",
+      "owner": "configuration",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#bindings/B03",
+      "original": [
+        "B03",
+        "YuzuhaToolkit.Workspace",
+        "YuzuhaToolkit.Workspace.LaunchProfileService",
+        "Save"
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "B04",
+      "owner": "configuration",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#bindings/B04",
+      "original": [
+        "B04",
+        "YuzuhaToolkit.Workspace",
+        "YuzuhaToolkit.Workspace.WorkspaceConfigurationStore",
+        "Commit"
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "B05",
+      "owner": "configuration",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#bindings/B05",
+      "original": [
+        "B05",
+        "YuzuhaToolkit.Workspace",
+        "YuzuhaToolkit.Workspace.LaunchProfileService",
+        "PreviewRestore"
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "B06",
+      "owner": "configuration",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#bindings/B06",
+      "original": [
+        "B06",
+        "YuzuhaToolkit.Workspace",
+        "YuzuhaToolkit.Workspace.LaunchProfileService",
+        "Restore"
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "B07",
+      "owner": "configuration",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#bindings/B07",
+      "original": [
+        "B07",
+        "YuzuhaToolkit.Workspace",
+        "YuzuhaToolkit.Workspace.IConfigurationStore`1",
+        "Commit"
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "B08",
+      "owner": "environment",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#bindings/B08",
+      "original": [
+        "B08",
+        "YuzuhaToolkit.Workspace",
+        "YuzuhaToolkit.Workspace.IProductModuleCatalog",
+        "Get"
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "B09",
+      "owner": "environment",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#bindings/B09",
+      "original": [
+        "B09",
+        "YuzuhaToolkit.Workspace",
+        "YuzuhaToolkit.Workspace.ProductModuleCatalog",
+        "Get"
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "B10",
+      "owner": "launch",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#bindings/B10",
+      "original": [
+        "B10",
+        "YuzuhaToolkit.Workspace",
+        "YuzuhaToolkit.Workspace.LaunchService",
+        "Preview"
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "B11",
+      "owner": "communication",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#bindings/B11",
+      "original": [
+        "B11",
+        "YuzuhaToolkit.Mcp.Core",
+        "YuzuhaToolkit.Mcp.NativeCliHost",
+        null
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "B12",
+      "owner": "composition",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#bindings/B12",
+      "original": [
+        "B12",
+        "PmlTwin.Phayton",
+        "PmlTwin.Phayton.OperationExecutor",
+        "InvokeAsync"
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "B13",
+      "owner": "communication",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#bindings/B13",
+      "original": [
+        "B13",
+        "YuzuhaToolkit.Mcp.Core",
+        "YuzuhaToolkit.Mcp.NativeOperationCatalog",
+        "Create"
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "B14",
+      "owner": "communication",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#bindings/B14",
+      "original": [
+        "B14",
+        "YuzuhaToolkit.Mcp.Core",
+        "YuzuhaToolkit.Mcp.YuzuhaRpcBridge",
+        "SelectSessionAsync"
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "B15",
+      "owner": "communication",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#bindings/B15",
+      "original": [
+        "B15",
+        "YuzuhaToolkit.Mcp.Core",
+        "YuzuhaToolkit.Mcp.PmlFormQueryRequestSender",
+        "SendAsync"
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "B16",
+      "owner": "tools-deployment",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#bindings/B16",
+      "original": [
+        "B16",
+        "YuzuhaToolkit.Mcp.Core",
+        "YuzuhaToolkit.Mcp.WorkspaceTools",
+        null
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "B17",
+      "owner": "knowledge",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#bindings/B17",
+      "original": [
+        "B17",
+        "YuzuhaToolkit.Knowledge.Core",
+        "YuzuhaToolkit.Knowledge.KnowledgeRepository",
+        null
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "B18",
+      "owner": "communication",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#bindings/B18",
+      "original": [
+        "B18",
+        "YuzuhaToolkit.Workspace",
+        "YuzuhaToolkit.Workspace.RuntimeJournal",
+        "Complete"
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "B19",
+      "owner": "communication",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#bindings/B19",
+      "original": [
+        "B19",
+        "YuzuhaToolkit.Workspace",
+        "YuzuhaToolkit.Workspace.RuntimeReader",
+        "Recent"
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "B20",
+      "owner": "composition",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#bindings/B20",
+      "original": [
+        "B20",
+        "YuzuhaToolkit.Desktop",
+        "YuzuhaToolkit.Desktop.MainWindow",
+        "PreviewProfileChanges"
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "B21",
+      "owner": "launch",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#bindings/B21",
+      "original": [
+        "B21",
+        "YuzuhaToolkit.Desktop",
+        "YuzuhaToolkit.Desktop.MainWindow",
+        "LaunchProfileFilterChanged"
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "B22",
+      "owner": "environment",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#bindings/B22",
+      "original": [
+        "B22",
+        "YuzuhaToolkit.Desktop",
+        "YuzuhaToolkit.Desktop.MainWindow",
+        "ProductIdentityChanged"
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "B23",
+      "owner": "configuration",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#bindings/B23",
+      "original": [
+        "B23",
+        "YuzuhaToolkit.Desktop",
+        "YuzuhaToolkit.Desktop.MainWindow",
+        "ConfirmRestoreProfile"
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "B24",
+      "owner": "communication",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#bindings/B24",
+      "original": [
+        "B24",
+        "YuzuhaToolkit.Desktop",
+        "YuzuhaToolkit.Desktop.SessionWorkbench",
+        "QueryAsync"
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "B25",
+      "owner": "configuration",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#bindings/B25",
+      "original": [
+        "B25",
+        "YuzuhaToolkit.Workspace",
+        "YuzuhaToolkit.Workspace.ConfigurationConflictException",
+        null
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "B29",
+      "owner": "environment",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#bindings/B29",
+      "original": [
+        "B29",
+        "YuzuhaToolkit.Workspace",
+        "YuzuhaToolkit.Workspace.DirectoryInspector",
+        "Scan"
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "B30",
+      "owner": "communication",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#bindings/B30",
+      "original": [
+        "B30",
+        "YuzuhaToolkit.Mcp.Core",
+        "YuzuhaToolkit.Mcp.PmlFunctionRegistry",
+        null
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "B31",
+      "owner": "communication",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#bindings/B31",
+      "original": [
+        "B31",
+        "YuzuhaToolkit.PmlHost.Net48",
+        "YuzuhaToolkit.PmlHost.PmlCommandRpcService",
+        null
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "T01",
+      "owner": "launch",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#tests/T01",
+      "original": [
+        "T01",
+        "tests/YuzuhaToolkit.Tests/LaunchLifecycleTests.cs",
+        "SavedProfileIsReadByNewServiceAndDraftDoesNotMutateFile"
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "T02",
+      "owner": "launch",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#tests/T02",
+      "original": [
+        "T02",
+        "tests/YuzuhaToolkit.Tests/LaunchLifecycleTests.cs",
+        "InvalidProductModuleRejectsBeforePersistence"
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "T03",
+      "owner": "configuration",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#tests/T03",
+      "original": [
+        "T03",
+        "tests/YuzuhaToolkit.Tests/LaunchLifecycleTests.cs",
+        "ConcurrentEditorsCannotOverwriteTheFirstSavedChange"
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "T04",
+      "owner": "configuration",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#tests/T04",
+      "original": [
+        "T04",
+        "tests/YuzuhaToolkit.Tests/LaunchLifecycleTests.cs",
+        "RestoreCreatesNewRevisionAndKeepsOtherProfilesAndOldHistory"
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "T05",
+      "owner": "configuration",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#tests/T05",
+      "original": [
+        "T05",
+        "tests/YuzuhaToolkit.Tests/LaunchLifecycleTests.cs",
+        "JsonUpdatePreservesUnknownWorkspaceAndProfileFields"
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "T06",
+      "owner": "configuration",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#tests/T06",
+      "original": [
+        "T06",
+        "tests/YuzuhaToolkit.Tests/LaunchLifecycleTests.cs",
+        "PermissionDenialAndUnknownPatchFieldsLeaveFileUntouched"
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "T07",
+      "owner": "communication",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#tests/T07",
+      "original": [
+        "T07",
+        "tests/YuzuhaToolkit.Tests/NativeCliCapabilityTests.cs",
+        "EveryFormerToolHasARealNativePositivePathAndRecordedFailureGates"
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "T08",
+      "owner": "communication",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#tests/T08",
+      "original": [
+        "T08",
+        "tests/YuzuhaToolkit.Tests/NativeCliCapabilityTests.cs",
+        "FileStdinAndInlineJsonUseTheSameDispatcherAndRejectAmbiguity"
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "T09",
+      "owner": "communication",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#tests/T09",
+      "original": [
+        "T09",
+        "tests/YuzuhaToolkit.Tests/NativeCliCapabilityTests.cs",
+        "ExplicitTargetAuthorizationProtocolAndTransportFailuresPreserveTruth"
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "T10",
+      "owner": "launch",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#tests/T10",
+      "original": [
+        "T10",
+        "tests/YuzuhaToolkit.Tests/LaunchLifecycleTests.cs",
+        "FiltersFavoritesDefaultsAndHistoryUseSameService"
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "T11",
+      "owner": "communication",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#tests/T11",
+      "original": [
+        "T11",
+        "tests/YuzuhaToolkit.Tests/WorkspaceBehaviorTests.cs",
+        "JournalPersistsCorrelatedStartAndCompletionWithRedactedNamedSecrets"
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "T12",
+      "owner": "tools-deployment",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#tests/T12",
+      "original": [
+        "T12",
+        "tests/YuzuhaToolkit.Tests/WorkspaceBehaviorTests.cs",
+        "ChangedTargetStopsWholeCopyBeforeAnyWrites"
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "T13",
+      "owner": "communication",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#tests/T13",
+      "original": [
+        "T13",
+        "tests/YuzuhaToolkit.Tests/WorkspaceBehaviorTests.cs",
+        "ExitedProcessWithUnfinishedCallIsReportedAsUnknownRatherThanSuccess"
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "T14",
+      "owner": "communication",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#tests/T14",
+      "original": [
+        "T14",
+        "tests/YuzuhaToolkit.Tests/PmlFormQueryTests.cs",
+        "FormListsUseNativeManagerAndHonorScanBudget"
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "T15",
+      "owner": "composition",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#tests/T15",
+      "original": [
+        "T15",
+        "tests/handoff-specifications.test.mjs",
+        "compact metadata preserves every value"
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "S01",
+      "owner": "launch",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#screens/S01",
+      "original": [
+        "S01",
+        "启动配置",
+        "launch",
+        "从哪个环境开始？",
+        "先选产品与安装，再选择模块和工程；不依赖 LaunchDesk。",
+        [
+          "R02",
+          "R03",
+          "R23"
+        ]
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "S02",
+      "owner": "launch",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#screens/S02",
+      "original": [
+        "S02",
+        "组合筛选",
+        "launch",
+        "怎样找到需要的配置？",
+        "产品、收藏范围与文字取交集；清空条件可回到全部。",
+        [
+          "R03"
+        ]
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "S03",
+      "owner": "configuration",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#screens/S03",
+      "original": [
+        "S03",
+        "编辑配置",
+        "launch",
+        "哪里修改常变配置？",
+        "在当前工作台编辑；保存前展示实际差异。",
+        [
+          "R04"
+        ]
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "S04",
+      "owner": "configuration",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#screens/S04",
+      "original": [
+        "S04",
+        "保存预览",
+        "launch",
+        "点击保存会改变什么？",
+        "只提交配置与历史；新值在下次启动生效。",
+        [
+          "R04",
+          "R13"
+        ]
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "S05",
+      "owner": "configuration",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#screens/S05",
+      "original": [
+        "S05",
+        "已保存并重开",
+        "launch",
+        "怎样确认持久化？",
+        "显示新修订；重新读取与保存值一致。",
+        [
+          "R04",
+          "R14"
+        ]
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "S06",
+      "owner": "configuration",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#screens/S06",
+      "original": [
+        "S06",
+        "并发冲突",
+        "launch",
+        "别人刚改过怎么办？",
+        "保留草稿；重新读取、比较，再选择保存。",
+        [
+          "R05"
+        ]
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "S07",
+      "owner": "configuration",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#screens/S07",
+      "original": [
+        "S07",
+        "配置历史",
+        "launch",
+        "如何找到旧配置？",
+        "历史显示时间、原因与修订；先选一条查看差异。",
+        [
+          "R06"
+        ]
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "S08",
+      "owner": "configuration",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#screens/S08",
+      "original": [
+        "S08",
+        "恢复预览",
+        "launch",
+        "恢复会覆盖什么？",
+        "仅恢复当前配置；校验当前环境；写入新修订。",
+        [
+          "R06",
+          "R15"
+        ]
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "S09",
+      "owner": "configuration",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#screens/S09",
+      "original": [
+        "S09",
+        "已恢复",
+        "launch",
+        "能再回到恢复前吗？",
+        "旧历史仍在，恢复记录也是一个新版本。",
+        [
+          "R06"
+        ]
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "S10",
+      "owner": "knowledge",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#screens/S10",
+      "original": [
+        "S10",
+        "官方资料",
+        "knowledge",
+        "知识从哪里开始？",
+        "默认官方 HTML 与源码；个人经验独立补充。",
+        [
+          "R07",
+          "R20"
+        ]
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "S11",
+      "owner": "knowledge",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#screens/S11",
+      "original": [
+        "S11",
+        "资料检索",
+        "knowledge",
+        "AI 用了哪份依据？",
+        "结果展示来源、产品版本、块 ID；没有资料就明确说明。",
+        [
+          "R07",
+          "R20"
+        ]
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "S12",
+      "owner": "communication",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#screens/S12",
+      "original": [
+        "S12",
+        "能力发现",
+        "capability",
+        "需要手工登记每个函数吗？",
+        "CLI 从契约枚举；目标中的 PML 自动发现为下一阶段。",
+        [
+          "R08",
+          "R16"
+        ]
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "S13",
+      "owner": "communication",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#screens/S13",
+      "original": [
+        "S13",
+        "查询结果",
+        "query",
+        "怎样有条件地看模型信息？",
+        "先核验目标；按种类与文字筛选；预算内分页。",
+        [
+          "R09",
+          "R17",
+          "R18"
+        ]
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "S14",
+      "owner": "communication",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#screens/S14",
+      "original": [
+        "S14",
+        "查询筛选结果",
+        "query",
+        "条件变了还能接旧页吗？",
+        "条件变更重新查询，不拼接旧续页；保留空值与原生类型。",
+        [
+          "R09",
+          "R18"
+        ]
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "S15",
+      "owner": "communication",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#screens/S15",
+      "original": [
+        "S15",
+        "运行记录",
+        "records",
+        "怎么找到这次调用？",
+        "按状态、操作与文字筛选；通过关联编号回到回执。",
+        [
+          "R09",
+          "R21"
+        ]
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "S16",
+      "owner": "communication",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#screens/S16",
+      "original": [
+        "S16",
+        "权限与启动动作",
+        "permissions",
+        "既要方便又要可控，怎么选？",
+        "查资料、写配置、启动与执行分别授权；REHASH 默认关闭。",
+        [
+          "R11",
+          "R16",
+          "R23"
+        ]
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "S17",
+      "owner": "tools-deployment",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#screens/S17",
+      "original": [
+        "S17",
+        "脚本部署计划",
+        "scripts",
+        "AI 写完代码以后做什么？",
+        "看文件差异与备份，再确认复制与加载目标。",
+        [
+          "R10",
+          "R19"
+        ]
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "S18",
+      "owner": "communication",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#screens/S18",
+      "original": [
+        "S18",
+        "加载与调试",
+        "scripts",
+        "结果不对怎么继续？",
+        "回读输出与预期，保存失败回执，修改后独立验证。",
+        [
+          "R10",
+          "R22"
+        ]
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "S19",
+      "owner": "communication",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#screens/S19",
+      "original": [
+        "S19",
+        "结果不明",
+        "records",
+        "超时能直接再点一次吗？",
+        "先核验模型与回执；可能已执行的命令不自动重试。",
+        [
+          "R11",
+          "R21"
+        ]
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "S20",
+      "owner": "communication",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#screens/S20",
+      "original": [
+        "S20",
+        "目标不可用",
+        "query",
+        "连接不可用还可以做什么？",
+        "查资料、看配置和计划；重新发现并核验目标。",
+        [
+          "R12",
+          "R17"
+        ]
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "S21",
+      "owner": "design-evidence",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#screens/S21",
+      "original": [
+        "S21",
+        "需求与实现索引",
+        "overview",
+        "接手时先看什么？",
+        "任务→需求→交互→操作→Roslyn 符号→测试，按 ID 跳转。",
+        [
+          "R24"
+        ]
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "S22",
+      "owner": "communication",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#screens/S22",
+      "original": [
+        "S22",
+        "开发授权已设置",
+        "permissions",
+        "设置授权是否等于已执行？",
+        "许可不会自动执行；返回计划，仍需核对目标与差异。",
+        [
+          "R11",
+          "R16"
+        ]
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "S23",
+      "owner": "communication",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#screens/S23",
+      "original": [
+        "S23",
+        "执行未授权",
+        "scripts",
+        "为什么现在不能加载？",
+        "PML 执行未授权；可继续预览，或明确调整后续许可。",
+        [
+          "R10",
+          "R11",
+          "R16"
+        ]
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "S24",
+      "owner": "environment",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#screens/S24",
+      "original": [
+        "S24",
+        "未发现安装",
+        "launch",
+        "没有找到安装怎么办？",
+        "选择产品后可手动定位安装；发现环境不代表已登录。",
+        [
+          "R02",
+          "R12"
+        ]
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "S25",
+      "owner": "launch",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#screens/S25",
+      "original": [
+        "S25",
+        "启动预览",
+        "launch",
+        "即将启动哪个工程？",
+        "核对产品、模块、工程、MDB 与许可；保存和启动分别确认。",
+        [
+          "R02",
+          "R04",
+          "R16",
+          "R23"
+        ]
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "S26",
+      "owner": "launch",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#screens/S26",
+      "original": [
+        "S26",
+        "进程已启动",
+        "launch",
+        "程序启动后就连接了吗？",
+        "已创建进程；继续发现并核验 Host，才能查询或执行。",
+        [
+          "R02",
+          "R17"
+        ]
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "S27",
+      "owner": "launch",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#screens/S27",
+      "original": [
+        "S27",
+        "启动未授权",
+        "launch",
+        "为什么没有启动工程？",
+        "本次没有创建进程；先明确允许启动，再回到启动计划。",
+        [
+          "R11",
+          "R16"
+        ]
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "S28",
+      "owner": "launch",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#screens/S28",
+      "original": [
+        "S28",
+        "启动许可已设置",
+        "permissions",
+        "允许启动会立即打开工程吗？",
+        "不会。回到启动计划核对后，再确认创建进程。",
+        [
+          "R11",
+          "R16"
+        ]
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "S29",
+      "owner": "communication",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#screens/S29",
+      "original": [
+        "S29",
+        "目标已核验",
+        "launch",
+        "现在可以做什么？",
+        "核验目标身份与 Host 协议后，可进入查询；执行仍需单独授权。",
+        [
+          "R09",
+          "R17"
+        ]
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "S30",
+      "owner": "configuration",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#screens/S30",
+      "original": [
+        "S30",
+        "配置写入未授权",
+        "launch",
+        "为什么文件没有改变？",
+        "本次没有提交配置；草稿仍在。明确允许写入后，返回编辑并重新预览。",
+        [
+          "R04",
+          "R12",
+          "R16"
+        ]
+      ]
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "M1",
+      "owner": "configuration",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#models/M1",
+      "original": {
+        "id": "M1",
+        "name": "配置修订",
+        "facts": [
+          "共享服务",
+          "expectedRevision",
+          "保留未知字段",
+          "草稿隔离",
+          "恢复生成新修订"
+        ],
+        "plain": "界面保存配置时应调用与命令行相同的服务。命令行保存配置时也应调用这个服务。两者都应提供读取时取得的修订，保存前检查当前文件是否仍是那个修订，如果已经变化则拒绝保存。没有修改的扩展字段不能在保存时被删掉。界面编辑中的值与已经保存的值分开。恢复历史也应检查当前修订，校验字段，只更新选中的配置，并再增加一条修订，不能把整份旧文件覆盖回去。",
+        "model": "WPF/CLI→共享服务；草稿隔离。提交(读取修订,draft)→新修订；过期拒绝并保留草稿；未知字段保留。恢复=校验后提交目标配置，生成新修订。",
+        "decision": "采用：已有重复入口和真实并发变化点。"
+      }
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "M2",
+      "owner": "communication",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#models/M2",
+      "original": {
+        "id": "M2",
+        "name": "执行状态机",
+        "facts": [
+          "目标核验",
+          "分权授权",
+          "分派边界",
+          "结果不明",
+          "不自动重试"
+        ],
+        "plain": "执行 PML 以前需要核对目标进程身份和模块，也需要检查是否允许执行；允许写配置或启动程序不代表允许执行 PML。只有这些检查通过才能把操作发给 Host。发给 Host 以前失败可明确说没有执行。已经发送后出现超时或连接中断，则不能据此说没有执行，也不能简单显示成功。应保存结果不明状态，让使用者核验回执和模型，然后自行决定下一步，程序不能自动再次发送同一命令。",
+        "model": "核验目标+执行授权→分派→成功/失败/未知。分派前拒绝=未执行；分派后超时/断线=可能已执行，先核验，不自动重试。写配置、启动、执行权限独立。",
+        "decision": "采用：状态比异常文本更能表达执行边界；不新增通用 Command 总线。"
+      }
+    },
+    {
+      "source": "PMLTWIN",
+      "id": "M3",
+      "owner": "composition",
+      "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+      "sourceStatus": "source-preserved",
+      "locator": "docs/specification/contract.json#models/M3",
+      "original": {
+        "id": "M3",
+        "name": "端口与用例",
+        "facts": [
+          "存储变化点",
+          "目录变化点",
+          "用例内聚",
+          "不逐方法接口化"
+        ],
+        "plain": "配置可能存于本机文件，也可能在将来使用另一种持久化方式，因此配置存储需要可替换。不同产品和安装版本的模块来源不同，因此模块目录也需要可替换。保存、复制配置、设默认以及恢复仍属于同一个启动配置用例，应放在同一个服务内保持规则一致。不能因为想采用某种设计模式，就把服务里的每一个方法都拆成一个接口、一个命令和一个处理器，增加定位路径和需要理解的概念。",
+        "model": "启动用例内聚 B03（共享服务）；可替换 B07（存储）/B08（模块）。无独立变化点就用具体类，不逐方法建接口/Command。",
+        "decision": "采用现有两端口；没有第二实现/独立变化压力时继续用具体类。"
+      }
+    }
+  ]
+}

@@ -35,6 +35,36 @@ public sealed class DualModeCommandLineTests : IDisposable
         Assert.True(JsonElement.DeepEquals(Json(inline.Output), Json(stdin.Output)));
     }
 
+    [Fact]
+    public async Task CompatibilityLaunchRejectsArgvSecretsButFileAndStdinReachAuthorization()
+    {
+        var input = Input(new { profileId = "does-not-exist", expectedRevision = "missing", password = "SYNTHETIC_SECRET" });
+        var inline = await Run("op", "invoke", "launch.profile.start", "--input", input);
+        Assert.Equal(2, inline.ExitCode);
+        Assert.Equal("SECRET_INPUT_SOURCE_REQUIRED", Json(inline.Output).GetProperty("error").GetProperty("code").GetString());
+        var file = await Run("op", "invoke", "launch.profile.start", "--input-file", Write("launch.json", input));
+        var stdin = await RunCore(["op", "invoke", "launch.profile.start", "--input-stdin"], input);
+        foreach (var result in new[] { file, stdin })
+        {
+            Assert.Equal(4, result.ExitCode);
+            Assert.Equal("LAUNCH_NOT_AUTHORIZED", Json(result.Output).GetProperty("error").GetProperty("code").GetString());
+        }
+        foreach (var result in new[] { inline, file, stdin })
+        { Assert.DoesNotContain("SYNTHETIC_SECRET", result.Output); Assert.DoesNotContain("SYNTHETIC_SECRET", result.Error); }
+    }
+
+    [Fact]
+    public async Task CommunicationProtocolStillRejectsManagementLaunchBeforeDispatch()
+    {
+        var request = Input(new { protocolVersion = 1, requestId = Guid.NewGuid().ToString("N"), operationId = "launch.profile.start",
+            input = new { profileId = "does-not-exist", expectedRevision = "missing", password = "SYNTHETIC_SECRET" }, context = new { allowLaunch = true } });
+        var result = await RunCore(["--manager-protocol"], request);
+        Assert.Equal(2, result.ExitCode);
+        Assert.Equal("INVALID_PROTOCOL_REQUEST", Json(result.Output).GetProperty("result").GetProperty("error").GetProperty("code").GetString());
+        Assert.DoesNotContain("SYNTHETIC_SECRET", result.Output);
+        Assert.DoesNotContain("SYNTHETIC_SECRET", result.Error);
+    }
+
     [Theory]
     [InlineData("--mcp", 3, "MCP_DISABLED")]
     [InlineData("--cli", 2, "INVALID_INPUT")]
@@ -189,7 +219,7 @@ public sealed class DualModeCommandLineTests : IDisposable
     {
         for (var current = new DirectoryInfo(AppContext.BaseDirectory); current is not null; current = current.Parent)
             if (File.Exists(Path.Combine(current.FullName, "YuzuhaToolkit.Development.slnx")))
-                return Path.Combine(current.FullName, "src", "PmlTwin.Phayton.Cli", "bin", "Release", "net10.0", "PmlTwin.Phayton.Cli.dll");
+                return Path.Combine(current.FullName, "src", "PmlTwin.Phayton.Cli", "bin", new DirectoryInfo(AppContext.BaseDirectory).Parent!.Name, "net10.0", "PmlTwin.Phayton.Cli.dll");
         throw new DirectoryNotFoundException("Yuzuha repository not found.");
     }
     public void Dispose()

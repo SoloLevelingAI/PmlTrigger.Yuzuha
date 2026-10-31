@@ -1,0 +1,8 @@
+[
+  {
+    "operationId": "aveva.session.select",
+    "processId": 25624,
+    "input": {},
+    "expectedModel": "DESIGN"
+  }
+]

@@ -1,0 +1,65 @@
+{
+  "schema": 1,
+  "scope": "all tracked and nonignored untracked PMLTWIN files; path-only high-confidence checks; no secret values emitted",
+  "limitations": [
+    "not an entropy/password detector",
+    "binary licenses and provenance require human/source attribution review",
+    "ignored runtime directories are outside push candidate set"
+  ],
+  "findings": [
+    {
+      "path": "src/lib/net10/Newtonsoft.Json.dll",
+      "findings": [
+        "binary-or-sensitive-file-review"
+      ]
+    },
+    {
+      "path": "src/lib/net10/PlantHost.Rpc.Abstractions.dll",
+      "findings": [
+        "binary-or-sensitive-file-review"
+      ]
+    },
+    {
+      "path": "src/lib/net10/PlantHost.Rpc.Net8.dll",
+      "findings": [
+        "binary-or-sensitive-file-review"
+      ]
+    },
+    {
+      "path": "src/lib/net35/Newtonsoft.Json.dll",
+      "findings": [
+        "binary-or-sensitive-file-review"
+      ]
+    },
+    {
+      "path": "src/lib/net35/PlantHost.Rpc.Abstractions.dll",
+      "findings": [
+        "binary-or-sensitive-file-review"
+      ]
+    },
+    {
+      "path": "src/lib/net35/PlantHost.Rpc.Net35.dll",
+      "findings": [
+        "binary-or-sensitive-file-review"
+      ]
+    },
+    {
+      "path": "src/lib/net48/Newtonsoft.Json.dll",
+      "findings": [
+        "binary-or-sensitive-file-review"
+      ]
+    },
+    {
+      "path": "src/lib/net48/PlantHost.Rpc.Abstractions.dll",
+      "findings": [
+        "binary-or-sensitive-file-review"
+      ]
+    },
+    {
+      "path": "src/lib/net48/PlantHost.Rpc.Net48.dll",
+      "findings": [
+        "binary-or-sensitive-file-review"
+      ]
+    }
+  ]
+}

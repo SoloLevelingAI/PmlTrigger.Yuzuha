@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <ImplicitUsings>disable</ImplicitUsings><Nullable>disable</Nullable>
+    <AutomaticallyUseReferenceAssemblyPackages>false</AutomaticallyUseReferenceAssemblyPackages>
+    <CafProfile Condition="'$(CafProfile)' == ''">E3D21</CafProfile>
+    <CafSdkVersion Condition="'$(CafProfile)' == 'E3D21'">1.2.2.0</CafSdkVersion>
+    <CafSdkVersion Condition="'$(CafProfile)' == 'E3D31'">4.0.0.0</CafSdkVersion>
+    <CafSdkVersion Condition="'$(CafProfile)' == 'AM121'">1.1.20.0</CafSdkVersion>
+    <CafSdkRoot Condition="'$(CafSdkRoot)' == '' And '$(CafProfile)' == 'E3D21'">C:/Program Files (x86)/AVEVA/Everything3D2.10</CafSdkRoot>
+    <CafSdkRoot Condition="'$(CafSdkRoot)' == '' And '$(CafProfile)' == 'E3D31'">C:/Program Files (x86)/AVEVA/Everything3D3.1</CafSdkRoot>
+    <CafSdkRoot Condition="'$(CafSdkRoot)' == '' And '$(CafProfile)' == 'AM121'">C:/AVEVA/Marine/OH12.1.SP4</CafSdkRoot>
+    <DefineConstants Condition="'$(CafProfile)' == 'E3D31'">$(DefineConstants);CAF_E3D31</DefineConstants>
+    <DefineConstants Condition="'$(CafProfile)' == 'AM121'">$(DefineConstants);CAF_AM121</DefineConstants>
+    <OutputPath>bin/$(Configuration)/$(CafProfile)/</OutputPath>
+    <IntermediateOutputPath>obj/$(Configuration)/$(CafProfile)/</IntermediateOutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Aveva.ApplicationFramework, Version=$(CafSdkVersion), Culture=neutral, PublicKeyToken=17c64733a9775004">
+      <HintPath>$(CafSdkRoot)/Aveva.ApplicationFramework.dll</HintPath>
+      <Private>false</Private><SpecificVersion>true</SpecificVersion>
+    </Reference>
+  </ItemGroup>
+  <Target Name="ValidateLocalCafSdk" BeforeTargets="ResolveReferences">
+    <Error Condition="'$(CafProfile)' != 'E3D21' And '$(CafProfile)' != 'E3D31' And '$(CafProfile)' != 'AM121'" Text="Unsupported CAF profile; select E3D21, E3D31 or AM121." />
+    <Error Condition="!Exists('$(CafSdkRoot)/Aveva.ApplicationFramework.dll')" Text="Local CAF SDK missing. Set CafSdkRoot; vendor assemblies are never downloaded or redistributed." />
+  </Target>
+</Project>

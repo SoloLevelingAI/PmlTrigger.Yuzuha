@@ -26,6 +26,7 @@ public static class OperationCli
                 string json = "{}";
                 int? pid = null;
                 string? model = null;
+                long? expectedStartTime = null;
                 var allow = false;
                 var allowWrite = false;
                 var allowLaunch = false;
@@ -47,7 +48,7 @@ public static class OperationCli
                         json = await ReadBoundedAsync(inputReader ?? Console.In, cancellationToken).ConfigureAwait(false);
                         continue;
                     }
-                    if (option is not ("--input" or "--input-file" or "--pid" or "--expected-model" or "--timeout-seconds") || ++i >= args.Length)
+                    if (option is not ("--input" or "--input-file" or "--pid" or "--expected-model" or "--expected-start-time-utc-ticks" or "--timeout-seconds") || ++i >= args.Length)
                         throw new ArgumentException("Unknown or incomplete option: " + option);
                     switch (option)
                     {
@@ -72,6 +73,11 @@ public static class OperationCli
                             model = args[i];
                             if (string.IsNullOrWhiteSpace(model)) throw new ArgumentException("--expected-model must not be blank.");
                             break;
+                        case "--expected-start-time-utc-ticks":
+                            if (!long.TryParse(args[i], NumberStyles.None, CultureInfo.InvariantCulture, out var ticks) || ticks <= 0)
+                                throw new ArgumentException("--expected-start-time-utc-ticks must be positive.");
+                            expectedStartTime = ticks;
+                            break;
                         case "--timeout-seconds":
                             if (!int.TryParse(args[i], NumberStyles.None, CultureInfo.InvariantCulture, out timeoutSeconds) || timeoutSeconds is < 1 or > 3600)
                                 throw new ArgumentException("--timeout-seconds must be between 1 and 3600.");
@@ -79,7 +85,7 @@ public static class OperationCli
                     }
                 }
                 using var document = JsonDocument.Parse(json);
-                var context = new OperationContext(pid, model, allow, allowWrite, allowLaunch);
+                var context = new OperationContext(pid, model, allow, allowWrite, allowLaunch, expectedStartTime);
                 if (batch)
                 {
                     if (!inputSelected) throw new ArgumentException("Batch requires an explicit JSON array input.");
@@ -88,7 +94,7 @@ public static class OperationCli
                 else result = await InvokeTimedAsync(args[2], document.RootElement, executor, context, timeoutSeconds, cancellationToken).ConfigureAwait(false);
             }
             else throw new ArgumentException(
-                "Usage: op list | op describe <id> | op invoke <id> | op batch [--input <json> | --input-file <path> | --input-stdin] [--pid <pid>] [--expected-model <module>] [--allow-execution] [--allow-write] [--allow-launch] [--timeout-seconds <1..3600>]");
+                "Usage: op list | op describe <id> | op invoke <id> | op batch [--input <json> | --input-file <path> | --input-stdin] [--pid <pid>] [--expected-model <module>] [--expected-start-time-utc-ticks <ticks>] [--allow-execution] [--allow-write] [--allow-launch] [--timeout-seconds <1..3600>]");
         }
         catch (Exception exception) when (exception is ArgumentException or JsonException or FormatException or IOException or UnauthorizedAccessException)
         {
@@ -117,7 +123,8 @@ public static class OperationCli
               "operationId":{"type":"string","minLength":1},
               "input":{"type":"object","properties":{},"additionalProperties":true},
               "processId":{"type":"integer","minimum":1,"maximum":2147483647},
-              "expectedModel":{"type":"string","minLength":1}},"required":["operationId","input"]}
+              "expectedModel":{"type":"string","minLength":1},
+              "expectedProcessStartTimeUtcTicks":{"type":"integer","minimum":1}},"required":["operationId","input"]}
             """);
         // Validate every envelope before the first side effect; operation/domain errors
         // remain ordered execution results and stop only after earlier results are retained.
@@ -132,7 +139,8 @@ public static class OperationCli
             var target = context with
             {
                 ProcessId = request.TryGetProperty("processId", out var pid) ? pid.GetInt32() : context.ProcessId,
-                ExpectedModel = request.TryGetProperty("expectedModel", out var model) ? model.GetString() : context.ExpectedModel
+                ExpectedModel = request.TryGetProperty("expectedModel", out var model) ? model.GetString() : context.ExpectedModel,
+                ExpectedProcessStartTimeUtcTicks = request.TryGetProperty("expectedProcessStartTimeUtcTicks", out var ticks) ? ticks.GetInt64() : context.ExpectedProcessStartTimeUtcTicks
             };
             var outcome = await InvokeTimedAsync(request.GetProperty("operationId").GetString()!, request.GetProperty("input"), executor, target, seconds, token).ConfigureAwait(false);
             outcomes.Add(outcome);

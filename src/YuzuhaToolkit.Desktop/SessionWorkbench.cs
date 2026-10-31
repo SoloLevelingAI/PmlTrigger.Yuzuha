@@ -10,6 +10,8 @@ internal interface IWorkbenchHost
 {
     /// <summary>只读发现，不选择目标。</summary>
     AvevaSessionListResponse Discover();
+    /// <summary>可异步发现，避免独立通信进程等待占用界面线程。</summary>
+    Task<AvevaSessionListResponse> DiscoverAsync(CancellationToken token = default) => Task.FromResult(Discover());
     /// <summary>显式选择发现到的会话。</summary>
     Task<YuzuhaConnectionStatus> SelectAsync(int pid, string? model, CancellationToken token);
     /// <summary>重新核验锁定目标。</summary>
@@ -75,7 +77,17 @@ internal sealed class SessionWorkbench(IWorkbenchHost host, PmlFunctionRegistry 
     public AvevaSessionListResponse Discover()
     {
         EnsureIdle();
-        var response = host.Discover();
+        return AcceptDiscovery(host.Discover());
+    }
+    /// <summary>异步发现期间禁止并发选择/执行；只接收本次完整候选。</summary>
+    public async Task<AvevaSessionListResponse> DiscoverAsync(CancellationToken token = default)
+    {
+        EnsureIdle(); IsBusy = true;
+        try { return AcceptDiscovery(await host.DiscoverAsync(token).ConfigureAwait(false)); }
+        finally { IsBusy = false; }
+    }
+    private AvevaSessionListResponse AcceptDiscovery(AvevaSessionListResponse response)
+    {
         discovered = response.Sessions.Select(Clone).ToArray();
         Outcome = response.Error is null ? "idle" : "rejected";
         Message = response.Error ?? (response.Sessions.Count == 0 ? "未发现运行中的 AVEVA 工程会话。已安装的 AM / PDMS / E3D 入口请到启动工程扫描；安装入口不等于运行会话。" : $"发现 {response.Sessions.Count} 个运行会话。请选择目标并核验；无 Host 的工程窗口也会列出。");

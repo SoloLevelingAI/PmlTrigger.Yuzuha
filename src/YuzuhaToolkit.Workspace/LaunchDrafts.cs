@@ -33,7 +33,8 @@ public static class LaunchDrafts
     {
         var info = new FileInfo(file);
         if(info.Length>2*1024*1024) throw new InvalidDataException("LaunchDesk 配置超过 2 MiB，请检查所选文件。");
-        using var document=JsonDocument.Parse(File.ReadAllBytes(file));
+        var bytes = File.ReadAllBytes(file);
+        using var document=JsonDocument.Parse(bytes.AsMemory(bytes.AsSpan().StartsWith(new byte[] { 239, 187, 191 }) ? 3 : 0));
         var root=document.RootElement;
         if(!root.TryGetProperty("Applications",out var applications) || applications.ValueKind!=JsonValueKind.Array ||
            !root.TryGetProperty("Profiles",out var profiles) || profiles.ValueKind!=JsonValueKind.Array ||

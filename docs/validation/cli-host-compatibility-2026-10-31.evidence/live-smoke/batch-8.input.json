@@ -1,0 +1,45 @@
+[
+  {
+    "operationId": "aveva.session.select",
+    "processId": 25624,
+    "input": {},
+    "expectedProcessStartTimeUtcTicks": 639290226957908482,
+    "expectedModel": "DESIGN"
+  },
+  {
+    "operationId": "pml.array.read",
+    "processId": 25624,
+    "input": {
+      "pmlCommand": "!!YuzuhaReadGlobal(20,1,'','YUZUHAV04BEFORE')",
+      "globalVar": "YUZUHAV04SMOKERESULT",
+      "deleteGlobalVar": true,
+      "includeEmpty": true
+    },
+    "expectedProcessStartTimeUtcTicks": 639290226957908482,
+    "expectedModel": "DESIGN"
+  },
+  {
+    "operationId": "pml.array.read",
+    "processId": 25624,
+    "input": {
+      "pmlCommand": "!!YuzuhaReadGlobal(20,1,'','YUZUHAV04AFTER')",
+      "globalVar": "YUZUHAV04SMOKERESULT",
+      "deleteGlobalVar": true,
+      "includeEmpty": true
+    },
+    "expectedProcessStartTimeUtcTicks": 639290226957908482,
+    "expectedModel": "DESIGN"
+  },
+  {
+    "operationId": "pml.array.read",
+    "processId": 25624,
+    "input": {
+      "pmlCommand": "!!YuzuhaReadGlobal(10,1,'','YUZUHAV04NATIVESUM')",
+      "globalVar": "YUZUHAV04SMOKERESULT",
+      "deleteGlobalVar": true,
+      "includeEmpty": true
+    },
+    "expectedProcessStartTimeUtcTicks": 639290226957908482,
+    "expectedModel": "DESIGN"
+  }
+]

@@ -1,0 +1,144 @@
+[
+  {
+    "product": "AM",
+    "version": "12.1.SP4",
+    "observedAt": "2026-10-31T06:04:43.6124865Z",
+    "databaseSha256": "f2b5935073d22538610e57eccd654bba9b3a0c83b488fb7a65e62a5fe1065c86",
+    "sources": 12627,
+    "chunks": 51300,
+    "checks": [
+      {
+        "code": "sqlite.integrity",
+        "status": "ok",
+        "message": "检查通过。",
+        "count": 0
+      },
+      {
+        "code": "schema.tables",
+        "status": "ok",
+        "message": "检查通过。",
+        "count": 5
+      },
+      {
+        "code": "schema.version",
+        "status": "ok",
+        "message": "schema_version=1",
+        "count": null
+      },
+      {
+        "code": "rows.relationships",
+        "status": "ok",
+        "message": "检查通过。",
+        "count": 51300
+      },
+      {
+        "code": "fts.rows",
+        "status": "ok",
+        "message": "检查通过。",
+        "count": 51300
+      },
+      {
+        "code": "fts.integrity",
+        "status": "ok",
+        "message": "检查通过。",
+        "count": 51300
+      },
+      {
+        "code": "fts.query",
+        "status": "ok",
+        "message": "检查通过。",
+        "count": 0
+      },
+      {
+        "code": "fts.samples",
+        "status": "ok",
+        "message": "检查通过。",
+        "count": 5
+      },
+      {
+        "code": "sources.content",
+        "status": "ok",
+        "message": "逐文件 SHA256；缺源或变化不代表 SQLite 无法检索。",
+        "count": 0
+      },
+      {
+        "code": "manifest",
+        "status": "ok",
+        "message": "已核对清单版本及来源/片段/FTS 计数。",
+        "count": null
+      }
+    ],
+    "rawReportSha256": "e4f18f3ea956ba28656a179491559751e0c64d288626b2f24216079e3a96155a"
+  },
+  {
+    "product": "E3D",
+    "version": "2.1",
+    "observedAt": "2026-10-31T06:05:35.9657050Z",
+    "databaseSha256": "ed2edf34f5b0ce9d645136f6a13a7a8dcd7f9f9934f7d15493aab999b14c0e81",
+    "sources": 11392,
+    "chunks": 50620,
+    "checks": [
+      {
+        "code": "sqlite.integrity",
+        "status": "ok",
+        "message": "检查通过。",
+        "count": 0
+      },
+      {
+        "code": "schema.tables",
+        "status": "ok",
+        "message": "检查通过。",
+        "count": 5
+      },
+      {
+        "code": "schema.version",
+        "status": "ok",
+        "message": "schema_version=1",
+        "count": null
+      },
+      {
+        "code": "rows.relationships",
+        "status": "ok",
+        "message": "检查通过。",
+        "count": 50620
+      },
+      {
+        "code": "fts.rows",
+        "status": "ok",
+        "message": "检查通过。",
+        "count": 50620
+      },
+      {
+        "code": "fts.integrity",
+        "status": "ok",
+        "message": "检查通过。",
+        "count": 50620
+      },
+      {
+        "code": "fts.query",
+        "status": "ok",
+        "message": "检查通过。",
+        "count": 0
+      },
+      {
+        "code": "fts.samples",
+        "status": "ok",
+        "message": "检查通过。",
+        "count": 5
+      },
+      {
+        "code": "sources.content",
+        "status": "ok",
+        "message": "逐文件 SHA256；缺源或变化不代表 SQLite 无法检索。",
+        "count": 0
+      },
+      {
+        "code": "manifest",
+        "status": "ok",
+        "message": "已核对清单版本及来源/片段/FTS 计数。",
+        "count": null
+      }
+    ],
+    "rawReportSha256": "6a907d8fa1844e3371ddec9075b6cc3c0b42dc4a9afe1e77b8d56047d16371ad"
+  }
+]

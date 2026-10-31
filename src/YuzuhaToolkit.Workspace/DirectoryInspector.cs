@@ -116,29 +116,3 @@ public static class DirectoryInspector
         storage[key] = new((previous?.Files ?? 0) + 1, (previous?.Bytes ?? 0) + bytes);
     }
 }
-
-/// <summary>所有复制路径共用的目录边界与联接检查。</summary>
-public static class PathRules
-{
-    /// <summary>解析根目录内的相对路径，拒绝绝对路径、向上跳转和 NTFS 数据流。</summary>
-    /// <param name="root">受管理根目录。</param>
-    /// <param name="relative">目录内的相对名称。</param>
-    public static string Inside(string root, string relative)
-    {
-        if (string.IsNullOrWhiteSpace(relative) || Path.IsPathRooted(relative) || relative.Contains(':') || relative.Replace('\\', '/').Split('/').Any(p => p is ".." or "." or ""))
-            throw new InvalidDataException("相对路径无效：" + relative);
-        var result = Path.GetFullPath(Path.Combine(root, relative));
-        if (!result.StartsWith(Path.GetFullPath(root).TrimEnd(Path.DirectorySeparatorChar) + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase))
-            throw new InvalidDataException("路径越出目标目录。");
-        NoLinks(result); return result;
-    }
-
-    /// <summary>拒绝路径及所有已存在祖先中的符号链接或目录联接。</summary>
-    /// <param name="path">待使用的绝对文件或目录路径。</param>
-    public static void NoLinks(string path)
-    {
-        for (var current = Path.GetFullPath(path); current is not null; current = Path.GetDirectoryName(current))
-            if ((File.Exists(current) || Directory.Exists(current)) && (File.GetAttributes(current) & FileAttributes.ReparsePoint) != 0)
-                throw new IOException("路径包含链接或目录联接：" + current);
-    }
-}

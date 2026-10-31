@@ -1,0 +1,248 @@
+{
+  "operationId": "op.batch",
+  "success": true,
+  "exitCode": 0,
+  "data": {
+    "success": true,
+    "stoppedOnError": false,
+    "completed": 4,
+    "results": [
+      {
+        "operationId": "aveva.session.select",
+        "success": true,
+        "exitCode": 0,
+        "data": {
+          "SessionSelected": true,
+          "Connected": true,
+          "TargetVerified": true,
+          "SelectedSession": {
+            "ProcessId": 25624,
+            "ProcessStartTimeUtcTicks": 639290226957908482,
+            "ProcessName": "des",
+            "ExecutablePath": "C:\\Program Files (x86)\\AVEVA\\Everything3D2.10\\des.exe",
+            "WindowTitle": "ProjAPS | ALL | Model - AVEVA Everything3D",
+            "Product": "E3D",
+            "Project": "ProjAPS",
+            "PipeName": "yuzuha.pml.command.v1.pid-25624",
+            "PipeDetected": true
+          },
+          "PipeName": "yuzuha.pml.command.v1.pid-25624",
+          "ExpectedProcessId": 25624,
+          "ExpectedProcessStartTimeUtcTicks": 639290226957908482,
+          "ExpectedModel": "DESIGN",
+          "Host": {
+            "FormQueryVersion": 1,
+            "BoundedArrayReadVersion": 1,
+            "ProcessId": 25624,
+            "ProcessStartTimeUtcTicks": 639290226957908482,
+            "Model": "DESIGN",
+            "PipeName": "yuzuha.pml.command.v1.pid-25624",
+            "HostFramework": "net48",
+            "HostVersion": "0.3.4.2",
+            "ServerTimeUtc": "2026-10-31T05:52:11.5353081Z"
+          },
+          "Error": null
+        },
+        "error": null,
+        "schemaVersion": 1
+      },
+      {
+        "operationId": "pml.array.read",
+        "success": true,
+        "exitCode": 0,
+        "data": {
+          "Success": true,
+          "Code": "OK",
+          "ErrorMessage": null,
+          "PmlCommand": "!!YuzuhaReadGlobal(20,1,\u0027\u0027,\u0027YUZUHAV04BEFORE\u0027)",
+          "Summary": {
+            "total": 6,
+            "unset": 0,
+            "blank": 0,
+            "zero": 0,
+            "emptyArray": 0,
+            "hasValue": 6,
+            "byType": {
+              "ARRAY": 1,
+              "STRING": 5
+            }
+          },
+          "Count": 6,
+          "Items": [
+            {
+              "Depth": 0,
+              "Path": "",
+              "Type": "ARRAY",
+              "Value": "5 Elements",
+              "Empty": false
+            },
+            {
+              "Depth": 1,
+              "Path": "1",
+              "Type": "STRING",
+              "Value": "0",
+              "Empty": false
+            },
+            {
+              "Depth": 1,
+              "Path": "2",
+              "Type": "STRING",
+              "Value": "synthetic",
+              "Empty": false
+            },
+            {
+              "Depth": 1,
+              "Path": "3",
+              "Type": "STRING",
+              "Value": "TRUE",
+              "Empty": false
+            },
+            {
+              "Depth": 1,
+              "Path": "4",
+              "Type": "STRING",
+              "Value": "!this.onProbe()",
+              "Empty": false
+            },
+            {
+              "Depth": 1,
+              "Path": "5",
+              "Type": "STRING",
+              "Value": "FALSE",
+              "Empty": false
+            }
+          ],
+          "IncludeEmpty": true,
+          "UnparsedCount": 0,
+          "Unparsed": [],
+          "RequestId": "feb8370d954841918a9568a6c47abbf9",
+          "ServerRuntime": "4.0.30319.42000",
+          "ServerTimeUtc": "2026-10-31T05:52:11.6036578Z",
+          "FunctionTrustWarning": null
+        },
+        "error": null,
+        "schemaVersion": 1
+      },
+      {
+        "operationId": "pml.array.read",
+        "success": true,
+        "exitCode": 0,
+        "data": {
+          "Success": true,
+          "Code": "OK",
+          "ErrorMessage": null,
+          "PmlCommand": "!!YuzuhaReadGlobal(20,1,\u0027\u0027,\u0027YUZUHAV04AFTER\u0027)",
+          "Summary": {
+            "total": 6,
+            "unset": 0,
+            "blank": 0,
+            "zero": 0,
+            "emptyArray": 0,
+            "hasValue": 6,
+            "byType": {
+              "ARRAY": 1,
+              "STRING": 5
+            }
+          },
+          "Count": 6,
+          "Items": [
+            {
+              "Depth": 0,
+              "Path": "",
+              "Type": "ARRAY",
+              "Value": "5 Elements",
+              "Empty": false
+            },
+            {
+              "Depth": 1,
+              "Path": "1",
+              "Type": "STRING",
+              "Value": "0",
+              "Empty": false
+            },
+            {
+              "Depth": 1,
+              "Path": "2",
+              "Type": "STRING",
+              "Value": "synthetic",
+              "Empty": false
+            },
+            {
+              "Depth": 1,
+              "Path": "3",
+              "Type": "STRING",
+              "Value": "TRUE",
+              "Empty": false
+            },
+            {
+              "Depth": 1,
+              "Path": "4",
+              "Type": "STRING",
+              "Value": "!this.onProbe()",
+              "Empty": false
+            },
+            {
+              "Depth": 1,
+              "Path": "5",
+              "Type": "STRING",
+              "Value": "FALSE",
+              "Empty": false
+            }
+          ],
+          "IncludeEmpty": true,
+          "UnparsedCount": 0,
+          "Unparsed": [],
+          "RequestId": "8bb777b70a8c4026b8b50c2db238045e",
+          "ServerRuntime": "4.0.30319.42000",
+          "ServerTimeUtc": "2026-10-31T05:52:11.6789831Z",
+          "FunctionTrustWarning": null
+        },
+        "error": null,
+        "schemaVersion": 1
+      },
+      {
+        "operationId": "pml.array.read",
+        "success": true,
+        "exitCode": 0,
+        "data": {
+          "Success": true,
+          "Code": "OK",
+          "ErrorMessage": null,
+          "PmlCommand": "!!YuzuhaReadGlobal(10,1,\u0027\u0027,\u0027YUZUHAV04NATIVESUM\u0027)",
+          "Summary": {
+            "total": 1,
+            "unset": 0,
+            "blank": 0,
+            "zero": 0,
+            "emptyArray": 0,
+            "hasValue": 1,
+            "byType": {
+              "REAL": 1
+            }
+          },
+          "Count": 1,
+          "Items": [
+            {
+              "Depth": 0,
+              "Path": "",
+              "Type": "REAL",
+              "Value": "5",
+              "Empty": false
+            }
+          ],
+          "IncludeEmpty": true,
+          "UnparsedCount": 0,
+          "Unparsed": [],
+          "RequestId": "c5c0d0af0c734ec8977cda8ae455c82a",
+          "ServerRuntime": "4.0.30319.42000",
+          "ServerTimeUtc": "2026-10-31T05:52:11.7400886Z",
+          "FunctionTrustWarning": null
+        },
+        "error": null,
+        "schemaVersion": 1
+      }
+    ]
+  },
+  "error": null,
+  "schemaVersion": 1
+}

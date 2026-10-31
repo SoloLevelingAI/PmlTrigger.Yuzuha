@@ -35,7 +35,7 @@ public static class YuzuhaOperationCatalog
                 if (bindsTarget && context.ProcessId != null && id != YuzuhaOperationIds.Select)
                     current = ownedBridge = createBridge();
                 if (bindsTarget && context.ProcessId != null)
-                    await current.SelectSessionAsync(context.ProcessId.Value, context.ExpectedModel, token)
+                    await current.SelectSessionAsync(context.ProcessId.Value, context.ExpectedModel, token, context.ExpectedProcessStartTimeUtcTicks)
                         .ConfigureAwait(false);
                 var backend = new YuzuhaOperationBackend(current, trust);
                 string json;

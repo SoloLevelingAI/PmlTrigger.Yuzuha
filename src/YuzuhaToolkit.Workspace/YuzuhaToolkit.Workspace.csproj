@@ -6,4 +6,5 @@
     <IsAotCompatible>true</IsAotCompatible>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
+  <ItemGroup><Compile Include="../Shared/PathRules.cs" Link="Shared/PathRules.cs" /></ItemGroup>
 </Project>

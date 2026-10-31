@@ -1,0 +1,166 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="e05d3676-cd7b-4c48-8dd4-cc6c47997dd9" name="26648@SEAGEND 2026-10-31 14:13:10" runUser="SEAGEND\26648" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-31T14:13:10.3515426+08:00" queuing="2026-10-31T14:13:10.3515434+08:00" start="2026-10-31T14:13:09.4295429+08:00" finish="2026-10-31T14:13:11.7873901+08:00" />
+  <TestSettings name="default" id="30dccede-c583-4404-a3b9-53fd9987a45c">
+    <Deployment runDeploymentRoot="26648_SEAGEND_2026-10-31_14_13_10" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="98764b34-757e-42f5-8b56-df4f83137795" testId="7b228820-e813-0c4b-aacf-07829c611766" testName="YuzuhaToolkit.Manager.Tests.SevenZipCopyTests.UnsafeUnsupportedOrOversizeListingIsRejectedBeforeExtraction(body: &quot;Path = Tool/file\nSize = 134217729&quot;)" computerName="SEAGEND" duration="00:00:00.0015409" startTime="2026-10-31T14:13:10.3203679+08:00" endTime="2026-10-31T14:13:10.3203679+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="98764b34-757e-42f5-8b56-df4f83137795" />
+    <UnitTestResult executionId="25d16827-2b4c-4530-9a22-db2e1ac209ad" testId="a357a464-773d-4072-4650-109788027a93" testName="YuzuhaToolkit.Manager.Tests.SevenZipCopyTests.ActualStandaloneToolValidatesCopiesAndRestoresSyntheticPayloadAndRejectsChangedPackageOrTool" computerName="SEAGEND" duration="00:00:01.0733101" startTime="2026-10-31T14:13:11.7319032+08:00" endTime="2026-10-31T14:13:11.7319039+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="25d16827-2b4c-4530-9a22-db2e1ac209ad">
+      <Output>
+        <ErrorInfo>
+          <Message>System.ArgumentException: 格式依赖必须明确指定独立的 7zr.exe。&#xD;
+   at YuzuhaToolkit.Manager.SevenZipCopy.ValidateTool(String tool) in C:\Users\26648\Documents\ChatGPT\Example\PmlTrigger.Yuzuha\src\YuzuhaToolkit.Manager.Core\SevenZipCopy.cs:line 162&#xD;
+   at YuzuhaToolkit.Manager.SevenZipCopy.Preview(String archive, String registeredRoot, String name, String tool, String stateDirectory, CancellationToken token) in C:\Users\26648\Documents\ChatGPT\Example\PmlTrigger.Yuzuha\src\YuzuhaToolkit.Manager.Core\SevenZipCopy.cs:line 31&#xD;
+   at YuzuhaToolkit.Manager.Tests.SevenZipCopyTests.&lt;&gt;c__DisplayClass9_0.&lt;ActualStandaloneToolValidatesCopiesAndRestoresSyntheticPayloadAndRejectsChangedPackageOrTool&gt;b__3() in C:\Users\26648\Documents\ChatGPT\Example\PmlTrigger.Yuzuha\tests\YuzuhaToolkit.Manager.Tests\SevenZipCopyTests.cs:line 87&#xD;
+   at Xunit.Record.Exception(Func`1 testCode) in /_/src/xunit.core/Record.cs:line 47</Message>
+          <StackTrace>   at YuzuhaToolkit.Manager.Tests.SevenZipCopyTests.ActualStandaloneToolValidatesCopiesAndRestoresSyntheticPayloadAndRejectsChangedPackageOrTool() in C:\Users\26648\Documents\ChatGPT\Example\PmlTrigger.Yuzuha\tests\YuzuhaToolkit.Manager.Tests\SevenZipCopyTests.cs:line 88&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="43d659e0-bb5c-44ef-a792-23129bf85fbc" testId="dec54c0c-9127-1c11-cddf-eb82f80fb197" testName="YuzuhaToolkit.Manager.Tests.SevenZipCopyTests.UnsafeUnsupportedOrOversizeListingIsRejectedBeforeExtraction(body: &quot;Path = Tool/CON.txt\nSize = 1&quot;)" computerName="SEAGEND" duration="00:00:00.0001271" startTime="2026-10-31T14:13:10.3205894+08:00" endTime="2026-10-31T14:13:10.3205894+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="43d659e0-bb5c-44ef-a792-23129bf85fbc" />
+    <UnitTestResult executionId="895f02c3-21cc-40ef-abb7-e31132a1aeaa" testId="edb88f9e-a98e-7fd0-889d-5e41e1030b36" testName="YuzuhaToolkit.Manager.Tests.SevenZipCopyTests.ToolPolicyCopiesProgramFilesAndRefusesDatabasePayloadWithoutChangingLegacyPmlPolicy" computerName="SEAGEND" duration="00:00:00.1421167" startTime="2026-10-31T14:13:10.4475901+08:00" endTime="2026-10-31T14:13:10.4475906+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="895f02c3-21cc-40ef-abb7-e31132a1aeaa" />
+    <UnitTestResult executionId="d9c5abb7-8fcf-4451-9bbc-dc52fe01b77a" testId="8b35a235-a060-928c-ef69-cf29dc563c7f" testName="YuzuhaToolkit.Manager.Tests.SevenZipCopyTests.FormatAndFrozenSevenZipPlanAreAvailableThroughManagerOperations" computerName="SEAGEND" duration="00:00:00.1998742" startTime="2026-10-31T14:13:10.6606229+08:00" endTime="2026-10-31T14:13:10.6606234+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d9c5abb7-8fcf-4451-9bbc-dc52fe01b77a">
+      <Output>
+        <ErrorInfo>
+          <Message>格式依赖必须明确指定独立的 7zr.exe。</Message>
+          <StackTrace>   at YuzuhaToolkit.Manager.Tests.SevenZipCopyTests.FormatAndFrozenSevenZipPlanAreAvailableThroughManagerOperations() in C:\Users\26648\Documents\ChatGPT\Example\PmlTrigger.Yuzuha\tests\YuzuhaToolkit.Manager.Tests\SevenZipCopyTests.cs:line 104&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="06f69419-1c92-4830-b1f4-feb10ee77fcc" testId="4c7f1a65-2224-9f21-c43e-7b66b07d8a6d" testName="YuzuhaToolkit.Manager.Tests.SevenZipCopyTests.UnsafeUnsupportedOrOversizeListingIsRejectedBeforeExtraction(body: &quot;Path = Tool/a.pmlfnc\n\nPath = tool/A.pmlfnc&quot;)" computerName="SEAGEND" duration="00:00:00.0285603" startTime="2026-10-31T14:13:10.2887012+08:00" endTime="2026-10-31T14:13:10.2887235+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="06f69419-1c92-4830-b1f4-feb10ee77fcc" />
+    <UnitTestResult executionId="f86b5ad1-9009-462d-ab6f-55c148c11c92" testId="e6ac49da-5e06-7aab-ef88-187ba3f08800" testName="YuzuhaToolkit.Manager.Tests.SevenZipCopyTests.UnsafeUnsupportedOrOversizeListingIsRejectedBeforeExtraction(body: &quot;Path = Tool/a \nSize = 1&quot;)" computerName="SEAGEND" duration="00:00:00.0001154" startTime="2026-10-31T14:13:10.3206110+08:00" endTime="2026-10-31T14:13:10.3206110+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f86b5ad1-9009-462d-ab6f-55c148c11c92" />
+    <UnitTestResult executionId="ba3a3ecc-525d-4049-a373-77f045928524" testId="18461581-76a2-e623-d978-5d2135bc234c" testName="YuzuhaToolkit.Manager.Tests.SevenZipCopyTests.UnsafeUnsupportedOrOversizeListingIsRejectedBeforeExtraction(body: &quot;Path = Tool/file\nEncrypted = +&quot;)" computerName="SEAGEND" duration="00:00:00.0013792" startTime="2026-10-31T14:13:10.2931668+08:00" endTime="2026-10-31T14:13:10.2931670+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ba3a3ecc-525d-4049-a373-77f045928524" />
+    <UnitTestResult executionId="1775f3ac-4c5b-4e3e-be72-65ad5f36c6c9" testId="1094e789-1a8d-e8d6-a8c8-a7759429e8c0" testName="YuzuhaToolkit.Manager.Tests.SevenZipCopyTests.UnsafeUnsupportedOrOversizeListingIsRejectedBeforeExtraction(body: &quot;Path = Tool/file\nHard Link = elsewhere&quot;)" computerName="SEAGEND" duration="00:00:00.0018443" startTime="2026-10-31T14:13:10.2952545+08:00" endTime="2026-10-31T14:13:10.2952548+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1775f3ac-4c5b-4e3e-be72-65ad5f36c6c9" />
+    <UnitTestResult executionId="3169d363-9250-4b1e-ba6b-c1357d7bb896" testId="0e952388-1ee9-949e-ef6e-9355bbf15e5d" testName="YuzuhaToolkit.Manager.Tests.SevenZipCopyTests.UnsafeUnsupportedOrOversizeListingIsRejectedBeforeExtraction(body: &quot;Path = Tool/file\nSize = -1&quot;)" computerName="SEAGEND" duration="00:00:00.0019867" startTime="2026-10-31T14:13:10.2912279+08:00" endTime="2026-10-31T14:13:10.2912279+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3169d363-9250-4b1e-ba6b-c1357d7bb896" />
+    <UnitTestResult executionId="d3343e8e-d521-4dcc-a96b-2e6216c7f7b5" testId="d54e2df0-328a-59a3-d898-2afc8820e05d" testName="YuzuhaToolkit.Manager.Tests.SevenZipCopyTests.UnsafeUnsupportedOrOversizeListingIsRejectedBeforeExtraction(body: &quot;Path = Tool/NUL\nSize = 1&quot;)" computerName="SEAGEND" duration="00:00:00.0001425" startTime="2026-10-31T14:13:10.2916247+08:00" endTime="2026-10-31T14:13:10.2916248+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d3343e8e-d521-4dcc-a96b-2e6216c7f7b5" />
+    <UnitTestResult executionId="8773b549-8e22-41ee-8159-b51332b473fe" testId="55461b55-f284-9528-7483-8b43c3aee36f" testName="YuzuhaToolkit.Manager.Tests.SevenZipCopyTests.UnsafeUnsupportedOrOversizeListingIsRejectedBeforeExtraction(body: &quot;Path = Tool/a.\nSize = 1&quot;)" computerName="SEAGEND" duration="00:00:00.0001664" startTime="2026-10-31T14:13:10.2954715+08:00" endTime="2026-10-31T14:13:10.2954716+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8773b549-8e22-41ee-8159-b51332b473fe" />
+    <UnitTestResult executionId="53bd8c8f-72e5-4193-9f44-528d3abf441e" testId="f4655e72-d2a3-553b-014f-f587297c1b41" testName="YuzuhaToolkit.Manager.Tests.SevenZipCopyTests.MissingFormatDependencyFailsPreviewBeforeAnyCopyOrStaging" computerName="SEAGEND" duration="00:00:00.0077061" startTime="2026-10-31T14:13:10.3206735+08:00" endTime="2026-10-31T14:13:10.3206735+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="53bd8c8f-72e5-4193-9f44-528d3abf441e" />
+    <UnitTestResult executionId="11f29d3d-1d20-4ae5-891f-e08524c36966" testId="45d1e215-1cda-8698-e3f0-1e77862e785e" testName="YuzuhaToolkit.Manager.Tests.SevenZipCopyTests.UnsafeUnsupportedOrOversizeListingIsRejectedBeforeExtraction(body: &quot;Path = C:/escape.pmlfnc\nSize = 1&quot;)" computerName="SEAGEND" duration="00:00:00.0001510" startTime="2026-10-31T14:13:10.2933492+08:00" endTime="2026-10-31T14:13:10.2933492+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="11f29d3d-1d20-4ae5-891f-e08524c36966" />
+    <UnitTestResult executionId="f81f5d55-d9a5-4ff2-87b0-5840dc9fbb74" testId="737f51a7-fbf8-3993-f4f6-af9d1aa8c7b4" testName="YuzuhaToolkit.Manager.Tests.SevenZipCopyTests.UnsafeUnsupportedOrOversizeListingIsRejectedBeforeExtraction(body: &quot;Path = Tool/file\nSymbolic Link = ../escape&quot;)" computerName="SEAGEND" duration="00:00:00.0013838" startTime="2026-10-31T14:13:10.2915483+08:00" endTime="2026-10-31T14:13:10.2915484+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f81f5d55-d9a5-4ff2-87b0-5840dc9fbb74" />
+    <UnitTestResult executionId="0329bbc9-599a-4983-8857-d615ef0b74f2" testId="a633cd62-b81f-1ca8-f4a5-0ddc723df436" testName="YuzuhaToolkit.Manager.Tests.SevenZipCopyTests.UnsafeUnsupportedOrOversizeListingIsRejectedBeforeExtraction(body: &quot;Path = ../escape.pmlfnc\nSize = 1&quot;)" computerName="SEAGEND" duration="00:00:00.0001278" startTime="2026-10-31T14:13:10.2917675+08:00" endTime="2026-10-31T14:13:10.2917677+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0329bbc9-599a-4983-8857-d615ef0b74f2" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="YuzuhaToolkit.Manager.Tests.SevenZipCopyTests.UnsafeUnsupportedOrOversizeListingIsRejectedBeforeExtraction(body: &quot;Path = ../escape.pmlfnc\nSize = 1&quot;)" storage="c:\users\26648\documents\chatgpt\example\pmltrigger.yuzuha\tests\yuzuhatoolkit.manager.tests\bin\debug\net10.0\yuzuhatoolkit.manager.tests.dll" id="a633cd62-b81f-1ca8-f4a5-0ddc723df436">
+      <Execution id="0329bbc9-599a-4983-8857-d615ef0b74f2" />
+      <TestMethod codeBase="C:\Users\26648\Documents\ChatGPT\Example\PmlTrigger.Yuzuha\tests\YuzuhaToolkit.Manager.Tests\bin\Debug\net10.0\YuzuhaToolkit.Manager.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="YuzuhaToolkit.Manager.Tests.SevenZipCopyTests" name="UnsafeUnsupportedOrOversizeListingIsRejectedBeforeExtraction" />
+    </UnitTest>
+    <UnitTest name="YuzuhaToolkit.Manager.Tests.SevenZipCopyTests.UnsafeUnsupportedOrOversizeListingIsRejectedBeforeExtraction(body: &quot;Path = Tool/a \nSize = 1&quot;)" storage="c:\users\26648\documents\chatgpt\example\pmltrigger.yuzuha\tests\yuzuhatoolkit.manager.tests\bin\debug\net10.0\yuzuhatoolkit.manager.tests.dll" id="e6ac49da-5e06-7aab-ef88-187ba3f08800">
+      <Execution id="f86b5ad1-9009-462d-ab6f-55c148c11c92" />
+      <TestMethod codeBase="C:\Users\26648\Documents\ChatGPT\Example\PmlTrigger.Yuzuha\tests\YuzuhaToolkit.Manager.Tests\bin\Debug\net10.0\YuzuhaToolkit.Manager.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="YuzuhaToolkit.Manager.Tests.SevenZipCopyTests" name="UnsafeUnsupportedOrOversizeListingIsRejectedBeforeExtraction" />
+    </UnitTest>
+    <UnitTest name="YuzuhaToolkit.Manager.Tests.SevenZipCopyTests.ToolPolicyCopiesProgramFilesAndRefusesDatabasePayloadWithoutChangingLegacyPmlPolicy" storage="c:\users\26648\documents\chatgpt\example\pmltrigger.yuzuha\tests\yuzuhatoolkit.manager.tests\bin\debug\net10.0\yuzuhatoolkit.manager.tests.dll" id="edb88f9e-a98e-7fd0-889d-5e41e1030b36">
+      <Execution id="895f02c3-21cc-40ef-abb7-e31132a1aeaa" />
+      <TestMethod codeBase="C:\Users\26648\Documents\ChatGPT\Example\PmlTrigger.Yuzuha\tests\YuzuhaToolkit.Manager.Tests\bin\Debug\net10.0\YuzuhaToolkit.Manager.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="YuzuhaToolkit.Manager.Tests.SevenZipCopyTests" name="ToolPolicyCopiesProgramFilesAndRefusesDatabasePayloadWithoutChangingLegacyPmlPolicy" />
+    </UnitTest>
+    <UnitTest name="YuzuhaToolkit.Manager.Tests.SevenZipCopyTests.UnsafeUnsupportedOrOversizeListingIsRejectedBeforeExtraction(body: &quot;Path = Tool/a.\nSize = 1&quot;)" storage="c:\users\26648\documents\chatgpt\example\pmltrigger.yuzuha\tests\yuzuhatoolkit.manager.tests\bin\debug\net10.0\yuzuhatoolkit.manager.tests.dll" id="55461b55-f284-9528-7483-8b43c3aee36f">
+      <Execution id="8773b549-8e22-41ee-8159-b51332b473fe" />
+      <TestMethod codeBase="C:\Users\26648\Documents\ChatGPT\Example\PmlTrigger.Yuzuha\tests\YuzuhaToolkit.Manager.Tests\bin\Debug\net10.0\YuzuhaToolkit.Manager.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="YuzuhaToolkit.Manager.Tests.SevenZipCopyTests" name="UnsafeUnsupportedOrOversizeListingIsRejectedBeforeExtraction" />
+    </UnitTest>
+    <UnitTest name="YuzuhaToolkit.Manager.Tests.SevenZipCopyTests.FormatAndFrozenSevenZipPlanAreAvailableThroughManagerOperations" storage="c:\users\26648\documents\chatgpt\example\pmltrigger.yuzuha\tests\yuzuhatoolkit.manager.tests\bin\debug\net10.0\yuzuhatoolkit.manager.tests.dll" id="8b35a235-a060-928c-ef69-cf29dc563c7f">
+      <Execution id="d9c5abb7-8fcf-4451-9bbc-dc52fe01b77a" />
+      <TestMethod codeBase="C:\Users\26648\Documents\ChatGPT\Example\PmlTrigger.Yuzuha\tests\YuzuhaToolkit.Manager.Tests\bin\Debug\net10.0\YuzuhaToolkit.Manager.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="YuzuhaToolkit.Manager.Tests.SevenZipCopyTests" name="FormatAndFrozenSevenZipPlanAreAvailableThroughManagerOperations" />
+    </UnitTest>
+    <UnitTest name="YuzuhaToolkit.Manager.Tests.SevenZipCopyTests.UnsafeUnsupportedOrOversizeListingIsRejectedBeforeExtraction(body: &quot;Path = Tool/file\nHard Link = elsewhere&quot;)" storage="c:\users\26648\documents\chatgpt\example\pmltrigger.yuzuha\tests\yuzuhatoolkit.manager.tests\bin\debug\net10.0\yuzuhatoolkit.manager.tests.dll" id="1094e789-1a8d-e8d6-a8c8-a7759429e8c0">
+      <Execution id="1775f3ac-4c5b-4e3e-be72-65ad5f36c6c9" />
+      <TestMethod codeBase="C:\Users\26648\Documents\ChatGPT\Example\PmlTrigger.Yuzuha\tests\YuzuhaToolkit.Manager.Tests\bin\Debug\net10.0\YuzuhaToolkit.Manager.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="YuzuhaToolkit.Manager.Tests.SevenZipCopyTests" name="UnsafeUnsupportedOrOversizeListingIsRejectedBeforeExtraction" />
+    </UnitTest>
+    <UnitTest name="YuzuhaToolkit.Manager.Tests.SevenZipCopyTests.UnsafeUnsupportedOrOversizeListingIsRejectedBeforeExtraction(body: &quot;Path = Tool/NUL\nSize = 1&quot;)" storage="c:\users\26648\documents\chatgpt\example\pmltrigger.yuzuha\tests\yuzuhatoolkit.manager.tests\bin\debug\net10.0\yuzuhatoolkit.manager.tests.dll" id="d54e2df0-328a-59a3-d898-2afc8820e05d">
+      <Execution id="d3343e8e-d521-4dcc-a96b-2e6216c7f7b5" />
+      <TestMethod codeBase="C:\Users\26648\Documents\ChatGPT\Example\PmlTrigger.Yuzuha\tests\YuzuhaToolkit.Manager.Tests\bin\Debug\net10.0\YuzuhaToolkit.Manager.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="YuzuhaToolkit.Manager.Tests.SevenZipCopyTests" name="UnsafeUnsupportedOrOversizeListingIsRejectedBeforeExtraction" />
+    </UnitTest>
+    <UnitTest name="YuzuhaToolkit.Manager.Tests.SevenZipCopyTests.ActualStandaloneToolValidatesCopiesAndRestoresSyntheticPayloadAndRejectsChangedPackageOrTool" storage="c:\users\26648\documents\chatgpt\example\pmltrigger.yuzuha\tests\yuzuhatoolkit.manager.tests\bin\debug\net10.0\yuzuhatoolkit.manager.tests.dll" id="a357a464-773d-4072-4650-109788027a93">
+      <Execution id="25d16827-2b4c-4530-9a22-db2e1ac209ad" />
+      <TestMethod codeBase="C:\Users\26648\Documents\ChatGPT\Example\PmlTrigger.Yuzuha\tests\YuzuhaToolkit.Manager.Tests\bin\Debug\net10.0\YuzuhaToolkit.Manager.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="YuzuhaToolkit.Manager.Tests.SevenZipCopyTests" name="ActualStandaloneToolValidatesCopiesAndRestoresSyntheticPayloadAndRejectsChangedPackageOrTool" />
+    </UnitTest>
+    <UnitTest name="YuzuhaToolkit.Manager.Tests.SevenZipCopyTests.UnsafeUnsupportedOrOversizeListingIsRejectedBeforeExtraction(body: &quot;Path = Tool/file\nEncrypted = +&quot;)" storage="c:\users\26648\documents\chatgpt\example\pmltrigger.yuzuha\tests\yuzuhatoolkit.manager.tests\bin\debug\net10.0\yuzuhatoolkit.manager.tests.dll" id="18461581-76a2-e623-d978-5d2135bc234c">
+      <Execution id="ba3a3ecc-525d-4049-a373-77f045928524" />
+      <TestMethod codeBase="C:\Users\26648\Documents\ChatGPT\Example\PmlTrigger.Yuzuha\tests\YuzuhaToolkit.Manager.Tests\bin\Debug\net10.0\YuzuhaToolkit.Manager.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="YuzuhaToolkit.Manager.Tests.SevenZipCopyTests" name="UnsafeUnsupportedOrOversizeListingIsRejectedBeforeExtraction" />
+    </UnitTest>
+    <UnitTest name="YuzuhaToolkit.Manager.Tests.SevenZipCopyTests.UnsafeUnsupportedOrOversizeListingIsRejectedBeforeExtraction(body: &quot;Path = Tool/CON.txt\nSize = 1&quot;)" storage="c:\users\26648\documents\chatgpt\example\pmltrigger.yuzuha\tests\yuzuhatoolkit.manager.tests\bin\debug\net10.0\yuzuhatoolkit.manager.tests.dll" id="dec54c0c-9127-1c11-cddf-eb82f80fb197">
+      <Execution id="43d659e0-bb5c-44ef-a792-23129bf85fbc" />
+      <TestMethod codeBase="C:\Users\26648\Documents\ChatGPT\Example\PmlTrigger.Yuzuha\tests\YuzuhaToolkit.Manager.Tests\bin\Debug\net10.0\YuzuhaToolkit.Manager.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="YuzuhaToolkit.Manager.Tests.SevenZipCopyTests" name="UnsafeUnsupportedOrOversizeListingIsRejectedBeforeExtraction" />
+    </UnitTest>
+    <UnitTest name="YuzuhaToolkit.Manager.Tests.SevenZipCopyTests.UnsafeUnsupportedOrOversizeListingIsRejectedBeforeExtraction(body: &quot;Path = Tool/a.pmlfnc\n\nPath = tool/A.pmlfnc&quot;)" storage="c:\users\26648\documents\chatgpt\example\pmltrigger.yuzuha\tests\yuzuhatoolkit.manager.tests\bin\debug\net10.0\yuzuhatoolkit.manager.tests.dll" id="4c7f1a65-2224-9f21-c43e-7b66b07d8a6d">
+      <Execution id="06f69419-1c92-4830-b1f4-feb10ee77fcc" />
+      <TestMethod codeBase="C:\Users\26648\Documents\ChatGPT\Example\PmlTrigger.Yuzuha\tests\YuzuhaToolkit.Manager.Tests\bin\Debug\net10.0\YuzuhaToolkit.Manager.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="YuzuhaToolkit.Manager.Tests.SevenZipCopyTests" name="UnsafeUnsupportedOrOversizeListingIsRejectedBeforeExtraction" />
+    </UnitTest>
+    <UnitTest name="YuzuhaToolkit.Manager.Tests.SevenZipCopyTests.UnsafeUnsupportedOrOversizeListingIsRejectedBeforeExtraction(body: &quot;Path = Tool/file\nSize = 134217729&quot;)" storage="c:\users\26648\documents\chatgpt\example\pmltrigger.yuzuha\tests\yuzuhatoolkit.manager.tests\bin\debug\net10.0\yuzuhatoolkit.manager.tests.dll" id="7b228820-e813-0c4b-aacf-07829c611766">
+      <Execution id="98764b34-757e-42f5-8b56-df4f83137795" />
+      <TestMethod codeBase="C:\Users\26648\Documents\ChatGPT\Example\PmlTrigger.Yuzuha\tests\YuzuhaToolkit.Manager.Tests\bin\Debug\net10.0\YuzuhaToolkit.Manager.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="YuzuhaToolkit.Manager.Tests.SevenZipCopyTests" name="UnsafeUnsupportedOrOversizeListingIsRejectedBeforeExtraction" />
+    </UnitTest>
+    <UnitTest name="YuzuhaToolkit.Manager.Tests.SevenZipCopyTests.UnsafeUnsupportedOrOversizeListingIsRejectedBeforeExtraction(body: &quot;Path = C:/escape.pmlfnc\nSize = 1&quot;)" storage="c:\users\26648\documents\chatgpt\example\pmltrigger.yuzuha\tests\yuzuhatoolkit.manager.tests\bin\debug\net10.0\yuzuhatoolkit.manager.tests.dll" id="45d1e215-1cda-8698-e3f0-1e77862e785e">
+      <Execution id="11f29d3d-1d20-4ae5-891f-e08524c36966" />
+      <TestMethod codeBase="C:\Users\26648\Documents\ChatGPT\Example\PmlTrigger.Yuzuha\tests\YuzuhaToolkit.Manager.Tests\bin\Debug\net10.0\YuzuhaToolkit.Manager.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="YuzuhaToolkit.Manager.Tests.SevenZipCopyTests" name="UnsafeUnsupportedOrOversizeListingIsRejectedBeforeExtraction" />
+    </UnitTest>
+    <UnitTest name="YuzuhaToolkit.Manager.Tests.SevenZipCopyTests.UnsafeUnsupportedOrOversizeListingIsRejectedBeforeExtraction(body: &quot;Path = Tool/file\nSymbolic Link = ../escape&quot;)" storage="c:\users\26648\documents\chatgpt\example\pmltrigger.yuzuha\tests\yuzuhatoolkit.manager.tests\bin\debug\net10.0\yuzuhatoolkit.manager.tests.dll" id="737f51a7-fbf8-3993-f4f6-af9d1aa8c7b4">
+      <Execution id="f81f5d55-d9a5-4ff2-87b0-5840dc9fbb74" />
+      <TestMethod codeBase="C:\Users\26648\Documents\ChatGPT\Example\PmlTrigger.Yuzuha\tests\YuzuhaToolkit.Manager.Tests\bin\Debug\net10.0\YuzuhaToolkit.Manager.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="YuzuhaToolkit.Manager.Tests.SevenZipCopyTests" name="UnsafeUnsupportedOrOversizeListingIsRejectedBeforeExtraction" />
+    </UnitTest>
+    <UnitTest name="YuzuhaToolkit.Manager.Tests.SevenZipCopyTests.MissingFormatDependencyFailsPreviewBeforeAnyCopyOrStaging" storage="c:\users\26648\documents\chatgpt\example\pmltrigger.yuzuha\tests\yuzuhatoolkit.manager.tests\bin\debug\net10.0\yuzuhatoolkit.manager.tests.dll" id="f4655e72-d2a3-553b-014f-f587297c1b41">
+      <Execution id="53bd8c8f-72e5-4193-9f44-528d3abf441e" />
+      <TestMethod codeBase="C:\Users\26648\Documents\ChatGPT\Example\PmlTrigger.Yuzuha\tests\YuzuhaToolkit.Manager.Tests\bin\Debug\net10.0\YuzuhaToolkit.Manager.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="YuzuhaToolkit.Manager.Tests.SevenZipCopyTests" name="MissingFormatDependencyFailsPreviewBeforeAnyCopyOrStaging" />
+    </UnitTest>
+    <UnitTest name="YuzuhaToolkit.Manager.Tests.SevenZipCopyTests.UnsafeUnsupportedOrOversizeListingIsRejectedBeforeExtraction(body: &quot;Path = Tool/file\nSize = -1&quot;)" storage="c:\users\26648\documents\chatgpt\example\pmltrigger.yuzuha\tests\yuzuhatoolkit.manager.tests\bin\debug\net10.0\yuzuhatoolkit.manager.tests.dll" id="0e952388-1ee9-949e-ef6e-9355bbf15e5d">
+      <Execution id="3169d363-9250-4b1e-ba6b-c1357d7bb896" />
+      <TestMethod codeBase="C:\Users\26648\Documents\ChatGPT\Example\PmlTrigger.Yuzuha\tests\YuzuhaToolkit.Manager.Tests\bin\Debug\net10.0\YuzuhaToolkit.Manager.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="YuzuhaToolkit.Manager.Tests.SevenZipCopyTests" name="UnsafeUnsupportedOrOversizeListingIsRejectedBeforeExtraction" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="7b228820-e813-0c4b-aacf-07829c611766" executionId="98764b34-757e-42f5-8b56-df4f83137795" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a357a464-773d-4072-4650-109788027a93" executionId="25d16827-2b4c-4530-9a22-db2e1ac209ad" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="dec54c0c-9127-1c11-cddf-eb82f80fb197" executionId="43d659e0-bb5c-44ef-a792-23129bf85fbc" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="edb88f9e-a98e-7fd0-889d-5e41e1030b36" executionId="895f02c3-21cc-40ef-abb7-e31132a1aeaa" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8b35a235-a060-928c-ef69-cf29dc563c7f" executionId="d9c5abb7-8fcf-4451-9bbc-dc52fe01b77a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4c7f1a65-2224-9f21-c43e-7b66b07d8a6d" executionId="06f69419-1c92-4830-b1f4-feb10ee77fcc" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e6ac49da-5e06-7aab-ef88-187ba3f08800" executionId="f86b5ad1-9009-462d-ab6f-55c148c11c92" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="18461581-76a2-e623-d978-5d2135bc234c" executionId="ba3a3ecc-525d-4049-a373-77f045928524" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1094e789-1a8d-e8d6-a8c8-a7759429e8c0" executionId="1775f3ac-4c5b-4e3e-be72-65ad5f36c6c9" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0e952388-1ee9-949e-ef6e-9355bbf15e5d" executionId="3169d363-9250-4b1e-ba6b-c1357d7bb896" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d54e2df0-328a-59a3-d898-2afc8820e05d" executionId="d3343e8e-d521-4dcc-a96b-2e6216c7f7b5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="55461b55-f284-9528-7483-8b43c3aee36f" executionId="8773b549-8e22-41ee-8159-b51332b473fe" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f4655e72-d2a3-553b-014f-f587297c1b41" executionId="53bd8c8f-72e5-4193-9f44-528d3abf441e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="45d1e215-1cda-8698-e3f0-1e77862e785e" executionId="11f29d3d-1d20-4ae5-891f-e08524c36966" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="737f51a7-fbf8-3993-f4f6-af9d1aa8c7b4" executionId="f81f5d55-d9a5-4ff2-87b0-5840dc9fbb74" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a633cd62-b81f-1ca8-f4a5-0ddc723df436" executionId="0329bbc9-599a-4983-8857-d615ef0b74f2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="16" executed="16" passed="14" failed="2" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 10.0.10)&#xD;
+[xUnit.net 00:00:00.16]   Discovering: YuzuhaToolkit.Manager.Tests&#xD;
+[xUnit.net 00:00:00.22]   Discovered:  YuzuhaToolkit.Manager.Tests&#xD;
+[xUnit.net 00:00:00.22]   Starting:    YuzuhaToolkit.Manager.Tests&#xD;
+[xUnit.net 00:00:00.66]       格式依赖必须明确指定独立的 7zr.exe。&#xD;
+[xUnit.net 00:00:00.66]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.66]         C:\Users\26648\Documents\ChatGPT\Example\PmlTrigger.Yuzuha\tests\YuzuhaToolkit.Manager.Tests\SevenZipCopyTests.cs(104,0): at YuzuhaToolkit.Manager.Tests.SevenZipCopyTests.FormatAndFrozenSevenZipPlanAreAvailableThroughManagerOperations()&#xD;
+[xUnit.net 00:00:00.66]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:01.73]       System.ArgumentException: 格式依赖必须明确指定独立的 7zr.exe。&#xD;
+[xUnit.net 00:00:01.73]          at YuzuhaToolkit.Manager.SevenZipCopy.ValidateTool(String tool) in C:\Users\26648\Documents\ChatGPT\Example\PmlTrigger.Yuzuha\src\YuzuhaToolkit.Manager.Core\SevenZipCopy.cs:line 162&#xD;
+[xUnit.net 00:00:01.73]          at YuzuhaToolkit.Manager.SevenZipCopy.Preview(String archive, String registeredRoot, String name, String tool, String stateDirectory, CancellationToken token) in C:\Users\26648\Documents\ChatGPT\Example\PmlTrigger.Yuzuha\src\YuzuhaToolkit.Manager.Core\SevenZipCopy.cs:line 31&#xD;
+[xUnit.net 00:00:01.73]          at YuzuhaToolkit.Manager.Tests.SevenZipCopyTests.&lt;&gt;c__DisplayClass9_0.&lt;ActualStandaloneToolValidatesCopiesAndRestoresSyntheticPayloadAndRejectsChangedPackageOrTool&gt;b__3() in C:\Users\26648\Documents\ChatGPT\Example\PmlTrigger.Yuzuha\tests\YuzuhaToolkit.Manager.Tests\SevenZipCopyTests.cs:line 87&#xD;
+[xUnit.net 00:00:01.73]          at Xunit.Record.Exception(Func`1 testCode) in /_/src/xunit.core/Record.cs:line 47&#xD;
+[xUnit.net 00:00:01.73]       Stack Trace:&#xD;
+[xUnit.net 00:00:01.73]         C:\Users\26648\Documents\ChatGPT\Example\PmlTrigger.Yuzuha\tests\YuzuhaToolkit.Manager.Tests\SevenZipCopyTests.cs(88,0): at YuzuhaToolkit.Manager.Tests.SevenZipCopyTests.ActualStandaloneToolValidatesCopiesAndRestoresSyntheticPayloadAndRejectsChangedPackageOrTool()&#xD;
+[xUnit.net 00:00:01.73]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:01.73]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:01.73]   Finished:    YuzuhaToolkit.Manager.Tests&#xD;
+</StdOut>
+    </Output>
+    <RunInfos>
+      <RunInfo computerName="SEAGEND" outcome="Error" timestamp="2026-10-31T14:13:10.6589735+08:00">
+        <Text>[xUnit.net 00:00:00.66]     YuzuhaToolkit.Manager.Tests.SevenZipCopyTests.FormatAndFrozenSevenZipPlanAreAvailableThroughManagerOperations [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="SEAGEND" outcome="Error" timestamp="2026-10-31T14:13:11.7313194+08:00">
+        <Text>[xUnit.net 00:00:01.73]     YuzuhaToolkit.Manager.Tests.SevenZipCopyTests.ActualStandaloneToolValidatesCopiesAndRestoresSyntheticPayloadAndRejectsChangedPackageOrTool [FAIL]</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+</TestRun>

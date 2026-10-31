@@ -1,0 +1,316 @@
+{
+  "scope": "E3D2.1 APS strict identity and builtin bounded PML verification",
+  "strictSelection": [
+    {
+      "SessionSelected": true,
+      "Connected": true,
+      "TargetVerified": true,
+      "SelectedSession": {
+        "ProcessId": 8408,
+        "ProcessStartTimeUtcTicks": 639290214396762400,
+        "ProcessName": "des",
+        "ExecutablePath": "C:\\Program Files (x86)\\AVEVA\\Everything3D2.10\\des.exe",
+        "WindowTitle": "ProjAPS | ALL | Model - AVEVA Everything3D",
+        "Product": "E3D",
+        "Project": "ProjAPS",
+        "PipeName": "yuzuha.pml.command.v1.pid-8408",
+        "PipeDetected": true
+      },
+      "PipeName": "yuzuha.pml.command.v1.pid-8408",
+      "ExpectedProcessId": 8408,
+      "ExpectedProcessStartTimeUtcTicks": 639290214396762400,
+      "ExpectedModel": "DESIGN",
+      "Host": {
+        "FormQueryVersion": 0,
+        "BoundedArrayReadVersion": 0,
+        "ProcessId": 8408,
+        "ProcessStartTimeUtcTicks": 639290214396762400,
+        "Model": "DESIGN",
+        "PipeName": "yuzuha.pml.command.v1.pid-8408",
+        "HostFramework": "net48",
+        "HostVersion": "0.3.2.0",
+        "ServerTimeUtc": "2026-10-31T05:31:12.7775181Z"
+      },
+      "Error": null
+    }
+  ],
+  "currentElement": [
+    {
+      "Success": true,
+      "Code": "OK",
+      "ErrorMessage": null,
+      "PmlCommand": "!!YuzuhaReadCurrentElement(30,2,'')",
+      "Summary": {
+        "total": 31,
+        "unset": 1,
+        "blank": 0,
+        "zero": 0,
+        "emptyArray": 0,
+        "hasValue": 30,
+        "byType": {
+          "DBREF": 27,
+          "STRING": 2,
+          "BOOLEAN": 1,
+          "ARRAY": 1
+        }
+      },
+      "Count": 30,
+      "Items": [
+        {
+          "Depth": 0,
+          "Path": "",
+          "Type": "DBREF",
+          "Value": "=2013278556/0",
+          "Empty": false
+        },
+        {
+          "Depth": 1,
+          "Path": "Name",
+          "Type": "STRING",
+          "Value": "/*",
+          "Empty": false
+        },
+        {
+          "Depth": 1,
+          "Path": "Type",
+          "Type": "STRING",
+          "Value": "WORL",
+          "Empty": false
+        },
+        {
+          "Depth": 1,
+          "Path": "Lock",
+          "Type": "BOOLEAN",
+          "Value": "FALSE",
+          "Empty": false
+        },
+        {
+          "Depth": 1,
+          "Path": "MEMBERS",
+          "Type": "ARRAY",
+          "Value": "107 Elements",
+          "Empty": false
+        },
+        {
+          "Depth": 2,
+          "Path": "MEMBERS.|1|",
+          "Type": "DBREF",
+          "Value": "=2013286748/1",
+          "Empty": false
+        },
+        {
+          "Depth": 2,
+          "Path": "MEMBERS.|2|",
+          "Type": "DBREF",
+          "Value": "=2013286748/10",
+          "Empty": false
+        },
+        {
+          "Depth": 2,
+          "Path": "MEMBERS.|3|",
+          "Type": "DBREF",
+          "Value": "=2013286748/19",
+          "Empty": false
+        },
+        {
+          "Depth": 2,
+          "Path": "MEMBERS.|4|",
+          "Type": "DBREF",
+          "Value": "=2013286748/123",
+          "Empty": false
+        },
+        {
+          "Depth": 2,
+          "Path": "MEMBERS.|5|",
+          "Type": "DBREF",
+          "Value": "=2013286676/1",
+          "Empty": false
+        },
+        {
+          "Depth": 2,
+          "Path": "MEMBERS.|6|",
+          "Type": "DBREF",
+          "Value": "=2013286676/27",
+          "Empty": false
+        },
+        {
+          "Depth": 2,
+          "Path": "MEMBERS.|7|",
+          "Type": "DBREF",
+          "Value": "=2013286672/1",
+          "Empty": false
+        },
+        {
+          "Depth": 2,
+          "Path": "MEMBERS.|8|",
+          "Type": "DBREF",
+          "Value": "=2013286672/13",
+          "Empty": false
+        },
+        {
+          "Depth": 2,
+          "Path": "MEMBERS.|9|",
+          "Type": "DBREF",
+          "Value": "=2013286668/1",
+          "Empty": false
+        },
+        {
+          "Depth": 2,
+          "Path": "MEMBERS.|10|",
+          "Type": "DBREF",
+          "Value": "=2013286668/53",
+          "Empty": false
+        },
+        {
+          "Depth": 2,
+          "Path": "MEMBERS.|11|",
+          "Type": "DBREF",
+          "Value": "=2013286726/1",
+          "Empty": false
+        },
+        {
+          "Depth": 2,
+          "Path": "MEMBERS.|12|",
+          "Type": "DBREF",
+          "Value": "=2013286723/1",
+          "Empty": false
+        },
+        {
+          "Depth": 2,
+          "Path": "MEMBERS.|13|",
+          "Type": "DBREF",
+          "Value": "=2013286723/4",
+          "Empty": false
+        },
+        {
+          "Depth": 2,
+          "Path": "MEMBERS.|14|",
+          "Type": "DBREF",
+          "Value": "=2013286720/1",
+          "Empty": false
+        },
+        {
+          "Depth": 2,
+          "Path": "MEMBERS.|15|",
+          "Type": "DBREF",
+          "Value": "=2013286716/1",
+          "Empty": false
+        },
+        {
+          "Depth": 2,
+          "Path": "MEMBERS.|16|",
+          "Type": "DBREF",
+          "Value": "=2013286714/1",
+          "Empty": false
+        },
+        {
+          "Depth": 2,
+          "Path": "MEMBERS.|17|",
+          "Type": "DBREF",
+          "Value": "=2013286712/1",
+          "Empty": false
+        },
+        {
+          "Depth": 2,
+          "Path": "MEMBERS.|18|",
+          "Type": "DBREF",
+          "Value": "=2013286708/1706",
+          "Empty": false
+        },
+        {
+          "Depth": 2,
+          "Path": "MEMBERS.|19|",
+          "Type": "DBREF",
+          "Value": "=2013286708/1",
+          "Empty": false
+        },
+        {
+          "Depth": 2,
+          "Path": "MEMBERS.|20|",
+          "Type": "DBREF",
+          "Value": "=2013286706/1",
+          "Empty": false
+        },
+        {
+          "Depth": 2,
+          "Path": "MEMBERS.|21|",
+          "Type": "DBREF",
+          "Value": "=2013286704/1",
+          "Empty": false
+        },
+        {
+          "Depth": 2,
+          "Path": "MEMBERS.|22|",
+          "Type": "DBREF",
+          "Value": "=2013286704/11",
+          "Empty": false
+        },
+        {
+          "Depth": 2,
+          "Path": "MEMBERS.|23|",
+          "Type": "DBREF",
+          "Value": "=2013286700/1",
+          "Empty": false
+        },
+        {
+          "Depth": 2,
+          "Path": "MEMBERS.|24|",
+          "Type": "DBREF",
+          "Value": "=2013286700/26",
+          "Empty": false
+        },
+        {
+          "Depth": 2,
+          "Path": "MEMBERS.|25|",
+          "Type": "DBREF",
+          "Value": "=2013286698/1",
+          "Empty": false
+        }
+      ],
+      "IncludeEmpty": false,
+      "UnparsedCount": 0,
+      "Unparsed": [],
+      "RequestId": "4a5b37aeff6a44c59634f62a1e53272a",
+      "ServerRuntime": "4.0.30319.42000",
+      "ServerTimeUtc": "2026-10-31T05:31:21.9112394Z",
+      "FunctionTrustWarning": null
+    }
+  ],
+  "runtimePath": [
+    {
+      "Success": true,
+      "Code": "OK",
+      "ErrorMessage": null,
+      "PmlCommand": "!!YuzuhaReadGlobal(5,1,'','YuzuhaRuntimePath')",
+      "Summary": {
+        "total": 1,
+        "unset": 0,
+        "blank": 0,
+        "zero": 0,
+        "emptyArray": 0,
+        "hasValue": 1,
+        "byType": {
+          "STRING": 1
+        }
+      },
+      "Count": 1,
+      "Items": [
+        {
+          "Depth": 0,
+          "Path": "",
+          "Type": "STRING",
+          "Value": "C:\\Users\\26648\\AppData\\Local\\YuzuhaToolkit\\PmlTrigger.Yuzuha\\runtime\\profiles\\E3D2.1\\net48\\YuzuhaToolkit.PmlHost.Net48",
+          "Empty": false
+        }
+      ],
+      "IncludeEmpty": false,
+      "UnparsedCount": 0,
+      "Unparsed": [],
+      "RequestId": "d9db1307fdfa4624b591d3d19b36d4dd",
+      "ServerRuntime": "4.0.30319.42000",
+      "ServerTimeUtc": "2026-10-31T05:31:50.1712246Z",
+      "FunctionTrustWarning": null
+    }
+  ],
+  "didNotRelaxExpectedModel": true
+}

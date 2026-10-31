@@ -29,7 +29,7 @@ cd source
 & $env:DOTNET_HOST_PATH test tests/LaunchDesk.Next.UiTests --no-build --filter 'FullyQualifiedName~InputBehaviorTests'
 ```
 
-The repository SDK helper resolves the installed SDK through `DOTNET_HOST_PATH`. Build Debug before integration tests: the isolated ProcessFixture test intentionally exercises native argument preservation. UI tests require an interactive Windows desktop; they are separate from offline acceptance. LocalInventory tests inspect installed software and are intentionally excluded from portable acceptance. Do not run archived Desktop/Discovery against real installations as part of the ordinary offline build.
+The repository SDK helper resolves the installed SDK through `DOTNET_HOST_PATH`. Build the solution in the same configuration used by the integration tests: the isolated ProcessFixture test locates that configuration and intentionally exercises native argument preservation. UI tests require an interactive Windows desktop; they are separate from offline acceptance. LocalInventory tests inspect installed software and are intentionally excluded from portable acceptance. Do not run archived Desktop/Discovery against real installations as part of the ordinary offline build.
 
 Original requirement IDs including PM/MD/RP/PF/CR/FM/AD/DV/VM/LC/DG/UX/DOC remain in `source/openspec/requirements.md`; contract mapping remains in the main platform change. The archive contains no CAF compatibility claim. Next's historical launch behavior is migration evidence; the Manager implementation remains authoritative.
 

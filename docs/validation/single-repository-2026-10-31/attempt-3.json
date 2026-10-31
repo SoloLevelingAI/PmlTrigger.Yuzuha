@@ -1,0 +1,129 @@
+{
+  "schemaVersion": 1,
+  "completed": false,
+  "commit": "309948ddb460f5c290bb1dacd9c13892a0e9562b",
+  "dirty": false,
+  "scope": "single-checkout offline validation; no AVEVA login/SDK, credentials, VM or production deployment",
+  "steps": [
+    {
+      "name": "integration-manifests",
+      "directory": ".",
+      "startedUtc": "2026-10-31T07:30:59.4994888+00:00",
+      "finishedUtc": "2026-10-31T07:31:00.0154087+00:00",
+      "exitCode": 0,
+      "log": "integration-manifests.log"
+    },
+    {
+      "name": "next-assets",
+      "directory": "integrations\\next",
+      "startedUtc": "2026-10-31T07:31:00.1602206+00:00",
+      "finishedUtc": "2026-10-31T07:31:00.4330270+00:00",
+      "exitCode": 0,
+      "log": "next-assets.log"
+    },
+    {
+      "name": "portfolio-http-assets",
+      "directory": ".",
+      "startedUtc": "2026-10-31T07:31:00.5620969+00:00",
+      "finishedUtc": "2026-10-31T07:31:01.6373855+00:00",
+      "exitCode": 0,
+      "log": "portfolio-http-assets.log"
+    },
+    {
+      "name": "manager-tests",
+      "directory": ".",
+      "startedUtc": "2026-10-31T07:31:01.7775863+00:00",
+      "finishedUtc": "2026-10-31T07:31:47.8758324+00:00",
+      "exitCode": 0,
+      "log": "manager-tests.log"
+    },
+    {
+      "name": "database-tests",
+      "directory": ".",
+      "startedUtc": "2026-10-31T07:31:48.0192544+00:00",
+      "finishedUtc": "2026-10-31T07:31:58.8812659+00:00",
+      "exitCode": 0,
+      "log": "database-tests.log"
+    },
+    {
+      "name": "architecture-tests",
+      "directory": ".",
+      "startedUtc": "2026-10-31T07:31:59.0271781+00:00",
+      "finishedUtc": "2026-10-31T07:32:29.3778550+00:00",
+      "exitCode": 0,
+      "log": "architecture-tests.log"
+    },
+    {
+      "name": "manager-cli-build",
+      "directory": ".",
+      "startedUtc": "2026-10-31T07:32:29.4981125+00:00",
+      "finishedUtc": "2026-10-31T07:32:33.8011366+00:00",
+      "exitCode": 0,
+      "log": "manager-cli-build.log"
+    },
+    {
+      "name": "communication-cli-build",
+      "directory": ".",
+      "startedUtc": "2026-10-31T07:32:33.9181240+00:00",
+      "finishedUtc": "2026-10-31T07:32:38.6459865+00:00",
+      "exitCode": 0,
+      "log": "communication-cli-build.log"
+    },
+    {
+      "name": "rewrite-build",
+      "directory": "integrations\\rewrite\\source\\rewrite",
+      "startedUtc": "2026-10-31T07:32:38.7656977+00:00",
+      "finishedUtc": "2026-10-31T07:33:05.7281430+00:00",
+      "exitCode": 0,
+      "log": "rewrite-build.log"
+    },
+    {
+      "name": "rewrite-tests",
+      "directory": "integrations\\rewrite\\source\\rewrite",
+      "startedUtc": "2026-10-31T07:33:05.8882145+00:00",
+      "finishedUtc": "2026-10-31T07:33:22.1719287+00:00",
+      "exitCode": 0,
+      "log": "rewrite-tests.log"
+    },
+    {
+      "name": "rewrite-node-tests",
+      "directory": "integrations\\rewrite\\source\\rewrite",
+      "startedUtc": "2026-10-31T07:33:22.2878736+00:00",
+      "finishedUtc": "2026-10-31T07:33:22.5490420+00:00",
+      "exitCode": 0,
+      "log": "rewrite-node-tests.log"
+    },
+    {
+      "name": "next-build",
+      "directory": "integrations\\next\\source",
+      "startedUtc": "2026-10-31T07:33:22.6703061+00:00",
+      "finishedUtc": "2026-10-31T07:34:00.6255646+00:00",
+      "exitCode": 0,
+      "log": "next-build.log"
+    },
+    {
+      "name": "next-UnitTests",
+      "directory": "integrations\\next\\source",
+      "startedUtc": "2026-10-31T07:34:00.7596530+00:00",
+      "finishedUtc": "2026-10-31T07:34:03.1927106+00:00",
+      "exitCode": 0,
+      "log": "next-UnitTests.log"
+    },
+    {
+      "name": "next-ArchitectureTests",
+      "directory": "integrations\\next\\source",
+      "startedUtc": "2026-10-31T07:34:03.3727726+00:00",
+      "finishedUtc": "2026-10-31T07:34:14.6657078+00:00",
+      "exitCode": 0,
+      "log": "next-ArchitectureTests.log"
+    },
+    {
+      "name": "next-IntegrationTests",
+      "directory": "integrations\\next\\source",
+      "startedUtc": "2026-10-31T07:34:14.7841140+00:00",
+      "finishedUtc": "2026-10-31T07:34:17.2555695+00:00",
+      "exitCode": 1,
+      "log": "next-IntegrationTests.log"
+    }
+  ]
+}

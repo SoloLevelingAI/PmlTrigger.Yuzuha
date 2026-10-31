@@ -107,15 +107,25 @@ public sealed class EvidenceTests
     {
         var output = Path.Combine(root, "child.txt");
         var script = Path.Combine(root, "child.cmd");
-        await File.WriteAllTextAsync(script, "@echo off\r\necho %LD_NEXT_FIXTURE%>\"" + output + "\"\r\n");
+        // cmd closes the echo redirection before rename publishes the completed file.
+        await File.WriteAllTextAsync(script, "@echo off\r\necho %LD_NEXT_FIXTURE%>\"" + output + ".pending\"\r\nif errorlevel 1 exit /b 1\r\nmove /y \"" + output + ".pending\" \"" + output + "\" >nul\r\n");
         // A batch fixture exercises the real cmd handoff; it never invokes a vendor binary.
         var r = new LaunchInput { DisplayName = "isolated", ExecutablePath = script, WorkingDirectory = root, Protocol = EntryProtocol.Marine, Project = "SAM", User = "SYSTEM", Mdb = "ALL", Module = "Design", CheckLicence = false, Environment = new() { { "LD_NEXT_FIXTURE", "child-only" } } }.CreateSnapshot(Guid.NewGuid());
         var original = System.Environment.GetEnvironmentVariable("LD_NEXT_FIXTURE"); using var secret = new SecretHandle("fixture-password"); using var handle = new StartMarineBatch(new WindowsProcessHost()).Execute(r, secret);
-        for (var i = 0; i < 50 && !File.Exists(output); i++) await Task.Delay(100);
+        await WaitForPublishedOutput(output);
         Assert.That(File.Exists(output), Is.True);
         Assert.That((await File.ReadAllTextAsync(output)).Trim(), Is.EqualTo("child-only"));
         Assert.That(System.Environment.GetEnvironmentVariable("LD_NEXT_FIXTURE"), Is.EqualTo(original));
     }
+    // Fixtures rename a closed same-directory pending file to signal completion.
+    // Published files must be immediately readable; no read exceptions are retried.
+    private static async Task WaitForPublishedOutput(string output)
+    {
+        using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+        while (!File.Exists(output)) await Task.Delay(25, timeout.Token);
+        Assert.That(File.Exists(output + ".pending"), Is.False, "Publication must consume the pending file.");
+    }
+
     [Test]
     public void SecretHandleDisposalRejectsFurtherReads()
     {
@@ -127,14 +137,15 @@ public sealed class EvidenceTests
     public async Task NativeMonitorPreservesEightArgumentsAndSpaces()
     {
         var repository = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, "../../../../../"));
-        var receiver = Path.Combine(repository, "tests/LaunchDesk.Next.ProcessFixture/bin/Debug/net10.0/LaunchDesk.Next.ProcessFixture.exe");
+        var configuration = new DirectoryInfo(TestContext.CurrentContext.TestDirectory).Parent!.Name;
+        var receiver = Path.Combine(repository, "tests/LaunchDesk.Next.ProcessFixture/bin", configuration, "net10.0/LaunchDesk.Next.ProcessFixture.exe");
         Assert.That(File.Exists(receiver), Is.True, "Build the approved isolated ProcessFixture before this test.");
         var output = Path.Combine(root, "native.json");
         var init = Path.Combine(root, "init with spaces.init");
         await File.WriteAllTextAsync(init, "");
         var r = new LaunchInput { DisplayName = "native fixture", ExecutablePath = receiver, WorkingDirectory = root, Protocol = EntryProtocol.Monitor, Product = "E3D", InitializationFile = init, Project = "SAM", User = "SYSTEM", Mdb = "ALL", Module = "Design", CheckLicence = false, LicenceServer = "fixture-server", Environment = new() { { "LD_NEXT_OUTPUT", output }, { "LD_NEXT_FIXTURE", "child-only" } } }.CreateSnapshot(Guid.NewGuid());
         using var secret = new SecretHandle("fixture password"); using var handle = new StartMonitor(new WindowsProcessHost(), new WindowsFileSystem()).Execute(r, secret);
-        for (var i = 0; i < 50 && !File.Exists(output); i++) await Task.Delay(100);
+        await WaitForPublishedOutput(output);
         using var json = JsonDocument.Parse(await File.ReadAllTextAsync(output));
         Assert.That(json.RootElement.GetProperty("Arguments").EnumerateArray().Select(x => x.GetString()), Is.EqualTo(new[] { "PROD", "E3D", "init", init, "SAM", "SYSTEM/fixture password", "/ALL", "Design" }));
         Assert.That(json.RootElement.GetProperty("Licence").GetString(), Is.EqualTo("fixture-server"));

@@ -438,7 +438,7 @@
       "path": "source/tests/LaunchDesk.Next.IntegrationTests/Launch/EvidenceTests.cs",
       "sourcePath": "LaunchDesk.Next/tests/LaunchDesk.Next.IntegrationTests/Launch/EvidenceTests.cs",
       "sha256": "ad00ddd3667c2c3b39d9fc1fdd865cf8750da557b3835438e68cf0ddec79b85a",
-      "integratedSha256": "ad00ddd3667c2c3b39d9fc1fdd865cf8750da557b3835438e68cf0ddec79b85a",
+      "integratedSha256": "b4fabfd709e209740023a7d5611c5f2ff52f2cc956a67aa11199394617436cb6",
       "bytes": 8801
     },
     {
@@ -473,7 +473,7 @@
       "path": "source/tests/LaunchDesk.Next.ProcessFixture/Program.cs",
       "sourcePath": "LaunchDesk.Next/tests/LaunchDesk.Next.ProcessFixture/Program.cs",
       "sha256": "162dbff5a06ff8aba83c83c517a7f9954a72b5f10fea577b593535d141ba0248",
-      "integratedSha256": "162dbff5a06ff8aba83c83c517a7f9954a72b5f10fea577b593535d141ba0248",
+      "integratedSha256": "25ca1dd3bef17a4d0afc5c49fe464819b2259797752f741ef03241fbd9146d0b",
       "bytes": 495
     },
     {
@@ -5522,6 +5522,13 @@
     {
       "scope": "site/**/*.html",
       "reason": "Omitted historical local-machine/VM evidence links point to explicit omission page; repair original generated repository README links."
+    },
+    {
+      "paths": [
+        "source/tests/LaunchDesk.Next.IntegrationTests/Launch/EvidenceTests.cs",
+        "source/tests/LaunchDesk.Next.ProcessFixture/Program.cs"
+      ],
+      "reason": "Fix isolated fixture output race: write pending file, close, then same-directory rename publishes readiness. Batch fixture follows the same protocol; final reads are not retried. Resolve ProcessFixture using current test configuration instead of hardcoded Debug."
     }
   ],
   "validation": {

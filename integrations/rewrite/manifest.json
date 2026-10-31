@@ -54,6 +54,10 @@
     {
       "path": "source/rewrite/LaunchDesk.Worker/PrivilegedWorkerHost.cs",
       "reason": "Isolated authenticated Worker fixture: trusted constructor injection of private control registry and current-configuration self-hosted test executable; production entry and identity gates unchanged. Review follow-up: test worker uses its currently built executable, private control registry and exact original authentication checks; test dependency graph updated."
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.DevHost/LaunchDesk.DevHost.csproj",
+      "reason": "Pin patched Microsoft.OpenApi 2.7.5 (same 2.x major) to remediate transitive 2.0.0 GHSA-v5pm-xwqc-g5wc / CVE-2026-49451. Keep NuGetAudit and vulnerability warning-as-error enforcement; strict online restore, full build and OpenAPI+Scalar smoke verified."
     }
   ],
   "files": [
@@ -421,7 +425,7 @@
       "path": "source/rewrite/LaunchDesk.DevHost/LaunchDesk.DevHost.csproj",
       "sourcePath": "rewrite/LaunchDesk.DevHost/LaunchDesk.DevHost.csproj",
       "sha256": "86be2ad0ebbc641b9081ff5f18a30b2cd8e9476c85e9406c564868a60cafdc7b",
-      "integratedSha256": "86be2ad0ebbc641b9081ff5f18a30b2cd8e9476c85e9406c564868a60cafdc7b"
+      "integratedSha256": "be0060bc827a0afbd1cbd3df5f2dd228699fce69fad4efe2b4666b6bb79309b0"
     },
     {
       "path": "source/rewrite/LaunchDesk.DevHost/Program.cs",

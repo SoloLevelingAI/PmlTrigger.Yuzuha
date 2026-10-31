@@ -4,9 +4,7 @@
   "configuration": "Release",
   "build": {
     "errors": 0,
-    "warnings": [
-      "NU1900 vulnerability service unreachable"
-    ]
+    "warnings": []
   },
   "defaultTests": {
     "passed": 71,
@@ -40,5 +38,15 @@
     "otherRegistrationsPreserved": 37,
     "registryBackups": "ignored-local-artifacts-only"
   },
-  "omittedNonSourceFiles": 9
+  "omittedNonSourceFiles": 9,
+  "securityFollowup": {
+    "advisory": "GHSA-v5pm-xwqc-g5wc",
+    "package": "Microsoft.OpenApi",
+    "previousTransitiveVersion": "2.0.0",
+    "patchedVersion": "2.7.5",
+    "strictOnlineRestore": "passed-zero-warnings",
+    "build": "passed-zero-warnings-zero-errors",
+    "openapiSmoke": "passed-3.1.1-health-and-operations-schemas",
+    "scalarSmokeHttp": 200
+  }
 }

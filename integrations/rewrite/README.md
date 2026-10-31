@@ -11,8 +11,8 @@ From the PMLTWIN repository root (PowerShell, .NET 10 Windows SDK):
 ```powershell
 . ./scripts/Use-YuzuhaDotnet.ps1
 $dotnet = $env:DOTNET_HOST_PATH
-& $dotnet restore integrations/rewrite/source/rewrite/LaunchDesk.Rewrite.slnx --ignore-failed-sources -m:1 -nr:false -p:WarningsNotAsErrors=NU1900
-& $dotnet build integrations/rewrite/source/rewrite/LaunchDesk.Rewrite.slnx -c Release --no-restore -m:1 -nr:false -p:UseSharedCompilation=false -p:WarningsNotAsErrors=NU1900
+& $dotnet restore integrations/rewrite/source/rewrite/LaunchDesk.Rewrite.slnx --ignore-failed-sources -m:1 -nr:false
+& $dotnet build integrations/rewrite/source/rewrite/LaunchDesk.Rewrite.slnx -c Release --no-restore -m:1 -nr:false -p:UseSharedCompilation=false
 & $dotnet test integrations/rewrite/source/rewrite/LaunchDesk.Architecture.Tests/LaunchDesk.Architecture.Tests.csproj -c Release --no-build --filter 'Category!=Optional7Zip'
 ```
 
@@ -23,3 +23,5 @@ The original source scripts under `source/rewrite/scripts` are retained. Pure No
 NuGet auditing remains enabled. Offline restore may report NU1900 because the vulnerability service is unreachable; the commands retain that diagnostic as a warning. This does not establish a successful vulnerability audit.
 
 AR18 Worker verification is self-hosted in the current configuration's test executable with a private fixture registry. It does not depend on Release build outputs and does not register fixtures in the user's LaunchDesk ControlV3 directory. The production Worker executable retains its default protection root and all authenticated admission checks.
+
+DevHost pins Microsoft.OpenApi 2.7.5 to fix [GHSA-v5pm-xwqc-g5wc](https://github.com/advisories/GHSA-v5pm-xwqc-g5wc). Normal restore/build uses strict auditing; no NU1903 suppression is permitted. The successful online verification produced zero audit warnings.

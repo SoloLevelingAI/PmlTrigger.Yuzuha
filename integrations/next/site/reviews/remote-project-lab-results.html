@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html data-reading-revision="f5a8b6840d71" lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+      <title>G0/G1执行结果：已通过，保留原机VMX保护例外 | LaunchDesk.Next </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="G0/G1执行结果：已通过，保留原机VMX保护例外 | LaunchDesk.Next ">
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/theme-tokens.css?v=f5a8b6840d71">
+      <link rel="stylesheet" href="../public/main.css?v=f5a8b6840d71">
+      <link rel="stylesheet" href="../public/theme-type.css?v=f5a8b6840d71">
+      <script type="module" src="../public/reading.js?v=f5a8b6840d71"></script>
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="../development/toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="本页目录">
+      <meta name="loc:searchResultsCount" content="“{query}”的结果：{count}条">
+      <meta name="loc:searchNoResults" content="没有找到“{query}”">
+      <meta name="loc:tocFilter" content="筛选文件标题">
+      <meta name="loc:nextArticle" content="下一篇">
+      <meta name="loc:prevArticle" content="上一篇">
+      <meta name="loc:themeLight" content="浅色">
+      <meta name="loc:themeDark" content="深色">
+      <meta name="loc:themeAuto" content="跟随系统">
+      <meta name="loc:changeTheme" content="切换明暗">
+      <meta name="loc:copy" content="复制">
+      <meta name="loc:downloadPdf" content="下载PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <a class="ld-skip" href="#doc-content">跳到正文</a>
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../INDEX.html">
+            <span class="ld-monogram" aria-hidden="true">LD</span>
+            LaunchDesk.Next
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="展开导航与搜索">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div class="ld-links" aria-label="快捷入口"><a href="../INDEX.html">阅读文档</a><a href="../portfolio/index.html?revision=figcraft-roundtrip">项目作品集 ↗</a><a href="../status.html">交付状态</a></div>
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="搜索文档" autocomplete="off" aria-label="搜索文档">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">文件目录</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="关闭文件目录"></button>
+          </div>
+          <div class="offcanvas-body">
+            <div class="ld-toc-caption"><strong>文件与阅读路径</strong><span>LIBRARY</span></div>
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="打开文件目录">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article id="doc-content" tabindex="-1" data-uid="remote-project-lab-results">
+          <div class="ld-kicker">LAUNCHDESK.NEXT / ENGINEERING LIBRARY</div>
+          <div class="ld-doc-meta"><span class="ld-state" data-state="historical">状态见正文</span><span>文档核对 2026-10-29</span></div>
+<h1 id="g0g1执行结果已通过保留原机vmx保护例外">G0/G1执行结果：已通过，保留原机VMX保护例外</h1>
+
+<blockquote>
+<p>历史记录：保留当时结果，不代表当前进程、机器或许可状态。当前交付边界见<a href="../status.html">状态页</a>。</p>
+</blockquote>
+<p>2026-10-28，LabRunId：20261028-g0-g1。<strong>G0网络隔离、G1账户与共享权限验收已通过；10/10项真实SMB检查通过。</strong> 已保留配置前及Ready两份关机态快照。当前所有VM关机；原许可机没有启动。随后只启动测试克隆核对许可组件，已再次正常关机，结果见②。原机VMX被VMware在克隆时重写的保护例外见⑥，不能把它说成所有原文件字节均未改变。</p>
+<h2 id="-结论与范围">① 结论与范围</h2>
+<p>Host-only、专用账户、假Project目录和受限共享已验收，依据<a class="xref" href="remote-project-lab.html">手册</a>。这是环境基线，不是产品远程功能；G2–G5、真实AVEVA数据库/登录/锁/许可仍待验证。十项OS检查未施加产品拟议的8秒截止，也不与现有99项产品测试混算。未安装依赖或实现WPF。</p>
+<h2 id="-环境e3d与许可在哪里">② 环境、E3D与许可在哪里</h2>
+<table>
+<thead>
+<tr>
+<th>查找对象</th>
+<th>实际位置与状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>测试VM</td>
+<td>VMware库中LD-PROJ-VM；Windows 11，独立完整克隆，文件在<code>LaunchDesk.Next.Lab/LD-PROJ-VM</code></td>
+</tr>
+<tr>
+<td>管理账户</td>
+<td><code>LD-PROJ-VM\ZHANGSH1</code>；口令只在本机保护存储，不写入文档</td>
+</tr>
+<tr>
+<td>网络</td>
+<td>单网卡Host-only VMnet1；宿主机192.168.244.1，VM192.168.244.10/24；无网关、DNS或外部IPv4路由</td>
+</tr>
+<tr>
+<td>SMB</td>
+<td><code>\\192.168.244.10\AVEVAProjects\E3D2.1\AvevaPlantSample\APS000</code>，只有marker.txt假工程</td>
+</tr>
+<tr>
+<td>防火墙</td>
+<td>三配置文件开启；实验TCP445仅允许宿主机244.1访问VM244.10</td>
+</tr>
+<tr>
+<td>原许可机</td>
+<td><code>D:/VirtualMachines/E3D-License/E3D-License.vmx</code>，保留原NAT，本轮未启动</td>
+</tr>
+</tbody>
+</table>
+<p>复用现有VMware 26.0.1和VMnet1；DHCP范围128–254不改，静态地址10在范围外。没有修改全局DHCP/NAT。宿主机接口Forwarding为0；Internet共享查询失败，不能据此宣称禁用。隔离结论限于现有网卡与路由，不保证管理员以后不会改网。</p>
+<p><a id="licence"></a></p>
+<p><strong>你看到VM没有E3D，是有依据的：E3D客户端在宿主机，VM装的是许可组件。</strong> 2026-10-28只读核对如下：</p>
+<table>
+<thead>
+<tr>
+<th>位置</th>
+<th>找到什么</th>
+<th>可以说明什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>宿主机</td>
+<td><code>C:\Program Files (x86)\AVEVA\Everything3D3.1\mon.exe</code>、<code>des.exe</code>；<code>Everything3D2.10\mon.exe</code></td>
+<td>有E3D3.1及2.1启动文件</td>
+</tr>
+<tr>
+<td>测试VM</td>
+<td>安装记录只有AVEVA Licensing System 4.1；所查AVEVA目录未找到mon.exe/des.exe</td>
+<td>当前证据支持“许可服务器”，没有发现E3D客户端；不是全盘穷举</td>
+</tr>
+<tr>
+<td>测试VM</td>
+<td>已确认克隆改名导致主机名许可绑定失配，RMS拒绝加载，RULES停止</td>
+<td>后续按授权恢复ZHANGSH后签出AVEVA201通过；后续原生启动复测已进入Model，见<a href="licence-checkout.html">复测</a></td>
+</tr>
+<tr>
+<td>许可文件</td>
+<td>宿主机<code>D:\VirtualMachines\E3D-Setup\LicenseFile.xml</code>为12102字节；VM的Flex/licenses.lic为0字节</td>
+<td>找到文件线索；未导出内容，空Flex文件也不能代表RMS无许可</td>
+</tr>
+</tbody>
+</table>
+<p><strong>能找到许可系统和文件，但尚不能确认有效许可。</strong> 克隆改过身份/网络，不能假定继承原机许可有效；原许可机仍未启动，未安装E3D或改许可密钥。首次签出因RULES4546超时失败；后续恢复克隆主机名后签出已通过，后续原生句柄复测已进入MAR/ALL_NO_MDS/Model。宿主机RMS服务也在运行，RULES停止，不能与VM结果混为一谈。旧Monitor文档指向原机<code>4545@192.168.173.10</code>，那是历史配置，本轮没有验证该端点。</p>
+<p>LaunchDesk现有<code>CheckAvevaLicence</code>只检查服务/端口，不验证功能许可签出。后续恢复名称后签出通过但原生启动已通过，见<a href="licence-checkout.html">结果</a>；SMB夹具无需安装E3D。客户端向许可服务器签出的分工参见<a href="https://docs.aveva.com/bundle/licensing-system/page/1046971.html">AVEVA官方说明</a>。</p>
+<p>证据：<a href="../evidence-omitted.html">VM只读清单</a>、<a href="../evidence-omitted.html">宿主机与保护核对</a>、<a href="../evidence-omitted.html">扫描器C#源码</a>。清单只含安装/服务/路径/大小/哈希与探测结果，不含许可正文；VM扫描范围与深度限制也记录在内。</p>
+<h2 id="-账户共享与目录权限">③ 账户、共享与目录权限</h2>
+<table>
+<thead>
+<tr>
+<th>账户</th>
+<th>共享</th>
+<th>APS000</th>
+<th>Denied</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ld_reader</td>
+<td>Read</td>
+<td>Read &amp; Execute</td>
+<td>Read &amp; Execute</td>
+</tr>
+<tr>
+<td>ld_denied</td>
+<td>Read</td>
+<td>Read &amp; Execute</td>
+<td>无读取授权</td>
+</tr>
+<tr>
+<td>SYSTEM/Administrators</td>
+<td>Full Control</td>
+<td>Full Control</td>
+<td>Full Control</td>
+</tr>
+</tbody>
+</table>
+<p>两测试账户只有Users组，使用不同非空随机密码；验收未借管理员身份。共享无Everyone，目录移除宽泛继承；Denied独立DACL只给管理员与reader。克隆内一条较宽SMB规则已禁用，原机/宿主机防火墙未改，见<a href="../evidence-omitted.html">配置记录</a>。</p>
+<p>秘密经加密交接、DPAPI保护，不进入Git、日志或CLI参数；未启用Guest/匿名/SMB1或放宽签名。本只读夹具不证明真实工程所需的写入、锁权限。</p>
+<h2 id="-g1实际验收十项均通过">④ G1实际验收：十项均通过</h2>
+<p>从宿主机C#检查器发起，使用LOGON_NEW_CREDENTIALS(9)，四组不同AuthenticationId/LUID隔离账户和坏密码情况。不是先用管理员连通再换界面标签，也没有借同名凭据或已有连接放行。</p>
+<table>
+<thead>
+<tr>
+<th>检查</th>
+<th>实际结果/原生错误</th>
+<th>判定</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>reader读取APS marker</td>
+<td>成功，内容属于本轮夹具</td>
+<td>通过</td>
+</tr>
+<tr>
+<td>reader读取Denied marker</td>
+<td>成功</td>
+<td>通过</td>
+</tr>
+<tr>
+<td>reader写入APS临时文件</td>
+<td>拒绝，5</td>
+<td>通过</td>
+</tr>
+<tr>
+<td>缺失Project子目录</td>
+<td>路径不存在，3</td>
+<td>通过</td>
+</tr>
+<tr>
+<td>缺失共享</td>
+<td>网络名不存在，67</td>
+<td>通过</td>
+</tr>
+<tr>
+<td>denied读取APS marker</td>
+<td>成功</td>
+<td>通过</td>
+</tr>
+<tr>
+<td>denied读取Denied marker</td>
+<td>拒绝，5</td>
+<td>通过</td>
+</tr>
+<tr>
+<td>denied写入APS临时文件</td>
+<td>拒绝，5</td>
+<td>通过</td>
+</tr>
+<tr>
+<td>reader一次错误密码</td>
+<td>登录失败，1326</td>
+<td>通过</td>
+</tr>
+<tr>
+<td>错误密码后换独立会话用正确密码</td>
+<td>再次成功，未误判锁定或缓存成功</td>
+<td>通过</td>
+</tr>
+</tbody>
+</table>
+<p><a href="../evidence-omitted.html">List<record>完整结果</record></a>与<a href="../evidence-omitted.html">逐条JSONL日志</a>保留时间、OperationId、账户、LUID、实际错误及判定；没有秘密。复核又从来宾侧读取了<a href="../evidence-omitted.html">实际网络、路由、共享DACL、NTFS和防火墙</a>，与预期一致。</p>
+<h2 id="-重启会话与快照">⑤ 重启、会话与快照</h2>
+<p>配置后正常重启，再完成十项检查，证明网络、账户、共享与权限已持久化。检查结束未强断缓存句柄；正常关机终止测试会话。未创建持久盘符或自动重连。</p>
+<table>
+<thead>
+<tr>
+<th>回滚点</th>
+<th>快照名</th>
+<th>UID</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>配置前</td>
+<td>LD-Proj-Before-G0-G1-20261028</td>
+<td>1</td>
+</tr>
+<tr>
+<td>已验收</td>
+<td>LD-Proj-Ready-G0-G1-20261028</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<p><a href="../evidence-omitted.html">快照与哈希</a>已保留；本轮许可核对后两份哈希仍一致。常规复跑用Ready；Before会恢复旧账户/网络，不能假定当前口令有效。快照不还原宿主机连接，镜像未进Git。</p>
+<p><a id="protection"></a></p>
+<h2 id="-原环境保护与例外">⑥ 原环境保护与例外</h2>
+<p>原VM始终未启动。原快照表、NVRAM、VMXF及全局DHCP/NAT哈希未变；原磁盘大小/修改时间未变，<strong>没有磁盘内容前后哈希</strong>。</p>
+<p><strong>例外：原E3D-License.vmx在VMware完整克隆时被重写，SHA256改变，大小仍10703字节。</strong> 没有配置前原文，无法完整字段比较；不推定“仅无害元数据”，不声称原机所有文件字节未变，也未猜测重建加密配置。可观察NAT、磁盘路径与硬件身份保留。本轮只读核对未再改变这些保护基线。</p>
+<p>证据：<a href="../evidence-omitted.html">配置前</a>、<a href="../evidence-omitted.html">G0/G1后</a>、<a href="../evidence-omitted.html">磁盘元数据</a>、<a href="../evidence-omitted.html">本轮复核</a>。以后克隆前须另存原VMX私有备份，勿将加密元数据公开。</p>
+<h2 id="-实际工具链与中途失败">⑦ 实际工具链与中途失败</h2>
+<p>初期完整克隆/快照使用界面；随后用现有VMware VIX API与C#，不需在VM安装Cursor或其他工具。</p>
+<pre><code class="lang-text">受保护输入 → LabVix固定克隆 → GuestInspect确认身份
+→ GuestSetup配置 → 正常重启 → SmbCheck独立会话验收
+→ GuestAudit复核 → 正常关机 → Ready快照
+</code></pre>
+<p><a href="../evidence-omitted.html">早期访问错误</a>17005/3015在确认实际账户与口令后解决；未离线重置、移除加密/vTPM或放宽策略。GuestAudit曾因SESSION_INFO_1多字段崩溃0xC0000005，按<a href="https://learn.microsoft.com/en-us/windows/win32/api/lmshare/ns-lmshare-session_info_1">微软定义</a>修正后成功；失败历史保留。PowerShell交接曾被策略阻止，未改策略，实际使用C#。</p>
+<h2 id="-证据索引与下一步">⑧ 证据索引与下一步</h2>
+<p>状态入口：<a href="../evidence-omitted.html">验收汇总</a>。<a href="../evidence-omitted.html">配置前</a>→<a href="../evidence-omitted.html">配置</a>→<a href="../evidence-omitted.html">复核</a>；十项结果见④，许可证据见②。</p>
+<p>C#源码：<a href="../evidence-omitted.html">工具索引</a>、<a href="../evidence-omitted.html">LabVix</a>、<a href="../evidence-omitted.html">GuestSetup</a>、<a href="../evidence-omitted.html">GuestAudit</a>、<a href="../evidence-omitted.html">SmbCheck</a>、<a href="../evidence-omitted.html">版本哈希</a>。这是环境工具，非产品实现；二进制、秘密和VM镜像不公开。</p>
+<p>后续产品实现另行批准，再做G2–G5及真实AVEVA验证。</p>
+
+</article>
+
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span class="ld-footer-word">LAUNCHDESK.NEXT / KNOWLEDGE SYSTEM</span><span class="ld-footer-note">功能事实 · 源码路径 · 验证证据　/　DocFX</span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,55 @@
+- name: 全项目
+  href: index.md
+- name: 文档索引
+  href: ../../artifacts/docfx/navigation/documents/index.md
+- name: 功能模块
+  href: ../../artifacts/docfx/navigation/modules/index.md
+- name: 需求与设计
+  href: ../../artifacts/docfx/navigation/specifications/toc.yml
+- name: 接口
+  href: ../../artifacts/docfx/navigation/interfaces/index.md
+- name: 数据模型
+  href: ../../artifacts/docfx/navigation/models/index.md
+- name: 测试
+  href: ../../artifacts/docfx/navigation/tests/index.md
+- name: 视图与交互
+  items:
+  - name: 视图 View
+    href: ../../artifacts/docfx/navigation/views/index.md
+  - name: 交互模型 ViewModel
+    href: ../../artifacts/docfx/navigation/viewmodels/index.md
+  - name: 交互支持
+    href: ../../artifacts/docfx/navigation/interaction/index.md
+- name: 指南
+  items:
+  - name: 10 分钟理解项目
+    href: articles/getting-started.md
+  - name: 核心能力：AM / E3D 启动
+    href: articles/core-launch.md
+  - name: 五条业务流程
+    href: articles/flows/index.md
+    items:
+    - name: 启动登录
+      href: articles/flows/launch.md
+    - name: 工具来源与部署
+      href: articles/flows/delivery.md
+    - name: 持久变量应用
+      href: articles/flows/variables.md
+    - name: 分享导入与旧数据迁移
+      href: articles/flows/sharing-migration.md
+    - name: 许可与资源监测
+      href: articles/flows/monitoring.md
+  - name: 核心术语表
+    href: articles/glossary.md
+  - name: 按项目与功能阅读
+    href: articles/exploring.md
+  - name: 架构与职责
+    href: articles/architecture.md
+  - name: 文档维护
+    href: articles/documentation.md
+- name: HTTP API
+  items:
+  - name: Scalar 交互文档
+    href: ../../artifacts/docfx/http-api/index.html
+  - name: OpenAPI JSON
+    href: ../../artifacts/docfx/openapi/v1.json

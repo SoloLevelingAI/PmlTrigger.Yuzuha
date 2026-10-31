@@ -6,8 +6,8 @@ import {execFileSync} from 'node:child_process';
 const root = path.resolve(import.meta.dirname, '..');
 const output = path.join(root, 'openspec/changes/integrate-pmltwin-product-platform/baseline');
 const roots = {
-  Archon: process.env.PMLTWIN_ARCHON_ROOT || 'C:/Users/26648/Documents/Codex/2026-10-15/ni/LaunchDesk.Archon',
-  Next: path.resolve(root, '../LaunchDesk.Next'), Ribbon: path.resolve(root, '../UicRibbonDesigner'), PMLTWIN: root,
+  Archon: path.join(root, 'integrations/rewrite/source'),
+  Next: path.join(root, 'integrations/next/source'), Ribbon: path.join(root, 'integrations/ribbon/source'), PMLTWIN: root,
 };
 const git = (cwd, ...args) => { try { return execFileSync('git', ['-c','core.quotepath=false',...args], {cwd,encoding:'utf8',stdio:['ignore','pipe','pipe'],maxBuffer:32*1024*1024}).trim(); } catch { return null; } };
 const hash = data => crypto.createHash('sha256').update(data).digest('hex');
@@ -17,7 +17,7 @@ const inventories = {}; const security = [];
 for (const [name, cwd] of Object.entries(roots)) {
   if (!fs.existsSync(cwd)) throw Error(`Missing source ${name}`);
   const listed=git(cwd,'ls-files','--cached','--others','--exclude-standard','-z');
-  const status=git(cwd,'status','--porcelain=v1');
+  const status=git(cwd,'status','--porcelain=v1','--','.');
   if(listed===null || status===null) throw Error(`Cannot read complete Git inventory/dirty state for ${name}; do not overwrite baseline with a partial sandbox view.`);
   const files = [...new Set(listed.split('\0').filter(Boolean))].sort();
   const records=[]; const omissions={excluded:0,nonText:0,missing:0};
@@ -40,7 +40,12 @@ for (const [name, cwd] of Object.entries(roots)) {
     records.push({path:file,sha256:hash(data),bytes:data.length});
   }
   const head=git(cwd,'rev-parse','--verify','HEAD');
-  inventories[name]={identity:name==='Archon'?'authoritative-original':'sibling-workspace',head,branch:git(cwd,'branch','--show-current'),status,trackedDiffSummary:head?git(cwd,'diff','HEAD','--numstat'):null,diagnostics:head?[]:['no-resolvable-HEAD; workspace evidence only'],files:records,omissions};
+  inventories[name]={identity:name==='PMLTWIN'?'current-workspace':'integrated-source',
+    path:path.relative(root,cwd).replaceAll('\\','/') || '.',
+    head:name==='PMLTWIN'?head:null,
+    provenance:name==='PMLTWIN'?null:path.relative(root,path.join(cwd,'../manifest.json')).replaceAll('\\','/'),
+    branch:name==='PMLTWIN'?git(cwd,'branch','--show-current'):null,workspaceStatus:status,
+    trackedWorkspaceDiffSummary:head?git(cwd,'diff','HEAD','--numstat','--','.'):null,files:records,omissions};
 }
 const rows=[];
 function owner(text) {

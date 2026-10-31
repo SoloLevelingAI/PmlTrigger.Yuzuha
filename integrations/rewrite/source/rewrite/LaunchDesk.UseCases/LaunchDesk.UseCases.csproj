@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <ItemGroup>
+        <ProjectReference Include="../LaunchDesk.OperationContracts/LaunchDesk.OperationContracts.csproj"/>
+    </ItemGroup>
+</Project>

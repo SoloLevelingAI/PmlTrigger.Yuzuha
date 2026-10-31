@@ -1,0 +1,34 @@
+{
+  "release": "2.0.4-original-ui-launchfix",
+  "executable": "D:\\VirtualMachines\\LaunchDesk\\LaunchDesk.exe",
+  "results": [
+    {
+      "operationId": "a330d4dec21943adad65ad252a9fabbf",
+      "success": false,
+      "error": "",
+      "receiptPresent": false,
+      "workerLogPresent": false
+    },
+    {
+      "operationId": "50c377c8132744f9b3126f6f74c64433",
+      "success": false,
+      "error": "",
+      "receiptPresent": false,
+      "workerLogPresent": false
+    },
+    {
+      "operationId": "0b7631023c4f4bf79d260c6ea0206d4f",
+      "success": false,
+      "error": "",
+      "receiptPresent": false,
+      "workerLogPresent": false
+    }
+  ],
+  "archiveIntegrityExit": 0,
+  "readOnlyPreflightChecksPassed": 4,
+  "sameEngineIsolatedFilesCopied": 5228,
+  "isolatedStatus": "Success",
+  "actualPmlLibWritten": false,
+  "originalCodeChanged": false,
+  "underlyingHistoricalFailure": "Not recoverable from empty Error and missing receipt/log; do not infer archive corruption, file lock or ACL fault."
+}

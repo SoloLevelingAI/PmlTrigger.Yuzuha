@@ -1,0 +1,30 @@
+{
+  "name": "ribbon-uic-designer",
+  "version": "0.4.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "dev:api": "node scripts/start-backend.mjs",
+    "dev:web": "vite --config apps/web/vite.config.ts",
+    "check": "tsc --noEmit",
+    "build": "npm run backend:build && npm run check && vite build --config apps/web/vite.config.ts",
+    "start": "node scripts/start-backend.mjs --serve-web",
+    "test": "node --import tsx --test tests/*.test.ts",
+    "desktop:build": "node scripts/build-desktop.mjs",
+    "desktop": "node scripts/launch-desktop.mjs",
+    "desktop:verify": "node --import tsx tests/desktop-smoke.ts",
+    "backend:build": "node scripts/build-backend.mjs",
+    "architecture:check": "node scripts/check-features.mjs"
+  },
+  "dependencies": {
+    "sharp": "0.34.5",
+    "xmlbuilder2": "4.0.3"
+  },
+  "devDependencies": {
+    "@types/node": "24.10.1",
+    "tsx": "4.21.0",
+    "typescript": "5.9.3",
+    "vite": "7.2.2"
+  }
+}

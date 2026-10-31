@@ -1,0 +1,15 @@
+{
+  "date": "2026-10-30",
+  "page": "portfolio/compare.html",
+  "selectorSwitch": "vision → execution images",
+  "overlaySlider": "50 → 51; HTML clip inset49%",
+  "imageNaturalSizes": "four loaded image elements:1600x900",
+  "nativeShaShown": "f3879f004071af79d09772784761ddc3510346cb35aa13cd15c8d057f7baa0c4",
+  "narrowSlidesWithoutOverflow": 8,
+  "draftSnapshotDemo": "NEXT-CHECK / frozen MAR-CHECK",
+  "sourceSwitch": "WindowsProcessHost.cs",
+  "addinOffDemo": "exit0/no window or workspace",
+  "consoleErrorsObserved": 0,
+  "productCodeChanged": false,
+  "vmStarted": false
+}

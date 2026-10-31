@@ -1,0 +1,126 @@
+{
+  "passed": true,
+  "baselineNodes": 20191,
+  "missing": [],
+  "changed": [],
+  "overflow": [],
+  "dangling": [],
+  "state": [
+    {
+      "key": "main",
+      "buttons": 13,
+      "columns": [
+        3,
+        3,
+        3,
+        3,
+        1
+      ],
+      "maxRows": 3,
+      "maxRowCenterDelta": 0.5
+    },
+    {
+      "key": "compact",
+      "buttons": 13,
+      "columns": [
+        3,
+        3,
+        3,
+        3,
+        1
+      ],
+      "maxRows": 3,
+      "maxRowCenterDelta": 0.5
+    },
+    {
+      "key": "collapsed",
+      "buttons": 13,
+      "columns": [
+        3,
+        3,
+        3,
+        3,
+        1
+      ],
+      "maxRows": 3,
+      "maxRowCenterDelta": 0.5
+    },
+    {
+      "key": "compactCollapsed",
+      "buttons": 13,
+      "columns": [
+        3,
+        3,
+        3,
+        3,
+        1
+      ],
+      "maxRows": 3,
+      "maxRowCenterDelta": 0.5
+    },
+    {
+      "key": "rails",
+      "buttons": 13,
+      "columns": [
+        3,
+        3,
+        3,
+        3,
+        1
+      ],
+      "maxRows": 3,
+      "maxRowCenterDelta": 0.5
+    },
+    {
+      "key": "dock",
+      "buttons": 13,
+      "columns": [
+        3,
+        3,
+        3,
+        3,
+        1
+      ],
+      "maxRows": 3,
+      "maxRowCenterDelta": 0.5
+    },
+    {
+      "key": "bulk",
+      "buttons": 13,
+      "columns": [
+        3,
+        3,
+        3,
+        3,
+        1
+      ],
+      "maxRows": 3,
+      "maxRowCenterDelta": 0.5
+    },
+    {
+      "key": "applied",
+      "buttons": 13,
+      "columns": [
+        3,
+        3,
+        3,
+        3,
+        1
+      ],
+      "maxRows": 3,
+      "maxRowCenterDelta": 0.5
+    }
+  ],
+  "designSystem": {
+    "collections": 1,
+    "variables": 18,
+    "textStyles": 6,
+    "componentSets": 4,
+    "components": 21,
+    "instances": 1,
+    "boundNodes": 2275
+  },
+  "prototypeInteractions": 125,
+  "frames": 19,
+  "imageAssets": 11
+}

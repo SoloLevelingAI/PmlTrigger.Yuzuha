@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html data-reading-revision="f5a8b6840d71" lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+      <title>Addin驱动的Feature装配 | LaunchDesk.Next </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Addin驱动的Feature装配 | LaunchDesk.Next ">
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/theme-tokens.css?v=f5a8b6840d71">
+      <link rel="stylesheet" href="../public/main.css?v=f5a8b6840d71">
+      <link rel="stylesheet" href="../public/theme-type.css?v=f5a8b6840d71">
+      <script type="module" src="../public/reading.js?v=f5a8b6840d71"></script>
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="本页目录">
+      <meta name="loc:searchResultsCount" content="“{query}”的结果：{count}条">
+      <meta name="loc:searchNoResults" content="没有找到“{query}”">
+      <meta name="loc:tocFilter" content="筛选文件标题">
+      <meta name="loc:nextArticle" content="下一篇">
+      <meta name="loc:prevArticle" content="上一篇">
+      <meta name="loc:themeLight" content="浅色">
+      <meta name="loc:themeDark" content="深色">
+      <meta name="loc:themeAuto" content="跟随系统">
+      <meta name="loc:changeTheme" content="切换明暗">
+      <meta name="loc:copy" content="复制">
+      <meta name="loc:downloadPdf" content="下载PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <a class="ld-skip" href="#doc-content">跳到正文</a>
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../INDEX.html">
+            <span class="ld-monogram" aria-hidden="true">LD</span>
+            LaunchDesk.Next
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="展开导航与搜索">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div class="ld-links" aria-label="快捷入口"><a href="../INDEX.html">阅读文档</a><a href="../portfolio/index.html?revision=figcraft-roundtrip">项目作品集 ↗</a><a href="../status.html">交付状态</a></div>
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="搜索文档" autocomplete="off" aria-label="搜索文档">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">文件目录</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="关闭文件目录"></button>
+          </div>
+          <div class="offcanvas-body">
+            <div class="ld-toc-caption"><strong>文件与阅读路径</strong><span>LIBRARY</span></div>
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="打开文件目录">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article id="doc-content" tabindex="-1" data-uid="addin-registration">
+          <div class="ld-kicker">LAUNCHDESK.NEXT / ENGINEERING LIBRARY</div>
+          <div class="ld-doc-meta"><span class="ld-state" data-state="implemented">状态见正文</span><span>文档核对 2026-10-29</span></div>
+<h1 id="addin驱动的feature装配">Addin驱动的Feature装配</h1>
+
+<h2 id="-一句话说明">① 一句话说明</h2>
+<p>代码存在不代表功能启用：宿主只装配有效Addin声明的Feature。当前采用XML，使用.NET自带解析器，不安装新依赖；不同时维护TOML与XML两份启用事实。</p>
+<h2 id="-清单长什么样">② 清单长什么样</h2>
+<pre><code class="lang-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;Addin id=&quot;login.launch&quot; enabled=&quot;true&quot; contractVersion=&quot;1&quot; /&gt;
+</code></pre>
+<p>源清单唯一维护在仓库addins目录；运行包读取自身Addins/*.addin.xml。产品只交付<a href="../project-source/addins/login.launch.addin.xml">登录Addin</a>，开发包额外交付<a href="../project-source/addins/development.remote-project-lab.addin.xml">VM实验Addin</a>。清单只声明身份、启用与契约版本，不存密码、VM路径或业务参数。</p>
+<h2 id="-怎么开关什么时候生效">③ 怎么开关，什么时候生效</h2>
+<p>放入清单且enabled=true才装配；删掉清单、把扩展名改为.addin.xml.disabled或设为false均不装配。复制DLL不会自动注册。当前宿主在启动时装配，改清单后重启；没有运行中热卸载或自动终止在途动作。</p>
+<p>当前产品只有登录窗口：不提供登录Addin时，不创建窗口或工作空间，正常退出0。登录Addin存在时保持原UI。开发CLI的features列出已启用声明，帮助只列出启用Feature的业务入口；未声明仍直接调用model命令时退出78。</p>
+<h2 id="-源码调用链">④ 源码调用链</h2>
+<pre><code class="lang-mermaid">flowchart TB
+  XML[Addins目录中的XML声明] --&gt; Catalog[共用AddinCatalog读取／校验]
+  Catalog --&gt; Gate{指定Feature已启用？}
+  Gate --&gt;|否| None[不调用工厂，不创建功能窗口或工作空间]
+  Gate --&gt;|是| Factory[宿主提供的Feature工厂]
+  Factory --&gt; Model[同一Model与共用执行后端]
+</code></pre>
+<p><a href="../source/LaunchDesk.Next.Bootstrap/Addins/AddinCatalog.cs">AddinCatalog.Load/CreateIfEnabled</a> → <a href="../source/LaunchDesk.Next.Desktop/Bootstrap/CompositionRoot.cs">CompositionRoot.CreateLoginWindow</a> → <a href="../source/LaunchDesk.Next.Bootstrap/WorkspaceHost.cs">WorkspaceHost</a>。CreateIfEnabled的关闭分支不调用工厂，WorkspaceHost也在创建文件前复查登录Addin；不靠控件Visibility隐藏已运行的功能。</p>
+<h2 id="-vm功能为什么还有本机开关">⑤ VM功能为什么还有本机开关</h2>
+<p>VM Addin决定开发工具中是否注册/呈现该Feature；本机显式授权决定是否允许执行VM动作，作用不同。缺任一项都拒绝操作。启用Addin、打开宿主、编译、安装包或填写VM参数都不会自动启动VM。</p>
+<p><a href="../development-source/LabControl.cs">LabControl</a>与<a href="../development-source/Host/LabVix.cs">LabVix</a>在VIX动作前调用<a href="../development-source/AddinGate.cs">AddinGate.RequireLab</a>。Framework工具通过同包开发CLI的addin-check复用唯一AddinCatalog，不另写一份XML解析或启用规则。Addin校验也不会把本机授权随清单迁移。</p>
+<h2 id="-失败怎么表达">⑥ 失败怎么表达</h2>
+<table>
+<thead>
+<tr>
+<th>情况</th>
+<th>结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>没有目录/清单或enabled=false</td>
+<td>Feature不装配；产品没有登录Feature时正常退出0</td>
+</tr>
+<tr>
+<td>未注册却直接调用开发model功能</td>
+<td>stderr说明未注册的Feature，退出78，文件/工作空间不创建</td>
+</tr>
+<tr>
+<td>XML损坏、重复id、版本不支持、属性拼错</td>
+<td>明确指出清单文件与原因，拒绝加载，不能最后一个文件覆盖前一个</td>
+</tr>
+<tr>
+<td>DTD、外部实体或超长文档</td>
+<td>解析拒绝，不访问外部实体；不把XML当代码执行</td>
+</tr>
+<tr>
+<td>VM Addin宿主缺失/检查超时/关闭</td>
+<td>工具拒绝，LabControl通常78，LabVix为JSON失败/1；不进入VIX动作</td>
+</tr>
+</tbody>
+</table>
+<h2 id="-两包如何避免两份事实">⑦ 两包如何避免两份事实</h2>
+<p>两包从同一addins源文件复制声明，复用同一Bootstrap/AddinCatalog与模型后端DLL。旧features.json不再生成；manifest只记录打包时看到的Addin与哈希，不作为运行时开关。产品不携带VM Addin或VM工具；即便开发代码被单独放在磁盘，没有Addin也不会由宿主注册。</p>
+<p>这是已编译Feature的声明式装配：宿主明确提供工厂，不从XML任意加载程序集或执行脚本；具体CAF插件API与第三方DLL动态加载仍未实现。将来接CAF时复用这条身份/启用契约，业务模型和脚本仍只维护一份。</p>
+<h2 id="-如何验证与查找">⑧ 如何验证与查找</h2>
+<p><a href="../project-source/tests/LaunchDesk.Next.ArchitectureTests/AddinTests.cs">Addin测试</a>覆盖工厂存在但无清单不调用、false、不支持版本、重复id、DTD、拼错属性和停用扩展名；新分包还验证保留二进制而移除清单后没有功能入口。入口见<a href="INDEX.html">开发索引</a>，参数/执行快照仍见<a href="model-driven-review.html">模型说明</a>，规范见<a href="../openspec/requirements.html">AD-01</a>。本轮不修改UI样式，不启用本机授权或启动VM。</p>
+
+</article>
+
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span class="ld-footer-word">LAUNCHDESK.NEXT / KNOWLEDGE SYSTEM</span><span class="ld-footer-note">功能事实 · 源码路径 · 验证证据　/　DocFX</span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

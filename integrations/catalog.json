@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "modules": [
+    {
+      "id": "rewrite",
+      "title": "rewrite · 操作与交付",
+      "role": "migration-source",
+      "manifest": "integrations/rewrite/manifest.json",
+      "source": "integrations/rewrite/source/rewrite/LaunchDesk.Rewrite.slnx",
+      "portfolio": "integrations/rewrite/source/docs/rewrite/visualization/portal/index.html",
+      "design": "integrations/rewrite/source/docs/design/LaunchDesk-fusion-v2.figcraft",
+      "handoff": "integrations/rewrite/README.md"
+    },
+    {
+      "id": "next",
+      "title": "Next · 环境与启动",
+      "role": "migration-source",
+      "manifest": "integrations/next/manifest.json",
+      "source": "integrations/next/source/LaunchDesk.Next.slnx",
+      "portfolio": "integrations/next/site/portfolio/index.html",
+      "design": "integrations/next/source/docs/portfolio/design/launchdesk-portfolio.figcraft",
+      "handoff": "integrations/next/README.md"
+    },
+    {
+      "id": "ribbon",
+      "title": "Ribbon / UIC · 编排与部署",
+      "role": "isolated-backend",
+      "manifest": "integrations/ribbon/manifest.json",
+      "source": "integrations/ribbon/source/apps/backend/RibbonStudio.Backend.csproj",
+      "portfolio": "integrations/ribbon/source/design/figcraft/portfolio-0.12/index.html",
+      "design": "integrations/ribbon/source/design/figcraft/ribbon-studio-portfolio-0.12.figcraft",
+      "handoff": "integrations/ribbon/README.md"
+    }
+  ]
+}

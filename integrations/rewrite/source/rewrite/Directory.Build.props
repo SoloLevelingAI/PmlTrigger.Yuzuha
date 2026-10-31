@@ -1,0 +1,15 @@
+<Project>
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <LangVersion>14</LangVersion>
+        <Version>3.0.1</Version>
+        <Deterministic>true</Deterministic>
+        <NuGetAudit>true</NuGetAudit>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <WarningsAsErrors>$(WarningsAsErrors);CS1591;CS1570;CS1571;CS1572;CS1573;CS1574;CS1584;CS1587;CS1658;CS1711;CS1712</WarningsAsErrors>
+    </PropertyGroup>
+</Project>
+

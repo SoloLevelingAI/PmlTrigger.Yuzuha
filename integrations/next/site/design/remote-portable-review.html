@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html data-reading-revision="f5a8b6840d71" lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+      <title>远程工程与凭据：FigCraft评审设计 | LaunchDesk.Next </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="远程工程与凭据：FigCraft评审设计 | LaunchDesk.Next ">
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/theme-tokens.css?v=f5a8b6840d71">
+      <link rel="stylesheet" href="../public/main.css?v=f5a8b6840d71">
+      <link rel="stylesheet" href="../public/theme-type.css?v=f5a8b6840d71">
+      <script type="module" src="../public/reading.js?v=f5a8b6840d71"></script>
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="../toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="本页目录">
+      <meta name="loc:searchResultsCount" content="“{query}”的结果：{count}条">
+      <meta name="loc:searchNoResults" content="没有找到“{query}”">
+      <meta name="loc:tocFilter" content="筛选文件标题">
+      <meta name="loc:nextArticle" content="下一篇">
+      <meta name="loc:prevArticle" content="上一篇">
+      <meta name="loc:themeLight" content="浅色">
+      <meta name="loc:themeDark" content="深色">
+      <meta name="loc:themeAuto" content="跟随系统">
+      <meta name="loc:changeTheme" content="切换明暗">
+      <meta name="loc:copy" content="复制">
+      <meta name="loc:downloadPdf" content="下载PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <a class="ld-skip" href="#doc-content">跳到正文</a>
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../INDEX.html">
+            <span class="ld-monogram" aria-hidden="true">LD</span>
+            LaunchDesk.Next
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="展开导航与搜索">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div class="ld-links" aria-label="快捷入口"><a href="../INDEX.html">阅读文档</a><a href="../portfolio/index.html?revision=figcraft-roundtrip">项目作品集 ↗</a><a href="../status.html">交付状态</a></div>
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="搜索文档" autocomplete="off" aria-label="搜索文档">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">文件目录</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="关闭文件目录"></button>
+          </div>
+          <div class="offcanvas-body">
+            <div class="ld-toc-caption"><strong>文件与阅读路径</strong><span>LIBRARY</span></div>
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="打开文件目录">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article id="doc-content" tabindex="-1" data-uid="remote-portable-figcraft">
+          <div class="ld-kicker">LAUNCHDESK.NEXT / ENGINEERING LIBRARY</div>
+          <div class="ld-doc-meta"><span class="ld-state" data-state="proposed">状态见正文</span><span>文档核对 2026-10-29</span></div>
+<h1 id="远程工程与凭据figcraft评审设计">远程工程与凭据：FigCraft评审设计</h1>
+
+<p>2026-10-28。<strong>原生设计，尚未实现WPF；不是程序运行截图。</strong> 操作与前后端事实只维护在<a class="xref" href="../reviews/remote-portable.html">八节方案</a>，本页负责视觉交付与核对入口。</p>
+<p>下载<a href="remote-portable-review.figcraft">可编辑FigCraft原稿</a>。原有工作台页、组件和主色变量保留；新增“远程工程与凭据 · 评审稿”页127，独立文件不覆盖原图稿。由同一编辑者串行修改，避免多端覆盖。</p>
+<table>
+<thead>
+<tr>
+<th>场景 / 原生节点</th>
+<th>预览与可操作边界</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>手动连接130</td>
+<td><a href="previews/remote-portable/connection.png">连接表单</a>：草稿不连网，确认才建立会话</td>
+</tr>
+<tr>
+<td>盘符确认443</td>
+<td><a href="previews/remote-portable/drive.png">独立确认</a>：仅显式空闲P:，不覆盖已有映射</td>
+</tr>
+<tr>
+<td>结果189</td>
+<td><a href="previews/remote-portable/failures.png">六种结果</a>：未配置、拒绝、1219、超时、未知、目录可读</td>
+</tr>
+<tr>
+<td>授权249</td>
+<td><a href="previews/remote-portable/grants.png">勾选预览</a>：新增2、替换1；未选项不变</td>
+</tr>
+<tr>
+<td>导入317</td>
+<td><a href="previews/remote-portable/import.png">路径/冲突/未绑定</a>：可只导入，不允许直接启动</td>
+</tr>
+<tr>
+<td>撤销366</td>
+<td><a href="previews/remote-portable/revoke.png">单项撤销</a>：另外2项保留</td>
+</tr>
+<tr>
+<td>更新影响411</td>
+<td><a href="previews/remote-portable/update-impact.png">撤销后的2项影响</a>：先预览，再输入新秘密</td>
+</tr>
+<tr>
+<td>状态421</td>
+<td><a href="previews/remote-portable/controls.png">控件状态基线</a>：默认、焦点、错误、不可用</td>
+</tr>
+</tbody>
+</table>
+<p><img src="previews/remote-portable/connection.png" alt="手动连接设计"></p>
+<h2 id="组件变量与原型">组件、变量与原型</h2>
+<p>Primary128、Secondary131、Disabled133均为组件，实例通过Label属性改文案；Primary绑定既有Accent变量。输入状态也使用组件。按钮44DIP高、圆角8；卡片圆角12、侧栏220DIP。主画板1440×1000；字体Microsoft YaHei UI；正文14、辅助12–13、标题30。主色#4E5DDB、正文#182238、辅助#6D7890、背景#F5F7FB、边框#E3E8F0。</p>
+<p>连接确认→结果；失败→配置；连接方式→盘符确认浮层；导入后绑定→授权；授权→撤销；查看更新影响→浮层。原型只演示导航，按钮没有系统副作用，也不模拟保存成功。各图是评审状态，不能用原型跳转声称后台已经连接、授权或撤销。</p>
+<h2 id="从设计到wpf的验收契约待实施">从设计到WPF的验收契约（待实施）</h2>
+<table>
+<thead>
+<tr>
+<th>控件/状态</th>
+<th>实施前映射要求</th>
+<th>后续验收证据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>输入、下拉选择、路径框</td>
+<td>明确TextBox/ComboBox/路径控件的Style与ControlTemplate，边框/圆角/内边距/箭头逐项映射</td>
+<td>默认、焦点、展开、错误、只读、不可用截图；长UNC不遮挡，能横向查看/复制完整路径</td>
+</tr>
+<tr>
+<td>按钮、复选框、列表</td>
+<td>显式模板和资源字典；颜色由同一组token映射，键盘焦点可见</td>
+<td>默认、悬停、按下、焦点、不可用；Tab顺序、勾选项与提交数量一致</td>
+</tr>
+<tr>
+<td>连接与提交</td>
+<td>等待时防重复提交；取消与OutcomeUnknown不显示伪成功</td>
+<td>实际事件与OperationId/Revision回显日志，错误与下一步可见</td>
+</tr>
+<tr>
+<td>浮层与影响列表</td>
+<td>标题/主体/取消/确认层次与原稿一致；超长项目名可滚动，不隐藏确认范围</td>
+<td>键盘关闭/取消不会提交，确认前可看全受影响项</td>
+</tr>
+<tr>
+<td>布局与缩放</td>
+<td>以DIP对照1440×1000主画板，100%/125%/150%DPI实际渲染，不使用默认控件外观作为替代</td>
+<td>同尺寸设计与实际截图并排；关键尺寸误差≤2DIP、无裁切/遮挡，文案换行差异需说明并评审</td>
+</tr>
+</tbody>
+</table>
+<p>本轮已导出并目视检查PNG，但尚无WPF截图、控件实现或DPI运行结果。不能把FigCraft渲染通过算作WPF视觉通过。完整后台失败覆盖见<a href="../reviews/remote-portable.html#failures">方案⑦</a>，六种结果卡不是全部错误码的穷举界面。</p>
+
+</article>
+
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span class="ld-footer-word">LAUNCHDESK.NEXT / KNOWLEDGE SYSTEM</span><span class="ld-footer-note">功能事实 · 源码路径 · 验证证据　/　DocFX</span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

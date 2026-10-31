@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html data-reading-revision="f5a8b6840d71" lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+      <title> | LaunchDesk.Next </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content=" | LaunchDesk.Next ">
+      
+      
+      <link rel="icon" href="../../../../../favicon.ico">
+      <link rel="stylesheet" href="../../../../../public/docfx.min.css">
+      <link rel="stylesheet" href="../../../../../public/theme-tokens.css?v=f5a8b6840d71">
+      <link rel="stylesheet" href="../../../../../public/main.css?v=f5a8b6840d71">
+      <link rel="stylesheet" href="../../../../../public/theme-type.css?v=f5a8b6840d71">
+      <script type="module" src="../../../../../public/reading.js?v=f5a8b6840d71"></script>
+      <meta name="docfx:navrel" content="../../../../../toc.html">
+      <meta name="docfx:tocrel" content="../../../../../toc.html">
+      
+      <meta name="docfx:rel" content="../../../../../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="本页目录">
+      <meta name="loc:searchResultsCount" content="“{query}”的结果：{count}条">
+      <meta name="loc:searchNoResults" content="没有找到“{query}”">
+      <meta name="loc:tocFilter" content="筛选文件标题">
+      <meta name="loc:nextArticle" content="下一篇">
+      <meta name="loc:prevArticle" content="上一篇">
+      <meta name="loc:themeLight" content="浅色">
+      <meta name="loc:themeDark" content="深色">
+      <meta name="loc:themeAuto" content="跟随系统">
+      <meta name="loc:changeTheme" content="切换明暗">
+      <meta name="loc:copy" content="复制">
+      <meta name="loc:downloadPdf" content="下载PDF">
+
+      <script type="module" src="./../../../../../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <a class="ld-skip" href="#doc-content">跳到正文</a>
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../../../../../INDEX.html">
+            <span class="ld-monogram" aria-hidden="true">LD</span>
+            LaunchDesk.Next
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="展开导航与搜索">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div class="ld-links" aria-label="快捷入口"><a href="../../../../../INDEX.html">阅读文档</a><a href="../../../../../portfolio/index.html?revision=figcraft-roundtrip">项目作品集 ↗</a><a href="../../../../../status.html">交付状态</a></div>
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="搜索文档" autocomplete="off" aria-label="搜索文档">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">文件目录</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="关闭文件目录"></button>
+          </div>
+          <div class="offcanvas-body">
+            <div class="ld-toc-caption"><strong>文件与阅读路径</strong><span>LIBRARY</span></div>
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="打开文件目录">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article id="doc-content" tabindex="-1" data-uid="">
+          <div class="ld-kicker">LAUNCHDESK.NEXT / ENGINEERING LIBRARY</div>
+          <div class="ld-doc-meta"></div>
+
+<h2 id="added-requirements">ADDED Requirements</h2>
+<h3 id="requirement-pm-01-respect-intentionally-shared-project-roots">Requirement: PM-01 Respect intentionally shared project roots</h3>
+<p>The system SHALL preserve configured Project paths even when their product-version directory differs from the application version. It SHALL report the source rather than replacing E3D2.1 with E3D3.1.</p>
+<h4 id="scenario-shared-e3d21-projects">Scenario: Shared E3D2.1 projects</h4>
+<ul>
+<li><strong>WHEN</strong> E3D3.1 initialization declares projects_dir pointing at E3D2.1</li>
+<li><strong>THEN</strong> discovery inspects that declared location and does not rewrite it</li>
+</ul>
+<h3 id="requirement-pm-02-inspect-project-initialization-evidence">Requirement: PM-02 Inspect project initialization evidence</h3>
+<p>The system SHALL use C# to read bounded evars.bat, evars.init, launch.init and referenced configuration files and inspect bounded child directories. It SHALL identify Project codes from declarations such as APS000 rather than treating the display folder or APS000ID as the code. It SHALL NOT execute batch/init files.</p>
+<h4 id="scenario-referenced-project-declaration">Scenario: Referenced project declaration</h4>
+<ul>
+<li><strong>WHEN</strong> launch.init includes evars.init, which includes custom_evars.bat and a project evars file</li>
+<li><strong>THEN</strong> a resolved existing project directory is returned with source file and line</li>
+</ul>
+<h4 id="scenario-dynamic-or-cyclic-configuration">Scenario: Dynamic or cyclic configuration</h4>
+<ul>
+<li><strong>WHEN</strong> unsupported expansion, control flow, encoding, limits or include cycles occur</li>
+<li><strong>THEN</strong> discovery reports a diagnostic and does not claim a fully evaluated runtime environment</li>
+</ul>
+<h3 id="requirement-pm-03-distinguish-module-declarations-and-hints">Requirement: PM-03 Distinguish module declarations and hints</h3>
+<p>The system SHALL return Module candidates with source file and line where available. Explicit assignments, launch-dispatch names and executable hints SHALL remain distinguishable. A candidate SHALL NOT be described as proof of licence, permissions or successful login.</p>
+<h4 id="scenario-launch-dispatch-and-executable-clues">Scenario: Launch dispatch and executable clues</h4>
+<ul>
+<li><strong>WHEN</strong> launch.bat names Paragon and the installation contains adm.exe</li>
+<li><strong>THEN</strong> PARAGON is marked LaunchDispatch and ADMIN is marked ExecutableHint</li>
+</ul>
+<h3 id="requirement-pm-04-preserve-editable-choices">Requirement: PM-04 Preserve editable choices</h3>
+<p>The system SHALL preserve explicit presets and manual edits. It SHALL prefill an empty value only from one distinct eligible declaration and SHALL keep multiple results as candidates for manual selection.</p>
+<h4 id="scenario-several-available-projects">Scenario: Several available projects</h4>
+<ul>
+<li><strong>WHEN</strong> ABC and XYZ both have existing declared directories</li>
+<li><strong>THEN</strong> both are shown and no first project is silently selected</li>
+</ul>
+<h4 id="scenario-user-preset">Scenario: User preset</h4>
+<ul>
+<li><strong>WHEN</strong> a Project or Module preset differs from discovered candidates</li>
+<li><strong>THEN</strong> the preset remains editable and the candidates remain visible</li>
+</ul>
+<h3 id="requirement-pm-05-report-actual-installation-discovery-coverage">Requirement: PM-05 Report actual installation discovery coverage</h3>
+<p>The system SHALL describe installation discovery as configured-directory scanning while no Registry adapter exists. Marine/AM, E3D and PDMS directory recognition SHALL NOT imply product login compatibility. Administration SHALL NOT be silently equated with Marine/AM.</p>
+<h4 id="scenario-pdms-fixture-and-local-e3d-inventory">Scenario: PDMS fixture and local E3D inventory</h4>
+<ul>
+<li><strong>WHEN</strong> a PDMS mon.exe is found in a configured directory</li>
+<li><strong>THEN</strong> it is labelled PDMS, while absent real PDMS installations remain explicitly unverified</li>
+</ul>
+
+</article>
+
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span class="ld-footer-word">LAUNCHDESK.NEXT / KNOWLEDGE SYSTEM</span><span class="ld-footer-note">功能事实 · 源码路径 · 验证证据　/　DocFX</span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

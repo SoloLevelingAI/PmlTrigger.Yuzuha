@@ -1,0 +1,52 @@
+{
+  "id": "4d4454ff-c281-48cb-b57b-0d178b3fb3ca",
+  "workflowName": "launchdesk-architecture-visualize",
+  "status": "completed",
+  "startedAt": "2026-10-19T08:35:22.000Z",
+  "completedAt": "2026-10-19T08:35:35.000Z",
+  "source": {
+    "version": 1,
+    "root": "C:\\Users\\26648\\Documents\\Codex\\2026-10-15\\ni\\work\\architecture-runs\\visualization-20261019-03\\install\\workspaces\\_folder\\launchdesk.archon\\workflow-source\\runs\\4d4454ff-c281-48cb-b57b-0d178b3fb3ca",
+    "origin": "C:\\Users\\26648\\Documents\\Codex\\2026-10-15\\ni\\LaunchDesk.Archon",
+    "captured_at": "2026-10-19T08:35:21.858Z",
+    "digest": "ad481b6dbcb71460ba90a8c8d1318589389da8b4e5252873bf937a08c69a3857",
+    "source_config": {
+      "load_default_workflows": true,
+      "load_default_commands": true
+    },
+    "file_count": 165,
+    "byte_count": 1023395
+  },
+  "nodes": [
+    {
+      "node_id": "verify-native-evidence",
+      "state": "completed"
+    },
+    {
+      "node_id": "generate-projection",
+      "state": "completed"
+    },
+    {
+      "node_id": "check-projection",
+      "state": "completed"
+    },
+    {
+      "node_id": "validate-likec4",
+      "state": "completed"
+    },
+    {
+      "node_id": "build-review-portal",
+      "state": "completed"
+    }
+  ],
+  "originalArchitectureReviewRunId": "17f392ea-0cf9-4760-bc69-b8dc73a72c6d",
+  "originalArchitectureReviewStatus": "paused / human-review / approval",
+  "implementationApproved": false,
+  "modelCalled": false,
+  "transcriptSha256": "7e9d496162490da33a19d13c47ca78ccb6a59953624001f8ff681e8b855a7f4b",
+  "limitations": [
+    "Executed against the recorded dirty checkout; original per-node checkout manifests are preserved in the transcript.",
+    "CLI runtime discovery warned that bun was unavailable on PATH; all five actual exec nodes completed using Bun.",
+    "No application or real license/VM tests."
+  ]
+}

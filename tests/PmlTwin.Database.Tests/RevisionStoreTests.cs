@@ -212,7 +212,8 @@ public sealed class RevisionStoreTests : IDisposable
 
     private Process StartFixture(string mode)
     {
-        var start = new ProcessStartInfo(Environment.GetEnvironmentVariable("PMLTWIN_TEST_DOTNET") ?? "C:/Users/26648/.dotnet/dotnet.exe")
+        var start = new ProcessStartInfo(Environment.GetEnvironmentVariable("PMLTWIN_TEST_DOTNET")
+            ?? Environment.GetEnvironmentVariable("DOTNET_HOST_PATH") ?? "dotnet")
         { UseShellExecute = false, CreateNoWindow = true, RedirectStandardInput = true, RedirectStandardOutput = true, RedirectStandardError = true };
         start.ArgumentList.Add(Path.Combine(AppContext.BaseDirectory, "DatabaseFixture", "PmlTwin.Database.ProcessFixture.dll"));
         start.ArgumentList.Add(DatabasePath); start.ArgumentList.Add(mode);

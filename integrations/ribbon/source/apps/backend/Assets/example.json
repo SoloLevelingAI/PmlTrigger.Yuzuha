@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "namespace": "RibbonStudio",
+  "buttons": [
+    {
+      "id": "Custom.Button.1",
+      "caption": "查询工具",
+      "macro": "show !!MyQueryForm",
+      "commandKey": "Macro:00000000-0000-4000-8000-000000000001",
+      "image": {
+        "mediaType": "image/png",
+        "base64": "iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAB10lEQVR42u2XvU9TYRjFf+ftTUzAmpaWVZlcGiP/gh8kwkocnSBoMC7EwcXJxcVojJjSwOR4B0YTRP+GDpTBiehIuDStOpTe93EgYP2ouVh779Izvcl9kvM855z3zXPFL7i9FF2JpUXgBmJKMM4AMPiKsSex7fHrm9XSTu93nRxuPbBz453mc8PuSnIMAYbFmKq5qLAShuqcNnBMfvgW6RppwOyDi4qzYaiOAxg7ar5IjRxAuu5LzWcAOvac+rBk/5sdcnY1iKVFiTOTrz65cKb6xscur9986wmfcuZZcIibw552csIxXQl+d8I0E2Bc/HEXkuP+41bi2trTPmqJS07iPNkhHySpWr4zRuVyMJDn/ZAofNOVgMkJN7Dnf0LisZptn9j3vp7/qwLDxKiBUQOZNxCkQbL0qDWyYHALCnmXeAco5B3Ntv9/CtQbXfYjn3iq/chTb3STbWfz9w4t6wy0syI3o+UMPmfVgOCTE7zLTH/ZlvP4dcPi1OXHYmd+w21WSzuYqukHQKvhWnnXAeSiwoph71NM33bZCg9P34EwVCd3UJwDXg3TDsNiM16WrDhXq+nop7/jE8wvH1TMa0GmGYOpQdd2M74I9pBtOfMb4Vp5t7fgO9xzq0QKYgvAAAAAAElFTkSuQmCC"
+      },
+      "tooltipText": "查询工具的示例提示。请替换为你自己的 Macro。",
+      "tooltipTitle": "查询工具"
+    },
+    {
+      "id": "Custom.Button.2",
+      "caption": "移动工具",
+      "macro": "show !!MyMoveForm",
+      "commandKey": "Macro:00000000-0000-4000-8000-000000000002",
+      "image": {
+        "mediaType": "image/png",
+        "base64": "iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAABoUlEQVR42u2XT0uUURTGf8+ZwLTczAco9yF+AEHoj2AGQps3dy1GmKUifYH5AP0xC1w4izZBboQgBbNWgqughbxryf28zDhRTNz3tKgRC5oBh3lfgvdZXbjn8DzPufdczhV/YWZrfTKkYUnotsOE4AoDwOGr4BjYD/jm4eLK0fl9dRdzO2sjpy1/KlQFjCHA3YPERsOS1Tiqdc4EzO2sjbSbvot0kwzg+MfEkrtxVOsYQLvJs6zIf7nWrXJafgygma31yTRNPw+r7L2OA0+nLKRhKWtyAEklrFQxnDvkBDmzBlwjP1w3SVcvmr29UGF7oTLIbRw3ckYhoBCQu4BL/QLe3Hv4z73y5bG+MQ/evfrPK9DLQfcR6ueyuISFgEJA7zZ0ThHjF0m+/7Y+6GTYMsdPcrPv+mKS3ufH73sW8E13D5mTuweZ6na4uHIksZH9SMzLg2g5NoCGJasOHzK0v/+9OfrorA3jqNZJrDEPvBjmcbh7cPz5t9bo/Kdq9ccfv+Mupl8/uYGVKnJmHZ8YZGz/TdoWOnb5nkz1g2g5Ph/wE+NZmveD5roWAAAAAElFTkSuQmCC"
+      },
+      "tooltipText": "移动工具的示例提示。请替换为你自己的 Macro。",
+      "tooltipTitle": "移动工具"
+    },
+    {
+      "id": "Custom.Button.3",
+      "caption": "批量处理",
+      "macro": "show !!MyBatchForm",
+      "commandKey": "Macro:00000000-0000-4000-8000-000000000003",
+      "image": {
+        "mediaType": "image/png",
+        "base64": "iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAACx0lEQVR42sVXT0jTYRh+3m+LTbYlZsyw3KwQQeefiReDLC3FJLGOnQoUPEQXaUQdAj0JIZUWeNDo7qEiQVJbCRV0iDlRyQ45Zi0jTdY2N+d+ezvolvPPyPnb9pw+vt/7433e93m+j/cjbIG9u7oEErWCcA6MfBBpsB8w+0BwMGMMhP5yy/jU5s8UWXx52KDyBwP3GdxGIIFkgFliQp/Sq283dQwGowQ2kg8DqEEqwGxV+PQXTB2DQQEA/tXAg5QlBwCi2pDmVzcAkL27uoTDNJG0tseRIxwWZQIStaY8+XoXFCS4RQA4jzSBgDrBIEO6CDDBKIigTeTnvMbbyGu4td8O6BLSXmswI6uoHlmmBqgPH98XiYQI5FRdja4PlV5MLQGtwQxNXhlWXNOQAh5kFdVBKFWpI5Bz6hoAYOHdAJZnRqFQ65BZeGa7vkKBzILT8hLQGszQHCuF79skvE4bfk8ObcjQtC02t/YGjM2dyDZfko9ARPufH54CAAKLc1hxTUNz1BRjxmzzZWSXNyPo/gH35zfyEIho7/s+Ba/TFt1fsr+MMaPWWIncmuuQgitwPLuDkN8tD4Fo9e+fxOy7Z9+um7G4Hhn6Ahib7gJEcA51IrDokMcD0eo3tN+McGh13YwqLU5e6YFCrYPL2gvP14/ynYKI8yPab0XEjOKAGksTL7Bke/7fvlLu1fk7IbA4h+XpVyClCi5r756OtXKvzt8N88Nd8l9EuzlfTsQloDtRtaPzZZ0J7PfOcryAjCOF8C/MJo2AYMATLyCZycH8RxDzPNIGcgoGRtOXn0cECP1gllI/ELIkQTEgyi3jU0zoS0P9jyss1hkBAEqvvp2ZX6eseGBsLdN7M3oPmDoGg0qfvpEZj5IqB7ME5p7QQU9jZduntZjXcQS2rppiEtxCQB0D+YmO7f9ywkuAA8QjEhQDFRbrzOaAvyHUE0Y+KuTJAAAAAElFTkSuQmCC"
+      },
+      "tooltipText": "批量处理的示例提示。请替换为你自己的 Macro。",
+      "tooltipTitle": "批量处理"
+    },
+    {
+      "id": "Custom.Button.4",
+      "caption": "属性面板",
+      "macro": "show !!MyPropertyForm",
+      "commandKey": "Macro:00000000-0000-4000-8000-000000000004",
+      "image": {
+        "mediaType": "image/png",
+        "base64": "iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAB8UlEQVR42u2XP2sUURTFf/dmQopsXEMqG43gIsQJNn4B/6QwjR/BIkusFiSkkjTT2IgYRCGE/CH1VlZCjH4GizXBRDBooRYpdtzdwO7OXCuXxLg7sxt3RsRTDW/u4957znmP+4RfsDC7M6mh5TFuIowDw5wOVYx9gy01Vry1idLRn/Lzo1DYHTp72HyC2T0RUfoCC8xYUt/mvKJbbxVQKOwOjR42XoJcJwGY8Ub98LZXdOsKMFprLiaVHECEG5aVxwCyMLszKUH4tn+0t5cjhKuqoeWTTw4gAwIzanCL9DClGOfTyi5wwREh0ynozt1zXLzc21Xw8X2VFxtfOpUwEql9zs2QHRvsOnl2bJCcm4mMc2JdZX6TxQcfuipg/lEuVpySMpxuN3TyRLTmf4CBdp6Iq/mpGWjnibia/3Ue+F9ATx4YPuNw/+GlE2tVv9l/BvZKFcoHjRPr5YMGe6VK/xno9pz/Gx74neZx9sTxhPaqeRTiesIB+w4ykpTmx6ZCzFdDPqdogU+K8Sq1kczYVDVWwILk01sgoa2qtzZRMmMphf6fe+vutgKob3PA68R6N7a+am2+dQy9oluXcjgN9qy/clgAPP02UJteXr7WOPY6bj3P8++uCMwAU5iMR43tMbqtILYvxqaEtuqtu9tHA34ArXO6eP1MrFcAAAAASUVORK5CYII="
+      },
+      "tooltipText": "属性面板的示例提示。请替换为你自己的 Macro。",
+      "tooltipTitle": "属性面板"
+    }
+  ],
+  "tabs": [
+    {
+      "id": "Custom.Tab.Tools",
+      "caption": "我的工具",
+      "groups": [
+        {
+          "id": "Custom.Group.Common",
+          "caption": "常用工具",
+          "items": [
+            {
+              "buttonId": "Custom.Button.1",
+              "size": "large"
+            },
+            {
+              "buttonId": "Custom.Button.2",
+              "size": "small"
+            }
+          ]
+        },
+        {
+          "id": "Custom.Group.Project",
+          "caption": "项目工具",
+          "items": [
+            {
+              "buttonId": "Custom.Button.3",
+              "size": "large"
+            },
+            {
+              "buttonId": "Custom.Button.4",
+              "size": "small"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

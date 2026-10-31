@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "coreFeatures": [
+    {"uid":"LaunchDesk.UseCases.LaunchPlanBuilder","label":"核心能力 · 启动参数","guide":"articles/core-launch.html","methods":["Build","BuildMonitorArguments","BuildMarineArguments"]},
+    {"uid":"LaunchDesk.Windows.WindowsProcessGateway","label":"核心能力 · 实际进程交接","guide":"articles/core-launch.html","methods":["StartAsync"]}
+  ],
+  "namespaces": {
+    "LaunchDesk": "构建生成的项目入口与装配元数据容器。业务实现请从功能模块或具体项目命名空间开始阅读。",
+    "Projects": "Aspire SDK 生成的项目引用元数据，供可选开发宿主编排使用，不属于业务端口或桌面运行时。",
+    "LaunchDesk.Kernel": "无平台副作用的规则、稳定编号、健康归约和结果值。用例通过这些规则判断状态，不在这里读写文件或启动进程。",
+    "LaunchDesk.OperationContracts": "跨层端口、不可变配置、冻结请求、运行事实与租约。先区分直接配置提交 CommitId、后台操作 OperationId 和持续资源观测。",
+    "LaunchDesk.UseCases": "配置提交、操作协调、启动、交付、变量应用、分享迁移与资源监督。外部副作用通过 OperationContracts 端口完成。",
+    "LaunchDesk.Windows": "Windows 平台适配器：JSON 工作空间与事实日志、凭据库、进程和探针、文件交付、持久环境变量及有限管理员通信。",
+    "LaunchDesk.Desktop": "WPF 视图、ViewModel、编辑草稿、命令及交互支持。页面经端口提交意图，运行状态由组合根投影回 Dispatcher。",
+    "LaunchDesk.Bootstrap": "桌面组合根、端口装配、生命周期与 Dispatcher 订阅。这里决定真实接口实现和处理器工厂，不在 ViewModel 中创建平台适配器。",
+    "LaunchDesk.Worker": "受认证的有限管理员执行宿主。核验父进程、原请求及执行权后处理受支持操作，不提供任意命令执行入口。",
+    "LaunchDesk.DevHost": "本机只读健康与操作诊断、OpenAPI、Scalar 和静态开发文档宿主。独立于桌面发布入口，不承担业务写入。",
+    "LaunchDesk.DevHost.Aspire": "可选 Aspire 开发编排入口。启动同一桌面产物，常规桌面与 DevHost 不依赖 Aspire。"
+  },
+  "modules": {
+    "catalog": {
+      "startHere": [
+        {"uid":"LaunchDesk.OperationContracts.ICatalogService","reason":"先看配置读取、稳定提交与结果核验的公开边界。"},
+        {"uid":"LaunchDesk.UseCases.WorkspaceCatalogService","reason":"再看修订检查、凭据关联和提交回执如何协作。"},
+        {"uid":"LaunchDesk.Windows.JsonWorkspaceStore","reason":"最后追踪配置与原提交回执的实际持久化。"}
+      ],
+      "entries":[{"type":"LaunchDesk.OperationContracts.ICatalogService","method":"SaveProfileAsync","reason":"保存登录配置的直接提交入口；使用 CommitId。"}],
+      "result":"输出新修订或原提交回执；不是后台 OperationId。未知提交结果先查询原 CommitId。",
+      "flow":"articles/getting-started.html"
+    },
+    "launch": {
+      "startHere":[
+        {"uid":"LaunchDesk.Desktop.ProfilesPageViewModel","reason":"从 LaunchCommand 与 LaunchSelectedAsync 找到用户启动意图。"},
+        {"uid":"LaunchDesk.UseCases.LaunchPlanBuilder","reason":"核心参数规则：Monitor、Marine 和独立环境分别构造，示例由测试断言。"},
+        {"uid":"LaunchDesk.Windows.WindowsProcessGateway","reason":"核心进程交接：原生 ArgumentList 与 Marine 批处理保持各自协议。"}
+      ],
+      "entries":[{"type":"LaunchDesk.Desktop.ProfilesPageViewModel","method":"LaunchSelectedAsync","reason":"提交当前登录的 OperationId。"},{"type":"LaunchDesk.UseCases.LaunchPlanBuilder","method":"BuildMonitorArguments","reason":"核心规则：PROD、产品代码、init、登录与模块的顺序。"},{"type":"LaunchDesk.UseCases.LaunchPlanBuilder","method":"BuildMarineArguments","reason":"核心规则：模块、noconsole、项目、登录与 MDB 的顺序。"}],
+      "result":"RunSnapshot 经 ITaskQueries 与 Dispatcher 更新页面；窗口出现只代表窗口证据，不等于登录成功。",
+      "flow":"articles/core-launch.html"
+    },
+    "resources": {
+      "startHere":[
+        {"uid":"LaunchDesk.OperationContracts.IResourceMonitor","reason":"区分轮询、主动刷新、新鲜证据要求与订阅。"},
+        {"uid":"LaunchDesk.UseCases.ResourceSupervisor","reason":"查看按资源身份缓存、探测轮次及订阅发布。"},
+        {"uid":"LaunchDesk.Kernel.ConnectionHealthPolicy","reason":"理解短暂失败、连续失败及健康状态归约。"}
+      ],
+      "entries":[{"type":"LaunchDesk.UseCases.ResourceSupervisor","method":"PollAsync","reason":"组合根启动的持续轮询入口。"},{"type":"LaunchDesk.Desktop.LicensePageViewModel","method":"RefreshAsync","reason":"页面主动复查所选资源的入口。"}],
+      "result":"输出 ProbeSnapshot，经资源订阅回 Dispatcher；此链不经过 OperationCoordinator 或 JsonRunJournal。",
+      "flow":"articles/flows/monitoring.html"
+    },
+    "delivery": {
+      "startHere":[
+        {"uid":"LaunchDesk.Desktop.ToolPageViewModel","reason":"定位来源选择、预览、确认及部署命令。"},
+        {"uid":"LaunchDesk.UseCases.DeploymentPlanner","reason":"理解来源检查、暂存及目标保护后的冻结计划。"},
+        {"uid":"LaunchDesk.UseCases.DeliveryOperationHandler","reason":"沿执行租约追踪文件写入、管理员分支和交付回执。"}
+      ],
+      "entries":[{"type":"LaunchDesk.OperationContracts.IDeploymentPlanningService","method":"PreviewAsync","reason":"先预览，取得可供用户确认的计划。"},{"type":"LaunchDesk.OperationContracts.IOperationCommands","method":"SubmitAsync","reason":"确认后以 Deploy 请求提交后台操作。"}],
+      "result":"操作事实与部署回执分别保存；部分写入需核验恢复或回滚，不直接重放部署。",
+      "flow":"articles/flows/delivery.html"
+    },
+    "variables": {
+      "startHere":[
+        {"uid":"LaunchDesk.UseCases.VariablePlanner","reason":"从旧值和改名请求生成预期状态与变化计划。"},
+        {"uid":"LaunchDesk.UseCases.VariableOperationHandler","reason":"查看普通与管理员变量应用分支。"},
+        {"uid":"LaunchDesk.Windows.WindowsEnvironmentStore","reason":"追踪持久变量读写、检查点与写后核验。"}
+      ],
+      "entries":[{"type":"LaunchDesk.OperationContracts.IVariablePlanningService","method":"PreviewAsync","reason":"预览持久变量修改或改名。"},{"type":"LaunchDesk.OperationContracts.IEnvironmentStore","method":"ApplyVerifiedAsync","reason":"处理器调用的核验应用端口，页面不直接写变量。"}],
+      "result":"输出应用阶段和核验事实；持久变量操作与启动子进程的独立环境不是同一机制。",
+      "flow":"articles/flows/variables.html"
+    },
+    "sharing-migration": {
+      "startHere":[
+        {"uid":"LaunchDesk.Desktop.SharingPageViewModel","reason":"定位分享文件导入导出、预览与明确确认。"},
+        {"uid":"LaunchDesk.UseCases.ConfigurationShareService","reason":"理解秘密剔除、本机绑定及 CommitId 导入提交。"},
+        {"uid":"LaunchDesk.UseCases.WorkspaceMigrationService","reason":"区分旧工作空间迁移：独立副本、核验、激活。"}
+      ],
+      "entries":[{"type":"LaunchDesk.OperationContracts.IConfigurationShareService","method":"CommitAsync","reason":"分享导入使用 CommitId 的直接配置提交。"},{"type":"LaunchDesk.UseCases.WorkspaceMigrationService","method":"ExecuteAsync","reason":"旧数据迁移由 OperationId 后台处理器执行。"}],
+      "result":"分享导入产生配置修订与回执；旧数据迁移产生运行事实并在完成后刷新目录，原文件保留。",
+      "flow":"articles/flows/sharing-migration.html"
+    },
+    "operations": {
+      "startHere":[
+        {"uid":"LaunchDesk.UseCases.OperationCoordinator","reason":"从稳定编号、去重、受理与执行准入理解操作协议。"},
+        {"uid":"LaunchDesk.UseCases.OperationExecutionContext","reason":"查看处理器事实如何按状态规则串行写入日志。"},
+        {"uid":"LaunchDesk.UseCases.OperationProjectionService","reason":"追踪持久事实的只读查询与订阅回路。"}
+      ],
+      "entries":[{"type":"LaunchDesk.OperationContracts.IOperationCommands","method":"SubmitAsync","reason":"有限操作的统一受理入口。"},{"type":"LaunchDesk.OperationContracts.ITaskQueries","method":"WatchAsync","reason":"页面观察原操作事实的订阅入口。"}],
+      "result":"OperationId 标识原操作，RunSnapshot 保存阶段与序号；未知执行结果进入核验，不换号盲目重试。",
+      "flow":"articles/flows/launch.html"
+    },
+    "security": {
+      "startHere":[
+        {"uid":"LaunchDesk.OperationContracts.ISecretVault","reason":"先看凭据引用与临时秘密租约的边界。"},
+        {"uid":"LaunchDesk.Windows.WindowsSecretVault","reason":"查看本机凭据保存、解析和释放。"},
+        {"uid":"LaunchDesk.Windows.WindowsPrivilegeBroker","reason":"追踪有限管理员请求的身份核验与 Worker 交接。"}
+      ],
+      "entries":[{"type":"LaunchDesk.OperationContracts.ISecretVault","method":"ResolveAsync","reason":"仅在需要时解析秘密，并由调用方释放租约。"},{"type":"LaunchDesk.OperationContracts.IPrivilegeBroker","method":"ExecuteAsync","reason":"只执行已冻结的受支持管理员操作。"}],
+      "result":"配置与分享只携带引用，不携带秘密；管理员取消、写入失败和结果不确定分别保留事实。",
+      "flow":"articles/flows/delivery.html"
+    },
+    "desktop-hosting": {
+      "startHere":[
+        {"uid":"LaunchDesk.Desktop.ShellViewModel","reason":"认识页面组合、全局状态及交互导航。"},
+        {"uid":"LaunchDesk.Bootstrap.DesktopCompositionRoot","reason":"查看真实端口装配和 Dispatcher 订阅。"},
+        {"uid":"LaunchDesk.DevHost.DiagnosticEndpoints","reason":"了解独立只读诊断入口及其与桌面的边界。"}
+      ],
+      "entries":[{"type":"LaunchDesk.Bootstrap.DesktopCompositionRoot","method":"InitializeAsync","reason":"初始化目录、运行事实订阅和资源轮询。"}],
+      "result":"View 展示、ViewModel 组织交互、Bootstrap 管理运行时；DevHost 与可选 Aspire 分别作为开发入口。",
+      "flow":"articles/getting-started.html"
+    }
+  }
+}

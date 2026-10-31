@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html data-reading-revision="f5a8b6840d71" lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+      <title>同一模型编辑与双包交付：八节说明 | LaunchDesk.Next </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="同一模型编辑与双包交付：八节说明 | LaunchDesk.Next ">
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/theme-tokens.css?v=f5a8b6840d71">
+      <link rel="stylesheet" href="../public/main.css?v=f5a8b6840d71">
+      <link rel="stylesheet" href="../public/theme-type.css?v=f5a8b6840d71">
+      <script type="module" src="../public/reading.js?v=f5a8b6840d71"></script>
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="本页目录">
+      <meta name="loc:searchResultsCount" content="“{query}”的结果：{count}条">
+      <meta name="loc:searchNoResults" content="没有找到“{query}”">
+      <meta name="loc:tocFilter" content="筛选文件标题">
+      <meta name="loc:nextArticle" content="下一篇">
+      <meta name="loc:prevArticle" content="上一篇">
+      <meta name="loc:themeLight" content="浅色">
+      <meta name="loc:themeDark" content="深色">
+      <meta name="loc:themeAuto" content="跟随系统">
+      <meta name="loc:changeTheme" content="切换明暗">
+      <meta name="loc:copy" content="复制">
+      <meta name="loc:downloadPdf" content="下载PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <a class="ld-skip" href="#doc-content">跳到正文</a>
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../INDEX.html">
+            <span class="ld-monogram" aria-hidden="true">LD</span>
+            LaunchDesk.Next
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="展开导航与搜索">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div class="ld-links" aria-label="快捷入口"><a href="../INDEX.html">阅读文档</a><a href="../portfolio/index.html?revision=figcraft-roundtrip">项目作品集 ↗</a><a href="../status.html">交付状态</a></div>
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="搜索文档" autocomplete="off" aria-label="搜索文档">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">文件目录</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="关闭文件目录"></button>
+          </div>
+          <div class="offcanvas-body">
+            <div class="ld-toc-caption"><strong>文件与阅读路径</strong><span>LIBRARY</span></div>
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="打开文件目录">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article id="doc-content" tabindex="-1" data-uid="model-driven-development-review">
+          <div class="ld-kicker">LAUNCHDESK.NEXT / ENGINEERING LIBRARY</div>
+          <div class="ld-doc-meta"><span class="ld-state" data-state="mixed">状态见正文</span><span>文档核对 2026-10-29</span></div>
+<h1 id="同一模型编辑与双包交付八节说明">同一模型编辑与双包交付：八节说明</h1>
+
+<p><strong>产品包＋独立开发测试工具包已确认并实现核心链路。</strong> 既有UI未改，未启动VM；主题仍待认可。具体源码与错误返回统一见<a href="INDEX.html">开发索引</a>，不再复制一套参数表。</p>
+<h2 id="-客户得到什么">① 客户得到什么</h2>
+<p>修改同一份配置后直接执行，后端记录当时输入；失败能找到阶段和原因，后续编辑不会改变正在执行的请求。普通远程不需要实验开关或VMware。</p>
+<h2 id="-使用者如何操作">② 使用者如何操作</h2>
+<p>原窗口选已有配置或候选 → 编辑字段 → 自动保存草稿 → 点击执行 → 查看结果与快照。保存配置按钮仍用于命名配置；执行当前草稿不要求再点保存。口令仍走原有临时输入/本机凭据，不写入模型。管理员修改许可服务参数也通过同一模型。</p>
+<h2 id="-model与文件在哪里">③ Model与文件在哪里</h2>
+<p><a href="../source/LaunchDesk.Next.Application/Features/LoginLaunch/LaunchModel.cs">LaunchModel</a>是唯一可编辑对象；端口用字符串保留未完成输入。WPF适配器只有转发属性，没有第二份字段值。draft.json保存Generation与Model；执行快照是snapshots/<attemptid>.json。文件代次冲突停止覆盖，重新打开载入；不宣称已有外部文件监视自动合并。当前为JSON，没有引入Tomlyn或依赖安装。</attemptid></p>
+<h2 id="-前端究竟做什么">④ 前端究竟做什么</h2>
+<pre><code class="lang-text">控件 ⇄ 薄绑定适配器 ⇄ 同一个LaunchModel
+Model.Changed → 后端保存草稿
+Model.Changed → 绑定刷新字段与校验提示
+</code></pre>
+<p>前端只转发输入、选择和执行事件，显示候选、状态、格式提示及证据；候选合并、扫描记录、保存版本、业务准入与脚本选择归后端。输入Model不依赖WPF或CommunityToolkit。</p>
+<h2 id="-后端如何执行">⑤ 后端如何执行</h2>
+<pre><code class="lang-text">LaunchWorkspace.ExecuteAsync:
+  frozen = Model.Freeze()                 // 深拷贝、AttemptId、Revision
+  CheckSecretFields()
+  FlushDraftWithGenerationCheck()
+  AtomicPersist(snapshot/frozen)
+  AppendRequiredRecord()
+  request = ParseParameters(frozen)       // 非法端口拒绝，不替换成0
+  coordinator.ExecuteSnapshotAsync(request)
+    → 校验 → 许可检查 → 凭据 → StartMonitor/Marine/Direct → Windows实现
+</code></pre>
+<p>快照/记录/版本门槛失败不进入脚本。既有保存配置API仍保留保存版本约束；新的草稿执行入口复用同一协调器主体，仅不要求输入先等于命名配置，避免两套启动实现。</p>
+<h2 id="-开发工具如何配置vm和许可">⑥ 开发工具如何配置VM和许可</h2>
+<p>开发CLI用同一LaunchModel文件执行普通启动，许可服务器、端口、RULES等没有写死在实验器。lab.example.json另保存VM路径、允许根、预期身份、VIX路径、凭据文件引用、超时与证据目录。本机显式授权、目标摘要和后端身份检查同时满足才允许VM动作；配置本身不启用实验、不自动开VM。可调参数不包含许可密钥、绑定或时间修改。</p>
+<h2 id="-如何失败返回与验证">⑦ 如何失败、返回与验证</h2>
+<p>List<record>＋NLog＋完整输入快照关联AttemptId；非法输入、版本冲突、写入失败都返回阶段与原因，空异常消息也有类型/HResult兜底。创建进程之后失败必须保留NeedsVerification，不能说“未执行”或自动重试。回显不覆盖较新草稿。离线回归覆盖冻结后再编辑、非法原值留存、记录失败零调用、冲突拒绝及双向通知；VM测试只用临时文本夹具，未连接VMware。</record></p>
+<h2 id="-包feature与未完成范围">⑧ 包、Feature与未完成范围</h2>
+<p>同一个WorkspaceHost装配login.launch，两个包内四个共用DLL须字节一致。产品不带VM入口；开发工具额外交付实验Feature入口，移除不影响普通启动。这是可由宿主装配的边界，尚未对接具体CAF插件API，XML Addin控制已编译Feature的装配，不是任意DLL动态加载器。历史FNF脚本保留为不编译的History证据，不再维护为第二启动器。</p>
+<p>当前交付为框架依赖包；新远程连接/TOML授权流程、FigCraft新界面、VM真实参数回归和完整CAF适配仍未实现。原XAML、资源与视觉主题不改；DocFX主题也没有被标成视觉通过。</p>
+<p>启用规则现由<a href="addins.html">Addin清单</a>决定；没有声明即不装配，代码存在不能自行启用。</p>
+
+</article>
+
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span class="ld-footer-word">LAUNCHDESK.NEXT / KNOWLEDGE SYSTEM</span><span class="ld-footer-note">功能事实 · 源码路径 · 验证证据　/　DocFX</span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

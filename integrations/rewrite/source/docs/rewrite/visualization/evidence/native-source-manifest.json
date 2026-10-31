@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "engine_version": "dev",
+  "origin": "C:\\Users\\26648\\Documents\\Codex\\2026-10-15\\ni\\LaunchDesk.Archon",
+  "captured_at": "2026-10-19T08:35:21.858Z",
+  "digest": "ad481b6dbcb71460ba90a8c8d1318589389da8b4e5252873bf937a08c69a3857",
+  "file_count": 165,
+  "byte_count": 1023395,
+  "scopes": [
+    "project",
+    "bundled"
+  ],
+  "source_config": {
+    "load_default_workflows": true,
+    "load_default_commands": true
+  },
+  "workflow_name": "launchdesk-architecture-visualize"
+}

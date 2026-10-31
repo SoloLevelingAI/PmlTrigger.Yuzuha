@@ -1,0 +1,1774 @@
+{
+  "files": [
+    {
+      "path": "source/apps/backend/RibbonStudio.Backend.csproj",
+      "sha256": "aa09bc4ecf7fcea063daf8682677644b6a08fd2ffbd01b1d7bde29cb0faeff13",
+      "sourcePath": "apps/backend/RibbonStudio.Backend.csproj",
+      "integratedSha256": "58ad26467b96a11a996b5462d56fbe4fbb129dd0a827fe1f6fd5af646c61b6e3"
+    },
+    {
+      "path": "source/apps/backend/Assets/discover-installations.ps1",
+      "sha256": "337876a13ce1031cf97a75a510a55fd5ae4e1cb5b5ac8880efbc9e09a2cb0080",
+      "sourcePath": "apps/backend/Assets/discover-installations.ps1",
+      "integratedSha256": "337876a13ce1031cf97a75a510a55fd5ae4e1cb5b5ac8880efbc9e09a2cb0080"
+    },
+    {
+      "path": "source/apps/backend/Assets/example.json",
+      "sha256": "c599d7ac9eb5a8aac88a99f516578fd9b15ef759e811e63fc75c59251ccdacfe",
+      "sourcePath": "apps/backend/Assets/example.json",
+      "integratedSha256": "c599d7ac9eb5a8aac88a99f516578fd9b15ef759e811e63fc75c59251ccdacfe"
+    },
+    {
+      "path": "source/apps/backend/Features/Deployment/DeploymentFeature.cs",
+      "sha256": "247c4e8206a3042959c073041c352cee2adbec3b7f47f4efec526ad4bf25985f",
+      "sourcePath": "apps/backend/Features/Deployment/DeploymentFeature.cs",
+      "integratedSha256": "247c4e8206a3042959c073041c352cee2adbec3b7f47f4efec526ad4bf25985f"
+    },
+    {
+      "path": "source/apps/backend/Features/Deployment/Manifests.cs",
+      "sha256": "cac614a306f1b8aca64a0f127c46dfecec11104901908e8934fece21c6aed7e4",
+      "sourcePath": "apps/backend/Features/Deployment/Manifests.cs",
+      "integratedSha256": "cac614a306f1b8aca64a0f127c46dfecec11104901908e8934fece21c6aed7e4"
+    },
+    {
+      "path": "source/apps/backend/Features/Images/IconImages.cs",
+      "sha256": "790464606da50946ed25e8bf00e400b311222fb5688137f81a7d9aabd14ddefe",
+      "sourcePath": "apps/backend/Features/Images/IconImages.cs",
+      "integratedSha256": "790464606da50946ed25e8bf00e400b311222fb5688137f81a7d9aabd14ddefe"
+    },
+    {
+      "path": "source/apps/backend/Features/Management/ManagementFeature.cs",
+      "sha256": "fcaa90da69c4ab6c7f3ad2efe67ff25d698cab4b25d9ef3f7d12beea8093588a",
+      "sourcePath": "apps/backend/Features/Management/ManagementFeature.cs",
+      "integratedSha256": "fcaa90da69c4ab6c7f3ad2efe67ff25d698cab4b25d9ef3f7d12beea8093588a"
+    },
+    {
+      "path": "source/apps/backend/Features/Projects/ProjectRules.cs",
+      "sha256": "b8886a503a6fb88c111aaa9fa50dfa9c21734e2aaf2be9f2fb1a18df70e2057c",
+      "sourcePath": "apps/backend/Features/Projects/ProjectRules.cs",
+      "integratedSha256": "b8886a503a6fb88c111aaa9fa50dfa9c21734e2aaf2be9f2fb1a18df70e2057c"
+    },
+    {
+      "path": "source/apps/backend/Features/Registration/RegistrationFeature.cs",
+      "sha256": "34ff19505e07ba12c3b606ac352bbe0c2738d56ce32dd2c6d2609c04810d7dba",
+      "sourcePath": "apps/backend/Features/Registration/RegistrationFeature.cs",
+      "integratedSha256": "34ff19505e07ba12c3b606ac352bbe0c2738d56ce32dd2c6d2609c04810d7dba"
+    },
+    {
+      "path": "source/apps/backend/Features/Uic/UicFiles.cs",
+      "sha256": "3be932f6317269749f128dd61b13ba9566962bbafd5a85242faa11e67bb01339",
+      "sourcePath": "apps/backend/Features/Uic/UicFiles.cs",
+      "integratedSha256": "3be932f6317269749f128dd61b13ba9566962bbafd5a85242faa11e67bb01339"
+    },
+    {
+      "path": "source/apps/backend/Features/Workspace/WorkspaceFeature.cs",
+      "sha256": "3667af84904a5a5e603a122adec9033a80f34acd09cb17a7b44d0612123e34ea",
+      "sourcePath": "apps/backend/Features/Workspace/WorkspaceFeature.cs",
+      "integratedSha256": "3667af84904a5a5e603a122adec9033a80f34acd09cb17a7b44d0612123e34ea"
+    },
+    {
+      "path": "source/apps/backend/Features/Workspace/WorkspaceFiles.cs",
+      "sha256": "515fcab734195d2f3b00029a54a697d4246f5ef961170dbb8259ead21270b6c9",
+      "sourcePath": "apps/backend/Features/Workspace/WorkspaceFiles.cs",
+      "integratedSha256": "515fcab734195d2f3b00029a54a697d4246f5ef961170dbb8259ead21270b6c9"
+    },
+    {
+      "path": "source/apps/backend/Host/Program.cs",
+      "sha256": "16535154fdfd5f9544e1cb431fa2fd8542dc2f8b53c879b64427050581899c18",
+      "sourcePath": "apps/backend/Host/Program.cs",
+      "integratedSha256": "16535154fdfd5f9544e1cb431fa2fd8542dc2f8b53c879b64427050581899c18"
+    },
+    {
+      "path": "source/apps/backend/Infrastructure/Data.cs",
+      "sha256": "d395027032f1b97fada44777fb5044de064216b5eb82b0b4d4c7cc5a339370da",
+      "sourcePath": "apps/backend/Infrastructure/Data.cs",
+      "integratedSha256": "115722d09f73669b33bf95d8254a748540cac8937429a03e02568ef7761b31f7"
+    },
+    {
+      "path": "source/apps/desktop/App.config",
+      "sha256": "c70bc16a5432834c4e606b7a261f0e41d46322e428eef64b45fadc4536d772a0",
+      "sourcePath": "apps/desktop/App.config",
+      "integratedSha256": "c70bc16a5432834c4e606b7a261f0e41d46322e428eef64b45fadc4536d772a0"
+    },
+    {
+      "path": "source/apps/desktop/App.cs",
+      "sha256": "b01d8d4cf27b1bc12a277bf1e319395ec803e5a1783e451e590d53d8fdefbea7",
+      "sourcePath": "apps/desktop/App.cs",
+      "integratedSha256": "b01d8d4cf27b1bc12a277bf1e319395ec803e5a1783e451e590d53d8fdefbea7"
+    },
+    {
+      "path": "source/apps/desktop/RibbonStudio.Desktop.csproj",
+      "sha256": "12096d001118658444755e4882753380bbe65e18446fb4c471832e7161b37f94",
+      "sourcePath": "apps/desktop/RibbonStudio.Desktop.csproj",
+      "integratedSha256": "12096d001118658444755e4882753380bbe65e18446fb4c471832e7161b37f94"
+    },
+    {
+      "path": "source/apps/desktop/Features/Deployment/ContextActions.cs",
+      "sha256": "5bb6908dc7520740f71f9d8fa13f94067c75709170157045f232f837ade6df6e",
+      "sourcePath": "apps/desktop/Features/Deployment/ContextActions.cs",
+      "integratedSha256": "5bb6908dc7520740f71f9d8fa13f94067c75709170157045f232f837ade6df6e"
+    },
+    {
+      "path": "source/apps/desktop/Features/Deployment/DeploymentWindow.cs",
+      "sha256": "61264a489f47c55d53e4ccbcfbaddde9e886ca44d28e9dd5eb40e318f636fce0",
+      "sourcePath": "apps/desktop/Features/Deployment/DeploymentWindow.cs",
+      "integratedSha256": "61264a489f47c55d53e4ccbcfbaddde9e886ca44d28e9dd5eb40e318f636fce0"
+    },
+    {
+      "path": "source/apps/desktop/Features/Deployment/StudioToolPage.cs",
+      "sha256": "9332b77ce23eaac8b169ac6b0de60870d2a3567557bc2de4ee53404804b72ebd",
+      "sourcePath": "apps/desktop/Features/Deployment/StudioToolPage.cs",
+      "integratedSha256": "9332b77ce23eaac8b169ac6b0de60870d2a3567557bc2de4ee53404804b72ebd"
+    },
+    {
+      "path": "source/apps/desktop/Features/Deployment/WorkspaceActions.cs",
+      "sha256": "184d23f108b11d03eeb1b665d3a43ca0e99a1b8299aa50afa7978371f0f1816b",
+      "sourcePath": "apps/desktop/Features/Deployment/WorkspaceActions.cs",
+      "integratedSha256": "184d23f108b11d03eeb1b665d3a43ca0e99a1b8299aa50afa7978371f0f1816b"
+    },
+    {
+      "path": "source/apps/desktop/Features/Editing/CommandLibrary.cs",
+      "sha256": "04ba120a0743c2030a7142198e6972f3d1d98e4cf1c6f2adc666bdb72bb43b1e",
+      "sourcePath": "apps/desktop/Features/Editing/CommandLibrary.cs",
+      "integratedSha256": "04ba120a0743c2030a7142198e6972f3d1d98e4cf1c6f2adc666bdb72bb43b1e"
+    },
+    {
+      "path": "source/apps/desktop/Features/Editing/EditHistory.cs",
+      "sha256": "773af8069d3f279e43473b9650aae58297e6be7ccf731a23ac71dcb05934cd81",
+      "sourcePath": "apps/desktop/Features/Editing/EditHistory.cs",
+      "integratedSha256": "773af8069d3f279e43473b9650aae58297e6be7ccf731a23ac71dcb05934cd81"
+    },
+    {
+      "path": "source/apps/desktop/Features/Editing/FunctionTable.cs",
+      "sha256": "fd6a8499b2ec1d4a7480a3945f85734df3f713c5dc9bdf1a1316dd833e4d8978",
+      "sourcePath": "apps/desktop/Features/Editing/FunctionTable.cs",
+      "integratedSha256": "fd6a8499b2ec1d4a7480a3945f85734df3f713c5dc9bdf1a1316dd833e4d8978"
+    },
+    {
+      "path": "source/apps/desktop/Features/Images/FeatureActions.cs",
+      "sha256": "1d60b48eea9b499342d9fd4fd11f8b0c4129fc5020abd2402d66e93be461c270",
+      "sourcePath": "apps/desktop/Features/Images/FeatureActions.cs",
+      "integratedSha256": "1d60b48eea9b499342d9fd4fd11f8b0c4129fc5020abd2402d66e93be461c270"
+    },
+    {
+      "path": "source/apps/desktop/Features/Layout/CommandPlacement.cs",
+      "sha256": "044895b2350e7eee4a3adbd4f006658b9ec2869319b4c9de46c7d30530e7d515",
+      "sourcePath": "apps/desktop/Features/Layout/CommandPlacement.cs",
+      "integratedSha256": "044895b2350e7eee4a3adbd4f006658b9ec2869319b4c9de46c7d30530e7d515"
+    },
+    {
+      "path": "source/apps/desktop/Features/Layout/ContextActions.cs",
+      "sha256": "83990da41c81fc964a3fc7016cee67bc5295791b34c9776227e3152c16d2a41d",
+      "sourcePath": "apps/desktop/Features/Layout/ContextActions.cs",
+      "integratedSha256": "83990da41c81fc964a3fc7016cee67bc5295791b34c9776227e3152c16d2a41d"
+    },
+    {
+      "path": "source/apps/desktop/Features/Layout/LayoutEditing.cs",
+      "sha256": "ad976636e20d56b9c82529af1c6549d8b998adce89953fe9fff907ef9e7c2743",
+      "sourcePath": "apps/desktop/Features/Layout/LayoutEditing.cs",
+      "integratedSha256": "ad976636e20d56b9c82529af1c6549d8b998adce89953fe9fff907ef9e7c2743"
+    },
+    {
+      "path": "source/apps/desktop/Features/Layout/WorkspaceActions.cs",
+      "sha256": "7a6754d7b645a1350313f04f0afc1553de3b7fcbcdd35c671e74d36ed5df4a3a",
+      "sourcePath": "apps/desktop/Features/Layout/WorkspaceActions.cs",
+      "integratedSha256": "7a6754d7b645a1350313f04f0afc1553de3b7fcbcdd35c671e74d36ed5df4a3a"
+    },
+    {
+      "path": "source/apps/desktop/Features/Management/ContextActions.cs",
+      "sha256": "07f251a96dca52a31e4afbf2f798b5452e4ecf0afc3bd3d59b151339b8a72920",
+      "sourcePath": "apps/desktop/Features/Management/ContextActions.cs",
+      "integratedSha256": "07f251a96dca52a31e4afbf2f798b5452e4ecf0afc3bd3d59b151339b8a72920"
+    },
+    {
+      "path": "source/apps/desktop/Features/Management/DisplayModels.cs",
+      "sha256": "0f639901e68827f948103a8e56017bea6f8f8f4b8beaabd2919e6178a57ea8a3",
+      "sourcePath": "apps/desktop/Features/Management/DisplayModels.cs",
+      "integratedSha256": "0f639901e68827f948103a8e56017bea6f8f8f4b8beaabd2919e6178a57ea8a3"
+    },
+    {
+      "path": "source/apps/desktop/Features/Management/LibraryWindow.cs",
+      "sha256": "d364a8c957759536f856addf37d490d239d8066d3f5c98a450af12506b045948",
+      "sourcePath": "apps/desktop/Features/Management/LibraryWindow.cs",
+      "integratedSha256": "d364a8c957759536f856addf37d490d239d8066d3f5c98a450af12506b045948"
+    },
+    {
+      "path": "source/apps/desktop/Features/Management/WorkspaceActions.cs",
+      "sha256": "170151e46c6a1e36e33d045d8c3b832943e67e9383ac0647f9bcf62deb276edb",
+      "sourcePath": "apps/desktop/Features/Management/WorkspaceActions.cs",
+      "integratedSha256": "170151e46c6a1e36e33d045d8c3b832943e67e9383ac0647f9bcf62deb276edb"
+    },
+    {
+      "path": "source/apps/desktop/Features/Projects/FeatureActions.cs",
+      "sha256": "5a29df05cf6541401795d97208acc355ea04a2abcffc5ea6142da99334b935df",
+      "sourcePath": "apps/desktop/Features/Projects/FeatureActions.cs",
+      "integratedSha256": "5a29df05cf6541401795d97208acc355ea04a2abcffc5ea6142da99334b935df"
+    },
+    {
+      "path": "source/apps/desktop/Features/Settings/WorkspaceActions.cs",
+      "sha256": "fc572dba9f64c9d79db3c26c4d63e2f0d2cd41f3c141d1053f98f5e2c01476e5",
+      "sourcePath": "apps/desktop/Features/Settings/WorkspaceActions.cs",
+      "integratedSha256": "fc572dba9f64c9d79db3c26c4d63e2f0d2cd41f3c141d1053f98f5e2c01476e5"
+    },
+    {
+      "path": "source/apps/desktop/Features/Uic/FeatureActions.cs",
+      "sha256": "8ecdb2eb60670aecfc9af63dd58c87ee08ad36eaab30969990776de8c2f0b4bf",
+      "sourcePath": "apps/desktop/Features/Uic/FeatureActions.cs",
+      "integratedSha256": "8ecdb2eb60670aecfc9af63dd58c87ee08ad36eaab30969990776de8c2f0b4bf"
+    },
+    {
+      "path": "source/apps/desktop/Features/Workspace/AuxiliaryDocking.cs",
+      "sha256": "b9af518fb6fc7b3bb125f25d3a13f22728ebc65730ef46fd1f236884503c2a40",
+      "sourcePath": "apps/desktop/Features/Workspace/AuxiliaryDocking.cs",
+      "integratedSha256": "b9af518fb6fc7b3bb125f25d3a13f22728ebc65730ef46fd1f236884503c2a40"
+    },
+    {
+      "path": "source/apps/desktop/Features/Workspace/BottomDock.cs",
+      "sha256": "15d7b88d0d2bf900f7cc4afd0292ed12315811aa27a161d2e055f94685926b74",
+      "sourcePath": "apps/desktop/Features/Workspace/BottomDock.cs",
+      "integratedSha256": "15d7b88d0d2bf900f7cc4afd0292ed12315811aa27a161d2e055f94685926b74"
+    },
+    {
+      "path": "source/apps/desktop/Features/Workspace/CommandWorkspace.cs",
+      "sha256": "27fcf16e4869856fb011ecbcd70808ee62a725b0c9df2caf6ada09deb95dc0b0",
+      "sourcePath": "apps/desktop/Features/Workspace/CommandWorkspace.cs",
+      "integratedSha256": "27fcf16e4869856fb011ecbcd70808ee62a725b0c9df2caf6ada09deb95dc0b0"
+    },
+    {
+      "path": "source/apps/desktop/Features/Workspace/DockPreview.cs",
+      "sha256": "f507d0907d180c34f9784f68b7006fdcde5dbcc12544382fbee5097b2fa03721",
+      "sourcePath": "apps/desktop/Features/Workspace/DockPreview.cs",
+      "integratedSha256": "f507d0907d180c34f9784f68b7006fdcde5dbcc12544382fbee5097b2fa03721"
+    },
+    {
+      "path": "source/apps/desktop/Features/Workspace/DocumentSessions.cs",
+      "sha256": "d95d1ead7c3edfd8f4592f9f153187803d4057d71bc6d9c4e7b05cd290f37630",
+      "sourcePath": "apps/desktop/Features/Workspace/DocumentSessions.cs",
+      "integratedSha256": "d95d1ead7c3edfd8f4592f9f153187803d4057d71bc6d9c4e7b05cd290f37630"
+    },
+    {
+      "path": "source/apps/desktop/Features/Workspace/FunctionLocatorPage.cs",
+      "sha256": "45fd585addafec8c5b4917f11017b6120e926ed9a9773b384add80ac28ffac06",
+      "sourcePath": "apps/desktop/Features/Workspace/FunctionLocatorPage.cs",
+      "integratedSha256": "45fd585addafec8c5b4917f11017b6120e926ed9a9773b384add80ac28ffac06"
+    },
+    {
+      "path": "source/apps/desktop/Features/Workspace/GlobalWorkspaceTools.cs",
+      "sha256": "02a471aebe87d183e5a00977c7193679df05b0a0cd9d3800ec6f5bef5b5b509f",
+      "sourcePath": "apps/desktop/Features/Workspace/GlobalWorkspaceTools.cs",
+      "integratedSha256": "02a471aebe87d183e5a00977c7193679df05b0a0cd9d3800ec6f5bef5b5b509f"
+    },
+    {
+      "path": "source/apps/desktop/Features/Workspace/RegistrationExplorerPage.cs",
+      "sha256": "27e9c856745c32ad812d7e33c82787acbcfe1b9c712a8edc8d487364e52e88d9",
+      "sourcePath": "apps/desktop/Features/Workspace/RegistrationExplorerPage.cs",
+      "integratedSha256": "27e9c856745c32ad812d7e33c82787acbcfe1b9c712a8edc8d487364e52e88d9"
+    },
+    {
+      "path": "source/apps/desktop/Features/Workspace/WorkspaceActions.cs",
+      "sha256": "a5f68d407d23faab0bbec7f96b0675181adf79e15f82f01613b75388b437e98a",
+      "sourcePath": "apps/desktop/Features/Workspace/WorkspaceActions.cs",
+      "integratedSha256": "a5f68d407d23faab0bbec7f96b0675181adf79e15f82f01613b75388b437e98a"
+    },
+    {
+      "path": "source/apps/desktop/Features/Workspace/WorkspaceLayout.cs",
+      "sha256": "a44bb98bfcb832778199703753627c24f2a2931dcb0f1fb8a40f8cf39cf4aab0",
+      "sourcePath": "apps/desktop/Features/Workspace/WorkspaceLayout.cs",
+      "integratedSha256": "a44bb98bfcb832778199703753627c24f2a2931dcb0f1fb8a40f8cf39cf4aab0"
+    },
+    {
+      "path": "source/apps/desktop/Resources/OfficeIcons.xaml",
+      "sha256": "415a54a2ce807757b398533cda5c9d3fd26ac6623f94c83344c22587535f875f",
+      "sourcePath": "apps/desktop/Resources/OfficeIcons.xaml",
+      "integratedSha256": "415a54a2ce807757b398533cda5c9d3fd26ac6623f94c83344c22587535f875f"
+    },
+    {
+      "path": "source/apps/desktop/Resources/OfficeRibbon.xaml",
+      "sha256": "670c295cbf6f74a88fbbf5b5c96e668d9b10b16121ed8ec6abb7e42e9bea1228",
+      "sourcePath": "apps/desktop/Resources/OfficeRibbon.xaml",
+      "integratedSha256": "670c295cbf6f74a88fbbf5b5c96e668d9b10b16121ed8ec6abb7e42e9bea1228"
+    },
+    {
+      "path": "source/apps/desktop/Resources/StudioTheme.xaml",
+      "sha256": "44d003c1e84f67abf2095454c8d9ae1e93184810131884cc5b848b37bc224d57",
+      "sourcePath": "apps/desktop/Resources/StudioTheme.xaml",
+      "integratedSha256": "44d003c1e84f67abf2095454c8d9ae1e93184810131884cc5b848b37bc224d57"
+    },
+    {
+      "path": "source/apps/desktop/Services/ApiClient.cs",
+      "sha256": "633dccf4c01051669fd58525491104b7ede7cae354c221a66d2b94255bfdc8f7",
+      "sourcePath": "apps/desktop/Services/ApiClient.cs",
+      "integratedSha256": "633dccf4c01051669fd58525491104b7ede7cae354c221a66d2b94255bfdc8f7"
+    },
+    {
+      "path": "source/apps/desktop/Verification/AuxiliaryDockingVerification.cs",
+      "sha256": "5aed44fb8cc0a61636f64833c420b817ac3f1f8569be9f8f9a50714a88560b5a",
+      "sourcePath": "apps/desktop/Verification/AuxiliaryDockingVerification.cs",
+      "integratedSha256": "5aed44fb8cc0a61636f64833c420b817ac3f1f8569be9f8f9a50714a88560b5a"
+    },
+    {
+      "path": "source/apps/desktop/Verification/CommandFirstVerification.cs",
+      "sha256": "9d99444455c0e44ed828e7a93c8f6384262d7afa747ac7c9ed2833facd854d99",
+      "sourcePath": "apps/desktop/Verification/CommandFirstVerification.cs",
+      "integratedSha256": "9d99444455c0e44ed828e7a93c8f6384262d7afa747ac7c9ed2833facd854d99"
+    },
+    {
+      "path": "source/apps/desktop/Verification/DocumentSessionVerification.cs",
+      "sha256": "19b85b576ab719fd5e3ccb72392978ff9843b5b7d588eb160e1a4a9cf29dfbc5",
+      "sourcePath": "apps/desktop/Verification/DocumentSessionVerification.cs",
+      "integratedSha256": "19b85b576ab719fd5e3ccb72392978ff9843b5b7d588eb160e1a4a9cf29dfbc5"
+    },
+    {
+      "path": "source/apps/desktop/Verification/EditHistoryVerification.cs",
+      "sha256": "1b8dd7afb1b82490ee3f28272b474e39600d0a7a7f2c247fb613c151e4158c5e",
+      "sourcePath": "apps/desktop/Verification/EditHistoryVerification.cs",
+      "integratedSha256": "1b8dd7afb1b82490ee3f28272b474e39600d0a7a7f2c247fb613c151e4158c5e"
+    },
+    {
+      "path": "source/apps/desktop/Verification/FunctionTableVerification.cs",
+      "sha256": "b40265ad2ce706e02c000e471e048a005a260513f0a0ab779c8d30e364cd5578",
+      "sourcePath": "apps/desktop/Verification/FunctionTableVerification.cs",
+      "integratedSha256": "b40265ad2ce706e02c000e471e048a005a260513f0a0ab779c8d30e364cd5578"
+    },
+    {
+      "path": "source/apps/desktop/Verification/LayoutVerification.cs",
+      "sha256": "0a200e6e23560f2448653b0deba94f29ea27aecc0b3031bbae0dc9233f03b5c0",
+      "sourcePath": "apps/desktop/Verification/LayoutVerification.cs",
+      "integratedSha256": "0a200e6e23560f2448653b0deba94f29ea27aecc0b3031bbae0dc9233f03b5c0"
+    },
+    {
+      "path": "source/apps/desktop/Verification/RibbonFirstVerification.cs",
+      "sha256": "9f793f3d76eb9c3a49dee218c1573b0ef34cd9f22183322ed076332196fb9174",
+      "sourcePath": "apps/desktop/Verification/RibbonFirstVerification.cs",
+      "integratedSha256": "9f793f3d76eb9c3a49dee218c1573b0ef34cd9f22183322ed076332196fb9174"
+    },
+    {
+      "path": "source/apps/desktop/Verification/ThemeVerification.cs",
+      "sha256": "04d7ff3dd6000d310643b2c7904f55a620719231094f09d18b6023aa34f4fdff",
+      "sourcePath": "apps/desktop/Verification/ThemeVerification.cs",
+      "integratedSha256": "04d7ff3dd6000d310643b2c7904f55a620719231094f09d18b6023aa34f4fdff"
+    },
+    {
+      "path": "source/apps/desktop/Verification/WorkspaceLayoutVerification.cs",
+      "sha256": "24b8acac2bf21da2660a6802795b2d6a8396bd66a5551e0044cbecb50a16a468",
+      "sourcePath": "apps/desktop/Verification/WorkspaceLayoutVerification.cs",
+      "integratedSha256": "24b8acac2bf21da2660a6802795b2d6a8396bd66a5551e0044cbecb50a16a468"
+    },
+    {
+      "path": "source/apps/desktop/Verification/WorkspaceToolsVerification.cs",
+      "sha256": "ff9bf03cfccb1b3b8ed2e86a7641333b1238dc1ff04d6cee0523440ecfed3709",
+      "sourcePath": "apps/desktop/Verification/WorkspaceToolsVerification.cs",
+      "integratedSha256": "ff9bf03cfccb1b3b8ed2e86a7641333b1238dc1ff04d6cee0523440ecfed3709"
+    },
+    {
+      "path": "source/apps/desktop/Views/Chrome.cs",
+      "sha256": "fe611c19dac2419d5aaf220fcd33b5db4726f7de64f2393203ea11b0e9c2244e",
+      "sourcePath": "apps/desktop/Views/Chrome.cs",
+      "integratedSha256": "fe611c19dac2419d5aaf220fcd33b5db4726f7de64f2393203ea11b0e9c2244e"
+    },
+    {
+      "path": "source/apps/desktop/Views/MainWindow.cs",
+      "sha256": "c679ba3d2c9ed20d6fdfdbeb14b9c23dab717e27c7620a60dde927497520843b",
+      "sourcePath": "apps/desktop/Views/MainWindow.cs",
+      "integratedSha256": "c679ba3d2c9ed20d6fdfdbeb14b9c23dab717e27c7620a60dde927497520843b"
+    },
+    {
+      "path": "source/apps/desktop/Views/Ui.cs",
+      "sha256": "8c5a35cea7f6bdb8fa87c36cfb21cd3f17021602cede4c1a5ad996feae05706e",
+      "sourcePath": "apps/desktop/Views/Ui.cs",
+      "integratedSha256": "8c5a35cea7f6bdb8fa87c36cfb21cd3f17021602cede4c1a5ad996feae05706e"
+    },
+    {
+      "path": "source/apps/web/index.html",
+      "sha256": "c76bfd5d985ce3aeffb15c6c39d32b077d4c00cfc8e3945a4c898fe298aa8df5",
+      "sourcePath": "apps/web/index.html",
+      "integratedSha256": "c76bfd5d985ce3aeffb15c6c39d32b077d4c00cfc8e3945a4c898fe298aa8df5"
+    },
+    {
+      "path": "source/apps/web/vite.config.ts",
+      "sha256": "2bc71fbdb5ac145b044737b9d234a02fcae995c2e26a6eec6563f8a842e8e99a",
+      "sourcePath": "apps/web/vite.config.ts",
+      "integratedSha256": "2bc71fbdb5ac145b044737b9d234a02fcae995c2e26a6eec6563f8a842e8e99a"
+    },
+    {
+      "path": "source/apps/web/src/deployment.ts",
+      "sha256": "29ca2ef1744b407b695abcf274c8bc932ae232d9f10c731c09530fe4058f499d",
+      "sourcePath": "apps/web/src/deployment.ts",
+      "integratedSha256": "29ca2ef1744b407b695abcf274c8bc932ae232d9f10c731c09530fe4058f499d"
+    },
+    {
+      "path": "source/apps/web/src/library.ts",
+      "sha256": "3e966c055abab18230b0d76df375a5ba9ecf77afea0f48203d3a2c69db5938f0",
+      "sourcePath": "apps/web/src/library.ts",
+      "integratedSha256": "3e966c055abab18230b0d76df375a5ba9ecf77afea0f48203d3a2c69db5938f0"
+    },
+    {
+      "path": "source/apps/web/src/main.ts",
+      "sha256": "2af138affc7af6489dfc9070ea92ea32075c80d00d88cf32cda83b3f0a8166dc",
+      "sourcePath": "apps/web/src/main.ts",
+      "integratedSha256": "2af138affc7af6489dfc9070ea92ea32075c80d00d88cf32cda83b3f0a8166dc"
+    },
+    {
+      "path": "source/apps/web/src/module-transfer.ts",
+      "sha256": "64ffacfe6045f1fb1f2db214eb6720dbbbbdc9e6565519b874a65986cc17d725",
+      "sourcePath": "apps/web/src/module-transfer.ts",
+      "integratedSha256": "64ffacfe6045f1fb1f2db214eb6720dbbbbdc9e6565519b874a65986cc17d725"
+    },
+    {
+      "path": "source/apps/web/src/style.css",
+      "sha256": "430ec21173431a3adf0107a62b81340fe7643fb316c5e305283df1135bf52d71",
+      "sourcePath": "apps/web/src/style.css",
+      "integratedSha256": "430ec21173431a3adf0107a62b81340fe7643fb316c5e305283df1135bf52d71"
+    },
+    {
+      "path": "source/packages/contracts/index.ts",
+      "sha256": "4432bff620b3f34d39e4f556b40a9f3d14e6190653f10ea4e4b0da7cb4f70159",
+      "sourcePath": "packages/contracts/index.ts",
+      "integratedSha256": "4432bff620b3f34d39e4f556b40a9f3d14e6190653f10ea4e4b0da7cb4f70159"
+    },
+    {
+      "path": "source/packages/contracts-csharp/RegistrationContracts.cs",
+      "sha256": "25717f5ff29697131008ee81332c2adf4b05d7eaf9a938d6b7393417334b552b",
+      "sourcePath": "packages/contracts-csharp/RegistrationContracts.cs",
+      "integratedSha256": "25717f5ff29697131008ee81332c2adf4b05d7eaf9a938d6b7393417334b552b"
+    },
+    {
+      "path": "source/packages/contracts-csharp/RibbonContracts.cs",
+      "sha256": "afbc0912a9c020dd9915218482c37fac3471210a5f3a459f5c46670bd88a2b8f",
+      "sourcePath": "packages/contracts-csharp/RibbonContracts.cs",
+      "integratedSha256": "afbc0912a9c020dd9915218482c37fac3471210a5f3a459f5c46670bd88a2b8f"
+    },
+    {
+      "path": "source/packages/uic-core/example.ts",
+      "sha256": "d98f08de41a2e7e70824e2ac17ba3a45830bf3e82b43e8edd84b5cecf71a40cb",
+      "sourcePath": "packages/uic-core/example.ts",
+      "integratedSha256": "d98f08de41a2e7e70824e2ac17ba3a45830bf3e82b43e8edd84b5cecf71a40cb"
+    },
+    {
+      "path": "source/packages/uic-core/images.ts",
+      "sha256": "2541bf4ed4d4891f1e435deb03444280191013cb45513534ee36295180aab15c",
+      "sourcePath": "packages/uic-core/images.ts",
+      "integratedSha256": "2541bf4ed4d4891f1e435deb03444280191013cb45513534ee36295180aab15c"
+    },
+    {
+      "path": "source/packages/uic-core/import.ts",
+      "sha256": "dbdac92142bf52fa4531a545a9a4ade4136915ca69034d890b0f9404ec2d49e9",
+      "sourcePath": "packages/uic-core/import.ts",
+      "integratedSha256": "dbdac92142bf52fa4531a545a9a4ade4136915ca69034d890b0f9404ec2d49e9"
+    },
+    {
+      "path": "source/packages/uic-core/index.ts",
+      "sha256": "57858c9efc801c3773251e6d49232b2e2cf4f7325bdde0e6c827148aea077478",
+      "sourcePath": "packages/uic-core/index.ts",
+      "integratedSha256": "57858c9efc801c3773251e6d49232b2e2cf4f7325bdde0e6c827148aea077478"
+    },
+    {
+      "path": "source/packages/uic-core/roundtrip.ts",
+      "sha256": "cb1b1e1da26d19d5756a46a45606d17bd028b0659f5508dbd17e6ff60e9523c7",
+      "sourcePath": "packages/uic-core/roundtrip.ts",
+      "integratedSha256": "cb1b1e1da26d19d5756a46a45606d17bd028b0659f5508dbd17e6ff60e9523c7"
+    },
+    {
+      "path": "source/packages/uic-deployment/index.ts",
+      "sha256": "a9b969a22cfb235cad040c52c8804372864b6a8a07aad0d6897b851183a94b35",
+      "sourcePath": "packages/uic-deployment/index.ts",
+      "integratedSha256": "a9b969a22cfb235cad040c52c8804372864b6a8a07aad0d6897b851183a94b35"
+    },
+    {
+      "path": "source/packages/uic-workspace/service.ts",
+      "sha256": "99bb19b117a798af72439c3ce2410936ab11b53666cda1b55f96c0136310b9d8",
+      "sourcePath": "packages/uic-workspace/service.ts",
+      "integratedSha256": "99bb19b117a798af72439c3ce2410936ab11b53666cda1b55f96c0136310b9d8"
+    },
+    {
+      "path": "source/packages/uic-workspace/store.ts",
+      "sha256": "7929001aa0fa2518a1ad5a36ce1a8cd491cd88a3d56906f7f01e5f9d83536fe3",
+      "sourcePath": "packages/uic-workspace/store.ts",
+      "integratedSha256": "7929001aa0fa2518a1ad5a36ce1a8cd491cd88a3d56906f7f01e5f9d83536fe3"
+    },
+    {
+      "path": "source/scripts/build-backend.mjs",
+      "sha256": "dc8ea11eba31309ae48786229658ae978be7a0bb4f75b33dc04a1edd50f8b7da",
+      "sourcePath": "scripts/build-backend.mjs",
+      "integratedSha256": "53476ab79d54a8090ae5a74c1d0167f27cbd274b34223ae2c1f508209d0f47b1"
+    },
+    {
+      "path": "source/scripts/build-desktop.mjs",
+      "sha256": "5f0bfd08322a683cbfe9bb47fa23f1b9d70acab7adcd0f86165d25020d52dab5",
+      "sourcePath": "scripts/build-desktop.mjs",
+      "integratedSha256": "5f0bfd08322a683cbfe9bb47fa23f1b9d70acab7adcd0f86165d25020d52dab5"
+    },
+    {
+      "path": "source/scripts/build-desktop.ps1",
+      "sha256": "96925d3002798214f8109ddd483815a425e9db9e514ea155351d8b0ee44823d8",
+      "sourcePath": "scripts/build-desktop.ps1",
+      "integratedSha256": "26b1971b238a898a9b90c187a4c756f48c7a0e5009e4441e5ba593891cde5573"
+    },
+    {
+      "path": "source/scripts/check-features.mjs",
+      "sha256": "fd7bf38855fc5d9704a1f74a98bae3cf332074e63f413ce908881e375fc48125",
+      "sourcePath": "scripts/check-features.mjs",
+      "integratedSha256": "fd7bf38855fc5d9704a1f74a98bae3cf332074e63f413ce908881e375fc48125"
+    },
+    {
+      "path": "source/scripts/design-desktop-screens.mjs",
+      "sha256": "696ae668b0e0dd7aa742219ff3075d59072130921b61709197dc700c3d113a69",
+      "sourcePath": "scripts/design-desktop-screens.mjs",
+      "integratedSha256": "696ae668b0e0dd7aa742219ff3075d59072130921b61709197dc700c3d113a69"
+    },
+    {
+      "path": "source/scripts/design-function-table.mjs",
+      "sha256": "aedb91292f18de703b1e5a4ed0b597def4b7246a7979826b3c608fd29d881f89",
+      "sourcePath": "scripts/design-function-table.mjs",
+      "integratedSha256": "aedb91292f18de703b1e5a4ed0b597def4b7246a7979826b3c608fd29d881f89"
+    },
+    {
+      "path": "source/scripts/dev.mjs",
+      "sha256": "4e2b699274fb7948240bf9a4d13efecad9634d998ca634cfe138a87e1b8afee1",
+      "sourcePath": "scripts/dev.mjs",
+      "integratedSha256": "4e2b699274fb7948240bf9a4d13efecad9634d998ca634cfe138a87e1b8afee1"
+    },
+    {
+      "path": "source/scripts/launch-desktop.mjs",
+      "sha256": "598058e2e1023b5e74f983e12a6ab91452312786c16018bc73975faedb3d2805",
+      "sourcePath": "scripts/launch-desktop.mjs",
+      "integratedSha256": "598058e2e1023b5e74f983e12a6ab91452312786c16018bc73975faedb3d2805"
+    },
+    {
+      "path": "source/scripts/start-backend.mjs",
+      "sha256": "cc9f7762f9001ec7154ed2988dae079f12d973aeb29a530fd5fe70bee644920e",
+      "sourcePath": "scripts/start-backend.mjs",
+      "integratedSha256": "cc9f7762f9001ec7154ed2988dae079f12d973aeb29a530fd5fe70bee644920e"
+    },
+    {
+      "path": "source/tests/api.test.ts",
+      "sha256": "d31caedcc42b06e1db9b1a102aa65143856d51c5f8cd5bb306f94026bb5cfa93",
+      "sourcePath": "tests/api.test.ts",
+      "integratedSha256": "d31caedcc42b06e1db9b1a102aa65143856d51c5f8cd5bb306f94026bb5cfa93"
+    },
+    {
+      "path": "source/tests/core.test.ts",
+      "sha256": "c9416fb18480d87b31e0c8f9cd3da18fb55666b3604c3f9255d53b15662661d7",
+      "sourcePath": "tests/core.test.ts",
+      "integratedSha256": "c9416fb18480d87b31e0c8f9cd3da18fb55666b3604c3f9255d53b15662661d7"
+    },
+    {
+      "path": "source/tests/csharp-compat.test.ts",
+      "sha256": "d22400b67f9d1328697a6d02ca688a59c1d77d54d9e374270b829db4527201f6",
+      "sourcePath": "tests/csharp-compat.test.ts",
+      "integratedSha256": "d22400b67f9d1328697a6d02ca688a59c1d77d54d9e374270b829db4527201f6"
+    },
+    {
+      "path": "source/tests/deployment.test.ts",
+      "sha256": "7eb67232dadc8bc278dea5894ced915cc50a3fc0b03171b3c16aca8c2979368b",
+      "sourcePath": "tests/deployment.test.ts",
+      "integratedSha256": "7eb67232dadc8bc278dea5894ced915cc50a3fc0b03171b3c16aca8c2979368b"
+    },
+    {
+      "path": "source/tests/desktop-smoke.ts",
+      "sha256": "22fc79dddc3f1975b7b83c978f8f7e59f8c15df1f804dd4ce0fd8502e7ed6b49",
+      "sourcePath": "tests/desktop-smoke.ts",
+      "integratedSha256": "22fc79dddc3f1975b7b83c978f8f7e59f8c15df1f804dd4ce0fd8502e7ed6b49"
+    },
+    {
+      "path": "source/tests/registration.test.ts",
+      "sha256": "740fdcbd6f02ab97861d14736df82f40b454d1248a133bfc20172f5e77733c64",
+      "sourcePath": "tests/registration.test.ts",
+      "integratedSha256": "1a4ed56ded94cef81b5c3aaa05d0c82aca5f77255da4afba17363aa18613d487"
+    },
+    {
+      "path": "source/tests/workspace-layout-smoke.ts",
+      "sha256": "43b0ec1d1121e0840cb5e0244f9dc7ecc45c2389365044ad7b9b4051c6da8bd7",
+      "sourcePath": "tests/workspace-layout-smoke.ts",
+      "integratedSha256": "43b0ec1d1121e0840cb5e0244f9dc7ecc45c2389365044ad7b9b4051c6da8bd7"
+    },
+    {
+      "path": "source/tests/workspace.test.ts",
+      "sha256": "1869bc21306693ebddcdcf559b43722db808e3ac1fb36c0762d25f60f4ceb6ac",
+      "sourcePath": "tests/workspace.test.ts",
+      "integratedSha256": "1869bc21306693ebddcdcf559b43722db808e3ac1fb36c0762d25f60f4ceb6ac"
+    },
+    {
+      "path": "source/tests/reference-api/main.ts",
+      "sha256": "82a50cf1758d371d5d6791631cf5aff9aa0192ea19d5deb3764e7e101d2ccb67",
+      "sourcePath": "tests/reference-api/main.ts",
+      "integratedSha256": "82a50cf1758d371d5d6791631cf5aff9aa0192ea19d5deb3764e7e101d2ccb67"
+    },
+    {
+      "path": "source/tests/reference-api/README.txt",
+      "sha256": "7f3b207deca3b8c0f60a2bc0f2cf117ab98dda0494c1f4f34f83a1246e219b31",
+      "sourcePath": "tests/reference-api/README.txt",
+      "integratedSha256": "7f3b207deca3b8c0f60a2bc0f2cf117ab98dda0494c1f4f34f83a1246e219b31"
+    },
+    {
+      "path": "source/tests/reference-api/server.ts",
+      "sha256": "aa2ed423e82f0d20f54407e4d625bb977ff03f721a01049a7d54545c2c8bebef",
+      "sourcePath": "tests/reference-api/server.ts",
+      "integratedSha256": "aa2ed423e82f0d20f54407e4d625bb977ff03f721a01049a7d54545c2c8bebef"
+    },
+    {
+      "path": "source/tests/support/backend-process.ts",
+      "sha256": "437510259255feef4945d77315b3fd6a48f7465b0c326394ec2c78db82e41127",
+      "sourcePath": "tests/support/backend-process.ts",
+      "integratedSha256": "437510259255feef4945d77315b3fd6a48f7465b0c326394ec2c78db82e41127"
+    },
+    {
+      "path": "source/docs/api.md",
+      "sha256": "8c09f3b22d8cef2a6d68b4c6da33edf2121eb6632c124a4df032d4619049ae0d",
+      "sourcePath": "docs/api.md",
+      "integratedSha256": "8c09f3b22d8cef2a6d68b4c6da33edf2121eb6632c124a4df032d4619049ae0d"
+    },
+    {
+      "path": "source/docs/deployment.md",
+      "sha256": "e233a56ef093da90c32402b5422c948aed0a20a3780a49eb937a9776df046188",
+      "sourcePath": "docs/deployment.md",
+      "integratedSha256": "e233a56ef093da90c32402b5422c948aed0a20a3780a49eb937a9776df046188"
+    },
+    {
+      "path": "source/docs/desktop.md",
+      "sha256": "17462c03ac92e2d89c5930f97e0c638c8aaabee4ae719a8b0ea7f18fa804b5f8",
+      "sourcePath": "docs/desktop.md",
+      "integratedSha256": "17462c03ac92e2d89c5930f97e0c638c8aaabee4ae719a8b0ea7f18fa804b5f8"
+    },
+    {
+      "path": "source/docs/management-history.md",
+      "sha256": "9e78f5458856f082e21ee291c4cc4737314a74dffe244bd93a856b4cc3720ac9",
+      "sourcePath": "docs/management-history.md",
+      "integratedSha256": "9e78f5458856f082e21ee291c4cc4737314a74dffe244bd93a856b4cc3720ac9"
+    },
+    {
+      "path": "source/docs/uic-format-evidence.md",
+      "sha256": "b6a695945a6304ba7ad63a49648a64de8e38e6ff60e1bbb02612eeb93db23669",
+      "sourcePath": "docs/uic-format-evidence.md",
+      "integratedSha256": "b6a695945a6304ba7ad63a49648a64de8e38e6ff60e1bbb02612eeb93db23669"
+    },
+    {
+      "path": "source/docs/verification.md",
+      "sha256": "8b0449e867e29411805a3a87e9475f3dbe717b0e075e2a19729d312c677e40c9",
+      "sourcePath": "docs/verification.md",
+      "integratedSha256": "8b0449e867e29411805a3a87e9475f3dbe717b0e075e2a19729d312c677e40c9"
+    },
+    {
+      "path": "source/openspec/config.yaml",
+      "sha256": "60014db4d35562acd4a6a079da37f26b34caaccd17a2a7a90bc73361d8d5d53b",
+      "sourcePath": "openspec/config.yaml",
+      "integratedSha256": "60014db4d35562acd4a6a079da37f26b34caaccd17a2a7a90bc73361d8d5d53b"
+    },
+    {
+      "path": "source/openspec/changes/adaptive-ribbon-and-floating-tools/design.md",
+      "sha256": "b568c10e8bd26bc19cafca1540c5969e5ca57fe852ca70be0a63ebf636aef8d5",
+      "sourcePath": "openspec/changes/adaptive-ribbon-and-floating-tools/design.md",
+      "integratedSha256": "b568c10e8bd26bc19cafca1540c5969e5ca57fe852ca70be0a63ebf636aef8d5"
+    },
+    {
+      "path": "source/openspec/changes/adaptive-ribbon-and-floating-tools/proposal.md",
+      "sha256": "dfbc4500808bcd9db19f3785f0b489647658092fa60487370ff8fee66276150d",
+      "sourcePath": "openspec/changes/adaptive-ribbon-and-floating-tools/proposal.md",
+      "integratedSha256": "dfbc4500808bcd9db19f3785f0b489647658092fa60487370ff8fee66276150d"
+    },
+    {
+      "path": "source/openspec/changes/adaptive-ribbon-and-floating-tools/tasks.md",
+      "sha256": "0a1c1f317a1089f415393f71368cd528fee07212aba57de4ce6f89a9d774c002",
+      "sourcePath": "openspec/changes/adaptive-ribbon-and-floating-tools/tasks.md",
+      "integratedSha256": "0a1c1f317a1089f415393f71368cd528fee07212aba57de4ce6f89a9d774c002"
+    },
+    {
+      "path": "source/openspec/changes/adaptive-ribbon-and-floating-tools/specs/adaptive-workspace/spec.md",
+      "sha256": "8696ea25ee384d2db41d40acf6798ee840107dea408eee5955a151558bf0f34e",
+      "sourcePath": "openspec/changes/adaptive-ribbon-and-floating-tools/specs/adaptive-workspace/spec.md",
+      "integratedSha256": "8696ea25ee384d2db41d40acf6798ee840107dea408eee5955a151558bf0f34e"
+    },
+    {
+      "path": "source/openspec/changes/add-desktop-edit-undo-redo/design.md",
+      "sha256": "63daa7cc248d9307912b3289484a7b9ef59fad4853c328e8b0760c5c78fd2a25",
+      "sourcePath": "openspec/changes/add-desktop-edit-undo-redo/design.md",
+      "integratedSha256": "63daa7cc248d9307912b3289484a7b9ef59fad4853c328e8b0760c5c78fd2a25"
+    },
+    {
+      "path": "source/openspec/changes/add-desktop-edit-undo-redo/proposal.md",
+      "sha256": "66625c9089d320bc39e508ca6d7d41d8f7b25380cff3d12dc96355dd949f5141",
+      "sourcePath": "openspec/changes/add-desktop-edit-undo-redo/proposal.md",
+      "integratedSha256": "66625c9089d320bc39e508ca6d7d41d8f7b25380cff3d12dc96355dd949f5141"
+    },
+    {
+      "path": "source/openspec/changes/add-desktop-edit-undo-redo/tasks.md",
+      "sha256": "5d6e3398ecf9e40531f31b631987846fd81df32b40a3a0b2fcb75829be3c8248",
+      "sourcePath": "openspec/changes/add-desktop-edit-undo-redo/tasks.md",
+      "integratedSha256": "5d6e3398ecf9e40531f31b631987846fd81df32b40a3a0b2fcb75829be3c8248"
+    },
+    {
+      "path": "source/openspec/changes/add-desktop-edit-undo-redo/specs/desktop-edit-history/spec.md",
+      "sha256": "1a70bf89fd2665172498d2a94f05f65eb89dc1918c10d0b3310eeb16f7bb180f",
+      "sourcePath": "openspec/changes/add-desktop-edit-undo-redo/specs/desktop-edit-history/spec.md",
+      "integratedSha256": "1a70bf89fd2665172498d2a94f05f65eb89dc1918c10d0b3310eeb16f7bb180f"
+    },
+    {
+      "path": "source/openspec/changes/add-multi-uic-workspace-tabs/design.md",
+      "sha256": "14128e8311848db90d1cced85a39c0e4359edf8a839ea2bab813457b5d1bf62c",
+      "sourcePath": "openspec/changes/add-multi-uic-workspace-tabs/design.md",
+      "integratedSha256": "14128e8311848db90d1cced85a39c0e4359edf8a839ea2bab813457b5d1bf62c"
+    },
+    {
+      "path": "source/openspec/changes/add-multi-uic-workspace-tabs/proposal.md",
+      "sha256": "8729626bb21c7b9445eab7fcbb16215a0fd888038c9d8e8a2219999de39d64b0",
+      "sourcePath": "openspec/changes/add-multi-uic-workspace-tabs/proposal.md",
+      "integratedSha256": "8729626bb21c7b9445eab7fcbb16215a0fd888038c9d8e8a2219999de39d64b0"
+    },
+    {
+      "path": "source/openspec/changes/add-multi-uic-workspace-tabs/tasks.md",
+      "sha256": "194fcefcdf96b61594ca02e8b3a8a7acca997df83a087f20509ed047679f878a",
+      "sourcePath": "openspec/changes/add-multi-uic-workspace-tabs/tasks.md",
+      "integratedSha256": "194fcefcdf96b61594ca02e8b3a8a7acca997df83a087f20509ed047679f878a"
+    },
+    {
+      "path": "source/openspec/changes/add-multi-uic-workspace-tabs/specs/document-workspace/spec.md",
+      "sha256": "4c05bbe71e95e8a29a5b15a017a72e4a30a0496719e56758d8f21ce30806862c",
+      "sourcePath": "openspec/changes/add-multi-uic-workspace-tabs/specs/document-workspace/spec.md",
+      "integratedSha256": "4c05bbe71e95e8a29a5b15a017a72e4a30a0496719e56758d8f21ce30806862c"
+    },
+    {
+      "path": "source/openspec/changes/add-ribbon-uic-generator/.openspec.yaml",
+      "sha256": "9e0a467e3934b14a2d9c9175305310e9359d34e2484a458af3d182c2956b9e2d",
+      "sourcePath": "openspec/changes/add-ribbon-uic-generator/.openspec.yaml",
+      "integratedSha256": "9e0a467e3934b14a2d9c9175305310e9359d34e2484a458af3d182c2956b9e2d"
+    },
+    {
+      "path": "source/openspec/changes/add-ribbon-uic-generator/design.md",
+      "sha256": "583b4a60cbb749b9579ac4ddc81bb2207bb4312b444d319c817c4eb582694c42",
+      "sourcePath": "openspec/changes/add-ribbon-uic-generator/design.md",
+      "integratedSha256": "583b4a60cbb749b9579ac4ddc81bb2207bb4312b444d319c817c4eb582694c42"
+    },
+    {
+      "path": "source/openspec/changes/add-ribbon-uic-generator/proposal.md",
+      "sha256": "82f3c49fceab855f92cf945a38bb162b2487991d1fbd4ddf6fad91e0630e3b61",
+      "sourcePath": "openspec/changes/add-ribbon-uic-generator/proposal.md",
+      "integratedSha256": "82f3c49fceab855f92cf945a38bb162b2487991d1fbd4ddf6fad91e0630e3b61"
+    },
+    {
+      "path": "source/openspec/changes/add-ribbon-uic-generator/tasks.md",
+      "sha256": "20022803c2c13a5733afd85c97daa2b03ad5d1a8a1cbdc2164c9314c652f29ca",
+      "sourcePath": "openspec/changes/add-ribbon-uic-generator/tasks.md",
+      "integratedSha256": "20022803c2c13a5733afd85c97daa2b03ad5d1a8a1cbdc2164c9314c652f29ca"
+    },
+    {
+      "path": "source/openspec/changes/add-ribbon-uic-generator/specs/ribbon-uic-authoring/spec.md",
+      "sha256": "7ddcd825e988362111a113845e483f6a5b116c62c1e0d9a1e19a0cdbedaf6e83",
+      "sourcePath": "openspec/changes/add-ribbon-uic-generator/specs/ribbon-uic-authoring/spec.md",
+      "integratedSha256": "7ddcd825e988362111a113845e483f6a5b116c62c1e0d9a1e19a0cdbedaf6e83"
+    },
+    {
+      "path": "source/openspec/changes/add-wpf-desktop/design.md",
+      "sha256": "fec6ef3dc7031891e192e05cae8dee9b362094b7be88040dd26373967e746e0f",
+      "sourcePath": "openspec/changes/add-wpf-desktop/design.md",
+      "integratedSha256": "fec6ef3dc7031891e192e05cae8dee9b362094b7be88040dd26373967e746e0f"
+    },
+    {
+      "path": "source/openspec/changes/add-wpf-desktop/proposal.md",
+      "sha256": "ed0c667cedd4137e2a841c253c3ef6d5f0b664a80e6480737c8e355ff100375e",
+      "sourcePath": "openspec/changes/add-wpf-desktop/proposal.md",
+      "integratedSha256": "ed0c667cedd4137e2a841c253c3ef6d5f0b664a80e6480737c8e355ff100375e"
+    },
+    {
+      "path": "source/openspec/changes/add-wpf-desktop/tasks.md",
+      "sha256": "0df0616836def46012ce95e2bba1576922f730d654b471512cedbd9cf7c3e426",
+      "sourcePath": "openspec/changes/add-wpf-desktop/tasks.md",
+      "integratedSha256": "0df0616836def46012ce95e2bba1576922f730d654b471512cedbd9cf7c3e426"
+    },
+    {
+      "path": "source/openspec/changes/add-wpf-desktop/specs/desktop-client/spec.md",
+      "sha256": "e83b8ae19ff47c6324cd21599a7f4edd4d4e355621d6b2f0e764aec7e0f8ea25",
+      "sourcePath": "openspec/changes/add-wpf-desktop/specs/desktop-client/spec.md",
+      "integratedSha256": "e83b8ae19ff47c6324cd21599a7f4edd4d4e355621d6b2f0e764aec7e0f8ea25"
+    },
+    {
+      "path": "source/openspec/changes/archive/.gitkeep",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sourcePath": "openspec/changes/archive/.gitkeep",
+      "integratedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "source/openspec/changes/command-first-authoring/design.md",
+      "sha256": "fc5b5ad1fec79b28153ef2b72556e0669601b99b3ef88a2f4afd7f8785838c6a",
+      "sourcePath": "openspec/changes/command-first-authoring/design.md",
+      "integratedSha256": "fc5b5ad1fec79b28153ef2b72556e0669601b99b3ef88a2f4afd7f8785838c6a"
+    },
+    {
+      "path": "source/openspec/changes/command-first-authoring/proposal.md",
+      "sha256": "cb6226285555f4106dec827c13db7e16b042f85dc2d267029ecc135819d3c49c",
+      "sourcePath": "openspec/changes/command-first-authoring/proposal.md",
+      "integratedSha256": "cb6226285555f4106dec827c13db7e16b042f85dc2d267029ecc135819d3c49c"
+    },
+    {
+      "path": "source/openspec/changes/command-first-authoring/tasks.md",
+      "sha256": "ad5002c964aa17d843f21d137b2daf82ed279a684ea456d888b8d2351dd9bb66",
+      "sourcePath": "openspec/changes/command-first-authoring/tasks.md",
+      "integratedSha256": "ad5002c964aa17d843f21d137b2daf82ed279a684ea456d888b8d2351dd9bb66"
+    },
+    {
+      "path": "source/openspec/changes/command-first-authoring/specs/command-first-workspace/spec.md",
+      "sha256": "48f92ad764b4c34ce324e5436dc1042b352bb5dd38a1ae3cf593c2d53a5dd84c",
+      "sourcePath": "openspec/changes/command-first-authoring/specs/command-first-workspace/spec.md",
+      "integratedSha256": "48f92ad764b4c34ce324e5436dc1042b352bb5dd38a1ae3cf593c2d53a5dd84c"
+    },
+    {
+      "path": "source/openspec/changes/dockable-auxiliary-tools/design.md",
+      "sha256": "6b4fef68237b35daad9f4c81c27d87d11d5c53b385e3b51637363e07fd571658",
+      "sourcePath": "openspec/changes/dockable-auxiliary-tools/design.md",
+      "integratedSha256": "6b4fef68237b35daad9f4c81c27d87d11d5c53b385e3b51637363e07fd571658"
+    },
+    {
+      "path": "source/openspec/changes/dockable-auxiliary-tools/proposal.md",
+      "sha256": "263f7dbcdc5e711db466b00586dcf8e7c594167e44817748f3ee5ac44f5f90d6",
+      "sourcePath": "openspec/changes/dockable-auxiliary-tools/proposal.md",
+      "integratedSha256": "263f7dbcdc5e711db466b00586dcf8e7c594167e44817748f3ee5ac44f5f90d6"
+    },
+    {
+      "path": "source/openspec/changes/dockable-auxiliary-tools/tasks.md",
+      "sha256": "108bed48b881044e2b30cc52388bae838e4c4268c76191e5bcfb5ba59012c907",
+      "sourcePath": "openspec/changes/dockable-auxiliary-tools/tasks.md",
+      "integratedSha256": "108bed48b881044e2b30cc52388bae838e4c4268c76191e5bcfb5ba59012c907"
+    },
+    {
+      "path": "source/openspec/changes/dockable-auxiliary-tools/specs/auxiliary-workspace/spec.md",
+      "sha256": "2d7851b3eeafafb2dc0e94b32559276df6a72d2e1573732026e3598f764aa593",
+      "sourcePath": "openspec/changes/dockable-auxiliary-tools/specs/auxiliary-workspace/spec.md",
+      "integratedSha256": "2d7851b3eeafafb2dc0e94b32559276df6a72d2e1573732026e3598f764aa593"
+    },
+    {
+      "path": "source/openspec/changes/global-workspace-tools/design.md",
+      "sha256": "b620b7cec25612b32d0bad48bb8920965c451002cac61d9f99d3901b8ece7ed5",
+      "sourcePath": "openspec/changes/global-workspace-tools/design.md",
+      "integratedSha256": "b620b7cec25612b32d0bad48bb8920965c451002cac61d9f99d3901b8ece7ed5"
+    },
+    {
+      "path": "source/openspec/changes/global-workspace-tools/proposal.md",
+      "sha256": "6e9f0700687529e278eb4d1a30699e0ce21e9c6942da2d2bde25aaa5e8ed8949",
+      "sourcePath": "openspec/changes/global-workspace-tools/proposal.md",
+      "integratedSha256": "6e9f0700687529e278eb4d1a30699e0ce21e9c6942da2d2bde25aaa5e8ed8949"
+    },
+    {
+      "path": "source/openspec/changes/global-workspace-tools/tasks.md",
+      "sha256": "ab4d69055bcac9522e8361ebc60093f7f8b2d6f2d3f17aa5fe47aa4f58f7abda",
+      "sourcePath": "openspec/changes/global-workspace-tools/tasks.md",
+      "integratedSha256": "ab4d69055bcac9522e8361ebc60093f7f8b2d6f2d3f17aa5fe47aa4f58f7abda"
+    },
+    {
+      "path": "source/openspec/changes/global-workspace-tools/specs/workspace-tools/spec.md",
+      "sha256": "7530b62fdd2a6f907ccc2124f0a78d2a28be9e919db6485f74a3de0c755108a7",
+      "sourcePath": "openspec/changes/global-workspace-tools/specs/workspace-tools/spec.md",
+      "integratedSha256": "7530b62fdd2a6f907ccc2124f0a78d2a28be9e919db6485f74a3de0c755108a7"
+    },
+    {
+      "path": "source/openspec/changes/import-manage-uic-history/.openspec.yaml",
+      "sha256": "9e0a467e3934b14a2d9c9175305310e9359d34e2484a458af3d182c2956b9e2d",
+      "sourcePath": "openspec/changes/import-manage-uic-history/.openspec.yaml",
+      "integratedSha256": "9e0a467e3934b14a2d9c9175305310e9359d34e2484a458af3d182c2956b9e2d"
+    },
+    {
+      "path": "source/openspec/changes/import-manage-uic-history/design.md",
+      "sha256": "c86f25ff3a98a4530affa91a1d7e055fcd5294a91cda9d8a5b0abbe27682b312",
+      "sourcePath": "openspec/changes/import-manage-uic-history/design.md",
+      "integratedSha256": "c86f25ff3a98a4530affa91a1d7e055fcd5294a91cda9d8a5b0abbe27682b312"
+    },
+    {
+      "path": "source/openspec/changes/import-manage-uic-history/proposal.md",
+      "sha256": "1c58aca6eb17bf45ac9522eb70a7c62a03385560ae253b83caaaf7abb947f18d",
+      "sourcePath": "openspec/changes/import-manage-uic-history/proposal.md",
+      "integratedSha256": "1c58aca6eb17bf45ac9522eb70a7c62a03385560ae253b83caaaf7abb947f18d"
+    },
+    {
+      "path": "source/openspec/changes/import-manage-uic-history/tasks.md",
+      "sha256": "51c2a04898d85f3a2cab8c5eec8c39885d4bf00377ddf46a20c9f9fc08554fb1",
+      "sourcePath": "openspec/changes/import-manage-uic-history/tasks.md",
+      "integratedSha256": "51c2a04898d85f3a2cab8c5eec8c39885d4bf00377ddf46a20c9f9fc08554fb1"
+    },
+    {
+      "path": "source/openspec/changes/import-manage-uic-history/specs/uic-import-roundtrip/spec.md",
+      "sha256": "195f25c9e49bf8185c6b9778061d0fb97fcd56cd83a20cbb8139d604c858f136",
+      "sourcePath": "openspec/changes/import-manage-uic-history/specs/uic-import-roundtrip/spec.md",
+      "integratedSha256": "195f25c9e49bf8185c6b9778061d0fb97fcd56cd83a20cbb8139d604c858f136"
+    },
+    {
+      "path": "source/openspec/changes/import-manage-uic-history/specs/uic-managed-inventory/spec.md",
+      "sha256": "ffa80f2612aefc29ace4aab951ac0dbae74868fbb1d56a229b9bca434ba0f8f4",
+      "sourcePath": "openspec/changes/import-manage-uic-history/specs/uic-managed-inventory/spec.md",
+      "integratedSha256": "ffa80f2612aefc29ace4aab951ac0dbae74868fbb1d56a229b9bca434ba0f8f4"
+    },
+    {
+      "path": "source/openspec/changes/import-manage-uic-history/specs/uic-persistent-history/spec.md",
+      "sha256": "5ad0674769357e76864c1bccb92c26e650a7bb3768d7d0871db0712334b1e5c6",
+      "sourcePath": "openspec/changes/import-manage-uic-history/specs/uic-persistent-history/spec.md",
+      "integratedSha256": "5ad0674769357e76864c1bccb92c26e650a7bb3768d7d0871db0712334b1e5c6"
+    },
+    {
+      "path": "source/openspec/changes/optimize-icons-and-deploy-uic/.openspec.yaml",
+      "sha256": "9e0a467e3934b14a2d9c9175305310e9359d34e2484a458af3d182c2956b9e2d",
+      "sourcePath": "openspec/changes/optimize-icons-and-deploy-uic/.openspec.yaml",
+      "integratedSha256": "9e0a467e3934b14a2d9c9175305310e9359d34e2484a458af3d182c2956b9e2d"
+    },
+    {
+      "path": "source/openspec/changes/optimize-icons-and-deploy-uic/design.md",
+      "sha256": "0361ac218755615f3dbbc6576a4a8f067231535a1452dda62884f6ca491e6e45",
+      "sourcePath": "openspec/changes/optimize-icons-and-deploy-uic/design.md",
+      "integratedSha256": "0361ac218755615f3dbbc6576a4a8f067231535a1452dda62884f6ca491e6e45"
+    },
+    {
+      "path": "source/openspec/changes/optimize-icons-and-deploy-uic/proposal.md",
+      "sha256": "9b7b32bf5365be62b927599cd0fff9430fc347042be74c8807825a6257039bfc",
+      "sourcePath": "openspec/changes/optimize-icons-and-deploy-uic/proposal.md",
+      "integratedSha256": "9b7b32bf5365be62b927599cd0fff9430fc347042be74c8807825a6257039bfc"
+    },
+    {
+      "path": "source/openspec/changes/optimize-icons-and-deploy-uic/tasks.md",
+      "sha256": "4307198f23ce9d61d22b1f00772ad4087d4aaed4a3e3c3514497039e03d0f379",
+      "sourcePath": "openspec/changes/optimize-icons-and-deploy-uic/tasks.md",
+      "integratedSha256": "4307198f23ce9d61d22b1f00772ad4087d4aaed4a3e3c3514497039e03d0f379"
+    },
+    {
+      "path": "source/openspec/changes/optimize-icons-and-deploy-uic/specs/ribbon-image-optimization/spec.md",
+      "sha256": "f467810fc0da8230a5ddcbd6e59010579fbc50d70cbad8f61245b73a238fe1c0",
+      "sourcePath": "openspec/changes/optimize-icons-and-deploy-uic/specs/ribbon-image-optimization/spec.md",
+      "integratedSha256": "f467810fc0da8230a5ddcbd6e59010579fbc50d70cbad8f61245b73a238fe1c0"
+    },
+    {
+      "path": "source/openspec/changes/optimize-icons-and-deploy-uic/specs/uic-deployment/spec.md",
+      "sha256": "2d40568021634ddcb0a7533a1501906d1b1d90e582f98535859b36c8cfda001d",
+      "sourcePath": "openspec/changes/optimize-icons-and-deploy-uic/specs/uic-deployment/spec.md",
+      "integratedSha256": "2d40568021634ddcb0a7533a1501906d1b1d90e582f98535859b36c8cfda001d"
+    },
+    {
+      "path": "source/openspec/changes/persist-auxiliary-layout/design.md",
+      "sha256": "d1157eb2c1eed200b1c03e8420860039d071943394028675da055efa6f780094",
+      "sourcePath": "openspec/changes/persist-auxiliary-layout/design.md",
+      "integratedSha256": "d1157eb2c1eed200b1c03e8420860039d071943394028675da055efa6f780094"
+    },
+    {
+      "path": "source/openspec/changes/persist-auxiliary-layout/proposal.md",
+      "sha256": "29b615d59ff61b981bdc84f5c12e791f056aa9b6502de80d069b19b1d088f2d7",
+      "sourcePath": "openspec/changes/persist-auxiliary-layout/proposal.md",
+      "integratedSha256": "29b615d59ff61b981bdc84f5c12e791f056aa9b6502de80d069b19b1d088f2d7"
+    },
+    {
+      "path": "source/openspec/changes/persist-auxiliary-layout/tasks.md",
+      "sha256": "fcbba548fcd752f9c28ef26c4d4f74dc8e43be846ba36e7c9dd52f97c59e4659",
+      "sourcePath": "openspec/changes/persist-auxiliary-layout/tasks.md",
+      "integratedSha256": "fcbba548fcd752f9c28ef26c4d4f74dc8e43be846ba36e7c9dd52f97c59e4659"
+    },
+    {
+      "path": "source/openspec/changes/persist-auxiliary-layout/specs/workspace-layout/spec.md",
+      "sha256": "f1b703f6a7779ba693b766ab7db6346c3cffae651f7dfb5b06900647a27c5494",
+      "sourcePath": "openspec/changes/persist-auxiliary-layout/specs/workspace-layout/spec.md",
+      "integratedSha256": "f1b703f6a7779ba693b766ab7db6346c3cffae651f7dfb5b06900647a27c5494"
+    },
+    {
+      "path": "source/openspec/changes/portfolio-polish-workspace/design.md",
+      "sha256": "06a9fd0546d894dd1389394e0a054c1af9bc3cd25cf2fd10b254e3b272b2548f",
+      "sourcePath": "openspec/changes/portfolio-polish-workspace/design.md",
+      "integratedSha256": "06a9fd0546d894dd1389394e0a054c1af9bc3cd25cf2fd10b254e3b272b2548f"
+    },
+    {
+      "path": "source/openspec/changes/portfolio-polish-workspace/proposal.md",
+      "sha256": "bfb26fe7101c6c265fdf588f2193c5cf2da4ee4db9d7843f4ff569a37e1e1c3e",
+      "sourcePath": "openspec/changes/portfolio-polish-workspace/proposal.md",
+      "integratedSha256": "bfb26fe7101c6c265fdf588f2193c5cf2da4ee4db9d7843f4ff569a37e1e1c3e"
+    },
+    {
+      "path": "source/openspec/changes/portfolio-polish-workspace/tasks.md",
+      "sha256": "4c8d244f00943fbf31709a9098f11b84a8d127f70c27e7ee37083b4c415909f7",
+      "sourcePath": "openspec/changes/portfolio-polish-workspace/tasks.md",
+      "integratedSha256": "4c8d244f00943fbf31709a9098f11b84a8d127f70c27e7ee37083b4c415909f7"
+    },
+    {
+      "path": "source/openspec/changes/portfolio-polish-workspace/specs/portfolio-workspace/spec.md",
+      "sha256": "c551f4b37c95fe0d0a29ce2348386f22420383936ddb3c9a56c26aeca690b16d",
+      "sourcePath": "openspec/changes/portfolio-polish-workspace/specs/portfolio-workspace/spec.md",
+      "integratedSha256": "c551f4b37c95fe0d0a29ce2348386f22420383936ddb3c9a56c26aeca690b16d"
+    },
+    {
+      "path": "source/openspec/changes/refactor-csharp-features-incremental-history/design.md",
+      "sha256": "0ff64f60bc68dac8185b7fce76e7061028267ec01272d53e3ed5da6214eb0d32",
+      "sourcePath": "openspec/changes/refactor-csharp-features-incremental-history/design.md",
+      "integratedSha256": "0ff64f60bc68dac8185b7fce76e7061028267ec01272d53e3ed5da6214eb0d32"
+    },
+    {
+      "path": "source/openspec/changes/refactor-csharp-features-incremental-history/proposal.md",
+      "sha256": "5306de45f49a1aa31e91b7f5296c4e6b63182ec6231e2c1826cd6f623476ec6f",
+      "sourcePath": "openspec/changes/refactor-csharp-features-incremental-history/proposal.md",
+      "integratedSha256": "5306de45f49a1aa31e91b7f5296c4e6b63182ec6231e2c1826cd6f623476ec6f"
+    },
+    {
+      "path": "source/openspec/changes/refactor-csharp-features-incremental-history/tasks.md",
+      "sha256": "31992c48c55fa40006bd6156c8a45d5208749762c506ca8412f5d0b20852e3cb",
+      "sourcePath": "openspec/changes/refactor-csharp-features-incremental-history/tasks.md",
+      "integratedSha256": "31992c48c55fa40006bd6156c8a45d5208749762c506ca8412f5d0b20852e3cb"
+    },
+    {
+      "path": "source/openspec/changes/refactor-csharp-features-incremental-history/specs/feature-service-boundaries/spec.md",
+      "sha256": "d1c41c5539bfeb288d23759c84f241ccea81f19877e0011b37e4152713f1b869",
+      "sourcePath": "openspec/changes/refactor-csharp-features-incremental-history/specs/feature-service-boundaries/spec.md",
+      "integratedSha256": "d1c41c5539bfeb288d23759c84f241ccea81f19877e0011b37e4152713f1b869"
+    },
+    {
+      "path": "source/openspec/changes/refine-function-table-visuals/design.md",
+      "sha256": "bcf267ebf8c0805cf91e267cdc8c0e5eb4f9e2044f82db3099477af5ef56bef8",
+      "sourcePath": "openspec/changes/refine-function-table-visuals/design.md",
+      "integratedSha256": "bcf267ebf8c0805cf91e267cdc8c0e5eb4f9e2044f82db3099477af5ef56bef8"
+    },
+    {
+      "path": "source/openspec/changes/refine-function-table-visuals/proposal.md",
+      "sha256": "7683fae98d0ae2d7262fd2f2a785c304b4e89d6ce75dbe879f3454ba42462d1e",
+      "sourcePath": "openspec/changes/refine-function-table-visuals/proposal.md",
+      "integratedSha256": "7683fae98d0ae2d7262fd2f2a785c304b4e89d6ce75dbe879f3454ba42462d1e"
+    },
+    {
+      "path": "source/openspec/changes/refine-function-table-visuals/tasks.md",
+      "sha256": "f81b0324041d05130bbd3bb448a781087f5f99b8324494e2aa0566e5892b569e",
+      "sourcePath": "openspec/changes/refine-function-table-visuals/tasks.md",
+      "integratedSha256": "f81b0324041d05130bbd3bb448a781087f5f99b8324494e2aa0566e5892b569e"
+    },
+    {
+      "path": "source/openspec/changes/refine-function-table-visuals/specs/office-desktop-ui/spec.md",
+      "sha256": "5704a0f4b79ddfaa4816464c3fec13d89d5ffe27dab2ade033b5bf7f3305708d",
+      "sourcePath": "openspec/changes/refine-function-table-visuals/specs/office-desktop-ui/spec.md",
+      "integratedSha256": "5704a0f4b79ddfaa4816464c3fec13d89d5ffe27dab2ade033b5bf7f3305708d"
+    },
+    {
+      "path": "source/openspec/changes/refine-wpf-office-shell/design.md",
+      "sha256": "bb5a670308e56c85f4b95973c294ba1d563732b2250f11ddbb1277c48b36ec6a",
+      "sourcePath": "openspec/changes/refine-wpf-office-shell/design.md",
+      "integratedSha256": "bb5a670308e56c85f4b95973c294ba1d563732b2250f11ddbb1277c48b36ec6a"
+    },
+    {
+      "path": "source/openspec/changes/refine-wpf-office-shell/proposal.md",
+      "sha256": "01e64b52f98474aabd9e20480c1fe0784c3c83014bdfe613e072a7b8bfc16fb2",
+      "sourcePath": "openspec/changes/refine-wpf-office-shell/proposal.md",
+      "integratedSha256": "01e64b52f98474aabd9e20480c1fe0784c3c83014bdfe613e072a7b8bfc16fb2"
+    },
+    {
+      "path": "source/openspec/changes/refine-wpf-office-shell/tasks.md",
+      "sha256": "f14a8e21dbb26d61968b59aa0b0e05d28406fa3185aa9f875901bd36741b845a",
+      "sourcePath": "openspec/changes/refine-wpf-office-shell/tasks.md",
+      "integratedSha256": "f14a8e21dbb26d61968b59aa0b0e05d28406fa3185aa9f875901bd36741b845a"
+    },
+    {
+      "path": "source/openspec/changes/refine-wpf-office-shell/specs/office-desktop-ui/spec.md",
+      "sha256": "8146ce01de5e0f1b0bab435bffd1138885fe34d25d8d5886687c55c05bca649d",
+      "sourcePath": "openspec/changes/refine-wpf-office-shell/specs/office-desktop-ui/spec.md",
+      "integratedSha256": "8146ce01de5e0f1b0bab435bffd1138885fe34d25d8d5886687c55c05bca649d"
+    },
+    {
+      "path": "source/openspec/changes/restore-ribbon-first-docking/design.md",
+      "sha256": "39157725ca68c123b935134f21b31181d4bbe478f9dd85f1dc1c791abb157204",
+      "sourcePath": "openspec/changes/restore-ribbon-first-docking/design.md",
+      "integratedSha256": "39157725ca68c123b935134f21b31181d4bbe478f9dd85f1dc1c791abb157204"
+    },
+    {
+      "path": "source/openspec/changes/restore-ribbon-first-docking/proposal.md",
+      "sha256": "fd4e90fa37ed93323514e73a009f0f30be7364ac71fbe7b70b5e3d258c3cca58",
+      "sourcePath": "openspec/changes/restore-ribbon-first-docking/proposal.md",
+      "integratedSha256": "fd4e90fa37ed93323514e73a009f0f30be7364ac71fbe7b70b5e3d258c3cca58"
+    },
+    {
+      "path": "source/openspec/changes/restore-ribbon-first-docking/tasks.md",
+      "sha256": "23e7a75fec37dab640b2173d88a3183074ecffbfe193dd4de31a378edb5d8e5c",
+      "sourcePath": "openspec/changes/restore-ribbon-first-docking/tasks.md",
+      "integratedSha256": "23e7a75fec37dab640b2173d88a3183074ecffbfe193dd4de31a378edb5d8e5c"
+    },
+    {
+      "path": "source/openspec/changes/restore-ribbon-first-docking/specs/ribbon-first-docking/spec.md",
+      "sha256": "97eb0ee8af1a083050a79f83841cbc817d8b68400939dfc0f5deb595d4582bda",
+      "sourcePath": "openspec/changes/restore-ribbon-first-docking/specs/ribbon-first-docking/spec.md",
+      "integratedSha256": "97eb0ee8af1a083050a79f83841cbc817d8b68400939dfc0f5deb595d4582bda"
+    },
+    {
+      "path": "source/openspec/changes/streamline-desktop-layout-workflow/design.md",
+      "sha256": "528012965d32312020c5268905f7141420eb1db2c31aa5e8cddff9a2c9478336",
+      "sourcePath": "openspec/changes/streamline-desktop-layout-workflow/design.md",
+      "integratedSha256": "528012965d32312020c5268905f7141420eb1db2c31aa5e8cddff9a2c9478336"
+    },
+    {
+      "path": "source/openspec/changes/streamline-desktop-layout-workflow/proposal.md",
+      "sha256": "7d474b25cb8df437001403c9395c64874cd606fa9e8a45c96563b8f2cd8bc03e",
+      "sourcePath": "openspec/changes/streamline-desktop-layout-workflow/proposal.md",
+      "integratedSha256": "7d474b25cb8df437001403c9395c64874cd606fa9e8a45c96563b8f2cd8bc03e"
+    },
+    {
+      "path": "source/openspec/changes/streamline-desktop-layout-workflow/tasks.md",
+      "sha256": "d3c24dfb83c459b1b0bf73d9e3e609755619ba1a1be24666d4c1cd4335e4f0bb",
+      "sourcePath": "openspec/changes/streamline-desktop-layout-workflow/tasks.md",
+      "integratedSha256": "d3c24dfb83c459b1b0bf73d9e3e609755619ba1a1be24666d4c1cd4335e4f0bb"
+    },
+    {
+      "path": "source/openspec/changes/streamline-desktop-layout-workflow/specs/desktop-layout-workflow/spec.md",
+      "sha256": "6d19d2082802775cc2d44d0a962fde12d368201ca183fcaf57ffe061f391b671",
+      "sourcePath": "openspec/changes/streamline-desktop-layout-workflow/specs/desktop-layout-workflow/spec.md",
+      "integratedSha256": "6d19d2082802775cc2d44d0a962fde12d368201ca183fcaf57ffe061f391b671"
+    },
+    {
+      "path": "source/openspec/specs/.gitkeep",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sourcePath": "openspec/specs/.gitkeep",
+      "integratedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "source/design/figcraft/command-first-layout.png",
+      "sha256": "adbebc0c58474cf2c237be62f46b39a0862f769e7c1fa9bbd7cd170e1607b58d",
+      "sourcePath": "design/figcraft/command-first-layout.png",
+      "integratedSha256": "adbebc0c58474cf2c237be62f46b39a0862f769e7c1fa9bbd7cd170e1607b58d"
+    },
+    {
+      "path": "source/design/figcraft/command-first-library.png",
+      "sha256": "78ef150eb4212269112d4c129bb58ce477488eeebf1bde4c2c53851c7a2b0ff2",
+      "sourcePath": "design/figcraft/command-first-library.png",
+      "integratedSha256": "78ef150eb4212269112d4c129bb58ce477488eeebf1bde4c2c53851c7a2b0ff2"
+    },
+    {
+      "path": "source/design/figcraft/command-first-redesign.figcraft",
+      "sha256": "fcaa9a31df61429a6ee381970896ad7461ecd7325a7dff496ea4a481d1e92fc8",
+      "sourcePath": "design/figcraft/command-first-redesign.figcraft",
+      "integratedSha256": "fcaa9a31df61429a6ee381970896ad7461ecd7325a7dff496ea4a481d1e92fc8"
+    },
+    {
+      "path": "source/design/figcraft/command-first-review.png",
+      "sha256": "e1e5410198cc74665d0532e8b0b222de871b77c8d3424fdf83e1152432f90e26",
+      "sourcePath": "design/figcraft/command-first-review.png",
+      "integratedSha256": "e1e5410198cc74665d0532e8b0b222de871b77c8d3424fdf83e1152432f90e26"
+    },
+    {
+      "path": "source/design/figcraft/deployment-compact.png",
+      "sha256": "2a7213a4dc72a664ef6492a3197c7d8e2fb9bdc18cfdbd8f9f2956150b1c8031",
+      "sourcePath": "design/figcraft/deployment-compact.png",
+      "integratedSha256": "2a7213a4dc72a664ef6492a3197c7d8e2fb9bdc18cfdbd8f9f2956150b1c8031"
+    },
+    {
+      "path": "source/design/figcraft/deployment-profile-selector.png",
+      "sha256": "920a24d9cde5ca3595c4bd676bb09a9cd96fdcc118d35afb5dc0595675ace9f6",
+      "sourcePath": "design/figcraft/deployment-profile-selector.png",
+      "integratedSha256": "920a24d9cde5ca3595c4bd676bb09a9cd96fdcc118d35afb5dc0595675ace9f6"
+    },
+    {
+      "path": "source/design/figcraft/desktop-screens-v2-overview.png",
+      "sha256": "e0eebe84066f988159d8fa0beaed6ef2977fdc9025786894de23d6707a0e7121",
+      "sourcePath": "design/figcraft/desktop-screens-v2-overview.png",
+      "integratedSha256": "e0eebe84066f988159d8fa0beaed6ef2977fdc9025786894de23d6707a0e7121"
+    },
+    {
+      "path": "source/design/figcraft/desktop-screens-v2.figcraft",
+      "sha256": "786accbba34f53635c430ec31b7f0afc721493a300da9a1a5ffb45759d6b3ac3",
+      "sourcePath": "design/figcraft/desktop-screens-v2.figcraft",
+      "integratedSha256": "786accbba34f53635c430ec31b7f0afc721493a300da9a1a5ffb45759d6b3ac3"
+    },
+    {
+      "path": "source/design/figcraft/modules-compact.png",
+      "sha256": "771421a40f8827c3522a07223c661bd98218a75d183e38099208cd4593a6fa1c",
+      "sourcePath": "design/figcraft/modules-compact.png",
+      "integratedSha256": "771421a40f8827c3522a07223c661bd98218a75d183e38099208cd4593a6fa1c"
+    },
+    {
+      "path": "source/design/figcraft/ribbon-adaptive-workspace-0.11.figcraft",
+      "sha256": "da6a65ff9dd38958bc52d1fe998aebfdf4a0bedb268135e0f7d70522501426ef",
+      "sourcePath": "design/figcraft/ribbon-adaptive-workspace-0.11.figcraft",
+      "integratedSha256": "da6a65ff9dd38958bc52d1fe998aebfdf4a0bedb268135e0f7d70522501426ef"
+    },
+    {
+      "path": "source/design/figcraft/ribbon-first-compare.png",
+      "sha256": "fc9fe478d9d4256f7c9541baf57cb061928d16d69bcb1da3ff4c2f6d3e5fe3ac",
+      "sourcePath": "design/figcraft/ribbon-first-compare.png",
+      "integratedSha256": "fc9fe478d9d4256f7c9541baf57cb061928d16d69bcb1da3ff4c2f6d3e5fe3ac"
+    },
+    {
+      "path": "source/design/figcraft/ribbon-first-deploy.png",
+      "sha256": "cb4f6056efc7af9ff19b7b23ba37015c58ec7acc1df3eafbced627fbae6c1b81",
+      "sourcePath": "design/figcraft/ribbon-first-deploy.png",
+      "integratedSha256": "cb4f6056efc7af9ff19b7b23ba37015c58ec7acc1df3eafbced627fbae6c1b81"
+    },
+    {
+      "path": "source/design/figcraft/ribbon-first-docked.figcraft",
+      "sha256": "6e03659a29c3ebbbbb7adce19068e646354380be77c07531ae7d3a02f4a06be8",
+      "sourcePath": "design/figcraft/ribbon-first-docked.figcraft",
+      "integratedSha256": "6e03659a29c3ebbbbb7adce19068e646354380be77c07531ae7d3a02f4a06be8"
+    },
+    {
+      "path": "source/design/figcraft/ribbon-first-search.png",
+      "sha256": "7b24fad93e757f6b43e698c51973d69746d62ee8a7ed899ee9b062938e86d1aa",
+      "sourcePath": "design/figcraft/ribbon-first-search.png",
+      "integratedSha256": "7b24fad93e757f6b43e698c51973d69746d62ee8a7ed899ee9b062938e86d1aa"
+    },
+    {
+      "path": "source/design/figcraft/ribbon-first-xml.png",
+      "sha256": "0297745a9fe1c2b4f4ac6c561c5df3f24433ffd7bae48c33b749e15fd2c055f6",
+      "sourcePath": "design/figcraft/ribbon-first-xml.png",
+      "integratedSha256": "0297745a9fe1c2b4f4ac6c561c5df3f24433ffd7bae48c33b749e15fd2c055f6"
+    },
+    {
+      "path": "source/design/figcraft/ribbon-studio-batch-deployment.figcraft",
+      "sha256": "443293467cf82ea0d65b75bdc2c06d48da1868a88c563d79b283f4114deecf0a",
+      "sourcePath": "design/figcraft/ribbon-studio-batch-deployment.figcraft",
+      "integratedSha256": "443293467cf82ea0d65b75bdc2c06d48da1868a88c563d79b283f4114deecf0a"
+    },
+    {
+      "path": "source/design/figcraft/ribbon-studio-portfolio-0.12.figcraft",
+      "sha256": "e52167f8b1b938ab93338e5a79fdb2baf2bb395a96c28939573745f75729e829",
+      "sourcePath": "design/figcraft/ribbon-studio-portfolio-0.12.figcraft",
+      "integratedSha256": "e52167f8b1b938ab93338e5a79fdb2baf2bb395a96c28939573745f75729e829"
+    },
+    {
+      "path": "source/design/figcraft/ribbon-studio-uic-registration.figcraft",
+      "sha256": "c8e8f9e860a70e9294ecad460450915879a30fa7dffa68c32dbafd310414c30c",
+      "sourcePath": "design/figcraft/ribbon-studio-uic-registration.figcraft",
+      "integratedSha256": "c8e8f9e860a70e9294ecad460450915879a30fa7dffa68c32dbafd310414c30c"
+    },
+    {
+      "path": "source/design/figcraft/ribbon-studio-workspace.figcraft",
+      "sha256": "87c67d1661d659601bef4117c66a3eca4df94a4e447aadc673df571bbb6dcc0b",
+      "sourcePath": "design/figcraft/ribbon-studio-workspace.figcraft",
+      "integratedSha256": "87c67d1661d659601bef4117c66a3eca4df94a4e447aadc673df571bbb6dcc0b"
+    },
+    {
+      "path": "source/design/figcraft/ribbon-studio-workspace.png",
+      "sha256": "0f0721bd7164e8d5d2892edef4df761fd17e29fa8061b5c6c746e2d8d23ad3e0",
+      "sourcePath": "design/figcraft/ribbon-studio-workspace.png",
+      "integratedSha256": "0f0721bd7164e8d5d2892edef4df761fd17e29fa8061b5c6c746e2d8d23ad3e0"
+    },
+    {
+      "path": "source/design/figcraft/uic-batch-deployment.png",
+      "sha256": "2c224ca326ef5dddcbe329ab50e5a41fda25211120954fe736a36c859323df29",
+      "sourcePath": "design/figcraft/uic-batch-deployment.png",
+      "integratedSha256": "2c224ca326ef5dddcbe329ab50e5a41fda25211120954fe736a36c859323df29"
+    },
+    {
+      "path": "source/design/figcraft/uic-batch-xml-count.png",
+      "sha256": "e74d5335cf5ad6ea417045630b08d77aafdb9e7db37f454d8281ecd6415141d2",
+      "sourcePath": "design/figcraft/uic-batch-xml-count.png",
+      "integratedSha256": "e74d5335cf5ad6ea417045630b08d77aafdb9e7db37f454d8281ecd6415141d2"
+    },
+    {
+      "path": "source/design/figcraft/uic-editor-with-table.png",
+      "sha256": "58f5daba2ed4a3c15ee66db0c26cd6ba67d0bc308e5be8048dfc86a092cfe85b",
+      "sourcePath": "design/figcraft/uic-editor-with-table.png",
+      "integratedSha256": "58f5daba2ed4a3c15ee66db0c26cd6ba67d0bc308e5be8048dfc86a092cfe85b"
+    },
+    {
+      "path": "source/design/figcraft/uic-files-workspace.png",
+      "sha256": "777cc9cfbb50c452b51ce50747b8a13a1e6b34d1540d00173759671024262e87",
+      "sourcePath": "design/figcraft/uic-files-workspace.png",
+      "integratedSha256": "777cc9cfbb50c452b51ce50747b8a13a1e6b34d1540d00173759671024262e87"
+    },
+    {
+      "path": "source/design/figcraft/uic-function-table-v2.figcraft",
+      "sha256": "191321bd5d4f1512f1295fe3398766a389f05d16d707ad6fe3daba7df34e6d6e",
+      "sourcePath": "design/figcraft/uic-function-table-v2.figcraft",
+      "integratedSha256": "191321bd5d4f1512f1295fe3398766a389f05d16d707ad6fe3daba7df34e6d6e"
+    },
+    {
+      "path": "source/design/figcraft/uic-function-table-v2.png",
+      "sha256": "50e19afde914ef519cb3641d7b51878e1fd2fd489e39f94829fc67a502198465",
+      "sourcePath": "design/figcraft/uic-function-table-v2.png",
+      "integratedSha256": "50e19afde914ef519cb3641d7b51878e1fd2fd489e39f94829fc67a502198465"
+    },
+    {
+      "path": "source/design/figcraft/uic-function-table-v2@2x.png",
+      "sha256": "3cd92a895081c672099cb0c3d407a78e42087d04537483198bc98c7c75be9d0a",
+      "sourcePath": "design/figcraft/uic-function-table-v2@2x.png",
+      "integratedSha256": "3cd92a895081c672099cb0c3d407a78e42087d04537483198bc98c7c75be9d0a"
+    },
+    {
+      "path": "source/design/figcraft/uic-function-table.png",
+      "sha256": "32492c052b549734f8d88deaa118f1bcef6029128a7756f3d8a03ae3b7be9d26",
+      "sourcePath": "design/figcraft/uic-function-table.png",
+      "integratedSha256": "32492c052b549734f8d88deaa118f1bcef6029128a7756f3d8a03ae3b7be9d26"
+    },
+    {
+      "path": "source/design/figcraft/uic-xml-registration-expanded.png",
+      "sha256": "7dc459ad24029ac47e7e1228b0a10ab75073e69dd13667d1b0ed62a14f9fc319",
+      "sourcePath": "design/figcraft/uic-xml-registration-expanded.png",
+      "integratedSha256": "7dc459ad24029ac47e7e1228b0a10ab75073e69dd13667d1b0ed62a14f9fc319"
+    },
+    {
+      "path": "source/design/figcraft/uic-xml-registration.png",
+      "sha256": "fa06967379056c203be7934b126f26aa0a3b3c72692a2fd833000e8f00df3c0b",
+      "sourcePath": "design/figcraft/uic-xml-registration.png",
+      "integratedSha256": "fa06967379056c203be7934b126f26aa0a3b3c72692a2fd833000e8f00df3c0b"
+    },
+    {
+      "path": "source/design/figcraft/workspace-dock-preview.png",
+      "sha256": "bf5bd6e85b5d4fc59923fe88da3c3736cb4a4a53e5badd92adb142761c41a33b",
+      "sourcePath": "design/figcraft/workspace-dock-preview.png",
+      "integratedSha256": "bf5bd6e85b5d4fc59923fe88da3c3736cb4a4a53e5badd92adb142761c41a33b"
+    },
+    {
+      "path": "source/design/figcraft/workspace-docking-0.8.figcraft",
+      "sha256": "473ddc4e1d5ab6ebd526d800e26c5a694f05f13adbd2ec13549a8537d81398b4",
+      "sourcePath": "design/figcraft/workspace-docking-0.8.figcraft",
+      "integratedSha256": "473ddc4e1d5ab6ebd526d800e26c5a694f05f13adbd2ec13549a8537d81398b4"
+    },
+    {
+      "path": "source/design/figcraft/workspace-docking-inline.png",
+      "sha256": "6057b77948e53d90febd1b96a2c5a5effd21a036be65bf4f8e57c4b4bbed7a10",
+      "sourcePath": "design/figcraft/workspace-docking-inline.png",
+      "integratedSha256": "6057b77948e53d90febd1b96a2c5a5effd21a036be65bf4f8e57c4b4bbed7a10"
+    },
+    {
+      "path": "source/design/figcraft/workspace-docking-single-screen.png",
+      "sha256": "77865435f78ef4062049f6ce6eb2e0b503b5f2e3e8fc5c4deced0a3feea67a16",
+      "sourcePath": "design/figcraft/workspace-docking-single-screen.png",
+      "integratedSha256": "77865435f78ef4062049f6ce6eb2e0b503b5f2e3e8fc5c4deced0a3feea67a16"
+    },
+    {
+      "path": "source/design/figcraft/workspace-layout-restore-0.9.figcraft",
+      "sha256": "44a7b2d13913442fe09c4a611d1afaec9808fe360921b85943290dab6d8bebe3",
+      "sourcePath": "design/figcraft/workspace-layout-restore-0.9.figcraft",
+      "integratedSha256": "44a7b2d13913442fe09c4a611d1afaec9808fe360921b85943290dab6d8bebe3"
+    },
+    {
+      "path": "source/design/figcraft/workspace-layout-restored.png",
+      "sha256": "a393ef01129a9998118732a7ee383ae3979a98c40cb20c29b6f9880def54233a",
+      "sourcePath": "design/figcraft/workspace-layout-restored.png",
+      "integratedSha256": "a393ef01129a9998118732a7ee383ae3979a98c40cb20c29b6f9880def54233a"
+    },
+    {
+      "path": "source/design/figcraft/workspace-tools-locator-0.7.png",
+      "sha256": "e5311c2ff1647a6b2ce2ad90330532b7850964efda9495c9d44904b0f916ed79",
+      "sourcePath": "design/figcraft/workspace-tools-locator-0.7.png",
+      "integratedSha256": "e5311c2ff1647a6b2ce2ad90330532b7850964efda9495c9d44904b0f916ed79"
+    },
+    {
+      "path": "source/design/figcraft/workspace-tools-relations-0.7.png",
+      "sha256": "c4057c3e32705226f712368a8f904749f5bfdae58d171067299d2ff76afa7b2b",
+      "sourcePath": "design/figcraft/workspace-tools-relations-0.7.png",
+      "integratedSha256": "c4057c3e32705226f712368a8f904749f5bfdae58d171067299d2ff76afa7b2b"
+    },
+    {
+      "path": "source/design/figcraft/workspace-tools-ribbon-0.7.png",
+      "sha256": "2ccec6c5d1645cc2ada5c293ccc38ff49a2d41ca90f0bda3ba3590a54f55858e",
+      "sourcePath": "design/figcraft/workspace-tools-ribbon-0.7.png",
+      "integratedSha256": "2ccec6c5d1645cc2ada5c293ccc38ff49a2d41ca90f0bda3ba3590a54f55858e"
+    },
+    {
+      "path": "source/design/figcraft/workspace-tools-rounded-0.7.figcraft",
+      "sha256": "a0b53826d2bef9efdf641d32d0cc833011b3f654e3d1a56a47cd3d82547ea5f7",
+      "sourcePath": "design/figcraft/workspace-tools-rounded-0.7.figcraft",
+      "integratedSha256": "a0b53826d2bef9efdf641d32d0cc833011b3f654e3d1a56a47cd3d82547ea5f7"
+    },
+    {
+      "path": "source/design/figcraft/adaptive-0.11/01-main-normal.png",
+      "sha256": "b43af182a6b1130ef45dc7da483021ab645a271de943338e17fd1f366b7c41a0",
+      "sourcePath": "design/figcraft/adaptive-0.11/01-main-normal.png",
+      "integratedSha256": "b43af182a6b1130ef45dc7da483021ab645a271de943338e17fd1f366b7c41a0"
+    },
+    {
+      "path": "source/design/figcraft/adaptive-0.11/01-main-normal@2x.png",
+      "sha256": "356e7705ccb62580a6e986e45638a107f2beae7218e5bc4ae35afa1ce4236738",
+      "sourcePath": "design/figcraft/adaptive-0.11/01-main-normal@2x.png",
+      "integratedSha256": "356e7705ccb62580a6e986e45638a107f2beae7218e5bc4ae35afa1ce4236738"
+    },
+    {
+      "path": "source/design/figcraft/adaptive-0.11/02-main-compact.png",
+      "sha256": "bba0ffc2ea8820d6b9c7decc5b0dc65ada5051bb8c1897ff3b31f3096dcc9702",
+      "sourcePath": "design/figcraft/adaptive-0.11/02-main-compact.png",
+      "integratedSha256": "bba0ffc2ea8820d6b9c7decc5b0dc65ada5051bb8c1897ff3b31f3096dcc9702"
+    },
+    {
+      "path": "source/design/figcraft/adaptive-0.11/02-main-compact@2x.png",
+      "sha256": "8d37352ff8811989babc2b2fe45c9542fc13c1d15f2dc8560b66fc288117091a",
+      "sourcePath": "design/figcraft/adaptive-0.11/02-main-compact@2x.png",
+      "integratedSha256": "8d37352ff8811989babc2b2fe45c9542fc13c1d15f2dc8560b66fc288117091a"
+    },
+    {
+      "path": "source/design/figcraft/adaptive-0.11/03-sidebars-collapsed.png",
+      "sha256": "761831ed52ee55d691036d829cc6bc6f2c82e7c9c48f321ad556925f71d39f61",
+      "sourcePath": "design/figcraft/adaptive-0.11/03-sidebars-collapsed.png",
+      "integratedSha256": "761831ed52ee55d691036d829cc6bc6f2c82e7c9c48f321ad556925f71d39f61"
+    },
+    {
+      "path": "source/design/figcraft/adaptive-0.11/04-float-find.png",
+      "sha256": "b05ce1d8d1ea5c81a401b3c6fd5f64a2e95dfc2f94f090c0f492557d61dc5a1a",
+      "sourcePath": "design/figcraft/adaptive-0.11/04-float-find.png",
+      "integratedSha256": "b05ce1d8d1ea5c81a401b3c6fd5f64a2e95dfc2f94f090c0f492557d61dc5a1a"
+    },
+    {
+      "path": "source/design/figcraft/adaptive-0.11/05-float-uic-xml.png",
+      "sha256": "498429d1b836b26f5a40b4d4c1fba39b64a4dc2513dbd53baa73a3d10fa07580",
+      "sourcePath": "design/figcraft/adaptive-0.11/05-float-uic-xml.png",
+      "integratedSha256": "498429d1b836b26f5a40b4d4c1fba39b64a4dc2513dbd53baa73a3d10fa07580"
+    },
+    {
+      "path": "source/design/figcraft/adaptive-0.11/06-float-deploy.png",
+      "sha256": "014dc3eee32574f538438922215b991acd6a3f111ee286e91da5a38902a64d52",
+      "sourcePath": "design/figcraft/adaptive-0.11/06-float-deploy.png",
+      "integratedSha256": "014dc3eee32574f538438922215b991acd6a3f111ee286e91da5a38902a64d52"
+    },
+    {
+      "path": "source/design/figcraft/adaptive-0.11/07-dock-preview.png",
+      "sha256": "4be9ebc1f5fceac4eb9bafb5e55b7ab2e593f97e109add23248491bb3db43444",
+      "sourcePath": "design/figcraft/adaptive-0.11/07-dock-preview.png",
+      "integratedSha256": "4be9ebc1f5fceac4eb9bafb5e55b7ab2e593f97e109add23248491bb3db43444"
+    },
+    {
+      "path": "source/design/figcraft/adaptive-0.11/08-state-notes.png",
+      "sha256": "ec84dcaf5c95787fa46d12d79e51d223a430b75d364700cff88a882fafeec66f",
+      "sourcePath": "design/figcraft/adaptive-0.11/08-state-notes.png",
+      "integratedSha256": "ec84dcaf5c95787fa46d12d79e51d223a430b75d364700cff88a882fafeec66f"
+    },
+    {
+      "path": "source/design/figcraft/adaptive-0.11/09-main-normal-collapsed.png",
+      "sha256": "f1b8a18245d790b95c08ad676b01e3fe342f8049bc666ca68937433e383a1d06",
+      "sourcePath": "design/figcraft/adaptive-0.11/09-main-normal-collapsed.png",
+      "integratedSha256": "f1b8a18245d790b95c08ad676b01e3fe342f8049bc666ca68937433e383a1d06"
+    },
+    {
+      "path": "source/design/figcraft/adaptive-0.11/09-main-normal-collapsed@2x.png",
+      "sha256": "0c683a71f2551123c7b2e556a25c36cdee0450397abb65a4c075262bd75d2dd3",
+      "sourcePath": "design/figcraft/adaptive-0.11/09-main-normal-collapsed@2x.png",
+      "integratedSha256": "0c683a71f2551123c7b2e556a25c36cdee0450397abb65a4c075262bd75d2dd3"
+    },
+    {
+      "path": "source/design/figcraft/adaptive-0.11/10-main-compact-collapsed.png",
+      "sha256": "96da0040e548310f8f539910badb874c2b7fff7b4cbfc343fa0c8dd131bf4364",
+      "sourcePath": "design/figcraft/adaptive-0.11/10-main-compact-collapsed.png",
+      "integratedSha256": "96da0040e548310f8f539910badb874c2b7fff7b4cbfc343fa0c8dd131bf4364"
+    },
+    {
+      "path": "source/design/figcraft/adaptive-0.11/10-main-compact-collapsed@2x.png",
+      "sha256": "ae91049880be8ef9e3a4f652015007d47fd2a35318d17d4f739364c621fe79ef",
+      "sourcePath": "design/figcraft/adaptive-0.11/10-main-compact-collapsed@2x.png",
+      "integratedSha256": "ae91049880be8ef9e3a4f652015007d47fd2a35318d17d4f739364c621fe79ef"
+    },
+    {
+      "path": "source/design/figcraft/adaptive-0.11/README.md",
+      "sha256": "7193e837f9d374febe3fc6668e3a97c9d8584d3507c633a87cafd161411a1ea0",
+      "sourcePath": "design/figcraft/adaptive-0.11/README.md",
+      "integratedSha256": "7193e837f9d374febe3fc6668e3a97c9d8584d3507c633a87cafd161411a1ea0"
+    },
+    {
+      "path": "source/design/figcraft/assets/ribbon05/button-0.png",
+      "sha256": "046d38f8fe462b2211620f756fef35297cdda899ef72c289f3ce9e5ed764d8d1",
+      "sourcePath": "design/figcraft/assets/ribbon05/button-0.png",
+      "integratedSha256": "046d38f8fe462b2211620f756fef35297cdda899ef72c289f3ce9e5ed764d8d1"
+    },
+    {
+      "path": "source/design/figcraft/assets/ribbon05/button-1.png",
+      "sha256": "025479b03f90d18cd7036f9326cd7d0b1e334325617d9fa76ed403ac1cf45a74",
+      "sourcePath": "design/figcraft/assets/ribbon05/button-1.png",
+      "integratedSha256": "025479b03f90d18cd7036f9326cd7d0b1e334325617d9fa76ed403ac1cf45a74"
+    },
+    {
+      "path": "source/design/figcraft/assets/ribbon05/button-10.png",
+      "sha256": "110e870fa01d4d9f1cca5bba3be38b4057da4d94bcfeee41e5001d038d5f13d2",
+      "sourcePath": "design/figcraft/assets/ribbon05/button-10.png",
+      "integratedSha256": "110e870fa01d4d9f1cca5bba3be38b4057da4d94bcfeee41e5001d038d5f13d2"
+    },
+    {
+      "path": "source/design/figcraft/assets/ribbon05/button-11.png",
+      "sha256": "cb4e34988f1709a949bcb9711adb62f2dcdf9013d78dfe5797bdc267340a1cc7",
+      "sourcePath": "design/figcraft/assets/ribbon05/button-11.png",
+      "integratedSha256": "cb4e34988f1709a949bcb9711adb62f2dcdf9013d78dfe5797bdc267340a1cc7"
+    },
+    {
+      "path": "source/design/figcraft/assets/ribbon05/button-2.png",
+      "sha256": "f8ed03a519815b8997ce3ba9577e925165d8f9bdd6ffffaa70f55c796c08fbfa",
+      "sourcePath": "design/figcraft/assets/ribbon05/button-2.png",
+      "integratedSha256": "f8ed03a519815b8997ce3ba9577e925165d8f9bdd6ffffaa70f55c796c08fbfa"
+    },
+    {
+      "path": "source/design/figcraft/assets/ribbon05/button-3.png",
+      "sha256": "18478ebee467f553633ad98984bd42c39ec675eaa380de5b455cb9a9ef7dcd67",
+      "sourcePath": "design/figcraft/assets/ribbon05/button-3.png",
+      "integratedSha256": "18478ebee467f553633ad98984bd42c39ec675eaa380de5b455cb9a9ef7dcd67"
+    },
+    {
+      "path": "source/design/figcraft/assets/ribbon05/button-4.png",
+      "sha256": "1601b91f1991d02eb5f5887b2ae0aa64013f147471fbde944aa159ed1a4f72fa",
+      "sourcePath": "design/figcraft/assets/ribbon05/button-4.png",
+      "integratedSha256": "1601b91f1991d02eb5f5887b2ae0aa64013f147471fbde944aa159ed1a4f72fa"
+    },
+    {
+      "path": "source/design/figcraft/assets/ribbon05/button-5.png",
+      "sha256": "50c934b551ad678e11c9a3cf530e7620455da77457852a61c25a2e97ab616a29",
+      "sourcePath": "design/figcraft/assets/ribbon05/button-5.png",
+      "integratedSha256": "50c934b551ad678e11c9a3cf530e7620455da77457852a61c25a2e97ab616a29"
+    },
+    {
+      "path": "source/design/figcraft/assets/ribbon05/button-6.png",
+      "sha256": "3a69850250b489f53c6d63f8eddad27a298827305d3f02b01a6311443c6cba92",
+      "sourcePath": "design/figcraft/assets/ribbon05/button-6.png",
+      "integratedSha256": "3a69850250b489f53c6d63f8eddad27a298827305d3f02b01a6311443c6cba92"
+    },
+    {
+      "path": "source/design/figcraft/assets/ribbon05/button-7.png",
+      "sha256": "2c0cae398459c843dada4448dbdee3cfd630c1608745053c9cbfd689310866ad",
+      "sourcePath": "design/figcraft/assets/ribbon05/button-7.png",
+      "integratedSha256": "2c0cae398459c843dada4448dbdee3cfd630c1608745053c9cbfd689310866ad"
+    },
+    {
+      "path": "source/design/figcraft/assets/ribbon05/button-8.png",
+      "sha256": "0e81133b1bf0d89e6c072eadeb8100cdfb195e623ef6d59fa235db748bde6063",
+      "sourcePath": "design/figcraft/assets/ribbon05/button-8.png",
+      "integratedSha256": "0e81133b1bf0d89e6c072eadeb8100cdfb195e623ef6d59fa235db748bde6063"
+    },
+    {
+      "path": "source/design/figcraft/assets/ribbon05/button-9.png",
+      "sha256": "110e870fa01d4d9f1cca5bba3be38b4057da4d94bcfeee41e5001d038d5f13d2",
+      "sourcePath": "design/figcraft/assets/ribbon05/button-9.png",
+      "integratedSha256": "110e870fa01d4d9f1cca5bba3be38b4057da4d94bcfeee41e5001d038d5f13d2"
+    },
+    {
+      "path": "source/design/figcraft/assets/ribbon05/index.json",
+      "sha256": "de98026d64d88e2bcf49ace6e38f7b535b663b409e7ce6ff3e40620d463138fa",
+      "sourcePath": "design/figcraft/assets/ribbon05/index.json",
+      "integratedSha256": "de98026d64d88e2bcf49ace6e38f7b535b663b409e7ce6ff3e40620d463138fa"
+    },
+    {
+      "path": "source/design/figcraft/portfolio-0.12/applied.png",
+      "sha256": "c738947fa631bd39babfb98a4f22715194fab4edf8c98c6b92b98bb5d22c5218",
+      "sourcePath": "design/figcraft/portfolio-0.12/applied.png",
+      "integratedSha256": "c738947fa631bd39babfb98a4f22715194fab4edf8c98c6b92b98bb5d22c5218"
+    },
+    {
+      "path": "source/design/figcraft/portfolio-0.12/audit.json",
+      "sha256": "72953ab12ff41046a95ee7bd1e28c6efa841153f0e799ec6d2a81815e5c2570d",
+      "sourcePath": "design/figcraft/portfolio-0.12/audit.json",
+      "integratedSha256": "72953ab12ff41046a95ee7bd1e28c6efa841153f0e799ec6d2a81815e5c2570d"
+    },
+    {
+      "path": "source/design/figcraft/portfolio-0.12/bulk.png",
+      "sha256": "fcfc9305a1e43d6b602a8b311b90ef7f5d4fc602fe0b0047983cddb567bb569a",
+      "sourcePath": "design/figcraft/portfolio-0.12/bulk.png",
+      "integratedSha256": "fcfc9305a1e43d6b602a8b311b90ef7f5d4fc602fe0b0047983cddb567bb569a"
+    },
+    {
+      "path": "source/design/figcraft/portfolio-0.12/case-study.png",
+      "sha256": "b6ffa14bcdb3babf1197c0b29863c254c51e9a3e32e085b6bccd998eb25383da",
+      "sourcePath": "design/figcraft/portfolio-0.12/case-study.png",
+      "integratedSha256": "b6ffa14bcdb3babf1197c0b29863c254c51e9a3e32e085b6bccd998eb25383da"
+    },
+    {
+      "path": "source/design/figcraft/portfolio-0.12/case-study@2x.png",
+      "sha256": "901e16733d69279caa97cc5f69f344770c9adf169320e18ad8bed90e67850d21",
+      "sourcePath": "design/figcraft/portfolio-0.12/case-study@2x.png",
+      "integratedSha256": "901e16733d69279caa97cc5f69f344770c9adf169320e18ad8bed90e67850d21"
+    },
+    {
+      "path": "source/design/figcraft/portfolio-0.12/collapsed.png",
+      "sha256": "eab6e72edf599cc8a756ceeec911812b041c87cd28132c32473855c6b27c4f68",
+      "sourcePath": "design/figcraft/portfolio-0.12/collapsed.png",
+      "integratedSha256": "eab6e72edf599cc8a756ceeec911812b041c87cd28132c32473855c6b27c4f68"
+    },
+    {
+      "path": "source/design/figcraft/portfolio-0.12/collapsed@2x.png",
+      "sha256": "597b739a9167a14c54b6127d5eccb6a3d78a74d5c0f3fb31f66b792dadb54190",
+      "sourcePath": "design/figcraft/portfolio-0.12/collapsed@2x.png",
+      "integratedSha256": "597b739a9167a14c54b6127d5eccb6a3d78a74d5c0f3fb31f66b792dadb54190"
+    },
+    {
+      "path": "source/design/figcraft/portfolio-0.12/compact.png",
+      "sha256": "59ce8f691911cd335913ff0fe4834f680fd2b60000e48560c6666e1e7eea2d12",
+      "sourcePath": "design/figcraft/portfolio-0.12/compact.png",
+      "integratedSha256": "59ce8f691911cd335913ff0fe4834f680fd2b60000e48560c6666e1e7eea2d12"
+    },
+    {
+      "path": "source/design/figcraft/portfolio-0.12/compact@2x.png",
+      "sha256": "19d13aabde7e6ae9b1a493a727e8f1a62cd242d077692bd3e773455502b3e7a9",
+      "sourcePath": "design/figcraft/portfolio-0.12/compact@2x.png",
+      "integratedSha256": "19d13aabde7e6ae9b1a493a727e8f1a62cd242d077692bd3e773455502b3e7a9"
+    },
+    {
+      "path": "source/design/figcraft/portfolio-0.12/compactCollapsed.png",
+      "sha256": "ad4fb53ff309183a3aba866abae5f0e93e26f4bef148d60925c8a44da6030f32",
+      "sourcePath": "design/figcraft/portfolio-0.12/compactCollapsed.png",
+      "integratedSha256": "ad4fb53ff309183a3aba866abae5f0e93e26f4bef148d60925c8a44da6030f32"
+    },
+    {
+      "path": "source/design/figcraft/portfolio-0.12/components.png",
+      "sha256": "aaff4b9f3c981c57bb91ea2394a1b6732832912de91221d518f8215e09ff0a9e",
+      "sourcePath": "design/figcraft/portfolio-0.12/components.png",
+      "integratedSha256": "aaff4b9f3c981c57bb91ea2394a1b6732832912de91221d518f8215e09ff0a9e"
+    },
+    {
+      "path": "source/design/figcraft/portfolio-0.12/components@2x.png",
+      "sha256": "38808792a1d6c63fdb07ec2cc3b220086edced6e7b913131899a0e563b99e00d",
+      "sourcePath": "design/figcraft/portfolio-0.12/components@2x.png",
+      "integratedSha256": "38808792a1d6c63fdb07ec2cc3b220086edced6e7b913131899a0e563b99e00d"
+    },
+    {
+      "path": "source/design/figcraft/portfolio-0.12/deploy.png",
+      "sha256": "9671940e9671b94dac9f29a2f18451edf1a00fcdb419bcd1e744ed475862521a",
+      "sourcePath": "design/figcraft/portfolio-0.12/deploy.png",
+      "integratedSha256": "9671940e9671b94dac9f29a2f18451edf1a00fcdb419bcd1e744ed475862521a"
+    },
+    {
+      "path": "source/design/figcraft/portfolio-0.12/dock.png",
+      "sha256": "bd1477fe31c66af5b3aeb9dee787c3b464bff922b8d416659a955b12b8a6aa4b",
+      "sourcePath": "design/figcraft/portfolio-0.12/dock.png",
+      "integratedSha256": "bd1477fe31c66af5b3aeb9dee787c3b464bff922b8d416659a955b12b8a6aa4b"
+    },
+    {
+      "path": "source/design/figcraft/portfolio-0.12/empty.png",
+      "sha256": "59498a3b1e9faab57bf57994c0397202ad0c3b9e0ac6fe2349533d2aff30412a",
+      "sourcePath": "design/figcraft/portfolio-0.12/empty.png",
+      "integratedSha256": "59498a3b1e9faab57bf57994c0397202ad0c3b9e0ac6fe2349533d2aff30412a"
+    },
+    {
+      "path": "source/design/figcraft/portfolio-0.12/error.png",
+      "sha256": "d8b63511285ec5e3a6ce601443d7bb216ba4cba7326a1b11431e0e1667db3343",
+      "sourcePath": "design/figcraft/portfolio-0.12/error.png",
+      "integratedSha256": "d8b63511285ec5e3a6ce601443d7bb216ba4cba7326a1b11431e0e1667db3343"
+    },
+    {
+      "path": "source/design/figcraft/portfolio-0.12/find.png",
+      "sha256": "8d96cfc1842f23f01d86962c9bb9f9f3070225882a5981b5b6de4d60093d0986",
+      "sourcePath": "design/figcraft/portfolio-0.12/find.png",
+      "integratedSha256": "8d96cfc1842f23f01d86962c9bb9f9f3070225882a5981b5b6de4d60093d0986"
+    },
+    {
+      "path": "source/design/figcraft/portfolio-0.12/index.html",
+      "sha256": "3c6f4d3bd2e582b052f7e60027928f55e01e88bd36f8f167d47e39cf93d43b32",
+      "sourcePath": "design/figcraft/portfolio-0.12/index.html",
+      "integratedSha256": "3c6f4d3bd2e582b052f7e60027928f55e01e88bd36f8f167d47e39cf93d43b32"
+    },
+    {
+      "path": "source/design/figcraft/portfolio-0.12/main.png",
+      "sha256": "a43b1affc03b2d4d8f196328d2d854a3fcd2d99a1bf5c0e4fe2761785fccf609",
+      "sourcePath": "design/figcraft/portfolio-0.12/main.png",
+      "integratedSha256": "a43b1affc03b2d4d8f196328d2d854a3fcd2d99a1bf5c0e4fe2761785fccf609"
+    },
+    {
+      "path": "source/design/figcraft/portfolio-0.12/main@2x.png",
+      "sha256": "97c0eab7e6f61818794042075282b16e8c4eecfda8671761f9ca12ab5e5b7e07",
+      "sourcePath": "design/figcraft/portfolio-0.12/main@2x.png",
+      "integratedSha256": "97c0eab7e6f61818794042075282b16e8c4eecfda8671761f9ca12ab5e5b7e07"
+    },
+    {
+      "path": "source/design/figcraft/portfolio-0.12/more.png",
+      "sha256": "75913e696c382244bcb7d4e2e74625caec0c2ee3ee394b1748b28087091b1650",
+      "sourcePath": "design/figcraft/portfolio-0.12/more.png",
+      "integratedSha256": "75913e696c382244bcb7d4e2e74625caec0c2ee3ee394b1748b28087091b1650"
+    },
+    {
+      "path": "source/design/figcraft/portfolio-0.12/rails.png",
+      "sha256": "540aa89ff32a8f260a4865cab78f88d49499c8fd8a8158c034edb43c0a037775",
+      "sourcePath": "design/figcraft/portfolio-0.12/rails.png",
+      "integratedSha256": "540aa89ff32a8f260a4865cab78f88d49499c8fd8a8158c034edb43c0a037775"
+    },
+    {
+      "path": "source/design/figcraft/portfolio-0.12/README.md",
+      "sha256": "886fc7f01cc62d6f4708962a29888f3c7d3ba41fd96ae9ea7036584116e7983f",
+      "sourcePath": "design/figcraft/portfolio-0.12/README.md",
+      "integratedSha256": "886fc7f01cc62d6f4708962a29888f3c7d3ba41fd96ae9ea7036584116e7983f"
+    },
+    {
+      "path": "source/design/figcraft/portfolio-0.12/readonly.png",
+      "sha256": "5c4ded2554d64af09f343895e8e5afe332058831a608bf19bec8fd59839cf4c3",
+      "sourcePath": "design/figcraft/portfolio-0.12/readonly.png",
+      "integratedSha256": "5c4ded2554d64af09f343895e8e5afe332058831a608bf19bec8fd59839cf4c3"
+    },
+    {
+      "path": "source/design/figcraft/portfolio-0.12/success.png",
+      "sha256": "da116121c7e4b0fef35a2435ed0fea6a3c29afa8636ac8270dd73644eb1397d4",
+      "sourcePath": "design/figcraft/portfolio-0.12/success.png",
+      "integratedSha256": "da116121c7e4b0fef35a2435ed0fea6a3c29afa8636ac8270dd73644eb1397d4"
+    },
+    {
+      "path": "source/design/figcraft/portfolio-0.12/xml.png",
+      "sha256": "797db884cb56226155fe102937f9677e33512837a2bd6f84133a1fbee2a13a64",
+      "sourcePath": "design/figcraft/portfolio-0.12/xml.png",
+      "integratedSha256": "797db884cb56226155fe102937f9677e33512837a2bd6f84133a1fbee2a13a64"
+    },
+    {
+      "path": "source/design/figcraft/portfolio-0.12/xmlNative.png",
+      "sha256": "4c1b799d09619cdc3ef17782a1273fe1eb6e0a9e546826892983218ee7e70d10",
+      "sourcePath": "design/figcraft/portfolio-0.12/xmlNative.png",
+      "integratedSha256": "4c1b799d09619cdc3ef17782a1273fe1eb6e0a9e546826892983218ee7e70d10"
+    },
+    {
+      "path": "source/design/figcraft/portfolio-0.12/reviews/decisions.md",
+      "sha256": "32ed7e35592109f4200333c7295ae242314942d7d98cea471093fffac70fc2d8",
+      "sourcePath": "design/figcraft/portfolio-0.12/reviews/decisions.md",
+      "integratedSha256": "32ed7e35592109f4200333c7295ae242314942d7d98cea471093fffac70fc2d8"
+    },
+    {
+      "path": "source/design/figcraft/portfolio-0.12/reviews/editing-original.md",
+      "sha256": "4d26e97f1a951fbe1aec9f5c441515ac9c2b9c61cd0097b79c4c310854060157",
+      "sourcePath": "design/figcraft/portfolio-0.12/reviews/editing-original.md",
+      "integratedSha256": "4d26e97f1a951fbe1aec9f5c441515ac9c2b9c61cd0097b79c4c310854060157"
+    },
+    {
+      "path": "source/design/figcraft/portfolio-0.12/reviews/editor-original.md",
+      "sha256": "f977c0eac1a0d15f5e9fb311be1619dba99bd1c54b9b14eba44a0c3c67fc4270",
+      "sourcePath": "design/figcraft/portfolio-0.12/reviews/editor-original.md",
+      "integratedSha256": "f977c0eac1a0d15f5e9fb311be1619dba99bd1c54b9b14eba44a0c3c67fc4270"
+    },
+    {
+      "path": "source/design/figcraft/portfolio-0.12/reviews/registration-deploy-original.md",
+      "sha256": "23576195c5748abce280148fac9c9eae536ba49ab2dc47cfe8e17bd47466f2f9",
+      "sourcePath": "design/figcraft/portfolio-0.12/reviews/registration-deploy-original.md",
+      "integratedSha256": "23576195c5748abce280148fac9c9eae536ba49ab2dc47cfe8e17bd47466f2f9"
+    },
+    {
+      "path": "source/tools/DesignPreview/Program.cs",
+      "sha256": "fb6819780242bb0d2f11a3daa7bb6cadadd483ee96e27189c74ab9638086c36e",
+      "sourcePath": "tools/DesignPreview/Program.cs",
+      "integratedSha256": "fb6819780242bb0d2f11a3daa7bb6cadadd483ee96e27189c74ab9638086c36e"
+    },
+    {
+      "path": "source/tools/WpfPrototype/Prototype.cs",
+      "sha256": "87a33061cfa168d0352a8aba5a8e562f697c373141cfccbe2ed8495980a54952",
+      "sourcePath": "tools/WpfPrototype/Prototype.cs",
+      "integratedSha256": "87a33061cfa168d0352a8aba5a8e562f697c373141cfccbe2ed8495980a54952"
+    },
+    {
+      "path": "source/package.json",
+      "sha256": "0a215e8de82f615e7944cdb3189481ecc16921cf91a7b0c370f35e29cd5bad35",
+      "sourcePath": "package.json",
+      "integratedSha256": "0a215e8de82f615e7944cdb3189481ecc16921cf91a7b0c370f35e29cd5bad35"
+    },
+    {
+      "path": "source/package-lock.json",
+      "sha256": "ccac6b87cab360ebabc387ec1e03b1c6ac25c2a3093161fd1ee94f33a0b4fc9d",
+      "sourcePath": "package-lock.json",
+      "integratedSha256": "ccac6b87cab360ebabc387ec1e03b1c6ac25c2a3093161fd1ee94f33a0b4fc9d"
+    },
+    {
+      "path": "source/tsconfig.json",
+      "sha256": "898fd6559ee728ecb4400964b504d7ebb1b70e7bc4493ca98295ba4d9ec82ecf",
+      "sourcePath": "tsconfig.json",
+      "integratedSha256": "898fd6559ee728ecb4400964b504d7ebb1b70e7bc4493ca98295ba4d9ec82ecf"
+    },
+    {
+      "path": "source/.editorconfig",
+      "sha256": "604221f147fb7b6c06e5546519fd62e9816e1aaf36680d075d8507c01cbbc47a",
+      "sourcePath": ".editorconfig",
+      "integratedSha256": "604221f147fb7b6c06e5546519fd62e9816e1aaf36680d075d8507c01cbbc47a"
+    },
+    {
+      "path": "source/.gitignore",
+      "sha256": "70e11aa3197b0da48dcda2bb516c682dd56118cb81c8bf6fd1f30b71c7184020",
+      "sourcePath": ".gitignore",
+      "integratedSha256": "300974f5faed1abe2ed6268dcecce58e91f69d18c8b8553959e90f75c216a642"
+    },
+    {
+      "path": "source/README.md",
+      "sha256": "f73189ecf4573cee5af76fac962c96239b467c860b428701d7ea593cfe005a3d",
+      "sourcePath": "README.md",
+      "integratedSha256": "f73189ecf4573cee5af76fac962c96239b467c860b428701d7ea593cfe005a3d"
+    }
+  ],
+  "source": {
+    "identity": "unversioned local source snapshot",
+    "name": "UicRibbonDesigner",
+    "head": null
+  },
+  "schemaVersion": 1,
+  "addedFiles": [
+    {
+      "integratedSha256": "c0955b91065f843a102c15a6127c305b6a14c355a0650b0f973fac4252ce49cf",
+      "reason": "integration runtime configuration",
+      "path": "source/apps/backend/App.config"
+    },
+    {
+      "integratedSha256": "13c957e5cfb56e6d706572324c0d47efe16ab62aecd98feadccb0990894447fd",
+      "reason": "integration runtime configuration",
+      "path": "source/apps/backend/app.manifest"
+    }
+  ]
+}

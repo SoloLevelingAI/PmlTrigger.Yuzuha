@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net10.0-windows</TargetFramework>
+        <UseWPF>true</UseWPF>
+        <OutputType>Exe</OutputType>
+    </PropertyGroup>
+    <ItemGroup>
+        <ProjectReference Include="../LaunchDesk.UseCases/LaunchDesk.UseCases.csproj"/>
+        <ProjectReference Include="../LaunchDesk.Windows/LaunchDesk.Windows.csproj"/>
+        <ProjectReference Include="../LaunchDesk.Worker/LaunchDesk.Worker.csproj"/>
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="$(PmlTwinSevenZipExecutable)" Condition="Exists('$(PmlTwinSevenZipExecutable)')" Link="Tools/7zr.exe" CopyToOutputDirectory="PreserveNewest"/>
+    </ItemGroup>
+</Project>

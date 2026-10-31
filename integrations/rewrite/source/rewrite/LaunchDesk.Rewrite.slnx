@@ -1,0 +1,12 @@
+<Solution>
+    <Project Path="LaunchDesk.Kernel/LaunchDesk.Kernel.csproj"/>
+    <Project Path="LaunchDesk.OperationContracts/LaunchDesk.OperationContracts.csproj"/>
+    <Project Path="LaunchDesk.UseCases/LaunchDesk.UseCases.csproj"/>
+    <Project Path="LaunchDesk.Windows/LaunchDesk.Windows.csproj"/>
+    <Project Path="LaunchDesk.Desktop/LaunchDesk.Desktop.csproj"/>
+    <Project Path="LaunchDesk.Bootstrap/LaunchDesk.Bootstrap.csproj"/>
+    <Project Path="LaunchDesk.Worker/LaunchDesk.Worker.csproj"/>
+    <Project Path="LaunchDesk.DevHost/LaunchDesk.DevHost.csproj"/>
+    <Project Path="LaunchDesk.Rewrite.Tests/LaunchDesk.Rewrite.Tests.csproj"/>
+    <Project Path="LaunchDesk.Architecture.Tests/LaunchDesk.Architecture.Tests.csproj"/>
+</Solution>

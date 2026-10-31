@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net10.0-windows</TargetFramework>
+        <UseWPF>true</UseWPF>
+        <OutputType>WinExe</OutputType>
+        <AssemblyName>LaunchDesk.Archon</AssemblyName>
+    </PropertyGroup>
+    <ItemGroup>
+        <ProjectReference Include="../LaunchDesk.Desktop/LaunchDesk.Desktop.csproj"/>
+        <ProjectReference Include="../LaunchDesk.UseCases/LaunchDesk.UseCases.csproj"/>
+        <ProjectReference Include="../LaunchDesk.Windows/LaunchDesk.Windows.csproj"/>
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="$(PmlTwinSevenZipExecutable)" Condition="Exists('$(PmlTwinSevenZipExecutable)')" Link="Tools/7zr.exe" CopyToOutputDirectory="PreserveNewest"/>
+        <Content Include="../../LaunchDesk.App/Tools/THIRD-PARTY-NOTICES.txt" Link="Tools/THIRD-PARTY-NOTICES.txt" CopyToOutputDirectory="PreserveNewest"/>
+    </ItemGroup>
+</Project>

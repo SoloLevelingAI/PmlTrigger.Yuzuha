@@ -1,0 +1,1 @@
+<Project Sdk="Microsoft.NET.Sdk"><PropertyGroup><TargetFramework>net10.0-windows</TargetFramework><OutputType>Exe</OutputType></PropertyGroup><ItemGroup><ProjectReference Include="../../src/LaunchDesk.Next.Platform/LaunchDesk.Next.Platform.csproj" /></ItemGroup></Project>

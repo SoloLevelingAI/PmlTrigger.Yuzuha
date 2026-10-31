@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html data-reading-revision="f5a8b6840d71" lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+      <title>使用手册：按配置启动应用 | LaunchDesk.Next </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="使用手册：按配置启动应用 | LaunchDesk.Next ">
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/theme-tokens.css?v=f5a8b6840d71">
+      <link rel="stylesheet" href="../public/main.css?v=f5a8b6840d71">
+      <link rel="stylesheet" href="../public/theme-type.css?v=f5a8b6840d71">
+      <script type="module" src="../public/reading.js?v=f5a8b6840d71"></script>
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="../toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="本页目录">
+      <meta name="loc:searchResultsCount" content="“{query}”的结果：{count}条">
+      <meta name="loc:searchNoResults" content="没有找到“{query}”">
+      <meta name="loc:tocFilter" content="筛选文件标题">
+      <meta name="loc:nextArticle" content="下一篇">
+      <meta name="loc:prevArticle" content="上一篇">
+      <meta name="loc:themeLight" content="浅色">
+      <meta name="loc:themeDark" content="深色">
+      <meta name="loc:themeAuto" content="跟随系统">
+      <meta name="loc:changeTheme" content="切换明暗">
+      <meta name="loc:copy" content="复制">
+      <meta name="loc:downloadPdf" content="下载PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <a class="ld-skip" href="#doc-content">跳到正文</a>
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../INDEX.html">
+            <span class="ld-monogram" aria-hidden="true">LD</span>
+            LaunchDesk.Next
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="展开导航与搜索">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div class="ld-links" aria-label="快捷入口"><a href="../INDEX.html">阅读文档</a><a href="../portfolio/index.html?revision=figcraft-roundtrip">项目作品集 ↗</a><a href="../status.html">交付状态</a></div>
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="搜索文档" autocomplete="off" aria-label="搜索文档">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">文件目录</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="关闭文件目录"></button>
+          </div>
+          <div class="offcanvas-body">
+            <div class="ld-toc-caption"><strong>文件与阅读路径</strong><span>LIBRARY</span></div>
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="打开文件目录">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article id="doc-content" tabindex="-1" data-uid="user-manual">
+          <div class="ld-kicker">LAUNCHDESK.NEXT / ENGINEERING LIBRARY</div>
+          <div class="ld-doc-meta"><span class="ld-state" data-state="navigation">状态见正文</span><span>文档核对 2026-10-29</span></div>
+<h1 id="使用手册按配置启动应用">使用手册：按配置启动应用</h1>
+
+<h2 id="-先知道有什么用">① 先知道有什么用</h2>
+<p>保存并核对应用、项目和许可参数，减少重复填写。功能范围以<a href="../features/launch-by-profile.html#brd">正文①②</a>和<a href="../status.html">当前状态</a>为准；本手册不包含待实现的连接、迁移和共享授权界面。</p>
+<h2 id="-首次准备">② 首次准备</h2>
+<p>使用产品包，解压后保留Addins目录与登录清单，再运行LaunchDesk.Next.Desktop.exe。包依赖兼容的Windows Desktop Runtime，具体目标见<a href="../project-source/src/LaunchDesk.Next.Desktop/LaunchDesk.Next.Desktop.csproj">项目文件</a>；已有<a href="../evidence/addins/manifest.json">交付证据</a>。目标应用须自行安装，有可用工程和许可。不要将开发VM工具当使用前提。</p>
+<h2 id="-找到应用和工程">③ 找到应用和工程</h2>
+<p>启动后扫描 → 选候选 → 核对路径/init → 从“快照与记录”查看ProjectModules / StaticCandidates来源 → 把确认的Project与Module填回工作台。详细操作与预填限制只维护在<a href="../features/launch-by-profile.html#usage">正文③</a>。候选和目录存在不是已验证可登录。</p>
+<h2 id="-编辑与执行">④ 编辑与执行</h2>
+<p>按<a href="../features/launch-by-profile.html#usage">正文③</a>核对用户、MDB、模块和许可等参数；编辑自动保存草稿，点击启动执行当前冻结输入。“保存配置”保存命名配置。需要密码时选Prompt并在本机提示中输入，模型和演示资料不写密码；Stored当前只引用已有本机凭据。</p>
+<h2 id="-如何知道结果">⑤ 如何知道结果</h2>
+<p>按AttemptId查看快照与记录。Created表示已创建进程；WindowObserved表示观察到窗口；两者都不能直接等同工程登录成功。状态含义与限制见<a href="../features/launch-by-profile.html#requirements">正文③④</a>。数据目录可查看实际文件，勿公开未脱敏配置。</p>
+<h2 id="-出错先做什么">⑥ 出错先做什么</h2>
+<p>字段错误先修改；草稿代次冲突重新打开读取，不覆盖其他编辑；许可TCP通过仍需核实真实许可。遇到Unconfirmed/NeedsVerification先检查目标是否已启动，避免重复操作。取消密码不启动。精确边界见<a href="../features/launch-by-profile.html#backend">正文③⑥</a>。</p>
+<h2 id="-管理员与拓展功能">⑦ 管理员与拓展功能</h2>
+<p>管理员也通过同一配置核对许可参数。远程路径使用不要求VM开关；连接配置向导、TOML导入导出和凭据共享尚未交付，见<a href="../status.html">拟议范围</a>。不按设计图去寻找尚不存在的按钮。</p>
+<h2 id="-需要演示或报问题">⑧ 需要演示或报问题</h2>
+<p>演示用<a href="demo.html">核心流程入口</a>；报问题提供版本、脱敏配置、AttemptId、阶段与实际错误，不提供密码。开发定位从<a href="developer.html">开发手册</a>进入，验证结论看<a href="../verification.html">分批证据</a>。</p>
+
+</article>
+
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span class="ld-footer-word">LAUNCHDESK.NEXT / KNOWLEDGE SYSTEM</span><span class="ld-footer-note">功能事实 · 源码路径 · 验证证据　/　DocFX</span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

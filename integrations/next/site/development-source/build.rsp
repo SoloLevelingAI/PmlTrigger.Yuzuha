@@ -1,0 +1,10 @@
+/nologo
+/target:exe
+/platform:x64
+/r:System.Web.Extensions.dll
+/r:System.Security.dll
+/out:.local/LabControl.exe
+DevelopmentSwitch.cs
+AddinGate.cs
+LabSettings.cs
+LabControl.cs

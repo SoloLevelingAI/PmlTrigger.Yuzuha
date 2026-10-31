@@ -1,0 +1,10 @@
+schema: spec-driven
+context: |
+  LaunchDesk.Next is an independent Windows C# WPF application.
+  Original LaunchDesk.Archon and rewrite sources are read-only references.
+  Customer and engineering presentation uses at most eight sections, answering
+  BRD, PRD, SRS, FRD, SDD and SDS questions; docs/INDEX.md provides role navigation.
+  See docs/features/launch-by-profile.md for the single explanatory design,
+  docs/decisions/architecture.md for source responsibilities, and
+  Directory.Packages.props for approved exact package versions.
+  Do not introduce another implementation language or unapproved dependency.

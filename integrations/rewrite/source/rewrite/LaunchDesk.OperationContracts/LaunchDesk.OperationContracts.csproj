@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <ItemGroup>
+        <ProjectReference Include="../LaunchDesk.Kernel/LaunchDesk.Kernel.csproj"/>
+    </ItemGroup>
+</Project>

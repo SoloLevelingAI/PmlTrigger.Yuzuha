@@ -1,0 +1,11 @@
+{
+  "EnabledDeclarations": true,
+  "VmHiddenWhenManifestAbsent": true,
+  "VmDirectCheckRejected": true,
+  "NoFeatureVisibleWithNoAddins": true,
+  "DirectModelCallRejectedBeforeWrite": true,
+  "BusinessHelpHidden": true,
+  "BinariesStillPresent": true,
+  "ProductWithoutAddinExitZero": true,
+  "ProductWithoutAddinCreatedNoWorkspace": true
+}

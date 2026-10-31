@@ -24,6 +24,8 @@
       href: database.md
     - name: Ribbon HTTP 兼容入口
       href: ribbon-adapter.md
+    - name: 单仓开发与换电脑接手
+      href: portable-development.md
     - name: 可选许可与 VM 插件
       href: manager-plugins.md
   - name: PML 开发

@@ -1,0 +1,14 @@
+- name: 开发维护索引
+  href: INDEX.md
+- name: Addin启用与装配
+  href: addins.md
+- name: 模型编辑与双包交付
+  href: model-driven-review.md
+- name: 原生启动与FNF对照
+  href: ../reviews/licence-checkout.md
+- name: 隔离环境手册
+  href: ../reviews/remote-project-lab.md
+- name: G0/G1历史记录
+  href: ../reviews/remote-project-lab-results.md
+- name: 原LaunchDesk复制错误调查
+  href: original-deploy-diagnostic.md

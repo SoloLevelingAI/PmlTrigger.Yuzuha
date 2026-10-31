@@ -1,0 +1,18 @@
+[
+  {
+    "path": "native-run.json",
+    "sha256": "4bc660e1cd32be1ff7026babfcd47fc889c9facd28f5136affe5e33149b74343"
+  },
+  {
+    "path": "native-events.jsonl",
+    "sha256": "7e9d496162490da33a19d13c47ca78ccb6a59953624001f8ff681e8b855a7f4b"
+  },
+  {
+    "path": "native-source-manifest.json",
+    "sha256": "8c0b9ff3b16c0782a4ae1588f8b7367caa8d585e56cd4e6b0093f0aae45d7400"
+  },
+  {
+    "path": "first-attempt-failed.jsonl",
+    "sha256": "9973812069849e0f420212368d26d0d2393f1baa21f4e82caec564a7c7cb03d5"
+  }
+]

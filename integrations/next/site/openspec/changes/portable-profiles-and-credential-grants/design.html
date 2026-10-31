@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html data-reading-revision="f5a8b6840d71" lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+      <title>Design review — not implemented | LaunchDesk.Next </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Design review — not implemented | LaunchDesk.Next ">
+      
+      
+      <link rel="icon" href="../../../favicon.ico">
+      <link rel="stylesheet" href="../../../public/docfx.min.css">
+      <link rel="stylesheet" href="../../../public/theme-tokens.css?v=f5a8b6840d71">
+      <link rel="stylesheet" href="../../../public/main.css?v=f5a8b6840d71">
+      <link rel="stylesheet" href="../../../public/theme-type.css?v=f5a8b6840d71">
+      <script type="module" src="../../../public/reading.js?v=f5a8b6840d71"></script>
+      <meta name="docfx:navrel" content="../../../toc.html">
+      <meta name="docfx:tocrel" content="../../../toc.html">
+      
+      <meta name="docfx:rel" content="../../../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="本页目录">
+      <meta name="loc:searchResultsCount" content="“{query}”的结果：{count}条">
+      <meta name="loc:searchNoResults" content="没有找到“{query}”">
+      <meta name="loc:tocFilter" content="筛选文件标题">
+      <meta name="loc:nextArticle" content="下一篇">
+      <meta name="loc:prevArticle" content="上一篇">
+      <meta name="loc:themeLight" content="浅色">
+      <meta name="loc:themeDark" content="深色">
+      <meta name="loc:themeAuto" content="跟随系统">
+      <meta name="loc:changeTheme" content="切换明暗">
+      <meta name="loc:copy" content="复制">
+      <meta name="loc:downloadPdf" content="下载PDF">
+
+      <script type="module" src="./../../../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <a class="ld-skip" href="#doc-content">跳到正文</a>
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../../../INDEX.html">
+            <span class="ld-monogram" aria-hidden="true">LD</span>
+            LaunchDesk.Next
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="展开导航与搜索">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div class="ld-links" aria-label="快捷入口"><a href="../../../INDEX.html">阅读文档</a><a href="../../../portfolio/index.html?revision=figcraft-roundtrip">项目作品集 ↗</a><a href="../../../status.html">交付状态</a></div>
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="搜索文档" autocomplete="off" aria-label="搜索文档">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">文件目录</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="关闭文件目录"></button>
+          </div>
+          <div class="offcanvas-body">
+            <div class="ld-toc-caption"><strong>文件与阅读路径</strong><span>LIBRARY</span></div>
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="打开文件目录">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article id="doc-content" tabindex="-1" data-uid="">
+          <div class="ld-kicker">LAUNCHDESK.NEXT / ENGINEERING LIBRARY</div>
+          <div class="ld-doc-meta"></div>
+<h1 id="design-review--not-implemented">Design review — not implemented</h1>
+
+<p>The authoritative eight-section explanation is <a class="xref" href="../../../reviews/remote-portable.html">remote-portable review</a>. It answers BRD/PRD/SRS/FRD/SDD/SDS with concrete operations, frontend/backend pseudocode and failure reasons. This file indexes engineering decisions rather than repeating customer instructions.</p>
+<table>
+<thead>
+<tr>
+<th>Decision</th>
+<th>Review location</th>
+<th>Implementation boundary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Same-user C# read-only worker, 8-second deadline, stale-reply rejection</td>
+<td>Eight-section review §⑤–⑦</td>
+<td>No Task.Run-only cancellation claim; side-effecting connection timeout is OutcomeUnknown</td>
+</tr>
+<tr>
+<td>Explicit UNC connection; optional confirmed free drive</td>
+<td>Review §③⑥⑦</td>
+<td>No auto-disconnect, persistent reconnect, elevation or ACL changes</td>
+</tr>
+<tr>
+<td>Share access, Project registration and real AVEVA validation separated</td>
+<td>Review §③⑥⑧</td>
+<td>Init fingerprint/path/Revision invalidate manual confirmation; no vendor-file rewrite</td>
+</tr>
+<tr>
+<td>Portable slot vs local binding and selected grants</td>
+<td>Review §④⑥</td>
+<td>Kind and security fingerprints; no name-based or imported-ID authorization</td>
+</tr>
+<tr>
+<td>Immutable generation and current-pointer publication</td>
+<td>Review §④⑥</td>
+<td>Lock/Revision; local metadata excluded from export; not a cross-system transaction</td>
+</tr>
+<tr>
+<td>TOML syntax-tree edits, JSON backup/migration</td>
+<td><a class="xref" href="../../../decisions/toml-selection.html">Exact package research</a></td>
+<td>Tomlyn 2.10.1 approved on 2026-10-28; installation explicitly deferred and round-trip tests pending</td>
+</tr>
+<tr>
+<td>Native FigCraft first; explicit WPF templates and DPI evidence</td>
+<td><a class="xref" href="../../../design/remote-portable-review.html">Design contract</a></td>
+<td>No WPF implementation in this review</td>
+</tr>
+<tr>
+<td>Selected VMware Host-only environment</td>
+<td><a class="xref" href="../../../reviews/remote-project-lab.html">Eight-section runbook</a></td>
+<td>Static VMnet/IP, two standard accounts, share/NTFS matrix, G0–G5 gates; G0/G1 environment and ten OS checks passed; 16 product cases remain pending</td>
+</tr>
+</tbody>
+</table>
+<h2 id="code-entry-points-and-planned-changes">Code entry points and planned changes</h2>
+<p>Current LoginLaunchCoordinator, feature Scripts and Infrastructure/Contracts remain unchanged at fee897f. Planned concrete scripts: CheckProjectAccess, ConnectProjectShare, CheckProjectRegistration, GrantLoginCredential, RevokeLoginCredential, ImportProfiles, ExportProfiles. These are proposed names, not existing source files.</p>
+<p>The ViewModel validates/edit-displays; an ordinary input class carries frozen values and revisions; the backend coordinator explicitly calls concrete scripts. Neutral ports provide file probing, connections, documents, local secrets and records without knowledge of APS/DESIGN. Only Platform adapters reference TOML/OS APIs. Replace/adapt the existing IJsonDocumentStore with a format-neutral contract during approved implementation. ArchUnitNET rules must verify package/layer boundaries; existing architecture tests do not automatically cover these future classes.</p>
+<h2 id="approval-and-evidence">Approval and evidence</h2>
+<p>The <a href="specs/portable-profiles-and-credential-grants/spec.html">requirement delta</a> is normative; the <a href="tasks.html">task list</a> separates delivered review assets from pending approval, implementation and execution. Existing 99 tests belong to fee897f and do not verify this proposal. CRED_PERSIST_LOCAL_MACHINE means same Windows user/local machine persistence, not a per-module OS security boundary. Separately authorized G0/G1 lab setup and read-only licensing inventory have now been recorded. No dependency installation or product code change was made; product remote workflows and actual AVEVA checkout remain pending.</p>
+<h2 id="latest-vendor-test">Latest vendor test</h2>
+<p>Host E3D3.1 attempted AVEVA201 checkout against only the isolated clone and failed with RULES4546 socket10060; entry exit0 is not success. RULES logs an RMS licence-detail initialisation failure and stops. Meta TUN stayed enabled; VMnet1 was the selected route. Temporary clone-only firewall rules were removed. See <a class="xref" href="../../../reviews/licence-checkout.html">test evidence</a>; the follow-up read-only diagnosis confirms hostname-only binding mismatch after the G0/G1 clone rename, and no product dependency or WPF change follows from this test.</p>
+<p>Machine-identity planning must include licence binding before renaming a clone. Vendor selector0008 is Host Name; changed MAC/UUID are not the selected criteria for the22 rejected licence records. Keep the observed failure until a separate repair decision. Read-only evidence must not become an implicit permission to restore identity or rehost licences.</p>
+<h2 id="latest-authorized-restoration">Latest authorized restoration</h2>
+<p>User authorized a powered-off pre-restore snapshot followed by hostname-only restoration toZHANGSH. Licence file/hash and all Host-only/account/share invariants remain;10 SMB cases pass. Vendor hostname fingerprint matches, RULES4546 works, and RMS issues/releases AVEVA201. E3D then fails with communications-file FNF7, so complete application startup is not accepted. An optional second working-directory test was automatically rejected for additional command-line password exposure and was not executed. Temporary licence rules are removed; future remote tests need reviewed scoped access. Original VM remains off.</p>
+<h2 id="latest-fnf-startup-and-developer-isolation-decision">Latest FNF startup and developer isolation decision</h2>
+<p>The original native LaunchDesk startup reaches MAR/ALL_NO_MDS/Model. Controlled cwd-only and quoting-only corrections still fail with redirected stdio; native standard-handle launches succeed with CreateNoWindow false and true. Preserve the vendor channel contract, use process/runtime/lease records instead of replacing its streams for logging. LC-06 proves existing vendor startup, not unimplemented product remote flows.</p>
+<p>VM-based simulation is retained only as dev/RemoteProjectLab scaffolding, independent of production projects/bootstrap. Explicit enable --local binds machine fingerprint and user SID; normal initialization, Debug mode, environment variables or VMware discovery never enable it. Product remote endpoints use ordinary labels without a VM/simulation flag. Developer evidence stays truthful and accessible through a separate maintenance index. The switch is an accidental-use guard, not an OS security boundary.</p>
+<h2 id="dv-02-developer-documentation-boundary-and-diagrams">DV-02 Developer documentation boundary and diagrams</h2>
+<p>The switch authorizes only the independent dev executable graph. Product composition never queries it, so ordinary remote behavior has no activation dependency. The eight-section developer index maps existing source locations to activation, dispatch, exact exit/error channels and fixed-clone operations; disabling is neither cancellation nor shutdown. VIX timeout remains unknown completion, not permission to retry. Product features still awaiting implementation remain marked proposed.</p>
+<p>DocFX uses default/modern plus a small reading override inspired by the local Yuzuha template, without copying its product-specific shell. Markdown Mermaid flowchart/sequenceDiagram are the sole diagram sources; built-in rendering needs no new dependency/CDN. Source tables remain readable without diagrams. This documentation-only change does not alter product code, WPF, VM power state or activation state.</p>
+<h2 id="md-01--dv-03--fm-01-implementation-update">MD-01 / DV-03 / FM-01 implementation update</h2>
+<p>The later user-approved implementation shares a single LaunchModel/LaunchWorkspace and WorkspaceHost composition between the unchanged product UI and independent developer CLI. The product and development distributions compare identical backend DLL hashes; VM code ships only with development. LabSettings replaces active fixed target paths, shared LaunchModel owns licence parameters, and old experimental launchers remain non-shipping History. This implements the model/snapshot and package core, not the remote-connection/TOML/new-UI proposal above. CAF host API adaptation, actual VM parameter regression and theme visual acceptance remain pending.</p>
+
+</article>
+
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span class="ld-footer-word">LAUNCHDESK.NEXT / KNOWLEDGE SYSTEM</span><span class="ld-footer-note">功能事实 · 源码路径 · 验证证据　/　DocFX</span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

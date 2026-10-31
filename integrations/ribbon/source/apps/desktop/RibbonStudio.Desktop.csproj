@@ -1,0 +1,7 @@
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+ <PropertyGroup><OutputType>WinExe</OutputType><TargetFrameworkVersion>v4.8</TargetFrameworkVersion><RootNamespace>RibbonStudio</RootNamespace><AssemblyName>RibbonStudio.Desktop</AssemblyName><OutputPath>bin\</OutputPath><PlatformTarget>AnyCPU</PlatformTarget><StartupObject>RibbonStudio.App</StartupObject></PropertyGroup>
+ <ItemGroup><Reference Include="System"/><Reference Include="System.Core"/><Reference Include="System.Drawing"/><Reference Include="System.Windows.Forms"/><Reference Include="System.Net.Http"/><Reference Include="System.Web.Extensions"/><Reference Include="WindowsBase"/><Reference Include="PresentationCore"/><Reference Include="PresentationFramework"/><Reference Include="System.Xaml"/></ItemGroup>
+ <ItemGroup><Compile Include="App.cs"/><Compile Include="Features\**\*.cs"/><Compile Include="Verification\*.cs"/><Compile Include="..\..\packages\contracts-csharp\*.cs"><Link>Contracts\RibbonContracts.cs</Link></Compile><Compile Include="Services\ApiClient.cs"/><Compile Include="Views\Ui.cs"/><Compile Include="Views\Chrome.cs"/><Compile Include="Views\MainWindow.cs"/><None Include="App.config"/><Content Include="Resources\*.xaml"><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content></ItemGroup>
+ <ItemGroup></ItemGroup>
+ <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
+</Project>

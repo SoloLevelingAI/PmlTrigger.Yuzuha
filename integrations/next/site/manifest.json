@@ -1,0 +1,3156 @@
+{
+  "docfx_version": "2.81.0+ba844df625370a6bd7c1ecab0d0ec4d1d9128ac4",
+  "source_base_path": "C:/Users/26648/Documents/ChatGPT/Example/LaunchDesk.Next/docs",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "Resource",
+      "output": {
+        "resource": {
+          "relative_path": "index.json"
+        }
+      }
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../LaunchDesk.Next.slnx",
+      "output": {
+        "resource": {
+          "relative_path": "project-source/LaunchDesk.Next.slnx"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../README.md",
+      "output": {
+        "resource": {
+          "relative_path": "project-source/README.md"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../addins/development.remote-project-lab.addin.xml",
+      "output": {
+        "resource": {
+          "relative_path": "project-source/addins/development.remote-project-lab.addin.xml"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../addins/login.launch.addin.xml",
+      "output": {
+        "resource": {
+          "relative_path": "project-source/addins/login.launch.addin.xml"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/addins/architecture-tests.txt",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/addins/architecture-tests.txt"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/addins/manifest.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/addins/manifest.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/addins/package-absence-checks.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/addins/package-absence-checks.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/addins/ui-tests.txt",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/addins/ui-tests.txt"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/addins/verification.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/addins/verification.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/docfx-theme/dark-flow.jpg",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/docfx-theme/dark-flow.jpg"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/docfx-theme/light-reading.jpg",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/docfx-theme/light-reading.jpg"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/docfx-theme/mobile-navigation.jpg",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/docfx-theme/mobile-navigation.jpg"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/docfx-theme/mobile-reading.jpg",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/docfx-theme/mobile-reading.jpg"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/docfx-theme/theme-source.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/docfx-theme/theme-source.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/docfx-theme/type-map.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/docfx-theme/type-map.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/docfx-theme/verification.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/docfx-theme/verification.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/documentation-review/verification.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/documentation-review/verification.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/model-execution/architecture-tests.txt",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/model-execution/architecture-tests.txt"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/model-execution/binding-tests.txt",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/model-execution/binding-tests.txt"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/model-execution/integration-tests.txt",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/model-execution/integration-tests.txt"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/model-execution/manifest.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/model-execution/manifest.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/model-execution/original-deploy-diagnostic.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/model-execution/original-deploy-diagnostic.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/model-execution/ui-tests.txt",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/model-execution/ui-tests.txt"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/model-execution/unit-tests.txt",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/model-execution/unit-tests.txt"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/model-execution/verification.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/model-execution/verification.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/portfolio-review/verification.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/portfolio-review/verification.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/portfolio-roundtrip/comparison-viewer.jpg",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/portfolio-roundtrip/comparison-viewer.jpg"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/portfolio-roundtrip/dom-after.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/portfolio-roundtrip/dom-after.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/portfolio-roundtrip/dom-before.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/portfolio-roundtrip/dom-before.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/portfolio-roundtrip/figcraft-composition.png",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/portfolio-roundtrip/figcraft-composition.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/portfolio-roundtrip/figcraft-delivery.png",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/portfolio-roundtrip/figcraft-delivery.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/portfolio-roundtrip/figcraft-evidence.png",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/portfolio-roundtrip/figcraft-evidence.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/portfolio-roundtrip/figcraft-execution.png",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/portfolio-roundtrip/figcraft-execution.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/portfolio-roundtrip/figcraft-experience.png",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/portfolio-roundtrip/figcraft-experience.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/portfolio-roundtrip/figcraft-maintenance.png",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/portfolio-roundtrip/figcraft-maintenance.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/portfolio-roundtrip/figcraft-model.png",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/portfolio-roundtrip/figcraft-model.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/portfolio-roundtrip/figcraft-variables.css",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/portfolio-roundtrip/figcraft-variables.css"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/portfolio-roundtrip/figcraft-vision.png",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/portfolio-roundtrip/figcraft-vision.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/portfolio-roundtrip/html-after-composition.jpg",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/portfolio-roundtrip/html-after-composition.jpg"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/portfolio-roundtrip/html-after-delivery.jpg",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/portfolio-roundtrip/html-after-delivery.jpg"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/portfolio-roundtrip/html-after-evidence.jpg",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/portfolio-roundtrip/html-after-evidence.jpg"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/portfolio-roundtrip/html-after-execution.jpg",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/portfolio-roundtrip/html-after-execution.jpg"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/portfolio-roundtrip/html-after-experience.jpg",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/portfolio-roundtrip/html-after-experience.jpg"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/portfolio-roundtrip/html-after-maintenance.jpg",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/portfolio-roundtrip/html-after-maintenance.jpg"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/portfolio-roundtrip/html-after-model.jpg",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/portfolio-roundtrip/html-after-model.jpg"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/portfolio-roundtrip/html-after-vision.jpg",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/portfolio-roundtrip/html-after-vision.jpg"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/portfolio-roundtrip/html-before-composition.jpg",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/portfolio-roundtrip/html-before-composition.jpg"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/portfolio-roundtrip/html-before-delivery.jpg",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/portfolio-roundtrip/html-before-delivery.jpg"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/portfolio-roundtrip/html-before-evidence.jpg",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/portfolio-roundtrip/html-before-evidence.jpg"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/portfolio-roundtrip/html-before-execution.jpg",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/portfolio-roundtrip/html-before-execution.jpg"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/portfolio-roundtrip/html-before-experience.jpg",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/portfolio-roundtrip/html-before-experience.jpg"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/portfolio-roundtrip/html-before-maintenance.jpg",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/portfolio-roundtrip/html-before-maintenance.jpg"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/portfolio-roundtrip/html-before-model.jpg",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/portfolio-roundtrip/html-before-model.jpg"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/portfolio-roundtrip/html-before-vision.jpg",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/portfolio-roundtrip/html-before-vision.jpg"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/portfolio-roundtrip/import-source-hashes.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/portfolio-roundtrip/import-source-hashes.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/portfolio-roundtrip/imported-native.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/portfolio-roundtrip/imported-native.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/portfolio-roundtrip/layer-map.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/portfolio-roundtrip/layer-map.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/portfolio-roundtrip/native-css.jsonl",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/portfolio-roundtrip/native-css.jsonl"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/portfolio-roundtrip/provenance.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/portfolio-roundtrip/provenance.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/portfolio-roundtrip/viewer-checks.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/portfolio-roundtrip/viewer-checks.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/project-modules/final-tests.txt",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/project-modules/final-tests.txt"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/project-modules/local-scan.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/project-modules/local-scan.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/project-modules/openspec-discovery.txt",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/project-modules/openspec-discovery.txt"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/project-modules/openspec-proposals.txt",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/project-modules/openspec-proposals.txt"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/remote-review-edit/GuestLicenceInventory.cs",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/remote-review-edit/GuestLicenceInventory.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/remote-review-edit/compression.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/remote-review-edit/compression.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/remote-review-edit/guest-licence-inventory.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/remote-review-edit/guest-licence-inventory.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/remote-review-edit/host-and-protection.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/remote-review-edit/host-and-protection.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/remote-review-edit/validation.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/remote-review-edit/validation.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-fnf7/GuestTestAwake.cs",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-fnf7/GuestTestAwake.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-fnf7/HostFnfProbe.cs",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-fnf7/HostFnfProbe.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-fnf7/HostNativeFnfTest.cs",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-fnf7/HostNativeFnfTest.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-fnf7/HostNativeHiddenFnfTest.cs",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-fnf7/HostNativeHiddenFnfTest.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-fnf7/canonical-result.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-fnf7/canonical-result.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-fnf7/comparison.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-fnf7/comparison.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-fnf7/cwd-result.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-fnf7/cwd-result.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-fnf7/development-gate-validation.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-fnf7/development-gate-validation.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-fnf7/guest-final-state.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-fnf7/guest-final-state.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-fnf7/launch-contract.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-fnf7/launch-contract.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-fnf7/native-hidden-result.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-fnf7/native-hidden-result.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-fnf7/native-result.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-fnf7/native-result.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-fnf7/protection.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-fnf7/protection.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-fnf7/records.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-fnf7/records.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-fnf7/records.jsonl",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-fnf7/records.jsonl"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-fnf7/server-leases.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-fnf7/server-leases.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-fnf7/session-verification.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-fnf7/session-verification.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-fnf7/vendor-runtime-events.txt",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-fnf7/vendor-runtime-events.txt"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-g0-g1/acceptance.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-g0-g1/acceptance.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-g0-g1/access-validation.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-g0-g1/access-validation.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-g0-g1/after-clone-guards.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-g0-g1/after-clone-guards.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-g0-g1/before-hashes.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-g0-g1/before-hashes.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-g0-g1/clone-state.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-g0-g1/clone-state.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-g0-g1/guest-after.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-g0-g1/guest-after.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-g0-g1/guest-before.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-g0-g1/guest-before.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-g0-g1/guest-setup.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-g0-g1/guest-setup.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-g0-g1/host-smb-records.jsonl",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-g0-g1/host-smb-records.jsonl"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-g0-g1/host-smb-results.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-g0-g1/host-smb-results.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-g0-g1/inventory.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-g0-g1/inventory.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-g0-g1/protection-checks.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-g0-g1/protection-checks.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-g0-g1/snapshot.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-g0-g1/snapshot.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-g0-g1/snapshots-final.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-g0-g1/snapshots-final.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-g0-g1/source-disk-before.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-g0-g1/source-disk-before.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-g0-g1/source-disk-check.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-g0-g1/source-disk-check.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-g0-g1/toolchain.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-g0-g1/toolchain.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-g0-g1/tools/GuestAudit.cs",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-g0-g1/tools/GuestAudit.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-g0-g1/tools/GuestInspect.cs",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-g0-g1/tools/GuestInspect.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-g0-g1/tools/GuestSetup.cs",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-g0-g1/tools/GuestSetup.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-g0-g1/tools/Handoff.cs",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-g0-g1/tools/Handoff.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-g0-g1/tools/LabKeys.cs",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-g0-g1/tools/LabKeys.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-g0-g1/tools/LabVix.cs",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-g0-g1/tools/LabVix.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-g0-g1/tools/README.md",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-g0-g1/tools/README.md"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-g0-g1/tools/SmbCheck.cs",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-g0-g1/tools/SmbCheck.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-hostname-restore/GuestRestoreAudit.cs",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-hostname-restore/GuestRestoreAudit.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-hostname-restore/GuestRestoreIdentity.cs",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-hostname-restore/GuestRestoreIdentity.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-hostname-restore/GuestRestoreLicenceDiag.cs",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-hostname-restore/GuestRestoreLicenceDiag.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-hostname-restore/HostE3dRestoreTest.cs",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-hostname-restore/HostE3dRestoreTest.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-hostname-restore/RestoreGuestHostname.cs",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-hostname-restore/RestoreGuestHostname.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-hostname-restore/RestoreSmbCheck.cs",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-hostname-restore/RestoreSmbCheck.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-hostname-restore/binding-comparison.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-hostname-restore/binding-comparison.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-hostname-restore/configuration-comparison.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-hostname-restore/configuration-comparison.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-hostname-restore/e3d-error-excerpt.txt",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-hostname-restore/e3d-error-excerpt.txt"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-hostname-restore/e3d-result.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-hostname-restore/e3d-result.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-hostname-restore/guest-after.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-hostname-restore/guest-after.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-hostname-restore/guest-before.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-hostname-restore/guest-before.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-hostname-restore/guest-final.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-hostname-restore/guest-final.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-hostname-restore/host-smb-records.jsonl",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-hostname-restore/host-smb-records.jsonl"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-hostname-restore/host-smb-results.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-hostname-restore/host-smb-results.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-hostname-restore/licence-file-check.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-hostname-restore/licence-file-check.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-hostname-restore/port-results.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-hostname-restore/port-results.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-hostname-restore/protection.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-hostname-restore/protection.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-hostname-restore/records.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-hostname-restore/records.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-hostname-restore/records.jsonl",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-hostname-restore/records.jsonl"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-hostname-restore/rename-result.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-hostname-restore/rename-result.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-hostname-restore/rules-restored.txt",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-hostname-restore/rules-restored.txt"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-hostname-restore/server-lease-records.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-hostname-restore/server-lease-records.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-hostname-restore/snapshots.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-hostname-restore/snapshots.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-hostname-restore/toolchain.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-hostname-restore/toolchain.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-hostname-restore/validation.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-hostname-restore/validation.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-licence/AvevaTestCredential.cs",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-licence/AvevaTestCredential.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-licence/GuestLicenceDiag.cs",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-licence/GuestLicenceDiag.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-licence/HostE3dLicenceTest.cs",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-licence/HostE3dLicenceTest.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-licence/e3d-result.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-licence/e3d-result.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-licence/e3d-vendor-error.txt",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-licence/e3d-vendor-error.txt"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-licence/guest-after-diagnosis.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-licence/guest-after-diagnosis.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-licence/guest-after-e3d.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-licence/guest-after-e3d.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-licence/guest-before.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-licence/guest-before.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-licence/guest-cleanup.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-licence/guest-cleanup.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-licence/host-network.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-licence/host-network.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-licence/http-checks.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-licence/http-checks.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-licence/monitor-entry.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-licence/monitor-entry.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-licence/protection.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-licence/protection.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-licence/records.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-licence/records.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-licence/records.jsonl",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-licence/records.jsonl"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-licence/rms-query.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-licence/rms-query.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-licence/rms-usage-summary.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-licence/rms-usage-summary.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-licence/toolchain.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-licence/toolchain.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-rms-identity/GuestRmsIdentity.cs",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-rms-identity/GuestRmsIdentity.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-rms-identity/binding-comparison.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-rms-identity/binding-comparison.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-rms-identity/final-state.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-rms-identity/final-state.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-rms-identity/identity-timeline.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-rms-identity/identity-timeline.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-rms-identity/installed-files.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-rms-identity/installed-files.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-rms-identity/protection.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-rms-identity/protection.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-rms-identity/records.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-rms-identity/records.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-rms-identity/records.jsonl",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-rms-identity/records.jsonl"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-rms-identity/rms-events.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-rms-identity/rms-events.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-rms-identity/rules-timeline.txt",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-rms-identity/rules-timeline.txt"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-rms-identity/sources.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-rms-identity/sources.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-rms-identity/tool-failures.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-rms-identity/tool-failures.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-rms-identity/toolchain.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-rms-identity/toolchain.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../artifacts/vmware-lab/20261028-rms-identity/validation.json",
+      "output": {
+        "resource": {
+          "relative_path": "evidence/vmware-lab/20261028-rms-identity/validation.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../dev/RemoteProjectLab/AddinGate.cs",
+      "output": {
+        "resource": {
+          "relative_path": "development-source/AddinGate.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../dev/RemoteProjectLab/DevelopmentSwitch.cs",
+      "output": {
+        "resource": {
+          "relative_path": "development-source/DevelopmentSwitch.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../dev/RemoteProjectLab/DevelopmentSwitchChecks.cs",
+      "output": {
+        "resource": {
+          "relative_path": "development-source/DevelopmentSwitchChecks.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../dev/RemoteProjectLab/Guest/GuestRestoreAudit.cs",
+      "output": {
+        "resource": {
+          "relative_path": "development-source/Guest/GuestRestoreAudit.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../dev/RemoteProjectLab/Guest/GuestRestoreIdentity.cs",
+      "output": {
+        "resource": {
+          "relative_path": "development-source/Guest/GuestRestoreIdentity.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../dev/RemoteProjectLab/Guest/GuestRestoreLicenceDiag.cs",
+      "output": {
+        "resource": {
+          "relative_path": "development-source/Guest/GuestRestoreLicenceDiag.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../dev/RemoteProjectLab/Guest/GuestTestAwake.cs",
+      "output": {
+        "resource": {
+          "relative_path": "development-source/Guest/GuestTestAwake.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../dev/RemoteProjectLab/History/HostFnfProbe.cs",
+      "output": {
+        "resource": {
+          "relative_path": "development-source/History/HostFnfProbe.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../dev/RemoteProjectLab/History/HostNativeFnfTest.cs",
+      "output": {
+        "resource": {
+          "relative_path": "development-source/History/HostNativeFnfTest.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../dev/RemoteProjectLab/History/README.md",
+      "output": {
+        "resource": {
+          "relative_path": "development-source/History/README.md"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../dev/RemoteProjectLab/Host/LabVix.cs",
+      "output": {
+        "resource": {
+          "relative_path": "development-source/Host/LabVix.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../dev/RemoteProjectLab/LabControl.cs",
+      "output": {
+        "resource": {
+          "relative_path": "development-source/LabControl.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../dev/RemoteProjectLab/LabSettings.cs",
+      "output": {
+        "resource": {
+          "relative_path": "development-source/LabSettings.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../dev/RemoteProjectLab/LabSettingsChecks.cs",
+      "output": {
+        "resource": {
+          "relative_path": "development-source/LabSettingsChecks.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../dev/RemoteProjectLab/README.md",
+      "output": {
+        "resource": {
+          "relative_path": "development-source/README.md"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../dev/RemoteProjectLab/Tool/LaunchDesk.Next.Development.csproj",
+      "output": {
+        "resource": {
+          "relative_path": "development-source/Tool/LaunchDesk.Next.Development.csproj"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../dev/RemoteProjectLab/Tool/Program.cs",
+      "output": {
+        "resource": {
+          "relative_path": "development-source/Tool/Program.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../dev/RemoteProjectLab/build.rsp",
+      "output": {
+        "resource": {
+          "relative_path": "development-source/build.rsp"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../dev/RemoteProjectLab/lab.example.json",
+      "output": {
+        "resource": {
+          "relative_path": "development-source/lab.example.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../openspec/changes/explicit-feature-scripts/design.md",
+      "output": {
+        ".html": {
+          "relative_path": "openspec/changes/explicit-feature-scripts/design.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../openspec/changes/explicit-feature-scripts/proposal.md",
+      "output": {
+        ".html": {
+          "relative_path": "openspec/changes/explicit-feature-scripts/proposal.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../openspec/changes/explicit-feature-scripts/specs/feature-source-readability/spec.md",
+      "output": {
+        ".html": {
+          "relative_path": "openspec/changes/explicit-feature-scripts/specs/feature-source-readability/spec.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../openspec/changes/explicit-feature-scripts/tasks.md",
+      "output": {
+        ".html": {
+          "relative_path": "openspec/changes/explicit-feature-scripts/tasks.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../openspec/changes/launch-by-profile/design.md",
+      "output": {
+        ".html": {
+          "relative_path": "openspec/changes/launch-by-profile/design.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../openspec/changes/launch-by-profile/proposal.md",
+      "output": {
+        ".html": {
+          "relative_path": "openspec/changes/launch-by-profile/proposal.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../openspec/changes/launch-by-profile/specs/launch-by-profile/spec.md",
+      "output": {
+        ".html": {
+          "relative_path": "openspec/changes/launch-by-profile/specs/launch-by-profile/spec.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../openspec/changes/launch-by-profile/tasks.md",
+      "output": {
+        ".html": {
+          "relative_path": "openspec/changes/launch-by-profile/tasks.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../openspec/changes/portable-profiles-and-credential-grants/design.md",
+      "output": {
+        ".html": {
+          "relative_path": "openspec/changes/portable-profiles-and-credential-grants/design.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../openspec/changes/portable-profiles-and-credential-grants/proposal.md",
+      "output": {
+        ".html": {
+          "relative_path": "openspec/changes/portable-profiles-and-credential-grants/proposal.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../openspec/changes/portable-profiles-and-credential-grants/specs/portable-profiles-and-credential-grants/spec.md",
+      "output": {
+        ".html": {
+          "relative_path": "openspec/changes/portable-profiles-and-credential-grants/specs/portable-profiles-and-credential-grants/spec.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../openspec/changes/portable-profiles-and-credential-grants/tasks.md",
+      "output": {
+        ".html": {
+          "relative_path": "openspec/changes/portable-profiles-and-credential-grants/tasks.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../openspec/changes/project-module-discovery/proposal.md",
+      "output": {
+        ".html": {
+          "relative_path": "openspec/changes/project-module-discovery/proposal.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../openspec/changes/project-module-discovery/specs/project-module-discovery/spec.md",
+      "output": {
+        ".html": {
+          "relative_path": "openspec/changes/project-module-discovery/specs/project-module-discovery/spec.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../openspec/changes/project-module-discovery/tasks.md",
+      "output": {
+        ".html": {
+          "relative_path": "openspec/changes/project-module-discovery/tasks.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../openspec/requirements.md",
+      "output": {
+        ".html": {
+          "relative_path": "openspec/requirements.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../src/LaunchDesk.Next.Application/Features/LoginLaunch/Discovery.cs",
+      "output": {
+        "resource": {
+          "relative_path": "source/LaunchDesk.Next.Application/Features/LoginLaunch/Discovery.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../src/LaunchDesk.Next.Application/Features/LoginLaunch/Execution/LaunchAdmission.cs",
+      "output": {
+        "resource": {
+          "relative_path": "source/LaunchDesk.Next.Application/Features/LoginLaunch/Execution/LaunchAdmission.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../src/LaunchDesk.Next.Application/Features/LoginLaunch/Execution/LaunchAttemptRecords.cs",
+      "output": {
+        "resource": {
+          "relative_path": "source/LaunchDesk.Next.Application/Features/LoginLaunch/Execution/LaunchAttemptRecords.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../src/LaunchDesk.Next.Application/Features/LoginLaunch/ILaunchService.cs",
+      "output": {
+        "resource": {
+          "relative_path": "source/LaunchDesk.Next.Application/Features/LoginLaunch/ILaunchService.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../src/LaunchDesk.Next.Application/Features/LoginLaunch/LaunchInput.cs",
+      "output": {
+        "resource": {
+          "relative_path": "source/LaunchDesk.Next.Application/Features/LoginLaunch/LaunchInput.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../src/LaunchDesk.Next.Application/Features/LoginLaunch/LaunchModel.cs",
+      "output": {
+        "resource": {
+          "relative_path": "source/LaunchDesk.Next.Application/Features/LoginLaunch/LaunchModel.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../src/LaunchDesk.Next.Application/Features/LoginLaunch/LaunchValidation.cs",
+      "output": {
+        "resource": {
+          "relative_path": "source/LaunchDesk.Next.Application/Features/LoginLaunch/LaunchValidation.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../src/LaunchDesk.Next.Application/Features/LoginLaunch/LaunchWorkspace.cs",
+      "output": {
+        "resource": {
+          "relative_path": "source/LaunchDesk.Next.Application/Features/LoginLaunch/LaunchWorkspace.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../src/LaunchDesk.Next.Application/Features/LoginLaunch/LoginLaunchCoordinator.cs",
+      "output": {
+        "resource": {
+          "relative_path": "source/LaunchDesk.Next.Application/Features/LoginLaunch/LoginLaunchCoordinator.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../src/LaunchDesk.Next.Application/Features/LoginLaunch/ProjectModules.cs",
+      "output": {
+        "resource": {
+          "relative_path": "source/LaunchDesk.Next.Application/Features/LoginLaunch/ProjectModules.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../src/LaunchDesk.Next.Application/Features/LoginLaunch/SavedProfiles.cs",
+      "output": {
+        "resource": {
+          "relative_path": "source/LaunchDesk.Next.Application/Features/LoginLaunch/SavedProfiles.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../src/LaunchDesk.Next.Application/Features/LoginLaunch/Scripts/AvevaProcessCommand.cs",
+      "output": {
+        "resource": {
+          "relative_path": "source/LaunchDesk.Next.Application/Features/LoginLaunch/Scripts/AvevaProcessCommand.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../src/LaunchDesk.Next.Application/Features/LoginLaunch/Scripts/CheckAvevaLicence.cs",
+      "output": {
+        "resource": {
+          "relative_path": "source/LaunchDesk.Next.Application/Features/LoginLaunch/Scripts/CheckAvevaLicence.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../src/LaunchDesk.Next.Application/Features/LoginLaunch/Scripts/CheckSavedProfile.cs",
+      "output": {
+        "resource": {
+          "relative_path": "source/LaunchDesk.Next.Application/Features/LoginLaunch/Scripts/CheckSavedProfile.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../src/LaunchDesk.Next.Application/Features/LoginLaunch/Scripts/FindAvevaProjectsAndModules.cs",
+      "output": {
+        "resource": {
+          "relative_path": "source/LaunchDesk.Next.Application/Features/LoginLaunch/Scripts/FindAvevaProjectsAndModules.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../src/LaunchDesk.Next.Application/Features/LoginLaunch/Scripts/FindInstalledAveva.cs",
+      "output": {
+        "resource": {
+          "relative_path": "source/LaunchDesk.Next.Application/Features/LoginLaunch/Scripts/FindInstalledAveva.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../src/LaunchDesk.Next.Application/Features/LoginLaunch/Scripts/ObserveAvevaSession.cs",
+      "output": {
+        "resource": {
+          "relative_path": "source/LaunchDesk.Next.Application/Features/LoginLaunch/Scripts/ObserveAvevaSession.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../src/LaunchDesk.Next.Application/Features/LoginLaunch/Scripts/ResolveLoginSecret.cs",
+      "output": {
+        "resource": {
+          "relative_path": "source/LaunchDesk.Next.Application/Features/LoginLaunch/Scripts/ResolveLoginSecret.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../src/LaunchDesk.Next.Application/Features/LoginLaunch/Scripts/StartDirect.cs",
+      "output": {
+        "resource": {
+          "relative_path": "source/LaunchDesk.Next.Application/Features/LoginLaunch/Scripts/StartDirect.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../src/LaunchDesk.Next.Application/Features/LoginLaunch/Scripts/StartMarineBatch.cs",
+      "output": {
+        "resource": {
+          "relative_path": "source/LaunchDesk.Next.Application/Features/LoginLaunch/Scripts/StartMarineBatch.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../src/LaunchDesk.Next.Application/Features/LoginLaunch/Scripts/StartMonitor.cs",
+      "output": {
+        "resource": {
+          "relative_path": "source/LaunchDesk.Next.Application/Features/LoginLaunch/Scripts/StartMonitor.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../src/LaunchDesk.Next.Application/Infrastructure/Contracts/ProcessHost.cs",
+      "output": {
+        "resource": {
+          "relative_path": "source/LaunchDesk.Next.Application/Infrastructure/Contracts/ProcessHost.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../src/LaunchDesk.Next.Application/Infrastructure/Contracts/Record.cs",
+      "output": {
+        "resource": {
+          "relative_path": "source/LaunchDesk.Next.Application/Infrastructure/Contracts/Record.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../src/LaunchDesk.Next.Application/Infrastructure/Contracts/SystemCapabilities.cs",
+      "output": {
+        "resource": {
+          "relative_path": "source/LaunchDesk.Next.Application/Infrastructure/Contracts/SystemCapabilities.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../src/LaunchDesk.Next.Bootstrap/Addins/AddinCatalog.cs",
+      "output": {
+        "resource": {
+          "relative_path": "source/LaunchDesk.Next.Bootstrap/Addins/AddinCatalog.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../src/LaunchDesk.Next.Bootstrap/WorkspaceHost.cs",
+      "output": {
+        "resource": {
+          "relative_path": "source/LaunchDesk.Next.Bootstrap/WorkspaceHost.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../src/LaunchDesk.Next.Desktop/App.xaml.cs",
+      "output": {
+        "resource": {
+          "relative_path": "source/LaunchDesk.Next.Desktop/App.xaml.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../src/LaunchDesk.Next.Desktop/Bootstrap/CompositionRoot.cs",
+      "output": {
+        "resource": {
+          "relative_path": "source/LaunchDesk.Next.Desktop/Bootstrap/CompositionRoot.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../src/LaunchDesk.Next.Desktop/Features/Launch/LaunchInteraction.cs",
+      "output": {
+        "resource": {
+          "relative_path": "source/LaunchDesk.Next.Desktop/Features/Launch/LaunchInteraction.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../src/LaunchDesk.Next.Desktop/Features/Launch/LaunchViewModel.cs",
+      "output": {
+        "resource": {
+          "relative_path": "source/LaunchDesk.Next.Desktop/Features/Launch/LaunchViewModel.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../src/LaunchDesk.Next.Desktop/Features/Launch/LaunchWindow.xaml.cs",
+      "output": {
+        "resource": {
+          "relative_path": "source/LaunchDesk.Next.Desktop/Features/Launch/LaunchWindow.xaml.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../src/LaunchDesk.Next.Desktop/LaunchDesk.Next.Desktop.csproj",
+      "output": {
+        "resource": {
+          "relative_path": "project-source/src/LaunchDesk.Next.Desktop/LaunchDesk.Next.Desktop.csproj"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../src/LaunchDesk.Next.Domain/Processes/CommandLineRules.cs",
+      "output": {
+        "resource": {
+          "relative_path": "source/LaunchDesk.Next.Domain/Processes/CommandLineRules.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../src/LaunchDesk.Next.Domain/Security/SensitiveFields.cs",
+      "output": {
+        "resource": {
+          "relative_path": "source/LaunchDesk.Next.Domain/Security/SensitiveFields.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../src/LaunchDesk.Next.Platform/Credentials/SecretHandle.cs",
+      "output": {
+        "resource": {
+          "relative_path": "source/LaunchDesk.Next.Platform/Credentials/SecretHandle.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../src/LaunchDesk.Next.Platform/Diagnostics/NLogRecordLog.cs",
+      "output": {
+        "resource": {
+          "relative_path": "source/LaunchDesk.Next.Platform/Diagnostics/NLogRecordLog.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../src/LaunchDesk.Next.Platform/Files/WindowsFileSystem.cs",
+      "output": {
+        "resource": {
+          "relative_path": "source/LaunchDesk.Next.Platform/Files/WindowsFileSystem.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../src/LaunchDesk.Next.Platform/Networking/TcpProbe.cs",
+      "output": {
+        "resource": {
+          "relative_path": "source/LaunchDesk.Next.Platform/Networking/TcpProbe.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../src/LaunchDesk.Next.Platform/Processes/WindowsProcessHost.cs",
+      "output": {
+        "resource": {
+          "relative_path": "source/LaunchDesk.Next.Platform/Processes/WindowsProcessHost.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../src/LaunchDesk.Next.Platform/Services/WindowsServiceProbe.cs",
+      "output": {
+        "resource": {
+          "relative_path": "source/LaunchDesk.Next.Platform/Services/WindowsServiceProbe.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../src/LaunchDesk.Next.Platform/Storage/JsonDocumentDirectory.cs",
+      "output": {
+        "resource": {
+          "relative_path": "source/LaunchDesk.Next.Platform/Storage/JsonDocumentDirectory.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../src/LaunchDesk.Next.Platform/Storage/JsonDocumentStore.cs",
+      "output": {
+        "resource": {
+          "relative_path": "source/LaunchDesk.Next.Platform/Storage/JsonDocumentStore.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../tests/LaunchDesk.Next.ArchitectureTests/AddinTests.cs",
+      "output": {
+        "resource": {
+          "relative_path": "project-source/tests/LaunchDesk.Next.ArchitectureTests/AddinTests.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../tests/LaunchDesk.Next.ArchitectureTests/ArchitectureTests.cs",
+      "output": {
+        "resource": {
+          "relative_path": "project-source/tests/LaunchDesk.Next.ArchitectureTests/ArchitectureTests.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../tests/LaunchDesk.Next.UnitTests/Launch/ModelExecutionTests.cs",
+      "output": {
+        "resource": {
+          "relative_path": "project-source/tests/LaunchDesk.Next.UnitTests/Launch/ModelExecutionTests.cs"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../tools/docs/capture.json",
+      "output": {
+        "resource": {
+          "relative_path": "project-source/tools/docs/capture.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../tools/docs/export_type.py",
+      "output": {
+        "resource": {
+          "relative_path": "project-source/tools/docs/export_type.py"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../tools/docs/sync_theme.py",
+      "output": {
+        "resource": {
+          "relative_path": "project-source/tools/docs/sync_theme.py"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../tools/docs/verify_theme.py",
+      "output": {
+        "resource": {
+          "relative_path": "project-source/tools/docs/verify_theme.py"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../tools/portfolio/build.py",
+      "output": {
+        "resource": {
+          "relative_path": "project-source/tools/portfolio/build.py"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../tools/portfolio/capture-dom.js",
+      "output": {
+        "resource": {
+          "relative_path": "project-source/tools/portfolio/capture-dom.js"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../tools/portfolio/check_roundtrip.py",
+      "output": {
+        "resource": {
+          "relative_path": "project-source/tools/portfolio/check_roundtrip.py"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../tools/portfolio/export_css.py",
+      "output": {
+        "resource": {
+          "relative_path": "project-source/tools/portfolio/export_css.py"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../tools/portfolio/import_dom.py",
+      "output": {
+        "resource": {
+          "relative_path": "project-source/tools/portfolio/import_dom.py"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "INDEX.md",
+      "output": {
+        ".html": {
+          "relative_path": "INDEX.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "decisions/architecture.md",
+      "output": {
+        ".html": {
+          "relative_path": "decisions/architecture.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "decisions/toml-selection.md",
+      "output": {
+        ".html": {
+          "relative_path": "decisions/toml-selection.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "dependencies.md",
+      "output": {
+        ".html": {
+          "relative_path": "dependencies.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "design/docfx-reading-theme.figcraft",
+      "output": {
+        "resource": {
+          "relative_path": "design/docfx-reading-theme.figcraft"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "design/docfx-reading-theme.md",
+      "output": {
+        ".html": {
+          "relative_path": "design/docfx-reading-theme.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "design/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "design/index.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "design/launch-workbench.figcraft",
+      "output": {
+        "resource": {
+          "relative_path": "design/launch-workbench.figcraft"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "design/previews/docfx-reading-theme.png",
+      "output": {
+        "resource": {
+          "relative_path": "design/previews/docfx-reading-theme.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "design/previews/remote-portable/connection.png",
+      "output": {
+        "resource": {
+          "relative_path": "design/previews/remote-portable/connection.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "design/previews/remote-portable/controls.png",
+      "output": {
+        "resource": {
+          "relative_path": "design/previews/remote-portable/controls.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "design/previews/remote-portable/drive.png",
+      "output": {
+        "resource": {
+          "relative_path": "design/previews/remote-portable/drive.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "design/previews/remote-portable/failures.png",
+      "output": {
+        "resource": {
+          "relative_path": "design/previews/remote-portable/failures.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "design/previews/remote-portable/grants.png",
+      "output": {
+        "resource": {
+          "relative_path": "design/previews/remote-portable/grants.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "design/previews/remote-portable/import.png",
+      "output": {
+        "resource": {
+          "relative_path": "design/previews/remote-portable/import.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "design/previews/remote-portable/revoke.png",
+      "output": {
+        "resource": {
+          "relative_path": "design/previews/remote-portable/revoke.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "design/previews/remote-portable/update-impact.png",
+      "output": {
+        "resource": {
+          "relative_path": "design/previews/remote-portable/update-impact.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "design/previews/states.png",
+      "output": {
+        "resource": {
+          "relative_path": "design/previews/states.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "design/previews/workbench.png",
+      "output": {
+        "resource": {
+          "relative_path": "design/previews/workbench.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "design/remote-portable-review.figcraft",
+      "output": {
+        "resource": {
+          "relative_path": "design/remote-portable-review.figcraft"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "design/remote-portable-review.md",
+      "output": {
+        ".html": {
+          "relative_path": "design/remote-portable-review.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "development/INDEX.md",
+      "output": {
+        ".html": {
+          "relative_path": "development/INDEX.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "development/addins.md",
+      "output": {
+        ".html": {
+          "relative_path": "development/addins.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "development/model-driven-review.md",
+      "output": {
+        ".html": {
+          "relative_path": "development/model-driven-review.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "development/original-deploy-diagnostic.md",
+      "output": {
+        ".html": {
+          "relative_path": "development/original-deploy-diagnostic.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "development/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "development/toc.html"
+        },
+        ".json": {
+          "relative_path": "development/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "features/launch-by-profile.md",
+      "output": {
+        ".html": {
+          "relative_path": "features/launch-by-profile.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "manuals/demo.md",
+      "output": {
+        ".html": {
+          "relative_path": "manuals/demo.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "manuals/developer.md",
+      "output": {
+        ".html": {
+          "relative_path": "manuals/developer.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "manuals/user.md",
+      "output": {
+        ".html": {
+          "relative_path": "manuals/user.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "openspec.md",
+      "output": {
+        ".html": {
+          "relative_path": "openspec.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "portfolio/README.md",
+      "output": {
+        ".html": {
+          "relative_path": "portfolio/README.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "portfolio/app.js",
+      "output": {
+        "resource": {
+          "relative_path": "portfolio/app.js"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "portfolio/compare.html",
+      "output": {
+        "resource": {
+          "relative_path": "portfolio/compare.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "portfolio/content.json",
+      "output": {
+        "resource": {
+          "relative_path": "portfolio/content.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "portfolio/design/architecture.png",
+      "output": {
+        "resource": {
+          "relative_path": "portfolio/design/architecture.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "portfolio/design/cover.png",
+      "output": {
+        "resource": {
+          "relative_path": "portfolio/design/cover.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "portfolio/design/css-map.json",
+      "output": {
+        "resource": {
+          "relative_path": "portfolio/design/css-map.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "portfolio/design/frame-map.json",
+      "output": {
+        "resource": {
+          "relative_path": "portfolio/design/frame-map.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "portfolio/design/launchdesk-portfolio.figcraft",
+      "output": {
+        "resource": {
+          "relative_path": "portfolio/design/launchdesk-portfolio.figcraft"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "portfolio/figcraft.css",
+      "output": {
+        "resource": {
+          "relative_path": "portfolio/figcraft.css"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "portfolio/index.html",
+      "output": {
+        "resource": {
+          "relative_path": "portfolio/index.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "portfolio/style.css",
+      "output": {
+        "resource": {
+          "relative_path": "portfolio/style.css"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "portfolio/tokens.css",
+      "output": {
+        "resource": {
+          "relative_path": "portfolio/tokens.css"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "reviews/examples/portable-profile.toml",
+      "output": {
+        "resource": {
+          "relative_path": "reviews/examples/portable-profile.toml"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "reviews/licence-checkout.md",
+      "output": {
+        ".html": {
+          "relative_path": "reviews/licence-checkout.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "reviews/remote-portable.md",
+      "output": {
+        ".html": {
+          "relative_path": "reviews/remote-portable.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "reviews/remote-project-lab-results.md",
+      "output": {
+        ".html": {
+          "relative_path": "reviews/remote-project-lab-results.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "reviews/remote-project-lab.md",
+      "output": {
+        ".html": {
+          "relative_path": "reviews/remote-project-lab.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "specifications/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "specifications/index.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "status.md",
+      "output": {
+        ".html": {
+          "relative_path": "status.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "template/README.md",
+      "output": {
+        ".html": {
+          "relative_path": "template/README.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html"
+        },
+        ".json": {
+          "relative_path": "toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "verification.md",
+      "output": {
+        ".html": {
+          "relative_path": "verification.html"
+        }
+      },
+      "version": ""
+    }
+  ],
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}

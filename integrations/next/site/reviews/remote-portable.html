@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html data-reading-revision="f5a8b6840d71" lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+      <title>远程工程：连接、授权与配置迁移 | LaunchDesk.Next </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="远程工程：连接、授权与配置迁移 | LaunchDesk.Next ">
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/theme-tokens.css?v=f5a8b6840d71">
+      <link rel="stylesheet" href="../public/main.css?v=f5a8b6840d71">
+      <link rel="stylesheet" href="../public/theme-type.css?v=f5a8b6840d71">
+      <script type="module" src="../public/reading.js?v=f5a8b6840d71"></script>
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="../toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="本页目录">
+      <meta name="loc:searchResultsCount" content="“{query}”的结果：{count}条">
+      <meta name="loc:searchNoResults" content="没有找到“{query}”">
+      <meta name="loc:tocFilter" content="筛选文件标题">
+      <meta name="loc:nextArticle" content="下一篇">
+      <meta name="loc:prevArticle" content="上一篇">
+      <meta name="loc:themeLight" content="浅色">
+      <meta name="loc:themeDark" content="深色">
+      <meta name="loc:themeAuto" content="跟随系统">
+      <meta name="loc:changeTheme" content="切换明暗">
+      <meta name="loc:copy" content="复制">
+      <meta name="loc:downloadPdf" content="下载PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <a class="ld-skip" href="#doc-content">跳到正文</a>
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../INDEX.html">
+            <span class="ld-monogram" aria-hidden="true">LD</span>
+            LaunchDesk.Next
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="展开导航与搜索">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div class="ld-links" aria-label="快捷入口"><a href="../INDEX.html">阅读文档</a><a href="../portfolio/index.html?revision=figcraft-roundtrip">项目作品集 ↗</a><a href="../status.html">交付状态</a></div>
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="搜索文档" autocomplete="off" aria-label="搜索文档">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">文件目录</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="关闭文件目录"></button>
+          </div>
+          <div class="offcanvas-body">
+            <div class="ld-toc-caption"><strong>文件与阅读路径</strong><span>LIBRARY</span></div>
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="打开文件目录">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article id="doc-content" tabindex="-1" data-uid="remote-portable-review">
+          <div class="ld-kicker">LAUNCHDESK.NEXT / ENGINEERING LIBRARY</div>
+          <div class="ld-doc-meta"><span class="ld-state" data-state="proposed">状态见正文</span><span>文档核对 2026-10-29</span></div>
+<h1 id="远程工程连接授权与配置迁移">远程工程：连接、授权与配置迁移</h1>
+
+<p>2026-10-28。<strong>设计待实现；G0/G1实验环境已通过。</strong> 本页解释操作与方案，完整规则只维护在<a href="../openspec/changes/portable-profiles-and-credential-grants/specs/portable-profiles-and-credential-grants/spec.html">OpenSpec</a>，不另存一份长说明。</p>
+<p><a id="brd"></a></p>
+<h2 id="-为什么做brd">① 为什么做（BRD）</h2>
+<p><strong>工程连不上能找到原因，换电脑不用重填配置，密码由你在本机授权。</strong> 使用者少试错，管理员看清影响，维护者顺着脚本找到系统能力。目录可读、工程注册正确、数据库可用和许可签出成功分别验证，不互相替代。</p>
+<p><a id="prd"></a></p>
+<h2 id="-做到哪里prd">② 做到哪里（PRD）</h2>
+<p>已有本机应用与Project/Module发现、JSON保存、启动协调器、凭据基础和NLog快照。拟增加远程检查与手动连接、共享凭据授权、TOML迁移。<strong>本轮不改产品代码、不安装依赖、不实现WPF。</strong></p>
+<p>E3D3.1共用E3D2.1工程有效，不按应用版本改写Proj。现有应用发现查目录，未用注册表；AM按Marine识别。Windows共享账户与AVEVA登录账户分开。</p>
+<p><a id="usage"></a></p>
+<h2 id="-怎么操作frd">③ 怎么操作（FRD）</h2>
+<p>例子：宿主机E3D3.1启动APS/DESIGN，使用远程测试服务的E3D2.1目录：<code>\\192.168.244.10\AVEVAProjects\E3D2.1\AvevaPlantSample\APS000</code>。网络账户现为<code>ZHANGSH\ld_reader</code>，AVEVA账户SYSTEM、MDB为ALL。<strong>测试目录只有标记文件，没有真实AVEVA数据库。</strong></p>
+<ol>
+<li><strong>检查工程。</strong> 选APS，核对目录和init/evars，点“检查连接”。已有会话可读就继续；未配置或失败时显示原因，提供手动配置、重新检查、取消。</li>
+<li><strong>确认连接。</strong> 填服务器、共享、相对目录、网络账户及本机凭据。“仅保存草稿”不连接；“确认连接并检查”才调用Windows。默认UNC、不自动重连；确需P:才单独确认空闲盘符，绝不覆盖。</li>
+<li><strong>核对注册。</strong> 比较init/evars中APS的声明目录。冲突时改选正确来源；无法静态判断时展示来源，人工确认绑定路径、文件指纹与Revision，任一改变即失效。不改厂商初始化文件、不生成包装器，也不假定注入变量能覆盖原set。</li>
+<li><strong>授权登录。</strong> 选本机AVEVA凭据，预览工程、模块、账户与旧绑定，勾APS/DESIGN、APS/DRAFT；需跨工程再勾SEA/DESIGN。确认只改变所选项，不复制明文、不授权未来模块。网络凭据不混入此列表。</li>
+<li><strong>撤销或更新。</strong> 单项撤销只解除该项；更新/删除先展示全部受影响引用。撤销只影响未来启动，不能召回秘密或关闭已启动应用。</li>
+<li><strong>迁移。</strong> 预览后导出非秘密配置；导入检查格式、版本、路径与ID冲突，默认创建副本。允许仅导入配置，但受影响项均未绑定；本机另选凭据、确认授权、重新检查后才能启动。同名不自动匹配，未受影响项保持。</li>
+</ol>
+<p><a id="requirements"></a></p>
+<h2 id="-数据与规则srs">④ 数据与规则（SRS）</h2>
+<table>
+<thead>
+<tr>
+<th>数据</th>
+<th>内容与责任</th>
+<th>导出边界</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ProjectLocation / ConnectionDraft</td>
+<td>工程路径、初始化来源；服务器、共享、账户提示、模式、Revision</td>
+<td>参数可迁移，Windows会话不可迁移</td>
+</tr>
+<tr>
+<td>LoginProfile / CredentialSlot</td>
+<td>配置ID、应用/工程/模块/账户/MDB；所需凭据槽位与Kind</td>
+<td>可迁移；槽位不是授权</td>
+</tr>
+<tr>
+<td>LocalCredentialBinding / CredentialGrant</td>
+<td>本机秘密引用；精确ProfileId→BindingId及安全指纹</td>
+<td>只留本机，不随配置导入导出</td>
+</tr>
+<tr>
+<td>OperationResult / Record</td>
+<td>OperationId、Revision、状态、原生错误、时间、下一步</td>
+<td>脱敏记录，不含密码、令牌</td>
+</tr>
+</tbody>
+</table>
+<p>同Slot不等于同授权：仅勾选项改指向指定Binding；更新共享Binding才影响其全部引用。应用、工程路径、模块、账户或Kind改变则旧授权失效。应用授权不是抵御同用户恶意进程的独立安全边界。</p>
+<p>每次保存写新generation：<code>profiles.toml</code>与本机<code>bindings.local.json</code>齐备后切换<code>current.json</code>。读者固定同一代；单写者锁和Revision防过期覆盖。它不是文件、凭据库和SMB的跨系统事务，也不保证断电零丢失。导出按字段白名单，不能打包目录；导入校验禁止字段与引用，不能携带有效授权。</p>
+<p><a href="../decisions/toml-selection.html">Tomlyn 2.10.1</a>已批准，尚未安装实测。用语法树最小修改保留注释/格式；未知键或模式版本先只读/拒绝保存。JSON迁移先预览、备份并保留原文件，实施前仍用JSON。<a href="examples/portable-profile.toml">TOML示例</a>只有配置与槽位。</p>
+<p><a id="frontend"></a></p>
+<h2 id="-前端怎么接sdd">⑤ 前端怎么接（SDD）</h2>
+<p>先评审<a href="../design/remote-portable-review.html">FigCraft表单和状态</a>，再实现WPF。ViewModel校验与显示；普通输入信息类承载参数；后端协调器执行。属性setter不调用系统。</p>
+<pre><code class="lang-text">初始化：配置快照 + 本机凭据非秘密目录 → ViewModel显示
+编辑：校验字段 → 增加编辑版本，不连接
+点击检查：复制输入 → 冻结(OperationId, Revision) → 协调器.CheckProjectAccess
+确认连接：预览副作用 → 冻结输入 + 临时秘密句柄 → 协调器.ConnectProjectShare
+确认授权：所选ProfileId、凭据ID、Kind、预览版本 → 协调器.GrantLoginCredential
+确认导入：路径/冲突选择及预览版本 → 协调器.ImportProfiles → 新项显示未绑定
+返回：OperationId仍为当前且Revision未变才更新页面，否则丢弃旧回显
+取消/切页：取消等待；副作用操作仍按OperationId查询真实结果
+</code></pre>
+<p>WPF须显式模板，遵守图稿尺寸/字体/颜色；100%/125%/150%DPI实拍核对焦点、错误、不可用、换行与遮挡，不能以默认样式代替验收。本轮不改变现有UI。</p>
+<p><a id="backend"></a></p>
+<h2 id="-后端怎么做为什么sdd">⑥ 后端怎么做、为什么（SDD）</h2>
+<p>协调器显式调用具体C#脚本；脚本决定业务，后勤接口只接路径、账户、字节与秘密句柄，不认识APS/DESIGN。以下脚本拟放LoginLaunch/Scripts，<strong>尚未实现</strong>，不为每步再加接口或注册DSL。</p>
+<pre><code class="lang-text">CheckProjectAccess：校验路径边界/Revision → 先记录意图
+  → 同用户只读C# Worker检查目录 → 返回原生错误与ProbeResult
+  8秒总截止：终止自己的Worker；清理失败阻止启动；丢弃迟到结果
+ConnectProjectShare：校验确认范围/Kind/空闲盘符 → 记录意图
+  → IShareConnections/WNet，UNC盘符=null，默认不设置CONNECT_UPDATE_PROFILE
+  → 成功后再检查目录；超时/取消返回OutcomeUnknown，先查询、不自动重试
+GrantLoginCredential：锁内重读版本/指纹 → 意图记录 → 仅改勾选项 → 发布新代
+  同OperationId同内容返回原回执；内容不同拒绝
+ImportProfiles：限大小/严格解析与校验 → 预览确认 → 无本机绑定的新配置
+  → 意图记录成功才完整发布，失败保留旧代
+ExportProfiles：固定快照 → 白名单投影 → 确认目标 → 临时写入并替换
+  不改本机授权或current指针；失败保留旧目标
+启动：当前工程访问 → CheckProjectRegistration匹配/有效人工确认 → 许可检查
+  → 当前绑定和授权 → 临时取秘密 → CreateIntent成功 → 原有StartMonitor
+</code></pre>
+<p>只读检查可终止；连接却可能已改变Windows会话，取消不能宣称“未发生”。不自动断开其他连接、不换地址绕过1219、不改ACL或防火墙。网络断开不代表数据库损坏；创建结果不明时人工核验、不自动重试。<a href="https://learn.microsoft.com/en-us/windows/win32/api/winnetwk/nf-winnetwk-wnetaddconnection2w">WNet依据</a></p>
+<p>新增/更新秘密先写全新条目再提交引用；失败保留旧绑定，新孤立条目标记CleanupPending，只清理本次新增且无引用项。启动与撤销在同一锁下最后核对授权。创建前记录失败就停止；提交后日志失败则报告“已提交、证据待核验”，不能盲目重试。</p>
+<p>现有IJsonDocumentStore实施时改为格式中性的文档契约；IFileAccessProbe、IShareConnections及秘密/记录能力提供系统服务。序列化和OS包留在适配层，用ArchUnitNET检查边界。详细生命周期与故障场景以OpenSpec为准。</p>
+<p><a id="failures"></a></p>
+<h2 id="-失败后做什么sds">⑦ 失败后做什么（SDS）</h2>
+<table>
+<thead>
+<tr>
+<th>结果</th>
+<th>下一步与边界</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>未配置 / 路径不可用</td>
+<td>保留草稿，核对服务器、共享、目录；不据此判断密码错或数据库坏</td>
+</tr>
+<tr>
+<td>登录失败 / 权限拒绝</td>
+<td>分别核对账户与共享/NTFS权限；TCP445通不代表目录可读</td>
+</tr>
+<tr>
+<td>1219冲突 / 盘符占用</td>
+<td>查看已有会话或改选盘符；人工处理，不自动断开/覆盖</td>
+</tr>
+<tr>
+<td>检查超时 / 取消</td>
+<td>阻止启动，清理只读Worker；清理未完明确提示</td>
+</tr>
+<tr>
+<td>连接结果未知</td>
+<td>提示连接可能已发生，查询后决定，不自动重连</td>
+</tr>
+<tr>
+<td>注册冲突 / 无法确认</td>
+<td>核对初始化来源，确认当前路径、指纹、版本</td>
+</tr>
+<tr>
+<td>未绑定 / 未授权 / 版本冲突</td>
+<td>绑定授权或刷新预览，不取秘密启动</td>
+</tr>
+<tr>
+<td>解析失败 / 未知模式 / 禁止字段</td>
+<td>标出位置但不回显秘密，保留原文件</td>
+</tr>
+<tr>
+<td>写入或证据失败 / 待清理</td>
+<td>区分未提交与已提交，展示待核验项，不承诺跨系统回滚</td>
+</tr>
+</tbody>
+</table>
+<p><a id="verification"></a></p>
+<h2 id="-怎么验收sds">⑧ 怎么验收（SDS）</h2>
+<p><strong>已完成G0/G1：</strong> VMware Host-only、专用账户、假工程目录，10项真实SMB检查通过；两份快照保留，原VMX克隆重写例外仍公开。<a class="xref" href="remote-project-lab-results.html">实际结果</a>列出证据与边界。</p>
+<p><strong>待完成G2–G5：</strong> 产品连接/取消/1219/断网/盘符、授权竞争、导入导出与TOML注释往返、FigCraft到WPF截图、真实AVEVA工程和许可。分规则测试、VM系统测试、厂商工程测试三层，保存List<record>与脱敏日志；现有99项产品测试不与10项OS检查混算。127.*仅可本机冒烟，不等于远程/匿名，不放宽Guest或签名策略。</record></p>
+<p><strong>许可在哪里？</strong> 宿主机有E3D客户端；测试VM发现Licensing System 4.1，未发现E3D客户端。服务运行不等于许可签出；恢复原生启动模式后已进入Model并归还许可，开发对照见<a href="licence-checkout.html">维护记录</a>。SMB实验无需先装E3D，真实数据库/锁/登录必须另验。</p>
+<p>入口：<a href="remote-project-lab.html#acceptance">VM手册与验收顺序</a>、<a href="../openspec/requirements.html">逐条需求</a>、<a href="../openspec/changes/portable-profiles-and-credential-grants/tasks.html">任务与批准状态</a>。</p>
+
+</article>
+
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span class="ld-footer-word">LAUNCHDESK.NEXT / KNOWLEDGE SYSTEM</span><span class="ld-footer-note">功能事实 · 源码路径 · 验证证据　/　DocFX</span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

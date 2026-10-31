@@ -1,0 +1,114 @@
+{
+  "summary": "已只读审阅 inputs/PRODUCT-BRIEF.md、inputs/review-contract.json 和 inputs/class-contracts.json，并独立核对提案及 A2 决策。发现 1 项 blocking、4 项 major，涉及恢复资料保护、重复执行、密码输入生命周期、许可证据绑定及提交结果核验。以下均为契约层问题及未来验收要求，不代表已验证应用行为；未修改文件、联网、启动代理或读取输入目录外的业务资料。",
+  "findings": [
+    {
+      "id": "F01",
+      "severity": "major",
+      "title": "受理去重尚未形成跨进程的唯一执行准入协议",
+      "evidence": "OperationCoordinator.SubmitAsync(OperationRequest request, CancellationToken ct) 要求同 ID 同摘要返回原操作；JsonRunJournal.AcceptAsync(OperationRequestSnapshot request, CancellationToken ct) 对新受理和重复受理均返回 RunSnapshot，未定义可区分的受理结果或唯一派发权。OperationExecutionContext 仅声明每操作一个写入者，JsonRunJournal.ReadAsync 却引用未定义取得、持有和失效规则的执行租约。两个 EXE 同时获得同一 Accepted 快照时，契约没有规定哪一步原子决定唯一执行者。AppendAsync 的序号比较和部署目标锁不能自行等同于操作执行权，尤其 Launch 没有目标写入锁。",
+      "affectedTypes": [
+        "OperationCoordinator",
+        "JsonRunJournal",
+        "IRunJournal",
+        "OperationExecutionContext",
+        "LaunchOperationHandler"
+      ],
+      "requirementIds": [
+        "R07",
+        "R09",
+        "R10",
+        "R12"
+      ],
+      "fix": "明确跨进程执行准入协议，例如原子取得 Accepted 到 Executing 的唯一转换权，并绑定执行者身份；只有取得权利的一方可创建执行作用域。重复提交只能查询，不能再次派发。执行者退出后进入待核验，不能仅因租约失效自动重放；明确受理完成但尚未取得执行权时的崩溃处理。",
+      "acceptanceCheck": "未来以两个 Desktop 进程并发提交相同 OperationId 和摘要，在受理返回、执行准入、启动意图落盘及进程创建后分别设置故障点；验证最多发生一次进程创建，重复请求返回同一操作，重启不会自动再次执行。同 ID 不同摘要必须拒绝。"
+    },
+    {
+      "id": "F02",
+      "severity": "blocking",
+      "title": "部署目标未明确排除工作区和恢复资料所在范围",
+      "evidence": "基线 DeploymentPlanner.PreviewAsync(DeployRequest request, CancellationToken ct) 提到检查“目标与记录根”，但提案没有给出重叠时的拒绝规则。提案 FileDeliveryPort.ApplyAsync(OperationId operationId, ConfirmedPlan plan, TargetLease lease, CancellationToken ct) 校验路径身份、租约及目标基线，却没有禁止写入当前配置、操作日志、回执、备份、迁移副本或私有暂存。即使归档路径没有穿越，用户仍可把这些目录或其祖先选为合法目标。部署锁也未与配置和日志写入者建立互斥关系，因此部署可能覆盖自己的恢复证据。",
+      "affectedTypes": [
+        "DeploymentPlanner",
+        "FileDeliveryPort",
+        "PrivateStagingStore",
+        "CanonicalTargetLeaseProvider",
+        "PrivilegedWorkerHost"
+      ],
+      "requirementIds": [
+        "R09",
+        "R12"
+      ],
+      "fix": "定义受保护的控制数据范围，禁止部署变更覆盖这些范围或通过祖先目录操作影响它们。使用规范路径、文件身份及目录重叠规则判断；预览和实际写入者均须校验，worker 独立执行同一限制。备份与回执存储位置也必须避开本次变更范围。",
+      "acceptanceCheck": "未来分别将目标指向配置目录、当前操作回执、备份目录、暂存目录及其祖先，并加入可支持的路径别名；普通与提权执行均须在目标写入前拒绝。验证原配置、日志、暂存及备份内容保持完整，仍能用于中断核验。"
+    },
+    {
+      "id": "F03",
+      "severity": "major",
+      "title": "密码框失焦即清空会破坏正常保存和显隐操作",
+      "evidence": "PasswordEntryBehavior.HideAndClear() 明确在离焦时清空本次输入，而 DetachInput() 才负责向 ProfileEditorViewModel.SaveAsync(SecretUpdate secretChange, CancellationToken ct) 移交秘密。WPF 中点击可聚焦的保存按钮或按 Tab 移动焦点，可以先触发密码框失焦，再执行保存命令；此时待移交输入已被清空。显隐按钮若取得焦点，也存在相同问题。契约没有规定先移交再清理的事件顺序。基线只要求离焦隐藏，提案将其扩大为销毁输入。",
+      "affectedTypes": [
+        "PasswordEntryBehavior",
+        "ProfileEditorViewModel"
+      ],
+      "requirementIds": [
+        "R04",
+        "R13"
+      ],
+      "fix": "区分隐藏明文显示与销毁输入：编辑页内部焦点移动只隐藏并清理显示缓冲；保存时先明确取得 SecretUpdate 和秘密所有权，再清空控件。离页、取消及保存尝试结束时销毁剩余输入，避免把清空后的状态误解释为 Keep 或 Clear。",
+      "acceptanceCheck": "未来分别通过鼠标点击保存、Tab 后按 Enter、快捷键保存及点击显隐按钮操作本次输入；验证 Replace 移交的秘密与输入一致且仅移交一次。失焦后不可见明文，保存失败、取消和离页后临时输入按契约清理。"
+    },
+    {
+      "id": "F04",
+      "severity": "major",
+      "title": "启动使用的许可证据未明确绑定冻结的资源版本",
+      "evidence": "ResourceSupervisor.RequireFreshAsync(Guid resourceId, CancellationToken ct) 声称检查配置修订，但调用参数只有稳定资源 ID，没有启动请求期望的资源修订或冻结 ResourceDescriptor。LaunchOperationHandler.ExecuteAsync(OperationRequestSnapshot request, IOperationContext context, CancellationToken ct) 使用冻结启动配置，却未明确比较返回证据与该配置的许可端点。反例是受理启动后，同一 ResourceId 的端点由 A 改为 B：监测返回 B 的新鲜成功事实，而冻结启动环境仍指向 A。仅检查证据未过期以及匹配当前配置，不能证明它适用于这次启动。",
+      "affectedTypes": [
+        "IResourceMonitor",
+        "ResourceSupervisor",
+        "LaunchOperationHandler",
+        "ProbeSnapshot"
+      ],
+      "requirementIds": [
+        "R05",
+        "R06",
+        "R07"
+      ],
+      "fix": "让新鲜度请求携带冻结资源描述或明确的资源修订、端点摘要和机器身份；探测轮次、缓存及返回证据绑定同一身份。LaunchOperationHandler 在采用证据前核对其与冻结启动计划一致，版本不匹配时明确拒绝或针对冻结端点重新探测。",
+      "acceptanceCheck": "未来在启动受理与探测之间修改同一资源 ID 的端点，并令 A 不可达、B 可达；验证 B 的成功事实不能满足指向 A 的启动检查。并发探测不同修订以及旧轮次迟到完成时，也不得覆盖或串用证据。"
+    },
+    {
+      "id": "F05",
+      "severity": "major",
+      "title": "直接配置命令的提交结果未知缺少可调用的核验契约",
+      "evidence": "JsonWorkspaceStore.CommitAsync(WorkspaceChange change, Revision expected, CancellationToken ct) 只说明提交带唯一标识；WorkspaceCatalogService.SaveProfileAsync(...) 和 ConfigurationShareService.CommitAsync(...) 可返回 CommitIndeterminate，ProfileEditorViewModel.SaveAsync(...) 又要求保留提交标识供核验。但公开契约没有规定该标识如何传入或返回，也没有按标识查询提交结果的方法及记录保留规则。若未知提交后另一进程再次成功保存，ReadAsync 返回的当前快照不能可靠回答前一次提交是否发生。涉及新建、复制及凭据替换时，更不能仅凭当前字段相似推断结果。",
+      "affectedTypes": [
+        "JsonWorkspaceStore",
+        "IWorkspaceStore",
+        "WorkspaceCatalogService",
+        "ICatalogService",
+        "ConfigurationShareService",
+        "ProfileEditorViewModel"
+      ],
+      "requirementIds": [
+        "R03",
+        "R04",
+        "R11",
+        "R12"
+      ],
+      "fix": "为直接配置提交定义稳定 CommitId、请求摘要及结果核验入口，记录已提交修订和生成的实体 ID；未知错误须返回可核验标识。核验依据应跨后续提交和进程重启保留，同 ID 重试不得产生第二次配置变更。此机制可留在直接用例路径，无需把 CRUD 纳入操作协调器。",
+      "acceptanceCheck": "未来在配置替换成功但返回结果前注入故障，再由另一进程保存后续修订并重启；按原 CommitId 必须仍能确定原提交结果及生成的 ID。同 ID 重试不得重复新增、复制或创建凭据关联；结果尚未确定时不得清理候选凭据或显示未保存。"
+    }
+  ],
+  "inspectedRisks": [
+    "并发命令、重复提交、执行所有权及受理与副作用之间的崩溃窗口。",
+    "凭据替换、冻结请求引用和 SecretLease 生命周期；提案的保守保留策略已考虑无法证明无引用时不清理，本轮未将这一点重复列为缺陷。",
+    "绝对路径、上跳、UNC、ADS、链接、别名及父子范围；另发现合法目标与控制数据重叠的缺失边界。",
+    "受限权限、UAC 拒绝、worker 失联及实际写入者持锁；仅审阅协议，未验证 Windows 权限行为。",
+    "文件备份、回执完整前缀、恢复冲突，以及迁移旁路副本、共享提交锁和有效版本切换。",
+    "跨机导入白名单、待绑定状态及确认配置不执行外部副作用的边界。",
+    "启动交接、PID 复用、窗口与登录证据区别，以及停止观察和外部进程所有权。",
+    "UI 焦点与秘密移交、异步订阅释放、固定操作区、窗口尺寸和 DPI；FigCraft 图稿及尺寸范围仍缺失，不能判定视觉符合性。",
+    "许可端点并发修改、证据时效及冻结启动配置的一致性；策略阈值和产品交接证据仍需后续确定。",
+    "仅使用输入目录内三份资料及用户提供的提案、决策；未读取场景正文、旧源码或 LikeC4/OpenSpec，未运行实现或行为测试。"
+  ]
+}

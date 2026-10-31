@@ -1,0 +1,13 @@
+node_modules/
+apps/web/dist/
+.runtime/
+data/
+*.log
+apps/desktop/bin/
+apps/desktop/obj/
+
+apps/backend/bin/
+apps/backend/obj/
+
+artifacts/
+

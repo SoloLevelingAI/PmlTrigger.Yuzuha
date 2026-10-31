@@ -1,0 +1,7 @@
+{
+  "docs/portfolio/index.html": "340e6ff462953e7b637cf1ab9866e2de7a430f714d8a5b83fb282005a6575927",
+  "docs/portfolio/style.css": "735ed3c478028211909e6904159bf04700c5dad4690bad2698b56c07bb451474",
+  "docs/portfolio/tokens.css": "47fe84bc86c00a87cf99bb99065dea5b2899f17a2405a4a0f2ab4e68350ae59a",
+  "tools/portfolio/capture-dom.js": "395bd5559657b42d6ce25c384fbc2710dca00981a285cf37b05e28537ca1213d",
+  "artifacts/portfolio-roundtrip/dom-before.json": "6a7e6e3414caf1ccb7e85839627f41c3f85eb6dc93c032d84bafed9aaa9e611a"
+}

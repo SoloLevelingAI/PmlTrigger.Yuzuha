@@ -1,0 +1,18 @@
+[
+  {
+    "findingId": "F06",
+    "type": "post-model editorial alignment",
+    "target": "IOperationHandlerRegistry.Create",
+    "before": {
+      "behavior": "支持 Launch / Deploy / ApplyVariables / ImportConfiguration，每次返回带独立依赖作用域的租约。",
+      "errors": "UnsupportedOperationKind；禁止反射任意类型或动态加载 DLL。"
+    },
+    "after": {
+      "behavior": "使用组合根提供的工厂映射，支持 Launch、Deploy、ApplyVariables、MigrateConfiguration；每次返回独立作用域，不在协调模块引用具体业务实现。",
+      "errors": "UnsupportedOperationKind、HandlerUnavailable；重复映射在装配阶段拒绝。"
+    },
+    "sourceSha256": "1db413f2a9853beb667de98e20519f3381bb113dd7825f3245e7e1ee9bf47e13",
+    "modelRechecked": false,
+    "implementationApproved": false
+  }
+]

@@ -21,3 +21,5 @@ PMLUI/version.dat text eol=lf
 *.dll binary
 *.exe binary
 *.docx binary
+# Imported source/design provenance uses exact bytes across clone platforms.
+integrations/** -text

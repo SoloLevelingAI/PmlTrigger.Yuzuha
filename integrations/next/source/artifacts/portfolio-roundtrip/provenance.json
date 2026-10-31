@@ -1,0 +1,221 @@
+{
+  "date": "2026-10-30",
+  "referenceViewport": {
+    "width": 1600,
+    "height": 900
+  },
+  "stages": [
+    "observed HTML DOM + computed styles",
+    "editable native FigCraft import",
+    "FigCraft variable.export + native typography/geometry readback",
+    "generated CSS loaded by HTML",
+    "same-size screenshots + mapped-property checks"
+  ],
+  "nativeFrames": 8,
+  "nativeEditableLayers": 475,
+  "nativeColorVariables": 6,
+  "cssMappings": 11,
+  "checks": [
+    {
+      "slide": "vision",
+      "node": 7,
+      "selector": "#vision > div:nth-child(2) > header:nth-child(1) > h1:nth-child(2)",
+      "kind": "native-heading-css",
+      "fontFamily": false,
+      "fontWeight": false,
+      "fontSizeErrorPx": 0.0,
+      "lineHeightErrorPx": 1.4210854715202004e-14,
+      "letterSpacingErrorPx": 0.0
+    },
+    {
+      "slide": "vision",
+      "node": 16,
+      "selector": "#vision > div:nth-child(2) > div:nth-child(2) > div:nth-child(4)",
+      "kind": "native-cover-css",
+      "maxGeometryErrorPx": 0.010299999999972442
+    },
+    {
+      "slide": "vision",
+      "node": 21,
+      "selector": "#vision > div:nth-child(2) > div:nth-child(2) > div:nth-child(5)",
+      "kind": "native-cover-css",
+      "maxGeometryErrorPx": 0.010299999999972442
+    },
+    {
+      "slide": "vision",
+      "node": 26,
+      "selector": "#vision > div:nth-child(2) > div:nth-child(2) > div:nth-child(6)",
+      "kind": "native-cover-css",
+      "maxGeometryErrorPx": 0.010300000000000864
+    },
+    {
+      "slide": "experience",
+      "node": 56,
+      "selector": "#experience > div:nth-child(2) > header:nth-child(1) > h2:nth-child(2)",
+      "kind": "native-heading-css",
+      "fontFamily": false,
+      "fontWeight": false,
+      "fontSizeErrorPx": 0.0,
+      "lineHeightErrorPx": 0.0,
+      "letterSpacingErrorPx": 0.0
+    },
+    {
+      "slide": "model",
+      "node": 123,
+      "selector": "#model > div:nth-child(2) > header:nth-child(1) > h2:nth-child(2)",
+      "kind": "native-heading-css",
+      "fontFamily": false,
+      "fontWeight": false,
+      "fontSizeErrorPx": 0.0,
+      "lineHeightErrorPx": 0.0,
+      "letterSpacingErrorPx": 0.0
+    },
+    {
+      "slide": "execution",
+      "node": 184,
+      "selector": "#execution > div:nth-child(2) > header:nth-child(1) > h2:nth-child(2)",
+      "kind": "native-heading-css",
+      "fontFamily": false,
+      "fontWeight": false,
+      "fontSizeErrorPx": 0.0,
+      "lineHeightErrorPx": 0.0,
+      "letterSpacingErrorPx": 0.0
+    },
+    {
+      "slide": "composition",
+      "node": 251,
+      "selector": "#composition > div:nth-child(2) > header:nth-child(1) > h2:nth-child(2)",
+      "kind": "native-heading-css",
+      "fontFamily": false,
+      "fontWeight": false,
+      "fontSizeErrorPx": 0.0,
+      "lineHeightErrorPx": 0.0,
+      "letterSpacingErrorPx": 0.0
+    },
+    {
+      "slide": "maintenance",
+      "node": 313,
+      "selector": "#maintenance > div:nth-child(2) > header:nth-child(1) > h2:nth-child(2)",
+      "kind": "native-heading-css",
+      "fontFamily": false,
+      "fontWeight": false,
+      "fontSizeErrorPx": 0.0,
+      "lineHeightErrorPx": 0.0,
+      "letterSpacingErrorPx": 0.0
+    },
+    {
+      "slide": "evidence",
+      "node": 371,
+      "selector": "#evidence > div:nth-child(2) > header:nth-child(1) > h2:nth-child(2)",
+      "kind": "native-heading-css",
+      "fontFamily": false,
+      "fontWeight": false,
+      "fontSizeErrorPx": 0.0,
+      "lineHeightErrorPx": 0.0,
+      "letterSpacingErrorPx": 0.0
+    },
+    {
+      "slide": "delivery",
+      "node": 424,
+      "selector": "#delivery > div:nth-child(2) > header:nth-child(1) > h2:nth-child(2)",
+      "kind": "native-heading-css",
+      "fontFamily": false,
+      "fontWeight": false,
+      "fontSizeErrorPx": 0.0,
+      "lineHeightErrorPx": 0.0,
+      "letterSpacingErrorPx": 0.0
+    }
+  ],
+  "imageDiagnostics": [
+    {
+      "slide": "vision",
+      "rgbMeanAbsoluteError0To255": 4.2939,
+      "note": "Not a visual similarity percentage. Browser JPEG, native PNG, font rasterization and text runs differ."
+    },
+    {
+      "slide": "experience",
+      "rgbMeanAbsoluteError0To255": 3.3847,
+      "note": "Not a visual similarity percentage. Browser JPEG, native PNG, font rasterization and text runs differ."
+    },
+    {
+      "slide": "model",
+      "rgbMeanAbsoluteError0To255": 4.2658,
+      "note": "Not a visual similarity percentage. Browser JPEG, native PNG, font rasterization and text runs differ."
+    },
+    {
+      "slide": "execution",
+      "rgbMeanAbsoluteError0To255": 3.2137,
+      "note": "Not a visual similarity percentage. Browser JPEG, native PNG, font rasterization and text runs differ."
+    },
+    {
+      "slide": "composition",
+      "rgbMeanAbsoluteError0To255": 3.975,
+      "note": "Not a visual similarity percentage. Browser JPEG, native PNG, font rasterization and text runs differ."
+    },
+    {
+      "slide": "maintenance",
+      "rgbMeanAbsoluteError0To255": 4.0367,
+      "note": "Not a visual similarity percentage. Browser JPEG, native PNG, font rasterization and text runs differ."
+    },
+    {
+      "slide": "evidence",
+      "rgbMeanAbsoluteError0To255": 4.5917,
+      "note": "Not a visual similarity percentage. Browser JPEG, native PNG, font rasterization and text runs differ."
+    },
+    {
+      "slide": "delivery",
+      "rgbMeanAbsoluteError0To255": 3.797,
+      "note": "Not a visual similarity percentage. Browser JPEG, native PNG, font rasterization and text runs differ."
+    }
+  ],
+  "limits": [
+    "Not an arbitrary CSS/DOM lossless converter.",
+    "Responsive grids and behavior remain authored HTML/CSS.",
+    "No pixel-perfect equivalence claim; native/control/font rasterization differences remain."
+  ],
+  "productCodeChanged": false,
+  "vmStarted": false,
+  "dependenciesInstalled": false,
+  "sha256": {
+    "docs/portfolio/index.html": "b90a5383a7d483aed10973fbd35b40e52c0ea62c49cdfde531b0420afb6ddfb4",
+    "docs/portfolio/style.css": "735ed3c478028211909e6904159bf04700c5dad4690bad2698b56c07bb451474",
+    "docs/portfolio/tokens.css": "00effa93daa169d87491c18854502a0f913abeb8a7aeb6dd2654d1d6c00c4812",
+    "docs/portfolio/figcraft.css": "5f2237c274f2351284708e987ef6cce64264183aef03c6235f42a47d340d6d90",
+    "docs/portfolio/design/launchdesk-portfolio.figcraft": "f3879f004071af79d09772784761ddc3510346cb35aa13cd15c8d057f7baa0c4",
+    "docs/portfolio/design/css-map.json": "611b6c73096c54aecd5ba54ee727d9c5c2d2f0a1dd084f2970640b335561582c",
+    "artifacts/portfolio-roundtrip/dom-before.json": "6a7e6e3414caf1ccb7e85839627f41c3f85eb6dc93c032d84bafed9aaa9e611a",
+    "artifacts/portfolio-roundtrip/dom-after.json": "8ce530e8590b26816c9046cf9aae4d3d2b6177cd91990576a371040edd70cc4d",
+    "artifacts/portfolio-roundtrip/imported-native.json": "598170e1052887fc8aba2926dd9f8ea1853475fac5b99aa0beb8c52478bdb380",
+    "artifacts/portfolio-roundtrip/native-css.jsonl": "9a6d5e103c7d5570e5263f28fb0efcdc3c524be0244071832ff114ab50573a77",
+    "tools/portfolio/capture-dom.js": "395bd5559657b42d6ce25c384fbc2710dca00981a285cf37b05e28537ca1213d",
+    "tools/portfolio/import_dom.py": "a63b0c819a53c3fe07781f9266273495db258887ac4850e82d8b057605ac53a2",
+    "tools/portfolio/export_css.py": "6d16b5f81fd39e7870f60deb73e4de96a944de8dc6acda245512fc3c40b557d6",
+    "artifacts/portfolio-roundtrip/html-after-composition.jpg": "d19dd981c1e3f0c0d5e79715b49399aaa109c5a695400784fdf3a63a02a62b9a",
+    "artifacts/portfolio-roundtrip/html-after-delivery.jpg": "2f3e83a2d9b33d5b2a94cd3977fe7b9a858c3127af3c65cf23d679c231b0d05a",
+    "artifacts/portfolio-roundtrip/html-after-evidence.jpg": "3555523ad375a0f10e4823bbeec8c20c526c71c571405f209ef6de01fced4470",
+    "artifacts/portfolio-roundtrip/html-after-execution.jpg": "80d2320fc54cbe8f0d8d87e7844541ad7925c846fcfeed874240d4a597dd582f",
+    "artifacts/portfolio-roundtrip/html-after-experience.jpg": "eefe4791ec2d78472d8dc0a13abf221704a00625c4420985fa078d1c3e2ed47b",
+    "artifacts/portfolio-roundtrip/html-after-maintenance.jpg": "23d88b50a502fed04f183f5927dcf38e76b98d740384fcbd12bd8924ddb2e18c",
+    "artifacts/portfolio-roundtrip/html-after-model.jpg": "dca3610feb43c831946b5d020adc0e00a175973e5007a3f0a7b54c6001e2ea91",
+    "artifacts/portfolio-roundtrip/html-after-vision.jpg": "29db677597b128dfb5162830bee15ace116422b6d86fbc69b362302598dfb804",
+    "artifacts/portfolio-roundtrip/html-before-composition.jpg": "30fc94d9ead9b14440c4aa1ea25b57a0455e564df985820c7bedcf0650ca33d5",
+    "artifacts/portfolio-roundtrip/html-before-delivery.jpg": "78493c219c4e0b6a3a87602029eb4b7df2c935dd3529f0e66dbbf8860fa7d88d",
+    "artifacts/portfolio-roundtrip/html-before-evidence.jpg": "1ad614fb881587e01bd7f9620ce3ed3d1844b498a8558cf0b80bac1a3a8a136f",
+    "artifacts/portfolio-roundtrip/html-before-execution.jpg": "ee5ae22c57d727bb616e1377ea59b34b6a0bea7b103df3ee2dbafe52d4e3da16",
+    "artifacts/portfolio-roundtrip/html-before-experience.jpg": "4d648916f28d09f6c1f1f4606fa638d42fe79d1e9d66321535bc34d720c3957d",
+    "artifacts/portfolio-roundtrip/html-before-maintenance.jpg": "d5249715fe4720a480c1efd3abdc0c9c553efae65b53b1ec68580398c034eb89",
+    "artifacts/portfolio-roundtrip/html-before-model.jpg": "7f14eb3103d012077c44bb8865486b77278ae213dc4b924aae61344c9ca9d8ca",
+    "artifacts/portfolio-roundtrip/html-before-vision.jpg": "fe55c3f88557de46332602955cabe202c8c0fc3ffa1ba82451d0b5e9a8f74641",
+    "artifacts/portfolio-roundtrip/figcraft-composition.png": "42065618da530c1fe4844b35f9e97915ff918659eccbe53a4ab0e93f64839354",
+    "artifacts/portfolio-roundtrip/figcraft-delivery.png": "c1632d791d6db5b35444d7bfbad4947579819b02afd1d41d471c5c3e7729e37d",
+    "artifacts/portfolio-roundtrip/figcraft-evidence.png": "e4374bd68d2f62f39140fd40f32965f9003cc3f454abf2fb3a9e771fc7cb5fcf",
+    "artifacts/portfolio-roundtrip/figcraft-execution.png": "8bfc21143c5593406e2bfd27dbf9da646bd4dd28e5e988461313eeacf51918cc",
+    "artifacts/portfolio-roundtrip/figcraft-experience.png": "27b56177a5e340b83a319f9eb77a843ec8ed50df7322b3f8545ffee0985756b8",
+    "artifacts/portfolio-roundtrip/figcraft-maintenance.png": "f2af7c263e17ab9b2169a7044232cb2ad4ec7a5615ae1b63130405a3bc8e8cf2",
+    "artifacts/portfolio-roundtrip/figcraft-model.png": "ae3913e312e2bb936ca011ea03c84cf931ae0f281467f5fde615383ce05f13b4",
+    "artifacts/portfolio-roundtrip/figcraft-vision.png": "2e242c775d03245c9e02b9152315db31b0307c1d82a8daecb5ae4cd8c0c015bb",
+    "artifacts/portfolio-roundtrip/html-input-index.html": "340e6ff462953e7b637cf1ab9866e2de7a430f714d8a5b83fb282005a6575927",
+    "artifacts/portfolio-roundtrip/html-input-style.css": "735ed3c478028211909e6904159bf04700c5dad4690bad2698b56c07bb451474",
+    "artifacts/portfolio-roundtrip/html-input-tokens.css": "47fe84bc86c00a87cf99bb99065dea5b2899f17a2405a4a0f2ab4e68350ae59a"
+  }
+}

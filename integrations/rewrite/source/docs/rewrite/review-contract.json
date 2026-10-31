@@ -1,0 +1,347 @@
+{
+  "candidate": "archon",
+  "stage": "architecture-review",
+  "implementationApproved": false,
+  "baseline": "3ffd63515aa6d6c043303d3c3319fb5e66877558",
+  "modelKind": "proposed-logical-dependencies",
+  "components": [
+    {
+      "id": "kernel",
+      "role": "core",
+      "dependsOn": []
+    },
+    {
+      "id": "contracts",
+      "role": "contracts",
+      "dependsOn": [
+        "kernel"
+      ]
+    },
+    {
+      "id": "catalog",
+      "role": "feature",
+      "dependsOn": [
+        "contracts",
+        "kernel"
+      ]
+    },
+    {
+      "id": "coordinator",
+      "role": "feature",
+      "dependsOn": [
+        "contracts",
+        "kernel"
+      ]
+    },
+    {
+      "id": "supervisor",
+      "role": "feature",
+      "dependsOn": [
+        "contracts",
+        "kernel"
+      ]
+    },
+    {
+      "id": "launch-handler",
+      "role": "feature",
+      "dependsOn": [
+        "contracts",
+        "kernel"
+      ]
+    },
+    {
+      "id": "delivery-handler",
+      "role": "feature",
+      "dependsOn": [
+        "contracts",
+        "kernel"
+      ]
+    },
+    {
+      "id": "storage",
+      "role": "infra",
+      "dependsOn": [
+        "contracts",
+        "kernel"
+      ]
+    },
+    {
+      "id": "platform",
+      "role": "infra",
+      "dependsOn": [
+        "contracts",
+        "kernel"
+      ]
+    },
+    {
+      "id": "desktop",
+      "role": "ui",
+      "dependsOn": [
+        "contracts"
+      ]
+    },
+    {
+      "id": "worker",
+      "role": "worker",
+      "dependsOn": [
+        "contracts",
+        "kernel",
+        "platform",
+        "delivery-handler"
+      ]
+    },
+    {
+      "id": "bootstrap",
+      "role": "composition",
+      "dependsOn": [
+        "desktop",
+        "catalog",
+        "coordinator",
+        "supervisor",
+        "launch-handler",
+        "delivery-handler",
+        "storage",
+        "platform",
+        "worker"
+      ]
+    },
+    {
+      "id": "devhost",
+      "role": "tooling",
+      "dependsOn": [
+        "bootstrap",
+        "contracts"
+      ]
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "AR01",
+      "requirements": [
+        "R01"
+      ],
+      "document": "docs/rewrite/SCENARIOS.md",
+      "heading": "AR01 没有开发服务的普通使用"
+    },
+    {
+      "id": "AR02",
+      "requirements": [
+        "R02"
+      ],
+      "document": "docs/rewrite/SCENARIOS.md",
+      "heading": "AR02 自定义程序与人工入口"
+    },
+    {
+      "id": "AR03",
+      "requirements": [
+        "R03"
+      ],
+      "document": "docs/rewrite/SCENARIOS.md",
+      "heading": "AR03 空白新增和独立复制"
+    },
+    {
+      "id": "AR04",
+      "requirements": [
+        "R04"
+      ],
+      "document": "docs/rewrite/SCENARIOS.md",
+      "heading": "AR04 密码的输入生命周期"
+    },
+    {
+      "id": "AR05",
+      "requirements": [
+        "R05"
+      ],
+      "document": "docs/rewrite/SCENARIOS.md",
+      "heading": "AR05 并行版本的环境隔离"
+    },
+    {
+      "id": "AR06",
+      "requirements": [
+        "R06"
+      ],
+      "document": "docs/rewrite/SCENARIOS.md",
+      "heading": "AR06 瞬时超时"
+    },
+    {
+      "id": "AR07",
+      "requirements": [
+        "R06"
+      ],
+      "document": "docs/rewrite/SCENARIOS.md",
+      "heading": "AR07 虚拟机存活但服务故障"
+    },
+    {
+      "id": "AR08",
+      "requirements": [
+        "R06"
+      ],
+      "document": "docs/rewrite/SCENARIOS.md",
+      "heading": "AR08 过期就绪证据"
+    },
+    {
+      "id": "AR09",
+      "requirements": [
+        "R07"
+      ],
+      "document": "docs/rewrite/SCENARIOS.md",
+      "heading": "AR09 进程入口交接"
+    },
+    {
+      "id": "AR10",
+      "requirements": [
+        "R07"
+      ],
+      "document": "docs/rewrite/SCENARIOS.md",
+      "heading": "AR10 窗口迟迟不出现"
+    },
+    {
+      "id": "AR11",
+      "requirements": [
+        "R07",
+        "R13"
+      ],
+      "document": "docs/rewrite/SCENARIOS.md",
+      "heading": "AR11 跨页面查看和关闭跟踪"
+    },
+    {
+      "id": "AR12",
+      "requirements": [
+        "R08"
+      ],
+      "document": "docs/rewrite/SCENARIOS.md",
+      "heading": "AR12 刷新最新与选择旧版"
+    },
+    {
+      "id": "AR13",
+      "requirements": [
+        "R08"
+      ],
+      "document": "docs/rewrite/SCENARIOS.md",
+      "heading": "AR13 目录与文件映射"
+    },
+    {
+      "id": "AR14",
+      "requirements": [
+        "R09"
+      ],
+      "document": "docs/rewrite/SCENARIOS.md",
+      "heading": "AR14 计划在确认后过期"
+    },
+    {
+      "id": "AR15",
+      "requirements": [
+        "R09"
+      ],
+      "document": "docs/rewrite/SCENARIOS.md",
+      "heading": "AR15 同目标竞争"
+    },
+    {
+      "id": "AR16",
+      "requirements": [
+        "R09"
+      ],
+      "document": "docs/rewrite/SCENARIOS.md",
+      "heading": "AR16 写入中断与重启"
+    },
+    {
+      "id": "AR17",
+      "requirements": [
+        "R09"
+      ],
+      "document": "docs/rewrite/SCENARIOS.md",
+      "heading": "AR17 回滚遇到外部修改"
+    },
+    {
+      "id": "AR18",
+      "requirements": [
+        "R10"
+      ],
+      "document": "docs/rewrite/SCENARIOS.md",
+      "heading": "AR18 只保存与持久应用"
+    },
+    {
+      "id": "AR19",
+      "requirements": [
+        "R11"
+      ],
+      "document": "docs/rewrite/SCENARIOS.md",
+      "heading": "AR19 外机分享与无副作用导入"
+    },
+    {
+      "id": "AR20",
+      "requirements": [
+        "R12"
+      ],
+      "document": "docs/rewrite/SCENARIOS.md",
+      "heading": "AR20 数据位置不可用"
+    },
+    {
+      "id": "AR21",
+      "requirements": [
+        "R12"
+      ],
+      "document": "docs/rewrite/SCENARIOS.md",
+      "heading": "AR21 从不同当前目录启动"
+    },
+    {
+      "id": "AR22",
+      "requirements": [
+        "R12"
+      ],
+      "document": "docs/rewrite/SCENARIOS.md",
+      "heading": "AR22 旧配置转换失败"
+    },
+    {
+      "id": "AR23",
+      "requirements": [
+        "R13"
+      ],
+      "document": "docs/rewrite/SCENARIOS.md",
+      "heading": "AR23 视觉与窗口缩放"
+    },
+    {
+      "id": "AR24",
+      "requirements": [
+        "R14"
+      ],
+      "document": "docs/rewrite/SCENARIOS.md",
+      "heading": "AR24 停止开发编排"
+    },
+    {
+      "id": "AR25",
+      "requirements": [
+        "R14"
+      ],
+      "document": "docs/rewrite/SCENARIOS.md",
+      "heading": "AR25 未来执行端离线"
+    },
+    {
+      "id": "AR26",
+      "requirements": [
+        "R09"
+      ],
+      "document": "docs/rewrite/SCENARIOS.md",
+      "heading": "AR26 取消管理员提示"
+    },
+    {
+      "id": "AR27",
+      "requirements": [
+        "R03",
+        "R11"
+      ],
+      "document": "docs/rewrite/SCENARIOS.md",
+      "heading": "AR27 导入后缺少本机路径"
+    }
+  ],
+  "reviewDocuments": [
+    "docs/rewrite/README.md",
+    "docs/rewrite/ARCHITECTURE.md",
+    "docs/rewrite/DECISIONS.md",
+    "docs/rewrite/SCENARIOS.md",
+    "docs/rewrite/TASKS.md",
+    "docs/rewrite/CLASS-DESIGN.md",
+    "docs/rewrite/CONTRACTS.md",
+    "docs/rewrite/CALL-FLOWS.md"
+  ]
+}

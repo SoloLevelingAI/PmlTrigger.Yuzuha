@@ -1,0 +1,14 @@
+{
+  "nativeSha256": "baaea5254901b78e937c3037b2524aaa6664de857e752482121c91b59fd58abe",
+  "nativeNode": 46,
+  "sourceSelector": "#使用手册按配置启动应用",
+  "targetSelector": "article h1",
+  "viewportScope": "min-width:768px",
+  "properties": {
+    "font-family": "\"Microsoft YaHei\"",
+    "font-weight": "700",
+    "line-height": "1.35",
+    "letter-spacing": "-1.2px"
+  },
+  "limits": "Palette and desktop heading properties are returned; DocFX layout/behavior remains in the actual template."
+}

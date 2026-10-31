@@ -1,0 +1,10 @@
+{
+  "adapter": "tools/portfolio/capture-dom.js",
+  "options": {
+    "kind": "docfx"
+  },
+  "referenceViewport": {
+    "width": 1600,
+    "height": 900
+  }
+}

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html data-reading-revision="f5a8b6840d71" lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+      <title>逐条需求台账 | LaunchDesk.Next </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="逐条需求台账 | LaunchDesk.Next ">
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/theme-tokens.css?v=f5a8b6840d71">
+      <link rel="stylesheet" href="../public/main.css?v=f5a8b6840d71">
+      <link rel="stylesheet" href="../public/theme-type.css?v=f5a8b6840d71">
+      <script type="module" src="../public/reading.js?v=f5a8b6840d71"></script>
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="../toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="本页目录">
+      <meta name="loc:searchResultsCount" content="“{query}”的结果：{count}条">
+      <meta name="loc:searchNoResults" content="没有找到“{query}”">
+      <meta name="loc:tocFilter" content="筛选文件标题">
+      <meta name="loc:nextArticle" content="下一篇">
+      <meta name="loc:prevArticle" content="上一篇">
+      <meta name="loc:themeLight" content="浅色">
+      <meta name="loc:themeDark" content="深色">
+      <meta name="loc:themeAuto" content="跟随系统">
+      <meta name="loc:changeTheme" content="切换明暗">
+      <meta name="loc:copy" content="复制">
+      <meta name="loc:downloadPdf" content="下载PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <a class="ld-skip" href="#doc-content">跳到正文</a>
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../INDEX.html">
+            <span class="ld-monogram" aria-hidden="true">LD</span>
+            LaunchDesk.Next
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="展开导航与搜索">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div class="ld-links" aria-label="快捷入口"><a href="../INDEX.html">阅读文档</a><a href="../portfolio/index.html?revision=figcraft-roundtrip">项目作品集 ↗</a><a href="../status.html">交付状态</a></div>
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="搜索文档" autocomplete="off" aria-label="搜索文档">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">文件目录</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="关闭文件目录"></button>
+          </div>
+          <div class="offcanvas-body">
+            <div class="ld-toc-caption"><strong>文件与阅读路径</strong><span>LIBRARY</span></div>
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="打开文件目录">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article id="doc-content" tabindex="-1" data-uid="">
+          <div class="ld-kicker">LAUNCHDESK.NEXT / ENGINEERING LIBRARY</div>
+          <div class="ld-doc-meta"></div>
+<h1 id="逐条需求台账">逐条需求台账</h1>
+
+<p>2026-10-28，直接来自用户的需求。每条以唯一ID追踪，正文和场景只维护在对应规格中；本页维护状态和入口。“已记录”不等于“已实现”，选型与系统操作另行评审。</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>用户诉求与判断</th>
+<th>当前状态</th>
+<th>唯一规格</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PM-01</td>
+<td>E3D3.1主动共用E3D2.1项目，保留配置，不按版本替换Proj路径</td>
+<td>已实现并通过验证</td>
+<td><a href="changes/project-module-discovery/specs/project-module-discovery/spec.html">发现规格</a></td>
+</tr>
+<tr>
+<td>PM-02</td>
+<td>从evars.bat、evars.init、launch.init及引用、下级目录查找Project</td>
+<td>已实现并通过验证</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>PM-03</td>
+<td>Module也要实际查找，并显示声明、启动分支或文件线索的来源</td>
+<td>已实现并通过验证</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>PM-04</td>
+<td>多候选和未知结果不乱选；预设可改，保留手动修改</td>
+<td>已实现并通过验证</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>PM-05</td>
+<td>明示AM/Marine、E3D、PDMS的发现来源和覆盖；注册表是否参与要如实说明</td>
+<td>已实现并通过验证；当前只查目录</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>RP-01</td>
+<td>远程Proj先检查配置与路径可访问性，不把连接问题说成数据库损坏</td>
+<td>方案已补齐，待评审/实现</td>
+<td><a href="changes/portable-profiles-and-credential-grants/specs/portable-profiles-and-credential-grants/spec.html">远程与持久化规格</a></td>
+</tr>
+<tr>
+<td>RP-02</td>
+<td>未配置连接时，软件给出手动连接配置、重新检查和取消入口</td>
+<td>方案已补齐，待评审/实现</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>RP-03</td>
+<td>连接检查失败或未配置时，阻止本次启动并保留配置，提示可操作原因</td>
+<td>方案已补齐，待评审/实现</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>PF-01</td>
+<td>前后端分离后，登录数据可持久化为TOML等可读格式</td>
+<td>用户已批准Tomlyn 2.10.1；明确暂不安装</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>PF-02</td>
+<td>登录项及关联关系可预览导出/导入，支持版本与路径修订</td>
+<td>方案已补齐，待评审/实现</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>CR-01</td>
+<td>密码只在本机凭据管理器，不随配置、日志、快照或导出迁移</td>
+<td>基础能力已有；导出边界方案待评审/实现</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>CR-02</td>
+<td>一个密码供同Proj多个Module使用，用共享引用，不复制密码到各项</td>
+<td>共享引用与授权图稿已设计；待评审/实现</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>CR-03</td>
+<td>弹列表预览，用户勾选后批量授权；允许显式跨Module、跨Proj</td>
+<td>方案已补齐，待评审/实现</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>CR-04</td>
+<td>从发现的Project/Module生成登录项，先预览修改，授权只作用于选中项</td>
+<td>方案已补齐，待评审/实现</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>CR-05</td>
+<td>可撤销单项授权；更新/删除凭据前能看见受影响登录项</td>
+<td>方案已补齐，待评审/实现</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>CR-06</td>
+<td>导入其他机器后先绑定本机凭据，不按同名自动授权</td>
+<td>方案已补齐，待评审/实现</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>CR-07</td>
+<td>说明Windows当前用户/本机边界；应用内授权不是独立操作系统安全边界</td>
+<td>边界已具体化，待评审/落实</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>VM-01</td>
+<td>无真实远程Proj案例时用隔离VM验证；通用连接和真实AVEVA分层验收</td>
+<td>G0/G1环境与10项OS检查通过；16项产品场景仍待实现后分层验证</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>VM-02</td>
+<td>采用VMware Host-only与专用账户，写清网络、SMB/NTFS配置、基线恢复及验收顺序</td>
+<td>G0/G1通过，配置前和Ready快照保留；原VMX哈希例外未掩盖，见<a class="xref" href="../reviews/remote-project-lab-results.html">实际记录</a></td>
+<td>同上</td>
+</tr>
+<tr>
+<td>LC-01</td>
+<td>分开说明E3D客户端、许可服务、许可文件和实际签出；不把端口通过当有效许可</td>
+<td>只读清单已核对；恢复主机名后AVEVA201签出/归还通过；现有厂商启动链已进入Model，未改许可密钥</td>
+<td><a href="changes/portable-profiles-and-credential-grants/specs/portable-profiles-and-credential-grants/spec.html">规格</a>、<a class="xref" href="../reviews/remote-project-lab-results.html#licence">证据</a></td>
+</tr>
+<tr>
+<td>UX-01</td>
+<td>新前端先使用FigCraft，交付可编辑图稿、操作状态和组件</td>
+<td>图稿与8张预览已交付，待评审</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>LC-02</td>
+<td>查清4546超时，区分RULES监听、RMS明细、防火墙来源与Clash TUN</td>
+<td>已查明：克隆改名使0008主机名绑定失配，RMS拒绝加载许可</td>
+<td><a class="xref" href="../reviews/licence-checkout.html">许可测试</a>及LC-02规格</td>
+</tr>
+<tr>
+<td>LC-03</td>
+<td>宿主机E3D连接测试VM，验证实际许可签出，保护原机与工作会话</td>
+<td>首次失败；恢复主机名后签出/归还通过，后续已定位实验器重定向模式并用原生启动进入Model；清理完成</td>
+<td><a class="xref" href="../reviews/licence-checkout.html">许可测试</a>及LC-03规格</td>
+</tr>
+<tr>
+<td>LC-04</td>
+<td>用厂商工具只读核对克隆身份与许可绑定，不猜改许可或时间，不影响原机</td>
+<td>已确认失配；后续按LC-05授权恢复名称，指纹重新匹配</td>
+<td><a class="xref" href="../reviews/licence-checkout.html">根因与证据</a>及LC-04规格</td>
+</tr>
+<tr>
+<td>LC-05</td>
+<td>先快照再恢复测试克隆主机名，保留隔离/账户/共享，复测4546与真实签出；不改许可或时间</td>
+<td>UID3保留；配置与10项SMB通过，4546及AVEVA201签出通过；应用FNF7，克隆关机</td>
+<td><a class="xref" href="../reviews/licence-checkout.html">过程与证据</a>及LC-05规格</td>
+</tr>
+<tr>
+<td>LC-06</td>
+<td>核对原工作目录、init、TEMP并用SYSTEM测试凭据复查FNF；不记录密码、保护实验环境</td>
+<td>A/B失败、C/D原生句柄启动成功；并非目录缺失，详见开发对照</td>
+<td><a class="xref" href="../reviews/licence-checkout.html">证据</a>及LC-06规格</td>
+</tr>
+<tr>
+<td>DV-01</td>
+<td>VM远程模拟作为隐藏开发功能，代码独立保留；仅开发机显式启用，产品初始化不加载，普通远程呈现不标VM</td>
+<td>dev/RemoteProjectLab已拆分；机器/用户绑定开关默认关闭，6项开关检查及48项架构测试通过</td>
+<td><a class="xref" href="../development/INDEX.html">开发索引</a>及DV-01规格</td>
+</tr>
+<tr>
+<td>DV-02</td>
+<td>本机开关仅控制脚手架，普通远程不依赖；八节索引列明每步源码、失败返回和图示，参考Yuzuha改进DocFX阅读主题</td>
+<td>调用链与图示已补齐；主题仅构建通过，视觉验收重开，见UX-03</td>
+<td><a class="xref" href="../development/INDEX.html">八节调用链</a>及DV-02规格</td>
+</tr>
+<tr>
+<td>MD-01</td>
+<td>前端双向编辑同一模型并保存文件；执行时持久化冻结快照，后端仅收快照提取参数与执行业务</td>
+<td>已实现LaunchModel/LaunchWorkspace；原UI不变，草稿版本冲突、快照与记录失败均阻止执行</td>
+<td><a class="xref" href="../development/model-driven-review.html">八节实现说明</a>及MD-01规格</td>
+</tr>
+<tr>
+<td>DV-03</td>
+<td>实验VM路径/预期身份、远程地址与许可服务参数可调，前端不承载实验业务；开关不随模型导入启用</td>
+<td>用户已确认双包；LabSettings可配置VM，LaunchModel统一许可参数，默认关闭；真实VM参数回归未执行</td>
+<td>同上及DV-03规格</td>
+</tr>
+<tr>
+<td>FM-01</td>
+<td>像CAF的Feature一样由宿主装配/移除，分包只隔离交付和依赖，不复制模型或后端事实</td>
+<td>WorkspaceHost为唯一login.launch装配入口；两包比较共用DLL哈希，具体CAF插件API适配未实施</td>
+<td><a class="xref" href="../development/INDEX.html">开发索引</a>及FM-01规格</td>
+</tr>
+<tr>
+<td>AD-01</td>
+<td>用TOML/XML Addin控制启用：代码存在而不加Addin，Feature仍不可见且不装配</td>
+<td>已采用无新依赖的XML清单，工厂与入口受清单约束；启动时装配，VM动作仍需本机授权；TOML解析适配/热卸载未实现</td>
+<td><a class="xref" href="../development/addins.html">八节说明</a>及AD-01规格</td>
+</tr>
+<tr>
+<td>DG-01</td>
+<td>查原LaunchDesk部署复制失败为何不显示原因；不猜测、不修改实际SeaGend和原程序</td>
+<td>已发现三份空Error；同包校验/隔离复制通过，历史底层原因因证据丢失仍未确定，原程序未修复</td>
+<td><a class="xref" href="../development/original-deploy-diagnostic.html">调查记录</a>及DG-01规格</td>
+</tr>
+<tr>
+<td>UX-04</td>
+<td>同时修改DocFX，与作品集使用统一风格；改善导航、阅读层级、代码、表格和图示，保留真实页面与样式来源</td>
+<td>新主题已实现；实际呈现与功能检查，视觉仍待评审</td>
+<td><a class="xref" href="../design/docfx-reading-theme.html">主题说明</a>、UX-04规格</td>
+</tr>
+<tr>
+<td>UX-03</td>
+<td>当前DocFX主题未获认可，重新对照Yuzuha完整导航和阅读层级评审，不以构建通过代替主题通过</td>
+<td>2026-10-31新主题已实现并检查，仍待用户视觉评审</td>
+<td>同上及UX-03规格</td>
+</tr>
+<tr>
+<td>DOC-03</td>
+<td>先从实际HTML导入FigCraft，再将原稿样式回写CSS；保留同尺寸截图、图层映射、哈希和限制，不能两份独立排版冒充一致</td>
+<td>8幕导入、6变量/11项回写验证及逐页对照已落地，待用户视觉评审</td>
+<td><a class="xref" href="../portfolio/README.html">证据对照</a>、规格DOC-03</td>
+</tr>
+<tr>
+<td>DOC-02</td>
+<td>FigCraft＋HTML八幕作品集，以项目经理视角解释技术、易用性、内部逻辑与维护性；同源叙事并保留已实现/拟议/历史边界</td>
+<td>八幕HTML与8张FigCraft画板已交付；交互/窄屏/链接校验通过，展示不操作产品或VM</td>
+<td><a class="xref" href="../portfolio/README.html">作品集</a>、远程与持久化规格DOC-02</td>
+</tr>
+<tr>
+<td>DOC-01</td>
+<td>统一已实现/拟议/历史及证据日期，以同一八股正文组织使用、开发、演示入口；评估相对原版的可理解性，不虚报提升数值</td>
+<td>文档入口与元信息已整理；理解成本未做计时实测</td>
+<td><a class="xref" href="../status.html">状态</a>、<a href="changes/portable-profiles-and-credential-grants/specs/portable-profiles-and-credential-grants/spec.html">规格</a></td>
+</tr>
+<tr>
+<td>UX-02</td>
+<td>防止WPF默认样式偏离设计；显式模板及三档DPI实际截图校验</td>
+<td>验收契约已写；尚未实施WPF</td>
+<td>同上</td>
+</tr>
+</tbody>
+</table>
+<p>当前文档核对基线78b8dc4（2026-10-29）：已包含模型执行、双包与XML Addin；本轮只整理文档，未重跑产品或VM。fee897f的99项发现回归为历史批次，不代表最新总覆盖。<a class="xref" href="../status.html">状态与证据边界</a>区分当前、拟议和历史。设计正文见<a class="xref" href="../reviews/remote-portable.html">八节评审稿</a>，库研究见<a class="xref" href="../decisions/toml-selection.html">TOML选型</a>，执行与批准状态见<a href="changes/portable-profiles-and-credential-grants/tasks.html">清单</a>。</p>
+
+</article>
+
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span class="ld-footer-word">LAUNCHDESK.NEXT / KNOWLEDGE SYSTEM</span><span class="ld-footer-note">功能事实 · 源码路径 · 验证证据　/　DocFX</span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

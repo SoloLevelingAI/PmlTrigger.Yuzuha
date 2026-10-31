@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html data-reading-revision="f5a8b6840d71" lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+      <title>从功能找到具体做法 | LaunchDesk.Next </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="从功能找到具体做法 | LaunchDesk.Next ">
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/theme-tokens.css?v=f5a8b6840d71">
+      <link rel="stylesheet" href="../public/main.css?v=f5a8b6840d71">
+      <link rel="stylesheet" href="../public/theme-type.css?v=f5a8b6840d71">
+      <script type="module" src="../public/reading.js?v=f5a8b6840d71"></script>
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="../toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="本页目录">
+      <meta name="loc:searchResultsCount" content="“{query}”的结果：{count}条">
+      <meta name="loc:searchNoResults" content="没有找到“{query}”">
+      <meta name="loc:tocFilter" content="筛选文件标题">
+      <meta name="loc:nextArticle" content="下一篇">
+      <meta name="loc:prevArticle" content="上一篇">
+      <meta name="loc:themeLight" content="浅色">
+      <meta name="loc:themeDark" content="深色">
+      <meta name="loc:themeAuto" content="跟随系统">
+      <meta name="loc:changeTheme" content="切换明暗">
+      <meta name="loc:copy" content="复制">
+      <meta name="loc:downloadPdf" content="下载PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <a class="ld-skip" href="#doc-content">跳到正文</a>
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../INDEX.html">
+            <span class="ld-monogram" aria-hidden="true">LD</span>
+            LaunchDesk.Next
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="展开导航与搜索">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div class="ld-links" aria-label="快捷入口"><a href="../INDEX.html">阅读文档</a><a href="../portfolio/index.html?revision=figcraft-roundtrip">项目作品集 ↗</a><a href="../status.html">交付状态</a></div>
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="搜索文档" autocomplete="off" aria-label="搜索文档">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">文件目录</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="关闭文件目录"></button>
+          </div>
+          <div class="offcanvas-body">
+            <div class="ld-toc-caption"><strong>文件与阅读路径</strong><span>LIBRARY</span></div>
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="打开文件目录">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article id="doc-content" tabindex="-1" data-uid="">
+          <div class="ld-kicker">LAUNCHDESK.NEXT / ENGINEERING LIBRARY</div>
+          <div class="ld-doc-meta"><span class="ld-state" data-state="implemented">状态见正文</span><span>文档核对 2026-10-29</span></div>
+<h1 id="从功能找到具体做法">从功能找到具体做法</h1>
+
+<p>先读协调器看顺序，再打开相应脚本看做法；后勤接口只描述系统能力。下面链接指向真实源码，DocFX构建时直接复制源文件，不维护第二份代码投影。</p>
+<table>
+<thead>
+<tr>
+<th>你要找什么</th>
+<th>具体源码</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>登录启动的完整顺序</td>
+<td><a href="../source/LaunchDesk.Next.Application/Features/LoginLaunch/LoginLaunchCoordinator.cs">LoginLaunchCoordinator</a></td>
+</tr>
+<tr>
+<td>Monitor的八个参数和初始化要求</td>
+<td><a href="../source/LaunchDesk.Next.Application/Features/LoginLaunch/Scripts/StartMonitor.cs">StartMonitor</a></td>
+</tr>
+<tr>
+<td>Marine批处理参数和限制</td>
+<td><a href="../source/LaunchDesk.Next.Application/Features/LoginLaunch/Scripts/StartMarineBatch.cs">StartMarineBatch</a></td>
+</tr>
+<tr>
+<td>无附加参数的直接启动</td>
+<td><a href="../source/LaunchDesk.Next.Application/Features/LoginLaunch/Scripts/StartDirect.cs">StartDirect</a></td>
+</tr>
+<tr>
+<td>AVEVA子进程环境</td>
+<td><a href="../source/LaunchDesk.Next.Application/Features/LoginLaunch/Scripts/AvevaProcessCommand.cs">AvevaProcessCommand</a></td>
+</tr>
+<tr>
+<td>到哪里找应用、怎样预填</td>
+<td><a href="../source/LaunchDesk.Next.Application/Features/LoginLaunch/Scripts/FindInstalledAveva.cs">FindInstalledAveva</a></td>
+</tr>
+<tr>
+<td>从初始化和子目录查Project/Module</td>
+<td><a href="../source/LaunchDesk.Next.Application/Features/LoginLaunch/Scripts/FindAvevaProjectsAndModules.cs">FindAvevaProjectsAndModules</a>、<a href="../source/LaunchDesk.Next.Application/Features/LoginLaunch/ProjectModules.cs">报告与限制</a></td>
+</tr>
+<tr>
+<td>RMS、RULES检查次序</td>
+<td><a href="../source/LaunchDesk.Next.Application/Features/LoginLaunch/Scripts/CheckAvevaLicence.cs">CheckAvevaLicence</a></td>
+</tr>
+<tr>
+<td>保存内容和版本一致性</td>
+<td><a href="../source/LaunchDesk.Next.Application/Features/LoginLaunch/Scripts/CheckSavedProfile.cs">CheckSavedProfile</a>、<a href="../source/LaunchDesk.Next.Application/Features/LoginLaunch/SavedProfiles.cs">SavedProfiles</a></td>
+</tr>
+<tr>
+<td>临时密码与凭据所有权</td>
+<td><a href="../source/LaunchDesk.Next.Application/Features/LoginLaunch/Scripts/ResolveLoginSecret.cs">ResolveLoginSecret</a></td>
+</tr>
+<tr>
+<td>启动后状态观察</td>
+<td><a href="../source/LaunchDesk.Next.Application/Features/LoginLaunch/Scripts/ObserveAvevaSession.cs">ObserveAvevaSession</a></td>
+</tr>
+<tr>
+<td>去重准入、记录字段和故障门槛</td>
+<td><a href="../source/LaunchDesk.Next.Application/Features/LoginLaunch/Execution/LaunchAdmission.cs">LaunchAdmission</a>、<a href="../source/LaunchDesk.Next.Application/Features/LoginLaunch/Execution/LaunchAttemptRecords.cs">LaunchAttemptRecords</a></td>
+</tr>
+<tr>
+<td>执行请求和返回值</td>
+<td><a href="../source/LaunchDesk.Next.Application/Features/LoginLaunch/LaunchInput.cs">LaunchInput</a></td>
+</tr>
+<tr>
+<td>功能对外API</td>
+<td><a href="../source/LaunchDesk.Next.Application/Features/LoginLaunch/ILaunchService.cs">ILaunchService</a>、<a href="../source/LaunchDesk.Next.Application/Features/LoginLaunch/Discovery.cs">Discovery</a></td>
+</tr>
+<tr>
+<td>通用进程命令与接口</td>
+<td><a href="../source/LaunchDesk.Next.Application/Infrastructure/Contracts/ProcessHost.cs">ProcessHost</a></td>
+</tr>
+<tr>
+<td>文件、TCP、服务、JSON、凭据及日志后勤接口</td>
+<td><a href="../source/LaunchDesk.Next.Application/Infrastructure/Contracts/SystemCapabilities.cs">SystemCapabilities</a></td>
+</tr>
+<tr>
+<td>前端显示与显式事件</td>
+<td><a href="../source/LaunchDesk.Next.Desktop/Features/Launch/LaunchViewModel.cs">LaunchViewModel</a>、<a href="../source/LaunchDesk.Next.Desktop/Features/Launch/LaunchInteraction.cs">LaunchInteraction</a></td>
+</tr>
+<tr>
+<td>同一输入模型与编辑/执行后端</td>
+<td><a href="../source/LaunchDesk.Next.Application/Features/LoginLaunch/LaunchModel.cs">LaunchModel</a>、<a href="../source/LaunchDesk.Next.Application/Features/LoginLaunch/LaunchWorkspace.cs">LaunchWorkspace</a></td>
+</tr>
+<tr>
+<td>唯一Feature装配与窗口入口</td>
+<td><a href="../source/LaunchDesk.Next.Bootstrap/WorkspaceHost.cs">WorkspaceHost</a>、<a href="../source/LaunchDesk.Next.Desktop/Bootstrap/CompositionRoot.cs">CompositionRoot</a></td>
+</tr>
+</tbody>
+</table>
+<p>Domain保存通用命令行与敏感字段规则；Application的Features保存具体功能，Infrastructure.Contracts保存中性能力；Platform实现Windows系统操作；Desktop显示和收集输入，仅Bootstrap装配Platform。Platform和后勤契约均不引用Features。</p>
+<p>ARC-01—06继续守卫层次、ViewModel、DTO、组合根和依赖方向；ARC-07守卫后勤不认识功能类型，生产检查和真实违规夹具使用相同规则。XAML、反射、运行副作用及美观度由其他验证覆盖。</p>
+<p>发现默认根、深度、文件上限和预设直接见FindInstalledAveva。独立数据目录的discovery.settings.json与命令行工具共享选项。扫描只读，不跟随目录连接；丢失目录、权限、上限与超时有诊断。单次被OS阻塞的枚举不能强制中止。</p>
+<p>依赖与许可的唯一索引见<a href="../dependencies.html">依赖清单</a>。</p>
+<p>产品与开发包复用WorkspaceHost及同一后端DLL；独立实验代码与包哈希见<a href="../development/INDEX.html">开发索引</a>。新Bootstrap层只装配Application与Platform，不放产品流程或VM逻辑。</p>
+
+</article>
+
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span class="ld-footer-word">LAUNCHDESK.NEXT / KNOWLEDGE SYSTEM</span><span class="ld-footer-note">功能事实 · 源码路径 · 验证证据　/　DocFX</span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

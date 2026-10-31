@@ -1,0 +1,68 @@
+{
+  "readyForHumanReview": true,
+  "summary": "已只读核对指定运行目录的四份资料及 inputs 原始类、需求和审阅契约，覆盖 R01–R14。F01–F05 的修订均有具体接口及协议依据，接受契约层解决；另有 1 项 minor 一致性问题，无剩余 blocking/major，可进入人工架构审阅。未修改文件、联网、启动代理或读取其他候选。未实施测试，本结论不证明应用行为已实现，也不构成实现授权。",
+  "checkedRequirementIds": [
+    "R01",
+    "R02",
+    "R03",
+    "R04",
+    "R05",
+    "R06",
+    "R07",
+    "R08",
+    "R09",
+    "R10",
+    "R11",
+    "R12",
+    "R13",
+    "R14"
+  ],
+  "verifiedResolutions": [
+    {
+      "findingId": "F01",
+      "accepted": true,
+      "evidence": "revised-contracts.json 的 OperationAcceptance 区分 Created/Existing；IRunJournal.TryBeginExecutionAsync(OperationAcceptance acceptance, CancellationToken ct) 要求在跨进程锁内消费一次性凭据并可靠记录 Executing，随后才返回 OperationExecutionLease。OperationCoordinator 取得租约后才创建处理器，AppendAsync 验证租约，取消使用独立持久入口；additionalRules 明确受理后崩溃、准入未知及执行者退出均不重新派发。补齐了原 contracts.json 仅凭受理快照无法决定唯一执行者的缺口。"
+    },
+    {
+      "findingId": "F02",
+      "accepted": true,
+      "evidence": "revised-contracts.json 的 IControlDataGuard、WindowsControlDataGuard 和 additionalRules 明确保护工作区整体、日志、回执、备份、暂存、迁移及提交历史，并按真实身份和祖先关系拒绝完整变更范围重叠。CanonicalTargetLeaseProvider 组合保护准入与目标互斥；FileDeliveryPort 在首项目标写入前重验，PrivilegedWorkerHost 独立读取可信登记，DesktopCompositionRoot 要求先登记再开放写入。新增控制根与活动部署范围也实行原子互斥，覆盖原发现的合法目标覆盖恢复资料问题。"
+    },
+    {
+      "findingId": "F03",
+      "accepted": true,
+      "evidence": "原 contracts.json 的 HideAndClear 在离焦时销毁输入；修订后的 PasswordEntryBehavior.HideDisplay() 只隐藏并清理显示缓冲，保留未移交输入。DetachInput() 先移交唯一所有权再清空；ProfileEditorViewModel.SaveAsync 明确 Dispatcher 命令顺序、输入代次、防重入和 finally 释放。普通移焦不再决定 Keep/Clear/Replace，契约已排除鼠标保存及显隐按钮先清空输入的反例。"
+    },
+    {
+      "findingId": "F04",
+      "accepted": true,
+      "evidence": "RequireFreshAsync(ResourceDescriptor expected, CancellationToken ct) 已替换仅接收 Guid 的契约。ResourceDescriptor、ProbeObservation、ProbeRound 和 ProbeSnapshot 传播资源修订、机器及描述摘要，缓存和轮次另绑定 PolicyVersion；探针不得读取当前配置替换参数。LaunchPlanBuilder 从同一冻结绑定生成环境与描述，LaunchOperationHandler 使用前核对身份和时效。因此同 ResourceId 的 B 端点成功事实不能满足冻结 A 端点的启动检查。"
+    },
+    {
+      "findingId": "F05",
+      "accepted": true,
+      "evidence": "revised-contracts.json 新增 CommitId、CommitIntent、WorkspaceCommitSession 和 CommitReceipt；IWorkspaceStore 提供 BeginCommitAsync、CommitAsync 和 ReadCommitAsync，目录及分享服务提供 InspectCommitAsync。首次准备先于凭据创建，重复会话无写入能力；JsonWorkspaceStore 将配置、提交身份及结果绑定至不可变代和有效标记，后续提交及迁移必须保留历史索引，未决结果不得清理。原提交可按 CommitId 跨后续修订核验，不再依赖当前配置相似性推断。"
+    },
+    {
+      "findingId": "F06",
+      "accepted": false,
+      "evidence": "合并后的 revised-contracts.json 中，IOperationHandlerRegistry.Create(OperationKind kind) 的 behavior 仍列出 ImportConfiguration；OperationHandlerRegistry.Create 和 OperationCoordinator.SubmitAsync 已改为 MigrateConfiguration，并明确禁止导入操作注册。接口描述尚未同步。"
+    }
+  ],
+  "remainingFindings": [
+    {
+      "id": "F06",
+      "severity": "minor",
+      "detail": "统一 revised-contracts.json 中 IOperationHandlerRegistry.Create(OperationKind kind) 的有限种类说明为 Launch、Deploy、ApplyVariables、MigrateConfiguration，移除 ImportConfiguration，并与实现的错误约定一致。涉及 R11、R12；A2 决策、具体实现契约及跨类规则已明确导入走直接用例，因此属于接口描述残留，但应在据此实现或生成验收前消除。"
+    }
+  ],
+  "residualRisks": [
+    "R01–R14 均已核对需求、契约职责和场景关联；场景映射完整只证明文字覆盖。独立 EXE、入口发现、来源格式、导入无执行副作用、迁移兼容及 Aspire 外部资源所有权仍需另行授权后的行为验收。",
+    "人工需确认 A2 的复杂度取舍：操作执行权不可重颁，部分已受理操作可能从未执行却必须先核验，再由用户创建新的关联操作；这是安全性与可继续执行能力之间的明确选择。",
+    "人工需确定支持的文件系统、网络路径、链接与身份固定能力，以及普通进程和提权 worker 共享保护登记的 ACL、用户身份和启动规则。当前契约要求能力无法证明时拒绝破坏性写入。",
+    "人工需确认 R10 对任意外部并发写入的要求。WindowsEnvironmentStore 只承诺尽力检查及写后核验；若要求绝不覆盖外部修改，必须采用所有写入者共享的协调机制或限制自动改名。",
+    "许可复查、证据有效期和启动观察阈值，以及各 AVEVA 版本的交接、登录和退出证据来源仍需批准；TCP、窗口和入口退出不能替代业务证据。",
+    "R13 缺少 FigCraft 图稿、窗口尺寸及 DPI 范围；固定操作区与密码生命周期已有契约，视觉符合性仍不可判定。",
+    "人工需接受提交历史、保护根登记及未知候选凭据的保守保留成本；自动裁剪、注销和凭据回收需另行设计审阅。并发、崩溃、WPF 焦点、UAC 和持久化故障注入均尚未执行。"
+  ]
+}

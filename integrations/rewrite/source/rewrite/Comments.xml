@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <AsyncResult>
+    <param name="ct">取消等待/观察；已受理持久结果不自动撤销。</param>
+    <returns>成功值或稳定原因码脱敏错误。</returns>
+  </AsyncResult>
+  <StageFact>
+    <Stage>
+      <para>已记录的操作阶段</para>
+    </Stage>
+    <ReasonCode>
+      <para>稳定且不含秘密的原因码</para>
+    </ReasonCode>
+    <SafeMessage>
+      <para>可展示且无秘密的说明</para>
+    </SafeMessage>
+  </StageFact>
+  <Request>
+    <param name="request">含固定身份、配置修订和冻结计划的有限请求。</param>
+  </Request>
+  <T>
+    <typeparam name="T">
+      <para>成功值/命令参数/序列化内容的类型。</para>
+    </typeparam>
+  </T>
+  <ApplicationId>
+    <param name="applicationId">已登记应用的稳定标识；缺失返回ApplicationNotFound。</param>
+  </ApplicationId>
+  <Result>
+    <returns>观察所得不可变事实序列；取消枚举不强制终止外部应用。</returns>
+  </Result>
+  <CommitId>
+    <param name="commitId">原配置提交号；重试、核验沿用。</param>
+  </CommitId>
+  <Expected>
+    <param name="expected">写入前须匹配的配置修订号。</param>
+  </Expected>
+  <Kind>
+    <para>应用入口类型：Monitor、Marine 批处理或通用可执行文件。</para>
+  </Kind>
+  <Value>
+    <param name="value">待设置、转换或求摘要的值。</param>
+  </Value>
+  <Secret>
+    <param name="secret">
+      <para>仅本次调用移交的秘密租约/临时输入。</para>
+    </param>
+  </Secret>
+  <Plan>
+    <param name="plan">冻结的部署/启动/变量计划。</param>
+  </Plan>
+  <Snapshot>
+    <para>受理时冻结的原请求或当前不可变投影。</para>
+  </Snapshot>
+  <Location>
+    <param name="location">
+      <para>已解析的独立工作空间位置。</para>
+    </param>
+  </Location>
+  <Files>
+    <para>已检查的文件/普通文件映射集</para>
+  </Files>
+  <Id>
+    <param name="id">
+      <para>查询/处理用稳定标识。</para>
+    </param>
+  </Id>
+  <Dialogs>
+    <param name="dialogs">
+      <para>文件选择及明确确认交互。</para>
+    </param>
+  </Dialogs>
+  <MachineId>
+    <param name="machineId">
+      <para>显式机器身份；缺省取本机解析结果。</para>
+    </param>
+  </MachineId>
+  <Resource>
+    <para>探测/启动冻结的资源描述</para>
+  </Resource>
+  <Options>
+    <param name="options">显式启动/开发编排/JSON选项。</param>
+  </Options>
+</doc>

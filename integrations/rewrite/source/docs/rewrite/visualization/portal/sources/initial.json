@@ -1,0 +1,2045 @@
+{
+  "summary": "完成只读审阅：仅读取 inputs/class-contracts.json 和 inputs/review-contract.json，核对全部 39 个原有 class，结论为 4 个 keep、34 个 refine、1 个 remove；另列必要接口调整和新增类型。采用 A2：配置及导入直接调用用例，启动、部署、持久变量应用和迁移使用有限操作协调。原有记录类型继续使用，新增字段约束写入相应方法契约；同签名接口须继承实现条目收紧后的行为与错误约定。未读取其他业务文件、LikeC4/OpenSpec 或凭据，未修改文件、联网、启动其他代理或生成实现。以下均为待批准设计与未来验收要求，不证明应用行为已实现。",
+  "types": [
+    {
+      "id": "WorkspaceCatalogService",
+      "action": "refine",
+      "reason": "原有保存顺序方向正确，但没有区分配置提交失败与提交结果未知，也未防止复制共享秘密、凭据清理竞态和发现覆盖人工入口。",
+      "responsibility": "配置 CRUD、稳定 ID、引用校验及发现结果合并；实现 ICatalogService。",
+      "methods": [
+        {
+          "signature": "public ValueTask<Result<WorkspaceSnapshot>> ReadAsync(CancellationToken ct)",
+          "behavior": "读取不可变公开投影，移除秘密和 CredentialRef；缺失配置与合法空集合分别表达。",
+          "errors": "ConfigurationMissing、StoreUnavailable、InvalidFormat；取消抛 OperationCanceledException。"
+        },
+        {
+          "signature": "public ValueTask<Result<ProfileSnapshot>> SaveProfileAsync(ProfileDraft draft, SecretUpdate change, Revision expected, CancellationToken ct)",
+          "behavior": "先校验引用和修订；Replace 创建独立新凭据引用，再提交配置；Keep 保持引用，Clear 仅清除关联。配置确认未提交后才允许清理新引用；提交结果未知时保留新旧引用并核验。成功提交后，旧凭据仅在证明无配置、未完成操作或活动秘密租约引用时进入清理流程。清理失败不把已提交配置报为保存失败。",
+          "errors": "InvalidReference、RevisionConflict、CredentialWriteFailed、CommitIndeterminate；返回脱敏错误。提交开始后取消不能直接推定未保存。"
+        },
+        {
+          "signature": "public ValueTask<Result<ProfileSnapshot>> CopyAsync(Guid sourceId, Revision expected, CancellationToken ct)",
+          "behavior": "分配新 ID，复制可编辑字段及经核验的本机路径关联；清空 CredentialRef，标记凭据待配置，后续修改互不影响。",
+          "errors": "ProfileNotFound、RevisionConflict、InvalidReference、StoreUnavailable。"
+        },
+        {
+          "signature": "public ValueTask<Result<Unit>> DeleteAsync(Guid profileId, Revision expected, CancellationToken ct)",
+          "behavior": "先提交管理记录删除，再安排可证明无引用的凭据清理；保留历史操作所需关联，不删除应用或部署文件。",
+          "errors": "ProfileNotFound、ReferenceConflict、RevisionConflict、CommitIndeterminate。"
+        },
+        {
+          "signature": "public ValueTask<Result<Revision>> SaveDefinitionAsync(DefinitionDraft draft, Revision expected, CancellationToken ct)",
+          "behavior": "保存有限定义和人工绑定来源标记；新增使用稳定 ID。变量定义保存不访问持久环境，路径失效保存为待绑定状态。",
+          "errors": "InvalidDefinition、InvalidReference、RevisionConflict、StoreUnavailable。"
+        },
+        {
+          "signature": "public ValueTask<Result<WorkspaceSnapshot>> RefreshDiscoveryAsync(Guid applicationId, Revision expected, CancellationToken ct)",
+          "behavior": "调用 IEntryDiscovery，合并自动候选及来源时间；人工绑定保留，失效人工路径标记待重新绑定，发现结果不直接变为启动命令。",
+          "errors": "ApplicationNotFound、DiscoveryUnavailable、RevisionConflict；发现失败保留原配置。"
+        }
+      ],
+      "dependencies": [
+        "IWorkspaceStore",
+        "ISecretVault",
+        "IEntryDiscovery"
+      ],
+      "forbidden": [
+        "保存明文密码",
+        "复制凭据关联",
+        "不确定提交后删除候选凭据",
+        "保存或发现时执行外部程序"
+      ],
+      "lifetime": "Configuration 应用级单例；请求草稿与秘密均为调用级。",
+      "scenarios": [
+        "AR02",
+        "AR03",
+        "AR04",
+        "AR18",
+        "AR27"
+      ]
+    },
+    {
+      "id": "ConfigurationShareService",
+      "action": "refine",
+      "reason": "保留直接用例路径；补足机器绑定白名单、输入限制及导入提交的修订校验。",
+      "responsibility": "生成分享数据、导入草稿和仅配置的显式提交。",
+      "methods": [
+        {
+          "signature": "public ValueTask<Result<ShareBundle>> ExportAsync(ShareSelection selection, CancellationToken ct)",
+          "behavior": "从白名单重新构造逻辑配置；排除密码、CredentialRef、可直接采用的机器路径绑定、操作记录、备份和变量应用状态。",
+          "errors": "SelectionNotFound、InvalidReference、StoreUnavailable。"
+        },
+        {
+          "signature": "public ValueTask<Result<ImportProposal>> PreviewImportAsync(ShareBundle bundle, CancellationToken ct)",
+          "behavior": "校验格式版本、大小、数量和关联，分配导入 ID 映射；外机路径仅作不可执行提示，生成待绑定草稿。",
+          "errors": "UnsupportedFormat、InvalidBundle、LimitExceeded、InvalidReference；不执行包内内容。"
+        },
+        {
+          "signature": "public ValueTask<Result<Revision>> CommitAsync(ImportProposal proposal, Revision expected, CancellationToken ct)",
+          "behavior": "重新校验确认草稿和工作区修订，原子提交配置；缺少本机路径或凭据时保留待绑定状态。",
+          "errors": "ProposalInvalid、RevisionConflict、CommitIndeterminate；失败不启动、部署或应用变量。"
+        }
+      ],
+      "dependencies": [
+        "IWorkspaceStore"
+      ],
+      "forbidden": [
+        "序列化完整本机配置用于分享",
+        "导入确认触发执行",
+        "恢复外机凭据引用"
+      ],
+      "lifetime": "Configuration 应用级单例。",
+      "scenarios": [
+        "AR19",
+        "AR27"
+      ]
+    },
+    {
+      "id": "ResourceSupervisor",
+      "action": "refine",
+      "reason": "固定重试数字未经需求批准；还需明确共享轮次、订阅取消、过期证据和单资源故障隔离。",
+      "responsibility": "调度资源探测，按版本化策略生成监测投影。",
+      "methods": [
+        {
+          "signature": "public ValueTask<Result<ProbeSnapshot>> RefreshAsync(Guid resourceId, CancellationToken ct)",
+          "behavior": "同一资源合并或串行完成一轮，按 ConnectionHealthPolicy 配置进行有界复查；不同资源独立。调用方取消只退出等待，不取消其他调用方共享的轮次。",
+          "errors": "ResourceNotFound、ProbeUnavailable、PolicyInvalid；超时作为带来源事实进入策略，不直接解释为虚拟机丢失。"
+        },
+        {
+          "signature": "public ValueTask<Result<ProbeSnapshot>> RequireFreshAsync(Guid resourceId, CancellationToken ct)",
+          "behavior": "检查证据资源、配置修订和 ValidUntilUtc；过期则复查。返回各项新鲜事实，不把端口可达升级为许可签出。",
+          "errors": "EvidenceExpired、ResourceUnavailable、ProbeUnavailable；不沿用过期 Ready。"
+        },
+        {
+          "signature": "public IAsyncEnumerable<ProbeSnapshot> WatchAsync(CancellationToken ct)",
+          "behavior": "先发送当前快照，再发送变化；重启后的历史就绪不能直接成为当前就绪，取消仅结束本订阅。",
+          "errors": "取消抛 OperationCanceledException；探针错误包含于资源快照，订阅基础设施故障终止流并由页面重订阅。"
+        }
+      ],
+      "dependencies": [
+        "IResourceProbe",
+        "ConnectionHealthPolicy"
+      ],
+      "forbidden": [
+        "监测失败阻止工作台启动",
+        "停止外部服务或虚拟机",
+        "在页面中维护失败计数"
+      ],
+      "lifetime": "LicenseMonitoring 应用级单例；每资源独立轮次和应用级停止令牌。",
+      "scenarios": [
+        "AR05",
+        "AR06",
+        "AR07",
+        "AR08"
+      ]
+    },
+    {
+      "id": "ConnectionHealthPolicy",
+      "action": "refine",
+      "reason": "保留纯规则，但把草案中的三次、350ms、2s、三轮失败从已定事实改为待批准配置。",
+      "responsibility": "依据显式时间和版本化参数解释分项探测事实。",
+      "methods": [
+        {
+          "signature": "public ConnectionHealthPolicy(int policyVersion, int attemptsPerRound, TimeSpan retryDelay, TimeSpan probeTimeout, int failedRoundsToNotify, int successfulRoundsToRecover, TimeSpan freshnessLifetime)",
+          "behavior": "冻结有效策略参数；复查次数、失败轮次及恢复阈值分别配置，策略版本进入 ProbeSnapshot 的证据。",
+          "errors": "非法范围抛 ArgumentOutOfRangeException；配置装配边界转为 PolicyInvalid。"
+        },
+        {
+          "signature": "public ProbeSnapshot Reduce(ProbeSnapshot previous, ProbeRound round, DateTimeOffset now)",
+          "behavior": "只统计完成的轮次；瞬时失败进入复查，按恢复阈值恢复，通知按状态变化去重。VM、服务、TCP 证据独立；过期变为未知或待复查。",
+          "errors": "乱序、资源不匹配或无效证据生成 Unknown 及原因，不产生 IO。"
+        }
+      ],
+      "dependencies": [],
+      "forbidden": [
+        "隐式读取系统时间",
+        "将 TCP 事实解释为许可签出",
+        "把服务故障解释为虚拟机丢失"
+      ],
+      "lifetime": "LicenseMonitoring 不可变策略实例，按策略版本复用。",
+      "scenarios": [
+        "AR06",
+        "AR07",
+        "AR08"
+      ]
+    },
+    {
+      "id": "ProcessEnvironmentPolicy",
+      "action": "refine",
+      "reason": "仅覆盖选中许可变量不足以消除父环境残留；必须表达删除项并统一 Windows 名称比较规则。",
+      "responsibility": "生成每次启动独立的子进程环境。",
+      "methods": [
+        {
+          "signature": "public Result<EnvironmentOverlay> Build(EnvironmentSnapshot parent, LicenseBinding license, IReadOnlyList<ToolBinding> tools)",
+          "behavior": "以 Windows 不区分大小写规则复制父环境；移除全部受策略保留的许可变量，再注入本次许可。EnvironmentOverlay 同时表达移除项与设置项；工具变量不得覆盖保留名，输入对象不变。",
+          "errors": "ReservedVariable、DuplicateVariable、InvalidVariableName、InvalidLicenseBinding。"
+        }
+      ],
+      "dependencies": [],
+      "forbidden": [
+        "修改父进程、用户或系统环境",
+        "复用可变环境字典"
+      ],
+      "lifetime": "Domain.Contracts 无状态纯规则。",
+      "scenarios": [
+        "AR05",
+        "AR18"
+      ]
+    },
+    {
+      "id": "LaunchPlanBuilder",
+      "action": "refine",
+      "reason": "草案的入口编码可保留，但计划应绑定冻结配置与机器身份，不能把任意批处理拼接当作安全参数传递。",
+      "responsibility": "从已核验本机绑定生成不含明文秘密的启动计划。",
+      "methods": [
+        {
+          "signature": "public Result<LaunchPlan> Build(LaunchConfiguration snapshot, EnvironmentSnapshot parent)",
+          "behavior": "绑定配置修订、MachineId、人工或发现入口及初始化文件；普通 EXE 使用参数列表，已支持的批处理入口使用专用编码规则。密码仅为 SecretSlot；调用 ProcessEnvironmentPolicy 构建独立环境。",
+          "errors": "MissingEntrypoint、MissingInitFile、BindingRequired、MachineMismatch、InvalidArguments、UnsupportedEntrypoint。"
+        }
+      ],
+      "dependencies": [
+        "ProcessEnvironmentPolicy"
+      ],
+      "forbidden": [
+        "解析秘密",
+        "自动猜测缺失绑定",
+        "执行计划",
+        "拼接未经编码的 shell 参数"
+      ],
+      "lifetime": "Launch 无状态构建器。",
+      "scenarios": [
+        "AR02",
+        "AR03",
+        "AR05",
+        "AR27"
+      ]
+    },
+    {
+      "id": "OperationCoordinator",
+      "action": "refine",
+      "reason": "应派发已持久化的执行快照；受理、取消和恢复索引不能包含模块业务成功规则。",
+      "responsibility": "统一操作标识、持久受理、生命周期准入及处理器作用域。",
+      "methods": [
+        {
+          "signature": "public ValueTask<Result<OperationId>> SubmitAsync(OperationRequest request, CancellationToken ct)",
+          "behavior": "按有限种类和模块校验结果冻结 OperationRequestSnapshot，持久化成功后派发。稳定 OperationId 用于重试查询：同 ID 同摘要返回原操作，不同摘要拒绝。仅支持 Launch、Deploy、ApplyVariables、MigrateConfiguration；导入保存走直接用例。受理后的令牌由应用持有，目标写入准入由实际执行方取得租约。",
+          "errors": "UnsupportedOperationKind、RevisionConflict、InvalidPlan、DuplicateOperationConflict、JournalUnavailable、AcceptanceIndeterminate；受理未知时先按 ID 核验，不重复执行。"
+        },
+        {
+          "signature": "public ValueTask<Result<Unit>> CancelAsync(OperationId id, CancellationToken ct)",
+          "behavior": "持久记录取消请求，再通知模块在安全检查点停止；取消请求接受不等于操作已取消、已回滚或目标程序退出。",
+          "errors": "RunNotFound、CancellationNotAllowed、JournalUnavailable；已有副作用或结果未知保留模块核验状态。"
+        }
+      ],
+      "dependencies": [
+        "IRunJournal",
+        "IOperationHandlerRegistry",
+        "OperationExecutionContext",
+        "IWorkspaceStore"
+      ],
+      "forbidden": [
+        "直接依赖具体处理器或 WPF/Aspire",
+        "重启后自动重放",
+        "把 Completed 解释为业务成功"
+      ],
+      "lifetime": "OperationCoordination 应用级单例；处理器和上下文按操作创建。",
+      "scenarios": [
+        "AR09",
+        "AR10",
+        "AR11",
+        "AR14",
+        "AR15",
+        "AR16",
+        "AR18",
+        "AR22",
+        "AR26"
+      ]
+    },
+    {
+      "id": "OperationStatePolicy",
+      "action": "refine",
+      "reason": "基线同时验证通用外壳与类型专属证据，违反 A2 的有限公共协调边界。",
+      "responsibility": "只校验公共操作生命周期、序号及终结约束。",
+      "methods": [
+        {
+          "signature": "public Result<RunSnapshot> Apply(RunSnapshot previous, OperationFact fact)",
+          "behavior": "校验 OperationId、顺序及公共阶段迁移；模块载荷由对应处理器先验证并携带版本。Completed 仅指执行阶段完成，不生成登录、部署或迁移成功结论。",
+          "errors": "InvalidTransition、SequenceConflict、OperationMismatch；不判断窗口、文件摘要或变量冲突。"
+        }
+      ],
+      "dependencies": [],
+      "forbidden": [
+        "产品或操作种类分支",
+        "统一业务状态枚举",
+        "系统 IO"
+      ],
+      "lifetime": "OperationCoordination 无状态纯策略。",
+      "scenarios": [
+        "AR09",
+        "AR11",
+        "AR16",
+        "AR18",
+        "AR22"
+      ]
+    },
+    {
+      "id": "OperationExecutionContext",
+      "action": "refine",
+      "reason": "报告失败时不能声称已持久标记待核对；需区分内存诊断、可靠检查点和最后不确定副作用。",
+      "responsibility": "串行提交单次操作事实并在持久成功后发布。",
+      "methods": [
+        {
+          "signature": "public ValueTask<Result<RunSnapshot>> ReportAsync(OperationFact fact, CancellationToken ct)",
+          "behavior": "在操作内串行化，验证公共迁移，按 expectedSequence 追加并可靠落盘后发布。写前意图提交失败拒绝后续副作用；写后事实提交失败停止下一步，保留最后可靠意图供重启核验。",
+          "errors": "InvalidTransition、SequenceConflict、JournalUnavailable、CommitIndeterminate；日志不可写时仅能给出进程内故障提示，不能伪称恢复标记已落盘。"
+        },
+        {
+          "signature": "public ValueTask DisposeAsync()",
+          "behavior": "幂等释放报告队列、订阅和控制资源；等待已开始的必要检查点处理结束，不结束目标进程。",
+          "errors": "释放失败保留脱敏诊断，不覆盖原操作错误，不阻塞 UI 线程同步等待。"
+        }
+      ],
+      "dependencies": [
+        "IRunJournal",
+        "OperationStatePolicy"
+      ],
+      "forbidden": [
+        "服务定位器",
+        "模块业务状态判断",
+        "释放时 Kill"
+      ],
+      "lifetime": "OperationCoordination 操作级；同一操作公共日志只有一个串行写入者。",
+      "scenarios": [
+        "AR09",
+        "AR11",
+        "AR16",
+        "AR18",
+        "AR22"
+      ]
+    },
+    {
+      "id": "OperationHandlerRegistry",
+      "action": "refine",
+      "reason": "基线直接依赖具体处理器，并把普通导入纳入协调；应由组合根注入有限工厂，增加迁移种类。",
+      "responsibility": "根据有限操作种类创建独立处理器租约。",
+      "methods": [
+        {
+          "signature": "public Result<HandlerLease> Create(OperationKind kind)",
+          "behavior": "使用组合根提供的工厂映射，支持 Launch、Deploy、ApplyVariables、MigrateConfiguration；每次返回独立作用域，不在协调模块引用具体业务实现。",
+          "errors": "UnsupportedOperationKind、HandlerUnavailable；重复映射在装配阶段拒绝。"
+        }
+      ],
+      "dependencies": [
+        "IOperationHandler"
+      ],
+      "forbidden": [
+        "反射加载任意类型或 DLL",
+        "导入配置操作注册",
+        "共享操作级可变处理器"
+      ],
+      "lifetime": "OperationCoordination 应用级只读注册表。",
+      "scenarios": [
+        "AR19",
+        "AR22",
+        "AR24",
+        "AR25"
+      ]
+    },
+    {
+      "id": "LaunchOperationHandler",
+      "action": "refine",
+      "reason": "启动状态机属于 Launch；必须消费冻结快照并处理创建进程成功而记录失败的窗口，原有 90 秒和五分钟不能直接视为批准阈值。",
+      "responsibility": "拥有启动证据状态机及启动后观察生命周期。",
+      "methods": [
+        {
+          "signature": "public ValueTask<Result<HandlerOutcome>> ExecuteAsync(OperationRequestSnapshot request, IOperationContext context, CancellationToken ct)",
+          "behavior": "校验机器及绑定，捕获独立父环境并构建计划，获取新鲜资源事实；持久记录启动意图，再临时解析秘密并调用进程端口，随后立即释放秘密。分别报告入口、交接、目标窗口、登录证据、未确认和退出。入口退出不结束会话；停止观察不终止目标。观察阈值来自明确配置。重启关联仅使用可验证身份和只读观察，不重新启动。",
+          "errors": "WrongOperationKind、BindingRequired、CredentialUnavailable、ResourceUnavailable、ProcessStartFailed、IdentityUnconfirmed、Indeterminate；创建结果未知不得自动重试。"
+        }
+      ],
+      "dependencies": [
+        "LaunchPlanBuilder",
+        "IResourceMonitor",
+        "ISecretVault",
+        "IProcessGateway"
+      ],
+      "forbidden": [
+        "记录展开后的参数或秘密",
+        "窗口出现即登录成功",
+        "仅用 PID 恢复关联",
+        "取消时结束外部应用"
+      ],
+      "lifetime": "Launch 操作级；观察可长于页面生命周期。",
+      "scenarios": [
+        "AR04",
+        "AR05",
+        "AR08",
+        "AR09",
+        "AR10",
+        "AR11",
+        "AR27"
+      ]
+    },
+    {
+      "id": "DeliveryOperationHandler",
+      "action": "refine",
+      "reason": "必须把来源重验、私有暂存、真实写入方锁所有权与回执核验串成可执行协议。",
+      "responsibility": "拥有安装、恢复和回滚的部署状态机。",
+      "methods": [
+        {
+          "signature": "public ValueTask<Result<HandlerOutcome>> ExecuteAsync(OperationRequestSnapshot request, IOperationContext context, CancellationToken ct)",
+          "behavior": "读取已登记计划，重新计算并核对 PlanDigest、确认摘要和冻结请求；重新核验来源及私有暂存。普通写入由本处理器取得目标租约后复核目标基线，再调用文件端口；需提权时只委托 worker，父进程不持锁等待 worker。每项结果以回执事实归并；恢复和回滚必须是用户新确认的计划。",
+          "errors": "WrongOperationKind、PlanExpired、SourceChanged、TargetBusy、TargetChanged、PermissionDenied、RecoveryRequired、RollbackConflict、Indeterminate。"
+        }
+      ],
+      "dependencies": [
+        "IStagingStore",
+        "IFileDeliveryPort",
+        "ITargetLeaseProvider",
+        "IPrivilegeBroker"
+      ],
+      "forbidden": [
+        "执行时用可变来源替换暂存内容",
+        "无锁写入",
+        "自动恢复或回滚",
+        "父子进程重复持有同一目标锁"
+      ],
+      "lifetime": "ToolDeployment 操作级；租约覆盖目标复核至最后可靠回执。",
+      "scenarios": [
+        "AR14",
+        "AR15",
+        "AR16",
+        "AR17",
+        "AR26"
+      ]
+    },
+    {
+      "id": "VariableOperationHandler",
+      "action": "refine",
+      "reason": "变量改名是可能部分完成的业务状态机，不能只包装一次名为 CompareExchange 的调用。",
+      "responsibility": "持久变量应用、改名检查点和部分完成核验。",
+      "methods": [
+        {
+          "signature": "public ValueTask<Result<HandlerOutcome>> ExecuteAsync(OperationRequestSnapshot request, IOperationContext context, CancellationToken ct)",
+          "behavior": "核对确认摘要、MachineId、作用域、旧新名称及两端基线；系统作用域显式提权。调用 ApplyVerifiedAsync，将写新名、核验、删旧名、再次核验分别记录；已发生任何写入后不能把取消显示为无变更。自身成功不自动改写已保存配置。",
+          "errors": "WrongOperationKind、PlanExpired、VariableConflict、ReservedVariable、PermissionDenied、PartialApplied、Indeterminate；不盲目重试或补偿外部修改。"
+        }
+      ],
+      "dependencies": [
+        "IEnvironmentStore",
+        "IPrivilegeBroker"
+      ],
+      "forbidden": [
+        "保存变量定义时隐式调用",
+        "默认系统作用域",
+        "承诺跨外部写入者原子比较交换"
+      ],
+      "lifetime": "EnvironmentManagement 操作级。",
+      "scenarios": [
+        "AR18",
+        "AR26"
+      ]
+    },
+    {
+      "id": "ImportConfigurationHandler",
+      "action": "remove",
+      "reason": "普通导入确认没有可恢复外部执行副作用，进入协调器增加重复状态和错误边界；由 ConfigurationShareService.CommitAsync 替代。旧格式转换另由 WorkspaceMigrationService 承担。",
+      "responsibility": "移除该操作处理器及 ImportConfiguration 注册项。",
+      "methods": [],
+      "dependencies": [],
+      "forbidden": [
+        "保留导入的第二条提交路径"
+      ],
+      "lifetime": "移除，不再创建实例。",
+      "scenarios": [
+        "AR19",
+        "AR27"
+      ]
+    },
+    {
+      "id": "ToolSourceCatalog",
+      "action": "keep",
+      "reason": "基线已区分 KeepSelection 和用户显式 SelectNewest，支持目录与文件检查，且不执行来源内容，符合 A2 的直接发现路径。",
+      "responsibility": "只读来源刷新、人工版本选择和检查。",
+      "methods": [],
+      "dependencies": [
+        "IPackageReader"
+      ],
+      "forbidden": [
+        "普通刷新自动改为最新版本",
+        "刷新时保存定义或部署"
+      ],
+      "lifetime": "ToolDeployment 应用级单例。",
+      "scenarios": [
+        "AR12",
+        "AR13"
+      ]
+    },
+    {
+      "id": "DeploymentPlanner",
+      "action": "refine",
+      "reason": "缺少可验证暂存和确认计划登记；PlanDigest 不能仅绑定来源摘要。",
+      "responsibility": "形成有确定内容、目标基线和恢复动作的预览。",
+      "methods": [
+        {
+          "signature": "public ValueTask<Result<DeploymentPlan>> PreviewAsync(DeployRequest request, CancellationToken ct)",
+          "behavior": "解析来源、映射和真实目标；将内容复制到私有暂存并按实际字节计算摘要。PlanDigest 使用带版本的确定性编码，覆盖动作、机器、工作区修订、来源选择及内容摘要、暂存清单、映射、目标身份和基线、预期变更及备份策略。向 IStagingStore 登记不可变计划；仅写私有暂存，不写目标或请求 UAC。混合持久变量变更首版拒绝，另建变量计划。",
+          "errors": "UnsafeArchiveEntry、SourceUnavailable、SourceChanged、TargetUnavailable、InvalidPath、StagingUnavailable、MixedSideEffectsUnsupported。"
+        },
+        {
+          "signature": "public ValueTask<Result<DeploymentPlan>> PreviewRecoveryAsync(RecoveryRequest request, CancellationToken ct)",
+          "behavior": "读取原回执、备份及当前目标；生成关联 OriginalOperationId 的 Recover 或 Rollback 新计划，绑定当前基线和备份摘要，展示冲突并重新计算 PlanDigest。",
+          "errors": "ReceiptNotFound、InvalidReceipt、BackupUnavailable、RollbackConflict、TargetUnavailable；冲突计划不可执行。"
+        }
+      ],
+      "dependencies": [
+        "IPackageReader",
+        "IStagingStore",
+        "IFileDeliveryPort"
+      ],
+      "forbidden": [
+        "bool 代替摘要确认",
+        "预览写目标",
+        "旧确认自动适用于新计划"
+      ],
+      "lifetime": "ToolDeployment 无请求状态的规划服务；计划按 ID 持久登记。",
+      "scenarios": [
+        "AR12",
+        "AR13",
+        "AR14",
+        "AR15",
+        "AR16",
+        "AR17",
+        "AR26"
+      ]
+    },
+    {
+      "id": "JsonWorkspaceStore",
+      "action": "refine",
+      "reason": "普通提交与格式迁移必须分离；跨进程修订检查、原子替换和提交结果未知需要明确。",
+      "responsibility": "当前格式配置读取与修订受控提交。",
+      "methods": [
+        {
+          "signature": "public ValueTask<Result<WorkspaceSnapshotInternal>> ReadAsync(CancellationToken ct)",
+          "behavior": "读取带校验和与格式版本的有效配置；区分缺失、损坏、旧格式和合法空数据。旧格式返回 MigrationRequired，不边读边重写。",
+          "errors": "ConfigurationMissing、CorruptConfiguration、MigrationRequired、UnsupportedFormat、StoreUnavailable。"
+        },
+        {
+          "signature": "public ValueTask<Result<Revision>> CommitAsync(WorkspaceChange change, Revision expected, CancellationToken ct)",
+          "behavior": "取得跨进程工作区提交锁后重新比较修订；写同卷旁路文件、刷新、验证，再原子替换有效文件并保留上一有效副本。提交带唯一标识用于替换结果未知时核验。保留 ID、历史及凭据引用，不声称与凭据管理器构成事务。",
+          "errors": "RevisionConflict、StoreUnavailable、ValidationFailed、CommitIndeterminate；替换开始后取消按实际提交状态报告。"
+        }
+      ],
+      "dependencies": [
+        "IWorkspaceLocationResolver"
+      ],
+      "forbidden": [
+        "提交时隐式迁移",
+        "原地破坏唯一有效文件",
+        "保存明文秘密",
+        "失败静默返回空配置"
+      ],
+      "lifetime": "PersistenceAndMigration 工作区级单例；提交锁跨进程。",
+      "scenarios": [
+        "AR03",
+        "AR04",
+        "AR19",
+        "AR20",
+        "AR21",
+        "AR22"
+      ]
+    },
+    {
+      "id": "WorkspaceLocationResolver",
+      "action": "keep",
+      "reason": "基线已明确显式目录优先级、portable 基于 EXE、失败不静默切换，满足目录定位边界；创建目录不等于创建配置。",
+      "responsibility": "解析选定数据位置并打开该目录。",
+      "methods": [],
+      "dependencies": [],
+      "forbidden": [
+        "使用当前工作目录定位 portable 数据",
+        "失败切换到空工作区",
+        "创建伪造默认配置"
+      ],
+      "lifetime": "PersistenceAndMigration 应用级单例。",
+      "scenarios": [
+        "AR20",
+        "AR21",
+        "AR22"
+      ]
+    },
+    {
+      "id": "WindowsSecretVault",
+      "action": "keep",
+      "reason": "新引用写入、短命 SecretLease 和仅清理已证明无引用凭据的端口已符合秘密隔离；提交顺序由 WorkspaceCatalogService 负责。",
+      "responsibility": "适配 Windows 凭据管理器。",
+      "methods": [],
+      "dependencies": [],
+      "forbidden": [
+        "原地覆盖有效旧秘密",
+        "返回保存密码给页面",
+        "记录秘密或展开参数",
+        "自行判断凭据是否无引用"
+      ],
+      "lifetime": "WindowsAndSourceAdapters 应用级单例；秘密租约为短生命期。",
+      "scenarios": [
+        "AR04"
+      ]
+    },
+    {
+      "id": "WindowsProcessGateway",
+      "action": "refine",
+      "reason": "必须把产品交接证据与可复用 PID 区分，并避免取消或 Aspire 退出连带终止目标。",
+      "responsibility": "实现产品入口启动及进程、窗口和可用会话证据采集。",
+      "methods": [
+        {
+          "signature": "public Result<EnvironmentSnapshot> CaptureEnvironment()",
+          "behavior": "返回独立只读父环境快照；不与后续启动共享可变字典。",
+          "errors": "EnvironmentUnavailable。"
+        },
+        {
+          "signature": "public ValueTask<Result<TrackedProcess>> StartAsync(LaunchPlan plan, SecretLease? secret, CancellationToken ct)",
+          "behavior": "核验路径及产品适配能力，临时展开 SecretSlot，应用移除项及覆盖项；返回包含机器、PID、创建时间、映像及交接关联证据的观察句柄。目标不得加入随工作台退出终止的 Job 或资源组。",
+          "errors": "EntrypointUnavailable、UnsupportedAdapter、PermissionDenied、ProcessStartFailed、StartIndeterminate；创建后取消不能宣称未启动。"
+        },
+        {
+          "signature": "public IAsyncEnumerable<ProcessEvidence> ObserveAsync(TrackedProcess process, CancellationToken ct)",
+          "behavior": "每次附着先核验完整进程身份；分别发送入口退出、候选交接、目标窗口、明确登录和确认退出事实。无法关联时只报告候选或未知；允许对持久身份进行只读恢复观察。释放只解绑事件与句柄。",
+          "errors": "取消抛 OperationCanceledException；身份不符、访问受限或证据缺失报告 IdentityUnconfirmed、ObservationUnavailable，不冒充目标退出。"
+        }
+      ],
+      "dependencies": [],
+      "forbidden": [
+        "单凭进程名或 PID 确认身份",
+        "把 mon.exe 退出当目标退出",
+        "日志记录秘密",
+        "Dispose 时 Kill"
+      ],
+      "lifetime": "WindowsAndSourceAdapters 单例；TrackedProcess 按启动或只读附着创建。",
+      "scenarios": [
+        "AR04",
+        "AR05",
+        "AR09",
+        "AR10",
+        "AR11",
+        "AR24"
+      ]
+    },
+    {
+      "id": "WindowsResourceProbe",
+      "action": "keep",
+      "reason": "基线的一次探测和分项证据边界合理，重试、通知及状态解释已有独立主责。",
+      "responsibility": "采集一次服务、TCP 或虚拟机入口观测。",
+      "methods": [],
+      "dependencies": [],
+      "forbidden": [
+        "内部无限重试",
+        "推断许可签出",
+        "自动控制外部资源"
+      ],
+      "lifetime": "WindowsAndSourceAdapters 应用级单例；每次探测有独立超时。",
+      "scenarios": [
+        "AR05",
+        "AR06",
+        "AR07",
+        "AR08"
+      ]
+    },
+    {
+      "id": "PackageReader",
+      "action": "refine",
+      "reason": "需要明确 ZIP/7z、文件夹及映射中的路径、链接和资源上限，发现完整性不能仅凭扩展名。",
+      "responsibility": "只读枚举和内容检查。",
+      "methods": [
+        {
+          "signature": "public ValueTask<Result<SourceCatalog>> DiscoverAsync(SourceQuery query, CancellationToken ct)",
+          "behavior": "枚举支持的 ZIP、7z、文件夹和文件候选，排除临时文件并验证可读取性；来源版本和确定性排序独立保留，不改变用户选择。",
+          "errors": "SourceUnavailable、AccessDenied、UnsupportedSource、IncompleteSource。"
+        },
+        {
+          "signature": "public ValueTask<Result<SourceSnapshot>> InspectAsync(PackageSource source, CancellationToken ct)",
+          "behavior": "检查绝对路径、上跳、驱动器和 UNC 逃逸、ADS、大小写重复、链接及映射冲突；首版拒绝无法安全解析的链接。限制条目数、解包大小和嵌套程度，按实际字节计算清单摘要。",
+          "errors": "UnsafeArchiveEntry、UnsupportedLink、DuplicateTarget、LimitExceeded、SourceChanged、CorruptArchive。"
+        }
+      ],
+      "dependencies": [],
+      "forbidden": [
+        "执行包内脚本",
+        "只检查字符串前缀判定安全",
+        "解包到业务目标"
+      ],
+      "lifetime": "WindowsAndSourceAdapters 单例；读取句柄调用级。",
+      "scenarios": [
+        "AR12",
+        "AR13",
+        "AR14"
+      ]
+    },
+    {
+      "id": "FileDeliveryPort",
+      "action": "refine",
+      "reason": "基线未显式绑定 OperationId，且“先写回执再写文件”不足以处理每项备份、日志尾损坏和写后未知。",
+      "responsibility": "执行持锁、逐项可核验的文件变更并维护部署回执。",
+      "methods": [
+        {
+          "signature": "public ValueTask<Result<TargetSnapshot>> InspectTargetAsync(TargetSpec target, CancellationToken ct)",
+          "behavior": "解析实际文件身份、存在性、内容摘要及目录边界；缺失目标基于最近可确认父目录解析，拒绝未支持的重解析点。",
+          "errors": "InvalidTarget、TargetUnavailable、UnsupportedLink、AccessDenied。"
+        },
+        {
+          "signature": "public ValueTask<Result<DeploymentReceipt>> ApplyAsync(OperationId operationId, ConfirmedPlan plan, TargetLease lease, CancellationToken ct)",
+          "behavior": "校验租约范围、计划摘要、暂存内容与锁内基线。每项先复制并刷新备份、验证摘要，再持久写入带序号和校验和的意图；以受控临时文件替换目标，写后核验，再持久追加完成事实。重验写入时路径身份，防止别名切换。取消仅在安全边界接受，回执区分未写、已写和待核验。",
+          "errors": "PlanExpired、InvalidLease、TargetChanged、BackupUnavailable、JournalUnavailable、RecoveryRequired、RollbackConflict、Indeterminate；必要日志或备份不能可靠落盘时不进入该项破坏性写入。"
+        },
+        {
+          "signature": "public ValueTask<Result<DeploymentReceipt>> ReadReceiptAsync(OperationId original, CancellationToken ct)",
+          "behavior": "读取版本化回执；识别完整有效前缀、损坏尾部及最后意图，结合当前内容供恢复规划，不自动修复目标。",
+          "errors": "ReceiptNotFound、UnsupportedReceiptVersion、InvalidReceipt、ReceiptIncomplete。"
+        }
+      ],
+      "dependencies": [
+        "IStagingStore"
+      ],
+      "forbidden": [
+        "无可靠备份覆盖既有文件",
+        "日志失败后继续下一项",
+        "自动回滚外部修改",
+        "将回执写成功等同业务全部完成"
+      ],
+      "lifetime": "WindowsAndSourceAdapters 单例；每次 Apply 独占对应回执写入权。",
+      "scenarios": [
+        "AR14",
+        "AR15",
+        "AR16",
+        "AR17",
+        "AR26"
+      ]
+    },
+    {
+      "id": "CanonicalTargetLeaseProvider",
+      "action": "refine",
+      "reason": "每路径一个进程内锁无法覆盖多个 EXE、提权 worker、路径别名和父子目录冲突。",
+      "responsibility": "为应用所有实际写入进程提供目标范围互斥。",
+      "methods": [
+        {
+          "signature": "public ValueTask<Result<TargetLease>> AcquireAsync(IReadOnlyList<CanonicalPath> targets, CancellationToken ct)",
+          "behavior": "在跨进程原子准入门内比较整组目标的规范化路径、卷和文件身份以及父子范围；所有目标一次准入或全部拒绝。使用进程存活句柄管理租约，不以超时推定旧持有者死亡。普通进程和 worker 使用同一命名空间；缺失目标绑定已存在父目录。持有者退出后释放互斥不表示操作已恢复。",
+          "errors": "TargetBusy、InvalidTarget、IdentityUnavailable、LockUnavailable；取消仅撤销本次等待。无法证明安全的别名或链接拒绝写入。"
+        }
+      ],
+      "dependencies": [],
+      "forbidden": [
+        "仅使用字符串相等或 SemaphoreSlim",
+        "仅按数据目录隔离目标锁",
+        "自动过期仍存活的租约",
+        "声称阻止所有外部程序写入"
+      ],
+      "lifetime": "WindowsAndSourceAdapters 每进程单例；TargetLease 持有至最后写入核验和回执完成。",
+      "scenarios": [
+        "AR14",
+        "AR15",
+        "AR16",
+        "AR17",
+        "AR26"
+      ]
+    },
+    {
+      "id": "WindowsEnvironmentStore",
+      "action": "refine",
+      "reason": "删除误导性的 CompareExchangeAsync；Windows 持久环境没有针对任意外部写入者的原子比较交换能力。",
+      "responsibility": "持久变量读取及带检查点的尽力冲突检测写入。",
+      "methods": [
+        {
+          "signature": "public ValueTask<Result<VariableSnapshot>> ReadAsync(VariableAddress address, CancellationToken ct)",
+          "behavior": "按机器、用户身份或系统作用域读取；区分不存在、空值和具体值，变量名采用 Windows 比较规则。",
+          "errors": "InvalidScope、VariableUnavailable、PermissionDenied。"
+        },
+        {
+          "signature": "public ValueTask<Result<Unit>> ApplyVerifiedAsync(ConfirmedVariablePlan plan, IOperationContext context, CancellationToken ct)",
+          "behavior": "取得应用各进程共享的作用域及旧新名称锁，重读两端基线；逐步持久报告意图，写新名并核验，再重读旧名后删除并核验。大小写等价名称按同一变量处理。任何步骤前日志失败立即停止；外部竞争仍可能发生，返回的结果仅代表可观察核验结果。",
+          "errors": "VariableConflict、ReservedVariable、PermissionDenied、JournalUnavailable、PartialApplied、Indeterminate；写后冲突不盲目恢复旧值。"
+        }
+      ],
+      "dependencies": [
+        "IOperationContext"
+      ],
+      "forbidden": [
+        "承诺系统级原子 CAS",
+        "发现冲突后继续覆盖",
+        "默认系统作用域",
+        "广播环境变化失败就重写变量"
+      ],
+      "lifetime": "WindowsAndSourceAdapters 单例；写入锁和核验状态调用级。",
+      "scenarios": [
+        "AR18",
+        "AR26"
+      ]
+    },
+    {
+      "id": "WindowsPrivilegeBroker",
+      "action": "refine",
+      "reason": "UAC 拒绝、worker 断开和已发生写入必须区分；提权也必须保留同一计划及回执身份。",
+      "responsibility": "建立受限提权会话并转交已确认操作。",
+      "methods": [
+        {
+          "signature": "public ValueTask<Result<WorkerReceipt>> ExecuteAsync(PrivilegedRequest request, CancellationToken ct)",
+          "behavior": "请求绑定调用者身份、OperationId、一次性随机会话、期限、协议版本、PlanDigest 和允许目标；通过受 ACL 保护的本地通道交付，不在命令行传秘密。等待 UAC 时父进程不持目标锁；连接后只接受匹配回执。",
+          "errors": "PermissionDenied、InvalidRequest、WorkerUnavailable、WorkerDisconnected、Indeterminate；UAC 取消且 worker 未执行时才报告零副作用，连接丢失先读回执核验。"
+        }
+      ],
+      "dependencies": [],
+      "forbidden": [
+        "任意脚本或命令执行代理",
+        "登录秘密传入 worker",
+        "断开后自动再次执行"
+      ],
+      "lifetime": "WindowsAndSourceAdapters 应用级单例；每操作独立一次性提权会话。",
+      "scenarios": [
+        "AR14",
+        "AR15",
+        "AR16",
+        "AR17",
+        "AR18",
+        "AR26"
+      ]
+    },
+    {
+      "id": "JsonRunJournal",
+      "action": "refine",
+      "reason": "文件事件和缓存快照不能被笼统称为原子提交；需要明确权威日志、损坏尾部、跨进程序号及订阅间隙。",
+      "responsibility": "版本化保存受理快照和脱敏操作事实。",
+      "methods": [
+        {
+          "signature": "public ValueTask<Result<RunSnapshot>> AcceptAsync(OperationRequestSnapshot request, CancellationToken ct)",
+          "behavior": "以跨进程互斥持久保存冻结请求和受理事实；请求含不可变计划、机器及摘要，不含明文秘密。同 ID 同摘要幂等返回，摘要不同拒绝；可靠落盘前不得派发。",
+          "errors": "DuplicateOperationConflict、UnsupportedRecordVersion、JournalUnavailable、AcceptanceIndeterminate。"
+        },
+        {
+          "signature": "public ValueTask<Result<OperationRequestSnapshot>> ReadRequestAsync(OperationId id, CancellationToken ct)",
+          "behavior": "仅向应用执行端返回冻结请求；恢复读取不构成重新执行授权。",
+          "errors": "RunNotFound、CorruptRecord、UnsupportedRecordVersion、JournalUnavailable。"
+        },
+        {
+          "signature": "public ValueTask<Result<RunSnapshot>> AppendAsync(OperationId id, long expectedSequence, RunEvent fact, CancellationToken ct)",
+          "behavior": "在跨进程追加锁内比较序号，写带长度、版本和校验和的完整记录并刷新；事件日志为权威，快照仅为可重建缓存。追加结果未知先按操作和序号核验，不生成重复业务事实。",
+          "errors": "SequenceConflict、JournalUnavailable、CommitIndeterminate；无法追加时不伪造已持久化状态。"
+        },
+        {
+          "signature": "public ValueTask<Result<RunSnapshot>> ReadAsync(OperationId id, CancellationToken ct)",
+          "behavior": "由完整记录前缀重建；损坏尾部、未终结意图或失效执行租约投影为待核验，并保留证据，不自动重放。",
+          "errors": "RunNotFound、CorruptJournal、UnsupportedRecordVersion；可恢复前缀附带不完整标记。"
+        },
+        {
+          "signature": "public IAsyncEnumerable<RunSnapshot> WatchAsync(CancellationToken ct)",
+          "behavior": "在同一读取水位建立快照和增量订阅；每操作 Sequence 单调。积压或丢失连续性时发送需重读的投影或终止订阅，不能静默漏事件。",
+          "errors": "取消抛 OperationCanceledException；存储故障终止流，调用者重新读取后重连。"
+        }
+      ],
+      "dependencies": [
+        "IWorkspaceLocationResolver"
+      ],
+      "forbidden": [
+        "发布未落盘成功事实",
+        "把 JSON 快照与外部副作用描述为原子事务",
+        "自动丢弃仍被恢复引用的记录"
+      ],
+      "lifetime": "PersistenceAndMigration 工作区级单例；写入与序号控制覆盖多进程。",
+      "scenarios": [
+        "AR09",
+        "AR11",
+        "AR16",
+        "AR18",
+        "AR20",
+        "AR22"
+      ]
+    },
+    {
+      "id": "OperationProjectionService",
+      "action": "refine",
+      "reason": "需要为重连、序号缺口和敏感请求隔离提供明确协议。",
+      "responsibility": "向 UI 暴露脱敏操作状态及版本。",
+      "methods": [
+        {
+          "signature": "public ValueTask<Result<RunSnapshot>> ReadAsync(OperationId id, CancellationToken ct)",
+          "behavior": "返回最近可靠状态、模块载荷、证据时间与不确定标记；不暴露冻结请求、CredentialRef 或恢复内部路径。",
+          "errors": "RunNotFound、JournalUnavailable、UnsupportedRecordVersion。"
+        },
+        {
+          "signature": "public IAsyncEnumerable<RunSnapshot> WatchAsync(CancellationToken ct)",
+          "behavior": "继承日志快照加增量协议，保持每操作序号；页面检测重复或缺口后重读，不把枚举结束解释为操作结束。",
+          "errors": "取消抛 OperationCanceledException；基础设施故障结束订阅并允许重连。"
+        }
+      ],
+      "dependencies": [
+        "IRunJournal"
+      ],
+      "forbidden": [
+        "第二份业务状态机",
+        "查询触发执行或恢复",
+        "返回秘密引用"
+      ],
+      "lifetime": "OperationCoordination 应用级单例。",
+      "scenarios": [
+        "AR09",
+        "AR10",
+        "AR11",
+        "AR16"
+      ]
+    },
+    {
+      "id": "ShellViewModel",
+      "action": "refine",
+      "reason": "基线只有激活没有释放契约，可能重复订阅或在窗口关闭时同步等待 UI 回调。",
+      "responsibility": "导航、全局操作摘要与固定主要操作区状态。",
+      "methods": [
+        {
+          "signature": "public ValueTask ActivateAsync(CancellationToken ct)",
+          "behavior": "幂等建立摘要订阅；后台读取快照，仅通过 Dispatcher 更新绑定属性。固定主要操作区不放入内容 ScrollViewer。",
+          "errors": "查询故障显示可重连状态；取消仅取消本次激活或订阅。"
+        },
+        {
+          "signature": "public ValueTask DisposeAsync()",
+          "behavior": "在 Dispatcher 上标记释放并解绑 UI 事件，取消自身订阅，异步等待枚举退出；不使用 Wait 或 Result，不取消应用操作。",
+          "errors": "重复释放安全；Dispatcher 已关闭时跳过属性更新并记录脱敏释放故障。"
+        }
+      ],
+      "dependencies": [
+        "ITaskQueries",
+        "ThemeResourceCatalog"
+      ],
+      "forbidden": [
+        "持有操作执行令牌",
+        "同步阻塞 UI",
+        "窗口释放触发目标进程终止"
+      ],
+      "lifetime": "Presentation.Wpf 主窗口级，关闭时异步释放。",
+      "scenarios": [
+        "AR01",
+        "AR11",
+        "AR23"
+      ]
+    },
+    {
+      "id": "ProfilesPageViewModel",
+      "action": "refine",
+      "reason": "补足空白新增、搜索、独立复制和页面异步结果失效保护，启动仍通过命令端口。",
+      "responsibility": "配置列表交互和启动请求提交。",
+      "methods": [
+        {
+          "signature": "public ValueTask RefreshAsync(string searchText, Guid? applicationId, CancellationToken ct)",
+          "behavior": "从 ICatalogService 读取快照后筛选；采用请求代次丢弃过时结果，Dispatcher 更新列表。",
+          "errors": "查询错误显示在页内；取消不清除仍有效列表。"
+        },
+        {
+          "signature": "public ProfileDraft CreateNew()",
+          "behavior": "返回无 ProfileId、无密码、无上一条记录残留的空白草稿。",
+          "errors": "页面已释放抛 ObjectDisposedException。"
+        },
+        {
+          "signature": "public ValueTask CopyAsync(Guid sourceId, Revision expected, CancellationToken ct)",
+          "behavior": "调用目录复制并展示新 ID 及凭据待配置状态。",
+          "errors": "显示 ProfileNotFound、RevisionConflict 或存储错误，不局部伪造成功记录。"
+        },
+        {
+          "signature": "public ValueTask DeleteAsync(Guid profileId, Revision expected, CancellationToken ct)",
+          "behavior": "显式删除管理记录，成功后刷新列表。",
+          "errors": "显示关联、修订或提交不确定错误。"
+        },
+        {
+          "signature": "public ValueTask LaunchSelectedAsync(CancellationToken ct)",
+          "behavior": "提交选中 ID、修订及稳定请求标识；收到 OperationId 后由全局查询观察。缺少路径或凭据时显示绑定要求。",
+          "errors": "显示 BindingRequired、RevisionConflict、AcceptanceIndeterminate；不自动再次提交未知结果。"
+        },
+        {
+          "signature": "public ValueTask DisposeAsync()",
+          "behavior": "取消页面读取和等待，解绑事件，拒绝迟到的 Dispatcher 更新；不取消已受理启动。",
+          "errors": "幂等释放；不同步等待 UI 回调。"
+        }
+      ],
+      "dependencies": [
+        "ICatalogService",
+        "IOperationCommands"
+      ],
+      "forbidden": [
+        "直接访问进程或凭据 API",
+        "从选中记录填充空白新增",
+        "页面离开终止启动"
+      ],
+      "lifetime": "Presentation.Wpf 页面级。",
+      "scenarios": [
+        "AR02",
+        "AR03",
+        "AR11",
+        "AR27"
+      ]
+    },
+    {
+      "id": "ProfileEditorViewModel",
+      "action": "refine",
+      "reason": "秘密应在每次保存尝试结束后释放；原文仅要求保存成功清理，失败和离页路径不完整。",
+      "responsibility": "编辑草稿、输入验证和秘密一次性移交。",
+      "methods": [
+        {
+          "signature": "public ValueTask SaveAsync(SecretUpdate secretChange, CancellationToken ct)",
+          "behavior": "接收本次移交的秘密所有权，调用 ICatalogService；finally 释放临时秘密并清空输入。保存结果未知时保留提交标识供核验，不保留明文用于自动重试。",
+          "errors": "展示脱敏字段错误、CredentialWriteFailed、RevisionConflict 或 CommitIndeterminate；重输秘密由用户决定。"
+        },
+        {
+          "signature": "public ValueTask DisposeAsync()",
+          "behavior": "Dispatcher 上隐藏并清空编辑控件，解绑事件；取消页面等待并释放尚未移交秘密，已移交秘密由保存调用 finally 释放。",
+          "errors": "重复释放安全；提交已开始时页面释放不能推定配置未保存。"
+        }
+      ],
+      "dependencies": [
+        "ICatalogService",
+        "PasswordEntryBehavior"
+      ],
+      "forbidden": [
+        "绑定已保存密码",
+        "缓存秘密用于重试",
+        "将 UI 显示状态写入配置"
+      ],
+      "lifetime": "Presentation.Wpf 编辑页级。",
+      "scenarios": [
+        "AR03",
+        "AR04"
+      ]
+    },
+    {
+      "id": "LicensePageViewModel",
+      "action": "refine",
+      "reason": "补充监测订阅与释放，避免离页停止全局监测或迟到回调访问已释放页面。",
+      "responsibility": "展示分项证据、时间及复查状态。",
+      "methods": [
+        {
+          "signature": "public ValueTask ActivateAsync(CancellationToken ct)",
+          "behavior": "订阅 IResourceMonitor，Dispatcher 更新 VM、服务、TCP 各自状态与时效。",
+          "errors": "订阅故障显示监测不可用，重连后重读快照。"
+        },
+        {
+          "signature": "public ValueTask RefreshAsync(Guid resourceId, CancellationToken ct)",
+          "behavior": "请求用例复查，不自行计数或推断许可签出。",
+          "errors": "显示 ResourceNotFound、ProbeUnavailable 及新鲜度错误。"
+        },
+        {
+          "signature": "public ValueTask DisposeAsync()",
+          "behavior": "取消本页订阅并异步等待退出，解绑事件；监测服务继续运行。",
+          "errors": "幂等释放；不使用同步 Dispatcher 等待。"
+        }
+      ],
+      "dependencies": [
+        "IResourceMonitor"
+      ],
+      "forbidden": [
+        "页面自行探测",
+        "TCP 成功显示许可已签出",
+        "离页停止外部资源"
+      ],
+      "lifetime": "Presentation.Wpf 页面级。",
+      "scenarios": [
+        "AR05",
+        "AR06",
+        "AR07",
+        "AR08"
+      ]
+    },
+    {
+      "id": "ToolPageViewModel",
+      "action": "refine",
+      "reason": "基线缺少变量确认提交入口，且必须让编辑导致旧确认失效并明确释放订阅。",
+      "responsibility": "来源选择、计划预览、摘要绑定确认及结果导航。",
+      "methods": [
+        {
+          "signature": "public ValueTask PreviewDeploymentAsync(DeployRequest request, CancellationToken ct)",
+          "behavior": "展示规划服务返回的登记计划及摘要；来源、映射、目标或备份策略改变立即清除旧确认。",
+          "errors": "显示来源、目标、暂存或安全路径错误，不创建执行操作。"
+        },
+        {
+          "signature": "public ValueTask PreviewVariableAsync(VariableRenameRequest request, CancellationToken ct)",
+          "behavior": "展示旧新名称、两端基线、作用域和摘要；默认不选择系统作用域。",
+          "errors": "显示 VariableConflict、ReservedVariable、InvalidScope。"
+        },
+        {
+          "signature": "public ValueTask RefreshSourcesAsync(RefreshIntent intent, CancellationToken ct)",
+          "behavior": "普通刷新传 KeepSelection，只有用户显式选最新才传 SelectNewest；选择变化使旧部署确认失效。",
+          "errors": "来源不可用时保留选择并标记不可执行。"
+        },
+        {
+          "signature": "public ValueTask SubmitConfirmedAsync(ConfirmedPlan plan, CancellationToken ct)",
+          "behavior": "只提交当前已展示并经用户确认的 PlanId 和 PlanDigest；受理后展示 OperationId。",
+          "errors": "PlanExpired、TargetBusy、AcceptanceIndeterminate；不得自动重新确认新计划。"
+        },
+        {
+          "signature": "public ValueTask SubmitVariablesAsync(ConfirmedVariablePlan plan, CancellationToken ct)",
+          "behavior": "显式提交 ApplyVariables，保存配置按钮不能调用此方法。",
+          "errors": "PlanExpired、VariableConflict、PermissionDenied、AcceptanceIndeterminate。"
+        },
+        {
+          "signature": "public ValueTask DisposeAsync()",
+          "behavior": "取消预览、页面等待及订阅，清除确认对象并异步释放；已经受理的操作继续。",
+          "errors": "重复释放安全；迟到结果不更新已释放页面。"
+        }
+      ],
+      "dependencies": [
+        "ICatalogService",
+        "IToolSourceCatalog",
+        "IOperationCommands",
+        "IDeploymentPlanningService",
+        "IVariablePlanningService"
+      ],
+      "forbidden": [
+        "直接写目标或持久环境",
+        "沿用编辑前确认",
+        "页面取消代表操作取消"
+      ],
+      "lifetime": "Presentation.Wpf 页面级。",
+      "scenarios": [
+        "AR12",
+        "AR13",
+        "AR14",
+        "AR18",
+        "AR26"
+      ]
+    },
+    {
+      "id": "PasswordEntryBehavior",
+      "action": "refine",
+      "reason": "void 方法不能声称返回结构化错误；还需显式隐藏、清空和 UI 线程释放契约。",
+      "responsibility": "本次输入的临时显隐、移交与清理。",
+      "methods": [
+        {
+          "signature": "public void RevealWhileEditing()",
+          "behavior": "仅在当前编辑且存在本次输入时短暂显示；不调用凭据服务，不通过可绑定 Password 字符串公开。",
+          "errors": "非 Dispatcher 线程抛 InvalidOperationException；已释放抛 ObjectDisposedException；没有输入时无操作。"
+        },
+        {
+          "signature": "public TransientSecret DetachInput()",
+          "behavior": "Dispatcher 上复制至可释放临时对象并转移所有权，立即隐藏和清空控件及临时显示缓冲。",
+          "errors": "非 UI 线程或已释放抛对应异常；空输入由 SecretUpdate 的 Keep、Clear、Replace 明确区分。"
+        },
+        {
+          "signature": "public void HideAndClear()",
+          "behavior": "离焦、保存、离页及窗口停用时隐藏并清空本次输入和显示缓冲。",
+          "errors": "要求 Dispatcher 线程；重复清理安全。"
+        },
+        {
+          "signature": "public void Dispose()",
+          "behavior": "Dispatcher 上解绑控件事件并清理缓冲，防止事件处理器保活页面。",
+          "errors": "重复释放安全；不能承诺消除托管字符串或目标命令行中的全部残留。"
+        }
+      ],
+      "dependencies": [],
+      "forbidden": [
+        "从凭据库读取保存密码",
+        "秘密进入属性通知或日志",
+        "后台线程直接操作控件"
+      ],
+      "lifetime": "Presentation.Wpf 密码输入控件级。",
+      "scenarios": [
+        "AR04"
+      ]
+    },
+    {
+      "id": "ThemeResourceCatalog",
+      "action": "refine",
+      "reason": "未提供 FigCraft 图稿，不能宣称已固定视觉值；原返回类型与结构化错误描述也不一致。",
+      "responsibility": "集中管理经批准的视觉令牌和控件状态资源。",
+      "methods": [
+        {
+          "signature": "public Result<ThemeSnapshot> Resolve(ThemePreference preference)",
+          "behavior": "解析明确提供的资源键及主题；图稿缺失时标记未核定项，不编造颜色、间距、图标或圆角验收值。",
+          "errors": "ThemeUnavailable、MissingResource、DesignReferenceMissing。"
+        }
+      ],
+      "dependencies": [],
+      "forbidden": [
+        "用默认主题宣称符合图稿",
+        "以资源目录代替页面布局验收"
+      ],
+      "lifetime": "Presentation.Wpf 应用级不可变资源目录。",
+      "scenarios": [
+        "AR01",
+        "AR11",
+        "AR23"
+      ]
+    },
+    {
+      "id": "PrivilegedWorkerHost",
+      "action": "refine",
+      "reason": "worker 必须成为提权路径的唯一实际写入者，并复用锁、日志和计划校验，不能仅验证一次请求就执行。",
+      "responsibility": "执行有限提权部署或变量步骤。",
+      "methods": [
+        {
+          "signature": "public ValueTask<int> RunAsync(WorkerEnvelope request, CancellationToken ct)",
+          "behavior": "验证调用者、受保护通道、一次性会话、期限、OperationId、种类和 PlanDigest；独立读取并重验冻结计划及暂存。由 worker 取得目标租约，锁内复查后复用文件或变量端口。变量公共检查点通过受认证的 IOperationContext 通道由父协调器持久确认；文件回执由 worker 单写。父通道丢失时停止下一副作用。",
+          "errors": "InvalidRequest、CallerMismatch、ReplayRejected、PlanExpired、TargetBusy、PermissionDenied、RecoveryRequired；退出码只表示 worker 执行情况，业务结果以匹配回执为准。"
+        }
+      ],
+      "dependencies": [
+        "IFileDeliveryPort",
+        "IEnvironmentStore",
+        "ITargetLeaseProvider",
+        "IStagingStore",
+        "IOperationContext"
+      ],
+      "forbidden": [
+        "任意程序或脚本执行",
+        "接受登录密码",
+        "绕过原计划扩大目标",
+        "父进程断开后继续未记录步骤"
+      ],
+      "lifetime": "WindowsAndSourceAdapters 每次提权操作独立进程；完成或安全停止后退出。",
+      "scenarios": [
+        "AR14",
+        "AR15",
+        "AR16",
+        "AR17",
+        "AR18",
+        "AR26"
+      ]
+    },
+    {
+      "id": "DesktopCompositionRoot",
+      "action": "refine",
+      "reason": "组合根应覆盖新增暂存与迁移，并明确普通入口与诊断失败降级，而不是复制用例行为。",
+      "responsibility": "装配同一 Desktop 业务运行时和本机适配器。",
+      "methods": [
+        {
+          "signature": "public Result<DesktopRuntime> Build(RuntimeOptions options)",
+          "behavior": "装配工作区存储、秘密、发现、监测、操作注册、暂存、目标锁、迁移及页面工厂；普通 EXE 不依赖 Aspire。诊断不可用降级本地记录。启动只索引未完成操作并读取恢复证据；停止按安全检查点收束写入、释放观察，不终止外部资源。",
+          "errors": "ConfigurationUnavailable、DuplicateRegistration、PolicyInvalid、UnsupportedPlatform；目录错误不静默创建空配置，诊断错误不作为业务装配失败。"
+        }
+      ],
+      "dependencies": [
+        "WorkspaceCatalogService",
+        "ConfigurationShareService",
+        "ResourceSupervisor",
+        "OperationCoordinator",
+        "OperationHandlerRegistry",
+        "OperationProjectionService",
+        "LaunchOperationHandler",
+        "DeliveryOperationHandler",
+        "VariableOperationHandler",
+        "WorkspaceMigrationService",
+        "JsonWorkspaceStore",
+        "JsonRunJournal",
+        "JsonMigrationStore",
+        "PrivateStagingStore",
+        "WindowsSecretVault",
+        "WindowsEntryDiscovery",
+        "WindowsProcessGateway",
+        "WindowsResourceProbe",
+        "PackageReader",
+        "FileDeliveryPort",
+        "CanonicalTargetLeaseProvider",
+        "WindowsEnvironmentStore",
+        "WindowsPrivilegeBroker",
+        "ThemeResourceCatalog"
+      ],
+      "forbidden": [
+        "引用 AspireDevelopmentHost",
+        "组合根复制业务规则",
+        "启动时自动恢复写入",
+        "停止外部所有资源"
+      ],
+      "lifetime": "CompositionAndDiagnostics 每 Desktop 进程一次。",
+      "scenarios": [
+        "AR01",
+        "AR20",
+        "AR21",
+        "AR22",
+        "AR24",
+        "AR25"
+      ]
+    },
+    {
+      "id": "AspireDevelopmentHost",
+      "action": "refine",
+      "reason": "仅编排模拟桌面不足以满足 ADR-08；必须使用真实 Aspire AppHost 启动同一 Desktop 可执行文件，解除对 DesktopCompositionRoot 的直接实例依赖。",
+      "responsibility": "提供可替换开发入口及开发资源所有权管理。",
+      "methods": [
+        {
+          "signature": "public ValueTask<int> RunAsync(DevelopmentOptions options, CancellationToken ct)",
+          "behavior": "在 LaunchDesk.AppHost 使用真实 Aspire AppHost 启动与普通入口相同的 Desktop 产物，传入显式隔离数据目录和可选诊断配置。许可服务、AVEVA、VMware 登记为外部所有；停止仅回收自有开发资源和工作台，目标会话不得加入随 AppHost 终止的进程组。",
+          "errors": "DevelopmentResourceUnavailable、DesktopStartFailed；诊断端点失联时 Desktop 继续本地业务，AppHost 故障不伪造业务完成或远端执行结果。"
+        }
+      ],
+      "dependencies": [],
+      "forbidden": [
+        "把 Aspire 类型带入核心或 Desktop 普通入口",
+        "直接重建另一套业务容器",
+        "结束真实许可服务、VMware 或 AVEVA"
+      ],
+      "lifetime": "CompositionAndDiagnostics 开发会话级；通过进程产物边界启动 Desktop。",
+      "scenarios": [
+        "AR01",
+        "AR24",
+        "AR25"
+      ]
+    },
+    {
+      "id": "VariablePlanner",
+      "action": "refine",
+      "reason": "需要同时冻结旧新名称的存在性和值、作用域和确认摘要，并处理 Windows 名称大小写等价。",
+      "responsibility": "只读生成持久变量变更计划。",
+      "methods": [
+        {
+          "signature": "public ValueTask<Result<VariableChangePlan>> PreviewAsync(VariableRenameRequest request, CancellationToken ct)",
+          "behavior": "读取旧名和新名，分别记录不存在、空值或具体值；校验保留名、机器、用户或系统作用域。计划摘要覆盖这些基线与预期值；同名大小写变体不生成先写再删操作。预览不写 Windows，也不保存配置。",
+          "errors": "VariableConflict、ReservedVariable、InvalidVariableName、InvalidScope、VariableUnavailable。"
+        }
+      ],
+      "dependencies": [
+        "IEnvironmentStore"
+      ],
+      "forbidden": [
+        "预览隐式持久应用",
+        "系统作用域默认选中",
+        "忽略新名已存在"
+      ],
+      "lifetime": "EnvironmentManagement 无请求状态的规划服务。",
+      "scenarios": [
+        "AR18"
+      ]
+    },
+    {
+      "id": "ICatalogService",
+      "action": "refine",
+      "reason": "同步目录用例的发现入口及提交结果未知语义，使页面无需引用具体实现。",
+      "responsibility": "Configuration 面向 UI 的配置命令查询契约。",
+      "methods": [
+        {
+          "signature": "ValueTask<Result<WorkspaceSnapshot>> ReadAsync(CancellationToken ct)",
+          "behavior": "返回不含秘密及凭据引用的公开快照。",
+          "errors": "ConfigurationMissing、StoreUnavailable、InvalidFormat。"
+        },
+        {
+          "signature": "ValueTask<Result<ProfileSnapshot>> SaveProfileAsync(ProfileDraft draft, SecretUpdate change, Revision expected, CancellationToken ct)",
+          "behavior": "先创建新秘密引用，再提交配置；未知结果保留新旧引用，按 WorkspaceCatalogService 契约核验。",
+          "errors": "InvalidReference、RevisionConflict、CredentialWriteFailed、CommitIndeterminate。"
+        },
+        {
+          "signature": "ValueTask<Result<ProfileSnapshot>> CopyAsync(Guid sourceId, Revision expected, CancellationToken ct)",
+          "behavior": "新 ID 和独立记录，不复制秘密或其引用。",
+          "errors": "ProfileNotFound、RevisionConflict、StoreUnavailable。"
+        },
+        {
+          "signature": "ValueTask<Result<Unit>> DeleteAsync(Guid profileId, Revision expected, CancellationToken ct)",
+          "behavior": "仅删除管理记录，提交后才允许无引用凭据清理。",
+          "errors": "ProfileNotFound、ReferenceConflict、RevisionConflict、CommitIndeterminate。"
+        },
+        {
+          "signature": "ValueTask<Result<Revision>> SaveDefinitionAsync(DefinitionDraft draft, Revision expected, CancellationToken ct)",
+          "behavior": "保存有限定义，保留人工绑定标记，不应用环境。",
+          "errors": "InvalidDefinition、InvalidReference、RevisionConflict、StoreUnavailable。"
+        },
+        {
+          "signature": "ValueTask<Result<WorkspaceSnapshot>> RefreshDiscoveryAsync(Guid applicationId, Revision expected, CancellationToken ct)",
+          "behavior": "合并自动候选，保护人工绑定；不执行候选。",
+          "errors": "ApplicationNotFound、DiscoveryUnavailable、RevisionConflict。"
+        }
+      ],
+      "dependencies": [],
+      "forbidden": [
+        "UI 获取保存秘密"
+      ],
+      "lifetime": "契约，无实例状态。",
+      "scenarios": [
+        "AR02",
+        "AR03",
+        "AR04",
+        "AR18",
+        "AR27"
+      ]
+    },
+    {
+      "id": "IOperationHandler",
+      "action": "refine",
+      "reason": "执行端必须接收已接受的不可变快照，而不是可重新解释的原始请求。",
+      "responsibility": "有限模块操作执行及模块状态机边界。",
+      "methods": [
+        {
+          "signature": "ValueTask<Result<HandlerOutcome>> ExecuteAsync(OperationRequestSnapshot request, IOperationContext context, CancellationToken ct)",
+          "behavior": "核对有限种类、快照版本与摘要；模块拥有业务状态及安全取消规则，事实经上下文发布。",
+          "errors": "WrongOperationKind、InvalidPlan、UnsupportedSnapshotVersion、Indeterminate；有副作用后的取消保留实际事实。"
+        }
+      ],
+      "dependencies": [
+        "IOperationContext"
+      ],
+      "forbidden": [
+        "直接改写公共日志",
+        "自动重放未知副作用"
+      ],
+      "lifetime": "契约；实现按操作创建。",
+      "scenarios": [
+        "AR09",
+        "AR16",
+        "AR18",
+        "AR22"
+      ]
+    },
+    {
+      "id": "IFileDeliveryPort",
+      "action": "refine",
+      "reason": "显式传入 OperationId，保证回执与已受理操作关联。",
+      "responsibility": "目标检查和持锁文件写入端口。",
+      "methods": [
+        {
+          "signature": "ValueTask<Result<TargetSnapshot>> InspectTargetAsync(TargetSpec target, CancellationToken ct)",
+          "behavior": "返回真实目标身份和内容基线。",
+          "errors": "InvalidTarget、TargetUnavailable、UnsupportedLink、AccessDenied。"
+        },
+        {
+          "signature": "ValueTask<Result<DeploymentReceipt>> ApplyAsync(OperationId operationId, ConfirmedPlan plan, TargetLease lease, CancellationToken ct)",
+          "behavior": "实施 FileDeliveryPort 的备份、意图落盘、写入、核验和完成事实协议。",
+          "errors": "PlanExpired、InvalidLease、TargetChanged、BackupUnavailable、JournalUnavailable、RecoveryRequired、RollbackConflict、Indeterminate。"
+        },
+        {
+          "signature": "ValueTask<Result<DeploymentReceipt>> ReadReceiptAsync(OperationId original, CancellationToken ct)",
+          "behavior": "读取原操作恢复事实，不重放。",
+          "errors": "ReceiptNotFound、UnsupportedReceiptVersion、InvalidReceipt、ReceiptIncomplete。"
+        }
+      ],
+      "dependencies": [],
+      "forbidden": [
+        "无租约写入",
+        "回执读取执行恢复"
+      ],
+      "lifetime": "契约，无实例状态。",
+      "scenarios": [
+        "AR14",
+        "AR15",
+        "AR16",
+        "AR17"
+      ]
+    },
+    {
+      "id": "IEnvironmentStore",
+      "action": "refine",
+      "reason": "以真实平台能力替代误导性的 CompareExchangeAsync，并引入逐步检查点。",
+      "responsibility": "读取与尽力检测冲突的环境写入端口。",
+      "methods": [
+        {
+          "signature": "ValueTask<Result<VariableSnapshot>> ReadAsync(VariableAddress address, CancellationToken ct)",
+          "behavior": "区分不存在、空值和实际值。",
+          "errors": "InvalidScope、VariableUnavailable、PermissionDenied。"
+        },
+        {
+          "signature": "ValueTask<Result<Unit>> ApplyVerifiedAsync(ConfirmedVariablePlan plan, IOperationContext context, CancellationToken ct)",
+          "behavior": "按 WindowsEnvironmentStore 契约逐步写入和核验；所有破坏性步骤前检查点须持久成功。",
+          "errors": "VariableConflict、ReservedVariable、PermissionDenied、JournalUnavailable、PartialApplied、Indeterminate。"
+        }
+      ],
+      "dependencies": [
+        "IOperationContext"
+      ],
+      "forbidden": [
+        "声明对任意外部写入者原子 CAS"
+      ],
+      "lifetime": "契约，无实例状态。",
+      "scenarios": [
+        "AR18",
+        "AR26"
+      ]
+    },
+    {
+      "id": "IEntryDiscovery",
+      "action": "add",
+      "reason": "基线缺少入口发现端口，新增后可保护配置用例与 Windows 扫描的依赖方向。",
+      "responsibility": "Configuration 定义的只读入口候选发现端口。",
+      "methods": [
+        {
+          "signature": "ValueTask<Result<IReadOnlyList<string>>> FindAsync(Guid applicationId, CancellationToken ct)",
+          "behavior": "根据已注册产品规则返回本机候选路径；不选择最终入口，也不修改人工绑定。",
+          "errors": "UnsupportedApplication、DiscoveryUnavailable、AccessDenied。"
+        }
+      ],
+      "dependencies": [],
+      "forbidden": [
+        "执行候选程序",
+        "写入配置"
+      ],
+      "lifetime": "契约；适配器由组合根装配。",
+      "scenarios": [
+        "AR02",
+        "AR27"
+      ]
+    },
+    {
+      "id": "WindowsEntryDiscovery",
+      "action": "add",
+      "reason": "为自定义入口与可扩展本机发现提供具体系统适配归属。",
+      "responsibility": "WindowsAndSourceAdapters 中实现 IEntryDiscovery。",
+      "methods": [
+        {
+          "signature": "public ValueTask<Result<IReadOnlyList<string>>> FindAsync(Guid applicationId, CancellationToken ct)",
+          "behavior": "只读应用已配置的有限发现规则，返回规范化候选路径并去重；不扫描凭据，不执行候选验证。",
+          "errors": "UnsupportedApplication、DiscoveryUnavailable、AccessDenied；局部扫描失败不得删除原人工入口。"
+        }
+      ],
+      "dependencies": [],
+      "forbidden": [
+        "覆盖人工绑定",
+        "用启动程序验证候选"
+      ],
+      "lifetime": "WindowsAndSourceAdapters 应用级单例；扫描状态调用级。",
+      "scenarios": [
+        "AR02",
+        "AR27"
+      ]
+    },
+    {
+      "id": "IStagingStore",
+      "action": "add",
+      "reason": "部署确认必须绑定可复核的私有内容和登记计划，不能依赖页面对象或可变来源。",
+      "responsibility": "ToolDeployment 定义的暂存和不可变计划存储端口。",
+      "methods": [
+        {
+          "signature": "ValueTask<Result<SourceSnapshot>> StageAsync(SourceSnapshot source, CancellationToken ct)",
+          "behavior": "返回包含暂存标识、清单、摘要和格式版本的 SourceSnapshot，摘要基于复制后的字节。",
+          "errors": "SourceChanged、StagingUnavailable、UnsafeArchiveEntry、LimitExceeded。"
+        },
+        {
+          "signature": "ValueTask<Result<Unit>> SavePlanAsync(DeploymentPlan plan, CancellationToken ct)",
+          "behavior": "按 PlanId 保存不可变计划和 PlanDigest，同 ID 不允许替换内容。",
+          "errors": "PlanConflict、InvalidDigest、StagingUnavailable。"
+        },
+        {
+          "signature": "ValueTask<Result<DeploymentPlan>> ReadPlanAsync(Guid planId, CancellationToken ct)",
+          "behavior": "读取已登记计划，不接受页面内存作为权威。",
+          "errors": "PlanNotFound、UnsupportedPlanVersion、CorruptPlan。"
+        },
+        {
+          "signature": "ValueTask<Result<Unit>> ValidateAsync(DeploymentPlan plan, CancellationToken ct)",
+          "behavior": "重新核验来源选择及摘要、暂存清单和实际字节；写入只使用核验后的暂存内容。",
+          "errors": "SourceUnavailable、SourceChanged、StagingChanged、PlanExpired。"
+        }
+      ],
+      "dependencies": [],
+      "forbidden": [
+        "修改业务目标",
+        "执行来源内容",
+        "删除恢复仍引用的暂存"
+      ],
+      "lifetime": "契约；暂存保留期受未完成操作及恢复引用约束。",
+      "scenarios": [
+        "AR13",
+        "AR14",
+        "AR16",
+        "AR17"
+      ]
+    },
+    {
+      "id": "PrivateStagingStore",
+      "action": "add",
+      "reason": "提供可审计的内容冻结机制，补齐预览与实际执行之间的来源变化窗口。",
+      "responsibility": "PersistenceAndMigration 实现 IStagingStore。",
+      "methods": [
+        {
+          "signature": "public ValueTask<Result<SourceSnapshot>> StageAsync(SourceSnapshot source, CancellationToken ct)",
+          "behavior": "写入受限私有目录，校验复制前后来源及复制后内容；完成并刷新后发布暂存标识。",
+          "errors": "SourceChanged、StagingUnavailable、UnsafeArchiveEntry、LimitExceeded；不发布半成品暂存。"
+        },
+        {
+          "signature": "public ValueTask<Result<Unit>> SavePlanAsync(DeploymentPlan plan, CancellationToken ct)",
+          "behavior": "确定性重算摘要并持久登记，同 PlanId 内容不可变。",
+          "errors": "PlanConflict、InvalidDigest、StagingUnavailable。"
+        },
+        {
+          "signature": "public ValueTask<Result<DeploymentPlan>> ReadPlanAsync(Guid planId, CancellationToken ct)",
+          "behavior": "校验计划版本与完整性后返回不可变对象。",
+          "errors": "PlanNotFound、UnsupportedPlanVersion、CorruptPlan。"
+        },
+        {
+          "signature": "public ValueTask<Result<Unit>> ValidateAsync(DeploymentPlan plan, CancellationToken ct)",
+          "behavior": "通过 IPackageReader 重验来源，并重验暂存实际字节；实际写入仍需使用已核验句柄或再次逐项校验，不能只依赖文件属性只读标志。",
+          "errors": "SourceUnavailable、SourceChanged、StagingChanged、PlanExpired。"
+        }
+      ],
+      "dependencies": [
+        "IPackageReader",
+        "IWorkspaceLocationResolver"
+      ],
+      "forbidden": [
+        "来源变化后静默更新确认计划",
+        "覆盖同 ID 计划",
+        "保留策略删除活动引用"
+      ],
+      "lifetime": "PersistenceAndMigration 工作区级单例；内容按计划及操作引用持有。",
+      "scenarios": [
+        "AR13",
+        "AR14",
+        "AR16",
+        "AR17"
+      ]
+    },
+    {
+      "id": "WorkspaceMigrationService",
+      "action": "add",
+      "reason": "基线把旧格式处理塞入普通存储，缺少独立旁路转换、验证、切换和中断核验状态机。",
+      "responsibility": "PersistenceAndMigration 拥有配置迁移状态机，实现 IOperationHandler。",
+      "methods": [
+        {
+          "signature": "public ValueTask<Result<OperationRequest>> PreviewAsync(Revision expected, CancellationToken ct)",
+          "behavior": "只读检查旧格式，生成有限 MigrateConfiguration 请求；计划冻结原数据摘要、源和目标格式、目录、修订及确认摘要，列出关联和历史验证要求。",
+          "errors": "MigrationNotRequired、UnsupportedFormat、CorruptConfiguration、RevisionConflict、MigrationPreviewFailed。"
+        },
+        {
+          "signature": "public ValueTask<Result<HandlerOutcome>> ExecuteAsync(OperationRequestSnapshot request, IOperationContext context, CancellationToken ct)",
+          "behavior": "确认原数据未变，持久记录迁移意图后创建旁路副本；验证 ID、关联、历史及凭据引用，再持久记录切换意图并切换有效版本。保留原始数据；切换结果未知先通过迁移标记核验。恢复必须来自用户新确认请求。",
+          "errors": "WrongOperationKind、PlanExpired、MigrationValidationFailed、StoreUnavailable、ActivationIndeterminate、RecoveryRequired；不自动重放转换或切换。"
+        }
+      ],
+      "dependencies": [
+        "IMigrationStore"
+      ],
+      "forbidden": [
+        "通过导出秘密迁移",
+        "修改唯一原始副本",
+        "读取即迁移",
+        "把同引用解释为凭据必然可用"
+      ],
+      "lifetime": "PersistenceAndMigration；预览调用级，执行由注册表按操作创建。",
+      "scenarios": [
+        "AR20",
+        "AR21",
+        "AR22"
+      ]
+    },
+    {
+      "id": "IMigrationStore",
+      "action": "add",
+      "reason": "迁移需要独立于普通配置提交的系统端口和结果核验。",
+      "responsibility": "定义原始读取、旁路副本及有效版本切换。",
+      "methods": [
+        {
+          "signature": "ValueTask<Result<WorkspaceSnapshotInternal>> ReadSourceAsync(CancellationToken ct)",
+          "behavior": "只读兼容读取源数据及原始摘要，保留未知字段或明确报告不可迁移字段。",
+          "errors": "ConfigurationMissing、UnsupportedFormat、CorruptConfiguration、StoreUnavailable。"
+        },
+        {
+          "signature": "ValueTask<Result<Unit>> PrepareAsync(OperationRequestSnapshot request, CancellationToken ct)",
+          "behavior": "根据冻结迁移计划生成带 OperationId 的旁路副本，保留原始数据。",
+          "errors": "SourceChanged、MigrationConversionFailed、StoreUnavailable。"
+        },
+        {
+          "signature": "ValueTask<Result<Unit>> ValidateAsync(OperationId operationId, CancellationToken ct)",
+          "behavior": "重读旁路副本并核对格式、ID、引用、历史及凭据关联清单。",
+          "errors": "CandidateNotFound、MigrationValidationFailed、StoreUnavailable。"
+        },
+        {
+          "signature": "ValueTask<Result<Revision>> ActivateAsync(OperationId operationId, Revision expected, CancellationToken ct)",
+          "behavior": "在与普通配置提交共享的工作区锁内比较源修订，再原子切换到已验证副本；有效标记携带 OperationId。",
+          "errors": "RevisionConflict、CandidateNotValidated、StoreUnavailable、ActivationIndeterminate。"
+        },
+        {
+          "signature": "ValueTask<Result<OperationFact>> InspectAsync(OperationId operationId, CancellationToken ct)",
+          "behavior": "只读核对有效标记、原始副本和候选文件，返回实际迁移阶段事实。",
+          "errors": "MigrationNotFound、CorruptMigrationRecord、StoreUnavailable。"
+        }
+      ],
+      "dependencies": [],
+      "forbidden": [
+        "自动执行恢复",
+        "序列化秘密"
+      ],
+      "lifetime": "契约；迁移记录保留至恢复引用解除。",
+      "scenarios": [
+        "AR20",
+        "AR22"
+      ]
+    },
+    {
+      "id": "JsonMigrationStore",
+      "action": "add",
+      "reason": "为旁路迁移和切换故障窗口提供具体持久化责任。",
+      "responsibility": "PersistenceAndMigration 实现 IMigrationStore。",
+      "methods": [
+        {
+          "signature": "public ValueTask<Result<WorkspaceSnapshotInternal>> ReadSourceAsync(CancellationToken ct)",
+          "behavior": "读取选定目录中的旧格式及摘要，绝不自动覆盖源文件。",
+          "errors": "ConfigurationMissing、UnsupportedFormat、CorruptConfiguration、StoreUnavailable。"
+        },
+        {
+          "signature": "public ValueTask<Result<Unit>> PrepareAsync(OperationRequestSnapshot request, CancellationToken ct)",
+          "behavior": "复核源摘要，写独立候选目录并刷新文件；迁移记录关联源、候选、格式版本和 OperationId。",
+          "errors": "SourceChanged、MigrationConversionFailed、StoreUnavailable。"
+        },
+        {
+          "signature": "public ValueTask<Result<Unit>> ValidateAsync(OperationId operationId, CancellationToken ct)",
+          "behavior": "重新解析候选文件并比对迁移清单，验证后保存与候选摘要绑定的验证事实。",
+          "errors": "CandidateNotFound、MigrationValidationFailed、StoreUnavailable。"
+        },
+        {
+          "signature": "public ValueTask<Result<Revision>> ActivateAsync(OperationId operationId, Revision expected, CancellationToken ct)",
+          "behavior": "持有共享工作区提交锁后复查源修订及候选摘要；原子更新有效版本标记，保留原始副本和迁移记录。",
+          "errors": "RevisionConflict、CandidateNotValidated、StoreUnavailable、ActivationIndeterminate。"
+        },
+        {
+          "signature": "public ValueTask<Result<OperationFact>> InspectAsync(OperationId operationId, CancellationToken ct)",
+          "behavior": "以磁盘有效标记和内容摘要核验实际切换结果，不依赖最后一条公共日志猜测。",
+          "errors": "MigrationNotFound、CorruptMigrationRecord、StoreUnavailable。"
+        }
+      ],
+      "dependencies": [
+        "IWorkspaceLocationResolver"
+      ],
+      "forbidden": [
+        "删除唯一源副本",
+        "绕过普通配置提交锁",
+        "缺失记录时假报迁移成功"
+      ],
+      "lifetime": "PersistenceAndMigration 工作区级单例。",
+      "scenarios": [
+        "AR20",
+        "AR21",
+        "AR22"
+      ]
+    }
+  ],
+  "flows": [
+    {
+      "name": "配置与凭据提交",
+      "steps": [
+        "ProfileEditorViewModel 明确传入 Keep、Replace 或 Clear，秘密不属于 ProfileDraft。",
+        "WorkspaceCatalogService 校验引用与 expected 修订；Replace 先调用 WindowsSecretVault 创建新引用，禁止覆盖旧引用。",
+        "JsonWorkspaceStore 在跨进程提交锁内复查修订，提交引用新凭据的配置并保存提交标识。",
+        "确认配置未提交才可清理本次新引用；确认已提交才考虑清理旧引用。需要把当前配置、未完成操作快照及活动秘密租约都纳入引用证明。",
+        "首版无法可靠证明无引用的旧凭据或崩溃遗留候选一律保留，不自动扫除；不得为了清理扩大凭据读取范围。",
+        "保存调用 finally 释放本次秘密，UI 只接收脱敏快照。"
+      ],
+      "failureBehavior": "凭据写失败不提交配置；配置提交未知保留新旧引用并核验，不直接回滚凭据。旧凭据清理失败作为独立维护诊断，不把已成功配置提交报告为失败。"
+    },
+    {
+      "name": "启动与进程交接",
+      "steps": [
+        "页面以配置 ID、修订和稳定请求标识提交，协调器持久化冻结请求后创建 LaunchOperationHandler。",
+        "处理器验证 MachineId、入口和初始化文件；获取新鲜的分项资源证据，捕获独立父环境。",
+        "ProcessEnvironmentPolicy 移除继承许可专用变量，再注入本次许可；LaunchPlanBuilder 仅保留 SecretSlot。",
+        "启动意图可靠落盘后解析 SecretLease，执行进程创建，立即释放秘密；创建事实必须另行提交。",
+        "WindowsProcessGateway 跟踪入口与目标关联，记录机器、PID、创建时间、映像和交接证据；mon.exe 退出只结束入口事实。",
+        "窗口出现、登录确认、观察超时及目标退出分别进入 Launch 状态；页面切换通过 OperationProjectionService 继续观察。",
+        "重启只核验持久身份并只读附着；身份无法确认则保持未确认，不自动重启目标。"
+      ],
+      "failureBehavior": "创建成功而日志失败时停止后续自动动作并保留最后启动意图，恢复时核验外部事实；不得再次启动。缺少窗口或登录证据只表示未确认，停止观察及释放句柄均不 Kill。"
+    },
+    {
+      "name": "许可复查与证据过期",
+      "steps": [
+        "WindowsResourceProbe 返回带资源、来源和时间的一次 VM、服务或 TCP 事实。",
+        "ResourceSupervisor 按资源合并复查轮次，以版本化参数控制次数、间隔和单次超时；不同资源独立执行。",
+        "ConnectionHealthPolicy 只统计完成轮次，瞬时超时进入复查，按失败阈值通知并按恢复阈值恢复。",
+        "RequireFreshAsync 校验资源、配置修订和有效期；过期证据必须复查，不能继续当 Ready。",
+        "LicensePageViewModel 独立显示 VM 存活、服务故障、端口状态及证据时间；取消页面订阅不停止监测。"
+      ],
+      "failureBehavior": "探针异常使对应证据未知或不可用，不报告虚拟机丢失，不阻止工作台启动；许可签出必须有独立证据。所有时间阈值仍须在行为验收前批准。"
+    },
+    {
+      "name": "交付预览、执行、恢复与回滚",
+      "steps": [
+        "用户保留或显式选择来源版本；PackageReader 检查归档、目录或文件映射，PrivateStagingStore 冻结实际字节。",
+        "DeploymentPlanner 绑定来源、暂存、目标身份及基线、映射、动作、备份策略和工作区修订，确定性计算 PlanDigest 并登记不可变计划。",
+        "用户确认 PlanId 和 PlanDigest；编辑任何绑定字段立即使旧确认失效。协调器持久保存相同冻结计划。",
+        "执行前重验来源和暂存；实际写入者取得跨进程目标范围租约，再复核目标基线。提权时由 worker 持锁，父进程不持锁等待。",
+        "每项先备份并可靠刷新和验证，后持久记录写入意图，再写目标、核验内容、记录完成事实；公共操作事实在可靠提交后才发布。",
+        "重启只读取完整日志前缀、回执、备份与实际目标，展示待核验，不自动继续或回滚。",
+        "用户选择恢复或回滚后生成关联 OriginalOperationId 的新预览；重新检查当前目标、备份摘要和冲突，重新确认后按同一协议执行。"
+      ],
+      "failureBehavior": "来源变化、摘要不符、锁冲突或目标变化均拒绝旧计划。备份或写前日志失败则本项不写；写后日志失败则停止下一项，并按实际内容核验。回滚遇外部修改拒绝覆盖，保留冲突及备份。"
+    },
+    {
+      "name": "变量保存、改名与持久应用",
+      "steps": [
+        "SaveDefinitionAsync 只保存变量配置，不访问用户或系统环境。",
+        "VariablePlanner 冻结旧名和新名的存在性、值、作用域、机器及摘要；Windows 大小写等价名称按同一地址处理。",
+        "用户显式确认 ApplyVariables；系统作用域必须显式选择，按需请求 UAC。",
+        "实际写入者取得应用跨进程名称锁，重读两端基线；写新名之前持久记录意图，写后核验。",
+        "删除旧名之前再次读取旧名，记录删除意图，再删除并核验；每一已完成步骤分别记录。",
+        "部分完成或中断后只读核验实际两端值，用户重新确认后才能继续或补偿。"
+      ],
+      "failureBehavior": "检测到外部变化立即停止；新名已写而旧名未删显示 PartialApplied。检查与写入之间仍存在外部竞争窗口，不能承诺绝对不覆盖；若验收要求这种绝对保证，需共享外部协调机制或禁用自动改名。"
+    },
+    {
+      "name": "配置迁移与有效版本切换",
+      "steps": [
+        "WorkspaceLocationResolver 根据显式目录或 EXE 基准解析唯一位置，普通读取遇旧格式返回 MigrationRequired。",
+        "WorkspaceMigrationService 预览源摘要、源和目标格式、修订及关联清单，用户确认后提交 MigrateConfiguration。",
+        "协调器持久记录冻结请求及迁移意图，JsonMigrationStore 写旁路副本，保留原始文件。",
+        "重读并验证 ID、关联、历史和凭据引用；不解析或导出秘密，不假定凭据在目标环境可用。",
+        "切换意图可靠落盘后，在与普通配置提交共享的锁内复核源修订和候选摘要，原子切换有效版本标记。",
+        "若公共日志未记录完成，重启通过有效标记中的 OperationId 和内容摘要核验切换结果；仅展示恢复选择。"
+      ],
+      "failureBehavior": "转换、验证或写入失败保留原有效版本；切换结果未知不重复切换。原始数据、候选副本和迁移记录在恢复引用解除前不得清理。"
+    },
+    {
+      "name": "密码临时显示与 UI 线程释放",
+      "steps": [
+        "PasswordEntryBehavior 只管理本次输入，不依赖凭据解析端口，不公开可绑定 Password 字符串。",
+        "RevealWhileEditing 在 Dispatcher 上显示本次输入；离焦、窗口停用、保存和离页时隐藏并清空。",
+        "DetachInput 在 UI 线程移交 TransientSecret 所有权并立即清空控件，ProfileEditorViewModel 将其交给保存调用。",
+        "保存成功、失败或取消均在 finally 释放临时秘密；运行时 SecretLease 仅存在于 Launch 执行边界。",
+        "页面释放先在 Dispatcher 上标记失效、解绑事件和清空控件，再异步取消并等待订阅结束；禁止 Wait、Result 或同步 Dispatcher 回调形成死锁。"
+      ],
+      "failureBehavior": "错误与属性通知均不携带秘密。页面关闭不取消已受理业务操作；迟到回调检查页面代次及释放状态。尽力清理不等于证明托管内存或目标命令行无残留。"
+    },
+    {
+      "name": "UI 查询与普通 EXE/Aspire 可替换入口",
+      "steps": [
+        "普通 Desktop 直接由 DesktopCompositionRoot 装配同一组用例、适配器及本地协调器，离线启动不要求 Aspire。",
+        "开发入口使用真实 Aspire AppHost 启动同一 Desktop 产物，仅注入隔离目录与可选诊断配置。",
+        "UI 经命令提交操作，经 ITaskQueries 读取快照及单调序号增量；断线、缺口或页面重建后重新读取。",
+        "订阅取消只结束页面等待；后台操作由应用持有。主要操作区保持在内容滚动区域外。",
+        "诊断端点不可达时降级本地诊断；未来执行端不可达时报告对应操作不可用，不把远端请求静默改成本机执行。",
+        "开发会话停止只清理自有资源和工作台；许可服务、AVEVA、VMware 与已启动目标会话不属于终止范围。"
+      ],
+      "failureBehavior": "两种入口须运行同一行为契约，并另测诊断失联、AppHost 结束和进程所有权。工具依赖检查只能证明装配约束，不能证明这些行为已经成立。"
+    }
+  ],
+  "scenarioOwnership": [
+    {
+      "id": "AR01",
+      "owners": [
+        "DesktopCompositionRoot",
+        "ShellViewModel"
+      ],
+      "acceptance": "主责 DesktopCompositionRoot：未安装或未启动 Aspire、网络及诊断不可用时，普通 EXE 可打开选定数据并调用本机用例；不得静默创建替代空工作区。"
+    },
+    {
+      "id": "AR02",
+      "owners": [
+        "WorkspaceCatalogService",
+        "WindowsEntryDiscovery",
+        "LaunchPlanBuilder"
+      ],
+      "acceptance": "主责 WorkspaceCatalogService：自定义程序和人工入口可保存；发现刷新保留人工路径，失效路径显示待绑定，启动使用明确选择及修订。"
+    },
+    {
+      "id": "AR03",
+      "owners": [
+        "WorkspaceCatalogService",
+        "ProfilesPageViewModel"
+      ],
+      "acceptance": "主责 WorkspaceCatalogService：空白新增无前条残留；复制产生新 ID、独立可编辑数据且无凭据引用；修改或删除副本不改变原记录。"
+    },
+    {
+      "id": "AR04",
+      "owners": [
+        "PasswordEntryBehavior",
+        "ProfileEditorViewModel",
+        "WorkspaceCatalogService",
+        "WindowsSecretVault"
+      ],
+      "acceptance": "主责 PasswordEntryBehavior：只显示本次输入；离焦、保存失败、取消和离页清理输入并解绑事件。故障注入验证新凭据先于配置提交、未知提交保留引用，日志和 UI 不返回保存密码。"
+    },
+    {
+      "id": "AR05",
+      "owners": [
+        "ProcessEnvironmentPolicy",
+        "LaunchOperationHandler",
+        "ResourceSupervisor"
+      ],
+      "acceptance": "主责 ProcessEnvironmentPolicy：并行启动两个不同许可版本，分别移除继承冲突变量并注入自身许可；父进程、用户及系统环境不变，监测关联不串线。"
+    },
+    {
+      "id": "AR06",
+      "owners": [
+        "ResourceSupervisor",
+        "ConnectionHealthPolicy"
+      ],
+      "acceptance": "主责 ResourceSupervisor：一次超时进入有界复查，后续成功按策略恢复，不直接报虚拟机丢失；失败轮次、通知去重与策略版本可验证。"
+    },
+    {
+      "id": "AR07",
+      "owners": [
+        "ConnectionHealthPolicy",
+        "WindowsResourceProbe",
+        "LicensePageViewModel"
+      ],
+      "acceptance": "主责 ConnectionHealthPolicy：VM 证据存活、许可服务失败时分别显示，不把 TCP 或服务故障替换为 VM 丢失，也不停止 VM。"
+    },
+    {
+      "id": "AR08",
+      "owners": [
+        "ResourceSupervisor",
+        "LaunchOperationHandler"
+      ],
+      "acceptance": "主责 ResourceSupervisor：过期 Ready 或旧配置证据不能满足启动前新鲜度要求；复查失败给出对应资源事实，不沿用历史就绪。"
+    },
+    {
+      "id": "AR09",
+      "owners": [
+        "LaunchOperationHandler",
+        "WindowsProcessGateway"
+      ],
+      "acceptance": "主责 LaunchOperationHandler：mon.exe 退出而目标继续运行时保持目标观察；仅窗口出现不得判登录成功；PID 复用不能恢复错误关联。"
+    },
+    {
+      "id": "AR10",
+      "owners": [
+        "LaunchOperationHandler",
+        "WindowsProcessGateway"
+      ],
+      "acceptance": "主责 LaunchOperationHandler：按批准观察阈值窗口迟迟不出现时显示未确认及证据；停止观察不 Kill，不自动重启，也不伪报目标已退出。"
+    },
+    {
+      "id": "AR11",
+      "owners": [
+        "OperationProjectionService",
+        "ShellViewModel",
+        "LaunchOperationHandler"
+      ],
+      "acceptance": "主责 OperationProjectionService：页面切换、重建及订阅重连后读取同一 OperationId 的最新序号和证据；无 UI 线程阻塞、重复订阅或迟到属性更新，离页不终止目标。"
+    },
+    {
+      "id": "AR12",
+      "owners": [
+        "ToolSourceCatalog",
+        "ToolPageViewModel"
+      ],
+      "acceptance": "主责 ToolSourceCatalog：普通刷新保留仍有效旧版；显式选择最新才改变选择，临时或不完整包不成为可执行版本，刷新不执行来源。"
+    },
+    {
+      "id": "AR13",
+      "owners": [
+        "DeploymentPlanner",
+        "PackageReader",
+        "PrivateStagingStore"
+      ],
+      "acceptance": "主责 DeploymentPlanner：ZIP、7z、目录、文件及映射形成一致预览；路径穿越、链接逃逸、重复目标及超限内容被拒绝；预览不写业务目标。"
+    },
+    {
+      "id": "AR14",
+      "owners": [
+        "DeploymentPlanner",
+        "DeliveryOperationHandler",
+        "PrivateStagingStore"
+      ],
+      "acceptance": "主责 DeliveryOperationHandler：确认后修改来源、映射、目标基线、备份策略或暂存内容，执行必须拒绝旧 PlanDigest；不能自动更新确认或替换内容后继续。"
+    },
+    {
+      "id": "AR15",
+      "owners": [
+        "CanonicalTargetLeaseProvider",
+        "DeliveryOperationHandler",
+        "PrivilegedWorkerHost"
+      ],
+      "acceptance": "主责 CanonicalTargetLeaseProvider：两个 EXE 或普通进程与 worker 对相同、别名及父子重叠目标最多一个获准写入；多目标准入无部分锁死，父进程不持锁等待 worker。"
+    },
+    {
+      "id": "AR16",
+      "owners": [
+        "FileDeliveryPort",
+        "JsonRunJournal",
+        "DeliveryOperationHandler"
+      ],
+      "acceptance": "主责 FileDeliveryPort：分别在备份、意图落盘、目标替换及完成记录阶段中断；重启从可靠前缀与实际内容展示待核验，不自动继续或回滚；日志不可写时停止后续副作用。"
+    },
+    {
+      "id": "AR17",
+      "owners": [
+        "DeploymentPlanner",
+        "FileDeliveryPort"
+      ],
+      "acceptance": "主责 DeploymentPlanner：部署后外部修改目标，再预览或执行回滚时明确报告冲突，不覆盖外部内容；原备份和回执保留，新恢复操作必须重新确认。"
+    },
+    {
+      "id": "AR18",
+      "owners": [
+        "VariableOperationHandler",
+        "VariablePlanner",
+        "WindowsEnvironmentStore",
+        "WorkspaceCatalogService"
+      ],
+      "acceptance": "主责 VariableOperationHandler：只保存不写环境；改名验证两端及作用域，保留名拒绝；新名写入后中断显示部分完成，已发现外部变化不覆盖。验收不得假定 Windows 提供跨外部写入者原子 CAS。"
+    },
+    {
+      "id": "AR19",
+      "owners": [
+        "ConfigurationShareService"
+      ],
+      "acceptance": "主责 ConfigurationShareService：导出白名单中无秘密、凭据引用、可直接采用的机器绑定及运行记录；外机导入确认仅提交配置，进程、部署、脚本和环境写入调用次数均为零。"
+    },
+    {
+      "id": "AR20",
+      "owners": [
+        "WorkspaceLocationResolver",
+        "JsonWorkspaceStore",
+        "JsonRunJournal"
+      ],
+      "acceptance": "主责 WorkspaceLocationResolver：目录无权限、不可用、数据缺失及损坏分别报告，不切换目录；不可写时不伪报保存或检查点成功，不进入后续破坏性写入。"
+    },
+    {
+      "id": "AR21",
+      "owners": [
+        "WorkspaceLocationResolver"
+      ],
+      "acceptance": "主责 WorkspaceLocationResolver：从多个当前工作目录启动，同一 EXE 的 portable 位置保持一致；显式配置目录优先级确定，不产生意外第二份数据。"
+    },
+    {
+      "id": "AR22",
+      "owners": [
+        "WorkspaceMigrationService",
+        "JsonMigrationStore",
+        "JsonWorkspaceStore"
+      ],
+      "acceptance": "主责 WorkspaceMigrationService：转换或验证失败保留原有效数据；切换前后崩溃可用有效标记核验，ID、关联、历史和凭据引用完整，不自动重放，不导出秘密。"
+    },
+    {
+      "id": "AR23",
+      "owners": [
+        "ShellViewModel",
+        "ThemeResourceCatalog"
+      ],
+      "acceptance": "主责 ShellViewModel：在批准窗口尺寸和 DPI 下主要操作区不随内容滚动且可访问；图稿到位后逐页核对颜色、图标、间距和状态。缺图稿时视觉一致性验收保持未完成。"
+    },
+    {
+      "id": "AR24",
+      "owners": [
+        "AspireDevelopmentHost",
+        "DesktopCompositionRoot",
+        "WindowsProcessGateway"
+      ],
+      "acceptance": "主责 AspireDevelopmentHost：真实 AppHost 启动同一 Desktop 产物；结束开发会话不停止既有或本次启动的 AVEVA、许可服务和 VMware，不通过继承 Job 间接终止目标。"
+    },
+    {
+      "id": "AR25",
+      "owners": [
+        "OperationCoordinator",
+        "DesktopCompositionRoot",
+        "AspireDevelopmentHost"
+      ],
+      "acceptance": "主责 OperationCoordinator：冻结请求明确 MachineId 和能力；执行端离线时报告不可达或结果未知，不静默改成本机执行、不重放未知副作用；本机其他功能及诊断降级仍可用。首版不因此默认引入远端执行实现。"
+    },
+    {
+      "id": "AR26",
+      "owners": [
+        "WindowsPrivilegeBroker",
+        "PrivilegedWorkerHost",
+        "DeliveryOperationHandler"
+      ],
+      "acceptance": "主责 WindowsPrivilegeBroker：取消 UAC 且 worker 未执行时无目标写入、无残留租约；worker 已执行后失联则读回执核验，不能显示零副作用取消，也不能自动再次提权重试。"
+    },
+    {
+      "id": "AR27",
+      "owners": [
+        "ConfigurationShareService",
+        "WorkspaceCatalogService",
+        "LaunchPlanBuilder"
+      ],
+      "acceptance": "主责 WorkspaceCatalogService：导入缺少本机路径或凭据时保留可编辑待绑定配置；启动返回 BindingRequired，人工重新绑定后才可执行，不采用外机路径或猜测入口。"
+    }
+  ],
+  "openQuestions": [
+    "两份输入只提供场景标题及草案契约，未提供完整场景正文；以上验收根据标题与用户给定 ADR 推导，不能冒充已读取的原场景断言。",
+    "许可复查次数、超时、采样间隔、恢复阈值，以及启动未确认和停止观察阈值，须在实现验收前确定；草案中的三次、350ms、2s、90 秒和五分钟尚未批准。",
+    "需要明确各 AVEVA 版本的入口交接、登录成功和目标退出证据来源；缺少可靠接口时必须保留未确认，不能降低证据标准。",
+    "持久变量验收是否要求对任意外部并发写入者绝不覆盖？若要求，普通 Windows 环境 API 不足，须引入所有写入者共享协调或限制自动改名。",
+    "需确定首版部署支持的文件系统、网络路径及重解析点范围，并验证可靠刷新、原子替换、文件身份和跨进程锁能力；能力不足的目标应拒绝破坏性执行。",
+    "凭据孤儿与旧引用清理首版应采用保守保留；若要求自动回收，需另行设计跨进程配置、未完成操作及活动秘密租约的引用证明和清理协议。",
+    "FigCraft 图稿、目标窗口尺寸和 DPI 范围尚未提供，AR23 的视觉验收仍有外部输入缺口。",
+    "未来远端执行仅保留机器身份与能力边界；协议、远端凭据归属和未知提交核验须在实际授权扩展时另行审阅。",
+    "本次未获代码实现授权；新增接口、方法及行为测试仍是设计建议，需人工另行授权实现与执行验证。"
+  ]
+}

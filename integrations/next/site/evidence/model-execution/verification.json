@@ -1,0 +1,33 @@
+{
+  "date": "2026-10-28",
+  "unitTests": 47,
+  "architectureTests": 52,
+  "uiTestsIncludingRealWindow": 4,
+  "integrationTests": 9,
+  "activationChecks": 6,
+  "configurableTargetChecks": 8,
+  "controllerDisabledExit": 78,
+  "runnerDisabledExit": 1,
+  "sharedDllsByteIdentical": true,
+  "xamlUnchanged": {
+    "src/LaunchDesk.Next.Desktop/App.xaml": true,
+    "src/LaunchDesk.Next.Desktop/Assets/PrototypeVisuals.xaml": true,
+    "src/LaunchDesk.Next.Desktop/Features/Launch/LaunchWindow.xaml": true
+  },
+  "realVmStarted": false,
+  "vendorApplicationStarted": false,
+  "realSeaGendUpdated": false,
+  "newPackageVersionsAdded": false,
+  "packageDirectory": "artifacts/packages/model-driven-delivery",
+  "packagesAreFrameworkDependent": true,
+  "SDK": "Existing11.0.100-rc.3.26522.148 from parent working directory; repository SDK pin unchanged; new project asset restores used local cache only.",
+  "limitations": [
+    "No real configurable-VM regression",
+    "No CAF runtime adapter",
+    "No external file watcher/automatic merge",
+    "No TOML migration or new WPF UI",
+    "DocFX theme visual acceptance pending"
+  ],
+  "offlineLockedRestorePassed": true,
+  "existingLockFilesWithOnlyProjectGraphChanges": 3
+}

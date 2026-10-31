@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <IsTestProject>true</IsTestProject>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+    <PackageReference Include="xunit" Version="2.9.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" PrivateAssets="all" />
+    <PackageReference Include="TngTech.ArchUnitNET.xUnit" Version="0.13.4" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../LaunchDesk.Kernel/LaunchDesk.Kernel.csproj" />
+    <ProjectReference Include="../LaunchDesk.OperationContracts/LaunchDesk.OperationContracts.csproj" />
+    <ProjectReference Include="../LaunchDesk.UseCases/LaunchDesk.UseCases.csproj" />
+    <ProjectReference Include="../LaunchDesk.Windows/LaunchDesk.Windows.csproj" />
+    <ProjectReference Include="../LaunchDesk.Desktop/LaunchDesk.Desktop.csproj" />
+    <ProjectReference Include="../LaunchDesk.Bootstrap/LaunchDesk.Bootstrap.csproj" />
+    <ProjectReference Include="../LaunchDesk.Worker/LaunchDesk.Worker.csproj" />
+    <ProjectReference Include="../LaunchDesk.DevHost/LaunchDesk.DevHost.csproj" />
+    <ProjectReference Include="../LaunchDesk.Rewrite.Tests/LaunchDesk.Rewrite.Tests.csproj" ReferenceOutputAssembly="false" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "baselineCommit": "f451953",
+  "reviewedCatalog": "docs/rewrite/runs/17f392ea-0cf9-4760-bc69-b8dc73a72c6d/reviewed-contracts.json",
+  "implementationApproval": "2026-10-19 用户：按架构画的重构吧，我看写的东西，比较规范",
+  "projectReferences": {
+    "LaunchDesk.Kernel": [],
+    "LaunchDesk.OperationContracts": ["LaunchDesk.Kernel"],
+    "LaunchDesk.UseCases": ["LaunchDesk.OperationContracts"],
+    "LaunchDesk.Windows": ["LaunchDesk.OperationContracts"],
+    "LaunchDesk.Desktop": ["LaunchDesk.OperationContracts"],
+    "LaunchDesk.Bootstrap": ["LaunchDesk.Desktop", "LaunchDesk.UseCases", "LaunchDesk.Windows"],
+    "LaunchDesk.Worker": ["LaunchDesk.Windows"],
+    "LaunchDesk.DevHost": ["LaunchDesk.Windows"],
+    "LaunchDesk.AppHost": [],
+    "LaunchDesk.Rewrite.Tests": ["LaunchDesk.UseCases", "LaunchDesk.Windows", "LaunchDesk.Worker"],
+    "LaunchDesk.Architecture.Tests": ["LaunchDesk.Kernel", "LaunchDesk.OperationContracts", "LaunchDesk.UseCases", "LaunchDesk.Windows", "LaunchDesk.Desktop", "LaunchDesk.Bootstrap", "LaunchDesk.Worker", "LaunchDesk.DevHost", "LaunchDesk.Rewrite.Tests"]
+  },
+  "productionRoots": ["LaunchDesk.Bootstrap", "LaunchDesk.Worker"],
+  "developmentOnly": ["LaunchDesk.DevHost", "LaunchDesk.AppHost"],
+  "decisions": [
+    "健康归约共享值类型归 Kernel，避免纯规则层依赖 Contracts。",
+    "健康参数归每个 ResourceDescriptor.ProbePolicy，版本与端点共同参与证据身份。",
+    "OperationStatePolicy.Next 返回纯枚举结果，Context 负责 Contracts 快照和事实。",
+    "Bootstrap 构造组合后异步初始化，代替返回尚未建模的 DesktopRuntime 容器。",
+    "迁移预览由只读 IMigrationPlanningService 提供显式来源，执行仍走 WorkspaceMigrationService。",
+    "补充配置文件与历史查询端口，页面仍不接触文件系统或 Windows API。",
+    "ThemeResourceCatalog.Resolve 读取实际 FigCraft 颜色资源；截图验收独立执行。",
+    "AspireDevelopmentHost 只在 AppHost 项目；DevHost 是可替换普通 .NET 诊断入口。",
+    "旧版回执保留只读兼容，不赋予新版本缺失的执行证据。",
+    "IMigrationStore.ReadSourceAsync 显式接收 sourcePath，避免在单例适配器内保存上一次来源。",
+    "IMigrationQueries 提供按原操作编号只读核验；保持历史审阅文件不变。",
+    "Desktop 复用原稿视觉资源与卡片结构，通过现有用例端口处理业务；按钮接入由原生 WPF 自动化和运行时端口调用记录验证。"
+  ]
+}

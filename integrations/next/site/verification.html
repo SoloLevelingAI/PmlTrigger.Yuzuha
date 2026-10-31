@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html data-reading-revision="f5a8b6840d71" lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+      <title>验证记录 | LaunchDesk.Next </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="验证记录 | LaunchDesk.Next ">
+      
+      
+      <link rel="icon" href="favicon.ico">
+      <link rel="stylesheet" href="public/docfx.min.css">
+      <link rel="stylesheet" href="public/theme-tokens.css?v=f5a8b6840d71">
+      <link rel="stylesheet" href="public/main.css?v=f5a8b6840d71">
+      <link rel="stylesheet" href="public/theme-type.css?v=f5a8b6840d71">
+      <script type="module" src="public/reading.js?v=f5a8b6840d71"></script>
+      <meta name="docfx:navrel" content="toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="本页目录">
+      <meta name="loc:searchResultsCount" content="“{query}”的结果：{count}条">
+      <meta name="loc:searchNoResults" content="没有找到“{query}”">
+      <meta name="loc:tocFilter" content="筛选文件标题">
+      <meta name="loc:nextArticle" content="下一篇">
+      <meta name="loc:prevArticle" content="上一篇">
+      <meta name="loc:themeLight" content="浅色">
+      <meta name="loc:themeDark" content="深色">
+      <meta name="loc:themeAuto" content="跟随系统">
+      <meta name="loc:changeTheme" content="切换明暗">
+      <meta name="loc:copy" content="复制">
+      <meta name="loc:downloadPdf" content="下载PDF">
+
+      <script type="module" src="./public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <a class="ld-skip" href="#doc-content">跳到正文</a>
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="INDEX.html">
+            <span class="ld-monogram" aria-hidden="true">LD</span>
+            LaunchDesk.Next
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="展开导航与搜索">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div class="ld-links" aria-label="快捷入口"><a href="INDEX.html">阅读文档</a><a href="portfolio/index.html?revision=figcraft-roundtrip">项目作品集 ↗</a><a href="status.html">交付状态</a></div>
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="搜索文档" autocomplete="off" aria-label="搜索文档">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">文件目录</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="关闭文件目录"></button>
+          </div>
+          <div class="offcanvas-body">
+            <div class="ld-toc-caption"><strong>文件与阅读路径</strong><span>LIBRARY</span></div>
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="打开文件目录">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article id="doc-content" tabindex="-1" data-uid="verification">
+          <div class="ld-kicker">LAUNCHDESK.NEXT / ENGINEERING LIBRARY</div>
+          <div class="ld-doc-meta"><span class="ld-state" data-state="mixed">状态见正文</span><span>文档核对 2026-10-29</span></div>
+<h1 id="验证记录">验证记录</h1>
+
+<p><a id="current-evidence"></a></p>
+<h2 id="当前实现所引用的证据">当前实现所引用的证据</h2>
+<p>2026-10-29文档核对，未重跑测试。模型批次：47单元、52架构、4UI、9集成；Addin后续批次：64架构（含12项Addin）、4UI、9项分包缺清单检查。两批存在重叠，不相加为覆盖总数。<a href="evidence/model-execution/verification.json">模型报告</a>、<a href="evidence/addins/verification.json">Addin报告</a>、<a href="evidence/addins/manifest.json">最新包清单</a>。新可配置VM参数真实回归未做；新远程连接/TOML/共享授权未实现。</p>
+<p>此前真实E3D签出与原生启动是独立<a href="reviews/licence-checkout.html">历史实验</a>，不属于这些自动测试。交付边界见<a href="status.html">当前状态</a>。</p>
+<p><a id="discovery-baseline"></a></p>
+<h2 id="历史projectmodule发现批次">历史：Project/Module发现批次</h2>
+<p>2026-10-28，该历史批次实施范围为Project/Module发现。远程连接、TOML及凭据授权只记录提案，不在本次完成范围。状态见<a href="openspec/requirements.html">逐条需求台账</a>。</p>
+<table>
+<thead>
+<tr>
+<th>检查</th>
+<th>当前结果</th>
+<th>证据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>单元</td>
+<td>40通过；包含12项Project/Module新回归</td>
+<td><a href="evidence-omitted.html">完整结果</a></td>
+</tr>
+<tr>
+<td>集成</td>
+<td>9通过，包含本机安装盘点及无害进程参数交接</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>ArchUnitNET</td>
+<td>47通过，保留真实违规夹具</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>界面</td>
+<td>3通过；发布EXE查找、保存、失败反馈、安全创建、记录查看</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>Debug构建/Release发布</td>
+<td>构建0警告0错误，发布成功</td>
+<td>artifacts/project-modules/build.txt、publish.txt</td>
+</tr>
+<tr>
+<td>OpenSpec</td>
+<td>发现与待实现提案均严格校验通过</td>
+<td><a href="evidence-omitted.html">发现</a>、<a href="evidence-omitted.html">提案</a></td>
+</tr>
+<tr>
+<td>DocFX</td>
+<td>实际构建0警告0错误</td>
+<td>artifacts/project-modules/docfx-build.txt</td>
+</tr>
+</tbody>
+</table>
+<p>去重后99个用例，重复运行不另算覆盖。新增用例验证嵌套引用、变量/参数、子目录、数据库目录不递归、模块来源、注释/秘密排除、循环、条件、编码/上限、取消、预填冲突、跨版本共享路径及不可访问目录线索。此次由主Agent实施验证，不把第一版独立评审当成本次独立复核。</p>
+<h2 id="本机只读发现">本机只读发现</h2>
+<p><a href="evidence-omitted.html">完整扫描报告</a>直接映射进站点，不复制维护报告正文。Marine返回6个项目代码和5个模块名候选；两个E3D各返回9个项目代码和9个模块名候选。编码、目录或时间上限没有截断这次扫描。项目目录存在与否、声明/目录/可执行文件线索仍分别标注，不把候选数量说成成功登录数量。</p>
+<p>本机E3D3.1的evars.init指向E3D2.1，属于用户主动共享；保留该来源，不改配置。备用evars.bat中的其他路径也作为静态线索显示，不把扫描器描述成完整的cmd运行环境解释器。复杂控制流/未知变量诊断保留。</p>
+<h2 id="使用边界">使用边界</h2>
+<p>当前安装发现只查配置目录，不查注册表；Marine/AM与E3D已做本机发现，PDMS只有临时目录识别测试。Project/Module结果位于“快照与记录”的ProjectModules / StaticCandidates记录；输入框仍可改，多候选不自动选首项。</p>
+<p>该发现批次没有执行实际AVEVA登录、许可签出、远程连接配置、TOML迁移或真实凭据写入；后来独立实验见上方历史证据链接。UI布局、资源与旧工程未改。UTF-8/BOM文本之外的编码会诊断，不静默猜测。OS阻塞的目录访问不能靠普通取消令牌保证按时停止；远程预检的隔离与超时方案另行设计。</p>
+<p>模型与双包增量：47项单元、52项架构、4项UI、9项集成回归通过；另有6项开关与8项临时VMX夹具检查。原XAML未改，VM未启动，厂商程序未启动。输入/快照/冲突与同源包哈希见<a href="evidence/model-execution/verification.json">模型批次验证</a>和<a href="evidence/model-execution/manifest.json">manifest</a>。</p>
+
+</article>
+
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span class="ld-footer-word">LAUNCHDESK.NEXT / KNOWLEDGE SYSTEM</span><span class="ld-footer-note">功能事实 · 源码路径 · 验证证据　/　DocFX</span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

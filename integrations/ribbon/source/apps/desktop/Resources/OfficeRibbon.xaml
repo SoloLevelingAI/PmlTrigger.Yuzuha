@@ -1,0 +1,94 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+<SolidColorBrush x:Key="Brush_Canvas" Color="#FFF1F3F6" />
+<SolidColorBrush x:Key="Brush_aef7ed560f8e78e1" Color="#00000000" />
+<CornerRadius x:Key="CornerRadius_4040da0f37699687">0,0,0,0</CornerRadius>
+<SolidColorBrush x:Key="Brush_872857ccd4e6184c" Color="#FF254E7A" />
+<sys:Double x:Key="FontSize_b17ef6d19c7a5b1e">16</sys:Double>
+<FontFamily x:Key="FontFamily_f8fd21b3aba7be2a">Microsoft YaHei UI</FontFamily>
+<SolidColorBrush x:Key="Brush_Surface" Color="#FFFFFFFF" />
+<sys:Double x:Key="FontSize_6b51d431df5d7f14">12</sys:Double>
+<CornerRadius x:Key="CornerRadius_60c73bafc4ba6865">3,3,3,3</CornerRadius>
+<CornerRadius x:Key="CornerRadius_d82c48a43f941242">1,1,1,1</CornerRadius>
+<SolidColorBrush x:Key="Brush_2e1fd2dddf107b6f" Color="#FF87A4CB" />
+<SolidColorBrush x:Key="Brush_Text" Color="#FF263248" />
+<SolidColorBrush x:Key="Brush_Primary" Color="#FF3159E8" />
+<SolidColorBrush x:Key="Brush_Line" Color="#FFDFE4EC" />
+<CornerRadius x:Key="CornerRadius_ded896252a0f5bd7">2,2,2,2</CornerRadius>
+<sys:Double x:Key="FontSize_4fc82b26aecb47d2">11</sys:Double>
+<SolidColorBrush x:Key="Brush_Muted" Color="#FF68768B" />
+<sys:Double x:Key="FontSize_4a44dc15364204a8">10</sys:Double>
+<SolidColorBrush x:Key="Brush_9e46631b08cfabc4" Color="#FFD5A956" />
+<SolidColorBrush x:Key="Brush_fe98b9e437ef392b" Color="#FFF6F8FB" />
+<SolidColorBrush x:Key="Brush_a94ce9a9cab5a754" Color="#FF8796A8" />
+<SolidColorBrush x:Key="Brush_c0b274346e179bc9" Color="#FFD8E4F5" />
+<CornerRadius x:Key="CornerRadius_c487939cee57c499">0.5,0.5,0.5,0.5</CornerRadius>
+<SolidColorBrush x:Key="Brush_303787bd49c48859" Color="#FFE7EEF7" />
+<SolidColorBrush x:Key="Brush_f9ea459955d07ed4" Color="#FFA8B7CD" />
+<sys:Double x:Key="FontSize_c6e48debd103ffc2">12.48</sys:Double>
+<FontFamily x:Key="FontFamily_96c4069d9bb6bc73">Segoe UI</FontFamily>
+<SolidColorBrush x:Key="Brush_e9193717aa1b4038" Color="#FFD64B4B" />
+<sys:Double x:Key="FontSize_f5ca38f748a1d6ea">20</sys:Double>
+<sys:Double x:Key="FontSize_59e19706d51d39f6">28</sys:Double>
+<sys:Double x:Key="FontSize_e629fa6598d73276">15</sys:Double>
+<sys:Double x:Key="FontSize_8527a891e2241369">14</sys:Double>
+<sys:Double x:Key="FontSize_5f9c4ab08cac7457">26</sys:Double>
+<CornerRadius x:Key="CornerRadius_4e07408562bedb8b">3</CornerRadius>
+<SolidColorBrush x:Key="Brush_bacf98b61357ec47" Color="#FFEEF3F9" />
+<SolidColorBrush x:Key="Brush_185102d55068235a" Color="#FF89A7D5" />
+<SolidColorBrush x:Key="Brush_0480b6864cd932ed" Color="#FFD9E6F5" />
+<SolidColorBrush x:Key="Brush_27b6fa06e1b67555" Color="#FFE9F0F6" />
+<SolidColorBrush x:Key="Brush_a0c28f2641bf0bdd" Color="#FF7FA9D6" />
+<SolidColorBrush x:Key="Brush_14b7f38a5f850877" Color="#FFDAE6F4" />
+<SolidColorBrush x:Key="Brush_aabbeee7fbfbb4d6" Color="#FFA9C4E8" />
+<SolidColorBrush x:Key="Brush_359d939732b35398" Color="#FF6E9AD4" />
+<SolidColorBrush x:Key="Brush_273bd2df862d46aa" Color="#FFE2E9F3" />
+<CornerRadius x:Key="CornerRadius_2c624232cdd22177">8</CornerRadius>
+<SolidColorBrush x:Key="Brush_3f6f3140dd241ae0" Color="#FF62748E" />
+<CornerRadius x:Key="CornerRadius_ef2d127de37b942b">5</CornerRadius>
+<SolidColorBrush x:Key="Brush_e8fcf185d6f10026" Color="#FFAAB8D0" />
+<CornerRadius x:Key="CornerRadius_4b227777d4dd1fc6">4</CornerRadius>
+<sys:Double x:Key="FontSize_853f2ac0d82ed21b">13.44</sys:Double>
+<SolidColorBrush x:Key="Brush_f8f4323bcb5dfec3" Color="#FFD2DCE9" />
+<SolidColorBrush x:Key="Brush_c63a4cfc4089eebb" Color="#FFFFF1D4" />
+<SolidColorBrush x:Key="Brush_3b0cb17cb21209fc" Color="#FFC87138" />
+<SolidColorBrush x:Key="Brush_d51b50a4714d29af" Color="#FFE6D1AC" />
+<SolidColorBrush x:Key="Brush_4752e72d66d5518d" Color="#FFBCD0E6" />
+<SolidColorBrush x:Key="Brush_a62d379801fe6914" Color="#FFB9D8C8" />
+<SolidColorBrush x:Key="Brush_0d523d26525339b9" Color="#FFFFFDF5" />
+<sys:Double x:Key="FontSize_3fdba35f04dc8c46">13</sys:Double>
+<SolidColorBrush x:Key="Brush_54c830c17542c42c" Color="#FFAAB5C3" />
+<SolidColorBrush x:Key="Brush_9529676be91a7913" Color="#FFDDE8F5" />
+<SolidColorBrush x:Key="Brush_e0dd667b4cccb4ce" Color="#FFE4EFF8" />
+<CornerRadius x:Key="CornerRadius_86f9964ba80320ca">0.75,0.75,0.75,0.75</CornerRadius>
+<SolidColorBrush x:Key="Brush_8baf3c2e692c34b4" Color="#FFD7AF58" />
+<SolidColorBrush x:Key="Brush_64a96db51abd4167" Color="#FF3C8A68" />
+<sys:Double x:Key="FontSize_1c045e1225e83ed6">24.96</sys:Double>
+<SolidColorBrush x:Key="Brush_1263a0a594ef6fab" Color="#FFEEF2F7" />
+<SolidColorBrush x:Key="Brush_c3211be5c05af2b0" Color="#FFD9E7F5" />
+<SolidColorBrush x:Key="Brush_648bbf6afa76b77e" Color="#FFD7DCE5" />
+<sys:Double x:Key="FontSize_4ec9599fc203d176">18</sys:Double>
+<FontFamily x:Key="FontFamily_37c9e18c2b8e2481">等线</FontFamily>
+<FontFamily x:Key="FontFamily_aac910161f16402c">Arial</FontFamily>
+<FontFamily x:Key="FontFamily_5859e9c51dec6f20">Calibri</FontFamily>
+<FontFamily x:Key="FontFamily_4691492179d22089">Georgia</FontFamily>
+<FontFamily x:Key="FontFamily_5dd35fcd3bc07521">Verdana</FontFamily>
+<FontFamily x:Key="FontFamily_dcb7781baef61c55">Yu Gothic UI</FontFamily>
+<FontFamily x:Key="FontFamily_09d22d5c2f3f83d7">Times New Roman</FontFamily>
+<FontFamily x:Key="FontFamily_06bc0fb9c054d9b9">SimSun</FontFamily>
+<SolidColorBrush x:Key="Brush_e54253b0bec7a846" Color="#FF000000" />
+<SolidColorBrush x:Key="Brush_2cc15e7a94632dd1" Color="#FF8B62A9" />
+<SolidColorBrush x:Key="Brush_cf55de4f5fd40d81" Color="#FF47A4C5" />
+<SolidColorBrush x:Key="Brush_e4d74df151d347e0" Color="#FFE6BB4E" />
+<SolidColorBrush x:Key="Brush_bece398343ad5c3c" Color="#FFBC5252" />
+<SolidColorBrush x:Key="Brush_d26516fd5cf114ec" Color="#FF758AA3" />
+<SolidColorBrush x:Key="Brush_231d75b68df0f8f9" Color="#FFE5EEFF" />
+<SolidColorBrush x:Key="Brush_Field" Color="#FFF1F4F9" />
+<sys:Double x:Key="FontSize_9cdf1e88fe023503">6.72</sys:Double>
+<ControlTemplate x:Key="Template_653709ab567cb2b5" TargetType="Button"><Grid><Border x:Name="Face" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{StaticResource CornerRadius_60c73bafc4ba6865}"/><ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/></Grid><ControlTemplate.Triggers><Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Face" Property="Background" Value="#FFEEF3FB"/></Trigger><Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Face" Property="BorderBrush" Value="#FF3159E8"/><Setter TargetName="Face" Property="BorderThickness" Value="1"/></Trigger><Trigger Property="IsEnabled" Value="False"><Setter Property="Opacity" Value="0.4"/></Trigger></ControlTemplate.Triggers></ControlTemplate>
+<ControlTemplate x:Key="Template_eb0fc696c43b4121" TargetType="TextBox"><Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{StaticResource CornerRadius_ded896252a0f5bd7}"><ScrollViewer x:Name="PART_ContentHost" Margin="12,0" VerticalAlignment="Center" /></Border></ControlTemplate>
+<ControlTemplate x:Key="Template_9a60d93e46caf29b" TargetType="ToggleButton"><Grid><Border x:Name="Face" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{StaticResource CornerRadius_60c73bafc4ba6865}"/><ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/></Grid><ControlTemplate.Triggers><Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Face" Property="Background" Value="#FFEEF3FB"/></Trigger><Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Face" Property="BorderBrush" Value="#FF3159E8"/><Setter TargetName="Face" Property="BorderThickness" Value="1"/></Trigger><Trigger Property="IsEnabled" Value="False"><Setter Property="Opacity" Value="0.4"/></Trigger><Trigger Property="IsChecked" Value="True"><Setter TargetName="Face" Property="Background" Value="#FFE5EEFF"/><Setter TargetName="Face" Property="BorderBrush" Value="#FF86A6DC"/><Setter TargetName="Face" Property="BorderThickness" Value="1"/></Trigger></ControlTemplate.Triggers></ControlTemplate>
+<ControlTemplate x:Key="Template_f0f26b38a6c89255" TargetType="RadioButton"><Grid><Border x:Name="Face" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{StaticResource CornerRadius_60c73bafc4ba6865}"/><ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/></Grid><ControlTemplate.Triggers><Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Face" Property="Background" Value="#FFEEF3FB"/></Trigger><Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Face" Property="BorderBrush" Value="#FF3159E8"/><Setter TargetName="Face" Property="BorderThickness" Value="1"/></Trigger><Trigger Property="IsEnabled" Value="False"><Setter Property="Opacity" Value="0.4"/></Trigger><Trigger Property="IsChecked" Value="True"><Setter TargetName="Face" Property="Background" Value="#FFE5EEFF"/><Setter TargetName="Face" Property="BorderBrush" Value="#FF86A6DC"/><Setter TargetName="Face" Property="BorderThickness" Value="1"/></Trigger></ControlTemplate.Triggers></ControlTemplate>
+<ControlTemplate x:Key="Template_3b852a09bd97ac13" TargetType="Slider"><Grid Background="Transparent"><Track x:Name="PART_Track" Minimum="{TemplateBinding Minimum}" Maximum="{TemplateBinding Maximum}" Value="{TemplateBinding Value}" Orientation="Horizontal"><Track.DecreaseRepeatButton><RepeatButton Command="Slider.DecreaseLarge"><RepeatButton.Template><ControlTemplate TargetType="RepeatButton"><Border Height="6" VerticalAlignment="Center" Background="{StaticResource Brush_Primary}" CornerRadius="{StaticResource CornerRadius_4e07408562bedb8b}"/></ControlTemplate></RepeatButton.Template></RepeatButton></Track.DecreaseRepeatButton><Track.Thumb><Thumb Width="20" Height="20"><Thumb.Template><ControlTemplate TargetType="Thumb"><Ellipse Fill="{StaticResource Brush_Surface}" Stroke="{StaticResource Brush_Primary}" StrokeThickness="2"/></ControlTemplate></Thumb.Template></Thumb></Track.Thumb><Track.IncreaseRepeatButton><RepeatButton Command="Slider.IncreaseLarge"><RepeatButton.Template><ControlTemplate TargetType="RepeatButton"><Border Height="6" VerticalAlignment="Center" Background="{StaticResource Brush_bacf98b61357ec47}" CornerRadius="{StaticResource CornerRadius_4e07408562bedb8b}"/></ControlTemplate></RepeatButton.Template></RepeatButton></Track.IncreaseRepeatButton></Track></Grid><ControlTemplate.Triggers><Trigger Property="IsEnabled" Value="False"><Setter Property="Opacity" Value="0.45"/></Trigger></ControlTemplate.Triggers></ControlTemplate>
+<ControlTemplate x:Key="Template_0d9cb90442d7b4d2" TargetType="ComboBox"><Grid><ToggleButton Focusable="False" IsChecked="{Binding IsDropDownOpen,RelativeSource={RelativeSource TemplatedParent},Mode=TwoWay}"><ToggleButton.Template><ControlTemplate TargetType="ToggleButton"><Border Background="{StaticResource Brush_bacf98b61357ec47}" BorderBrush="{StaticResource Brush_273bd2df862d46aa}" BorderThickness="1" CornerRadius="{StaticResource CornerRadius_2c624232cdd22177}"/></ControlTemplate></ToggleButton.Template></ToggleButton><ContentPresenter Margin="12,0,40,0" VerticalAlignment="Center" IsHitTestVisible="False" Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"/><Path Data="M 0,0 L 5,5 L 10,0" Stroke="{StaticResource Brush_3f6f3140dd241ae0}" StrokeThickness="2" Width="12" Height="8" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,14,0" IsHitTestVisible="False"/><Popup x:Name="PART_Popup" Placement="Bottom" AllowsTransparency="True" IsOpen="{TemplateBinding IsDropDownOpen}" Focusable="False"><Border MinWidth="{Binding ActualWidth,RelativeSource={RelativeSource TemplatedParent}}" Background="{StaticResource Brush_Surface}" BorderBrush="{StaticResource Brush_273bd2df862d46aa}" BorderThickness="1" CornerRadius="{StaticResource CornerRadius_2c624232cdd22177}" Padding="4"><ScrollViewer MaxHeight="260"><StackPanel IsItemsHost="True"/></ScrollViewer></Border></Popup></Grid><ControlTemplate.Triggers><Trigger Property="IsEnabled" Value="False"><Setter Property="Opacity" Value="0.45"/></Trigger></ControlTemplate.Triggers></ControlTemplate>
+<ControlTemplate x:Key="Template_4b642a65eebd6737" TargetType="CheckBox"><Grid Background="Transparent"><Border x:Name="Box" Width="20" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center" Background="{StaticResource Brush_bacf98b61357ec47}" BorderBrush="{StaticResource Brush_e8fcf185d6f10026}" BorderThickness="1" CornerRadius="{StaticResource CornerRadius_4b227777d4dd1fc6}"/><Path x:Name="Tick" Data="M 5,10 L 9,14 L 16,6" Stroke="White" StrokeThickness="2" Width="20" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="Collapsed"/><ContentPresenter Margin="32,0,0,0" VerticalAlignment="Center"/></Grid><ControlTemplate.Triggers><Trigger Property="IsChecked" Value="True"><Setter TargetName="Box" Property="Background" Value="#FF3159E8"/><Setter TargetName="Box" Property="BorderBrush" Value="#FF3159E8"/><Setter TargetName="Tick" Property="Visibility" Value="Visible"/></Trigger><Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Box" Property="BorderBrush" Value="#FF3159E8"/><Setter TargetName="Box" Property="BorderThickness" Value="2"/></Trigger><Trigger Property="IsEnabled" Value="False"><Setter Property="Opacity" Value="0.45"/></Trigger></ControlTemplate.Triggers></ControlTemplate>
+</ResourceDictionary>

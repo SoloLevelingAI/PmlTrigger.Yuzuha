@@ -1,0 +1,1968 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "name": "LaunchDesk.Archon",
+    "head": "9c9c8d8fe0bde8ba15cc04ba67e237b5d55c5dc5",
+    "rootAtCapture": "C:/Users/26648/Documents/Codex/2026-10-15/ni/LaunchDesk.Archon",
+    "license": "No repository-wide license present; original ownership retained. DocFX template license and 7-Zip notice included; no third-party binaries copied."
+  },
+  "transformations": [
+    {
+      "path": "source/rewrite/Directory.Build.props",
+      "reason": "Enable NuGet audit; diagnostics retained."
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Architecture.Tests/ExistingScenarioTests.cs",
+      "reason": "Place nested Windows file fixtures under short unique temporary root; archive result back in source/artifacts to avoid Windows path-length failures."
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Architecture.Tests/LegacyProductSuiteTests.cs",
+      "reason": "Explicit optional trusted 7zr executable and optional codec test category; no bundled executable."
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Bootstrap/LaunchDesk.Bootstrap.csproj",
+      "reason": "Explicit optional trusted 7zr executable and optional codec test category; no bundled executable."
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Rewrite.Tests/ExtendedScenarios.cs",
+      "reason": "Explicit optional trusted 7zr executable and optional codec test category; no bundled executable. Review follow-up: test worker uses its currently built executable, private control registry and exact original authentication checks; test dependency graph updated."
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Rewrite.Tests/LaunchDesk.Rewrite.Tests.csproj",
+      "reason": "Explicit optional trusted 7zr executable and optional codec test category; no bundled executable. Review follow-up: test worker uses its currently built executable, private control registry and exact original authentication checks; test dependency graph updated."
+    },
+    {
+      "path": "source/docs/rewrite/visualization/portal/index.html",
+      "reason": "Self-contained static portfolio previews, native LikeC4 source and copied report/data closure."
+    },
+    {
+      "path": "source/docs/rewrite/visualization/portal/review.mjs",
+      "reason": "Self-contained static portfolio previews, native LikeC4 source and copied report/data closure."
+    },
+    {
+      "path": "source/LaunchDesk.Update.Tests/LaunchDesk.Update.Tests.csproj",
+      "reason": "Explicit optional trusted 7zr executable and optional codec test category; no bundled executable."
+    },
+    {
+      "path": "source/rewrite/architecture.json",
+      "reason": "Isolated authenticated Worker fixture: trusted constructor injection of private control registry and current-configuration self-hosted test executable; production entry and identity gates unchanged. Review follow-up: test worker uses its currently built executable, private control registry and exact original authentication checks; test dependency graph updated."
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Rewrite.Tests/Program.cs",
+      "reason": "Isolated authenticated Worker fixture: trusted constructor injection of private control registry and current-configuration self-hosted test executable; production entry and identity gates unchanged. Review follow-up: test worker uses its currently built executable, private control registry and exact original authentication checks; test dependency graph updated."
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Worker/PrivilegedWorkerHost.cs",
+      "reason": "Isolated authenticated Worker fixture: trusted constructor injection of private control registry and current-configuration self-hosted test executable; production entry and identity gates unchanged. Review follow-up: test worker uses its currently built executable, private control registry and exact original authentication checks; test dependency graph updated."
+    }
+  ],
+  "files": [
+    {
+      "path": "source/rewrite/architecture.json",
+      "sourcePath": "rewrite/architecture.json",
+      "sha256": "dc5423df4395f369b02495eda001937105968db2ab50f9314bb0e8baee8a3b9b",
+      "integratedSha256": "340ce2d38e4778015ca1bfe9a58ac638e7e6e33495fe8f3297ebef8a89870c6b"
+    },
+    {
+      "path": "source/rewrite/Comments.xml",
+      "sourcePath": "rewrite/Comments.xml",
+      "sha256": "a5581d8948fd44daf99a14165b2706d4e29e4c754799e63cab9ef330d052a7ca",
+      "integratedSha256": "a5581d8948fd44daf99a14165b2706d4e29e4c754799e63cab9ef330d052a7ca"
+    },
+    {
+      "path": "source/rewrite/COMPRESSION-ROUND2.md",
+      "sourcePath": "rewrite/COMPRESSION-ROUND2.md",
+      "sha256": "f8697d812032442fd6a8c36364cb9d83d069445eb09ccad81e63dc6bbd2b10e0",
+      "integratedSha256": "f8697d812032442fd6a8c36364cb9d83d069445eb09ccad81e63dc6bbd2b10e0"
+    },
+    {
+      "path": "source/rewrite/COMPRESSION.md",
+      "sourcePath": "rewrite/COMPRESSION.md",
+      "sha256": "0009dbd2e51dcdc9cfe25c6de162f1c344253c999e1779542b1a557f2e3d5715",
+      "integratedSha256": "0009dbd2e51dcdc9cfe25c6de162f1c344253c999e1779542b1a557f2e3d5715"
+    },
+    {
+      "path": "source/rewrite/Directory.Build.props",
+      "sourcePath": "rewrite/Directory.Build.props",
+      "sha256": "7a4cac00490c20080af1b4e8a1bf0c2f19f8d617f4b080170352d2df208bcf4a",
+      "integratedSha256": "5dc4e659a940f78481b6562bd27ed4b7aed1192edf84ca220cd275b75922a0fd"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.AppHost/AspireDevelopmentHost.cs",
+      "sourcePath": "rewrite/LaunchDesk.AppHost/AspireDevelopmentHost.cs",
+      "sha256": "3c36a898f3720c770e51d26d58518507901e5dab2213295913f39f4766698262",
+      "integratedSha256": "3c36a898f3720c770e51d26d58518507901e5dab2213295913f39f4766698262"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.AppHost/INDEX.md",
+      "sourcePath": "rewrite/LaunchDesk.AppHost/INDEX.md",
+      "sha256": "fc447a0bde200f7790bdd536c74e996e91d70f7088e24ac9a87267f227522540",
+      "integratedSha256": "fc447a0bde200f7790bdd536c74e996e91d70f7088e24ac9a87267f227522540"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.AppHost/LaunchDesk.AppHost.csproj",
+      "sourcePath": "rewrite/LaunchDesk.AppHost/LaunchDesk.AppHost.csproj",
+      "sha256": "c43e93346872cdcab0b5b953204db84e654ea11f08b361de05012970ba77f019",
+      "integratedSha256": "c43e93346872cdcab0b5b953204db84e654ea11f08b361de05012970ba77f019"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.AppHost/NuGet.Config",
+      "sourcePath": "rewrite/LaunchDesk.AppHost/NuGet.Config",
+      "sha256": "33aa39ee926a9e2651ae39549df08dddc8e43d11896cf14d0465bc869d56b4c2",
+      "integratedSha256": "33aa39ee926a9e2651ae39549df08dddc8e43d11896cf14d0465bc869d56b4c2"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Architecture.Tests/ArchitectureBoundaryTests.cs",
+      "sourcePath": "rewrite/LaunchDesk.Architecture.Tests/ArchitectureBoundaryTests.cs",
+      "sha256": "93b80144fe99235acc6b223417bbb6c4513b763091ff27a0eaa4f4e2df1dcafa",
+      "integratedSha256": "93b80144fe99235acc6b223417bbb6c4513b763091ff27a0eaa4f4e2df1dcafa"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Architecture.Tests/CompressionBehaviorTests.cs",
+      "sourcePath": "rewrite/LaunchDesk.Architecture.Tests/CompressionBehaviorTests.cs",
+      "sha256": "09a9b276b3ce8fc18e951250095b406630f237f63fda2f777b05e65a2a66cb72",
+      "integratedSha256": "09a9b276b3ce8fc18e951250095b406630f237f63fda2f777b05e65a2a66cb72"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Architecture.Tests/ExistingScenarioTests.cs",
+      "sourcePath": "rewrite/LaunchDesk.Architecture.Tests/ExistingScenarioTests.cs",
+      "sha256": "79bfa4474c4a9c00469945fb296627406fce6975e4ef4af0e2502e588163ea52",
+      "integratedSha256": "3ce849ccc26e7c4a5ed7c8705f7425a985a2fe16e89fc487bcf5cb3a4b04e3ba"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Architecture.Tests/GlobalUsings.cs",
+      "sourcePath": "rewrite/LaunchDesk.Architecture.Tests/GlobalUsings.cs",
+      "sha256": "606f3ad32a4b61add78c1220ca4253e0af695c7264121760ea7cb1929701fa29",
+      "integratedSha256": "606f3ad32a4b61add78c1220ca4253e0af695c7264121760ea7cb1929701fa29"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Architecture.Tests/INDEX.md",
+      "sourcePath": "rewrite/LaunchDesk.Architecture.Tests/INDEX.md",
+      "sha256": "458291002ac7de625b7b554641ef3483085fdf6165b17e732c4fcbd8c9c75b80",
+      "integratedSha256": "458291002ac7de625b7b554641ef3483085fdf6165b17e732c4fcbd8c9c75b80"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Architecture.Tests/LaunchDesk.Architecture.Tests.csproj",
+      "sourcePath": "rewrite/LaunchDesk.Architecture.Tests/LaunchDesk.Architecture.Tests.csproj",
+      "sha256": "6a57beee6118cf9d8aaab8bbaa12dc709710fca0bbcaf6ae83d0476cb3613347",
+      "integratedSha256": "6a57beee6118cf9d8aaab8bbaa12dc709710fca0bbcaf6ae83d0476cb3613347"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Architecture.Tests/LaunchPlanExamplesTests.cs",
+      "sourcePath": "rewrite/LaunchDesk.Architecture.Tests/LaunchPlanExamplesTests.cs",
+      "sha256": "2425586fd4ede1540edb23b5f7195becd36557ebb7211597c4e996a74451d491",
+      "integratedSha256": "2425586fd4ede1540edb23b5f7195becd36557ebb7211597c4e996a74451d491"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Architecture.Tests/LegacyProductSuiteTests.cs",
+      "sourcePath": "rewrite/LaunchDesk.Architecture.Tests/LegacyProductSuiteTests.cs",
+      "sha256": "c2ec4583f21ab4e678c246ee82aed6c1e3681c404f097a9438c38d309b858671",
+      "integratedSha256": "29a8617d13283a9537cf8085fdb4874e702e68ef61520ea7fe14805791d4604c"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Bootstrap/ContractSmoke.cs",
+      "sourcePath": "rewrite/LaunchDesk.Bootstrap/ContractSmoke.cs",
+      "sha256": "f4919fd1101b1fd52f500d84d144fdbe6237c4eb54ea65447c2978b1e21fe22a",
+      "integratedSha256": "f4919fd1101b1fd52f500d84d144fdbe6237c4eb54ea65447c2978b1e21fe22a"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Bootstrap/DesktopAdapters.cs",
+      "sourcePath": "rewrite/LaunchDesk.Bootstrap/DesktopAdapters.cs",
+      "sha256": "98e83cf0314c1387df042f69832f16047ae6836f66f2410f61630554f444b508",
+      "integratedSha256": "98e83cf0314c1387df042f69832f16047ae6836f66f2410f61630554f444b508"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Bootstrap/DesktopCompositionRoot.cs",
+      "sourcePath": "rewrite/LaunchDesk.Bootstrap/DesktopCompositionRoot.cs",
+      "sha256": "da4829c2226f724539ee976c325ed39c40a0da969b2c7ea96c0e44c923494f90",
+      "integratedSha256": "da4829c2226f724539ee976c325ed39c40a0da969b2c7ea96c0e44c923494f90"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Bootstrap/GlobalUsings.cs",
+      "sourcePath": "rewrite/LaunchDesk.Bootstrap/GlobalUsings.cs",
+      "sha256": "75e3497aa0d54b5e5690260ac4781235072f2bb0b7670a4ae713da856e2eb571",
+      "integratedSha256": "75e3497aa0d54b5e5690260ac4781235072f2bb0b7670a4ae713da856e2eb571"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Bootstrap/INDEX.md",
+      "sourcePath": "rewrite/LaunchDesk.Bootstrap/INDEX.md",
+      "sha256": "973d3946f57cc28709fcc12f9a7a8d3546e28ecf5a999ebd0584465b9ed29e1e",
+      "integratedSha256": "973d3946f57cc28709fcc12f9a7a8d3546e28ecf5a999ebd0584465b9ed29e1e"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Bootstrap/LaunchDesk.Bootstrap.csproj",
+      "sourcePath": "rewrite/LaunchDesk.Bootstrap/LaunchDesk.Bootstrap.csproj",
+      "sha256": "2cc84c10528c6b60d8ba1a31c74532fc5895e09a3a57dd58918605159ea9b1fc",
+      "integratedSha256": "d3a30fc5d86adbf04e099d5c61fa8506350f9800de9620b9fc1b54c80d2da536"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Bootstrap/PortDiagnostics.cs",
+      "sourcePath": "rewrite/LaunchDesk.Bootstrap/PortDiagnostics.cs",
+      "sha256": "343f94f8b875de0fb96562d90a3e5e74117006d24563dd945bf42510b27aba0c",
+      "integratedSha256": "343f94f8b875de0fb96562d90a3e5e74117006d24563dd945bf42510b27aba0c"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Bootstrap/Program.cs",
+      "sourcePath": "rewrite/LaunchDesk.Bootstrap/Program.cs",
+      "sha256": "d4478f4d0677085f6bb39da08f7f0154e5b562e78efa5b035a99a5a512e29fda",
+      "integratedSha256": "d4478f4d0677085f6bb39da08f7f0154e5b562e78efa5b035a99a5a512e29fda"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Bootstrap/UiSmoke.cs",
+      "sourcePath": "rewrite/LaunchDesk.Bootstrap/UiSmoke.cs",
+      "sha256": "c3b8793ae8957479ce76c46c00fef7235f02b0be1d5427ba51f0c196f8827060",
+      "integratedSha256": "c3b8793ae8957479ce76c46c00fef7235f02b0be1d5427ba51f0c196f8827060"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Desktop/GlobalUsings.cs",
+      "sourcePath": "rewrite/LaunchDesk.Desktop/GlobalUsings.cs",
+      "sha256": "2315554f23b60d3adb0227dd37aeacbd2233bab2bfb6afed9a6a65bdc6870f08",
+      "integratedSha256": "2315554f23b60d3adb0227dd37aeacbd2233bab2bfb6afed9a6a65bdc6870f08"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Desktop/INDEX.md",
+      "sourcePath": "rewrite/LaunchDesk.Desktop/INDEX.md",
+      "sha256": "e669031ec939472951e5a74a69cd44739d98c85cc943aa70a50aaf717a0887ec",
+      "integratedSha256": "e669031ec939472951e5a74a69cd44739d98c85cc943aa70a50aaf717a0887ec"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Desktop/LaunchDesk.Desktop.csproj",
+      "sourcePath": "rewrite/LaunchDesk.Desktop/LaunchDesk.Desktop.csproj",
+      "sha256": "b8434ec2d3d6130566945971386d379790167b9f92be541d08196733871985da",
+      "integratedSha256": "b8434ec2d3d6130566945971386d379790167b9f92be541d08196733871985da"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Desktop/Presentation/DesignLayout.cs",
+      "sourcePath": "rewrite/LaunchDesk.Desktop/Presentation/DesignLayout.cs",
+      "sha256": "47d8baa5cce1f4823ca69d122b8ce4afe246f08ed0a19b9ec0b4368806143148",
+      "integratedSha256": "47d8baa5cce1f4823ca69d122b8ce4afe246f08ed0a19b9ec0b4368806143148"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Desktop/Presentation/EnumLabelConverter.cs",
+      "sourcePath": "rewrite/LaunchDesk.Desktop/Presentation/EnumLabelConverter.cs",
+      "sha256": "07ae2ee52876d585d105467ec8cc434c790828ceb72772c14a56f3fdf99c9eb1",
+      "integratedSha256": "07ae2ee52876d585d105467ec8cc434c790828ceb72772c14a56f3fdf99c9eb1"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Desktop/Presentation/ParameterCommand.cs",
+      "sourcePath": "rewrite/LaunchDesk.Desktop/Presentation/ParameterCommand.cs",
+      "sha256": "34e799dd3ddb29485b7827c1086698b22d49266a6593a48ae872168e0cc59b0f",
+      "integratedSha256": "34e799dd3ddb29485b7827c1086698b22d49266a6593a48ae872168e0cc59b0f"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Desktop/Presentation/PasswordEntryBehavior.cs",
+      "sourcePath": "rewrite/LaunchDesk.Desktop/Presentation/PasswordEntryBehavior.cs",
+      "sha256": "d693b52f06d7bc938481977e98e8192a706d2bd9afee9b9c7e464c83402efe6f",
+      "integratedSha256": "d693b52f06d7bc938481977e98e8192a706d2bd9afee9b9c7e464c83402efe6f"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Desktop/Presentation/Presentation.cs",
+      "sourcePath": "rewrite/LaunchDesk.Desktop/Presentation/Presentation.cs",
+      "sha256": "44492d95d5da5b27ab39224d3110d327bf6cd83a61d9313236bd83fbfbe4aae5",
+      "integratedSha256": "44492d95d5da5b27ab39224d3110d327bf6cd83a61d9313236bd83fbfbe4aae5"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Desktop/Resources/Icons.xaml",
+      "sourcePath": "rewrite/LaunchDesk.Desktop/Resources/Icons.xaml",
+      "sha256": "367c56b9e21de13fd5c0721aa3cd84fc83ee1e802474eb858e1eac621c2497e7",
+      "integratedSha256": "367c56b9e21de13fd5c0721aa3cd84fc83ee1e802474eb858e1eac621c2497e7"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Desktop/Resources/LaunchDesk.ico",
+      "sourcePath": "rewrite/LaunchDesk.Desktop/Resources/LaunchDesk.ico",
+      "sha256": "7306831f6851bb386c30750c122f1ec9cd1ae27dae760922cf36bcf1f84f1207",
+      "integratedSha256": "7306831f6851bb386c30750c122f1ec9cd1ae27dae760922cf36bcf1f84f1207"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Desktop/Resources/Pages.xaml",
+      "sourcePath": "rewrite/LaunchDesk.Desktop/Resources/Pages.xaml",
+      "sha256": "aab80cabe02aac2c60ac5ad9da5f6354a20771a8d8a7822c9c5a8581ac024d2c",
+      "integratedSha256": "aab80cabe02aac2c60ac5ad9da5f6354a20771a8d8a7822c9c5a8581ac024d2c"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Desktop/Resources/Theme.xaml",
+      "sourcePath": "rewrite/LaunchDesk.Desktop/Resources/Theme.xaml",
+      "sha256": "8d6b1fa8fe5277571f043f3bec1a93b87db8952fdd6121c2f63a7afe796b1ef6",
+      "integratedSha256": "8d6b1fa8fe5277571f043f3bec1a93b87db8952fdd6121c2f63a7afe796b1ef6"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Desktop/Resources/ThemeResourceCatalog.cs",
+      "sourcePath": "rewrite/LaunchDesk.Desktop/Resources/ThemeResourceCatalog.cs",
+      "sha256": "a510afd963d7c74b68f7016ef6e273d7d82062dbdc91379c819fee35e1727835",
+      "integratedSha256": "a510afd963d7c74b68f7016ef6e273d7d82062dbdc91379c819fee35e1727835"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Desktop/ViewModels/DefinitionPages.cs",
+      "sourcePath": "rewrite/LaunchDesk.Desktop/ViewModels/DefinitionPages.cs",
+      "sha256": "eb69591f3a0e91dc745d8115384784b2a73e27ebf9edd76a3e6eddd12b65f2da",
+      "integratedSha256": "eb69591f3a0e91dc745d8115384784b2a73e27ebf9edd76a3e6eddd12b65f2da"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Desktop/ViewModels/DefinitionPageViewModel.cs",
+      "sourcePath": "rewrite/LaunchDesk.Desktop/ViewModels/DefinitionPageViewModel.cs",
+      "sha256": "1b8f436349d0aaff75e66ccec8cc03d85c3b61d2e9f28a928436255807ea8dd3",
+      "integratedSha256": "1b8f436349d0aaff75e66ccec8cc03d85c3b61d2e9f28a928436255807ea8dd3"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Desktop/ViewModels/PageCatalog.cs",
+      "sourcePath": "rewrite/LaunchDesk.Desktop/ViewModels/PageCatalog.cs",
+      "sha256": "2045921e5038f56934b3122fc049d806f0ea19c70b7261a0cbabd4b45e215c2d",
+      "integratedSha256": "2045921e5038f56934b3122fc049d806f0ea19c70b7261a0cbabd4b45e215c2d"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Desktop/ViewModels/PageViewModel.cs",
+      "sourcePath": "rewrite/LaunchDesk.Desktop/ViewModels/PageViewModel.cs",
+      "sha256": "59be8c20510d66a06b7211648b68d5c57cfcf3b8f85dbc4bf1281c90ae81211c",
+      "integratedSha256": "59be8c20510d66a06b7211648b68d5c57cfcf3b8f85dbc4bf1281c90ae81211c"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Desktop/ViewModels/ProfileEditorViewModel.cs",
+      "sourcePath": "rewrite/LaunchDesk.Desktop/ViewModels/ProfileEditorViewModel.cs",
+      "sha256": "610e7f45449614bc09c5a431eae173d808baa61038e92ec902e6bd90ec0c74b0",
+      "integratedSha256": "610e7f45449614bc09c5a431eae173d808baa61038e92ec902e6bd90ec0c74b0"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Desktop/ViewModels/ProfilesPageViewModel.cs",
+      "sourcePath": "rewrite/LaunchDesk.Desktop/ViewModels/ProfilesPageViewModel.cs",
+      "sha256": "688e791703a6383a6d25b10718fa281bc147010d8f54a180fb336a6e9fb81d06",
+      "integratedSha256": "688e791703a6383a6d25b10718fa281bc147010d8f54a180fb336a6e9fb81d06"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Desktop/ViewModels/ToolPageViewModel.cs",
+      "sourcePath": "rewrite/LaunchDesk.Desktop/ViewModels/ToolPageViewModel.cs",
+      "sha256": "70f3801cdc4781541f46a69891e2ca7c97a57b8b82d3822978b0cf2798a6c33a",
+      "integratedSha256": "70f3801cdc4781541f46a69891e2ca7c97a57b8b82d3822978b0cf2798a6c33a"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Desktop/ViewModels/ToolPageViewModel.Navigation.cs",
+      "sourcePath": "rewrite/LaunchDesk.Desktop/ViewModels/ToolPageViewModel.Navigation.cs",
+      "sha256": "55ad0aad3ecf8ff4ae98d265f1877db379f51db77cdce6b7101a64b7236b4cab",
+      "integratedSha256": "55ad0aad3ecf8ff4ae98d265f1877db379f51db77cdce6b7101a64b7236b4cab"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Desktop/ViewModels/WorkspacePages.cs",
+      "sourcePath": "rewrite/LaunchDesk.Desktop/ViewModels/WorkspacePages.cs",
+      "sha256": "68960e94718d13f9b3f787aa2cf60d01a1d0ea4d5f03a45a22412abd0b0fb807",
+      "integratedSha256": "68960e94718d13f9b3f787aa2cf60d01a1d0ea4d5f03a45a22412abd0b0fb807"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Desktop/ViewModels/WorkspacePages.Presentation.cs",
+      "sourcePath": "rewrite/LaunchDesk.Desktop/ViewModels/WorkspacePages.Presentation.cs",
+      "sha256": "522b0c3479402051e8614018e616a020d6bf565dde32a5e510c0a1e698f353d9",
+      "integratedSha256": "522b0c3479402051e8614018e616a020d6bf565dde32a5e510c0a1e698f353d9"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Desktop/Views/AppIcon.cs",
+      "sourcePath": "rewrite/LaunchDesk.Desktop/Views/AppIcon.cs",
+      "sha256": "8172387b31396c320ff7e0a2e06759cf627f6ccdaf98ba411ebe6e21920cf2e9",
+      "integratedSha256": "8172387b31396c320ff7e0a2e06759cf627f6ccdaf98ba411ebe6e21920cf2e9"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Desktop/Views/MainWindow.cs",
+      "sourcePath": "rewrite/LaunchDesk.Desktop/Views/MainWindow.cs",
+      "sha256": "901e50ee378899f6c2dcbb3eadbf6b446c1fba1352ecce4c73fd6fa69399ff2b",
+      "integratedSha256": "901e50ee378899f6c2dcbb3eadbf6b446c1fba1352ecce4c73fd6fa69399ff2b"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Desktop/Views/MainWindow.Frame.cs",
+      "sourcePath": "rewrite/LaunchDesk.Desktop/Views/MainWindow.Frame.cs",
+      "sha256": "53ec0d8eb657a213c467b74ae3ce4740270a4b5448f262e61ab899925c32aaed",
+      "integratedSha256": "53ec0d8eb657a213c467b74ae3ce4740270a4b5448f262e61ab899925c32aaed"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Desktop/Views/MainWindow.xaml",
+      "sourcePath": "rewrite/LaunchDesk.Desktop/Views/MainWindow.xaml",
+      "sha256": "cd588cf60ecb3fd0f4e208b14dcfc1108b44205bb0c594385b817220cb90deae",
+      "integratedSha256": "cd588cf60ecb3fd0f4e208b14dcfc1108b44205bb0c594385b817220cb90deae"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Desktop/Views/PasswordEntryControl.cs",
+      "sourcePath": "rewrite/LaunchDesk.Desktop/Views/PasswordEntryControl.cs",
+      "sha256": "8b90cbc53aad02144f3daf495aaa44e10e8ae1a08e6213a8d12f5c07bb18b411",
+      "integratedSha256": "8b90cbc53aad02144f3daf495aaa44e10e8ae1a08e6213a8d12f5c07bb18b411"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Desktop/Views/PresentationDialogs.cs",
+      "sourcePath": "rewrite/LaunchDesk.Desktop/Views/PresentationDialogs.cs",
+      "sha256": "8aa1b7ad85d1ed25ca78676ae5d776a7cbcc4993fd827f3f960a436f7d0a2cc6",
+      "integratedSha256": "8aa1b7ad85d1ed25ca78676ae5d776a7cbcc4993fd827f3f960a436f7d0a2cc6"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Desktop/Views/ToolViews.cs",
+      "sourcePath": "rewrite/LaunchDesk.Desktop/Views/ToolViews.cs",
+      "sha256": "d2d5460cebcabcfa5c4764e5e1e60ff5a58b405ce410c459a7f28943dc690eab",
+      "integratedSha256": "d2d5460cebcabcfa5c4764e5e1e60ff5a58b405ce410c459a7f28943dc690eab"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Desktop/Views/ViewFactory.cs",
+      "sourcePath": "rewrite/LaunchDesk.Desktop/Views/ViewFactory.cs",
+      "sha256": "9327449ac330b41f0691888c9f4d1cdaff29f6f840fff30c23401b6f11f8a550",
+      "integratedSha256": "9327449ac330b41f0691888c9f4d1cdaff29f6f840fff30c23401b6f11f8a550"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Desktop/Views/WorkspaceViews.cs",
+      "sourcePath": "rewrite/LaunchDesk.Desktop/Views/WorkspaceViews.cs",
+      "sha256": "57da79e9148dd3779e33dbeb780646d33946b41e3061c17479010ec1aeff4dc7",
+      "integratedSha256": "57da79e9148dd3779e33dbeb780646d33946b41e3061c17479010ec1aeff4dc7"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.DevHost/DiagnosticEndpoints.cs",
+      "sourcePath": "rewrite/LaunchDesk.DevHost/DiagnosticEndpoints.cs",
+      "sha256": "bb5bb5679319aaea4dd9e2968c4b2f85c8800fcfa460002ad1d5365ffc437bcc",
+      "integratedSha256": "bb5bb5679319aaea4dd9e2968c4b2f85c8800fcfa460002ad1d5365ffc437bcc"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.DevHost/INDEX.md",
+      "sourcePath": "rewrite/LaunchDesk.DevHost/INDEX.md",
+      "sha256": "7c65f4a31670cc3d870c32963c25596c7bb29a0221759e438bd646f94fe7d812",
+      "integratedSha256": "7c65f4a31670cc3d870c32963c25596c7bb29a0221759e438bd646f94fe7d812"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.DevHost/LaunchDesk.DevHost.csproj",
+      "sourcePath": "rewrite/LaunchDesk.DevHost/LaunchDesk.DevHost.csproj",
+      "sha256": "86be2ad0ebbc641b9081ff5f18a30b2cd8e9476c85e9406c564868a60cafdc7b",
+      "integratedSha256": "86be2ad0ebbc641b9081ff5f18a30b2cd8e9476c85e9406c564868a60cafdc7b"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.DevHost/Program.cs",
+      "sourcePath": "rewrite/LaunchDesk.DevHost/Program.cs",
+      "sha256": "b44b375c6aa70cb2d882ca29b9c9cd769bd097a7de44f2a7c9179f3f516c3a34",
+      "integratedSha256": "b44b375c6aa70cb2d882ca29b9c9cd769bd097a7de44f2a7c9179f3f516c3a34"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Kernel/ConnectionHealthPolicy.cs",
+      "sourcePath": "rewrite/LaunchDesk.Kernel/ConnectionHealthPolicy.cs",
+      "sha256": "1cabb48a07736a83b99c0db0ef8cfd519bbab4abbca8ef4b2b7fdc3ef88c1837",
+      "integratedSha256": "1cabb48a07736a83b99c0db0ef8cfd519bbab4abbca8ef4b2b7fdc3ef88c1837"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Kernel/INDEX.md",
+      "sourcePath": "rewrite/LaunchDesk.Kernel/INDEX.md",
+      "sha256": "b9eefef6364f48058475df0dce9c967b0d54bb1440d984c3cd99f168f1366123",
+      "integratedSha256": "b9eefef6364f48058475df0dce9c967b0d54bb1440d984c3cd99f168f1366123"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Kernel/LaunchDesk.Kernel.csproj",
+      "sourcePath": "rewrite/LaunchDesk.Kernel/LaunchDesk.Kernel.csproj",
+      "sha256": "aa7fe35869bed525186ee1713b90ead01c57cc25e1bff9b9dbb8f03e21546663",
+      "integratedSha256": "aa7fe35869bed525186ee1713b90ead01c57cc25e1bff9b9dbb8f03e21546663"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Kernel/MarineBatchPolicy.cs",
+      "sourcePath": "rewrite/LaunchDesk.Kernel/MarineBatchPolicy.cs",
+      "sha256": "0862b99eae4dfe4956077f2603396578c594b97f5c7739e57fb99df65ffd7e34",
+      "integratedSha256": "0862b99eae4dfe4956077f2603396578c594b97f5c7739e57fb99df65ffd7e34"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Kernel/Policies.cs",
+      "sourcePath": "rewrite/LaunchDesk.Kernel/Policies.cs",
+      "sha256": "9843e500e99909dc554752ad46ded24457e90aa7193099433b78fcd307cf6246",
+      "integratedSha256": "9843e500e99909dc554752ad46ded24457e90aa7193099433b78fcd307cf6246"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Kernel/Primitives.cs",
+      "sourcePath": "rewrite/LaunchDesk.Kernel/Primitives.cs",
+      "sha256": "8d28914c87800c470b7eaf28e8657a2a09b33d6b5b21ee0f362feb1ea5276d08",
+      "integratedSha256": "8d28914c87800c470b7eaf28e8657a2a09b33d6b5b21ee0f362feb1ea5276d08"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.OperationContracts/DesktopPorts.cs",
+      "sourcePath": "rewrite/LaunchDesk.OperationContracts/DesktopPorts.cs",
+      "sha256": "eac40ba766c8a91e595f7eec6557f7cc0563f402a1f2d25a38c6b5d715450484",
+      "integratedSha256": "eac40ba766c8a91e595f7eec6557f7cc0563f402a1f2d25a38c6b5d715450484"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.OperationContracts/GlobalUsings.cs",
+      "sourcePath": "rewrite/LaunchDesk.OperationContracts/GlobalUsings.cs",
+      "sha256": "fa2591837c35e7ea88498e26eebf18ae380d6308bf4e70ec9d6273f59c105009",
+      "integratedSha256": "fa2591837c35e7ea88498e26eebf18ae380d6308bf4e70ec9d6273f59c105009"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.OperationContracts/INDEX.md",
+      "sourcePath": "rewrite/LaunchDesk.OperationContracts/INDEX.md",
+      "sha256": "9529066c64cf9cf9cc94b27050699cda2db6bc5e31bfb9438707c0d1c5338040",
+      "integratedSha256": "9529066c64cf9cf9cc94b27050699cda2db6bc5e31bfb9438707c0d1c5338040"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.OperationContracts/LaunchDesk.OperationContracts.csproj",
+      "sourcePath": "rewrite/LaunchDesk.OperationContracts/LaunchDesk.OperationContracts.csproj",
+      "sha256": "e9910a4d6a4d92252050497f497b17a279d1e2d2ffdb1fff6eba39e4f7f64213",
+      "integratedSha256": "e9910a4d6a4d92252050497f497b17a279d1e2d2ffdb1fff6eba39e4f7f64213"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.OperationContracts/OperationModels.cs",
+      "sourcePath": "rewrite/LaunchDesk.OperationContracts/OperationModels.cs",
+      "sha256": "50a314f2b6f72474366e0a5c49772ae323e42b2e52e4de59e20670cb1942c0da",
+      "integratedSha256": "50a314f2b6f72474366e0a5c49772ae323e42b2e52e4de59e20670cb1942c0da"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.OperationContracts/Ports.cs",
+      "sourcePath": "rewrite/LaunchDesk.OperationContracts/Ports.cs",
+      "sha256": "7f702a783b5a9465de25ace3bb1697150511c4d391162e7b37974171280d9028",
+      "integratedSha256": "7f702a783b5a9465de25ace3bb1697150511c4d391162e7b37974171280d9028"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.OperationContracts/SecretsAndLeases.cs",
+      "sourcePath": "rewrite/LaunchDesk.OperationContracts/SecretsAndLeases.cs",
+      "sha256": "045ca95c7ac915dc7360f6500faf52444cc7e060a0e4ca465a6547c24f3ef756",
+      "integratedSha256": "045ca95c7ac915dc7360f6500faf52444cc7e060a0e4ca465a6547c24f3ef756"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.OperationContracts/WorkerMessages.cs",
+      "sourcePath": "rewrite/LaunchDesk.OperationContracts/WorkerMessages.cs",
+      "sha256": "7a39f9009b0459c85590cfabf4c90e773dd4da439c99ffc7fa39a7f43d203fde",
+      "integratedSha256": "7a39f9009b0459c85590cfabf4c90e773dd4da439c99ffc7fa39a7f43d203fde"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.OperationContracts/WorkspaceModels.cs",
+      "sourcePath": "rewrite/LaunchDesk.OperationContracts/WorkspaceModels.cs",
+      "sha256": "e03d22c1f6a583ad7adca4529ffcfbefb95e01335c1beba1021b2c3997083dbb",
+      "integratedSha256": "e03d22c1f6a583ad7adca4529ffcfbefb95e01335c1beba1021b2c3997083dbb"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.OperationContracts/WorkspaceSchema.cs",
+      "sourcePath": "rewrite/LaunchDesk.OperationContracts/WorkspaceSchema.cs",
+      "sha256": "952a0763dad711d182740b25ad3527b978bd3b731dc4a26d87962473699adb14",
+      "integratedSha256": "952a0763dad711d182740b25ad3527b978bd3b731dc4a26d87962473699adb14"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Rewrite.slnx",
+      "sourcePath": "rewrite/LaunchDesk.Rewrite.slnx",
+      "sha256": "b5942843bdbc0c7c457f8e063af9a547295d6d4ae311d6abdea10f277177a969",
+      "integratedSha256": "b5942843bdbc0c7c457f8e063af9a547295d6d4ae311d6abdea10f277177a969"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Rewrite.Tests/ExtendedScenarios.cs",
+      "sourcePath": "rewrite/LaunchDesk.Rewrite.Tests/ExtendedScenarios.cs",
+      "sha256": "3f96c3a1fc8461d35ddf699a77ccfb5286346f4e044754c8e3038fb8eb7faa79",
+      "integratedSha256": "9d530aea87c7bd794ee2e641a947fd3e3596f67dfa5dc3f8001fbbab13480638"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Rewrite.Tests/GlobalUsings.cs",
+      "sourcePath": "rewrite/LaunchDesk.Rewrite.Tests/GlobalUsings.cs",
+      "sha256": "c9172fe291aece4a682881a73b6911f088ee916618a0a95a2fb0e3e882d4c680",
+      "integratedSha256": "c9172fe291aece4a682881a73b6911f088ee916618a0a95a2fb0e3e882d4c680"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Rewrite.Tests/INDEX.md",
+      "sourcePath": "rewrite/LaunchDesk.Rewrite.Tests/INDEX.md",
+      "sha256": "ec758356ec73dae52675a1b61fe1e91d907c1879ff3efbce3f97c8ae1f8a75a0",
+      "integratedSha256": "ec758356ec73dae52675a1b61fe1e91d907c1879ff3efbce3f97c8ae1f8a75a0"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Rewrite.Tests/JobScenario.cs",
+      "sourcePath": "rewrite/LaunchDesk.Rewrite.Tests/JobScenario.cs",
+      "sha256": "9db70385091f3426e3adef27afe51ebb0e4f4fde2b1c50f36854b7d41cc8e543",
+      "integratedSha256": "9db70385091f3426e3adef27afe51ebb0e4f4fde2b1c50f36854b7d41cc8e543"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Rewrite.Tests/LaunchArgumentsScenarios.cs",
+      "sourcePath": "rewrite/LaunchDesk.Rewrite.Tests/LaunchArgumentsScenarios.cs",
+      "sha256": "9687ea1a36008851d4a5645f4342ea53349b1898ac1db496671ed8b2c9a16278",
+      "integratedSha256": "9687ea1a36008851d4a5645f4342ea53349b1898ac1db496671ed8b2c9a16278"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Rewrite.Tests/LaunchDesk.Rewrite.Tests.csproj",
+      "sourcePath": "rewrite/LaunchDesk.Rewrite.Tests/LaunchDesk.Rewrite.Tests.csproj",
+      "sha256": "d1b4f216c528c66b2f2c66b188bcd4c3cc1f704c32cf83a4210beac51f8ca18e",
+      "integratedSha256": "9dd33d4e10991501e39177f6b3d400914293fcfc2f24522e3b812df1c8634be1"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Rewrite.Tests/Program.cs",
+      "sourcePath": "rewrite/LaunchDesk.Rewrite.Tests/Program.cs",
+      "sha256": "b52f3c6a76e3c060e379db9634a061b60fb05ac5628b9168e9189b2c55898abf",
+      "integratedSha256": "31acd6866b54ff27735013c255e2449d193a3abaf9a0c35ea317981b39032d83"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.UseCases/Catalog/ConfigurationShareService.cs",
+      "sourcePath": "rewrite/LaunchDesk.UseCases/Catalog/ConfigurationShareService.cs",
+      "sha256": "9b918fffee20ed127748d3ce691c277ef085386f4cdc0cff5e2356be4d3e45c9",
+      "integratedSha256": "9b918fffee20ed127748d3ce691c277ef085386f4cdc0cff5e2356be4d3e45c9"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.UseCases/Catalog/MigrationQueries.cs",
+      "sourcePath": "rewrite/LaunchDesk.UseCases/Catalog/MigrationQueries.cs",
+      "sha256": "fcbdf2f9060a0494e4857617ba12afc2f68cb1c4e660a4e228eb88944f51a101",
+      "integratedSha256": "fcbdf2f9060a0494e4857617ba12afc2f68cb1c4e660a4e228eb88944f51a101"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.UseCases/Catalog/WorkspaceCatalogService.cs",
+      "sourcePath": "rewrite/LaunchDesk.UseCases/Catalog/WorkspaceCatalogService.cs",
+      "sha256": "da474b9ff629603a8f48fd3a78786e0dcfce3a83b6a9fd543cfc8dd35c04fd1f",
+      "integratedSha256": "da474b9ff629603a8f48fd3a78786e0dcfce3a83b6a9fd543cfc8dd35c04fd1f"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.UseCases/Delivery/Handlers.cs",
+      "sourcePath": "rewrite/LaunchDesk.UseCases/Delivery/Handlers.cs",
+      "sha256": "0d27df45ed4e2e211de25e65ce1c629de067210a4c586c14347a7dbfb5a7f621",
+      "integratedSha256": "0d27df45ed4e2e211de25e65ce1c629de067210a4c586c14347a7dbfb5a7f621"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.UseCases/Delivery/Planning.cs",
+      "sourcePath": "rewrite/LaunchDesk.UseCases/Delivery/Planning.cs",
+      "sha256": "6c68b1c8c17abb30fa59a5bdefd5e67f6389dbe21f0c62a971648a30ea419f1b",
+      "integratedSha256": "6c68b1c8c17abb30fa59a5bdefd5e67f6389dbe21f0c62a971648a30ea419f1b"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.UseCases/GlobalUsings.cs",
+      "sourcePath": "rewrite/LaunchDesk.UseCases/GlobalUsings.cs",
+      "sha256": "70a275e3c4bf28c9f102ea2e98c10f6797f984997cd2b731c69fa801cefef2b9",
+      "integratedSha256": "70a275e3c4bf28c9f102ea2e98c10f6797f984997cd2b731c69fa801cefef2b9"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.UseCases/INDEX.md",
+      "sourcePath": "rewrite/LaunchDesk.UseCases/INDEX.md",
+      "sha256": "83eb36a91b75b95676343c4dd68ba2694747c6dd6ee1c125f5ce65b2d5a3da00",
+      "integratedSha256": "83eb36a91b75b95676343c4dd68ba2694747c6dd6ee1c125f5ce65b2d5a3da00"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.UseCases/Launch/LaunchOperationHandler.cs",
+      "sourcePath": "rewrite/LaunchDesk.UseCases/Launch/LaunchOperationHandler.cs",
+      "sha256": "d2c771f0ea4fbe9f8ddbe9ffe4b2cf6b7aad33bddb672e64d956004b29d84630",
+      "integratedSha256": "d2c771f0ea4fbe9f8ddbe9ffe4b2cf6b7aad33bddb672e64d956004b29d84630"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.UseCases/Launch/LaunchPlanBuilder.cs",
+      "sourcePath": "rewrite/LaunchDesk.UseCases/Launch/LaunchPlanBuilder.cs",
+      "sha256": "41fb133f77ab4431eb24526ea3809f302e0270318396e412386745e86ce0427d",
+      "integratedSha256": "41fb133f77ab4431eb24526ea3809f302e0270318396e412386745e86ce0427d"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.UseCases/LaunchDesk.UseCases.csproj",
+      "sourcePath": "rewrite/LaunchDesk.UseCases/LaunchDesk.UseCases.csproj",
+      "sha256": "ac61b68e3eda9d61170b49f1f29c07eae3492911b844c2146e231574481762c4",
+      "integratedSha256": "ac61b68e3eda9d61170b49f1f29c07eae3492911b844c2146e231574481762c4"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.UseCases/Operations/OperationCoordinator.cs",
+      "sourcePath": "rewrite/LaunchDesk.UseCases/Operations/OperationCoordinator.cs",
+      "sha256": "f3b3d2ae437fa803beb5015b13c3eee3923354723a233a7ec31d40647eb41558",
+      "integratedSha256": "f3b3d2ae437fa803beb5015b13c3eee3923354723a233a7ec31d40647eb41558"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.UseCases/Operations/OperationExecutionContext.cs",
+      "sourcePath": "rewrite/LaunchDesk.UseCases/Operations/OperationExecutionContext.cs",
+      "sha256": "fdf7c399adaf6a67131d8f9a5480f2bab82ed126c0b65da882bd40ec7b9c2c8d",
+      "integratedSha256": "fdf7c399adaf6a67131d8f9a5480f2bab82ed126c0b65da882bd40ec7b9c2c8d"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.UseCases/Resources/ResourceSupervisor.cs",
+      "sourcePath": "rewrite/LaunchDesk.UseCases/Resources/ResourceSupervisor.cs",
+      "sha256": "d6b5ebec23124a6e2f13beb34166279f4af18766ef19da45f90cd9618f68ed05",
+      "integratedSha256": "d6b5ebec23124a6e2f13beb34166279f4af18766ef19da45f90cd9618f68ed05"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Windows/Delivery/FileDeliveryPort.cs",
+      "sourcePath": "rewrite/LaunchDesk.Windows/Delivery/FileDeliveryPort.cs",
+      "sha256": "02ea07444ce12f92ee400b0ef56c38b71c5bac7dd58bc72cff2d19f715cbe51b",
+      "integratedSha256": "02ea07444ce12f92ee400b0ef56c38b71c5bac7dd58bc72cff2d19f715cbe51b"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Windows/Delivery/PackageReader.cs",
+      "sourcePath": "rewrite/LaunchDesk.Windows/Delivery/PackageReader.cs",
+      "sha256": "9cb862324edbc14e29d2c560f0ad39103adc73697e41c95a0350a1533c9d66ef",
+      "integratedSha256": "9cb862324edbc14e29d2c560f0ad39103adc73697e41c95a0350a1533c9d66ef"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Windows/Delivery/WindowsControlDataGuard.cs",
+      "sourcePath": "rewrite/LaunchDesk.Windows/Delivery/WindowsControlDataGuard.cs",
+      "sha256": "e18bf0e232ab5d1fcd4e69ca57bc591d2a81a086df2032280b5b2376cd6d605a",
+      "integratedSha256": "e18bf0e232ab5d1fcd4e69ca57bc591d2a81a086df2032280b5b2376cd6d605a"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Windows/GlobalUsings.cs",
+      "sourcePath": "rewrite/LaunchDesk.Windows/GlobalUsings.cs",
+      "sha256": "e5e2fbc45a146013541f99da161c7d365fea94e656684dbda64eee1ee9b75328",
+      "integratedSha256": "e5e2fbc45a146013541f99da161c7d365fea94e656684dbda64eee1ee9b75328"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Windows/INDEX.md",
+      "sourcePath": "rewrite/LaunchDesk.Windows/INDEX.md",
+      "sha256": "6b9ecd9781c1a999a8617225eec991be01da2fd5e19ce1cffc53112a32828606",
+      "integratedSha256": "6b9ecd9781c1a999a8617225eec991be01da2fd5e19ce1cffc53112a32828606"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Windows/Infrastructure/AtomicFiles.cs",
+      "sourcePath": "rewrite/LaunchDesk.Windows/Infrastructure/AtomicFiles.cs",
+      "sha256": "910d9fc44435c98ba14af8b33de8ba2a5eb88ab3a38b45a2b971368e3d12dea4",
+      "integratedSha256": "910d9fc44435c98ba14af8b33de8ba2a5eb88ab3a38b45a2b971368e3d12dea4"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Windows/Infrastructure/WindowsPaths.cs",
+      "sourcePath": "rewrite/LaunchDesk.Windows/Infrastructure/WindowsPaths.cs",
+      "sha256": "18967d98d3008777c79a9392c287c2454d1467bb6e57169e06c57dd5eae5ba39",
+      "integratedSha256": "18967d98d3008777c79a9392c287c2454d1467bb6e57169e06c57dd5eae5ba39"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Windows/LaunchDesk.Windows.csproj",
+      "sourcePath": "rewrite/LaunchDesk.Windows/LaunchDesk.Windows.csproj",
+      "sha256": "4c84fb0a883fc092d001b8390a0d657059917ee4c431c9df848804970f2d8f1a",
+      "integratedSha256": "4c84fb0a883fc092d001b8390a0d657059917ee4c431c9df848804970f2d8f1a"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Windows/Platform/BreakawayProcess.cs",
+      "sourcePath": "rewrite/LaunchDesk.Windows/Platform/BreakawayProcess.cs",
+      "sha256": "7b02f9afbd49ccd96d7107fe8f2d7e7e3c994e83c4c2d9b295c3e8c41a2b33bc",
+      "integratedSha256": "7b02f9afbd49ccd96d7107fe8f2d7e7e3c994e83c4c2d9b295c3e8c41a2b33bc"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Windows/Platform/ProcessFamilyObserver.cs",
+      "sourcePath": "rewrite/LaunchDesk.Windows/Platform/ProcessFamilyObserver.cs",
+      "sha256": "3bb96bdf3961e87a06bda6dfb50626a7f98e478a06e351d3d6eaa0f84cd06fae",
+      "integratedSha256": "3bb96bdf3961e87a06bda6dfb50626a7f98e478a06e351d3d6eaa0f84cd06fae"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Windows/Platform/WindowsEntryDiscovery.cs",
+      "sourcePath": "rewrite/LaunchDesk.Windows/Platform/WindowsEntryDiscovery.cs",
+      "sha256": "281d21072f404f556af4b6df73080b487f17dd215a059d6c07b68d582eeeb138",
+      "integratedSha256": "281d21072f404f556af4b6df73080b487f17dd215a059d6c07b68d582eeeb138"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Windows/Platform/WindowsEnvironmentStore.cs",
+      "sourcePath": "rewrite/LaunchDesk.Windows/Platform/WindowsEnvironmentStore.cs",
+      "sha256": "bb82b7e55a2ab4523c680b1c87895b28a6cda746a0261872142f735071c9652a",
+      "integratedSha256": "bb82b7e55a2ab4523c680b1c87895b28a6cda746a0261872142f735071c9652a"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Windows/Platform/WindowsPrivilegeBroker.cs",
+      "sourcePath": "rewrite/LaunchDesk.Windows/Platform/WindowsPrivilegeBroker.cs",
+      "sha256": "663cf7c8d303bf5621abc59f65e3cbaba7ad3547f8ab05350561ffff29c833c7",
+      "integratedSha256": "663cf7c8d303bf5621abc59f65e3cbaba7ad3547f8ab05350561ffff29c833c7"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Windows/Platform/WindowsProcessGateway.cs",
+      "sourcePath": "rewrite/LaunchDesk.Windows/Platform/WindowsProcessGateway.cs",
+      "sha256": "10dff78838fd23b507dd5ef53597dacf0706732c35ed16ee4bf055ee84841294",
+      "integratedSha256": "10dff78838fd23b507dd5ef53597dacf0706732c35ed16ee4bf055ee84841294"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Windows/Platform/WindowsResourceProbe.cs",
+      "sourcePath": "rewrite/LaunchDesk.Windows/Platform/WindowsResourceProbe.cs",
+      "sha256": "07e0acd80778ac7a1e23310e8774e350450aa2c31363c594f2d4e8864ff640d7",
+      "integratedSha256": "07e0acd80778ac7a1e23310e8774e350450aa2c31363c594f2d4e8864ff640d7"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Windows/Platform/WindowsSecretVault.cs",
+      "sourcePath": "rewrite/LaunchDesk.Windows/Platform/WindowsSecretVault.cs",
+      "sha256": "d9ae23f046caaa947e8634fca473ea5b00d7c7b042e07c3e9682c27305cd5db4",
+      "integratedSha256": "d9ae23f046caaa947e8634fca473ea5b00d7c7b042e07c3e9682c27305cd5db4"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Windows/Platform/WorkerTransport.cs",
+      "sourcePath": "rewrite/LaunchDesk.Windows/Platform/WorkerTransport.cs",
+      "sha256": "d0b23e8791d5ed4c88f655d3b4192e463ce2cd655fecc7499c95042e09ee83f4",
+      "integratedSha256": "d0b23e8791d5ed4c88f655d3b4192e463ce2cd655fecc7499c95042e09ee83f4"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Windows/Storage/ConfigurationDocuments.cs",
+      "sourcePath": "rewrite/LaunchDesk.Windows/Storage/ConfigurationDocuments.cs",
+      "sha256": "6715424b42a33120748285c856d600f1349a693a07ee509c8c8610a745ca8dc2",
+      "integratedSha256": "6715424b42a33120748285c856d600f1349a693a07ee509c8c8610a745ca8dc2"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Windows/Storage/JsonMigrationStore.cs",
+      "sourcePath": "rewrite/LaunchDesk.Windows/Storage/JsonMigrationStore.cs",
+      "sha256": "476c058f0dee5cc069b67e5fd18f2044a6105d2c284a4ed879fa2c56ca4c8081",
+      "integratedSha256": "476c058f0dee5cc069b67e5fd18f2044a6105d2c284a4ed879fa2c56ca4c8081"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Windows/Storage/JsonRunJournal.cs",
+      "sourcePath": "rewrite/LaunchDesk.Windows/Storage/JsonRunJournal.cs",
+      "sha256": "cae2204da579c7db81cb828fa8115ff97b9f64625fc6892ce30d43f2abc8ada3",
+      "integratedSha256": "cae2204da579c7db81cb828fa8115ff97b9f64625fc6892ce30d43f2abc8ada3"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Windows/Storage/JsonWorkspaceStore.cs",
+      "sourcePath": "rewrite/LaunchDesk.Windows/Storage/JsonWorkspaceStore.cs",
+      "sha256": "ec5623beac0c7f97f7b486955f66fafdf9eb28c6c551ec2b85f43d54bd82f3fd",
+      "integratedSha256": "ec5623beac0c7f97f7b486955f66fafdf9eb28c6c551ec2b85f43d54bd82f3fd"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Windows/Storage/LegacyHistoryReader.cs",
+      "sourcePath": "rewrite/LaunchDesk.Windows/Storage/LegacyHistoryReader.cs",
+      "sha256": "a74698b1f8875b5a8ab2f37ccd5981b27573d43a2e24c2c265741b3aaa56770e",
+      "integratedSha256": "a74698b1f8875b5a8ab2f37ccd5981b27573d43a2e24c2c265741b3aaa56770e"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Windows/Storage/PrivateStagingStore.cs",
+      "sourcePath": "rewrite/LaunchDesk.Windows/Storage/PrivateStagingStore.cs",
+      "sha256": "a4f2edbd2c6732265317010535602277b118af478f0258936d668151b1e74326",
+      "integratedSha256": "a4f2edbd2c6732265317010535602277b118af478f0258936d668151b1e74326"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Windows/Storage/WorkspaceLocationResolver.cs",
+      "sourcePath": "rewrite/LaunchDesk.Windows/Storage/WorkspaceLocationResolver.cs",
+      "sha256": "541cbe823d3fa250b298baa026c7386c842a4f6677f227bcb9be0b91ac3569a9",
+      "integratedSha256": "541cbe823d3fa250b298baa026c7386c842a4f6677f227bcb9be0b91ac3569a9"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Worker/INDEX.md",
+      "sourcePath": "rewrite/LaunchDesk.Worker/INDEX.md",
+      "sha256": "b66a108af917a7018ba9f337cb5e9be5a96d31af7a0bf5a1e87608589e610a9a",
+      "integratedSha256": "b66a108af917a7018ba9f337cb5e9be5a96d31af7a0bf5a1e87608589e610a9a"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Worker/LaunchDesk.Worker.csproj",
+      "sourcePath": "rewrite/LaunchDesk.Worker/LaunchDesk.Worker.csproj",
+      "sha256": "b5fa38f03c1a7e940328e8c8c350488b976811beb143582d863f3640c456d445",
+      "integratedSha256": "b5fa38f03c1a7e940328e8c8c350488b976811beb143582d863f3640c456d445"
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Worker/PrivilegedWorkerHost.cs",
+      "sourcePath": "rewrite/LaunchDesk.Worker/PrivilegedWorkerHost.cs",
+      "sha256": "46c6baf9e815c90d79ef64a55ffa8c8370031c43b36a99bc07c8e12f9962e499",
+      "integratedSha256": "56670d4dd1bb58295f390f1af5369037db5916a143e18682c58fe3749b895eac"
+    },
+    {
+      "path": "source/rewrite/README.md",
+      "sourcePath": "rewrite/README.md",
+      "sha256": "8554aea034551b204f1da4845f5b2505cbf4c9cc55aca1185af19c62ecc475a4",
+      "integratedSha256": "8554aea034551b204f1da4845f5b2505cbf4c9cc55aca1185af19c62ecc475a4"
+    },
+    {
+      "path": "source/rewrite/RELEASE-NOTES.txt",
+      "sourcePath": "rewrite/RELEASE-NOTES.txt",
+      "sha256": "9f66bd726188c63e7e8cdeaef9e173f7641fa2b5a7bf5849c15e9170076c2be1",
+      "integratedSha256": "9f66bd726188c63e7e8cdeaef9e173f7641fa2b5a7bf5849c15e9170076c2be1"
+    },
+    {
+      "path": "source/rewrite/scripts/evaluate-index.mjs",
+      "sourcePath": "rewrite/scripts/evaluate-index.mjs",
+      "sha256": "9dbbb80edf96fd2b24a469b3e32a051c0cf66170169e651368cf4b0e862d5f55",
+      "integratedSha256": "9dbbb80edf96fd2b24a469b3e32a051c0cf66170169e651368cf4b0e862d5f55"
+    },
+    {
+      "path": "source/rewrite/scripts/feature-locator.mjs",
+      "sourcePath": "rewrite/scripts/feature-locator.mjs",
+      "sha256": "367bdd6ed1665abfb5fa7f508b49f2a921d93f9b684e3593968894d578d63e00",
+      "integratedSha256": "367bdd6ed1665abfb5fa7f508b49f2a921d93f9b684e3593968894d578d63e00"
+    },
+    {
+      "path": "source/rewrite/scripts/file-index.mjs",
+      "sourcePath": "rewrite/scripts/file-index.mjs",
+      "sha256": "644505f905f1412ac35e162ae4268204daecaa84c16028384145bc3566a92b24",
+      "integratedSha256": "644505f905f1412ac35e162ae4268204daecaa84c16028384145bc3566a92b24"
+    },
+    {
+      "path": "source/rewrite/scripts/INDEX.md",
+      "sourcePath": "rewrite/scripts/INDEX.md",
+      "sha256": "14a0d0f483c2acb0afe6a315ac18e54149645643e8985fb291cb0e9ee6bdbba8",
+      "integratedSha256": "14a0d0f483c2acb0afe6a315ac18e54149645643e8985fb291cb0e9ee6bdbba8"
+    },
+    {
+      "path": "source/rewrite/scripts/measure-comments.mjs",
+      "sourcePath": "rewrite/scripts/measure-comments.mjs",
+      "sha256": "a529e0a90b971d2d2f7db73865989bd173d98bc5f19d7365ac48d4bd3d54f520",
+      "integratedSha256": "a529e0a90b971d2d2f7db73865989bd173d98bc5f19d7365ac48d4bd3d54f520"
+    },
+    {
+      "path": "source/rewrite/scripts/measure-compression.mjs",
+      "sourcePath": "rewrite/scripts/measure-compression.mjs",
+      "sha256": "1d6b321c0b20a2712e3c3338209dda563468d1ebd4709ce85c1781d72b8ac62e",
+      "integratedSha256": "1d6b321c0b20a2712e3c3338209dda563468d1ebd4709ce85c1781d72b8ac62e"
+    },
+    {
+      "path": "source/rewrite/scripts/measure-projection-duplicates.mjs",
+      "sourcePath": "rewrite/scripts/measure-projection-duplicates.mjs",
+      "sha256": "3f0c7ac878f95b5960000cdc6969de70ae627d8bf47a983084591e20961aa25e",
+      "integratedSha256": "3f0c7ac878f95b5960000cdc6969de70ae627d8bf47a983084591e20961aa25e"
+    },
+    {
+      "path": "source/rewrite/scripts/project-contracts.mjs",
+      "sourcePath": "rewrite/scripts/project-contracts.mjs",
+      "sha256": "6ce117039b158d6bc2a8e73f987781cd69db1e5c156a2a5f3cdffc43c7b72a8b",
+      "integratedSha256": "6ce117039b158d6bc2a8e73f987781cd69db1e5c156a2a5f3cdffc43c7b72a8b"
+    },
+    {
+      "path": "source/rewrite/scripts/test-evaluate-index.mjs",
+      "sourcePath": "rewrite/scripts/test-evaluate-index.mjs",
+      "sha256": "fe5de20ec0f19a076ccd910d4da615b1d080518122d902a6fd3a46fb3bb4e859",
+      "integratedSha256": "fe5de20ec0f19a076ccd910d4da615b1d080518122d902a6fd3a46fb3bb4e859"
+    },
+    {
+      "path": "source/rewrite/scripts/test-feature-locator.mjs",
+      "sourcePath": "rewrite/scripts/test-feature-locator.mjs",
+      "sha256": "383b1f3dfd9099c05c91cbb95a5cdde43012ddb758587d0051cec36e64587046",
+      "integratedSha256": "383b1f3dfd9099c05c91cbb95a5cdde43012ddb758587d0051cec36e64587046"
+    },
+    {
+      "path": "source/rewrite/scripts/test-project-contracts.mjs",
+      "sourcePath": "rewrite/scripts/test-project-contracts.mjs",
+      "sha256": "2b310cc0f97ff2c9dfb841afd76dec09cc08b95fca9250bfbddbddc7b39e62dd",
+      "integratedSha256": "2b310cc0f97ff2c9dfb841afd76dec09cc08b95fca9250bfbddbddc7b39e62dd"
+    },
+    {
+      "path": "source/docs/design/01-workspace.png",
+      "sourcePath": "docs/design/01-workspace.png",
+      "sha256": "d565876d7622e731029c21a9c1ad1a8200bc12ddec53d6da7441618a73c0be55",
+      "integratedSha256": "d565876d7622e731029c21a9c1ad1a8200bc12ddec53d6da7441618a73c0be55"
+    },
+    {
+      "path": "source/docs/design/02-deploy.png",
+      "sourcePath": "docs/design/02-deploy.png",
+      "sha256": "5e48f9f3038be9890e650c5dbc73c5a4b7f9cc6c3884fbcd2a55fbfaae25d66b",
+      "integratedSha256": "5e48f9f3038be9890e650c5dbc73c5a4b7f9cc6c3884fbcd2a55fbfaae25d66b"
+    },
+    {
+      "path": "source/docs/design/03-history.png",
+      "sourcePath": "docs/design/03-history.png",
+      "sha256": "7b1942051cea5f21cecc28fdd990ae68d4bf8302fd67778d5cb8a97b4f74ffa7",
+      "integratedSha256": "7b1942051cea5f21cecc28fdd990ae68d4bf8302fd67778d5cb8a97b4f74ffa7"
+    },
+    {
+      "path": "source/docs/design/04-profile.png",
+      "sourcePath": "docs/design/04-profile.png",
+      "sha256": "330ebcf3a9ed9316213fc7b3c9060d943562c6c23da4004a715c4530d5da44f4",
+      "integratedSha256": "330ebcf3a9ed9316213fc7b3c9060d943562c6c23da4004a715c4530d5da44f4"
+    },
+    {
+      "path": "source/docs/design/05-licenses.png",
+      "sourcePath": "docs/design/05-licenses.png",
+      "sha256": "de46987aa4a6215e2b873938992b71f4322e0d158bb2d819a8ee1bb2a5d1129f",
+      "integratedSha256": "de46987aa4a6215e2b873938992b71f4322e0d158bb2d819a8ee1bb2a5d1129f"
+    },
+    {
+      "path": "source/docs/design/06-migration.png",
+      "sourcePath": "docs/design/06-migration.png",
+      "sha256": "d2747559f6a9e78caa1eadb188dda77d0aeed3a6a02829e7f8532e76e1300452",
+      "integratedSha256": "d2747559f6a9e78caa1eadb188dda77d0aeed3a6a02829e7f8532e76e1300452"
+    },
+    {
+      "path": "source/docs/design/07-apps.png",
+      "sourcePath": "docs/design/07-apps.png",
+      "sha256": "49788df1303b8ccdc057a0b7afdda51f2807ef813acdfe201c8c21bbf01b7c30",
+      "integratedSha256": "49788df1303b8ccdc057a0b7afdda51f2807ef813acdfe201c8c21bbf01b7c30"
+    },
+    {
+      "path": "source/docs/design/08-sharing.png",
+      "sourcePath": "docs/design/08-sharing.png",
+      "sha256": "799f15cd02f9c5a6a859be0da4020695e6c480ed5ca0acb43b7fe26934f8ba92",
+      "integratedSha256": "799f15cd02f9c5a6a859be0da4020695e6c480ed5ca0acb43b7fe26934f8ba92"
+    },
+    {
+      "path": "source/docs/design/09-compact.png",
+      "sourcePath": "docs/design/09-compact.png",
+      "sha256": "04494d04e839257898d479f602ac6c6844b3a546abe3ffbe1f9c13c7649242e0",
+      "integratedSha256": "04494d04e839257898d479f602ac6c6844b3a546abe3ffbe1f9c13c7649242e0"
+    },
+    {
+      "path": "source/docs/design/10-tools.png",
+      "sourcePath": "docs/design/10-tools.png",
+      "sha256": "9fb004ba9dda165768fefaa4668ca7bb9b031ef92d4f3c29b8979533e0a92aee",
+      "integratedSha256": "9fb004ba9dda165768fefaa4668ca7bb9b031ef92d4f3c29b8979533e0a92aee"
+    },
+    {
+      "path": "source/docs/design/11-tool-settings.png",
+      "sourcePath": "docs/design/11-tool-settings.png",
+      "sha256": "714dbe2db1ff2df1346a3956f45dd7958fd62818535ef9e3ee3a78bad0de006a",
+      "integratedSha256": "714dbe2db1ff2df1346a3956f45dd7958fd62818535ef9e3ee3a78bad0de006a"
+    },
+    {
+      "path": "source/docs/design/12-deploy-confirm.png",
+      "sourcePath": "docs/design/12-deploy-confirm.png",
+      "sha256": "a4c87bfa4a165b40e3e3d94a0340fb189ea3d20b24588c76fba233fe14687fd5",
+      "integratedSha256": "a4c87bfa4a165b40e3e3d94a0340fb189ea3d20b24588c76fba233fe14687fd5"
+    },
+    {
+      "path": "source/docs/design/13-launch-check.png",
+      "sourcePath": "docs/design/13-launch-check.png",
+      "sha256": "799d4c167a359d8a5cd53990fa9454357fb46bccc5c3e4823f5d732fbdf52343",
+      "integratedSha256": "799d4c167a359d8a5cd53990fa9454357fb46bccc5c3e4823f5d732fbdf52343"
+    },
+    {
+      "path": "source/docs/design/14-file-import.png",
+      "sourcePath": "docs/design/14-file-import.png",
+      "sha256": "6bb570d27b80b8a504ddf6d3d3aacfc62d4cd805036fa8b3e2a0b7a0d02faef5",
+      "integratedSha256": "6bb570d27b80b8a504ddf6d3d3aacfc62d4cd805036fa8b3e2a0b7a0d02faef5"
+    },
+    {
+      "path": "source/docs/design/15-rename-variable.png",
+      "sourcePath": "docs/design/15-rename-variable.png",
+      "sha256": "31a1bdeddb68d147a2d47ba3a52c98c8a6a9891d452e7205e348d1dae5f1afd4",
+      "integratedSha256": "31a1bdeddb68d147a2d47ba3a52c98c8a6a9891d452e7205e348d1dae5f1afd4"
+    },
+    {
+      "path": "source/docs/design/16-implementation-notes.png",
+      "sourcePath": "docs/design/16-implementation-notes.png",
+      "sha256": "5b10ebf76556dae62e46765659a12073ebc235e1632cfd5ec6db9d468205b3c1",
+      "integratedSha256": "5b10ebf76556dae62e46765659a12073ebc235e1632cfd5ec6db9d468205b3c1"
+    },
+    {
+      "path": "source/docs/design/17-components.png",
+      "sourcePath": "docs/design/17-components.png",
+      "sha256": "535ba04bf3c35f4d5338cc90759e35b602ab0e0519688451c57ca1ab6d424980",
+      "integratedSha256": "535ba04bf3c35f4d5338cc90759e35b602ab0e0519688451c57ca1ab6d424980"
+    },
+    {
+      "path": "source/docs/design/LaunchDesk-fusion-v2.figcraft",
+      "sourcePath": "docs/design/LaunchDesk-fusion-v2.figcraft",
+      "sha256": "09f4d944a8eedda038626500efc7fe6db8ceb4459fa0b7b4c59d01f071d7c76b",
+      "integratedSha256": "09f4d944a8eedda038626500efc7fe6db8ceb4459fa0b7b4c59d01f071d7c76b"
+    },
+    {
+      "path": "source/docs/design/overview.png",
+      "sourcePath": "docs/design/overview.png",
+      "sha256": "cb57f02ba01a0c471849169ef33bb1b2eb5f30013064c1d37a053928d0db79f4",
+      "integratedSha256": "cb57f02ba01a0c471849169ef33bb1b2eb5f30013064c1d37a053928d0db79f4"
+    },
+    {
+      "path": "source/docs/design/README.md",
+      "sourcePath": "docs/design/README.md",
+      "sha256": "05a02347a249fe65aaa21859c58421c6259b109e2a72f3a64f3a3370bf4f5924",
+      "integratedSha256": "05a02347a249fe65aaa21859c58421c6259b109e2a72f3a64f3a3370bf4f5924"
+    },
+    {
+      "path": "source/docs/design/设计说明-v2.txt",
+      "sourcePath": "docs/design/设计说明-v2.txt",
+      "sha256": "bec515f582679139cee646eaffcac0ab80b296b49a08dd7ef47855e12a011ce0",
+      "integratedSha256": "bec515f582679139cee646eaffcac0ab80b296b49a08dd7ef47855e12a011ce0"
+    },
+    {
+      "path": "source/docs/INDEX.md",
+      "sourcePath": "docs/INDEX.md",
+      "sha256": "912a474853b1f9c58f23940d595320705b9b486be371b5cb5734c68c59618478",
+      "integratedSha256": "912a474853b1f9c58f23940d595320705b9b486be371b5cb5734c68c59618478"
+    },
+    {
+      "path": "source/docs/reference/articles/architecture.md",
+      "sourcePath": "docs/reference/articles/architecture.md",
+      "sha256": "04e9802d48c7bade7d8e58b212a952edcce17f880fec01e7b6e01a000c40787f",
+      "integratedSha256": "04e9802d48c7bade7d8e58b212a952edcce17f880fec01e7b6e01a000c40787f"
+    },
+    {
+      "path": "source/docs/reference/articles/core-launch.md",
+      "sourcePath": "docs/reference/articles/core-launch.md",
+      "sha256": "35f0f89a0c235fa0e5867ffec9b20cb7c3d65de0056a6363cda75a09ae7afcf3",
+      "integratedSha256": "35f0f89a0c235fa0e5867ffec9b20cb7c3d65de0056a6363cda75a09ae7afcf3"
+    },
+    {
+      "path": "source/docs/reference/articles/documentation.md",
+      "sourcePath": "docs/reference/articles/documentation.md",
+      "sha256": "a8cd86a6deea83398160bec56b2ac45c178e4696b6367e6ec2525e0a4909fdc1",
+      "integratedSha256": "a8cd86a6deea83398160bec56b2ac45c178e4696b6367e6ec2525e0a4909fdc1"
+    },
+    {
+      "path": "source/docs/reference/articles/exploring.md",
+      "sourcePath": "docs/reference/articles/exploring.md",
+      "sha256": "c05c9d5f504245c6f49e310ea921a39b8305b95047d7c8f7760640b4133d1cbb",
+      "integratedSha256": "c05c9d5f504245c6f49e310ea921a39b8305b95047d7c8f7760640b4133d1cbb"
+    },
+    {
+      "path": "source/docs/reference/articles/flows/delivery.md",
+      "sourcePath": "docs/reference/articles/flows/delivery.md",
+      "sha256": "097e4533c5248aecbc382a490272c31fa5bf1b42f30e09a6e30ab14b3b749ffb",
+      "integratedSha256": "097e4533c5248aecbc382a490272c31fa5bf1b42f30e09a6e30ab14b3b749ffb"
+    },
+    {
+      "path": "source/docs/reference/articles/flows/index.md",
+      "sourcePath": "docs/reference/articles/flows/index.md",
+      "sha256": "792176599ef05902fb3f44f622170c09f45733bfa065f4d20eb5aec01becfe6c",
+      "integratedSha256": "792176599ef05902fb3f44f622170c09f45733bfa065f4d20eb5aec01becfe6c"
+    },
+    {
+      "path": "source/docs/reference/articles/flows/launch.md",
+      "sourcePath": "docs/reference/articles/flows/launch.md",
+      "sha256": "d543ad7e8a3facfc00b55deb58b2f2d60db013ed2550908a1dbbb533b24e25f4",
+      "integratedSha256": "d543ad7e8a3facfc00b55deb58b2f2d60db013ed2550908a1dbbb533b24e25f4"
+    },
+    {
+      "path": "source/docs/reference/articles/flows/monitoring.md",
+      "sourcePath": "docs/reference/articles/flows/monitoring.md",
+      "sha256": "4d06c74309d08a31a6bc4596b4526508d878b095e38dad1eac9a7dd5265364af",
+      "integratedSha256": "4d06c74309d08a31a6bc4596b4526508d878b095e38dad1eac9a7dd5265364af"
+    },
+    {
+      "path": "source/docs/reference/articles/flows/sharing-migration.md",
+      "sourcePath": "docs/reference/articles/flows/sharing-migration.md",
+      "sha256": "2f41750453397047c0b2f7c4a0bc6801066d63f37adb54afe3eb28975dc011cd",
+      "integratedSha256": "2f41750453397047c0b2f7c4a0bc6801066d63f37adb54afe3eb28975dc011cd"
+    },
+    {
+      "path": "source/docs/reference/articles/flows/variables.md",
+      "sourcePath": "docs/reference/articles/flows/variables.md",
+      "sha256": "a5fcd48857e0c9642d8560269b595243fead4f9e83cf453510b499a98bc51df9",
+      "integratedSha256": "a5fcd48857e0c9642d8560269b595243fead4f9e83cf453510b499a98bc51df9"
+    },
+    {
+      "path": "source/docs/reference/articles/getting-started.md",
+      "sourcePath": "docs/reference/articles/getting-started.md",
+      "sha256": "c9ae895ecb972d7c975eca2ccef5744da3f0ebf869bfdb28e42ccf75a474401b",
+      "integratedSha256": "c9ae895ecb972d7c975eca2ccef5744da3f0ebf869bfdb28e42ccf75a474401b"
+    },
+    {
+      "path": "source/docs/reference/articles/glossary.md",
+      "sourcePath": "docs/reference/articles/glossary.md",
+      "sha256": "56833a0d551f4e2a9c44f8b7a107e33a955281be33bb9062d33094809f6299de",
+      "integratedSha256": "56833a0d551f4e2a9c44f8b7a107e33a955281be33bb9062d33094809f6299de"
+    },
+    {
+      "path": "source/docs/reference/index.md",
+      "sourcePath": "docs/reference/index.md",
+      "sha256": "2dd71e69b3e825228e66b258d4771087561b5e69b42e86725a11f5320d8ee596",
+      "integratedSha256": "2dd71e69b3e825228e66b258d4771087561b5e69b42e86725a11f5320d8ee596"
+    },
+    {
+      "path": "source/docs/reference/modules.json",
+      "sourcePath": "docs/reference/modules.json",
+      "sha256": "a70c0b2a0ead1833dae5a8f6b3a9947deb081aeed39a8a50c1d4ac76be3c3d93",
+      "integratedSha256": "a70c0b2a0ead1833dae5a8f6b3a9947deb081aeed39a8a50c1d4ac76be3c3d93"
+    },
+    {
+      "path": "source/docs/reference/reading-map.json",
+      "sourcePath": "docs/reference/reading-map.json",
+      "sha256": "fd2bde6cb046157f7de2eb5b07434b5d5310779d27cbfb78082640b69a021095",
+      "integratedSha256": "fd2bde6cb046157f7de2eb5b07434b5d5310779d27cbfb78082640b69a021095"
+    },
+    {
+      "path": "source/docs/reference/specifications/brd.md",
+      "sourcePath": "docs/reference/specifications/brd.md",
+      "sha256": "4de1b91005e832921e06f653a2b53a694574045b7f55692b2d000f0ada5fe277",
+      "integratedSha256": "4de1b91005e832921e06f653a2b53a694574045b7f55692b2d000f0ada5fe277"
+    },
+    {
+      "path": "source/docs/reference/specifications/catalog.json",
+      "sourcePath": "docs/reference/specifications/catalog.json",
+      "sha256": "80b1190f1bcd4675d6d0eb925271714253439527aae7162a5fac56cdc23a2365",
+      "integratedSha256": "80b1190f1bcd4675d6d0eb925271714253439527aae7162a5fac56cdc23a2365"
+    },
+    {
+      "path": "source/docs/reference/specifications/frd.md",
+      "sourcePath": "docs/reference/specifications/frd.md",
+      "sha256": "6c318cfd445c0fc8742a55d492316760f4c43cdd1020071f5535d38ca45c79d7",
+      "integratedSha256": "6c318cfd445c0fc8742a55d492316760f4c43cdd1020071f5535d38ca45c79d7"
+    },
+    {
+      "path": "source/docs/reference/specifications/INDEX.md",
+      "sourcePath": "docs/reference/specifications/INDEX.md",
+      "sha256": "fc99ac5e238c1e10f320af5f9d62be7ae854217cdbb8cf5da2c9f634ae92d01b",
+      "integratedSha256": "fc99ac5e238c1e10f320af5f9d62be7ae854217cdbb8cf5da2c9f634ae92d01b"
+    },
+    {
+      "path": "source/docs/reference/specifications/prd.md",
+      "sourcePath": "docs/reference/specifications/prd.md",
+      "sha256": "11c629d603d1aabf09374629d47603fd464a18dbdbfb0d14d3e663ceefe4d611",
+      "integratedSha256": "11c629d603d1aabf09374629d47603fd464a18dbdbfb0d14d3e663ceefe4d611"
+    },
+    {
+      "path": "source/docs/reference/specifications/sdd.md",
+      "sourcePath": "docs/reference/specifications/sdd.md",
+      "sha256": "3476d66c537ba5acd84b0683d08b35c6e63c812ad590650cdc071d0bfa3f8a9b",
+      "integratedSha256": "3476d66c537ba5acd84b0683d08b35c6e63c812ad590650cdc071d0bfa3f8a9b"
+    },
+    {
+      "path": "source/docs/reference/specifications/sds.md",
+      "sourcePath": "docs/reference/specifications/sds.md",
+      "sha256": "e7ef148daaa7d9e8d04fdeeb844e2999e8d0b4750339eff1efa6b0d0009c7efd",
+      "integratedSha256": "e7ef148daaa7d9e8d04fdeeb844e2999e8d0b4750339eff1efa6b0d0009c7efd"
+    },
+    {
+      "path": "source/docs/reference/specifications/srs.md",
+      "sourcePath": "docs/reference/specifications/srs.md",
+      "sha256": "3d27ebc4459f7701b0276620089544a5874baf68580c29824b62d19d5615f42d",
+      "integratedSha256": "3d27ebc4459f7701b0276620089544a5874baf68580c29824b62d19d5615f42d"
+    },
+    {
+      "path": "source/docs/reference/template/layout/_master.tmpl",
+      "sourcePath": "docs/reference/template/layout/_master.tmpl",
+      "sha256": "fcb995e54a1af361f466e58982a162e8f219282cfcc4c7915fd1ee90dfd69b2c",
+      "integratedSha256": "fcb995e54a1af361f466e58982a162e8f219282cfcc4c7915fd1ee90dfd69b2c"
+    },
+    {
+      "path": "source/docs/reference/template/LICENSE.docfx.txt",
+      "sourcePath": "docs/reference/template/LICENSE.docfx.txt",
+      "sha256": "467e8ec70a49e104645808e8140a93b1cd47e68e61605809f50a017b6a58c2b8",
+      "integratedSha256": "467e8ec70a49e104645808e8140a93b1cd47e68e61605809f50a017b6a58c2b8"
+    },
+    {
+      "path": "source/docs/reference/template/ManagedReference.extension.js",
+      "sourcePath": "docs/reference/template/ManagedReference.extension.js",
+      "sha256": "03250af1355d33bab1cfa23a97df5168664a97ae8a5622dfc57935c17a085b87",
+      "integratedSha256": "03250af1355d33bab1cfa23a97df5168664a97ae8a5622dfc57935c17a085b87"
+    },
+    {
+      "path": "source/docs/reference/template/partials/api.notes.tmpl.partial",
+      "sourcePath": "docs/reference/template/partials/api.notes.tmpl.partial",
+      "sha256": "22b35b6df1beeeb4937054c8bf596a502a51fc0bfa569bd99438d02014af4cac",
+      "integratedSha256": "22b35b6df1beeeb4937054c8bf596a502a51fc0bfa569bd99438d02014af4cac"
+    },
+    {
+      "path": "source/docs/reference/template/partials/api.parameters.tmpl.partial",
+      "sourcePath": "docs/reference/template/partials/api.parameters.tmpl.partial",
+      "sha256": "1dc9126a38b4caae5f54bc09511166e723e835fe2931fac29081d1cb39406fdf",
+      "integratedSha256": "1dc9126a38b4caae5f54bc09511166e723e835fe2931fac29081d1cb39406fdf"
+    },
+    {
+      "path": "source/docs/reference/template/partials/class.header.tmpl.partial",
+      "sourcePath": "docs/reference/template/partials/class.header.tmpl.partial",
+      "sha256": "e359e135ec3ea8cf5e79124be0237252001acfc4cc86e05d6ba92cdaabd83eb7",
+      "integratedSha256": "e359e135ec3ea8cf5e79124be0237252001acfc4cc86e05d6ba92cdaabd83eb7"
+    },
+    {
+      "path": "source/docs/reference/template/partials/class.tmpl.partial",
+      "sourcePath": "docs/reference/template/partials/class.tmpl.partial",
+      "sha256": "7b1d548b7d5ad6382b481fc79c3f537d62137c42288380c626b96388f2cbece7",
+      "integratedSha256": "7b1d548b7d5ad6382b481fc79c3f537d62137c42288380c626b96388f2cbece7"
+    },
+    {
+      "path": "source/docs/reference/template/public/appearance.js",
+      "sourcePath": "docs/reference/template/public/appearance.js",
+      "sha256": "4b99b1b335d6ce57d70993d5ad727a9e6d3defa98999d9f5eb94dd99855f0506",
+      "integratedSha256": "4b99b1b335d6ce57d70993d5ad727a9e6d3defa98999d9f5eb94dd99855f0506"
+    },
+    {
+      "path": "source/docs/reference/template/public/explorer.js",
+      "sourcePath": "docs/reference/template/public/explorer.js",
+      "sha256": "37981ed70d753f0f9a5af4f95b62d3b2d27e192f8266f80f327cbad224a8a404",
+      "integratedSha256": "37981ed70d753f0f9a5af4f95b62d3b2d27e192f8266f80f327cbad224a8a404"
+    },
+    {
+      "path": "source/docs/reference/template/public/logo.svg",
+      "sourcePath": "docs/reference/template/public/logo.svg",
+      "sha256": "b29328b550793b883e91b3f8b851c238397aecf33c4d30b5b3570c85cfd5f290",
+      "integratedSha256": "b29328b550793b883e91b3f8b851c238397aecf33c4d30b5b3570c85cfd5f290"
+    },
+    {
+      "path": "source/docs/reference/template/public/main.css",
+      "sourcePath": "docs/reference/template/public/main.css",
+      "sha256": "8f8ce27071a8fec7e40e0f89aa9362ceafa387df76ab498365d753f7e7e25ab9",
+      "integratedSha256": "8f8ce27071a8fec7e40e0f89aa9362ceafa387df76ab498365d753f7e7e25ab9"
+    },
+    {
+      "path": "source/docs/reference/template/public/main.js",
+      "sourcePath": "docs/reference/template/public/main.js",
+      "sha256": "340256efe6eada4e098f5614f9eeb21f834932514f0ced8c0002e85aa48c0073",
+      "integratedSha256": "340256efe6eada4e098f5614f9eeb21f834932514f0ced8c0002e85aa48c0073"
+    },
+    {
+      "path": "source/docs/reference/template/public/specifications.js",
+      "sourcePath": "docs/reference/template/public/specifications.js",
+      "sha256": "5ba060e6a289a1b7695f7b8ee62667598f31927cfefd524114b184469bb63c7f",
+      "integratedSha256": "5ba060e6a289a1b7695f7b8ee62667598f31927cfefd524114b184469bb63c7f"
+    },
+    {
+      "path": "source/docs/reference/template/public/tests.js",
+      "sourcePath": "docs/reference/template/public/tests.js",
+      "sha256": "70521fa7176cd4e2d7015ac0df518a5fd2a7d7bd53bf69814551ba9c41f8b462",
+      "integratedSha256": "70521fa7176cd4e2d7015ac0df518a5fd2a7d7bd53bf69814551ba9c41f8b462"
+    },
+    {
+      "path": "source/docs/reference/template/token.json",
+      "sourcePath": "docs/reference/template/token.json",
+      "sha256": "a05cec03bc3250c9253d99a49a68edca84aa3bc5cca8a643e2ed0d8898a15352",
+      "integratedSha256": "a05cec03bc3250c9253d99a49a68edca84aa3bc5cca8a643e2ed0d8898a15352"
+    },
+    {
+      "path": "source/docs/reference/test-map.json",
+      "sourcePath": "docs/reference/test-map.json",
+      "sha256": "adfd713938ac24c9091b09c813975e93b8a052958b26e68dbe1026cdd9eab073",
+      "integratedSha256": "adfd713938ac24c9091b09c813975e93b8a052958b26e68dbe1026cdd9eab073"
+    },
+    {
+      "path": "source/docs/reference/toc.yml",
+      "sourcePath": "docs/reference/toc.yml",
+      "sha256": "53f960432206e5d501b759d734875ae90f8882956e9d8db652970f0bcfe1788c",
+      "integratedSha256": "53f960432206e5d501b759d734875ae90f8882956e9d8db652970f0bcfe1788c"
+    },
+    {
+      "path": "source/docs/rewrite/ARCHITECTURE.md",
+      "sourcePath": "docs/rewrite/ARCHITECTURE.md",
+      "sha256": "9249c7d30b93ed34d1defd048091199e0b97a9bf4d4bffb5c914929a9aa1855c",
+      "integratedSha256": "9249c7d30b93ed34d1defd048091199e0b97a9bf4d4bffb5c914929a9aa1855c"
+    },
+    {
+      "path": "source/docs/rewrite/CALL-FLOWS.md",
+      "sourcePath": "docs/rewrite/CALL-FLOWS.md",
+      "sha256": "65b1e60dbf94df0b59e14ac0c3b71966d6a9f03841d4de82c0c0cb4a16f940e1",
+      "integratedSha256": "65b1e60dbf94df0b59e14ac0c3b71966d6a9f03841d4de82c0c0cb4a16f940e1"
+    },
+    {
+      "path": "source/docs/rewrite/CHECKS.md",
+      "sourcePath": "docs/rewrite/CHECKS.md",
+      "sha256": "6b8da7df9de24be3f701a8b994ae08456649e6a079f5d8179344debe8165b2c5",
+      "integratedSha256": "6b8da7df9de24be3f701a8b994ae08456649e6a079f5d8179344debe8165b2c5"
+    },
+    {
+      "path": "source/docs/rewrite/class-contracts.json",
+      "sourcePath": "docs/rewrite/class-contracts.json",
+      "sha256": "88901e0a0ebf06f9b4fbbbe18f7bed5d7255d1cca45bca9da31b98b1ae3f5122",
+      "integratedSha256": "88901e0a0ebf06f9b4fbbbe18f7bed5d7255d1cca45bca9da31b98b1ae3f5122"
+    },
+    {
+      "path": "source/docs/rewrite/CLASS-DESIGN.md",
+      "sourcePath": "docs/rewrite/CLASS-DESIGN.md",
+      "sha256": "77e6a8b9005618ce3103f91d47a2b0df1ff6016b1191ec0635ed5e8efa1e5f5d",
+      "integratedSha256": "77e6a8b9005618ce3103f91d47a2b0df1ff6016b1191ec0635ed5e8efa1e5f5d"
+    },
+    {
+      "path": "source/docs/rewrite/classes/bootstrap.md",
+      "sourcePath": "docs/rewrite/classes/bootstrap.md",
+      "sha256": "ce1a7e4cb212143e3f36c17d6df5b659168f7c85fdca9c9f622159d0ae218138",
+      "integratedSha256": "ce1a7e4cb212143e3f36c17d6df5b659168f7c85fdca9c9f622159d0ae218138"
+    },
+    {
+      "path": "source/docs/rewrite/classes/catalog.md",
+      "sourcePath": "docs/rewrite/classes/catalog.md",
+      "sha256": "9f79e13f0bc2c1b488ecf245f72e6e2316bde134731439b38fa50c5ae35d6dac",
+      "integratedSha256": "9f79e13f0bc2c1b488ecf245f72e6e2316bde134731439b38fa50c5ae35d6dac"
+    },
+    {
+      "path": "source/docs/rewrite/classes/coordinator.md",
+      "sourcePath": "docs/rewrite/classes/coordinator.md",
+      "sha256": "07e9ee964aa1141614778efeeb0db79b75f869baf2f44b644173ceeae4f8bcec",
+      "integratedSha256": "07e9ee964aa1141614778efeeb0db79b75f869baf2f44b644173ceeae4f8bcec"
+    },
+    {
+      "path": "source/docs/rewrite/classes/delivery-handler.md",
+      "sourcePath": "docs/rewrite/classes/delivery-handler.md",
+      "sha256": "6fc2b2925c063c061ae8e54c712c3d96f8b6e6a26ab54eb30cc3baafcc8112e4",
+      "integratedSha256": "6fc2b2925c063c061ae8e54c712c3d96f8b6e6a26ab54eb30cc3baafcc8112e4"
+    },
+    {
+      "path": "source/docs/rewrite/classes/desktop.md",
+      "sourcePath": "docs/rewrite/classes/desktop.md",
+      "sha256": "3f829ebab5addef0e68e66793b6eff7f5dde3bb4dae82823396236e350f88c94",
+      "integratedSha256": "3f829ebab5addef0e68e66793b6eff7f5dde3bb4dae82823396236e350f88c94"
+    },
+    {
+      "path": "source/docs/rewrite/classes/devhost.md",
+      "sourcePath": "docs/rewrite/classes/devhost.md",
+      "sha256": "d721f7cecef6abd95d500bdcf5cc5a49576a51d5f172faf10c2989d475fd6e33",
+      "integratedSha256": "d721f7cecef6abd95d500bdcf5cc5a49576a51d5f172faf10c2989d475fd6e33"
+    },
+    {
+      "path": "source/docs/rewrite/classes/kernel.md",
+      "sourcePath": "docs/rewrite/classes/kernel.md",
+      "sha256": "0a4079659f9729aef6ce7fe6ad0f36c7b5b23f5cb70d9e0c27d21bc68efdc61b",
+      "integratedSha256": "0a4079659f9729aef6ce7fe6ad0f36c7b5b23f5cb70d9e0c27d21bc68efdc61b"
+    },
+    {
+      "path": "source/docs/rewrite/classes/launch-handler.md",
+      "sourcePath": "docs/rewrite/classes/launch-handler.md",
+      "sha256": "7af757a90e0b9d49a2bca26237ae5a898e0f63ef2b1b96c068f56f3cf920fa7a",
+      "integratedSha256": "7af757a90e0b9d49a2bca26237ae5a898e0f63ef2b1b96c068f56f3cf920fa7a"
+    },
+    {
+      "path": "source/docs/rewrite/classes/platform.md",
+      "sourcePath": "docs/rewrite/classes/platform.md",
+      "sha256": "1f63d7880bc0deb31e804adf5d82e4d7acfe59f0a63bd3d42275a4cbb717075e",
+      "integratedSha256": "1f63d7880bc0deb31e804adf5d82e4d7acfe59f0a63bd3d42275a4cbb717075e"
+    },
+    {
+      "path": "source/docs/rewrite/classes/storage.md",
+      "sourcePath": "docs/rewrite/classes/storage.md",
+      "sha256": "c2222d501f20af8e8700347c88bc4656d03660561bf1d002d7d6e0f4cbd200d1",
+      "integratedSha256": "c2222d501f20af8e8700347c88bc4656d03660561bf1d002d7d6e0f4cbd200d1"
+    },
+    {
+      "path": "source/docs/rewrite/classes/supervisor.md",
+      "sourcePath": "docs/rewrite/classes/supervisor.md",
+      "sha256": "bb407889c43b8ac12adebb4764a5b92c6eea751963a0c7a20f3cbd3f46c7a1be",
+      "integratedSha256": "bb407889c43b8ac12adebb4764a5b92c6eea751963a0c7a20f3cbd3f46c7a1be"
+    },
+    {
+      "path": "source/docs/rewrite/classes/worker.md",
+      "sourcePath": "docs/rewrite/classes/worker.md",
+      "sha256": "c34de9224d1721df77bfc1d619dcdf474dbd3c34667ae32f04051256d4e319f6",
+      "integratedSha256": "c34de9224d1721df77bfc1d619dcdf474dbd3c34667ae32f04051256d4e319f6"
+    },
+    {
+      "path": "source/docs/rewrite/COMPARE.md",
+      "sourcePath": "docs/rewrite/COMPARE.md",
+      "sha256": "06f6a6f125714162225d17617c8f26371a606c5db0e19ecf76849bdea00e443d",
+      "integratedSha256": "06f6a6f125714162225d17617c8f26371a606c5db0e19ecf76849bdea00e443d"
+    },
+    {
+      "path": "source/docs/rewrite/CONTRACTS.md",
+      "sourcePath": "docs/rewrite/CONTRACTS.md",
+      "sha256": "afe12d3e4c5f750a8e74a90a27003d7faab0f92435c24c41580b0b80768e714e",
+      "integratedSha256": "afe12d3e4c5f750a8e74a90a27003d7faab0f92435c24c41580b0b80768e714e"
+    },
+    {
+      "path": "source/docs/rewrite/DECISIONS.md",
+      "sourcePath": "docs/rewrite/DECISIONS.md",
+      "sha256": "849813492dbc6fdf65aa48397a9160c96615384ead03bdb66663806b338fee55",
+      "integratedSha256": "849813492dbc6fdf65aa48397a9160c96615384ead03bdb66663806b338fee55"
+    },
+    {
+      "path": "source/docs/rewrite/IMPLEMENTATION.md",
+      "sourcePath": "docs/rewrite/IMPLEMENTATION.md",
+      "sha256": "70b7aeec60b8337282745b5476ec7be74e7e2c179be43cfb112bf97e391deca3",
+      "integratedSha256": "70b7aeec60b8337282745b5476ec7be74e7e2c179be43cfb112bf97e391deca3"
+    },
+    {
+      "path": "source/docs/rewrite/PRODUCT-BRIEF.md",
+      "sourcePath": "docs/rewrite/PRODUCT-BRIEF.md",
+      "sha256": "24eff27ae334871da78c9440d078fb0ef35efc10b9313c97cfe18ef8aaefc98b",
+      "integratedSha256": "24eff27ae334871da78c9440d078fb0ef35efc10b9313c97cfe18ef8aaefc98b"
+    },
+    {
+      "path": "source/docs/rewrite/README.md",
+      "sourcePath": "docs/rewrite/README.md",
+      "sha256": "276f62bed1e5af3f91a2468d7d3b246eada4b3d2729287acc792ae0a5cddd0c1",
+      "integratedSha256": "276f62bed1e5af3f91a2468d7d3b246eada4b3d2729287acc792ae0a5cddd0c1"
+    },
+    {
+      "path": "source/docs/rewrite/review-contract.json",
+      "sourcePath": "docs/rewrite/review-contract.json",
+      "sha256": "958042bcd734b5d87335e79d8467a81fe76a944cc4e92fb3d03c1beb8b0b15c0",
+      "integratedSha256": "958042bcd734b5d87335e79d8467a81fe76a944cc4e92fb3d03c1beb8b0b15c0"
+    },
+    {
+      "path": "source/docs/rewrite/SCENARIOS.md",
+      "sourcePath": "docs/rewrite/SCENARIOS.md",
+      "sha256": "d1e2fd9fabb01a0158a478039def55ec0345d2cd908bfc96780d9d00771a6b78",
+      "integratedSha256": "d1e2fd9fabb01a0158a478039def55ec0345d2cd908bfc96780d9d00771a6b78"
+    },
+    {
+      "path": "source/docs/rewrite/TASKS.md",
+      "sourcePath": "docs/rewrite/TASKS.md",
+      "sha256": "bc8e0aa183569f01da009a893d1932fcc2de9aeb140bcd5cb1d0700371be8ba2",
+      "integratedSha256": "bc8e0aa183569f01da009a893d1932fcc2de9aeb140bcd5cb1d0700371be8ba2"
+    },
+    {
+      "path": "source/docs/rewrite/visualization/evidence/checksums.json",
+      "sourcePath": "docs/rewrite/visualization/evidence/checksums.json",
+      "sha256": "6b6351e81cf4ce7325071032b0018ec3d771c6d8a173929799035409c0ab1505",
+      "integratedSha256": "6b6351e81cf4ce7325071032b0018ec3d771c6d8a173929799035409c0ab1505"
+    },
+    {
+      "path": "source/docs/rewrite/visualization/evidence/first-attempt-failed.jsonl",
+      "sourcePath": "docs/rewrite/visualization/evidence/first-attempt-failed.jsonl",
+      "sha256": "9973812069849e0f420212368d26d0d2393f1baa21f4e82caec564a7c7cb03d5",
+      "integratedSha256": "9973812069849e0f420212368d26d0d2393f1baa21f4e82caec564a7c7cb03d5"
+    },
+    {
+      "path": "source/docs/rewrite/visualization/evidence/native-events.jsonl",
+      "sourcePath": "docs/rewrite/visualization/evidence/native-events.jsonl",
+      "sha256": "7e9d496162490da33a19d13c47ca78ccb6a59953624001f8ff681e8b855a7f4b",
+      "integratedSha256": "7e9d496162490da33a19d13c47ca78ccb6a59953624001f8ff681e8b855a7f4b"
+    },
+    {
+      "path": "source/docs/rewrite/visualization/evidence/native-run.json",
+      "sourcePath": "docs/rewrite/visualization/evidence/native-run.json",
+      "sha256": "4bc660e1cd32be1ff7026babfcd47fc889c9facd28f5136affe5e33149b74343",
+      "integratedSha256": "4bc660e1cd32be1ff7026babfcd47fc889c9facd28f5136affe5e33149b74343"
+    },
+    {
+      "path": "source/docs/rewrite/visualization/evidence/native-source-manifest.json",
+      "sourcePath": "docs/rewrite/visualization/evidence/native-source-manifest.json",
+      "sha256": "8c0b9ff3b16c0782a4ae1588f8b7367caa8d585e56cd4e6b0093f0aae45d7400",
+      "integratedSha256": "8c0b9ff3b16c0782a4ae1588f8b7367caa8d585e56cd4e6b0093f0aae45d7400"
+    },
+    {
+      "path": "source/docs/rewrite/visualization/generated/likec4.config.json",
+      "sourcePath": "docs/rewrite/visualization/generated/likec4.config.json",
+      "sha256": "67471ba0b56808b942b5615b7aaa0e01855c9b25c6f8529f9c1719f929b50e9b",
+      "integratedSha256": "67471ba0b56808b942b5615b7aaa0e01855c9b25c6f8529f9c1719f929b50e9b"
+    },
+    {
+      "path": "source/docs/rewrite/visualization/generated/model.c4",
+      "sourcePath": "docs/rewrite/visualization/generated/model.c4",
+      "sha256": "77468be80291aa579af54c1ad3c557301d0e28bf4703042deb146686a3851589",
+      "integratedSha256": "77468be80291aa579af54c1ad3c557301d0e28bf4703042deb146686a3851589"
+    },
+    {
+      "path": "source/docs/rewrite/visualization/generated/review.json",
+      "sourcePath": "docs/rewrite/visualization/generated/review.json",
+      "sha256": "94d0abbdab22ca7294fc24cf065cdc2633b63d9572d54c13477dc03e58ef0316",
+      "integratedSha256": "94d0abbdab22ca7294fc24cf065cdc2633b63d9572d54c13477dc03e58ef0316"
+    },
+    {
+      "path": "source/docs/rewrite/visualization/portal/index.html",
+      "sourcePath": "docs/rewrite/visualization/portal/index.html",
+      "sha256": "82929d92a919e8fd0b2f4483720382659347f299cb6f0f18959f5d2439ef3eb0",
+      "integratedSha256": "0322f58c02f2fdb0d8a65c10c68ab5d5451a18ea505ac0e35cdd5690aba87562"
+    },
+    {
+      "path": "source/docs/rewrite/visualization/portal/review.css",
+      "sourcePath": "docs/rewrite/visualization/portal/review.css",
+      "sha256": "c17f76cc0309ff3ff082986cc1fc6af1db8503868ed699c2c54ebfa3cde59dae",
+      "integratedSha256": "c17f76cc0309ff3ff082986cc1fc6af1db8503868ed699c2c54ebfa3cde59dae"
+    },
+    {
+      "path": "source/docs/rewrite/visualization/portal/review.mjs",
+      "sourcePath": "docs/rewrite/visualization/portal/review.mjs",
+      "sha256": "b404eaa5a67c6758d5ffbb721b4b2e7e683b35fcf7016608d3364a938c4d0a8c",
+      "integratedSha256": "7470f98d60fee2b416eb98f7dff73dab56bdaa713011cbec42bc56345c7c6283"
+    },
+    {
+      "path": "source/docs/rewrite/visualization/previews/browser-checks.json",
+      "sourcePath": "docs/rewrite/visualization/previews/browser-checks.json",
+      "sha256": "0c157e0ad668b8ddfc3584bbbb23ec535ab04a4ee7efe8f36a9470786263b882",
+      "integratedSha256": "0c157e0ad668b8ddfc3584bbbb23ec535ab04a4ee7efe8f36a9470786263b882"
+    },
+    {
+      "path": "source/docs/rewrite/visualization/previews/finding-review.png",
+      "sourcePath": "docs/rewrite/visualization/previews/finding-review.png",
+      "sha256": "73022d17025c8df6d199fe1cad18a6b429eea1e155a86289aa0323fd36d5ab11",
+      "integratedSha256": "73022d17025c8df6d199fe1cad18a6b429eea1e155a86289aa0323fd36d5ab11"
+    },
+    {
+      "path": "source/docs/rewrite/visualization/previews/license-scenario.png",
+      "sourcePath": "docs/rewrite/visualization/previews/license-scenario.png",
+      "sha256": "ab69c272db85a3c2d88e87ffbf11adb045fda2bb64ec86dd5511fe84709dd113",
+      "integratedSha256": "ab69c272db85a3c2d88e87ffbf11adb045fda2bb64ec86dd5511fe84709dd113"
+    },
+    {
+      "path": "source/docs/rewrite/visualization/previews/overview.png",
+      "sourcePath": "docs/rewrite/visualization/previews/overview.png",
+      "sha256": "14b9e591dc4cbfc533e0dccb86a5cc8dcb7b08eda0ec2c8ab73d76e5fac4fa28",
+      "integratedSha256": "14b9e591dc4cbfc533e0dccb86a5cc8dcb7b08eda0ec2c8ab73d76e5fac4fa28"
+    },
+    {
+      "path": "source/docs/rewrite/visualization/previews/type-contract.png",
+      "sourcePath": "docs/rewrite/visualization/previews/type-contract.png",
+      "sha256": "05283bf73c54685a9ac021c0f17b81878e791035dd6db97f8720d598369edb64",
+      "integratedSha256": "05283bf73c54685a9ac021c0f17b81878e791035dd6db97f8720d598369edb64"
+    },
+    {
+      "path": "source/docs/rewrite/visualization/README.md",
+      "sourcePath": "docs/rewrite/visualization/README.md",
+      "sha256": "459eb2a23b77ff3b1076129adf3e55bd439275056fbfe9ce77180839bb18245b",
+      "integratedSha256": "459eb2a23b77ff3b1076129adf3e55bd439275056fbfe9ce77180839bb18245b"
+    },
+    {
+      "path": "source/docs/rewrite/visualization/source.json",
+      "sourcePath": "docs/rewrite/visualization/source.json",
+      "sha256": "8b4c203eb01ca437dd54a14819d77304355a99140c6dc766b8f067e3e7a4b154",
+      "integratedSha256": "8b4c203eb01ca437dd54a14819d77304355a99140c6dc766b8f067e3e7a4b154"
+    },
+    {
+      "path": "source/docs/verification/2.0.2.md",
+      "sourcePath": "docs/verification/2.0.2.md",
+      "sha256": "0c321d69d1990c1a43ce069f2a2f73005754c06cfaf7348f6ed28d27a558e6f2",
+      "integratedSha256": "0c321d69d1990c1a43ce069f2a2f73005754c06cfaf7348f6ed28d27a558e6f2"
+    },
+    {
+      "path": "source/docs/verification/2.0.3.md",
+      "sourcePath": "docs/verification/2.0.3.md",
+      "sha256": "f690ec684b5d528e3737fbf0244b8481c5ef7f0fdcf2631fa2c78c5b3148b651",
+      "integratedSha256": "f690ec684b5d528e3737fbf0244b8481c5ef7f0fdcf2631fa2c78c5b3148b651"
+    },
+    {
+      "path": "source/docs/verification/2.0.4.md",
+      "sourcePath": "docs/verification/2.0.4.md",
+      "sha256": "5e378e6c0b26a3b60c10ab868ac609e13083f06d698bf2d89fc1376d9cb70950",
+      "integratedSha256": "5e378e6c0b26a3b60c10ab868ac609e13083f06d698bf2d89fc1376d9cb70950"
+    },
+    {
+      "path": "source/docs/verification/2026-10-20-core-launch.md",
+      "sourcePath": "docs/verification/2026-10-20-core-launch.md",
+      "sha256": "f6beb9d6d6e122260f680919c50b0ed08a0adec0f63226ba445290143ad7ffcb",
+      "integratedSha256": "f6beb9d6d6e122260f680919c50b0ed08a0adec0f63226ba445290143ad7ffcb"
+    },
+    {
+      "path": "source/docs/verification/2026-10-20-documentation-cache.md",
+      "sourcePath": "docs/verification/2026-10-20-documentation-cache.md",
+      "sha256": "00c4c25dc1cba9e54513b839a76507bc8d5b7a4c0228f474e2b9f337d06e21bc",
+      "integratedSha256": "00c4c25dc1cba9e54513b839a76507bc8d5b7a4c0228f474e2b9f337d06e21bc"
+    },
+    {
+      "path": "source/docs/verification/2026-10-20-documentation-reading-routes.md",
+      "sourcePath": "docs/verification/2026-10-20-documentation-reading-routes.md",
+      "sha256": "557c896964b3e4682fbca1339aa5b7ca520a8f161432d2c53fc4ebf56ba756e5",
+      "integratedSha256": "557c896964b3e4682fbca1339aa5b7ca520a8f161432d2c53fc4ebf56ba756e5"
+    },
+    {
+      "path": "source/docs/verification/2026-10-20-documentation-theme.md",
+      "sourcePath": "docs/verification/2026-10-20-documentation-theme.md",
+      "sha256": "ad854736af5255c4b3978571ac5d10eb89e63fe9a940410d1fb947ae045d308a",
+      "integratedSha256": "ad854736af5255c4b3978571ac5d10eb89e63fe9a940410d1fb947ae045d308a"
+    },
+    {
+      "path": "source/docs/verification/2026-10-20-documentation.md",
+      "sourcePath": "docs/verification/2026-10-20-documentation.md",
+      "sha256": "9b4d829185a9b7874c1231786af6a741b8078bdb0a7c8e67cfed03c8bf067579",
+      "integratedSha256": "9b4d829185a9b7874c1231786af6a741b8078bdb0a7c8e67cfed03c8bf067579"
+    },
+    {
+      "path": "source/docs/verification/2026-10-20-functional-documentation.md",
+      "sourcePath": "docs/verification/2026-10-20-functional-documentation.md",
+      "sha256": "87da98f72bf649fa9b20a872d6e944bd027c22d639549d648ce41e7b0ed83946",
+      "integratedSha256": "87da98f72bf649fa9b20a872d6e944bd027c22d639549d648ce41e7b0ed83946"
+    },
+    {
+      "path": "source/docs/verification/2026-10-20-interaction-and-tests.md",
+      "sourcePath": "docs/verification/2026-10-20-interaction-and-tests.md",
+      "sha256": "f12e31f36449b74efb43d31265ac274b7ad56e27075e4e474e1d3fcce4b92d0f",
+      "integratedSha256": "f12e31f36449b74efb43d31265ac274b7ad56e27075e4e474e1d3fcce4b92d0f"
+    },
+    {
+      "path": "source/docs/verification/2026-10-20-original-view-boundary.md",
+      "sourcePath": "docs/verification/2026-10-20-original-view-boundary.md",
+      "sha256": "51319711a84c28d34ba675231115472c203e5711378bd2d1864b50296b37d05d",
+      "integratedSha256": "51319711a84c28d34ba675231115472c203e5711378bd2d1864b50296b37d05d"
+    },
+    {
+      "path": "source/docs/verification/2026-10-21-test-traceability.md",
+      "sourcePath": "docs/verification/2026-10-21-test-traceability.md",
+      "sha256": "325db073511961a92b302bd1597c7c4207b59ec9860fea14f5ed3baf34a7632b",
+      "integratedSha256": "325db073511961a92b302bd1597c7c4207b59ec9860fea14f5ed3baf34a7632b"
+    },
+    {
+      "path": "source/docs/verification/2026-10-26-specification-drafts.md",
+      "sourcePath": "docs/verification/2026-10-26-specification-drafts.md",
+      "sha256": "9431009c25b8b922ef251d2184aa0e9d7153753ce0873aeec5aa3efab5da14f5",
+      "integratedSha256": "9431009c25b8b922ef251d2184aa0e9d7153753ce0873aeec5aa3efab5da14f5"
+    },
+    {
+      "path": "source/docs/verification/3.0.0-archon.md",
+      "sourcePath": "docs/verification/3.0.0-archon.md",
+      "sha256": "cf5e7ae581f1de5e616c2ed31caa6ca572797e939cbeeedaf6f63d55364095a4",
+      "integratedSha256": "cf5e7ae581f1de5e616c2ed31caa6ca572797e939cbeeedaf6f63d55364095a4"
+    },
+    {
+      "path": "source/docs/verification/3.0.1-interface-wiring.md",
+      "sourcePath": "docs/verification/3.0.1-interface-wiring.md",
+      "sha256": "ce2722e0c7628acb8af041bb0d4ce23d8a634753836c627b7a32bdb02a37e85d",
+      "integratedSha256": "ce2722e0c7628acb8af041bb0d4ce23d8a634753836c627b7a32bdb02a37e85d"
+    },
+    {
+      "path": "source/LaunchDesk.Core/AppDiscovery.cs",
+      "sourcePath": "LaunchDesk.Core/AppDiscovery.cs",
+      "sha256": "0188bfe656d3cbec2a0311054c04e287fe2e88304e62d3327d3e89767e8db886",
+      "integratedSha256": "0188bfe656d3cbec2a0311054c04e287fe2e88304e62d3327d3e89767e8db886"
+    },
+    {
+      "path": "source/LaunchDesk.Core/ArchiveCatalog.cs",
+      "sourcePath": "LaunchDesk.Core/ArchiveCatalog.cs",
+      "sha256": "defaf5948be855ec41da5424d52b5970849fc8f2ce23239cdc25332aab4773f4",
+      "integratedSha256": "defaf5948be855ec41da5424d52b5970849fc8f2ce23239cdc25332aab4773f4"
+    },
+    {
+      "path": "source/LaunchDesk.Core/ConnectionHealth.cs",
+      "sourcePath": "LaunchDesk.Core/ConnectionHealth.cs",
+      "sha256": "41eed515f9282ac63525a1ec1f486e9b739c3f3125ba23d8f0ed9ad1089647fb",
+      "integratedSha256": "41eed515f9282ac63525a1ec1f486e9b739c3f3125ba23d8f0ed9ad1089647fb"
+    },
+    {
+      "path": "source/LaunchDesk.Core/LaunchDesk.Core.csproj",
+      "sourcePath": "LaunchDesk.Core/LaunchDesk.Core.csproj",
+      "sha256": "8927424d24a25bb45caa44f89a3be34f5c2e81f3d58acf2b91d48f2eaa2a7266",
+      "integratedSha256": "8927424d24a25bb45caa44f89a3be34f5c2e81f3d58acf2b91d48f2eaa2a7266"
+    },
+    {
+      "path": "source/LaunchDesk.Core/LaunchProcessTracker.cs",
+      "sourcePath": "LaunchDesk.Core/LaunchProcessTracker.cs",
+      "sha256": "62d2e15a6e2fca0252f4b968242c1aa9cc47cf53deb1dd468edb7cd59125471f",
+      "integratedSha256": "62d2e15a6e2fca0252f4b968242c1aa9cc47cf53deb1dd468edb7cd59125471f"
+    },
+    {
+      "path": "source/LaunchDesk.Core/LaunchProgress.cs",
+      "sourcePath": "LaunchDesk.Core/LaunchProgress.cs",
+      "sha256": "a35147e9fe19c0cf3dc197c87a3992faa91e97826af3291752b2f0f3f5c0c3cc",
+      "integratedSha256": "a35147e9fe19c0cf3dc197c87a3992faa91e97826af3291752b2f0f3f5c0c3cc"
+    },
+    {
+      "path": "source/LaunchDesk.Core/LaunchService.cs",
+      "sourcePath": "LaunchDesk.Core/LaunchService.cs",
+      "sha256": "61b9720f595e82424789efbbf9254e452631b34dc57bd4c1b9fcff3f012503d4",
+      "integratedSha256": "61b9720f595e82424789efbbf9254e452631b34dc57bd4c1b9fcff3f012503d4"
+    },
+    {
+      "path": "source/LaunchDesk.Core/LicenseMonitor.cs",
+      "sourcePath": "LaunchDesk.Core/LicenseMonitor.cs",
+      "sha256": "aad3512fd16132e203f39b584c1d6986e54b2489bacdf0df74bcf39b9675f907",
+      "integratedSha256": "aad3512fd16132e203f39b584c1d6986e54b2489bacdf0df74bcf39b9675f907"
+    },
+    {
+      "path": "source/LaunchDesk.Core/Models.cs",
+      "sourcePath": "LaunchDesk.Core/Models.cs",
+      "sha256": "80ef590d53c63339e47857bd3d88d1379a0ed6caeb32bde51d95d5df87987763",
+      "integratedSha256": "80ef590d53c63339e47857bd3d88d1379a0ed6caeb32bde51d95d5df87987763"
+    },
+    {
+      "path": "source/LaunchDesk.Core/ToolModels.cs",
+      "sourcePath": "LaunchDesk.Core/ToolModels.cs",
+      "sha256": "f7b723d2cbfb1093b02c0fa2d41cc2d38f97c4f5710a235fc7b4e48de999402a",
+      "integratedSha256": "f7b723d2cbfb1093b02c0fa2d41cc2d38f97c4f5710a235fc7b4e48de999402a"
+    },
+    {
+      "path": "source/LaunchDesk.Core/VariableEditor.cs",
+      "sourcePath": "LaunchDesk.Core/VariableEditor.cs",
+      "sha256": "4c503c8fe72ea51c29c5b76f1bd5e19ad23af2298b2fae91d777a46bec2f95f3",
+      "integratedSha256": "4c503c8fe72ea51c29c5b76f1bd5e19ad23af2298b2fae91d777a46bec2f95f3"
+    },
+    {
+      "path": "source/LaunchDesk.Core/WorkspaceLocations.cs",
+      "sourcePath": "LaunchDesk.Core/WorkspaceLocations.cs",
+      "sha256": "c7de4aeda3a8a7e8c777264cf6a6f3fab93c5ddf5dd18f1c202e830e2e367817",
+      "integratedSha256": "c7de4aeda3a8a7e8c777264cf6a6f3fab93c5ddf5dd18f1c202e830e2e367817"
+    },
+    {
+      "path": "source/LaunchDesk.Core/WorkspaceStore.cs",
+      "sourcePath": "LaunchDesk.Core/WorkspaceStore.cs",
+      "sha256": "9840ece3247ff6939076c0fb109d977a99a72daf2d40cc3c94f6682372d3fa67",
+      "integratedSha256": "9840ece3247ff6939076c0fb109d977a99a72daf2d40cc3c94f6682372d3fa67"
+    },
+    {
+      "path": "source/LaunchDesk.Tests/LaunchDesk.Tests.csproj",
+      "sourcePath": "LaunchDesk.Tests/LaunchDesk.Tests.csproj",
+      "sha256": "9c1f8b81818fd9ba5dcb5666de2897de9c7e57016e7f1fa0dd32f8e4330e0348",
+      "integratedSha256": "9c1f8b81818fd9ba5dcb5666de2897de9c7e57016e7f1fa0dd32f8e4330e0348"
+    },
+    {
+      "path": "source/LaunchDesk.Tests/Program.cs",
+      "sourcePath": "LaunchDesk.Tests/Program.cs",
+      "sha256": "80753db3e7c08c1ebcf251ea28b911511eeeaf9afdcbaeeae275c85717b167a1",
+      "integratedSha256": "80753db3e7c08c1ebcf251ea28b911511eeeaf9afdcbaeeae275c85717b167a1"
+    },
+    {
+      "path": "source/LaunchDesk.Update/Engine.cs",
+      "sourcePath": "LaunchDesk.Update/Engine.cs",
+      "sha256": "ddb5cb996ca59ca20f6767f9f330a864950a791b374e15278bc54d76ec66ac66",
+      "integratedSha256": "ddb5cb996ca59ca20f6767f9f330a864950a791b374e15278bc54d76ec66ac66"
+    },
+    {
+      "path": "source/LaunchDesk.Update/ImportSources.cs",
+      "sourcePath": "LaunchDesk.Update/ImportSources.cs",
+      "sha256": "a48b3366ddb729c5b33fce8a368138ce37169a0cf7953af40b36b2fd506d9c55",
+      "integratedSha256": "a48b3366ddb729c5b33fce8a368138ce37169a0cf7953af40b36b2fd506d9c55"
+    },
+    {
+      "path": "source/LaunchDesk.Update/LaunchDesk.Update.csproj",
+      "sourcePath": "LaunchDesk.Update/LaunchDesk.Update.csproj",
+      "sha256": "4854c1ee65d14e1599db871efe01061844654df0a690039563904ba28b599d12",
+      "integratedSha256": "4854c1ee65d14e1599db871efe01061844654df0a690039563904ba28b599d12"
+    },
+    {
+      "path": "source/LaunchDesk.Update/LegacyMigration.cs",
+      "sourcePath": "LaunchDesk.Update/LegacyMigration.cs",
+      "sha256": "b124331ced502b5edf0f23891299e8869f19019b315ecf7ae1e673a99b59f667",
+      "integratedSha256": "b124331ced502b5edf0f23891299e8869f19019b315ecf7ae1e673a99b59f667"
+    },
+    {
+      "path": "source/LaunchDesk.Update/LongPaths.cs",
+      "sourcePath": "LaunchDesk.Update/LongPaths.cs",
+      "sha256": "ba5fdb8b8945489fe114863bed0d1a5e297bf607d31402146d165ad8daf56c5c",
+      "integratedSha256": "ba5fdb8b8945489fe114863bed0d1a5e297bf607d31402146d165ad8daf56c5c"
+    },
+    {
+      "path": "source/LaunchDesk.Update/Models.cs",
+      "sourcePath": "LaunchDesk.Update/Models.cs",
+      "sha256": "306502de9dbbd02abada6c9513a983215da60180124753614e1dbaeece3528da",
+      "integratedSha256": "306502de9dbbd02abada6c9513a983215da60180124753614e1dbaeece3528da"
+    },
+    {
+      "path": "source/LaunchDesk.Update/RollbackArchive.cs",
+      "sourcePath": "LaunchDesk.Update/RollbackArchive.cs",
+      "sha256": "9ed4a0249fa04a18f27d277cf8ae09651984a3259fe2545ea313f0723a2218d8",
+      "integratedSha256": "9ed4a0249fa04a18f27d277cf8ae09651984a3259fe2545ea313f0723a2218d8"
+    },
+    {
+      "path": "source/LaunchDesk.Update/Storage.cs",
+      "sourcePath": "LaunchDesk.Update/Storage.cs",
+      "sha256": "1c75de8cbc9a31c68e37a086918f43be0fc88b398c427719ae4cde718d8bf9c6",
+      "integratedSha256": "1c75de8cbc9a31c68e37a086918f43be0fc88b398c427719ae4cde718d8bf9c6"
+    },
+    {
+      "path": "source/LaunchDesk.Update/UpdateEngine.cs",
+      "sourcePath": "LaunchDesk.Update/UpdateEngine.cs",
+      "sha256": "fb1cd318e9d338b78869b5c116c65a2d1d333d6629791788cffe9085ff26bb94",
+      "integratedSha256": "fb1cd318e9d338b78869b5c116c65a2d1d333d6629791788cffe9085ff26bb94"
+    },
+    {
+      "path": "source/LaunchDesk.Update.Tests/LaunchDesk.Update.Tests.csproj",
+      "sourcePath": "LaunchDesk.Update.Tests/LaunchDesk.Update.Tests.csproj",
+      "sha256": "3ed2465f448aa67e583a989c9db6f1d26679b8574f81c81599f94bb4a9b05447",
+      "integratedSha256": "892b5b8c34fdc51d1c0dc08ed7ecfdf937618975307fd1701c4e6bea304b43c7"
+    },
+    {
+      "path": "source/LaunchDesk.Update.Tests/Program.cs",
+      "sourcePath": "LaunchDesk.Update.Tests/Program.cs",
+      "sha256": "1f08cb8442b6a817cdf70319e915a2d900e08e00fa759161b27cc4f43cc366cb",
+      "integratedSha256": "1f08cb8442b6a817cdf70319e915a2d900e08e00fa759161b27cc4f43cc366cb"
+    },
+    {
+      "path": "source/Directory.Build.props",
+      "sourcePath": "Directory.Build.props",
+      "sha256": "5f8498f50a45096094b44a092fa21b78d4d93f50728b5458384b933fc4ad7aa0",
+      "integratedSha256": "5f8498f50a45096094b44a092fa21b78d4d93f50728b5458384b933fc4ad7aa0"
+    },
+    {
+      "path": "source/NuGet.Config",
+      "sourcePath": "NuGet.Config",
+      "sha256": "542a1a8502e57c285c7da0aba3ee920728d827e4bb7e5781a900ace973be66f8",
+      "integratedSha256": "542a1a8502e57c285c7da0aba3ee920728d827e4bb7e5781a900ace973be66f8"
+    },
+    {
+      "path": "source/LaunchDesk.App/Tools/THIRD-PARTY-NOTICES.txt",
+      "sourcePath": "LaunchDesk.App/Tools/THIRD-PARTY-NOTICES.txt",
+      "sha256": "cb0dff5016c810ef1bf97c300f4a7adbfe3d6015f2f9a92092be2356a2641268",
+      "integratedSha256": "cb0dff5016c810ef1bf97c300f4a7adbfe3d6015f2f9a92092be2356a2641268"
+    },
+    {
+      "path": "source/docs/rewrite/visualization/portal/sources/brief.md",
+      "sourcePath": "artifacts/architecture-review/sources/brief.md",
+      "sha256": "24eff27ae334871da78c9440d078fb0ef35efc10b9313c97cfe18ef8aaefc98b",
+      "integratedSha256": "24eff27ae334871da78c9440d078fb0ef35efc10b9313c97cfe18ef8aaefc98b"
+    },
+    {
+      "path": "source/docs/rewrite/visualization/portal/sources/catalog.json",
+      "sourcePath": "artifacts/architecture-review/sources/catalog.json",
+      "sha256": "5c0b516d00e5a3f21316e24b2338aa66936931b11fc778443184684e6535c86e",
+      "integratedSha256": "5c0b516d00e5a3f21316e24b2338aa66936931b11fc778443184684e6535c86e"
+    },
+    {
+      "path": "source/docs/rewrite/visualization/portal/sources/challenge.json",
+      "sourcePath": "artifacts/architecture-review/sources/challenge.json",
+      "sha256": "af0c0763e129c28db4aecf8e8f0be82e79b7cac30b4b0b230dfc6f9453f9eec6",
+      "integratedSha256": "af0c0763e129c28db4aecf8e8f0be82e79b7cac30b4b0b230dfc6f9453f9eec6"
+    },
+    {
+      "path": "source/docs/rewrite/visualization/portal/sources/corrections.json",
+      "sourcePath": "artifacts/architecture-review/sources/corrections.json",
+      "sha256": "fce8f514eb0232441202ec7d0242819834a47480d6f2917d7ae95f1a2605dda0",
+      "integratedSha256": "fce8f514eb0232441202ec7d0242819834a47480d6f2917d7ae95f1a2605dda0"
+    },
+    {
+      "path": "source/docs/rewrite/visualization/portal/sources/CURRENT-CLASSES.md",
+      "sourcePath": "artifacts/architecture-review/sources/CURRENT-CLASSES.md",
+      "sha256": "432265cfc57876620236d8953fc057faaf0a6299d2b923a94e5615a79934af1e",
+      "integratedSha256": "432265cfc57876620236d8953fc057faaf0a6299d2b923a94e5615a79934af1e"
+    },
+    {
+      "path": "source/docs/rewrite/visualization/portal/sources/CURRENT-REVIEW.md",
+      "sourcePath": "artifacts/architecture-review/sources/CURRENT-REVIEW.md",
+      "sha256": "63dd3d3ebb0bd12a300554762a114f94f75b29547b61a9ef50a4c126597b644e",
+      "integratedSha256": "63dd3d3ebb0bd12a300554762a114f94f75b29547b61a9ef50a4c126597b644e"
+    },
+    {
+      "path": "source/docs/rewrite/visualization/portal/sources/events.jsonl",
+      "sourcePath": "artifacts/architecture-review/sources/events.jsonl",
+      "sha256": "8a6e5fa6a13a7738800a4e24dd46bba84894a151a41069c934e162eca66f705b",
+      "integratedSha256": "8a6e5fa6a13a7738800a4e24dd46bba84894a151a41069c934e162eca66f705b"
+    },
+    {
+      "path": "source/docs/rewrite/visualization/portal/sources/FINDINGS-AND-REVISIONS.md",
+      "sourcePath": "artifacts/architecture-review/sources/FINDINGS-AND-REVISIONS.md",
+      "sha256": "ae58fe7ccbbf59c1c740d3a7fa0a3a92615d5637a711eb182c472d022fd65d1d",
+      "integratedSha256": "ae58fe7ccbbf59c1c740d3a7fa0a3a92615d5637a711eb182c472d022fd65d1d"
+    },
+    {
+      "path": "source/docs/rewrite/visualization/portal/sources/initial.json",
+      "sourcePath": "artifacts/architecture-review/sources/initial.json",
+      "sha256": "325f66369416692b629417ad1c6f991936eb321fd4643dd6057acd47933bf0c0",
+      "integratedSha256": "325f66369416692b629417ad1c6f991936eb321fd4643dd6057acd47933bf0c0"
+    },
+    {
+      "path": "source/docs/rewrite/visualization/portal/sources/inputs.json",
+      "sourcePath": "artifacts/architecture-review/sources/inputs.json",
+      "sha256": "9799b752b6dcd02ea327cb3a1d4a4e4a343a18660985f26370f830bbf2ea1858",
+      "integratedSha256": "9799b752b6dcd02ea327cb3a1d4a4e4a343a18660985f26370f830bbf2ea1858"
+    },
+    {
+      "path": "source/docs/rewrite/visualization/portal/sources/native.json",
+      "sourcePath": "artifacts/architecture-review/sources/native.json",
+      "sha256": "8ade9574baf52fdb5e2ed26bd8a92ff07c28009eba74f8db926fba732a6d836e",
+      "integratedSha256": "8ade9574baf52fdb5e2ed26bd8a92ff07c28009eba74f8db926fba732a6d836e"
+    },
+    {
+      "path": "source/docs/rewrite/visualization/portal/sources/originalCatalog.json",
+      "sourcePath": "artifacts/architecture-review/sources/originalCatalog.json",
+      "sha256": "1db413f2a9853beb667de98e20519f3381bb113dd7825f3245e7e1ee9bf47e13",
+      "integratedSha256": "1db413f2a9853beb667de98e20519f3381bb113dd7825f3245e7e1ee9bf47e13"
+    },
+    {
+      "path": "source/docs/rewrite/visualization/portal/sources/recheck.json",
+      "sourcePath": "artifacts/architecture-review/sources/recheck.json",
+      "sha256": "b20c5e4cb2519e495f6c63cbdd02329ae5393a87fd218137e477b5d837a9300f",
+      "integratedSha256": "b20c5e4cb2519e495f6c63cbdd02329ae5393a87fd218137e477b5d837a9300f"
+    },
+    {
+      "path": "source/docs/rewrite/visualization/portal/sources/REVIEW-PACKET.md",
+      "sourcePath": "artifacts/architecture-review/sources/REVIEW-PACKET.md",
+      "sha256": "84fe4963aa8b2344b1bf5f57366af133258400d1ddcb2c459712391397030e36",
+      "integratedSha256": "84fe4963aa8b2344b1bf5f57366af133258400d1ddcb2c459712391397030e36"
+    },
+    {
+      "path": "source/docs/rewrite/visualization/portal/sources/revision.json",
+      "sourcePath": "artifacts/architecture-review/sources/revision.json",
+      "sha256": "94f1eeb70043ae6de83482cb2f83f476b01a7c6b208072184c4a307eec54f608",
+      "integratedSha256": "94f1eeb70043ae6de83482cb2f83f476b01a7c6b208072184c4a307eec54f608"
+    },
+    {
+      "path": "source/docs/rewrite/visualization/portal/sources/scenarioIndex.json",
+      "sourcePath": "artifacts/architecture-review/sources/scenarioIndex.json",
+      "sha256": "958042bcd734b5d87335e79d8467a81fe76a944cc4e92fb3d03c1beb8b0b15c0",
+      "integratedSha256": "958042bcd734b5d87335e79d8467a81fe76a944cc4e92fb3d03c1beb8b0b15c0"
+    },
+    {
+      "path": "source/docs/rewrite/visualization/portal/sources/scenarios.md",
+      "sourcePath": "artifacts/architecture-review/sources/scenarios.md",
+      "sha256": "d1e2fd9fabb01a0158a478039def55ec0345d2cd908bfc96780d9d00771a6b78",
+      "integratedSha256": "d1e2fd9fabb01a0158a478039def55ec0345d2cd908bfc96780d9d00771a6b78"
+    },
+    {
+      "path": "source/docs/rewrite/visualization/portal/sources/scope.json",
+      "sourcePath": "artifacts/architecture-review/sources/scope.json",
+      "sha256": "9ed10eaf8e12d9148fa88745809c64bb96cc8dc0161c52294601827c5cee732d",
+      "integratedSha256": "9ed10eaf8e12d9148fa88745809c64bb96cc8dc0161c52294601827c5cee732d"
+    },
+    {
+      "path": "source/docs/rewrite/visualization/portal/sources/source.json",
+      "sourcePath": "artifacts/architecture-review/sources/source.json",
+      "sha256": "8b4c203eb01ca437dd54a14819d77304355a99140c6dc766b8f067e3e7a4b154",
+      "integratedSha256": "8b4c203eb01ca437dd54a14819d77304355a99140c6dc766b8f067e3e7a4b154"
+    },
+    {
+      "path": "source/docs/rewrite/visualization/portal/build-manifest.json",
+      "sourcePath": "artifacts/architecture-review/build-manifest.json",
+      "sha256": "c3397ade91a4b55f3f4f084146578b9c7576b3c88b920f13147cb1e7c9730b1f",
+      "integratedSha256": "c3397ade91a4b55f3f4f084146578b9c7576b3c88b920f13147cb1e7c9730b1f"
+    },
+    {
+      "path": "source/docs/rewrite/visualization/portal/review-data.json",
+      "sourcePath": "artifacts/architecture-review/review-data.json",
+      "sha256": "94d0abbdab22ca7294fc24cf065cdc2633b63d9572d54c13477dc03e58ef0316",
+      "integratedSha256": "94d0abbdab22ca7294fc24cf065cdc2633b63d9572d54c13477dc03e58ef0316"
+    }
+  ],
+  "omissions": [
+    {
+      "sourcePath": "rewrite/.idea/.idea.LaunchDesk.Rewrite/.idea/.gitignore",
+      "sha256": "09c049d2667c46c39571db0f6f83d992e260181ab2f2f5be3d856a85b79ff739",
+      "reason": "User IDE state; intentionally excluded."
+    },
+    {
+      "sourcePath": "rewrite/.idea/.idea.LaunchDesk.Rewrite/.idea/.name",
+      "sha256": "301e155803f6d6f00b27d99ca0742c2b888bf254c880b5ce6a7da9506b5a3a80",
+      "reason": "User IDE state; intentionally excluded."
+    },
+    {
+      "sourcePath": "rewrite/.idea/.idea.LaunchDesk.Rewrite/.idea/indexLayout.xml",
+      "sha256": "945c1c53591f55fe1e2946b22fd1ac73a4cdfceb8911a2254f39916b0e9ed18e",
+      "reason": "User IDE state; intentionally excluded."
+    },
+    {
+      "sourcePath": "rewrite/.idea/.idea.LaunchDesk.Rewrite/.idea/projectSettingsUpdater.xml",
+      "sha256": "4b962ff9453d981b016545b0416f3304ebc82f89b3a07a7005ef5b447d8dc8f1",
+      "reason": "User IDE state; intentionally excluded."
+    },
+    {
+      "sourcePath": "rewrite/.idea/.idea.LaunchDesk.Rewrite/.idea/vcs.xml",
+      "sha256": "d0df76de3a966f51606b564edccc430dbc21c32ee5c3f35dccf95597fad81392",
+      "reason": "User IDE state; intentionally excluded."
+    },
+    {
+      "sourcePath": "rewrite/.idea/.idea.LaunchDesk.Rewrite/.idea/workspace.xml",
+      "sha256": "11e0d150280dce35a6ceaa0d656ee19c490ce3404dc22c7ba7362207f0e2b1f3",
+      "reason": "User IDE state; intentionally excluded."
+    },
+    {
+      "sourcePath": "rewrite/LaunchDesk.Architecture.Tests/TestResults/compression-after.trx",
+      "sha256": "6bc1dea956f5e02525f416e8a8600a60b74886252a7a34f774e947c6329325f9",
+      "reason": "Historical generated test output; intentionally excluded."
+    },
+    {
+      "sourcePath": "rewrite/LaunchDesk.Architecture.Tests/TestResults/compression-baseline.trx",
+      "sha256": "0ff1816ed18a250ebf6d5b17f6d8d1e361fafe565815895b718c5fb37cadd02d",
+      "reason": "Historical generated test output; intentionally excluded."
+    },
+    {
+      "sourcePath": "rewrite/LaunchDesk.Architecture.Tests/TestResults/compression-round2.trx",
+      "sha256": "36dec655ebe230dda146a46171e17987b22cd369d770e4add59055b7220efa0b",
+      "reason": "Historical generated test output; intentionally excluded."
+    }
+  ]
+}

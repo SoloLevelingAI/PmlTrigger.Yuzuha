@@ -1,0 +1,30 @@
+{
+  "version": 2,
+  "dependencies": {
+    "net10.0-windows7.0": {
+      "launchdesk.next.application": {
+        "type": "Project",
+        "dependencies": {
+          "LaunchDesk.Next.Domain": "[1.0.0, )"
+        }
+      },
+      "launchdesk.next.domain": {
+        "type": "Project"
+      },
+      "launchdesk.next.platform": {
+        "type": "Project",
+        "dependencies": {
+          "LaunchDesk.Next.Application": "[1.0.0, )",
+          "LaunchDesk.Next.Domain": "[1.0.0, )",
+          "NLog": "[6.2.2, )"
+        }
+      },
+      "NLog": {
+        "type": "CentralTransitive",
+        "requested": "[6.2.2, )",
+        "resolved": "6.2.2",
+        "contentHash": "Hoxigm/d7wY/+y4y2ILF2ERSojhxgLd8ASBZQbrnm52jB5NHkF4AWW5tZzMxJ/HTOp0bLwClGOokrA31iSXuMA=="
+      }
+    }
+  }
+}

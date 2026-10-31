@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html data-reading-revision="f5a8b6840d71" lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+      <title>当前交付与证据边界 | LaunchDesk.Next </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="当前交付与证据边界 | LaunchDesk.Next ">
+      
+      
+      <link rel="icon" href="favicon.ico">
+      <link rel="stylesheet" href="public/docfx.min.css">
+      <link rel="stylesheet" href="public/theme-tokens.css?v=f5a8b6840d71">
+      <link rel="stylesheet" href="public/main.css?v=f5a8b6840d71">
+      <link rel="stylesheet" href="public/theme-type.css?v=f5a8b6840d71">
+      <script type="module" src="public/reading.js?v=f5a8b6840d71"></script>
+      <meta name="docfx:navrel" content="toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="本页目录">
+      <meta name="loc:searchResultsCount" content="“{query}”的结果：{count}条">
+      <meta name="loc:searchNoResults" content="没有找到“{query}”">
+      <meta name="loc:tocFilter" content="筛选文件标题">
+      <meta name="loc:nextArticle" content="下一篇">
+      <meta name="loc:prevArticle" content="上一篇">
+      <meta name="loc:themeLight" content="浅色">
+      <meta name="loc:themeDark" content="深色">
+      <meta name="loc:themeAuto" content="跟随系统">
+      <meta name="loc:changeTheme" content="切换明暗">
+      <meta name="loc:copy" content="复制">
+      <meta name="loc:downloadPdf" content="下载PDF">
+
+      <script type="module" src="./public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <a class="ld-skip" href="#doc-content">跳到正文</a>
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="INDEX.html">
+            <span class="ld-monogram" aria-hidden="true">LD</span>
+            LaunchDesk.Next
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="展开导航与搜索">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div class="ld-links" aria-label="快捷入口"><a href="INDEX.html">阅读文档</a><a href="portfolio/index.html?revision=figcraft-roundtrip">项目作品集 ↗</a><a href="status.html">交付状态</a></div>
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="搜索文档" autocomplete="off" aria-label="搜索文档">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">文件目录</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="关闭文件目录"></button>
+          </div>
+          <div class="offcanvas-body">
+            <div class="ld-toc-caption"><strong>文件与阅读路径</strong><span>LIBRARY</span></div>
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="打开文件目录">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article id="doc-content" tabindex="-1" data-uid="delivery-status">
+          <div class="ld-kicker">LAUNCHDESK.NEXT / ENGINEERING LIBRARY</div>
+          <div class="ld-doc-meta"><span class="ld-state" data-state="mixed">状态见正文</span><span>文档核对 2026-10-29</span></div>
+<h1 id="当前交付与证据边界">当前交付与证据边界</h1>
+
+<h2 id="-读状态不把方案当功能">① 读状态，不把方案当功能</h2>
+<p>截至2026-10-29，本页核对实现基线78b8dc4与已有证据，未重跑产品或VM。已实现表示存在实现与所列范围内验证；拟议表示方案或选型，不能作为操作承诺；历史表示当时的实验或版本结论，不代表现在机器状态。混合页面必须逐项标明范围。</p>
+<h2 id="-当前能用什么">② 当前能用什么</h2>
+<table>
+<thead>
+<tr>
+<th>已实现范围</th>
+<th>唯一事实与证据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>目录发现应用，静态查找Project/Module，保留来源与人工修改</td>
+<td><a href="features/launch-by-profile.html#usage">功能③⑥</a>、<a href="verification.html#discovery-baseline">发现证据</a></td>
+</tr>
+<tr>
+<td>同一Model编辑、草稿代次检查、冻结执行快照、后端校验和具体启动脚本</td>
+<td><a href="features/launch-by-profile.html#requirements">功能④—⑥</a>、<a href="verification.html#current-evidence">模型证据</a></td>
+</tr>
+<tr>
+<td>XML Addin控制已编译Feature装配，产品/开发双包共用后端</td>
+<td><a href="development/addins.html">Addin说明</a>、<a href="verification.html#current-evidence">Addin证据</a></td>
+</tr>
+<tr>
+<td>List<record>、日志与AttemptId关联，失败返回和创建后不确定状态</record></td>
+<td><a href="features/launch-by-profile.html#backend">功能⑥⑧</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="-不能当成已交付的部分">③ 不能当成已交付的部分</h2>
+<p>手动远程连接向导、TOML迁移/导入预览、共享凭据批量授权与撤销、新FigCraft界面均待实现或评审。Tomlyn 2.10.1已批准，尚未安装。现有Stored引用不等于共享授权管理；普通远程路径不依赖实验开关，也不等于已实现连接向导。CAF API适配、任意第三方DLL动态加载、热卸载和外部草稿自动合并未实现。DocFX主题已于2026-10-31统一到作品集的视觉语言，见<a href="design/docfx-reading-theme.html">实际主题与证据</a>；仍待用户视觉认可。</p>
+<h2 id="-历史证明了什么">④ 历史证明了什么</h2>
+<table>
+<thead>
+<tr>
+<th>历史记录</th>
+<th>能证明／不能证明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="reviews/remote-project-lab-results.html">G0/G1</a></td>
+<td>当时隔离网络/账户/共享检查通过；不能代替产品远程场景验收</td>
+</tr>
+<tr>
+<td><a href="reviews/licence-checkout.html">许可与FNF实验</a></td>
+<td>当时宿主E3D用原生句柄进入Model并签出/归还许可；不能保证当前环境可用，也未完成新可配置脚手架的真实VM回归</td>
+</tr>
+<tr>
+<td><a href="development/original-deploy-diagnostic.html">原LaunchDesk复制调查</a></td>
+<td>找到空Error传递链；历史底层复制原因未恢复，原程序与实际SeaGend未修复/更新</td>
+</tr>
+</tbody>
+</table>
+<h2 id="-哪一份资料负责什么">⑤ 哪一份资料负责什么</h2>
+<p><a href="features/launch-by-profile.html">功能八股</a>是价值、操作、规则和设计的唯一正文；<a href="openspec/requirements.html">需求台账</a>负责ID、状态与规格定位；OpenSpec维护约束/场景；本页聚合交付边界；<a href="verification.html">验证页</a>按批次保存证据。三种手册入口只编排阅读和演练，不再维护第二份字段、接口或执行规则。</p>
+<h2 id="-面向谁从哪里开始">⑥ 面向谁，从哪里开始</h2>
+<p><a href="manuals/user.html">使用手册</a>解决准备、操作与失败；<a href="manuals/developer.html">开发手册</a>解决从功能找到实现；<a href="manuals/demo.html">核心演示</a>安排讲解、输入、预期和证据。各页沿用八节，链接回正文相同锚点。</p>
+<h2 id="-相比原launchdesk的提升与限度">⑦ 相比原LaunchDesk的提升与限度</h2>
+<table>
+<thead>
+<tr>
+<th>问题</th>
+<th>当前可见改进</th>
+<th>结论限制</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>为什么失败</td>
+<td>原版已观察到三次空Error；新快照边界有阶段、异常类型/HResult兜底，并关联记录</td>
+<td>尚未修复原版；不能称所有故障都已覆盖</td>
+</tr>
+<tr>
+<td>功能在哪里实现</td>
+<td>入口直接链接协调器、Monitor脚本、后勤接口和Windows实现</td>
+<td>属于可检查的查找路径改善，未做新手/熟手计时对照</td>
+</tr>
+<tr>
+<td>怎么用、哪些可用</td>
+<td>操作、来源、Created等状态含义集中；拟议与历史分开</td>
+<td>文档更明确不等于UI更美观或使用成功率已提高</td>
+</tr>
+<tr>
+<td>同一事实是否分叉</td>
+<td>Model/后端共用；手册引用唯一正文，包内共用DLL哈希验证</td>
+<td>未声称完整替代原产品全部功能</td>
+</tr>
+</tbody>
+</table>
+<p>当前收益主要是功能解释、查找与故障证据更明确。尚无用户研究支持“理解成本降低多少”或压缩率数值。</p>
+<h2 id="-元信息如何维护">⑧ 元信息如何维护</h2>
+<p>文档头统一记录document_kind、implementation_status、reviewed_on；状态取implemented/proposed/historical/mixed/navigation。implemented指页面所述范围，不能扩大解释。历史页保留当时日期与结论，顶部明确历史身份。verified_through仅表示引用证据日期，reviewed_on仅表示文字核对日期；本轮没有新运行证据。后续行为变更先改八股/规格，再改台账状态与证据引用，最后检查三类入口及DocFX链接。</p>
+<p>本轮<a href="evidence/documentation-review/verification.json">文档校验记录</a>记录元信息、三份八节入口与站点链接检查；它不是新增产品测试报告。</p>
+
+</article>
+
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span class="ld-footer-word">LAUNCHDESK.NEXT / KNOWLEDGE SYSTEM</span><span class="ld-footer-note">功能事实 · 源码路径 · 验证证据　/　DocFX</span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

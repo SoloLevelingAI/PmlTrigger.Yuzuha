@@ -1,0 +1,2271 @@
+{
+  "schemaVersion": 1,
+  "candidate": "archon",
+  "stage": "class-design-review",
+  "implementationApproved": false,
+  "records": [
+    {
+      "name": "WorkspaceSnapshot",
+      "contract": "Revision、Applications、Profiles、LicenseEndpoints、Tools、Templates；只读快照，集合不可由页面直接写入。"
+    },
+    {
+      "name": "ProfileDraft",
+      "contract": "ProfileId?、ApplicationId、Project、User、Mdb、Module、LicenseId、ToolIds；新增的 ID 由用例分配，密码不属于 DTO。"
+    },
+    {
+      "name": "ProfileSnapshot",
+      "contract": "ProfileId、Revision、DisplayFields、BindingStatus、CredentialStatus；供 UI 使用，不含密码和 CredentialRef。"
+    },
+    {
+      "name": "OperationId / Revision",
+      "contract": "稳定标识与乐观并发版本；不以名称或文件路径作为实体主键。"
+    },
+    {
+      "name": "LaunchPlan",
+      "contract": "PlanId、WorkspaceRevision、ApplicationId、Entrypoint、InitFile、WorkingDirectory、ArgumentTokens、EnvironmentOverlay、CredentialRef?；令牌中的 SecretSlot 只在执行端展开。"
+    },
+    {
+      "name": "RunSnapshot / RunEvent",
+      "contract": "OperationId、Sequence、Kind、Stage、Outcome、ReasonCode、Evidence、ObservedAtUtc；只含脱敏事实。"
+    },
+    {
+      "name": "ProbeSnapshot",
+      "contract": "ResourceId、ObservedAtUtc、ValidUntilUtc、LastConfirmedReadyUtc、ConsecutiveFailedRounds、State、Evidence；VM 存活、服务和端口证据分别存储。"
+    },
+    {
+      "name": "DeploymentPlan / ConfirmedPlan",
+      "contract": "PlanId、SourceDigest、WorkspaceRevision、CanonicalTargets、Diff、VariableChanges、BackupPolicy；ConfirmedPlan 绑定 PlanDigest，不能用 bool true 代替确认。 计划包含有限 Action=Install/Recover/Rollback；恢复动作关联 OriginalOperationId，必须重新预览并确认。"
+    },
+    {
+      "name": "DeploymentReceipt",
+      "contract": "OperationId、PlanDigest、WriteAheadEntries、BackupLocation、ActualChanges、RecoveryState；与 UI 任务日志不同，供写入恢复使用。"
+    },
+    {
+      "name": "VariableChangePlan",
+      "contract": "OldName、OldExpectedValue、NewName、NewValue、Scope、ExpectedTargetState；只读计划，执行前比较原值。"
+    },
+    {
+      "name": "ShareBundle / ImportProposal",
+      "contract": "分享数据与导入草稿分离；不含 CredentialRef、密码、回执、备份和本机变量应用状态。"
+    },
+    {
+      "name": "TransientSecret / SecretLease",
+      "contract": "进程内短生命期、可释放且不可序列化；尽量清理内存，不宣称能够消除托管字符串或目标应用命令行的全部可见风险。"
+    },
+    {
+      "name": "Result<T> / Error",
+      "contract": "Success 或 Code、SafeMessage、RetryHint、Evidence；业务错误结构化返回；取消使用 CancellationToken / OperationCanceledException，由用例边界映射为 Cancelled。"
+    },
+    {
+      "name": "TargetLease / TrackedProcess",
+      "contract": "IAsyncDisposable 句柄；释放观察或锁不代表结束目标应用。"
+    },
+    {
+      "name": "OperationRequest / OperationFact / OperationContext",
+      "contract": "仅 Archon 候选使用：有限 Kind、PlanRef、Revision 的请求；脱敏事实；由协调器提供的单次执行上下文。"
+    },
+    {
+      "name": "OperationRequestSnapshot",
+      "contract": "已接受的本机不可变执行快照：OperationId、Kind、WorkspaceRevision、冻结配置及 PlanSnapshot、PlanDigest；不含明文秘密，不直接提供给 UI/导出。PlanRef 是该快照内计划摘要引用，不指向页面内存。"
+    }
+  ],
+  "types": [
+    {
+      "id": "ICatalogService",
+      "kind": "interface",
+      "component": "contracts",
+      "project": "LaunchDesk.OperationContracts",
+      "namespace": "LaunchDesk.OperationContracts",
+      "file": "rewrite/LaunchDesk.OperationContracts/ICatalogService.cs",
+      "lifetime": "Contract",
+      "responsibility": "统一实体 ID、修订与配置关联，负责保存，不执行启动/部署。的公开边界",
+      "methods": [
+        {
+          "signature": "ValueTask<Result<WorkspaceSnapshot>> ReadAsync(CancellationToken ct)",
+          "behavior": "返回供 UI 读取的不可变快照，隐藏 CredentialRef。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        },
+        {
+          "signature": "ValueTask<Result<ProfileSnapshot>> SaveProfileAsync(ProfileDraft draft, SecretUpdate change, Revision expected, CancellationToken ct)",
+          "behavior": "校验引用；新秘密先存新引用，配置提交失败清理新引用，提交成功才清理无引用的旧凭据。",
+          "errors": "InvalidReference / RevisionConflict / CredentialWriteFailed；清理失败留下脱敏诊断，不能丢失原有效凭据。"
+        },
+        {
+          "signature": "ValueTask<Result<ProfileSnapshot>> CopyAsync(Guid sourceId, Revision expected, CancellationToken ct)",
+          "behavior": "分配新 ID，保留可编辑字段及本机关联，不复制秘密。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        },
+        {
+          "signature": "ValueTask<Result<Unit>> DeleteAsync(Guid profileId, Revision expected, CancellationToken ct)",
+          "behavior": "只删管理记录并核对关联；不卸载应用或删除工具文件。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        },
+        {
+          "signature": "ValueTask<Result<Revision>> SaveDefinitionAsync(DefinitionDraft draft, Revision expected, CancellationToken ct)",
+          "behavior": "只支持应用/许可/工具/模板等有限定义种类；变量定义保存不等于 Windows 应用。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        }
+      ],
+      "dependencies": [],
+      "implements": [],
+      "scenarios": [],
+      "forbidden": [],
+      "threading": "异步 IO 可取消；返回快照，不暴露具体实现。",
+      "audience": "ui"
+    },
+    {
+      "id": "WorkspaceCatalogService",
+      "kind": "class",
+      "component": "catalog",
+      "project": "LaunchDesk.UseCases",
+      "namespace": "LaunchDesk.UseCases.Catalog",
+      "file": "rewrite/LaunchDesk.UseCases/Catalog/WorkspaceCatalogService.cs",
+      "lifetime": "Singleton",
+      "responsibility": "统一实体 ID、修订与配置关联，负责保存，不执行启动/部署。",
+      "methods": [
+        {
+          "signature": "ValueTask<Result<WorkspaceSnapshot>> ReadAsync(CancellationToken ct)",
+          "behavior": "返回供 UI 读取的不可变快照，隐藏 CredentialRef。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        },
+        {
+          "signature": "ValueTask<Result<ProfileSnapshot>> SaveProfileAsync(ProfileDraft draft, SecretUpdate change, Revision expected, CancellationToken ct)",
+          "behavior": "校验引用；新秘密先存新引用，配置提交失败清理新引用，提交成功才清理无引用的旧凭据。",
+          "errors": "InvalidReference / RevisionConflict / CredentialWriteFailed；清理失败留下脱敏诊断，不能丢失原有效凭据。"
+        },
+        {
+          "signature": "ValueTask<Result<ProfileSnapshot>> CopyAsync(Guid sourceId, Revision expected, CancellationToken ct)",
+          "behavior": "分配新 ID，保留可编辑字段及本机关联，不复制秘密。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        },
+        {
+          "signature": "ValueTask<Result<Unit>> DeleteAsync(Guid profileId, Revision expected, CancellationToken ct)",
+          "behavior": "只删管理记录并核对关联；不卸载应用或删除工具文件。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        },
+        {
+          "signature": "ValueTask<Result<Revision>> SaveDefinitionAsync(DefinitionDraft draft, Revision expected, CancellationToken ct)",
+          "behavior": "只支持应用/许可/工具/模板等有限定义种类；变量定义保存不等于 Windows 应用。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        }
+      ],
+      "dependencies": [
+        {
+          "type": "IWorkspaceStore",
+          "mode": "constructor"
+        },
+        {
+          "type": "ISecretVault",
+          "mode": "constructor"
+        }
+      ],
+      "implements": [
+        "ICatalogService"
+      ],
+      "scenarios": [
+        "AR02",
+        "AR03",
+        "AR27"
+      ],
+      "forbidden": [
+        "不得保存明文密码、启动进程、部署文件或隐式应用变量。"
+      ],
+      "threading": "不保存当前页面/当前登录等请求级字段；共享状态显式同步。"
+    },
+    {
+      "id": "IConfigurationShareService",
+      "kind": "interface",
+      "component": "contracts",
+      "project": "LaunchDesk.OperationContracts",
+      "namespace": "LaunchDesk.OperationContracts",
+      "file": "rewrite/LaunchDesk.OperationContracts/IConfigurationShareService.cs",
+      "lifetime": "Contract",
+      "responsibility": "导出允许字段；导入先校验、重映射 ID 与本机路径，再显式提交配置。的公开边界",
+      "methods": [
+        {
+          "signature": "ValueTask<Result<ShareBundle>> ExportAsync(ShareSelection selection, CancellationToken ct)",
+          "behavior": "构造新的分享对象，不直接序列化本机完整配置。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        },
+        {
+          "signature": "ValueTask<Result<ImportProposal>> PreviewImportAsync(ShareBundle bundle, CancellationToken ct)",
+          "behavior": "生成待绑定草稿，不写系统或执行内容。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        },
+        {
+          "signature": "ValueTask<Result<Revision>> CommitAsync(ImportProposal proposal, Revision expected, CancellationToken ct)",
+          "behavior": "只保存已确认配置，不部署、启动或应用变量。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        }
+      ],
+      "dependencies": [],
+      "implements": [],
+      "scenarios": [],
+      "forbidden": [],
+      "threading": "异步 IO 可取消；返回快照，不暴露具体实现。",
+      "audience": "ui"
+    },
+    {
+      "id": "ConfigurationShareService",
+      "kind": "class",
+      "component": "catalog",
+      "project": "LaunchDesk.UseCases",
+      "namespace": "LaunchDesk.UseCases.Catalog",
+      "file": "rewrite/LaunchDesk.UseCases/Catalog/ConfigurationShareService.cs",
+      "lifetime": "Singleton",
+      "responsibility": "导出允许字段；导入先校验、重映射 ID 与本机路径，再显式提交配置。",
+      "methods": [
+        {
+          "signature": "ValueTask<Result<ShareBundle>> ExportAsync(ShareSelection selection, CancellationToken ct)",
+          "behavior": "构造新的分享对象，不直接序列化本机完整配置。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        },
+        {
+          "signature": "ValueTask<Result<ImportProposal>> PreviewImportAsync(ShareBundle bundle, CancellationToken ct)",
+          "behavior": "生成待绑定草稿，不写系统或执行内容。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        },
+        {
+          "signature": "ValueTask<Result<Revision>> CommitAsync(ImportProposal proposal, Revision expected, CancellationToken ct)",
+          "behavior": "只保存已确认配置，不部署、启动或应用变量。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        }
+      ],
+      "dependencies": [
+        {
+          "type": "IWorkspaceStore",
+          "mode": "constructor"
+        }
+      ],
+      "implements": [
+        "IConfigurationShareService"
+      ],
+      "scenarios": [
+        "AR19"
+      ],
+      "forbidden": [
+        "不得导出密码、凭据引用、任务记录、备份或变量应用状态。"
+      ],
+      "threading": "不保存当前页面/当前登录等请求级字段；共享状态显式同步。"
+    },
+    {
+      "id": "IResourceMonitor",
+      "kind": "interface",
+      "component": "contracts",
+      "project": "LaunchDesk.OperationContracts",
+      "namespace": "LaunchDesk.OperationContracts",
+      "file": "rewrite/LaunchDesk.OperationContracts/IResourceMonitor.cs",
+      "lifetime": "Contract",
+      "responsibility": "统一多资源的轮询、时效、有界复查与通知去重。的公开边界",
+      "methods": [
+        {
+          "signature": "ValueTask<Result<ProbeSnapshot>> RefreshAsync(Guid resourceId, CancellationToken ct)",
+          "behavior": "每轮最多三次，间隔 350ms，TCP 单次最多 2s；按已完成轮次计数。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        },
+        {
+          "signature": "ValueTask<Result<ProbeSnapshot>> RequireFreshAsync(Guid resourceId, CancellationToken ct)",
+          "behavior": "启动前确认未过期的成功证据，不能无限沿用旧 Ready。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        },
+        {
+          "signature": "IAsyncEnumerable<ProbeSnapshot> WatchAsync(CancellationToken ct)",
+          "behavior": "取消订阅只停止本订阅，不停止全局监测。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        }
+      ],
+      "dependencies": [],
+      "implements": [],
+      "scenarios": [],
+      "forbidden": [],
+      "threading": "异步 IO 可取消；返回快照，不暴露具体实现。",
+      "audience": "ui"
+    },
+    {
+      "id": "ResourceSupervisor",
+      "kind": "class",
+      "component": "supervisor",
+      "project": "LaunchDesk.UseCases",
+      "namespace": "LaunchDesk.UseCases.Resources",
+      "file": "rewrite/LaunchDesk.UseCases/Resources/ResourceSupervisor.cs",
+      "lifetime": "Singleton",
+      "responsibility": "统一多资源的轮询、时效、有界复查与通知去重。",
+      "methods": [
+        {
+          "signature": "ValueTask<Result<ProbeSnapshot>> RefreshAsync(Guid resourceId, CancellationToken ct)",
+          "behavior": "每轮最多三次，间隔 350ms，TCP 单次最多 2s；按已完成轮次计数。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        },
+        {
+          "signature": "ValueTask<Result<ProbeSnapshot>> RequireFreshAsync(Guid resourceId, CancellationToken ct)",
+          "behavior": "启动前确认未过期的成功证据，不能无限沿用旧 Ready。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        },
+        {
+          "signature": "IAsyncEnumerable<ProbeSnapshot> WatchAsync(CancellationToken ct)",
+          "behavior": "取消订阅只停止本订阅，不停止全局监测。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        }
+      ],
+      "dependencies": [
+        {
+          "type": "IResourceProbe",
+          "mode": "constructor"
+        },
+        {
+          "type": "ConnectionHealthPolicy",
+          "mode": "constructor"
+        }
+      ],
+      "implements": [
+        "IResourceMonitor"
+      ],
+      "scenarios": [
+        "AR05",
+        "AR06",
+        "AR07",
+        "AR08"
+      ],
+      "forbidden": [
+        "不得把端口成功当许可签出，或把端口失败称作虚拟机丢失。"
+      ],
+      "threading": "同资源单轮互斥，不同资源并发；应用退出取消轮询，不结束外部资源。"
+    },
+    {
+      "id": "ConnectionHealthPolicy",
+      "kind": "class",
+      "component": "kernel",
+      "project": "LaunchDesk.Kernel",
+      "namespace": "LaunchDesk.Kernel",
+      "file": "rewrite/LaunchDesk.Kernel/ConnectionHealthPolicy.cs",
+      "lifetime": "Stateless",
+      "responsibility": "纯函数计算复查、过期和恢复状态，独立保留 VM/服务/端口证据。",
+      "methods": [
+        {
+          "signature": "ProbeSnapshot Reduce(ProbeSnapshot previous, ProbeRound round, DateTimeOffset now)",
+          "behavior": "连续三轮失败通知一次，成功清零；只接受显式传入时间。",
+          "errors": "无 IO；无效观测产生 Unknown 和原因。"
+        }
+      ],
+      "dependencies": [],
+      "implements": [],
+      "scenarios": [
+        "AR05",
+        "AR06",
+        "AR07",
+        "AR08"
+      ],
+      "forbidden": [
+        "不得引用 UI、Windows、文件系统或编排框架。"
+      ],
+      "threading": "不保存当前页面/当前登录等请求级字段；共享状态显式同步。"
+    },
+    {
+      "id": "ProcessEnvironmentPolicy",
+      "kind": "class",
+      "component": "kernel",
+      "project": "LaunchDesk.Kernel",
+      "namespace": "LaunchDesk.Kernel",
+      "file": "rewrite/LaunchDesk.Kernel/ProcessEnvironmentPolicy.cs",
+      "lifetime": "Stateless",
+      "responsibility": "为每次启动创建新环境覆盖，保护许可变量，不修改父快照。",
+      "methods": [
+        {
+          "signature": "Result<EnvironmentOverlay> Build(EnvironmentSnapshot parent, LicenseBinding license, IReadOnlyList<ToolBinding> tools)",
+          "behavior": "工具变量先校验，再由本次许可填充专用变量；不调用全局 SetEnvironmentVariable。",
+          "errors": "ReservedVariable / DuplicateVariable / InvalidVariableName。"
+        }
+      ],
+      "dependencies": [],
+      "implements": [],
+      "scenarios": [
+        "AR05",
+        "AR18"
+      ],
+      "forbidden": [
+        "不得越过本类声明的 IO、权限或状态所有权边界。"
+      ],
+      "threading": "不保存当前页面/当前登录等请求级字段；共享状态显式同步。"
+    },
+    {
+      "id": "LaunchPlanBuilder",
+      "kind": "class",
+      "component": "launch-handler",
+      "project": "LaunchDesk.UseCases",
+      "namespace": "LaunchDesk.UseCases.Launch",
+      "file": "rewrite/LaunchDesk.UseCases/Launch/LaunchPlanBuilder.cs",
+      "lifetime": "Stateless",
+      "responsibility": "从冻结配置生成可变入口、初始化文件、参数令牌和子进程环境。",
+      "methods": [
+        {
+          "signature": "Result<LaunchPlan> Build(LaunchConfiguration snapshot, EnvironmentSnapshot parent)",
+          "behavior": "区分 mon、Marine 批处理、普通 EXE；SecretSlot 仅是占位，普通 EXE 用参数列表，cmd 专门编码。",
+          "errors": "MissingEntrypoint / MissingInitFile / InvalidArguments。"
+        }
+      ],
+      "dependencies": [
+        {
+          "type": "ProcessEnvironmentPolicy",
+          "mode": "constructor"
+        }
+      ],
+      "implements": [],
+      "scenarios": [
+        "AR02",
+        "AR03",
+        "AR27"
+      ],
+      "forbidden": [
+        "不得展开密码、启动应用、改写全局环境或猜测项目已登录。"
+      ],
+      "threading": "不保存当前页面/当前登录等请求级字段；共享状态显式同步。"
+    },
+    {
+      "id": "IOperationCommands",
+      "kind": "interface",
+      "component": "contracts",
+      "project": "LaunchDesk.OperationContracts",
+      "namespace": "LaunchDesk.OperationContracts",
+      "file": "rewrite/LaunchDesk.OperationContracts/IOperationCommands.cs",
+      "lifetime": "Contract",
+      "responsibility": "只管理任务外壳、意图、去重、取消和派发，业务规则在具体处理器。的公开边界",
+      "methods": [
+        {
+          "signature": "ValueTask<Result<OperationId>> SubmitAsync(OperationRequest request, CancellationToken ct)",
+          "behavior": "校验有限 Kind 和修订，登记意图，通过注册表创建操作级处理器与上下文。 ct 只控制提交阶段，接受后的任务令牌由应用持有，页面取消不结束任务。 受理前冻结配置与已确认 PlanSnapshot，调用 IRunJournal.AcceptAsync 持久化；PlanRef 不能引用页面内存。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        },
+        {
+          "signature": "ValueTask<Result<Unit>> CancelAsync(OperationId id, CancellationToken ct)",
+          "behavior": "取消控制令牌，按回执核对已发生事实，不伪报回滚完成。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        }
+      ],
+      "dependencies": [],
+      "implements": [],
+      "scenarios": [],
+      "forbidden": [],
+      "threading": "异步 IO 可取消；返回快照，不暴露具体实现。",
+      "audience": "ui"
+    },
+    {
+      "id": "OperationCoordinator",
+      "kind": "class",
+      "component": "coordinator",
+      "project": "LaunchDesk.UseCases",
+      "namespace": "LaunchDesk.UseCases.Operations",
+      "file": "rewrite/LaunchDesk.UseCases/Operations/OperationCoordinator.cs",
+      "lifetime": "Singleton",
+      "responsibility": "只管理任务外壳、意图、去重、取消和派发，业务规则在具体处理器。",
+      "methods": [
+        {
+          "signature": "ValueTask<Result<OperationId>> SubmitAsync(OperationRequest request, CancellationToken ct)",
+          "behavior": "校验有限 Kind 和修订，登记意图，通过注册表创建操作级处理器与上下文。 ct 只控制提交阶段，接受后的任务令牌由应用持有，页面取消不结束任务。 受理前冻结配置与已确认 PlanSnapshot，调用 IRunJournal.AcceptAsync 持久化；PlanRef 不能引用页面内存。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        },
+        {
+          "signature": "ValueTask<Result<Unit>> CancelAsync(OperationId id, CancellationToken ct)",
+          "behavior": "取消控制令牌，按回执核对已发生事实，不伪报回滚完成。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        }
+      ],
+      "dependencies": [
+        {
+          "type": "IRunJournal",
+          "mode": "constructor"
+        },
+        {
+          "type": "IOperationHandlerRegistry",
+          "mode": "constructor"
+        },
+        {
+          "type": "OperationExecutionContext",
+          "mode": "factory"
+        },
+        {
+          "type": "IWorkspaceStore",
+          "mode": "constructor"
+        }
+      ],
+      "implements": [
+        "IOperationCommands"
+      ],
+      "scenarios": [
+        "AR09",
+        "AR10",
+        "AR11"
+      ],
+      "forbidden": [
+        "不得直接依赖具体 Handler、平台实现、WPF 或 Aspire，不重放不确定动作。"
+      ],
+      "threading": "不保存当前页面/当前登录等请求级字段；共享状态显式同步。"
+    },
+    {
+      "id": "OperationStatePolicy",
+      "kind": "class",
+      "component": "kernel",
+      "project": "LaunchDesk.Kernel",
+      "namespace": "LaunchDesk.Kernel",
+      "file": "rewrite/LaunchDesk.Kernel/OperationStatePolicy.cs",
+      "lifetime": "Stateless",
+      "responsibility": "验证通用外壳和类型专属证据，不把 Completed 等同于项目已登录。",
+      "methods": [
+        {
+          "signature": "Result<RunSnapshot> Apply(RunSnapshot previous, OperationFact fact)",
+          "behavior": "只允许规定状态迁移；窗口和会话证据分开。",
+          "errors": "InvalidTransition / EvidenceMismatch。"
+        }
+      ],
+      "dependencies": [],
+      "implements": [],
+      "scenarios": [
+        "AR09",
+        "AR10",
+        "AR11",
+        "AR14",
+        "AR15",
+        "AR16",
+        "AR17",
+        "AR26"
+      ],
+      "forbidden": [
+        "不得越过本类声明的 IO、权限或状态所有权边界。"
+      ],
+      "threading": "不保存当前页面/当前登录等请求级字段；共享状态显式同步。"
+    },
+    {
+      "id": "OperationExecutionContext",
+      "kind": "class",
+      "component": "coordinator",
+      "project": "LaunchDesk.UseCases",
+      "namespace": "LaunchDesk.UseCases.Operations",
+      "file": "rewrite/LaunchDesk.UseCases/Operations/OperationExecutionContext.cs",
+      "lifetime": "Operation",
+      "responsibility": "单次任务的事实入口，校验序号和迁移后写入唯一任务日志。",
+      "methods": [
+        {
+          "signature": "ValueTask<Result<RunSnapshot>> ReportAsync(OperationFact fact, CancellationToken ct)",
+          "behavior": "调用纯状态策略再按 expected sequence 追加；处理器不得直接改日志。",
+          "errors": "InvalidTransition / SequenceConflict；无法提交事实则停止后续副作用并标待核对。"
+        },
+        {
+          "signature": "ValueTask DisposeAsync()",
+          "behavior": "释放本次订阅和控制资源，不结束用户程序。",
+          "errors": "重复释放安全。"
+        }
+      ],
+      "dependencies": [
+        {
+          "type": "IRunJournal",
+          "mode": "constructor"
+        },
+        {
+          "type": "OperationStatePolicy",
+          "mode": "constructor"
+        }
+      ],
+      "implements": [
+        "IOperationContext"
+      ],
+      "scenarios": [
+        "AR09",
+        "AR10",
+        "AR11"
+      ],
+      "forbidden": [
+        "不得越过本类声明的 IO、权限或状态所有权边界。"
+      ],
+      "threading": "每个 OperationId 独立实例，单写者变更；释放只影响本次。"
+    },
+    {
+      "id": "IOperationHandlerRegistry",
+      "kind": "interface",
+      "component": "contracts",
+      "project": "LaunchDesk.OperationContracts",
+      "namespace": "LaunchDesk.OperationContracts",
+      "file": "rewrite/LaunchDesk.OperationContracts/IOperationHandlerRegistry.cs",
+      "lifetime": "Contract",
+      "responsibility": "唯一把有限操作种类映射到具体处理器工厂的位置。的公开边界",
+      "methods": [
+        {
+          "signature": "Result<HandlerLease> Create(OperationKind kind)",
+          "behavior": "支持 Launch / Deploy / ApplyVariables / ImportConfiguration，每次返回带独立依赖作用域的租约。",
+          "errors": "UnsupportedOperationKind；禁止反射任意类型或动态加载 DLL。"
+        }
+      ],
+      "dependencies": [],
+      "implements": [],
+      "scenarios": [],
+      "forbidden": [],
+      "threading": "异步 IO 可取消；返回快照，不暴露具体实现。",
+      "audience": "application"
+    },
+    {
+      "id": "OperationHandlerRegistry",
+      "kind": "class",
+      "component": "bootstrap",
+      "project": "LaunchDesk.Desktop",
+      "namespace": "LaunchDesk.Desktop.Bootstrap",
+      "file": "rewrite/LaunchDesk.Desktop/Bootstrap/OperationHandlerRegistry.cs",
+      "lifetime": "Singleton",
+      "responsibility": "唯一把有限操作种类映射到具体处理器工厂的位置。",
+      "methods": [
+        {
+          "signature": "Result<HandlerLease> Create(OperationKind kind)",
+          "behavior": "支持 Launch / Deploy / ApplyVariables / ImportConfiguration，每次返回带独立依赖作用域的租约。",
+          "errors": "UnsupportedOperationKind；禁止反射任意类型或动态加载 DLL。"
+        }
+      ],
+      "dependencies": [
+        {
+          "type": "LaunchOperationHandler",
+          "mode": "factory"
+        },
+        {
+          "type": "DeliveryOperationHandler",
+          "mode": "factory"
+        },
+        {
+          "type": "VariableOperationHandler",
+          "mode": "factory"
+        },
+        {
+          "type": "ImportConfigurationHandler",
+          "mode": "factory"
+        }
+      ],
+      "implements": [
+        "IOperationHandlerRegistry"
+      ],
+      "scenarios": [
+        "AR24",
+        "AR25"
+      ],
+      "forbidden": [
+        "不得越过本类声明的 IO、权限或状态所有权边界。"
+      ],
+      "threading": "不保存当前页面/当前登录等请求级字段；共享状态显式同步。",
+      "audience": "application"
+    },
+    {
+      "id": "IOperationHandler",
+      "kind": "interface",
+      "component": "contracts",
+      "project": "LaunchDesk.OperationContracts",
+      "namespace": "LaunchDesk.OperationContracts",
+      "file": "rewrite/LaunchDesk.OperationContracts/IOperationHandler.cs",
+      "lifetime": "Contract",
+      "audience": "application",
+      "responsibility": "有限操作处理器协议",
+      "methods": [
+        {
+          "signature": "ValueTask<Result<HandlerOutcome>> ExecuteAsync(OperationRequest request, IOperationContext context, CancellationToken ct)",
+          "behavior": "核对 Kind，通过上下文报告事实，不直接写协调器日志。",
+          "errors": "WrongOperationKind / InvalidPlan。"
+        }
+      ],
+      "dependencies": [],
+      "implements": [],
+      "scenarios": [],
+      "forbidden": [],
+      "threading": "每任务实例，不捕获页面；取消只影响本次。"
+    },
+    {
+      "id": "LaunchOperationHandler",
+      "kind": "class",
+      "component": "launch-handler",
+      "project": "LaunchDesk.UseCases",
+      "namespace": "LaunchDesk.UseCases.Launch",
+      "file": "rewrite/LaunchDesk.UseCases/Launch/LaunchOperationHandler.cs",
+      "lifetime": "Operation",
+      "responsibility": "只处理 Launch 种类的真实启动与证据观察。",
+      "methods": [
+        {
+          "signature": "ValueTask<Result<HandlerOutcome>> ExecuteAsync(OperationRequest request, IOperationContext context, CancellationToken ct)",
+          "behavior": "构建计划，检查新鲜资源，短暂解析秘密；入口交接、窗口、会话和退出分别经上下文报告；90 秒未确认，观察最多 5 分钟。 用 IProcessGateway.CaptureEnvironment 取得独立环境快照，先构建计划，再执行；绝不复用上一任务的覆盖字典。 五分钟上限只适用于未观察到窗口的阶段；已出现关联窗口则持续观察进程直到 Exited 或显式停止。",
+          "errors": "WrongOperationKind / PlanExpired / PermissionDenied / Indeterminate；不自动重放副作用。"
+        }
+      ],
+      "dependencies": [
+        {
+          "type": "LaunchPlanBuilder",
+          "mode": "constructor"
+        },
+        {
+          "type": "IResourceMonitor",
+          "mode": "constructor"
+        },
+        {
+          "type": "ISecretVault",
+          "mode": "constructor"
+        },
+        {
+          "type": "IProcessGateway",
+          "mode": "constructor"
+        }
+      ],
+      "implements": [
+        "IOperationHandler"
+      ],
+      "scenarios": [
+        "AR09",
+        "AR10",
+        "AR11",
+        "AR04"
+      ],
+      "forbidden": [
+        "不得直接追加协调器日志、把窗口当登录成功或在取消/释放时 Kill 用户应用。"
+      ],
+      "threading": "每个 OperationId 独立实例，单写者变更；释放只影响本次。"
+    },
+    {
+      "id": "DeliveryOperationHandler",
+      "kind": "class",
+      "component": "delivery-handler",
+      "project": "LaunchDesk.UseCases",
+      "namespace": "LaunchDesk.UseCases.Delivery",
+      "file": "rewrite/LaunchDesk.UseCases/Delivery/DeliveryOperationHandler.cs",
+      "lifetime": "Operation",
+      "responsibility": "只处理 Deploy/恢复/回滚的有限计划动作，不拥有另一份任务状态。",
+      "methods": [
+        {
+          "signature": "ValueTask<Result<HandlerOutcome>> ExecuteAsync(OperationRequest request, IOperationContext context, CancellationToken ct)",
+          "behavior": "取得真实目标租约，重验确认摘要，执行受控写入，回执用于恢复，事实通过上下文报告。",
+          "errors": "WrongOperationKind / PlanExpired / PermissionDenied / Indeterminate；不自动重放副作用。"
+        }
+      ],
+      "dependencies": [
+        {
+          "type": "IFileDeliveryPort",
+          "mode": "constructor"
+        },
+        {
+          "type": "ITargetLeaseProvider",
+          "mode": "constructor"
+        },
+        {
+          "type": "IPrivilegeBroker",
+          "mode": "constructor"
+        }
+      ],
+      "implements": [
+        "IOperationHandler"
+      ],
+      "scenarios": [
+        "AR14",
+        "AR15",
+        "AR16",
+        "AR17",
+        "AR26"
+      ],
+      "forbidden": [
+        "不得跳过目标租约/计划重验、直接修改任务外壳或自动重放中断写入。"
+      ],
+      "threading": "每个 OperationId 独立实例，单写者变更；释放只影响本次。"
+    },
+    {
+      "id": "VariableOperationHandler",
+      "kind": "class",
+      "component": "delivery-handler",
+      "project": "LaunchDesk.UseCases",
+      "namespace": "LaunchDesk.UseCases.Delivery",
+      "file": "rewrite/LaunchDesk.UseCases/Delivery/VariableOperationHandler.cs",
+      "lifetime": "Operation",
+      "responsibility": "处理显式确认的持久变量应用，配置保存与进程注入另行负责。",
+      "methods": [
+        {
+          "signature": "ValueTask<Result<HandlerOutcome>> ExecuteAsync(OperationRequest request, IOperationContext context, CancellationToken ct)",
+          "behavior": "核对原值、新名、作用域及保留变量，系统范围按需提权；上下文只收到脱敏结果。",
+          "errors": "WrongOperationKind / PlanExpired / PermissionDenied / Indeterminate；不自动重放副作用。"
+        }
+      ],
+      "dependencies": [
+        {
+          "type": "IEnvironmentStore",
+          "mode": "constructor"
+        },
+        {
+          "type": "IPrivilegeBroker",
+          "mode": "constructor"
+        }
+      ],
+      "implements": [
+        "IOperationHandler"
+      ],
+      "scenarios": [
+        "AR18"
+      ],
+      "forbidden": [
+        "不得越过本类声明的 IO、权限或状态所有权边界。"
+      ],
+      "threading": "每个 OperationId 独立实例，单写者变更；释放只影响本次。"
+    },
+    {
+      "id": "ImportConfigurationHandler",
+      "kind": "class",
+      "component": "catalog",
+      "project": "LaunchDesk.UseCases",
+      "namespace": "LaunchDesk.UseCases.Catalog",
+      "file": "rewrite/LaunchDesk.UseCases/Catalog/ImportConfigurationHandler.cs",
+      "lifetime": "Operation",
+      "responsibility": "仅提交已审阅的导入提案。",
+      "methods": [
+        {
+          "signature": "ValueTask<Result<HandlerOutcome>> ExecuteAsync(OperationRequest request, IOperationContext context, CancellationToken ct)",
+          "behavior": "调用分享契约提交配置，不启动、部署或写 Windows 变量。",
+          "errors": "WrongOperationKind / PlanExpired / PermissionDenied / Indeterminate；不自动重放副作用。"
+        }
+      ],
+      "dependencies": [
+        {
+          "type": "IConfigurationShareService",
+          "mode": "constructor"
+        }
+      ],
+      "implements": [
+        "IOperationHandler"
+      ],
+      "scenarios": [
+        "AR19",
+        "AR27"
+      ],
+      "forbidden": [
+        "不得越过本类声明的 IO、权限或状态所有权边界。"
+      ],
+      "threading": "每个 OperationId 独立实例，单写者变更；释放只影响本次。"
+    },
+    {
+      "id": "IToolSourceCatalog",
+      "kind": "interface",
+      "component": "contracts",
+      "project": "LaunchDesk.OperationContracts",
+      "namespace": "LaunchDesk.OperationContracts",
+      "file": "rewrite/LaunchDesk.OperationContracts/IToolSourceCatalog.cs",
+      "lifetime": "Contract",
+      "responsibility": "来源刷新和选择策略；扫描/预览不执行内容。的公开边界",
+      "methods": [
+        {
+          "signature": "ValueTask<Result<SourceCatalog>> RefreshAsync(SourceQuery query, SourceSelection current, RefreshIntent intent, CancellationToken ct)",
+          "behavior": "KeepSelection 保留仍有效旧版；SelectNewest 重新扫描完整 ZIP / 7z 并按修改时间选择。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        },
+        {
+          "signature": "ValueTask<Result<SourceSnapshot>> InspectAsync(PackageSource source, CancellationToken ct)",
+          "behavior": "支持目录、普通文件与映射，不要求先压缩。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        }
+      ],
+      "dependencies": [],
+      "implements": [],
+      "scenarios": [],
+      "forbidden": [],
+      "threading": "异步 IO 可取消；返回快照，不暴露具体实现。",
+      "audience": "ui"
+    },
+    {
+      "id": "ToolSourceCatalog",
+      "kind": "class",
+      "component": "delivery-handler",
+      "project": "LaunchDesk.UseCases",
+      "namespace": "LaunchDesk.UseCases.Delivery",
+      "file": "rewrite/LaunchDesk.UseCases/Delivery/ToolSourceCatalog.cs",
+      "lifetime": "Singleton",
+      "responsibility": "来源刷新和选择策略；扫描/预览不执行内容。",
+      "methods": [
+        {
+          "signature": "ValueTask<Result<SourceCatalog>> RefreshAsync(SourceQuery query, SourceSelection current, RefreshIntent intent, CancellationToken ct)",
+          "behavior": "KeepSelection 保留仍有效旧版；SelectNewest 重新扫描完整 ZIP / 7z 并按修改时间选择。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        },
+        {
+          "signature": "ValueTask<Result<SourceSnapshot>> InspectAsync(PackageSource source, CancellationToken ct)",
+          "behavior": "支持目录、普通文件与映射，不要求先压缩。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        }
+      ],
+      "dependencies": [
+        {
+          "type": "IPackageReader",
+          "mode": "constructor"
+        }
+      ],
+      "implements": [
+        "IToolSourceCatalog"
+      ],
+      "scenarios": [
+        "AR12",
+        "AR13"
+      ],
+      "forbidden": [
+        "不得在刷新/选择时保存工具定义、部署文件或执行来源内容。"
+      ],
+      "threading": "不保存当前页面/当前登录等请求级字段；共享状态显式同步。"
+    },
+    {
+      "id": "DeploymentPlanner",
+      "kind": "class",
+      "component": "delivery-handler",
+      "project": "LaunchDesk.UseCases",
+      "namespace": "LaunchDesk.UseCases.Delivery",
+      "file": "rewrite/LaunchDesk.UseCases/Delivery/DeploymentPlanner.cs",
+      "lifetime": "Stateless",
+      "responsibility": "生成只读部署计划，绑定来源摘要、真实目标、修订、差异和备份策略。",
+      "methods": [
+        {
+          "signature": "ValueTask<Result<DeploymentPlan>> PreviewAsync(DeployRequest request, CancellationToken ct)",
+          "behavior": "检查路径穿越、映射、目标与记录根；计算 PlanDigest，不写入。",
+          "errors": "UnsafeArchiveEntry / SourceUnavailable / TargetUnavailable / InvalidPath。"
+        },
+        {
+          "signature": "ValueTask<Result<DeploymentPlan>> PreviewRecoveryAsync(RecoveryRequest request, CancellationToken ct)",
+          "behavior": "读取原回执并检查外部修改，生成 Action=Recover/Rollback 且关联 OriginalOperationId 的只读计划。",
+          "errors": "ReceiptNotFound / BackupUnavailable / RollbackConflict。"
+        }
+      ],
+      "dependencies": [
+        {
+          "type": "IPackageReader",
+          "mode": "constructor"
+        },
+        {
+          "type": "IFileDeliveryPort",
+          "mode": "constructor"
+        }
+      ],
+      "implements": [
+        "IDeploymentPlanningService"
+      ],
+      "scenarios": [
+        "AR12",
+        "AR13",
+        "AR14",
+        "AR15",
+        "AR16",
+        "AR17",
+        "AR26"
+      ],
+      "forbidden": [
+        "不得为预览写目标、请求 UAC 或执行来源程序。"
+      ],
+      "threading": "不保存当前页面/当前登录等请求级字段；共享状态显式同步。"
+    },
+    {
+      "id": "IWorkspaceStore",
+      "kind": "interface",
+      "component": "contracts",
+      "project": "LaunchDesk.OperationContracts",
+      "namespace": "LaunchDesk.OperationContracts",
+      "file": "rewrite/LaunchDesk.OperationContracts/IWorkspaceStore.cs",
+      "lifetime": "Contract",
+      "responsibility": "旧格式兼容读取、修订比较、锁、备份和原子保存。的公开边界",
+      "methods": [
+        {
+          "signature": "ValueTask<Result<WorkspaceSnapshotInternal>> ReadAsync(CancellationToken ct)",
+          "behavior": "损坏、缺失和空配置分开报告，不静默创建伪造数据。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        },
+        {
+          "signature": "ValueTask<Result<Revision>> CommitAsync(WorkspaceChange change, Revision expected, CancellationToken ct)",
+          "behavior": "保留 ID、关联、凭据引用和历史根，失败保留原有效文件。",
+          "errors": "RevisionConflict / StoreUnavailable / MigrationFailed。"
+        }
+      ],
+      "dependencies": [],
+      "implements": [],
+      "scenarios": [],
+      "forbidden": [],
+      "threading": "异步 IO 可取消；返回快照，不暴露具体实现。",
+      "audience": "application"
+    },
+    {
+      "id": "JsonWorkspaceStore",
+      "kind": "class",
+      "component": "storage",
+      "project": "LaunchDesk.Windows",
+      "namespace": "LaunchDesk.Windows.Storage",
+      "file": "rewrite/LaunchDesk.Windows/Storage/JsonWorkspaceStore.cs",
+      "lifetime": "Singleton",
+      "responsibility": "旧格式兼容读取、修订比较、锁、备份和原子保存。",
+      "methods": [
+        {
+          "signature": "ValueTask<Result<WorkspaceSnapshotInternal>> ReadAsync(CancellationToken ct)",
+          "behavior": "损坏、缺失和空配置分开报告，不静默创建伪造数据。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        },
+        {
+          "signature": "ValueTask<Result<Revision>> CommitAsync(WorkspaceChange change, Revision expected, CancellationToken ct)",
+          "behavior": "保留 ID、关联、凭据引用和历史根，失败保留原有效文件。",
+          "errors": "RevisionConflict / StoreUnavailable / MigrationFailed。"
+        }
+      ],
+      "dependencies": [
+        {
+          "type": "IWorkspaceLocationResolver",
+          "mode": "constructor"
+        }
+      ],
+      "implements": [
+        "IWorkspaceStore"
+      ],
+      "scenarios": [
+        "AR20",
+        "AR21",
+        "AR22"
+      ],
+      "forbidden": [
+        "不得调用页面、决定项目已登录或扩大请求权限；秘密不能被序列化。"
+      ],
+      "threading": "不保存当前页面/当前登录等请求级字段；共享状态显式同步。",
+      "audience": "application"
+    },
+    {
+      "id": "IWorkspaceLocationResolver",
+      "kind": "interface",
+      "component": "contracts",
+      "project": "LaunchDesk.OperationContracts",
+      "namespace": "LaunchDesk.OperationContracts",
+      "file": "rewrite/LaunchDesk.OperationContracts/IWorkspaceLocationResolver.cs",
+      "lifetime": "Contract",
+      "responsibility": "显式 --config、portable、默认目录的唯一解析与打开入口。的公开边界",
+      "methods": [
+        {
+          "signature": "Result<WorkspaceLocation> Resolve(StartupOptions options, string executableDirectory)",
+          "behavior": "按优先级选择；相对 portable 路径基于 EXE，不受工作目录影响。",
+          "errors": "InvalidLocation / AccessDenied，不静默切换另一个空工作空间。"
+        },
+        {
+          "signature": "ValueTask<Result<Unit>> OpenDirectoryAsync(WorkspaceLocation location, CancellationToken ct)",
+          "behavior": "创建缺失目录并以目录对象打开，不伪造配置。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        }
+      ],
+      "dependencies": [],
+      "implements": [],
+      "scenarios": [],
+      "forbidden": [],
+      "threading": "异步 IO 可取消；返回快照，不暴露具体实现。",
+      "audience": "application"
+    },
+    {
+      "id": "WorkspaceLocationResolver",
+      "kind": "class",
+      "component": "storage",
+      "project": "LaunchDesk.Windows",
+      "namespace": "LaunchDesk.Windows.Storage",
+      "file": "rewrite/LaunchDesk.Windows/Storage/WorkspaceLocationResolver.cs",
+      "lifetime": "Singleton",
+      "responsibility": "显式 --config、portable、默认目录的唯一解析与打开入口。",
+      "methods": [
+        {
+          "signature": "Result<WorkspaceLocation> Resolve(StartupOptions options, string executableDirectory)",
+          "behavior": "按优先级选择；相对 portable 路径基于 EXE，不受工作目录影响。",
+          "errors": "InvalidLocation / AccessDenied，不静默切换另一个空工作空间。"
+        },
+        {
+          "signature": "ValueTask<Result<Unit>> OpenDirectoryAsync(WorkspaceLocation location, CancellationToken ct)",
+          "behavior": "创建缺失目录并以目录对象打开，不伪造配置。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        }
+      ],
+      "dependencies": [],
+      "implements": [
+        "IWorkspaceLocationResolver"
+      ],
+      "scenarios": [
+        "AR20",
+        "AR21",
+        "AR22"
+      ],
+      "forbidden": [
+        "不得调用页面、决定项目已登录或扩大请求权限；秘密不能被序列化。"
+      ],
+      "threading": "不保存当前页面/当前登录等请求级字段；共享状态显式同步。",
+      "audience": "application"
+    },
+    {
+      "id": "ISecretVault",
+      "kind": "interface",
+      "component": "contracts",
+      "project": "LaunchDesk.OperationContracts",
+      "namespace": "LaunchDesk.OperationContracts",
+      "file": "rewrite/LaunchDesk.OperationContracts/ISecretVault.cs",
+      "lifetime": "Contract",
+      "responsibility": "隔离 Windows 凭据 API，秘密只在本机短暂取得。的公开边界",
+      "methods": [
+        {
+          "signature": "ValueTask<Result<CredentialRef>> StoreNewAsync(TransientSecret secret, CancellationToken ct)",
+          "behavior": "新建引用，不原地覆盖有效旧引用。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        },
+        {
+          "signature": "ValueTask<Result<SecretLease>> ResolveAsync(CredentialRef reference, CancellationToken ct)",
+          "behavior": "返回可释放租约，不回填页面或进入日志。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        },
+        {
+          "signature": "ValueTask<Result<Unit>> DeleteAsync(CredentialRef unreferenced, CancellationToken ct)",
+          "behavior": "仅清理已确认无引用凭据。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        }
+      ],
+      "dependencies": [],
+      "implements": [],
+      "scenarios": [],
+      "forbidden": [],
+      "threading": "异步 IO 可取消；返回快照，不暴露具体实现。",
+      "audience": "application"
+    },
+    {
+      "id": "WindowsSecretVault",
+      "kind": "class",
+      "component": "platform",
+      "project": "LaunchDesk.Windows",
+      "namespace": "LaunchDesk.Windows",
+      "file": "rewrite/LaunchDesk.Windows/WindowsSecretVault.cs",
+      "lifetime": "Singleton",
+      "responsibility": "隔离 Windows 凭据 API，秘密只在本机短暂取得。",
+      "methods": [
+        {
+          "signature": "ValueTask<Result<CredentialRef>> StoreNewAsync(TransientSecret secret, CancellationToken ct)",
+          "behavior": "新建引用，不原地覆盖有效旧引用。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        },
+        {
+          "signature": "ValueTask<Result<SecretLease>> ResolveAsync(CredentialRef reference, CancellationToken ct)",
+          "behavior": "返回可释放租约，不回填页面或进入日志。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        },
+        {
+          "signature": "ValueTask<Result<Unit>> DeleteAsync(CredentialRef unreferenced, CancellationToken ct)",
+          "behavior": "仅清理已确认无引用凭据。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        }
+      ],
+      "dependencies": [],
+      "implements": [
+        "ISecretVault"
+      ],
+      "scenarios": [
+        "AR04"
+      ],
+      "forbidden": [
+        "不得调用页面、决定项目已登录或扩大请求权限；秘密不能被序列化。"
+      ],
+      "threading": "不保存当前页面/当前登录等请求级字段；共享状态显式同步。",
+      "audience": "application"
+    },
+    {
+      "id": "IProcessGateway",
+      "kind": "interface",
+      "component": "contracts",
+      "project": "LaunchDesk.OperationContracts",
+      "namespace": "LaunchDesk.OperationContracts",
+      "file": "rewrite/LaunchDesk.OperationContracts/IProcessGateway.cs",
+      "lifetime": "Contract",
+      "responsibility": "执行结构化进程规格，观测子进程和窗口；不作项目成功判定。的公开边界",
+      "methods": [
+        {
+          "signature": "Result<EnvironmentSnapshot> CaptureEnvironment()",
+          "behavior": "返回父进程环境的独立只读副本；不修改或缓存为下一次启动的可变全局环境。",
+          "errors": "EnvironmentUnavailable。"
+        },
+        {
+          "signature": "ValueTask<Result<TrackedProcess>> StartAsync(LaunchPlan plan, SecretLease? secret, CancellationToken ct)",
+          "behavior": "仅执行时展开 SecretSlot，应用子进程变量，返回观察句柄。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        },
+        {
+          "signature": "IAsyncEnumerable<ProcessEvidence> ObserveAsync(TrackedProcess process, CancellationToken ct)",
+          "behavior": "报告入口、子进程、窗口、退出；取消观察不能 Kill。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        }
+      ],
+      "dependencies": [],
+      "implements": [],
+      "scenarios": [],
+      "forbidden": [],
+      "threading": "异步 IO 可取消；返回快照，不暴露具体实现。",
+      "audience": "application"
+    },
+    {
+      "id": "WindowsProcessGateway",
+      "kind": "class",
+      "component": "platform",
+      "project": "LaunchDesk.Windows",
+      "namespace": "LaunchDesk.Windows",
+      "file": "rewrite/LaunchDesk.Windows/WindowsProcessGateway.cs",
+      "lifetime": "Singleton",
+      "responsibility": "执行结构化进程规格，观测子进程和窗口；不作项目成功判定。",
+      "methods": [
+        {
+          "signature": "Result<EnvironmentSnapshot> CaptureEnvironment()",
+          "behavior": "返回父进程环境的独立只读副本；不修改或缓存为下一次启动的可变全局环境。",
+          "errors": "EnvironmentUnavailable。"
+        },
+        {
+          "signature": "ValueTask<Result<TrackedProcess>> StartAsync(LaunchPlan plan, SecretLease? secret, CancellationToken ct)",
+          "behavior": "仅执行时展开 SecretSlot，应用子进程变量，返回观察句柄。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        },
+        {
+          "signature": "IAsyncEnumerable<ProcessEvidence> ObserveAsync(TrackedProcess process, CancellationToken ct)",
+          "behavior": "报告入口、子进程、窗口、退出；取消观察不能 Kill。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        }
+      ],
+      "dependencies": [],
+      "implements": [
+        "IProcessGateway"
+      ],
+      "scenarios": [
+        "AR09",
+        "AR10",
+        "AR11"
+      ],
+      "forbidden": [
+        "不得调用页面、决定项目已登录或扩大请求权限；秘密不能被序列化。"
+      ],
+      "threading": "不保存当前页面/当前登录等请求级字段；共享状态显式同步。",
+      "audience": "application"
+    },
+    {
+      "id": "IResourceProbe",
+      "kind": "interface",
+      "component": "contracts",
+      "project": "LaunchDesk.OperationContracts",
+      "namespace": "LaunchDesk.OperationContracts",
+      "file": "rewrite/LaunchDesk.OperationContracts/IResourceProbe.cs",
+      "lifetime": "Contract",
+      "responsibility": "每次只探测一次 TCP、本机服务或 VMware 进程并返回分项证据。的公开边界",
+      "methods": [
+        {
+          "signature": "ValueTask<Result<ProbeObservation>> ObserveAsync(ResourceDescriptor resource, CancellationToken ct)",
+          "behavior": "提供可达性证据；重试与通知由资源服务负责。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        }
+      ],
+      "dependencies": [],
+      "implements": [],
+      "scenarios": [],
+      "forbidden": [],
+      "threading": "异步 IO 可取消；返回快照，不暴露具体实现。",
+      "audience": "application"
+    },
+    {
+      "id": "WindowsResourceProbe",
+      "kind": "class",
+      "component": "platform",
+      "project": "LaunchDesk.Windows",
+      "namespace": "LaunchDesk.Windows",
+      "file": "rewrite/LaunchDesk.Windows/WindowsResourceProbe.cs",
+      "lifetime": "Singleton",
+      "responsibility": "每次只探测一次 TCP、本机服务或 VMware 进程并返回分项证据。",
+      "methods": [
+        {
+          "signature": "ValueTask<Result<ProbeObservation>> ObserveAsync(ResourceDescriptor resource, CancellationToken ct)",
+          "behavior": "提供可达性证据；重试与通知由资源服务负责。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        }
+      ],
+      "dependencies": [],
+      "implements": [
+        "IResourceProbe"
+      ],
+      "scenarios": [
+        "AR05",
+        "AR06",
+        "AR07",
+        "AR08"
+      ],
+      "forbidden": [
+        "不得调用页面、决定项目已登录或扩大请求权限；秘密不能被序列化。"
+      ],
+      "threading": "不保存当前页面/当前登录等请求级字段；共享状态显式同步。",
+      "audience": "application"
+    },
+    {
+      "id": "IPackageReader",
+      "kind": "interface",
+      "component": "contracts",
+      "project": "LaunchDesk.OperationContracts",
+      "namespace": "LaunchDesk.OperationContracts",
+      "file": "rewrite/LaunchDesk.OperationContracts/IPackageReader.cs",
+      "lifetime": "Contract",
+      "responsibility": "只读发现和读取 ZIP / 7z、目录及文件映射。的公开边界",
+      "methods": [
+        {
+          "signature": "ValueTask<Result<SourceCatalog>> DiscoverAsync(SourceQuery query, CancellationToken ct)",
+          "behavior": "只列完整候选，排除下载中临时文件。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        },
+        {
+          "signature": "ValueTask<Result<SourceSnapshot>> InspectAsync(PackageSource source, CancellationToken ct)",
+          "behavior": "校验条目路径、映射和摘要；禁止执行载荷。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        }
+      ],
+      "dependencies": [],
+      "implements": [],
+      "scenarios": [],
+      "forbidden": [],
+      "threading": "异步 IO 可取消；返回快照，不暴露具体实现。",
+      "audience": "application"
+    },
+    {
+      "id": "PackageReader",
+      "kind": "class",
+      "component": "platform",
+      "project": "LaunchDesk.Windows",
+      "namespace": "LaunchDesk.Windows",
+      "file": "rewrite/LaunchDesk.Windows/PackageReader.cs",
+      "lifetime": "Singleton",
+      "responsibility": "只读发现和读取 ZIP / 7z、目录及文件映射。",
+      "methods": [
+        {
+          "signature": "ValueTask<Result<SourceCatalog>> DiscoverAsync(SourceQuery query, CancellationToken ct)",
+          "behavior": "只列完整候选，排除下载中临时文件。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        },
+        {
+          "signature": "ValueTask<Result<SourceSnapshot>> InspectAsync(PackageSource source, CancellationToken ct)",
+          "behavior": "校验条目路径、映射和摘要；禁止执行载荷。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        }
+      ],
+      "dependencies": [],
+      "implements": [
+        "IPackageReader"
+      ],
+      "scenarios": [
+        "AR12",
+        "AR13"
+      ],
+      "forbidden": [
+        "不得调用页面、决定项目已登录或扩大请求权限；秘密不能被序列化。"
+      ],
+      "threading": "不保存当前页面/当前登录等请求级字段；共享状态显式同步。",
+      "audience": "application"
+    },
+    {
+      "id": "IFileDeliveryPort",
+      "kind": "interface",
+      "component": "contracts",
+      "project": "LaunchDesk.OperationContracts",
+      "namespace": "LaunchDesk.OperationContracts",
+      "file": "rewrite/LaunchDesk.OperationContracts/IFileDeliveryPort.cs",
+      "lifetime": "Contract",
+      "responsibility": "目标检查和有限文件写入；文件回执与任务日志分开。的公开边界",
+      "methods": [
+        {
+          "signature": "ValueTask<Result<TargetSnapshot>> InspectTargetAsync(TargetSpec target, CancellationToken ct)",
+          "behavior": "解析真实路径，返回只读差异依据。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        },
+        {
+          "signature": "ValueTask<Result<DeploymentReceipt>> ApplyAsync(ConfirmedPlan plan, TargetLease lease, CancellationToken ct)",
+          "behavior": "核对计划与有效租约，先写回执日志再写文件；恢复/回滚由有限动作标识。",
+          "errors": "PlanExpired / TargetChanged / RecoveryRequired / RollbackConflict。"
+        },
+        {
+          "signature": "ValueTask<Result<DeploymentReceipt>> ReadReceiptAsync(OperationId original, CancellationToken ct)",
+          "behavior": "只读原任务写入和备份事实，供恢复/回滚规划。",
+          "errors": "ReceiptNotFound / InvalidReceipt。"
+        }
+      ],
+      "dependencies": [],
+      "implements": [],
+      "scenarios": [],
+      "forbidden": [],
+      "threading": "异步 IO 可取消；返回快照，不暴露具体实现。",
+      "audience": "application"
+    },
+    {
+      "id": "FileDeliveryPort",
+      "kind": "class",
+      "component": "platform",
+      "project": "LaunchDesk.Windows",
+      "namespace": "LaunchDesk.Windows",
+      "file": "rewrite/LaunchDesk.Windows/FileDeliveryPort.cs",
+      "lifetime": "Singleton",
+      "responsibility": "目标检查和有限文件写入；文件回执与任务日志分开。",
+      "methods": [
+        {
+          "signature": "ValueTask<Result<TargetSnapshot>> InspectTargetAsync(TargetSpec target, CancellationToken ct)",
+          "behavior": "解析真实路径，返回只读差异依据。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        },
+        {
+          "signature": "ValueTask<Result<DeploymentReceipt>> ApplyAsync(ConfirmedPlan plan, TargetLease lease, CancellationToken ct)",
+          "behavior": "核对计划与有效租约，先写回执日志再写文件；恢复/回滚由有限动作标识。",
+          "errors": "PlanExpired / TargetChanged / RecoveryRequired / RollbackConflict。"
+        },
+        {
+          "signature": "ValueTask<Result<DeploymentReceipt>> ReadReceiptAsync(OperationId original, CancellationToken ct)",
+          "behavior": "只读原任务写入和备份事实，供恢复/回滚规划。",
+          "errors": "ReceiptNotFound / InvalidReceipt。"
+        }
+      ],
+      "dependencies": [],
+      "implements": [
+        "IFileDeliveryPort"
+      ],
+      "scenarios": [
+        "AR14",
+        "AR15",
+        "AR16",
+        "AR17",
+        "AR26"
+      ],
+      "forbidden": [
+        "不得调用页面、决定项目已登录或扩大请求权限；秘密不能被序列化。"
+      ],
+      "threading": "不保存当前页面/当前登录等请求级字段；共享状态显式同步。",
+      "audience": "application"
+    },
+    {
+      "id": "ITargetLeaseProvider",
+      "kind": "interface",
+      "component": "contracts",
+      "project": "LaunchDesk.OperationContracts",
+      "namespace": "LaunchDesk.OperationContracts",
+      "file": "rewrite/LaunchDesk.OperationContracts/ITargetLeaseProvider.cs",
+      "lifetime": "Contract",
+      "responsibility": "对真实目录及其重叠范围提供跨操作互斥。的公开边界",
+      "methods": [
+        {
+          "signature": "ValueTask<Result<TargetLease>> AcquireAsync(IReadOnlyList<CanonicalPath> targets, CancellationToken ct)",
+          "behavior": "路径别名和祖先/子目录冲突都互斥；按稳定顺序取得租约，释放安全。",
+          "errors": "TargetBusy / InvalidTarget；取消等待不撤销其他任务。"
+        }
+      ],
+      "dependencies": [],
+      "implements": [],
+      "scenarios": [],
+      "forbidden": [],
+      "threading": "异步 IO 可取消；返回快照，不暴露具体实现。",
+      "audience": "application"
+    },
+    {
+      "id": "CanonicalTargetLeaseProvider",
+      "kind": "class",
+      "component": "platform",
+      "project": "LaunchDesk.Windows",
+      "namespace": "LaunchDesk.Windows",
+      "file": "rewrite/LaunchDesk.Windows/CanonicalTargetLeaseProvider.cs",
+      "lifetime": "Singleton",
+      "responsibility": "对真实目录及其重叠范围提供跨操作互斥。",
+      "methods": [
+        {
+          "signature": "ValueTask<Result<TargetLease>> AcquireAsync(IReadOnlyList<CanonicalPath> targets, CancellationToken ct)",
+          "behavior": "路径别名和祖先/子目录冲突都互斥；按稳定顺序取得租约，释放安全。",
+          "errors": "TargetBusy / InvalidTarget；取消等待不撤销其他任务。"
+        }
+      ],
+      "dependencies": [],
+      "implements": [
+        "ITargetLeaseProvider"
+      ],
+      "scenarios": [
+        "AR14",
+        "AR15",
+        "AR16",
+        "AR17",
+        "AR26"
+      ],
+      "forbidden": [
+        "不得调用页面、决定项目已登录或扩大请求权限；秘密不能被序列化。"
+      ],
+      "threading": "不保存当前页面/当前登录等请求级字段；共享状态显式同步。",
+      "audience": "application"
+    },
+    {
+      "id": "IEnvironmentStore",
+      "kind": "interface",
+      "component": "contracts",
+      "project": "LaunchDesk.OperationContracts",
+      "namespace": "LaunchDesk.OperationContracts",
+      "file": "rewrite/LaunchDesk.OperationContracts/IEnvironmentStore.cs",
+      "lifetime": "Contract",
+      "responsibility": "读取变量并以原值比较方式执行有限重命名/写入。的公开边界",
+      "methods": [
+        {
+          "signature": "ValueTask<Result<VariableSnapshot>> ReadAsync(VariableAddress address, CancellationToken ct)",
+          "behavior": "区分不存在、空值和实际值。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        },
+        {
+          "signature": "ValueTask<Result<Unit>> CompareExchangeAsync(ConfirmedVariablePlan plan, CancellationToken ct)",
+          "behavior": "重验原值、新名、作用域和保留字段，冲突拒绝覆盖。",
+          "errors": "VariableConflict / ReservedVariable / PermissionDenied。"
+        }
+      ],
+      "dependencies": [],
+      "implements": [],
+      "scenarios": [],
+      "forbidden": [],
+      "threading": "异步 IO 可取消；返回快照，不暴露具体实现。",
+      "audience": "application"
+    },
+    {
+      "id": "WindowsEnvironmentStore",
+      "kind": "class",
+      "component": "platform",
+      "project": "LaunchDesk.Windows",
+      "namespace": "LaunchDesk.Windows",
+      "file": "rewrite/LaunchDesk.Windows/WindowsEnvironmentStore.cs",
+      "lifetime": "Singleton",
+      "responsibility": "读取变量并以原值比较方式执行有限重命名/写入。",
+      "methods": [
+        {
+          "signature": "ValueTask<Result<VariableSnapshot>> ReadAsync(VariableAddress address, CancellationToken ct)",
+          "behavior": "区分不存在、空值和实际值。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        },
+        {
+          "signature": "ValueTask<Result<Unit>> CompareExchangeAsync(ConfirmedVariablePlan plan, CancellationToken ct)",
+          "behavior": "重验原值、新名、作用域和保留字段，冲突拒绝覆盖。",
+          "errors": "VariableConflict / ReservedVariable / PermissionDenied。"
+        }
+      ],
+      "dependencies": [],
+      "implements": [
+        "IEnvironmentStore"
+      ],
+      "scenarios": [
+        "AR18"
+      ],
+      "forbidden": [
+        "不得调用页面、决定项目已登录或扩大请求权限；秘密不能被序列化。"
+      ],
+      "threading": "不保存当前页面/当前登录等请求级字段；共享状态显式同步。",
+      "audience": "application"
+    },
+    {
+      "id": "IPrivilegeBroker",
+      "kind": "interface",
+      "component": "contracts",
+      "project": "LaunchDesk.OperationContracts",
+      "namespace": "LaunchDesk.OperationContracts",
+      "file": "rewrite/LaunchDesk.OperationContracts/IPrivilegeBroker.cs",
+      "lifetime": "Contract",
+      "responsibility": "为已确认有限写入请求 UAC，关联调用者、一次性会话、计划摘要和回执。的公开边界",
+      "methods": [
+        {
+          "signature": "ValueTask<Result<WorkerReceipt>> ExecuteAsync(PrivilegedRequest request, CancellationToken ct)",
+          "behavior": "只允许文件写入/恢复和变量应用，不接受任意命令行或登录秘密。",
+          "errors": "PermissionDenied / InvalidRequest / WorkerDisconnected。"
+        }
+      ],
+      "dependencies": [],
+      "implements": [],
+      "scenarios": [],
+      "forbidden": [],
+      "threading": "异步 IO 可取消；返回快照，不暴露具体实现。",
+      "audience": "application"
+    },
+    {
+      "id": "WindowsPrivilegeBroker",
+      "kind": "class",
+      "component": "platform",
+      "project": "LaunchDesk.Windows",
+      "namespace": "LaunchDesk.Windows",
+      "file": "rewrite/LaunchDesk.Windows/WindowsPrivilegeBroker.cs",
+      "lifetime": "Singleton",
+      "responsibility": "为已确认有限写入请求 UAC，关联调用者、一次性会话、计划摘要和回执。",
+      "methods": [
+        {
+          "signature": "ValueTask<Result<WorkerReceipt>> ExecuteAsync(PrivilegedRequest request, CancellationToken ct)",
+          "behavior": "只允许文件写入/恢复和变量应用，不接受任意命令行或登录秘密。",
+          "errors": "PermissionDenied / InvalidRequest / WorkerDisconnected。"
+        }
+      ],
+      "dependencies": [],
+      "implements": [
+        "IPrivilegeBroker"
+      ],
+      "scenarios": [
+        "AR14",
+        "AR15",
+        "AR16",
+        "AR17",
+        "AR26"
+      ],
+      "forbidden": [
+        "不得调用页面、决定项目已登录或扩大请求权限；秘密不能被序列化。"
+      ],
+      "threading": "不保存当前页面/当前登录等请求级字段；共享状态显式同步。",
+      "audience": "application"
+    },
+    {
+      "id": "IRunJournal",
+      "kind": "interface",
+      "component": "contracts",
+      "project": "LaunchDesk.OperationContracts",
+      "namespace": "LaunchDesk.OperationContracts",
+      "file": "rewrite/LaunchDesk.OperationContracts/IRunJournal.cs",
+      "lifetime": "Contract",
+      "responsibility": "唯一脱敏任务事实存储；按事件序号追加，快照可重建。的公开边界",
+      "methods": [
+        {
+          "signature": "ValueTask<Result<RunSnapshot>> AcceptAsync(OperationRequestSnapshot request, CancellationToken ct)",
+          "behavior": "去重 OperationId 并持久化不可变执行快照与首次意图；本机快照可含凭据引用，绝无明文秘密；UI 查询不返回请求载荷。",
+          "errors": "DuplicateOperation / JournalUnavailable。"
+        },
+        {
+          "signature": "ValueTask<Result<OperationRequestSnapshot>> ReadRequestAsync(OperationId id, CancellationToken ct)",
+          "behavior": "仅应用用例读取已接受的冻结快照供核对，不能自动重放。",
+          "errors": "RunNotFound / JournalUnavailable。"
+        },
+        {
+          "signature": "ValueTask<Result<RunSnapshot>> AppendAsync(OperationId id, long expectedSequence, RunEvent fact, CancellationToken ct)",
+          "behavior": "原子追加并提交快照；不确定的外部动作保留核对状态。",
+          "errors": "SequenceConflict / JournalUnavailable。"
+        },
+        {
+          "signature": "ValueTask<Result<RunSnapshot>> ReadAsync(OperationId id, CancellationToken ct)",
+          "behavior": "缺失记录返回明确错误，不假报完成。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        },
+        {
+          "signature": "IAsyncEnumerable<RunSnapshot> WatchAsync(CancellationToken ct)",
+          "behavior": "先快照再增量；取消 UI 订阅不结束任务。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        }
+      ],
+      "dependencies": [],
+      "implements": [],
+      "scenarios": [],
+      "forbidden": [],
+      "threading": "异步 IO 可取消；返回快照，不暴露具体实现。",
+      "audience": "application"
+    },
+    {
+      "id": "JsonRunJournal",
+      "kind": "class",
+      "component": "storage",
+      "project": "LaunchDesk.Windows",
+      "namespace": "LaunchDesk.Windows.Storage",
+      "file": "rewrite/LaunchDesk.Windows/Storage/JsonRunJournal.cs",
+      "lifetime": "Singleton",
+      "responsibility": "唯一脱敏任务事实存储；按事件序号追加，快照可重建。",
+      "methods": [
+        {
+          "signature": "ValueTask<Result<RunSnapshot>> AcceptAsync(OperationRequestSnapshot request, CancellationToken ct)",
+          "behavior": "去重 OperationId 并持久化不可变执行快照与首次意图；本机快照可含凭据引用，绝无明文秘密；UI 查询不返回请求载荷。",
+          "errors": "DuplicateOperation / JournalUnavailable。"
+        },
+        {
+          "signature": "ValueTask<Result<OperationRequestSnapshot>> ReadRequestAsync(OperationId id, CancellationToken ct)",
+          "behavior": "仅应用用例读取已接受的冻结快照供核对，不能自动重放。",
+          "errors": "RunNotFound / JournalUnavailable。"
+        },
+        {
+          "signature": "ValueTask<Result<RunSnapshot>> AppendAsync(OperationId id, long expectedSequence, RunEvent fact, CancellationToken ct)",
+          "behavior": "原子追加并提交快照；不确定的外部动作保留核对状态。",
+          "errors": "SequenceConflict / JournalUnavailable。"
+        },
+        {
+          "signature": "ValueTask<Result<RunSnapshot>> ReadAsync(OperationId id, CancellationToken ct)",
+          "behavior": "缺失记录返回明确错误，不假报完成。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        },
+        {
+          "signature": "IAsyncEnumerable<RunSnapshot> WatchAsync(CancellationToken ct)",
+          "behavior": "先快照再增量；取消 UI 订阅不结束任务。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        }
+      ],
+      "dependencies": [
+        {
+          "type": "IWorkspaceLocationResolver",
+          "mode": "constructor"
+        }
+      ],
+      "implements": [
+        "IRunJournal"
+      ],
+      "scenarios": [
+        "AR09",
+        "AR10",
+        "AR11"
+      ],
+      "forbidden": [
+        "不得调用页面、决定项目已登录或扩大请求权限；秘密不能被序列化。"
+      ],
+      "threading": "不保存当前页面/当前登录等请求级字段；共享状态显式同步。",
+      "audience": "application"
+    },
+    {
+      "id": "ITaskQueries",
+      "kind": "interface",
+      "component": "contracts",
+      "project": "LaunchDesk.OperationContracts",
+      "namespace": "LaunchDesk.OperationContracts",
+      "file": "rewrite/LaunchDesk.OperationContracts/ITaskQueries.cs",
+      "lifetime": "Contract",
+      "responsibility": "为 UI 提供只读任务快照与订阅，不维护第二份业务状态。的公开边界",
+      "methods": [
+        {
+          "signature": "ValueTask<Result<RunSnapshot>> ReadAsync(OperationId id, CancellationToken ct)",
+          "behavior": "缺失记录返回明确错误，不假报完成。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        },
+        {
+          "signature": "IAsyncEnumerable<RunSnapshot> WatchAsync(CancellationToken ct)",
+          "behavior": "先快照再增量；取消 UI 订阅不结束任务。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        }
+      ],
+      "dependencies": [],
+      "implements": [],
+      "scenarios": [],
+      "forbidden": [],
+      "threading": "异步 IO 可取消；返回快照，不暴露具体实现。",
+      "audience": "ui"
+    },
+    {
+      "id": "OperationProjectionService",
+      "kind": "class",
+      "component": "coordinator",
+      "project": "LaunchDesk.UseCases",
+      "namespace": "LaunchDesk.UseCases.Operations",
+      "file": "rewrite/LaunchDesk.UseCases/Operations/OperationProjectionService.cs",
+      "lifetime": "Singleton",
+      "responsibility": "为 UI 提供只读任务快照与订阅，不维护第二份业务状态。",
+      "methods": [
+        {
+          "signature": "ValueTask<Result<RunSnapshot>> ReadAsync(OperationId id, CancellationToken ct)",
+          "behavior": "缺失记录返回明确错误，不假报完成。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        },
+        {
+          "signature": "IAsyncEnumerable<RunSnapshot> WatchAsync(CancellationToken ct)",
+          "behavior": "先快照再增量；取消 UI 订阅不结束任务。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        }
+      ],
+      "dependencies": [
+        {
+          "type": "IRunJournal",
+          "mode": "constructor"
+        }
+      ],
+      "implements": [
+        "ITaskQueries"
+      ],
+      "scenarios": [
+        "AR09",
+        "AR10",
+        "AR11"
+      ],
+      "forbidden": [
+        "不得追加事件、决定阶段或直接调用处理器。"
+      ],
+      "threading": "不保存当前页面/当前登录等请求级字段；共享状态显式同步。"
+    },
+    {
+      "id": "ShellViewModel",
+      "kind": "class",
+      "component": "desktop",
+      "project": "LaunchDesk.Desktop",
+      "namespace": "LaunchDesk.Desktop",
+      "file": "rewrite/LaunchDesk.Desktop/ShellViewModel.cs",
+      "lifetime": "Singleton",
+      "responsibility": "导航、版本筛选与任务摘要；不拥有任务控制令牌。",
+      "methods": [
+        {
+          "signature": "ValueTask ActivateAsync(CancellationToken ct)",
+          "behavior": "只订阅不可变摘要，离开时取消自身订阅。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        }
+      ],
+      "dependencies": [
+        {
+          "type": "ITaskQueries",
+          "mode": "constructor"
+        }
+      ],
+      "implements": [],
+      "scenarios": [
+        "AR01",
+        "AR11",
+        "AR23"
+      ],
+      "forbidden": [
+        "不得引用平台端口/具体业务类；不得用页面作为任务唯一状态源；不得阻塞 UI。"
+      ],
+      "threading": "UI Dispatcher 更新属性，订阅切回 Dispatcher；页面只取消自身等待，不结束应用任务。"
+    },
+    {
+      "id": "ProfilesPageViewModel",
+      "kind": "class",
+      "component": "desktop",
+      "project": "LaunchDesk.Desktop",
+      "namespace": "LaunchDesk.Desktop",
+      "file": "rewrite/LaunchDesk.Desktop/ProfilesPageViewModel.cs",
+      "lifetime": "Page",
+      "responsibility": "列表、搜索、新增/复制入口及提交启动请求。",
+      "methods": [
+        {
+          "signature": "ValueTask LaunchSelectedAsync(CancellationToken ct)",
+          "behavior": "以选中 ID 与修订提交，不创建 Process。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        }
+      ],
+      "dependencies": [
+        {
+          "type": "ICatalogService",
+          "mode": "constructor"
+        },
+        {
+          "type": "IOperationCommands",
+          "mode": "constructor"
+        }
+      ],
+      "implements": [],
+      "scenarios": [
+        "AR02",
+        "AR03",
+        "AR27"
+      ],
+      "forbidden": [
+        "不得引用平台端口/具体业务类；不得用页面作为任务唯一状态源；不得阻塞 UI。"
+      ],
+      "threading": "UI Dispatcher 更新属性，订阅切回 Dispatcher；页面只取消自身等待，不结束应用任务。"
+    },
+    {
+      "id": "ProfileEditorViewModel",
+      "kind": "class",
+      "component": "desktop",
+      "project": "LaunchDesk.Desktop",
+      "namespace": "LaunchDesk.Desktop",
+      "file": "rewrite/LaunchDesk.Desktop/ProfileEditorViewModel.cs",
+      "lifetime": "Page",
+      "responsibility": "编辑本页草稿和字段校验，保存成功清理临时输入。",
+      "methods": [
+        {
+          "signature": "ValueTask SaveAsync(SecretUpdate secretChange, CancellationToken ct)",
+          "behavior": "仅移交本次临时秘密与草稿，不回填已保存密码。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        }
+      ],
+      "dependencies": [
+        {
+          "type": "ICatalogService",
+          "mode": "constructor"
+        }
+      ],
+      "implements": [],
+      "scenarios": [
+        "AR04"
+      ],
+      "forbidden": [
+        "不得引用平台端口/具体业务类；不得用页面作为任务唯一状态源；不得阻塞 UI。"
+      ],
+      "threading": "UI Dispatcher 更新属性，订阅切回 Dispatcher；页面只取消自身等待，不结束应用任务。"
+    },
+    {
+      "id": "LicensePageViewModel",
+      "kind": "class",
+      "component": "desktop",
+      "project": "LaunchDesk.Desktop",
+      "namespace": "LaunchDesk.Desktop",
+      "file": "rewrite/LaunchDesk.Desktop/LicensePageViewModel.cs",
+      "lifetime": "Page",
+      "responsibility": "分别显示服务、端口和 VM 证据，发起手动复查。",
+      "methods": [
+        {
+          "signature": "ValueTask RefreshAsync(Guid resourceId, CancellationToken ct)",
+          "behavior": "不自行统计失败轮数，不直接探测。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        }
+      ],
+      "dependencies": [
+        {
+          "type": "IResourceMonitor",
+          "mode": "constructor"
+        }
+      ],
+      "implements": [],
+      "scenarios": [
+        "AR05",
+        "AR06",
+        "AR07",
+        "AR08"
+      ],
+      "forbidden": [
+        "不得引用平台端口/具体业务类；不得用页面作为任务唯一状态源；不得阻塞 UI。"
+      ],
+      "threading": "UI Dispatcher 更新属性，订阅切回 Dispatcher；页面只取消自身等待，不结束应用任务。"
+    },
+    {
+      "id": "ToolPageViewModel",
+      "kind": "class",
+      "component": "desktop",
+      "project": "LaunchDesk.Desktop",
+      "namespace": "LaunchDesk.Desktop",
+      "file": "rewrite/LaunchDesk.Desktop/ToolPageViewModel.cs",
+      "lifetime": "Page",
+      "responsibility": "工具编辑、来源选择、预览与确认，不写文件。",
+      "methods": [
+        {
+          "signature": "ValueTask PreviewDeploymentAsync(DeployRequest request, CancellationToken ct)",
+          "behavior": "调用只读规划契约获取计划；用户确认后再通过 IOperationCommands 提交。",
+          "errors": "SourceUnavailable / InvalidPath；不创建执行任务。"
+        },
+        {
+          "signature": "ValueTask PreviewVariableAsync(VariableRenameRequest request, CancellationToken ct)",
+          "behavior": "只请求变量预览，确认后提交 ApplyVariables 请求。",
+          "errors": "VariableConflict / ReservedVariable；不隐式写系统。"
+        },
+        {
+          "signature": "ValueTask RefreshSourcesAsync(RefreshIntent intent, CancellationToken ct)",
+          "behavior": "刷新最新与保留旧选择传不同意图。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        },
+        {
+          "signature": "ValueTask SubmitConfirmedAsync(ConfirmedPlan plan, CancellationToken ct)",
+          "behavior": "只提交确认过的计划，展示任务 ID 和持续结果。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        }
+      ],
+      "dependencies": [
+        {
+          "type": "ICatalogService",
+          "mode": "constructor"
+        },
+        {
+          "type": "IToolSourceCatalog",
+          "mode": "constructor"
+        },
+        {
+          "type": "IOperationCommands",
+          "mode": "constructor"
+        },
+        {
+          "type": "IDeploymentPlanningService",
+          "mode": "constructor"
+        },
+        {
+          "type": "IVariablePlanningService",
+          "mode": "constructor"
+        }
+      ],
+      "implements": [],
+      "scenarios": [
+        "AR12",
+        "AR13"
+      ],
+      "forbidden": [
+        "不得引用平台端口/具体业务类；不得用页面作为任务唯一状态源；不得阻塞 UI。"
+      ],
+      "threading": "UI Dispatcher 更新属性，订阅切回 Dispatcher；页面只取消自身等待，不结束应用任务。"
+    },
+    {
+      "id": "PasswordEntryBehavior",
+      "kind": "class",
+      "component": "desktop",
+      "project": "LaunchDesk.Desktop",
+      "namespace": "LaunchDesk.Desktop",
+      "file": "rewrite/LaunchDesk.Desktop/PasswordEntryBehavior.cs",
+      "lifetime": "Page",
+      "responsibility": "仅管理输入期间的显隐、移交和清理。",
+      "methods": [
+        {
+          "signature": "void RevealWhileEditing()",
+          "behavior": "只显示本次新输入，离焦/保存/离页隐藏。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        },
+        {
+          "signature": "TransientSecret DetachInput()",
+          "behavior": "移交输入后清空控件；不公开可绑定 Password 字符串属性。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        }
+      ],
+      "dependencies": [],
+      "implements": [],
+      "scenarios": [
+        "AR04"
+      ],
+      "forbidden": [
+        "不得引用平台端口/具体业务类；不得用页面作为任务唯一状态源；不得阻塞 UI。"
+      ],
+      "threading": "UI Dispatcher 更新属性，订阅切回 Dispatcher；页面只取消自身等待，不结束应用任务。"
+    },
+    {
+      "id": "ThemeResourceCatalog",
+      "kind": "class",
+      "component": "desktop",
+      "project": "LaunchDesk.Desktop",
+      "namespace": "LaunchDesk.Desktop",
+      "file": "rewrite/LaunchDesk.Desktop/ThemeResourceCatalog.cs",
+      "lifetime": "Singleton",
+      "responsibility": "固定设计稿的颜色、图标、间距、圆角和控件状态键。",
+      "methods": [
+        {
+          "signature": "ThemeSnapshot Resolve(ThemePreference preference)",
+          "behavior": "按钮、下拉、卡片、图标由集中命名令牌引用，逐页核对。",
+          "errors": "返回结构化业务错误；取消由用例边界记录，禁止吞错或盲目重试。"
+        }
+      ],
+      "dependencies": [],
+      "implements": [],
+      "scenarios": [
+        "AR01",
+        "AR11",
+        "AR23"
+      ],
+      "forbidden": [
+        "不得引用平台端口/具体业务类；不得用页面作为任务唯一状态源；不得阻塞 UI。"
+      ],
+      "threading": "UI Dispatcher 更新属性，订阅切回 Dispatcher；页面只取消自身等待，不结束应用任务。"
+    },
+    {
+      "id": "PrivilegedWorkerHost",
+      "kind": "class",
+      "component": "worker",
+      "project": "LaunchDesk.Worker",
+      "namespace": "LaunchDesk.Worker",
+      "file": "rewrite/LaunchDesk.Worker/PrivilegedWorkerHost.cs",
+      "lifetime": "Executable",
+      "responsibility": "验证有限请求后执行受保护动作，写回同一 OperationId 的回执。",
+      "methods": [
+        {
+          "signature": "ValueTask<int> RunAsync(WorkerEnvelope request, CancellationToken ct)",
+          "behavior": "验证版本、调用者、一次性绑定、确认摘要、目标和操作种类。",
+          "errors": "InvalidRequest / CallerMismatch / PlanExpired / PermissionDenied；未知操作拒绝。"
+        }
+      ],
+      "dependencies": [
+        {
+          "type": "IFileDeliveryPort",
+          "mode": "constructor"
+        },
+        {
+          "type": "IEnvironmentStore",
+          "mode": "constructor"
+        }
+      ],
+      "implements": [],
+      "scenarios": [
+        "AR14",
+        "AR15",
+        "AR16",
+        "AR17",
+        "AR26"
+      ],
+      "forbidden": [
+        "不得接收任意脚本、程序路径、登录密码或结束真实 VM/AVEVA。"
+      ],
+      "threading": "不保存当前页面/当前登录等请求级字段；共享状态显式同步。"
+    },
+    {
+      "id": "DesktopCompositionRoot",
+      "kind": "class",
+      "component": "bootstrap",
+      "project": "LaunchDesk.Desktop",
+      "namespace": "LaunchDesk.Desktop.Bootstrap",
+      "file": "rewrite/LaunchDesk.Desktop/Bootstrap/DesktopCompositionRoot.cs",
+      "lifetime": "Singleton",
+      "responsibility": "唯一装配入口；选择具体平台、用例及本机运行生命周期。",
+      "methods": [
+        {
+          "signature": "Result<DesktopRuntime> Build(RuntimeOptions options)",
+          "behavior": "注册应用单例、页面和操作工厂；停止本机协调不结束用户外部资源。",
+          "errors": "ConfigurationUnavailable / DuplicateRegistration，不静默新建空数据。"
+        }
+      ],
+      "dependencies": [
+        {
+          "type": "WorkspaceCatalogService",
+          "mode": "constructor"
+        },
+        {
+          "type": "ResourceSupervisor",
+          "mode": "constructor"
+        },
+        {
+          "type": "OperationCoordinator",
+          "mode": "constructor"
+        },
+        {
+          "type": "OperationHandlerRegistry",
+          "mode": "constructor"
+        },
+        {
+          "type": "OperationProjectionService",
+          "mode": "constructor"
+        },
+        {
+          "type": "JsonWorkspaceStore",
+          "mode": "constructor"
+        },
+        {
+          "type": "JsonRunJournal",
+          "mode": "constructor"
+        },
+        {
+          "type": "WindowsProcessGateway",
+          "mode": "constructor"
+        },
+        {
+          "type": "ThemeResourceCatalog",
+          "mode": "constructor"
+        }
+      ],
+      "implements": [],
+      "scenarios": [
+        "AR24",
+        "AR25"
+      ],
+      "forbidden": [
+        "装配例外只在 Bootstrap 命名空间；生产入口不得引用 DevHost。"
+      ],
+      "threading": "不保存当前页面/当前登录等请求级字段；共享状态显式同步。"
+    },
+    {
+      "id": "AspireDevelopmentHost",
+      "kind": "class",
+      "component": "devhost",
+      "project": "LaunchDesk.DevHost",
+      "namespace": "LaunchDesk.DevHost.Aspire",
+      "file": "rewrite/LaunchDesk.DevHost/Aspire/AspireDevelopmentHost.cs",
+      "lifetime": "DevOnly",
+      "responsibility": "可选开发入口，仅编排隔离桌面和模拟资源，SDK 类型仅出现在此项目。",
+      "methods": [
+        {
+          "signature": "ValueTask<int> RunAsync(DevelopmentOptions options, CancellationToken ct)",
+          "behavior": "使用隔离工作空间，停止仅回收自己创建的夹具。",
+          "errors": "DevelopmentResourceUnavailable；不结束真实许可/VM/AVEVA。"
+        }
+      ],
+      "dependencies": [
+        {
+          "type": "DesktopCompositionRoot",
+          "mode": "constructor"
+        }
+      ],
+      "implements": [],
+      "scenarios": [
+        "AR24",
+        "AR25"
+      ],
+      "forbidden": [
+        "不得成为发布物必需依赖或决定业务任务状态。"
+      ],
+      "threading": "不保存当前页面/当前登录等请求级字段；共享状态显式同步。"
+    },
+    {
+      "id": "IDeploymentPlanningService",
+      "kind": "interface",
+      "component": "contracts",
+      "project": "LaunchDesk.OperationContracts",
+      "namespace": "LaunchDesk.OperationContracts",
+      "file": "rewrite/LaunchDesk.OperationContracts/IDeploymentPlanningService.cs",
+      "lifetime": "Contract",
+      "responsibility": "只读部署预览边界。",
+      "methods": [
+        {
+          "signature": "ValueTask<Result<DeploymentPlan>> PreviewAsync(DeployRequest request, CancellationToken ct)",
+          "behavior": "检查路径穿越、映射、目标与记录根；计算 PlanDigest，不写入。",
+          "errors": "UnsafeArchiveEntry / SourceUnavailable / TargetUnavailable / InvalidPath。"
+        },
+        {
+          "signature": "ValueTask<Result<DeploymentPlan>> PreviewRecoveryAsync(RecoveryRequest request, CancellationToken ct)",
+          "behavior": "读取原回执并检查外部修改，生成 Action=Recover/Rollback 且关联 OriginalOperationId 的只读计划。",
+          "errors": "ReceiptNotFound / BackupUnavailable / RollbackConflict。"
+        }
+      ],
+      "dependencies": [],
+      "implements": [],
+      "scenarios": [],
+      "forbidden": [],
+      "threading": "异步 IO 可取消；返回快照，不暴露具体实现。",
+      "audience": "ui"
+    },
+    {
+      "id": "IOperationContext",
+      "kind": "interface",
+      "component": "contracts",
+      "project": "LaunchDesk.OperationContracts",
+      "namespace": "LaunchDesk.OperationContracts",
+      "file": "rewrite/LaunchDesk.OperationContracts/IOperationContext.cs",
+      "lifetime": "Contract",
+      "responsibility": "本次执行的事实报告与释放边界，不是服务定位器。",
+      "methods": [
+        {
+          "signature": "ValueTask<Result<RunSnapshot>> ReportAsync(OperationFact fact, CancellationToken ct)",
+          "behavior": "调用纯状态策略再按 expected sequence 追加；处理器不得直接改日志。",
+          "errors": "InvalidTransition / SequenceConflict；无法提交事实则停止后续副作用并标待核对。"
+        },
+        {
+          "signature": "ValueTask DisposeAsync()",
+          "behavior": "释放本次订阅和控制资源，不结束用户程序。",
+          "errors": "重复释放安全。"
+        }
+      ],
+      "dependencies": [],
+      "implements": [],
+      "scenarios": [],
+      "forbidden": [],
+      "threading": "异步 IO 可取消；返回快照，不暴露具体实现。",
+      "audience": "application"
+    },
+    {
+      "id": "VariablePlanner",
+      "kind": "class",
+      "component": "delivery-handler",
+      "project": "LaunchDesk.UseCases",
+      "namespace": "LaunchDesk.UseCases.Delivery",
+      "file": "rewrite/LaunchDesk.UseCases/Delivery/VariablePlanner.cs",
+      "lifetime": "Stateless",
+      "responsibility": "只规划变量重命名/写入，执行留给有限操作处理器。",
+      "methods": [
+        {
+          "signature": "ValueTask<Result<VariableChangePlan>> PreviewAsync(VariableRenameRequest request, CancellationToken ct)",
+          "behavior": "读取原值和新名，验证作用域和保留字段，形成待确认计划；不写 Windows。",
+          "errors": "VariableConflict / ReservedVariable / VariableUnavailable。"
+        }
+      ],
+      "dependencies": [
+        {
+          "type": "IEnvironmentStore",
+          "mode": "constructor"
+        }
+      ],
+      "implements": [
+        "IVariablePlanningService"
+      ],
+      "scenarios": [
+        "AR18"
+      ],
+      "forbidden": [
+        "不得越过本类声明的 IO、权限或状态所有权边界。"
+      ],
+      "threading": "不保存当前页面/当前登录等请求级字段；共享状态显式同步。"
+    },
+    {
+      "id": "IVariablePlanningService",
+      "kind": "interface",
+      "component": "contracts",
+      "project": "LaunchDesk.OperationContracts",
+      "namespace": "LaunchDesk.OperationContracts",
+      "file": "rewrite/LaunchDesk.OperationContracts/IVariablePlanningService.cs",
+      "lifetime": "Contract",
+      "responsibility": "只读变量变更规划边界。",
+      "methods": [
+        {
+          "signature": "ValueTask<Result<VariableChangePlan>> PreviewAsync(VariableRenameRequest request, CancellationToken ct)",
+          "behavior": "读取原值和新名，验证作用域和保留字段，形成待确认计划；不写 Windows。",
+          "errors": "VariableConflict / ReservedVariable / VariableUnavailable。"
+        }
+      ],
+      "dependencies": [],
+      "implements": [],
+      "scenarios": [],
+      "forbidden": [],
+      "threading": "异步 IO 可取消；返回快照，不暴露具体实现。",
+      "audience": "ui"
+    }
+  ]
+}

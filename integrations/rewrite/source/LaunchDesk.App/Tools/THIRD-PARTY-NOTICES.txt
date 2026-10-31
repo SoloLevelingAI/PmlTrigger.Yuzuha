@@ -1,0 +1,12 @@
+SeaGend Manager bundles 7zr.exe (7-Zip reduced standalone console), version 26.04.
+Author: Igor Pavlov. The executable identifies its license as Public domain.
+Downloaded 2026-10-13 from the official URL: https://www.7-zip.org/a/7zr.exe
+SHA256: 256FECA8E274E5DA655E2A284FABAFD9F554365EB164862089DACD4E8276D282
+Official project and source: https://www.7-zip.org/ and https://github.com/ip7z/7zip
+
+Inno Setup is used as a build tool and is not bundled with the application.
+Official compiler: https://jrsoftware.org/isdl.php
+Its licensing terms apply to use of the compiler.
+
+UI visual reference: the user's existing Rvm Gallery WPF project.
+No Gallery assemblies or other third-party UI frameworks are bundled.

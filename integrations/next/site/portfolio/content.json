@@ -1,0 +1,267 @@
+{
+  "title": "LaunchDesk.Next · 从一次启动，到一条可信的执行链",
+  "date": "2026-10-30",
+  "baseline": "78b8dc4",
+  "slides": [
+    {
+      "id": "vision",
+      "label": "项目价值",
+      "eyebrow": "01 / PROJECT THESIS",
+      "title": "复杂的启动，\n清晰地发生。",
+      "lead": "把散落的应用、工程与许可参数，组织成一条可理解、可执行、可追溯的工作流。",
+      "takeaway": "让使用者少猜，让维护者有据可查。",
+      "kind": "cover",
+      "refs": [
+        [
+          "功能事实",
+          "../features/launch-by-profile.html#brd"
+        ],
+        [
+          "交付边界",
+          "../status.html"
+        ]
+      ]
+    },
+    {
+      "id": "experience",
+      "label": "功能易用性",
+      "eyebrow": "02 / EXPERIENCE DESIGN",
+      "title": "先找到，再核对。\n改完，就能执行。",
+      "lead": "降低操作中的不确定性：发现有来源，预填可修改，执行有快照，结果有解释。",
+      "takeaway": "易用性来自可预测的操作次序，而不只是更少的按钮。",
+      "kind": "experience",
+      "steps": [
+        [
+          "01",
+          "发现",
+          "查目录与初始化线索，展示候选和来源。"
+        ],
+        [
+          "02",
+          "核对",
+          "预填可改；多候选不替用户随意选定。"
+        ],
+        [
+          "03",
+          "执行",
+          "冻结当次输入；保存按钮另用于命名配置。"
+        ],
+        [
+          "04",
+          "核验",
+          "按AttemptId查看快照、阶段与返回结果。"
+        ]
+      ],
+      "refs": [
+        [
+          "使用手册",
+          "../manuals/user.html"
+        ],
+        [
+          "操作事实",
+          "../features/launch-by-profile.html#usage"
+        ]
+      ]
+    },
+    {
+      "id": "model",
+      "label": "模型与边界",
+      "eyebrow": "03 / SINGLE SOURCE OF INPUT",
+      "title": "一个模型。\n两种时间。",
+      "lead": "编辑的是当前草稿，执行的是当时快照。用户继续修改，也不会改变已经提交的那一次。",
+      "takeaway": "把界面状态、业务准入和系统操作放回各自的位置。",
+      "kind": "model",
+      "roles": [
+        [
+          "前端 / 薄ViewModel",
+          "CommunityToolkit用于薄通知适配；转发输入，呈现候选与错误。"
+        ],
+        [
+          "LaunchModel",
+          "保存唯一可编辑输入，不依赖WPF；端口原值保留。"
+        ],
+        [
+          "后端 / Workspace",
+          "检查草稿代次，冻结输入，先保存快照与必要记录。"
+        ]
+      ],
+      "refs": [
+        [
+          "前后端伪代码",
+          "../features/launch-by-profile.html#frontend"
+        ],
+        [
+          "模型源码",
+          "../source/LaunchDesk.Next.Application/Features/LoginLaunch/LaunchModel.cs"
+        ]
+      ]
+    },
+    {
+      "id": "execution",
+      "label": "内部执行逻辑",
+      "eyebrow": "04 / EXECUTION, EXPLAINED",
+      "title": "抽象留在边界，\n做法写在脚本。",
+      "lead": "协调器给出执行次序；Monitor等具体C#脚本讲清参数和初始化；后勤接口只认识系统能力。",
+      "takeaway": "读功能先看做法，再沿接口抵达Windows实现。",
+      "kind": "execution",
+      "nodes": [
+        {
+          "name": "点击启动",
+          "code": "LaunchInteraction",
+          "detail": "收集执行事件，调用同一Workspace；前端不决定启动协议。",
+          "source": "../source/LaunchDesk.Next.Desktop/Features/Launch/LaunchInteraction.cs"
+        },
+        {
+          "name": "冻结与留证",
+          "code": "LaunchWorkspace",
+          "detail": "冻结Model，检查Generation，原子保存执行快照与必需Record；失败不启动。",
+          "source": "../source/LaunchDesk.Next.Application/Features/LoginLaunch/LaunchWorkspace.cs"
+        },
+        {
+          "name": "后端协调器",
+          "code": "LoginLaunchCoordinator",
+          "detail": "去重、字段校验、许可检查、获取凭据，再选择具体启动脚本。",
+          "source": "../source/LaunchDesk.Next.Application/Features/LoginLaunch/LoginLaunchCoordinator.cs"
+        },
+        {
+          "name": "Monitor脚本",
+          "code": "StartMonitor",
+          "detail": "明确八个参数与初始化要求，组装原生ProcessCommand；历史FNF实验提示不能随意改变标准流句柄方式。",
+          "source": "../source/LaunchDesk.Next.Application/Features/LoginLaunch/Scripts/StartMonitor.cs"
+        },
+        {
+          "name": "后勤接口",
+          "code": "IProcessHost",
+          "detail": "接受通用进程命令；不认识LaunchRequest、工程或AVEVA业务。",
+          "source": "../source/LaunchDesk.Next.Application/Infrastructure/Contracts/ProcessHost.cs"
+        },
+        {
+          "name": "Windows实现",
+          "code": "WindowsProcessHost",
+          "detail": "进行系统进程创建，返回句柄；后续观察记录结果，创建后不确定需人工核验。",
+          "source": "../source/LaunchDesk.Next.Platform/Processes/WindowsProcessHost.cs"
+        }
+      ],
+      "refs": [
+        [
+          "源码分层索引",
+          "../decisions/architecture.html"
+        ],
+        [
+          "后端伪代码",
+          "../features/launch-by-profile.html#backend"
+        ]
+      ]
+    },
+    {
+      "id": "composition",
+      "label": "可插拔交付",
+      "eyebrow": "05 / COMPOSE, DON'T DUPLICATE",
+      "title": "两种交付。\n同一份后端。",
+      "lead": "产品包保持纯粹，独立开发包承载实验。XML Addin决定是否装配；代码存在，不代表功能启用。",
+      "takeaway": "把开发脚手架隔离出去，把正常启动的事实集中起来。",
+      "kind": "composition",
+      "refs": [
+        [
+          "Addin契约",
+          "../development/addins.html"
+        ],
+        [
+          "双包与模型",
+          "../development/model-driven-review.html"
+        ]
+      ]
+    },
+    {
+      "id": "maintenance",
+      "label": "可维护性",
+      "eyebrow": "06 / KNOWLEDGE AS AN ASSET",
+      "title": "经验不藏在人脑，\n入口不散落各处。",
+      "lead": "功能事实集中，规则与场景可评审，源码直达具体实现；使用、开发和演示沿同一事实阅读。",
+      "takeaway": "像给图书馆分类：新人有路线，熟手能直达。",
+      "kind": "maintenance",
+      "refs": [
+        [
+          "开发手册",
+          "../manuals/developer.html"
+        ],
+        [
+          "逐条需求",
+          "../openspec/requirements.html"
+        ],
+        [
+          "八股事实",
+          "../features/launch-by-profile.html"
+        ]
+      ]
+    },
+    {
+      "id": "evidence",
+      "label": "验证与风险",
+      "eyebrow": "07 / EVIDENCE BEFORE CONFIDENCE",
+      "title": "不是“看起来成功”，\n而是知道证明了什么。",
+      "lead": "将规则、架构、UI和进程验证分开；保留历史真机证据，也明确它不能替代当前环境验收。",
+      "takeaway": "工程信心来自有边界的证据，而不是一个绿色勾。",
+      "kind": "evidence",
+      "metrics": [
+        [
+          "47",
+          "单元用例",
+          "模型批次"
+        ],
+        [
+          "64",
+          "架构用例",
+          "Addin后续批次"
+        ],
+        [
+          "4",
+          "UI回归",
+          "Addin后续批次"
+        ],
+        [
+          "9",
+          "缺清单检查",
+          "分包行为检查"
+        ]
+      ],
+      "refs": [
+        [
+          "分批验证报告",
+          "../verification.html#current-evidence"
+        ],
+        [
+          "Addin证据",
+          "../evidence/addins/verification.json"
+        ],
+        [
+          "历史真机实验",
+          "../reviews/licence-checkout.html"
+        ]
+      ]
+    },
+    {
+      "id": "delivery",
+      "label": "交付与下一步",
+      "eyebrow": "08 / DELIVERY & NEXT HORIZON",
+      "title": "交付一条完整链路，\n再扩展下一步。",
+      "lead": "先让当前功能可操作、可解释、可定位，再按规格推进远程连接、配置迁移和授权管理。",
+      "takeaway": "清晰的边界，是可持续迭代的起点。",
+      "kind": "delivery",
+      "refs": [
+        [
+          "完整状态与限制",
+          "../status.html"
+        ],
+        [
+          "核心流程演示",
+          "../manuals/demo.html"
+        ],
+        [
+          "使用手册",
+          "../manuals/user.html"
+        ]
+      ]
+    }
+  ]
+}

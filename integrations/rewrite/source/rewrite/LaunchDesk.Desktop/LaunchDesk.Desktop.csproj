@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net10.0-windows</TargetFramework>
+        <UseWPF>true</UseWPF>
+    </PropertyGroup>
+    <ItemGroup>
+        <ProjectReference Include="../LaunchDesk.OperationContracts/LaunchDesk.OperationContracts.csproj"/>
+    </ItemGroup>
+    <ItemGroup><Resource Include="Resources/LaunchDesk.ico"/></ItemGroup>
+</Project>

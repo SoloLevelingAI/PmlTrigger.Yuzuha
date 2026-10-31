@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "sdk": "10.0.302",
+  "configuration": "Release",
+  "build": {
+    "errors": 0,
+    "warnings": [
+      "NU1900 vulnerability service unreachable"
+    ]
+  },
+  "defaultTests": {
+    "passed": 71,
+    "failed": 0,
+    "skipped": 0
+  },
+  "nodeTests": {
+    "passed": 10,
+    "failed": 0
+  },
+  "optional7Zip": "not-run",
+  "aspireAppHost": "not-built-development-only",
+  "manifestFiles": 310,
+  "portalLocalAssets": "passed",
+  "freshClone": "root-integration-owner-pending",
+  "limitations": [
+    "Vulnerability service unavailable offline; audit remains enabled.",
+    "Sandbox testhost IPC requires unsandboxed test run.",
+    "One legacy process handoff timing failure occurred before final complete passing rerun."
+  ],
+  "reviewFollowup": {
+    "configuration": "Debug",
+    "buildErrors": 0,
+    "passed": 71,
+    "failed": 0,
+    "skipped": 0,
+    "currentConfigurationWorker": true,
+    "privateFixtureRegistry": true,
+    "productionRegistryUnchangedDuringFullSuite": true,
+    "previousOwnedRegistrationsRemoved": 6,
+    "otherRegistrationsPreserved": 37,
+    "registryBackups": "ignored-local-artifacts-only"
+  },
+  "omittedNonSourceFiles": 9
+}

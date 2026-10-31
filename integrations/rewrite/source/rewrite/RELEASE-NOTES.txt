@@ -1,0 +1,25 @@
+LaunchDesk 3.0.1 · 界面恢复与接口接入修正版
+
+恢复原设计的工作台、导航、工具库与工具设置布局、图标和颜色。
+补充独立工具导出、选择性分享、普通文件映射、原导入及迁移结果核验。
+底部状态可进入操作记录，查询原编号与停止观察。
+按钮经隔离的原生 WPF 调用验证；真实许可签出仍以目标程序为准。
+
+启动 LaunchDesk.Archon.exe。需要 Windows x64 / .NET 10 Desktop Runtime。
+请保留同目录 DLL、LaunchDesk.Worker.exe 和 Tools 子目录。
+普通使用无需 Aspire、Archon、Node 或网络服务。
+
+默认新工作空间：%LOCALAPPDATA%\LaunchDesk\Workspaces\Archon
+指定位置：LaunchDesk.Archon.exe --data-dir "D:\LaunchDeskData"
+便携位置：LaunchDesk.Archon.exe --portable （程序旁 Data.Archon）
+该候选版不会替换旧版安装或自动修改许可、虚拟机与全局环境。
+
+设置与迁移 -> 选择旧 Fusion/workspace.json -> 预览 -> 确认迁移。
+只允许迁入空的新工作空间；旧文件保留，可继续用旧版入口退回。
+同一 Windows 账户的旧凭据关联保留；换电脑需重新输入密码。
+旧版更新回执只读展示，缺失路径明确显示；原回滚请使用旧版。
+新交付回执支持中断核验、恢复预览与回滚预览。
+
+连通性就绪只表示探测成功；窗口出现只表示观察到窗口。
+是否取得许可并进入项目仍需在目标应用核验。
+部署目标限本机 NTFS 普通路径；不支持 UNC、重解析点或控制资料目录。

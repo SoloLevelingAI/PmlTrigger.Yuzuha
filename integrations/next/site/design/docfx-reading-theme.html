@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html data-reading-revision="f5a8b6840d71" lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+      <title>文档阅读主题：与作品集使用同一套视觉语言 | LaunchDesk.Next </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="文档阅读主题：与作品集使用同一套视觉语言 | LaunchDesk.Next ">
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/theme-tokens.css?v=f5a8b6840d71">
+      <link rel="stylesheet" href="../public/main.css?v=f5a8b6840d71">
+      <link rel="stylesheet" href="../public/theme-type.css?v=f5a8b6840d71">
+      <script type="module" src="../public/reading.js?v=f5a8b6840d71"></script>
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="../toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="本页目录">
+      <meta name="loc:searchResultsCount" content="“{query}”的结果：{count}条">
+      <meta name="loc:searchNoResults" content="没有找到“{query}”">
+      <meta name="loc:tocFilter" content="筛选文件标题">
+      <meta name="loc:nextArticle" content="下一篇">
+      <meta name="loc:prevArticle" content="上一篇">
+      <meta name="loc:themeLight" content="浅色">
+      <meta name="loc:themeDark" content="深色">
+      <meta name="loc:themeAuto" content="跟随系统">
+      <meta name="loc:changeTheme" content="切换明暗">
+      <meta name="loc:copy" content="复制">
+      <meta name="loc:downloadPdf" content="下载PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <a class="ld-skip" href="#doc-content">跳到正文</a>
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../INDEX.html">
+            <span class="ld-monogram" aria-hidden="true">LD</span>
+            LaunchDesk.Next
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="展开导航与搜索">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div class="ld-links" aria-label="快捷入口"><a href="../INDEX.html">阅读文档</a><a href="../portfolio/index.html?revision=figcraft-roundtrip">项目作品集 ↗</a><a href="../status.html">交付状态</a></div>
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="搜索文档" autocomplete="off" aria-label="搜索文档">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">文件目录</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="关闭文件目录"></button>
+          </div>
+          <div class="offcanvas-body">
+            <div class="ld-toc-caption"><strong>文件与阅读路径</strong><span>LIBRARY</span></div>
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="打开文件目录">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article id="doc-content" tabindex="-1" data-uid="docfx-reading-theme">
+          <div class="ld-kicker">LAUNCHDESK.NEXT / ENGINEERING LIBRARY</div>
+          <div class="ld-doc-meta"><span class="ld-state" data-state="implemented">状态见正文</span><span>文档核对 2026-10-31</span></div>
+<h1 id="文档阅读主题与作品集使用同一套视觉语言">文档阅读主题：与作品集使用同一套视觉语言</h1>
+
+<h2 id="-统一什么">① 统一什么</h2>
+<p>DocFX现采用暖白、墨黑与信号黄，沿用作品集的六个FigCraft颜色变量；统一品牌、导航、标题、表格、代码与图示。正文保持文档阅读密度，不直接套用演示稿的大字号。实现与技术校验不代表用户已经认可视觉效果。</p>
+<h2 id="-怎么找内容">② 怎么找内容</h2>
+<p>桌面左侧是文件目录与中文标题筛选，中间是正文，右侧是本页小节；顶栏直达文档、作品集与交付状态。小屏改为文件目录抽屉与可展开顶栏。原源码、证据和锚点链接保留；全文搜索使用现有DocFX组件与本地索引，没有引入搜索服务。</p>
+<h2 id="-怎么读层级">③ 怎么读层级</h2>
+<p>文档标题与小节通过字重、留白和分隔线区分；选中目录使用信号黄。页头展示既有元信息：阅读入口、已实现范围、拟议、历史或分项状态，以及文档核对日期。页面状态只限定正文范围，不能代替逐条需求台账；核对日期也不等于产品重新测试日期。</p>
+<h2 id="-代码表格与流程图">④ 代码、表格与流程图</h2>
+<p>代码保留语法着色与原始换行；宽表和Mermaid在局部区域滚动，避免撑宽整页。流程图与时序图仍由Markdown代码生成，明暗模式都检查标签、连线和注释框。没有维护第二份手绘业务流程。</p>
+<h2 id="-实际页面与原稿">⑤ 实际页面与原稿</h2>
+<p><a href="../evidence/docfx-theme/light-reading.jpg">浅色使用手册</a>、<a href="../evidence/docfx-theme/dark-flow.jpg">深色流程图</a>、<a href="../evidence/docfx-theme/mobile-reading.jpg">手机阅读</a>、<a href="../evidence/docfx-theme/mobile-navigation.jpg">手机目录</a>均为浏览器截图。<a href="docfx-reading-theme.figcraft">DocFX可编辑快照</a>由真实1600×900页面DOM导入，<a href="previews/docfx-reading-theme.png">原生导出</a>用于对照。它不是独立重画的样稿；浏览器滚动条、占位文字及字体栅格化存在投影限制。</p>
+<h2 id="-样式来源与回写边界">⑥ 样式来源与回写边界</h2>
+<p>原生颜色导出 → <a href="../project-source/tools/docs/sync_theme.py">同步工具</a> → theme-tokens.css；真实DocFX HTML → 共用DOM采集器（docfx模式）→ 共用原稿导入器 → <a href="../project-source/tools/docs/export_type.py">标题读回工具</a> → theme-type.css → 实际页面复核。六个颜色变量与作品集逐字节一致；标题映射和文件哈希见<a href="../evidence/docfx-theme/theme-source.json">来源清单</a>与<a href="../evidence/docfx-theme/type-map.json">标题映射</a>。</p>
+<p>文档导航布局、响应式、表格适配和交互保留在实际模板及CSS，不宣称全部CSS均由FigCraft自动反推。模板覆盖基于已安装DocFX2.81.0的modern主模板，保留MIT声明；升级DocFX时需要核对主模板变化，不能直接覆盖本地定制。</p>
+<h2 id="-怎么验收">⑦ 怎么验收</h2>
+<p>检查使用手册、开发索引、架构表格和实际图示的桌面/窄屏/明暗呈现，验证目录筛选、抽屉、锚点和搜索。已有产品测试不因主题构建而重算。实际检查范围及限制见<a href="../evidence/docfx-theme/verification.json">主题验证记录</a>；DocFX与OpenSpec通过只表示技术检查通过。</p>
+<h2 id="-本轮边界">⑧ 本轮边界</h2>
+<p>本轮修改的是DocFX主题与文档元信息，未改LaunchDesk产品/WPF界面、未安装依赖、未启动VM。独立作品集沿用既有文件；本轮没有把旧主题或新主题标为用户视觉验收通过。</p>
+
+</article>
+
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span class="ld-footer-word">LAUNCHDESK.NEXT / KNOWLEDGE SYSTEM</span><span class="ld-footer-note">功能事实 · 源码路径 · 验证证据　/　DocFX</span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

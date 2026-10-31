@@ -1,0 +1,42 @@
+{
+  "date": "2026-10-30",
+  "implementationBaseline": "78b8dc4",
+  "state": "verified-with-explicit-limits",
+  "slides": 8,
+  "nativeFrames": 8,
+  "nativeEditableLayers": 475,
+  "flattenedImages": 0,
+  "linksChecked": 57,
+  "brokenLinks": [],
+  "externalRuntimeDependencies": false,
+  "narrowViewport": {
+    "width": 390,
+    "height": 844,
+    "slidesWithoutHorizontalOverflow": 8
+  },
+  "browserChecks": {
+    "nextPreviousAndContents": "passed",
+    "nativeRightAndHomeKeys": "passed",
+    "draftSnapshotIsolationDemo": "passed: MAR-CHECK remains frozen after NEXT-CHECK edit",
+    "callChainSourceSwitch": "passed: WindowsProcessHost source selected",
+    "addinOffDemo": "passed: reports no feature window/workspace and exit0",
+    "consoleErrorsObserved": 0,
+    "fullscreen": "entry invoked; no console errors; native fullscreen state not independently asserted",
+    "print": "all-eight-section print CSS and before/after accessibility handlers inspected; no physical print/PDF render"
+  },
+  "docfx": {
+    "warnings": 0,
+    "errors": 0
+  },
+  "openspecStrict": "passed",
+  "productCodeChanged": false,
+  "vmStarted": false,
+  "dependenciesInstalled": false,
+  "productTestsRerun": false,
+  "newUsabilityImpactMeasurements": false,
+  "sha256": {
+    "docs/portfolio/content.json": "62257dde396fa31405a0de0350c151d8834558d19a73aa4c86e1396862fdfbfe",
+    "docs/portfolio/index.html": "b90a5383a7d483aed10973fbd35b40e52c0ea62c49cdfde531b0420afb6ddfb4",
+    "docs/portfolio/design/launchdesk-portfolio.figcraft": "f3879f004071af79d09772784761ddc3510346cb35aa13cd15c8d057f7baa0c4"
+  }
+}

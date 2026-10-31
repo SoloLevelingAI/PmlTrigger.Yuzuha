@@ -1,0 +1,19 @@
+{
+  "date": "2026-10-28",
+  "architectureTestsPassed": 64,
+  "addinSpecificCases": 12,
+  "uiRegressionPassed": 4,
+  "packageAbsenceChecksPassed": 9,
+  "factoryNotInvokedWithoutManifest": true,
+  "businessCommandsHiddenWithoutManifest": true,
+  "directCallsRejectedWithoutManifest": true,
+  "productWithoutLoginAddinExitsZeroWithoutWorkspace": true,
+  "sharedXmlParser": "LaunchDesk.Next.Bootstrap.Addins.AddinCatalog",
+  "manifestFormat": "XML",
+  "externalParserPackagesAdded": false,
+  "vmStarted": false,
+  "localActivationEnabled": false,
+  "productXamlChanged": false,
+  "activationTiming": "Host startup; VM tools recheck before explicit actions; no hot unload",
+  "packageDirectory": "artifacts/packages/addin-driven-delivery"
+}

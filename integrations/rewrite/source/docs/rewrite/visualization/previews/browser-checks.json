@@ -1,0 +1,19 @@
+{
+  "status": "passed",
+  "checks": [
+    "Overview and embedded interactive LikeC4 graph",
+    "Type search, kind/module filters and current password lifecycle methods",
+    "F06 remains un-rechecked; browser-local feedback persists and exports without approval",
+    "25 embedded graph routes load nonempty rendered diagrams",
+    "All 6 grouped drill-down views render",
+    "All 27 scenario and 14 requirement detail links resolve",
+    "19 archived source links resolve locally",
+    "1280 / 960 / 680 px layouts avoid horizontal overflow"
+  ],
+  "testedAtUtc": "2026-10-19T08:38:18.681Z",
+  "base": "http://127.0.0.1:5188/",
+  "browser": "Playwright Chromium / local isolated profile",
+  "runId": "17f392ea-0cf9-4760-bc69-b8dc73a72c6d",
+  "implementationApproved": false,
+  "scope": "architecture review portal only; no WPF, real license or VM tests"
+}

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html data-reading-revision="f5a8b6840d71" lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+      <title>原LaunchDesk工具复制失败：只读调查 | LaunchDesk.Next </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="原LaunchDesk工具复制失败：只读调查 | LaunchDesk.Next ">
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/theme-tokens.css?v=f5a8b6840d71">
+      <link rel="stylesheet" href="../public/main.css?v=f5a8b6840d71">
+      <link rel="stylesheet" href="../public/theme-type.css?v=f5a8b6840d71">
+      <script type="module" src="../public/reading.js?v=f5a8b6840d71"></script>
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="本页目录">
+      <meta name="loc:searchResultsCount" content="“{query}”的结果：{count}条">
+      <meta name="loc:searchNoResults" content="没有找到“{query}”">
+      <meta name="loc:tocFilter" content="筛选文件标题">
+      <meta name="loc:nextArticle" content="下一篇">
+      <meta name="loc:prevArticle" content="上一篇">
+      <meta name="loc:themeLight" content="浅色">
+      <meta name="loc:themeDark" content="深色">
+      <meta name="loc:themeAuto" content="跟随系统">
+      <meta name="loc:changeTheme" content="切换明暗">
+      <meta name="loc:copy" content="复制">
+      <meta name="loc:downloadPdf" content="下载PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <a class="ld-skip" href="#doc-content">跳到正文</a>
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../INDEX.html">
+            <span class="ld-monogram" aria-hidden="true">LD</span>
+            LaunchDesk.Next
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="展开导航与搜索">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div class="ld-links" aria-label="快捷入口"><a href="../INDEX.html">阅读文档</a><a href="../portfolio/index.html?revision=figcraft-roundtrip">项目作品集 ↗</a><a href="../status.html">交付状态</a></div>
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="搜索文档" autocomplete="off" aria-label="搜索文档">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">文件目录</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="关闭文件目录"></button>
+          </div>
+          <div class="offcanvas-body">
+            <div class="ld-toc-caption"><strong>文件与阅读路径</strong><span>LIBRARY</span></div>
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="打开文件目录">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article id="doc-content" tabindex="-1" data-uid="original-deploy-diagnostic">
+          <div class="ld-kicker">LAUNCHDESK.NEXT / ENGINEERING LIBRARY</div>
+          <div class="ld-doc-meta"><span class="ld-state" data-state="historical">状态见正文</span><span>文档核对 2026-10-29</span></div>
+<h1 id="原launchdesk工具复制失败只读调查">原LaunchDesk工具复制失败：只读调查</h1>
+
+<blockquote>
+<p>历史记录：保留当时结果，不代表当前进程、机器或许可状态。当前交付边界见<a href="../status.html">状态页</a>。</p>
+</blockquote>
+<h2 id="-实际运行的是哪一版">① 实际运行的是哪一版</h2>
+<p>进程33048运行D:/VirtualMachines/LaunchDesk/LaunchDesk.exe，文件版本2.0.4.0，产品版本2.0.4-original-ui-launchfix；portable.json将数据定位到同目录Data，而不是默认AppData工作空间。通过只读解包和IL核对实际发布程序，未把另一个源码目录当作正在运行的版本。</p>
+<h2 id="-这次操作是什么">② 这次操作是什么</h2>
+<p>2026-10-28北京时间15:15:40、15:15:47、15:16:13三次Deploy，来源SeaGend(29).7z，目标C:/AVEVA/PMLLIB/SeaGend，记录根为当前用户Local/SeaGendManager。三次操作目录分别为a330d4…、50c377…、0b7631…。</p>
+<h2 id="-为什么界面没有原因">③ 为什么界面没有原因</h2>
+<p>三份result.json均是Success=false、Error为空字符串、Receipt=null，目录中只有request/result，没有worker.log；对应最新部署收据仍停在前一天。实际发布IL核对到ToolOperations.Execute/Worker只保存Exception.Message，前端ExecuteToolAsync又以result.Error构造IOException；空字符串没有阶段、异常类型、错误码或兜底文本。因此错误原因到达界面前已经丢失，不只是窗口没展示完整。</p>
+<h2 id="-哪些只读检查已过">④ 哪些只读检查已过</h2>
+<p>同一发布引擎的Configure、NormalizeTarget、ValidateStorage和ValidateSources均通过；厂商7zr对同一个压缩包执行完整性测试退出0。未调用真实目标的Apply，没有更改实际PMLLIB文件或原LaunchDesk程序。</p>
+<h2 id="-隔离目录能不能复制">⑤ 隔离目录能不能复制</h2>
+<p>从当前发布包提取的同一引擎，在Example/original-deploy-diagnostic/isolated-e1f4650a609c4cc0815a3ba7b9417845/SeaGend完成5228个文件部署，状态Success。这个新目录与实际SeaGend无关，也没有启动E3D、AM或VM。隔离成功不等于实际目标可写，不能据此排除实际文件占用或权限问题。</p>
+<h2 id="-哪些原因尚未确定">⑥ 哪些原因尚未确定</h2>
+<p>三次历史失败缺少原始异常/堆栈/阶段记录，当前不能还原到底是文件占用、权限、锁、进程上下文还是其他错误；不得据空Error猜测。隔离复现未产生同一失败，也没有冒险对真实目标重放部署。</p>
+<h2 id="-当前怎么处理">⑦ 当前怎么处理</h2>
+<p>如果急用可先手动更新：关闭使用SeaGend的应用，完整备份实际目录，再按发布包结构覆盖；不要先删除整个目录。若Windows报错，保留准确文件路径和原因。用户询问不构成已执行更新，本轮没有更新实际SeaGend或环境变量。</p>
+<h2 id="-后续修复应满足什么">⑧ 后续修复应满足什么</h2>
+<p>原程序需要在worker结果保存阶段、异常类型/HResult、非空摘要、相关日志路径，并在界面提供可定位的原因；不能再只传Message或裸Error。原项目/Rewrite未修改；新项目的快照边界已加入阶段与空消息兜底，原程序修复仍需独立实施。原始证据留在本机Operations与隔离诊断目录，不发布完整用户配置或凭据。</p>
+
+</article>
+
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span class="ld-footer-word">LAUNCHDESK.NEXT / KNOWLEDGE SYSTEM</span><span class="ld-footer-note">功能事实 · 源码路径 · 验证证据　/　DocFX</span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

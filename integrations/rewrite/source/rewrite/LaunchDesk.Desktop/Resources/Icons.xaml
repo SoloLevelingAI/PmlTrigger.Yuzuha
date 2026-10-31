@@ -1,0 +1,38 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Vector geometry exported from LaunchDesk-v1.figcraft; source layer IDs are retained. -->
+    <Geometry x:Key="Icon.Dashboard">M0 0L7 0L7 7L0 7L0 0ZM11 0L18 0L18 7L11 7L11 0ZM0 11L7 11L7 18L0 18L0 11ZM11 11L18 11L18 18L11 18L11 11Z</Geometry>
+    <!-- FigCraft 21 -->
+    <Geometry x:Key="Icon.Folder">M0 0L7 0L9 3L18 3L18 13L0 13L0 0Z</Geometry><!-- FigCraft 24 -->
+    <Geometry x:Key="Icon.Server">M3 3L4 3M3 13L4 13M8 3L13 3M8 13L13 13M0 0L16 0L16 6L0 6L0 0ZM0 10L16 10L16 16L0 16L0 10Z</Geometry>
+    <!-- FigCraft 27 -->
+    <Geometry x:Key="Icon.Application">M0 4L16 4M5 4L5 13M0 0L16 0L16 13L0 13L0 0Z</Geometry><!-- FigCraft 30 -->
+    <Geometry x:Key="Icon.Import">M8 0L8 12M3 7L8 12L13 7M0 14L0 18L16 18L16 14</Geometry><!-- FigCraft 33 -->
+    <Geometry x:Key="Icon.Settings">M9 0L9 3M9 15L9 18M0 9L3 9M15 9L18 9M2 2L4 4M14 14L16 16M2 16L4 14M14 4L16 2M9 5C11.209 5 13 6.791 13 9C13 11.209 11.209 13 9 13C6.791 13 5 11.209 5 9C5 6.791 6.791 5 9 5Z</Geometry>
+    <!-- FigCraft 47 -->
+    <Geometry x:Key="Icon.Plus">M7 0L7 14M0 7L14 7</Geometry><!-- FigCraft 57 -->
+    <Geometry x:Key="Icon.Refresh">M13.062 5C11.478 2.256 8.249 0.919 5.188 1.739C2.128 2.559 0 5.332 0 8.5C0 11.668 2.128 14.441 5.188 15.261C8.249 16.081 11.478 14.744 13.062 12M13.062 0L13.062 5L8.062 5</Geometry>
+    <!-- FigCraft 60 -->
+    <Geometry x:Key="Icon.Search">M12 12L17 17M14 7C14 10.866 10.866 14 7 14C3.134 14 0 10.866 0 7C0 3.134 3.134 0 7 0C10.866 0 14 3.134 14 7Z</Geometry>
+    <!-- FigCraft 86 -->
+    <Geometry x:Key="Icon.More">M0 0L1 0M6 0L7 0M12 0L13 0</Geometry><!-- FigCraft 103 -->
+    <Geometry x:Key="Icon.Check">M0 5L5 10L14 0</Geometry><!-- FigCraft 139 -->
+    <Geometry x:Key="Icon.Play">M0 0L12 7L0 14L0 0Z</Geometry><!-- FigCraft 144 -->
+    <Geometry x:Key="Icon.Back">M14 6L0 6M6 0L0 6L6 12</Geometry><!-- FigCraft 197 -->
+    <Geometry x:Key="Icon.Copy">M2 12L0 12L0 0L11 0L11 2M6 6L17 6L17 18L6 18L6 6Z</Geometry><!-- FigCraft 200 -->
+    <Geometry x:Key="Icon.Info">M9 0 A9 9 0 1 1 9 18 A9 9 0 1 1 9 0 M9 8 L9 13 M9 4 L9 4.5</Geometry>
+    <Geometry x:Key="Icon.Warning">M9 0 L18 16 L0 16 Z M9 5 L9 10 M9 12 L9 12.5</Geometry>
+    <Geometry x:Key="Icon.Save">M0 0 L14 0 L18 4 L18 18 L0 18 Z M4 0 L4 6 L13 6 L13 0 M4 18 L4 11 L14 11 L14 18</Geometry>
+    <Geometry x:Key="Icon.Trash">M1 4 L17 4 M6 4 L6 1 L12 1 L12 4 M3 4 L4 18 L14 18 L15 4 M7 7 L7 14 M11 7 L11 14</Geometry>
+    <Geometry x:Key="Icon.Close">M0 0 L12 12 M12 0 L0 12</Geometry>
+    <Geometry x:Key="Icon.Eye">M0 8 C4 1 14 1 18 8 C14 15 4 15 0 8 Z M12 8 A3 3 0 1 1 6 8 A3 3 0 1 1 12 8</Geometry>
+    <Geometry x:Key="Icon.Export">M8 12L8 0M3 5L8 0L13 5M0 14L0 18L16 18L16 14</Geometry>
+    <Geometry x:Key="Icon.Package">M0 4L9 0L18 4L18 15L9 19L0 15Z M0 4L9 8L18 4 M9 8L9 19 M4.5 2L13.5 6</Geometry>
+    <Geometry x:Key="Icon.Shield">M9 0L17 3L17 10C16 14 12 17 9 19C6 17 2 14 1 10L1 3Z M5 9L8 12L13 6</Geometry>
+    <Geometry x:Key="Icon.History">M9 0A9 9 0 1 1 0 9 M0 0L0 6L6 6 M9 4L9 9L13 11</Geometry>
+    <Geometry x:Key="Icon.Link">M7 4L10 1C15 -4 23 4 18 9L15 12 M11 14L8 17C3 22 -5 14 0 9L3 6 M5 12L12 5</Geometry>
+    <SolidColorBrush x:Key="AccentSoft" Color="#EEF0FF" />
+    <SolidColorBrush x:Key="Success" Color="#238266" /><SolidColorBrush x:Key="SuccessSoft" Color="#EAF6EF" />
+    <SolidColorBrush x:Key="Warning" Color="#AF781C" /><SolidColorBrush x:Key="WarningSoft" Color="#FFF5DF" />
+    <SolidColorBrush x:Key="Error" Color="#BF5260" /><SolidColorBrush x:Key="ErrorSoft" Color="#FBEFF1" />
+</ResourceDictionary>

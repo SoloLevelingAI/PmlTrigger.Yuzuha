@@ -1,0 +1,233 @@
+{
+  "build": {
+    "content": [
+      {
+        "files": [
+          "**/*.md",
+          "**/toc.yml"
+        ],
+        "exclude": [
+          "template/**"
+        ]
+      },
+      {
+        "src": "../openspec",
+        "files": [
+          "**/*.md"
+        ],
+        "dest": "openspec"
+      },
+      {
+        "files": [
+          "template/README.md"
+        ]
+      }
+    ],
+    "resource": [
+      {
+        "files": [
+          "design/**/*.figcraft",
+          "design/previews/**/*.png",
+          "reviews/examples/*.toml"
+        ]
+      },
+      {
+        "src": "../src",
+        "files": [
+          "**/*.cs"
+        ],
+        "exclude": [
+          "**/bin/**",
+          "**/obj/**"
+        ],
+        "dest": "source"
+      },
+      {
+        "src": "../artifacts/vmware-lab",
+        "files": [
+          "20261028-g0-g1/*.json",
+          "20261028-g0-g1/*.jsonl",
+          "20261028-g0-g1/tools/*.cs",
+          "20261028-g0-g1/tools/README.md",
+          "20261028-licence/*.json",
+          "20261028-licence/*.jsonl",
+          "20261028-licence/*.txt",
+          "20261028-licence/*.cs",
+          "20261028-rms-identity/*.json",
+          "20261028-rms-identity/*.jsonl",
+          "20261028-rms-identity/*.txt",
+          "20261028-rms-identity/*.cs",
+          "20261028-hostname-restore/*.json",
+          "20261028-hostname-restore/*.jsonl",
+          "20261028-hostname-restore/*.txt",
+          "20261028-hostname-restore/*.cs",
+          "20261028-fnf7/*.json",
+          "20261028-fnf7/*.jsonl",
+          "20261028-fnf7/*.txt",
+          "20261028-fnf7/*.cs"
+        ],
+        "dest": "evidence/vmware-lab"
+      },
+      {
+        "src": "../artifacts/project-modules",
+        "files": [
+          "local-scan.json",
+          "final-tests.txt",
+          "openspec-discovery.txt",
+          "openspec-proposals.txt"
+        ],
+        "dest": "evidence/project-modules"
+      },
+      {
+        "src": "../artifacts/remote-review-edit",
+        "files": [
+          "*.json",
+          "*.cs"
+        ],
+        "dest": "evidence/remote-review-edit"
+      },
+      {
+        "src": "../dev/RemoteProjectLab",
+        "files": [
+          "**/*.cs",
+          "**/*.csproj",
+          "**/README.md",
+          "build.rsp",
+          "lab.example.json"
+        ],
+        "exclude": [
+          "**/.local/**",
+          "**/bin/**",
+          "**/obj/**"
+        ],
+        "dest": "development-source"
+      },
+      {
+        "src": "..",
+        "files": [
+          "LaunchDesk.Next.slnx",
+          "tests/LaunchDesk.Next.ArchitectureTests/ArchitectureTests.cs",
+          "tests/LaunchDesk.Next.UnitTests/Launch/ModelExecutionTests.cs",
+          "addins/*.addin.xml",
+          "tests/LaunchDesk.Next.ArchitectureTests/AddinTests.cs",
+          "README.md",
+          "src/LaunchDesk.Next.Desktop/LaunchDesk.Next.Desktop.csproj"
+        ],
+        "dest": "project-source"
+      },
+      {
+        "src": "../artifacts/model-execution",
+        "files": [
+          "*.json",
+          "*.txt"
+        ],
+        "dest": "evidence/model-execution"
+      },
+      {
+        "src": "../artifacts/addins",
+        "files": [
+          "*.json",
+          "*.txt"
+        ],
+        "dest": "evidence/addins"
+      },
+      {
+        "src": "../artifacts/documentation-review",
+        "files": [
+          "verification.json"
+        ],
+        "dest": "evidence/documentation-review"
+      },
+      {
+        "files": [
+          "portfolio/**/*.html",
+          "portfolio/**/*.css",
+          "portfolio/**/*.js",
+          "portfolio/**/*.json",
+          "portfolio/**/*.figcraft",
+          "portfolio/**/*.png"
+        ]
+      },
+      {
+        "src": "..",
+        "files": [
+          "tools/portfolio/build.py"
+        ],
+        "dest": "project-source"
+      },
+      {
+        "src": "../artifacts/portfolio-review",
+        "files": [
+          "verification.json"
+        ],
+        "dest": "evidence/portfolio-review"
+      },
+      {
+        "src": "..",
+        "files": [
+          "tools/portfolio/capture-dom.js",
+          "tools/portfolio/import_dom.py",
+          "tools/portfolio/export_css.py",
+          "tools/portfolio/check_roundtrip.py"
+        ],
+        "dest": "project-source"
+      },
+      {
+        "src": "../artifacts/portfolio-roundtrip",
+        "files": [
+          "html-before-*.jpg",
+          "html-after-*.jpg",
+          "figcraft-*.png",
+          "dom-before.json",
+          "dom-after.json",
+          "layer-map.json",
+          "imported-native.json",
+          "import-source-hashes.json",
+          "native-css.jsonl",
+          "figcraft-variables.css",
+          "provenance.json",
+          "viewer-checks.json",
+          "comparison-viewer.jpg"
+        ],
+        "dest": "evidence/portfolio-roundtrip"
+      },
+      {
+        "src": "../artifacts/docfx-theme",
+        "files": [
+          "*.jpg",
+          "theme-source.json",
+          "type-map.json",
+          "verification.json"
+        ],
+        "dest": "evidence/docfx-theme"
+      },
+      {
+        "src": "..",
+        "files": [
+          "tools/docs/*.py",
+          "tools/docs/capture.json"
+        ],
+        "dest": "project-source"
+      }
+    ],
+    "dest": "../artifacts/documentation/site",
+    "template": [
+      "default",
+      "modern",
+      "template"
+    ],
+    "globalMetadata": {
+      "_appTitle": "LaunchDesk.Next",
+      "_appName": "LaunchDesk.Next",
+      "_lang": "zh-cn",
+      "_disableContribution": true,
+      "_disableToc": false,
+      "_enableSearch": true,
+      "_themeRevision": "f5a8b6840d71",
+      "_appFooter": "<span class=\"ld-footer-word\">LAUNCHDESK.NEXT / KNOWLEDGE SYSTEM</span><span class=\"ld-footer-note\">功能事实 · 源码路径 · 验证证据　/　DocFX</span>"
+    },
+    "postProcessors": [
+      "ExtractSearchIndex"
+    ]
+  }
+}

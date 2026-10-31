@@ -1,0 +1,485 @@
+{
+  "schemaVersion": 1,
+  "bindings": [
+    {
+      "test": "xunit:LaunchDesk.Architecture.Tests.LaunchPlanExamplesTests.MarineExampleIsAnExecutableContract",
+      "purpose": "Marine 文档示例与五参数协议、唯一秘密插槽及完整计划一致。",
+      "targets": [
+        {
+          "uid": "LaunchDesk.UseCases.LaunchPlanBuilder",
+          "methods": [
+            "BuildMarineArguments",
+            "Build"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "xunit:LaunchDesk.Architecture.Tests.LaunchPlanExamplesTests.CatalogueExampleIsAnExecutableContract",
+      "purpose": "E3D 2.1 CATALOGUE 与 catalogue.init 的示例成为参数断言。",
+      "targets": [
+        {
+          "uid": "LaunchDesk.UseCases.LaunchPlanBuilder",
+          "methods": [
+            "BuildMonitorArguments"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "xunit:LaunchDesk.Architecture.Tests.LaunchPlanExamplesTests.MonitorHonorsExplicitProductAndInitialization",
+      "purpose": "参数化验证多个版本、产品、初始化文件和模块大小写。",
+      "targets": [
+        {
+          "uid": "LaunchDesk.UseCases.LaunchPlanBuilder",
+          "methods": [
+            "BuildMonitorArguments",
+            "Build"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "xunit:LaunchDesk.Architecture.Tests.LaunchPlanExamplesTests.MdbUsesExactlyOneLeadingSlash",
+      "purpose": "参数化验证 MDB 规范化后在两个产品协议中的位置。",
+      "targets": [
+        {
+          "uid": "LaunchDesk.UseCases.LaunchPlanBuilder",
+          "methods": [
+            "BuildMonitorArguments",
+            "BuildMarineArguments"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "xunit:LaunchDesk.Architecture.Tests.LaunchPlanExamplesTests.MarineRejectsUnsupportedEntrypointAndUnsafeFields",
+      "purpose": "错误入口、空 MDB 和不安全 Marine 字段在计划阶段被拒绝。",
+      "targets": [
+        {
+          "uid": "LaunchDesk.UseCases.LaunchPlanBuilder",
+          "methods": [
+            "BuildMarineArguments"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "xunit:LaunchDesk.Architecture.Tests.LaunchPlanExamplesTests.MonitorRejectsMissingOrPrequotedInitialization",
+      "purpose": "Monitor 拒绝空或预先写入引号的初始化路径。",
+      "targets": [
+        {
+          "uid": "LaunchDesk.UseCases.LaunchPlanBuilder",
+          "methods": [
+            "BuildMonitorArguments"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "xunit:LaunchDesk.Architecture.Tests.LaunchPlanExamplesTests.UnsupportedMarineSecretsFailBeforeCreatingAProcess",
+      "purpose": "运行时秘密经过批处理字面策略，不安全输入不能创建目标批处理。",
+      "targets": [
+        {
+          "uid": "LaunchDesk.UseCases.LaunchPlanBuilder",
+          "methods": [
+            "BuildMarineArguments"
+          ]
+        },
+        {
+          "uid": "LaunchDesk.Kernel.MarineBatchPolicy"
+        },
+        {
+          "uid": "LaunchDesk.Windows.WindowsProcessGateway"
+        }
+      ]
+    },
+    {
+      "test": "scenario:CORE Marine Paragon survives vendor percent-1 parsing and nested cmd handoff",
+      "purpose": "模拟厂商 %1 比较及嵌套 cmd 转交。",
+      "targets": [
+        {
+          "uid": "LaunchDesk.UseCases.LaunchPlanBuilder"
+        },
+        {
+          "uid": "LaunchDesk.Windows.WindowsProcessGateway"
+        }
+      ]
+    },
+    {
+      "test": "scenario:CORE Monitor native receiver preserves E3D and launch.init",
+      "purpose": "原生接收进程核对 Design 参数和子进程许可环境。",
+      "targets": [
+        {
+          "uid": "LaunchDesk.UseCases.LaunchPlanBuilder"
+        },
+        {
+          "uid": "LaunchDesk.Windows.WindowsProcessGateway"
+        }
+      ]
+    },
+    {
+      "test": "scenario:CORE Monitor native receiver preserves CATALOGUE and catalogue.init",
+      "purpose": "原生接收进程核对 Catalogue 参数和完整初始化路径。",
+      "targets": [
+        {
+          "uid": "LaunchDesk.UseCases.LaunchPlanBuilder"
+        },
+        {
+          "uid": "LaunchDesk.Windows.WindowsProcessGateway"
+        }
+      ]
+    },
+    {
+      "test": "scenario:AR05 child environments isolate license bindings",
+      "purpose": "子进程许可及工具环境彼此隔离，不改父环境。",
+      "targets": [
+        {
+          "uid": "LaunchDesk.Kernel.ProcessEnvironmentPolicy"
+        }
+      ]
+    },
+    {
+      "test": "scenario:AR05 tool conflicts and cycles prevent launch planning",
+      "purpose": "关联工具的冲突和循环变量阻止生成启动计划。",
+      "targets": [
+        {
+          "uid": "LaunchDesk.UseCases.LaunchPlanBuilder"
+        }
+      ]
+    },
+    {
+      "test": "scenario:AR06-08 health rounds debounce and bind evidence identity",
+      "purpose": "健康轮次去抖，证据绑定完整端点身份和有效期。",
+      "targets": [
+        {
+          "uid": "LaunchDesk.Kernel.ConnectionHealthPolicy"
+        }
+      ]
+    },
+    {
+      "test": "scenario:F04 RequireFresh uses frozen endpoint and never reuses another revision",
+      "purpose": "新鲜证据必须匹配冻结端点和资源修订。",
+      "targets": [
+        {
+          "uid": "LaunchDesk.UseCases.ResourceSupervisor"
+        }
+      ]
+    },
+    {
+      "test": "scenario:F05 stable copy identity, historical receipt and no credential copying",
+      "purpose": "配置复制的稳定编号、历史结果及凭据隔离。",
+      "targets": [
+        {
+          "uid": "LaunchDesk.UseCases.WorkspaceCatalogService"
+        },
+        {
+          "uid": "LaunchDesk.OperationContracts.ICatalogService"
+        }
+      ]
+    },
+    {
+      "test": "scenario:F05 switch outcome unknown remains verifiable by CommitId",
+      "purpose": "未知提交结果保持可按原编号核验。",
+      "targets": [
+        {
+          "uid": "LaunchDesk.UseCases.WorkspaceCatalogService"
+        }
+      ]
+    },
+    {
+      "test": "scenario:F01 two real processes admit at most one side effect",
+      "purpose": "跨进程受理互斥，只允许一个实际副作用。",
+      "targets": [
+        {
+          "uid": "LaunchDesk.Windows.JsonRunJournal"
+        },
+        {
+          "uid": "LaunchDesk.OperationContracts.IRunJournal"
+        }
+      ]
+    },
+    {
+      "test": "scenario:F02 reject workspace, ancestor, traversal and held target conflicts",
+      "purpose": "拒绝控制目录、祖先、遍历及占用目标冲突。",
+      "targets": [
+        {
+          "uid": "LaunchDesk.Windows.JsonRunJournal"
+        }
+      ]
+    },
+    {
+      "test": "scenario:AR12 sources preserve a manual older package when refreshed",
+      "purpose": "刷新来源时保留明确选择的旧包。",
+      "targets": [
+        {
+          "uid": "LaunchDesk.UseCases.ToolSourceCatalog"
+        },
+        {
+          "uid": "LaunchDesk.OperationContracts.IToolSourceCatalog"
+        }
+      ]
+    },
+    {
+      "test": "scenario:AR13-17 folder delivery, interrupted write, explicit recovery and rollback",
+      "purpose": "文件夹交付、中断恢复及回滚的真实文件断言。",
+      "targets": [
+        {
+          "uid": "LaunchDesk.Windows.FileDeliveryPort"
+        },
+        {
+          "uid": "LaunchDesk.OperationContracts.IFileDeliveryPort"
+        },
+        {
+          "uid": "LaunchDesk.UseCases.DeliveryOperationHandler"
+        }
+      ]
+    },
+    {
+      "test": "scenario:AR14 changing source invalidates a confirmed plan",
+      "purpose": "来源变化使已确认交付计划失效。",
+      "targets": [
+        {
+          "uid": "LaunchDesk.Windows.PrivateStagingStore"
+        },
+        {
+          "uid": "LaunchDesk.OperationContracts.IStagingStore"
+        }
+      ]
+    },
+    {
+      "test": "scenario:AR19 import has no execution and export contains no credential reference",
+      "purpose": "分享导入不执行程序，导出不包含凭据引用。",
+      "targets": [
+        {
+          "uid": "LaunchDesk.UseCases.WorkspaceCatalogService"
+        }
+      ]
+    },
+    {
+      "test": "scenario:AR21 portable location is relative to executable rather than current directory",
+      "purpose": "便携数据路径相对程序目录解析。",
+      "targets": [
+        {
+          "uid": "LaunchDesk.Windows.WorkspaceLocationResolver"
+        }
+      ]
+    },
+    {
+      "test": "scenario:Runtime secrets and capabilities reject JSON serialization",
+      "purpose": "运行时秘密和执行能力不能被 JSON 序列化。",
+      "targets": [
+        {
+          "uid": "LaunchDesk.OperationContracts.TransientSecret"
+        },
+        {
+          "uid": "LaunchDesk.OperationContracts.SecretLease"
+        }
+      ]
+    },
+    {
+      "test": "scenario:AR22 current format cannot be migrated without its control history",
+      "purpose": "当前格式缺失控制历史时不能作为旧版导入。",
+      "targets": [
+        {
+          "uid": "LaunchDesk.Windows.MigrationPlanningService"
+        }
+      ]
+    },
+    {
+      "test": "scenario:AR24 target process survives an orchestrator job closing",
+      "purpose": "编排器 Job 结束不会误杀已启动目标。",
+      "targets": [
+        {
+          "uid": "LaunchDesk.Windows.WindowsProcessGateway"
+        }
+      ]
+    },
+    {
+      "test": "scenario:AR18 worker authenticates its parent and writes only the admitted plan",
+      "purpose": "Worker 核验父进程及受理计划。",
+      "targets": [
+        {
+          "uid": "LaunchDesk.Windows.FileDeliveryPort"
+        }
+      ]
+    },
+    {
+      "test": "scenario:AR11 accepted operations outlive callers and explicit stop does not replay",
+      "purpose": "受理操作独立于等待者生命周期，停止不触发重放。",
+      "targets": [
+        {
+          "uid": "LaunchDesk.UseCases.OperationCoordinator"
+        },
+        {
+          "uid": "LaunchDesk.OperationContracts.IOperationCommands"
+        }
+      ]
+    },
+    {
+      "test": "scenario:AR14 ZIP traversal and file-map traversal are rejected",
+      "purpose": "拒绝压缩包与普通文件映射的路径遍历。",
+      "targets": [
+        {
+          "uid": "LaunchDesk.Windows.PrivateStagingStore"
+        }
+      ]
+    },
+    {
+      "test": "scenario:AR14 ZIP flattening and 7z packages use verified contents",
+      "purpose": "ZIP 展开和 7z 交付使用核验后的暂存内容。",
+      "targets": [
+        {
+          "uid": "LaunchDesk.Windows.PrivateStagingStore"
+        }
+      ]
+    },
+    {
+      "test": "scenario:AR16 external target changes invalidate recovery and application",
+      "purpose": "目标被外部修改后拒绝继续应用或恢复。",
+      "targets": [
+        {
+          "uid": "LaunchDesk.Windows.FileDeliveryPort"
+        }
+      ]
+    },
+    {
+      "test": "scenario:AR17 variable rename checks baseline and keeps old value on uncertain new write",
+      "purpose": "变量重命名核对基线，未知写入结果不移除旧值。",
+      "targets": [
+        {
+          "uid": "LaunchDesk.UseCases.VariableOperationHandler"
+        },
+        {
+          "uid": "LaunchDesk.UseCases.VariablePlanner"
+        },
+        {
+          "uid": "LaunchDesk.Windows.WindowsEnvironmentStore"
+        }
+      ]
+    },
+    {
+      "test": "scenario:AR12 native process receives exact arguments and isolated environment",
+      "purpose": "原生进程收到精确参数和独立环境。",
+      "targets": [
+        {
+          "uid": "LaunchDesk.Windows.WindowsProcessGateway"
+        },
+        {
+          "uid": "LaunchDesk.OperationContracts.IProcessGateway"
+        }
+      ]
+    },
+    {
+      "test": "scenario:AR13 Marine launch rejects unsafe batch quoting before side effects",
+      "purpose": "Marine 不安全批处理输入在副作用前拒绝。",
+      "targets": [
+        {
+          "uid": "LaunchDesk.Windows.WindowsProcessGateway"
+        }
+      ]
+    },
+    {
+      "test": "scenario:AR10 window observation never confirms a project login",
+      "purpose": "窗口不会推断项目登录或许可签出成功。",
+      "targets": [
+        {
+          "uid": "LaunchDesk.Windows.WindowsProcessGateway"
+        }
+      ]
+    },
+    {
+      "test": "scenario:AR22 legacy migration preserves identities and credential references without changing source",
+      "purpose": "迁移保留稳定身份和凭据引用，不改旧配置。",
+      "targets": [
+        {
+          "uid": "LaunchDesk.UseCases.WorkspaceMigrationService"
+        },
+        {
+          "uid": "LaunchDesk.Windows.MigrationPlanningService"
+        }
+      ]
+    },
+    {
+      "test": "xunit:LaunchDesk.Architecture.Tests.ArchitectureBoundaryTests.CompiledDependenciesFollowApprovedLayers",
+      "purpose": "检查编译程序集依赖，不等同于具体交互功能测试。",
+      "targets": [
+        {
+          "uid": "LaunchDesk.Desktop.ProfilesPageViewModel"
+        },
+        {
+          "uid": "LaunchDesk.UseCases.LaunchOperationHandler"
+        }
+      ]
+    },
+    {
+      "test": "xunit:LaunchDesk.Architecture.Tests.ArchitectureBoundaryTests.ViewModelsBelongToDesktopInteraction",
+      "purpose": "约束 ViewModel 的层归属，不验证按钮或界面行为。",
+      "targets": [
+        {
+          "uid": "LaunchDesk.Desktop.ProfilesPageViewModel"
+        },
+        {
+          "uid": "LaunchDesk.Desktop.ProfileEditorViewModel"
+        }
+      ]
+    },
+    {
+      "test": "xunit:LaunchDesk.Architecture.Tests.ArchitectureBoundaryTests.InteractionAndUseCasesDoNotBypassSideEffectPorts",
+      "purpose": "交互与用例不能绕开副作用端口。",
+      "targets": [
+        {
+          "uid": "LaunchDesk.Desktop.ProfilesPageViewModel"
+        },
+        {
+          "uid": "LaunchDesk.UseCases.LaunchOperationHandler"
+        }
+      ]
+    },
+    {
+      "test": "xunit:LaunchDesk.Architecture.Tests.ArchitectureBoundaryTests.ProjectGraphMatchesApprovedEdgesAndHasNoCycles",
+      "purpose": "项目引用白名单及无环约束。",
+      "targets": [
+        {
+          "uid": "LaunchDesk.Desktop.ProfilesPageViewModel"
+        }
+      ]
+    },
+    {
+      "test": "legacy:LaunchDesk.Tests:Original desktop Marine adapter preserves vendor module comparison and nested handoff",
+      "purpose": "原桌面 LaunchService 适配到共享规则的回归；此旧版入口会运行整个 Core 套件。",
+      "targets": [
+        {
+          "uid": "LaunchDesk.UseCases.LaunchPlanBuilder",
+          "methods": [
+            "BuildMarineArguments"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "legacy:LaunchDesk.Tests:Original desktop Monitor adapter preserves explicit Catalogue configuration and module case",
+      "purpose": "原桌面 LaunchService 适配到共享规则的回归；此旧版入口会运行整个 Core 套件。",
+      "targets": [
+        {
+          "uid": "LaunchDesk.UseCases.LaunchPlanBuilder",
+          "methods": [
+            "BuildMonitorArguments"
+          ]
+        }
+      ]
+    },
+    {
+      "test": "legacy:LaunchDesk.Tests:Original desktop Marine adapter rejects unsupported multi-cmd input before execution",
+      "purpose": "原桌面 LaunchService 适配到共享规则的回归；此旧版入口会运行整个 Core 套件。",
+      "targets": [
+        {
+          "uid": "LaunchDesk.UseCases.LaunchPlanBuilder",
+          "methods": [
+            "BuildMarineArguments"
+          ]
+        }
+      ]
+    }
+  ]
+}

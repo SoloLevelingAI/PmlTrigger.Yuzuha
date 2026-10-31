@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+      <title>LaunchDesk.Next | LaunchDesk.Next </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="LaunchDesk.Next | LaunchDesk.Next ">
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="../toc.html">
+      
+      
+      
+      
+      
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="LaunchDesk.Next">
+            LaunchDesk.Next
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+
+      <div class="content">
+        <div class="actionbar">
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="launchdesknext">LaunchDesk.Next</h1>
+
+<p>独立的 Windows 启动工作台：查找本机 AVEVA 应用，修改预填，自动保存草稿，执行时冻结快照，再查看启动与记录证据；保存按钮用于命名配置。</p>
+<ul>
+<li><a href="../status.html">当前交付状态</a></li>
+<li><a href="../manuals/user.html">使用手册</a>｜<a href="../manuals/developer.html">开发手册</a>｜<a href="../manuals/demo.html">核心演示</a></li>
+<li><a href="../INDEX.html">文件与阅读索引</a></li>
+<li><a href="../features/launch-by-profile.html">用户与工程说明</a></li>
+<li><a href="../decisions/architecture.html">架构与源码索引</a></li>
+<li><a href="../verification.html">验证结果及边界</a></li>
+</ul>
+<p>运行：<code>dotnet run --project src/LaunchDesk.Next.Desktop</code>。需要 Windows 与 global.json 指定的 .NET SDK。配置和日志默认在 <code>%LOCALAPPDATA%/LaunchDesk.Next</code>，测试可设置 <code>LAUNCHDESK_NEXT_DATA</code> 到隔离目录。不会读取或迁移旧工作空间。</p>
+<p>构建：<code>dotnet restore LaunchDesk.Next.slnx --locked-mode</code>，<code>dotnet build LaunchDesk.Next.slnx -c Release --no-restore</code>。架构用 Debug 执行：<code>dotnet test tests/LaunchDesk.Next.ArchitectureTests --settings test.runsettings</code>。文档：<code>dotnet docfx docs/docfx.json</code>。</p>
+<p>当前源码已按具体功能脚本与中性后勤接口组织，见<a href="../../source/REFACTOR-SCRIPTS.md">重构说明</a>。第一版保留在Git标签 snapshot/v1-2026-10-27。</p>
+
+</article>
+
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

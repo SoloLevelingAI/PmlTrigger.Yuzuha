@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html data-reading-revision="f5a8b6840d71" lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+      <title>核心流程演示：修改一次，执行留证 | LaunchDesk.Next </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="核心流程演示：修改一次，执行留证 | LaunchDesk.Next ">
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/theme-tokens.css?v=f5a8b6840d71">
+      <link rel="stylesheet" href="../public/main.css?v=f5a8b6840d71">
+      <link rel="stylesheet" href="../public/theme-type.css?v=f5a8b6840d71">
+      <script type="module" src="../public/reading.js?v=f5a8b6840d71"></script>
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="../toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="本页目录">
+      <meta name="loc:searchResultsCount" content="“{query}”的结果：{count}条">
+      <meta name="loc:searchNoResults" content="没有找到“{query}”">
+      <meta name="loc:tocFilter" content="筛选文件标题">
+      <meta name="loc:nextArticle" content="下一篇">
+      <meta name="loc:prevArticle" content="上一篇">
+      <meta name="loc:themeLight" content="浅色">
+      <meta name="loc:themeDark" content="深色">
+      <meta name="loc:themeAuto" content="跟随系统">
+      <meta name="loc:changeTheme" content="切换明暗">
+      <meta name="loc:copy" content="复制">
+      <meta name="loc:downloadPdf" content="下载PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <a class="ld-skip" href="#doc-content">跳到正文</a>
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../INDEX.html">
+            <span class="ld-monogram" aria-hidden="true">LD</span>
+            LaunchDesk.Next
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="展开导航与搜索">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div class="ld-links" aria-label="快捷入口"><a href="../INDEX.html">阅读文档</a><a href="../portfolio/index.html?revision=figcraft-roundtrip">项目作品集 ↗</a><a href="../status.html">交付状态</a></div>
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="搜索文档" autocomplete="off" aria-label="搜索文档">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">文件目录</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="关闭文件目录"></button>
+          </div>
+          <div class="offcanvas-body">
+            <div class="ld-toc-caption"><strong>文件与阅读路径</strong><span>LIBRARY</span></div>
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="打开文件目录">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article id="doc-content" tabindex="-1" data-uid="core-demo">
+          <div class="ld-kicker">LAUNCHDESK.NEXT / ENGINEERING LIBRARY</div>
+          <div class="ld-doc-meta"><span class="ld-state" data-state="navigation">状态见正文</span><span>文档核对 2026-10-29</span></div>
+<h1 id="核心流程演示修改一次执行留证">核心流程演示：修改一次，执行留证</h1>
+
+<h2 id="-十秒开场">① 十秒开场</h2>
+<p>“把应用、工程和许可参数放在一处核对，启动时留下当次配置；出错能沿记录找到阶段。”依据是<a href="../features/launch-by-profile.html#brd">正文①与⑥</a>，不宣传尚未交付的迁移或共享授权。</p>
+<h2 id="-演示前准备">② 演示前准备</h2>
+<p>准备当前产品包、隔离数据目录与已安装目标应用；保留有效登录Addin。无工程/许可时演示配置编辑和失败反馈，不伪称成功登录。真实E3D演示另需有效工程、凭据与许可，不需要启动测试VM；历史许可记录仅作资料展示。本页为演示脚本，本次未运行任何目标程序。</p>
+<h2 id="-选一组具体输入">③ 选一组具体输入</h2>
+<p>以已安装E3D3.1候选为例，Project=MAR、User=SYSTEM、MDB=ALL_NO_MDS、Module=DESIGN；路径、init、工作目录与许可地址必须取演示机实际配置，不从示例猜。该组合来自<a href="../reviews/licence-checkout.html">历史案例</a>，不是所有机器通用默认。密码选Prompt现场输入，不展示或保存。</p>
+<h2 id="-展示找与改">④ 展示找与改</h2>
+<p>选候选 → 打开Project/Module来源记录 → 返回核对输入 → 修改一项 → 展示草稿已保存；如需可复用名称再点保存配置。操作解释引用<a href="../features/launch-by-profile.html#usage">正文③</a>，不另列第二套字段规范。</p>
+<h2 id="-展示执行数据链">⑤ 展示执行数据链</h2>
+<p>点击启动，讲解下图；随后打开<a href="../features/launch-by-profile.html#frontend">正文⑤⑥伪代码</a>和<a href="../decisions/architecture.html">源码索引</a>，逐点定位，不在演示稿复制源码。</p>
+<pre><code class="lang-mermaid">flowchart LR
+  UI[编辑同一Model] --&gt; Freeze[点击执行并冻结]
+  Freeze --&gt; Snapshot[草稿版本检查／快照与记录]
+  Snapshot --&gt; Backend[后端校验／许可／凭据]
+  Backend --&gt; Script[Monitor等具体脚本]
+  Script --&gt; Windows[Windows系统能力]
+  Windows --&gt; Result[返回状态／AttemptId记录]
+</code></pre>
+<h2 id="-展示结果与失败">⑥ 展示结果与失败</h2>
+<p>展示本次AttemptId、快照与记录；Created不说成登录成功。无有效环境可故意填非法端口，展示原输入留存与拒绝，不尝试启动；恢复参数。NeedsVerification时先人工核查，不再次点击。预期来自<a href="../features/launch-by-profile.html#requirements">正文④⑥</a>。</p>
+<h2 id="-按观众切换深度">⑦ 按观众切换深度</h2>
+<p>客户看价值和结果，使用者看操作次序；维护者看冻结输入及失败阶段；拓展者跟随具体脚本进入后勤接口。四者引用同一正文。需要说明历史真机成功时直接打开<a href="../reviews/licence-checkout.html">历史证据</a>，明确不是本场新测试。</p>
+<h2 id="-结束时留下什么">⑧ 结束时留下什么</h2>
+<p>记录包/提交版本、环境、所演示路径、AttemptId、实际结果与未演示项；截图先脱敏。对照<a href="../status.html">当前状态</a>说明本次覆盖范围。演示不更新许可、安装应用或开启VM，尚无本轮新的运行证据。</p>
+
+</article>
+
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span class="ld-footer-word">LAUNCHDESK.NEXT / KNOWLEDGE SYSTEM</span><span class="ld-footer-note">功能事实 · 源码路径 · 验证证据　/　DocFX</span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

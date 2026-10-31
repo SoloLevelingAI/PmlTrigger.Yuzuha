@@ -1,0 +1,72 @@
+{
+  "id": "17f392ea-0cf9-4760-bc69-b8dc73a72c6d",
+  "workflowName": "launchdesk-architecture-package",
+  "status": "paused",
+  "startedAt": "2026-10-19T07:51:28.000Z",
+  "completedAt": null,
+  "lastActivityAt": "2026-10-19T07:51:28.000Z",
+  "pendingWait": {
+    "owner": "node",
+    "nodeId": "human-review",
+    "kind": "attention",
+    "waitingSince": "2026-10-19T07:51:29.544Z",
+    "message": "Review REVIEW-PACKET.md and native node records. This is architecture only. Do not auto-approve; implementation requires a separate instruction.",
+    "pauseId": "28619196-785c-43c1-8118-26fd85554fb1",
+    "form": "approval"
+  },
+  "source": {
+    "version": 1,
+    "root": "C:\\Users\\26648\\Documents\\Codex\\2026-10-15\\ni\\work\\architecture-runs\\launchdesk-20261019-03\\install\\workspaces\\_folder\\workspace\\workflow-source\\runs\\17f392ea-0cf9-4760-bc69-b8dc73a72c6d",
+    "origin": "C:\\Users\\26648\\Documents\\Codex\\2026-10-15\\ni\\LaunchDesk.Archon",
+    "captured_at": "2026-10-19T07:51:27.785Z",
+    "digest": "8f9f84c95881d471f7caff6f6439f5bbc332321b7bb28cff68f3a97b568b0175",
+    "source_config": {
+      "load_default_workflows": true,
+      "load_default_commands": true
+    },
+    "file_count": 158,
+    "byte_count": 1021292
+  },
+  "predecessor": {
+    "id": "ec42ac4a-2167-4fd2-91d4-085b7d6aef7c",
+    "status": "failed",
+    "source": {
+      "version": 1,
+      "root": "C:\\Users\\26648\\Documents\\Codex\\2026-10-15\\ni\\work\\architecture-runs\\launchdesk-20261019-03\\install\\workspaces\\_folder\\workspace\\workflow-source\\runs\\ec42ac4a-2167-4fd2-91d4-085b7d6aef7c",
+      "origin": "C:\\Users\\26648\\Documents\\Codex\\2026-10-15\\ni\\LaunchDesk.Archon",
+      "captured_at": "2026-10-19T06:58:54.254Z",
+      "digest": "10cfdfd2118928a6fb8a660147a4c910380cd8049002b544906b3c7905100b49",
+      "source_config": {
+        "load_default_workflows": true,
+        "load_default_commands": true
+      },
+      "file_count": 149,
+      "byte_count": 981257
+    },
+    "originalTranscriptSha256": "caaa35a4dddeb162d08cf0e2c43e1f015b0e1764792a662ca7bfe7d41b61f27e",
+    "originalSnapshotSha256": "300265d0427a4dd3ba254b076f067e3c597f76e262bbf7c5817b89c37b421e3d"
+  },
+  "reviewRun": {
+    "id": "8b32f133-0d10-4e7c-acfd-ea34ed974513",
+    "status": "failed",
+    "source": {
+      "version": 1,
+      "root": "C:\\Users\\26648\\Documents\\Codex\\2026-10-15\\ni\\work\\architecture-runs\\launchdesk-20261019-03\\install\\workspaces\\_folder\\workspace\\workflow-source\\runs\\8b32f133-0d10-4e7c-acfd-ea34ed974513",
+      "origin": "C:\\Users\\26648\\Documents\\Codex\\2026-10-15\\ni\\LaunchDesk.Archon",
+      "captured_at": "2026-10-19T07:37:34.208Z",
+      "digest": "34a76073a6e582e0458225d3d4d5aa634de51cf39cac7ec5bceb2237819ab26c",
+      "source_config": {
+        "load_default_workflows": true,
+        "load_default_commands": true
+      },
+      "file_count": 154,
+      "byte_count": 1004650
+    },
+    "originalTranscriptSha256": "339327cd6c0c60a6219cba80bb89fdde0fb061c9545ee2ebe4f7c21c8885b50b",
+    "originalSnapshotSha256": "a4142a8490909c4d2beb14cf55d1b72118ee1122ec671a29b962bee97b2b41af"
+  },
+  "originalSnapshotSha256": "b2626590e60f9852defe0280c0d9570d2561f0e23f4ad2677908b3536b496fb4",
+  "originalTranscriptSha256": "a1b2ba16846fa6843463cf0efed0492a825c15410e2a835ed3e03b226d3d464c",
+  "projection": "Only lifecycle/source/node execution evidence; account IDs, env, prompts and tool outputs omitted. Structured results are separate artifacts.",
+  "implementationApproved": false
+}

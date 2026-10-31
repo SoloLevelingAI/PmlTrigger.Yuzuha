@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "runId": "17f392ea-0cf9-4760-bc69-b8dc73a72c6d",
+  "description": "展示配方，不复制职责或方法。类型及依赖来自 reviewed-contracts.json；需求来自 scope.json；场景编号来自 review-contract.json。新增类型归类仅为展示建议，未改动原生审阅产物。",
+  "groups": [
+    { "id": "workspace", "title": "工作台与配置", "description": "页面、登录配置、发现和分享", "color": "primary" },
+    { "id": "execution", "title": "启动与操作", "description": "唯一执行准入、启动与结果投影", "color": "secondary" },
+    { "id": "resources", "title": "资源与许可", "description": "探测证据、时效和状态复查", "color": "green" },
+    { "id": "delivery", "title": "交付与恢复", "description": "来源、预览、写入、变量与提权", "color": "amber" },
+    { "id": "foundation", "title": "契约与适配", "description": "规则、存储、Windows 适配和数据保护", "color": "muted" },
+    { "id": "composition", "title": "装配与开发", "description": "普通桌面入口与可替换的开发编排", "color": "secondary" }
+  ],
+  "modules": [
+    { "id": "desktop", "group": "workspace", "title": "桌面交互", "description": "页面状态、密码输入生命周期和主题资源" },
+    { "id": "catalog", "group": "workspace", "title": "配置与分享", "description": "直接用例、入口发现、稳定提交与无副作用导入" },
+    { "id": "coordinator", "group": "execution", "title": "有限操作协调", "description": "受理去重、唯一执行准入、取消及跨页面结果" },
+    { "id": "launch-handler", "group": "execution", "title": "启动处理", "description": "冻结计划、许可复查、独立环境和进程观察" },
+    { "id": "supervisor", "group": "resources", "title": "资源监测", "description": "带身份的探测轮次、时效、复查和恢复" },
+    { "id": "delivery-handler", "group": "delivery", "title": "交付与变量", "description": "来源选择、部署计划、恢复预览和变量应用" },
+    { "id": "worker", "group": "delivery", "title": "提权执行边界", "description": "按需提权，独立核验保护范围和执行上下文" },
+    { "id": "kernel", "group": "foundation", "title": "纯规则", "description": "健康归约、操作状态和进程环境策略" },
+    { "id": "contracts", "group": "foundation", "title": "公开契约", "description": "端口、不可变记录和明确的错误约定" },
+    { "id": "storage", "group": "foundation", "title": "持久化与迁移", "description": "配置提交、历史核验、日志、暂存与安全迁移" },
+    { "id": "platform", "group": "foundation", "title": "Windows 与来源适配", "description": "凭据、进程、探针、文件、环境及控制资料保护" },
+    { "id": "bootstrap", "group": "composition", "title": "桌面组合根", "description": "有限处理器工厂、依赖装配和保护根初始化" },
+    { "id": "devhost", "group": "composition", "title": "可选开发入口", "description": "Aspire 开发适配，普通 EXE 独立运行" }
+  ],
+  "unassignedTypes": {
+    "IEntryDiscovery": "contracts",
+    "WindowsEntryDiscovery": "platform",
+    "IStagingStore": "contracts",
+    "PrivateStagingStore": "storage",
+    "WorkspaceMigrationService": "catalog",
+    "IMigrationStore": "contracts",
+    "JsonMigrationStore": "storage",
+    "OperationAcceptance": "contracts",
+    "OperationExecutionLease": "coordinator",
+    "IControlDataGuard": "contracts",
+    "ControlDataLease": "platform",
+    "WindowsControlDataGuard": "platform",
+    "ResourceDescriptor": "contracts",
+    "ProbeObservation": "contracts",
+    "ProbeRound": "contracts",
+    "CommitId": "contracts",
+    "CommitIntent": "contracts",
+    "WorkspaceCommitSession": "storage",
+    "CommitReceipt": "contracts"
+  },
+  "walkthroughs": [
+    {
+      "id": "quickLogin", "title": "快速登录与唯一执行", "scenarios": ["AR05", "AR08", "AR09", "AR10"],
+      "summary": "从冻结请求到执行准入、许可证据复查和进程观察。窗口出现只形成观察事实，登录仍需独立证据。",
+      "steps": [
+        { "from": "ProfilesPageViewModel", "to": "OperationCoordinator", "method": "OperationCoordinator.SubmitAsync", "label": "提交冻结请求", "note": "相同操作标识和摘要只查询已有操作，不再次派发。" },
+        { "from": "OperationCoordinator", "to": "IRunJournal", "method": "IRunJournal.AcceptAsync", "label": "持久受理与查重", "note": "区分 Created / Existing；首次受理才有一次性准入能力。" },
+        { "from": "OperationCoordinator", "to": "IRunJournal", "method": "IRunJournal.TryBeginExecutionAsync", "label": "取得唯一执行权", "note": "跨进程可靠记录 Executing 后才创建处理作用域。" },
+        { "from": "OperationCoordinator", "to": "LaunchOperationHandler", "method": "LaunchOperationHandler.ExecuteAsync", "label": "在工厂作用域中执行", "note": "本步概括处理器工厂及上下文交接，表示场景调用，非新增构造依赖。" },
+        { "from": "LaunchOperationHandler", "to": "LaunchPlanBuilder", "method": "LaunchPlanBuilder.Build", "label": "生成冻结启动计划", "note": "入口、许可端点、资源修订和子进程环境来自同一快照。" },
+        { "from": "LaunchOperationHandler", "to": "ResourceSupervisor", "method": "ResourceSupervisor.RequireFreshAsync", "label": "按完整身份复查许可", "note": "通过 IResourceMonitor 调用；旧端点的绿色状态不能满足新绑定。" },
+        { "from": "LaunchOperationHandler", "to": "IProcessGateway", "method": "IProcessGateway.StartAsync", "label": "创建独立子进程环境", "note": "运行时凭据临时解析，父进程与系统许可变量保持隔离。" },
+        { "from": "LaunchOperationHandler", "to": "IProcessGateway", "method": "IProcessGateway.ObserveAsync", "label": "观察入口与模块交接", "note": "入口退出、窗口出现、登录已确认和会话退出分别记录。" },
+        { "from": "OperationProjectionService", "to": "IRunJournal", "method": "IRunJournal.WatchAsync", "label": "跨页面读取脱敏事实", "note": "这是读侧观察；关闭观察不结束目标应用，也不自动重放启动。" }
+      ]
+    },
+    {
+      "id": "licenseRecovery", "title": "许可短暂掉线与恢复", "scenarios": ["AR06", "AR07", "AR08"],
+      "summary": "分别处理虚拟机存活、端口可达和许可签出证据；复查阈值由策略配置，当前尚待审阅。",
+      "steps": [
+        { "from": "LicensePageViewModel", "to": "ResourceSupervisor", "method": "ResourceSupervisor.RefreshAsync", "label": "请求一次资源刷新", "note": "经 IResourceMonitor 进入监测，不在页面直接运行 VMware 命令。" },
+        { "from": "ResourceSupervisor", "to": "WindowsResourceProbe", "method": "WindowsResourceProbe.ObserveAsync", "label": "采集分项观测", "note": "经 IResourceProbe 使用冻结端点，虚拟机与 TCP 的事实分别保留。" },
+        { "from": "ResourceSupervisor", "to": "ConnectionHealthPolicy", "method": "ConnectionHealthPolicy.Reduce", "label": "归约同身份探测轮次", "note": "一次超时进入复查；持续失败与恢复按版本化策略判断，不凭一次失败宣布虚拟机丢失。" },
+        { "from": "LicensePageViewModel", "to": "ResourceSupervisor", "method": "ResourceSupervisor.WatchAsync", "label": "订阅健康状态变化", "note": "TCP 成功仅代表连通性；此图描述设计流程，不是实时许可监控面板。" },
+        { "from": "LaunchOperationHandler", "to": "ResourceSupervisor", "method": "ResourceSupervisor.RequireFreshAsync", "label": "启动前再次核验时效", "note": "过期、端点改变或机器身份不匹配都不能沿用旧的就绪事实。" }
+      ]
+    },
+    {
+      "id": "deliveryRecovery", "title": "部署保护与中断恢复", "scenarios": ["AR14", "AR15", "AR16", "AR17", "AR26"],
+      "summary": "保护配置、日志、备份和暂存范围。执行与恢复都需绑定预览计划，中断后先核验回执。",
+      "steps": [
+        { "from": "DeploymentPlanner", "to": "IControlDataGuard", "method": "IControlDataGuard.ValidateAsync", "label": "预览时排除控制资料", "note": "全部变更范围与配置、日志、备份等保护根重叠即拒绝。" },
+        { "from": "OperationCoordinator", "to": "IRunJournal", "method": "IRunJournal.TryBeginExecutionAsync", "label": "明确执行后唯一准入", "note": "确认的是带摘要的计划，受理去重不代替执行权。" },
+        { "from": "CanonicalTargetLeaseProvider", "to": "IControlDataGuard", "method": "IControlDataGuard.AcquireAsync", "label": "持有保护与目标租约", "note": "保护登记和目标写入互斥共同覆盖核验、写入及可靠回执。" },
+        { "from": "FileDeliveryPort", "to": "IControlDataGuard", "method": "IControlDataGuard.ValidateAsync", "label": "首项写入前再次核验", "note": "提权执行端还需独立核验；来源、身份或保护集合变化时不继续旧计划。" },
+        { "from": "DeliveryOperationHandler", "to": "FileDeliveryPort", "method": "FileDeliveryPort.ApplyAsync", "label": "写前意图、变更与回执", "note": "通过 IFileDeliveryPort 调用；回执与 UI 操作日志承担不同职责。" },
+        { "from": "DeliveryOperationHandler", "to": "FileDeliveryPort", "method": "FileDeliveryPort.ReadReceiptAsync", "label": "重启后读取原操作回执", "note": "不自动重放写入；未知结果需要核验，不能仅凭界面日志推断。" },
+        { "from": "ToolPageViewModel", "to": "DeploymentPlanner", "method": "DeploymentPlanner.PreviewRecoveryAsync", "label": "由工具页面重新预览恢复", "note": "通过 IDeploymentPlanningService 进入计划阶段；处理器不自行重新规划。恢复与回滚都需重新确认，并检查外部修改。" }
+      ]
+    }
+  ],
+  "findingAdditions": {
+    "F01": ["OperationAcceptance", "OperationExecutionLease"],
+    "F02": ["IControlDataGuard", "WindowsControlDataGuard", "ControlDataLease"],
+    "F03": [],
+    "F04": ["ResourceDescriptor", "ProbeObservation", "ProbeRound"],
+    "F05": ["CommitId", "CommitIntent", "CommitReceipt", "WorkspaceCommitSession"],
+    "F06": ["IOperationHandlerRegistry", "OperationHandlerRegistry"]
+  }
+}

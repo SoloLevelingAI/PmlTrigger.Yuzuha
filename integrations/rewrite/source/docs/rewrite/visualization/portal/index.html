@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>LaunchDesk · 架构审阅</title>
+  <link rel="stylesheet" href="review.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="#/overview"><span class="brand-symbol">L<span>↗</span></span><span>LaunchDesk<small>Architecture Studio</small></span></a>
+    <div class="sidebar-caption">ARCHON / 架构审阅</div>
+    <nav id="nav" aria-label="架构审阅导航"></nav>
+    <div class="sidebar-note"><span class="dot amber"></span>等待人工审阅<p>WPF / .NET 10<br>普通桌面 EXE 独立运行</p><a href="sources/CURRENT-REVIEW.md" target="_blank" rel="noopener">打开当前审阅报告 ↗</a></div>
+  </aside>
+  <div class="app">
+    <header class="topbar"><div><span class="eyebrow">LAUNCHDESK / ARCHITECTURE AS CODE</span><strong id="breadcrumb">审阅总览</strong></div><div class="topbar-actions"><span class="pill amber">提案 · 实现未批准</span><a class="button quiet" href="../generated/model.c4" target="_blank" rel="noopener">LikeC4 模型源 ↗</a></div></header>
+    <main id="content" tabindex="-1"><p class="loading">正在读取架构契约…</p></main>
+  </div>
+  <div id="error" role="alert" hidden></div>
+  <script type="module" src="review.mjs"></script>
+</body>
+</html>

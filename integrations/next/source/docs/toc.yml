@@ -1,0 +1,39 @@
+- name: 项目作品集 · 八幕演示
+  href: portfolio/README.md
+- name: 文件与阅读索引
+  href: INDEX.md
+- name: 当前交付与证据边界
+  href: status.md
+- name: 使用手册
+  href: manuals/user.md
+- name: 开发手册
+  href: manuals/developer.md
+- name: 核心流程演示
+  href: manuals/demo.md
+- name: 远程工程与凭据·八节评审
+  href: reviews/remote-portable.md
+  items:
+  - name: FigCraft图稿与视觉验收
+    href: design/remote-portable-review.md
+  - name: TOML库选型·已批准未安装
+    href: decisions/toml-selection.md
+- name: 用户与工程说明
+  href: features/launch-by-profile.md
+- name: 六类规格索引
+  href: specifications/index.md
+- name: 架构与源码
+  href: decisions/architecture.md
+- name: 界面设计与FigCraft
+  href: design/index.md
+- name: OpenSpec行为场景
+  href: openspec.md
+- name: 逐条需求台账
+  href: ../openspec/requirements.md
+- name: 验证
+  href: verification.md
+- name: 依赖
+  href: dependencies.md
+- name: 开发维护
+  href: development/INDEX.md
+- name: 文档主题与呈现证据
+  href: design/docfx-reading-theme.md

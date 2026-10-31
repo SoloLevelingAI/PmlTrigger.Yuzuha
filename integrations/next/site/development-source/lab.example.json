@@ -1,0 +1,13 @@
+{
+  "SchemaVersion": 1,
+  "AllowedVmRoot": "C:\\Lab\\OwnedTestClones",
+  "VmPath": "C:\\Lab\\OwnedTestClones\\ProjectServer\\ProjectServer.vmx",
+  "ExpectedUuid": "REPLACE_WITH_REVIEWED_UUID",
+  "ExpectedMac": "REPLACE_WITH_REVIEWED_MAC",
+  "VixLibraryPath": "C:\\Program Files\\VMware\\VMware Workstation\\vix.dll",
+  "CredentialTarget": "REVIEWED_TEST_CLONE",
+  "VmCredentialFile": "C:\\Lab\\Private\\vm-access.json",
+  "GuestCredentialFile": "C:\\Lab\\Private\\guest-access.json",
+  "TimeoutSeconds": 30,
+  "EvidenceDirectory": "C:\\Lab\\Evidence"
+}

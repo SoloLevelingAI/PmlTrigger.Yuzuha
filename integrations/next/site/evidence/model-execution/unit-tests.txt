@@ -1,0 +1,11 @@
+C:\Program Files\dotnet\sdk\11.0.100-rc.3.26522.148\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.RuntimeIdentifierInference.targets(385,5): message NETSDK1057: 你正在使用 .NET 的预览版。请参阅 https://aka.ms/dotnet-support-policy [C:\Users\26648\Documents\ChatGPT\Example\LaunchDesk.Next\tests\LaunchDesk.Next.UnitTests\LaunchDesk.Next.UnitTests.csproj]
+C:\Program Files\dotnet\sdk\11.0.100-rc.3.26522.148\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.RuntimeIdentifierInference.targets(385,5): message NETSDK1057: 你正在使用 .NET 的预览版。请参阅 https://aka.ms/dotnet-support-policy [C:\Users\26648\Documents\ChatGPT\Example\LaunchDesk.Next\src\LaunchDesk.Next.Platform\LaunchDesk.Next.Platform.csproj]
+C:\Program Files\dotnet\sdk\11.0.100-rc.3.26522.148\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.RuntimeIdentifierInference.targets(385,5): message NETSDK1057: 你正在使用 .NET 的预览版。请参阅 https://aka.ms/dotnet-support-policy [C:\Users\26648\Documents\ChatGPT\Example\LaunchDesk.Next\src\LaunchDesk.Next.Domain\LaunchDesk.Next.Domain.csproj]
+  LaunchDesk.Next.Domain -> C:\Users\26648\Documents\ChatGPT\Example\LaunchDesk.Next\src\LaunchDesk.Next.Domain\bin\Debug\net10.0\LaunchDesk.Next.Domain.dll
+  LaunchDesk.Next.Application -> C:\Users\26648\Documents\ChatGPT\Example\LaunchDesk.Next\src\LaunchDesk.Next.Application\bin\Debug\net10.0\LaunchDesk.Next.Application.dll
+  LaunchDesk.Next.Platform -> C:\Users\26648\Documents\ChatGPT\Example\LaunchDesk.Next\src\LaunchDesk.Next.Platform\bin\Debug\net10.0\LaunchDesk.Next.Platform.dll
+  LaunchDesk.Next.UnitTests -> C:\Users\26648\Documents\ChatGPT\Example\LaunchDesk.Next\tests\LaunchDesk.Next.UnitTests\bin\Debug\net10.0-windows\LaunchDesk.Next.UnitTests.dll
+C:\Users\26648\Documents\ChatGPT\Example\LaunchDesk.Next\tests\LaunchDesk.Next.UnitTests\bin\Debug\net10.0-windows\LaunchDesk.Next.UnitTests.dll (.NETCoreApp,Version=v10.0)的测试运行
+总共 1 个测试文件与指定模式相匹配。
+
+已通过! - 失败:     0，通过:    47，已跳过:     0，总计:    47，持续时间: 553 ms - LaunchDesk.Next.UnitTests.dll (net10.0)

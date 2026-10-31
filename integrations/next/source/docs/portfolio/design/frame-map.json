@@ -1,0 +1,18 @@
+{
+  "frames": [
+    2,
+    51,
+    118,
+    179,
+    246,
+    308,
+    366,
+    419
+  ],
+  "referenceViewport": {
+    "width": 1600,
+    "height": 900
+  },
+  "origin": "browser DOM capture, no independent slide template",
+  "nativeSha256": "f3879f004071af79d09772784761ddc3510346cb35aa13cd15c8d057f7baa0c4"
+}

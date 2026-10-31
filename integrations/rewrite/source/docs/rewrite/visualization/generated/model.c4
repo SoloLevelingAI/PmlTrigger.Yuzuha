@@ -1,0 +1,895 @@
+// Generated from reviewed Archon contracts. Do not edit.
+specification {
+  element system { style { color primary } }
+  element area { style { color primary } }
+  element module { style { color secondary } }
+  element class { style { color primary } }
+  element interface { style { color green } }
+  element record { style { color amber } }
+  element stage { style { color green } }
+  element gate { style { color amber } }
+  tag proposed { color blue }
+  tag nativeCompleted { color green }
+  tag editorial { color amber }
+}
+
+model {
+  app = system "LaunchDesk · 拟议架构" {
+    #proposed
+    description "WPF / .NET 10；普通 EXE 独立运行；架构实施尚未批准。"
+    workspace = area "工作台与配置" {
+      description "页面、登录配置、发现和分享"
+      style { color primary }
+      desktop = module "桌面交互" {
+        description "页面状态、密码输入生命周期和主题资源"
+        link ../#/module/desktop "模块与类型详情"
+        ShellViewModel = class "ShellViewModel" {
+          #proposed
+          description "导航、全局操作摘要与固定主要操作区状态。\n\n生命周期：Presentation.Wpf 主窗口级，关闭时异步释放。"
+          link ../#/type/ShellViewModel "职责、方法与审阅证据"
+        }
+        ProfilesPageViewModel = class "ProfilesPageViewModel" {
+          #proposed
+          description "配置列表交互、稳定直接命令及启动提交。\n\n生命周期：页面级；持久结果位于提交历史或操作日志。"
+          link ../#/type/ProfilesPageViewModel "职责、方法与审阅证据"
+        }
+        ProfileEditorViewModel = class "ProfileEditorViewModel" {
+          #proposed
+          description "编辑草稿、一次性接收秘密、管理稳定保存意图和显示核验结果。\n\n生命周期：编辑页级；每次输入和逻辑保存有独立代次，提交历史由存储持久保留。"
+          link ../#/type/ProfileEditorViewModel "职责、方法与审阅证据"
+        }
+        LicensePageViewModel = class "LicensePageViewModel" {
+          #proposed
+          description "展示分项证据、时间及复查状态。\n\n生命周期：Presentation.Wpf 页面级。"
+          link ../#/type/LicensePageViewModel "职责、方法与审阅证据"
+        }
+        ToolPageViewModel = class "ToolPageViewModel" {
+          #proposed
+          description "来源选择、计划预览、摘要绑定确认及结果导航。\n\n生命周期：Presentation.Wpf 页面级。"
+          link ../#/type/ToolPageViewModel "职责、方法与审阅证据"
+        }
+        PasswordEntryBehavior = class "PasswordEntryBehavior" {
+          #proposed
+          description "管理本次输入的显示缓冲、一次性移交及销毁。\n\n生命周期：密码输入控件级；输入代次和显隐状态仅在当前编辑会话有效。"
+          link ../#/type/PasswordEntryBehavior "职责、方法与审阅证据"
+        }
+        ThemeResourceCatalog = class "ThemeResourceCatalog" {
+          #proposed
+          description "集中管理经批准的视觉令牌和控件状态资源。\n\n生命周期：Presentation.Wpf 应用级不可变资源目录。"
+          link ../#/type/ThemeResourceCatalog "职责、方法与审阅证据"
+        }
+      }
+      catalog = module "配置与分享" {
+        description "直接用例、入口发现、稳定提交与无副作用导入"
+        link ../#/module/catalog "模块与类型详情"
+        WorkspaceCatalogService = class "WorkspaceCatalogService" {
+          #proposed
+          description "配置 CRUD、稳定 ID、发现合并及直接提交结果核验。\n\n生命周期：应用级单例；写会话、草稿和秘密为调用级。"
+          link ../#/type/WorkspaceCatalogService "职责、方法与审阅证据"
+        }
+        ConfigurationShareService = class "ConfigurationShareService" {
+          #proposed
+          description "白名单导出、导入预览和稳定配置提交。\n\n生命周期：应用级单例；导入草稿与提交会话为调用级。"
+          link ../#/type/ConfigurationShareService "职责、方法与审阅证据"
+        }
+        WorkspaceMigrationService = class "WorkspaceMigrationService" {
+          #proposed
+          description "PersistenceAndMigration 拥有配置迁移状态机，实现 IOperationHandler。\n\n生命周期：PersistenceAndMigration；预览调用级，执行由注册表按操作创建。\n模块归属为展示建议。"
+          link ../#/type/WorkspaceMigrationService "职责、方法与审阅证据"
+        }
+      }
+    }
+    execution = area "启动与操作" {
+      description "唯一执行准入、启动与结果投影"
+      style { color secondary }
+      coordinator = module "有限操作协调" {
+        description "受理去重、唯一执行准入、取消及跨页面结果"
+        link ../#/module/coordinator "模块与类型详情"
+        OperationCoordinator = class "OperationCoordinator" {
+          #proposed
+          description "管理有限操作受理、首次执行准入、处理器作用域及取消通知。\n\n生命周期：应用级单例；上下文、处理器和执行租约按操作创建。"
+          link ../#/type/OperationCoordinator "职责、方法与审阅证据"
+        }
+        OperationExecutionContext = class "OperationExecutionContext" {
+          #proposed
+          description "在唯一执行权下串行持久提交单次操作事实。\n\n生命周期：操作级；一个有效租约对应一个上下文和一个串行报告入口。"
+          link ../#/type/OperationExecutionContext "职责、方法与审阅证据"
+        }
+        OperationProjectionService = class "OperationProjectionService" {
+          #proposed
+          description "向 UI 暴露脱敏操作状态及版本。\n\n生命周期：OperationCoordination 应用级单例。"
+          link ../#/type/OperationProjectionService "职责、方法与审阅证据"
+        }
+        OperationExecutionLease = class "OperationExecutionLease" {
+          #proposed
+          description "封装已可靠记录的唯一执行权，绑定 OperationId、请求摘要、执行代次、机器、进程创建身份和随机实例标识。\n\n生命周期：单次操作执行作用域；持有至处理器结束及必要事实提交完成。\n模块归属为展示建议。"
+          link ../#/type/OperationExecutionLease "职责、方法与审阅证据"
+        }
+      }
+      launch_handler = module "启动处理" {
+        description "冻结计划、许可复查、独立环境和进程观察"
+        link ../#/module/launch-handler "模块与类型详情"
+        LaunchPlanBuilder = class "LaunchPlanBuilder" {
+          #proposed
+          description "从冻结本机配置构造身份一致且不含明文秘密的启动计划。\n\n生命周期：无状态构建器。"
+          link ../#/type/LaunchPlanBuilder "职责、方法与审阅证据"
+        }
+        LaunchOperationHandler = class "LaunchOperationHandler" {
+          #proposed
+          description "拥有启动状态机、启动意图及后续只读观察。\n\n生命周期：操作级；观察可长于页面生命周期，但不恢复首次执行权。"
+          link ../#/type/LaunchOperationHandler "职责、方法与审阅证据"
+        }
+      }
+    }
+    resources = area "资源与许可" {
+      description "探测证据、时效和状态复查"
+      style { color green }
+      supervisor = module "资源监测" {
+        description "带身份的探测轮次、时效、复查和恢复"
+        link ../#/module/supervisor "模块与类型详情"
+        ResourceSupervisor = class "ResourceSupervisor" {
+          #proposed
+          description "按冻结资源身份和版本化策略调度探测及发布监测投影。\n\n生命周期：应用级单例；每完整身份键独立轮次，应用持有停止令牌。"
+          link ../#/type/ResourceSupervisor "职责、方法与审阅证据"
+        }
+      }
+    }
+    delivery = area "交付与恢复" {
+      description "来源、预览、写入、变量与提权"
+      style { color amber }
+      delivery_handler = module "交付与变量" {
+        description "来源选择、部署计划、恢复预览和变量应用"
+        link ../#/module/delivery-handler "模块与类型详情"
+        DeliveryOperationHandler = class "DeliveryOperationHandler" {
+          #proposed
+          description "拥有安装、恢复和回滚的部署状态机。\n\n生命周期：ToolDeployment 操作级；租约覆盖目标复核至最后可靠回执。"
+          link ../#/type/DeliveryOperationHandler "职责、方法与审阅证据"
+        }
+        VariableOperationHandler = class "VariableOperationHandler" {
+          #proposed
+          description "持久变量应用、改名检查点和部分完成核验。\n\n生命周期：EnvironmentManagement 操作级。"
+          link ../#/type/VariableOperationHandler "职责、方法与审阅证据"
+        }
+        ToolSourceCatalog = class "ToolSourceCatalog" {
+          #proposed
+          description "来源刷新和选择策略；扫描/预览不执行内容。\n\n生命周期：Singleton"
+          link ../#/type/ToolSourceCatalog "职责、方法与审阅证据"
+        }
+        DeploymentPlanner = class "DeploymentPlanner" {
+          #proposed
+          description "形成绑定实际内容、完整变更范围及恢复资料位置的不可变部署预览。\n\n生命周期：无请求状态的规划服务；计划按 ID 持久登记。"
+          link ../#/type/DeploymentPlanner "职责、方法与审阅证据"
+        }
+        VariablePlanner = class "VariablePlanner" {
+          #proposed
+          description "只读生成持久变量变更计划。\n\n生命周期：EnvironmentManagement 无请求状态的规划服务。"
+          link ../#/type/VariablePlanner "职责、方法与审阅证据"
+        }
+      }
+      worker = module "提权执行边界" {
+        description "按需提权，独立核验保护范围和执行上下文"
+        link ../#/module/worker "模块与类型详情"
+        PrivilegedWorkerHost = class "PrivilegedWorkerHost" {
+          #proposed
+          description "在父操作唯一执行权下，执行有限提权步骤并承担实际写入者责任。\n\n生命周期：每次提权操作独立进程；实际写入期间持有本进程目标租约。"
+          link ../#/type/PrivilegedWorkerHost "职责、方法与审阅证据"
+        }
+      }
+    }
+    foundation = area "契约与适配" {
+      description "规则、存储、Windows 适配和数据保护"
+      style { color muted }
+      kernel = module "纯规则" {
+        description "健康归约、操作状态和进程环境策略"
+        link ../#/module/kernel "模块与类型详情"
+        ConnectionHealthPolicy = class "ConnectionHealthPolicy" {
+          #proposed
+          description "根据完整资源身份、显式时间和策略版本归并分项证据。\n\n生命周期：不可变策略实例，按策略版本复用。"
+          link ../#/type/ConnectionHealthPolicy "职责、方法与审阅证据"
+        }
+        ProcessEnvironmentPolicy = class "ProcessEnvironmentPolicy" {
+          #proposed
+          description "生成每次启动独立的子进程环境。\n\n生命周期：Domain.Contracts 无状态纯规则。"
+          link ../#/type/ProcessEnvironmentPolicy "职责、方法与审阅证据"
+        }
+        OperationStatePolicy = class "OperationStatePolicy" {
+          #proposed
+          description "校验公共生命周期、操作身份、序号和终结约束。\n\n生命周期：无状态纯策略。"
+          link ../#/type/OperationStatePolicy "职责、方法与审阅证据"
+        }
+      }
+      contracts = module "公开契约" {
+        description "端口、不可变记录和明确的错误约定"
+        link ../#/module/contracts "模块与类型详情"
+        ICatalogService = interface "ICatalogService" {
+          #proposed
+          description "配置查询、稳定提交及脱敏历史结果核验。\n\n生命周期：契约，无实例状态。"
+          link ../#/type/ICatalogService "职责、方法与审阅证据"
+        }
+        IConfigurationShareService = interface "IConfigurationShareService" {
+          #proposed
+          description "白名单分享、导入草稿及可核验的配置提交。\n\n生命周期：契约，无实例状态。"
+          link ../#/type/IConfigurationShareService "职责、方法与审阅证据"
+        }
+        IResourceMonitor = interface "IResourceMonitor" {
+          #proposed
+          description "提供当前资源刷新与精确身份的新鲜事实查询。\n\n生命周期：契约，无实例状态。"
+          link ../#/type/IResourceMonitor "职责、方法与审阅证据"
+        }
+        IOperationCommands = interface "IOperationCommands" {
+          #proposed
+          description "有限操作的持久受理、查询式去重及取消请求入口。\n\n生命周期：契约，无实例状态。"
+          link ../#/type/IOperationCommands "职责、方法与审阅证据"
+        }
+        IOperationHandlerRegistry = interface "IOperationHandlerRegistry" {
+          #proposed
+          description "唯一把有限操作种类映射到具体处理器工厂的位置。的公开边界\n\n生命周期：Contract"
+          link ../#/type/IOperationHandlerRegistry "职责、方法与审阅证据"
+        }
+        IOperationHandler = interface "IOperationHandler" {
+          #proposed
+          description "有限模块操作执行及模块状态机边界。\n\n生命周期：契约；实现按操作创建。"
+          link ../#/type/IOperationHandler "职责、方法与审阅证据"
+        }
+        IToolSourceCatalog = interface "IToolSourceCatalog" {
+          #proposed
+          description "来源刷新和选择策略；扫描/预览不执行内容。的公开边界\n\n生命周期：Contract"
+          link ../#/type/IToolSourceCatalog "职责、方法与审阅证据"
+        }
+        IWorkspaceStore = interface "IWorkspaceStore" {
+          #proposed
+          description "当前配置读取、跨进程提交准备、一次有效版本切换及长期提交核验。\n\n生命周期：契约；提交锁及历史覆盖工作区内所有进程。"
+          link ../#/type/IWorkspaceStore "职责、方法与审阅证据"
+        }
+        IWorkspaceLocationResolver = interface "IWorkspaceLocationResolver" {
+          #proposed
+          description "显式 --config、portable、默认目录的唯一解析与打开入口。的公开边界\n\n生命周期：Contract"
+          link ../#/type/IWorkspaceLocationResolver "职责、方法与审阅证据"
+        }
+        ISecretVault = interface "ISecretVault" {
+          #proposed
+          description "隔离 Windows 凭据 API，秘密只在本机短暂取得。的公开边界\n\n生命周期：Contract"
+          link ../#/type/ISecretVault "职责、方法与审阅证据"
+        }
+        IProcessGateway = interface "IProcessGateway" {
+          #proposed
+          description "执行结构化进程规格，观测子进程和窗口；不作项目成功判定。的公开边界\n\n生命周期：Contract"
+          link ../#/type/IProcessGateway "职责、方法与审阅证据"
+        }
+        IResourceProbe = interface "IResourceProbe" {
+          #proposed
+          description "采集冻结资源描述对应的一次分项观测。\n\n生命周期：契约；每次调用独立超时。"
+          link ../#/type/IResourceProbe "职责、方法与审阅证据"
+        }
+        IPackageReader = interface "IPackageReader" {
+          #proposed
+          description "只读发现和读取 ZIP / 7z、目录及文件映射。的公开边界\n\n生命周期：Contract"
+          link ../#/type/IPackageReader "职责、方法与审阅证据"
+        }
+        IFileDeliveryPort = interface "IFileDeliveryPort" {
+          #proposed
+          description "目标检查、持组合租约的逐项写入及部署回执读取。\n\n生命周期：契约，无实例状态。"
+          link ../#/type/IFileDeliveryPort "职责、方法与审阅证据"
+        }
+        ITargetLeaseProvider = interface "ITargetLeaseProvider" {
+          #proposed
+          description "取得跨进程目标互斥和控制数据保护的组合租约。\n\n生命周期：契约；TargetLease 绑定实际写入进程。"
+          link ../#/type/ITargetLeaseProvider "职责、方法与审阅证据"
+        }
+        IEnvironmentStore = interface "IEnvironmentStore" {
+          #proposed
+          description "读取与尽力检测冲突的环境写入端口。\n\n生命周期：契约，无实例状态。"
+          link ../#/type/IEnvironmentStore "职责、方法与审阅证据"
+        }
+        IPrivilegeBroker = interface "IPrivilegeBroker" {
+          #proposed
+          description "为已确认有限写入请求 UAC，关联调用者、一次性会话、计划摘要和回执。的公开边界\n\n生命周期：Contract"
+          link ../#/type/IPrivilegeBroker "职责、方法与审阅证据"
+        }
+        IRunJournal = interface "IRunJournal" {
+          #proposed
+          description "持久受理、执行准入、控制请求及有序操作事实的权威存储。\n\n生命周期：契约；实现须覆盖同一工作区的多个进程。"
+          link ../#/type/IRunJournal "职责、方法与审阅证据"
+        }
+        ITaskQueries = interface "ITaskQueries" {
+          #proposed
+          description "为 UI 提供只读任务快照与订阅，不维护第二份业务状态。的公开边界\n\n生命周期：Contract"
+          link ../#/type/ITaskQueries "职责、方法与审阅证据"
+        }
+        IDeploymentPlanningService = interface "IDeploymentPlanningService" {
+          #proposed
+          description "部署、恢复及回滚的只读目标预览契约。\n\n生命周期：契约，无实例状态。"
+          link ../#/type/IDeploymentPlanningService "职责、方法与审阅证据"
+        }
+        IOperationContext = interface "IOperationContext" {
+          #proposed
+          description "绑定一个执行租约的事实报告和释放边界。\n\n生命周期：单操作契约；worker 代理不能转移执行权。"
+          link ../#/type/IOperationContext "职责、方法与审阅证据"
+        }
+        IVariablePlanningService = interface "IVariablePlanningService" {
+          #proposed
+          description "只读变量变更规划边界。\n\n生命周期：Contract"
+          link ../#/type/IVariablePlanningService "职责、方法与审阅证据"
+        }
+        IEntryDiscovery = interface "IEntryDiscovery" {
+          #proposed
+          description "Configuration 定义的只读入口候选发现端口。\n\n生命周期：契约；适配器由组合根装配。\n模块归属为展示建议。"
+          link ../#/type/IEntryDiscovery "职责、方法与审阅证据"
+        }
+        IStagingStore = interface "IStagingStore" {
+          #proposed
+          description "受保护暂存、不可变计划登记及执行前内容校验。\n\n生命周期：契约；内容保留受计划、操作和恢复引用约束。\n模块归属为展示建议。"
+          link ../#/type/IStagingStore "职责、方法与审阅证据"
+        }
+        IMigrationStore = interface "IMigrationStore" {
+          #proposed
+          description "定义原始读取、旁路副本及有效版本切换。\n\n生命周期：契约；迁移记录保留至恢复引用解除。\n模块归属为展示建议。"
+          link ../#/type/IMigrationStore "职责、方法与审阅证据"
+        }
+        OperationAcceptance = record "OperationAcceptance" {
+          #proposed
+          description "不可变受理结果，包含 OperationId、RequestDigest、Snapshot、Disposition；仅 Created 结果携带进程绑定、一次性且不可序列化的准入凭据。\n\n生命周期：Created 凭据仅在首次受理调用所在进程内短暂存活；公开快照可独立读取。\n模块归属为展示建议。"
+          link ../#/type/OperationAcceptance "职责、方法与审阅证据"
+        }
+        IControlDataGuard = interface "IControlDataGuard" {
+          #proposed
+          description "登记受保护数据根，校验部署影响范围，并约束保护范围与部署写入范围的并发准入。\n\n生命周期：契约；保护登记跨进程且首版保守保留，写入范围租约按操作持有。\n模块归属为展示建议。"
+          link ../#/type/IControlDataGuard "职责、方法与审阅证据"
+        }
+        ResourceDescriptor = record "ResourceDescriptor" {
+          #proposed
+          description "冻结不可变资源身份：ResourceId、ResourceRevision、MachineId、探测种类、端点或服务/VM 选择参数，以及按版本化规范编码计算的 DescriptorDigest；不含秘密。\n\n生命周期：配置快照、探测轮次和启动请求内的不可变值。\n模块归属为展示建议。"
+          link ../#/type/ResourceDescriptor "职责、方法与审阅证据"
+        }
+        ProbeObservation = record "ProbeObservation" {
+          #proposed
+          description "不可变单次观测，携带完整资源身份键、实际探测来源、开始和完成时间及分项事实；网络探测另保留实际解析地址证据。\n\n生命周期：单次探测事实，可进入对应身份的轮次。\n模块归属为展示建议。"
+          link ../#/type/ProbeObservation "职责、方法与审阅证据"
+        }
+        ProbeRound = record "ProbeRound" {
+          #proposed
+          description "冻结同一完整资源身份键、策略版本、轮次序号和同身份观测集合。\n\n生命周期：单个资源身份键的一轮探测。\n模块归属为展示建议。"
+          link ../#/type/ProbeRound "职责、方法与审阅证据"
+        }
+        ProbeSnapshot = record "ProbeSnapshot" {
+          #proposed
+          description "在原状态、证据及时间字段之外明确携带 ResourceRevision、MachineId、DescriptorDigest、PolicyVersion、RoundSequence；所有分项证据属于同一资源身份键。\n\n生命周期：不可变监测投影；过期后不能作为启动前新鲜证据。"
+          link ../#/type/ProbeSnapshot "职责、方法与审阅证据"
+        }
+        OperationRequestSnapshot = record "OperationRequestSnapshot" {
+          #proposed
+          description "保留有限种类、机器、工作区修订、冻结配置和计划；新增明确的规范化 RequestDigest。Launch 快照包含完整冻结 ResourceDescriptor，PlanDigest 覆盖该描述身份及许可环境输入。\n\n生命周期：受理前冻结，受理后持久不可变；由操作及恢复引用保留。"
+          link ../#/type/OperationRequestSnapshot "职责、方法与审阅证据"
+        }
+        LaunchPlan = record "LaunchPlan" {
+          #proposed
+          description "保留入口、初始化文件、参数令牌、环境和秘密槽；明确携带冻结 ResourceDescriptor 及其摘要，与 WorkspaceRevision、MachineId 一并进入计划摘要。\n\n生命周期：每次启动独立不可变计划。"
+          link ../#/type/LaunchPlan "职责、方法与审阅证据"
+        }
+        CommitId = record "CommitId" {
+          #proposed
+          description "一次逻辑配置提交的稳定随机标识，键空间绑定工作区身份；在发起提交前分配并保留。\n\n生命周期：跨页面重建、后续提交及进程重启有效。\n模块归属为展示建议。"
+          link ../#/type/CommitId "职责、方法与审阅证据"
+        }
+        CommitIntent = record "CommitIntent" {
+          #proposed
+          description "不可变提交意图，包含 CommitId、有限命令种类、ExpectedRevision、规范化非秘密输入、生成 ID 槽位、SecretUpdateKind 和本次 Replace 输入随机标识；由用例重新计算版本化 RequestDigest。\n\n生命周期：提交前冻结；非秘密意图和摘要随核验记录持久保留。\n模块归属为展示建议。"
+          link ../#/type/CommitIntent "职责、方法与审阅证据"
+        }
+        CommitReceipt = record "CommitReceipt" {
+          #proposed
+          description "不可变公开核验结果，包含 CommitId、RequestDigest、State、CommittedRevision、生成实体 ID 映射、原提交的脱敏结果投影和安全原因；State 为 NotFound、Pending、Committed、NotCommitted 或 Indeterminate。\n\n生命周期：首版在工作区生命周期内保留确定结果和去重墓碑；未决记录不得清理。\n模块归属为展示建议。"
+          link ../#/type/CommitReceipt "职责、方法与审阅证据"
+        }
+      }
+      storage = module "持久化与迁移" {
+        description "配置提交、历史核验、日志、暂存与安全迁移"
+        link ../#/module/storage "模块与类型详情"
+        JsonWorkspaceStore = class "JsonWorkspaceStore" {
+          #proposed
+          description "实现稳定 CommitId 去重、版本化准备记录和可跨修订核验的配置提交。\n\n生命周期：工作区级单例；写会话持跨进程提交锁，提交历史首版不自动裁剪。"
+          link ../#/type/JsonWorkspaceStore "职责、方法与审阅证据"
+        }
+        WorkspaceLocationResolver = class "WorkspaceLocationResolver" {
+          #proposed
+          description "显式 --config、portable、默认目录的唯一解析与打开入口。\n\n生命周期：Singleton"
+          link ../#/type/WorkspaceLocationResolver "职责、方法与审阅证据"
+        }
+        JsonRunJournal = class "JsonRunJournal" {
+          #proposed
+          description "实现 IRunJournal 的跨进程受理、一次执行准入及版本化事实日志。\n\n生命周期：工作区级单例；持久锁覆盖所有相关进程，执行凭据仅在原进程有效。"
+          link ../#/type/JsonRunJournal "职责、方法与审阅证据"
+        }
+        PrivateStagingStore = class "PrivateStagingStore" {
+          #proposed
+          description "在已登记控制根内维护冻结来源及不可变计划。\n\n生命周期：工作区级单例；根位置先登记后使用。\n模块归属为展示建议。"
+          link ../#/type/PrivateStagingStore "职责、方法与审阅证据"
+        }
+        JsonMigrationStore = class "JsonMigrationStore" {
+          #proposed
+          description "PersistenceAndMigration 实现 IMigrationStore。\n\n生命周期：PersistenceAndMigration 工作区级单例。\n模块归属为展示建议。"
+          link ../#/type/JsonMigrationStore "职责、方法与审阅证据"
+        }
+        WorkspaceCommitSession = class "WorkspaceCommitSession" {
+          #proposed
+          description "封装一次配置准备结果：CommitId、摘要、稳定 ID 映射和已有回执；仅首次成功准备返回绑定原进程的写入能力，重复结果只读。\n\n生命周期：首次会话从准备落盘覆盖凭据创建和配置切换；重复会话只读且无写锁所有权。\n模块归属为展示建议。"
+          link ../#/type/WorkspaceCommitSession "职责、方法与审阅证据"
+        }
+      }
+      platform = module "Windows 与来源适配" {
+        description "凭据、进程、探针、文件、环境及控制资料保护"
+        link ../#/module/platform "模块与类型详情"
+        WindowsSecretVault = class "WindowsSecretVault" {
+          #proposed
+          description "隔离 Windows 凭据 API，秘密只在本机短暂取得。\n\n生命周期：Singleton"
+          link ../#/type/WindowsSecretVault "职责、方法与审阅证据"
+        }
+        WindowsProcessGateway = class "WindowsProcessGateway" {
+          #proposed
+          description "实现产品入口启动及进程、窗口和可用会话证据采集。\n\n生命周期：WindowsAndSourceAdapters 单例；TrackedProcess 按启动或只读附着创建。"
+          link ../#/type/WindowsProcessGateway "职责、方法与审阅证据"
+        }
+        WindowsResourceProbe = class "WindowsResourceProbe" {
+          #proposed
+          description "实现冻结 TCP、服务或虚拟机入口描述的一次 Windows 观测。\n\n生命周期：应用级单例；调用级观测状态及超时。"
+          link ../#/type/WindowsResourceProbe "职责、方法与审阅证据"
+        }
+        PackageReader = class "PackageReader" {
+          #proposed
+          description "只读枚举和内容检查。\n\n生命周期：WindowsAndSourceAdapters 单例；读取句柄调用级。"
+          link ../#/type/PackageReader "职责、方法与审阅证据"
+        }
+        FileDeliveryPort = class "FileDeliveryPort" {
+          #proposed
+          description "执行经控制范围保护、逐项可核验的文件变更。\n\n生命周期：单例；每次 Apply 独占对应回执写入权，实际写入者持有组合租约。"
+          link ../#/type/FileDeliveryPort "职责、方法与审阅证据"
+        }
+        CanonicalTargetLeaseProvider = class "CanonicalTargetLeaseProvider" {
+          #proposed
+          description "按真实目标范围提供包含控制数据保护的跨进程组合租约。\n\n生命周期：每进程单例；组合 TargetLease 从锁内复核持有至最后可靠回执。"
+          link ../#/type/CanonicalTargetLeaseProvider "职责、方法与审阅证据"
+        }
+        WindowsEnvironmentStore = class "WindowsEnvironmentStore" {
+          #proposed
+          description "持久变量读取及带检查点的尽力冲突检测写入。\n\n生命周期：WindowsAndSourceAdapters 单例；写入锁和核验状态调用级。"
+          link ../#/type/WindowsEnvironmentStore "职责、方法与审阅证据"
+        }
+        WindowsPrivilegeBroker = class "WindowsPrivilegeBroker" {
+          #proposed
+          description "建立受限提权会话并转交已确认操作。\n\n生命周期：WindowsAndSourceAdapters 应用级单例；每操作独立一次性提权会话。"
+          link ../#/type/WindowsPrivilegeBroker "职责、方法与审阅证据"
+        }
+        WindowsEntryDiscovery = class "WindowsEntryDiscovery" {
+          #proposed
+          description "WindowsAndSourceAdapters 中实现 IEntryDiscovery。\n\n生命周期：WindowsAndSourceAdapters 应用级单例；扫描状态调用级。\n模块归属为展示建议。"
+          link ../#/type/WindowsEntryDiscovery "职责、方法与审阅证据"
+        }
+        ControlDataLease = class "ControlDataLease" {
+          #proposed
+          description "持有经核验的部署影响范围与控制根登记之间的保护准入。\n\n生命周期：由 TargetLease 组合持有，覆盖目标核验、写入及最后可靠回执。\n模块归属为展示建议。"
+          link ../#/type/ControlDataLease "职责、方法与审阅证据"
+        }
+        WindowsControlDataGuard = class "WindowsControlDataGuard" {
+          #proposed
+          description "实现 IControlDataGuard，维护受 ACL 保护的跨进程控制根登记及活动变更范围。\n\n生命周期：每进程单例；登记持久共享，活动范围绑定实际写入进程。\n模块归属为展示建议。"
+          link ../#/type/WindowsControlDataGuard "职责、方法与审阅证据"
+        }
+      }
+    }
+    composition = area "装配与开发" {
+      description "普通桌面入口与可替换的开发编排"
+      style { color secondary }
+      bootstrap = module "桌面组合根" {
+        description "有限处理器工厂、依赖装配和保护根初始化"
+        link ../#/module/bootstrap "模块与类型详情"
+        OperationHandlerRegistry = class "OperationHandlerRegistry" {
+          #proposed
+          description "根据有限操作种类创建独立处理器租约。\n\n生命周期：OperationCoordination 应用级只读注册表。"
+          link ../#/type/OperationHandlerRegistry "职责、方法与审阅证据"
+        }
+        DesktopCompositionRoot = class "DesktopCompositionRoot" {
+          #proposed
+          description "装配同一 Desktop 运行时、保护登记及操作和直接提交协议。\n\n生命周期：每 Desktop 进程一次；保护登记跨进程持久共享。"
+          link ../#/type/DesktopCompositionRoot "职责、方法与审阅证据"
+        }
+      }
+      devhost = module "可选开发入口" {
+        description "Aspire 开发适配，普通 EXE 独立运行"
+        link ../#/module/devhost "模块与类型详情"
+        AspireDevelopmentHost = class "AspireDevelopmentHost" {
+          #proposed
+          description "提供可替换开发入口及开发资源所有权管理。\n\n生命周期：CompositionAndDiagnostics 开发会话级；通过进程产物边界启动 Desktop。"
+          link ../#/type/AspireDevelopmentHost "职责、方法与审阅证据"
+        }
+      }
+    }
+  }
+  app.workspace.catalog.WorkspaceCatalogService -> app.foundation.contracts.IWorkspaceStore "声明依赖"
+  app.workspace.catalog.WorkspaceCatalogService -> app.foundation.contracts.ISecretVault "声明依赖"
+  app.workspace.catalog.WorkspaceCatalogService -> app.foundation.contracts.IEntryDiscovery "声明依赖"
+  app.workspace.catalog.WorkspaceCatalogService -> app.foundation.contracts.ICatalogService "实现契约"
+  app.workspace.catalog.ConfigurationShareService -> app.foundation.contracts.IWorkspaceStore "声明依赖"
+  app.workspace.catalog.ConfigurationShareService -> app.foundation.contracts.IConfigurationShareService "实现契约"
+  app.resources.supervisor.ResourceSupervisor -> app.foundation.contracts.IResourceProbe "声明依赖"
+  app.resources.supervisor.ResourceSupervisor -> app.foundation.kernel.ConnectionHealthPolicy "声明依赖"
+  app.resources.supervisor.ResourceSupervisor -> app.foundation.contracts.IWorkspaceStore "声明依赖"
+  app.resources.supervisor.ResourceSupervisor -> app.foundation.contracts.IResourceMonitor "实现契约"
+  app.execution.launch_handler.LaunchPlanBuilder -> app.foundation.kernel.ProcessEnvironmentPolicy "声明依赖"
+  app.execution.coordinator.OperationCoordinator -> app.foundation.contracts.IRunJournal "声明依赖"
+  app.execution.coordinator.OperationCoordinator -> app.foundation.contracts.IOperationHandlerRegistry "声明依赖"
+  app.execution.coordinator.OperationCoordinator -> app.execution.coordinator.OperationExecutionContext "声明依赖"
+  app.execution.coordinator.OperationCoordinator -> app.foundation.contracts.IWorkspaceStore "声明依赖"
+  app.execution.coordinator.OperationCoordinator -> app.foundation.contracts.IOperationCommands "实现契约"
+  app.execution.coordinator.OperationExecutionContext -> app.foundation.contracts.IRunJournal "声明依赖"
+  app.execution.coordinator.OperationExecutionContext -> app.foundation.kernel.OperationStatePolicy "声明依赖"
+  app.execution.coordinator.OperationExecutionContext -> app.execution.coordinator.OperationExecutionLease "声明依赖"
+  app.execution.coordinator.OperationExecutionContext -> app.foundation.contracts.IOperationContext "实现契约"
+  app.composition.bootstrap.OperationHandlerRegistry -> app.foundation.contracts.IOperationHandler "声明依赖"
+  app.composition.bootstrap.OperationHandlerRegistry -> app.foundation.contracts.IOperationHandlerRegistry "实现契约"
+  app.foundation.contracts.IOperationHandler -> app.foundation.contracts.IOperationContext "声明依赖"
+  app.execution.launch_handler.LaunchOperationHandler -> app.execution.launch_handler.LaunchPlanBuilder "声明依赖"
+  app.execution.launch_handler.LaunchOperationHandler -> app.foundation.contracts.IResourceMonitor "声明依赖"
+  app.execution.launch_handler.LaunchOperationHandler -> app.foundation.contracts.ISecretVault "声明依赖"
+  app.execution.launch_handler.LaunchOperationHandler -> app.foundation.contracts.IProcessGateway "声明依赖"
+  app.execution.launch_handler.LaunchOperationHandler -> app.foundation.contracts.IOperationHandler "实现契约"
+  app.delivery.delivery_handler.DeliveryOperationHandler -> app.foundation.contracts.IStagingStore "声明依赖"
+  app.delivery.delivery_handler.DeliveryOperationHandler -> app.foundation.contracts.IFileDeliveryPort "声明依赖"
+  app.delivery.delivery_handler.DeliveryOperationHandler -> app.foundation.contracts.ITargetLeaseProvider "声明依赖"
+  app.delivery.delivery_handler.DeliveryOperationHandler -> app.foundation.contracts.IPrivilegeBroker "声明依赖"
+  app.delivery.delivery_handler.DeliveryOperationHandler -> app.foundation.contracts.IOperationHandler "实现契约"
+  app.delivery.delivery_handler.VariableOperationHandler -> app.foundation.contracts.IEnvironmentStore "声明依赖"
+  app.delivery.delivery_handler.VariableOperationHandler -> app.foundation.contracts.IPrivilegeBroker "声明依赖"
+  app.delivery.delivery_handler.VariableOperationHandler -> app.foundation.contracts.IOperationHandler "实现契约"
+  app.delivery.delivery_handler.ToolSourceCatalog -> app.foundation.contracts.IPackageReader "声明依赖"
+  app.delivery.delivery_handler.ToolSourceCatalog -> app.foundation.contracts.IToolSourceCatalog "实现契约"
+  app.delivery.delivery_handler.DeploymentPlanner -> app.foundation.contracts.IPackageReader "声明依赖"
+  app.delivery.delivery_handler.DeploymentPlanner -> app.foundation.contracts.IStagingStore "声明依赖"
+  app.delivery.delivery_handler.DeploymentPlanner -> app.foundation.contracts.IFileDeliveryPort "声明依赖"
+  app.delivery.delivery_handler.DeploymentPlanner -> app.foundation.contracts.IControlDataGuard "声明依赖"
+  app.delivery.delivery_handler.DeploymentPlanner -> app.foundation.contracts.IDeploymentPlanningService "实现契约"
+  app.foundation.storage.JsonWorkspaceStore -> app.foundation.contracts.IWorkspaceLocationResolver "声明依赖"
+  app.foundation.storage.JsonWorkspaceStore -> app.foundation.contracts.IWorkspaceStore "实现契约"
+  app.foundation.storage.WorkspaceLocationResolver -> app.foundation.contracts.IWorkspaceLocationResolver "实现契约"
+  app.foundation.platform.WindowsSecretVault -> app.foundation.contracts.ISecretVault "实现契约"
+  app.foundation.platform.WindowsProcessGateway -> app.foundation.contracts.IProcessGateway "实现契约"
+  app.foundation.platform.WindowsResourceProbe -> app.foundation.contracts.IResourceProbe "实现契约"
+  app.foundation.platform.PackageReader -> app.foundation.contracts.IPackageReader "实现契约"
+  app.foundation.platform.FileDeliveryPort -> app.foundation.contracts.IStagingStore "声明依赖"
+  app.foundation.platform.FileDeliveryPort -> app.foundation.contracts.IControlDataGuard "声明依赖"
+  app.foundation.platform.FileDeliveryPort -> app.foundation.contracts.IFileDeliveryPort "实现契约"
+  app.foundation.platform.CanonicalTargetLeaseProvider -> app.foundation.contracts.IControlDataGuard "声明依赖"
+  app.foundation.platform.CanonicalTargetLeaseProvider -> app.foundation.contracts.ITargetLeaseProvider "实现契约"
+  app.foundation.contracts.IEnvironmentStore -> app.foundation.contracts.IOperationContext "声明依赖"
+  app.foundation.platform.WindowsEnvironmentStore -> app.foundation.contracts.IOperationContext "声明依赖"
+  app.foundation.platform.WindowsEnvironmentStore -> app.foundation.contracts.IEnvironmentStore "实现契约"
+  app.foundation.platform.WindowsPrivilegeBroker -> app.foundation.contracts.IPrivilegeBroker "实现契约"
+  app.foundation.storage.JsonRunJournal -> app.foundation.contracts.IWorkspaceLocationResolver "声明依赖"
+  app.foundation.storage.JsonRunJournal -> app.foundation.contracts.IRunJournal "实现契约"
+  app.execution.coordinator.OperationProjectionService -> app.foundation.contracts.IRunJournal "声明依赖"
+  app.execution.coordinator.OperationProjectionService -> app.foundation.contracts.ITaskQueries "实现契约"
+  app.workspace.desktop.ShellViewModel -> app.foundation.contracts.ITaskQueries "声明依赖"
+  app.workspace.desktop.ShellViewModel -> app.workspace.desktop.ThemeResourceCatalog "声明依赖"
+  app.workspace.desktop.ProfilesPageViewModel -> app.foundation.contracts.ICatalogService "声明依赖"
+  app.workspace.desktop.ProfilesPageViewModel -> app.foundation.contracts.IOperationCommands "声明依赖"
+  app.workspace.desktop.ProfileEditorViewModel -> app.foundation.contracts.ICatalogService "声明依赖"
+  app.workspace.desktop.ProfileEditorViewModel -> app.workspace.desktop.PasswordEntryBehavior "声明依赖"
+  app.workspace.desktop.LicensePageViewModel -> app.foundation.contracts.IResourceMonitor "声明依赖"
+  app.workspace.desktop.ToolPageViewModel -> app.foundation.contracts.ICatalogService "声明依赖"
+  app.workspace.desktop.ToolPageViewModel -> app.foundation.contracts.IToolSourceCatalog "声明依赖"
+  app.workspace.desktop.ToolPageViewModel -> app.foundation.contracts.IOperationCommands "声明依赖"
+  app.workspace.desktop.ToolPageViewModel -> app.foundation.contracts.IDeploymentPlanningService "声明依赖"
+  app.workspace.desktop.ToolPageViewModel -> app.foundation.contracts.IVariablePlanningService "声明依赖"
+  app.delivery.worker.PrivilegedWorkerHost -> app.foundation.contracts.IFileDeliveryPort "声明依赖"
+  app.delivery.worker.PrivilegedWorkerHost -> app.foundation.contracts.IEnvironmentStore "声明依赖"
+  app.delivery.worker.PrivilegedWorkerHost -> app.foundation.contracts.ITargetLeaseProvider "声明依赖"
+  app.delivery.worker.PrivilegedWorkerHost -> app.foundation.contracts.IStagingStore "声明依赖"
+  app.delivery.worker.PrivilegedWorkerHost -> app.foundation.contracts.IOperationContext "声明依赖"
+  app.delivery.worker.PrivilegedWorkerHost -> app.foundation.contracts.IControlDataGuard "声明依赖"
+  app.composition.bootstrap.DesktopCompositionRoot -> app.workspace.catalog.WorkspaceCatalogService "声明依赖"
+  app.composition.bootstrap.DesktopCompositionRoot -> app.workspace.catalog.ConfigurationShareService "声明依赖"
+  app.composition.bootstrap.DesktopCompositionRoot -> app.resources.supervisor.ResourceSupervisor "声明依赖"
+  app.composition.bootstrap.DesktopCompositionRoot -> app.execution.coordinator.OperationCoordinator "声明依赖"
+  app.composition.bootstrap.DesktopCompositionRoot -> app.composition.bootstrap.OperationHandlerRegistry "声明依赖"
+  app.composition.bootstrap.DesktopCompositionRoot -> app.execution.coordinator.OperationProjectionService "声明依赖"
+  app.composition.bootstrap.DesktopCompositionRoot -> app.execution.launch_handler.LaunchOperationHandler "声明依赖"
+  app.composition.bootstrap.DesktopCompositionRoot -> app.delivery.delivery_handler.DeliveryOperationHandler "声明依赖"
+  app.composition.bootstrap.DesktopCompositionRoot -> app.delivery.delivery_handler.VariableOperationHandler "声明依赖"
+  app.composition.bootstrap.DesktopCompositionRoot -> app.workspace.catalog.WorkspaceMigrationService "声明依赖"
+  app.composition.bootstrap.DesktopCompositionRoot -> app.foundation.storage.JsonWorkspaceStore "声明依赖"
+  app.composition.bootstrap.DesktopCompositionRoot -> app.foundation.storage.JsonRunJournal "声明依赖"
+  app.composition.bootstrap.DesktopCompositionRoot -> app.foundation.storage.JsonMigrationStore "声明依赖"
+  app.composition.bootstrap.DesktopCompositionRoot -> app.foundation.storage.PrivateStagingStore "声明依赖"
+  app.composition.bootstrap.DesktopCompositionRoot -> app.foundation.platform.WindowsControlDataGuard "声明依赖"
+  app.composition.bootstrap.DesktopCompositionRoot -> app.foundation.platform.WindowsSecretVault "声明依赖"
+  app.composition.bootstrap.DesktopCompositionRoot -> app.foundation.platform.WindowsEntryDiscovery "声明依赖"
+  app.composition.bootstrap.DesktopCompositionRoot -> app.foundation.platform.WindowsProcessGateway "声明依赖"
+  app.composition.bootstrap.DesktopCompositionRoot -> app.foundation.platform.WindowsResourceProbe "声明依赖"
+  app.composition.bootstrap.DesktopCompositionRoot -> app.foundation.platform.PackageReader "声明依赖"
+  app.composition.bootstrap.DesktopCompositionRoot -> app.foundation.platform.FileDeliveryPort "声明依赖"
+  app.composition.bootstrap.DesktopCompositionRoot -> app.foundation.platform.CanonicalTargetLeaseProvider "声明依赖"
+  app.composition.bootstrap.DesktopCompositionRoot -> app.foundation.platform.WindowsEnvironmentStore "声明依赖"
+  app.composition.bootstrap.DesktopCompositionRoot -> app.foundation.platform.WindowsPrivilegeBroker "声明依赖"
+  app.composition.bootstrap.DesktopCompositionRoot -> app.workspace.desktop.ThemeResourceCatalog "声明依赖"
+  app.delivery.delivery_handler.VariablePlanner -> app.foundation.contracts.IEnvironmentStore "声明依赖"
+  app.delivery.delivery_handler.VariablePlanner -> app.foundation.contracts.IVariablePlanningService "实现契约"
+  app.foundation.storage.PrivateStagingStore -> app.foundation.contracts.IPackageReader "声明依赖"
+  app.foundation.storage.PrivateStagingStore -> app.foundation.contracts.IWorkspaceLocationResolver "声明依赖"
+  app.foundation.storage.PrivateStagingStore -> app.foundation.contracts.IControlDataGuard "声明依赖"
+  app.workspace.catalog.WorkspaceMigrationService -> app.foundation.contracts.IMigrationStore "声明依赖"
+  app.foundation.storage.JsonMigrationStore -> app.foundation.contracts.IWorkspaceLocationResolver "声明依赖"
+  app.foundation.platform.WindowsControlDataGuard -> app.foundation.contracts.IWorkspaceLocationResolver "声明依赖"
+  app.workspace.catalog -> app.foundation.contracts "类型声明依赖汇总"
+  app.resources.supervisor -> app.foundation.contracts "类型声明依赖汇总"
+  app.resources.supervisor -> app.foundation.kernel "类型声明依赖汇总"
+  app.execution.launch_handler -> app.foundation.kernel "类型声明依赖汇总"
+  app.execution.coordinator -> app.foundation.contracts "类型声明依赖汇总"
+  app.execution.coordinator -> app.foundation.kernel "类型声明依赖汇总"
+  app.composition.bootstrap -> app.foundation.contracts "类型声明依赖汇总"
+  app.execution.launch_handler -> app.foundation.contracts "类型声明依赖汇总"
+  app.delivery.delivery_handler -> app.foundation.contracts "类型声明依赖汇总"
+  app.foundation.storage -> app.foundation.contracts "类型声明依赖汇总"
+  app.foundation.platform -> app.foundation.contracts "类型声明依赖汇总"
+  app.workspace.desktop -> app.foundation.contracts "类型声明依赖汇总"
+  app.delivery.worker -> app.foundation.contracts "类型声明依赖汇总"
+  app.composition.bootstrap -> app.workspace.catalog "类型声明依赖汇总"
+  app.composition.bootstrap -> app.resources.supervisor "类型声明依赖汇总"
+  app.composition.bootstrap -> app.execution.coordinator "类型声明依赖汇总"
+  app.composition.bootstrap -> app.execution.launch_handler "类型声明依赖汇总"
+  app.composition.bootstrap -> app.delivery.delivery_handler "类型声明依赖汇总"
+  app.composition.bootstrap -> app.foundation.storage "类型声明依赖汇总"
+  app.composition.bootstrap -> app.foundation.platform "类型声明依赖汇总"
+  app.composition.bootstrap -> app.workspace.desktop "类型声明依赖汇总"
+  review = system "Archon · 原生审阅链" {
+    description "六阶段真实执行记录；与拟议应用调用图分开。"
+    scope = stage "需求整理" {
+      description "原生节点已完成；运行 ec42ac4a-2167-4fd2-91d4-085b7d6aef7c"
+    }
+    alternatives = stage "候选比较" {
+      description "原生节点已完成；运行 ec42ac4a-2167-4fd2-91d4-085b7d6aef7c"
+    }
+    contracts = stage "类型契约" {
+      description "原生节点已完成；运行 ec42ac4a-2167-4fd2-91d4-085b7d6aef7c"
+    }
+    challenge = stage "反例审阅" {
+      description "原生节点已完成；运行 ec42ac4a-2167-4fd2-91d4-085b7d6aef7c"
+    }
+    revision = stage "修订契约" {
+      description "原生节点已完成；运行 ec42ac4a-2167-4fd2-91d4-085b7d6aef7c"
+    }
+    recheck = stage "独立复核" {
+      description "原生节点已完成；运行 8b32f133-0d10-4e7c-acfd-ea34ed974513"
+    }
+    human_review = gate "人工审阅" {
+      description "等待人工审阅，实施未批准。"
+    }
+  }
+  review.scope -> review.alternatives "审阅产物交接"
+  review.alternatives -> review.contracts "审阅产物交接"
+  review.contracts -> review.challenge "审阅产物交接"
+  review.challenge -> review.revision "审阅产物交接"
+  review.revision -> review.recheck "审阅产物交接"
+  review.recheck -> review.human_review "审阅产物交接"
+}
+views {
+  view index of app {
+    title "01 总览 / 六项职责"
+    description "从职责进入模块，再查看类型。所有应用元素均为 Proposed；本图不代表运行状态。"
+    include *
+    exclude * -> *
+    autoLayout LeftRight
+  }
+  view modules {
+    title "02 模块 / 声明依赖"
+    description "关系汇总自 reviewed-contracts.json 的依赖和实现声明，不从旧 C# 程序集推断。"
+    include app.workspace.desktop, app.workspace.catalog, app.execution.coordinator, app.execution.launch_handler, app.resources.supervisor, app.delivery.delivery_handler, app.delivery.worker, app.foundation.kernel, app.foundation.contracts, app.foundation.storage, app.foundation.platform, app.composition.bootstrap, app.composition.devhost
+    style * { size xs }
+    autoLayout TopBottom
+  }
+  view group_workspace of app.workspace {
+    title "02 模块 / 工作台与配置"
+    include *
+    autoLayout TopBottom
+  }
+  view group_execution of app.execution {
+    title "02 模块 / 启动与操作"
+    include *
+    autoLayout TopBottom
+  }
+  view group_resources of app.resources {
+    title "02 模块 / 资源与许可"
+    include *
+    autoLayout TopBottom
+  }
+  view group_delivery of app.delivery {
+    title "02 模块 / 交付与恢复"
+    include *
+    autoLayout TopBottom
+  }
+  view group_foundation of app.foundation {
+    title "02 模块 / 契约与适配"
+    include *
+    autoLayout TopBottom
+  }
+  view group_composition of app.composition {
+    title "02 模块 / 装配与开发"
+    include *
+    autoLayout TopBottom
+  }
+  view module_desktop of app.workspace.desktop {
+    title "03 类型 / 桌面交互"
+    description "仅展开本模块；跨模块依赖请查模块图与类型详情。模块归属标为展示建议的类型未改动原生契约。"
+    include *
+    style * { size xs }
+    autoLayout TopBottom
+  }
+  view module_catalog of app.workspace.catalog {
+    title "03 类型 / 配置与分享"
+    description "仅展开本模块；跨模块依赖请查模块图与类型详情。模块归属标为展示建议的类型未改动原生契约。"
+    include *
+    style * { size xs }
+    autoLayout TopBottom
+  }
+  view module_coordinator of app.execution.coordinator {
+    title "03 类型 / 有限操作协调"
+    description "仅展开本模块；跨模块依赖请查模块图与类型详情。模块归属标为展示建议的类型未改动原生契约。"
+    include *
+    style * { size xs }
+    autoLayout TopBottom
+  }
+  view module_launch_handler of app.execution.launch_handler {
+    title "03 类型 / 启动处理"
+    description "仅展开本模块；跨模块依赖请查模块图与类型详情。模块归属标为展示建议的类型未改动原生契约。"
+    include *
+    style * { size xs }
+    autoLayout TopBottom
+  }
+  view module_supervisor of app.resources.supervisor {
+    title "03 类型 / 资源监测"
+    description "仅展开本模块；跨模块依赖请查模块图与类型详情。模块归属标为展示建议的类型未改动原生契约。"
+    include *
+    style * { size xs }
+    autoLayout TopBottom
+  }
+  view module_delivery_handler of app.delivery.delivery_handler {
+    title "03 类型 / 交付与变量"
+    description "仅展开本模块；跨模块依赖请查模块图与类型详情。模块归属标为展示建议的类型未改动原生契约。"
+    include *
+    style * { size xs }
+    autoLayout TopBottom
+  }
+  view module_worker of app.delivery.worker {
+    title "03 类型 / 提权执行边界"
+    description "仅展开本模块；跨模块依赖请查模块图与类型详情。模块归属标为展示建议的类型未改动原生契约。"
+    include *
+    style * { size xs }
+    autoLayout TopBottom
+  }
+  view module_kernel of app.foundation.kernel {
+    title "03 类型 / 纯规则"
+    description "仅展开本模块；跨模块依赖请查模块图与类型详情。模块归属标为展示建议的类型未改动原生契约。"
+    include *
+    style * { size xs }
+    autoLayout TopBottom
+  }
+  view module_contracts of app.foundation.contracts {
+    title "03 类型 / 公开契约"
+    description "仅展开本模块；跨模块依赖请查模块图与类型详情。模块归属标为展示建议的类型未改动原生契约。"
+    include *
+    style * { size xs }
+    autoLayout TopBottom
+  }
+  view module_storage of app.foundation.storage {
+    title "03 类型 / 持久化与迁移"
+    description "仅展开本模块；跨模块依赖请查模块图与类型详情。模块归属标为展示建议的类型未改动原生契约。"
+    include *
+    style * { size xs }
+    autoLayout TopBottom
+  }
+  view module_platform of app.foundation.platform {
+    title "03 类型 / Windows 与来源适配"
+    description "仅展开本模块；跨模块依赖请查模块图与类型详情。模块归属标为展示建议的类型未改动原生契约。"
+    include *
+    style * { size xs }
+    autoLayout TopBottom
+  }
+  view module_bootstrap of app.composition.bootstrap {
+    title "03 类型 / 桌面组合根"
+    description "仅展开本模块；跨模块依赖请查模块图与类型详情。模块归属标为展示建议的类型未改动原生契约。"
+    include *
+    style * { size xs }
+    autoLayout TopBottom
+  }
+  view module_devhost of app.composition.devhost {
+    title "03 类型 / 可选开发入口"
+    description "仅展开本模块；跨模块依赖请查模块图与类型详情。模块归属标为展示建议的类型未改动原生契约。"
+    include *
+    style * { size xs }
+    autoLayout TopBottom
+  }
+  dynamic view flow_quickLogin {
+    title "04 场景 / 快速登录与唯一执行"
+    description "从冻结请求到执行准入、许可证据复查和进程观察。窗口出现只形成观察事实，登录仍需独立证据。 各步为设计说明，不是运行跟踪。"
+    app.workspace.desktop.ProfilesPageViewModel -> app.execution.coordinator.OperationCoordinator "提交冻结请求"
+    app.execution.coordinator.OperationCoordinator -> app.foundation.contracts.IRunJournal "持久受理与查重"
+    app.execution.coordinator.OperationCoordinator -> app.foundation.contracts.IRunJournal "取得唯一执行权"
+    app.execution.coordinator.OperationCoordinator -> app.execution.launch_handler.LaunchOperationHandler "在工厂作用域中执行"
+    app.execution.launch_handler.LaunchOperationHandler -> app.execution.launch_handler.LaunchPlanBuilder "生成冻结启动计划"
+    app.execution.launch_handler.LaunchOperationHandler -> app.resources.supervisor.ResourceSupervisor "按完整身份复查许可"
+    app.execution.launch_handler.LaunchOperationHandler -> app.foundation.contracts.IProcessGateway "创建独立子进程环境"
+    app.execution.launch_handler.LaunchOperationHandler -> app.foundation.contracts.IProcessGateway "观察入口与模块交接"
+    app.execution.coordinator.OperationProjectionService -> app.foundation.contracts.IRunJournal "跨页面读取脱敏事实"
+    style * { size xs }
+    autoLayout LeftRight
+  }
+  dynamic view flow_licenseRecovery {
+    title "04 场景 / 许可短暂掉线与恢复"
+    description "分别处理虚拟机存活、端口可达和许可签出证据；复查阈值由策略配置，当前尚待审阅。 各步为设计说明，不是运行跟踪。"
+    app.workspace.desktop.LicensePageViewModel -> app.resources.supervisor.ResourceSupervisor "请求一次资源刷新"
+    app.resources.supervisor.ResourceSupervisor -> app.foundation.platform.WindowsResourceProbe "采集分项观测"
+    app.resources.supervisor.ResourceSupervisor -> app.foundation.kernel.ConnectionHealthPolicy "归约同身份探测轮次"
+    app.workspace.desktop.LicensePageViewModel -> app.resources.supervisor.ResourceSupervisor "订阅健康状态变化"
+    app.execution.launch_handler.LaunchOperationHandler -> app.resources.supervisor.ResourceSupervisor "启动前再次核验时效"
+    style * { size xs }
+    autoLayout LeftRight
+  }
+  dynamic view flow_deliveryRecovery {
+    title "04 场景 / 部署保护与中断恢复"
+    description "保护配置、日志、备份和暂存范围。执行与恢复都需绑定预览计划，中断后先核验回执。 各步为设计说明，不是运行跟踪。"
+    app.delivery.delivery_handler.DeploymentPlanner -> app.foundation.contracts.IControlDataGuard "预览时排除控制资料"
+    app.execution.coordinator.OperationCoordinator -> app.foundation.contracts.IRunJournal "明确执行后唯一准入"
+    app.foundation.platform.CanonicalTargetLeaseProvider -> app.foundation.contracts.IControlDataGuard "持有保护与目标租约"
+    app.foundation.platform.FileDeliveryPort -> app.foundation.contracts.IControlDataGuard "首项写入前再次核验"
+    app.delivery.delivery_handler.DeliveryOperationHandler -> app.foundation.platform.FileDeliveryPort "写前意图、变更与回执"
+    app.delivery.delivery_handler.DeliveryOperationHandler -> app.foundation.platform.FileDeliveryPort "重启后读取原操作回执"
+    app.workspace.desktop.ToolPageViewModel -> app.delivery.delivery_handler.DeploymentPlanner "由工具页面重新预览恢复"
+    style * { size xs }
+    autoLayout LeftRight
+  }
+  view finding_F01 {
+    title "05 问题 / F01 · 受理去重尚未形成跨进程的唯一执行准入协议"
+    description "原始问题与修订范围；契约层复核已接受，尚未实现或运行验收。"
+    include app.execution.coordinator.OperationCoordinator, app.foundation.storage.JsonRunJournal, app.foundation.contracts.IRunJournal, app.execution.coordinator.OperationExecutionContext, app.execution.launch_handler.LaunchOperationHandler, app.foundation.contracts.OperationAcceptance, app.execution.coordinator.OperationExecutionLease
+    style * { size xs }
+    autoLayout TopBottom
+  }
+  view finding_F02 {
+    title "05 问题 / F02 · 部署目标未明确排除工作区和恢复资料所在范围"
+    description "原始问题与修订范围；契约层复核已接受，尚未实现或运行验收。"
+    include app.delivery.delivery_handler.DeploymentPlanner, app.foundation.platform.FileDeliveryPort, app.foundation.storage.PrivateStagingStore, app.foundation.platform.CanonicalTargetLeaseProvider, app.delivery.worker.PrivilegedWorkerHost, app.foundation.contracts.IControlDataGuard, app.foundation.platform.WindowsControlDataGuard, app.foundation.platform.ControlDataLease
+    style * { size xs }
+    autoLayout TopBottom
+  }
+  view finding_F03 {
+    title "05 问题 / F03 · 密码框失焦即清空会破坏正常保存和显隐操作"
+    description "原始问题与修订范围；契约层复核已接受，尚未实现或运行验收。"
+    include app.workspace.desktop.PasswordEntryBehavior, app.workspace.desktop.ProfileEditorViewModel
+    style * { size xs }
+    autoLayout TopBottom
+  }
+  view finding_F04 {
+    title "05 问题 / F04 · 启动使用的许可证据未明确绑定冻结的资源版本"
+    description "原始问题与修订范围；契约层复核已接受，尚未实现或运行验收。"
+    include app.foundation.contracts.IResourceMonitor, app.resources.supervisor.ResourceSupervisor, app.execution.launch_handler.LaunchOperationHandler, app.foundation.contracts.ProbeSnapshot, app.foundation.contracts.ResourceDescriptor, app.foundation.contracts.ProbeObservation, app.foundation.contracts.ProbeRound
+    style * { size xs }
+    autoLayout TopBottom
+  }
+  view finding_F05 {
+    title "05 问题 / F05 · 直接配置命令的提交结果未知缺少可调用的核验契约"
+    description "原始问题与修订范围；契约层复核已接受，尚未实现或运行验收。"
+    include app.foundation.storage.JsonWorkspaceStore, app.foundation.contracts.IWorkspaceStore, app.workspace.catalog.WorkspaceCatalogService, app.foundation.contracts.ICatalogService, app.workspace.catalog.ConfigurationShareService, app.workspace.desktop.ProfileEditorViewModel, app.foundation.contracts.CommitId, app.foundation.contracts.CommitIntent, app.foundation.contracts.CommitReceipt, app.foundation.storage.WorkspaceCommitSession
+    style * { size xs }
+    autoLayout TopBottom
+  }
+  view finding_F06 {
+    title "05 问题 / F06 · 处理器注册接口说明对齐"
+    description "勘误已记录；未再次模型复核。"
+    include app.foundation.contracts.IOperationHandlerRegistry, app.composition.bootstrap.OperationHandlerRegistry
+    style * { size xs }
+    autoLayout TopBottom
+  }
+  view workflow of review {
+    title "06 证据 / Archon 原生审阅链"
+    include *
+    autoLayout LeftRight
+  }
+}

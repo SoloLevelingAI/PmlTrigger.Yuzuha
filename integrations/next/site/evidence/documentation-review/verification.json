@@ -1,0 +1,20 @@
+{
+  "reviewedOn": "2026-10-29",
+  "implementationBaseline": "78b8dc4",
+  "metadataPagesChecked": 22,
+  "manualEntries": 3,
+  "sectionsPerManual": 8,
+  "canonicalFact": "docs/features/launch-by-profile.md",
+  "renderedEntryLinksChecked": 105,
+  "brokenEntryLinks": [],
+  "productCodeChanged": false,
+  "vmStarted": false,
+  "productTestsRerun": false,
+  "oldEvidenceReclassifiedNotRerun": true,
+  "openspecStrict": "passed",
+  "docfxWarnings": 0,
+  "docfxErrors": 0,
+  "understandabilityTimingMeasured": false,
+  "httpBase": "http://127.0.0.1:11178",
+  "httpEntriesPassed": 5
+}

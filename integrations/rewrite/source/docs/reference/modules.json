@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "modules": [
+    {"id":"catalog","keywords":["保存配置","复制登录","删除登录","应用登记","数据目录"],"name":"工作空间与配置","description":"配置目录、稳定提交、应用登记、入口发现和数据位置。","match":"Catalog|Workspace|Application|Definition|Commit|Revision|Startup|Template|EntryDiscovery","exclude":"Migration|Share|Operation"},
+    {"id":"launch","keywords":["启动","登录项目","Monitor","Marine","启动参数"],"name":"登录与进程启动","description":"核心启动能力：产品参数、独立环境、实际进程交接与可核验观察。","match":"^Launch(?!Desk)|Profile|Process|Tracked|EntryKind|ToolChoice|MarineBatchPolicy"},
+    {"id":"resources","keywords":["许可连接","许可地址","端口","服务","虚拟机"],"name":"许可与资源监测","description":"资源身份、探测策略、分项证据、复查和连接健康。","match":"Resource|Probe|License|EvidenceKind|ConnectionHealth","exclude":"^Theme"},
+    {"id":"delivery","keywords":["工具更新","部署","文件映射","备份","恢复","回滚"],"name":"工具来源与交付","description":"来源刷新、文件映射、预览、交付、备份、恢复和回执。","match":"Tool|Package|Source|Deployment|Deploy|Delivery|Staging|Target|Mapping|Receipt|ConfirmedPlan|History|Recovery|CanonicalPath","exclude":"Variable|WorkerReceipt|CommitReceipt"},
+    {"id":"variables","keywords":["环境变量","变量改名","用户变量","机器变量"],"name":"环境变量","description":"子进程环境与持久变量的读取、改名、预览和核验应用。","match":"Variable|Environment"},
+    {"id":"sharing-migration","keywords":["导出","导入","分享","迁移旧数据"],"name":"分享与迁移","description":"非秘密分享、导入预览、旧数据迁移和原操作结果核验。","match":"Shar|Import|Migrat|ConfigurationDocuments|Settings"},
+    {"id":"operations","keywords":["操作记录","进度","取消观察","原编号核验"],"name":"操作协调与通用模型","description":"受理、执行上下文、阶段事实、日志与稳定结果类型。","match":"Operation|Run|TaskQueries|Handler|Acceptance|CanonicalDigest|RefreshIntent|Error|Result|Unit","exclude":"LaunchOperation|DeliveryOperation|VariableOperation"},
+    {"id":"security","keywords":["密码","凭据","管理员","权限","保护目录"],"name":"凭据、权限与保护","description":"临时秘密、凭据租约、保护范围、管理员 Worker 和通信。","match":"Secret|Credential|Password|Privileg|ControlData|Worker|CanonicalTarget"},
+    {"id":"desktop-hosting","keywords":["界面绑定","导航","装配","生命周期","诊断"],"name":"桌面与开发宿主","description":"页面外壳、公共交互、主题、装配与可选开发诊断入口。","match":"^Desktop|^PortDiagnostics|^OperationHandlerRegistry|^AppIcon|^IconAssist|^MainWindow|^Shell|^Navigation|^PageId|^Design|^Observable|^AsyncCommand|^RelayCommand|^ParameterCommand|^EnumLabel|^IPresentation|^Presentation|^Theme|^Dashboard|^Diagnostic|^HostHealth|^Aspire|^Development|^LaunchDesk_AppHost"}
+  ],
+  "projectDescriptions": {
+    "LaunchDesk.Kernel":"纯规则、稳定标识与通用值类型。",
+    "LaunchDesk.OperationContracts":"C# 端口、不可变模型和运行时租约。",
+    "LaunchDesk.UseCases":"配置、启动、监督、交付与迁移用例。",
+    "LaunchDesk.Windows":"存储、凭据、进程、探测与 Windows 文件适配器。",
+    "LaunchDesk.Desktop":"WPF 页面、编辑草稿与交互模型。",
+    "LaunchDesk.Bootstrap":"桌面入口、依赖装配与生命周期。",
+    "LaunchDesk.Worker":"受认证的有限管理员执行入口。",
+    "LaunchDesk.DevHost":"普通 .NET 本机 HTTP 诊断与文档宿主。",
+    "LaunchDesk.AppHost":"可选 Aspire 开发编排入口。",
+    "LaunchDesk.Rewrite.Tests":"状态、进程及文件交付场景回归验证。",
+    "LaunchDesk.Architecture.Tests":"通过 ArchUnitNET 与 xUnit 验证分层、交互职责及项目依赖。"
+  }
+}

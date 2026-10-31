@@ -1,0 +1,122 @@
+{
+  "runId": "17f392ea-0cf9-4760-bc69-b8dc73a72c6d",
+  "sourceFiles": [
+    {
+      "key": "source",
+      "file": "sources/source.json",
+      "source": "docs/rewrite/visualization/source.json",
+      "sha256": "8b4c203eb01ca437dd54a14819d77304355a99140c6dc766b8f067e3e7a4b154"
+    },
+    {
+      "key": "catalog",
+      "file": "sources/catalog.json",
+      "source": "docs/rewrite/runs/17f392ea-0cf9-4760-bc69-b8dc73a72c6d/reviewed-contracts.json",
+      "sha256": "5c0b516d00e5a3f21316e24b2338aa66936931b11fc778443184684e6535c86e"
+    },
+    {
+      "key": "originalCatalog",
+      "file": "sources/originalCatalog.json",
+      "source": "docs/rewrite/runs/17f392ea-0cf9-4760-bc69-b8dc73a72c6d/revised-contracts.json",
+      "sha256": "1db413f2a9853beb667de98e20519f3381bb113dd7825f3245e7e1ee9bf47e13"
+    },
+    {
+      "key": "initial",
+      "file": "sources/initial.json",
+      "source": "docs/rewrite/runs/17f392ea-0cf9-4760-bc69-b8dc73a72c6d/contracts.json",
+      "sha256": "325f66369416692b629417ad1c6f991936eb321fd4643dd6057acd47933bf0c0"
+    },
+    {
+      "key": "scope",
+      "file": "sources/scope.json",
+      "source": "docs/rewrite/runs/17f392ea-0cf9-4760-bc69-b8dc73a72c6d/scope.json",
+      "sha256": "9ed10eaf8e12d9148fa88745809c64bb96cc8dc0161c52294601827c5cee732d"
+    },
+    {
+      "key": "challenge",
+      "file": "sources/challenge.json",
+      "source": "docs/rewrite/runs/17f392ea-0cf9-4760-bc69-b8dc73a72c6d/challenge.json",
+      "sha256": "af0c0763e129c28db4aecf8e8f0be82e79b7cac30b4b0b230dfc6f9453f9eec6"
+    },
+    {
+      "key": "revision",
+      "file": "sources/revision.json",
+      "source": "docs/rewrite/runs/17f392ea-0cf9-4760-bc69-b8dc73a72c6d/revision.json",
+      "sha256": "94f1eeb70043ae6de83482cb2f83f476b01a7c6b208072184c4a307eec54f608"
+    },
+    {
+      "key": "recheck",
+      "file": "sources/recheck.json",
+      "source": "docs/rewrite/runs/17f392ea-0cf9-4760-bc69-b8dc73a72c6d/recheck.json",
+      "sha256": "b20c5e4cb2519e495f6c63cbdd02329ae5393a87fd218137e477b5d837a9300f"
+    },
+    {
+      "key": "corrections",
+      "file": "sources/corrections.json",
+      "source": "docs/rewrite/runs/17f392ea-0cf9-4760-bc69-b8dc73a72c6d/editorial-corrections.json",
+      "sha256": "fce8f514eb0232441202ec7d0242819834a47480d6f2917d7ae95f1a2605dda0"
+    },
+    {
+      "key": "native",
+      "file": "sources/native.json",
+      "source": "docs/rewrite/runs/17f392ea-0cf9-4760-bc69-b8dc73a72c6d/native-run.json",
+      "sha256": "8ade9574baf52fdb5e2ed26bd8a92ff07c28009eba74f8db926fba732a6d836e"
+    },
+    {
+      "key": "events",
+      "file": "sources/events.jsonl",
+      "source": "docs/rewrite/runs/17f392ea-0cf9-4760-bc69-b8dc73a72c6d/native-events.jsonl",
+      "sha256": "8a6e5fa6a13a7738800a4e24dd46bba84894a151a41069c934e162eca66f705b"
+    },
+    {
+      "key": "inputs",
+      "file": "sources/inputs.json",
+      "source": "docs/rewrite/runs/17f392ea-0cf9-4760-bc69-b8dc73a72c6d/input-manifest.json",
+      "sha256": "9799b752b6dcd02ea327cb3a1d4a4e4a343a18660985f26370f830bbf2ea1858"
+    },
+    {
+      "key": "scenarioIndex",
+      "file": "sources/scenarioIndex.json",
+      "source": "docs/rewrite/review-contract.json",
+      "sha256": "958042bcd734b5d87335e79d8467a81fe76a944cc4e92fb3d03c1beb8b0b15c0"
+    },
+    {
+      "key": "scenarios",
+      "file": "sources/scenarios.md",
+      "source": "docs/rewrite/SCENARIOS.md",
+      "sha256": "d1e2fd9fabb01a0158a478039def55ec0345d2cd908bfc96780d9d00771a6b78"
+    },
+    {
+      "key": "brief",
+      "file": "sources/brief.md",
+      "source": "docs/rewrite/PRODUCT-BRIEF.md",
+      "sha256": "24eff27ae334871da78c9440d078fb0ef35efc10b9313c97cfe18ef8aaefc98b"
+    },
+    {
+      "file": "sources/CURRENT-REVIEW.md",
+      "source": "docs/rewrite/runs/17f392ea-0cf9-4760-bc69-b8dc73a72c6d/CURRENT-REVIEW.md",
+      "sha256": "63dd3d3ebb0bd12a300554762a114f94f75b29547b61a9ef50a4c126597b644e"
+    },
+    {
+      "file": "sources/CURRENT-CLASSES.md",
+      "source": "docs/rewrite/runs/17f392ea-0cf9-4760-bc69-b8dc73a72c6d/CURRENT-CLASSES.md",
+      "sha256": "432265cfc57876620236d8953fc057faaf0a6299d2b923a94e5615a79934af1e"
+    },
+    {
+      "file": "sources/FINDINGS-AND-REVISIONS.md",
+      "source": "docs/rewrite/runs/17f392ea-0cf9-4760-bc69-b8dc73a72c6d/FINDINGS-AND-REVISIONS.md",
+      "sha256": "ae58fe7ccbbf59c1c740d3a7fa0a3a92615d5637a711eb182c472d022fd65d1d"
+    },
+    {
+      "file": "sources/REVIEW-PACKET.md",
+      "source": "docs/rewrite/runs/17f392ea-0cf9-4760-bc69-b8dc73a72c6d/REVIEW-PACKET.md",
+      "sha256": "84fe4963aa8b2344b1bf5f57366af133258400d1ddcb2c459712391397030e36"
+    }
+  ],
+  "reviewSha256": "94d0abbdab22ca7294fc24cf065cdc2633b63d9572d54c13477dc03e58ef0316",
+  "portalHashes": {
+    "index.html": "82929d92a919e8fd0b2f4483720382659347f299cb6f0f18959f5d2439ef3eb0",
+    "review.css": "c17f76cc0309ff3ff082986cc1fc6af1db8503868ed699c2c54ebfa3cde59dae",
+    "review.mjs": "b404eaa5a67c6758d5ffbb721b4b2e7e683b35fcf7016608d3364a938c4d0a8c"
+  },
+  "implementationApproved": false
+}

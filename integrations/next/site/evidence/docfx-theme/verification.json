@@ -1,0 +1,34 @@
+{
+  "date": "2026-10-31",
+  "themeRevision": "f5a8b6840d71",
+  "state": "implemented; user visual acceptance pending",
+  "sharedNativePaletteVerified": true,
+  "nativeDocfxSnapshot": "docs/design/docfx-reading-theme.figcraft",
+  "nativeHeadingReadbackVerified": true,
+  "desktopPages": 4,
+  "narrowPages": 3,
+  "noPageHorizontalOverflow": true,
+  "developerDiagrams": 2,
+  "builtLinksChecked": 128,
+  "eightSectionStructurePreserved": true,
+  "interactionChecks": [
+    "Chinese title filter: 架构",
+    "Local full-text search: LaunchModel returned7 results when checked",
+    "Mobile file drawer opens/closes and navigates",
+    "Mobile top navigation expands",
+    "Light/dark mode; diagram labels inspected; follow-system setting restored"
+  ],
+  "docfxWarnings": 0,
+  "docfxErrors": 0,
+  "openspecStrict": "passed",
+  "productTestsRerun": false,
+  "productCodeChanged": false,
+  "vmStarted": false,
+  "dependenciesInstalled": false,
+  "limits": [
+    "Visual acceptance remains with the user.",
+    "Only palette and desktop heading properties are returned from FigCraft; layout and behavior are authored in the real template.",
+    "Native snapshot omits browser chrome, placeholders/pseudo-icons and some font rasterization detail.",
+    "No print output or screen-reader audit is claimed."
+  ]
+}

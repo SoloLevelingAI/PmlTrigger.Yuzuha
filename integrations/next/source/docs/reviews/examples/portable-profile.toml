@@ -1,0 +1,40 @@
+# 设计评审样例，不是已导出的生产配置。无密码、本机绑定或有效授权。
+schema_version = 1
+document_id = 'review-example'
+
+[[applications]]
+id = 'e3d31'
+protocol = 'Monitor'
+product = 'E3D'
+executable = 'C:\Program Files (x86)\AVEVA\Everything3D3.1\mon.exe'
+initialization_file = 'C:\Program Files (x86)\AVEVA\Everything3D3.1\launch.init'
+
+# 工程位置独立于应用版本；保留E3D2.1共享项目。
+[[projects]]
+id = 'aps'
+code = 'APS'
+location = '\\LD-PROJ-VM\AVEVAProjects\E3D2.1\AvevaPlantSample\APS000'
+
+# 逻辑槽位不是密码或授权；导入后需要绑定本机凭据。
+[[credential_slots]]
+id = 'team-login'
+kind = 'aveva-login'
+label = '团队工程登录'
+
+[[profiles]]
+id = 'aps-design'
+application_id = 'e3d31'
+project_id = 'aps'
+module = 'DESIGN'
+user = 'SYSTEM'
+mdb = 'ALL'
+credential_slot_id = 'team-login'
+
+[[profiles]]
+id = 'aps-draft'
+application_id = 'e3d31'
+project_id = 'aps'
+module = 'DRAFT'
+user = 'SYSTEM'
+mdb = 'ALL'
+credential_slot_id = 'team-login'

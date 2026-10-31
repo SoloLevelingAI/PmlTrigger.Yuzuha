@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><TargetFramework>net10.0-windows</TargetFramework><OutputType>Exe</OutputType></PropertyGroup>
+  <ItemGroup><ProjectReference Include="../../../src/LaunchDesk.Next.Bootstrap/LaunchDesk.Next.Bootstrap.csproj" /></ItemGroup>
+  <ItemGroup><Content Include="../../../addins/*.addin.xml" Link="Addins/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="Always" /></ItemGroup>
+</Project>

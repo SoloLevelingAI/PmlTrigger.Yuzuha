@@ -1,0 +1,21 @@
+{
+  "sharedBackendSha256": {
+    "LaunchDesk.Next.Domain.dll": "31ADBC0D7FEBB297001ACDDFA311EEC988ED8FED9774D162C05F38D5483EF3F3",
+    "LaunchDesk.Next.Application.dll": "D2961CCD78A25694B76B2F6611BF682F0ACA1ACD366542B2AB09B164E36FEBFA",
+    "LaunchDesk.Next.Platform.dll": "D33534AC28613A112CBE889FD77B39839644E4E31C660D2871EE95B38C961B8E",
+    "LaunchDesk.Next.Bootstrap.dll": "076D4B108AA323F527A10D4BC8CBD3D291DCF60399DF9B1A9009E2CBF6E2F1D0"
+  },
+  "archives": {
+    "product": "901C85FA62197B3AE8BC7ECF09FD62337145AA48AAE467269617DF13C634B9A1",
+    "development": "04D5786825F21862759BD5CE4F103256C34F0B719D486D3B824E73BF26A9CBCE"
+  },
+  "frameworkDependent": true,
+  "productAddins": [
+    "login.launch"
+  ],
+  "developmentAddins": [
+    "development.remote-project-lab",
+    "login.launch"
+  ],
+  "vmActionsExecuted": 0
+}

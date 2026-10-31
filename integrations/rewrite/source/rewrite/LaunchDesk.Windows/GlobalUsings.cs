@@ -1,0 +1,9 @@
+global using LaunchDesk.Kernel;
+global using LaunchDesk.OperationContracts;
+global using LaunchDesk.Windows.Infrastructure;
+global using Microsoft.Win32.SafeHandles;
+global using System.Collections.Immutable;
+global using System.Diagnostics;
+global using System.Runtime.InteropServices;
+global using System.Text;
+global using System.Text.Json;

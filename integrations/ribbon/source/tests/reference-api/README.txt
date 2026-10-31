@@ -1,0 +1,1 @@
+Reference only. Default development, production, desktop and native verification use apps/backend (C#). These previous TypeScript host files are retained for review/history, not started by package scripts.

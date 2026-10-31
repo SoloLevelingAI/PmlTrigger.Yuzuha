@@ -1,0 +1,9 @@
+{{#remarks}}<div class="api-remarks"><strong>备注</strong><div class="markdown">{{{remarks}}}</div></div>{{/remarks}}
+{{#example.0}}<h4 id="{{id}}_examples">{{__global.examples}}</h4>{{/example.0}}
+{{#example}}{{{.}}}{{/example}}
+{{#exceptions.0}}<div class="api-table-wrap"><table class="api-table"><caption>{{__global.exceptions}}</caption><thead><tr><th scope="col">异常类型</th><th scope="col">条件</th></tr></thead><tbody>{{/exceptions.0}}
+{{#exceptions}}<tr><td class="type-cell">{{{type.specName.0.value}}}</td><td>{{{description}}}</td></tr>{{/exceptions}}
+{{#exceptions.0}}</tbody></table></div>{{/exceptions.0}}
+{{#seealso.0}}<div class="api-related"><strong>{{__global.seealso}}</strong>{{/seealso.0}}
+{{#seealso}}{{#isCref}}<span>{{{type.specName.0.value}}}</span>{{/isCref}}{{^isCref}}<span>{{{url}}}</span>{{/isCref}}{{/seealso}}
+{{#seealso.0}}</div>{{/seealso.0}}

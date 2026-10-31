@@ -1,0 +1,27 @@
+{
+  "date": "2026-10-31",
+  "revision": "f5a8b6840d71",
+  "paletteSource": "docs/portfolio/tokens.css",
+  "paletteSha256": "00effa93daa169d87491c18854502a0f913abeb8a7aeb6dd2654d1d6c00c4812",
+  "nativeFigCraftSha256": "f3879f004071af79d09772784761ddc3510346cb35aa13cd15c8d057f7baa0c4",
+  "docfxNativeSha256": "baaea5254901b78e937c3037b2524aaa6664de857e752482121c91b59fd58abe",
+  "colors": {
+    "ink": "#171917",
+    "line": "#D7D9CE",
+    "muted": "#62665E",
+    "paper": "#F3F1E8",
+    "white": "#FFFFFF",
+    "yellow": "#E5F45A"
+  },
+  "themeFiles": {
+    "docs/toc.yml": "6256bc6c8c1940f37cf26ef2a8d5a3fd8dc3ce6e297e78a5367d063db55c278d",
+    "docs/development/toc.yml": "c76dd09b4e682f8ed1904bd8c3b88900c995f7174668ab5c2d68efd28809a3b9",
+    "docs/template/public/theme-tokens.css": "00effa93daa169d87491c18854502a0f913abeb8a7aeb6dd2654d1d6c00c4812",
+    "docs/template/public/main.css": "ccaa5f21dca4055eb68899d3c62e2d5c8e604ee70626a591a079e304ec04aa7c",
+    "docs/template/public/main.js": "18dd1b2844ba36a43c50a388888f0d1aad8cf74e3191690723826fa91ed58ffc",
+    "docs/template/public/reading.js": "dc91a406cca53f34b95ec7234f6f4a6c7b1cb33f3e88fbcba07a37dc29b13b7b",
+    "docs/template/layout/_master.tmpl": "266899293fe0443ad0c476e3fa6962811bba4907ca181ded91f60c368efb01b8",
+    "docs/template/public/theme-type.css": "5bfee47786c9b388e71a3da977bf5d93bcc67ee99bee92c7dcb318cab2ccc0ae"
+  },
+  "scope": "DocFX reading shell and styles; not product UI. Layout verified on rendered HTML; palette comes from native export."
+}

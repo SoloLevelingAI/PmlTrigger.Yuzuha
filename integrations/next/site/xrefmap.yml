@@ -1,0 +1,60 @@
+### YamlMime:XRefMap
+sorted: true
+references:
+- uid: addin-registration
+  name: Addin驱动的Feature装配
+  href: development/addins.html
+- uid: core-demo
+  name: 核心流程演示：修改一次，执行留证
+  href: manuals/demo.html
+- uid: delivery-status
+  name: 当前交付与证据边界
+  href: status.html
+- uid: dependencies
+  name: 实际解析依赖与许可
+  href: dependencies.html
+- uid: developer-manual
+  name: 开发手册：从功能追到具体实现
+  href: manuals/developer.html
+- uid: docfx-reading-theme
+  name: 文档阅读主题：与作品集使用同一套视觉语言
+  href: design/docfx-reading-theme.html
+- uid: launch-feature
+  name: 按配置启动应用
+  href: features/launch-by-profile.html
+- uid: licence-checkout-test
+  name: 开发验证：FNF 7与原生启动契约
+  href: reviews/licence-checkout.html
+- uid: model-driven-development-review
+  name: 同一模型编辑与双包交付：八节说明
+  href: development/model-driven-review.html
+- uid: original-deploy-diagnostic
+  name: 原LaunchDesk工具复制失败：只读调查
+  href: development/original-deploy-diagnostic.html
+- uid: project-portfolio
+  name: LaunchDesk.Next：项目作品集
+  href: portfolio/README.html
+- uid: remote-portable-figcraft
+  name: 远程工程与凭据：FigCraft评审设计
+  href: design/remote-portable-review.html
+- uid: remote-portable-review
+  name: 远程工程：连接、授权与配置迁移
+  href: reviews/remote-portable.html
+- uid: remote-project-development
+  name: 开发维护索引
+  href: development/INDEX.html
+- uid: remote-project-lab
+  name: VMware远程Project：配置与分层验收手册
+  href: reviews/remote-project-lab.html
+- uid: remote-project-lab-results
+  name: G0/G1执行结果：已通过，保留原机VMX保护例外
+  href: reviews/remote-project-lab-results.html
+- uid: toml-selection
+  name: TOML库选型：Tomlyn 2.10.1已批准，暂不安装
+  href: decisions/toml-selection.html
+- uid: user-manual
+  name: 使用手册：按配置启动应用
+  href: manuals/user.html
+- uid: verification
+  name: 验证记录
+  href: verification.html

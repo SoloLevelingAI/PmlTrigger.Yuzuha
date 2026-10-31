@@ -1,0 +1,49 @@
+{
+  "runId": "17f392ea-0cf9-4760-bc69-b8dc73a72c6d",
+  "capturedAtUtc": "2026-10-19T06:59:05.599Z",
+  "inputs": [
+    {
+      "name": "PRODUCT-BRIEF.md",
+      "sha256": "24eff27ae334871da78c9440d078fb0ef35efc10b9313c97cfe18ef8aaefc98b",
+      "bytes": 4033
+    },
+    {
+      "name": "class-contracts.json",
+      "sha256": "88901e0a0ebf06f9b4fbbbe18f7bed5d7255d1cca45bca9da31b98b1ae3f5122",
+      "bytes": 96452
+    },
+    {
+      "name": "review-contract.json",
+      "sha256": "958042bcd734b5d87335e79d8467a81fe76a944cc4e92fb3d03c1beb8b0b15c0",
+      "bytes": 7115
+    },
+    {
+      "name": "run-input.json",
+      "sha256": "25c91cb2e8852c4be9799d93f0c887c54f7030032d8349d6708f0650c23245a9",
+      "bytes": 691
+    }
+  ],
+  "provenance": {
+    "sourceCommit": "46555e013920977354ecb9b6b2520c5d13ae3c3b",
+    "sourceBranch": "architecture/archon",
+    "archonVersion": "0.12.1",
+    "runtime": "1.4.2",
+    "codexVersion": "codex-cli 0.163.0-alpha.10.2",
+    "providerPatch": "tools/archon/patches/readonly-provider.patch",
+    "providerPatchSha256": "08b92f8ca9a3be09c3a35fcd8cc6896b499c722162bfeb8e5ac66d4e6a7c381c",
+    "providerSourceSha256": "211eb7abe53b526d51bcf00eb846e58340b0c370658aec7db165bd784be0228e",
+    "store": "database / isolated local SQLite",
+    "modelOverride": null,
+    "authentication": "existing local Codex login; no credentials copied",
+    "businessSourceIncluded": false,
+    "implementationApproved": false
+  },
+  "implementationApproved": false,
+  "resumedFromRunId": "ec42ac4a-2167-4fd2-91d4-085b7d6aef7c",
+  "recoverySourceCommit": "0fbc14b8eb7ad16364df8d5d3f3d9ac5c42761be",
+  "recoveredAtUtc": "2026-10-19T07:37:49.374Z",
+  "modelReviewRunId": "8b32f133-0d10-4e7c-acfd-ea34ed974513",
+  "adoptedFromRunId": "8b32f133-0d10-4e7c-acfd-ea34ed974513",
+  "packagingSourceCommit": "d54de28874915018c5022d974507aefff813f238",
+  "packagedAtUtc": "2026-10-19T07:51:28.870Z"
+}

@@ -1,0 +1,1900 @@
+{
+  "schemaVersion": 2,
+  "draftDate": "2026-10-26",
+  "families": [
+    {
+      "id": "BRD",
+      "title": "业务需求文档",
+      "purpose": "业务目标、价值与边界"
+    },
+    {
+      "id": "PRD",
+      "title": "产品需求文档",
+      "purpose": "用户任务、能力与发布范围"
+    },
+    {
+      "id": "SRS",
+      "title": "软件需求规格说明书",
+      "purpose": "候选可验证要求与质量缺口"
+    },
+    {
+      "id": "FRD",
+      "title": "功能需求文档",
+      "purpose": "输入、流程、异常与结果"
+    },
+    {
+      "id": "SDD",
+      "title": "软件设计说明书",
+      "purpose": "结构、职责与设计理由"
+    },
+    {
+      "id": "SDS",
+      "title": "软件设计规格说明书",
+      "purpose": "接口、数据、不变量与失败语义"
+    }
+  ],
+  "scopes": {
+    "business-inference": "业务推断，待确认",
+    "coexistence": "原界面 / rewrite 共存",
+    "rewrite": "rewrite 后端 / 验证外壳",
+    "shared-launch": "Core 共享参数；新操作/网关属 rewrite"
+  },
+  "records": [
+    {
+      "id": "BRD-001",
+      "title": "降低多版本配置与启动成本",
+      "status": "待确认",
+      "scope": "business-inference",
+      "description": "集中管理版本、登录与许可，降低重复配置成本；收益待确认。",
+      "questions": [
+        "主要用户是谁？",
+        "配置/切换耗时基线、目标及测法？"
+      ],
+      "basisRef": "product-brief",
+      "verificationGapRef": "reviewGap"
+    },
+    {
+      "id": "BRD-002",
+      "title": "降低工具变更与不确定结果的处理成本",
+      "status": "待确认",
+      "scope": "business-inference",
+      "description": "预览、回执和恢复降低更新排障成本；业务容忍度待确认。",
+      "questions": [
+        "首批工具和目录？",
+        "恢复时限、备份期限及容许损失？"
+      ],
+      "basisRef": "product-brief",
+      "verificationGapRef": "reviewGap"
+    },
+    {
+      "id": "BRD-003",
+      "title": "支持配置复用并保留本机秘密边界",
+      "status": "待确认",
+      "scope": "business-inference",
+      "description": "跨机复用非秘密配置；路径、凭据及资源绑定另行确认。",
+      "questions": [
+        "个人多机还是团队分享？",
+        "谁审核接收机绑定？"
+      ],
+      "basisRef": "product-brief",
+      "verificationGapRef": "reviewGap"
+    },
+    {
+      "id": "BRD-004",
+      "title": "明确当前产品与迁移范围",
+      "status": "待确认",
+      "scope": "coexistence",
+      "description": "原界面仍为日常入口；确认后端接入与界面兼容边界。",
+      "questions": [
+        "首批接入功能、验收范围及里程碑？",
+        "哪些原绑定和行为必须回归？"
+      ],
+      "basis": [
+        "README.md",
+        "docs/rewrite/IMPLEMENTATION.md",
+        "docs/verification/2026-10-20-original-view-boundary.md"
+      ],
+      "verificationGapRef": "reviewGap"
+    },
+    {
+      "id": "BRD-005",
+      "title": "确定收益、支持责任与产品边界",
+      "status": "待确认",
+      "scope": "business-inference",
+      "description": "用户规模、收费、支持与收益待确认；远程能力未交付。",
+      "questions": [
+        "个人工具还是团队产品？",
+        "谁负责发布、支持和验收？",
+        "指标、预算及多机功能优先级？"
+      ],
+      "basisRef": "product-brief",
+      "verificationGapRef": "reviewGap"
+    },
+    {
+      "id": "PRD-001",
+      "title": "Windows 本机工作台与用户边界",
+      "status": "待确认",
+      "scope": "coexistence",
+      "description": "Windows 本机工作台：原 EXE 日常使用，Archon 外壳验证架构。",
+      "parents": [
+        "BRD-001",
+        "BRD-004",
+        "BRD-005"
+      ],
+      "evidence": [
+        {
+          "uid": "@bootstrap/DesktopCompositionRoot",
+          "methods": []
+        }
+      ],
+      "tests": [
+        {
+          "id": "@architecture/ArchitectureBoundaryTests.AspireRemainsOptional",
+          "reason": "普通程序集无 Aspire 引用。"
+        }
+      ],
+      "questions": [
+        "Windows/AVEVA 支持矩阵？",
+        "目标用户、版本及优先级？"
+      ],
+      "basisRef": "product-brief"
+    },
+    {
+      "id": "PRD-002",
+      "title": "应用版本与登录配置管理",
+      "status": "实现观察",
+      "scope": "rewrite",
+      "description": "配置管理应用、登录、许可与工具；保存和复制使用稳定提交。",
+      "parents": [
+        "BRD-001"
+      ],
+      "evidence": [
+        {
+          "uid": "@usecases/WorkspaceCatalogService",
+          "methods": [
+            "SaveProfileAsync"
+          ]
+        },
+        {
+          "uid": "@desktop/ProfilesPageViewModel",
+          "methods": []
+        }
+      ],
+      "tests": [
+        {
+          "id": "scenario:F05 stable copy identity, historical receipt and no credential copying",
+          "reason": "复制身份、回执与凭据隔离。"
+        },
+        {
+          "id": "scenario:F05 switch outcome unknown remains verifiable by CommitId",
+          "reason": "未知提交按原号核验。"
+        }
+      ],
+      "questions": [
+        "原界面编辑接入清单及验收顺序？"
+      ]
+    },
+    {
+      "id": "PRD-003",
+      "title": "可解释的多产品启动",
+      "status": "实现观察",
+      "scope": "shared-launch",
+      "description": "按 Monitor/Marine 协议启动，隔离环境，区分受理、窗口和会话。",
+      "parents": [
+        "BRD-001"
+      ],
+      "evidence": [
+        {
+          "uid": "@usecases/LaunchPlanBuilder",
+          "methods": [
+            "BuildMonitorArguments",
+            "BuildMarineArguments"
+          ]
+        },
+        {
+          "uid": "@windows/WindowsProcessGateway",
+          "methods": [
+            "StartAsync"
+          ]
+        }
+      ],
+      "tests": [
+        {
+          "id": "@architecture/LaunchPlanExamplesTests.MonitorHonorsExplicitProductAndInitialization",
+          "reason": "产品、init 和模块大小写。"
+        },
+        {
+          "id": "@architecture/LaunchPlanExamplesTests.MarineExampleIsAnExecutableContract",
+          "reason": "Marine 五参数与秘密插槽。"
+        },
+        {
+          "id": "scenario:AR10 window observation never confirms a project login",
+          "reason": "窗口不推断项目登录。"
+        }
+      ],
+      "questions": [
+        "厂商入口、版本组合及真实登录验收环境？"
+      ],
+      "basis": [
+        "LaunchDesk.Core/LaunchService.cs"
+      ]
+    },
+    {
+      "id": "PRD-004",
+      "title": "许可关联资源的监测与复查",
+      "status": "实现观察",
+      "scope": "rewrite",
+      "description": "监测资源并复查抖动；可达证据与许可签出、登录分别表达。",
+      "parents": [
+        "BRD-001"
+      ],
+      "evidence": [
+        {
+          "uid": "@usecases/ResourceSupervisor",
+          "methods": [
+            "RequireFreshAsync"
+          ]
+        },
+        {
+          "uid": "@kernel/ConnectionHealthPolicy",
+          "methods": []
+        }
+      ],
+      "tests": [
+        {
+          "id": "scenario:AR06-08 health rounds debounce and bind evidence identity",
+          "reason": "健康轮次、去抖及身份。"
+        },
+        {
+          "id": "scenario:F04 RequireFresh uses frozen endpoint and never reuses another revision",
+          "reason": "冻结端点/修订与新鲜度。"
+        }
+      ],
+      "questions": [
+        "检测延迟、通知方式及真实资源矩阵？"
+      ]
+    },
+    {
+      "id": "PRD-005",
+      "title": "工具交付与持久变量的明确执行",
+      "status": "实现观察",
+      "scope": "rewrite",
+      "description": "来源选择、部署与持久变量先预览确认，再写入和核验。",
+      "parents": [
+        "BRD-002"
+      ],
+      "evidence": [
+        {
+          "uid": "@usecases/DeploymentPlanner",
+          "methods": [
+            "PreviewAsync"
+          ]
+        },
+        {
+          "uid": "@usecases/VariablePlanner",
+          "methods": [
+            "PreviewAsync"
+          ]
+        }
+      ],
+      "tests": [
+        {
+          "id": "scenario:AR13-17 folder delivery, interrupted write, explicit recovery and rollback",
+          "reason": "隔离文件交付、中断和恢复。"
+        },
+        {
+          "id": "scenario:AR17 variable rename checks baseline and keeps old value on uncertain new write",
+          "reason": "改名比基线，未知时留旧值。"
+        }
+      ],
+      "questions": [
+        "首批工具、备份策略及管理员角色？"
+      ]
+    },
+    {
+      "id": "PRD-006",
+      "title": "非秘密分享与旧数据迁移",
+      "status": "实现观察",
+      "scope": "rewrite",
+      "description": "分享经 CommitId 保存非秘密配置；迁移经 OperationId 核验副本后激活。",
+      "parents": [
+        "BRD-003"
+      ],
+      "evidence": [
+        {
+          "uid": "@usecases/ConfigurationShareService",
+          "methods": [
+            "ExportAsync",
+            "CommitAsync"
+          ]
+        },
+        {
+          "uid": "@usecases/WorkspaceMigrationService",
+          "methods": [
+            "ExecuteAsync"
+          ]
+        }
+      ],
+      "tests": [
+        {
+          "id": "scenario:AR19 import has no execution and export contains no credential reference",
+          "reason": "导入不执行，导出无凭据。"
+        },
+        {
+          "id": "scenario:AR22 legacy migration preserves identities and credential references without changing source",
+          "reason": "迁移保留身份、引用和来源。"
+        }
+      ],
+      "questions": [
+        "旧格式版本及分享兼容策略？"
+      ]
+    },
+    {
+      "id": "PRD-007",
+      "title": "发布与整体迁移验收",
+      "status": "待确认",
+      "scope": "coexistence",
+      "description": "发布需验收原界面接入与真实环境；开发宿主不代替产品验收。",
+      "parents": [
+        "BRD-004",
+        "BRD-005"
+      ],
+      "questions": [
+        "完整迁移的里程碑、负责人、清单？",
+        "界面、性能、升级、可访问性及兼容目标？"
+      ],
+      "basis": [
+        "README.md",
+        "docs/rewrite/IMPLEMENTATION.md"
+      ],
+      "verificationGapRef": "reviewGap"
+    },
+    {
+      "id": "SRS-001",
+      "title": "原桌面入口与可选开发编排",
+      "status": "实现观察",
+      "scope": "coexistence",
+      "description": "普通桌面不依赖 Aspire；原界面和 Archon 验证入口分开。",
+      "parents": [
+        "PRD-001",
+        "PRD-007"
+      ],
+      "acceptance": [
+        "日常入口为 LaunchDesk.App，候选单列。",
+        "普通程序集无 Aspire 引用；发布另验。"
+      ],
+      "evidence": [
+        {
+          "uid": "@bootstrap/DesktopCompositionRoot",
+          "methods": []
+        }
+      ],
+      "tests": [
+        {
+          "id": "@architecture/ArchitectureBoundaryTests.AspireRemainsOptional",
+          "reason": "普通程序集无 Aspire 引用。"
+        }
+      ],
+      "basis": [
+        "README.md",
+        "LaunchDesk.App/LaunchDesk.App.csproj"
+      ]
+    },
+    {
+      "id": "SRS-002",
+      "title": "配置提交保持稳定身份与历史结果",
+      "status": "实现观察",
+      "scope": "rewrite",
+      "description": "CommitId 绑定原内容与预期修订；未知提交按原回执核验。",
+      "parents": [
+        "PRD-002"
+      ],
+      "acceptance": [
+        "重复提交不新增复制实体。",
+        "旧修订冲突；未知结果可查原 CommitId。"
+      ],
+      "evidence": [
+        {
+          "uid": "@usecases/WorkspaceCatalogService",
+          "methods": [
+            "SaveProfileAsync"
+          ]
+        },
+        {
+          "uid": "@windows/JsonWorkspaceStore",
+          "methods": []
+        }
+      ],
+      "tests": [
+        {
+          "id": "scenario:F05 stable copy identity, historical receipt and no credential copying",
+          "reason": "复制身份、回执与凭据隔离。"
+        },
+        {
+          "id": "scenario:F05 switch outcome unknown remains verifiable by CommitId",
+          "reason": "未知提交按原号核验。"
+        }
+      ]
+    },
+    {
+      "id": "SRS-003",
+      "title": "后台操作的重复提交不得重复执行",
+      "status": "实现观察",
+      "scope": "rewrite",
+      "description": "同 OperationId、同摘要返回原操作；冲突拒绝；唯一租约才派发。",
+      "parents": [
+        "PRD-003",
+        "PRD-005"
+      ],
+      "acceptance": [
+        "跨进程竞争最多一次副作用。",
+        "不同内容报 OperationConflict；Existing 不派发。"
+      ],
+      "evidence": [
+        {
+          "uid": "@usecases/OperationCoordinator",
+          "methods": [
+            "SubmitAsync"
+          ]
+        },
+        {
+          "uid": "@windows/JsonRunJournal",
+          "methods": [
+            "TryBeginExecutionAsync"
+          ]
+        }
+      ],
+      "tests": [
+        {
+          "id": "scenario:F01 two real processes admit at most one side effect",
+          "reason": "跨进程竞态最多一次副作用。"
+        }
+      ]
+    },
+    {
+      "id": "SRS-004",
+      "title": "启动参数与环境遵循入口协议",
+      "status": "实现观察",
+      "scope": "shared-launch",
+      "description": "Monitor 用配置产品/init；Marine 用五参数；MDB 规范化、子环境隔离。",
+      "parents": [
+        "PRD-003"
+      ],
+      "acceptance": [
+        "核对顺序、大小写和独立环境。",
+        "批处理不安全输入先拒绝；原 Core 适配另验。"
+      ],
+      "evidence": [
+        {
+          "uid": "@usecases/LaunchPlanBuilder",
+          "methods": [
+            "BuildMonitorArguments",
+            "BuildMarineArguments",
+            "Build"
+          ]
+        },
+        {
+          "uid": "@kernel/ProcessEnvironmentPolicy",
+          "methods": []
+        }
+      ],
+      "tests": [
+        {
+          "id": "@architecture/LaunchPlanExamplesTests.MonitorHonorsExplicitProductAndInitialization",
+          "reason": "产品、init 和模块大小写。"
+        },
+        {
+          "id": "@architecture/LaunchPlanExamplesTests.MarineExampleIsAnExecutableContract",
+          "reason": "Marine 五参数与秘密插槽。"
+        },
+        {
+          "id": "scenario:AR05 child environments isolate license bindings",
+          "reason": "子许可环境隔离，父环境不变。"
+        },
+        {
+          "id": "@architecture/LaunchPlanExamplesTests.UnsupportedMarineSecretsFailBeforeCreatingAProcess",
+          "reason": "批处理不安全秘密先拒绝。"
+        }
+      ],
+      "basis": [
+        "LaunchDesk.Core/LaunchService.cs"
+      ]
+    },
+    {
+      "id": "SRS-005",
+      "title": "秘密保持临时解析和非序列化边界",
+      "status": "实现观察",
+      "scope": "rewrite",
+      "description": "秘密按需租约解析，不回填、不作普通序列化；分享无凭据引用。",
+      "parents": [
+        "PRD-002",
+        "PRD-003",
+        "PRD-006"
+      ],
+      "acceptance": [
+        "秘密与能力对象拒绝 JSON 序列化。",
+        "分享无秘密；原输入生命周期和全日志另验。"
+      ],
+      "evidence": [
+        {
+          "uid": "@contracts/SecretLease",
+          "methods": []
+        },
+        {
+          "uid": "@contracts/TransientSecret",
+          "methods": []
+        },
+        {
+          "uid": "@windows/WindowsSecretVault",
+          "methods": []
+        }
+      ],
+      "tests": [
+        {
+          "id": "scenario:Runtime secrets and capabilities reject JSON serialization",
+          "reason": "秘密/能力拒绝 JSON。"
+        },
+        {
+          "id": "scenario:AR19 import has no execution and export contains no credential reference",
+          "reason": "导入不执行，导出无凭据。"
+        }
+      ]
+    },
+    {
+      "id": "SRS-006",
+      "title": "运行事实不得夸大为登录成功",
+      "status": "实现观察",
+      "scope": "rewrite",
+      "description": "区分受理、交接、窗口、会话和失败；窗口/端口不证明登录。",
+      "parents": [
+        "PRD-003",
+        "PRD-004"
+      ],
+      "acceptance": [
+        "窗口证据不产生 SessionConfirmed。",
+        "模拟进程不替代真实登录/签出。"
+      ],
+      "evidence": [
+        {
+          "uid": "@windows/WindowsProcessGateway",
+          "methods": [
+            "ObserveAsync"
+          ]
+        },
+        {
+          "uid": "@contracts/RunSnapshot",
+          "methods": []
+        },
+        {
+          "uid": "@contracts/ProcessEvidence",
+          "methods": []
+        }
+      ],
+      "tests": [
+        {
+          "id": "scenario:AR10 window observation never confirms a project login",
+          "reason": "窗口不推断项目登录。"
+        },
+        {
+          "id": "scenario:AR12 native process receives exact arguments and isolated environment",
+          "reason": "模拟进程接收参数与环境。"
+        }
+      ]
+    },
+    {
+      "id": "SRS-007",
+      "title": "停止等待不得自动撤销或重放",
+      "status": "实现观察",
+      "scope": "rewrite",
+      "description": "受理任务独立于等待者；停止观察不杀外部应用、不撤销或重放。",
+      "parents": [
+        "PRD-003",
+        "PRD-005"
+      ],
+      "acceptance": [
+        "取消等待不撤销受理操作。",
+        "保留原编号核验，不重复副作用。"
+      ],
+      "evidence": [
+        {
+          "uid": "@usecases/OperationCoordinator",
+          "methods": [
+            "CancelAsync"
+          ]
+        },
+        {
+          "uid": "@usecases/OperationExecutionContext",
+          "methods": []
+        }
+      ],
+      "tests": [
+        {
+          "id": "scenario:AR11 accepted operations outlive callers and explicit stop does not replay",
+          "reason": "停等不撤销受理、不重放。"
+        }
+      ]
+    },
+    {
+      "id": "SRS-008",
+      "title": "资源证据绑定完整身份与新鲜度",
+      "status": "实现观察",
+      "scope": "rewrite",
+      "description": "按完整身份与策略归约健康；新鲜证据须匹配冻结端点和修订。",
+      "parents": [
+        "PRD-004"
+      ],
+      "acceptance": [
+        "区分抖动与持续失败。",
+        "端点、修订或策略变化后证据不串用。"
+      ],
+      "evidence": [
+        {
+          "uid": "@usecases/ResourceSupervisor",
+          "methods": [
+            "RequireFreshAsync"
+          ]
+        },
+        {
+          "uid": "@kernel/ConnectionHealthPolicy",
+          "methods": [
+            "Reduce"
+          ]
+        }
+      ],
+      "tests": [
+        {
+          "id": "scenario:AR06-08 health rounds debounce and bind evidence identity",
+          "reason": "健康轮次、去抖及身份。"
+        },
+        {
+          "id": "scenario:F04 RequireFresh uses frozen endpoint and never reuses another revision",
+          "reason": "冻结端点/修订与新鲜度。"
+        }
+      ]
+    },
+    {
+      "id": "SRS-009",
+      "title": "来源刷新与交付确认绑定实际内容",
+      "status": "实现观察",
+      "scope": "rewrite",
+      "description": "刷新保留人工来源；确认绑定内容，来源变化失效，越界先拒绝。",
+      "parents": [
+        "PRD-005"
+      ],
+      "acceptance": [
+        "保留旧包，明确选最新才切换。",
+        "来源变化或路径越界拒用旧确认。"
+      ],
+      "evidence": [
+        {
+          "uid": "@usecases/ToolSourceCatalog",
+          "methods": [
+            "RefreshAsync"
+          ]
+        },
+        {
+          "uid": "@usecases/DeploymentPlanner",
+          "methods": [
+            "PreviewAsync"
+          ]
+        },
+        {
+          "uid": "@windows/PrivateStagingStore",
+          "methods": []
+        }
+      ],
+      "tests": [
+        {
+          "id": "scenario:AR12 sources preserve a manual older package when refreshed",
+          "reason": "刷新保留人工旧包。"
+        },
+        {
+          "id": "scenario:AR14 changing source invalidates a confirmed plan",
+          "reason": "来源变化使确认失效。"
+        },
+        {
+          "id": "scenario:AR14 ZIP traversal and file-map traversal are rejected",
+          "reason": "拒绝压缩/映射越界。"
+        }
+      ]
+    },
+    {
+      "id": "SRS-010",
+      "title": "目标写入保护与恢复必须可核验",
+      "status": "实现观察",
+      "scope": "rewrite",
+      "description": "保护工作空间/恢复资料，互斥写入并留回执；恢复重新预览确认。",
+      "parents": [
+        "PRD-005"
+      ],
+      "acceptance": [
+        "拒绝保护根和目标冲突。",
+        "中断查回执；目标外变后拒用旧计划。",
+        "Worker 认证原请求；真实 UAC 另验。"
+      ],
+      "evidence": [
+        {
+          "uid": "@usecases/DeploymentPlanner",
+          "methods": [
+            "PreviewRecoveryAsync"
+          ]
+        },
+        {
+          "uid": "@windows/FileDeliveryPort",
+          "methods": [
+            "ApplyAsync"
+          ]
+        },
+        {
+          "uid": "@windows/JsonRunJournal",
+          "methods": []
+        }
+      ],
+      "tests": [
+        {
+          "id": "scenario:AR13-17 folder delivery, interrupted write, explicit recovery and rollback",
+          "reason": "隔离文件交付、中断和恢复。"
+        },
+        {
+          "id": "scenario:F02 reject workspace, ancestor, traversal and held target conflicts",
+          "reason": "保护根、越界及目标互斥。"
+        },
+        {
+          "id": "scenario:AR16 external target changes invalidate recovery and application",
+          "reason": "目标外变拒用旧计划。"
+        },
+        {
+          "id": "scenario:AR18 worker authenticates its parent and writes only the admitted plan",
+          "reason": "模拟 Worker 认证；真实 UAC 另验。"
+        }
+      ]
+    },
+    {
+      "id": "SRS-011",
+      "title": "持久变量应用核对原值并读后验证",
+      "status": "实现观察",
+      "scope": "rewrite",
+      "description": "持久变量先预览确认、核对基线；未知新值保留旧值，禁改许可专用名。",
+      "parents": [
+        "PRD-005"
+      ],
+      "acceptance": [
+        "基线外变拒绝覆盖。",
+        "未知结果保留旧值/检查点；保存不等于应用。"
+      ],
+      "evidence": [
+        {
+          "uid": "@usecases/VariablePlanner",
+          "methods": [
+            "PreviewAsync"
+          ]
+        },
+        {
+          "uid": "@usecases/VariableOperationHandler",
+          "methods": [
+            "ExecuteAsync"
+          ]
+        },
+        {
+          "uid": "@windows/WindowsEnvironmentStore",
+          "methods": [
+            "ApplyVerifiedAsync"
+          ]
+        }
+      ],
+      "tests": [
+        {
+          "id": "scenario:AR17 variable rename checks baseline and keeps old value on uncertain new write",
+          "reason": "改名比基线，未知时留旧值。"
+        }
+      ]
+    },
+    {
+      "id": "SRS-012",
+      "title": "分享不执行且本机绑定需要确认",
+      "status": "实现观察",
+      "scope": "rewrite",
+      "description": "分享仅非秘密定义；预览确认后保存，不执行；本机绑定另确认。",
+      "parents": [
+        "PRD-006"
+      ],
+      "acceptance": [
+        "导出无密码/凭据引用。",
+        "导入只存配置；入口须本机确认。"
+      ],
+      "evidence": [
+        {
+          "uid": "@usecases/ConfigurationShareService",
+          "methods": [
+            "ExportAsync",
+            "PreviewImportAsync",
+            "CommitAsync"
+          ]
+        }
+      ],
+      "tests": [
+        {
+          "id": "scenario:AR19 import has no execution and export contains no credential reference",
+          "reason": "导入不执行，导出无凭据。"
+        }
+      ]
+    },
+    {
+      "id": "SRS-013",
+      "title": "迁移与数据位置保持原资料和稳定身份",
+      "status": "实现观察",
+      "scope": "rewrite",
+      "description": "迁移副本核验后按修订激活，保留原资料；portable 相对 EXE。",
+      "parents": [
+        "PRD-006"
+      ],
+      "acceptance": [
+        "保留身份、引用和来源摘要。",
+        "缺控制历史拒迁；工作目录不影响便携路径。"
+      ],
+      "evidence": [
+        {
+          "uid": "@usecases/WorkspaceMigrationService",
+          "methods": [
+            "ExecuteAsync"
+          ]
+        },
+        {
+          "uid": "@windows/MigrationPlanningService",
+          "methods": []
+        },
+        {
+          "uid": "@windows/WorkspaceLocationResolver",
+          "methods": [
+            "Resolve"
+          ]
+        }
+      ],
+      "tests": [
+        {
+          "id": "scenario:AR22 legacy migration preserves identities and credential references without changing source",
+          "reason": "迁移保留身份、引用和来源。"
+        },
+        {
+          "id": "scenario:AR22 current format cannot be migrated without its control history",
+          "reason": "缺控制历史拒迁。"
+        },
+        {
+          "id": "scenario:AR21 portable location is relative to executable rather than current directory",
+          "reason": "便携路径相对 EXE。"
+        }
+      ]
+    },
+    {
+      "id": "SRS-014",
+      "title": "量化质量与界面接入验收基线",
+      "status": "待确认",
+      "scope": "coexistence",
+      "description": "性能、界面、平台、保留和兼容指标待确认，默认值不作承诺。",
+      "parents": [
+        "PRD-007"
+      ],
+      "acceptance": [
+        "确定指标、环境、测法和阈值后建验收。"
+      ],
+      "questions": [
+        "规模、启动/刷新延迟及恢复时限？",
+        "平台/AVEVA 矩阵、界面和可访问性条件？",
+        "备份/日志期限及升级回退策略？"
+      ],
+      "basis": [
+        "README.md",
+        "docs/rewrite/IMPLEMENTATION.md",
+        "docs/rewrite/PRODUCT-BRIEF.md"
+      ],
+      "verificationGapRef": "reviewGap"
+    },
+    {
+      "id": "FRD-001",
+      "title": "配置编辑、复制与提交核验",
+      "status": "实现观察",
+      "scope": "rewrite",
+      "description": "编辑字段，以 CommitId/修订提交；未知查回执，确认后刷新目录。",
+      "parents": [
+        "SRS-002",
+        "SRS-005"
+      ],
+      "acceptance": [
+        "分开显示输入、回执和目录。",
+        "原桌面编辑接入逐项验收。"
+      ],
+      "evidence": [
+        {
+          "uid": "@desktop/ProfilesPageViewModel",
+          "methods": []
+        },
+        {
+          "uid": "@usecases/WorkspaceCatalogService",
+          "methods": [
+            "SaveProfileAsync"
+          ]
+        }
+      ],
+      "tests": [
+        {
+          "id": "scenario:F05 stable copy identity, historical receipt and no credential copying",
+          "reason": "复制身份、回执与凭据隔离。"
+        },
+        {
+          "id": "scenario:F05 switch outcome unknown remains verifiable by CommitId",
+          "reason": "未知提交按原号核验。"
+        }
+      ]
+    },
+    {
+      "id": "FRD-002",
+      "title": "启动从选择配置到事实投影",
+      "status": "实现观察",
+      "scope": "rewrite",
+      "description": "提交配置与操作编号；冻结、唯一准入、资源复查后启动，投影回 UI。",
+      "parents": [
+        "SRS-003",
+        "SRS-004",
+        "SRS-006",
+        "SRS-007"
+      ],
+      "acceptance": [
+        "绑定、修订、资源失败给对应原因。",
+        "窗口不足保留未确认；停等不重派。"
+      ],
+      "evidence": [
+        {
+          "uid": "@desktop/ProfilesPageViewModel",
+          "methods": [
+            "LaunchSelectedAsync"
+          ]
+        },
+        {
+          "uid": "@usecases/LaunchOperationHandler",
+          "methods": [
+            "ExecuteAsync"
+          ]
+        },
+        {
+          "uid": "@usecases/OperationCoordinator",
+          "methods": [
+            "SubmitAsync"
+          ]
+        }
+      ],
+      "tests": [
+        {
+          "id": "scenario:F01 two real processes admit at most one side effect",
+          "reason": "跨进程竞态最多一次副作用。"
+        },
+        {
+          "id": "scenario:AR12 native process receives exact arguments and isolated environment",
+          "reason": "模拟进程接收参数与环境。"
+        },
+        {
+          "id": "scenario:AR10 window observation never confirms a project login",
+          "reason": "窗口不推断项目登录。"
+        },
+        {
+          "id": "scenario:AR11 accepted operations outlive callers and explicit stop does not replay",
+          "reason": "停等不撤销受理、不重放。"
+        }
+      ]
+    },
+    {
+      "id": "FRD-003",
+      "title": "持续轮询、主动复查与启动前新鲜证据",
+      "status": "实现观察",
+      "scope": "rewrite",
+      "description": "轮询/刷新/启动复查共享冻结身份；探测归约后独立订阅，不写操作日志。",
+      "parents": [
+        "SRS-008"
+      ],
+      "acceptance": [
+        "旧修订不用作当前证据。",
+        "停轮询不改变许可/VM 生命周期。"
+      ],
+      "evidence": [
+        {
+          "uid": "@usecases/ResourceSupervisor",
+          "methods": [
+            "PollAsync",
+            "RefreshAsync",
+            "RequireFreshAsync",
+            "WatchAsync"
+          ]
+        },
+        {
+          "uid": "@desktop/LicensePageViewModel",
+          "methods": [
+            "RefreshAsync"
+          ]
+        }
+      ],
+      "tests": [
+        {
+          "id": "scenario:AR06-08 health rounds debounce and bind evidence identity",
+          "reason": "健康轮次、去抖及身份。"
+        },
+        {
+          "id": "scenario:F04 RequireFresh uses frozen endpoint and never reuses another revision",
+          "reason": "冻结端点/修订与新鲜度。"
+        }
+      ]
+    },
+    {
+      "id": "FRD-004",
+      "title": "工具来源、预览、执行及恢复",
+      "status": "实现观察",
+      "scope": "rewrite",
+      "description": "选来源→冻结预览→确认受理→租约或 Worker 写入→回执；恢复再预览。",
+      "parents": [
+        "SRS-009",
+        "SRS-010"
+      ],
+      "acceptance": [
+        "预览非写入；来源/目标变化使确认失效。",
+        "未知结果先核验，不重放。"
+      ],
+      "evidence": [
+        {
+          "uid": "@desktop/ToolPageViewModel",
+          "methods": []
+        },
+        {
+          "uid": "@usecases/DeploymentPlanner",
+          "methods": [
+            "PreviewAsync",
+            "PreviewRecoveryAsync"
+          ]
+        },
+        {
+          "uid": "@usecases/DeliveryOperationHandler",
+          "methods": [
+            "ExecuteAsync"
+          ]
+        }
+      ],
+      "tests": [
+        {
+          "id": "scenario:AR12 sources preserve a manual older package when refreshed",
+          "reason": "刷新保留人工旧包。"
+        },
+        {
+          "id": "scenario:AR14 changing source invalidates a confirmed plan",
+          "reason": "来源变化使确认失效。"
+        },
+        {
+          "id": "scenario:AR13-17 folder delivery, interrupted write, explicit recovery and rollback",
+          "reason": "隔离文件交付、中断和恢复。"
+        },
+        {
+          "id": "scenario:AR16 external target changes invalidate recovery and application",
+          "reason": "目标外变拒用旧计划。"
+        }
+      ]
+    },
+    {
+      "id": "FRD-005",
+      "title": "变量预览与确认应用",
+      "status": "实现观察",
+      "scope": "rewrite",
+      "description": "新旧名、值、作用域形成确认计划；比较基线、写入、留检查点并核验；管理员走有限 Worker。",
+      "parents": [
+        "SRS-011"
+      ],
+      "acceptance": [
+        "保存定义不写持久变量。",
+        "改名不确定显示部分完成/待核验。"
+      ],
+      "evidence": [
+        {
+          "uid": "@usecases/VariablePlanner",
+          "methods": [
+            "PreviewAsync"
+          ]
+        },
+        {
+          "uid": "@usecases/VariableOperationHandler",
+          "methods": [
+            "ExecuteAsync"
+          ]
+        },
+        {
+          "uid": "@contracts/IEnvironmentStore",
+          "methods": [
+            "ApplyVerifiedAsync"
+          ]
+        }
+      ],
+      "tests": [
+        {
+          "id": "scenario:AR17 variable rename checks baseline and keeps old value on uncertain new write",
+          "reason": "改名比基线，未知时留旧值。"
+        }
+      ]
+    },
+    {
+      "id": "FRD-006",
+      "title": "分享导出、预览与配置导入",
+      "status": "实现观察",
+      "scope": "rewrite",
+      "description": "选非秘密配置导出；校验文件、预览并确认绑定，再按 CommitId 导入。",
+      "parents": [
+        "SRS-012"
+      ],
+      "acceptance": [
+        "分享无秘密，入口需本机确认。",
+        "回执只证明配置，不证明登录/工具可用。"
+      ],
+      "evidence": [
+        {
+          "uid": "@desktop/SharingPageViewModel",
+          "methods": []
+        },
+        {
+          "uid": "@usecases/ConfigurationShareService",
+          "methods": [
+            "ExportAsync",
+            "PreviewImportAsync",
+            "CommitAsync",
+            "InspectCommitAsync"
+          ]
+        }
+      ],
+      "tests": [
+        {
+          "id": "scenario:AR19 import has no execution and export contains no credential reference",
+          "reason": "导入不执行，导出无凭据。"
+        },
+        {
+          "id": "scenario:F05 switch outcome unknown remains verifiable by CommitId",
+          "reason": "未知提交按原号核验。"
+        }
+      ]
+    },
+    {
+      "id": "FRD-007",
+      "title": "旧数据迁移与位置解析",
+      "status": "实现观察",
+      "scope": "rewrite",
+      "description": "冻结旧来源摘要，确认后准备、核验并激活副本；数据位置单独解析。",
+      "parents": [
+        "SRS-013"
+      ],
+      "acceptance": [
+        "原文件保留；不明结果查原 OperationId。",
+        "缺控制历史不能冒充旧格式迁移。"
+      ],
+      "evidence": [
+        {
+          "uid": "@usecases/WorkspaceMigrationService",
+          "methods": [
+            "ExecuteAsync"
+          ]
+        },
+        {
+          "uid": "@windows/MigrationPlanningService",
+          "methods": []
+        },
+        {
+          "uid": "@windows/WorkspaceLocationResolver",
+          "methods": [
+            "Resolve"
+          ]
+        }
+      ],
+      "tests": [
+        {
+          "id": "scenario:AR22 legacy migration preserves identities and credential references without changing source",
+          "reason": "迁移保留身份、引用和来源。"
+        },
+        {
+          "id": "scenario:AR22 current format cannot be migrated without its control history",
+          "reason": "缺控制历史拒迁。"
+        },
+        {
+          "id": "scenario:AR21 portable location is relative to executable rather than current directory",
+          "reason": "便携路径相对 EXE。"
+        }
+      ]
+    },
+    {
+      "id": "FRD-008",
+      "title": "只读开发诊断与文档查询",
+      "status": "实现观察",
+      "scope": "rewrite",
+      "description": "DevHost 只读查询健康/操作，托管 OpenAPI、Scalar 与静态文档。",
+      "parents": [
+        "SRS-001",
+        "SRS-006"
+      ],
+      "acceptance": [
+        "检查仅两条 GET 路由及 DTO。",
+        "隔离空目录查空；健康不证明登录。"
+      ],
+      "evidence": [
+        {
+          "uid": "@diagnostics/DiagnosticEndpoints",
+          "methods": []
+        }
+      ],
+      "basis": [
+        "scripts/check-documentation.mjs"
+      ],
+      "verificationGap": "无直接 xUnit；文档检查验路由/DTO/隔离宿主。"
+    },
+    {
+      "id": "SDD-001",
+      "title": "原界面与分层后端共存及渐进接入",
+      "status": "实现观察",
+      "scope": "coexistence",
+      "description": "原 View 日常使用；Core 共享参数；rewrite 装配独立外壳，完整迁移未完。",
+      "parents": [
+        "SRS-001",
+        "SRS-004",
+        "SRS-014"
+      ],
+      "evidence": [
+        {
+          "uid": "@usecases/LaunchPlanBuilder",
+          "methods": [
+            "BuildMonitorArguments",
+            "BuildMarineArguments"
+          ]
+        },
+        {
+          "uid": "@bootstrap/DesktopCompositionRoot",
+          "methods": []
+        }
+      ],
+      "tests": [
+        {
+          "id": "legacy:LaunchDesk.Tests:Original desktop Monitor adapter preserves explicit Catalogue configuration and module case",
+          "reason": "原 Core Monitor 适配；整套执行。"
+        },
+        {
+          "id": "legacy:LaunchDesk.Tests:Original desktop Marine adapter preserves vendor module comparison and nested handoff",
+          "reason": "原 Core Marine 适配；整套执行。"
+        }
+      ],
+      "basis": [
+        "README.md",
+        "LaunchDesk.Core/LaunchService.cs",
+        "docs/rewrite/IMPLEMENTATION.md"
+      ]
+    },
+    {
+      "id": "SDD-002",
+      "title": "分层与副作用端口",
+      "status": "实现观察",
+      "scope": "rewrite",
+      "description": "纯规则、端口、协调、平台副作用、交互及装配按层依赖；测试独立。",
+      "parents": [
+        "SRS-001",
+        "FRD-002",
+        "FRD-004"
+      ],
+      "evidence": [
+        {
+          "uid": "@usecases/LaunchOperationHandler",
+          "methods": []
+        },
+        {
+          "uid": "@desktop/ProfilesPageViewModel",
+          "methods": []
+        },
+        {
+          "uid": "@bootstrap/DesktopCompositionRoot",
+          "methods": []
+        }
+      ],
+      "tests": [
+        {
+          "id": "@architecture/ArchitectureBoundaryTests.CompiledDependenciesFollowApprovedLayers",
+          "reason": "编译依赖方向；原界面另验。"
+        },
+        {
+          "id": "@architecture/ArchitectureBoundaryTests.InteractionAndUseCasesDoNotBypassSideEffectPorts",
+          "reason": "交互/用例不绕副作用端口。"
+        },
+        {
+          "id": "@architecture/ArchitectureBoundaryTests.ProjectGraphMatchesApprovedEdgesAndHasNoCycles",
+          "reason": "引用白名单与无环。"
+        }
+      ],
+      "basis": [
+        "rewrite/architecture.json"
+      ]
+    },
+    {
+      "id": "SDD-003",
+      "title": "提交、持久操作与资源投影分开",
+      "status": "实现观察",
+      "scope": "rewrite",
+      "description": "配置用 CommitId/回执；操作用 OperationId/租约/日志；监测用资源身份和缓存。",
+      "parents": [
+        "FRD-001",
+        "FRD-002",
+        "FRD-003"
+      ],
+      "evidence": [
+        {
+          "uid": "@usecases/WorkspaceCatalogService",
+          "methods": []
+        },
+        {
+          "uid": "@usecases/OperationCoordinator",
+          "methods": []
+        },
+        {
+          "uid": "@usecases/ResourceSupervisor",
+          "methods": []
+        }
+      ],
+      "tests": [
+        {
+          "id": "scenario:F05 switch outcome unknown remains verifiable by CommitId",
+          "reason": "未知提交按原号核验。"
+        },
+        {
+          "id": "scenario:F01 two real processes admit at most one side effect",
+          "reason": "跨进程竞态最多一次副作用。"
+        },
+        {
+          "id": "scenario:F04 RequireFresh uses frozen endpoint and never reuses another revision",
+          "reason": "冻结端点/修订与新鲜度。"
+        }
+      ],
+      "questions": [
+        "原界面完整接入与用户文案需验收。"
+      ]
+    },
+    {
+      "id": "SDD-004",
+      "title": "秘密租约与有限管理员边界",
+      "status": "实现观察",
+      "scope": "rewrite",
+      "description": "秘密临时租约化；Worker 认证父进程和原计划，仅执行有限操作。",
+      "parents": [
+        "SRS-005",
+        "SRS-010",
+        "FRD-005"
+      ],
+      "evidence": [
+        {
+          "uid": "@contracts/SecretLease",
+          "methods": []
+        },
+        {
+          "uid": "@windows/WindowsSecretVault",
+          "methods": []
+        },
+        {
+          "uid": "@windows/WindowsPrivilegeBroker",
+          "methods": []
+        }
+      ],
+      "tests": [
+        {
+          "id": "scenario:Runtime secrets and capabilities reject JSON serialization",
+          "reason": "秘密/能力拒绝 JSON。"
+        },
+        {
+          "id": "scenario:AR18 worker authenticates its parent and writes only the admitted plan",
+          "reason": "模拟 Worker 认证；真实 UAC 另验。"
+        }
+      ],
+      "questions": [
+        "真实 UAC、执行账户及权限分工待验收。"
+      ]
+    },
+    {
+      "id": "SDD-005",
+      "title": "计划、检查点与回执支撑明确恢复",
+      "status": "实现观察",
+      "scope": "rewrite",
+      "description": "来源、目标、修订和摘要冻结后写入；检查点/回执支持确认恢复，变量与迁移分别核验。",
+      "parents": [
+        "SRS-010",
+        "SRS-011",
+        "SRS-013"
+      ],
+      "evidence": [
+        {
+          "uid": "@usecases/DeploymentPlanner",
+          "methods": [
+            "PreviewRecoveryAsync"
+          ]
+        },
+        {
+          "uid": "@windows/FileDeliveryPort",
+          "methods": []
+        },
+        {
+          "uid": "@windows/JsonMigrationStore",
+          "methods": []
+        }
+      ],
+      "tests": [
+        {
+          "id": "scenario:AR13-17 folder delivery, interrupted write, explicit recovery and rollback",
+          "reason": "隔离文件交付、中断和恢复。"
+        },
+        {
+          "id": "scenario:AR16 external target changes invalidate recovery and application",
+          "reason": "目标外变拒用旧计划。"
+        },
+        {
+          "id": "scenario:AR17 variable rename checks baseline and keeps old value on uncertain new write",
+          "reason": "改名比基线，未知时留旧值。"
+        },
+        {
+          "id": "scenario:AR22 legacy migration preserves identities and credential references without changing source",
+          "reason": "迁移保留身份、引用和来源。"
+        }
+      ]
+    },
+    {
+      "id": "SDD-006",
+      "title": "开发诊断与普通桌面发布隔离",
+      "status": "实现观察",
+      "scope": "rewrite",
+      "description": "DevHost 只读，Aspire 可选；普通发布独立，编排结束不误杀目标进程。",
+      "parents": [
+        "SRS-001",
+        "SRS-007",
+        "FRD-008"
+      ],
+      "evidence": [
+        {
+          "uid": "@diagnostics/DiagnosticEndpoints",
+          "methods": []
+        },
+        {
+          "uid": "@windows/WindowsProcessGateway",
+          "methods": []
+        }
+      ],
+      "tests": [
+        {
+          "id": "@architecture/ArchitectureBoundaryTests.AspireRemainsOptional",
+          "reason": "普通程序集无 Aspire 引用。"
+        },
+        {
+          "id": "scenario:AR24 target process survives an orchestrator job closing",
+          "reason": "编排 Job 关闭不杀目标。"
+        }
+      ]
+    },
+    {
+      "id": "SDS-001",
+      "title": "配置端口、修订和提交回执契约",
+      "status": "实现观察",
+      "scope": "rewrite",
+      "description": "配置入口绑定 CommitId/修订；存储维护原内容和回执，未知结果按原号查。",
+      "parents": [
+        "SRS-002",
+        "FRD-001",
+        "SDD-003"
+      ],
+      "acceptance": [
+        "API 为签名依据；重复不新增实体。",
+        "内容/修订冲突不能报成功。"
+      ],
+      "evidence": [
+        {
+          "uid": "@contracts/ICatalogService",
+          "methods": [
+            "SaveProfileAsync"
+          ]
+        },
+        {
+          "uid": "@windows/JsonWorkspaceStore",
+          "methods": [
+            "BeginCommitAsync",
+            "CommitAsync"
+          ]
+        }
+      ],
+      "tests": [
+        {
+          "id": "scenario:F05 stable copy identity, historical receipt and no credential copying",
+          "reason": "复制身份、回执与凭据隔离。"
+        },
+        {
+          "id": "scenario:F05 switch outcome unknown remains verifiable by CommitId",
+          "reason": "未知提交按原号核验。"
+        }
+      ]
+    },
+    {
+      "id": "SDS-002",
+      "title": "操作请求、准入及状态事实契约",
+      "status": "实现观察",
+      "scope": "rewrite",
+      "description": "请求摘要冻结受理；执行租约准入；RunEvent 按序号和状态策略追加。",
+      "parents": [
+        "SRS-003",
+        "SRS-007",
+        "SDD-003"
+      ],
+      "acceptance": [
+        "Existing 不派发，摘要冲突拒绝。",
+        "正确租约、序号、阶段才准追加。"
+      ],
+      "evidence": [
+        {
+          "uid": "@contracts/OperationRequest",
+          "methods": []
+        },
+        {
+          "uid": "@contracts/RunEvent",
+          "methods": []
+        },
+        {
+          "uid": "@kernel/OperationStatePolicy",
+          "methods": []
+        },
+        {
+          "uid": "@windows/JsonRunJournal",
+          "methods": [
+            "AcceptAsync",
+            "TryBeginExecutionAsync",
+            "AppendAsync"
+          ]
+        }
+      ],
+      "tests": [
+        {
+          "id": "scenario:F01 two real processes admit at most one side effect",
+          "reason": "跨进程竞态最多一次副作用。"
+        },
+        {
+          "id": "scenario:AR11 accepted operations outlive callers and explicit stop does not replay",
+          "reason": "停等不撤销受理、不重放。"
+        }
+      ]
+    },
+    {
+      "id": "SDS-003",
+      "title": "启动计划与秘密插槽契约",
+      "status": "实现观察",
+      "scope": "shared-launch",
+      "description": "按 EntryKind 构造独立环境：Monitor 用 PROD/产品/init，Marine 五参数；网关填秘密插槽。",
+      "parents": [
+        "SRS-004",
+        "SRS-005",
+        "FRD-002",
+        "SDD-001"
+      ],
+      "acceptance": [
+        "参数和秘密插槽与示例一致。",
+        "Core 仅共享参数；新网关/操作仍属 rewrite。"
+      ],
+      "evidence": [
+        {
+          "uid": "@usecases/LaunchPlanBuilder",
+          "methods": [
+            "Build",
+            "BuildMonitorArguments",
+            "BuildMarineArguments"
+          ]
+        },
+        {
+          "uid": "@windows/WindowsProcessGateway",
+          "methods": [
+            "StartAsync"
+          ]
+        }
+      ],
+      "tests": [
+        {
+          "id": "@architecture/LaunchPlanExamplesTests.MonitorHonorsExplicitProductAndInitialization",
+          "reason": "产品、init 和模块大小写。"
+        },
+        {
+          "id": "@architecture/LaunchPlanExamplesTests.MarineExampleIsAnExecutableContract",
+          "reason": "Marine 五参数与秘密插槽。"
+        },
+        {
+          "id": "@architecture/LaunchPlanExamplesTests.UnsupportedMarineSecretsFailBeforeCreatingAProcess",
+          "reason": "批处理不安全秘密先拒绝。"
+        },
+        {
+          "id": "scenario:AR12 native process receives exact arguments and isolated environment",
+          "reason": "模拟进程接收参数与环境。"
+        }
+      ],
+      "basis": [
+        "LaunchDesk.Core/LaunchService.cs"
+      ]
+    },
+    {
+      "id": "SDS-004",
+      "title": "资源身份、策略与快照订阅契约",
+      "status": "实现观察",
+      "scope": "rewrite",
+      "description": "冻结资源按 IdentityKey 隔离缓存和并发；按时间、策略归约并发布快照。",
+      "parents": [
+        "SRS-008",
+        "FRD-003",
+        "SDD-003"
+      ],
+      "acceptance": [
+        "身份不符/过期不能作就绪证据。",
+        "监测不用操作日志；默认值非 SLA。"
+      ],
+      "evidence": [
+        {
+          "uid": "@kernel/ResourceDescriptor",
+          "methods": []
+        },
+        {
+          "uid": "@kernel/ConnectionHealthPolicy",
+          "methods": [
+            "Reduce"
+          ]
+        },
+        {
+          "uid": "@usecases/ResourceSupervisor",
+          "methods": [
+            "RequireFreshAsync",
+            "WatchAsync"
+          ]
+        }
+      ],
+      "tests": [
+        {
+          "id": "scenario:AR06-08 health rounds debounce and bind evidence identity",
+          "reason": "健康轮次、去抖及身份。"
+        },
+        {
+          "id": "scenario:F04 RequireFresh uses frozen endpoint and never reuses another revision",
+          "reason": "冻结端点/修订与新鲜度。"
+        }
+      ]
+    },
+    {
+      "id": "SDS-005",
+      "title": "部署确认、目标保护及交付回执契约",
+      "status": "实现观察",
+      "scope": "rewrite",
+      "description": "预览冻结摘要；处理器核确认、取租约或 Worker；适配器写检查点/回执。",
+      "parents": [
+        "SRS-009",
+        "SRS-010",
+        "FRD-004",
+        "SDD-005"
+      ],
+      "acceptance": [
+        "来源、目标、摘要一致才写入。",
+        "保护恢复资料，部分写入留回执。"
+      ],
+      "evidence": [
+        {
+          "uid": "@usecases/DeploymentPlanner",
+          "methods": [
+            "PreviewAsync",
+            "PreviewRecoveryAsync"
+          ]
+        },
+        {
+          "uid": "@usecases/DeliveryOperationHandler",
+          "methods": [
+            "ExecuteAsync"
+          ]
+        },
+        {
+          "uid": "@windows/FileDeliveryPort",
+          "methods": [
+            "ApplyAsync"
+          ]
+        }
+      ],
+      "tests": [
+        {
+          "id": "scenario:AR14 changing source invalidates a confirmed plan",
+          "reason": "来源变化使确认失效。"
+        },
+        {
+          "id": "scenario:F02 reject workspace, ancestor, traversal and held target conflicts",
+          "reason": "保护根、越界及目标互斥。"
+        },
+        {
+          "id": "scenario:AR13-17 folder delivery, interrupted write, explicit recovery and rollback",
+          "reason": "隔离文件交付、中断和恢复。"
+        },
+        {
+          "id": "scenario:AR18 worker authenticates its parent and writes only the admitted plan",
+          "reason": "模拟 Worker 认证；真实 UAC 另验。"
+        }
+      ]
+    },
+    {
+      "id": "SDS-006",
+      "title": "变量原值、计划与核验应用契约",
+      "status": "实现观察",
+      "scope": "rewrite",
+      "description": "冻结新旧名原值与摘要；应用比较基线、留检查点并读后核验。",
+      "parents": [
+        "SRS-011",
+        "FRD-005",
+        "SDD-005"
+      ],
+      "acceptance": [
+        "工具禁改保留名。",
+        "冲突失败；未知新值不删旧名。"
+      ],
+      "evidence": [
+        {
+          "uid": "@usecases/VariablePlanner",
+          "methods": [
+            "PreviewAsync"
+          ]
+        },
+        {
+          "uid": "@windows/WindowsEnvironmentStore",
+          "methods": [
+            "ApplyVerifiedAsync"
+          ]
+        },
+        {
+          "uid": "@contracts/ConfirmedVariablePlan",
+          "methods": []
+        }
+      ],
+      "tests": [
+        {
+          "id": "scenario:AR17 variable rename checks baseline and keeps old value on uncertain new write",
+          "reason": "改名比基线，未知时留旧值。"
+        }
+      ]
+    },
+    {
+      "id": "SDS-007",
+      "title": "分享格式、本机绑定与导入提交契约",
+      "status": "实现观察",
+      "scope": "rewrite",
+      "description": "分享格式 v3，剔除秘密引用、VM 路径和旧记录目录；校验关联、稳定映射标识，入口需本机绑定。",
+      "parents": [
+        "SRS-012",
+        "FRD-006",
+        "SDD-004"
+      ],
+      "acceptance": [
+        "拒绝错格式、重复 ID 和缺失关联。",
+        "绑定/摘要未确认拒绝；导入不执行。"
+      ],
+      "evidence": [
+        {
+          "uid": "@usecases/ConfigurationShareService",
+          "methods": [
+            "ExportAsync",
+            "PreviewImportAsync",
+            "CommitAsync"
+          ]
+        },
+        {
+          "uid": "@contracts/ShareBundle",
+          "methods": []
+        }
+      ],
+      "tests": [
+        {
+          "id": "scenario:AR19 import has no execution and export contains no credential reference",
+          "reason": "导入不执行，导出无凭据。"
+        }
+      ]
+    },
+    {
+      "id": "SDS-008",
+      "title": "迁移副本、激活与本机位置契约",
+      "status": "实现观察",
+      "scope": "rewrite",
+      "description": "迁移 Prepare→Validate→Activate，按原操作和修订激活；位置解析独立。",
+      "parents": [
+        "SRS-013",
+        "FRD-007",
+        "SDD-005"
+      ],
+      "acceptance": [
+        "保留原来源、身份及凭据引用。",
+        "位置失败给原因；缺控制历史拒迁。"
+      ],
+      "evidence": [
+        {
+          "uid": "@contracts/IMigrationStore",
+          "methods": [
+            "PrepareAsync",
+            "ValidateAsync",
+            "ActivateAsync"
+          ]
+        },
+        {
+          "uid": "@windows/WorkspaceLocationResolver",
+          "methods": [
+            "Resolve"
+          ]
+        }
+      ],
+      "tests": [
+        {
+          "id": "scenario:AR22 legacy migration preserves identities and credential references without changing source",
+          "reason": "迁移保留身份、引用和来源。"
+        },
+        {
+          "id": "scenario:AR22 current format cannot be migrated without its control history",
+          "reason": "缺控制历史拒迁。"
+        },
+        {
+          "id": "scenario:AR21 portable location is relative to executable rather than current directory",
+          "reason": "便携路径相对 EXE。"
+        }
+      ]
+    },
+    {
+      "id": "SDS-009",
+      "title": "运行投影与只读 HTTP 契约",
+      "status": "实现观察",
+      "scope": "rewrite",
+      "description": "ITaskQueries 投影脱敏事实回 Dispatcher；诊断仅两条 GET；窗口不合成会话。",
+      "parents": [
+        "SRS-006",
+        "FRD-008",
+        "SDD-006"
+      ],
+      "acceptance": [
+        "保留阶段、原因与时间。",
+        "路由/DTO 由文档检查；窗口测试不覆盖 HTTP。"
+      ],
+      "evidence": [
+        {
+          "uid": "@usecases/OperationProjectionService",
+          "methods": []
+        },
+        {
+          "uid": "@contracts/ITaskQueries",
+          "methods": [
+            "WatchAsync"
+          ]
+        },
+        {
+          "uid": "@diagnostics/DiagnosticEndpoints",
+          "methods": []
+        }
+      ],
+      "tests": [
+        {
+          "id": "scenario:AR10 window observation never confirms a project login",
+          "reason": "窗口不推断项目登录。"
+        }
+      ],
+      "basis": [
+        "scripts/check-documentation.mjs"
+      ]
+    }
+  ],
+  "uidPrefixes": {
+    "contracts": "LaunchDesk.OperationContracts.",
+    "usecases": "LaunchDesk.UseCases.",
+    "kernel": "LaunchDesk.Kernel.",
+    "windows": "LaunchDesk.Windows.",
+    "desktop": "LaunchDesk.Desktop.",
+    "bootstrap": "LaunchDesk.Bootstrap.",
+    "aspire": "LaunchDesk.DevHost.Aspire.",
+    "diagnostics": "LaunchDesk.DevHost."
+  },
+  "testPrefixes": {
+    "architecture": "xunit:LaunchDesk.Architecture.Tests."
+  },
+  "basisGroups": {
+    "product-brief": [
+      "README.md",
+      "docs/rewrite/PRODUCT-BRIEF.md"
+    ]
+  },
+  "sharedText": {
+    "reviewGap": "无直接测试，需审阅或目标环境验收。"
+  }
+}

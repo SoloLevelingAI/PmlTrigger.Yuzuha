@@ -1,0 +1,17 @@
+{
+  "$schema": "https://likec4.dev/schemas/config.json",
+  "name": "launchdesk-archon",
+  "title": "LaunchDesk · Archon 架构审阅",
+  "landingPage": {
+    "include": [
+      "index",
+      "modules",
+      "workflow"
+    ]
+  },
+  "metadata": {
+    "status": "Proposed",
+    "candidate": "archon",
+    "implementationApproved": "false"
+  }
+}

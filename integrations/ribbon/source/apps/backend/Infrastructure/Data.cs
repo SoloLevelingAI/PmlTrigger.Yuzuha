@@ -13,7 +13,7 @@ namespace RibbonStudio.Backend
     public static class Data
     {
         public static readonly object WriteGate = new object();
-        [System.Runtime.InteropServices.DllImport("kernel32.dll", CharSet = System.Runtime.InteropServices.CharSet.Unicode, SetLastError = true)] static extern bool MoveFileEx(string source, string target, int flags);
+        [System.Runtime.InteropServices.DllImport("kernel32.dll", CharSet = System.Runtime.InteropServices.CharSet.Unicode, SetLastError = true, EntryPoint = "MoveFileExW", ExactSpelling = true)] static extern bool MoveFileEx(string source, string target, int flags);
         public static Dictionary<string, object> Map(object value)
         {
             return value as Dictionary<string, object> ?? new Dictionary<string, object>();
@@ -78,6 +78,16 @@ namespace RibbonStudio.Backend
                 throw new ApiError(422, "目标不能是符号链接");
             return File.ReadAllBytes(path);
         }
+        // Extended absolute paths are required at the Win32 boundary independently of
+        // .NET runtime switches and the machine-wide LongPathsEnabled policy.
+        internal static string NativePath(string path)
+        {
+            string full = Path.GetFullPath(path);
+            if (full.StartsWith(@"\\?\", StringComparison.Ordinal)) return full;
+            return full.StartsWith(@"\\", StringComparison.Ordinal)
+                ? @"\\?\UNC\" + full.Substring(2)
+                : @"\\?\" + full;
+        }
         public static void Atomic(string path, byte[] value)
         {
             Directory.CreateDirectory(Path.GetDirectoryName(path));
@@ -91,7 +101,7 @@ namespace RibbonStudio.Backend
                 {
                     try
                     {
-                        if (!MoveFileEx(temp, path, 9))
+                        if (!MoveFileEx(NativePath(temp), NativePath(path), 9))
                         {
                             int code = System.Runtime.InteropServices.Marshal.GetLastWin32Error();
                             if (code == 5 && attempt == 5)

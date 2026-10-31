@@ -11,6 +11,7 @@
 1. `attempt-1.json`：提交 `0dadf7b`。rewrite 构建因 Microsoft.OpenApi 2.0.0 的 NU1903 高危漏洞失败。升级至同主版本修复版 2.7.5，保留漏洞审计；另行运行 DevHost 验证 OpenAPI 生成及 Scalar HTTP 200。
 2. `attempt-2.json`：提交 `233dc1e`。rewrite 构建零警告通过，但 AR01-25 固定读取 Release 下的 Desktop DLL，干净 Debug 克隆未生成该文件。修复测试定位为当前配置，同时移除旧产品测试隐式生成 Release 的行为。没有修改为 Release 验收来掩盖问题。
 3. `attempt-3.json`：提交 `309948d`。rewrite 完整通过，Next 的进程参数测试在文件出现但写入句柄尚未关闭时读取 JSON，触发共享冲突。按完成发布信号修复测试夹具，不通过重跑或放宽参数断言掩盖问题。
+4. `attempt-4.json`：提交 `9544cce`。469 项测试通过，最后 Manager 到 Ribbon 的保存调用在深目录下失败，原生原子重命名返回路径错误。该轮不算整体通过；保留长目录作为回归条件，修复后端处理。
 
 最终完整验收结果将在通过后记录。失败记录不替换、不伪装成成功。
 

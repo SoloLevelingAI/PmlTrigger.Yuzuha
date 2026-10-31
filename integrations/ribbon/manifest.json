@@ -70,7 +70,7 @@
       "path": "source/apps/backend/Features/Workspace/WorkspaceFiles.cs",
       "sha256": "515fcab734195d2f3b00029a54a697d4246f5ef961170dbb8259ead21270b6c9",
       "sourcePath": "apps/backend/Features/Workspace/WorkspaceFiles.cs",
-      "integratedSha256": "515fcab734195d2f3b00029a54a697d4246f5ef961170dbb8259ead21270b6c9"
+      "integratedSha256": "318315dfac3e55a7d44867956a3d9ac18dd0cf1e3c104ea20aec7c53cde3f328"
     },
     {
       "path": "source/apps/backend/Host/Program.cs",
@@ -82,7 +82,7 @@
       "path": "source/apps/backend/Infrastructure/Data.cs",
       "sha256": "d395027032f1b97fada44777fb5044de064216b5eb82b0b4d4c7cc5a339370da",
       "sourcePath": "apps/backend/Infrastructure/Data.cs",
-      "integratedSha256": "115722d09f73669b33bf95d8254a748540cac8937429a03e02568ef7761b31f7"
+      "integratedSha256": "7151469ae0bf3639f06a2a700ed676e5ae3978547269be803a586455974d8edd"
     },
     {
       "path": "source/apps/desktop/App.config",
@@ -556,7 +556,7 @@
       "path": "source/tests/csharp-compat.test.ts",
       "sha256": "d22400b67f9d1328697a6d02ca688a59c1d77d54d9e374270b829db4527201f6",
       "sourcePath": "tests/csharp-compat.test.ts",
-      "integratedSha256": "d22400b67f9d1328697a6d02ca688a59c1d77d54d9e374270b829db4527201f6"
+      "integratedSha256": "4330f7a93c7f0c5f416878f7194d1a3e7c4cff59f254723f0f28bcd2f470e97b"
     },
     {
       "path": "source/tests/deployment.test.ts",

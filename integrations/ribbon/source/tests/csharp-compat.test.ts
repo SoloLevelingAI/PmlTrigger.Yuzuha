@@ -24,3 +24,23 @@ test('C# API preserves UIC roundtrip, legacy workspace and deployment protection
   assert((await readdir(join(data,'documents',originalId,'versions'))).length>=7);
  }finally{await backend.close();}
 });
+
+test('C# atomic history survives paths beyond MAX_PATH and backend restart',async()=>{
+ await mkdir(resolve('.runtime'),{recursive:true});const fixture=await mkdtemp(resolve('.runtime/long-path-'));
+ // Each component is legal; the complete destination deliberately exceeds 260 characters.
+ let data=join(fixture,'workspace');while(data.length<320)data=join(data,'nested-'+ 'x'.repeat(45));
+ let backend=await startBackend(data);
+ const post=async(route:string,body:any)=>{const r=await fetch(backend.url+'/api/v1/'+route,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});assert.equal(r.status,200,(await r.clone().text())+'\n'+backend.log());return r.json();};
+ try{
+  const first=await post('workspace/save',{project:await exampleProject(),kind:'save',note:'deep path first'});
+  const id=first.document.id;const originalCaption=first.project.buttons[0].caption;const edited=first.project;edited.buttons[0].caption='deep path edit';
+  await post('workspace/save',{project:edited,kind:'save',note:'deep path second'});
+  await backend.close();backend=await startBackend(data);
+  assert.equal((await post('workspace/open',{documentId:id})).buttons[0].caption,'deep path edit');
+  const history=await post('workspace/versions',{documentId:id});assert.equal(history.versions.length,2);
+  await post('workspace/restore',{documentId:id,versionId:first.version.id});
+  assert.equal((await post('workspace/open',{documentId:id})).buttons[0].caption,originalCaption);
+  assert.equal((await post('workspace/versions',{documentId:id})).versions.length,3);
+  const leftovers=(await readdir(join(data,'documents',id,'versions'))).filter(n=>n.endsWith('.tmp'));assert.deepEqual(leftovers,[]);
+ }finally{await backend.close();}
+});

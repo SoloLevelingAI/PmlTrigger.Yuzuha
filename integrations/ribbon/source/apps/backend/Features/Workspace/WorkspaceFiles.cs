@@ -10,7 +10,8 @@ namespace RibbonStudio.Backend
         public readonly string Root; readonly object gate = new object();
         public WorkspaceFiles(string root)
         {
-            Root = Path.GetFullPath(root);
+            // Keep internal workspace I/O independent of the OS long-path opt-in policy.
+            Root = Data.NativePath(root);
             Directory.CreateDirectory(Path.Combine(Root, "documents"));
         }
         string Folder(string id)

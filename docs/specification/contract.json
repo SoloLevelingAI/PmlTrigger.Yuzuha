@@ -687,7 +687,7 @@
     ],
     [
       "B11",
-      "YuzuhaToolkit.Mcp.Core",
+      "YuzuhaToolkit.Cli.Compatibility",
       "YuzuhaToolkit.Mcp.NativeCliHost",
       null
     ],
@@ -699,7 +699,7 @@
     ],
     [
       "B13",
-      "YuzuhaToolkit.Mcp.Core",
+      "YuzuhaToolkit.Cli.Compatibility",
       "YuzuhaToolkit.Mcp.NativeOperationCatalog",
       "Create"
     ],

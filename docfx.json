@@ -1,7 +1,11 @@
 {
   "metadata": [
     {
-      "src": [{ "files": ["src/PmlTwin.Database.Contracts/PmlTwin.Database.Contracts.csproj", "src/PmlTwin.Database/PmlTwin.Database.csproj"] }],
+      "src": [{ "files": ["src/PmlTwin.Database.Contracts/PmlTwin.Database.Contracts.csproj"] }],
+      "dest": "artifacts/docfx/api/database-contracts"
+    },
+    {
+      "src": [{ "files": ["src/PmlTwin.Database/PmlTwin.Database.csproj"] }],
       "dest": "artifacts/docfx/api/database"
     },
     {

@@ -9,12 +9,18 @@ namespace YuzuhaToolkit.Manager;
 /// <summary>打开并固定插件全部声明文件，持有只读租约直到操作结束。</summary>
 internal sealed class PluginPackage : IDisposable
 {
+    /// <summary>插件包根目录必须包含的清单文件名。</summary>
     public const string ManifestName = "manager-plugin.json";
     private readonly List<(string Name, FileStream Stream)> files = [];
+    /// <summary>经过绝对路径解析且禁止链接的插件包目录。</summary>
     public string Directory { get; }
+    /// <summary>从固定文件租约解析并通过身份、文件和操作 schema 校验的清单。</summary>
     public ManagerPluginManifest Manifest { get; }
+    /// <summary>打开包时读取的清单内容 SHA256，用于固定清单身份。</summary>
     public string ManifestSha256 { get; }
+    /// <summary>将清单入口解析到包目录内，拒绝越界路径。</summary>
     public string EntryPoint => PathRules.Inside(Directory, Manifest.EntryPoint);
+    /// <summary>验证清单、文件哈希、大小预算和操作命名空间，并保持所有已声明文件的只读租约。</summary>
     public PluginPackage(string directory)
     {
         Directory = Path.GetFullPath(directory); PathRules.NoLinks(Directory);
@@ -63,6 +69,7 @@ internal sealed class PluginPackage : IDisposable
         var stream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read);
         files.Add((relative, stream)); if (stream.Length > budget) throw new IOException("插件文件超过预算：" + relative); return stream;
     }
+    /// <summary>从已固定的文件流复制到目标目录内的新文件并刷新到磁盘；不覆盖已有文件。</summary>
     public void CopyTo(string directory)
     {
         foreach (var file in files)
@@ -99,5 +106,6 @@ internal sealed class PluginPackage : IDisposable
         if (schema.TryGetProperty("pattern", out var pattern))
         { if (pattern.ValueKind != JsonValueKind.String) throw new InvalidDataException("插件 pattern 无效。"); _ = new Regex(pattern.GetString()!, RegexOptions.CultureInvariant, TimeSpan.FromSeconds(1)); }
     }
+    /// <summary>释放包内清单及声明文件的只读租约并清空持有列表。</summary>
     public void Dispose() { foreach (var file in files) file.Stream.Dispose(); files.Clear(); }
 }

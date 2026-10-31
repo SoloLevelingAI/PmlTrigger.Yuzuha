@@ -181,6 +181,49 @@ public sealed class NativeCliCapabilityTests
     }
 
     [Fact]
+    public async Task FunctionAuthorizationAndSourceValidationPrecedeDiscoveryAndConnection()
+    {
+        using var fixture = new NativeFixture();
+        fixture.Functions.Register(fixture.Source, "NativeDemo");
+        const string input = "{\"functionName\":\"NativeDemo\",\"parameters\":[]}";
+        async Task<JsonElement> Invoke(bool allowExecution, int expectedExit)
+        {
+            using var output = new StringWriter();
+            string[] authorization = allowExecution ? ["--allow-execution"] : [];
+            Assert.Equal(expectedExit, await OperationCli.RunAsync(
+                ["op", "invoke", "pml.function.invoke", "--pid", "42", .. authorization, "--input", input],
+                fixture.Executor, output));
+            return Json(output.ToString());
+        }
+
+        var denied = await Invoke(true, 4);
+        Assert.Contains("PML_FUNCTION_INVOKE_DENIED", denied.GetProperty("error").GetProperty("message").GetString());
+        Assert.Equal(0, fixture.Discovery.Calls);
+        Assert.Equal(0, fixture.Factory.Connections);
+        fixture.Functions.SetPermission("NativeDemo", true);
+        var unauthorized = await Invoke(false, 4);
+        Assert.Equal("EXECUTION_NOT_AUTHORIZED", unauthorized.GetProperty("error").GetProperty("code").GetString());
+        Assert.Equal(0, fixture.Discovery.Calls);
+        Assert.Equal(0, fixture.Factory.Connections);
+        Assert.Equal(0, fixture.Service.Commands);
+
+        var allowed = await Invoke(true, 0);
+        Assert.True(allowed.GetProperty("success").GetBoolean());
+        Assert.True(fixture.Discovery.Calls > 0);
+        Assert.Equal(1, fixture.Factory.Connections);
+        Assert.Equal(1, fixture.Service.Commands);
+        Assert.Equal("!!NativeDemo()", fixture.Service.LastRequest!.PmlCommand);
+
+        var discoveries = fixture.Discovery.Calls;
+        File.AppendAllText(fixture.Source, "\n-- changed after permission\n");
+        var stale = await Invoke(true, 2);
+        Assert.Contains("PML_FUNCTION_SOURCE_CHANGED", stale.GetProperty("error").GetProperty("message").GetString());
+        Assert.Equal(discoveries, fixture.Discovery.Calls);
+        Assert.Equal(1, fixture.Factory.Connections);
+        Assert.Equal(1, fixture.Service.Commands);
+    }
+
+    [Fact]
     public async Task ChangedFunctionAndKnowledgeFailureDoNotBecomeSuccessfulWrappers()
     {
         using var fixture = new NativeFixture();
@@ -214,6 +257,8 @@ public sealed class NativeCliCapabilityTests
         public string Source => Path.Combine(PmlRoot, "NativeDemo.pmlfnc");
         public string Database => Path.Combine(Root, "knowledge", "native-fixture.sqlite3");
         public NativeService Service { get; } = new();
+        public NativeDiscovery Discovery { get; } = new();
+        public NativeFactory Factory { get; }
         public PmlFunctionRegistry Functions { get; }
         public OperationExecutor Executor { get; }
         private readonly string? priorState = Environment.GetEnvironmentVariable("YUZUHA_STATE_DIR");
@@ -225,7 +270,8 @@ public sealed class NativeCliCapabilityTests
             File.WriteAllText(Source, "define function !!NativeDemo() is STRING\n-- fixturequartz search evidence\nreturn 'fixturequartz'\nendfunction\n");
             File.WriteAllText(Path.Combine(HtmlRoot, "fixture.html"), "<html><head><title>Native fixture</title></head><body><h1>fixturequartz</h1><p>Native CLI fixture documentation.</p></body></html>");
             Environment.SetEnvironmentVariable("YUZUHA_STATE_DIR", Path.Combine(Root, "state"));
-            bridge = new(NullLogger<YuzuhaRpcBridge>.Instance, new NativeDiscovery(), new NativeFactory(Service));
+            Factory = new NativeFactory(Service);
+            bridge = new(NullLogger<YuzuhaRpcBridge>.Instance, Discovery, Factory);
             Functions = new(Path.Combine(Root, "functions.json"));
             journal = new("native-cli-test", Path.Combine(Root, "state"));
             Executor = NativeOperationCatalog.Create(bridge, new(Path.Combine(Root, "trust.json")), bridge.CreateIndependent, Functions, new(Path.Combine(Root, "knowledge")), journal);
@@ -242,12 +288,15 @@ public sealed class NativeCliCapabilityTests
     private sealed class NativeDiscovery : IAvevaSessionDiscovery
     {
         private readonly AvevaSessionCandidate candidate = new() { ProcessId = 42, ProcessStartTimeUtcTicks = 12345, PipeName = "yuzuha.pml.command.v1.pid-42", PipeDetected = true };
-        public AvevaSessionListResponse Discover() => new() { Count = 1, Sessions = [candidate] };
-        public AvevaSessionCandidate RequireCandidate(int processId) => processId == 42 ? candidate : throw new InvalidOperationException("AVEVA_SESSION_NOT_DISCOVERED");
+        public int Calls;
+        public AvevaSessionListResponse Discover() { Calls++; return new() { Count = 1, Sessions = [candidate] }; }
+        public AvevaSessionCandidate RequireCandidate(int processId)
+        { Calls++; return processId == 42 ? candidate : throw new InvalidOperationException("AVEVA_SESSION_NOT_DISCOVERED"); }
     }
     private sealed class NativeFactory(NativeService service) : IPmlRpcConnectionFactory
     {
-        public IPmlRpcConnection Connect(string pipeName) => new NativeConnection(service);
+        public int Connections;
+        public IPmlRpcConnection Connect(string pipeName) { Connections++; return new NativeConnection(service); }
         private sealed class NativeConnection(NativeService service) : IPmlRpcConnection
         { public IPmlCommandService Service => service; public void Dispose() { } }
     }

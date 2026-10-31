@@ -9,18 +9,27 @@ using System.Collections.Generic;
 namespace YuzuhaToolkit.Deployment
 {
     // One source compiled into the NET48 installer and NET10 manager.
+    /// <summary>记录追加托管环境块时的变量、行号、文本差异与插入位置，供预览展示。</summary>
     internal sealed class EnvironmentLineEdit
     {
+        /// <summary>本次追加赋值的环境变量名称。</summary>
         internal string Variable { get; private set; }
+        /// <summary>赋值在输出文本中的一基行号。</summary>
         internal int Line { get; private set; }
+        /// <summary>替换前文本；新增赋值时为 null。</summary>
         internal string Before { get; private set; }
+        /// <summary>追加到托管块中的完整 set 赋值行。</summary>
         internal string After { get; private set; }
+        /// <summary>供用户核对的插入位置说明。</summary>
         internal string Placement { get; private set; }
+        /// <summary>保存一项环境文本差异，不执行文件写入。</summary>
         internal EnvironmentLineEdit(string variable,int line,string before,string after,string placement)
         { Variable=variable;Line=line;Before=before;After=after;Placement=placement; }
     }
+    /// <summary>验证批处理控制流与目标赋值，再追加托管环境块；由 NET48 安装器和 NET10 管理器共享。</summary>
     internal static class EnvironmentTextEditor
     {
+        /// <summary>拒绝无法确认插入位置的批处理语法，在原赋值和短路径转换之后追加环境设置并返回逐行差异。</summary>
         internal static string Edit(string body,string root,string profile,bool legacy,string nl,
             out List<EnvironmentLineEdit> edits,string startupActions=null,bool includeFramework=false)
         {

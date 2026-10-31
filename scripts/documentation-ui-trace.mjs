@@ -44,30 +44,43 @@ export function buildUiTraceCatalog(graph,types=[],tests=[]) {
     nodes:catalogNodes,edges:graph.edges.filter(e=>reachable.has(e.from)&&reachable.has(e.to)&&nodes.get(e.from).file).map(e=>({...e,sourceUrl:sourceUrl(e.file,e.line),evidence:e.evidence?.map(item=>({...item,sourceUrl:sourceUrl(item.file,item.line)}))})),boundaries:graph.boundaries.filter(b=>!b.from||reachable.has(b.from)).map(b=>({...b,sourceUrl:sourceUrl(b.file,b.line)}))};
 }
 
+// Process creation is a source boundary, not evidence that a child reached RPC.
+export function buildUiBoundarySamples(graph,catalog=buildUiTraceCatalog(graph)) {
+  const adjacency=edges=>{const map=new Map();for(const edge of edges){if(!map.has(edge.from))map.set(edge.from,[]);map.get(edge.from).push(edge);}return map;};
+  const findPath=(edges,start,predicate)=>{const outgoing=adjacency(edges),pending=[{id:start,steps:[]}],visited=new Set();for(let i=0;i<pending.length;i++){const item=pending[i];if(visited.has(item.id))continue;visited.add(item.id);if(predicate(item.id))return item.steps;for(const edge of outgoing.get(item.id)??[])pending.push({id:edge.to,steps:[...item.steps,edge]});}return null;};
+  const client='YuzuhaToolkit.Manager.Core::M:YuzuhaToolkit.Manager.CommunicationCliClient.InvokeAsync(System.String,System.Text.Json.JsonElement,PmlTwin.Phayton.OperationContext,System.Threading.CancellationToken)';
+  const process='System.Diagnostics.Process::M:System.Diagnostics.Process.Start';
+  const samples=['ReadObject','ReadForms'].map(expression=>{
+    const entries=graph.entries.filter(e=>e.view==='YuzuhaToolkit.Desktop.SessionWorkbenchView'&&e.member==='Click'&&e.expression===expression);
+    assert.equal(entries.length,1,expression+' entry must resolve uniquely');const entry=entries[0];assert.ok(entry.target);
+    const toClient=findPath(catalog.edges,entry.target,id=>id===client),toProcess=findPath(catalog.edges,client,id=>id===process);
+    assert.ok(toClient?.length&&toProcess?.length,'No UI → communication CLI process path: '+expression);
+    const chain=[...toClient,...toProcess];
+    assert.ok(chain.some(e=>e.kind==='possible-implementation'),'Candidate implementations must remain explicit');
+    assert.ok(!chain.some(e=>e.kind==='rpc-route'),'Do not infer an in-process path across the CLI boundary');
+    return {entry,chain,boundary:{kind:'child-process',target:process,reason:'源码仅证明到独立 CLI 进程创建边界；未证明子进程启动、协议接收或 RPC/Host 执行。'}};
+  });
+  // Host routes are independent backend samples; never splice them onto a UI path.
+  const backendSamples=[];
+  for(const project of graph.projects.filter(p=>/^YuzuhaToolkit\.PmlHost\.Net(35|48)$/.test(p))){
+    const start='YuzuhaToolkit.Mcp.Core::M:YuzuhaToolkit.Mcp.YuzuhaRpcBridge.QueryPmlFormsAsync(YuzuhaToolkit.Pml.PmlFormQueryRequest,System.Threading.CancellationToken)';
+    const core=project+'::M:YuzuhaToolkit.Pml.PmlFormQuery.Reader.ReadCore';
+    const toCore=findPath(graph.edges,start,id=>id===core),toNative=findPath(graph.edges,core,id=>/^Aveva\.(Core|Pdms)\.Utilities::M:.*\.Command\.Run$/.test(id));
+    assert.ok(toCore?.length&&toNative?.length,'Incomplete independent backend → Host calculation → native boundary: '+project);
+    assert.ok(toCore.some(e=>e.kind==='rpc-route'&&e.evidence?.length===3),'RPC mapping lacks contract/registration evidence: '+project);
+    backendSamples.push({project,start,chain:[...toCore,...toNative]});
+  }
+  return {samples,backendSamples};
+}
+
 export function publishUiTrace({root,output,types,tests=[]}) {
   const graph=JSON.parse(fs.readFileSync(path.join(root,'artifacts/docfx/ui-trace.json'),'utf8'));
   const metadata=JSON.parse(fs.readFileSync(path.join(root,'artifacts/docfx/ui-trace-metadata.json'),'utf8'));
   const catalog=buildUiTraceCatalog(graph,types,tests),nodes=new Map(catalog.nodes.map(n=>[n.id,n]));
   const outgoing=new Map(),incoming=new Map();
   for(const e of catalog.edges){if(!outgoing.has(e.from))outgoing.set(e.from,[]);outgoing.get(e.from).push(e);if(!incoming.has(e.to))incoming.set(e.to,[]);incoming.get(e.to).push(e);}
-  const roots=graph.entries.filter(e=>e.view==='YuzuhaToolkit.Desktop.SessionWorkbenchView'&&e.member==='Click'&&e.expression==='ReadObject');
-  assert.equal(roots.length,1,'Object query entry must resolve uniquely');assert.ok(roots[0].target);
-  const queue=[{id:roots[0].target,steps:[]}],seen=new Set();let chain;
-  while(queue.length){const current=queue.shift();if(seen.has(current.id))continue;seen.add(current.id);
-    if(current.id.startsWith('PlantHost.Rpc.Net10::M:PlantHost.Rpc.RpcClient.InvokeAsync``2(PlantHost.Rpc.RpcMethod{')){chain=current.steps;break;}
-    for(const e of outgoing.get(current.id)??[])queue.push({id:e.to,steps:[...current.steps,e]});}
-  assert.ok(chain?.length,'No UI → RPC path');assert.ok(chain.some(e=>e.kind==='possible-implementation'),'Candidate implementations must remain explicit');
-  const findPath=(start,predicate)=>{const pending=[{id:start,steps:[]}],visited=new Set();for(let i=0;i<pending.length;i++){const item=pending[i];if(visited.has(item.id))continue;visited.add(item.id);if(predicate(item.id))return item.steps;for(const edge of outgoing.get(item.id)??[])pending.push({id:edge.to,steps:[...item.steps,edge]});}return null;};
-  const formEntry=graph.entries.find(e=>e.view==='YuzuhaToolkit.Desktop.SessionWorkbenchView'&&e.member==='Click'&&e.expression==='ReadForms');
-  assert.ok(formEntry?.target,'Missing form query button');
-  const backendSamples=[];
-  for(const project of graph.projects.filter(p=>/^YuzuhaToolkit\.PmlHost\.Net(35|48)$/.test(p))){
-    const core=project+'::M:YuzuhaToolkit.Pml.PmlFormQuery.Reader.ReadCore';
-    const toCore=findPath(formEntry.target,id=>id===core),toNative=findPath(core,id=>/^Aveva\.(Core|Pdms)\.Utilities::M:.*\.Command\.Run$/.test(id));
-    assert.ok(toCore?.length&&toNative?.length,'Incomplete button → Host calculation → native boundary: '+project);
-    assert.ok(toCore.some(e=>e.kind==='rpc-route'&&e.evidence?.length===3),'RPC mapping lacks contract/registration evidence: '+project);
-    backendSamples.push({project,entry:formEntry.id,chain:[...toCore,...toNative]});
-  }
+  const {samples,backendSamples}=buildUiBoundarySamples(graph,catalog);
+  const {chain}=samples[0];
   const write=(file,text)=>{const dest=path.join(output,'ui-trace',file);fs.mkdirSync(path.dirname(dest),{recursive:true});fs.writeFileSync(dest,text);};
   const files=new Set([...catalog.nodes.map(n=>n.file),...catalog.entries.map(e=>e.file),...catalog.pages.map(p=>p.file),...catalog.edges.map(e=>e.file),...catalog.edges.flatMap(e=>(e.evidence??[]).map(item=>item.file)),...catalog.boundaries.map(b=>b.file)].filter(Boolean));
   for(const file of files){
@@ -101,9 +114,9 @@ export function publishUiTrace({root,output,types,tests=[]}) {
   }
   let text='# WPF 各页调用链\n\n'+notice+'**源码基准：** `'+metadata.commit+'`；工作区修改：`'+metadata.dirty+'`。环境：'+md(metadata.environment)+'。\n\n[范围与限制](~/docs/reference/ui-tracing.md) · [完整 Roslyn 关系](graph.json) · [构建身份](metadata.json)\n\n'+mount({});
   for(const [kind,title]of [['page','业务页面'],['container','包含子页的容器'],['shared','共享导航、资源与生命周期']])text+='## '+title+'\n\n'+catalog.pages.filter(p=>p.kind===kind).map(p=>'- ['+md(p.name)+']('+relative(p.url)+') · '+p.entryIds.length+' 个入口/绑定').join('\n')+'\n\n';
-  text+='## 保留样例：读取所选对象至 RPC\n\n| 起点 | 关系 | 下一步 |\n| --- | --- | --- |\n'+chain.map(e=>'| '+link(e.from)+' | '+relationship(e.kind)+' | '+link(e.to)+' |').join('\n')+'\n\nRunVerifiedAsync 是桥方法的直接核验包装器，可从图或方法详情查看。回调体中的边不表示绕过包装器，也不代表执行顺序。\n';
+  text+='## 保留样例：读取所选对象至独立 CLI 进程边界\n\n| 起点 | 关系 | 下一步 |\n| --- | --- | --- |\n'+chain.map(e=>'| '+link(e.from)+' | '+relationship(e.kind)+' | '+link(e.to)+' |').join('\n')+'\n\n链在 CommunicationCliClient 的 Process.Start 源码调用处结束，不拼接子进程或 RPC 调用。回调体及候选实现不证明实际执行；Host 路由保留为独立后端样例。\n';
   const global=catalog.boundaries.filter(b=>!b.from);if(global.length)text+='\n## 生成器输入（不代表已调用）\n\n'+global.map(b=>'- '+md(b.expression)+'：'+md(b.reason)+' · '+source(b.file,b.line)).join('\n')+'\n';
-  write('index.md',text);write('graph.json',JSON.stringify(graph));write('browser.json',JSON.stringify({...catalog,metadata}));write('metadata.json',JSON.stringify(metadata,null,2));write('sample.json',JSON.stringify({entry:roots[0],chain},null,2));
-  write('backend-samples.json',JSON.stringify({scope:'Static paths through each configured Host; not execution evidence',omittedProjects:catalog.omittedProjects,samples:backendSamples},null,2));
+  write('index.md',text);write('graph.json',JSON.stringify(graph));write('browser.json',JSON.stringify({...catalog,metadata}));write('metadata.json',JSON.stringify(metadata,null,2));write('sample.json',JSON.stringify({...samples[0],samples},null,2));
+  write('backend-samples.json',JSON.stringify({scope:'Independent backend source paths through each configured Host; not connected to UI across the CLI process boundary, not execution evidence',omittedProjects:catalog.omittedProjects,samples:backendSamples},null,2));
   return {entries:catalog.entries.length,unresolved:catalog.entries.filter(e=>!e.target).length,sampleEdges:chain.length,pages:catalog.pages.filter(p=>p.kind==='page').length,containers:catalog.pages.filter(p=>p.kind==='container').length,shared:catalog.pages.filter(p=>p.kind==='shared').length,sourceMembers:catalog.nodes.filter(n=>n.file).length};
 }

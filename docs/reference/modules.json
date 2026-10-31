@@ -3,7 +3,7 @@
     "PmlTwin.Database.Contracts": {
       "name": "应用数据库契约",
       "description": "产品与版本隔离、预期修订和原子提交；不公开供应商连接。",
-      "alias": "database",
+      "alias": "database-contracts",
       "role": "production"
     },
     "PmlTwin.Database": {
@@ -108,7 +108,7 @@
     "YuzuhaToolkit.Manager.Core": {
       "name": "管理内核",
       "description": "部署、EVARS、启动、复制、数据与知识管理、可选插件，以及独立通信 CLI 适配。",
-      "sourceOnly": true,
+      "alias": "manager",
       "role": "production"
     },
     "YuzuhaToolkit.Manager.Cli": {
@@ -162,6 +162,13 @@
   },
   "modules": [
     {
+      "id": "database",
+      "name": "应用数据库修订",
+      "description": "产品与版本隔离的修订契约、SQLite 存储及原子提交；尚未替换现有工作区数据。",
+      "match": "src/PmlTwin[.]Database([.]Contracts)?/",
+      "guide": "database.html"
+    },
+    {
       "id": "workspace",
       "name": "启动与插件目录",
       "description": "C# 原生启动、注册目录发现、复制预览、目录体积与清理提醒。",
@@ -213,8 +220,8 @@
     {
       "id": "host",
       "name": "Host 与操作记录",
-      "description": "NET35 / NET48 主线程绑定、PMLNet、完整数组、截图及 JSONL 配对。",
-      "match": "src/(YuzuhaToolkit.PmlHost|Shared/FormRecordWriter)",
+      "description": "NET35 / NET48 主线程绑定、PMLNet、完整数组、截图及 JSONL 配对，以及 CAF 只读入口生命周期。",
+      "match": "src/(YuzuhaToolkit.PmlHost|PmlTwin[.]Caf[.]Adapter/|Shared/FormRecordWriter)",
       "guide": "startup-policy.html"
     },
     {

@@ -13,9 +13,9 @@
 | RPC | <xref:PlantHost.Rpc> | .NET 10 Named Pipe 客户端、帧协议与序列化 |
 | DevHost | <xref:YuzuhaToolkit.DevHost.DevelopmentEndpoints> | 内置指南、PML 文本预览、查询计划与 OpenAPI |
 | WebApps | <xref:YuzuhaToolkit.WebApps.ManagerService>、<xref:YuzuhaToolkit.WebApps.ActionCompiler> | 本地 HTML 分类、按钮、参数与既有 IPC 适配 |
-| 原生 CLI | <xref:YuzuhaToolkit.Mcp.NativeCliHost>、<xref:YuzuhaToolkit.Mcp.NativeOperationCatalog> | 直接调度、JSON输入与顺序批处理 |
-| 启动配置 | <xref:YuzuhaToolkit.Workspace.LaunchProfileService>、<xref:YuzuhaToolkit.Mcp.LaunchOperationCatalog> | 版本化保存、历史、恢复与CLI适配 |
+| 原生 CLI | [NativeCliHost](../../../artifacts/docfx/navigation/source/YuzuhaToolkit.Cli.Compatibility/YuzuhaToolkit.Mcp.NativeCliHost.md)、[NativeOperationCatalog](../../../artifacts/docfx/navigation/source/YuzuhaToolkit.Cli.Compatibility/YuzuhaToolkit.Mcp.NativeOperationCatalog.md) | 直接调度、JSON输入与顺序批处理 |
+| 启动配置 | <xref:YuzuhaToolkit.Workspace.LaunchProfileService>、[LaunchOperationCatalog](../../../artifacts/docfx/navigation/source/YuzuhaToolkit.Cli.Compatibility/YuzuhaToolkit.Mcp.LaunchOperationCatalog.md) | 版本化保存、历史、恢复与CLI适配 |
 
 [Host 源码参考](../../../artifacts/docfx/navigation/modules/host/index.md) · [安装器源码参考](../../../artifacts/docfx/navigation/modules/setup/index.md) · [源码与文档覆盖报告](../../../artifacts/docfx/navigation/coverage.md)
 
-内置指南统一由知识 Core 中的 <xref:YuzuhaToolkit.Builtins.BuiltinGuideCatalog> 提供；执行 Core 直接引用该程序集。DevHost 调用纯计算 API，旧 MCP 服务入口已禁用。
+内置指南统一由 Builtins 程序集中的 [BuiltinGuideCatalog](../../../artifacts/docfx/navigation/source/YuzuhaToolkit.Builtins/YuzuhaToolkit.Builtins.BuiltinGuideCatalog.md) 提供；执行 Core 直接引用该程序集。DevHost 调用纯计算 API，旧 MCP 服务入口已禁用。

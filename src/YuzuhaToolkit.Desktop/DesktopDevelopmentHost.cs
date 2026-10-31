@@ -8,6 +8,7 @@ internal sealed class DesktopDevelopmentHost : IPmlDevelopmentHost, IDisposable
 {
     private readonly DevelopmentTarget expected;
     private readonly DesktopCliSession session;
+    /// <summary>保存开发目标并绑定到给定或新建的独立 CLI 会话；不在构造期间连接 Host。</summary>
     internal DesktopDevelopmentHost(DevelopmentTarget expected, DesktopCliSession? channel = null)
     { this.expected = expected; session = channel ?? new(); session.Bind(expected); }
     /// <inheritdoc />

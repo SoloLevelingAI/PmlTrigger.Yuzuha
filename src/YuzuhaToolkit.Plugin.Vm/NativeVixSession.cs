@@ -121,10 +121,14 @@ public sealed class NativeVixSession : IVmwareSession
         if (host != 0) VixHost_Disconnect(host); handles.Clear(); host = vm = 0;
         // The isolated process owns the loaded library; keep it mapped until process exit for native callbacks.
     }
+    /// <summary>拥有以 NUL 结尾的原生 UTF-8 参数缓冲区，释放前覆盖其中的全部字节。</summary>
     private sealed class Utf8Buffer : IDisposable
     {
+        /// <summary>传递给 VIX 的缓冲区地址；释放后为零。</summary>
         public IntPtr Pointer { get; private set; } private readonly int size;
+        /// <summary>复制调用方字节到独立的非托管内存，并追加 NUL 终止符。</summary>
         public Utf8Buffer(byte[] bytes) { size = bytes.Length + 1; Pointer = Marshal.AllocHGlobal(size); Marshal.Copy(bytes, 0, Pointer, bytes.Length); Marshal.WriteByte(Pointer, bytes.Length, 0); }
+        /// <summary>清零包括终止符在内的缓冲区，释放内存并使重复释放成为空操作。</summary>
         public void Dispose() { if (Pointer == IntPtr.Zero) return; for (var index = 0; index < size; index++) Marshal.WriteByte(Pointer, index, 0); Marshal.FreeHGlobal(Pointer); Pointer = IntPtr.Zero; }
     }
     // Declarations checked against VMware's maintained vix.h; see manager-plugins.md for the source link.

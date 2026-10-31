@@ -13,12 +13,15 @@ internal sealed class DesktopCliSession(Func<string, JsonElement, OperationConte
     private static readonly JsonSerializerOptions Json = new() { PropertyNameCaseInsensitive = true };
     private AvevaSessionCandidate[] discovered = [];
     private OperationContext? target;
+    /// <summary>当前已绑定目标的 PID；尚未选择或身份核验失效后为 null。</summary>
     internal int? ProcessId => target?.ProcessId;
+    /// <summary>通过独立通信调用刷新候选快照，供后续显式选择验证启动身份及管道。</summary>
     internal async Task<AvevaSessionListResponse> DiscoverAsync(CancellationToken token = default)
     {
         var result = Read<AvevaSessionListResponse>(await Call("aveva.sessions.list", new { }, new(), token).ConfigureAwait(false));
         discovered = result.Sessions.ToArray(); return result;
     }
+    /// <summary>从最近发现的候选中选择 PID，核对 Host 回执的启动时间、管道和模块后才保存目标。</summary>
     internal async Task<YuzuhaConnectionStatus> SelectAsync(int pid, string? model, CancellationToken token)
     {
         target = null;
@@ -32,6 +35,7 @@ internal sealed class DesktopCliSession(Func<string, JsonElement, OperationConte
             model is not null && !model.Equals(host.Model, StringComparison.OrdinalIgnoreCase)) throw new InvalidOperationException("选择回执的目标身份不一致。");
         target = context with { ExpectedModel = host.Model }; return status;
     }
+    /// <summary>重新核验绑定目标的连接、PID、启动时间及模块；失败时清除目标并要求重新选择。</summary>
     internal async Task<YuzuhaConnectionStatus> StatusAsync(CancellationToken token)
     {
         var expected = Target();
@@ -44,18 +48,22 @@ internal sealed class DesktopCliSession(Func<string, JsonElement, OperationConte
         }
         catch { target = null; throw; }
     }
+    /// <summary>绑定开发流程提供的完整 PID、启动时间和模块，供后续通信重新核验。</summary>
     internal void Bind(YuzuhaToolkit.Workspace.DevelopmentTarget selected)
     {
         if (selected.ProcessId <= 0 || selected.StartTicks <= 0 || string.IsNullOrWhiteSpace(selected.Model)) throw new ArgumentException("开发目标身份不完整。");
         target = new(selected.ProcessId, selected.Model, ExpectedProcessStartTimeUtcTicks: selected.StartTicks);
     }
+    /// <summary>向已绑定目标发出明确允许执行的独立通信请求；没有目标时拒绝调用。</summary>
     internal Task<CommunicationResponse> InvokeAsync(string operation, object input, CancellationToken token) => Call(operation, input, Target() with { AllowExecution = true }, token);
+    /// <summary>检查成功回执及非空数据后按不区分属性大小写的 JSON 契约反序列化，否则抛出通信异常。</summary>
     internal static T Read<T>(CommunicationResponse response)
     {
         if (!response.Result.Success) throw new IOException(response.Result.Error?.Code + ": " + response.Result.Error?.Message);
         if (response.Result.Data is not { } data) throw new IOException("通信回执缺少所需数据。");
         var value = data.Deserialize<T>(Json); return value is null ? throw new IOException("通信回执为空。") : value;
     }
+    /// <summary>读取命令回执并保留明确失败信息；执行结果未知或成功回执缺少 Success 字段时拒绝自动重发。</summary>
     internal static RunPmlCommandResponse Receipt(CommunicationResponse response)
     {
         if (response.Result.Error?.MayHaveExecuted == true && response.Result.Data is null)

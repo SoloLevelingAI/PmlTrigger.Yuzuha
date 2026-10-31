@@ -136,7 +136,10 @@ internal static class UiTrace
             }
             foreach (var creation in root.DescendantNodes().OfType<BaseObjectCreationExpressionSyntax>())
             {
-                var owner = creation.Parent is AssignmentExpressionSyntax assignment ? model.GetSymbolInfo(assignment.Left).Symbol : Owner(creation, model);
+                // A discard has no assembly or declaration; construction still executes in
+                // the enclosing method/lambda, even when its result is discarded.
+                var assigned = creation.Parent is AssignmentExpressionSyntax assignment ? model.GetSymbolInfo(assignment.Left).Symbol : null;
+                var owner = assigned is not null and not IDiscardSymbol ? assigned : Owner(creation, model);
                 if (owner is null || model.GetSymbolInfo(creation).Symbol is not IMethodSymbol constructor) continue;
                 Connect(owner, constructor, "constructor", creation);
                 if (creation.ArgumentList is null) continue;

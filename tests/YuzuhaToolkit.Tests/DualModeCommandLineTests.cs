@@ -186,7 +186,8 @@ public sealed class DualModeCommandLineTests : IDisposable
         Assert.Equal(4, denied.ExitCode);
         Assert.Contains("PML_FUNCTION_INVOKE_DENIED", Json(denied.Output).GetProperty("error").GetProperty("message").GetString());
         Assert.Equal(0, (await Run("op", "invoke", "pml.function.permission", "--allow-write", "--input", Input(new { functionName = "Demo", allowInvoke = true }))).ExitCode);
-        Assert.Equal(5, (await Run("op", "invoke", "pml.function.invoke", "--pid", "2147483647", "--allow-execution", "--input", input)).ExitCode);
+        // The authorized host path is covered with counted discovery/connection seams
+        // in NativeCliCapabilityTests; these real-process cases must reject before it.
         File.AppendAllText(source, "\n-- changed source");
         var changed = await Run("op", "invoke", "pml.function.invoke", "--pid", "2147483647", "--allow-execution", "--input", input);
         Assert.Equal(2, changed.ExitCode);

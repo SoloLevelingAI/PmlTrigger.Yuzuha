@@ -73,9 +73,11 @@ public static class LicensePlugin
     /// <summary>仅查询已有本机服务，不执行启动、停止或配置动作。</summary>
     public static LicenseServiceEvidence Service(string name) => OperatingSystem.IsWindows() ? WindowsService.Query(name) : new(name, "unsupported", "本平台不支持 Windows 服务查询。");
 
+    /// <summary>通过服务控制管理器的只读句柄查询本机服务，并释放所有原生句柄。</summary>
     [SupportedOSPlatform("windows")]
     private static class WindowsService
     {
+        /// <summary>读取指定服务的当前状态；区分未安装、不可读取和过渡状态，不启动或停止服务。</summary>
         public static LicenseServiceEvidence Query(string name)
         {
             var manager = OpenSCManager(null, null, 1);
@@ -98,7 +100,11 @@ public static class LicensePlugin
         {
             var error = Marshal.GetLastWin32Error(); return new(name, error == 1060 ? "missing" : "unavailable", message + "，Win32=" + error);
         }
-        [StructLayout(LayoutKind.Sequential)] private struct ServiceStatus { public uint ServiceType, CurrentState, ControlsAccepted, Win32ExitCode, ServiceSpecificExitCode, CheckPoint, WaitHint; }
+        /// <summary>保持 Win32 SERVICE_STATUS 的字段顺序，接收 QueryServiceStatus 的状态快照。</summary>
+        [StructLayout(LayoutKind.Sequential)] private struct ServiceStatus {
+            /// <summary>服务类型、当前状态、接受的控制码、系统及服务退出码、过渡检查点和预计等待毫秒数。</summary>
+            public uint ServiceType, CurrentState, ControlsAccepted, Win32ExitCode, ServiceSpecificExitCode, CheckPoint, WaitHint;
+        }
         [DllImport("advapi32.dll", EntryPoint = "OpenSCManagerW", CharSet = CharSet.Unicode, SetLastError = true)] private static extern IntPtr OpenSCManager(string? machine, string? database, uint access);
         [DllImport("advapi32.dll", EntryPoint = "OpenServiceW", CharSet = CharSet.Unicode, SetLastError = true)] private static extern IntPtr OpenService(IntPtr manager, string name, uint access);
         [DllImport("advapi32.dll", SetLastError = true)] [return: MarshalAs(UnmanagedType.Bool)] private static extern bool QueryServiceStatus(IntPtr service, out ServiceStatus status);

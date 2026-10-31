@@ -55,7 +55,30 @@
     "openSpecStrict": "passed"
   },
   "avevaLive": false,
-  "remoteVerification": "pending next source push",
+  "remoteVerification": {
+    "commit": "e647ffa6bed6023eeeb3b2c45f86d7e522dea1e2",
+    "workflows": [
+      {
+        "name": "build",
+        "runId": 41203927431,
+        "conclusion": "success",
+        "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/actions/runs/41203927431"
+      },
+      {
+        "name": "Phayton command regression",
+        "runId": 41203927523,
+        "conclusion": "success",
+        "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/actions/runs/41203927523"
+      },
+      {
+        "name": "development-quality",
+        "runId": 41203927435,
+        "conclusion": "success",
+        "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/actions/runs/41203927435"
+      }
+    ],
+    "includesPreviouslyFailingDesktopStep": true
+  },
   "evidence": [
     {
       "path": "artifacts/attention-development.log",
@@ -95,6 +118,13 @@
     "sourceHashesMatch": true,
     "printPages": 21,
     "scriptIndexRows": 28,
-    "methodContractFields": 7
+    "methodContractFields": 7,
+    "gitHeadSources": 35,
+    "hashEncoding": {
+      "algorithm": "SHA-256",
+      "textEncoding": "UTF-8",
+      "normalization": "CRLF-to-LF only",
+      "preserve": "BOM, lone CR, whitespace, trailing newline and all other text content"
+    }
   }
 }

@@ -126,6 +126,6 @@
 - [x] 12.1 下载精确失败提交日志/截图，确认请求视口与实际视口失配。
 - [x] 12.2 修复受限宿主渲染，逐图核验尺寸与完整性，保留所有原校验。
 - [x] 12.3 制作整体/Feature/Script契约HTML演示，独立事实审阅，标注未实现和未实机边界。
-- [ ] 12.4 完成最终本机回归与HTML视觉检查，推送后跟踪精确提交CI并记录结果。
+- [x] 12.4 完成最终本机回归与HTML视觉检查，推送后跟踪精确提交CI并记录结果。
 
 交接：features/ci-viewport-contract-handoff.md；证据：features/ci-viewport-acceptance.json。

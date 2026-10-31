@@ -1,0 +1,16 @@
+/* Workspace · Light */
+:root {
+  --page: #F7F8FA;
+  --card: #FFFFFF;
+  --text: #172B4D;
+  --muted: #52627A;
+  --brand: #245AE8;
+}
+/* Workspace · Dark */
+[data-workspace="Dark"] {
+  --page: #131A27;
+  --card: #202A3A;
+  --text: #E8EDF5;
+  --muted: #AAB9D0;
+  --brand: #88A9FF;
+}

@@ -43,11 +43,12 @@ public partial class MainWindow : Window
         SessionView.CandidatesChanged += candidates => { _sessionCandidates = candidates; RenderCandidates(); };
         MaintainerText.Text = Environment.UserName;
         try { DesktopTheme.Apply(DesktopDisplaySettings.ReadTheme(WorkspaceSettings.StateDirectory)); } catch (Exception error) { Say("显示偏好读取失败：" + error.Message); }
-        SetPage("启动工程"); UpdateThemeButtons(); UpdateModuleButtons();
+        Tabs.SelectedIndex = 4; SetPage("总览"); UpdateThemeButtons(); UpdateModuleButtons();
         RegisteredBox.Text = _settings.RegisteredPmlLib; SourceBox.Text = _settings.PluginSource; PluginBox.Text = _settings.PluginName;
         WarnFilesBox.Text = _settings.WarnFiles.ToString(); WarnSizeBox.Text = (_settings.WarnBytes / 1048576).ToString();
         ReloadProfiles(); if (_settings.Profiles.Count > 0) ProfilesBox.SelectedItem = _settings.Profiles.FirstOrDefault(profile => profile.IsDefault) ?? _settings.Profiles[0];
         InitializeLaunchLifecycle();
+        Tabs.SelectedIndex = 4; SetPage("总览");
         _timer.Tick += async (_, _) => await RefreshRuntimeAsync(); _timer.Start();
         Loaded += async (_, _) => { await RefreshRuntimeAsync(); await DiscoverAsync(); SessionView.RefreshCandidates(); };
         Closed += (_, _) => { _closed = true; _timer.Stop(); StopDocumentation(); SessionView.Dispose(); _journal.Dispose(); };
@@ -73,13 +74,14 @@ public partial class MainWindow : Window
         if (SearchPanel is not null) SearchPanel.Visibility = ActualWidth < 1250 ? Visibility.Collapsed : Visibility.Visible;
         if (OverviewKpis is not null)
         {
-            var narrow = ActualWidth < 1400; OverviewKpis.Columns = narrow ? 2 : 4;
+            var narrow = ActualWidth < 1400; OverviewKpis.Columns = ActualWidth < 1100 ? 2 : 4;
             foreach (var grid in new[] { OverviewColumns1, OverviewColumns2, OverviewColumns3, LaunchColumns, LaunchLowerColumns, RuntimeColumns, RuntimeLowerColumns, LogColumns, NotesColumns, WebColumns, KnowledgeColumns, DeploymentColumns, DeploymentLowerColumns, ProfileLibraryColumns })
             {
                 if (grid.RowDefinitions.Count == 0) { grid.RowDefinitions.Add(new() { Height = GridLength.Auto }); grid.RowDefinitions.Add(new() { Height = GridLength.Auto }); }
                 var cards = grid.Children.OfType<Border>().ToArray();
                 if (cards.Length != 2) continue;
-                Grid.SetColumnSpan(cards[0], narrow ? 3 : 1); Grid.SetColumn(cards[1], narrow ? 0 : 2); Grid.SetRow(cards[1], narrow ? 1 : 0); Grid.SetColumnSpan(cards[1], narrow ? 3 : 1);
+                var stackCards = grid == OverviewColumns1 ? ActualWidth < 1100 : narrow;
+                Grid.SetColumnSpan(cards[0], stackCards ? 3 : 1); Grid.SetColumn(cards[1], stackCards ? 0 : 2); Grid.SetRow(cards[1], stackCards ? 1 : 0); Grid.SetColumnSpan(cards[1], stackCards ? 3 : 1);
             }
         }
     }
@@ -434,6 +436,8 @@ public partial class MainWindow : Window
     /// <param name="outputDirectory">本机截图和合成验证报告目录。</param>
     public async Task RunSmokeAsync(string outputDirectory)
     {
+        if (Tabs.SelectedIndex != 4 || PageTitleText.Text != "总览")
+            throw new InvalidOperationException("首次打开必须显示 Dashboard 总览。");
         _launchSmokeRunning = true; Directory.CreateDirectory(outputDirectory); _timer.Stop(); await DiscoverAsync();
         MaintainerText.Text = "演示工作空间";
         var fixtureDirectory = Path.Combine(outputDirectory, "fixture"); Directory.CreateDirectory(fixtureDirectory);
@@ -512,6 +516,17 @@ public partial class MainWindow : Window
                 {
                     SelectSmokeScreen(screen.Tab, screen.Flow, screen.Planned);
                     await CaptureSmokeAsync(Path.Combine(themeDirectory, $"{screen.Name}-{size.Width}.png"));
+                    if (screen.Name == "overview" && size.Width == 1280)
+                    {
+                        if (OverviewScroll.ScrollableHeight > 1)
+                            throw new InvalidOperationException("1280×720 首页摘要不应要求纵向滚动。");
+                        OverviewActivityExpander.IsExpanded = true; OverviewSessionExpander.IsExpanded = true;
+                        UpdateLayout();
+                        if (!OverviewColumns2.IsVisible || !OverviewColumns3.IsVisible)
+                            throw new InvalidOperationException("首页明细无法展开。");
+                        await CaptureSmokeAsync(Path.Combine(themeDirectory, "overview-expanded-1280.png"));
+                        OverviewActivityExpander.IsExpanded = false; OverviewSessionExpander.IsExpanded = false;
+                    }
                 }
             }
             var surface = (FrameworkElement)Content;
@@ -548,6 +563,7 @@ public partial class MainWindow : Window
         }
         File.WriteAllText(Path.Combine(outputDirectory, "desktop-smoke.json"), JsonSerializer.Serialize(new {
             passed = true, scope = "WPF creation, synthetic bindings and layout; not AVEVA live or human visual acceptance",
+            dashboardHome = true, primaryWorkspaces = 5, dashboardCompact = true, dashboardDetailsReachable = true,
             pages = screens.Length, tabs = Tabs.Items.Count, profiles = ProfilesBox.Items.Count, errorStates = 4,
             themes = new[] { "Light", "Dark" }, themePreservesWork = true, savedCredentials = true, guiKnowledge = true, personalNotesCrud = true, activityFilters = true, r2Navigation = true, nativeWindowChrome = true, compactNavigation = true, objectQueries = true, profileLibrary = true,
             viewports = new[] { "1440x960", "1280x720", "853x480 logical (1280x720 at 150%)" },

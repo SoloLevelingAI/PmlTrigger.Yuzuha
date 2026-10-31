@@ -31,3 +31,10 @@
 #### Scenario: Export a feature frame
 - **WHEN** 单个 Frame 导出到 WPF 或其他受支持目标
 - **THEN** 保留源文件，记录 Frame、工具版本和输出证据；业务契约、权限与数据库访问仍须单独验证。
+
+### Requirement: Compact workspace with Dashboard home
+管理器 SHALL 默认显示 Dashboard，总览、工程、开发、知识、设置五个主入口复用现有视图实例。入口压缩 MUST NOT 删除授权、协议、版本、精确回执校验或丢弃未保存输入。FigCraft SHALL 以独立精简修订记录同一分组，保留历史 Feature 原稿。
+
+#### Scenario: Open and navigate the workbench
+- **WHEN** 启动工作台并跨五个工作区切换
+- **THEN** 首页是总览，全部12功能视图可达，启动及笔记草稿保留；1280×720 首页折叠摘要不要求纵向滚动，明细仍可展开，窄窗允许纵向滚动。

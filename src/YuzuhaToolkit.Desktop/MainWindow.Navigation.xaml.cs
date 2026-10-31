@@ -16,10 +16,9 @@ public partial class MainWindow
 
     private static string NavigationGroup(string title) => title switch
     {
-        "总览" or "启动配置" => "启动工程",
-        "能力与函数" or "原生 Form / Gadget" => "工程会话",
+        "启动配置" or "工程会话" or "能力与函数" or "原生 Form / Gadget" => "启动工程",
         "插件部署" => "Web 应用",
-        "工具日志" => "AI 运行",
+        "工具日志" or "AI 运行" => "总览",
         _ => title
     };
 
@@ -29,8 +28,8 @@ public partial class MainWindow
         var group = NavigationGroup(title);
         NavigationItem[] entries = group switch
         {
-            "启动工程" => [new("启动工程", "启动工程"), new("全部配置", "启动配置"), new("工作空间总览", "总览")],
-            "工程会话" => [new("工程会话", "工程会话"), new("能力与函数", "能力与函数"), new("原生 Form / Gadget", "原生 Form / Gadget")],
+            "启动工程" => [new("启动工程", "启动工程"), new("全部配置", "启动配置"), new("连接与核验", "工程会话"), new("能力与函数", "能力与函数"), new("原生 Form / Gadget", "原生 Form / Gadget")],
+            "总览" => [new("Dashboard", "总览"), new("AI 运行", "AI 运行"), new("工具日志", "工具日志")],
             "Web 应用" => [new("HTML 应用管理器", "Web 应用"), new("PML 部署与验证", "插件部署")],
             "知识库" => [new("检索资料", "知识库", 0), new("个人笔记", "知识库", 1), new("资料源与回收站", "知识库", 2), new("目录与检索记录", "知识库", 3)],
             "设置" => [new("用户目录", "设置", 0), new("环境与路径", "设置", 1), new("外观", "设置", 2), new("登录凭据", "设置", 3), new("AI 客户端", "设置", 4), new("关于 Phayton", "设置", 5)],
@@ -112,6 +111,8 @@ public partial class MainWindow
 
     private void VerifyR2NavigationSmoke()
     {
+        if (SidebarNav.Children.OfType<Button>().Select(button => button.Uid).SequenceEqual(new[] { "总览", "启动工程", "Web 应用", "知识库", "设置" }) != true)
+            throw new InvalidOperationException("主导航必须为 Dashboard 优先的五个工作区。");
         var launchDraft = CaptureLaunchDraft();
         var noteDraft = NoteContentBox.Text;
         foreach (var page in PageNames)

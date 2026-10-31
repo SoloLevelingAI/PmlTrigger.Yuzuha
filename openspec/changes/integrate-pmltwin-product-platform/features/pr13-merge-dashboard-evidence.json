@@ -1,0 +1,95 @@
+{
+  "date": "2026-10-31",
+  "patch": "f89f2fa6c10b1b9835ce6f655dea5873b5d6e5f2",
+  "mergeCommit": "0a0386f",
+  "scope": "offline Windows regression; no new AVEVA/APS execution",
+  "dotnet": {
+    "passed": 470,
+    "skipped": 2,
+    "reason": "optional 7zr environment"
+  },
+  "nodeTests": 51,
+  "cliProcesses": 64,
+  "yamlAudit": {
+    "info": 0,
+    "low": 0,
+    "moderate": 0,
+    "high": 0,
+    "critical": 0,
+    "total": 0
+  },
+  "desktop": {
+    "passed": true,
+    "scope": "WPF creation, synthetic bindings and layout; not AVEVA live or human visual acceptance",
+    "dashboardHome": true,
+    "primaryWorkspaces": 5,
+    "dashboardCompact": true,
+    "dashboardDetailsReachable": true,
+    "pages": 12,
+    "tabs": 9,
+    "profiles": 1,
+    "errorStates": 4,
+    "themes": [
+      "Light",
+      "Dark"
+    ],
+    "themePreservesWork": true,
+    "savedCredentials": true,
+    "guiKnowledge": true,
+    "personalNotesCrud": true,
+    "activityFilters": true,
+    "r2Navigation": true,
+    "nativeWindowChrome": true,
+    "compactNavigation": true,
+    "objectQueries": true,
+    "profileLibrary": true,
+    "viewports": [
+      "1440x960",
+      "1280x720",
+      "853x480 logical (1280x720 at 150%)"
+    ],
+    "designCanvas": "1440x1024 client",
+    "finishedUtc": "2026-10-31T12:36:38.7712874Z",
+    "dpi": 1.5,
+    "fontSize": 13
+  },
+  "figcraft": {
+    "pages": 1,
+    "frames": 6,
+    "variables": 5,
+    "primaryNavigationLinks": 30,
+    "outOfFrameChildren": 0
+  },
+  "files": [
+    {
+      "path": "artifacts/pr13-merged-development-elevated.log",
+      "sha256": "39668b7e0937fb4b5ae2ae85e046a675868dec31a4cde18561a4d3db65c628f7",
+      "bytes": 17415
+    },
+    {
+      "path": "artifacts/pr13-dashboard-desktop.log",
+      "sha256": "b27cf7578bb0b5e3469bc100f2a6a859fdaa1ec35c45582c50a1c79de3ba6cfe",
+      "bytes": 1982
+    },
+    {
+      "path": "artifacts/pr13-merged-frontends.json",
+      "sha256": "f6c59d7638cc2a270c1ba57a6387845bf45998988cfc425c1a5a902ba6ea4b94",
+      "bytes": 206262
+    },
+    {
+      "path": "artifacts/pr13-yaml-audit.json",
+      "sha256": "f773aba1d6851049921a409203a6e4a31efb1db8a979d3ad3b16c969433d070a",
+      "bytes": 385
+    },
+    {
+      "path": "artifacts/tests/desktop/desktop-smoke.json",
+      "sha256": "b7636acd89f4c890f2c325207d4cfa461e24e0379011f358658b55a0fa680f64",
+      "bytes": 695
+    },
+    {
+      "path": "artifacts/tests/desktop/binding-errors.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    }
+  ]
+}

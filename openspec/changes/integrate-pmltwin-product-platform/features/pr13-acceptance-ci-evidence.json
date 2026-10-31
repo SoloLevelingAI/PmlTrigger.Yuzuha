@@ -1,0 +1,183 @@
+{
+  "schemaVersion": 1,
+  "reviewDate": "2026-10-31",
+  "timeZone": "Asia/Shanghai",
+  "baseline": "bc8c7785b367ff062fc5761cdd7129ed4d0d8a03",
+  "patch": "f89f2fa6c10b1b9835ce6f655dea5873b5d6e5f2",
+  "branch": "fix/pr13-acceptance-ci",
+  "isolatedClone": ".portable-checks/pr13-acceptance-ci/pmltwin",
+  "cloneDirty": false,
+  "merged": false,
+  "scope": "Windows offline and synthetic acceptance; no live AVEVA or human visual approval",
+  "dotnetSuites": [
+    {
+      "file": "development_net10.0_20261031201613.trx",
+      "total": 14,
+      "passed": 14,
+      "failed": 0,
+      "skipped": 0,
+      "sha256": "ba93f35d356f6068b4e68c88566c6109751876ad9e24edcf0eaa98474b000024"
+    },
+    {
+      "file": "development_net10.0_20261031201642.trx",
+      "total": 199,
+      "passed": 197,
+      "failed": 0,
+      "skipped": 2,
+      "sha256": "fef25b5cabc9e3681571554162e7c24e6015969b5c5b59dc1f82b503b7d53bc5"
+    },
+    {
+      "file": "development_net10.0_20261031201653.trx",
+      "total": 21,
+      "passed": 21,
+      "failed": 0,
+      "skipped": 0,
+      "sha256": "9d30a82775efd8bfec200b8286c46f1f6a5b46f24302ae266c7fb8df7007488d"
+    },
+    {
+      "file": "development_net10.0_20261031201658.trx",
+      "total": 238,
+      "passed": 238,
+      "failed": 0,
+      "skipped": 0,
+      "sha256": "7cc160780cdd46eaf464f5433554776e874dd8d549674b5d4e1b302b19f5ca8d"
+    }
+  ],
+  "documentationTests": 51,
+  "handoffTests": 8,
+  "frontendChecks": 64,
+  "nativeAotFrontendChecks": 64,
+  "lifecycle": {
+    "parser": 8,
+    "jsonSteps": 15,
+    "tomlSteps": 15
+  },
+  "pmlOfflineScenarios": 6,
+  "sourceTokenComparison": {
+    "unchanged": 172,
+    "commentsOrWhitespaceOnly": 23,
+    "failures": [],
+    "syntaxChanged": 0
+  },
+  "desktop": {
+    "passed": true,
+    "scope": "WPF creation, synthetic bindings and layout; not AVEVA live or human visual acceptance",
+    "pages": 12,
+    "tabs": 9,
+    "profiles": 1,
+    "errorStates": 4,
+    "themes": [
+      "Light",
+      "Dark"
+    ],
+    "themePreservesWork": true,
+    "savedCredentials": true,
+    "guiKnowledge": true,
+    "personalNotesCrud": true,
+    "activityFilters": true,
+    "r2Navigation": true,
+    "nativeWindowChrome": true,
+    "compactNavigation": true,
+    "objectQueries": true,
+    "profileLibrary": true,
+    "viewports": [
+      "1440x960",
+      "1280x720",
+      "853x480 logical (1280x720 at 150%)"
+    ],
+    "designCanvas": "1440x1024 client",
+    "finishedUtc": "2026-10-31T12:19:56.1584278Z",
+    "dpi": 1.5,
+    "fontSize": 13
+  },
+  "documentation": {
+    "htmlPages": 3167,
+    "errors": 0,
+    "warnings": 0,
+    "hostTraceOmitted": [
+      "Net35",
+      "Net48"
+    ],
+    "localLinks": 78633
+  },
+  "githubRuns": [
+    {
+      "name": "build",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/actions/runs/41199678257",
+      "head_sha": "f89f2fa6c10b1b9835ce6f655dea5873b5d6e5f2"
+    },
+    {
+      "name": "Phayton command regression",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/actions/runs/41199678244",
+      "head_sha": "f89f2fa6c10b1b9835ce6f655dea5873b5d6e5f2"
+    },
+    {
+      "name": "development-quality",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/actions/runs/41199678247",
+      "head_sha": "f89f2fa6c10b1b9835ce6f655dea5873b5d6e5f2"
+    }
+  ],
+  "openFindings": [
+    "Existing yaml 2.8.1 GHSA-48c2-rrv3-qjmp; package files unchanged by patch",
+    "PR13 title/body still describe earlier documentation-only scope"
+  ],
+  "executionNotes": [
+    "Original Test-Development stopped after passing .NET suites because Python resolved to WindowsApps placeholder (9009). Remaining lifecycle and PML stages passed using existing YUZUHA_TEST_PYTHON override.",
+    "Initial desktop NoBuild invocation lacked executable; after Trace-Desktop built the executable, unchanged smoke passed."
+  ],
+  "logs": [
+    {
+      "file": "desktop.log",
+      "sha256": "c6a061d513974e0bc61dc5061b4503bb474b95978ea0761ad45642d5194a52ab"
+    },
+    {
+      "file": "development.log",
+      "sha256": "46361afb79fe129edf90e55bc2aa68442aca23c9e0e4129afe6475c80696d118"
+    },
+    {
+      "file": "documentation-build.log",
+      "sha256": "25072a63ada36e669b1b7015fd7e5f3fdabe9abb9a67312d52935e695c0b0055"
+    },
+    {
+      "file": "frontend.log",
+      "sha256": "af38235538f61537217779f8132f7516fbae5d19655afa7eea0a764e26551f57"
+    },
+    {
+      "file": "lifecycle.log",
+      "sha256": "0dbadd8c1f3a7357332a6b87965585208ea00ad9fb0ba19ab58708bf5e8fdf75"
+    },
+    {
+      "file": "native-build.log",
+      "sha256": "14b206695377649de991719e7c8bb952bd8f88c290a35f426e0422a1c9d48a4a"
+    },
+    {
+      "file": "native-frontend.log",
+      "sha256": "af38235538f61537217779f8132f7516fbae5d19655afa7eea0a764e26551f57"
+    },
+    {
+      "file": "npm-restore.log",
+      "sha256": "8a65770defe3b4db59b7d4bb208d07b446774197ba8e0f9d4044540ac727f24f"
+    },
+    {
+      "file": "pml-offline.log",
+      "sha256": "083e0021f6ae90ccc2de851292872a8cc29f6c1ee5eea2bc3cd19a212c859d54"
+    },
+    {
+      "file": "source-equivalence.log",
+      "sha256": "4ed01829cb4c90f486a2c575fe4e7d5b322ed7e19e7b700aca729e60d577afcf"
+    },
+    {
+      "file": "webapps-publish.log",
+      "sha256": "d07fe31bc5825758dec40728fcb8a122fdf9af19693a2b8e3f8727937d7f91d3"
+    }
+  ]
+}

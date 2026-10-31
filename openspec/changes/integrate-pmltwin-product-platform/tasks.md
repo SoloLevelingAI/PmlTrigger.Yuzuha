@@ -90,6 +90,19 @@
 
 ## Workflow follow-up (continued)
 
+## 10. 云端验收补丁复核（2026-10-31）
+
+本组只复核独立补丁，不自动合并或升级原平台完成状态。详见 features/pr13-acceptance-ci-review.md 与其证据摘要。
+
+- [x] 10.1 获取 fix/pr13-acceptance-ci 精确提交 f89f2fa6，与 bc8c778 对比归属、运行语义和校验门槛。
+- [x] 10.2 在独立干净克隆执行 Windows .NET、文档、CLI、Native AOT、WPF 及相关生命周期回归，记录跳过与环境失败。
+- [x] 10.3 核对精确提交的 GitHub push 三工作流，保留本机、云端、实机证据的区别。
+- [x] 10.4 将结论、既有问题、复现方法与日志哈希写回 OpenSpec，严格校验本变更。
+- [ ] 10.5 单独升级既有 yaml 2.8.1 开发依赖并复验文档解析，消除 GHSA-48c2-rrv3-qjmp；不得关闭审计。
+- [ ] 10.6 按最终实现范围更新 PR #13 标题和描述，明确单仓来源集成与未完成平台任务。
+
+## Workflow follow-up (continued after review)
+
 - 用户2026-10-31追加授权：继续实施、做好后推送并留文档。8.7中的当时不推送边界由本授权更新；允许推送已验收切片，不将未完成平台归档或称作整体完成。
 - 本次基础切片交接：features/platform-foundation-handoff.md。Database修订、CAF编译及Ribbon兼容入口均保留各自集成/实机缺口，不因DLL存在而勾选整组。
 

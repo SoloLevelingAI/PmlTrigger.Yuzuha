@@ -90,6 +90,37 @@
       "path": "artifacts/tests/desktop/binding-errors.log",
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "bytes": 0
+    },
+    {
+      "path": "artifacts/pr13-merged-docs-final.log",
+      "sha256": "510d2d788c7f54ab712b33ffdef43182a361b6b266662f3351c98e6afaf89203",
+      "bytes": 14721
     }
-  ]
+  ],
+  "documentation": {
+    "htmlPages": 3168,
+    "checkedLocalLinks": 78703,
+    "projects": 26,
+    "modules": 17,
+    "types": 508,
+    "errors": [],
+    "retiredContentAbsent": true,
+    "tests": 382,
+    "catalog": {
+      "features": 13,
+      "scripts": 40,
+      "candidates": 195
+    },
+    "uiTrace": {
+      "entries": 296,
+      "unresolved": 123,
+      "sampleEdges": 11,
+      "pages": 20,
+      "containers": 4,
+      "shared": 4,
+      "sourceMembers": 1595
+    },
+    "passed": true
+  },
+  "sourceCommit": "60833f5"
 }

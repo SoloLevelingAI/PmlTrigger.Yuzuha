@@ -112,8 +112,10 @@ internal static partial class Program
             Check(!uses.Any(a => a.Name is "LaunchDesk.Windows" or "LaunchDesk.Desktop" or "LaunchDesk.Bootstrap"));
             var contracts = typeof(IOperationCommands).Assembly.GetReferencedAssemblies();
             Check(!contracts.Any(a => a.Name is "LaunchDesk.Windows" or "LaunchDesk.UseCases"));
+            var configuration = new DirectoryInfo(AppContext.BaseDirectory).Parent!.Name;
             var desktop = System.Reflection.Assembly.LoadFrom(
-                Path.GetFullPath("rewrite/LaunchDesk.Bootstrap/bin/Release/net10.0-windows/LaunchDesk.Desktop.dll"));
+                Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..",
+                    "LaunchDesk.Bootstrap", "bin", configuration, "net10.0-windows", "LaunchDesk.Desktop.dll")));
             Check(!desktop.GetReferencedAssemblies().Any(a =>
                 a.Name is "LaunchDesk.Windows" or "LaunchDesk.UseCases" or "LaunchDesk.Bootstrap"));
             Check(!typeof(WindowsProcessGateway).Assembly.GetReferencedAssemblies().Any(a =>

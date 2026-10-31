@@ -48,5 +48,16 @@
     "build": "passed-zero-warnings-zero-errors",
     "openapiSmoke": "passed-3.1.1-health-and-operations-schemas",
     "scalarSmokeHttp": 200
+  },
+  "debugOnlyPortability": {
+    "source": "new-manifest-only-snapshot",
+    "preexistingBuildOutputs": 0,
+    "configuration": "Debug",
+    "buildWarnings": 0,
+    "buildErrors": 0,
+    "passed": 71,
+    "failed": 0,
+    "skipped": 0,
+    "releaseOutputDirectoriesAfterSuite": 0
   }
 }

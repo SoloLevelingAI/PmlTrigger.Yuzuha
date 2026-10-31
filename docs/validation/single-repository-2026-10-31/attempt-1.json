@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "completed": false,
+  "commit": "0dadf7b01018c63b48140a3ebed8470fb02900a4",
+  "dirty": false,
+  "scope": "single-checkout offline validation; no AVEVA login/SDK, credentials, VM or production deployment",
+  "steps": [
+    {
+      "name": "integration-manifests",
+      "directory": ".",
+      "startedUtc": "2026-10-31T15:00:44.6718087+08:00",
+      "finishedUtc": "2026-10-31T15:00:45.218006+08:00",
+      "exitCode": 0,
+      "log": "integration-manifests.log"
+    },
+    {
+      "name": "next-assets",
+      "directory": "integrations\\next",
+      "startedUtc": "2026-10-31T15:00:45.3538927+08:00",
+      "finishedUtc": "2026-10-31T15:00:45.6072617+08:00",
+      "exitCode": 0,
+      "log": "next-assets.log"
+    },
+    {
+      "name": "portfolio-http-assets",
+      "directory": ".",
+      "startedUtc": "2026-10-31T15:00:45.7280837+08:00",
+      "finishedUtc": "2026-10-31T15:00:46.760934+08:00",
+      "exitCode": 0,
+      "log": "portfolio-http-assets.log"
+    },
+    {
+      "name": "manager-tests",
+      "directory": ".",
+      "startedUtc": "2026-10-31T15:00:46.8795358+08:00",
+      "finishedUtc": "2026-10-31T15:01:32.4759968+08:00",
+      "exitCode": 0,
+      "log": "manager-tests.log"
+    },
+    {
+      "name": "database-tests",
+      "directory": ".",
+      "startedUtc": "2026-10-31T15:01:32.6172753+08:00",
+      "finishedUtc": "2026-10-31T15:02:02.4318506+08:00",
+      "exitCode": 0,
+      "log": "database-tests.log"
+    },
+    {
+      "name": "architecture-tests",
+      "directory": ".",
+      "startedUtc": "2026-10-31T15:02:02.5423728+08:00",
+      "finishedUtc": "2026-10-31T15:02:40.7536825+08:00",
+      "exitCode": 0,
+      "log": "architecture-tests.log"
+    },
+    {
+      "name": "manager-cli-build",
+      "directory": ".",
+      "startedUtc": "2026-10-31T15:02:40.8650892+08:00",
+      "finishedUtc": "2026-10-31T15:02:45.0618481+08:00",
+      "exitCode": 0,
+      "log": "manager-cli-build.log"
+    },
+    {
+      "name": "communication-cli-build",
+      "directory": ".",
+      "startedUtc": "2026-10-31T15:02:45.1782074+08:00",
+      "finishedUtc": "2026-10-31T15:02:49.5786841+08:00",
+      "exitCode": 0,
+      "log": "communication-cli-build.log"
+    },
+    {
+      "name": "rewrite-build",
+      "directory": "integrations\\rewrite\\source\\rewrite",
+      "startedUtc": "2026-10-31T15:02:49.6950631+08:00",
+      "finishedUtc": "2026-10-31T15:02:51.2497023+08:00",
+      "exitCode": 1,
+      "log": "rewrite-build.log"
+    }
+  ]
+}

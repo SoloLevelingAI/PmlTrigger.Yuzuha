@@ -58,6 +58,14 @@
     {
       "path": "source/rewrite/LaunchDesk.DevHost/LaunchDesk.DevHost.csproj",
       "reason": "Pin patched Microsoft.OpenApi 2.7.5 (same 2.x major) to remediate transitive 2.0.0 GHSA-v5pm-xwqc-g5wc / CVE-2026-49451. Keep NuGetAudit and vulnerability warning-as-error enforcement; strict online restore, full build and OpenAPI+Scalar smoke verified."
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Rewrite.Tests/ExtendedScenarios.cs",
+      "reason": "Resolve Desktop compiled graph fixture from current configuration and executable location; remove hardcoded Release/cwd output dependency."
+    },
+    {
+      "path": "source/rewrite/LaunchDesk.Architecture.Tests/LegacyProductSuiteTests.cs",
+      "reason": "Build/run historical regression closure in the current test configuration, never generate hidden Release fixtures during Debug validation."
     }
   ],
   "files": [
@@ -161,7 +169,7 @@
       "path": "source/rewrite/LaunchDesk.Architecture.Tests/LegacyProductSuiteTests.cs",
       "sourcePath": "rewrite/LaunchDesk.Architecture.Tests/LegacyProductSuiteTests.cs",
       "sha256": "c2ec4583f21ab4e678c246ee82aed6c1e3681c404f097a9438c38d309b858671",
-      "integratedSha256": "29a8617d13283a9537cf8085fdb4874e702e68ef61520ea7fe14805791d4604c"
+      "integratedSha256": "05a0638cecd435b9d7c4ccab8cc7bef2575148492e98eb88750637826fcace95"
     },
     {
       "path": "source/rewrite/LaunchDesk.Bootstrap/ContractSmoke.cs",
@@ -539,7 +547,7 @@
       "path": "source/rewrite/LaunchDesk.Rewrite.Tests/ExtendedScenarios.cs",
       "sourcePath": "rewrite/LaunchDesk.Rewrite.Tests/ExtendedScenarios.cs",
       "sha256": "3f96c3a1fc8461d35ddf699a77ccfb5286346f4e044754c8e3038fb8eb7faa79",
-      "integratedSha256": "9d530aea87c7bd794ee2e641a947fd3e3596f67dfa5dc3f8001fbbab13480638"
+      "integratedSha256": "defcb6f48a8e324e1642e7d42267d5db3b8760a80eeaaef3ab5a51c5bc6ab895"
     },
     {
       "path": "source/rewrite/LaunchDesk.Rewrite.Tests/GlobalUsings.cs",

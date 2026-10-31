@@ -10,15 +10,16 @@ public sealed class LegacyProductSuiteTests
 
     public async Task ExistingProductSuiteStillPasses(string project)
     {
+        var configuration = new DirectoryInfo(AppContext.BaseDirectory).Parent!.Name;
         var repository = ArchitectureBoundaryTests.Repository();
         var report = Path.Combine(repository, "artifacts", "architecture-tests", project + ".json");
         Directory.CreateDirectory(Path.GetDirectoryName(report)!);
         // 禁止在测试宿主下执行dotnet run：可复用编译/构建服务器
         // 可能在套件写出结果后仍持有重定向输出句柄。
         var build = await Run("dotnet", ["build", Path.Combine(repository, project, project + ".csproj"),
-            "-c", "Release", "--nologo", "-m:1", "-nr:false", "-p:UseSharedCompilation=false"], repository);
+            "-c", configuration, "--nologo", "-m:1", "-nr:false", "-p:UseSharedCompilation=false"], repository);
         await File.WriteAllTextAsync(report + ".build.log", build);
-        await Run(Path.Combine(repository, project, "bin", "Release", "net10.0", project + ".exe"), [report], repository);
+        await Run(Path.Combine(repository, project, "bin", configuration, "net10.0", project + ".exe"), [report], repository);
         using var result = JsonDocument.Parse(await File.ReadAllTextAsync(report));
         Assert.Equal(0, result.RootElement.GetProperty("Failed").GetInt32());
         Assert.True(result.RootElement.GetProperty("Passed").GetInt32() > 0, "Legacy suite reported no executed tests.");

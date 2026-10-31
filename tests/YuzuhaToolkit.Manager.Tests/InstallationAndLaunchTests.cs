@@ -73,7 +73,7 @@ public sealed class InstallationAndLaunchTests : IDisposable
     public async Task ManagerStdinSaveAndStartReachVendorBatchWithoutExternalLaunchDeskOrHostClaim()
     {
         var output = Path.Combine(root, "manager-cli-output.txt");
-        var batch = Write("AM cli fixture/marine.bat", "@echo off\r\n>\"%YUZUHA_LAUNCH_FIXTURE_OUTPUT%\" echo %1 %2 %3 %4 %5\r\n>>\"%YUZUHA_LAUNCH_FIXTURE_OUTPUT%\" echo completed\r\n");
+        var batch = Write("AM cli fixture/marine.bat", "@echo off\r\n>\"%YUZUHA_LAUNCH_FIXTURE_OUTPUT%.pending\" echo %1 %2 %3 %4 %5\r\n>>\"%YUZUHA_LAUNCH_FIXTURE_OUTPUT%.pending\" echo completed\r\nmove /y \"%YUZUHA_LAUNCH_FIXTURE_OUTPUT%.pending\" \"%YUZUHA_LAUNCH_FIXTURE_OUTPUT%\" >nul\r\n");
         var service = new LaunchProfileService(new WorkspaceConfigurationStore(Path.Combine(root, "isolated-manager-state")));
         var executor = ManagerOperationCatalog.Create(profiles: service, communication: () => throw new Exception("must not contact Host"));
         var profile = new LaunchProfile { Id = "cli-fixture", Name = "Synthetic", Executable = batch, WorkingDirectory = Path.GetDirectoryName(batch)!, Product = "AM", Kind = "MarineBatch",
@@ -87,10 +87,13 @@ public sealed class InstallationAndLaunchTests : IDisposable
         using var result = JsonDocument.Parse(startOutput.ToString()); var receipt = result.RootElement.GetProperty("data");
         Assert.Equal("entry-process-created-host-not-verified", receipt.GetProperty("state").GetString()); Assert.True(receipt.GetProperty("processId").GetInt32() > 0);
         using var deadline = new CancellationTokenSource(TimeSpan.FromSeconds(10));
-        while (!File.Exists(output) || !File.ReadAllText(output).Contains("completed")) await Task.Delay(25, deadline.Token);
+        // The fixture publishes only after both redirections have closed.
+        while (!File.Exists(output)) await Task.Delay(25, deadline.Token);
         try { using var child = Process.GetProcessById(receipt.GetProperty("processId").GetInt32()); await child.WaitForExitAsync(deadline.Token); }
         catch (ArgumentException) { } // The owned entry already exited.
-        Assert.Contains("Outfitting noconsole TST SYSTEM/only-synthetic /ALL", File.ReadAllText(output));
+        var batchOutput = File.ReadAllText(output);
+        Assert.Contains("completed", batchOutput);
+        Assert.Contains("Outfitting noconsole TST SYSTEM/only-synthetic /ALL", batchOutput);
         Assert.DoesNotContain("only-synthetic", startOutput.ToString());
     }
 
@@ -155,13 +158,9 @@ public sealed class InstallationAndLaunchTests : IDisposable
         var expected = previous.RootElement.GetProperty("commandLine").GetString();
         File.Delete(output);
         Assert.True(LaunchService.Start(profile, password) > 0);
-        JsonDocument? actual = null;
-        while (actual is null)
-        {
-            try { actual = JsonDocument.Parse(File.ReadAllText(output)); }
-            catch (Exception error) when (error is IOException or JsonException) { await Task.Delay(20, deadline.Token); }
-        }
-        using (actual)
+        // The synthetic process atomically publishes a closed final file.
+        while (!File.Exists(output)) await Task.Delay(20, deadline.Token);
+        using (var actual = JsonDocument.Parse(File.ReadAllText(output)))
         {
             Assert.Equal(expected, actual.RootElement.GetProperty("commandLine").GetString());
             Assert.Equal(previous.RootElement.GetProperty("arguments").ToString(), actual.RootElement.GetProperty("arguments").ToString());

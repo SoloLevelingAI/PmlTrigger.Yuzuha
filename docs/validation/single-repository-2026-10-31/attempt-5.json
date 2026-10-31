@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "completed": false,
+  "commit": "dc1122bfbd396be246a64b86f0f4f210d46f5b4c",
+  "dirty": false,
+  "scope": "single-checkout offline validation; no AVEVA login/SDK, credentials, VM or production deployment",
+  "steps": [
+    {
+      "name": "integration-manifests",
+      "directory": ".",
+      "startedUtc": "2026-10-31T07:45:03.0420441+00:00",
+      "finishedUtc": "2026-10-31T07:45:03.5565415+00:00",
+      "exitCode": 0,
+      "log": "integration-manifests.log"
+    },
+    {
+      "name": "next-assets",
+      "directory": "integrations\\next",
+      "startedUtc": "2026-10-31T07:45:03.7147684+00:00",
+      "finishedUtc": "2026-10-31T07:45:03.9741903+00:00",
+      "exitCode": 0,
+      "log": "next-assets.log"
+    },
+    {
+      "name": "portfolio-http-assets",
+      "directory": ".",
+      "startedUtc": "2026-10-31T07:45:04.1023681+00:00",
+      "finishedUtc": "2026-10-31T07:45:05.0916521+00:00",
+      "exitCode": 0,
+      "log": "portfolio-http-assets.log"
+    },
+    {
+      "name": "manager-tests",
+      "directory": ".",
+      "startedUtc": "2026-10-31T07:45:05.2102863+00:00",
+      "finishedUtc": "2026-10-31T07:50:48.4638702+00:00",
+      "exitCode": 1,
+      "log": "manager-tests.log"
+    }
+  ]
+}

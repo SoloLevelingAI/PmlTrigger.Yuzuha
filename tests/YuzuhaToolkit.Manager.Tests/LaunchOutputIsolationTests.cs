@@ -27,6 +27,7 @@ public sealed class LaunchOutputIsolationTests
             await cli.WaitForExitAsync(deadline.Token);
             Assert.True(cli.ExitCode == 0, "CLI exit " + cli.ExitCode + ": " + await stderr.WaitAsync(TimeSpan.FromSeconds(3)));
             var receiptPath = Path.Combine(root, "child.json");
+            // The fixture renames a closed pending file before publishing this path.
             while (!File.Exists(receiptPath)) await Task.Delay(20, deadline.Token);
             using var child = JsonDocument.Parse(await File.ReadAllTextAsync(receiptPath, deadline.Token));
             product = Process.GetProcessById(child.RootElement.GetProperty("processId").GetInt32());

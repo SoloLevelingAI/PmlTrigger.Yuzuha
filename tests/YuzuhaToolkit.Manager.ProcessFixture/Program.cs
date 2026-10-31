@@ -33,8 +33,11 @@ if (args.SequenceEqual(new[] { "--manager-plugin-protocol" }))
     return await PluginWorkerHost.RunAsync(FixturePluginDefinition.Capabilities, FixturePluginDefinition.Registrations(), Console.In, Console.Out);
 if (args.FirstOrDefault() == "PROD" && Environment.GetEnvironmentVariable("YUZUHA_LAUNCH_FIXTURE_OUTPUT") is { } launchOutput)
 {
-    File.WriteAllText(launchOutput, JsonSerializer.Serialize(new { arguments = args, workingDirectory = Environment.CurrentDirectory,
+    // Final-path existence is the fixture completion signal, including for a live child.
+    var pendingOutput = launchOutput + ".pending";
+    File.WriteAllText(pendingOutput, JsonSerializer.Serialize(new { arguments = args, workingDirectory = Environment.CurrentDirectory,
         commandLine = Environment.CommandLine, processId = Environment.ProcessId, selectedEnvironment = Environment.GetEnvironmentVariable("YUZUHA_TEST_ONLY"), license = Environment.GetEnvironmentVariable("AVEVA_LICENSE_SERVER_LIST") }));
+    File.Move(pendingOutput, launchOutput);
     if (Environment.GetEnvironmentVariable("YUZUHA_LAUNCH_FIXTURE_RELEASE") is { } release)
     {
         var until = DateTime.UtcNow.AddSeconds(25);

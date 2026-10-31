@@ -62,25 +62,27 @@ public partial class MainWindow : Window
     }
     private void WindowSizeChanged(object sender, SizeChangedEventArgs e)
     {
+        var viewportWidth = WindowSurface?.ActualWidth ?? ActualWidth;
+        var viewportHeight = WindowSurface?.ActualHeight ?? ActualHeight;
         if (SidebarEnvironmentButton is not null)
         {
-            var compact = ActualHeight < 760;
+            var compact = viewportHeight < 760;
             SidebarEnvironmentButton.Visibility = compact ? Visibility.Collapsed : Visibility.Visible;
             SidebarAccountButton.Visibility = compact ? Visibility.Collapsed : Visibility.Visible;
             SidebarFooter.Visibility = compact ? Visibility.Collapsed : Visibility.Visible;
         }
-        if (ContextSidebar is not null) { var compactNavigation = ActualWidth < 1100; ContextSidebar.Visibility = compactNavigation ? Visibility.Collapsed : Visibility.Visible; ContextColumn.Width = new GridLength(compactNavigation ? 0 : 244); CompactNavigation.Visibility = compactNavigation ? Visibility.Visible : Visibility.Collapsed; }
-        if (HeartbeatText is not null) HeartbeatText.Visibility = ActualWidth < 1100 ? Visibility.Collapsed : Visibility.Visible;
-        if (SearchPanel is not null) SearchPanel.Visibility = ActualWidth < 1250 ? Visibility.Collapsed : Visibility.Visible;
+        if (ContextSidebar is not null) { var compactNavigation = viewportWidth < 1100; ContextSidebar.Visibility = compactNavigation ? Visibility.Collapsed : Visibility.Visible; ContextColumn.Width = new GridLength(compactNavigation ? 0 : 244); CompactNavigation.Visibility = compactNavigation ? Visibility.Visible : Visibility.Collapsed; }
+        if (HeartbeatText is not null) HeartbeatText.Visibility = viewportWidth < 1100 ? Visibility.Collapsed : Visibility.Visible;
+        if (SearchPanel is not null) SearchPanel.Visibility = viewportWidth < 1250 ? Visibility.Collapsed : Visibility.Visible;
         if (OverviewKpis is not null)
         {
-            var narrow = ActualWidth < 1400; OverviewKpis.Columns = ActualWidth < 1100 ? 2 : 4;
+            var narrow = viewportWidth < 1400; OverviewKpis.Columns = viewportWidth < 1100 ? 2 : 4;
             foreach (var grid in new[] { OverviewColumns1, OverviewColumns2, OverviewColumns3, LaunchColumns, LaunchLowerColumns, RuntimeColumns, RuntimeLowerColumns, LogColumns, NotesColumns, WebColumns, KnowledgeColumns, DeploymentColumns, DeploymentLowerColumns, ProfileLibraryColumns })
             {
                 if (grid.RowDefinitions.Count == 0) { grid.RowDefinitions.Add(new() { Height = GridLength.Auto }); grid.RowDefinitions.Add(new() { Height = GridLength.Auto }); }
                 var cards = grid.Children.OfType<Border>().ToArray();
                 if (cards.Length != 2) continue;
-                var stackCards = grid == OverviewColumns1 ? ActualWidth < 1100 : narrow;
+                var stackCards = grid == OverviewColumns1 ? viewportWidth < 1100 : narrow;
                 Grid.SetColumnSpan(cards[0], stackCards ? 3 : 1); Grid.SetColumn(cards[1], stackCards ? 0 : 2); Grid.SetRow(cards[1], stackCards ? 1 : 0); Grid.SetColumnSpan(cards[1], stackCards ? 3 : 1);
             }
         }
@@ -438,6 +440,8 @@ public partial class MainWindow : Window
     {
         if (Tabs.SelectedIndex != 4 || PageTitleText.Text != "总览")
             throw new InvalidOperationException("首次打开必须显示 Dashboard 总览。");
+        // Keep the native host smaller than the test canvas, reproducing hosted CI displays.
+        MaxWidth = 1024; MaxHeight = 768;
         _launchSmokeRunning = true; Directory.CreateDirectory(outputDirectory); _timer.Stop(); await DiscoverAsync();
         MaintainerText.Text = "演示工作空间";
         var fixtureDirectory = Path.Combine(outputDirectory, "fixture"); Directory.CreateDirectory(fixtureDirectory);
@@ -511,7 +515,7 @@ public partial class MainWindow : Window
             await Dispatcher.InvokeAsync(() => { }, DispatcherPriority.ApplicationIdle); RegistrationsBox.IsDropDownOpen = false;
             foreach (var size in new[] { (Width: 1440d, Height: 960d), (Width: 1280d, Height: 720d), (Width: 853d, Height: 480d) })
             {
-                Width = size.Width; Height = size.Height;
+                SetSmokeViewport(size.Width, size.Height);
                 foreach (var screen in screens)
                 {
                     SelectSmokeScreen(screen.Tab, screen.Flow, screen.Planned);
@@ -529,9 +533,7 @@ public partial class MainWindow : Window
                     }
                 }
             }
-            var surface = (FrameworkElement)Content;
-            Width = 1440 + ActualWidth - surface.ActualWidth;
-            Height = 1024 + ActualHeight - surface.ActualHeight;
+            SetSmokeViewport(1440, 1024);
             foreach (var screen in screens)
             {
                 SelectSmokeScreen(screen.Tab, screen.Flow, screen.Planned);
@@ -541,19 +543,19 @@ public partial class MainWindow : Window
             await CaptureSmokeAsync(Path.Combine(themeDirectory, "knowledge-editor.png"));
             OpenKnowledgeLibraries(this, new());
             await CaptureSmokeAsync(Path.Combine(themeDirectory, "knowledge-libraries.png"));
-            Width = 1600; Height = 1040;
+            SetSmokeViewport(1600, 1040);
             foreach (var item in new[] { ("launch", "启动工程", -1), ("knowledge", "知识库", 0), ("notes", "知识库", 1), ("settings", "设置", 0), ("credentials", "设置", 3) })
             {
                 OpenNavigation(new(item.Item2, item.Item2, item.Item3));
                 await CaptureSmokeAsync(Path.Combine(themeDirectory, "r2-" + item.Item1 + "-1600.png"));
             }
-            Width = 853; Height = 680; OpenNavigation(new("设置", "设置", 0));
+            SetSmokeViewport(853, 680); OpenNavigation(new("设置", "设置", 0));
             if (ContextSidebar.Visibility != Visibility.Collapsed || CompactNavigation.Visibility != Visibility.Visible) throw new InvalidOperationException("窄屏导航不可用。");
             CompactNavigation.SelectedIndex = 3;
             if (SettingsPages.SelectedIndex != 3) throw new InvalidOperationException("窄屏导航没有打开凭据分组。");
             await CaptureSmokeAsync(Path.Combine(themeDirectory, "r2-settings-compact.png"));
             SettingsPages.SelectedIndex = 0; KnowledgePages.SelectedIndex = 0;
-            Width = 1280; Height = 900; Tabs.SelectedIndex = 3;
+            SetSmokeViewport(1280, 900); Tabs.SelectedIndex = 3;
             foreach (var unknown in new[] { false, true })
             {
                 await SessionView.FaultSmokeAsync(unknown); SetPage("能力与函数");
@@ -564,9 +566,10 @@ public partial class MainWindow : Window
         File.WriteAllText(Path.Combine(outputDirectory, "desktop-smoke.json"), JsonSerializer.Serialize(new {
             passed = true, scope = "WPF creation, synthetic bindings and layout; not AVEVA live or human visual acceptance",
             dashboardHome = true, primaryWorkspaces = 5, dashboardCompact = true, dashboardDetailsReachable = true,
+            viewportEvidence = _smokeCaptures, viewportUnit = "DIP rendered at 96 DPI; independent of monitor size",
             pages = screens.Length, tabs = Tabs.Items.Count, profiles = ProfilesBox.Items.Count, errorStates = 4,
             themes = new[] { "Light", "Dark" }, themePreservesWork = true, savedCredentials = true, guiKnowledge = true, personalNotesCrud = true, activityFilters = true, r2Navigation = true, nativeWindowChrome = true, compactNavigation = true, objectQueries = true, profileLibrary = true,
-            viewports = new[] { "1440x960", "1280x720", "853x480 logical (1280x720 at 150%)" },
+            viewports = new[] { "1440x960", "1280x720", "853x480" },
             designCanvas = "1440x1024 client", finishedUtc = DateTime.UtcNow, dpi = VisualTreeHelper.GetDpi(this).DpiScaleX, fontSize = FontSize }));
     }
     private void SelectSmokeScreen(int tab, int flow, int planned)
@@ -589,10 +592,34 @@ public partial class MainWindow : Window
     private async Task CaptureSmokeAsync(string path)
     {
         await Dispatcher.InvokeAsync(() => { }, DispatcherPriority.ApplicationIdle); await Task.Delay(100);
+        if (_smokeViewport is Size requested) SetSmokeViewport(requested.Width, requested.Height);
         var content = (FrameworkElement)Content;
-        var bitmap = new RenderTargetBitmap((int)Math.Round(content.ActualWidth), (int)Math.Round(content.ActualHeight), 96, 96, PixelFormats.Pbgra32); bitmap.Render(content);
+        if (_smokeViewport is Size viewport)
+        {
+            if (Math.Abs(content.ActualWidth - viewport.Width) > 0.01 || Math.Abs(content.ActualHeight - viewport.Height) > 0.01)
+                throw new InvalidOperationException($"Viewport mismatch: requested {viewport}, actual {content.ActualWidth}×{content.ActualHeight}, HWND {ActualWidth}×{ActualHeight}.");
+        }
+        var bitmap = new RenderTargetBitmap((int)Math.Round(content.ActualWidth), (int)Math.Round(content.ActualHeight), 96, 96, PixelFormats.Pbgra32);
+        var bounds = new Rect(0, 0, content.ActualWidth, content.ActualHeight);
+        var drawing = new DrawingVisual();
+        using (var context = drawing.RenderOpen())
+            context.DrawRectangle(new VisualBrush(content) { Stretch = Stretch.None, AlignmentX = AlignmentX.Left, AlignmentY = AlignmentY.Top,
+                ViewboxUnits = BrushMappingMode.Absolute, Viewbox = bounds, ViewportUnits = BrushMappingMode.Absolute, Viewport = bounds }, null, bounds);
+        bitmap.Render(drawing);
         var encoder = new PngBitmapEncoder(); encoder.Frames.Add(BitmapFrame.Create(bitmap));
-        using var output = File.Create(path); encoder.Save(output);
+        using (var output = File.Create(path)) encoder.Save(output);
+        foreach (var point in new[] { new Int32Rect(0, 0, 1, 1), new(bitmap.PixelWidth - 1, 0, 1, 1),
+            new Int32Rect(0, bitmap.PixelHeight - 1, 1, 1), new(bitmap.PixelWidth - 1, bitmap.PixelHeight - 1, 1, 1) })
+        {
+            var pixel = new byte[4]; bitmap.CopyPixels(point, pixel, 4, 0);
+            if (pixel[3] != 255) throw new InvalidOperationException($"Viewport is clipped or transparent at {point}: {path}");
+        }
+        _smokeCaptures.Add(new { file = new DirectoryInfo(Path.GetDirectoryName(path)!).Name + "/" + Path.GetFileName(path),
+            requestedWidth = _smokeViewport?.Width, requestedHeight = _smokeViewport?.Height,
+            actualWidth = content.ActualWidth, actualHeight = content.ActualHeight,
+            pixelWidth = bitmap.PixelWidth, pixelHeight = bitmap.PixelHeight,
+            hostWidth = ActualWidth, hostHeight = ActualHeight, renderDpi = 96, hostDpi = VisualTreeHelper.GetDpi(this).DpiScaleX });
+
     }
     private string CaptureLaunchDraft() => JsonSerializer.Serialize(new { profile = ReadProfile(), passwordLength = PasswordInput.Password.Length, knowledgeQuery = KnowledgeQueryBox.Text, knowledgeDirectory = KnowledgeDirectoryBox.Text });
 }

@@ -1,0 +1,848 @@
+{
+  "environment": "Local Playwright Microsoft Edge; file://; no AVEVA or cloud execution",
+  "sourceChecks": [
+    {
+      "path": "PMLLIB/Traversal/YuzuhaReadDbref.pmlfnc",
+      "hashMatches": true
+    },
+    {
+      "path": "docs/reference/architecture.md",
+      "hashMatches": true
+    },
+    {
+      "path": "docs/reference/capabilities.json",
+      "hashMatches": true
+    },
+    {
+      "path": "docs/reference/documentation.md",
+      "hashMatches": true
+    },
+    {
+      "path": "docs/reference/launch-workflow.md",
+      "hashMatches": true
+    },
+    {
+      "path": "docs/reference/manager-cli.md",
+      "hashMatches": true
+    },
+    {
+      "path": "docs/reference/manager-knowledge.md",
+      "hashMatches": true
+    },
+    {
+      "path": "docs/reference/pml-development-flow.md",
+      "hashMatches": true
+    },
+    {
+      "path": "docs/specification/contract.json",
+      "hashMatches": true
+    },
+    {
+      "path": "openspec/changes/extract-existing-contracts/proposal.md",
+      "hashMatches": true
+    },
+    {
+      "path": "openspec/changes/integrate-pmltwin-product-platform/contracts.md",
+      "hashMatches": true
+    },
+    {
+      "path": "openspec/changes/integrate-pmltwin-product-platform/design.md",
+      "hashMatches": true
+    },
+    {
+      "path": "openspec/changes/integrate-pmltwin-product-platform/features/ci-viewport-contract-handoff.md",
+      "hashMatches": true
+    },
+    {
+      "path": "openspec/changes/integrate-pmltwin-product-platform/proposal.md",
+      "hashMatches": true
+    },
+    {
+      "path": "scripts/Invoke-PmlDevelopment.ps1",
+      "hashMatches": true
+    },
+    {
+      "path": "scripts/PmlDevelopment.psm1",
+      "hashMatches": true
+    },
+    {
+      "path": "scripts/Start-LaunchWorkbench.ps1",
+      "hashMatches": true
+    },
+    {
+      "path": "scripts/Test-Desktop.ps1",
+      "hashMatches": true
+    },
+    {
+      "path": "scripts/run-documented-test.ps1",
+      "hashMatches": true
+    },
+    {
+      "path": "src/Shared/PmlArrayWindow.cs",
+      "hashMatches": true
+    },
+    {
+      "path": "src/Shared/PmlFormQuery.cs",
+      "hashMatches": true
+    },
+    {
+      "path": "src/YuzuhaToolkit.Manager.Core/CommunicationCliClient.cs",
+      "hashMatches": true
+    },
+    {
+      "path": "src/YuzuhaToolkit.Manager.Core/KnowledgeImportService.cs",
+      "hashMatches": true
+    },
+    {
+      "path": "src/YuzuhaToolkit.Manager.Core/LaunchDiscovery.cs",
+      "hashMatches": true
+    },
+    {
+      "path": "src/YuzuhaToolkit.Mcp.Core/PmlFunctionRegistry.cs",
+      "hashMatches": true
+    },
+    {
+      "path": "src/YuzuhaToolkit.Mcp.Core/YuzuhaTargetOptions.cs",
+      "hashMatches": true
+    },
+    {
+      "path": "src/YuzuhaToolkit.Workspace/LaunchProfileService.cs",
+      "hashMatches": true
+    },
+    {
+      "path": "src/YuzuhaToolkit.Workspace/LaunchService.cs",
+      "hashMatches": true
+    },
+    {
+      "path": "src/YuzuhaToolkit.Workspace/PluginDeployment.cs",
+      "hashMatches": true
+    },
+    {
+      "path": "src/YuzuhaToolkit.Workspace/PmlDevelopmentWorkflow.cs",
+      "hashMatches": true
+    },
+    {
+      "path": "src/YuzuhaToolkit.Workspace/ProductModuleCatalog.cs",
+      "hashMatches": true
+    },
+    {
+      "path": "src/YuzuhaToolkit.Workspace/RuntimeJournal.cs",
+      "hashMatches": true
+    },
+    {
+      "path": "src/YuzuhaToolkit.Workspace/StartupPolicy.cs",
+      "hashMatches": true
+    },
+    {
+      "path": "src/YuzuhaToolkit.Workspace/WorkspaceConfigurationStore.cs",
+      "hashMatches": true
+    },
+    {
+      "path": "tests/live/pml-development/manifest.json",
+      "hashMatches": true
+    }
+  ],
+  "slideCount": 21,
+  "checks": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "slide": 1,
+      "horizontal": false,
+      "vertical": false,
+      "mainText": 90,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "slide": 2,
+      "horizontal": false,
+      "vertical": false,
+      "mainText": 123,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "slide": 3,
+      "horizontal": false,
+      "vertical": false,
+      "mainText": 156,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "slide": 4,
+      "horizontal": false,
+      "vertical": false,
+      "mainText": 138,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "slide": 5,
+      "horizontal": false,
+      "vertical": false,
+      "mainText": 141,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "slide": 6,
+      "horizontal": false,
+      "vertical": false,
+      "mainText": 171,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "slide": 7,
+      "horizontal": false,
+      "vertical": false,
+      "mainText": 111,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "slide": 8,
+      "horizontal": false,
+      "vertical": false,
+      "mainText": 97,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "slide": 9,
+      "horizontal": false,
+      "vertical": false,
+      "mainText": 100,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "slide": 10,
+      "horizontal": false,
+      "vertical": false,
+      "mainText": 108,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "slide": 11,
+      "horizontal": false,
+      "vertical": false,
+      "mainText": 105,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "slide": 12,
+      "horizontal": false,
+      "vertical": false,
+      "mainText": 118,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "slide": 13,
+      "horizontal": false,
+      "vertical": false,
+      "mainText": 309,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "slide": 14,
+      "horizontal": false,
+      "vertical": false,
+      "mainText": 210,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "slide": 15,
+      "horizontal": false,
+      "vertical": false,
+      "mainText": 112,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "slide": 16,
+      "horizontal": false,
+      "vertical": false,
+      "mainText": 124,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "slide": 17,
+      "horizontal": false,
+      "vertical": false,
+      "mainText": 108,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "slide": 18,
+      "horizontal": false,
+      "vertical": false,
+      "mainText": 98,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "slide": 19,
+      "horizontal": false,
+      "vertical": false,
+      "mainText": 126,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "slide": 20,
+      "horizontal": false,
+      "vertical": false,
+      "mainText": 147,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "slide": 21,
+      "horizontal": false,
+      "vertical": false,
+      "mainText": 89,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "slide": 1,
+      "horizontal": false,
+      "vertical": false,
+      "mainText": 90,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "slide": 2,
+      "horizontal": false,
+      "vertical": false,
+      "mainText": 123,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "slide": 3,
+      "horizontal": false,
+      "vertical": false,
+      "mainText": 156,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "slide": 4,
+      "horizontal": false,
+      "vertical": false,
+      "mainText": 138,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "slide": 5,
+      "horizontal": false,
+      "vertical": false,
+      "mainText": 141,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "slide": 6,
+      "horizontal": false,
+      "vertical": false,
+      "mainText": 171,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "slide": 7,
+      "horizontal": false,
+      "vertical": false,
+      "mainText": 111,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "slide": 8,
+      "horizontal": false,
+      "vertical": false,
+      "mainText": 97,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "slide": 9,
+      "horizontal": false,
+      "vertical": false,
+      "mainText": 100,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "slide": 10,
+      "horizontal": false,
+      "vertical": false,
+      "mainText": 108,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "slide": 11,
+      "horizontal": false,
+      "vertical": false,
+      "mainText": 105,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "slide": 12,
+      "horizontal": false,
+      "vertical": false,
+      "mainText": 118,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "slide": 13,
+      "horizontal": false,
+      "vertical": false,
+      "mainText": 309,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "slide": 14,
+      "horizontal": false,
+      "vertical": false,
+      "mainText": 210,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "slide": 15,
+      "horizontal": false,
+      "vertical": false,
+      "mainText": 112,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "slide": 16,
+      "horizontal": false,
+      "vertical": false,
+      "mainText": 124,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "slide": 17,
+      "horizontal": false,
+      "vertical": false,
+      "mainText": 108,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "slide": 18,
+      "horizontal": false,
+      "vertical": false,
+      "mainText": 98,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "slide": 19,
+      "horizontal": false,
+      "vertical": false,
+      "mainText": 126,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "slide": 20,
+      "horizontal": false,
+      "vertical": false,
+      "mainText": 147,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "slide": 21,
+      "horizontal": false,
+      "vertical": false,
+      "mainText": 89,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "slide": 1,
+      "horizontal": false,
+      "vertical": true,
+      "mainText": 90,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "slide": 2,
+      "horizontal": false,
+      "vertical": false,
+      "mainText": 123,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "slide": 3,
+      "horizontal": false,
+      "vertical": true,
+      "mainText": 156,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "slide": 4,
+      "horizontal": false,
+      "vertical": true,
+      "mainText": 138,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "slide": 5,
+      "horizontal": false,
+      "vertical": true,
+      "mainText": 141,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "slide": 6,
+      "horizontal": false,
+      "vertical": true,
+      "mainText": 171,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "slide": 7,
+      "horizontal": false,
+      "vertical": true,
+      "mainText": 111,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "slide": 8,
+      "horizontal": false,
+      "vertical": true,
+      "mainText": 97,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "slide": 9,
+      "horizontal": false,
+      "vertical": true,
+      "mainText": 100,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "slide": 10,
+      "horizontal": false,
+      "vertical": true,
+      "mainText": 108,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "slide": 11,
+      "horizontal": false,
+      "vertical": true,
+      "mainText": 105,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "slide": 12,
+      "horizontal": false,
+      "vertical": true,
+      "mainText": 118,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "slide": 13,
+      "horizontal": false,
+      "vertical": true,
+      "mainText": 309,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "slide": 14,
+      "horizontal": false,
+      "vertical": true,
+      "mainText": 210,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "slide": 15,
+      "horizontal": false,
+      "vertical": true,
+      "mainText": 112,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "slide": 16,
+      "horizontal": false,
+      "vertical": true,
+      "mainText": 124,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "slide": 17,
+      "horizontal": false,
+      "vertical": true,
+      "mainText": 108,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "slide": 18,
+      "horizontal": false,
+      "vertical": true,
+      "mainText": 98,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "slide": 19,
+      "horizontal": false,
+      "vertical": true,
+      "mainText": 126,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "slide": 20,
+      "horizontal": false,
+      "vertical": true,
+      "mainText": 147,
+      "opacity": "1"
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "slide": 21,
+      "horizontal": false,
+      "vertical": true,
+      "mainText": 89,
+      "opacity": "1"
+    }
+  ],
+  "requirementCount": 24,
+  "filteredCount": 1,
+  "scriptCount": 28,
+  "methodFields": 7,
+  "printVisible": 21,
+  "errors": [],
+  "failures": []
+}

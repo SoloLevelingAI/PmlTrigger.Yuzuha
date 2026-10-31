@@ -38,3 +38,17 @@
 #### Scenario: Open and navigate the workbench
 - **WHEN** 启动工作台并跨五个工作区切换
 - **THEN** 首页是总览，全部12功能视图可达，启动及笔记草稿保留；1280×720 首页折叠摘要不要求纵向滚动，明细仍可展开，窄窗允许纵向滚动。
+
+### Requirement: Measured rendering evidence
+界面验证 SHALL 区分请求DIP尺寸、实际布局尺寸、PNG像素尺寸、宿主DPI与渲染DPI；MUST NOT 仅凭文件名或图片存在声称视口验证通过。离屏画布证据不替代真实显示器缩放或实机验收。
+
+#### Scenario: Host window is smaller than requested canvas
+- **WHEN** 宿主仅1024×768而测试请求1280×720或1440×960
+- **THEN** 完整画布按请求尺寸渲染，回执及PNG尺寸一致且无透明裁剪；无法满足时失败，不跳过无滚动及业务断言。
+
+### Requirement: Layered contract presentation
+HTML演示 SHALL 分别解释整体交付边界、Feature输入/状态/权限/回执/恢复、Script算法/副作用/校验手段，并关联真实源码。实现差异、空结果歧义、planned状态及非实机证据 MUST 明确呈现。
+
+#### Scenario: Reader examines a script guarantee
+- **WHEN** 读者查看PML部署链路或DBREF查询
+- **THEN** 可追到各自入口的冻结与错误语义，不把C#保证泛化到PowerShell，也不把DBREF空数组等同于成功查询。

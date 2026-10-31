@@ -1,0 +1,46 @@
+{
+  "generatedAt": "2026-10-31",
+  "sourceHashes": {
+    "PMLLIB/Traversal/YuzuhaReadDbref.pmlfnc": "aa0fa72f440254bd5e22f076ea2871036214260757e71a80874ba9a7ab9cf028",
+    "docs/reference/architecture.md": "9647b5f15aca25a095ced5a6c7bd57c0fc969b3364f24aa3163b092b902e79db",
+    "docs/reference/capabilities.json": "c0865d35f89ded20b715abd1f9694e2844917bdc5e84c189f19a4797b3424b5a",
+    "docs/reference/documentation.md": "316b52c270957ee91f0646ab63bd3ccfcbf1d029d5680a466da42fe540a84ed8",
+    "docs/reference/launch-workflow.md": "4f60b06d219060cc007f3174bea1cb309b898a2cd71a787be0773997e45e9927",
+    "docs/reference/manager-cli.md": "b6ad2743b5eccf0151fc10269613433e46f6ef562eb2594b6fd513c744da359c",
+    "docs/reference/manager-knowledge.md": "9a1797b8513113d2e67d0fcc53d76c16d169c24669fece726ad59483e8499198",
+    "docs/reference/pml-development-flow.md": "2cb79a0c634458ddc5fb7da127ced3dfadc761cded372c4d88a2321ee49d8492",
+    "docs/specification/contract.json": "7fce555c78b4f79114b61d6d8c37da557d3b8352a60fa7c0c572f9684bce18af",
+    "openspec/changes/extract-existing-contracts/proposal.md": "c3d1116cfdcc46d10359d0865731b373f07e1c454f663041993cbfff436be386",
+    "openspec/changes/integrate-pmltwin-product-platform/contracts.md": "2e8172793003a6eff34641a34f96fcabdf7151aca91969b7c292c90631317a1d",
+    "openspec/changes/integrate-pmltwin-product-platform/design.md": "dc273294af77bb72887a22c6bea8648a0e455e360ec35653b94e45aeb650d333",
+    "openspec/changes/integrate-pmltwin-product-platform/features/ci-viewport-contract-handoff.md": "0a5affa83a3137a8009fb78b7920fbb981959748b72b3f8506d4d420b4eabf20",
+    "openspec/changes/integrate-pmltwin-product-platform/proposal.md": "8cc7005d53bdcc99ab18ef42f432736bfbb1b6c7a7db4ffa63c8983c069f8848",
+    "scripts/Invoke-PmlDevelopment.ps1": "4ea4ccc842490796ecbda51c86793f80db207986ebc4c5142118b2ba0ca6ac21",
+    "scripts/PmlDevelopment.psm1": "97a3b50c34f5c69bd90c09f317a24886b41a28dfb821be2bce67ffe0bd702686",
+    "scripts/Start-LaunchWorkbench.ps1": "2592123b0e524df48a0d534c60db58126248a44732985f0ec70bd287f8217d9e",
+    "scripts/Test-Desktop.ps1": "81cfc9f6d1efe832418a5ae45786e263149e851438c63b1ee7fb318a05edf10f",
+    "scripts/run-documented-test.ps1": "444b30d8d328ab3540d6281b8f28f81616f261f3a7fab7a90a40fc93b3ce17c3",
+    "src/Shared/PmlArrayWindow.cs": "c2d08cf8933da613376b0f0b0f99837476079d66dc4f56f655b1a448523f9495",
+    "src/Shared/PmlFormQuery.cs": "1886346a93f1a016d7f3df73289289638a7d934e3bb00879118cd6e395689c72",
+    "src/YuzuhaToolkit.Manager.Core/CommunicationCliClient.cs": "c0f6a9ab601e914975aa30a6d9fa64f46a85748960c180f188d6c5b557781e1f",
+    "src/YuzuhaToolkit.Manager.Core/KnowledgeImportService.cs": "1dd81af81833a5d3d9cb106a65a58dccb807390f88bffe4ff39a4e0026dba072",
+    "src/YuzuhaToolkit.Manager.Core/LaunchDiscovery.cs": "0bf76e1edc2eeb24796403dbb214351201b4accd6b352f69df5d3bb7f2c608a4",
+    "src/YuzuhaToolkit.Mcp.Core/PmlFunctionRegistry.cs": "2efd847564cbe5d4c4cfa8109176178171c7153bb89c860c548a01c6a03b97bf",
+    "src/YuzuhaToolkit.Mcp.Core/YuzuhaTargetOptions.cs": "95b314bee5dced8167b2d015d806757b72f67af587069688eb622c9b3152df4f",
+    "src/YuzuhaToolkit.Workspace/LaunchProfileService.cs": "1200eda3f64717686fc6daf3d7fae9038421776d193aabefd872279a691b4a1c",
+    "src/YuzuhaToolkit.Workspace/LaunchService.cs": "7347f81020008670e5f022bf6cbc35aec391c44a3a184349282fab1ccef46b65",
+    "src/YuzuhaToolkit.Workspace/PluginDeployment.cs": "d14f77ab83d5857746f0efad7898a86de1b0bf90648c69444963d1cd0ea1801c",
+    "src/YuzuhaToolkit.Workspace/PmlDevelopmentWorkflow.cs": "bf1564359e25c325858117b0492163264511254c3b6e58985a55104a7fb46567",
+    "src/YuzuhaToolkit.Workspace/ProductModuleCatalog.cs": "7279662315c7bd35c66e96ea7806cd9d0feef7382b922232325790eba9acea7a",
+    "src/YuzuhaToolkit.Workspace/RuntimeJournal.cs": "88627b8a69e047fd9d8108294a61e3e1274896402f58316175efebf4df7469fe",
+    "src/YuzuhaToolkit.Workspace/StartupPolicy.cs": "0a5a8a41689df8389c49738fef52ea35941f1238f752350a786039e7f08a3c9e",
+    "src/YuzuhaToolkit.Workspace/WorkspaceConfigurationStore.cs": "9c501172a60f8788da642f029dc5d455a5a7e7c8cb3a47265d6d1a3aae65574c",
+    "tests/live/pml-development/manifest.json": "651de5689e7ef1f998d01c48a6b37b637f1481b016f996287234a7b03c0234dc"
+  },
+  "externalSources": [
+    {
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/actions/runs/41202203985",
+      "scope": "Original failed run; no cloud success claim"
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "date": "2026-10-31",
+  "failedCommit": "1ac975f594ccb730a4a64edde0604693601d49cc",
+  "failedRun": 41202203985,
+  "failedArtifact": 13042548945,
+  "failure": "Requested 1280x720, actual PNG 1044x720; scroll assertion correctly rejected it",
+  "local": {
+    "dotnetPassed": 470,
+    "dotnetSkipped": 2,
+    "skipReason": "optional 7zr environment",
+    "nodePassed": 51,
+    "pmlOfflineScenarios": 6,
+    "lifecycle": {
+      "parser": 8,
+      "json": 15,
+      "toml": 15
+    },
+    "desktop": {
+      "passed": true,
+      "captures": 118,
+      "host": [
+        1024,
+        768
+      ],
+      "renderDpi": 96,
+      "hostDpi": 1.5,
+      "allOriginalAssertionsRetained": true,
+      "bindingErrors": 0
+    },
+    "documentation": {
+      "htmlPages": 3173,
+      "checkedLocalLinks": 78904,
+      "projects": 26,
+      "modules": 17,
+      "types": 509,
+      "errors": [],
+      "retiredContentAbsent": true,
+      "tests": 382,
+      "catalog": {
+        "features": 13,
+        "scripts": 40,
+        "candidates": 196
+      },
+      "uiTrace": {
+        "entries": 297,
+        "unresolved": 123,
+        "sampleEdges": 11,
+        "pages": 20,
+        "containers": 4,
+        "shared": 4,
+        "sourceMembers": 1597
+      },
+      "passed": true
+    },
+    "openSpecStrict": "passed"
+  },
+  "avevaLive": false,
+  "remoteVerification": "pending next source push",
+  "evidence": [
+    {
+      "path": "artifacts/attention-development.log",
+      "sha256": "a8e0654d10a2beff1b01f68eea4df71e5d8f291487eeca2d8ddbce580446edc1",
+      "bytes": 15656
+    },
+    {
+      "path": "artifacts/attention-documentation.log",
+      "sha256": "f967a035f16fb7084fedeae145aec7e0f667fd695901a9db9032d357d293e40c",
+      "bytes": 14723
+    },
+    {
+      "path": "artifacts/viewport-canvas-final.log",
+      "sha256": "f59a6c39eaa79d35b82a654decc6d40e3f9d80117ff1c243097af08924bada6a",
+      "bytes": 2235
+    },
+    {
+      "path": "artifacts/dt/33e198fcbab08788/ccc7d6a19fae4416aa1b9acdc56fab42/desktop/desktop-smoke.json",
+      "sha256": "1c5d9c61c022c54b6be2e37a7a9b12addb176e476c82eef0099b36c25bb52442",
+      "bytes": 26253
+    },
+    {
+      "path": "artifacts/dt/33e198fcbab08788/ccc7d6a19fae4416aa1b9acdc56fab42/documented-run.json",
+      "sha256": "96a2717cc7e10b82168af5699635194d3f59fdb36695a24ef2ae66f7b0838821",
+      "bytes": 635
+    },
+    {
+      "path": "artifacts/dt/33e198fcbab08788/ccc7d6a19fae4416aa1b9acdc56fab42/desktop/binding-errors.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    }
+  ],
+  "html": {
+    "slides": 21,
+    "viewportChecks": 63,
+    "failures": 0,
+    "sourceHashesMatch": true,
+    "printPages": 21,
+    "scriptIndexRows": 28,
+    "methodContractFields": 7
+  }
+}

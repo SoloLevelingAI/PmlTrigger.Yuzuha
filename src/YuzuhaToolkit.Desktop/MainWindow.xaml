@@ -1,5 +1,5 @@
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:local="clr-namespace:YuzuhaToolkit.Desktop" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="YuzuhaToolkit.Desktop.MainWindow" Title="Phayton · 工程工作空间" FontFamily="Segoe UI,Microsoft YaHei UI" FontSize="13" Width="1600" Height="1040" MinWidth="840" MinHeight="480" WindowStartupLocation="CenterScreen" SizeChanged="WindowSizeChanged" PreviewKeyDown="WindowKeyDown" Foreground="{DynamicResource Text.Primary}">
-  <WindowChrome.WindowChrome><WindowChrome CaptionHeight="52" ResizeBorderThickness="6" GlassFrameThickness="1" CornerRadius="0" UseAeroCaptionButtons="False"/></WindowChrome.WindowChrome><Grid Background="{DynamicResource Surface.Page}" Name="WindowSurface">
+  <WindowChrome.WindowChrome><WindowChrome CaptionHeight="52" ResizeBorderThickness="6" GlassFrameThickness="1" CornerRadius="0" UseAeroCaptionButtons="False"/></WindowChrome.WindowChrome><local:WorkspaceSurface Background="{DynamicResource Surface.Page}" x:Name="WindowSurface" SizeChanged="WindowSizeChanged">
     <Grid.RowDefinitions><RowDefinition Height="52"/><RowDefinition Height="*"/></Grid.RowDefinitions><Grid.ColumnDefinitions>
       <ColumnDefinition Width="80"/>
       <ColumnDefinition x:Name="ContextColumn" Width="244"/><ColumnDefinition Width="*"/>
@@ -985,5 +985,5 @@
           </Button>
           <TextBlock x:Name="SidebarFooter" Text="Phayton" Foreground="{DynamicResource Text.Tertiary}" FontSize="11" FontFamily="Consolas" Margin="8,0,0,0"/>
         </StackPanel><ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"><StackPanel><StackPanel x:Name="ContextNav"/><StackPanel x:Name="RecentProjectsPanel" Margin="0,26,0,0"><TextBlock Text="已保存的工程" Style="{StaticResource Caption}" Margin="10,0,0,12"/><ListBox x:Name="ProfilesBox" SelectionChanged="ProfileSelected" Margin="0" Height="240" BorderThickness="0" Background="Transparent"><ListBox.ItemTemplate><DataTemplate><StackPanel Margin="4,9"><TextBlock Text="{Binding Name}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/><TextBlock Text="{Binding Project}" Foreground="{DynamicResource Text.Tertiary}" FontSize="11" Margin="0,5,0,0"/></StackPanel></DataTemplate></ListBox.ItemTemplate></ListBox>
-                    </StackPanel></StackPanel></ScrollViewer></DockPanel></Border></Grid>
+                    </StackPanel></StackPanel></ScrollViewer></DockPanel></Border></local:WorkspaceSurface>
 </Window>

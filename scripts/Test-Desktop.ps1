@@ -21,10 +21,26 @@ if ($process.ExitCode -ne 0) { throw "WPF smoke failed. See $OutputDirectory/smo
 if (-not (Test-Path -LiteralPath $report)) { throw 'WPF smoke produced no current receipt.' }
 $receipt = Get-Content -LiteralPath $report -Raw | ConvertFrom-Json
 if ($receipt.dashboardHome -ne $true -or $receipt.primaryWorkspaces -ne 5 -or $receipt.dashboardCompact -ne $true -or $receipt.dashboardDetailsReachable -ne $true -or $receipt.passed -ne $true -or $receipt.viewports.Count -ne 3 -or $receipt.errorStates -ne 4 -or $receipt.themes.Count -ne 2 -or $receipt.pages -ne 12 -or $receipt.themePreservesWork -ne $true -or $receipt.savedCredentials -ne $true -or $receipt.guiKnowledge -ne $true -or $receipt.objectQueries -ne $true -or $receipt.profileLibrary -ne $true) { throw 'Invalid WPF smoke receipt.' }
+# Read PNG IHDR dimensions rather than trusting a filename or a requested Window.Width.
+if ($receipt.viewportEvidence.Count -ne 118) { throw 'Missing viewport capture evidence.' }
+foreach ($capture in $receipt.viewportEvidence) {
+    $imagePath = Join-Path $OutputDirectory $capture.file
+    $bytes = [IO.File]::ReadAllBytes($imagePath)
+    if ($bytes.Length -lt 24 -or [Convert]::ToHexString($bytes[0..7]) -cne '89504E470D0A1A0A') { throw "Invalid PNG: $imagePath" }
+    $pixelWidth = [uint32]$bytes[16] * 16777216 + [uint32]$bytes[17] * 65536 + [uint32]$bytes[18] * 256 + $bytes[19]
+    $pixelHeight = [uint32]$bytes[20] * 16777216 + [uint32]$bytes[21] * 65536 + [uint32]$bytes[22] * 256 + $bytes[23]
+    if ($capture.requestedWidth -ne $capture.actualWidth -or $capture.requestedHeight -ne $capture.actualHeight -or
+        $capture.actualWidth -ne $pixelWidth -or $capture.actualHeight -ne $pixelHeight -or
+        $capture.pixelWidth -ne $pixelWidth -or $capture.pixelHeight -ne $pixelHeight) { throw "Viewport dimensions disagree: $imagePath" }
+}
 foreach ($theme in 'Light','Dark') {
     foreach ($size in 1440,1280,853) {
         foreach ($screen in 'overview','launch','deployment','runtime','logs','sessions','functions','queries','web','knowledge','settings','profiles') {
-            $image = Join-Path $OutputDirectory "$theme/$screen-$size.png"
+            $relative = "$theme/$screen-$size.png"
+            $capture = @($receipt.viewportEvidence | Where-Object file -CEQ $relative)
+            $height = switch ($size) { 1440 { 960 } 1280 { 720 } 853 { 480 } }
+            if ($capture.Count -ne 1 -or $capture[0].requestedWidth -ne $size -or $capture[0].requestedHeight -ne $height) { throw "Missing exact viewport: $relative" }
+            $image = Join-Path $OutputDirectory $relative
             if (-not (Test-Path -LiteralPath $image) -or (Get-Item -LiteralPath $image).Length -eq 0) { throw "Missing rendered screen: $image" }
         }
     }

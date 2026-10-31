@@ -22,7 +22,7 @@ public partial class App : Application
                 var output = System.IO.Path.GetFullPath(e.Args[option + 1]); System.IO.Directory.CreateDirectory(output);
                 System.IO.File.Delete(System.IO.Path.Combine(output, "desktop-smoke.json"));
                 System.IO.File.Delete(System.IO.Path.Combine(output, "smoke-error.txt"));
-                Environment.SetEnvironmentVariable("YUZUHA_STATE_DIR", System.IO.Path.Combine(output, "isolated-state", Guid.NewGuid().ToString("N")));
+                Environment.SetEnvironmentVariable("YUZUHA_STATE_DIR", System.IO.Path.Combine(output, "s", Guid.NewGuid().ToString("N")[..12]));
                 bindingTrace = new(new System.IO.StreamWriter(System.IO.Path.Combine(output, "binding-errors.log"), false));
                 PresentationTraceSources.DataBindingSource.Switch.Level = SourceLevels.Error;
                 PresentationTraceSources.DataBindingSource.Listeners.Add(bindingTrace);

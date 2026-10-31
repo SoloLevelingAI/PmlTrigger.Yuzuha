@@ -176,3 +176,21 @@ test('object construction is a real edge and view constructors remain shared lif
   const lifecycle=g.entries.find(e=>e.member==='C# Constructor');
   assert.equal(g.pages.find(p=>p.id===lifecycle.pageId).kind,'shared');
 });
+
+
+test('discarded construction retains its enclosing method or callback and constructor body', () => {
+  const g=trace(`using System; namespace Demo;
+    class Service { public Service() { Validate(); } void Validate() {} }
+    class View {
+      void Run(Action action) { action(); }
+      void Start(object s, object e) { _ = new Service(); Run(() => { _ = new Service(); }); }
+    }`,view('<Button Click="Start"/>'));
+  const start=node(g,'M:Demo.View.Start(System.Object,System.Object)');
+  const constructor=node(g,'M:Demo.Service.#ctor');
+  assert.ok(g.edges.some(e=>e.from===start.id&&e.to===constructor.id&&e.kind==='constructor'&&e.expression==='new Service()'));
+  const callback=g.edges.find(e=>e.from===start.id&&e.kind==='callback-argument:action');
+  assert.ok(callback);
+  assert.ok(g.edges.some(e=>e.from===callback.to&&e.to===constructor.id&&e.kind==='constructor'));
+  assert.ok(g.edges.some(e=>e.from===constructor.id&&e.to===node(g,'M:Demo.Service.Validate').id));
+  assert.ok(!g.nodes.some(n=>n.name==='_'), 'A discard is not a callable source node');
+});

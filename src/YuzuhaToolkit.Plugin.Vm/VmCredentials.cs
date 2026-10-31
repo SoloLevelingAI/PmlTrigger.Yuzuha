@@ -40,6 +40,7 @@ public static class VmCredentials
         return new(file, targetKey);
     }
 
+    /// <summary>校验本插件所有者、目标绑定和文件预算后，以当前 Windows 用户解密；调用方负责清零返回的明文字节。</summary>
     internal static byte[] Read(string file, string targetKey)
     {
         if (!OperatingSystem.IsWindows()) throw new PlatformNotSupportedException("VM 保护凭据仅支持本机 Windows 用户。");
@@ -69,10 +70,16 @@ public static class VmCredentials
             if (output.Data != IntPtr.Zero) { for (var index = 0; index < output.Length; index++) Marshal.WriteByte(output.Data, index, 0); LocalFree(output.Data); }
         }
     }
+    /// <summary>与 DPAPI DATA_BLOB 对齐的长度及原生缓冲区地址；输入缓冲区由本结构创建和清除。</summary>
     [StructLayout(LayoutKind.Sequential)] private struct Blob
     {
-        public int Length; public IntPtr Data;
+        /// <summary>缓冲区的字节数，供 DPAPI 和清零循环使用。</summary>
+        public int Length;
+        /// <summary>缓冲区首地址；输入由 AllocHGlobal 分配，DPAPI 输出由 LocalFree 释放。</summary>
+        public IntPtr Data;
+        /// <summary>分配非托管内存并复制给定字节，返回长度和地址。</summary>
         public static Blob Create(byte[] value) { var data = Marshal.AllocHGlobal(value.Length); Marshal.Copy(value, 0, data, value.Length); return new() { Length = value.Length, Data = data }; }
+        /// <summary>逐字节清零本结构创建的输入缓冲区，释放内存并将地址置零。</summary>
         public void Clear() { if (Data == IntPtr.Zero) return; for (var index = 0; index < Length; index++) Marshal.WriteByte(Data, index, 0); Marshal.FreeHGlobal(Data); Data = IntPtr.Zero; }
     }
     [DllImport("crypt32.dll", ExactSpelling = true, CharSet = CharSet.Unicode, SetLastError = true)] [return: MarshalAs(UnmanagedType.Bool)] private static extern bool CryptProtectData(ref Blob data, string? description, ref Blob entropy, IntPtr reserved, IntPtr prompt, uint flags, out Blob output);

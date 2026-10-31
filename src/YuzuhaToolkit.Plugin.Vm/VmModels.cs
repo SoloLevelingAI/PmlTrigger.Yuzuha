@@ -127,7 +127,9 @@ public static class VmPlanning
         }
         return values;
     }
+    /// <summary>仅接受本机绝对路径，规范化末尾分隔符并拒绝路径中的链接或重解析点。</summary>
     internal static string Local(string path) { if (!Path.IsPathFullyQualified(path) || path.StartsWith(@"\\", StringComparison.Ordinal)) throw new ArgumentException("请明确选择本机绝对路径。"); path = Path.TrimEndingDirectorySeparator(Path.GetFullPath(path)); PathRules.NoLinks(path); return path; }
+    /// <summary>拒绝链接后以只读流计算文件的 SHA-256，返回小写十六进制指纹。</summary>
     internal static string Hash(string file) { PathRules.NoLinks(file); using var stream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read); return Convert.ToHexString(SHA256.HashData(stream)).ToLowerInvariant(); }
     private static bool Contains(string root, string path) => path.Equals(root, StringComparison.OrdinalIgnoreCase) || path.StartsWith(root + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase);
 }

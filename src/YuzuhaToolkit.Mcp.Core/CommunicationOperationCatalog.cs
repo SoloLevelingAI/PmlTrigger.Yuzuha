@@ -123,6 +123,7 @@ public static partial class CommunicationOperationCatalog
 
     // A start-time-bound request must also pin the module before execution. Initial read-only
     // selection/status may learn the Host module; legacy CLI calls without start ticks retain compatibility.
+    /// <summary>拒绝已固定启动时间却未固定模块的目标执行请求；只读选择及未提供启动时间的旧 CLI 请求保留兼容行为。</summary>
     internal static OperationResult? ValidatePinnedExecutionTarget(string id, bool requiresTargetExecution, OperationContext context) =>
         requiresTargetExecution && context.ExpectedProcessStartTimeUtcTicks is > 0 && string.IsNullOrWhiteSpace(context.ExpectedModel)
             ? OperationResult.Fail(id, 5, "MODULE_IDENTITY_REQUIRED", "带启动身份的执行请求必须提供已选定的目标模块，请重新发现并核验目标。")

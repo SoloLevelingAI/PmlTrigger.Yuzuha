@@ -44,6 +44,7 @@ public static class LaunchLicensePreflight
         item.TryGetProperty("state", out var state) && state.GetString() == "reachable";
 }
 
+/// <summary>为许可预检的插件输入字段及检查结果提供静态 JSON 序列化元数据。</summary>
 [JsonSourceGenerationOptions(PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase)]
 [JsonSerializable(typeof(string))]
 [JsonSerializable(typeof(int))]

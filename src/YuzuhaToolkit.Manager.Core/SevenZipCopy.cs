@@ -164,9 +164,12 @@ public static class SevenZipCopy
     }
     private static string Hash(string file) { using var input = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read); return Hash(input); }
     private static string Hash(Stream input) { input.Position = 0; return Convert.ToHexString(SHA256.HashData(input)).ToLowerInvariant(); }
+    /// <summary>拥有一次解压暂存目录的清理租约；清理失败时尽力写出同级警告文件。</summary>
     private sealed class Extraction(string directory) : IDisposable
     {
+        /// <summary>本次解压创建并由租约负责清理的暂存目录。</summary>
         public string Directory { get; } = directory;
+        /// <summary>检查链接后递归删除暂存目录；对 IO 或权限失败记录清理警告，不掩盖调用方结果。</summary>
         public void Dispose()
         {
             try { PathRules.NoLinks(Directory); if (System.IO.Directory.Exists(Directory)) System.IO.Directory.Delete(Directory, true); }

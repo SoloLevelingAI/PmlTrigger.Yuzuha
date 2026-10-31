@@ -5,11 +5,14 @@ using System.Text.RegularExpressions;
 namespace YuzuhaToolkit.Manager.LaunchDesk;
 
 // Read configuration as evidence, never execute it. This is deliberately not a cmd interpreter.
+/// <summary>在预算内解析安装目录的 INIT/BAT 配置与模块文件，收集项目和模块线索而不执行脚本。</summary>
 public sealed class FindAvevaProjectsAndModules(IFileSystem files)
 {
+    /// <summary>使用独立扫描状态读取指定安装目录，按提供的预算返回候选与诊断并响应取消。</summary>
     public ProjectModuleReport Execute(string installation, ProjectModuleOptions? options = null,
         CancellationToken ct = default) => new Scan(files, installation, options ?? new(), ct).Execute();
 
+    /// <summary>保存一次发现所需的变量、已访问路径、结果集合和时间预算，避免不同扫描共享状态。</summary>
     private sealed class Scan(IFileSystem files, string installation, ProjectModuleOptions options, CancellationToken ct)
     {
         private static readonly RegexOptions Flags = RegexOptions.IgnoreCase | RegexOptions.CultureInvariant;
@@ -34,6 +37,7 @@ public sealed class FindAvevaProjectsAndModules(IFileSystem files)
         private int reads;
         private bool stopped;
 
+        /// <summary>校验预算后先读取标准配置入口，再扫描项目目录及模块可执行文件，返回去重排序结果。</summary>
         internal ProjectModuleReport Execute()
         {
             if (options.MaximumFiles < 1 || options.MaximumDepth < 0 || options.MaximumDirectories < 1 ||

@@ -7,8 +7,10 @@ namespace YuzuhaToolkit.Manager;
 public sealed record LaunchChildEvidence(int ProcessId, int ParentProcessId, long ProcessStartUtcTicks,
     string Executable, bool HasWindow, int SessionId);
 
+/// <summary>使用 Toolhelp 快照读取指定入口的直接子进程；忽略已退出或不可访问的候选。</summary>
 internal static class LaunchChildObservation
 {
+    /// <summary>在 Windows 上最多遍历 4096 个快照条目，返回可读取路径、启动时间和窗口状态的直接子进程。</summary>
     internal static LaunchChildEvidence[] Snapshot(int parentId)
     {
         if (!OperatingSystem.IsWindows()) return [];
@@ -37,14 +39,21 @@ internal static class LaunchChildObservation
         finally { CloseHandle(handle); }
     }
 
+    /// <summary>Process32FirstW/NextW 使用的 PROCESSENTRY32W 顺序布局。</summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     private struct ProcessEntry
     {
+        /// <summary>原生结构字节数、已废弃使用计数与被枚举进程标识。</summary>
         internal uint Size, Usage, ProcessId;
+        /// <summary>PROCESSENTRY32W 的默认堆保留字段；只为保持原生布局。</summary>
         internal UIntPtr DefaultHeap;
+        /// <summary>原生模块保留字段、线程数与父进程标识；父进程用于筛选直接子进程。</summary>
         internal uint ModuleId, Threads, ParentId;
+        /// <summary>枚举进程的基本线程优先级。</summary>
         internal int Priority;
+        /// <summary>PROCESSENTRY32W 的保留标志字段。</summary>
         internal uint Flags;
+        /// <summary>原生快照携带的固定长度可执行文件名；证据路径另从 MainModule 读取。</summary>
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)] internal string Name;
     }
     [DllImport("kernel32.dll", SetLastError = true)] private static extern IntPtr CreateToolhelp32Snapshot(uint flags, uint processId);

@@ -1,7 +1,7 @@
 import test from 'node:test';
 import {readFileSync} from 'node:fs';
 import assert from 'node:assert/strict';
-import {buildUiTraceCatalog} from '../scripts/documentation-ui-trace.mjs';
+import {buildUiTraceCatalog, buildUiBoundarySamples} from '../scripts/documentation-ui-trace.mjs';
 import {describeDiagram, createCallHierarchy} from '../docs/reference/template/public/ui-trace.js';
 
 const fixture = () => ({
@@ -95,4 +95,48 @@ test('desktop smoke receipt and screenshot contracts cover every current screen'
   assert.equal(loops.length,2, 'Verify viewport and design screenshot loops');
   for(const loop of loops)
     assert.deepEqual([...loop[1].matchAll(/'([^']+)'/g)].map(match=>match[1]),screens);
+});
+
+function cliBoundaryFixture() {
+  const client='YuzuhaToolkit.Manager.Core::M:YuzuhaToolkit.Manager.CommunicationCliClient.InvokeAsync(System.String,System.Text.Json.JsonElement,PmlTwin.Phayton.OperationContext,System.Threading.CancellationToken)';
+  const process='System.Diagnostics.Process::M:System.Diagnostics.Process.Start';
+  return {kind:'static-source-trace',projects:[],pages:[{id:'query',name:'Queries',kind:'page'}],boundaries:[],
+    entries:['ReadObject','ReadForms'].map(expression=>({id:expression,pageId:'query',view:'YuzuhaToolkit.Desktop.SessionWorkbenchView',member:'Click',expression,target:expression})),
+    nodes:['ReadObject','ReadForms','IHost.Query','Host.Query',client,process].map(id=>({id,name:id,file:id===process?null:'Source.cs',line:1})),
+    edges:[...['ReadObject','ReadForms'].map(from=>({from,to:'IHost.Query',kind:'interface-call'})),
+      {from:'IHost.Query',to:'Host.Query',kind:'possible-implementation'},
+      {from:'Host.Query',to:client,kind:'call'},{from:client,to:process,kind:'call'}]};
+}
+
+test('UI samples stop at the evidenced CLI process boundary for both query buttons', () => {
+  const graph=cliBoundaryFixture(),{samples,backendSamples}=buildUiBoundarySamples(graph);
+  assert.equal(samples.length,2);assert.deepEqual(backendSamples,[]);
+  for(const sample of samples){
+    assert.equal(sample.chain[0].from,sample.entry.target);
+    assert.equal(sample.chain.at(-1).to,sample.boundary.target);
+    assert.equal(sample.boundary.kind,'child-process');
+    for(let i=1;i<sample.chain.length;i++)assert.equal(sample.chain[i].from,sample.chain[i-1].to);
+  }
+});
+
+test('missing CLI path, missing candidate dispatch, duplicate entry and fabricated RPC splice fail', () => {
+  for(const mutate of [
+    g=>g.edges.pop(),
+    g=>g.edges[2].kind='call',
+    g=>g.entries.push({...g.entries[0]}),
+    g=>g.edges[3].kind='rpc-route'
+  ]){const graph=cliBoundaryFixture();mutate(graph);assert.throws(()=>buildUiBoundarySamples(graph));}
+});
+
+test('configured Host samples remain separate and require route evidence', () => {
+  const graph=cliBoundaryFixture(),project='YuzuhaToolkit.PmlHost.Net48';graph.projects.push(project);
+  const start='YuzuhaToolkit.Mcp.Core::M:YuzuhaToolkit.Mcp.YuzuhaRpcBridge.QueryPmlFormsAsync(YuzuhaToolkit.Pml.PmlFormQueryRequest,System.Threading.CancellationToken)';
+  const core=project+'::M:YuzuhaToolkit.Pml.PmlFormQuery.Reader.ReadCore',native='Aveva.Core.Utilities::M:AVEVA.Command.Run';
+  graph.nodes.push(...[start,core,native].map(id=>({id,name:id,file:id===native?null:'Backend.cs'})));
+  graph.edges.push({from:start,to:core,kind:'rpc-route',evidence:[{kind:'constant'},{kind:'contract'},{kind:'registration'}]}, {from:core,to:native,kind:'call'});
+  const result=buildUiBoundarySamples(graph);
+  assert.equal(result.backendSamples.length,1);
+  assert.equal(result.backendSamples[0].start,start);
+  assert.ok(result.samples.every(s=>!s.chain.some(e=>e.kind==='rpc-route')));
+  graph.edges.at(-2).evidence.pop();assert.throws(()=>buildUiBoundarySamples(graph),/RPC mapping lacks/);
 });

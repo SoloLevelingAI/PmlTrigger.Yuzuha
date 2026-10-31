@@ -62,13 +62,19 @@ public sealed class CopyOperationTests : IDisposable
     public void CopyFailureCarriesPartialRecoveryRatherThanOnlyAnExceptionMessage()
     {
         Write("source/one.pmlfnc", "new-one"); Write("source/two.pmlfnc", "new-two");
-        var first = Write("registered/Tool/one.pmlfnc", "old-one"); Write("registered/Tool/two.pmlfnc", "old-two");
+        Write("registered/Tool/one.pmlfnc", "old-one"); Write("registered/Tool/two.pmlfnc", "old-two");
         var plan = PluginDeployment.Preview(Path.Combine(root, "source"), Registered, "Tool");
+        Assert.Equal(2, plan.Files.Length);
+        // Directory enumeration order is not a contract. Mutate an already applied
+        // target only after the final write, so rollback must preserve that edit.
+        var first = Path.Combine(plan.Target, plan.Files[0].RelativePath);
+        var last = Path.Combine(plan.Target, plan.Files[^1].RelativePath);
+        var originalLast = File.ReadAllText(last);
         var failure = Assert.Throws<DeploymentApplyException>(() => PluginDeployment.Apply(plan, State, phase => {
-            if (phase == "after-write:two.pmlfnc") { File.WriteAllText(first, "external-edit"); throw new EmptyMessageFailure(); }
+            if (phase == "after-write:" + plan.Files[^1].RelativePath) { File.WriteAllText(first, "external-edit"); throw new EmptyMessageFailure(); }
         }));
-        Assert.NotEmpty(failure.RecoveryErrors); Assert.Contains("one.pmlfnc", string.Join(";", failure.RecoveryErrors));
-        Assert.Equal("external-edit", File.ReadAllText(first)); Assert.Equal("old-two", File.ReadAllText(Path.Combine(Registered, "Tool/two.pmlfnc")));
+        Assert.NotEmpty(failure.RecoveryErrors); Assert.Contains(plan.Files[0].RelativePath, string.Join(";", failure.RecoveryErrors));
+        Assert.Equal("external-edit", File.ReadAllText(first)); Assert.Equal(originalLast, File.ReadAllText(last));
         Assert.True(Directory.Exists(failure.BackupDirectory)); Assert.Contains("EmptyMessageFailure", failure.Message);
     }
 

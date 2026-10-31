@@ -23,6 +23,7 @@ public sealed class CommunicationCliClient
     /// <summary>锁定所选程序身份；开发 DLL 必须提供明确的 dotnet host。</summary>
     public CommunicationCliClient(CommunicationCliOptions options) : this(options, "--manager-protocol", CommunicationProtocol.IsCommunicationOperation, false) { }
 
+    /// <summary>创建插件工作进程客户端，固定程序指纹并仅允许清单给出的操作 ID。</summary>
     internal CommunicationCliClient(CommunicationCliOptions options, string[] allowedOperations)
         : this(options, "--manager-plugin-protocol", new HashSet<string>(allowedOperations, StringComparer.Ordinal).Contains, true) { }
 

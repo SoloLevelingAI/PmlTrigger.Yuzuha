@@ -11,6 +11,7 @@ internal static class YuzuhaToolkitPaths
     /// <summary>优先使用显式环境覆盖，否则解析托管安装根目录。</summary>
     internal static string ToolkitRoot() => ResolveRoot(AppContext.BaseDirectory, Environment.GetEnvironmentVariable("YUZUHA_TOOLKIT_ROOT"));
 
+    /// <summary>优先规范化显式根目录，否则从 runtime 下受支持的执行目录回溯安装根；不匹配布局时保留执行目录。</summary>
     internal static string ResolveRoot(string baseDirectory, string? overrideRoot)
     {
         if (!string.IsNullOrWhiteSpace(overrideRoot))

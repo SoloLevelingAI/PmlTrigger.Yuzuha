@@ -99,10 +99,14 @@ public static class SqliteRevisionStore
             throw new ArgumentException("范围与对象身份必须为 1–256 字符且不能包含控制字符。");
     }
 
+    /// <summary>在固定产品、版本和工作区范围内读取修订，并用 SQLite 事务执行预期修订比较与原子提交。</summary>
     private sealed class Session(string connectionString, DataScope scope, bool readOnly) : IRevisionSession
     {
+        /// <summary>此会话所有查询和写入共用的数据隔离范围。</summary>
         public DataScope Scope => scope;
+        /// <summary>每次打开连接时要求匹配的数据库结构版本。</summary>
         public int SchemaVersion => CurrentSchemaVersion;
+        /// <summary>是否禁止提交；只读会话仍可查询当前或历史修订。</summary>
         public bool ReadOnly => readOnly;
 
         private SqliteConnection Connect()
@@ -119,6 +123,7 @@ public static class SqliteRevisionStore
             catch { connection.Dispose(); throw; }
         }
 
+        /// <summary>读取范围内指定对象的最新修订；对象不存在时返回 null。</summary>
         public RevisionSnapshot? Read(string identity)
         {
             ValidateKey(identity);
@@ -126,6 +131,7 @@ public static class SqliteRevisionStore
             return ReadCore(connection, null, identity, null);
         }
 
+        /// <summary>读取指定对象的正整数修订号；未找到该修订时返回 null。</summary>
         public RevisionSnapshot? ReadRevision(string identity, long revision)
         {
             ValidateKey(identity);
@@ -134,6 +140,7 @@ public static class SqliteRevisionStore
             return ReadCore(connection, null, identity, revision);
         }
 
+        /// <summary>验证并冻结 1–100 项写入，在同一事务中核对全部预期修订；冲突返回当前快照且不提交任何项。</summary>
         public RevisionCommit Commit(IReadOnlyList<RevisionWrite> writes)
         {
             if (readOnly) throw new InvalidOperationException("只读数据库会话不能写入。");

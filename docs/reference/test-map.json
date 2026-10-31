@@ -534,6 +534,770 @@
     {
       "test": "xunit:YuzuhaToolkit.Tests.NativeCliCapabilityTests.ChangedFunctionAndKnowledgeFailureDoNotBecomeSuccessfulWrappers",
       "purpose": "Reject changed function source and failed knowledge operations without returning false success."
+    },
+    {
+      "test": "xunit:LaunchDesk.Architecture.Tests.ArchitectureBoundaryTests.CompiledDependenciesFollowApprovedLayers",
+      "purpose": "按批准依赖图计算各程序集可访问的传递闭包，并用编译后类型依赖检查拒绝对闭包之外层的引用。"
+    },
+    {
+      "test": "xunit:LaunchDesk.Architecture.Tests.ArchitectureBoundaryTests.ViewModelsBelongToDesktopInteraction",
+      "purpose": "检查名称含 ViewModel 的已加载类均属于 Desktop 程序集，防止交互模型泄漏到其他层。"
+    },
+    {
+      "test": "xunit:LaunchDesk.Architecture.Tests.ArchitectureBoundaryTests.InteractionAndUseCasesDoNotBypassSideEffectPorts",
+      "purpose": "检查 Desktop 和 UseCases 编译后类型不直接依赖文件、进程、注册表或套接字副作用 API；纯 Path 运算不在禁止列表内。"
+    },
+    {
+      "test": "xunit:LaunchDesk.Architecture.Tests.ArchitectureBoundaryTests.AspireRemainsOptional",
+      "purpose": "检查已加载的各产品程序集没有名称以 Aspire 开头的直接程序集引用，保持可选宿主依赖边界。"
+    },
+    {
+      "test": "xunit:LaunchDesk.Architecture.Tests.ArchitectureBoundaryTests.ProjectGraphMatchesApprovedEdgesAndHasNoCycles",
+      "purpose": "从 csproj 读取项目集合和 ProjectReference，逐项匹配批准边，并通过活动访问集合检测依赖环。"
+    },
+    {
+      "test": "xunit:LaunchDesk.Architecture.Tests.ArchitectureBoundaryTests.SideEffectGuardRejectsARealCompiledViolation",
+      "purpose": "对真实编译的违规夹具执行禁止 File 依赖规则，要求检查抛错且诊断同时指出违规类型和 File。"
+    },
+    {
+      "test": "xunit:LaunchDesk.Architecture.Tests.CompressionBehaviorTests.FailedResultsDoNotEvaluateMappings",
+      "purpose": "验证失败 Result 的 Map 和 Bind 不执行转换回调，并保留原 Error 对象身份。"
+    },
+    {
+      "test": "xunit:LaunchDesk.Architecture.Tests.CompressionBehaviorTests.SuccessfulResultsPreserveContinuationBehavior",
+      "purpose": "验证成功 Result 的 Map 仅调用一次转换、Bind 原样返回后续结果，且两个转换入口均传播回调异常。"
+    },
+    {
+      "test": "xunit:LaunchDesk.Architecture.Tests.CompressionBehaviorTests.PageCommandsRemainIndependentAndRecoverAfterFailure",
+      "purpose": "验证页面命令遵守可执行条件、运行时阻止自身重入但不禁用其他命令；失败后恢复可执行状态且不泄露异常内容，取消后显示保留结果的提示。"
+    },
+    {
+      "test": "xunit:LaunchDesk.Architecture.Tests.CompressionBehaviorTests.ProjectionNotificationsKeepOrderAndDuplicates",
+      "purpose": "验证页面属性投影通知保持调用顺序和重复项，不对重复的 Title 通知去重。"
+    },
+    {
+      "test": "xunit:LaunchDesk.Architecture.Tests.CompressionBehaviorTests.CommitVerificationKeepsPagePolicies",
+      "purpose": "按提交状态、待核验编号是否匹配及仅匹配策略，核对清除待处理编号、读取目录次数和最终状态消息。"
+    },
+    {
+      "test": "xunit:LaunchDesk.Architecture.Tests.CompressionBehaviorTests.CommitVerificationPreservesFailureMessages",
+      "purpose": "验证提交已确认但目录读取失败时先报告读取失败再报告提交结果；检查提交失败时保留原待核验编号、不再次读取目录并显示检查错误。"
+    },
+    {
+      "test": "xunit:LaunchDesk.Architecture.Tests.ExistingScenarioTests.ExistingScenarioRemainsInTheUnifiedSuite",
+      "purpose": "启动指定旧场景子进程，要求 90 秒内正常退出且结果仅含一个同名通过场景，并归档该次 results.json，避免空执行被计作通过。"
+    },
+    {
+      "test": "xunit:LaunchDesk.Architecture.Tests.LaunchPlanExamplesTests.MarineExampleIsAnExecutableContract",
+      "purpose": "验证 Marine 参数示例的顺序、唯一密码槽及 SYSTEM/ 前缀，与文档脱敏示例和完整计划构建结果一致；不实际启动 Marine。"
+    },
+    {
+      "test": "xunit:LaunchDesk.Architecture.Tests.LaunchPlanExamplesTests.CatalogueExampleIsAnExecutableContract",
+      "purpose": "验证 Catalogue 的 Monitor 参数顺序、初始化文件、唯一密码槽及 SYSTEM/ 前缀，并与文档脱敏示例一致；不证明宿主登录。"
+    },
+    {
+      "test": "xunit:LaunchDesk.Architecture.Tests.LaunchPlanExamplesTests.MonitorHonorsExplicitProductAndInitialization",
+      "purpose": "对 E3D 与 CATALOGUE 示例验证 Monitor 计划使用显式产品、初始化路径及模块值，不给路径预加引号，密码槽保持空值。"
+    },
+    {
+      "test": "xunit:LaunchDesk.Architecture.Tests.LaunchPlanExamplesTests.MdbUsesExactlyOneLeadingSlash",
+      "purpose": "验证 Marine 和 Monitor 都将 ALL、/ALL、//ALL 规范为恰好一个前导斜杠的 /ALL。"
+    },
+    {
+      "test": "xunit:LaunchDesk.Architecture.Tests.LaunchPlanExamplesTests.MarineRejectsUnsupportedEntrypointAndUnsafeFields",
+      "purpose": "验证 Marine 拒绝非 BAT/CMD 入口，并拒绝带命令连接符的模块名和没有名称的 MDB 斜杠值。"
+    },
+    {
+      "test": "xunit:LaunchDesk.Architecture.Tests.LaunchPlanExamplesTests.MonitorRejectsMissingOrPrequotedInitialization",
+      "purpose": "验证 Monitor 对缺失或已经包裹引号的初始化路径返回 InvalidArguments，不接受预引用参数。"
+    },
+    {
+      "test": "xunit:LaunchDesk.Architecture.Tests.LaunchPlanExamplesTests.UnsupportedMarineSecretsFailBeforeCreatingAProcess",
+      "purpose": "通过带执行标记的批处理夹具验证引号、环境变量展开符、连接符、感叹号、空格及换行密码在启动前被拒绝，执行标记不存在且错误消息不含密码。"
+    },
+    {
+      "test": "xunit:LaunchDesk.Architecture.Tests.LegacyProductSuiteTests.ExistingProductSuiteStillPasses",
+      "purpose": "按当前构建配置单独构建并运行旧产品测试程序，要求 JSON 报告失败数为零且通过数大于零，避免零执行或仅构建成功被当作验收。"
+    },
+    {
+      "test": "xunit:LaunchDesk.Architecture.Tests.LegacyProductSuiteTests.OptionalUpdateSuiteStillPasses",
+      "purpose": "以 Optional7Zip 分类复用旧套件运行器验证 LaunchDesk.Update.Tests：单独构建并运行后必须报告非零通过数且无失败。"
+    },
+    {
+      "test": "xunit:CafAdapterTests.LifecycleRepeatedStartStopKeepsSnapshotsAndNeverRequestsLaunch",
+      "purpose": "验证 CAF 生命周期允许重复开始与停止，已取得的启动快照不随停止改变，新快照显示停止；快照仍为只读且不请求自动启动管理器。"
+    },
+    {
+      "test": "xunit:CafAdapterTests.IncompatibleOrSubstitutedSdkRefusesBeforeStart",
+      "purpose": "验证 CAF 对不兼容版本或替换的程序集公钥标记在 Start 时抛出 NotSupportedException，并保持入口未启动。"
+    },
+    {
+      "test": "xunit:CafAdapterTests.MissingHostServicesRefusesAndKeepsEntryInactive",
+      "purpose": "验证 CAF 缺失宿主服务时抛出 ArgumentNullException，且生命周期入口保持未启动。"
+    },
+    {
+      "test": "xunit:CafAdapterTests.RealAdapterMetadataUsesVendorInterfaceWithoutDatabaseOrDeploymentDependencies",
+      "purpose": "读取使用真实 SDK 编译的 E3D21、E3D31、AM121 适配器程序集元数据，核对厂商引用版本和公钥、IAddin/IAddinInjected 接口及依赖白名单，并确认 SDK DLL 未被复制；不代表实际宿主加载通过。"
+    },
+    {
+      "test": "xunit:PmlTwin.Database.Tests.RevisionStoreTests.IndependentConnectionsRaceOnSameExpectedRevision",
+      "purpose": "让两个独立 SQLite 连接同时以修订 1 提交同一身份，验证仅一个成功、冲突方收到当前修订 2，原始历史仍可读且不会产生修订 3。"
+    },
+    {
+      "test": "xunit:PmlTwin.Database.Tests.RevisionStoreTests.ConflictAfterEarlierInsertRollsBackEntireBatch",
+      "purpose": "在批次先插入新身份、后遇到已有身份修订冲突时，验证整个事务回滚、冲突身份明确、返回快照为空且原有内容不变。"
+    },
+    {
+      "test": "xunit:PmlTwin.Database.Tests.RevisionStoreTests.SqliteFailureAfterEarlierInsertRollsBackEntireBatch",
+      "purpose": "通过 SQLite 触发器使批次第二次插入失败，验证第一次插入也回滚、两条记录均不存在，且后续显式重试能够提交。"
+    },
+    {
+      "test": "xunit:PmlTwin.Database.Tests.RevisionStoreTests.ScopeAndHistoryAreIsolatedAndReopenPreservesRevisions",
+      "purpose": "验证产品、版本、工作区和资料种类分别隔离同名记录，并确认重新打开会话后保留当前内容、历史修订及 SHA-256 指纹长度。"
+    },
+    {
+      "test": "xunit:PmlTwin.Database.Tests.RevisionStoreTests.ReadOnlySessionReadsHistoryAndRefusesWrites",
+      "purpose": "验证只读会话可以读取版本和历史内容，但提交抛出 InvalidOperationException 且原有记录不变。"
+    },
+    {
+      "test": "xunit:PmlTwin.Database.Tests.RevisionStoreTests.FutureSchemaRefusesOpenAndExistingSessionWriteWithoutChangingBytes",
+      "purpose": "将数据库 schema 版本改为未来版本后，验证普通及只读打开、既有会话提交均被拒绝，数据库字节保持不变。"
+    },
+    {
+      "test": "xunit:PmlTwin.Database.Tests.RevisionStoreTests.UnknownExistingDatabaseIsNotAdopted",
+      "purpose": "对仅含其他应用表的已有 SQLite 文件拒绝自动接管，并验证拒绝前后文件字节一致。"
+    },
+    {
+      "test": "xunit:PmlTwin.Database.Tests.RevisionStoreTests.VersionOneForeignOrMalformedSchemaIsRejectedBeforeSessionCreation",
+      "purpose": "对版本 1 数据库分别注入外来 application_id、缺列和错误主键，验证读写及只读会话创建均拒绝且不改变文件。"
+    },
+    {
+      "test": "xunit:PmlTwin.Database.Tests.RevisionStoreTests.InterruptedUninitializedFileRequiresExplicitRecoveryInsteadOfAdoption",
+      "purpose": "对已存在的零字节数据库文件拒绝自动初始化，保留空文件，要求外部显式恢复。"
+    },
+    {
+      "test": "xunit:PmlTwin.Database.Tests.RevisionStoreTests.ContentTamperingIsDetected",
+      "purpose": "直接篡改 SQLite 修订内容而不更新指纹后，验证当前记录读取与指定历史修订读取都检测到内容失配。"
+    },
+    {
+      "test": "xunit:PmlTwin.Database.Tests.RevisionStoreTests.ProcessRestartPreservesCommitAndKilledTransactionRecovers",
+      "purpose": "先在子进程提交，再终止持有未完成事务的另一子进程，验证重开后保留已提交内容、可继续提交并保留原历史。"
+    },
+    {
+      "test": "xunit:PmlTwin.Database.Tests.RevisionStoreTests.ContractsAndImplementationDoNotReferenceUiAvevaOrDeployment",
+      "purpose": "验证数据库契约与实现位于不同程序集，契约不引用 SQLite，双方不依赖 AVEVA、WPF、Workspace、Manager 或安装层，契约参数不泄露 SQLite 类型。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Architecture.Tests.ArchitectureBoundaryTests.ManagerAndCommunicationCannotDependOnEachOthersImplementationsOrOptionalWorkers",
+      "purpose": "检查程序集引用，阻止 Manager.Core 依赖 RPC/MCP 或可选插件实现，并阻止 Mcp.Core 引入管理、兼容层、知识、命令行、SQLite 或可选工作进程实现。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Architecture.Tests.ArchitectureBoundaryTests.DesktopSourcesCannotReferenceRpcImplementations",
+      "purpose": "扫描排除 bin/obj 后的桌面 C# 源码，拒绝指定 RPC 实现、连接接口及 PML 工具类型名称，约束桌面对通信实现的直接耦合。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.BackendAuditRegressionTests.FailedCopyNeverRestoresAnAlteredBackupOrReportsFullRecovery",
+      "purpose": "模拟部署复制后写收据失败并篡改备份，验证恢复拒绝使用变化的备份、保留新目标与坏备份，并报告需人工恢复而非宣称完全恢复。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.BackendAuditRegressionTests.SelectedLibraryScopeDoesNotReadAnotherProductOrVersion",
+      "purpose": "在其他产品或版本放置损坏注册文件，验证限定 E3D 2.1 的库枚举仍成功，而枚举损坏范围或全部范围时明确报告该文件。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.BackendAuditRegressionTests.SelectedLibraryScopeStillReportsItsOwnCorruptRegistration",
+      "purpose": "在所选产品版本范围内加入损坏库注册文件，验证枚举仍抛出包含该文件路径的错误，不因限定范围而吞掉本范围损坏。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.CommunicationProcessTests.UnicodePathsAndStdinPreserveTargetAndSeparateDiagnostics",
+      "purpose": "通过位于 Unicode 路径的子进程夹具传递 stdin，验证中文、引号及 shell 字符原样返回，固定进程启动 ticks 与工作目录被保留。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.CommunicationProcessTests.InvalidResponsesNeverBecomeSuccess",
+      "purpose": "对子进程的请求 ID 不符、协议版本不符、退出码不符及无效 JSON 响应，统一拒绝为 INVALID_CLI_RESPONSE，并保留可能已执行状态。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.CommunicationProcessTests.EitherOutputStreamHasABound",
+      "purpose": "分别让子进程标准输出或标准错误超过设定的 4096 输出预算，验证返回 CLI_OUTPUT_LIMIT、保留可能已执行状态，并终止已派发进程。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.CommunicationProcessTests.TimeoutDoesNotRetryDispatchedOperation",
+      "purpose": "令已派发操作超时，验证返回 CLI_TIMEOUT 和可能已执行状态、派发记录只有一次且子进程已停止，防止自动重试副作用。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.CommunicationProcessTests.CancelledBeforeStartCannotDispatch",
+      "purpose": "使用启动前已取消的令牌调用通信客户端，验证返回 CANCELLED 且标明不可能已执行。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.CommunicationProcessTests.ChangedExecutableAndManagementCallsAreRejectedBeforeDispatch",
+      "purpose": "验证通信客户端拒绝管理启动操作；在已确认的可执行文件被修改后，拒绝后续通信调用并返回 CLI_CHANGED 与未执行状态。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.CommunicationProcessTests.HostRejectionAndItsExitCodeAreRetained",
+      "purpose": "对子进程夹具返回的宿主拒绝结果，验证客户端原样保留 HOST_FAILED 错误码和退出码 6。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.CommunicationProcessTests.ManagerRejectsBarePidAndHasNoBridgeDependency",
+      "purpose": "管理操作在只有 PID、缺少启动身份时返回 PROCESS_IDENTITY_REQUIRED 且不创建通信客户端，并检查管理程序集不引用 Mcp/Rpc。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.CommunicationProcessTests.ManagerConnectionTestBuildsEvidenceFromRealChildWithoutForwardingManagementInput",
+      "purpose": "通过真实子进程夹具验证 connection.test/select/status 转接到对应通信操作，并用合成部署文件与固定目标身份生成绿色证据；不加载真实 Host。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.ConnectionEvidenceTests.OnlyCompleteCorrelatedIdentityProtocolAndDeploymentBindingCanBeGreen",
+      "purpose": "完整关联的目标身份、协议及部署绑定生成绿色连接证据和60秒有效期；相同绑定可复验，缺少产品配置绑定时保持黄色。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.ConnectionEvidenceTests.PidReuseModulePipeOrFrameworkMismatchNeverProducesOverallGreen",
+      "purpose": "合成回执的 PID、启动时间、模块、管道或框架与预期不符时，连接总体证据必须为红色，不能沿用绿色。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.ConnectionEvidenceTests.OlderHostProtocolsAndCommunicationUnknownStayYellow",
+      "purpose": "旧 Host 协议和通信超时仅形成黄色证据；通信协议版本无效则形成红色，均不得宣称连接已核验。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.ConnectionEvidenceTests.OldGreenEvidenceIsClearedOnEveryInvalidation",
+      "purpose": "进程退出或复用、模块改变、部署指纹改变及证据到期时返回对应失效代码，并清除所有旧绿色身份、管道、协议和部署灯。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.ConnectionEvidenceTests.DiscoveryCannotProduceHostSuccessAndRuntimeFingerprintDetectsByteChanges",
+      "purpose": "发现零个、一个或多个会话只给出未发现、Host未测试或需要选择的提示；合成运行时文件内容变化会改变部署指纹。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.ConnectionEvidenceTests.StartupByteChangesClearEveryOldGreenLampAndMissingFilesFailClosed",
+      "purpose": "RPC/Addin启动文件或pml.index内容变化会改变部署指纹并使全部绿色证据失效；必需启动文件缺失时指纹计算拒绝继续。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.ConnectionEvidenceTests.ManagerRequiresModuleBeforeStartingCommunicationProcess",
+      "purpose": "已提供 PID 和启动时间但未固定模块时，管理器在创建通信进程之前返回 MODULE_IDENTITY_REQUIRED。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.CopyOperationTests.AllExistingCopyFormatsUsePreviewAuthorizationBackupAndConditionalRestore",
+      "purpose": "文件、目录和ZIP复制均先预览且不写目标；缺少写授权时拒绝应用，授权后备份并复制，重复预览无变更，恢复可还原原内容。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.CopyOperationTests.EmptyMessageStillHasCodePhaseTypeAndReadableDiagnosticLog",
+      "purpose": "复制应用抛出空消息异常时，结果仍带退出码7、可读消息、apply阶段、异常类型和实际日志路径，并清除未完成目标目录。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.CopyOperationTests.CopyFailureCarriesPartialRecoveryRatherThanOnlyAnExceptionMessage",
+      "purpose": "复制中途失败且首个目标被外部修改时，恢复保留外部编辑、还原可恢复项并保留备份与未恢复文件诊断，而非仅返回异常文本。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.CopyOperationTests.StageCleanupFailureDoesNotReportAnAlreadyCompletedCopyAsFailed",
+      "purpose": "复制已完成后清理暂存区失败时，保留已写文件和成功回执，将异常记录为CleanupWarning，不把已完成复制报告为失败。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.DeploymentSelectionTests.ExplicitRuntimeFilesAndBootstrapTransformationRetainSourceAndCanRestore",
+      "purpose": "显式文件部署可复制运行时并仅在目标应用Bootstrap替换文本，源文件不变；恢复还原旧文件、移除新增文件且重复恢复无未解决项。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.DeploymentSelectionTests.ChangedSourcesTargetsAndTraversalAreRejected",
+      "purpose": "显式部署拒绝预览后的源文件改变、路径穿越和目标外部写入；遇到目标冲突时保留外部内容。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.DeploymentSelectionTests.RestoreKeepsAnExternalEditAndReportsTheUnresolvedFile",
+      "purpose": "部署后目标被外部修改时，恢复保留该修改并将对应文件列入未解决项。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.EvarsEditorTests.InitHasPriorityAndE3dNeverFallsBackToBat",
+      "purpose": "环境入口优先选择evars.init；只有AM允许在缺少init时使用evars.bat，E3D拒绝退回bat，已有init时也拒绝显式选择bat。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.EvarsEditorTests.BytesNewlinesManagedBlockAndRollbackArePreserved",
+      "purpose": "对代码页936、UTF-8和UTF-16输入，环境配置预览不写文件，应用备份原字节；同一托管块再次应用不重复备份，恢复精确还原原字节。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.EvarsEditorTests.StalePlanEarlyExitAndBrokenMarkersCannotWrite",
+      "purpose": "环境编辑拒绝已过期的预览计划、包含exit /b的入口和不完整托管标记，避免按不确定输入应用写入。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.EvarsEditorTests.ExternalEditsAfterApplyPreventRollbackOverwrite",
+      "purpose": "环境配置应用后出现外部编辑时，回滚拒绝覆盖并保留外部追加内容。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.EvarsEditorTests.SharedInstallerSyntaxRulesRejectAmbiguousTargetWrites",
+      "purpose": "验证 EVARS 预览拒绝条件块、复合命令、续行及跳转等有歧义的目标变量写法，并保持原文件不变。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.EvarsEditorTests.ExistingManagedStartupPolicySurvivesDirectoryChange",
+      "purpose": "验证迁移受管 EVARS 配置时保留既有 rehash-all 启动策略，应用后仍写入相同策略。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.EvarsOperationTests.PreviewKeepsOriginalPrivateAndApplyRequiresAuthorizationAndExactPlan",
+      "purpose": "验证 EVARS 预览不泄露原文件内容、不写文件；应用要求写授权及未篡改的冻结计划，并能按回执恢复原文。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.FeatureRegistryTests.MetadataReadAndDisabledFeatureNeverInvokeFactory",
+      "purpose": "验证读取功能元数据及组合禁用功能时均不调用其工厂。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.FeatureRegistryTests.ActualManagerCompositionDisablesFunctionsAndWorkersWithoutChangingBaseOperations",
+      "purpose": "验证实际管理器禁用 functions/plugin 后移除对应操作但保留基础状态查询及产品兼容元数据，且不创建通信实例。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.FeatureRegistryTests.ActualManagerRejectsUnsupportedRuntimeProductAndUnknownDisableSelection",
+      "purpose": "验证管理器拒绝不支持的运行时、产品、拼错的禁用功能和不支持的功能版本。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.FeatureRegistryTests.DuplicateAndUnsupportedContractsFailBeforeAssembly",
+      "purpose": "验证重复功能 ID 和不支持的契约版本在功能工厂执行前被拒绝。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.FeatureRegistryTests.CyclesDisabledDependenciesAndMismatchedFactoriesAreRejected",
+      "purpose": "验证功能循环依赖、依赖已禁用功能及工厂产生的操作与声明不符均被拒绝。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.FeatureRegistryTests.BaseCatalogHasUniqueFeatureOwnershipAndFunctionIdsWithoutCreatingCommunication",
+      "purpose": "验证管理器基础目录中操作归属唯一，保留函数注册/列举 ID，读取目录不创建通信实例。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.FeatureRegistryTests.FunctionAuthorizationAndPinnedIdentityFailBeforeCommunication",
+      "purpose": "验证函数注册缺写授权、函数调用缺固定进程启动身份时，在创建通信适配器前失败。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.FunctionManagementProcessTests.OriginalFunctionIdsInputAndContextCrossExistingProcessBoundary",
+      "purpose": "借助独立进程夹具验证四个既有函数操作 ID、原始 JSON 输入及固定进程启动时间/模块上下文跨边界保持一致；不证明真实 Host 执行。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.InstallationAndLaunchTests.NestedProductsHaveSeparateContentIdentitiesAndEffectiveEnvironmentSelection",
+      "purpose": "验证嵌套 E3D/AM 安装分别识别，优先选择 evars.init，内容变化会改变安装身份，并保留 Marine 启动种类与版本线索。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.InstallationAndLaunchTests.ProjectParserReadsIncludesWithoutExecutingThemOrCrawlingDatabaseContents",
+      "purpose": "验证静态工程解析只读取引用的环境脚本，提取工程与模块；不执行脚本中的命令，也不遍历工程数据库内容。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.InstallationAndLaunchTests.BoundedDiscoveryIsNotReportedCompleteAndAmbiguousInitIsExplicit",
+      "purpose": "验证扫描达到文件上限时不报告完整，多个候选 init 文件造成的歧义明确报告为安装不可读。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.InstallationAndLaunchTests.ExplicitSelectionBindsOneVersionAndUnreadableInitNeverFallsBackToBat",
+      "purpose": "验证显式选择绑定指定产品版本和入口；被锁定的 init 不回退到 bat，多个 Marine 入口要求明确选择，跨安装入口被拒绝。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.InstallationAndLaunchTests.ManagerStdinSaveAndStartReachVendorBatchWithoutExternalLaunchDeskOrHostClaim",
+      "purpose": "以 Windows 合成批处理验证管理 CLI 经 stdin 保存并启动配置，参数按供应商顺序到达子进程，输出不泄露密码且只声明入口已创建、Host 未核验。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.InstallationAndLaunchTests.ManagerCliRejectsInlineLaunchSecretBeforeDispatchWithoutEchoingIt",
+      "purpose": "验证管理 CLI 在派发前拒绝 argv 中的启动密码，返回 SECRET_INPUT_SOURCE_REQUIRED 且不回显秘密。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.InstallationAndLaunchTests.MonitorArgumentsAndWorkingDirectoryReachRealOwnedChildWithIsolatedEnvironment",
+      "purpose": "以真实受控子进程验证 Monitor 参数、工作目录和子进程专属环境传递，父进程环境保持不变；不连接 AVEVA。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.InstallationAndLaunchTests.MarineBatchUsesVendorOrderedArgumentsInActualCmdFixture",
+      "purpose": "以 Windows cmd 合成批处理验证 Marine 的模块、noconsole、工程、凭据及 MDB 参数顺序，以及工作目录和子进程环境。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.InstallationAndLaunchTests.DetachedMonitorPreservesProcessStartArgumentListRawCommandLine",
+      "purpose": "比较直接 ProcessStartInfo 与分离启动的受控子进程回执，验证含空格、引号、反斜杠的参数及 init 路径保持相同原始命令行和解析参数。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.KnowledgeImportTests.PreviewDoesNotBuildAndTwoVersionsPublishAndSearchIndependently",
+      "purpose": "验证知识导入预览不建库，E3D/AM 不同版本发布到独立数据库，发布库可检索且源文件保留。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.KnowledgeImportTests.SameLengthChangeIsDetectedByBytesAndStaleBuildPlanIsRefused",
+      "purpose": "验证同长度内容修改仍被字节指纹识别为 changed，旧建库计划不能应用或登记知识库。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.KnowledgeImportTests.LegacyPathSizeDigestDoesNotClaimContentFreshness",
+      "purpose": "验证缺少内容哈希算法的旧库可被检查，但来源新鲜度仅标记 unverified-legacy-fingerprint。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.KnowledgeImportTests.MissingSourcesCanBeMappedWithoutChangingRecordedPathsOrOriginalDatabase",
+      "purpose": "验证移动来源可用显式路径映射重新核验；保留记录路径及原数据库字节，导入登记原库哈希并拒绝重复导入。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.KnowledgeImportTests.UnsupportedOrInconsistentDatabaseCannotBeEnabled",
+      "purpose": "验证不支持的数据库版本、缺表、FTS 内容不一致及断裂外键关系阻止启用/导入，检查不修改数据库。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.KnowledgeImportTests.CorruptDatabaseReturnsReportRatherThanSuccessOrUnhandledException",
+      "purpose": "验证损坏的 SQLite 文件返回不可启用的错误报告，而非成功结果或未处理异常。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.KnowledgeImportTests.ActiveSidecarsAreNeverBareCopied",
+      "purpose": "验证存在 WAL、SHM 或 journal 活动侧文件时拒绝启用和直接复制导入数据库。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.KnowledgeImportTests.ActiveWriterAndApplicationWriterLockAreRefused",
+      "purpose": "验证数据库仍有写入句柄或应用写锁时不能启用，锁释放后可通过检查。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.KnowledgeImportTests.InjectedFailuresKeepExistingLibrariesAndActivationUnchanged",
+      "purpose": "在快照、校验、登记、发布阶段注入失败，验证既有库字节和数量不变，新目标及私有导入暂存目录被清理。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.KnowledgeImportTests.ManifestAndDatabaseChangeRequireNewPreviewAndReservedNamesAreProtected",
+      "purpose": "验证预览后 manifest 变化导致应用拒绝，并拒绝 personal/experience/project 等保留名称及越界或非法库名。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.KnowledgeImportTests.ManagerAndCliUseSameFrozenPlanAuthorizationAndVersionIdentity",
+      "purpose": "验证知识管理操作与 CLI 共用冻结计划和写授权；stdin 应用后登记 ID 一致，按产品版本检索及读取片段保留来源路径和库身份。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.KnowledgeImportTests.ManifestContradictionsAndFutureVersionsCannotEnableLibrary",
+      "purpose": "验证 manifest 的未来 schema 版本或来源数量与数据库矛盾时，知识库不可启用。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.KnowledgeImportTests.HtmlAndPmlAreOnlyReadFromExplicitSourcesAndOtherProductIsNotScanned",
+      "purpose": "验证知识导入只读取显式选择的 PML/HTML 来源，包含选中 HTML，排除邻近未选择产品目录。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.KnowledgeImportTests.CancellationBeforePublishKeepsPreviousLibraryAndDeletesPrivateStage",
+      "purpose": "在发布前取消知识导入，验证原库哈希和唯一登记保持不变，取消任务不留下目标目录。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.KnowledgeImportTests.SearchExplicitlyDistinguishesUncheckedAndCurrentSourceEvidenceAndRefusesReplacedDatabase",
+      "purpose": "验证搜索区分未复查与本次复查来源，明确报告来源内容变化，并拒绝登记后被修改的数据库。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.LaunchDeskImportTests.PortableRelativeDataRootIsResolvedBesideSelectedApplicationAndSecretsAreNotCopied",
+      "purpose": "验证 LaunchDesk 便携相对数据路径在选中应用旁解析，导入草稿不复制密码、凭据引用或许可秘密，不改源工作区且重复应用幂等。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.LaunchDeskImportTests.NextProfilesDraftSnapshotsAndHistoryAreSanitizedAndDamagedTailIsExplicit",
+      "purpose": "验证 Next 配置、草稿、快照及历史按白名单脱敏，损坏 JSONL 尾部有警告，保留允许字段并为导入草稿分配不同 ID。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.LaunchDeskImportTests.InvalidPortableOrChangedSourceCannotFallbackOrPublish",
+      "purpose": "验证无效便携配置不静默回退，预览后来源变化阻止发布且不创建目标状态目录。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.LaunchDeskImportTests.ManagerImportRequiresWriteAndReadVerifiesPublishedContent",
+      "purpose": "验证 LaunchDesk 导入应用要求写授权，发布后读取会校验内容指纹并拒绝被修改的 import.json。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.LaunchDiscoveryTests.UniqueInstallationFromDefaultSourcePrefillsPathsAndApsWithoutWriting",
+      "purpose": "借助静态安装夹具验证唯一默认来源候选可预填入口及 APS，标明非会话证据并去重重叠扫描根。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.LaunchDiscoveryTests.MultipleCandidatesRequireInputAndExplicitTargetAndOverrideWin",
+      "purpose": "验证多安装候选要求显式选择，候选 ID/首选入口决定目标，用户覆盖保留但非法模块仍要求输入，失效首选入口不自动替代。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.LaunchDiscoveryTests.IncompleteAndUnavailableRemainDistinctFromAResolvedEnvironment",
+      "purpose": "验证扫描预算不足时保留不完整和待输入状态，缺失根目录返回 RootMissing 而不伪装已解析环境。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.LaunchDiscoveryTests.HeadlessOperationReturnsStructuredNeedsInputAndValidatesBudgets",
+      "purpose": "验证无窗口环境解析面对多个安装返回结构化 ENVIRONMENT_NEEDS_INPUT 与候选列表，并拒绝零文件预算。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.LaunchDiscoveryTests.ModuleChoicesEqualTheExistingLaunchCatalogAndPreserveRawStaticEvidence",
+      "purpose": "验证 AM/E3D 启动模块选项与现有产品目录一致，保留原始静态模块证据但使用映射启动名称，并标记映射尚未实机核验。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.LaunchDiscoveryTests.ResolvedDraftPassesDirectlyThroughRealPreviewAndSaveOperations",
+      "purpose": "验证环境解析返回的 draft JSON 无需客户端过滤即可交给真实预览/保存操作，且不夹带 lastStartedUtc 或 licensePrecheck 状态字段。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.LaunchOutputIsolationTests.LaunchExecuteCliClosesCapturedOutputWhileProductContinuesRunning",
+      "purpose": "以 Monitor/Marine 受控进程夹具验证启动 CLI 退出并关闭捕获 stdout/stderr 后子进程仍存活，回执不泄露秘密，随后仅以协作信号清理子进程。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.LaunchPreflightTests.DefaultStartsWithoutPluginAndRequiredPolicyRefusesMissingOrCheckoutEvidence",
+      "purpose": "验证默认关闭许可预检时不安装插件仍可启动；required 模式缺插件或要求未核验 checkout 时阻止启动，关闭策略后恢复启动。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.LaunchPreflightTests.RealOptionalWorkerChecksReachabilityAndNeverPromotesItToCheckout",
+      "purpose": "以真实可选许可 worker 和回环端口验证 required 可达性预检放行、端口关闭后拒绝启动，但可达性不提升为 checkout 或 Host 已核验。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.LaunchPreflightTests.RevisionIsCheckedAgainAfterAwaitedPreflightBeforeAnyProcess",
+      "purpose": "验证异步许可预检期间配置修订发生变化，会在创建进程前重新核对并返回 CONFIGURATION_CONFLICT。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.LaunchPreflightTests.PolicyEditsDuplicateAndHistoryPreserveIndependentUnknownFields",
+      "purpose": "验证复制许可预检策略对象互不影响，局部修改保留未知扩展字段，并拒绝 required 策略中的无效端口。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.LaunchPreflightTests.PackagedVmWorkerCanSimulateThroughRegistryWithoutLoadingVendorSdk",
+      "purpose": "验证已登记 VM worker 可通过插件进程边界执行模拟，结果明确为 simulation 且不声明真实连接已核验。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.LaunchWorkbenchServerTests.BrowserAdapterRequiresTokenAndOriginAndUsesSharedExecutor",
+      "purpose": "验证本地浏览器适配器要求令牌并拒绝外来 Origin，限定静态文件与操作路由，共用启动授权校验，拒绝重复/损坏 JSON 且不回显秘密。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.LaunchWorkflowTests.AdmissionPrecedesBoundaryAndRestartReturnsSameAttemptWithoutPersistingSecret",
+      "purpose": "验证启动边界调用前持久化 admitted 回执，同一计划重启重试返回同一结果且只启动一次，回执不存密码、Host 仍未核验。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.LaunchWorkflowTests.ChangedTargetAndTamperedPlanNeverReachBoundary",
+      "purpose": "验证目标文件变化或计划 ProfileId 被篡改时拒绝执行，启动边界调用数保持零。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.LaunchWorkflowTests.UnknownOutcomeRemainsUnknownAcrossRestartAndDoesNotLeakException",
+      "purpose": "验证启动边界抛异常后的 unknown 状态、尝试 ID 和恢复动作跨重启保持，不重放且不持久化含密码的异常内容。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.LaunchWorkflowTests.CrossInstanceLeaseAndStorageFailurePreventAdmission",
+      "purpose": "验证跨实例独占租约及无法写入回执目录的存储故障阻止启动准入。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.LaunchWorkflowTests.ExitedEntryReportsOnlyConstrainedModuleCandidatesWithoutClaimingHostOrProjectExit",
+      "purpose": "以合成子进程证据验证入口退出后仅保留父 PID、时间窗口、目录和已知模块名均匹配的候选，且不宣称 Host 或工程已退出/已核验。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.LaunchWorkflowTests.ExitedLegacyEntryWithoutFrozenIdentityLeavesHandoffUnverified",
+      "purpose": "验证旧回执缺少冻结入口身份时，只报告模块交接待核验，不提供未经约束的子进程候选，Host 保持 unverified。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.LaunchWorkflowTests.EnvironmentContentAndInitPrecedenceChangesInvalidatePlanWithoutLaunching",
+      "purpose": "验证 EVARS 内容变化或新增优先 init 会使冻结启动计划失效且不启动；重新预览选用新的 init 而非旧 bat。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.LaunchWorkflowTests.MissingOrAmbiguousEnvironmentCannotProduceFrozenPlan",
+      "purpose": "验证环境文件缺失或两个 init 名称产生歧义时，以 EVARS_SELECTION_FAILED 拒绝生成冻结计划。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.LaunchWorkflowTests.FinalReceiptStorageFailureReturnsUnknownAndOperationFailureWithPossibleExecution",
+      "purpose": "注入最终回执写入失败，验证已调用启动边界的结果为 unknown、mayHaveExecuted 和 RECEIPT_PERSISTENCE_FAILED，重启不重放。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.LaunchWorkflowTests.BoundaryFailureAndFailedUnknownPersistenceStillReturnUnknown",
+      "purpose": "验证启动边界与后续 unknown 回执持久化同时失败时，仍返回 unknown 和持久化失败代码，不回显底层秘密异常。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.LaunchWorkflowTests.CacheHasHardCapacityAndRejectsOversizedIdentifiers",
+      "purpose": "验证计划缓存达到 256 项硬上限后拒绝新计划，并拒绝超长操作标识，不继续扩容。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.LaunchWorkflowTests.RecomputedClientDigestCannotExtendFrozenExpiryOrDropTargets",
+      "purpose": "验证客户端重算摘要不能延长服务端冻结计划有效期，也不能删除目标文件集合绕过校验，拒绝时不产生启动回执。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.LaunchWorkflowTests.DifferentDigestConflictsAndObservationUsesCreationTimeWithoutClaimingLogin",
+      "purpose": "验证观察使用入口 PID 与创建时间确认同一进程仍在，但 Host 保持未核验；同操作 ID 的不同计划摘要执行冲突。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.LaunchWorkflowTests.InterruptedAdmissionBecomesUnknownInsteadOfReplaying",
+      "purpose": "验证残留 accepted 回执在重启后转为 unknown 并保留原 attempt ID，而不重新执行启动。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.LicensePluginTests.NativeServiceProbeOnlyQueriesAnInventedMissingName",
+      "purpose": "验证原生服务探测仅查询随机构造的缺失服务名，Windows 返回 missing，其他平台返回 unsupported。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.LicensePluginTests.ActualLoopbackReachabilityAndServiceEvidenceNeverClaimCheckout",
+      "purpose": "以真实回环 TCP 和合成运行服务证据验证诊断分别报告端口可达、服务运行，而许可 checkout 始终 unverified。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.LicensePluginTests.UnreachableAndTimeoutRemainSeparateFromMissingServiceAndCheckout",
+      "purpose": "以注入证据验证端口 unreachable、timeout 和服务 missing 分别保留，不合并为许可 checkout 成功。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.LicensePluginTests.BadInputAndCredentialFieldsAreRejectedBeforeAnyProbeAndCancellationDoesNotRetry",
+      "purpose": "验证无效端口/凭据字段及预先取消请求均在探测前拒绝，不回显秘密；许可插件程序集不依赖 MCP、VMware 或管理核心。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.ManagerConfigurationTests.ManagerAndDesktopServiceRejectStaleEditorsAndPreserveExtensions",
+      "purpose": "验证管理操作与桌面共享配置服务均拒绝陈旧修订；写入须授权，成功更新保留未知扩展字段，冲突不改变当前修订。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.ManagerConfigurationTests.CliMetaCommandsReturnJsonWithoutResolvingCommunicationClient",
+      "purpose": "验证 CLI 的 list/describe 元命令输出 JSON 并声明启动授权要求，且不实例化通信客户端。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.PluginBoundaryTests.NoPluginDisabledAndUnregisteredStatesCannotBlockBaseMetadataOrRunWorker",
+      "purpose": "通过合成插件进程验证未安装、禁用、启用和注销状态的调用边界；插件缺席不阻塞基础操作目录，注销保留源包。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.PluginBoundaryTests.ManifestAuthorizationIsCheckedBeforeDispatchAndLostWriteReplyIsUnknownWithoutRetry",
+      "purpose": "验证插件清单的启动/写入授权先于派发；合成写入后崩溃返回可能已执行且不重试，未声明操作也不追加写入。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.PluginBoundaryTests.ActualWorkerVersionMustMatchFixedManifestBeforeOperation",
+      "purpose": "验证实际 worker 版本与冻结清单不符时返回握手失败，拒绝继续插件操作。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.PluginBoundaryTests.ChangedSourceOrUndeclaredDependencyIsRejectedWithoutReplacingRegistration",
+      "purpose": "验证预览后源 DLL 被改动会拒绝安装且不建立注册；源包含未声明 DLL 时拒绝预览。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.PluginBoundaryTests.MissingAndFutureContractPackagesAreExplicitlyUnavailable",
+      "purpose": "验证已注册插件缺少文件时标记 unavailable；保留的新版本契约注册在旧管理器中标记 incompatible，调用分别返回明确错误。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.PluginBoundaryTests.RegistryRejectsStaleEditorsAndRetainsUnknownFields",
+      "purpose": "验证插件注册表变更保留未知字段，并拒绝基于旧修订的再次编辑，不覆盖已提交修订。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.PluginBoundaryTests.ManagerOperationsShareFrozenInstallPlanEnableRevisionAndInvocation",
+      "purpose": "通过合成插件验证安装预览的冻结计划引用、apply 写入授权、带修订的启用与调用结果包装可形成完整链路。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.RibbonHttpAdapterTests.KeepsOriginalErrorsAndMakesOneRequest",
+      "purpose": "用伪 HTTP handler 验证 Ribbon 打开请求只发一次、路径与请求正文不变，并保留 403/409/423 状态及原始 JSON 错误。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.RibbonHttpAdapterTests.WriteTimeoutIsUnknownAndDoesNotReplay",
+      "purpose": "用伪 HTTP handler 验证 Ribbon 写请求超时返回结果未知和可能已执行，且只尝试一次。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.RibbonHttpAdapterTests.DeadlineCoversBodyAfterHeadersArrive",
+      "purpose": "用停滞响应流验证 Ribbon 写请求的截止时间覆盖响应头之后的正文读取，超时保持结果未知。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.RibbonHttpAdapterTests.MalformedWriteReceiptRemainsUnknown",
+      "purpose": "验证 Ribbon 写请求收到 HTTP 200 但非 JSON 回执时仍报告结果未知及可能已执行。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.RibbonHttpAdapterTests.MalformedErrorBodyKeepsKnownHttpStatusAndBytes",
+      "purpose": "验证 Ribbon 写请求的非 JSON 错误正文保留已知 HTTP 403 状态，并以 Base64 无损携带原始字节。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.RibbonHttpAdapterTests.ExportPreservesExactBytes",
+      "purpose": "验证 Ribbon 导出响应以 Base64 保留包含非 UTF-8 字节的原始内容，不进行文本重编码。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.RibbonHttpAdapterTests.MissingWriteGrantNeverCreatesClient",
+      "purpose": "验证 Ribbon 恢复操作未获写入授权时直接拒绝，甚至不调用 HTTP 客户端工厂。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.RibbonHttpAdapterTests.RejectsUnscopedEndpoints",
+      "purpose": "验证 Ribbon 适配器拒绝非本机端点、带路径前缀或用户信息的端点。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.RuntimeDeploymentTests.DeploymentFreezesInstallationEntryAndDiscoveryIdentityBeforeWriting",
+      "purpose": "验证运行时部署预览冻结安装标识、入口和环境文件；入口在预览后被替换时拒绝应用，目标目录不创建。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.RuntimeDeploymentTests.CopyAdaptsCustomFolderWithoutChangingPackageAndRestoresWholeTransaction",
+      "purpose": "验证复制部署适配自定义目录的引导 token 且不修改源包；环境与归属标记写入后能按回执恢复整个事务。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.RuntimeDeploymentTests.ReferenceModeOnlyUpdatesEnvironment",
+      "purpose": "验证引用模式不复制运行时或创建目标目录，只更新环境文件，并可恢复其原始字节。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.RuntimeDeploymentTests.FailureAfterCopyOrEnvironmentRestoresAppliedChanges",
+      "purpose": "注入环境、归属或回执阶段失败，验证已复制文件和环境变更回滚，诊断保留失败阶段且无未解决恢复项。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.RuntimeDeploymentTests.UpgradesRefuseLocalEditsUnknownTargetsAndSourceTampering",
+      "purpose": "验证部署拒绝预览后源包篡改、已有目标的用户修改及未归属目录；恢复不覆盖用户修改并报告未恢复项。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.RuntimeDeploymentTests.DatabasePayloadAndWrongProfileAreRejected",
+      "purpose": "验证部署包含 SQLite 用户数据库或请求不匹配的框架配置时在预览阶段拒绝。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.RuntimeDeploymentTests.EnvironmentLockAfterPayloadCopyRollsBackTheCopiedFiles",
+      "purpose": "在复制后独占锁定环境文件，验证部署报告环境阶段失败、回滚已复制文件并保留环境文件原始内容。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.RuntimeDeploymentTests.APartialInnerFileRecoveryCannotBeReportedAsFullyRestored",
+      "purpose": "注入底层部分复制恢复错误，验证上层部署诊断保留未解决文件并明确提示恢复待处理，不声称完全恢复。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.SevenZipCopyTests.UnsafeUnsupportedOrOversizeListingIsRejectedBeforeExtraction",
+      "purpose": "验证 7z 清单中的越界路径、大小写重名、尾点/空格、设备名、链接、加密或非法大小在解压前被拒绝。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.SevenZipCopyTests.MissingFormatDependencyFailsPreviewBeforeAnyCopyOrStaging",
+      "purpose": "验证缺少 7z 解压工具时预览失败，不创建 staging 或复制目标；空文件清单也被拒绝。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.SevenZipCopyTests.ToolPolicyCopiesProgramFilesAndRefusesDatabasePayloadWithoutChangingLegacyPmlPolicy",
+      "purpose": "验证工具复制策略可复制 EXE/BAT/PML 并恢复，但拒绝数据库载荷；原有 PML 专用策略仍仅选中 PML 文件，合成程序不执行。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.UserDataOperationTests.SharedMigrationRequiresFrozenPlanAndAuthorizationAndRetainsPersonalData",
+      "purpose": "验证共享数据迁移仅通过冻结计划和写入授权应用；迁移后新旧库均保留个人笔记，环境变量固定路径时拒绝再次切换。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.VmPluginTests.DiscoveryPlanAndSimulationDoNotCreateSdkSessionOutputOrRealConnection",
+      "purpose": "验证 AM/E3D 合成 VM 发现、计划及模拟不创建 SDK 会话或证据目录；输出明确模拟、未验证连接/许可，管理核心不引用 VM 插件。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.VmPluginTests.SimulatedFailuresNeverBecomeRealHostSuccess",
+      "purpose": "验证各类会话、管道、协议和身份故障模拟返回 simulated-rejection，始终不声明真实 Host 连接通过。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.VmPluginTests.IdentityNetworkSnapshotLibraryAndOutputChangesAreRejectedBeforeAnyRun",
+      "purpose": "验证 VM 计划拒绝身份不符、不安全输出位置、缺失/重名快照及非隔离网络；计划输出或 VIX 文件变动在运行前被检出。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.VmPluginTests.ExecuteNeedsAllThreeGrantsAndUsesOneAttemptWithoutRepeatingAnyStep",
+      "purpose": "用假 VMware 会话验证缺少执行授权时不打开会话；三项授权齐备按计划顺序执行并保存证据，同一 attempt 再调用不重复步骤。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.VmPluginTests.SubmittedTimeoutRemainsUnknownAndRepeatedAttemptOnlyReadsExistingEvidence",
+      "purpose": "用假会话模拟提交后超时，验证结果保持 unknown/可能已执行；重复 attempt 只读取既有证据，不重新打开会话或执行步骤。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.VmPluginTests.LocalProtectedCredentialIsOwnerAndTargetBoundAndNeverPlaintextInFile",
+      "purpose": "仅在 Windows 验证本地保护凭据文件不含合成明文、可按正确目标解密，并拒绝目标或应用所有者不符；非 Windows 直接返回。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.CommunicationProtocolTests.InvalidProtocolOrBarePidIsRejectedBeforeAnyHostCall",
+      "purpose": "验证通信协议拒绝不支持的版本、管理启动操作及缺少起始身份的裸 PID 请求，保留请求 ID 并声明未执行。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.CommunicationProtocolTests.ProtocolExecutionRequiresAnExplicitModuleEvenWithValidStartTicks",
+      "purpose": "验证通信执行即使提供有效起始 ticks，缺少明确模块名仍返回 MODULE_IDENTITY_REQUIRED，且声明未执行。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.CommunicationProtocolTests.EveryPinnedExecutionPathRejectsAMissingModuleBeforeConnecting",
+      "purpose": "用拒绝连接的假工厂验证九类固定进程身份的执行路径缺模块名时均在连接前拒绝，连接次数为零。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.CommunicationProtocolTests.ReadOnlySelectionCanLearnTheModuleWhilePinnedExecutionAndLegacyCallsKeepTheirBoundaries",
+      "purpose": "用可变假 Host 验证只读选择可学习模块；固定身份的执行拒绝缺失或陈旧模块，显式当前模块和保留的旧式调用按各自边界执行。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.CommunicationProtocolTests.FrozenStartIdentityIsCheckedBeforeConnectingAndInheritedByIndependentBridge",
+      "purpose": "验证冻结起始 ticks 约束被独立 bridge 继承，旧式显式 ticks 调用也受检查；身份不符在连接前拒绝。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.CommunicationProtocolTests.HostStartOrModuleChangeClearsVerifiedStateAndCannotDispatch",
+      "purpose": "用可变假 Host 验证进程起始时间或模块改变会清除已验证状态，当前与后续独立 bridge 都无法派发命令。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopCliBoundaryTests.SeparateRuntimeEntrypointsUseTheSamePackageRootForAdvisoryTrust",
+      "purpose": "验证 runtime 下 cli/desktop/net10/manager 入口解析为同一包根，显式根优先，独立目录维持自身根路径。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopCliBoundaryTests.DiscoveryWaitIsAsynchronousAndHoldsTheSameBusyGuardAsTargetOperations",
+      "purpose": "用未完成的合成响应验证异步发现等待不阻塞完成任务，却保持工作台 busy 互斥；响应后解除 busy 并返回会话。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopCliBoundaryTests.DesktopSelectionPinsDiscoveredStartAndHostModuleForEveryLaterInvocation",
+      "purpose": "用记录请求的假通道验证桌面必须先发现再选择；后续状态、对象查询和数组读取固定 PID、起始 ticks、Host 模块及相应执行授权。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopCliBoundaryTests.StatusChangeDropsTargetAndCannotDispatchAgain",
+      "purpose": "用假通道验证状态返回的起始时间或模块改变后丢弃目标，后续命令被拒绝且没有发出 PML 请求。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopCliBoundaryTests.ObjectAndRegisteredFunctionUseExistingCliOperationsAndLostReplyDoesNotResend",
+      "purpose": "用假通道验证对象和注册函数沿用现有 CLI 操作、临时数组请求删除；函数回复丢失不自动重发。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopCliBoundaryTests.DevelopmentAdapterKeepsExactTargetAndCollectsUnknownEvidence",
+      "purpose": "用假通道验证开发适配器每次调用固定 PID、起始 ticks 与模块；执行回复丢失返回可能已执行且只提交一次。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.CompatibilityLaunchRejectsArgvSecretsButFileAndStdinReachAuthorization",
+      "purpose": "验证兼容启动入口拒绝 argv 中的合成秘密，文件/stdin 可到达启动授权检查但仍需授权，三条路径均不回显秘密。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.CommunicationProtocolStillRejectsManagementLaunchBeforeDispatch",
+      "purpose": "验证通信协议入口在派发前拒绝管理启动操作，即使请求声明启动授权；错误输出不回显合成秘密。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.ManagerFunctionContractTests.ManagementFunctionSchemasAndAuthorityMatchExistingCommunicationContracts",
+      "purpose": "验证管理函数描述符与既有通信操作的契约版本、输入 schema、PID/写入/执行授权和历史别名保持一致。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.NativeCliCapabilityTests.FunctionAuthorizationAndSourceValidationPrecedeDiscoveryAndConnection",
+      "purpose": "使用已有发现与连接测试替身计数，验证函数许可及执行授权拒绝发生在发现/连接之前；允许时仅派发一次命令，源文件变更后不再发现、连接或执行。"
     }
   ],
   "cases": [

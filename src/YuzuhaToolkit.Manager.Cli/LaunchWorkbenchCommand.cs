@@ -5,6 +5,7 @@ using YuzuhaToolkit.Manager;
 /// <summary>从安装包或源码目录打开启动工作台，不要求手工编辑配置文件。</summary>
 internal static class LaunchWorkbenchCommand
 {
+    /// <summary>解析页面目录、端口与浏览器选项，启动本地工作台并等待取消；参数或启动失败返回退出码 2。</summary>
     internal static async Task<int> RunAsync(string[] args, CancellationToken token)
     {
         try

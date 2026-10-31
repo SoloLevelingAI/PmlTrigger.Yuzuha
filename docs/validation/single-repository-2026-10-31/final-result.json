@@ -1,0 +1,185 @@
+{
+  "schemaVersion": 1,
+  "completed": true,
+  "commit": "0cd401bcf622e4d4d1c57372b008036fdee62d9a",
+  "dirty": false,
+  "scope": "single-checkout offline validation; no AVEVA login/SDK, credentials, VM or production deployment",
+  "steps": [
+    {
+      "name": "integration-manifests",
+      "directory": ".",
+      "startedUtc": "2026-10-31T15:53:09.5810918+08:00",
+      "finishedUtc": "2026-10-31T15:53:10.2179542+08:00",
+      "exitCode": 0,
+      "log": "integration-manifests.log"
+    },
+    {
+      "name": "next-assets",
+      "directory": "integrations\\next",
+      "startedUtc": "2026-10-31T15:53:10.4012645+08:00",
+      "finishedUtc": "2026-10-31T15:53:10.7096544+08:00",
+      "exitCode": 0,
+      "log": "next-assets.log"
+    },
+    {
+      "name": "portfolio-http-assets",
+      "directory": ".",
+      "startedUtc": "2026-10-31T15:53:10.8478992+08:00",
+      "finishedUtc": "2026-10-31T15:53:12.0236964+08:00",
+      "exitCode": 0,
+      "log": "portfolio-http-assets.log"
+    },
+    {
+      "name": "manager-tests",
+      "directory": ".",
+      "startedUtc": "2026-10-31T15:53:12.2083085+08:00",
+      "finishedUtc": "2026-10-31T15:53:58.5672396+08:00",
+      "exitCode": 0,
+      "log": "manager-tests.log"
+    },
+    {
+      "name": "database-tests",
+      "directory": ".",
+      "startedUtc": "2026-10-31T15:53:58.7106919+08:00",
+      "finishedUtc": "2026-10-31T15:54:09.8271313+08:00",
+      "exitCode": 0,
+      "log": "database-tests.log"
+    },
+    {
+      "name": "architecture-tests",
+      "directory": ".",
+      "startedUtc": "2026-10-31T15:54:09.9624137+08:00",
+      "finishedUtc": "2026-10-31T15:54:40.8768972+08:00",
+      "exitCode": 0,
+      "log": "architecture-tests.log"
+    },
+    {
+      "name": "manager-cli-build",
+      "directory": ".",
+      "startedUtc": "2026-10-31T15:54:41.0027484+08:00",
+      "finishedUtc": "2026-10-31T15:54:45.3423756+08:00",
+      "exitCode": 0,
+      "log": "manager-cli-build.log"
+    },
+    {
+      "name": "communication-cli-build",
+      "directory": ".",
+      "startedUtc": "2026-10-31T15:54:45.4590587+08:00",
+      "finishedUtc": "2026-10-31T15:54:49.9735334+08:00",
+      "exitCode": 0,
+      "log": "communication-cli-build.log"
+    },
+    {
+      "name": "rewrite-build",
+      "directory": "integrations\\rewrite\\source\\rewrite",
+      "startedUtc": "2026-10-31T15:54:50.1036986+08:00",
+      "finishedUtc": "2026-10-31T15:55:19.1468215+08:00",
+      "exitCode": 0,
+      "log": "rewrite-build.log"
+    },
+    {
+      "name": "rewrite-tests",
+      "directory": "integrations\\rewrite\\source\\rewrite",
+      "startedUtc": "2026-10-31T15:55:19.3553239+08:00",
+      "finishedUtc": "2026-10-31T15:55:36.4666027+08:00",
+      "exitCode": 0,
+      "log": "rewrite-tests.log"
+    },
+    {
+      "name": "rewrite-node-tests",
+      "directory": "integrations\\rewrite\\source\\rewrite",
+      "startedUtc": "2026-10-31T15:55:36.5829567+08:00",
+      "finishedUtc": "2026-10-31T15:55:36.8361258+08:00",
+      "exitCode": 0,
+      "log": "rewrite-node-tests.log"
+    },
+    {
+      "name": "next-build",
+      "directory": "integrations\\next\\source",
+      "startedUtc": "2026-10-31T15:55:36.9486822+08:00",
+      "finishedUtc": "2026-10-31T15:56:00.7006+08:00",
+      "exitCode": 0,
+      "log": "next-build.log"
+    },
+    {
+      "name": "next-UnitTests",
+      "directory": "integrations\\next\\source",
+      "startedUtc": "2026-10-31T15:56:00.8854485+08:00",
+      "finishedUtc": "2026-10-31T15:56:03.2912734+08:00",
+      "exitCode": 0,
+      "log": "next-UnitTests.log"
+    },
+    {
+      "name": "next-ArchitectureTests",
+      "directory": "integrations\\next\\source",
+      "startedUtc": "2026-10-31T15:56:03.4443019+08:00",
+      "finishedUtc": "2026-10-31T15:56:14.5633401+08:00",
+      "exitCode": 0,
+      "log": "next-ArchitectureTests.log"
+    },
+    {
+      "name": "next-IntegrationTests",
+      "directory": "integrations\\next\\source",
+      "startedUtc": "2026-10-31T15:56:14.6798111+08:00",
+      "finishedUtc": "2026-10-31T15:56:17.0859642+08:00",
+      "exitCode": 0,
+      "log": "next-IntegrationTests.log"
+    },
+    {
+      "name": "next-input-tests",
+      "directory": "integrations\\next\\source",
+      "startedUtc": "2026-10-31T15:56:17.2073422+08:00",
+      "finishedUtc": "2026-10-31T15:56:18.9949776+08:00",
+      "exitCode": 0,
+      "log": "next-input-tests.log"
+    },
+    {
+      "name": "ribbon-restore",
+      "directory": "integrations\\ribbon\\source",
+      "startedUtc": "2026-10-31T15:56:19.1136213+08:00",
+      "finishedUtc": "2026-10-31T15:56:22.1194159+08:00",
+      "exitCode": 0,
+      "log": "ribbon-restore.log"
+    },
+    {
+      "name": "ribbon-build",
+      "directory": "integrations\\ribbon\\source",
+      "startedUtc": "2026-10-31T15:56:22.2577293+08:00",
+      "finishedUtc": "2026-10-31T15:56:26.0120875+08:00",
+      "exitCode": 0,
+      "log": "ribbon-build.log"
+    },
+    {
+      "name": "ribbon-desktop-build",
+      "directory": "integrations\\ribbon\\source",
+      "startedUtc": "2026-10-31T15:56:26.1397766+08:00",
+      "finishedUtc": "2026-10-31T15:56:27.1158172+08:00",
+      "exitCode": 0,
+      "log": "ribbon-desktop-build.log"
+    },
+    {
+      "name": "ribbon-architecture",
+      "directory": "integrations\\ribbon\\source",
+      "startedUtc": "2026-10-31T15:56:27.2493213+08:00",
+      "finishedUtc": "2026-10-31T15:56:27.7537538+08:00",
+      "exitCode": 0,
+      "log": "ribbon-architecture.log"
+    },
+    {
+      "name": "ribbon-tests",
+      "directory": "integrations\\ribbon\\source",
+      "startedUtc": "2026-10-31T15:56:27.8712942+08:00",
+      "finishedUtc": "2026-10-31T15:56:38.8891108+08:00",
+      "exitCode": 0,
+      "log": "ribbon-tests.log"
+    },
+    {
+      "name": "ribbon-manager-chain",
+      "directory": ".",
+      "startedUtc": "2026-10-31T15:56:39.1068647+08:00",
+      "finishedUtc": "2026-10-31T15:56:41.2024979+08:00",
+      "exitCode": 0,
+      "log": "ribbon-manager-chain.log"
+    }
+  ]
+}

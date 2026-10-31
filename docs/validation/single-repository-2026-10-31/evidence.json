@@ -1,0 +1,176 @@
+{
+  "schemaVersion": 1,
+  "commit": "0cd401bcf622e4d4d1c57372b008036fdee62d9a",
+  "command": "./scripts/Test-IntegratedWorkspace.ps1",
+  "cloneMethod": "git clone --no-local --no-hardlinks",
+  "parentContents": [
+    "pmltwin"
+  ],
+  "steps": 22,
+  "dotnet": [
+    {
+      "file": "architecture.trx",
+      "passed": 21,
+      "failed": 0,
+      "sha256": "cb587cc6c7bd97ec3a0090d0f25a657c927cf5ceee3435c19d7b5fe749e13d71",
+      "total": 21,
+      "executed": 21,
+      "skipped": 0
+    },
+    {
+      "file": "database.trx",
+      "passed": 14,
+      "failed": 0,
+      "sha256": "037319bb285479c6d92452c45fe93f78afec020b850d43e2d824ebd9758ccd1b",
+      "total": 14,
+      "executed": 14,
+      "skipped": 0
+    },
+    {
+      "file": "manager.trx",
+      "passed": 197,
+      "failed": 0,
+      "sha256": "5a9865be78e90a89a752ac500918ba7f0ef80add62a5c017b28f6bbd68417ab9",
+      "total": 199,
+      "executed": 197,
+      "skipped": 2
+    },
+    {
+      "file": "next-ArchitectureTests.trx",
+      "passed": 64,
+      "failed": 0,
+      "sha256": "1980425e1ac9a1635e0f747adf377080ac0545b1e8f5120cd7d815f2d1f8be1f",
+      "total": 64,
+      "executed": 64,
+      "skipped": 0
+    },
+    {
+      "file": "next-input.trx",
+      "passed": 3,
+      "failed": 0,
+      "sha256": "1446708d5997f6c3d861671ec28652809769b86675bb3de542902878d5e8d58a",
+      "total": 3,
+      "executed": 3,
+      "skipped": 0
+    },
+    {
+      "file": "next-IntegrationTests.trx",
+      "passed": 8,
+      "failed": 0,
+      "sha256": "47d6c617e424b7cd8c1145e0b9e75e0ecead0dc4ac00d11fd5f0d0263fe73ccc",
+      "total": 8,
+      "executed": 8,
+      "skipped": 0
+    },
+    {
+      "file": "next-UnitTests.trx",
+      "passed": 47,
+      "failed": 0,
+      "sha256": "d7820f87b201710a25e9911f6dd810ab721cde7d4480e45d6f6d62009bee9e1b",
+      "total": 47,
+      "executed": 47,
+      "skipped": 0
+    },
+    {
+      "file": "rewrite.trx",
+      "passed": 71,
+      "failed": 0,
+      "sha256": "481ac81e48117d1eb39a4262cb5a64524af88290edf97c73775663af5857d986",
+      "total": 71,
+      "executed": 71,
+      "skipped": 0
+    }
+  ],
+  "nodeTests": {
+    "rewrite": 10,
+    "ribbon": 35
+  },
+  "portfolioRequests": 172,
+  "importedFiles": 1204,
+  "logs": [
+    {
+      "file": "architecture-tests.log",
+      "sha256": "28481aaf257f82b148fb295e41679498ef2cc5305826f6fd0a76f490fb220d8d"
+    },
+    {
+      "file": "communication-cli-build.log",
+      "sha256": "e0925a2c818eb752634731f67e35b8006aeb70055f46053c5abd6996786aa04b"
+    },
+    {
+      "file": "database-tests.log",
+      "sha256": "ff7bdc6628a14f039e543786bf1c1721428f50a39fa8e47a2b550c7b73a22980"
+    },
+    {
+      "file": "integration-manifests.log",
+      "sha256": "b6632dbbf42a33c7bd063979861e1f0af103b00b3633d7295d9ab41fbb5a1b65"
+    },
+    {
+      "file": "manager-cli-build.log",
+      "sha256": "aa2c1061dd963ca4fdc9b88d99c7b498e767fda1ccbe83d05bb215ee56aea925"
+    },
+    {
+      "file": "manager-tests.log",
+      "sha256": "4cc662bbaeecac555406ff4f985a75e5dcde37572fcdeea5f695c831482bde5b"
+    },
+    {
+      "file": "next-ArchitectureTests.log",
+      "sha256": "804550a53956b0ee09c6ee806124343310d651db71930f1988cdf00f316d62a5"
+    },
+    {
+      "file": "next-assets.log",
+      "sha256": "6ad35f13b6e04aea2304d94403e4f707bd5c46fac98e3f987561060692f26aad"
+    },
+    {
+      "file": "next-build.log",
+      "sha256": "566dafdf1a2741a4d7bc63b59866c54f579a5ce4916a0643f6ec1855f9cc0f05"
+    },
+    {
+      "file": "next-input-tests.log",
+      "sha256": "4724365dcec1e39ba1434c137aeb1de71d94cc2b7e18ecc482a7cc5d28406dab"
+    },
+    {
+      "file": "next-IntegrationTests.log",
+      "sha256": "5b6af9ccf81f62888a8d8161e4460a84dde656ec748c18698c8fe40e36b8adc9"
+    },
+    {
+      "file": "next-UnitTests.log",
+      "sha256": "df183bd4565203ec0f485c9d87a6f5c9134689af84c2c937884759b058321147"
+    },
+    {
+      "file": "portfolio-http-assets.log",
+      "sha256": "033da5edebca5a0744a6f437d0157a962c37145e26590c36d0d672c1bd8bb9ed"
+    },
+    {
+      "file": "rewrite-build.log",
+      "sha256": "250fab638b257427c6aa44abc644292472d14ae21c2c62675af4b251bd0fee6b"
+    },
+    {
+      "file": "rewrite-node-tests.log",
+      "sha256": "a409c22ac1910586cf2bb3ada2996c64c9cd41ab7493b5d2017723157d8bfbf4"
+    },
+    {
+      "file": "rewrite-tests.log",
+      "sha256": "653f50b261e7b31dedaaf9144903748dfcb753852d332ad4854cce062ea0cc5e"
+    },
+    {
+      "file": "ribbon-architecture.log",
+      "sha256": "fdfb83ef884af552fafb95ad93a74de226506a1dc420bf3e58df5ab8d0d91abe"
+    },
+    {
+      "file": "ribbon-build.log",
+      "sha256": "eed947512351f6cc86c88d2fe7843a783e3d844993a65bd6475d6582cfdadf08"
+    },
+    {
+      "file": "ribbon-desktop-build.log",
+      "sha256": "532997e597f97a0fd5293baa2f80103596e0181765d568233bc7873ff3d09ad3"
+    },
+    {
+      "file": "ribbon-restore.log",
+      "sha256": "cc439ef26cce12f10e9b51b55bad43a620fd30b0069a52d13d55c4ae7b6779f9"
+    },
+    {
+      "file": "ribbon-tests.log",
+      "sha256": "24cd6a8671369da51ee9a093cf4d9df5cc4644bb9b7690e626db69021e72153d"
+    }
+  ]
+}

@@ -17,3 +17,5 @@ The restricted Windows container disables HttpListener (PlatformNotSupportedExce
 This verifies source integration in the current checkout. Fresh-clone proof and root Manager-to-local-backend operation validation belong to the parent integration handoff. No actual AVEVA UIC load, CAF host, database migration or visual acceptance is claimed. Default runtime workspace lives outside the checkout; users can select UIC_DATA_DIR explicitly.
 
 Long-path follow-up: 35/35 Ribbon tests now pass, including a new >320-character workspace root save/restart/restore regression. Manager CLI -> Ribbon also passed with a 321-character history file path. r4 failure evidence and red/green logs are retained; see feature-handoff.md. No OS policy changes or test-path shortening were used.
+
+Final single-repository fresh-clone validation passed at source commit 0cd401bcf622e4d4d1c57372b008036fdee62d9a: all 22 steps, clean worktree, no neighboring sources. Portable evidence and prior failures: docs/validation/single-repository-2026-10-31/. This supersedes earlier pending fresh-clone statements; live AVEVA and visual acceptance remain separate.

@@ -19,7 +19,7 @@
   "aspireAppHost": "not-built-development-only",
   "manifestFiles": 310,
   "portalLocalAssets": "passed",
-  "freshClone": "root-integration-owner-pending",
+  "freshClone": "passed-0cd401bcf622e4d4d1c57372b008036fdee62d9a-see-docs/validation/single-repository-2026-10-31",
   "limitations": [
     "Vulnerability service unavailable offline; audit remains enabled.",
     "Sandbox testhost IPC requires unsandboxed test run.",

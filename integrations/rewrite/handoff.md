@@ -47,3 +47,5 @@ The second clean clone exposed an AR01 compiled-graph fixture that still loaded 
 Verification uses a newly created manifest-only snapshot, with no bin/obj outputs copied and no pre-existing Release outputs. Strict online Debug build succeeds with 0 warnings and 0 errors. The test wrapper additionally checks that no bin/obj Release directory is created by the suite. This is separate from the root owner's complete fresh Git clone acceptance.
 
 Pristine manifest-only Debug verification result: **71 passed, 0 failed, 0 skipped**. Post-suite Release output directory count: **0**. No prior product or adjacent-project build artifact participated.
+
+Final single-repository fresh-clone validation passed at source commit 0cd401bcf622e4d4d1c57372b008036fdee62d9a: all 22 steps, clean worktree, no neighboring sources. Portable evidence and prior failures: docs/validation/single-repository-2026-10-31/. This supersedes earlier pending fresh-clone statements; live AVEVA and visual acceptance remain separate.

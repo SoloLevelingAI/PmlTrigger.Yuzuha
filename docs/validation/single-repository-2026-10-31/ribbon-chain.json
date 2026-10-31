@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "success": true,
+  "observedUtc": "2026-10-31T07:56:41.1863341+00:00",
+  "checks": [
+    "ribbon.projects.normalize",
+    "ribbon.uic.export",
+    "ribbon.uic.export",
+    "ribbon.workspace.save",
+    "ribbon.workspace.open",
+    "ribbon.workspace.versions"
+  ],
+  "deterministicExport": true,
+  "backendSource": "integrations/ribbon/source",
+  "installedUicWrites": 0,
+  "macroExecutions": 0,
+  "neighborRepositoriesUsed": 0
+}

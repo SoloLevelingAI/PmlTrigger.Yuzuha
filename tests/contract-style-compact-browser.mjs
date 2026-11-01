@@ -10,9 +10,12 @@ const app=await createStyleLabServer({port:0});let browser,page;
 const errors=[],writes=[],checks=[];
 try{
 browser=await launchBrowser({headless:true});page=await browser.newPage({viewport:{width:1440,height:900}});
+// A loaded public bundle is earlier than the async workbench import/render.
+// Reproduce that gap so the initial loading <h1> can never satisfy readiness.
+await page.route('**/ion/workbench.js',async route=>{await new Promise(resolve=>setTimeout(resolve,200));await route.continue();});
 page.on('pageerror',error=>errors.push(error.message));page.on('request',request=>{if(!['GET','HEAD'].includes(request.method()))writes.push(request.url());});
 const url=hash=>app.url+'ion/index.html'+(hash?'#'+new URLSearchParams(hash):'');
-async function ready(){await page.waitForFunction(()=>globalThis.ContractDesign?.bundle&&document.querySelector('main h1'));await page.evaluate(()=>document.fonts.ready);}
+async function ready(){await page.waitForFunction(()=>globalThis.ContractDesign?.bundle&&!document.querySelector('main .loading')&&document.querySelector('main [data-main-heading]'));await page.evaluate(()=>document.fonts.ready);}
 async function noOverflow(){assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));}
  for(const width of [1440,1024]){
   await page.setViewportSize({width,height:width===1024?768:900});await page.goto(url({entity:'feature:launch',pane:'task'}));await ready();await page.waitForSelector('.ion-workbench');

@@ -1,0 +1,19 @@
+✔ shared publication, unchanged-input deduplication, authoring CAS and durable request reuse (2227.8262ms)
+✔ invalid source and native failure retain lastgood, corrected metadata publishes automatically (1805.3739ms)
+✔ input changed during a build never publishes obsolete output (1585.3012ms)
+✔ publication recovery refuses a manifest with missing required artifact roles (743.015ms)
+✔ final validation cannot publish superseded source, and cached revisions cannot bypass renderer restart (4687.9264ms)
+✔ HTTP authoring rejects cross-origin, missing token, unknown fields, and unpublished paths (874.0685ms)
+✔ already-current validation cannot clear a renderer restart or reopen authoring (1036.4987ms)
+✔ read-only watcher permits explicit same-origin regeneration without exposing source editing (1039.4875ms)
+✔ shutdown retains the writer lease until an accepted save settles and rejects new saves (1616.5824ms)
+✔ source snapshot rejects a save interleaved between author bytes and dependency hashes (157.4491ms)
+✔ method-only input changes publish a new revision while public facts remain unchanged (1642.631ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 17651.9117

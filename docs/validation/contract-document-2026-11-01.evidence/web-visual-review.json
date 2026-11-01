@@ -1,0 +1,36 @@
+{
+  "status": "agent-reviewed",
+  "humanStatus": "human-not-reviewed",
+  "scope": "Independent agent inspected actual desktop/mobile Web renders; primary agent inspected final published render. Functional success is not used as aesthetic approval.",
+  "rubric": [
+    {
+      "criterion": "首屏任务焦点",
+      "result": "agent-pass",
+      "observation": "作品集先显示所属Feature目标与交付，参数和语言分类退为辅助；390×844目标句可见。"
+    },
+    {
+      "criterion": "标题与正文层级",
+      "result": "agent-pass",
+      "observation": "标题/目标/技术标签/交付/正文顺序明确；正文16px、字段18px、辅助至少12px。"
+    },
+    {
+      "criterion": "对齐留白",
+      "result": "agent-pass",
+      "observation": "中间白色正文与两侧导航分离；去掉重复标题边线，手机工具收为次级入口。"
+    },
+    {
+      "criterion": "克制配色",
+      "result": "agent-pass",
+      "observation": "类别浅底/细边与中性正文、独立警告并存，六色不替代内容叙事。"
+    },
+    {
+      "criterion": "作品集价值",
+      "result": "agent-pass",
+      "observation": "作品集先解释任务目标和产物，指南提供技术核对说明，两视图具有实际内容差别。"
+    }
+  ],
+  "limitations": [
+    "代理判断不等于用户视觉认可。",
+    "文档是实现说明与作品集，不是业务GUI运行截图。"
+  ]
+}

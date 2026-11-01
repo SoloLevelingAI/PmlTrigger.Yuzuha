@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "errors": [],
+  "nodes": 13080,
+  "edges": 59229,
+  "sourceInputs": 747,
+  "graphBytes": 72235154,
+  "producerFingerprint": "dd973b675bff7b40ab9794f0bd8f954d2cf16035c779b72cedc46ca56a0ff7f9",
+  "graphSha256": "06b2aaae8880560ec794c431d853bf0515fd8f7c9989b5adbc0ac6b86ddf910a",
+  "finishedUtc": "2026-11-01T05:22:00.0984347Z",
+  "omittedProjects": [
+    "YuzuhaToolkit.PmlHost.Net35 : no local AVEVA SDK configured; not analyzed",
+    "YuzuhaToolkit.PmlHost.Net48 : no local AVEVA SDK configured; not analyzed"
+  ]
+}

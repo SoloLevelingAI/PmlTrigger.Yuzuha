@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3",
+  "figcraft": {
+    "toolVersion": "0.6.0",
+    "nativeGeneration": "passed",
+    "commands": 451,
+    "components": 4,
+    "instances": 68,
+    "editableTexts": 342,
+    "images": 0,
+    "variables": 10,
+    "visualReview": [
+      "help-light",
+      "help-dark",
+      "portfolio-light",
+      "portfolio-dark"
+    ],
+    "findings": "All four independent reading-view/color-theme combinations visually inspected; Chinese glyphs readable; same facts and exclusions preserved; no observed overlap. This is author visual QA, not user visual approval.",
+    "requirementIdentity": "Original R IDs with per-requirement status preserved in FeatureCard Body, same adapter used by Figma",
+    "flowLayout": "Shared native/Figma model: maximum four steps per row; per-flow and board height account for step rows and all connections",
+    "colorModes": [
+      "Light",
+      "Dark"
+    ],
+    "themeSamples": [
+      {
+        "view": "help",
+        "theme": "Light",
+        "name": "Help-Light"
+      },
+      {
+        "view": "help",
+        "theme": "Dark",
+        "name": "Help-Dark"
+      },
+      {
+        "view": "portfolio",
+        "theme": "Light",
+        "name": "Portfolio-Light"
+      },
+      {
+        "view": "portfolio",
+        "theme": "Dark",
+        "name": "Portfolio-Dark"
+      }
+    ],
+    "themeSemantics": "reading view independent from color mode; soft and boundary are distinct native variable bindings"
+  },
+  "tests": {
+    "command": "node --test tests/contract-atlas-design.test.mjs",
+    "passed": 3,
+    "failed": 0,
+    "boundary": "40 steps plus 40 connections: every width positive, every box inside frame, no pair overlaps; pure layout test within the three-test suite",
+    "themeAssertions": "four view/theme combinations, exact role HEX values from tokens v2, same-view fact properties equal across themes; Figma mock Light/Dark mode names and four combinations"
+  },
+  "figma": {
+    "execution": "not-run",
+    "offlineMock": "passed",
+    "manifest": "registration template without invented id",
+    "exclusions": [
+      "real Figma import and rendering",
+      "font fallback in Figma",
+      "user visual approval"
+    ]
+  },
+  "scope": "Editable contract presentation only, no business operation or external publishing",
+  "integrationRecheck": {
+    "date": "2026-11-01",
+    "unitTests": 11,
+    "browserGeometryChecks": 18,
+    "themeMatrix": 12,
+    "source": "root final metadata/theme/design generation plus browser verification"
+  }
+}

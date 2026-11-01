@@ -87,6 +87,10 @@ M0 固定来源与原 ID 映射；M1 统一 Feature/操作/探测/Database 契�
 
 - CAF 具体 SDK、宿主版本和装配 API：由后续环境探测/已有文档定位；只阻塞 CAF adapter 的具体实现，不阻塞独立业务契约。
 - APS 在各目标产品实际的模块和项目路径：由扫描解决；不存在时记录 unavailable，不能用合成结果替代。
+
+## 桌面面包屑同级切换实施决定 · 2026-11-01
+
+按features/desktop-developer-reading.md的补充契约，名称返回上层，独立下拉选择同级。公共模型生成项目Feature及当前Feature的Script候选，内部方法组件仅向当前明确Script暴露ready/同摘要的精确根选择接口；候选不复制进公共图谱。Feature/Script一次更新实体路由并保留阅读栏目和配色，旧步骤/方法清理，方法保持现有面板内导航语义。非模态搜索面板遵循同一六主题、原ID和键盘/焦点约定；只读视觉导航不改变原27项业务状态。
 # 首期实施决定 · 2026-10-31
 
 用户指定先贯通自动发现、启动和回执。该切片使用 HTML 本机适配器与管理 CLI 共用 OperationExecutor，复用 LaunchProfileService / LaunchService，不复制 Archon 的启动后端。UI 自动收集目录/注册表/初始化候选，首次只问不能可靠推导的用户/MDB和有歧义的选择；后续复用保存的非秘密字段。
@@ -94,3 +98,27 @@ M0 固定来源与原 ID 映射；M1 统一 Feature/操作/探测/Database 契�
 首期存储选择现有修订 JSON + 非秘密冻结计划/回执 JSON；独立 Database DLL 是后续接口迁移目标，本轮不伪装已接入 SQLite/CAF。C# XML 文档纳入 DocFX，HTML 资产按 Feature 独立，FigCraft 从实际 DOM 采集几何和 token，滚动需求以浏览器实测为准。
 
 实施、测试、实际 APS 与 Host mismatch 的边界见 [启动切片交接](features/launch-workflow-handoff.md)。原平台设计与未完成验收仍有效。
+
+## 续作实施决定 · 2026-10-31
+
+基于已纳入单仓的 `39e12f7`，用户授权 Sol 并行续作。先细化 [续作契约](features/continuation-contracts.md)，再将 WPF 入口接既有启动协调者；Ribbon 以显式 v2 冻结计划增强部署且保留 v1；迁移适配器先提供只读预览，不提前切换活动存储。三者拥有独立文件边界，共享任务和规范由主代理维护。此决定更新规划阶段的只读范围，不表示已实施或已实机验收。
+
+## 元数据图谱实施决定 · 2026-11-01
+
+用户追加可自动填入元数据的Web/Figma(FigCraft)契约组件。采用版本化提取器+显式展示映射，保留canonical并从同源数据生成交互图谱、SVG及新原生组件板；Figma以正规Plugin交付，执行验收与FigCraft分开。公开投影不携带机器环境与原始日志，不自动发布。元数据、组件输入、预算与验收先落盘至 features/contract-atlas.md，再并行实现提取、Web和设计适配，主代理统一校验。
+
+## 方法预览实施决定 · 2026-11-01
+
+用户继续要求契约接DocFX/Roslyn预览方法。复用实际编译输入的UiTrace生产者，独立internal方法目录通过明确符号绑定关联Feature/Script；公开规范与事实模型不装入源码。目录、DocFX快照和公开图共同发布，方法身份/源码hash/静态边界可核对，缺失或过期明确说明。先冻结features/contract-method-preview.md，再实现生产者、目录与Web消费者，真实源码/DocFX链接及浏览器分别验收；不触发工程动作。
+
+## 完整内容与阅读实施决定 · 2026-11-01
+
+用户要求作品集更直观、契约与实现内容完整且支持一键摘要/详情。先细化features/contract-reading-disclosure.md，再补齐全部18 Feature/14 Script目录、共享IR只读规范附录和32项实体方法范围。Web以中心披露控制器向嵌套原生组件传递稳定key状态，阅读视图、主题和全局展开程度分别保存；长字段/原文/方法正文可折叠，关键限制与证据排除仍可见。FigCraft继续使用同一事实模型，纸面画板不宣称获得Web交互。通过原文对照、真实布局、状态保持和共同服务验收，保留原平台未完成任务。
+
+## 文档导航与视觉完成度实施决定 · 2026-11-01
+
+用户继续要求常规文档网页、左右目录、区块提示色及Web/FigCraft同源CSS。先冻结features/contract-document-navigation.md，再实现完整左层级、当前正文优先、右侧稳定大小标题、跨Shadow必要展开、URL/历史及章节相对位置恢复；响应式目录使用原生折叠，不用遮罩锁滚。六类颜色和字号/字重从同一token生成CSS及原生板。用户强调美观不能被分色取代后，补独立视觉条款与20.6，精修任务价值首屏、移动工具权重、原生构图和紧凑图例。真实渲染代理复核、用户视觉认可及业务实机验收分别记录；不把结构通过当审美通过。
+
+## Dashboard与摘要小标题实施决定 · 2026-11-01
+
+实际检查确认默认Dashboard已存在，但后开E3D持续发现未接通，StatusAsync异常也可能残留旧核验。按features/dashboard-session-health.md先细化契约，再实现独立只读monitor及工作目标epoch撤销，严格区分Host可用性与显式操作目标；灰/黄/绿/红均有文字和时间，不执行PML或自动切换目标。文档以小标题组织摘要，完整七字段/来源/旧锚点不变，原生板对应分组。38项边界测试、WPF合成矩阵及真实APS /ALL DESIGN无会话→可用绿灯分别留证，原27项平台任务不随本切片勾选。

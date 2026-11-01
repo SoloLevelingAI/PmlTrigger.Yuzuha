@@ -1,0 +1,24 @@
+{
+  "operationId": "aveva.sessions.list",
+  "success": true,
+  "exitCode": 0,
+  "data": {
+    "Count": 1,
+    "Sessions": [
+      {
+        "ProcessId": 216560,
+        "ProcessStartTimeUtcTicks": 639291145578564128,
+        "ProcessName": "des",
+        "ExecutablePath": "D:\\AVEVA\\Everything3D2.10\\des.exe",
+        "WindowTitle": "ProjAPS | ALL | Model - AVEVA Everything3D",
+        "Product": "E3D",
+        "Project": "ProjAPS",
+        "PipeName": "yuzuha.pml.command.v1.pid-216560",
+        "PipeDetected": true
+      }
+    ],
+    "Error": null
+  },
+  "error": null,
+  "schemaVersion": 1
+}

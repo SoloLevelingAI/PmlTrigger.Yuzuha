@@ -1,0 +1,34 @@
+{
+  "results": [
+    {
+      "file": "tests/contract-style-methods-browser.cjs",
+      "channel": "msedge",
+      "elapsedMs": 3906,
+      "exitCode": 0,
+      "out": "Method component browser passed\n"
+    },
+    {
+      "file": "tests/contract-style-inline-browser.mjs",
+      "channel": "msedge",
+      "elapsedMs": 15315,
+      "exitCode": 0,
+      "out": "{\n  \"passed\": true,\n  \"checks\": 8,\n  \"themes\": 12,\n  \"methods\": 393,\n  \"output\": \"F:\\\\OneDrive\\\\Documents\\\\ChatGPT\\\\PmlTwin\\\\artifacts\\\\contract-style-inline\"\n}\n"
+    },
+    {
+      "file": "tests/contract-style-breadcrumb-browser.mjs",
+      "channel": "msedge",
+      "elapsedMs": 12866,
+      "exitCode": 0,
+      "out": "Breadcrumb real-browser suite passed\n"
+    }
+  ],
+  "notes": {
+    "managedInstall": "stopped_slow_download",
+    "managedTested": false,
+    "installerSession": 10680,
+    "termination": "Ctrl-C_to_retained_installer_session_only",
+    "browserExecution": "explicit_msedge_channel",
+    "pathPortability": "No_personal_path_or_fixed_browser_revision_dependency",
+    "productProcessesUntouched": true
+  }
+}

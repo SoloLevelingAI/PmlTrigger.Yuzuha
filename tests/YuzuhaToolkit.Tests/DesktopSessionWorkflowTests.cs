@@ -202,20 +202,92 @@ public sealed class DesktopSessionWorkflowTests : IDisposable
         Assert.Null(model.ObjectResult); Assert.Equal(1, host.Executions);
     }
 
+    private async Task<SessionWorkbench> PopulatedTarget()
+    {
+        var model = Create(); model.Discover(); await model.SelectAsync(host.Candidate);
+        host.Pages.Enqueue(new() { Kind = "shown-forms", StartIndex = 1, Items = [new() { Name = "OldForm" }] });
+        await model.QueryAsync(Forms());
+        host.Pages.Enqueue(new() { Kind = "gadgets", StartIndex = 1, Items = [new() { Name = "OldGadget" }] });
+        await model.QueryAsync(new() { Kind = "gadgets", FormName = "OldForm", MaxItems = 20, MaxCharacters = 32768 });
+        host.Pages.Enqueue(new() { Kind = "gadget", StartIndex = 1, Items = [new() { Name = "OldGadget", Properties = [] }] });
+        await model.QueryAsync(new() { Kind = "gadget", FormName = "OldForm", GadgetName = "OldGadget", MaxItems = 1, MaxCharacters = 32768 });
+        await model.ReadArrayAsync("OldArray", 20, 32768);
+        await model.ReadObjectAsync(DesktopObjectQuery.Build("current", "", "", 30, 2));
+        Assert.True(model.Status.TargetVerified); Assert.NotEmpty(model.Forms.Items); Assert.NotEmpty(model.Gadgets.Items);
+        Assert.NotNull(model.GadgetDetails); Assert.NotNull(model.ObjectResult); Assert.NotEmpty(model.ArrayRows); Assert.NotNull(model.ArrayLast); Assert.NotNull(model.LastResponse);
+        return model;
+    }
+
+    private static void AssertTargetCleared(SessionWorkbench model)
+    {
+        Assert.False(model.Status.TargetVerified); Assert.False(model.Status.Connected); Assert.Null(model.Status.Host);
+        Assert.Empty(model.Forms.Items); Assert.Null(model.Forms.Last); Assert.Empty(model.Gadgets.Items); Assert.Null(model.Gadgets.Last);
+        Assert.Null(model.GadgetDetails); Assert.Null(model.ObjectResult); Assert.Empty(model.ArrayRows); Assert.Null(model.ArrayLast); Assert.Null(model.LastResponse);
+        Assert.False(model.CanContinueArray("OldArray", 20, 32768));
+    }
+
+    [Theory]
+    [InlineData("io")]
+    [InlineData("timeout")]
+    [InlineData("cancel")]
+    [InlineData("other")]
+    public async Task StatusFailureClearsVerifiedTargetAndAllPreviousResultsAndRequiresExplicitReselection(string kind)
+    {
+        var model = await PopulatedTarget(); var executions = host.Executions;
+        Exception failure = kind switch { "io" => new IOException("status pipe lost"), "timeout" => new TimeoutException("status timed out"), "cancel" => new OperationCanceledException("status cancelled"), _ => new InvalidOperationException("malformed status") };
+        host.StatusError = failure;
+        Assert.Same(failure, await Assert.ThrowsAnyAsync<Exception>(() => model.VerifyAsync()));
+        AssertTargetCleared(model); Assert.False(model.IsBusy); Assert.Equal("rejected", model.Outcome); Assert.Contains(failure.Message, model.Message);
+        host.StatusError = null; var checks = host.StatusCalls;
+        await Assert.ThrowsAsync<InvalidOperationException>(() => model.VerifyAsync());
+        Assert.Equal(checks, host.StatusCalls); Assert.Equal(executions, host.Executions);
+        await model.SelectAsync(host.Candidate); Assert.True(model.Status.TargetVerified); Assert.Empty(model.Forms.Items);
+    }
+
+    [Fact]
+    public async Task FailedReadOnlySelectionCannotKeepPreviousDataOrLeaveNewTargetImplicitlyBound()
+    {
+        var model = await PopulatedTarget(); host.SelectionError = new IOException("selection lost");
+        Assert.Same(host.SelectionError, await Assert.ThrowsAsync<IOException>(() => model.SelectAsync(host.Candidate)));
+        AssertTargetCleared(model); host.SelectionError = null; var checks = host.StatusCalls;
+        await Assert.ThrowsAsync<InvalidOperationException>(() => model.VerifyAsync()); Assert.Equal(checks, host.StatusCalls);
+    }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task BackgroundInvalidationCannotRefillResultsOrTurnAnInFlightRequestIntoSuccess(bool losesReply)
+    {
+        var model = await PopulatedTarget(); var executions = host.Executions;
+        host.QueryCompletion = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        var pending = model.QueryAsync(Forms()); Assert.True(model.IsBusy); Assert.Equal(executions + 1, host.Executions);
+        await Assert.ThrowsAsync<InvalidOperationException>(() => model.VerifyAsync()); Assert.True(model.IsBusy);
+        model.InvalidateTarget("background identity no longer fresh"); AssertTargetCleared(model);
+        var original = new TimeoutException("original dispatched timeout");
+        if (losesReply) host.QueryCompletion.SetException(original);
+        else host.QueryCompletion.SetResult(new() { Success = true, FormQueryResult = new() { Kind = "shown-forms", StartIndex = 1, Items = [new() { Name = "LateOldForm" }] } });
+        var error = await Assert.ThrowsAnyAsync<Exception>(() => pending);
+        if (losesReply) Assert.Same(original, error); else Assert.IsType<IOException>(error);
+        AssertTargetCleared(model); Assert.Equal("unknown", model.Outcome); Assert.False(model.IsBusy); Assert.Equal(executions + 1, host.Executions);
+    }
+
     private sealed class FakeHost : IWorkbenchHost
     {
         internal AvevaSessionCandidate Candidate = new() { ProcessId = 123, ProcessStartTimeUtcTicks = 456, PipeDetected = true, Product = "E3D", PipeName = "pid-123" };
         internal YuzuhaConnectionStatus Connection = new() { TargetVerified = true, Connected = true, ExpectedProcessId = 123, ExpectedProcessStartTimeUtcTicks = 456, ExpectedModel = "Design", Host = new() { ProcessId = 123, ProcessStartTimeUtcTicks = 456, Model = "Design", FormQueryVersion = 1, BoundedArrayReadVersion = 1 } };
         internal int Selections, Executions;
         internal Exception? InvocationError;
+        internal Exception? StatusError, SelectionError;
+        internal int StatusCalls;
+        internal TaskCompletionSource<RunPmlCommandResponse>? QueryCompletion;
         internal string? ObjectExpression;
         internal Queue<PmlFormQueryResult> Pages = new();
         internal List<int> Starts = [];
         public AvevaSessionListResponse Discover() => new() { Sessions = [Candidate], Count = 1 };
-        public Task<YuzuhaConnectionStatus> SelectAsync(int pid, string? model, CancellationToken token) { Selections++; return Task.FromResult(Connection); }
-        public Task<YuzuhaConnectionStatus> StatusAsync(CancellationToken token) => Task.FromResult(Connection);
-        public Task<RunPmlCommandResponse> QueryAsync(PmlFormQueryRequest request, CancellationToken token) { Executions++; Starts.Add(request.StartIndex); return Task.FromResult(new RunPmlCommandResponse { Success = true, FormQueryResult = Pages.Dequeue() }); }
-        public Task<RunPmlCommandResponse> ReadArrayAsync(string name, int start, int items, int chars, CancellationToken token) => throw new NotImplementedException();
+        public Task<YuzuhaConnectionStatus> SelectAsync(int pid, string? model, CancellationToken token) { Selections++; return SelectionError is null ? Task.FromResult(Connection) : Task.FromException<YuzuhaConnectionStatus>(SelectionError); }
+        public Task<YuzuhaConnectionStatus> StatusAsync(CancellationToken token) { StatusCalls++; return StatusError is null ? Task.FromResult(Connection) : Task.FromException<YuzuhaConnectionStatus>(StatusError); }
+        public Task<RunPmlCommandResponse> QueryAsync(PmlFormQueryRequest request, CancellationToken token) { Executions++; Starts.Add(request.StartIndex); return QueryCompletion?.Task ?? Task.FromResult(new RunPmlCommandResponse { Success = true, FormQueryResult = Pages.Dequeue() }); }
+        public Task<RunPmlCommandResponse> ReadArrayAsync(string name, int start, int items, int chars, CancellationToken token) { Executions++; return Task.FromResult(new RunPmlCommandResponse { Success = true, ArrayWindow = new() { StartIndex = start, NextIndex = start + 1, IndexUpperBound = 5, Rows = ["old array row"] } }); }
         public Task<DesktopObjectReadReply> ReadObjectAsync(DesktopObjectQuery query, CancellationToken token)
         {
             Executions++; ObjectExpression = query.Expression;

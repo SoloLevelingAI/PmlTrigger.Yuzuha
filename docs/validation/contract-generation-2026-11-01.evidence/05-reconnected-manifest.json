@@ -1,0 +1,270 @@
+{
+  "protocolVersion": 1,
+  "revisionId": "7233a46c0c44eea45296d760ca0d67bfbd3150fe4426296a7a11d08558830fc1",
+  "metadataDigest": "5380b3c07aa6ebd8f34609a08f59b8a1dfed49dc3822f0da6d4c819c65d22936",
+  "renderModelDigest": "d536e2bce8bbfc92f3b4cb16a5dce95540cf6a861ba8bcc2eeab2aad23c30399",
+  "manifestUrl": "/revisions/7233a46c0c44eea45296d760ca0d67bfbd3150fe4426296a7a11d08558830fc1/manifest.json",
+  "createdAt": "2026-11-01T04:52:58.018Z",
+  "sourceRevision": "13f2cf16309fc7a031372e94c5d258811c48d410b9ffce4d72a385d4eb78839f",
+  "inputs": {
+    "docs/contracts/evidence.json": "40323c99e3b189b631ee51f58b30aa9263e0e9140d38c1e088e3954c5df91132",
+    "docs/contracts/presentation.json": "13f2cf16309fc7a031372e94c5d258811c48d410b9ffce4d72a385d4eb78839f",
+    "docs/presentation/contract-atlas/metadata-validator.js": "a053f6ec4ca71c18168899f8f35d285e534e4ee56b9f27a438e7c2dd613f7bbf",
+    "docs/presentation/contract-atlas/tokens.json": "67ae804098d62a36db529ce3b67220c044dee696ba726a9f81fdf73a7701284d",
+    "docs/reference/capabilities.json": "c0865d35f89ded20b715abd1f9694e2844917bdc5e84c189f19a4797b3424b5a",
+    "docs/reference/project-contract-overview.zh-CN.md": "1c253f9f4ec4baeadc4e598107de726fa34490905a32d84840e4737571532000",
+    "docs/specification/contract.json": "7fce555c78b4f79114b61d6d8c37da557d3b8352a60fa7c0c572f9684bce18af",
+    "docs/validation/ribbon-restart-2026-10-31.md": "9778c9cfde3970cbfb91588678bfc5becc08f4007fb7305c1ca7181d7c680044",
+    "openspec/changes/integrate-pmltwin-product-platform/baseline/id-feature-map.json": "e60c5eba64b1bb8172710b7be5956f07a8f67882da558f0b823140fc42e6dc6b",
+    "openspec/changes/integrate-pmltwin-product-platform/contracts.md": "23f45ae6ebacd16f52c4d83b3b39915156a5fd841315d207059e04028f9e4fd7",
+    "openspec/changes/integrate-pmltwin-product-platform/design.md": "b030f739349c9c065730232fb9142d6c5e3e56c890058f8dfeb0859688410512",
+    "openspec/changes/integrate-pmltwin-product-platform/features/caf-adapter-handoff.md": "504b9ef46c610669bf1c4e4113b15950abfbd22c7b08f77fa89c7f9088c9814d",
+    "openspec/changes/integrate-pmltwin-product-platform/features/database-handoff.md": "4a57b1c75ec338f29896d4acf24a92ffd237a11ea2b64d2f96b08ed22b7b9953",
+    "openspec/changes/integrate-pmltwin-product-platform/features/migration-preview-continuation.md": "3c0e42140b5a46e65301098e82794e459a092fb1acdce8ffdc1601a24deb72a1",
+    "openspec/changes/integrate-pmltwin-product-platform/features/ribbon-ui-continuation.md": "526b7e7542a1502f9aac70f642e89911503b4faa478bfe8958f150db04ed5567",
+    "openspec/changes/integrate-pmltwin-product-platform/proposal.md": "8cc7005d53bdcc99ab18ef42f432736bfbb1b6c7a7db4ffa63c8983c069f8848",
+    "openspec/changes/integrate-pmltwin-product-platform/tasks.md": "51f4dea70ca524a23259ed7a62bbb1ef1cbf2bcf69dc67ab589ddbd324345c10"
+  },
+  "artifacts": [
+    {
+      "role": "metadata",
+      "path": "metadata.json",
+      "sha256": "5380b3c07aa6ebd8f34609a08f59b8a1dfed49dc3822f0da6d4c819c65d22936",
+      "bytes": 186976
+    },
+    {
+      "role": "renderModel",
+      "path": "render-model.json",
+      "sha256": "d536e2bce8bbfc92f3b4cb16a5dce95540cf6a861ba8bcc2eeab2aad23c30399",
+      "bytes": 255757
+    },
+    {
+      "path": "design/contract-atlas.figcraft",
+      "sha256": "708e184390849122b1afbe41ebb922fc4ed2139c9b25a54905654548777bf124",
+      "bytes": 92227,
+      "role": "figcraft"
+    },
+    {
+      "path": "design/figma-plugin/code.js",
+      "sha256": "feb420b6c12b4c2453695622c400ca0d73ba123e75100565f09a1048dee4d918",
+      "bytes": 43401,
+      "role": "figma-plugin"
+    },
+    {
+      "path": "design/figma-plugin/manifest.json",
+      "sha256": "e9cb86c41c5a4e2cd4835aa2ea12c5a92d4dce3c3227b11989d462f8b0a314da",
+      "bytes": 252,
+      "role": "figma-plugin"
+    },
+    {
+      "path": "design/figma-plugin/ui.html",
+      "sha256": "fd62e5acdd23ad85bda5dc0fb854e4e76fd707173c92d07b64565836a49e053b",
+      "bytes": 1310,
+      "role": "figma-plugin"
+    },
+    {
+      "path": "design/generated/cli-run.jsonl",
+      "sha256": "1bcbafbaf4718b0f8901b9cacf273567971c3d93f8225539f8fc311b96a301fb",
+      "bytes": 54741,
+      "role": "design"
+    },
+    {
+      "path": "design/generated/commands.json",
+      "sha256": "5751f6d41199ffac0c9c1111b17e3a546f0acc684f3f70e92c42a39f9a09a58c",
+      "bytes": 320319,
+      "role": "design"
+    },
+    {
+      "path": "design/generated/components.png",
+      "sha256": "d6c3d99326ae1ad9579f2c47e2d3aa038b26e49815a4399514fa249817fd7b00",
+      "bytes": 177225,
+      "role": "design"
+    },
+    {
+      "path": "design/generated/entity-map.json",
+      "sha256": "aeaf630f14d0491c8d32ba95c49792a3eef0dc268dd491b78ea8764087226e79",
+      "bytes": 2423,
+      "role": "design"
+    },
+    {
+      "path": "design/generated/evidence.png",
+      "sha256": "5fb7c52bd1b1b032cebe4f1b65219e869bf76da6e7fa4d58376eccfea6a3b959",
+      "bytes": 336311,
+      "role": "design"
+    },
+    {
+      "path": "design/generated/features.png",
+      "sha256": "f080b4c999278fe0748ab0fc21ead20a434c4d7523edbb85156b9b61fdedc9af",
+      "bytes": 1244057,
+      "role": "design"
+    },
+    {
+      "path": "design/generated/flows.png",
+      "sha256": "36316f0591394d222cd5a4d8a7fd697ff9a40ca590d408c709e3cbd841711097",
+      "bytes": 313756,
+      "role": "design"
+    },
+    {
+      "path": "design/generated/help-dark.png",
+      "sha256": "f4744f505cc4e661923c5d9f80414d041e233ffab6838e0771438765026a638c",
+      "bytes": 851894,
+      "role": "design"
+    },
+    {
+      "path": "design/generated/help-light.png",
+      "sha256": "abdcce7935a8a27030f7802ad3192275cc4ec31691b26f4d2e632b3017fc1f49",
+      "bytes": 853201,
+      "role": "design"
+    },
+    {
+      "path": "design/generated/native.json",
+      "sha256": "35039a5fd7c0dfb0cfe8d7d00b2bc6c18b9b2fd612fe634a4c46dcc1e5d4b961",
+      "bytes": 1267198,
+      "role": "native-structure"
+    },
+    {
+      "path": "design/generated/overview.png",
+      "sha256": "5edc1a541927a8ef4b0d1f90b61ab3b6e63ab9744fe5e8f111f359d54d37bd40",
+      "bytes": 275040,
+      "role": "design"
+    },
+    {
+      "path": "design/generated/portfolio-dark.png",
+      "sha256": "4401b547533ad18cacf44389cb4e94b568d8bf7faff790b32025d6b146593e1b",
+      "bytes": 798304,
+      "role": "design"
+    },
+    {
+      "path": "design/generated/portfolio-light.png",
+      "sha256": "b3e55fe9a6c20576d137369862d23e1eb8408ecb8d4d6cf2913a251138e6e942",
+      "bytes": 799922,
+      "role": "design"
+    },
+    {
+      "path": "design/generated/scripts.png",
+      "sha256": "40d502984f6b7399e7a1eeebf92ec6bd2ec0817d5736bf6e69a63aa387cf09cd",
+      "bytes": 2502146,
+      "role": "design"
+    },
+    {
+      "path": "design/generated/viewbindings.png",
+      "sha256": "ef38809746e2fed64530276b98f936c2c9462cba13f39f8ffff4f09d39f53774",
+      "bytes": 4002258,
+      "role": "design"
+    },
+    {
+      "path": "design/metadata.json",
+      "sha256": "5380b3c07aa6ebd8f34609a08f59b8a1dfed49dc3822f0da6d4c819c65d22936",
+      "bytes": 186976,
+      "role": "design"
+    },
+    {
+      "path": "design/render-model.json",
+      "sha256": "d536e2bce8bbfc92f3b4cb16a5dce95540cf6a861ba8bcc2eeab2aad23c30399",
+      "bytes": 255757,
+      "role": "design"
+    },
+    {
+      "path": "design/tokens.json",
+      "sha256": "c54747781491b68ebfa46f097e3a66a058ce56b75b5feccb22a9a0e8c1cd45eb",
+      "bytes": 1023,
+      "role": "design"
+    },
+    {
+      "path": "design/build-receipt.json",
+      "sha256": "6fe6a46269782c43117fe4613ae793145729d09248841b1805ad58dec8bec61d",
+      "bytes": 4805,
+      "role": "design-receipt"
+    },
+    {
+      "role": "web",
+      "path": "web/app.js",
+      "sha256": "f3cd08565101aa365e0eedf1e5f6edc2615fd57941393282b9b5451f2b5b2094",
+      "bytes": 26853
+    },
+    {
+      "role": "web",
+      "path": "web/atlas-data.js",
+      "sha256": "982aaddf2a2bbe6f55c33b2fd5aede981fec6b10b55f42495cd2c03275b30c4b",
+      "bytes": 127891
+    },
+    {
+      "role": "web",
+      "path": "web/atlas-render-model.js",
+      "sha256": "fe5db193dffce5ff3daf25cbdbbeffe571ff49fe9fbe7a7690f978c246e656ba",
+      "bytes": 194538
+    },
+    {
+      "role": "web",
+      "path": "web/components.js",
+      "sha256": "2789f89800cc5d0c3e2d305289753c2290ad792b9dfc549d8d56073736c5d3be",
+      "bytes": 25775
+    },
+    {
+      "role": "web",
+      "path": "web/editor.js",
+      "sha256": "a5e607fdfa721eff472d8acf46d1d5880c58be1afa78aef45e2f8be608cd43a2",
+      "bytes": 11565
+    },
+    {
+      "role": "web",
+      "path": "web/index.html",
+      "sha256": "f2393fad0cbdfa3d0385384b851005f5d3a5a90b586cb4c257c221468607c61c",
+      "bytes": 6872
+    },
+    {
+      "role": "web",
+      "path": "web/live-client.js",
+      "sha256": "dfd7d33e34b2ac03db45c6b768822a94a4027f9fb8fd6ab88224d083d612a5f2",
+      "bytes": 8802
+    },
+    {
+      "role": "web",
+      "path": "web/live.css",
+      "sha256": "d9f3aec0c99c27c1607449cbf7e819d251d46edbdc00fce8d4690d1f8c8a7d6a",
+      "bytes": 1807
+    },
+    {
+      "role": "web",
+      "path": "web/metadata-validator.js",
+      "sha256": "a053f6ec4ca71c18168899f8f35d285e534e4ee56b9f27a438e7c2dd613f7bbf",
+      "bytes": 14474
+    },
+    {
+      "role": "web",
+      "path": "web/render-model.js",
+      "sha256": "0a4b9b1977917add230e5606a3cece09ca3c9e3350e751c0f8d33bf293c8999b",
+      "bytes": 12866
+    },
+    {
+      "role": "web",
+      "path": "web/style.css",
+      "sha256": "81d96a760aaec89d0520255af46124612a682099dac7d1abd717dce9f9a00ce4",
+      "bytes": 11271
+    },
+    {
+      "role": "web",
+      "path": "web/theme-tokens.css",
+      "sha256": "42af3a538338376474bb1c42a1d3a6fd4ebf2e0c949798bdf4dde8641f5dcc52",
+      "bytes": 1321
+    },
+    {
+      "role": "web",
+      "path": "web/theme.js",
+      "sha256": "1a218dae4fc68f3071d8335b66d64a675438a3fc29706c18f4c41620d603f97e",
+      "bytes": 2721
+    }
+  ],
+  "native": {
+    "generated": true,
+    "validated": true,
+    "success": true,
+    "components": 8,
+    "instances": 107,
+    "editableTexts": 529,
+    "variables": 10,
+    "images": 0,
+    "toolVersion": "figcraft-cli 0.6.0",
+    "commandCount": 691
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "geometryChecks": 18,
+  "viewports": [
+    1440,
+    768,
+    390
+  ],
+  "views": [
+    "portfolio",
+    "help"
+  ],
+  "scriptErrors": 0,
+  "networkRequests": 0,
+  "output": "F:\\OneDrive\\Documents\\ChatGPT\\PmlTwin\\artifacts\\contract-atlas"
+}

@@ -1,0 +1,21 @@
+{
+  "contractVersion": 2,
+  "planId": "775e01d2-d6d0-400f-9f64-ec3a83870e13",
+  "planDigest": "1abd18e8b2032d036ce4fa40daf59fbbaff5f0ae4a3ce0000d3657145e6a6584",
+  "state": "deployed",
+  "workspace": "saved",
+  "deployment": "deployed",
+  "activation": {
+    "reloadRequired": true,
+    "runtimeVerified": false
+  },
+  "recoveryActions": [],
+  "result": {
+    "uicPath": "F:\\OneDrive\\Documents\\ChatGPT\\PmlTwin\\artifacts\\ribbon-ui-live\\Phayton.RibbonVerification.uic",
+    "manifestPath": "D:\\AVEVA\\Everything3D2.10\\DesignCustomization.xml",
+    "nextUicHash": "",
+    "nextManifestHash": "39e9599de452aaaff2c85484ea66bf14696a2e54fc0efa6e82d777a4fac2dcce",
+    "backupDirectory": "",
+    "backup": "D:\\AVEVA\\Everything3D2.10\\DesignCustomization.xml.RibbonStudio.6f5f7172-120b-4593-ab6b-3b9871f7dc75.bak"
+  }
+}

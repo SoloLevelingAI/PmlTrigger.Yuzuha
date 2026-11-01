@@ -1,0 +1,147 @@
+{
+  "passed": true,
+  "results": [
+    {
+      "width": 1920,
+      "height": 1080,
+      "geometry": {
+        "width": 1920,
+        "scrollWidth": 1920,
+        "root": {
+          "x": 24,
+          "y": 117,
+          "width": 1872,
+          "height": 951,
+          "bottom": 1068
+        },
+        "path": {
+          "x": 24,
+          "y": 117,
+          "width": 340,
+          "height": 951,
+          "bottom": 1068
+        },
+        "tabs": {
+          "x": 393,
+          "y": 261.59375,
+          "width": 1502,
+          "height": 47,
+          "bottom": 308.59375
+        },
+        "panel": {
+          "x": 393,
+          "y": 308.59375,
+          "width": 1502,
+          "height": 758.40625,
+          "bottom": 1067
+        }
+      },
+      "sevenFields": true,
+      "stickyPath": true,
+      "sameScriptStepPreservation": true,
+      "scriptEvidenceScope": true,
+      "noInventedFlow": true,
+      "methodStatus": "ready",
+      "methodDockFits": true,
+      "methodDockPreservedAcrossStep": true,
+      "breadcrumbProjectFeatureScriptReturn": true,
+      "breadcrumbKeyboardHistory": true
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "geometry": {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "root": {
+          "x": 24,
+          "y": 117,
+          "width": 1392,
+          "height": 771,
+          "bottom": 888
+        },
+        "path": {
+          "x": 24,
+          "y": 117,
+          "width": 300,
+          "height": 771,
+          "bottom": 888
+        },
+        "tabs": {
+          "x": 345,
+          "y": 261.1875,
+          "width": 1070,
+          "height": 47,
+          "bottom": 308.1875
+        },
+        "panel": {
+          "x": 345,
+          "y": 308.1875,
+          "width": 1070,
+          "height": 578.8125,
+          "bottom": 887
+        }
+      },
+      "sevenFields": true,
+      "stickyPath": true,
+      "sameScriptStepPreservation": true,
+      "scriptEvidenceScope": true,
+      "noInventedFlow": true,
+      "methodStatus": "ready",
+      "methodDockFits": true,
+      "methodDockPreservedAcrossStep": true,
+      "breadcrumbProjectFeatureScriptReturn": true,
+      "breadcrumbKeyboardHistory": true
+    },
+    {
+      "width": 1024,
+      "height": 768,
+      "geometry": {
+        "width": 1024,
+        "scrollWidth": 1024,
+        "root": {
+          "x": 14,
+          "y": 115,
+          "width": 996,
+          "height": 639,
+          "bottom": 754
+        },
+        "path": {
+          "x": 14,
+          "y": 115,
+          "width": 246,
+          "height": 639,
+          "bottom": 754
+        },
+        "tabs": {
+          "x": 275,
+          "y": 245.28125,
+          "width": 734,
+          "height": 45,
+          "bottom": 290.28125
+        },
+        "panel": {
+          "x": 275,
+          "y": 290.28125,
+          "width": 734,
+          "height": 462.71875,
+          "bottom": 753
+        }
+      },
+      "sevenFields": true,
+      "stickyPath": true,
+      "sameScriptStepPreservation": true,
+      "scriptEvidenceScope": true,
+      "noInventedFlow": true,
+      "methodStatus": "ready",
+      "methodDockFits": true,
+      "methodDockPreservedAcrossStep": true,
+      "breadcrumbProjectFeatureScriptReturn": true,
+      "breadcrumbKeyboardHistory": true
+    }
+  ],
+  "errors": [],
+  "scope": "Real Chromium desktop layout, full contract/evidence, ready method dock, same-Script step preservation and breadcrumb keyboard/history; no Host execution",
+  "visualStatus": "agent-reviewed",
+  "humanStatus": "human-not-reviewed"
+}

@@ -153,6 +153,8 @@ public partial class MainWindow
                 Check(reopened.MdbBox.Text == "/ALL" && reopened._settings.Profiles.Count == 2 && reopened.LaunchHistoryGrid.Items.Count > 1,
                     "a newly opened workbench reads saved profiles and their history");
                 await reopened.CaptureSmokeAsync(Path.Combine(outputDirectory, "05-reopened-window.png"));
+                await reopened.VerifyLaunchWorkflowControlsSmokeAsync(outputDirectory);
+                Check(true, "reopened window observes original operation ID and unknown blocks a new launch");
             }
             finally { reopened.Close(); }
             Receipt("Passed");

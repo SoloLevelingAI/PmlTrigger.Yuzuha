@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "success": true,
+  "scope": "exact imported hashes, native designs and project reference closure; not live product acceptance",
+  "modules": [
+    {
+      "id": "rewrite",
+      "files": 310,
+      "bytes": 7021802,
+      "nativeDesigns": 1
+    },
+    {
+      "id": "next",
+      "files": 602,
+      "bytes": 31448451,
+      "nativeDesigns": 9
+    },
+    {
+      "id": "ribbon",
+      "files": 292,
+      "bytes": 29490682,
+      "nativeDesigns": 12
+    }
+  ]
+}

@@ -1,5 +1,7 @@
 # 契约草案 v0.1
 
+2026-10-31 续作：WPF 统一启动、Ribbon v2 冻结部署与只读迁移预览的细化契约见 [continuation-contracts.md](features/continuation-contracts.md)。下表逻辑名称及未完成状态保留；新操作必须在实际目录注册及验证后才视为可用。
+
 状态：planned，供实施细化；下列名称不是已经注册的 CLI operation ID。既有 46/52 项操作目录保持不变。本文件不修改 canonical contract.json。
 
 | 契约 | 最小字段/责任 | 失败与兼容要求 |

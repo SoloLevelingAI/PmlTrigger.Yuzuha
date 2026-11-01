@@ -1,0 +1,1556 @@
+{
+  "protocolVersion": 1,
+  "revisionId": "17079bcc50f849a4f32e5c1e07a960270fdea93c5349585aaa1a9348be764fc8",
+  "metadataDigest": "3fc46b35498f984114dab4a36b045fc95583056a682ef9f07d91eb699bb4ebc9",
+  "renderModelDigest": "d639325853a06cab762e82611ad9140ac84458db1581109350c0e5dfffb441d5",
+  "methodCatalogDigest": "5bedb9735fbf259b054163c03d5cd9bec9d7c1d9809c950c34643612564a2e9d",
+  "manifestUrl": "/revisions/17079bcc50f849a4f32e5c1e07a960270fdea93c5349585aaa1a9348be764fc8/manifest.json",
+  "createdAt": "2026-11-01T09:55:40.589Z",
+  "sourceRevision": "59e1934aaad0b5e3c6cc5258afa7c3dc4d64029b27127ae45a3b1096f996a51c",
+  "inputs": {
+    "docs/contracts/evidence.json": "40323c99e3b189b631ee51f58b30aa9263e0e9140d38c1e088e3954c5df91132",
+    "docs/contracts/presentation.json": "59e1934aaad0b5e3c6cc5258afa7c3dc4d64029b27127ae45a3b1096f996a51c",
+    "docs/presentation/contract-atlas/metadata-validator.js": "a053f6ec4ca71c18168899f8f35d285e534e4ee56b9f27a438e7c2dd613f7bbf",
+    "docs/presentation/contract-atlas/tokens.json": "3fd1bab96aac95ecae8935bbb566dc6aedf53d5829fefed516a776b281fee76f",
+    "docs/reference/capabilities.json": "c0865d35f89ded20b715abd1f9694e2844917bdc5e84c189f19a4797b3424b5a",
+    "docs/reference/project-contract-overview.zh-CN.md": "1c253f9f4ec4baeadc4e598107de726fa34490905a32d84840e4737571532000",
+    "docs/specification/contract.json": "7fce555c78b4f79114b61d6d8c37da557d3b8352a60fa7c0c572f9684bce18af",
+    "docs/validation/ribbon-restart-2026-10-31.md": "9778c9cfde3970cbfb91588678bfc5becc08f4007fb7305c1ca7181d7c680044",
+    "openspec/changes/integrate-pmltwin-product-platform/baseline/id-feature-map.json": "e60c5eba64b1bb8172710b7be5956f07a8f67882da558f0b823140fc42e6dc6b",
+    "openspec/changes/integrate-pmltwin-product-platform/contracts.md": "23f45ae6ebacd16f52c4d83b3b39915156a5fd841315d207059e04028f9e4fd7",
+    "openspec/changes/integrate-pmltwin-product-platform/design.md": "26eecef7035a6094ee24ae9a14956b0fbefc9cadac64caaaf7fc980b7720223f",
+    "openspec/changes/integrate-pmltwin-product-platform/features/caf-adapter-handoff.md": "504b9ef46c610669bf1c4e4113b15950abfbd22c7b08f77fa89c7f9088c9814d",
+    "openspec/changes/integrate-pmltwin-product-platform/features/database-handoff.md": "4a57b1c75ec338f29896d4acf24a92ffd237a11ea2b64d2f96b08ed22b7b9953",
+    "openspec/changes/integrate-pmltwin-product-platform/features/migration-preview-continuation.md": "3c0e42140b5a46e65301098e82794e459a092fb1acdce8ffdc1601a24deb72a1",
+    "openspec/changes/integrate-pmltwin-product-platform/features/ribbon-ui-continuation.md": "526b7e7542a1502f9aac70f642e89911503b4faa478bfe8958f150db04ed5567",
+    "openspec/changes/integrate-pmltwin-product-platform/proposal.md": "8cc7005d53bdcc99ab18ef42f432736bfbb1b6c7a7db4ffa63c8983c069f8848",
+    "openspec/changes/integrate-pmltwin-product-platform/tasks.md": "1edc50e62daa1b422d1b7d39262d39b467263dce3551969ec8fb9ad4ef9590bb",
+    "@contract-methods": "7919338231568c01a599a5ca9639a7de407b273ccce303dcb0e71cf3fda72673"
+  },
+  "artifacts": [
+    {
+      "role": "metadata",
+      "path": "metadata.json",
+      "sha256": "3fc46b35498f984114dab4a36b045fc95583056a682ef9f07d91eb699bb4ebc9",
+      "bytes": 186957
+    },
+    {
+      "role": "renderModel",
+      "path": "render-model.json",
+      "sha256": "d639325853a06cab762e82611ad9140ac84458db1581109350c0e5dfffb441d5",
+      "bytes": 621466
+    },
+    {
+      "role": "methodCatalog",
+      "path": "method-catalog.json",
+      "sha256": "5bedb9735fbf259b054163c03d5cd9bec9d7c1d9809c950c34643612564a2e9d",
+      "bytes": 1977370
+    },
+    {
+      "path": "docfx/api/toc.html",
+      "role": "docfx",
+      "bytes": 38857,
+      "sha256": "81ff315ac9cb7a94e2bb8cafce1cbd986497316f0ab5a7f5e595d6dec8ef5d3f"
+    },
+    {
+      "path": "docfx/api/toc.json",
+      "role": "docfx",
+      "bytes": 39968,
+      "sha256": "c827d1ae2d10e3bc9a08519b0a31e1750e9183a76c9e9dba9a89ab6c6703450d"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.CommunicationCliClient.html",
+      "role": "docfx",
+      "bytes": 10997,
+      "sha256": "3c03276aecae04986f2eeffda6087d5ef2b6d6dbbcf01e54c75dd5d73b6357f6"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.CommunicationCliOptions.html",
+      "role": "docfx",
+      "bytes": 12512,
+      "sha256": "4c611847e5a3fcef671e1c093d8b51595d41ced12061fd72bdee247544f87b79"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.ConnectionEvidence.html",
+      "role": "docfx",
+      "bytes": 16040,
+      "sha256": "407d527520359dabc96f88dcc17b265fb9f8902d00cb595988154218cd576f7d"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.ConnectionLamp.html",
+      "role": "docfx",
+      "bytes": 10707,
+      "sha256": "73762227cbe55d982158a227076b38a226e9cd4c121067307e59b9b4d2881a2b"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.CopyFormatCapability.html",
+      "role": "docfx",
+      "bytes": 13402,
+      "sha256": "1e658ae58cf05eaa40dd0e4d3c9085e57e84b1c34f0facbfef5f3e0bf741b15d"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.CopyOperations.html",
+      "role": "docfx",
+      "bytes": 8926,
+      "sha256": "e16ef204a60982cdfe4254ddb0f3f7e37cef39e430db67d70a593bcd7da7630d"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.EvarsApplyException.html",
+      "role": "docfx",
+      "bytes": 10814,
+      "sha256": "4fafd440398dad90d7346cae278de917e91761e584c57d8edbe4c25b6dfda025"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.EvarsEditor.html",
+      "role": "docfx",
+      "bytes": 13395,
+      "sha256": "f88a41be2b597bc4c679281bd000aa640882692a1c3ec0e58266118e79c802bd"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.EvarsEditPlan.html",
+      "role": "docfx",
+      "bytes": 18986,
+      "sha256": "e998e5fbb5fb2a24aade807a17288fe5c294a3f1992cbd0dbaf111be2c387e06"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.EvarsEditReceipt.html",
+      "role": "docfx",
+      "bytes": 13060,
+      "sha256": "f01ec15113f051fbaecfe2627ab6e186a55a4001d8f1c0f86bca06abb780276d"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.EvarsOperations.html",
+      "role": "docfx",
+      "bytes": 7805,
+      "sha256": "bf85c2a919876c118ea634c75433717ec84c453033867ca951c66df0ac7a5f0f"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.EvarsPreviewSummary.html",
+      "role": "docfx",
+      "bytes": 16836,
+      "sha256": "0c3c4ed729e645f426456f6889b7abe5eb16d41ab357dec3b2d73c175618f1aa"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.EvarsReceiptSummary.html",
+      "role": "docfx",
+      "bytes": 12071,
+      "sha256": "f1374aa0628b2ac0ebbaf75f64c26e314be41a2af5e8240b6de0a0f616b9c6a9"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.FeatureCompositionOptions.html",
+      "role": "docfx",
+      "bytes": 11336,
+      "sha256": "205964efe8a202b548eb21478b84e4deb5eab3ceb837662441a0650b5da91751"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.FeatureDescriptor.html",
+      "role": "docfx",
+      "bytes": 21884,
+      "sha256": "623d068443b9d6ba313697fe11504c57a44010ff0a5c495af8593260c04eb2db"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.FeatureJsonContext.html",
+      "role": "docfx",
+      "bytes": 20919,
+      "sha256": "a16ac3b4f99e97f0715d84a57adb8c8e78d30ee36170f540dad239e0d24673be"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.FeatureOperations.html",
+      "role": "docfx",
+      "bytes": 7684,
+      "sha256": "944a4f88e105221b00573099b9987ac1e9610f081c97e33e4e138f2e5fa3ad88"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.FeatureRegistration.html",
+      "role": "docfx",
+      "bytes": 10552,
+      "sha256": "f6b96a2599a0dd7598c2ca08dbde39864c46ba3e1fa656e394fd1121f78d25ec"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.FeatureRegistry.html",
+      "role": "docfx",
+      "bytes": 12026,
+      "sha256": "72cc711e154942918d8f7b8556bfb67f3c061b0185d0bbe6ab0131b395676c71"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.FunctionManagementOperations.html",
+      "role": "docfx",
+      "bytes": 8259,
+      "sha256": "9be06b858fcc220e744419ff3941fafb26b6784b44469c67d8fae807bbdfbfb7"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.html",
+      "role": "docfx",
+      "bytes": 27455,
+      "sha256": "ac79d008aa306b796eb6eb206f7f364fee2f5a43a01ff869d9a0af851de3ac00"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.InstallationOperations.html",
+      "role": "docfx",
+      "bytes": 7270,
+      "sha256": "03fe4f5135e690cbe4da89021eaca33d71c348892a3a4f09544ff682b0a3e1ce"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.KnowledgeImportPlan.html",
+      "role": "docfx",
+      "bytes": 17103,
+      "sha256": "c57609a3a0cb8cfd4ef5e031124d763a1fe50345e76b0372047a6d30112e8671"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.KnowledgeImportReceipt.html",
+      "role": "docfx",
+      "bytes": 9856,
+      "sha256": "61d25638bdeb6f9eb1589ee1c2bef517414b0a6aad9b84024e59eb60f54e8aa1"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.KnowledgeImportRequest.html",
+      "role": "docfx",
+      "bytes": 19358,
+      "sha256": "29bc9a85f8c7aa63b68e17bb9833380f9e295f38e0a4b5b7e6d9deb4a9a7f5eb"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.KnowledgeImportService.html",
+      "role": "docfx",
+      "bytes": 11310,
+      "sha256": "7cd75bc638751d9268992a8bb5a192215efa7c67d5c25be3b9d9c0ed4625c122"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.KnowledgeOperations.html",
+      "role": "docfx",
+      "bytes": 8187,
+      "sha256": "6d9acae9029428abd6d43c3996e7f51d8eeb85bdfad6dfdf7329ceebc1534888"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.LaunchChildEvidence.html",
+      "role": "docfx",
+      "bytes": 14612,
+      "sha256": "dd4a803f5a0bea2cfb9df5ac7c2f6d4eea04a7b3bb4717a88064d7bd8a25bf87"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.LaunchDesk.DiscoveryDiagnostic.html",
+      "role": "docfx",
+      "bytes": 11270,
+      "sha256": "4c311a5d532ed6610c5c57fb5610a3730ca7e9d2394cd202f3dd72e3b7740992"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.LaunchDesk.DiscoveryFileSystem.html",
+      "role": "docfx",
+      "bytes": 16349,
+      "sha256": "dd6732e077cafa81060ffd881b1cab3d7f55359217b33f5bf83a446f7116e35c"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.LaunchDesk.DiscoveryOrigin.html",
+      "role": "docfx",
+      "bytes": 11089,
+      "sha256": "f62c4493f89c96094cf5ffd15a1a562cfe3339d8eb8da9e2fd71a047d5693b70"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.LaunchDesk.FindAvevaProjectsAndModules.html",
+      "role": "docfx",
+      "bytes": 10023,
+      "sha256": "9be375b4201e21db535a9f61d2915578f385732ec02e494c8e685eac3730ef5a"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.LaunchDesk.html",
+      "role": "docfx",
+      "bytes": 6736,
+      "sha256": "d0b953f0cf4bb555e36ef6e4e2bfc087fef0648bb214d56354a16fbb79c3d250"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.LaunchDesk.IFileSystem.html",
+      "role": "docfx",
+      "bytes": 14450,
+      "sha256": "b41f6bdd7e60b0738a7e50e300fed352e14b675adb583f46fa30e192797c7ee9"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.LaunchDesk.ModuleHint.html",
+      "role": "docfx",
+      "bytes": 9883,
+      "sha256": "70c6fca1626f9db595a5df06cabcff500f8c90dfc9dfc19173c824cdc7163b5d"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.LaunchDesk.ProjectHint.html",
+      "role": "docfx",
+      "bytes": 12365,
+      "sha256": "265dcb584d4ccdd0ffd161778eed1039d559ed55f54424738fe2ec3b86f77108"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.LaunchDesk.ProjectModuleOptions.html",
+      "role": "docfx",
+      "bytes": 13969,
+      "sha256": "a254e7cf329625e1848ba720781e690ff6779cc68c2b310cfbfda1c8bf6012bc"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.LaunchDesk.ProjectModuleReport.html",
+      "role": "docfx",
+      "bytes": 16327,
+      "sha256": "2d77af6a57419f1d6c50ebd1a24a37e34254f26c99579a1f796fa9d26441f5ef"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.LaunchDesk.ProjectRootHint.html",
+      "role": "docfx",
+      "bytes": 10017,
+      "sha256": "f838b1277607e7adaac4ec5501d058a4dfbe664d6f7b3f83e37b98910b74b294"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.LaunchDeskImport.html",
+      "role": "docfx",
+      "bytes": 10278,
+      "sha256": "c8f1dd5556b04a76d594da2d1f063d1629c08e4c5c33a3eb9bb32682a47b8b6d"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.LaunchDeskImportedDraft.html",
+      "role": "docfx",
+      "bytes": 12337,
+      "sha256": "7bc515f9dab2aeda6b72094f0549722aba0f842bcb47efb345b3cb6e030432eb"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.LaunchDeskImportedHistory.html",
+      "role": "docfx",
+      "bytes": 15350,
+      "sha256": "4a67e33dae98f1bf7791daa8133653865bcb6fe26ef7a996f4e00461751154d6"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.LaunchDeskImportOperations.html",
+      "role": "docfx",
+      "bytes": 8213,
+      "sha256": "d220f914e92900397cb03cae617820473f30dd5f5ae407c14c95e33270e287ef"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.LaunchDeskImportPlan.html",
+      "role": "docfx",
+      "bytes": 15082,
+      "sha256": "3945a5872497b8f1384a14cfd9ec684f0ff74c781c7be934643360e92d455306"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.LaunchDeskImportReceipt.html",
+      "role": "docfx",
+      "bytes": 13254,
+      "sha256": "4013be542ecc2c613d538c3d8a838a03d65fbe3a7636604632f5440611ebbb0d"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.LaunchDeskImportSource.html",
+      "role": "docfx",
+      "bytes": 9806,
+      "sha256": "732b45eb7197d0b1eb8f5518dadbbc9b2c452c37420a36d7ad1b01cbdbf0fd61"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.LaunchDiscoveryCandidate.html",
+      "role": "docfx",
+      "bytes": 12593,
+      "sha256": "80b2292093b10cebad0d3dd8fe71f453e20823fe58b0867b06ea23640d745aa9"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.LaunchDiscoveryCoverage.html",
+      "role": "docfx",
+      "bytes": 14798,
+      "sha256": "690985c938e80e5ecd9ac83e1827f7f7f8eb9107536616cbedb21a64b4353cb6"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.LaunchDiscoveryDraftConverter.html",
+      "role": "docfx",
+      "bytes": 12385,
+      "sha256": "5d60c56bcc2aa2976509d3db93ac49b9c123a05402dbbe6f6d25ce1525961d3f"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.LaunchDiscoveryJsonContext.html",
+      "role": "docfx",
+      "bytes": 65162,
+      "sha256": "7c94377402d946b70038f6ab242b8050f54ef28b6e4872dad7b7483c79b29736"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.LaunchDiscoveryOperations.html",
+      "role": "docfx",
+      "bytes": 9148,
+      "sha256": "e166243871b1ecb4efdb3e78f196a931840b657fc25b14fb0602eeb5e915b4f8"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.LaunchDiscoveryRequest.html",
+      "role": "docfx",
+      "bytes": 19046,
+      "sha256": "a2992661a5d43f26cc46fab154d6c3e02486e29062a0702283116e4a4c23c291"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.LaunchDiscoveryResult.html",
+      "role": "docfx",
+      "bytes": 20309,
+      "sha256": "98f02034d933b2406b3741db12c7d6c1e5ad48b90dc658bdd17922763f1e6061"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.LaunchDiscoveryRoot.html",
+      "role": "docfx",
+      "bytes": 9647,
+      "sha256": "e016a9f1e32291f1680e1666fbf3793bb1f7ba28cbde02eb5a61c2c96a0b2a34"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.LaunchDiscoveryService.html",
+      "role": "docfx",
+      "bytes": 10588,
+      "sha256": "6f406209bf7d4e5fb136b45cc8c5ecb133538a752921aa6dee94755b88c5e46d"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.LaunchLicensePreflight.html",
+      "role": "docfx",
+      "bytes": 8665,
+      "sha256": "938a5e52d860acee1f4d562d44ac53dabc99dd797c1e83b48cb31490e15f7537"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.LaunchOperationCatalog.html",
+      "role": "docfx",
+      "bytes": 10274,
+      "sha256": "df06b2f6a087600817009bd15ef6d23895d42a1bdde6fdd8b77ba9da947a31a0"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.LaunchOperationDiagnostic.html",
+      "role": "docfx",
+      "bytes": 10178,
+      "sha256": "f36773498c1c7052c5471268283864af8f7f89da5b93a7d139d2901f53b2933d"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.LaunchOperationJsonContext.html",
+      "role": "docfx",
+      "bytes": 31880,
+      "sha256": "38040fdd22bf93b4f76b6276077c18bd5e8f4ea7c2512a58bac8c9b8931a49b9"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.LaunchPrecheckResult.html",
+      "role": "docfx",
+      "bytes": 13435,
+      "sha256": "b6ef350f2fa5a84358fd74f37e4740d6a7b8f9f5f838a64ae8a4b7e59566692f"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.LaunchProcessReceipt.html",
+      "role": "docfx",
+      "bytes": 13597,
+      "sha256": "59464cf525a148ca782b1ce39514b2f262bc2758a24a265609de9eeaca8680c5"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.LaunchReceipt.html",
+      "role": "docfx",
+      "bytes": 26548,
+      "sha256": "1cfab68cdbe767857c8e86911d841132649cce4beca65d2406c67e6399633296"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.LaunchResolvedField.html",
+      "role": "docfx",
+      "bytes": 15667,
+      "sha256": "a5b79b24567a009dfb56aec4040f5a6ece907c88d5133a31472663045d634122"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.LaunchTargetFile.html",
+      "role": "docfx",
+      "bytes": 9605,
+      "sha256": "5c45c42a8fa927ca49e5ab7ffb60312d8dcaa410d543b0311ba3d812664cf9a4"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.LaunchWorkbenchServer.html",
+      "role": "docfx",
+      "bytes": 12306,
+      "sha256": "5b8856481ca5006797406c2fee494ebe9917f04cbb12f55bd8cd95f91e7c8291"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.LaunchWorkflowJsonContext.html",
+      "role": "docfx",
+      "bytes": 31306,
+      "sha256": "98bd8a233f1c9d51c14b9686bb7f81382893d92193314b2acca8719265248112"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.LaunchWorkflowOperations.html",
+      "role": "docfx",
+      "bytes": 7998,
+      "sha256": "c03fa44848e75a0eba4a2364e70364434b07cf3623f460ed3e0ce0b94d18f105"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.LaunchWorkflowPlan.html",
+      "role": "docfx",
+      "bytes": 14719,
+      "sha256": "cc26d9071f676929ee6ac95e28238b2b6b1ab62a9d3a103e577557d3b5305cd9"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.LaunchWorkflowService.html",
+      "role": "docfx",
+      "bytes": 17874,
+      "sha256": "44d2b3c8889eedf688735be61f145e9c2e034af829d32add50b037e969328246"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.ManagerCliHost.html",
+      "role": "docfx",
+      "bytes": 8974,
+      "sha256": "680d727777249f780fbaa16af7e28101d06f1feee4fc186f788b7ecec9d6bf64"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.ManagerConnectionEvidence.html",
+      "role": "docfx",
+      "bytes": 19031,
+      "sha256": "6fa194a7d6cd4c24c67a5a937cd25906bf06773b911beb92966c963644693d5a"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.ManagerConnectionTarget.html",
+      "role": "docfx",
+      "bytes": 13557,
+      "sha256": "5c4dcde031b5f5f9c55f8a23996d850356447044d2eaf0088e4affd5fb6fd5d2"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.ManagerConnectionTestResult.html",
+      "role": "docfx",
+      "bytes": 10178,
+      "sha256": "b4ca3e5889b1e46aa03944b2c6032b4c580e464c62a6b00a15ac9607e8b424ac"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.ManagerCopyDiagnostic.html",
+      "role": "docfx",
+      "bytes": 15762,
+      "sha256": "891faaec8fa6ce6f9884225f0f54c01e59cd843f934bb5cbd2c9aacc9221a211"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.ManagerCopyPlan.html",
+      "role": "docfx",
+      "bytes": 9727,
+      "sha256": "555d533b564a26c4c743ad73c467e3bed698bd2a11e51013de81ec587af9e290"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.ManagerCopyReceipt.html",
+      "role": "docfx",
+      "bytes": 9809,
+      "sha256": "214cd7fc51b7c0886caae0e8c562f4a6750a00304c8d11a0a1ebcc8c4f7dfbd6"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.ManagerCopySummary.html",
+      "role": "docfx",
+      "bytes": 13107,
+      "sha256": "56614218f07d633f3ca21cce0bd4a89b266b5e27ae84fc4c8e7b00de1572498a"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.ManagerEnvironment.html",
+      "role": "docfx",
+      "bytes": 12339,
+      "sha256": "05be9d2fdf012e15b49ff47f2684c7a3c3e5a01f172a0f43623c7737d551455c"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.ManagerInstallationCandidate.html",
+      "role": "docfx",
+      "bytes": 10395,
+      "sha256": "470df638717de281165d8255cbc0d26af6378b0cf0a361cedd3b9a344a1cba33"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.ManagerInstallationDiscovery.html",
+      "role": "docfx",
+      "bytes": 13560,
+      "sha256": "35d5ef8bf0f2350ea2a9eaf4ee17d9703bf4b22e6e79073d8f90133d54655194"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.ManagerInstallationIdentity.html",
+      "role": "docfx",
+      "bytes": 19857,
+      "sha256": "65e30fc270c626023a27691b372552fbb779ec2e6d444349246d3202d42eb3e5"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.ManagerInstallationReport.html",
+      "role": "docfx",
+      "bytes": 12717,
+      "sha256": "d771ee2b14aa14b50158c8ca43793be81184c3d64ab68b16e9f215d962c48dbb"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.ManagerJsonContext.html",
+      "role": "docfx",
+      "bytes": 150707,
+      "sha256": "7b835609e0947e5a7ef4730eab58aa9141ab50fe38c21b120acb208d6f2c72a5"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.ManagerKnowledgeChunk.html",
+      "role": "docfx",
+      "bytes": 9832,
+      "sha256": "ef5807febd758ea3cac3f289b8c89258ce158ba9068d67cfcefedd0ed9a4447e"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.ManagerKnowledgeSearch.html",
+      "role": "docfx",
+      "bytes": 13745,
+      "sha256": "62d69195bf54717514b0ba4d9c61c21c7d80a3469a69a6fa11b34b70fd135399"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.ManagerOperationCatalog.html",
+      "role": "docfx",
+      "bytes": 9805,
+      "sha256": "f082dd544ca6df77e1acee8f692637d16f7d7e2e58fdc8caaeaee7802a360ee0"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.ManagerPlanReference.html",
+      "role": "docfx",
+      "bytes": 12206,
+      "sha256": "152f8f8b2ed9fc04657fa941b58cd4f762876f6a1977fd1448c574672332e799"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.ManagerPlanStore.html",
+      "role": "docfx",
+      "bytes": 12610,
+      "sha256": "16b8edb889c09078e68688c53f6c87df4131162db978005d0951ab3f8a7b22fa"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.ManagerPluginCatalog.html",
+      "role": "docfx",
+      "bytes": 9827,
+      "sha256": "3c4fb127f58ea7a8d7f919b2e60d42a0ec2d6dfa0b436706c7558f79d264e53c"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.ManagerPluginInstallPlan.html",
+      "role": "docfx",
+      "bytes": 17061,
+      "sha256": "6d5a0b0b6bc6d231bab687ca330c444da71b48362697247c9b513467611a2d99"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.ManagerPluginInvocation.html",
+      "role": "docfx",
+      "bytes": 10985,
+      "sha256": "38a82d45f78d965d4e2951937b53b7b55f02890545a82382f4cd99975d452d78"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.ManagerPluginRegistration.html",
+      "role": "docfx",
+      "bytes": 13497,
+      "sha256": "87939f9e24c16fcd3f44bcce9316ed53da2e65ecb1d7a31c1ee1231594797623"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.ManagerPluginRegistry.html",
+      "role": "docfx",
+      "bytes": 17923,
+      "sha256": "d143c425ca502446f0b5fbf911e79a55ee3c4c75753f18205d5df1de25016a26"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.ManagerPluginRegistryDocument.html",
+      "role": "docfx",
+      "bytes": 11524,
+      "sha256": "babf64168ca955813dab2935d6faa838bc64bf744cb2d54ef4458fefe6dec41b"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.ManagerPluginRegistrySnapshot.html",
+      "role": "docfx",
+      "bytes": 10118,
+      "sha256": "e7b29e9ce3f4fe72e5aa04b194d6c1d8fa28fbd537a54672bf5d5494d7ee5f8c"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.ManagerPluginRow.html",
+      "role": "docfx",
+      "bytes": 12196,
+      "sha256": "7ecf3ab806328a42a1fada88a899f3bd4b45655855f259165d3b9747b93e1479"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.ManagerStoredPlan.html",
+      "role": "docfx",
+      "bytes": 11956,
+      "sha256": "52d43b6ae4814f39941e2ad5b90c0997b7a46e5644a02132a299ecc57d4df1ec"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.MigrationPreview.html",
+      "role": "docfx",
+      "bytes": 8315,
+      "sha256": "f16ca0646a1e3a499c23aa6804d003cbd8db3e33fd0e6845c4f461393177fff9"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.MigrationPreviewDiagnostic.html",
+      "role": "docfx",
+      "bytes": 10990,
+      "sha256": "f05d5d096604316a4fdef313e052d7f05b4aaae22d4ee8fe81767b1abb97707a"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.MigrationPreviewJsonContext.html",
+      "role": "docfx",
+      "bytes": 25637,
+      "sha256": "07cf5a0e03796d0525fcc17ed5cded93a3af84610a22640ac7414b1bd1a4630b"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.MigrationPreviewMaterial.html",
+      "role": "docfx",
+      "bytes": 12389,
+      "sha256": "4b753ae58abe8773b261f6d694a6b18dd95b9d5acb93115e0f75a31f3802fa5a"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.MigrationPreviewOperations.html",
+      "role": "docfx",
+      "bytes": 7380,
+      "sha256": "7b545d4d60a6eb80bbafcded1b6667461f7fc25882c5820ebf413d03befbb781"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.MigrationPreviewReport.html",
+      "role": "docfx",
+      "bytes": 14981,
+      "sha256": "5f884c9efa55b6ede5fa26e62e3b9d891826f77adadf7790ee286a2cff11320d"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.PluginOperations.html",
+      "role": "docfx",
+      "bytes": 8187,
+      "sha256": "cfdd283991ccb82a2c40b81c5cb29b2ccbd0c4d53b1dc23f83b431e773e6d470"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.RibbonHttpAdapter.html",
+      "role": "docfx",
+      "bytes": 14392,
+      "sha256": "92317d92dab2e946319cfa221c9e7ce0887288cb90afa3d0a8da82bac70a7961"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.RuntimeDeploymentDiagnostic.html",
+      "role": "docfx",
+      "bytes": 11247,
+      "sha256": "96c823c17d75ab7fa20bdd447c9db2a57e7b4d41c5e5d0f7ce1106c395b5ce03"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.RuntimeDeploymentException.html",
+      "role": "docfx",
+      "bytes": 11043,
+      "sha256": "abbe1f908dab477b8330141362112ba846ecc2bcf7e128708611df6f7b058cdd"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.RuntimeDeploymentOperations.html",
+      "role": "docfx",
+      "bytes": 8290,
+      "sha256": "2b05ccbd189adf6bce5dbcd0aa9d140c1767b1ae55a2258bbae2f711af87da12"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.RuntimeDeploymentPlan.html",
+      "role": "docfx",
+      "bytes": 18790,
+      "sha256": "c21ce30857fb7e3312ad998e1bcba501b7ed665423a6dce56250191628c730a6"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.RuntimeDeploymentReceipt.html",
+      "role": "docfx",
+      "bytes": 13895,
+      "sha256": "d90a478d112570e918d87294d6641814bc994dffb9dd1fc057a9a92b151e4ff4"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.RuntimeDeploymentRequest.html",
+      "role": "docfx",
+      "bytes": 21079,
+      "sha256": "ee463ce06dd9b07aed7e0033bb10c2181a14435a66a0c76c85a322fda66d3850"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.RuntimeDeploymentService.html",
+      "role": "docfx",
+      "bytes": 12978,
+      "sha256": "30141cd5b8c596a1ae2b4fe536bf98a7070b8a6fafcfe9228c4365194d48e971"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.RuntimeDeploymentSummary.html",
+      "role": "docfx",
+      "bytes": 19888,
+      "sha256": "acb248cd33e520586e1094097b58541e41976b0f1cfe154871d8ef17cc14c640"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.RuntimeOwnership.html",
+      "role": "docfx",
+      "bytes": 12543,
+      "sha256": "f01e6cbf5aff0881726b2fd26be7b2e635e2650e593354d5582c85383d9e31b6"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.SevenZipCopy.html",
+      "role": "docfx",
+      "bytes": 15020,
+      "sha256": "3ba435cab02ff7583a64876a0db3c33ba215d04dfe589f1d96f0b54e5120cf6b"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.SevenZipCopyPlan.html",
+      "role": "docfx",
+      "bytes": 13239,
+      "sha256": "df09c9a5d72cf81aebd9a30d19b3038ce2efa1f9378a0bad4f94308ca9355666"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Manager.UserDataOperations.html",
+      "role": "docfx",
+      "bytes": 7904,
+      "sha256": "5fdf8a0e1908e02c88f615452bae3c88fa758c7b9ecfd7516bf7808b041fa1a3"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.ActivityEntry.html",
+      "role": "docfx",
+      "bytes": 21803,
+      "sha256": "9dd9ddf4a508422ffed091578fa192ab85c5806a61e4124f6c4c7aa067daff33"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.ConfigChange.html",
+      "role": "docfx",
+      "bytes": 10679,
+      "sha256": "204752398f002643dbc9964e59a762147a3200926d5856b6fcc5ebab90945b53"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.ConfigCommit-1.html",
+      "role": "docfx",
+      "bytes": 11283,
+      "sha256": "576d706349d384aa1ce7b610ce909d3a5b6b14df8b49f88e81fb9eb47a9000db"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.ConfigHistoryEntry.html",
+      "role": "docfx",
+      "bytes": 15820,
+      "sha256": "91e198d98d8c7e29038cb9415eb0606445a6dac2fa84ad33168d1e6740c23fcf"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.ConfigSnapshot-1.html",
+      "role": "docfx",
+      "bytes": 13383,
+      "sha256": "c113521f0b85aec06641db41407f3e081db9118601cb17b044650dcc242e5d1a"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.ConfigurationChangeReason.html",
+      "role": "docfx",
+      "bytes": 11086,
+      "sha256": "c3d3f66deabd72145a8f9e2c8c216e581f697c46dfa8d4b2291a73bcf27560c7"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.ConfigurationConflictException.html",
+      "role": "docfx",
+      "bytes": 10488,
+      "sha256": "0a60dd79d27a1c7cc17f0792b135db84ac36737a2e46889abaa379d5bb6c608d"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.DeploymentApplyException.html",
+      "role": "docfx",
+      "bytes": 12288,
+      "sha256": "66b702c3e38b351e6fe22bfb0a9518edce4f76b37a5bc0b954d0c02b1713642c"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.DeploymentFile.html",
+      "role": "docfx",
+      "bytes": 15779,
+      "sha256": "282416fa9383007ae07f72e1b791b0bc17cbb4072c0daebf8b3206a4ca2c8df0"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.DeploymentPlan.html",
+      "role": "docfx",
+      "bytes": 15138,
+      "sha256": "95b11d91a348a7873f26661617923c7cf86cda952a93d217bd5c56b73b49fdad"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.DeploymentReceipt.html",
+      "role": "docfx",
+      "bytes": 13817,
+      "sha256": "7e014dacd90894ac11f25e18158d932c910b27cf1b4115ef2a35ede53d68a09a"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.DeploymentRestoreReceipt.html",
+      "role": "docfx",
+      "bytes": 11274,
+      "sha256": "65602d40402f2d3ade34b480835657a10d8c1f05c1fe36eb3d52be21bef71d6b"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.DevelopmentJsonContext.html",
+      "role": "docfx",
+      "bytes": 44012,
+      "sha256": "9250e2fb60f802a8afaab8db59ae115781c208615b7663d67eb1ea9f93a04420"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.DevelopmentManifest.html",
+      "role": "docfx",
+      "bytes": 16530,
+      "sha256": "fe614d9a519d8a169be7e9d5c59706cccc81bc2b9cbda2b304ba9c2887900a71"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.DevelopmentPreview.html",
+      "role": "docfx",
+      "bytes": 12352,
+      "sha256": "4538201d79f58d6fbec0d8bcd6b33232dce481465d1a9e6405baa2feb401908e"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.DevelopmentReply.html",
+      "role": "docfx",
+      "bytes": 12120,
+      "sha256": "fbcda86d9283889a597be4b6a83259ab5e685a8a6b176b695b877cca514ed6a6"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.DevelopmentRows.html",
+      "role": "docfx",
+      "bytes": 10963,
+      "sha256": "4b99a1c630253491c056ef702e2a474822cfd8524f1048e0968db221b5e556ad"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.DevelopmentRun.html",
+      "role": "docfx",
+      "bytes": 14624,
+      "sha256": "bb4f5f847ebc0e387db15e862f57e5956a750e48715751faaf24b1cd1539dd91"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.DevelopmentStep.html",
+      "role": "docfx",
+      "bytes": 9697,
+      "sha256": "c9ec50a0c428549cdf1d61c2cd2dba3bd8c93ef709cdf68b22b6aab6dbbb880c"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.DevelopmentTarget.html",
+      "role": "docfx",
+      "bytes": 10886,
+      "sha256": "6207bed3655a22b052558b2492e04f323d46d15ae576651aa269153f974fe54e"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.DevelopmentValue.html",
+      "role": "docfx",
+      "bytes": 9662,
+      "sha256": "6f06819290041c3cbce3f1bca555285592b79cb1217d934f6eb299f1619729ad"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.DirectoryHealth.html",
+      "role": "docfx",
+      "bytes": 26332,
+      "sha256": "aec0a4ac8562be543165fae7fd48ffbdc8f9a63b9dd98df4be4463c715a55707"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.DirectoryInspector.html",
+      "role": "docfx",
+      "bytes": 9388,
+      "sha256": "bcaf51679822015fb7be8e3b7f135578f251900eef1df76150ee1b3a0974e1a6"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.html",
+      "role": "docfx",
+      "bytes": 17279,
+      "sha256": "9bd1cc8928dec6c8fab8daa1021efe625965d67d2a3eb2d765e5450ceef2af52"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.HtmlAppLauncher.html",
+      "role": "docfx",
+      "bytes": 10185,
+      "sha256": "725efe90bcbd4e940bbc8dfe4dbe0ae084516dc6bb077b849113f5dccd937f2a"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.IConfigurationStore-1.html",
+      "role": "docfx",
+      "bytes": 11173,
+      "sha256": "fd3c2ace1da5f548c88c92340b0c1e8a6c903633d44020326ae0e840b2d9158e"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.InstalledProductIdentity.html",
+      "role": "docfx",
+      "bytes": 12304,
+      "sha256": "bf4255f8d08422281aa66e2069424619a910e56389f575a26b9c26dbef113c9a"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.IPmlDevelopmentHost.html",
+      "role": "docfx",
+      "bytes": 10442,
+      "sha256": "60d439a223d401d8f9b775f65398eb018739f43e7230ae43276bf7e29d90b571"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.IProductModuleCatalog.html",
+      "role": "docfx",
+      "bytes": 6308,
+      "sha256": "93f56a7b6b51629fe60196246000e832cd8ac0238a5364479b4b916a9ee23544"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.LaunchDrafts.html",
+      "role": "docfx",
+      "bytes": 10773,
+      "sha256": "f31fdb85b5e44c70f69661176d331e32369157afebde001c6f79c0326e3185b3"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.LaunchLicensePrecheck.html",
+      "role": "docfx",
+      "bytes": 14413,
+      "sha256": "bf835269dfd1b5502cffd7d9cd54bcf6c05272c6d4f7ce86a44fd366b6af9514"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.LaunchLifecycleJsonContext.html",
+      "role": "docfx",
+      "bytes": 53837,
+      "sha256": "e2218dc90b7d959f1c0ce1e79a85e0a9c65788783c6527a8169c9b3c6c97885a"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.LaunchProfile.html",
+      "role": "docfx",
+      "bytes": 26925,
+      "sha256": "3556ac6ec16ec52457fe75cb8a49ebe182bfb9cd943ecf4314dc1e235fe0faf6"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.LaunchProfileCatalog.html",
+      "role": "docfx",
+      "bytes": 10711,
+      "sha256": "e769b1420ee799efa1ab0aa995efab0d8dc65aed1dfe2bc016264056f638aa37"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.LaunchProfilePreview.html",
+      "role": "docfx",
+      "bytes": 13595,
+      "sha256": "4a7e2ab33531d5731a7abd5c922784ba9cbe0df66e50ff5c0b0e7e6a12bc2b31"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.LaunchProfileRead.html",
+      "role": "docfx",
+      "bytes": 12064,
+      "sha256": "141a972e3d5c16764926dae47bcb1330d4f8004b495b8030e91983c24d1806cf"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.LaunchProfileService.html",
+      "role": "docfx",
+      "bytes": 35987,
+      "sha256": "347b74c0d7b9f3f38477207791cf2d346d5e473ce4b8e637b03a709d29a42443"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.LaunchProfileValidationException.html",
+      "role": "docfx",
+      "bytes": 11167,
+      "sha256": "fa4d8e21831f07eef6e7d535121934936b7ed52267e9ccb1336dfb13cd4e48f0"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.LaunchService.html",
+      "role": "docfx",
+      "bytes": 14448,
+      "sha256": "10b2aeb4fba2036bad7c545d9c007e93e16ba95a723be57d8bc5cb66640eb0c0"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.LaunchValidation.html",
+      "role": "docfx",
+      "bytes": 11000,
+      "sha256": "741e5cc9cd0ceacfe647e54a20b9ca19b425fac035aa5c3597146c9099e167f0"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.LaunchValidationIssue.html",
+      "role": "docfx",
+      "bytes": 10876,
+      "sha256": "37ee3d77430949b235e04ddbc98bb08b9858149486b83a29766ade474c400c54"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.PathRules.html",
+      "role": "docfx",
+      "bytes": 8946,
+      "sha256": "f6553443a3de273f6c0d9693d40a22abd2cbf47017827cd713dd03bfaa45ab0a"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.PluginDeployment.html",
+      "role": "docfx",
+      "bytes": 18988,
+      "sha256": "520aec084d06705c773f31d53122c90b2b1d4a38ff3dd92493f9abf9263ffa70"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.PmlDevelopmentWorkflow.html",
+      "role": "docfx",
+      "bytes": 12635,
+      "sha256": "bd83d7063865379b56b1fc4e6b946c6b37724bd9f691a0ca4dfd3e3bd412fb43"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.PmlStorage.html",
+      "role": "docfx",
+      "bytes": 9609,
+      "sha256": "177d91e8efaf9bb267c6b2606e2d4d098d9e934a5c722810b2e95e7d0d6c536b"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.ProductModuleCatalog.html",
+      "role": "docfx",
+      "bytes": 9581,
+      "sha256": "884c973374d357bd1fb4bdac907caabe2247c9fd175d2b8791ce5b2d01357e76"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.ProductModuleOption.html",
+      "role": "docfx",
+      "bytes": 10934,
+      "sha256": "05e9f59cc964373727657155ecee1da63e768b0e96d0ae9ac548b38f63957e67"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.ProductModuleSet.html",
+      "role": "docfx",
+      "bytes": 13329,
+      "sha256": "cbe100986adaf9bf8d7b09d5dcec44328826a689c129ab5e5c44287383c83869"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.RegistrationCandidate.html",
+      "role": "docfx",
+      "bytes": 11285,
+      "sha256": "ad0dbd620c446ddf8c77e6140d2ca9e863831e36c27b7ee688ddd359ac70bc5c"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.RegistrationDiscovery.html",
+      "role": "docfx",
+      "bytes": 7259,
+      "sha256": "6dcd9275182fb3906e4582bb65e6c06f8e8a81ad029d4430211c8c0c14c6c867"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.RuntimeJournal.html",
+      "role": "docfx",
+      "bytes": 15585,
+      "sha256": "b44163022c2a7951c0d595e1c151206113cf61f4f0a956911c268193bf8798d1"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.RuntimeReader.html",
+      "role": "docfx",
+      "bytes": 9516,
+      "sha256": "6b8791c87a5981fabdbe84a515d87dbbf1861d27b807338b6153d6b643005bd1"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.RuntimeStatus.html",
+      "role": "docfx",
+      "bytes": 22850,
+      "sha256": "1ef85a2a3d8d83520f6af6f69c91c34959b92a5347e0cb0d7d2a1ff509570727"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.StartupPolicy.html",
+      "role": "docfx",
+      "bytes": 10634,
+      "sha256": "d251978481fb8af7d2f14f7188e5c469aec8a9d5ca0ce500cfa846b02a982b51"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.UserDataCopy.html",
+      "role": "docfx",
+      "bytes": 10862,
+      "sha256": "5e45f34dc360fdb4186e0b81ab620732cccdde70e1577c62efa266d64b48ebc2"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.UserDataMigration.html",
+      "role": "docfx",
+      "bytes": 11155,
+      "sha256": "7bbf9965fae30f7e0ced09d9f2b2ac26555fbfc8dc3ced9f86b92191a22a4213"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.UserDataMigrationService.html",
+      "role": "docfx",
+      "bytes": 9111,
+      "sha256": "ceff82a2a6c42e612c476272ca7005cdec920beb91308f596d5109d66e56337a"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.UserDataPaths.html",
+      "role": "docfx",
+      "bytes": 16098,
+      "sha256": "a8090983d4ce47ffbf95f169937c804c3ef70a9f15cc9db4a2e40cb24ab9d7cf"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.WorkspaceConfigurationStore.html",
+      "role": "docfx",
+      "bytes": 15098,
+      "sha256": "86fcc0d4720ecc37e1c87aa555708180b98f50d8f37048143f64f78011f9a49a"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.WorkspaceJsonContext.html",
+      "role": "docfx",
+      "bytes": 50434,
+      "sha256": "fb8bc6f8d86c1810c52017c08f3216e1679fccb4ea38a181076f7ddcdff5b01b"
+    },
+    {
+      "path": "docfx/api/YuzuhaToolkit.Workspace.WorkspaceSettings.html",
+      "role": "docfx",
+      "bytes": 20294,
+      "sha256": "eb23b170010da9301771fadb549b8df81fb7408d889690390be2f2ec5aa3f349"
+    },
+    {
+      "path": "docfx/favicon.ico",
+      "role": "docfx",
+      "bytes": 99678,
+      "sha256": "9eae305ccf4b5ec904782c13086c5ba886ae037cf1c47c0a5bfcd8170d4817ae"
+    },
+    {
+      "path": "docfx/logo.svg",
+      "role": "docfx",
+      "bytes": 1272,
+      "sha256": "073ad868b1dc1247d00b1a442719c4f93145b0c2c890d4469b1e10163e3af5e6"
+    },
+    {
+      "path": "docfx/manifest.json",
+      "role": "docfx",
+      "bytes": 108202,
+      "sha256": "abdf08ce4e3295ed3e5e4e1be55ec05048d66ffe042e2c205dba375e85eadae6"
+    },
+    {
+      "path": "docfx/search-stopwords.json",
+      "role": "docfx",
+      "bytes": 1150,
+      "sha256": "5003137b7e56ba6ee827f9cbb850a5886eec9b794cb26a646abfafd5b4967cf2"
+    },
+    {
+      "path": "docfx/styles/docfx.css",
+      "role": "docfx",
+      "bytes": 17952,
+      "sha256": "0c31181b9640c268624dd7128f570941528a33ce3bf033c4224a5c93d4b9b01b"
+    },
+    {
+      "path": "docfx/styles/docfx.js",
+      "role": "docfx",
+      "bytes": 57439,
+      "sha256": "3b6539b18b2bb1c9e5534dc01c0e5a592208f8e3faefefdb20e384f845cd6b1a"
+    },
+    {
+      "path": "docfx/styles/docfx.vendor.min.css",
+      "role": "docfx",
+      "bytes": 122212,
+      "sha256": "fb92b451c94d11bcf7990b97497ccf81b31862a3d5fc867551d4cd2896bbdeb8"
+    },
+    {
+      "path": "docfx/styles/docfx.vendor.min.css.map",
+      "role": "docfx",
+      "bytes": 417981,
+      "sha256": "822cf4480c60c3cd16c975130b74854b74e9b4ca881ca07a2d03b54d48f87091"
+    },
+    {
+      "path": "docfx/styles/docfx.vendor.min.js",
+      "role": "docfx",
+      "bytes": 1230558,
+      "sha256": "2b57a37ceedd074457299b9d86b96f31baec50c1e2af2e8e007be44e4999e15d"
+    },
+    {
+      "path": "docfx/styles/docfx.vendor.min.js.map",
+      "role": "docfx",
+      "bytes": 3074622,
+      "sha256": "5da5090ed82568776861bdca183ec021814623ae26107f84b65b57fcb0e6c070"
+    },
+    {
+      "path": "docfx/styles/glyphicons-halflings-regular-ACNUA6UY.ttf",
+      "role": "docfx",
+      "bytes": 45404,
+      "sha256": "e395044093757d82afcb138957d06a1ea9361bdcf0b442d06a18a8051af57456"
+    },
+    {
+      "path": "docfx/styles/glyphicons-halflings-regular-JOUF32XT.woff",
+      "role": "docfx",
+      "bytes": 23424,
+      "sha256": "a26394f7ede100ca118eff2eda08596275a9839b959c226e15439557a5a80742"
+    },
+    {
+      "path": "docfx/styles/glyphicons-halflings-regular-PIHUWCJO.eot",
+      "role": "docfx",
+      "bytes": 20127,
+      "sha256": "13634da87d9e23f8c3ed9108ce1724d183a39ad072e73e1b3d8cbf646d2d0407"
+    },
+    {
+      "path": "docfx/styles/glyphicons-halflings-regular-QXYEM3FU.svg",
+      "role": "docfx",
+      "bytes": 108738,
+      "sha256": "42f60659d265c1a3c30f9fa42abcbb56bd4a53af4d83d316d6dd7a36903c43e5"
+    },
+    {
+      "path": "docfx/styles/glyphicons-halflings-regular-W4DYDFZM.woff2",
+      "role": "docfx",
+      "bytes": 18028,
+      "sha256": "fe185d11a49676890d47bb783312a0cda5a44c4039214094e7957b4c040ef11c"
+    },
+    {
+      "path": "docfx/styles/main.css",
+      "role": "docfx",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docfx/styles/main.js",
+      "role": "docfx",
+      "bytes": 20687,
+      "sha256": "f5bf3626cb456bbf64a0645eca376ffbf681550a8d5b9520ce140366ae51ac8a"
+    },
+    {
+      "path": "docfx/styles/search-worker.min.js",
+      "role": "docfx",
+      "bytes": 52072,
+      "sha256": "7f4723b87e9ac7a79ae8e2fcecffeac37a2dfef56b6983dd2a19a70d2296a48d"
+    },
+    {
+      "path": "docfx/styles/search-worker.min.js.map",
+      "role": "docfx",
+      "bytes": 147635,
+      "sha256": "705d39b6fd94cc2d2541a34b8d13cd987cbc29fa1b11aec9074e7dcfb69e4cf7"
+    },
+    {
+      "path": "docfx/xrefmap.yml",
+      "role": "docfx",
+      "bytes": 1175816,
+      "sha256": "dc864880f13581894aab8124e75de2fecc1d16b07bdf94cd4c9755e44e4b4355"
+    },
+    {
+      "path": "design/contract-atlas.figcraft",
+      "sha256": "f410af1a04bb798d3f84d76261b8c60e287b4efabf89f0a4303a7c95d5f16235",
+      "bytes": 110712,
+      "role": "figcraft"
+    },
+    {
+      "path": "design/figma-plugin/code.js",
+      "sha256": "c2169493062fb3490791c12f6022cc2a07f363f58d034fe3c9686fb44fce5229",
+      "bytes": 68707,
+      "role": "figma-plugin"
+    },
+    {
+      "path": "design/figma-plugin/manifest.json",
+      "sha256": "e9cb86c41c5a4e2cd4835aa2ea12c5a92d4dce3c3227b11989d462f8b0a314da",
+      "bytes": 252,
+      "role": "figma-plugin"
+    },
+    {
+      "path": "design/figma-plugin/ui.html",
+      "sha256": "fd62e5acdd23ad85bda5dc0fb854e4e76fd707173c92d07b64565836a49e053b",
+      "bytes": 1310,
+      "role": "figma-plugin"
+    },
+    {
+      "path": "design/generated/cli-run.jsonl",
+      "sha256": "b6ba8f3c7f61faeb0206ae43604040a5f796d3a77bbd264f77120242cc0ff8ff",
+      "bytes": 117661,
+      "role": "design"
+    },
+    {
+      "path": "design/generated/commands.json",
+      "sha256": "75ce0307a475620dd2b3a0790fc8c2bbadf2ddf5c05ee153892ec4cbc7842afc",
+      "bytes": 608949,
+      "role": "design"
+    },
+    {
+      "path": "design/generated/components.png",
+      "sha256": "144c09c758e42dbca07a7be2f0ceffb393e862fe77a51f81adbbdbc13da7caf8",
+      "bytes": 215241,
+      "role": "design"
+    },
+    {
+      "path": "design/generated/document-dark.png",
+      "sha256": "b67cf349a14bcfe0d670d191d7642648708ebdaed371e1d6985ad489d2f0cbfc",
+      "bytes": 408516,
+      "role": "design"
+    },
+    {
+      "path": "design/generated/document-light.png",
+      "sha256": "07f0c577ce9aa4ab3999d27a481672f44fbc2d0527bd34a7748e58098db1c26c",
+      "bytes": 406525,
+      "role": "design"
+    },
+    {
+      "path": "design/generated/entity-map.json",
+      "sha256": "cc678edefdb677976535b3397f03914d5620a65f9787357d694c871aee2b427e",
+      "bytes": 2477,
+      "role": "design"
+    },
+    {
+      "path": "design/generated/evidence.png",
+      "sha256": "5eec2b330bec6efdeefabf7271beae62991ad55174c004e717bac8bcd10e0370",
+      "bytes": 410748,
+      "role": "design"
+    },
+    {
+      "path": "design/generated/features.png",
+      "sha256": "411beaa81a9d62c4fd07e0108898efdf2d88ab6cf72fd2014749c4b8757dcb5d",
+      "bytes": 1569570,
+      "role": "design"
+    },
+    {
+      "path": "design/generated/flows.png",
+      "sha256": "535ffcbd38a9433548d473ef4fb0b9a88eb74e5b872cb95e7b00dae280d7b4dd",
+      "bytes": 311393,
+      "role": "design"
+    },
+    {
+      "path": "design/generated/help-dark.png",
+      "sha256": "0bafcce2053ab2e7ccc271c771c82a363b8728be10f473c6514df59a61e2cadc",
+      "bytes": 1083164,
+      "role": "design"
+    },
+    {
+      "path": "design/generated/help-light.png",
+      "sha256": "4e08f0b598fba3ab5bcba87794bf05e10ef478b8e40dbf79d1216e2dcd8aa7f7",
+      "bytes": 1085409,
+      "role": "design"
+    },
+    {
+      "path": "design/generated/native.json",
+      "sha256": "a581038534bb47a8e75f55eb56310619625666a9630ad5057eeb1ee93a1fed86",
+      "bytes": 1889314,
+      "role": "native-structure"
+    },
+    {
+      "path": "design/generated/overview.png",
+      "sha256": "5144c7e49db181cba1544edcb92f16b9ff00dacf5be09f1677403043343c3808",
+      "bytes": 324745,
+      "role": "design"
+    },
+    {
+      "path": "design/generated/portfolio-dark.png",
+      "sha256": "64bb475084fa37c32f0b1f1c4bbcfe774b646f65ccceb9e1ea13225e75240078",
+      "bytes": 992326,
+      "role": "design"
+    },
+    {
+      "path": "design/generated/portfolio-light.png",
+      "sha256": "ed026c2ada3660dd3d492eb02c20ee645bc80bcf5706debec0ea5b1f54691b90",
+      "bytes": 994953,
+      "role": "design"
+    },
+    {
+      "path": "design/generated/scripts.png",
+      "sha256": "db890d2f4d15394578b817411d54b5d33083d08bac8b32a4879b0e558bae8826",
+      "bytes": 3237047,
+      "role": "design"
+    },
+    {
+      "path": "design/generated/taskmap-dark.png",
+      "sha256": "869e76499279dc8889d2a4163714e1e911264e3aae67fef1c30b711a8d35e49c",
+      "bytes": 391554,
+      "role": "design"
+    },
+    {
+      "path": "design/generated/taskmap-light.png",
+      "sha256": "6223bdbbf30069cd7d1323e0cb900b809129e67b38445dba277c98bd17dea95e",
+      "bytes": 392001,
+      "role": "design"
+    },
+    {
+      "path": "design/generated/viewbindings.png",
+      "sha256": "e407bb1e42183c1ee96f1f22d3fb2ed535c2d625b8532f80c1a790077c9e2894",
+      "bytes": 3114721,
+      "role": "design"
+    },
+    {
+      "path": "design/metadata.json",
+      "sha256": "3fc46b35498f984114dab4a36b045fc95583056a682ef9f07d91eb699bb4ebc9",
+      "bytes": 186957,
+      "role": "design"
+    },
+    {
+      "path": "design/render-model.json",
+      "sha256": "d639325853a06cab762e82611ad9140ac84458db1581109350c0e5dfffb441d5",
+      "bytes": 621466,
+      "role": "design"
+    },
+    {
+      "path": "design/tokens.json",
+      "sha256": "bab1d67c08469a4620bd41f49f55ddd21189edf41011d24cd6c606af553f842e",
+      "bytes": 2893,
+      "role": "design"
+    },
+    {
+      "path": "design/build-receipt.json",
+      "sha256": "d8e35b1643e810e201be92621649758e75b68b627d03498f4ee1927427908ebc",
+      "bytes": 5562,
+      "role": "design-receipt"
+    },
+    {
+      "role": "web",
+      "path": "web/app.js",
+      "sha256": "d268a9525fa4555ffea046c51c2433b7f64750ea39b1fa7bc54a49978b497920",
+      "bytes": 49854
+    },
+    {
+      "role": "web",
+      "path": "web/atlas-data.js",
+      "sha256": "ddba7d401470501a9387e8f03006f959c33eee22b93b1fb50012380299891102",
+      "bytes": 127922
+    },
+    {
+      "role": "web",
+      "path": "web/atlas-render-model.js",
+      "sha256": "7cdb10e04c1711c22310fd14c06a0f8435645e33d7abbbfa535e319fdb729caa",
+      "bytes": 420982
+    },
+    {
+      "role": "web",
+      "path": "web/components.js",
+      "sha256": "cf5cd3816fbc4fd5fd5975b7e3ddf60afd1a2bc15ba6d18396e671281f6542b8",
+      "bytes": 34250
+    },
+    {
+      "role": "web",
+      "path": "web/disclosure.js",
+      "sha256": "8f4ba1c8b3648aed138cf19bd582ea7cee92ab9f015fc0ec173a27dae4018a7a",
+      "bytes": 1935
+    },
+    {
+      "role": "web",
+      "path": "web/document-layout.css",
+      "sha256": "3e492e1e9049e5d767e1e05cdb1f8160c6bdbfee65ca4fd942a08eeb8cac8b1d",
+      "bytes": 16425
+    },
+    {
+      "role": "web",
+      "path": "web/editor.js",
+      "sha256": "a5e607fdfa721eff472d8acf46d1d5880c58be1afa78aef45e2f8be608cd43a2",
+      "bytes": 11565
+    },
+    {
+      "role": "web",
+      "path": "web/index.html",
+      "sha256": "131e54b878b9c28aa9a135238e9f21eaeece814a564a9f8b4e34ebc19d165ff8",
+      "bytes": 9948
+    },
+    {
+      "role": "web",
+      "path": "web/live-client.js",
+      "sha256": "14235d4a732fb03dd6aa617063e616d862b3f76f3ba614d6fe9ddde440e7a4e0",
+      "bytes": 10090
+    },
+    {
+      "role": "web",
+      "path": "web/live.css",
+      "sha256": "d9f3aec0c99c27c1607449cbf7e819d251d46edbdc00fce8d4690d1f8c8a7d6a",
+      "bytes": 1807
+    },
+    {
+      "role": "web",
+      "path": "web/metadata-validator.js",
+      "sha256": "a053f6ec4ca71c18168899f8f35d285e534e4ee56b9f27a438e7c2dd613f7bbf",
+      "bytes": 14474
+    },
+    {
+      "role": "web",
+      "path": "web/method-panel.js",
+      "sha256": "864caa62601d0bbb7c32ce8f0bb7fbba51c60017fffabae70d49cd900d6a4f5f",
+      "bytes": 7869
+    },
+    {
+      "role": "web",
+      "path": "web/method-validator.js",
+      "sha256": "6dab5c5f2c20bbe6a1eaa738f1840626674c47cef41adaa62fc81df664bf4636",
+      "bytes": 5032
+    },
+    {
+      "role": "web",
+      "path": "web/methods.css",
+      "sha256": "02834f49d2530479264aaacfa73d23b0f9dc65f0e8564e92e5470c4c258d07d5",
+      "bytes": 3013
+    },
+    {
+      "role": "web",
+      "path": "web/page-outline.js",
+      "sha256": "c138a1045a6c1e18af5a31c27486a48772882da26869a486c1c03a24ad7b6c18",
+      "bytes": 10286
+    },
+    {
+      "role": "web",
+      "path": "web/reference-index.js",
+      "sha256": "9f0d4fe96c4d336835e9f348e9e1746b9a512fb5ce8a8d42dd0c2d1927484054",
+      "bytes": 9377
+    },
+    {
+      "role": "web",
+      "path": "web/render-model.js",
+      "sha256": "692ad8fa220552a79c55a5e5ff50261c3e851101943cabab08ebc7b996e5fbdc",
+      "bytes": 21730
+    },
+    {
+      "role": "web",
+      "path": "web/style.css",
+      "sha256": "25e1f9b1b983cd9bf4a83ec11e6fbd33a515116a4b98411bc88879cfe15c430f",
+      "bytes": 14864
+    },
+    {
+      "role": "web",
+      "path": "web/task-map.css",
+      "sha256": "9208f3cb8d2dc3d6e5c4c95b626317bbe1865b711d8ac6ba49fd013daecc6f7d",
+      "bytes": 3542
+    },
+    {
+      "role": "web",
+      "path": "web/task-map.js",
+      "sha256": "59fb754dc3828c0983476b48f7d0e3d09cfa6d5f50ba77082ef84351206542a3",
+      "bytes": 8083
+    },
+    {
+      "role": "web",
+      "path": "web/theme-tokens.css",
+      "sha256": "aeb0ebffff795a092017af5a14f6eadc475b9f73cd51ac1ddb25b4cd7321458a",
+      "bytes": 6661
+    },
+    {
+      "role": "web",
+      "path": "web/theme.js",
+      "sha256": "1a218dae4fc68f3071d8335b66d64a675438a3fc29706c18f4c41620d603f97e",
+      "bytes": 2721
+    }
+  ],
+  "native": {
+    "generated": true,
+    "validated": true,
+    "success": true,
+    "components": 7,
+    "instances": 107,
+    "editableTexts": 769,
+    "variables": 40,
+    "images": 0,
+    "toolVersion": "figcraft-cli 0.6.0",
+    "commandCount": 1457
+  }
+}

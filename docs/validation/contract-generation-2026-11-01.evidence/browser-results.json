@@ -1,0 +1,155 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "scope": "file:// native Web Components; public metadata only; no business or runtime execution",
+  "viewports": [
+    1440,
+    768,
+    390
+  ],
+  "views": [
+    "portfolio",
+    "help"
+  ],
+  "geometryChecks": [
+    {
+      "label": "portfolio-1440-overview",
+      "horizontal": false,
+      "overflow": [],
+      "objectObject": false,
+      "overlaps": []
+    },
+    {
+      "label": "portfolio-1440-feature",
+      "horizontal": false,
+      "overflow": [],
+      "objectObject": false,
+      "overlaps": []
+    },
+    {
+      "label": "portfolio-1440-script",
+      "horizontal": false,
+      "overflow": [],
+      "objectObject": false,
+      "overlaps": []
+    },
+    {
+      "label": "help-1440-overview",
+      "horizontal": false,
+      "overflow": [],
+      "objectObject": false,
+      "overlaps": []
+    },
+    {
+      "label": "help-1440-feature",
+      "horizontal": false,
+      "overflow": [],
+      "objectObject": false,
+      "overlaps": []
+    },
+    {
+      "label": "help-1440-script",
+      "horizontal": false,
+      "overflow": [],
+      "objectObject": false,
+      "overlaps": []
+    },
+    {
+      "label": "portfolio-768-overview",
+      "horizontal": false,
+      "overflow": [],
+      "objectObject": false,
+      "overlaps": []
+    },
+    {
+      "label": "portfolio-768-feature",
+      "horizontal": false,
+      "overflow": [],
+      "objectObject": false,
+      "overlaps": []
+    },
+    {
+      "label": "portfolio-768-script",
+      "horizontal": false,
+      "overflow": [],
+      "objectObject": false,
+      "overlaps": []
+    },
+    {
+      "label": "help-768-overview",
+      "horizontal": false,
+      "overflow": [],
+      "objectObject": false,
+      "overlaps": []
+    },
+    {
+      "label": "help-768-feature",
+      "horizontal": false,
+      "overflow": [],
+      "objectObject": false,
+      "overlaps": []
+    },
+    {
+      "label": "help-768-script",
+      "horizontal": false,
+      "overflow": [],
+      "objectObject": false,
+      "overlaps": []
+    },
+    {
+      "label": "portfolio-390-overview",
+      "horizontal": false,
+      "overflow": [],
+      "objectObject": false,
+      "overlaps": []
+    },
+    {
+      "label": "portfolio-390-feature",
+      "horizontal": false,
+      "overflow": [],
+      "objectObject": false,
+      "overlaps": []
+    },
+    {
+      "label": "portfolio-390-script",
+      "horizontal": false,
+      "overflow": [],
+      "objectObject": false,
+      "overlaps": []
+    },
+    {
+      "label": "help-390-overview",
+      "horizontal": false,
+      "overflow": [],
+      "objectObject": false,
+      "overlaps": []
+    },
+    {
+      "label": "help-390-feature",
+      "horizontal": false,
+      "overflow": [],
+      "objectObject": false,
+      "overlaps": []
+    },
+    {
+      "label": "help-390-script",
+      "horizontal": false,
+      "overflow": [],
+      "objectObject": false,
+      "overlaps": []
+    }
+  ],
+  "interactions": {
+    "drilldown": true,
+    "sevenFields": true,
+    "searchAndStatusFilter": true,
+    "emptyState": true,
+    "keyboard": true,
+    "dialogFocusReturn": true,
+    "hashRestore": true,
+    "safeImportAndPreservedOriginal": true,
+    "pureSvg": true
+  },
+  "scriptErrors": [],
+  "networkRequests": []
+}

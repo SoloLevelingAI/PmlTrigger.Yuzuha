@@ -1,0 +1,194 @@
+{
+  "passed": true,
+  "matrix": [
+    {
+      "width": 1440,
+      "theme": "light",
+      "view": "portfolio",
+      "firstTaskTop": 555.234375,
+      "firstTaskHeight": 142.375
+    },
+    {
+      "width": 1440,
+      "theme": "light",
+      "view": "help",
+      "firstTaskTop": 555.234375,
+      "firstTaskHeight": 142.375
+    },
+    {
+      "width": 1440,
+      "theme": "dark",
+      "view": "portfolio",
+      "firstTaskTop": 555.234375,
+      "firstTaskHeight": 142.375
+    },
+    {
+      "width": 1440,
+      "theme": "dark",
+      "view": "help",
+      "firstTaskTop": 555.234375,
+      "firstTaskHeight": 142.375
+    },
+    {
+      "width": 1024,
+      "theme": "light",
+      "view": "portfolio",
+      "firstTaskTop": 619.03125,
+      "firstTaskHeight": 142.375
+    },
+    {
+      "width": 1024,
+      "theme": "light",
+      "view": "help",
+      "firstTaskTop": 631.03125,
+      "firstTaskHeight": 142.375
+    },
+    {
+      "width": 1024,
+      "theme": "dark",
+      "view": "portfolio",
+      "firstTaskTop": 619.03125,
+      "firstTaskHeight": 142.375
+    },
+    {
+      "width": 1024,
+      "theme": "dark",
+      "view": "help",
+      "firstTaskTop": 631.03125,
+      "firstTaskHeight": 142.375
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "view": "portfolio",
+      "firstTaskTop": 638.359375,
+      "firstTaskHeight": 128.375
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "view": "help",
+      "firstTaskTop": 638.359375,
+      "firstTaskHeight": 128.375
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "view": "portfolio",
+      "firstTaskTop": 638.359375,
+      "firstTaskHeight": 128.375
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "view": "help",
+      "firstTaskTop": 638.359375,
+      "firstTaskHeight": 128.375
+    }
+  ],
+  "pathMatrix": [
+    {
+      "width": 1440,
+      "height": 900,
+      "theme": "light",
+      "roadmap": {
+        "top": 384.859375,
+        "bottom": 486.640625
+      },
+      "next": {
+        "top": 498.640625,
+        "bottom": 569.421875
+      },
+      "outcomesTop": 696.203125,
+      "viewport": 900
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "theme": "dark",
+      "roadmap": {
+        "top": 384.859375,
+        "bottom": 486.640625
+      },
+      "next": {
+        "top": 498.640625,
+        "bottom": 569.421875
+      },
+      "outcomesTop": 696.203125,
+      "viewport": 900
+    },
+    {
+      "width": 1024,
+      "height": 768,
+      "theme": "light",
+      "roadmap": {
+        "top": 448.65625,
+        "bottom": 550.4375
+      },
+      "next": {
+        "top": 562.4375,
+        "bottom": 633.21875
+      },
+      "outcomesTop": 760,
+      "viewport": 768
+    },
+    {
+      "width": 1024,
+      "height": 768,
+      "theme": "dark",
+      "roadmap": {
+        "top": 448.65625,
+        "bottom": 550.4375
+      },
+      "next": {
+        "top": 562.4375,
+        "bottom": 633.21875
+      },
+      "outcomesTop": 760,
+      "viewport": 768
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "theme": "light",
+      "roadmap": {
+        "top": 475.78125,
+        "bottom": 613.953125
+      },
+      "next": {
+        "top": 625.953125,
+        "bottom": 696.734375
+      },
+      "outcomesTop": 820.71875,
+      "viewport": 844
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "theme": "dark",
+      "roadmap": {
+        "top": 475.78125,
+        "bottom": 613.953125
+      },
+      "next": {
+        "top": 625.953125,
+        "bottom": 696.734375
+      },
+      "outcomesTop": 820.71875,
+      "viewport": 844
+    }
+  ],
+  "checks": [
+    "12 first-fold layouts expose human task choices before technical/count branches with no overflow",
+    "whole roadmap and previous/next controls fit1440x900,1024x768,390x844 in both themes before detailed delivery",
+    "task to shared Script then contract/methods/evidence/catalog and back retains exact step and full facts",
+    "same entity used by multiple steps keeps independent IDs through next, history and reload",
+    "global disclosure applies to entered detail branches without replacing task position",
+    "old field URL selects detail branch and preserves collapse/refresh behavior",
+    "unregistered flow stays explicit and full contract remains reachable",
+    "all 18 Feature,14 Script and191 source mappings remain reachable in explicit branches",
+    "multiple flows require explicit selection and source import does not invent sequence",
+    "model replacement preserves task focus and removed step falls back to valid task"
+  ],
+  "scriptErrors": []
+}

@@ -22,7 +22,7 @@
       "path": "source/apps/backend/Features/Deployment/DeploymentFeature.cs",
       "sha256": "247c4e8206a3042959c073041c352cee2adbec3b7f47f4efec526ad4bf25985f",
       "sourcePath": "apps/backend/Features/Deployment/DeploymentFeature.cs",
-      "integratedSha256": "247c4e8206a3042959c073041c352cee2adbec3b7f47f4efec526ad4bf25985f"
+      "integratedSha256": "7e88478b7078b782f56063c2905c9170fe467753bd2a26409b0588dc09186dce"
     },
     {
       "path": "source/apps/backend/Features/Deployment/Manifests.cs",
@@ -70,13 +70,13 @@
       "path": "source/apps/backend/Features/Workspace/WorkspaceFiles.cs",
       "sha256": "515fcab734195d2f3b00029a54a697d4246f5ef961170dbb8259ead21270b6c9",
       "sourcePath": "apps/backend/Features/Workspace/WorkspaceFiles.cs",
-      "integratedSha256": "318315dfac3e55a7d44867956a3d9ac18dd0cf1e3c104ea20aec7c53cde3f328"
+      "integratedSha256": "dde0f7629185564859641e2c26201e283f35fbb1995a1ddff6ee32ee32672f1b"
     },
     {
       "path": "source/apps/backend/Host/Program.cs",
       "sha256": "16535154fdfd5f9544e1cb431fa2fd8542dc2f8b53c879b64427050581899c18",
       "sourcePath": "apps/backend/Host/Program.cs",
-      "integratedSha256": "16535154fdfd5f9544e1cb431fa2fd8542dc2f8b53c879b64427050581899c18"
+      "integratedSha256": "0e3bf0ee6f29ed9d25c685c20e15d7d2c83c0a1b2ab114dbb67d9f2c4d3bd006"
     },
     {
       "path": "source/apps/backend/Infrastructure/Data.cs",
@@ -94,7 +94,7 @@
       "path": "source/apps/desktop/App.cs",
       "sha256": "b01d8d4cf27b1bc12a277bf1e319395ec803e5a1783e451e590d53d8fdefbea7",
       "sourcePath": "apps/desktop/App.cs",
-      "integratedSha256": "b01d8d4cf27b1bc12a277bf1e319395ec803e5a1783e451e590d53d8fdefbea7"
+      "integratedSha256": "81a5cbf56c86149d969dd90cafea051e50e7e8a7385214f9840c7c7d291ceeed"
     },
     {
       "path": "source/apps/desktop/RibbonStudio.Desktop.csproj",
@@ -112,13 +112,13 @@
       "path": "source/apps/desktop/Features/Deployment/DeploymentWindow.cs",
       "sha256": "61264a489f47c55d53e4ccbcfbaddde9e886ca44d28e9dd5eb40e318f636fce0",
       "sourcePath": "apps/desktop/Features/Deployment/DeploymentWindow.cs",
-      "integratedSha256": "61264a489f47c55d53e4ccbcfbaddde9e886ca44d28e9dd5eb40e318f636fce0"
+      "integratedSha256": "c8657e411b36e06cdd68587f4eb7bf3c1e71b02ea82d80ef863a0feeaa5dd013"
     },
     {
       "path": "source/apps/desktop/Features/Deployment/StudioToolPage.cs",
       "sha256": "9332b77ce23eaac8b169ac6b0de60870d2a3567557bc2de4ee53404804b72ebd",
       "sourcePath": "apps/desktop/Features/Deployment/StudioToolPage.cs",
-      "integratedSha256": "9332b77ce23eaac8b169ac6b0de60870d2a3567557bc2de4ee53404804b72ebd"
+      "integratedSha256": "c47297c91729fecacb7cf9f06b351f6a714bf6dc87c2355b166284df72655925"
     },
     {
       "path": "source/apps/desktop/Features/Deployment/WorkspaceActions.cs",
@@ -298,7 +298,7 @@
       "path": "source/apps/desktop/Services/ApiClient.cs",
       "sha256": "633dccf4c01051669fd58525491104b7ede7cae354c221a66d2b94255bfdc8f7",
       "sourcePath": "apps/desktop/Services/ApiClient.cs",
-      "integratedSha256": "633dccf4c01051669fd58525491104b7ede7cae354c221a66d2b94255bfdc8f7"
+      "integratedSha256": "3a30b72f8a042ca3e993ef696068fb07bf0687bfdeabbcc057a26827fe64c931"
     },
     {
       "path": "source/apps/desktop/Verification/AuxiliaryDockingVerification.cs",
@@ -394,7 +394,7 @@
       "path": "source/apps/web/src/deployment.ts",
       "sha256": "29ca2ef1744b407b695abcf274c8bc932ae232d9f10c731c09530fe4058f499d",
       "sourcePath": "apps/web/src/deployment.ts",
-      "integratedSha256": "29ca2ef1744b407b695abcf274c8bc932ae232d9f10c731c09530fe4058f499d"
+      "integratedSha256": "bc9abb33e75fd7edf44e22b4cd5de2435c87e4670a12339d640e5763a04a07f8"
     },
     {
       "path": "source/apps/web/src/library.ts",
@@ -412,7 +412,7 @@
       "path": "source/apps/web/src/module-transfer.ts",
       "sha256": "64ffacfe6045f1fb1f2db214eb6720dbbbbdc9e6565519b874a65986cc17d725",
       "sourcePath": "apps/web/src/module-transfer.ts",
-      "integratedSha256": "64ffacfe6045f1fb1f2db214eb6720dbbbbdc9e6565519b874a65986cc17d725"
+      "integratedSha256": "832515938a4e56df6f3c8d4a8e879a11760592ce6fccb90cb52bdb1d5813daea"
     },
     {
       "path": "source/apps/web/src/style.css",
@@ -424,7 +424,7 @@
       "path": "source/packages/contracts/index.ts",
       "sha256": "4432bff620b3f34d39e4f556b40a9f3d14e6190653f10ea4e4b0da7cb4f70159",
       "sourcePath": "packages/contracts/index.ts",
-      "integratedSha256": "4432bff620b3f34d39e4f556b40a9f3d14e6190653f10ea4e4b0da7cb4f70159"
+      "integratedSha256": "d3e0bba10aff9021cc50379d98cc0a1b1abbc791a08ae2c859c028cf32062528"
     },
     {
       "path": "source/packages/contracts-csharp/RegistrationContracts.cs",
@@ -1769,6 +1769,51 @@
       "integratedSha256": "13c957e5cfb56e6d706572324c0d47efe16ab62aecd98feadccb0990894447fd",
       "reason": "integration runtime configuration",
       "path": "source/apps/backend/app.manifest"
+    },
+    {
+      "path": "source/apps/backend/Features/Deployment/FrozenDeploymentFeature.cs",
+      "reason": "PMLTWIN v2 frozen deployment continuation; no original snapshot file",
+      "integratedSha256": "7f5567ba8774d1699692b53793dcf120dac582041a0773278a8232c23234b98b"
+    },
+    {
+      "path": "source/tests/frozen-deployment.test.ts",
+      "reason": "PMLTWIN v2 frozen deployment continuation; no original snapshot file",
+      "integratedSha256": "d193d1e9693666998e95f0bc7a4c13fe9e5d29a7e059740984a8782aedc36797"
+    },
+    {
+      "path": "source/tests/support/FrozenCacheTests.cs",
+      "reason": "PMLTWIN v2 frozen deployment continuation; no original snapshot file",
+      "integratedSha256": "6046fe95d025b82bf83ef059b310fa51d1b95f9746b5d01d76760176860f3870"
+    },
+    {
+      "path": "source/apps/desktop/Features/Deployment/FrozenDeploymentClient.cs",
+      "reason": "PMLTWIN Ribbon UI frozen deployment continuation; no original snapshot file",
+      "integratedSha256": "d625640952bbd33eb90ae0310516a0b6cc70b59b86cf4f88679915169ff4fb38"
+    },
+    {
+      "path": "source/apps/web/src/frozen-deployment.ts",
+      "reason": "PMLTWIN Ribbon UI frozen deployment continuation; no original snapshot file",
+      "integratedSha256": "8a643f0e8e80271e42bfcc832f7a470a17028d2b7214e020f4745037bfe208b5"
+    },
+    {
+      "path": "source/tests/frozen-desktop-ui.test.ts",
+      "reason": "PMLTWIN Ribbon UI frozen deployment continuation; no original snapshot file",
+      "integratedSha256": "0b0b21bf7e93df131ba3aa15cb9d423410216ef1e1a1643b9a3a6ca1e33b0455"
+    },
+    {
+      "path": "source/tests/frozen-ui.test.ts",
+      "reason": "PMLTWIN Ribbon UI frozen deployment continuation; no original snapshot file",
+      "integratedSha256": "bd26288291f8e9cbf1fec1314e6863a6cbfef1107045d568cd5744037455c4ce"
+    },
+    {
+      "path": "source/tests/ribbon-ui-browser-smoke.ts",
+      "reason": "PMLTWIN Ribbon UI frozen deployment continuation; no original snapshot file",
+      "integratedSha256": "0b4d8aa398d76faf6ce506ca0b560ac3857245911958e359fe76a2658124afeb"
+    },
+    {
+      "path": "source/tests/support/FrozenUiClientTests.cs",
+      "reason": "PMLTWIN Ribbon UI frozen deployment continuation; no original snapshot file",
+      "integratedSha256": "83667d00ad80132ac4cda20d2b368f2f201418b5fa30eaa0c0223907ae0e4c7d"
     }
   ]
 }

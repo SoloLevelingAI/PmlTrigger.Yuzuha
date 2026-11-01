@@ -1,0 +1,122 @@
+[
+  {
+    "file": "aps-ribbon-selected.png",
+    "sha256": "170C5B00ECED826E1B53F64362CBE78186FEB166A2A749734727CD71E3D28875",
+    "bytes": 81870
+  },
+  {
+    "file": "aps-ribbon-selected.png.uia.json",
+    "sha256": "36F40163356B107AE03AE0914DD11862A59103261060B05057CC07EC00647FE0",
+    "bytes": 570
+  },
+  {
+    "file": "aps-tooltip-large.png",
+    "sha256": "1EEC6AF8F282790B4F78AF9BF7217779CC53D750B503B3EF0D9136CF19B70F13",
+    "bytes": 86411
+  },
+  {
+    "file": "aps-tooltip-small.png",
+    "sha256": "97EE83244BEE1AA3E2F6A77BE402240D13C26D87EB83BA4AC8E9732DB796B2D0",
+    "bytes": 86491
+  },
+  {
+    "file": "backend-cleanup.json",
+    "sha256": "C628AAA6B0C93831DBAD8760C05B32FBC50A0709E72D0A05DCFB58C6DEB02205",
+    "bytes": 90
+  },
+  {
+    "file": "file-preview.json",
+    "sha256": "95E8395E2ED5D00C4C4E4A334198036D2ABFF5FC67F5BA8146D2D513ECFEE366",
+    "bytes": 981
+  },
+  {
+    "file": "file-result.json",
+    "sha256": "973362FD09A496F5D1281096B1C10C2D1363002C1724E76BB875AB378F0ADA40",
+    "bytes": 815
+  },
+  {
+    "file": "first-close-request.json",
+    "sha256": "DA08041E68551D49CB976AFC112A6EFBB67068C22870A26489CD39DA0CB04A6F",
+    "bytes": 98
+  },
+  {
+    "file": "first-exit.json",
+    "sha256": "4710F62538E78F8D8F590A78BD6FF0E069B5EBA1E2E0CAC8FA9F68DAF23E742B",
+    "bytes": 90
+  },
+  {
+    "file": "launch-plan-first.json",
+    "sha256": "C681C7F6E10AA40C330F26C5881EB4BD393E9CA37659850FD862C5D9FA3A93E1",
+    "bytes": 1005
+  },
+  {
+    "file": "launch-plan.json",
+    "sha256": "7C29A5BC1FFB5C2E91ADFF8155277F8F821CA409C16747401B0B3F9CE8151261",
+    "bytes": 1005
+  },
+  {
+    "file": "launch-result-first.json",
+    "sha256": "3F790B18BA37AFF040CDC31A9D4983F0E43F1DE681949F81B9DA32B8EA71B34A",
+    "bytes": 952
+  },
+  {
+    "file": "launch-result.json",
+    "sha256": "BC5545F53E8213969E96A54D20022BCBC71EF6A4DC52BD77DE0DAB58717591D3",
+    "bytes": 952
+  },
+  {
+    "file": "manifests-after.json",
+    "sha256": "F5F24B277296C82B7BCD46B7661DA51933E49AE483A010A9049517AC1CD2E391",
+    "bytes": 1891
+  },
+  {
+    "file": "manifests-before.json",
+    "sha256": "619403DA18A5B08BB0E3E79C6873B5DA1F76C342E54927CCDABEABFA4BDED69D",
+    "bytes": 1143
+  },
+  {
+    "file": "modules.json",
+    "sha256": "E9EB5F6CB55607CBFC4A0D1FCDD892ED0F711147FEA917BE36896060414AF000",
+    "bytes": 979
+  },
+  {
+    "file": "project-validation.json",
+    "sha256": "16F2698924E55F8575C24BB2241B3A94FC47C336577AAF369ACE232573E70BE9",
+    "bytes": 40
+  },
+  {
+    "file": "registration-preview.json",
+    "sha256": "A4A909AC1287DCB720B3881646818C75A4A97D8ABDEAE20D9AD7CDFD4AFFED9A",
+    "bytes": 9133
+  },
+  {
+    "file": "registration-result.json",
+    "sha256": "F375D0EABDCAC8A008D49B36C587386E0B13E467D9696349836C162B607F9CB4",
+    "bytes": 843
+  },
+  {
+    "file": "restore-result.json",
+    "sha256": "464B5C08732864D80CE6FD6BDCB5D0997347294E107F6381EB1477BA36291C52",
+    "bytes": 2420
+  },
+  {
+    "file": "review-hashes.json",
+    "sha256": "4FB84895744DF2A64A0D251A5CC4E7746D1C732D34ACBFC23628526ACCCC9774",
+    "bytes": 936
+  },
+  {
+    "file": "review-icon-dimensions.json",
+    "sha256": "448E3A1EE21DD4C463DEB057C215C1FBA69ABF6748AD4B9F04F73957CBEDAC12",
+    "bytes": 137
+  },
+  {
+    "file": "status-after.json",
+    "sha256": "E18205467AA889DF37A765A7F73C13660C36CC6857E4BC96BDE757192B389B27",
+    "bytes": 1218
+  },
+  {
+    "file": "status-first.json",
+    "sha256": "C92BB6FB840D8AC2E3EB9831D7C04D20BF106FC9969879917096AF344187DB88",
+    "bytes": 1218
+  }
+]

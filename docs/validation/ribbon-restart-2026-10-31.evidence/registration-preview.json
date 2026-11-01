@@ -1,0 +1,189 @@
+{
+  "contractVersion": 2,
+  "planId": "775e01d2-d6d0-400f-9f64-ec3a83870e13",
+  "kind": "registration-add",
+  "documentId": "79dcb3ff-d479-4573-8261-59336f66748f",
+  "expectedVersionId": "0c0da47f-9bb3-46ff-9822-ceb1dccc1d13",
+  "projectDigest": "2f8f3ea978affc3efcef923730de07b4edd4b70d39c32beaee218d3608f5ab9c",
+  "exportDigest": "926d5e09603eff5a1cac8894f7b282692a4676f9274f0deb2984a647e3a86825",
+  "expiresAt": "2026-10-31T15:40:22.0494282Z",
+  "targetPlan": {
+    "manifestPath": "D:\\AVEVA\\Everything3D2.10\\DesignCustomization.xml",
+    "manifestHash": "78111fe80bb9781deec25e222b8ed731a95bfe78284da0f2ab5d88995b046f5d",
+    "uicPath": "F:\\OneDrive\\Documents\\ChatGPT\\PmlTwin\\artifacts\\ribbon-ui-live\\Phayton.RibbonVerification.uic",
+    "uicHash": "926d5e09603eff5a1cac8894f7b282692a4676f9274f0deb2984a647e3a86825",
+    "entryName": "Phayton.RibbonVerification.20261031",
+    "unchanged": false,
+    "beforeXml": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<UICustomizationSet xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <DefaultIcon>AvevaSharedIcons:ID_WARNING</DefaultIcon>\r\n  <UICustomizationFiles>\r\n    <CustomizationFile Name=\"LaserButtons\" Path=\"AVEVA.laser.Buttons.uic\" />\r\n    <CustomizationFile Name=\"Module\" Path=\"design.uic\" />\r\n    <CustomizationFile Name=\"SchematicExplorerAddin\" Path=\"CoreSchematicMenu.uic\" />\r\n    <CustomizationFile Name=\"Project\" Path=\"$1.uic\" Optional=\"true\"/>\r\n    <CustomizationFile Name=\"SVGCompare\" Path=\"SVGCompare.uic\" />\r\n    <CustomizationFile Name=\"Cabling\" Path=\"AVEVA.design.cabling.uic\" />\r\n    <CustomizationFile Name=\"Hvac\" Path=\"AVEVA.design.hvac.uic\" />\r\n    <CustomizationFile Name=\"Supports\" Path=\"AVEVA.design.supports.uic\" />\r\n    <CustomizationFile Name=\"Piping\" Path=\"AVEVA.design.piping.uic\" />\r\n    <CustomizationFile Name=\"Steelwork\" Path=\"AVEVA.design.steelwork.uic\" />\r\n    <CustomizationFile Name=\"Mining\" Path=\"AVEVA.design.mining.uic\" />\r\n    <CustomizationFile Name=\"Integrator\" Path=\"Integrator.uic\" />\r\n    <CustomizationFile Name=\"DiagramViewer\" Path=\"DiagramViewer.uic\" />\r\n    <CustomizationFile Name=\"MessageAddin\" Path=\"MessageAddinMenu.uic\" />\r\n    <CustomizationFile Name=\"InstrumentationImportAddin\" Path=\"InstrumentationImportAddin.uic\" />    \t\r\n    <CustomizationFile Name=\"FlexibleExplorerContextMenus\" Path=\"Aveva.Core.FlexibleExplorer.ContextMenus.uic\" />\r\n    <CustomizationFile Name=\"LaserControls\" Path=\"AVEVA.laser.Controls.uic\" />\r\n    <CustomizationFile Name=\"Terrain\" Path=\"AVEVA.design.terrain.uic\" />\r\n    <CustomizationFile Name=\"Wheel\" Path=\"model.wheel.uic\" />    \r\n  </UICustomizationFiles>\r\n</UICustomizationSet>\r\n",
+    "afterXml": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<UICustomizationSet xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <DefaultIcon>AvevaSharedIcons:ID_WARNING</DefaultIcon>\r\n  <UICustomizationFiles>\r\n    <CustomizationFile Name=\"LaserButtons\" Path=\"AVEVA.laser.Buttons.uic\" />\r\n    <CustomizationFile Name=\"Module\" Path=\"design.uic\" />\r\n    <CustomizationFile Name=\"SchematicExplorerAddin\" Path=\"CoreSchematicMenu.uic\" />\r\n    <CustomizationFile Name=\"Project\" Path=\"$1.uic\" Optional=\"true\"/>\r\n    <CustomizationFile Name=\"SVGCompare\" Path=\"SVGCompare.uic\" />\r\n    <CustomizationFile Name=\"Cabling\" Path=\"AVEVA.design.cabling.uic\" />\r\n    <CustomizationFile Name=\"Hvac\" Path=\"AVEVA.design.hvac.uic\" />\r\n    <CustomizationFile Name=\"Supports\" Path=\"AVEVA.design.supports.uic\" />\r\n    <CustomizationFile Name=\"Piping\" Path=\"AVEVA.design.piping.uic\" />\r\n    <CustomizationFile Name=\"Steelwork\" Path=\"AVEVA.design.steelwork.uic\" />\r\n    <CustomizationFile Name=\"Mining\" Path=\"AVEVA.design.mining.uic\" />\r\n    <CustomizationFile Name=\"Integrator\" Path=\"Integrator.uic\" />\r\n    <CustomizationFile Name=\"DiagramViewer\" Path=\"DiagramViewer.uic\" />\r\n    <CustomizationFile Name=\"MessageAddin\" Path=\"MessageAddinMenu.uic\" />\r\n    <CustomizationFile Name=\"InstrumentationImportAddin\" Path=\"InstrumentationImportAddin.uic\" />    \t\r\n    <CustomizationFile Name=\"FlexibleExplorerContextMenus\" Path=\"Aveva.Core.FlexibleExplorer.ContextMenus.uic\" />\r\n    <CustomizationFile Name=\"LaserControls\" Path=\"AVEVA.laser.Controls.uic\" />\r\n    <CustomizationFile Name=\"Terrain\" Path=\"AVEVA.design.terrain.uic\" />\r\n    <CustomizationFile Name=\"Wheel\" Path=\"model.wheel.uic\" />    \r\n    <CustomizationFile Name=\"Phayton.RibbonVerification.20261031\" Path=\"F:\\OneDrive\\Documents\\ChatGPT\\PmlTwin\\artifacts\\ribbon-ui-live\\Phayton.RibbonVerification.uic\" />\r\n  </UICustomizationFiles>\r\n</UICustomizationSet>\r\n",
+    "beforeEntries": [
+      {
+        "name": "LaserButtons",
+        "path": "AVEVA.laser.Buttons.uic"
+      },
+      {
+        "name": "Module",
+        "path": "design.uic"
+      },
+      {
+        "name": "SchematicExplorerAddin",
+        "path": "CoreSchematicMenu.uic"
+      },
+      {
+        "name": "Project",
+        "path": "$1.uic"
+      },
+      {
+        "name": "SVGCompare",
+        "path": "SVGCompare.uic"
+      },
+      {
+        "name": "Cabling",
+        "path": "AVEVA.design.cabling.uic"
+      },
+      {
+        "name": "Hvac",
+        "path": "AVEVA.design.hvac.uic"
+      },
+      {
+        "name": "Supports",
+        "path": "AVEVA.design.supports.uic"
+      },
+      {
+        "name": "Piping",
+        "path": "AVEVA.design.piping.uic"
+      },
+      {
+        "name": "Steelwork",
+        "path": "AVEVA.design.steelwork.uic"
+      },
+      {
+        "name": "Mining",
+        "path": "AVEVA.design.mining.uic"
+      },
+      {
+        "name": "Integrator",
+        "path": "Integrator.uic"
+      },
+      {
+        "name": "DiagramViewer",
+        "path": "DiagramViewer.uic"
+      },
+      {
+        "name": "MessageAddin",
+        "path": "MessageAddinMenu.uic"
+      },
+      {
+        "name": "InstrumentationImportAddin",
+        "path": "InstrumentationImportAddin.uic"
+      },
+      {
+        "name": "FlexibleExplorerContextMenus",
+        "path": "Aveva.Core.FlexibleExplorer.ContextMenus.uic"
+      },
+      {
+        "name": "LaserControls",
+        "path": "AVEVA.laser.Controls.uic"
+      },
+      {
+        "name": "Terrain",
+        "path": "AVEVA.design.terrain.uic"
+      },
+      {
+        "name": "Wheel",
+        "path": "model.wheel.uic"
+      }
+    ],
+    "afterEntries": [
+      {
+        "name": "LaserButtons",
+        "path": "AVEVA.laser.Buttons.uic"
+      },
+      {
+        "name": "Module",
+        "path": "design.uic"
+      },
+      {
+        "name": "SchematicExplorerAddin",
+        "path": "CoreSchematicMenu.uic"
+      },
+      {
+        "name": "Project",
+        "path": "$1.uic"
+      },
+      {
+        "name": "SVGCompare",
+        "path": "SVGCompare.uic"
+      },
+      {
+        "name": "Cabling",
+        "path": "AVEVA.design.cabling.uic"
+      },
+      {
+        "name": "Hvac",
+        "path": "AVEVA.design.hvac.uic"
+      },
+      {
+        "name": "Supports",
+        "path": "AVEVA.design.supports.uic"
+      },
+      {
+        "name": "Piping",
+        "path": "AVEVA.design.piping.uic"
+      },
+      {
+        "name": "Steelwork",
+        "path": "AVEVA.design.steelwork.uic"
+      },
+      {
+        "name": "Mining",
+        "path": "AVEVA.design.mining.uic"
+      },
+      {
+        "name": "Integrator",
+        "path": "Integrator.uic"
+      },
+      {
+        "name": "DiagramViewer",
+        "path": "DiagramViewer.uic"
+      },
+      {
+        "name": "MessageAddin",
+        "path": "MessageAddinMenu.uic"
+      },
+      {
+        "name": "InstrumentationImportAddin",
+        "path": "InstrumentationImportAddin.uic"
+      },
+      {
+        "name": "FlexibleExplorerContextMenus",
+        "path": "Aveva.Core.FlexibleExplorer.ContextMenus.uic"
+      },
+      {
+        "name": "LaserControls",
+        "path": "AVEVA.laser.Controls.uic"
+      },
+      {
+        "name": "Terrain",
+        "path": "AVEVA.design.terrain.uic"
+      },
+      {
+        "name": "Wheel",
+        "path": "model.wheel.uic"
+      },
+      {
+        "name": "Phayton.RibbonVerification.20261031",
+        "path": "F:\\OneDrive\\Documents\\ChatGPT\\PmlTwin\\artifacts\\ribbon-ui-live\\Phayton.RibbonVerification.uic"
+      }
+    ],
+    "addedEntries": [
+      {
+        "name": "Phayton.RibbonVerification.20261031",
+        "path": "F:\\OneDrive\\Documents\\ChatGPT\\PmlTwin\\artifacts\\ribbon-ui-live\\Phayton.RibbonVerification.uic"
+      }
+    ],
+    "nextManifestHash": "39e9599de452aaaff2c85484ea66bf14696a2e54fc0efa6e82d777a4fac2dcce",
+    "uicModified": false
+  },
+  "planDigest": "1abd18e8b2032d036ce4fa40daf59fbbaff5f0ae4a3ce0000d3657145e6a6584"
+}

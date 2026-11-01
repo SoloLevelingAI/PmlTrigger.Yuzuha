@@ -1,0 +1,236 @@
+{
+  "schemaVersion": 1,
+  "audience": "internal",
+  "passed": true,
+  "date": "2026-11-01",
+  "finishedAt": "2026-11-01T12:49:10.053Z",
+  "scope": "本次版本推送前的路径、依赖、Git字节与独立检出验证；不是全平台业务验收",
+  "publication": {
+    "repository": "SoloLevelingAI/PmlTrigger.Yuzuha",
+    "pullRequest": 13,
+    "targetBranch": "codex/openspec-contract-review-20261027",
+    "baseCommit": "39e12f7261891003dfe99594fe5c5e481fe7ac4d",
+    "state": "verified-before-commit-and-fast-forward-push"
+  },
+  "fixes": [
+    "19个浏览器入口统一从仓库锁定的Playwright读取；移除个人绝对路径、固定Chromium revision及ignored安装目录依赖。",
+    "JSON/JS/CJS/CSS/HTML钉定LF；原生生成证据、validation与集成来源保留原字节，允许归档日志受控提交。",
+    "两项契约源按Git规范字节归一化并重建衍生物，独立目录漂移检查通过。",
+    "测试夹具在系统临时目录隔离，并通过realpath统一Windows短路径别名；原断言和生产原子写入不变。",
+    "四个临时日志链接指向真实归档；新电脑明确SDK/浏览器安装及方法重新捕获步骤。"
+  ],
+  "checks": {
+    "workspaceContracts": {
+      "passed": 51,
+      "failed": 0,
+      "skipped": 0,
+      "realFigCraft": true
+    },
+    "pipeline": {
+      "passed": 11,
+      "failed": 0
+    },
+    "desktop": {
+      "passed": 50,
+      "failed": 0,
+      "scope": "启动/会话/Dashboard/任务导航"
+    },
+    "manager": {
+      "passed": 39,
+      "failed": 0,
+      "scope": "Ribbon适配/只读迁移"
+    },
+    "isolatedCheckout": {
+      "passed": true,
+      "indexEntries": 2925,
+      "noOriginalArtifacts": true,
+      "noOriginalNodeModules": true,
+      "pathContainsSpaces": true,
+      "unrelatedWorkingDirectory": true,
+      "npmCi": true,
+      "contracts": {
+        "passed": 50,
+        "failed": 0,
+        "skipped": 1,
+        "skipReason": "独立检出没有ignored Roslyn捕获，精确符号实捕获绑定专项明确跳过；真实FigCraft生成专项已通过。"
+      },
+      "helperAndBridge": {
+        "passed": 10,
+        "failed": 0
+      },
+      "browserFixture": "显式Edge通道通过",
+      "freshPublicFeatures": 18,
+      "freshPublicScripts": 14,
+      "freshMethods": "unavailable/catalog=null，按契约提示重新捕获",
+      "details": [
+        {
+          "label": "isolated-metadata",
+          "passed": true,
+          "command": "node.exe <isolated-checkout>/scripts/contract-atlas-metadata.mjs check"
+        },
+        {
+          "label": "isolated-theme",
+          "passed": true,
+          "command": "node.exe <isolated-checkout>/scripts/build-contract-atlas-theme.mjs --check"
+        },
+        {
+          "label": "isolated-palette",
+          "passed": true,
+          "command": "node.exe <isolated-checkout>/docs/presentation/contract-style-lab/ion/theme.js --check"
+        },
+        {
+          "label": "isolated-install",
+          "passed": true,
+          "command": "cmd.exe /d /s /c npm ci --no-audit --no-fund"
+        },
+        {
+          "label": "isolated-node-tests",
+          "passed": true,
+          "command": "cmd.exe /d /s /c npm run contracts:test"
+        },
+        {
+          "label": "isolated-extra-tests",
+          "passed": true,
+          "command": "node.exe --test tests/contract-browser-helper.test.mjs tests/contract-style-methods.test.mjs"
+        },
+        {
+          "label": "isolated-browser-fixture",
+          "passed": true,
+          "command": "node.exe tests/contract-style-methods-browser.cjs"
+        },
+        {
+          "label": "isolated-fresh-preview",
+          "passed": true,
+          "features": 18,
+          "scripts": 14,
+          "methodStatus": "unavailable",
+          "methodCatalogNull": true,
+          "assets200": true,
+          "scope": "无捕获产物时公共展示可用，方法明确未生成"
+        }
+      ]
+    },
+    "browser": {
+      "channel": "msedge",
+      "managedChromiumTested": false,
+      "managedInstall": "因CDN下载慢中止；项目依赖npm ci成功，安装命令可复用，未冒称受管浏览器实测",
+      "component": true,
+      "inlineChecks": 8,
+      "breadcrumbChecks": 8
+    },
+    "gitBytes": {
+      "changedValidationFilesIdenticalBetweenWorkingTreeIndexAndExport": 301,
+      "declaredArchiveHashesValidated": 256,
+      "protectedFormerlyConvertibleFiles": 51,
+      "newlinePolicy": "归档原字节保护；不改原日志/回执以掩盖哈希变化"
+    },
+    "integrationManifests": true,
+    "openSpecStrict": true,
+    "whitespace": "源码限定检查通过；归档日志末尾空行作为真实字节保留。"
+  },
+  "audit": {
+    "initialCounts": {
+      "files": 504,
+      "trackedModified": 39,
+      "untracked": 465,
+      "totalBytes": 37822647,
+      "maxFile": {
+        "file": "docs/design/contract-atlas/generated/scripts.png",
+        "bytes": 2074893,
+        "kind": "untracked",
+        "sha256": "5338d58a9b18adba0d2e37b19a72c47a3987f1891f4a3b7a8b4c88dc44963d96"
+      },
+      "validationScannedIncludingIgnored": 409,
+      "secretScanFiles": 642
+    },
+    "unexpectedCachesOrInstallers": [],
+    "secretScan": "候选及全部归档日志已扫描；命中仅为合成verification凭据、安全负例及动态读取表达式，无真实凭据候选，未输出秘密值。",
+    "historicalAbsolutePaths": "保留捕获环境/来源身份，不能用作另一台机器的执行输入；源码/测试执行依赖中的个人路径已移除。"
+  },
+  "payloadSnapshot": {
+    "stagedChangedFilesBeforeThisReport": 537,
+    "stagedSourceHashes": {
+      ".gitattributes": "6f57787bc19c4934941cd9b9836a9206ee159ac5d8a28f24a2e0166c470dfd8f",
+      ".gitignore": "b4f96c34bdbe48bef365989faf4a2c174aecaccb0331830c8756c9d5411a8ea8",
+      "package.json": "ed4d90d87f8a0ff6df341c5dd8f67af85fa76a7434c2bcf7b08c01b1f8ca2bc3",
+      "package-lock.json": "a4a1327ffee2f0500c396fc337f2d4a22989a9b799b256f762ee786ec9a7276b",
+      "tests/support/contract-browser.cjs": "d45e264e09c79822ea2f5eeef8b95123dee021159594a747ad450bcd48e9d8d1",
+      "tests/support/contract-browser.mjs": "6f5d0a539ee66ef231f2a2569e84a4efa14f5889e3d2d35387505c0878514581",
+      "tests/support/contract-atlas-live-fixture.mjs": "c63bd47c1b798244b6d0de69b630495186f54c5f2c70e7a35530ef50200dbad5",
+      "tests/contract-browser-helper.test.mjs": "b056ebffed673331506cfebe032da3d5f9fb824edbeab2359be40b6f39553282"
+    },
+    "scope": "实际index blob原字节，不混用工作树CRLF与Git规范字节"
+  },
+  "boundaries": [
+    "原27项业务任务仍未完成；本轮未启动/关闭AVEVA、修改生产安装或执行PML。",
+    "本地Roslyn/DocFX/共同修订不提交；新电脑须显式重新捕获，公共契约可独立运行。",
+    "手机独立布局、用户视觉确认及FigCraft深化状态不升级。"
+  ],
+  "evidence": {
+    "contracts-tests.log": {
+      "path": "docs/validation/portable-contract-release-2026-11-01.evidence/contracts-tests.log",
+      "bytes": 6404,
+      "sha256": "e15a6e9334bc15a999bcc615773be9dd5822a36a8c375aa70ddf7943563f0991"
+    },
+    "pipeline-tests.log": {
+      "path": "docs/validation/portable-contract-release-2026-11-01.evidence/pipeline-tests.log",
+      "bytes": 1255,
+      "sha256": "960539399eadaf01f0ae5fac9fc829a31ef84c061825cbb63b600f175cef9f42"
+    },
+    "desktop-tests.log": {
+      "path": "docs/validation/portable-contract-release-2026-11-01.evidence/desktop-tests.log",
+      "bytes": 2261,
+      "sha256": "3f40792da508f6b34137b4033b8c210bc4a9d8e55545f026618fddf6b276c4db"
+    },
+    "manager-tests.log": {
+      "path": "docs/validation/portable-contract-release-2026-11-01.evidence/manager-tests.log",
+      "bytes": 2088,
+      "sha256": "5d9582ed6c70c44408193c7a85f80126397cb2eb6b6ca269e07d25ed584071e4"
+    },
+    "isolated-results.json": {
+      "path": "docs/validation/portable-contract-release-2026-11-01.evidence/isolated-results.json",
+      "bytes": 1631,
+      "sha256": "2e4c2fc1289db9696b4122890ea7b7582b3f0fd6f46de8034d8958fea8b286a5"
+    },
+    "index-export.json": {
+      "path": "docs/validation/portable-contract-release-2026-11-01.evidence/index-export.json",
+      "bytes": 679,
+      "sha256": "70b11c8411cc1bd62b82fd5c762536151853dbd7eba9bccebd43e3e910aac048"
+    },
+    "isolated-contracts-tests.log": {
+      "path": "docs/validation/portable-contract-release-2026-11-01.evidence/isolated-contracts-tests.log",
+      "bytes": 6409,
+      "sha256": "f83f3b0e9c83894159f7ad04250bdcec5d8fd4cb5c2f28ce73d118eeb6bb6abf"
+    },
+    "isolated-helper-bridge-tests.log": {
+      "path": "docs/validation/portable-contract-release-2026-11-01.evidence/isolated-helper-bridge-tests.log",
+      "bytes": 1195,
+      "sha256": "8ebfd08a7477bc6fc20581b14f8f67c2fadb9a095ba89737cce7988d3865b541"
+    },
+    "isolated-browser-fixture.log": {
+      "path": "docs/validation/portable-contract-release-2026-11-01.evidence/isolated-browser-fixture.log",
+      "bytes": 32,
+      "sha256": "7c94d3d258d01948a9e40053f23308163b3a33bab9b6f552cd05827045affcd3"
+    },
+    "isolated-npm-ci.log": {
+      "path": "docs/validation/portable-contract-release-2026-11-01.evidence/isolated-npm-ci.log",
+      "bytes": 26,
+      "sha256": "2b86cfe7e1944344df3044a7a4eac7269ad9c8c451ab0cec3d35c0bde4d2c82e"
+    },
+    "integration-manifests.json": {
+      "path": "docs/validation/portable-contract-release-2026-11-01.evidence/integration-manifests.json",
+      "bytes": 488,
+      "sha256": "668c58cf9f46f6736fda2dd926dc3528d8dfa94fe4c5b07f2924edde85080a83"
+    },
+    "portable-browser-regression.json": {
+      "path": "docs/validation/portable-contract-release-2026-11-01.evidence/portable-browser-regression.json",
+      "bytes": 1125,
+      "sha256": "78a0a5d95261ea81970033ac7feca9895e02400a6d183948363787655d9e508b"
+    },
+    "metadata-lf-normalization.json": {
+      "path": "docs/validation/portable-contract-release-2026-11-01.evidence/metadata-lf-normalization.json",
+      "bytes": 2018,
+      "sha256": "cf8a976a77fcc3ab74ca4ce5e172fd9751c83aa4acdf1f9c91410ffc7e5a2054"
+    }
+  }
+}

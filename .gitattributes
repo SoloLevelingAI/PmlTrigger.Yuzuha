@@ -12,6 +12,11 @@
 *.ps1 text eol=lf
 *.psm1 text eol=lf
 *.mjs text eol=lf
+*.json text eol=lf
+*.js text eol=lf
+*.cjs text eol=lf
+*.css text eol=lf
+*.html text eol=lf
 *.pmlobj text eol=lf
 PMLUI/**/Addins/YuzuhaAddin text eol=lf
 PMLUI/version.dat text eol=lf
@@ -21,5 +26,8 @@ PMLUI/version.dat text eol=lf
 *.dll binary
 *.exe binary
 *.docx binary
+*.figcraft binary
 # Imported source/design provenance uses exact bytes across clone platforms.
+docs/validation/** -text
+docs/design/contract-atlas/generated/** -text
 integrations/** -text

@@ -1,0 +1,28 @@
+{
+  "passed": true,
+  "checks": 4,
+  "revision": "17079bcc50f849a4f32e5c1e07a960270fdea93c5349585aaa1a9348be764fc8",
+  "methods": 393,
+  "native": {
+    "generated": true,
+    "validated": true,
+    "success": true,
+    "components": 7,
+    "instances": 107,
+    "editableTexts": 769,
+    "variables": 40,
+    "images": 0,
+    "toolVersion": "figcraft-cli 0.6.0",
+    "commandCount": 1457
+  },
+  "compression": {
+    "summary": 2056,
+    "full": 4109
+  }
+}
+{
+  "passed": true,
+  "checks": 6,
+  "revision": "17079bcc50f849a4f32e5c1e07a960270fdea93c5349585aaa1a9348be764fc8",
+  "output": "F:\\OneDrive\\Documents\\ChatGPT\\PmlTwin\\artifacts\\contract-atlas-document-live"
+}

@@ -1,0 +1,41 @@
+{
+  "passed": true,
+  "scope": "Real FigCraft CLI generation, PNG inspection and editable native structure; Figma host not run",
+  "native": {
+    "generated": true,
+    "validated": true,
+    "success": true,
+    "components": 7,
+    "instances": 107,
+    "editableTexts": 673,
+    "variables": 40,
+    "images": 0
+  },
+  "documentBoards": [
+    "Document-Light",
+    "Document-Dark"
+  ],
+  "sourceEntity": "script:launch-workflow",
+  "fieldCount": 7,
+  "directory": {
+    "features": 18,
+    "scripts": 14
+  },
+  "sectionRoles": [
+    "overview",
+    "contract",
+    "flow",
+    "implementation",
+    "evidence",
+    "reference"
+  ],
+  "visualInspection": {
+    "light": true,
+    "dark": true,
+    "sourceTextReadable": true
+  },
+  "figma": {
+    "execution": "not-run",
+    "offlineMock": "passed"
+  }
+}

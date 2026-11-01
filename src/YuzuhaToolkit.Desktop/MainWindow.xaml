@@ -46,12 +46,12 @@
           <TextBlock x:Name="MessageText" Text="就绪 · 本机记录" Style="{StaticResource Caption}" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap"/>
         </DockPanel>
       </Border>
-      <TabControl x:Name="Tabs" Margin="28,0,28,0" Background="Transparent" BorderThickness="0" SelectedIndex="0" SelectionChanged="PageSelected">
-        <TabControl.Template>
+      <local:WorkspaceTabs x:Name="Tabs" Margin="28,0,28,0" Background="Transparent" BorderThickness="0" SelectedIndex="0" SelectionChanged="PageSelected">
+        <local:WorkspaceTabs.Template>
           <ControlTemplate TargetType="TabControl">
             <ContentPresenter ContentSource="SelectedContent"/>
           </ControlTemplate>
-        </TabControl.Template>
+        </local:WorkspaceTabs.Template>
         <TabItem Header="启动工程">
           <ScrollViewer x:Name="LaunchScroll" VerticalScrollBarVisibility="Auto">
             <StackPanel>
@@ -128,6 +128,7 @@
                   <Border x:Name="RestoreConfirmationPanel" Visibility="Collapsed" Background="{DynamicResource Surface.Subtle}" CornerRadius="10" Padding="14" Margin="0,12,0,0"><StackPanel><TextBlock x:Name="RestoreConfirmationText" TextWrapping="Wrap"/><WrapPanel Margin="0,12,0,0"><Button x:Name="ConfirmRestoreProfileButton" Content="确认恢复并创建新修订" Click="ConfirmRestoreProfile" Style="{StaticResource Primary}"/><Button Content="取消" Click="CancelRestoreProfile"/></WrapPanel></StackPanel></Border>
                 </StackPanel>
               </Border>
+              <Border Style="{StaticResource Card}"><StackPanel><TextBlock Text="启动回执与恢复观察" Style="{StaticResource SectionTitle}"/><TextBlock Text="启动操作编号（可粘贴原编号恢复观察）" Style="{StaticResource Caption}"/><TextBox x:Name="LaunchOperationIdBox" MaxLength="128" AutomationProperties.Name="启动操作编号"/><Button x:Name="ObserveLaunchButton" Content="按原编号观察" Click="ObserveLaunchWorkflow" HorizontalAlignment="Left" AutomationProperties.Name="观察启动操作"/><TextBlock x:Name="LaunchWorkflowResultText" Text="尚无启动回执。观察不会启动工程。" TextWrapping="Wrap" Style="{StaticResource Caption}"/></StackPanel></Border>
               <Expander Header="启动参数与产品诊断" Margin="0,0,0,16">
                 <Grid x:Name="LaunchLowerColumns"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="16"/><ColumnDefinition/></Grid.ColumnDefinitions>
                   <Border Style="{StaticResource Card}"><StackPanel><TextBlock Text="启动参数预览" Style="{StaticResource SectionTitle}"/><Button Content="预览参数" Click="PreviewLaunch" HorizontalAlignment="Left"/><TextBox x:Name="LaunchPreviewBox" IsReadOnly="True" TextWrapping="Wrap" MinHeight="100" FontFamily="Consolas"/><TextBlock x:Name="LaunchHealthText" Text="入口进程创建成功不等于登录完成；连接后仍需核验 Host。" Style="{StaticResource Caption}" TextWrapping="Wrap"/></StackPanel></Border>
@@ -395,10 +396,9 @@
         <TabItem Header="总览">
           <ScrollViewer x:Name="OverviewScroll" VerticalScrollBarVisibility="Auto">
             <StackPanel>
+              <TextBlock Text="当前情况  →  明确选择目标  →  选择任务  →  结果与下一步" Foreground="{DynamicResource Text.Secondary}" FontSize="13" TextWrapping="Wrap" Margin="0,0,0,12"/>
               <Grid x:Name="OverviewColumns1">
                 <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="2.14*"/>
-                  <ColumnDefinition Width="16"/>
                   <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Border CornerRadius="14" Background="{DynamicResource Surface.Card}" BorderBrush="{DynamicResource Border.Default}" BorderThickness="1" Padding="20,16" Margin="0,0,0,16" ClipToBounds="True" MinHeight="176">
@@ -406,21 +406,27 @@
                     <StackPanel>
                       <DockPanel>
                         <Border DockPanel.Dock="Right" Style="{StaticResource Pill}" Background="{DynamicResource Brand.HeroTag}">
-                          <TextBlock Text="身份核验" Foreground="{DynamicResource Text.Brand}" FontSize="12"/>
+                          <TextBlock Text="只读监测" Foreground="{DynamicResource Text.Brand}" FontSize="12"/>
                         </Border>
-                        <TextBlock Text="当前工程会话" Foreground="{DynamicResource Text.OnDarkMuted}" FontSize="13" VerticalAlignment="Center"/>
+                        <TextBlock Text="工程会话可用性" Foreground="{DynamicResource Text.Secondary}" FontSize="13" VerticalAlignment="Center"/>
                       </DockPanel>
-                      <TextBlock x:Name="OverviewTargetText" TextWrapping="Wrap" Text="尚未选择 AVEVA 工程" Foreground="{DynamicResource Text.OnDark}" FontSize="27" FontWeight="Bold" Margin="0,8,0,3"/>
-                      <TextBlock x:Name="OverviewTargetDetail" Text="先发现并选择会话，再核验目标与 Host 能力" Foreground="{DynamicResource Text.OnDarkMuted}" FontSize="12" TextWrapping="Wrap"/>
+                      <DockPanel Margin="0,8,0,3"><Ellipse x:Name="DashboardStateLamp" DockPanel.Dock="Left" Width="11" Height="11" Fill="{DynamicResource Text.Tertiary}" Margin="0,0,9,0"/><TextBlock x:Name="DashboardStateText" Text="等待只读会话监测" Foreground="{DynamicResource Text.Primary}" FontSize="20" FontWeight="Bold" TextWrapping="Wrap"/></DockPanel>
+                      <TextBlock x:Name="DashboardObservedText" Text="只读监测与明确选择的操作目标分别表达" Foreground="{DynamicResource Text.Secondary}" FontSize="12" TextWrapping="Wrap"/>
+                      <ScrollViewer MaxHeight="80" VerticalScrollBarVisibility="Auto" Margin="0,5,0,3"><ItemsControl x:Name="DashboardSessionsList"><ItemsControl.ItemTemplate><DataTemplate><StackPanel Margin="0,2"><DockPanel><TextBlock DockPanel.Dock="Right" Text="{Binding Detail}" Foreground="{Binding Color}" FontSize="12"/><TextBlock Text="{Binding Title}" Foreground="{DynamicResource Text.Primary}" FontSize="12" Margin="0,0,10,0" TextWrapping="Wrap"/></DockPanel><TextBlock Text="{Binding Reason}" Foreground="{DynamicResource Text.Secondary}" FontSize="12" TextWrapping="Wrap"/></StackPanel></DataTemplate></ItemsControl.ItemTemplate></ItemsControl></ScrollViewer>
+                      <TextBlock x:Name="OverviewTargetText" TextWrapping="Wrap" Text="操作目标：尚未明确选择" Foreground="{DynamicResource Text.Primary}" FontSize="14" FontWeight="SemiBold"/>
+                      <TextBlock x:Name="OverviewTargetDetail" Text="Host 绿灯不代表登录、业务或部署全部通过" Foreground="{DynamicResource Text.Secondary}" FontSize="12" TextWrapping="Wrap"/>
                       <Border Height="1" Background="{DynamicResource Brand.HeroBorder}" Margin="0,12,0,10"/>
                       <DockPanel>
-                        <Button Content="打开会话    →" Tag="3" Uid="工程会话" Click="Navigate" DockPanel.Dock="Right" Background="{DynamicResource Brand.HeroButton}" BorderBrush="{DynamicResource Brand.HeroButtonBorder}" Foreground="{DynamicResource Text.OnDark}" Margin="0"/>
-                        <TextBlock Text="复用既有会话发现与身份核验" Foreground="{DynamicResource Text.OnDarkMuted}" VerticalAlignment="Center" FontSize="13"/>
+                        <Button x:Name="DashboardPrimaryAction" AutomationProperties.AutomationId="DashboardPrimaryAction" Content="选择操作目标 →" Click="DashboardNext" DockPanel.Dock="Right" Margin="0" Style="{StaticResource Primary}"/>
+                        <TextBlock Text="不自动选择，不执行 PML" Foreground="{DynamicResource Text.Secondary}" VerticalAlignment="Center" FontSize="12"/>
                       </DockPanel>
+                      <Button AutomationProperties.AutomationId="DashboardStartAnother" Content="启动另一个工程" Click="StartAnotherEngineeringSession" Style="{StaticResource Link}" HorizontalAlignment="Left" Margin="0,6,0,0"/>
                     </StackPanel>
                   </Grid>
                 </Border>
-                <Border Grid.Column="2" Style="{StaticResource Card}" Padding="20,16" MinHeight="176">
+              </Grid>
+              <Expander x:Name="OverviewMaintenanceExpander" AutomationProperties.AutomationId="DashboardMaintenance" Header="维护与统计" IsExpanded="False" Margin="0,0,0,12"><StackPanel>
+                <Border Style="{StaticResource Card}" Padding="20,16">
                   <StackPanel>
                     <DockPanel>
                       <Border Style="{StaticResource Pill}" DockPanel.Dock="Right">
@@ -441,7 +447,6 @@
                     <DockPanel><Button DockPanel.Dock="Right" Content="查看详情" Tag="1" Uid="插件部署" Click="Navigate" Style="{StaticResource Link}" Padding="0" Margin="8,0,0,0"/><TextBlock Text="按类型和文件夹统计" Style="{StaticResource Caption}" VerticalAlignment="Center"/></DockPanel>
                   </StackPanel>
                 </Border>
-              </Grid>
               <UniformGrid x:Name="OverviewKpis" Columns="4" Margin="0,0,-16,0">
                 <Border Style="{StaticResource Card}" Margin="0,0,16,16" Padding="18,12">
                   <StackPanel>
@@ -605,7 +610,6 @@
                                     <Setter Property="Foreground" Value="{DynamicResource Text.Warning}"/>
                                     <Style.Triggers>
                                       <DataTrigger Binding="{Binding Verified}" Value="True">
-                                        <Setter Property="Text" Value="已核验"/>
                                         <Setter Property="Foreground" Value="{DynamicResource Text.Brand}"/>
                                       </DataTrigger>
                                     </Style.Triggers>
@@ -636,6 +640,7 @@
                   </StackPanel>
                 </Border>
               </Grid></Expander>
+              </StackPanel></Expander>
             </StackPanel>
           </ScrollViewer>
         </TabItem>
@@ -965,7 +970,7 @@
             </StackPanel>
           </ScrollViewer>
         </TabItem>
-      </TabControl>
+      </local:WorkspaceTabs>
     </DockPanel>
   <Border Grid.ColumnSpan="3" Background="{DynamicResource Surface.Card}" BorderBrush="{DynamicResource Border.Default}" BorderThickness="0,0,0,1">
  <DockPanel><StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="22,0"><TextBlock Text="P" FontSize="24" FontWeight="Bold" Foreground="{DynamicResource Text.Brand}" Margin="0,0,16,0"/><TextBlock Text="Phayton" FontSize="17" FontWeight="SemiBold" VerticalAlignment="Center"/><TextBlock Text="/   工程工作空间" Foreground="{DynamicResource Text.Tertiary}" Margin="20,0" VerticalAlignment="Center"/></StackPanel>

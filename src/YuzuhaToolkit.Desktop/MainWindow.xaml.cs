@@ -39,7 +39,7 @@ public partial class MainWindow : Window
         Width = Math.Min(Width, Math.Max(MinWidth, SystemParameters.WorkArea.Width - 16));
         Height = Math.Min(Height, Math.Max(MinHeight, SystemParameters.WorkArea.Height - 16));
         SessionView.SectionChanged += title => { if (Tabs.SelectedIndex == 3) SetPage(title); };
-        SessionView.TargetChanged += target => { SidebarTargetText.Text = target; OverviewTargetText.Text = SessionView.TargetDisplayName; OverviewSessionText.Text = target; OverviewTargetDetail.Text = target; RenderCandidates(); };
+        SessionView.TargetChanged += target => { SidebarTargetText.Text = target; OverviewTargetText.Text = "操作目标：" + SessionView.TargetDisplayName; OverviewSessionText.Text = target; OverviewTargetDetail.Text = target; RenderCandidates(); UpdateDashboardPrimaryAction(); };
         SessionView.CandidatesChanged += candidates => { _sessionCandidates = candidates; RenderCandidates(); };
         MaintainerText.Text = Environment.UserName;
         try { DesktopTheme.Apply(DesktopDisplaySettings.ReadTheme(WorkspaceSettings.StateDirectory)); } catch (Exception error) { Say("显示偏好读取失败：" + error.Message); }
@@ -49,16 +49,24 @@ public partial class MainWindow : Window
         ReloadProfiles(); if (_settings.Profiles.Count > 0) ProfilesBox.SelectedItem = _settings.Profiles.FirstOrDefault(profile => profile.IsDefault) ?? _settings.Profiles[0];
         InitializeLaunchLifecycle();
         Tabs.SelectedIndex = 4; SetPage("总览");
-        _timer.Tick += async (_, _) => await RefreshRuntimeAsync(); _timer.Start();
-        Loaded += async (_, _) => { await RefreshRuntimeAsync(); await DiscoverAsync(); SessionView.RefreshCandidates(); };
+        var isolatedLaunchSmoke = Environment.GetCommandLineArgs().Contains("--launch-lifecycle-smoke-output");
+        var isolatedDesktopSmoke = isolatedLaunchSmoke || Environment.GetCommandLineArgs().Contains("--smoke-output");
+        InitializeDashboardMonitoring(isolatedDesktopSmoke);
+        _timer.Tick += async (_, _) => await RefreshRuntimeAsync();
+        if (!isolatedDesktopSmoke)
+        {
+            _timer.Start();
+            Loaded += async (_, _) => { await RefreshRuntimeAsync(); await DiscoverAsync(); SessionView.RefreshCandidates(); };
+        }
         Closed += (_, _) => { _closed = true; _timer.Stop(); StopDocumentation(); SessionView.Dispose(); _journal.Dispose(); };
     }
 
     private void Say(string message) => MessageText.Text = message;
     private void RenderCandidates()
     {
+        if (dashboardMonitor is not null) { RenderDashboardCandidates(DashboardSnapshot); return; }
         OverviewServices.Text = _sessionCandidates.Count.ToString();
-        OverviewSessionsGrid.ItemsSource = _sessionCandidates.Take(3).Select(candidate => new { candidate.Product, candidate.Project, candidate.ProcessId, Verified = SessionView.MatchesTarget(candidate), StatusText = SessionView.MatchesTarget(candidate) ? "已核验" : candidate.PipeDetected ? "已发现 · 待核验" : "未发现 Host" }).ToArray();
+        OverviewSessionsGrid.ItemsSource = _sessionCandidates.Take(3).Select(candidate => new { candidate.Product, candidate.Project, candidate.ProcessId, Verified = SessionView.MatchesTarget(candidate), StatusText = SessionView.MatchesTarget(candidate) ? "目标身份已核验" : candidate.PipeDetected ? "已发现 · 待核验" : "未发现 Host" }).ToArray();
     }
     private void WindowSizeChanged(object sender, SizeChangedEventArgs e)
     {
@@ -94,9 +102,12 @@ public partial class MainWindow : Window
         HeaderActionText.Text = title switch { "工程会话" => "扫描会话", "能力与函数" => "登记函数", "原生 Form / Gadget" => "重新核验", "AI 运行" => "刷新状态", "工具日志" => "日志目录", "插件部署" => "预览复制", "设置" => "保存设置", _ => "启动工程" };
         if (title is "Web 应用" or "知识库") HeaderActionText.Text = title switch { "Web 应用" => "打开 HTML 管理器", _ => "搜索知识" };
         if (title == "启动配置") HeaderActionText.Text = "新建配置";
-        HeaderActionButton.IsEnabled = true;
+        HeaderActionButton.IsEnabled = title != "启动工程" || LaunchButton.IsEnabled;
         HeaderActionIcon.Data = (Geometry)FindResource(title is "工程会话" or "原生 Form / Gadget" or "AI 运行" ? "Icon.refresh" : title is "能力与函数" or "Web 应用" or "启动配置" ? "Icon.plus" : "Icon.play");
         UpdateR2Navigation(title);
+        if (title == "会话任务") { HeaderActionButton.Visibility = Visibility.Collapsed; PageSubtitleText.Text = "先明确目标，再进入任务；选择入口不执行查询或授权"; }
+        if (title is "对象查询" or "读取已有数组") { HeaderActionText.Text = "返回任务入口"; PageSubtitleText.Text = "明确操作 → 本次结果；保留原输入与回执，不自动重发"; }
+        if (Tabs.SelectedIndex == 4) UpdateDashboardPrimaryAction();
     }
 
     private void ChooseTheme(object sender, RoutedEventArgs e)
@@ -117,6 +128,7 @@ public partial class MainWindow : Window
     }
     private void HeaderAction(object sender, RoutedEventArgs e)
     {
+        if (Tabs.SelectedIndex == 4) { DashboardNext(sender, e); return; }
         if (Tabs.SelectedIndex == 3) SessionView.PrimaryAction();
         else if (Tabs.SelectedIndex == 2) _ = RefreshRuntimeAsync();
         else if (Tabs.SelectedIndex == 7) OpenLogs(sender, e);
@@ -267,40 +279,6 @@ public partial class MainWindow : Window
         Say("已清除此配置的本机密码关联；配置保留。");
     });
     private void PreviewLaunch(object sender, RoutedEventArgs e) => Try(() => LaunchPreviewBox.Text = LaunchService.Preview(ReadProfile()));
-    private async void Launch(object sender, RoutedEventArgs e)
-    {
-        if (_copying) { Say("插件正在复制，请完成后再启动工程。"); return; }
-        LaunchButton.IsEnabled = false;
-        try
-        {
-            var enteredPassword = PasswordInput.Password; var profile = PersistProfile(); var expectedRevision = _profileRevision;
-            if (!string.IsNullOrWhiteSpace(_settings.RegisteredPmlLib))
-            {
-                var health = await ScanAsync();
-                if (_closed) return;
-                if (health.NeedsAttention && MessageBox.Show(FormatHealth(health) + "\n\n建议先移出旧插件、备份和开发副本。仍然启动吗？", "PMLLIB 清理提醒", MessageBoxButton.YesNo, MessageBoxImage.Warning) != MessageBoxResult.Yes) return;
-            }
-            var precheck = await YuzuhaToolkit.Manager.LaunchLicensePreflight.CheckAsync(profile);
-            if (!precheck.Allowed) throw new InvalidOperationException(precheck.Code + ": " + precheck.Message);
-            if (_launchProfiles.Read().Revision != expectedRevision) throw new ConfigurationConflictException(_launchProfiles.Read().Revision);
-            var password = enteredPassword.Length > 0 ? enteredPassword : profile.CredentialKey.Length > 0 ? WindowsCredentialStore.Read(profile.CredentialKey) : "";
-            var start = LaunchService.Build(profile, password);
-            var id = _journal.Begin("launch_aveva", JsonSerializer.Serialize(new { profile = profile.Name, executable = profile.Executable, startupPolicy = (start.Environment.TryGetValue(StartupPolicy.Variable,out var startupActions) ? startupActions : "none"), startupId = (start.Environment.TryGetValue("YUZUHA_STARTUP_ID",out var startupId) ? startupId : null), startupLog = (start.Environment.TryGetValue("YUZUHA_STARTUP_LOG",out var startupLog) ? startupLog : null), phase = "requested-before-process-start" }));
-            try
-            {
-                var processId = LaunchService.Start(start);
-                _journal.Complete(id, "succeeded", "启动入口进程 PID " + processId);
-                Say("启动入口已创建，PID " + processId + "。工程会话就绪后可由工作台或 CLI 发现并选择；入口进程创建不等于登录完成。");
-                profile.LastStartedUtc = DateTimeOffset.UtcNow;
-                try { ApplyProfileCommit(_launchProfiles.Save(profile, _profileRevision, true, "记录启动入口创建时间"), profile.Id); }
-                catch (Exception error) { Say("启动入口已创建，PID " + processId + "；最近启动记录未保存：" + error.Message); }
-            }
-            catch (Exception error) { _journal.Complete(id, "failed", error.Message); throw; }
-        }
-        catch (Exception error) { LifecycleMessage(error.Message, true); }
-        finally { PasswordInput.Clear(); LaunchButton.IsEnabled = true; }
-    }
-
     private async Task DiscoverAsync()
     {
         try
@@ -524,12 +502,13 @@ public partial class MainWindow : Window
                     {
                         if (OverviewScroll.ScrollableHeight > 1)
                             throw new InvalidOperationException("1280×720 首页摘要不应要求纵向滚动。");
-                        OverviewActivityExpander.IsExpanded = true; OverviewSessionExpander.IsExpanded = true;
+                        if (OverviewMaintenanceExpander.IsExpanded) throw new InvalidOperationException("首页维护统计必须默认折叠。");
+                        OverviewMaintenanceExpander.IsExpanded = true; OverviewActivityExpander.IsExpanded = true; OverviewSessionExpander.IsExpanded = true;
                         UpdateLayout();
                         if (!OverviewColumns2.IsVisible || !OverviewColumns3.IsVisible)
                             throw new InvalidOperationException("首页明细无法展开。");
                         await CaptureSmokeAsync(Path.Combine(themeDirectory, "overview-expanded-1280.png"));
-                        OverviewActivityExpander.IsExpanded = false; OverviewSessionExpander.IsExpanded = false;
+                        OverviewActivityExpander.IsExpanded = false; OverviewSessionExpander.IsExpanded = false; OverviewMaintenanceExpander.IsExpanded = false;
                     }
                 }
             }
@@ -568,7 +547,7 @@ public partial class MainWindow : Window
             dashboardHome = true, primaryWorkspaces = 5, dashboardCompact = true, dashboardDetailsReachable = true,
             viewportEvidence = _smokeCaptures, viewportUnit = "DIP rendered at 96 DPI; independent of monitor size",
             pages = screens.Length, tabs = Tabs.Items.Count, profiles = ProfilesBox.Items.Count, errorStates = 4,
-            themes = new[] { "Light", "Dark" }, themePreservesWork = true, savedCredentials = true, guiKnowledge = true, personalNotesCrud = true, activityFilters = true, r2Navigation = true, nativeWindowChrome = true, compactNavigation = true, objectQueries = true, profileLibrary = true,
+            themes = new[] { "Light", "Dark" }, themePreservesWork = true, savedCredentials = true, guiKnowledge = true, personalNotesCrud = true, activityFilters = true, r2Navigation = true, nativeWindowChrome = true, compactNavigation = true, objectQueries = true, profileLibrary = true, taskMapNavigation = true,
             viewports = new[] { "1440x960", "1280x720", "853x480" },
             designCanvas = "1440x1024 client", finishedUtc = DateTime.UtcNow, dpi = VisualTreeHelper.GetDpi(this).DpiScaleX, fontSize = FontSize }));
     }

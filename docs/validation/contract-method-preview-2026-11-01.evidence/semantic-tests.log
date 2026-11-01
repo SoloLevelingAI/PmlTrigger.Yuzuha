@@ -1,0 +1,25 @@
+✔ call sites retain arguments and lexical branches; callbacks keep their wrapper and separate bodies (704.9029ms)
+✔ source getters and local calculations remain inspectable, automatic properties are not invented bodies (713.6099ms)
+✔ RPC correspondence requires constant route, contract attributes and a matching registration; names alone never connect (2718.1272ms)
+✔ XAML event resolves exact overload and source coordinates; dynamic call stays unresolved (643.0278ms)
+✔ Command follows explicit runtime DataContext and delegate registration, separating CanExecute (672.2093ms)
+✔ property write follows actual generated setter to OnChanged; callbacks are not guessed by name (649.5202ms)
+✔ interface implementations remain candidates, including explicit implementation (614.9596ms)
+✔ unknown/template DataContext, ElementName binding and missing generator output are explicit boundaries (1202.678ms)
+✔ explicit TwoWay binding starts at the actual setter; virtual dispatch is not a definite implementation (598.9488ms)
+✔ event raise and named subscription connect to OnChanged without treating unsubscribe as execution (652.9696ms)
+✔ XAML assembly qualification never binds to a same-name type in another assembly (584.5913ms)
+✔ page discovery keeps nested tabs, shared handlers and initially disabled unwired actions (569.3162ms)
+✔ object construction is a real edge and view constructors remain shared lifecycle entries (685.5838ms)
+✔ discarded construction retains its enclosing method or callback and constructor body (628.1383ms)
+✔ method preview preserves overload identities, generic signature, partial implementation and plain XML docs (672.2475ms)
+✔ partial implementation encountered first still uses definition documentation and both declarations (602.7457ms)
+✔ unimplemented partial declaration retains partial identity without inventing a body implementation (643.775ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 13729.5617

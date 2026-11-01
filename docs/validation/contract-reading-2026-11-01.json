@@ -1,0 +1,234 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "finishedAt": "2026-11-01T06:15:20.824Z",
+  "scope": "完整目录与作品集/契约摘要详情阅读；真实浏览器、共同服务、FigCraft及Roslyn/DocFX核验，未执行工程业务动作",
+  "contract": "openspec/changes/integrate-pmltwin-product-platform/features/contract-reading-disclosure.md",
+  "guide": "docs/reference/contract-reading.zh-CN.md",
+  "progress": {
+    "total": 102,
+    "complete": 75,
+    "remaining": 27
+  },
+  "coverage": {
+    "features": 18,
+    "scripts": 14,
+    "requirements": 24,
+    "flows": 3,
+    "sourceMappings": 191
+  },
+  "reading": {
+    "default": "summary",
+    "dimensions": [
+      "reading view",
+      "theme",
+      "disclosure"
+    ],
+    "globalButtons": [
+      "全部折叠",
+      "全部展开"
+    ],
+    "stableKey": "ownerId|section",
+    "factsPreserved": true
+  },
+  "tests": {
+    "node": {
+      "passed": 48,
+      "failed": 0,
+      "skipped": 0
+    },
+    "reading": 9,
+    "componentChecks": 15,
+    "componentMatrices": 6,
+    "reference": {
+      "sections": 10,
+      "rows": 352,
+      "sourceMappings": 191
+    },
+    "layoutMatrices": 18,
+    "themeMatrices": 12,
+    "liveConsumerChecks": 16,
+    "methodConsumerChecks": 17,
+    "realMethodChecks": 12,
+    "realMethodRevisions": 3,
+    "liveChecks": 4,
+    "metadataCheck": true,
+    "themeTokenCheck": true,
+    "openSpecStrict": true,
+    "diffWhitespaceCheck": true
+  },
+  "revision": {
+    "revisionId": "f961c17ed740b99e776f6bce627957af39f177126ce0701072e27c7b9cb5824f",
+    "metadataDigest": "21f74add0099ba138637bb77b54ff47ea3ae154cba877a2bc43a01382dcbfc4d",
+    "renderModelDigest": "3b4342883d7cae1ee014110adab8f334ddef2c3f73602374f2a17a4f7b63bce1",
+    "methodCatalogDigest": "561ea228e78cd8a60a4057d0012243ae277b7cb6c641ad76c95daaa87293f93d",
+    "manifestUrl": "/revisions/f961c17ed740b99e776f6bce627957af39f177126ce0701072e27c7b9cb5824f/manifest.json"
+  },
+  "native": {
+    "generated": true,
+    "validated": true,
+    "success": true,
+    "components": 7,
+    "instances": 107,
+    "editableTexts": 525,
+    "variables": 10,
+    "images": 0,
+    "toolVersion": "figcraft-cli 0.6.0",
+    "commandCount": 675
+  },
+  "methods": {
+    "status": "ready",
+    "count": 347,
+    "edges": 1364,
+    "bindings": 32,
+    "resolutions": {
+      "resolved": 18,
+      "unavailable": 8,
+      "not-applicable": 6
+    },
+    "selected": "YuzuhaToolkit.Manager.Core::M:YuzuhaToolkit.Manager.LaunchWorkflowService.Plan(System.String,System.String,System.String)",
+    "sourceSha": "44d075ea468f8f01d82346d718af41ffddb13ce9d66113dcd619c0a875eabba4",
+    "docfx": "http://127.0.0.1:19439/revisions/f961c17ed740b99e776f6bce627957af39f177126ce0701072e27c7b9cb5824f/docfx/api/YuzuhaToolkit.Manager.LaunchWorkflowService.html#YuzuhaToolkit_Manager_LaunchWorkflowService_Plan_System_String_System_String_System_String_"
+  },
+  "compression": {
+    "summary": 3878,
+    "full": 43684
+  },
+  "viewportHeights": [
+    {
+      "label": "launch-1440",
+      "summary": 2980,
+      "full": 41092
+    },
+    {
+      "label": "portfolio-1440",
+      "summary": 3426,
+      "full": 36704
+    },
+    {
+      "label": "help-1440",
+      "summary": 3431,
+      "full": 36687
+    },
+    {
+      "label": "portfolio-768",
+      "summary": 4477,
+      "full": 42797
+    },
+    {
+      "label": "help-768",
+      "summary": 4503,
+      "full": 43018
+    },
+    {
+      "label": "portfolio-390",
+      "summary": 5838,
+      "full": 45716
+    },
+    {
+      "label": "help-390",
+      "summary": 5854,
+      "full": 45731
+    }
+  ],
+  "scriptErrors": [],
+  "httpErrors": [],
+  "sourceHashes": {
+    "docs/presentation/contract-atlas/app.js": "d8da8a88f7ae99880891ec67cb0aa11f777f5329348e453ce3f11d2d705dc439",
+    "docs/presentation/contract-atlas/components.js": "9f0c3e784208542c1aa38b659c812d833565dfd819783191076b3fa2b8ac7431",
+    "docs/presentation/contract-atlas/disclosure.js": "8f4ba1c8b3648aed138cf19bd582ea7cee92ab9f015fc0ec173a27dae4018a7a",
+    "docs/presentation/contract-atlas/reference-index.js": "12c9c3a67aa91d891fdd693b641d1cdddbd05fb0c089906f549e917f1729026a",
+    "docs/presentation/contract-atlas/method-panel.js": "864caa62601d0bbb7c32ce8f0bb7fbba51c60017fffabae70d49cd900d6a4f5f",
+    "docs/presentation/contract-atlas/render-model.js": "92308df1c6da57ee8ae176273760dfd6cb347ce2c612f3589cc7461fe868851a",
+    "docs/contracts/method-bindings.json": "aa69de26e8b7eec8dbdafa282d9c5753345b5e2f3e4ea8c266093e4a2abe1d7b",
+    "docs/contracts/project.public.json": "21f74add0099ba138637bb77b54ff47ea3ae154cba877a2bc43a01382dcbfc4d",
+    "docs/presentation/contract-atlas/atlas-render-model.js": "57b2ce4ee6e9d1ff45a3eaa2ae03956395a61cfeb6c122e02149e05514d7a483",
+    "scripts/lib/contract-atlas-pipeline.mjs": "c7f2b2dd2adbd04500581d6e6487fab8c0954fedf4d2f0e759c341603e9288ac",
+    "openspec/changes/integrate-pmltwin-product-platform/features/contract-reading-disclosure.md": "5241fd45c9a8ca4f1d3c0d9da4f35e957b2d22399d02a70753f8076b61b14ecc",
+    "openspec/changes/integrate-pmltwin-product-platform/tasks.md": "262dd110636be2a234a09e5a3b8c370a7e2cf3abe637300544dc4c70e75a43fd"
+  },
+  "evidence": {
+    "reading": {
+      "path": "docs/validation/contract-reading-2026-11-01.evidence/reading.json",
+      "sha256": "b9aac6a068da5da6a4f50eab0d7cab39e94fba510c77377db4282d6b72b92caa",
+      "bytes": 1582
+    },
+    "components": {
+      "path": "docs/validation/contract-reading-2026-11-01.evidence/components.json",
+      "sha256": "ef4ac01b2b26a728cd94515f07ce7f0c4f88e7e998ce986bde76a131592bb676",
+      "bytes": 1837
+    },
+    "reference": {
+      "path": "docs/validation/contract-reading-2026-11-01.evidence/reference.json",
+      "sha256": "95390d1e2897162a35bdb4a76df6ba44ba91ac410ec74f59202c5423aaf9313e",
+      "bytes": 573
+    },
+    "static": {
+      "path": "docs/validation/contract-reading-2026-11-01.evidence/static.json",
+      "sha256": "5e72894ba087041a443c45e4950d748c12869012f58e6fd858591c18d7525b96",
+      "bytes": 3439
+    },
+    "theme": {
+      "path": "docs/validation/contract-reading-2026-11-01.evidence/theme.json",
+      "sha256": "9c1101129ff13d061e94b5afbb01613ab6ca2349fc441093b1fcf233f344520a",
+      "bytes": 39316
+    },
+    "consumer": {
+      "path": "docs/validation/contract-reading-2026-11-01.evidence/consumer.json",
+      "sha256": "93e984a79681cb1188fad272827590c0a6632e4977ae028c640c4d579d361659",
+      "bytes": 1434
+    },
+    "methodConsumer": {
+      "path": "docs/validation/contract-reading-2026-11-01.evidence/methodConsumer.json",
+      "sha256": "76f5852212eb8062b7cc9fd0b0ac955af09b46b854de567c8d4c864153cc6ac1",
+      "bytes": 688
+    },
+    "methodReal": {
+      "path": "docs/validation/contract-reading-2026-11-01.evidence/methodReal.json",
+      "sha256": "b17ac744b9262015bcee2b2d57b6ad12445b450c6174ec6ed98165795a526385",
+      "bytes": 6010
+    },
+    "live": {
+      "path": "docs/validation/contract-reading-2026-11-01.evidence/live.json",
+      "sha256": "7e569c179076888529672b4a6abc039743d2f746a7f102ff08c2689a985252ae",
+      "bytes": 2474
+    },
+    "node-regression.log": {
+      "path": "docs/validation/contract-reading-2026-11-01.evidence/node-regression.log",
+      "sha256": "041d00e34172cec2eab7667eb7f1af241771dc7db5cbfbbb42ce123802ed2074",
+      "bytes": 5705
+    },
+    "methods-real-cmd.log": {
+      "path": "docs/validation/contract-reading-2026-11-01.evidence/methods-real-cmd.log",
+      "sha256": "a168840f47f9b8fd70c4e6d876cdff801ea6052cf9d774f6bccb036b31c942aa",
+      "bytes": 239
+    },
+    "portfolio-overview-1440.png": {
+      "path": "docs/validation/contract-reading-2026-11-01.evidence/portfolio-overview-1440.png",
+      "sha256": "d5167e3585600d5abb1d1dbea7cd4795348bb8859933b6934fd935888fdf194b",
+      "bytes": 94731
+    },
+    "launch-summary-1440.png": {
+      "path": "docs/validation/contract-reading-2026-11-01.evidence/launch-summary-1440.png",
+      "sha256": "46ab5135e2d3ca17271515dec36713ec2ddcb8246e1f6c354edd9a0beab16442",
+      "bytes": 316290
+    },
+    "portfolio-overview-390.png": {
+      "path": "docs/validation/contract-reading-2026-11-01.evidence/portfolio-overview-390.png",
+      "sha256": "7141e06ccdf40671e778bacbe827884c395a53318de1d8f7496a96744f062ace",
+      "bytes": 43333
+    },
+    "docfx-member.png": {
+      "path": "docs/validation/contract-reading-2026-11-01.evidence/docfx-member.png",
+      "sha256": "95068ed8274a7903e1ea9094139311c787e79dce0cbb4e0c3d41650907288862",
+      "bytes": 79278
+    }
+  },
+  "boundaries": [
+    "目录完整不等于原平台功能或验收全部完成；27项原业务任务仍待完成。",
+    "方法消费与实时异常测试明确使用合成目录/原生测试替身；真实Roslyn、DocFX、FigCraft及当前共同服务分别有独立记录。",
+    "源码修改→stale→真实编译重捕获ready只在隔离副本验证，原仓输入/捕获未变。",
+    "FigCraft真实CLI及产物验收通过；Figma Plugin真实宿主未在本轮验收，纸面画板不宣称获得Web交互。",
+    "最初PowerShell包装器在断言通过后出现CLR退出异常；cmd直接启动Node的真实三修订重跑及最终服务验收均exit0，保留runner-exit记录。"
+  ]
+}

@@ -1,0 +1,954 @@
+{
+  "passed": true,
+  "finishedAt": "2026-11-01T10:53:38.726Z",
+  "scope": "Actual loopback read-only content + Chromium, three independent layout prototypes; no business execution or FigCraft canvas changes",
+  "metadataDigest": "e66b9eed7bd984a8c5ee92a1edf8c913d282e5ae07c49d6c8549c6c9938960dc",
+  "renderModelDigest": "e73a03e314db9868e4173ceccf7a64f8c7e5b35ac3c470105c44eec521e0c184",
+  "coverage": {
+    "features": 18,
+    "scripts": 14,
+    "requirements": 24,
+    "flows": 3,
+    "sourceMappings": 191
+  },
+  "matrix": [
+    {
+      "label": "ion-project-1440",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 900,
+      "state": {
+        "entity": "project:pmltwin",
+        "feature": null,
+        "flow": null,
+        "step": null,
+        "pane": "project",
+        "region": null
+      },
+      "heading": "把目标，接入轨道。"
+    },
+    {
+      "label": "ion-launch-1440",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 900,
+      "state": {
+        "entity": "feature:launch",
+        "feature": "feature:launch",
+        "flow": "flow:launch",
+        "step": null,
+        "pane": "task",
+        "region": null
+      },
+      "heading": "工程发现与启动"
+    },
+    {
+      "label": "ion-step-1440",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 900,
+      "state": {
+        "entity": "script:launch-workflow",
+        "feature": "feature:launch",
+        "flow": "flow:launch",
+        "step": "step:launch-plan",
+        "pane": "task",
+        "region": null
+      },
+      "heading": "冻结计划"
+    },
+    {
+      "label": "ion-contract-1440",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 900,
+      "state": {
+        "entity": "script:launch-workflow",
+        "feature": "feature:launch",
+        "flow": "flow:launch",
+        "step": "step:launch-plan",
+        "pane": "task",
+        "region": null
+      },
+      "heading": "冻结计划"
+    },
+    {
+      "label": "ion-project-1024",
+      "width": 1024,
+      "scrollWidth": 1024,
+      "height": 768,
+      "state": {
+        "entity": "project:pmltwin",
+        "feature": null,
+        "flow": null,
+        "step": null,
+        "pane": "project",
+        "region": null
+      },
+      "heading": "把目标，接入轨道。"
+    },
+    {
+      "label": "ion-launch-1024",
+      "width": 1024,
+      "scrollWidth": 1024,
+      "height": 768,
+      "state": {
+        "entity": "feature:launch",
+        "feature": "feature:launch",
+        "flow": "flow:launch",
+        "step": null,
+        "pane": "task",
+        "region": null
+      },
+      "heading": "工程发现与启动"
+    },
+    {
+      "label": "ion-step-1024",
+      "width": 1024,
+      "scrollWidth": 1024,
+      "height": 768,
+      "state": {
+        "entity": "script:launch-workflow",
+        "feature": "feature:launch",
+        "flow": "flow:launch",
+        "step": "step:launch-plan",
+        "pane": "task",
+        "region": null
+      },
+      "heading": "冻结计划"
+    },
+    {
+      "label": "ion-contract-1024",
+      "width": 1024,
+      "scrollWidth": 1024,
+      "height": 768,
+      "state": {
+        "entity": "script:launch-workflow",
+        "feature": "feature:launch",
+        "flow": "flow:launch",
+        "step": "step:launch-plan",
+        "pane": "task",
+        "region": null
+      },
+      "heading": "冻结计划"
+    },
+    {
+      "label": "ion-project-390",
+      "width": 390,
+      "scrollWidth": 390,
+      "height": 844,
+      "state": {
+        "entity": "project:pmltwin",
+        "feature": null,
+        "flow": null,
+        "step": null,
+        "pane": "project",
+        "region": null
+      },
+      "heading": "把目标，接入轨道。"
+    },
+    {
+      "label": "ion-launch-390",
+      "width": 390,
+      "scrollWidth": 390,
+      "height": 844,
+      "state": {
+        "entity": "feature:launch",
+        "feature": "feature:launch",
+        "flow": "flow:launch",
+        "step": null,
+        "pane": "task",
+        "region": null
+      },
+      "heading": "工程发现与启动"
+    },
+    {
+      "label": "ion-step-390",
+      "width": 390,
+      "scrollWidth": 390,
+      "height": 844,
+      "state": {
+        "entity": "script:launch-workflow",
+        "feature": "feature:launch",
+        "flow": "flow:launch",
+        "step": "step:launch-plan",
+        "pane": "task",
+        "region": null
+      },
+      "heading": "冻结计划"
+    },
+    {
+      "label": "ion-contract-390",
+      "width": 390,
+      "scrollWidth": 390,
+      "height": 844,
+      "state": {
+        "entity": "script:launch-workflow",
+        "feature": "feature:launch",
+        "flow": "flow:launch",
+        "step": "step:launch-plan",
+        "pane": "task",
+        "region": null
+      },
+      "heading": "冻结计划"
+    },
+    {
+      "label": "prism-project-1440",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 900,
+      "state": {
+        "entity": "project:pmltwin",
+        "feature": null,
+        "flow": null,
+        "step": null,
+        "pane": "project",
+        "region": null
+      },
+      "heading": "让复杂，有迹可循。"
+    },
+    {
+      "label": "prism-launch-1440",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 900,
+      "state": {
+        "entity": "feature:launch",
+        "feature": "feature:launch",
+        "flow": "flow:launch",
+        "step": null,
+        "pane": "task",
+        "region": null
+      },
+      "heading": "工程发现与启动"
+    },
+    {
+      "label": "prism-step-1440",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 900,
+      "state": {
+        "entity": "script:launch-workflow",
+        "feature": "feature:launch",
+        "flow": "flow:launch",
+        "step": "step:launch-plan",
+        "pane": "task",
+        "region": null
+      },
+      "heading": "冻结计划"
+    },
+    {
+      "label": "prism-contract-1440",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 900,
+      "state": {
+        "entity": "script:launch-workflow",
+        "feature": "feature:launch",
+        "flow": "flow:launch",
+        "step": "step:launch-plan",
+        "pane": "task",
+        "region": null
+      },
+      "heading": "冻结计划"
+    },
+    {
+      "label": "prism-project-1024",
+      "width": 1024,
+      "scrollWidth": 1024,
+      "height": 768,
+      "state": {
+        "entity": "project:pmltwin",
+        "feature": null,
+        "flow": null,
+        "step": null,
+        "pane": "project",
+        "region": null
+      },
+      "heading": "让复杂，有迹可循。"
+    },
+    {
+      "label": "prism-launch-1024",
+      "width": 1024,
+      "scrollWidth": 1024,
+      "height": 768,
+      "state": {
+        "entity": "feature:launch",
+        "feature": "feature:launch",
+        "flow": "flow:launch",
+        "step": null,
+        "pane": "task",
+        "region": null
+      },
+      "heading": "工程发现与启动"
+    },
+    {
+      "label": "prism-step-1024",
+      "width": 1024,
+      "scrollWidth": 1024,
+      "height": 768,
+      "state": {
+        "entity": "script:launch-workflow",
+        "feature": "feature:launch",
+        "flow": "flow:launch",
+        "step": "step:launch-plan",
+        "pane": "task",
+        "region": null
+      },
+      "heading": "冻结计划"
+    },
+    {
+      "label": "prism-contract-1024",
+      "width": 1024,
+      "scrollWidth": 1024,
+      "height": 768,
+      "state": {
+        "entity": "script:launch-workflow",
+        "feature": "feature:launch",
+        "flow": "flow:launch",
+        "step": "step:launch-plan",
+        "pane": "task",
+        "region": null
+      },
+      "heading": "冻结计划"
+    },
+    {
+      "label": "prism-project-390",
+      "width": 390,
+      "scrollWidth": 390,
+      "height": 844,
+      "state": {
+        "entity": "project:pmltwin",
+        "feature": null,
+        "flow": null,
+        "step": null,
+        "pane": "project",
+        "region": null
+      },
+      "heading": "让复杂，有迹可循。"
+    },
+    {
+      "label": "prism-launch-390",
+      "width": 390,
+      "scrollWidth": 390,
+      "height": 844,
+      "state": {
+        "entity": "feature:launch",
+        "feature": "feature:launch",
+        "flow": "flow:launch",
+        "step": null,
+        "pane": "task",
+        "region": null
+      },
+      "heading": "工程发现与启动"
+    },
+    {
+      "label": "prism-step-390",
+      "width": 390,
+      "scrollWidth": 390,
+      "height": 844,
+      "state": {
+        "entity": "script:launch-workflow",
+        "feature": "feature:launch",
+        "flow": "flow:launch",
+        "step": "step:launch-plan",
+        "pane": "task",
+        "region": null
+      },
+      "heading": "冻结计划"
+    },
+    {
+      "label": "prism-contract-390",
+      "width": 390,
+      "scrollWidth": 390,
+      "height": 844,
+      "state": {
+        "entity": "script:launch-workflow",
+        "feature": "feature:launch",
+        "flow": "flow:launch",
+        "step": "step:launch-plan",
+        "pane": "task",
+        "region": null
+      },
+      "heading": "冻结计划"
+    },
+    {
+      "label": "bench-project-1440",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 900,
+      "state": {
+        "entity": "project:pmltwin",
+        "feature": null,
+        "flow": null,
+        "step": null,
+        "pane": "project",
+        "region": null
+      },
+      "heading": "把工程问题，\n放到工作台上。"
+    },
+    {
+      "label": "bench-launch-1440",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 900,
+      "state": {
+        "entity": "feature:launch",
+        "feature": "feature:launch",
+        "flow": "flow:launch",
+        "step": null,
+        "pane": "task",
+        "region": null
+      },
+      "heading": "工程发现与启动"
+    },
+    {
+      "label": "bench-step-1440",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 900,
+      "state": {
+        "entity": "script:launch-workflow",
+        "feature": "feature:launch",
+        "flow": "flow:launch",
+        "step": "step:launch-plan",
+        "pane": "task",
+        "region": null
+      },
+      "heading": "启动计划、受理与观察"
+    },
+    {
+      "label": "bench-contract-1440",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 900,
+      "state": {
+        "entity": "script:launch-workflow",
+        "feature": "feature:launch",
+        "flow": "flow:launch",
+        "step": "step:launch-plan",
+        "pane": "task",
+        "region": null
+      },
+      "heading": "启动计划、受理与观察"
+    },
+    {
+      "label": "bench-project-1024",
+      "width": 1024,
+      "scrollWidth": 1024,
+      "height": 768,
+      "state": {
+        "entity": "project:pmltwin",
+        "feature": null,
+        "flow": null,
+        "step": null,
+        "pane": "project",
+        "region": null
+      },
+      "heading": "把工程问题，\n放到工作台上。"
+    },
+    {
+      "label": "bench-launch-1024",
+      "width": 1024,
+      "scrollWidth": 1024,
+      "height": 768,
+      "state": {
+        "entity": "feature:launch",
+        "feature": "feature:launch",
+        "flow": "flow:launch",
+        "step": null,
+        "pane": "task",
+        "region": null
+      },
+      "heading": "工程发现与启动"
+    },
+    {
+      "label": "bench-step-1024",
+      "width": 1024,
+      "scrollWidth": 1024,
+      "height": 768,
+      "state": {
+        "entity": "script:launch-workflow",
+        "feature": "feature:launch",
+        "flow": "flow:launch",
+        "step": "step:launch-plan",
+        "pane": "task",
+        "region": null
+      },
+      "heading": "启动计划、受理与观察"
+    },
+    {
+      "label": "bench-contract-1024",
+      "width": 1024,
+      "scrollWidth": 1024,
+      "height": 768,
+      "state": {
+        "entity": "script:launch-workflow",
+        "feature": "feature:launch",
+        "flow": "flow:launch",
+        "step": "step:launch-plan",
+        "pane": "task",
+        "region": null
+      },
+      "heading": "启动计划、受理与观察"
+    },
+    {
+      "label": "bench-project-390",
+      "width": 390,
+      "scrollWidth": 390,
+      "height": 844,
+      "state": {
+        "entity": "project:pmltwin",
+        "feature": null,
+        "flow": null,
+        "step": null,
+        "pane": "project",
+        "region": null
+      },
+      "heading": "把工程问题，\n放到工作台上。"
+    },
+    {
+      "label": "bench-launch-390",
+      "width": 390,
+      "scrollWidth": 390,
+      "height": 844,
+      "state": {
+        "entity": "feature:launch",
+        "feature": "feature:launch",
+        "flow": "flow:launch",
+        "step": null,
+        "pane": "task",
+        "region": null
+      },
+      "heading": "工程发现与启动"
+    },
+    {
+      "label": "bench-step-390",
+      "width": 390,
+      "scrollWidth": 390,
+      "height": 844,
+      "state": {
+        "entity": "script:launch-workflow",
+        "feature": "feature:launch",
+        "flow": "flow:launch",
+        "step": "step:launch-plan",
+        "pane": "task",
+        "region": null
+      },
+      "heading": "启动计划、受理与观察"
+    },
+    {
+      "label": "bench-contract-390",
+      "width": 390,
+      "scrollWidth": 390,
+      "height": 844,
+      "state": {
+        "entity": "script:launch-workflow",
+        "feature": "feature:launch",
+        "flow": "flow:launch",
+        "step": "step:launch-plan",
+        "pane": "task",
+        "region": null
+      },
+      "heading": "启动计划、受理与观察"
+    },
+    {
+      "label": "gallery-mobile",
+      "width": 390,
+      "scrollWidth": 390,
+      "height": 844,
+      "state": {
+        "entity": "project:pmltwin",
+        "feature": null,
+        "flow": null,
+        "step": null,
+        "pane": "project",
+        "region": null
+      },
+      "heading": "同一内容，三种视觉方向。"
+    }
+  ],
+  "readerChecks": [
+    {
+      "variant": "ion",
+      "width": 1440,
+      "fields": 7,
+      "contrast": 16.79624314111187,
+      "triggerText": "← 项目航图",
+      "sourceExact": true,
+      "focusRestored": true
+    },
+    {
+      "variant": "ion",
+      "width": 1024,
+      "fields": 7,
+      "contrast": 16.79624314111187,
+      "triggerText": "← 项目航图",
+      "sourceExact": true,
+      "focusRestored": true
+    },
+    {
+      "variant": "ion",
+      "width": 390,
+      "fields": 7,
+      "contrast": 16.79624314111187,
+      "triggerText": "← 项目航图",
+      "sourceExact": true,
+      "focusRestored": true
+    },
+    {
+      "variant": "prism",
+      "width": 1440,
+      "fields": 7,
+      "contrast": 13.426844430658083,
+      "triggerText": "← 项目中枢",
+      "sourceExact": true,
+      "focusRestored": true
+    },
+    {
+      "variant": "prism",
+      "width": 1024,
+      "fields": 7,
+      "contrast": 13.426844430658083,
+      "triggerText": "← 项目中枢",
+      "sourceExact": true,
+      "focusRestored": true
+    },
+    {
+      "variant": "prism",
+      "width": 390,
+      "fields": 7,
+      "contrast": 13.426844430658083,
+      "triggerText": "← 项目中枢",
+      "sourceExact": true,
+      "focusRestored": true
+    },
+    {
+      "variant": "bench",
+      "width": 1440,
+      "fields": 7,
+      "contrast": 13.84791489769173,
+      "triggerText": "打开完整契约 ↗",
+      "sourceExact": true,
+      "focusRestored": true
+    },
+    {
+      "variant": "bench",
+      "width": 1024,
+      "fields": 7,
+      "contrast": 13.84791489769173,
+      "triggerText": "打开完整契约 ↗",
+      "sourceExact": true,
+      "focusRestored": true
+    },
+    {
+      "variant": "bench",
+      "width": 390,
+      "fields": 7,
+      "contrast": 13.84791489769173,
+      "triggerText": "打开完整契约 ↗",
+      "sourceExact": true,
+      "focusRestored": true
+    }
+  ],
+  "styles": [
+    {
+      "id": "ion",
+      "styleSha": "152336945d5d860f8427443412c8fca6073b4e746fdb6a4c4009267d6ae0c871",
+      "mainChildren": [
+        "DIV.backline",
+        "SECTION.mission-head",
+        "DIV.path-caption",
+        "NAV.step-track",
+        "DIV.path-links",
+        "SECTION.step-body",
+        "NAV.reading-exits"
+      ]
+    },
+    {
+      "id": "prism",
+      "styleSha": "fef0ddeea6ebf342707e2c504213ee0233d0f034e12440071a82888df33d0ff0",
+      "mainChildren": [
+        "SECTION.task-scene"
+      ]
+    },
+    {
+      "id": "bench",
+      "styleSha": "63b7e45e23d850a7143f1ee57250f87a2ba8a5d6b0284777f6b6b325a4e48d6a",
+      "mainChildren": [
+        "DIV.",
+        "DIV."
+      ]
+    }
+  ],
+  "rules": [
+    {
+      "id": "ion",
+      "name": "ION / 离子航图",
+      "tagline": "把目标接入轨道，再沿真实任务下钻。",
+      "weights": {
+        "acid": 50,
+        "glass": 30,
+        "skeuo": 20
+      },
+      "palette": {
+        "paper": "#F1F2E9",
+        "ink": "#151810",
+        "muted": "#555B4C",
+        "acid": "#DCFF38",
+        "magenta": "#A51960",
+        "chrome": "#AAB7A3"
+      },
+      "layout": [
+        "编辑式不对称双幅主视觉；任务轨道承担五类目标选择，不是装饰仪表",
+        "横线索引账册替代重复圆角卡片；标题、编号和实际任务构成主次",
+        "任务页面转为横向步骤标尺，正文按当前步骤及关联契约交付展开"
+      ],
+      "materials": [
+        "酸性：荧光柠檬集中用于选中路径和主导航，品红只作少量标签与焦点",
+        "玻璃：轨道标签与范围说明使用克制半透明白底；无backdrop-filter时退化为实体白底",
+        "拟物：chrome圆盘、带厚度的按钮与步骤标尺；高光不覆盖事实文字"
+      ],
+      "typography": [
+        "粗体大标题与窄字距建立海报张力，中文正文保持14–16px和充分行距",
+        "编号与来源类别用等宽小字，标题正文用中性黑白；颜色不代表成功率",
+        "长字段交给同源阅读器；完整七字段、原需求和来源保持原文"
+      ],
+      "interaction": [
+        "轨道五个节点选择真实任务分组，下方账册选择Feature",
+        "步骤按原stepId定位；仅next/recovery/uncertain原关系产生路径入口，不猜运行顺序",
+        "完整契约、证据、规范目录与真实方法预览为只读分支；切版保留内容状态",
+        "无流程、未登记产品入口或读取失败明确说明，不伪造在线灯和指标"
+      ],
+      "responsive": [
+        "1440：左大标题、右轨道；双列任务账册与横向步骤标尺",
+        "1024：缩小主视觉但保留双幅构图，步骤说明转两列",
+        "390：纵向海报、紧凑轨道、单列账册；步骤为两列，所有点击目标至少44px",
+        "reduced-motion禁用过渡；本页没有自动旋转或持续闪烁"
+      ],
+      "regions": [
+        {
+          "id": "A1",
+          "name": "离子海报",
+          "focus": "标题、荧光标记与任务导语的比例",
+          "selector": ".hero",
+          "context": "project"
+        },
+        {
+          "id": "A2",
+          "name": "轨道导航",
+          "focus": "chrome主视觉与五个真实目标节点的融合",
+          "selector": ".orbit",
+          "context": "project"
+        },
+        {
+          "id": "A3",
+          "name": "任务账册",
+          "focus": "不用重复圆角卡片的可选择Feature列表",
+          "selector": ".feature-ledger",
+          "context": "project"
+        },
+        {
+          "id": "A4",
+          "name": "步骤标尺",
+          "focus": "当前阅读位置与前后步骤的清晰动线",
+          "selector": ".step-track",
+          "context": "task"
+        },
+        {
+          "id": "A5",
+          "name": "契约阅读出口",
+          "focus": "任务说明、完整原文和证据之间的边界",
+          "selector": ".reading-exits",
+          "context": "task"
+        }
+      ]
+    },
+    {
+      "id": "prism",
+      "name": "PRISM / 液态中枢",
+      "tagline": "让复杂，有迹可循。",
+      "weights": {
+        "acid": 25,
+        "glass": 60,
+        "skeuo": 15
+      },
+      "palette": {
+        "space": "#071A21",
+        "readingSurface": "#15333F",
+        "ink": "#EDF4F5",
+        "muted": "#AEC4CD",
+        "pathAccent": "#D5FF76",
+        "uncertainty": "#FFCC91"
+      },
+      "layout": [
+        "非对称入口与层叠观察窗，而非三栏文档",
+        "浮动工具舱与五类任务透镜",
+        "任务进入后切换为一个带步骤轨道的观察窗，细约由共享阅读器展开",
+        "酸性色仅引导明确选择与真实next路径，不代表运行状态"
+      ],
+      "materials": [
+        "玻璃用于导航与外壳深度，正文底面保持接近不透明",
+        "折射边和两层轻旋转空白镜片只作装饰，不伪造业务界面",
+        "控件以细内高光、微投影和凹面分区形成15%拟物触感",
+        "backdrop-filter不可用时退为稳定实色"
+      ],
+      "typography": [
+        "Segoe UI / Microsoft YaHei，等宽只用于观察标签",
+        "入口大标题与任务标题中性，正文15–16px、辅助信息不作为唯一任务答案",
+        "共享阅读器保留全部原文、状态、来源与证据排除范围"
+      ],
+      "interaction": [
+        "真实Feature与flow/step来自共同IR",
+        "重复Script保留独立stepId，不按数组顺序补造下一步",
+        "文档、证据、规范与实际操作分开；本页没有软件执行动作",
+        "切换ION/PRISM/BENCH保留同一有效内容状态",
+        "键盘焦点可见，减少动态效果偏好下无位移动效"
+      ],
+      "responsive": [
+        "1440：双重心非对称空间，全部主入口在首屏",
+        "1024：压缩镜片间距，保留两重心与完整控件",
+        "390：先任务入口再观察窗，分组按钮换行，步骤轨道两列，所有内容自身换行",
+        "共享长表与代码由阅读器容器滚动，不扩展页面宽度"
+      ],
+      "regions": [
+        {
+          "id": "B1",
+          "name": "浮动指挥舱",
+          "focus": "品牌、跨版导航与目录的玻璃/拟物平衡",
+          "selector": ".command-shell",
+          "context": "any"
+        },
+        {
+          "id": "B2",
+          "name": "折光入口",
+          "focus": "主标题、任务价值和直接进入动作",
+          "selector": ".intro",
+          "context": "project"
+        },
+        {
+          "id": "B3",
+          "name": "内容透镜",
+          "focus": "稳定文字底面、折射边和层叠空间",
+          "selector": ".observatory",
+          "context": "project"
+        },
+        {
+          "id": "B4",
+          "name": "阅读分组底舱",
+          "focus": "五组导航，酸性短标记只指当前选中组",
+          "selector": ".group-dock",
+          "context": "project"
+        },
+        {
+          "id": "B5",
+          "name": "任务观察窗",
+          "focus": "进入启动任务后，独立步骤、交付与真实出口",
+          "selector": ".journey-lens",
+          "context": "task"
+        },
+        {
+          "id": "B6",
+          "name": "共同内容底签",
+          "focus": "只读边界和来源快照，避免伪实时指标",
+          "selector": ".context-strip",
+          "context": "any"
+        }
+      ]
+    },
+    {
+      "id": "bench",
+      "name": "BENCH / 工程标本",
+      "tagline": "把工程问题，放到工作台上。",
+      "weights": {
+        "acid": 20,
+        "glass": 25,
+        "skeuo": 55
+      },
+      "palette": {
+        "desk": "#d4d8cf",
+        "paper": "#f7f5ed",
+        "ink": "#242a28",
+        "muted": "#59615b",
+        "acid": "#dcfa5c",
+        "metal": "#b7c0b1"
+      },
+      "layout": [
+        "项目首屏先给任务入口，五组档案完整保留18 Feature；完整目录提供14 Script。",
+        "纸张主面承载任务，侧面证据观察窗和底部实体页签流程记录构成工作台，不采用三栏文档目录。",
+        "项目、任务、流程步骤共用真实选择状态；完整原文交给共享只读阅读器。",
+        "Feature、Script及步骤页将流程托盘提前到标题后、档案正文前；项目首页仍先展示完整任务索引。"
+      ],
+      "materials": [
+        "拟物55：档案纸、轻叠页、阳极金属托盘与实体页签，以边界和微阴影说明层次。",
+        "玻璃25：仅证据观察窗半透，正文不透底；无backdrop-filter时仍有明亮底面和深色文字。",
+        "酸性20：黄绿色贴签集中于主要阅读出口；不用于伪造在线灯或已完成状态。",
+        "金属托盘以克制的定向渐变和细拉丝区分材质；选中页签微凸、非选中页签微凹，保持文字底面稳定。"
+      ],
+      "typography": [
+        "项目标题38–65px，中性中文无衬线；任务标题15–17px，正文14–17px。",
+        "小型英文索引用于档案语境，不替代中文任务名称。",
+        "限制和三轴判断以完整文本保留，完整七字段由共享阅读器展开。"
+      ],
+      "interaction": [
+        "选择任务只读导航；打开契约、证据、来源及真实Atlas方法预览不触发工程动作。",
+        "流程按钮逐项绑定真实stepId，关系文字只来自connections，不补造邻接边。",
+        "切换ION/PRISM/BENCH保留共享entity/flow/step；全部目录、返回项目和融合规则均在首屏可达。"
+      ],
+      "responsive": [
+        "1440：纸张主面+窄观察窗，底部四列流程。",
+        "1024：收紧外边距和观察窗，任务列表一列但保留层次。",
+        "390：工作台纵排，观察窗移到档案后；流程双列，表格由共享阅读器自身滚动。",
+        "所有交互触达44px，焦点3px蓝色轮廓；reduced-motion关闭非必要动效。"
+      ],
+      "regions": [
+        {
+          "id": "C1",
+          "name": "工作台首屏",
+          "focus": "任务入口、档案标题与索引印章的主次",
+          "selector": ".intro",
+          "context": "any"
+        },
+        {
+          "id": "C2",
+          "name": "纸张任务档案",
+          "focus": "五组任务与完整契约出口",
+          "selector": ".paper",
+          "context": "any"
+        },
+        {
+          "id": "C3",
+          "name": "证据观察窗",
+          "focus": "克制玻璃与证据范围语义",
+          "selector": ".glass",
+          "context": "any"
+        },
+        {
+          "id": "C4",
+          "name": "流程记录托盘",
+          "focus": "实体页签、真实步骤与关系",
+          "selector": ".flow-tray",
+          "context": "any"
+        }
+      ]
+    }
+  ],
+  "checks": [
+    "shared validated content, full catalog and canonical source mappings",
+    "three independent DOM/CSS structures and nine responsive project/task/step scenarios",
+    "all seven original Script fields and source-preserving links",
+    "body contrast, dialog keyboard exit and focus restoration",
+    "same-Script step history/reload and same-context style links",
+    "real twelve previews and four same-content gallery cases",
+    "gallery contract deep-link opens exact selected Script",
+    "review region deep-link focuses its declared region",
+    "loopback read-only API and path boundary"
+  ],
+  "scriptErrors": [],
+  "writeRequests": [],
+  "visualReview": {
+    "status": "pending-agent-image-review",
+    "humanStatus": "human-not-reviewed",
+    "figcraft": "not-started"
+  }
+}

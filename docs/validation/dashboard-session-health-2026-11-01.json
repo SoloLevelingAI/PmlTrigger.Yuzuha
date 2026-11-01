@@ -1,0 +1,286 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "date": "2026-11-01",
+  "timezone": "Asia/Shanghai",
+  "finishedAt": "2026-11-01T07:49:07.753Z",
+  "scope": "文档摘要小标题、独立只读Dashboard会话监测、真实APS /ALL DESIGN启动与实际桌面绿灯；不代表全部产品功能完成",
+  "contract": "openspec/changes/integrate-pmltwin-product-platform/features/dashboard-session-health.md",
+  "guide": "docs/reference/dashboard-session-health.zh-CN.md",
+  "progress": {
+    "total": 113,
+    "complete": 86,
+    "remaining": 27
+  },
+  "realDesktop": {
+    "opened": true,
+    "defaultPage": "Dashboard / 总览",
+    "executable": "artifacts/desktop-dashboard/build/YuzuhaToolkit.Desktop.exe",
+    "executableSha256": "e922c936fb7d916dc1392379c80eabf2b7e7eed963f949a08425540d3d96a398",
+    "assemblySha256": "3dbf0a68e4a128864b7d91459382b6bf6444efb955b16d175e9d14bdd0ce3d90",
+    "startCommand": "artifacts/desktop-dashboard/start-desktop.cmd",
+    "desktopProcess": 207896,
+    "keptOpen": true,
+    "communicationCliBundled": true
+  },
+  "realE3D": {
+    "product": "E3D 2.1",
+    "profile": {
+      "project": "APS",
+      "mdb": "/ALL",
+      "module": "DESIGN",
+      "credential": "已有本机凭据引用，在桌面启动边界使用，未导出密码"
+    },
+    "singleDesktopLaunchAttempt": true,
+    "discoveredBefore": 0,
+    "discoveredAfter": 1,
+    "pid": 216560,
+    "startTimeUtcTicks": "639291145578564128",
+    "windowTitle": "ProjAPS | ALL | Model - AVEVA Everything3D",
+    "hostFramework": "net48",
+    "hostVersion": "0.3.4.2",
+    "pipe": "yuzuha.pml.command.v1.pid-216560",
+    "connected": true,
+    "targetVerified": true,
+    "formQueryVersion": 1,
+    "boundedArrayReadVersion": 1,
+    "dashboardLamp": "green / Host可用·身份已核验",
+    "operationTarget": "仍未选择，未自动授权执行",
+    "keptOpen": true,
+    "engineeringWrite": false,
+    "pmlExecutionToolCalled": false
+  },
+  "tests": {
+    "modelAndMonitor": {
+      "passed": 38,
+      "failed": 0,
+      "skipped": 0
+    },
+    "wpfBuild": {
+      "warnings": 0,
+      "errors": 0
+    },
+    "wpfSynthetic": {
+      "passed": true,
+      "scope": "existing_Test-Desktop_receipt_and_all_PNG_IHDR_checks",
+      "pages": 12,
+      "themes": [
+        "Light",
+        "Dark"
+      ],
+      "viewports": [
+        "1440x960",
+        "1280x720",
+        "853x480"
+      ],
+      "captures": 118,
+      "bindingErrorBytes": 0
+    },
+    "webMatrices": 12,
+    "webInteractions": 10,
+    "webScriptErrors": [],
+    "native": {
+      "generated": true,
+      "fieldCount": 7,
+      "features": 18,
+      "scripts": 14
+    },
+    "liveDocumentChecks": 5,
+    "metadataCheck": true,
+    "themeCssCheck": true,
+    "openSpecStrict": true,
+    "diffCheck": true
+  },
+  "revision": {
+    "revisionId": "476203c4f4223b79141c92246ce36d32d05ffd20ac5f99c5cc00a669db5eec6b",
+    "metadataDigest": "b95e0c10704b0ad4a4248b3d3c55f62e174341d4f89536072d3ab9b90d7e6294",
+    "renderModelDigest": "acb362e510ff66266d13baa94908c11148613d055b97b4326d50db0864f72e1c",
+    "methodCatalogDigest": "d93d74bda46821018155896d8fd44500db29d15287a14340060da8c356ccb0c3",
+    "manifestUrl": "/revisions/476203c4f4223b79141c92246ce36d32d05ffd20ac5f99c5cc00a669db5eec6b/manifest.json"
+  },
+  "methodPreview": {
+    "docfx": {
+      "fresh": true,
+      "sourceInputs": 92,
+      "files": 200,
+      "staleSources": [],
+      "invalidAssets": []
+    },
+    "roslyn": {
+      "fresh": true,
+      "graphBytes": 72649830,
+      "nodes": 13205,
+      "edges": 59622,
+      "sourceInputs": 750,
+      "staleSources": [],
+      "graphSha256": "30bc15e3f25a9096c2f16be103feb518e2511a6cda681e4c097265362e83c396",
+      "producerFingerprint": "dd973b675bff7b40ab9794f0bd8f954d2cf16035c779b72cedc46ca56a0ff7f9",
+      "graphReceiptMatches": true,
+      "producerReceiptMatches": true,
+      "finishedUtc": "2026-11-01T07:29:38.8594072Z",
+      "omittedProjects": [
+        "YuzuhaToolkit.PmlHost.Net35 : no local AVEVA SDK configured; not analyzed",
+        "YuzuhaToolkit.PmlHost.Net48 : no local AVEVA SDK configured; not analyzed"
+      ]
+    },
+    "passed": true,
+    "catalog": {
+      "status": "ready",
+      "methods": 387,
+      "edges": 1477,
+      "bindings": 32,
+      "docfxAssets": 200,
+      "apiLinks": 29,
+      "metadataDigest": "a0be5ed95ec5ee61a7775b64d2b5ad6c47bb8975cb54f10169ba0ae3d88fb474",
+      "renderModelDigest": "f63a2346d68420a16462f71684171e6a7d98b23485eb1fdeaa4a88b0471fe5c3",
+      "inputDigest": "7ab808d353870c5af011c4df1dc150084e94c8ff9df97b5fc859ae3fed5ee050",
+      "diagnostics": []
+    },
+    "captureHostExit": {
+      "code": -532462766,
+      "phase": "原Trace脚本完成、所有前后摘要/收据生成之后的bundled PowerShell DLL卸载",
+      "interpretation": "宿主退出非零如实保留；实际MSBuild/Roslyn产物及750源码/生产者/graph摘要由独立校验和同修订消费者验证，未手改收据"
+    }
+  },
+  "sourceHashes": {
+    "src/YuzuhaToolkit.Desktop/DashboardSessionMonitor.cs": "99cb91d6499922d104434ed28813aa047810a52230a149bcabb6e62d83cce82b",
+    "src/YuzuhaToolkit.Desktop/DashboardSessionProbe.cs": "80031ec4a06c9c5901b5ee8ef9ba226275d7f692f22eddca47d93c7d0357a1f6",
+    "src/YuzuhaToolkit.Desktop/MainWindow.Dashboard.cs": "f0afc91b34ee91916f373c56714e2775aa2e02c2de2a132de02d57f461c9652f",
+    "src/YuzuhaToolkit.Desktop/MainWindow.xaml": "13d623c175c08146038a0c1d8b49ae41e62a360714dc808f9c44a610377ce05d",
+    "src/YuzuhaToolkit.Desktop/SessionWorkbench.cs": "0d63274bc9a5509890ddf80e8a7116cc38f6dff095a6440b77be6e3aed9e2eb0",
+    "src/YuzuhaToolkit.Desktop/SessionWorkbenchView.xaml.cs": "d2272f24d6d973b0dd5a178198b3524d58eb701bc3e349b1698664082fd8d2c8",
+    "docs/presentation/contract-atlas/components.js": "cf5cd3816fbc4fd5fd5975b7e3ddf60afd1a2bc15ba6d18396e671281f6542b8",
+    "docs/presentation/contract-atlas/app.js": "f18107b4a69ceb141ed62cdc6cff674f45abc63ab6dd603de216f30cb8dfcb61",
+    "docs/contracts/method-bindings.json": "4402a84d7b553ae5b8f53862cacade00f89dc01972636f8f4181ef21201a0bd5",
+    "openspec/changes/integrate-pmltwin-product-platform/tasks.md": "ec8d0e61f5ac9c33b77f4b46b87642d3ed2d00a3acbd5de56ca91a72edfb5d6e"
+  },
+  "evidence": {
+    "offline.png": {
+      "path": "docs/validation/dashboard-session-health-2026-11-01.evidence/offline.png",
+      "bytes": 144316,
+      "sha256": "f49a475f033fcb38706faa43b78b9fc7533bf878a65611802cbbfc49b2d36814"
+    },
+    "host-available.png": {
+      "path": "docs/validation/dashboard-session-health-2026-11-01.evidence/host-available.png",
+      "bytes": 164750,
+      "sha256": "87981e7ef0af22fda103e34f661dca72068b1e2ad8e3442d9d66a057bc1d96e1"
+    },
+    "offline-window.json": {
+      "path": "docs/validation/dashboard-session-health-2026-11-01.evidence/offline-window.json",
+      "bytes": 745,
+      "sha256": "697a6d13858ba713d7d63826e7e35de039539b0e6fb49ba545768345d102ac7e"
+    },
+    "host-window.json": {
+      "path": "docs/validation/dashboard-session-health-2026-11-01.evidence/host-window.json",
+      "bytes": 979,
+      "sha256": "e7ec464eeaafb11db83792e91218574bd242a15dfa8d1d674f3f97d29e4eae1d"
+    },
+    "sessions-before.json": {
+      "path": "docs/validation/dashboard-session-health-2026-11-01.evidence/sessions-before.json",
+      "bytes": 201,
+      "sha256": "3593ed16249e40347745964c1ef08792172eca934460ad4cb225d0456461b235"
+    },
+    "sessions-after.json": {
+      "path": "docs/validation/dashboard-session-health-2026-11-01.evidence/sessions-after.json",
+      "bytes": 625,
+      "sha256": "a7662337b04a5e2377debcda6afe152d996135f1d1deb50fe5277edcd5213fa0"
+    },
+    "host-pinned.json": {
+      "path": "docs/validation/dashboard-session-health-2026-11-01.evidence/host-pinned.json",
+      "bytes": 1218,
+      "sha256": "45df8f9438a1d9320fe42d9b5cde1b9072e6ed9553ac3c0f63a1eb77e9fcd2e7"
+    },
+    "host-bundled.json": {
+      "path": "docs/validation/dashboard-session-health-2026-11-01.evidence/host-bundled.json",
+      "bytes": 1218,
+      "sha256": "01d5351ee5adb5a6b65d759f8b1cf819a9c6954971f5cd311999e0586ce9d3ef"
+    },
+    "desktop-build.log": {
+      "path": "docs/validation/dashboard-session-health-2026-11-01.evidence/desktop-build.log",
+      "bytes": 1412,
+      "sha256": "83095754eb5e74c4682bdc9dcb4a52577a054479cae5fa74054996794c60ff13"
+    },
+    "tests-final.log": {
+      "path": "docs/validation/dashboard-session-health-2026-11-01.evidence/tests-final.log",
+      "bytes": 6334,
+      "sha256": "a71bb93e751cdb9e1612fc35bed103bc9edb6fb469a0363decf90cff7ed09017"
+    },
+    "dashboard-final.trx": {
+      "path": "docs/validation/dashboard-session-health-2026-11-01.evidence/dashboard-final.trx",
+      "bytes": 56224,
+      "sha256": "eaf477b4bcdbd7228d0852c0f93081e6ae7742e4021269e6e77414be7911751f"
+    },
+    "desktop-smoke.json": {
+      "path": "docs/validation/dashboard-session-health-2026-11-01.evidence/desktop-smoke.json",
+      "bytes": 26253,
+      "sha256": "061f01013fe2a266fae82570c72458d95bf17443a324815cfc347c2b2c9a5923"
+    },
+    "smoke-receipt.json": {
+      "path": "docs/validation/dashboard-session-health-2026-11-01.evidence/smoke-receipt.json",
+      "bytes": 259,
+      "sha256": "8ed50a48117cccfe2ad972484dcff261d14ceb93132956f9be23e0c464e92671"
+    },
+    "web-headings.json": {
+      "path": "docs/validation/dashboard-session-health-2026-11-01.evidence/web-headings.json",
+      "bytes": 9508,
+      "sha256": "512470c460b3e9cc766684d61bfcd9707e2ad4b9fb6ad4ef31a5daf29bc1a331"
+    },
+    "web-portfolio.png": {
+      "path": "docs/validation/dashboard-session-health-2026-11-01.evidence/web-portfolio.png",
+      "bytes": 138427,
+      "sha256": "a5ceae9df992d2e84134bbac180c38b8e7a49e94a625577c1730c43b9efb1c00"
+    },
+    "web-mobile.png": {
+      "path": "docs/validation/dashboard-session-health-2026-11-01.evidence/web-mobile.png",
+      "bytes": 44977,
+      "sha256": "77ab8836aeebd73b8e1f238b8efb8a2345c636185795603e20730f929979ff9c"
+    },
+    "native-headings.json": {
+      "path": "docs/validation/dashboard-session-health-2026-11-01.evidence/native-headings.json",
+      "bytes": 808,
+      "sha256": "2ae1bba03f6414a7838c7e07dc106ac22b1f4ab42afba936b2bb63764e8287e9"
+    },
+    "figcraft-document-light.png": {
+      "path": "docs/validation/dashboard-session-health-2026-11-01.evidence/figcraft-document-light.png",
+      "bytes": 406525,
+      "sha256": "07f0c577ce9aa4ab3999d27a481672f44fbc2d0527bd34a7748e58098db1c26c"
+    },
+    "figcraft-document-dark.png": {
+      "path": "docs/validation/dashboard-session-health-2026-11-01.evidence/figcraft-document-dark.png",
+      "bytes": 408516,
+      "sha256": "b67cf349a14bcfe0d670d191d7642648708ebdaed371e1d6985ad489d2f0cbfc"
+    },
+    "method-validation.json": {
+      "path": "docs/validation/dashboard-session-health-2026-11-01.evidence/method-validation.json",
+      "bytes": 1239,
+      "sha256": "880e514c7563867b3f745e466ed15adc32c98c32569f53f31ee9a10075125c46"
+    },
+    "method-recapture.log": {
+      "path": "docs/validation/dashboard-session-health-2026-11-01.evidence/method-recapture.log",
+      "bytes": 3332,
+      "sha256": "54dd8fb41e251f3200facdbe0bbf8ef0b5b5b10922cb2434459656bf097ad540"
+    },
+    "document-live.json": {
+      "path": "docs/validation/dashboard-session-health-2026-11-01.evidence/document-live.json",
+      "bytes": 3063,
+      "sha256": "3061643eb913baf35632d5a99e37f82dfe041ff62d52608d2ce5a211e53a5207"
+    }
+  },
+  "visualReview": {
+    "status": "agent-reviewed",
+    "humanStatus": "human-not-reviewed",
+    "observations": [
+      "实际查看无会话灰灯与Host可用绿灯，绿灯旁保留PID/模块/时间及工作目标未选择。",
+      "Web任务/交付、摘要/实现/边界有中性小标题，小标题18px，完整细约与来源不变。",
+      "FigCraft浅深文档板目标/边界标题18px，七字段与32目录保真，间距无重叠。"
+    ]
+  },
+  "limitations": [
+    "本轮实际产品仅APS /ALL DESIGN / E3D2.1，不能推广AM/PDMS/E3D其他版本。",
+    "失联、超时、过期与恢复边界由隔离测试验证，未强制断开正在使用的真实E3D。",
+    "绿灯代表只读Host身份及协议可用，不代表部署/许可/全部业务通过；操作前仍需明确选择目标。",
+    "原27项平台任务保持未完成；当前是可试用开发构建，不是安装器升级。",
+    "E3D单独窗口截图因前台身份校验未通过而拒绝采集；实际Dashboard图、发现窗口标题及严格Host回执独立保留。",
+    "Figma真实宿主未运行，原生板是可编辑静态参考，不声称具有Web交互。"
+  ]
+}

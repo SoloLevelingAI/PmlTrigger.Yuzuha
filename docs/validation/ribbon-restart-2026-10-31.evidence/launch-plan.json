@@ -1,0 +1,28 @@
+{
+  "operationId": "launch.plan",
+  "success": true,
+  "exitCode": 0,
+  "data": {
+    "operationId": "e120695d-9d77-4c12-b8c3-5b77929c6478",
+    "profileId": "cba2d667bf8c4891874077534cb7b627",
+    "expectedRevision": "afbf49891301a3c77c2cc897b9bb481a74d5a755e02f0876674722758f74b5f5",
+    "files": [
+      {
+        "path": "D:\\AVEVA\\Everything3D2.10\\mon.exe",
+        "sha256": "7E88DEFC1551AFE3AE021D62F7F2F842D160193C2E52F7C77B03C41121E39966"
+      },
+      {
+        "path": "D:\\AVEVA\\Everything3D2.10\\launch.init",
+        "sha256": "B26D03F83B1C5433772A90B08E13EBF0E381F5905FC5FEB3F4AE018F3ECC438A"
+      },
+      {
+        "path": "D:\\AVEVA\\Everything3D2.10\\evars.init",
+        "sha256": "0ECDE32D7449483F31DDC022B7A657D98EF3EF04F8B6C6C08311CC20E0CA3F95"
+      }
+    ],
+    "expiresAt": "2026-10-31T15:47:20.6578704\u002B00:00",
+    "planDigest": "9D2FD8A95E380DBA8ABA40D053DB0909B6F04083BA1B9840689CFF8B8BF6CDBC"
+  },
+  "error": null,
+  "schemaVersion": 1
+}

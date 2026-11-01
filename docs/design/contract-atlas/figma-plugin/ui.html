@@ -1,0 +1,6 @@
+<!doctype html><meta charset="utf-8"><style>body{font:14px system-ui;padding:20px;color:#18342f}textarea{width:100%;height:100px}button{margin:12px 0;padding:8px}#status{white-space:pre-wrap}</style>
+<h2>契约组件图谱</h2><p>选择公开 project.public.json。只在新的页面生成可编辑组件；不执行元数据中的命令。</p>
+<input id="file" type="file" accept="application/json,.json"><button id="import" disabled>创建新组件板</button><p id="status" role="status">仅接受≤2MiB的公开元数据。插件尚需真实Figma运行验收。</p>
+<script>
+let data;const status=document.getElementById('status'),button=document.getElementById('import');document.getElementById('file').onchange=async e=>{button.disabled=true;try{const file=e.target.files[0];if(!file||file.size>2097152)throw Error('文件为空或超过2MiB');data=JSON.parse(await file.text());button.disabled=false;status.textContent='已读取；生成前将验证公开schema与七字段。';}catch(err){status.textContent=err.message;}};button.onclick=()=>{button.disabled=true;parent.postMessage({pluginMessage:{type:'import',data}},'*');};onmessage=e=>{const msg=e.data.pluginMessage;if(!msg)return;status.textContent=msg.type==='error'?msg.message:JSON.stringify(msg,null,2);button.disabled=false;};
+</script>

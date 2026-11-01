@@ -1,4 +1,5 @@
 import type { RibbonProject, DeploymentTarget } from '../../../packages/contracts/index.ts';
+import { FrozenDeploymentClient, DeploymentUnknown, activationMessage } from './frozen-deployment.ts';
 
 const esc = (text: unknown) => String(text ?? '').replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
 async function api(path: string, data?: unknown) {
@@ -8,6 +9,7 @@ async function api(path: string, data?: unknown) {
 type ModuleRow = { manifestName: string; entryNames: string[]; error: string };
 
 export function mountModuleTransfer(panel: HTMLElement, project: RibbonProject, sourcePath: string, onBusy: (busy: boolean) => void, onPreviewChange: (preview: boolean) => void) {
+  const frozen = new FrozenDeploymentClient();
   panel.innerHTML = '<div class="transfer-target"><label class="field"><span>AVEVA 安装</span><select id="transfer-install"><option value="">选择安装，或手动输入路径</option></select></label><button class="secondary" data-transfer="scan">收集模块</button></div>' +
     '<label class="field"><span>mon.exe 完整路径</span><input id="transfer-mon" placeholder="可手动填写 mon.exe 完整路径"/></label>' +
     '<div class="module-transfer"><section class="transfer-column"><header><strong>未关联模块 <span id="available-count">0</span></strong><label><input type="checkbox" id="check-available"/>全选</label></header><input class="transfer-search" id="search-available" aria-label="搜索未关联模块" placeholder="搜索未关联模块…"/><div class="transfer-list" id="available-list" role="group" aria-label="未关联模块"></div></section>' +
@@ -23,7 +25,7 @@ export function mountModuleTransfer(panel: HTMLElement, project: RibbonProject, 
   editor.querySelector('[data-transfer="apply"]')!.remove();
   let rows: ModuleRow[] = [], chosen = new Set<string>(), markedLeft = new Set<string>(), markedRight = new Set<string>(), plans: any[] = [], busy = false, scannedMon = '';
   const pending = () => rows.filter(row => chosen.has(row.manifestName) && !row.entryNames.length && !row.error);
-  const invalidate = () => { plans = []; previewView.hidden = true; editor.hidden = false; onPreviewChange(false); panel.querySelectorAll<HTMLButtonElement>('[data-transfer="apply"]').forEach(button => button.disabled = true); };
+  const invalidate = () => { plans = []; frozen.invalidate(); previewView.hidden = true; editor.hidden = false; onPreviewChange(false); panel.querySelectorAll<HTMLButtonElement>('[data-transfer="apply"]').forEach(button => button.disabled = true); };
   const filtered = (right: boolean) => {
     const query = $<HTMLInputElement>(right ? '#search-selected' : '#search-available').value.toLowerCase();
     return rows.filter(row => (right ? !!row.entryNames.length || chosen.has(row.manifestName) : !row.entryNames.length && !chosen.has(row.manifestName)) && (row.manifestName + row.entryNames.join(' ')).toLowerCase().includes(query))
@@ -48,8 +50,8 @@ export function mountModuleTransfer(panel: HTMLElement, project: RibbonProject, 
     $('#transfer-summary').textContent = '已关联 ' + existing + ' 个 · 本次待加入 ' + count + ' 个。已有加载保持不变；移回左侧仅取消本次选择。';
     $<HTMLButtonElement>('[data-transfer="select"]').disabled = busy || !markedLeft.size;
     $<HTMLButtonElement>('[data-transfer="unselect"]').disabled = busy || !markedRight.size;
-    $<HTMLButtonElement>('[data-transfer="preview"]').disabled = busy || !count;
-    panel.querySelectorAll<HTMLButtonElement>('[data-transfer="apply"]').forEach(button => button.disabled = busy || !plans.length);
+    $<HTMLButtonElement>('[data-transfer="preview"]').disabled = frozen.locked || busy || !count;
+    panel.querySelectorAll<HTMLButtonElement>('[data-transfer="apply"]').forEach(button => button.disabled = frozen.locked || busy || !plans.length);
   };
   const reset = () => { rows = []; chosen.clear(); markedLeft.clear(); markedRight.clear(); scannedMon = ''; invalidate(); render(); };
   mon.addEventListener('input', () => { installation.value = ''; reset(); });
@@ -77,6 +79,7 @@ export function mountModuleTransfer(panel: HTMLElement, project: RibbonProject, 
   };
   const run = async (action: string) => {
     if (busy) return;
+    if (frozen.locked) { feedback.textContent = new DeploymentUnknown(frozen.unknownPlanId!).message; return; }
     if (action === 'back') { invalidate(); feedback.textContent = '已返回选择，尚未写入任何模块 XML。'; render(); return; }
     if (action === 'select' || action === 'unselect') {
       if (action === 'select') for (const key of markedLeft) chosen.add(key);
@@ -91,11 +94,11 @@ export function mountModuleTransfer(panel: HTMLElement, project: RibbonProject, 
       else if (action === 'preview') {
         invalidate();
         if (!pending().length || scannedMon !== mon.value.trim()) throw new Error('请先收集模块并移入需要加入的模块');
-        const selection = pending().map(row => row.manifestName), next = [];
+        const selection = pending().slice(0, 1).map(row => row.manifestName), next = [];
         for (const manifestName of selection) {
           feedback.textContent = '正在预览 ' + (next.length + 1) + ' / ' + selection.length + '：' + manifestName;
-          const plan = await api('registration-preview', { project, monPath: scannedMon, manifestName, entryName: name.value.trim() });
-          next.push({ ...plan, manifestName, monPath: scannedMon });
+          const envelope = await frozen.preview('registration', { project, monPath: scannedMon, manifestName, entryName: name.value.trim() });
+          next.push({ ...envelope.targetPlan, manifestName, monPath: scannedMon, planId: envelope.planId, expiresAt: envelope.expiresAt });
         }
         plans = next; editor.hidden = true; previewView.hidden = false; onPreviewChange(true);
         const xmlAttribute = (value: string) => value.replaceAll('&', '&amp;').replaceAll('"', '&quot;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
@@ -105,18 +108,18 @@ export function mountModuleTransfer(panel: HTMLElement, project: RibbonProject, 
             '<div class="manifest-comparison"><section><h5>修改前 <small>' + plan.beforeEntries.length + ' 条登记</small></h5><div class="before-registration">' + (plan.unchanged ? '此 UIC 已在该模块登记' : '此模块尚未登记这个 UIC') + '</div><p>原有 ' + plan.beforeEntries.length + ' 条加载项保留</p></section>' +
             '<section class="after-registration"><h5>修改后 <small>' + plan.afterEntries.length + ' 条登记</small></h5>' + plan.addedEntries.map((entry: any) => '<div class="added-registration"><span>＋ 新增加载</span><dl><dt>Name</dt><dd>' + esc(entry.name) + '</dd><dt>Path</dt><dd>' + esc(entry.path) + '</dd></dl><pre>' + esc('<CustomizationFile Name="' + xmlAttribute(entry.name) + '" Path="' + xmlAttribute(entry.path) + '" />') + '</pre></div>').join('') + '<p>原有 ' + plan.beforeEntries.length + ' 条加载项保持不变</p></section></div>' +
             '<details class="manifest-xml"><summary>查看完整 XML 修改前 / 修改后</summary><div class="manifest-xml-columns"><label>修改前<textarea readonly aria-label="' + esc(plan.manifestName) + ' 修改前 XML">' + esc(plan.beforeXml) + '</textarea></label><label>修改后<textarea readonly aria-label="' + esc(plan.manifestName) + ' 修改后 XML">' + esc(plan.afterXml) + '</textarea></label></div></details></article>').join('') +
-          '<p class="change-execution-note">确认后为每个 XML 保存原文件备份及持久快照，再加入上述登记。列表之外的模块保持不变。</p><footer class="change-preview-footer"><button class="secondary" data-transfer="back">返回修改选择</button><button class="primary" data-transfer="apply">确认写入 ' + plans.length + ' 个模块清单</button></footer>';
+          '<p class="change-execution-note">本次只确认一个 XML；剩余 ' + Math.max(0, pending().length - 1) + ' 项保留选择，完成后须逐项重新预览确认。冻结编号 ' + esc(plans[0].planId) + ' · 有效期 ' + esc(plans[0].expiresAt) + '。</p><footer class="change-preview-footer"><button class="secondary" data-transfer="back">返回修改选择</button><button class="primary" data-transfer="apply">确认写入本次模块清单</button></footer>';
         previewView.querySelector<HTMLElement>('#change-preview-title')!.focus();
         feedback.textContent = '请核对实际清单路径与绿色新增登记，再确认写入。';
       } else if (action === 'apply') {
         if (!plans.length) throw new Error('请先预览本次选择');
-        const batch = [...plans]; invalidate();
+        const batch = [...plans]; plans = [];
         for (const plan of batch) {
           feedback.textContent = '正在加入 ' + (completed + 1) + ' / ' + batch.length + '：' + plan.manifestName;
-          await api('registration-apply', { project, monPath: plan.monPath, manifestName: plan.manifestName, entryName: plan.entryName, expectedManifestHash: plan.manifestHash, expectedUicHash: plan.uicHash });
+          await frozen.apply();
           const row = rows.find(row => row.manifestName === plan.manifestName)!; row.entryNames = [plan.entryName]; chosen.delete(plan.manifestName); markedRight.delete(plan.manifestName); completed++;
         }
-        feedback.textContent = '已加入 ' + completed + ' 个模块；右侧已更新为“已关联”。';
+        invalidate(); feedback.textContent = '已登记 ' + completed + ' 个模块。剩余选择请重新预览确认。' + activationMessage;
       }
     } catch (error) { invalidate(); feedback.className = 'deployment-feedback error'; feedback.textContent = (completed ? '已成功加入 ' + completed + ' 个，其余保留待加入；' : '') + (error as Error).message; }
     finally { busy = false; onBusy(false); panel.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLButtonElement>('input,select,button').forEach(el => el.disabled = false); render(); }

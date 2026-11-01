@@ -1,0 +1,34 @@
+{
+  "scope": "Only metadata producer registered non-evidence inputs; raw evidence bodies are excluded",
+  "changed": [
+    {
+      "path": "docs/specification/contract.json",
+      "before": "7fce555c78b4f79114b61d6d8c37da557d3b8352a60fa7c0c572f9684bce18af",
+      "after": "ff9bc47548d0d6bd920e1519f4b877a4720061d106fc7694943e69003be82c19"
+    },
+    {
+      "path": "docs/reference/capabilities.json",
+      "before": "c0865d35f89ded20b715abd1f9694e2844917bdc5e84c189f19a4797b3424b5a",
+      "after": "5438cb4a844055893561efd99a8ee6263d2dfea486f8626c2779cc5197e56cf9"
+    }
+  ],
+  "unchanged": [
+    "docs/reference/project-contract-overview.zh-CN.md",
+    "docs/contracts/presentation.json",
+    "docs/contracts/evidence.json",
+    "openspec/changes/integrate-pmltwin-product-platform/baseline/id-feature-map.json",
+    "openspec/changes/integrate-pmltwin-product-platform/proposal.md",
+    "openspec/changes/integrate-pmltwin-product-platform/contracts.md",
+    "openspec/changes/integrate-pmltwin-product-platform/design.md",
+    "openspec/changes/integrate-pmltwin-product-platform/tasks.md",
+    "docs/presentation/contract-atlas/metadata-validator.js",
+    "docs/presentation/contract-atlas/render-model.js"
+  ],
+  "evidencePreserved": {
+    "openspec/changes/integrate-pmltwin-product-platform/features/migration-preview-continuation.md": "3c0e42140b5a46e65301098e82794e459a092fb1acdce8ffdc1601a24deb72a1",
+    "openspec/changes/integrate-pmltwin-product-platform/features/ribbon-ui-continuation.md": "526b7e7542a1502f9aac70f642e89911503b4faa478bfe8958f150db04ed5567",
+    "docs/validation/ribbon-restart-2026-10-31.md": "9778c9cfde3970cbfb91588678bfc5becc08f4007fb7305c1ca7181d7c680044",
+    "openspec/changes/integrate-pmltwin-product-platform/features/database-handoff.md": "4a57b1c75ec338f29896d4acf24a92ffd237a11ea2b64d2f96b08ed22b7b9953",
+    "openspec/changes/integrate-pmltwin-product-platform/features/caf-adapter-handoff.md": "504b9ef46c610669bf1c4e4113b15950abfbd22c7b08f77fa89c7f9088c9814d"
+  }
+}

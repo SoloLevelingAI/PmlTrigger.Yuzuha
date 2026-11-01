@@ -1,0 +1,614 @@
+{
+  "schemaVersion": 1,
+  "audience": "internal",
+  "passed": true,
+  "date": "2026-11-01",
+  "assembledAt": "2026-11-01T11:55:19.097Z",
+  "scope": "只读页内方法桥接、ION六配色及电脑开发者工作区；不代表业务工程操作验收",
+  "contracts": [
+    "openspec/changes/integrate-pmltwin-product-platform/features/inline-methods-and-ion-palettes.md",
+    "openspec/changes/integrate-pmltwin-product-platform/features/desktop-developer-reading.md"
+  ],
+  "entry": "http://127.0.0.1:19440/ion/index.html",
+  "capturedPublication": {
+    "revisionId": "25cdf90969acc8091cdb0cf95c858fae6a8a99cae7ac2c9bf7a1c67f645a59a7",
+    "metadataDigest": "e2bd96d074e0d89f067d1935ef86b32af08e008f56db6a9ac2f526e3bf42d76d",
+    "renderModelDigest": "aeb2fac9ac0c2ed165af3c70217f4303d9b6543230182bdd5e741fba515e535d",
+    "methods": 393,
+    "edges": 1485,
+    "note": "这些摘要对应真实浏览器捕获的共同修订。后续仅任务checkbox/验证记录等bookkeeping及静态重新生成可产生不同摘要；不能将捕获证据冒称为新摘要重新执行。"
+  },
+  "tests": {
+    "backend": {
+      "passed": 14,
+      "failed": 0,
+      "skipped": 0,
+      "command": "node --test tests/contract-style-methods.test.mjs tests/contract-atlas-methods.test.mjs",
+      "coverage": [
+        "current/manifest/core artifact byte count and SHA",
+        "shared metadata/render digest and exact catalog validator",
+        "compiler/source/configuration/producer/DocFX freshness receipts",
+        "source drift/pointer movement/concurrent reads: hide body",
+        "registered same-revision DocFX path and original bytes",
+        "static opaque sandbox; no scripts/network/forms/parent origin"
+      ]
+    },
+    "workbench": {
+      "passed": true,
+      "viewports": [
+        "1920x1080",
+        "1440x900",
+        "1024x768"
+      ],
+      "coverage": [
+        "four in-place tabs and full seven Script fields",
+        "long contract/source scroll inside content; path remains visible",
+        "same Script across original step IDs retains DOM and scroll",
+        "Script independent verification not separately registered; Feature evidence explicitly associated",
+        "homepage > Feature > Script > exact Method hierarchy, step stays in rail",
+        "breadcrumb keyboard navigation and browser history"
+      ]
+    },
+    "staticDocfx": {
+      "passed": true,
+      "memberUrl": "http://127.0.0.1:19440/method-docfx/25cdf90969acc8091cdb0cf95c858fae6a8a99cae7ac2c9bf7a1c67f645a59a7/docfx/api/YuzuhaToolkit.Manager.LaunchWorkflowService.html#YuzuhaToolkit_Manager_LaunchWorkflowService_Plan_System_String_System_String_System_String_",
+      "anchorVisible": {
+        "x": 30,
+        "y": 80.890625,
+        "width": 679,
+        "height": 19.796875,
+        "top": 80.890625,
+        "right": 709,
+        "bottom": 100.6875,
+        "left": 30
+      },
+      "resourceResponses": 5,
+      "allResources200": true,
+      "note": "原HTML/CSS摘要字节不变；脚本禁用。精确成员正文/参数/返回及锚点实图可见。h1因成员hash滚到视窗外是正常位置，不以attached或about:blank代替可见性。3条一次性脚本阻断和favicon缺失提示保留记录，没有TOC重试洪泛。"
+    },
+    "palettes": {
+      "passed": true,
+      "names": [
+        "lime",
+        "cyan",
+        "violet",
+        "orange",
+        "rose",
+        "graphite"
+      ],
+      "checks": [
+        "six palettes: text >=4.5, key boundaries >=3 on all solid surfaces; metallic captions and active controls >=4.5",
+        "1440 six themes: actual project rendered/no horizontal overflow/44px selector",
+        "1920 six themes: actual project rendered/no horizontal overflow/44px selector",
+        "1024 six themes: actual project rendered/no horizontal overflow/44px selector",
+        "390 six themes: actual project rendered/no horizontal overflow/44px selector",
+        "theme switch keeps original main node, full task route, hash, selector focus",
+        "native theme select keyboard End/Enter changes palette and keeps focus",
+        "open contract reader retains node, disclosure, focus and scroll when theme updates",
+        "saved theme restored without URL",
+        "implicit tab syncs storage; explicit URL preference resists another tab",
+        "denied storage: default loads and current session switch remains usable",
+        "head bootstrap applies URL over stored preference before deferred app starts"
+      ],
+      "methodChecks": [
+        "real normal task -> methods dock; changing theme preserves source/panel nodes, source disclosure, active method/direction, full route, focus and both scrolls",
+        "1440 all six themes: real inline source dock visible, no horizontal overflow",
+        "1920 all six themes: real inline source dock visible, no horizontal overflow",
+        "1024 all six themes: real inline source dock visible, no horizontal overflow"
+      ],
+      "minimumRecordedTextContrast": 5.0382742600352,
+      "note": "配色JSON实际驱动变量；切色不重建任务/方法DOM。390历史基本访问证据保留，不升级为新手机布局验收。"
+    },
+    "fixture": {
+      "passed": true,
+      "scope": "isolated fixture browser; not real Roslyn/source service",
+      "checks": [
+        "exact signature/source text and no HTML execution",
+        "caller/callee navigation",
+        "sandboxed inline DocFX",
+        "theme retains node and scroll",
+        "Escape focus and page/reader position",
+        "stale/unavailable/digest mismatch hide source",
+        "closed late response rejected",
+        "reopen close-event race",
+        "revision invalidation clears body and rejects late response",
+        "390 no internal horizontal overflow",
+        "desktop dock common content and old handle isolation",
+        "dock close leaves unrelated reader open"
+      ],
+      "note": "隔离fixture仅证明组件竞态/拒绝/导航等行为，不能当作真实Roslyn源或DocFX实机证据。"
+    },
+    "integration": {
+      "passed": true,
+      "checks": [
+        "six palettes at 1920/1440 preserve actual method/source DOM, selected method and task context without new method requests",
+        "verified DocFX member renders inside the same workspace and its exact member anchor exists",
+        "ion actual primary method entry stays in the same document and exact Plan signature/source/SHA matches",
+        "prism actual primary method entry stays in the same document and exact Plan signature/source/SHA matches",
+        "bench actual primary method entry stays in the same document and exact Plan signature/source/SHA matches",
+        "reader=evidence deep-link enters desktop pane; Script inherited evidence is identified by Feature scope",
+        "unavailable Script binding stays explicit with no invented method body",
+        "closing nested methods returns to the original contract reader and exact trigger"
+      ],
+      "themeScreenshots": 12,
+      "popups": [],
+      "scriptErrors": [],
+      "selectedSource": {
+        "symbolId": "YuzuhaToolkit.Manager.Core::M:YuzuhaToolkit.Manager.LaunchWorkflowService.Plan(System.String,System.String,System.String)",
+        "sourcePath": "src/YuzuhaToolkit.Manager.Core/LaunchWorkflow.cs",
+        "sourceSha256": "44d075ea468f8f01d82346d718af41ffddb13ce9d66113dcd619c0a875eabba4",
+        "sourceLines": [
+          54,
+          76
+        ]
+      }
+    },
+    "methodFirstScreen": {
+      "passed": true,
+      "probes": [
+        {
+          "width": 1440,
+          "passed": true,
+          "signatureTop": 567.21875,
+          "sourceSummaryTop": 629.8125,
+          "scopeCollapsed": true,
+          "errors": []
+        },
+        {
+          "width": 1920,
+          "passed": true,
+          "viewport": {
+            "width": 1920,
+            "height": 1080
+          },
+          "signatureTop": 567.625,
+          "sourceSummaryTop": 630.21875,
+          "errors": []
+        }
+      ],
+      "note": "Actual source/signature visible on first screen; large scope material folded, precise identity remains available."
+    }
+  },
+  "visualReview": {
+    "status": "agent-reviewed",
+    "humanStatus": "human-not-reviewed",
+    "figcraft": "not-started",
+    "observations": [
+      "ION桌面路径常驻，摘要/契约/方法/证据入口首屏可见。",
+      "静态DocFX实图可读，真实成员anchor保持；没有开放same-origin或任意文件资源。",
+      "六配色真实源方法画面已捕获；选择颜色不代表验证成功。"
+    ]
+  },
+  "boundaries": [
+    "mobile independent layout planned；小屏当前仅基本访问，不作为桌面方案通过条件。",
+    "用户偏向ION不等于已认可全部视觉；human/FigCraft均未验收。",
+    "原27项业务未完成任务保持未完成，本文不将页面/代码写入等同工程激活。",
+    "没有启动/关闭E3D/Desktop，没有登录、部署、PML/宏或其他业务执行。",
+    "内部源码仅独立/api/methods；公共/api/content不加入源码。",
+    "方法关系为有界静态分析，不是运行轨迹；未分析Host SDK/范围外关系持续保留。"
+  ],
+  "excludedEvidence": [
+    {
+      "path": "artifacts/contract-style-methods/real-proof.json",
+      "reason": "旧失败/过期过程材料，未计入成功证明。"
+    },
+    {
+      "path": "artifacts/contract-style-inline/failure.json",
+      "reason": "修复前过程失败材料，最终成功仅由本次results.json支持。"
+    }
+  ],
+  "sourceHashRule": "SHA256 of raw bytes; evidence copies preserve original bytes.",
+  "sourceHashes": {
+    "scripts/serve-contract-style-lab.mjs": "a1479d346b7dd97bb30b975e5fbd5e0a71bdb2b00c5ae24f3c672ad8c24a7663",
+    "scripts/lib/contract-style-methods.mjs": "0f8495ab5041a16e0cbb64e10b37b58de0d559b23d7936e3ad21a9654d539dcf",
+    "scripts/lib/contract-atlas-methods.mjs": "b99a4478f882b96aead9d17f4b5d2b56296e32bd2ac5ad773d2844b1aa9605cb",
+    "docs/presentation/contract-atlas/method-validator.js": "6dab5c5f2c20bbe6a1eaa738f1840626674c47cef41adaa62fc81df664bf4636",
+    "docs/presentation/contract-style-lab/shared/content.js": "c6f8b0ff2f80889cf37148fc9a998b4d9dfa9d7d42c618f3c7cc9868c75afc06",
+    "docs/presentation/contract-style-lab/shared/methods.js": "f9a02d983b106650b22f1c5cc52b410e859df621e4688ce220db08278d602d7e",
+    "docs/presentation/contract-style-lab/shared/methods.css": "2b63743c5e564bdc29afbb0387754eb7bcc3f9c9213aef81789e61ee38001b9c",
+    "docs/presentation/contract-style-lab/ion/workbench.js": "44c730fa207717d54e4d2da68f1f7397ac2f06ca0685fbea546273ce33ee1a5b",
+    "docs/presentation/contract-style-lab/ion/workbench.css": "32958bb6e665e785045ba5b43213e5ea4148e0854a28e16cd28792ce15b6c3a8",
+    "docs/presentation/contract-style-lab/ion/app.js": "abc6a082d93e59ca16948439979b1c8790a263559e383ca84b7b06dfe3eb7afe",
+    "docs/presentation/contract-style-lab/ion/index.html": "fe8f7583e3261b960c98079f84dae63f5aec9c25d6c1ed6c945dba909b4532b3",
+    "docs/presentation/contract-style-lab/ion/theme.js": "517ecdf96ca200e35e75c4f17f1fd0caea45fa943556afce1f09abb2b4d867d6",
+    "docs/presentation/contract-style-lab/ion/theme.css": "c0d06c39170d0896a0dadafb55970df7418c69389669baacfd576653a9146abf",
+    "docs/presentation/contract-style-lab/ion/themes.json": "10d4c99d74b8dc28076018bbbf876ea0f617fe182dd6d5d6611f9408baf59753",
+    "tests/contract-style-methods.test.mjs": "c3788aa4e1cec57fa7294d8863b4cf37b8365bcea2abd700383fe9274e6ccb78",
+    "tests/contract-atlas-methods.test.mjs": "5553c166d936fff2286a8a54fb99b27f57164bd6a83d85515a5a779f961ba945",
+    "tests/contract-style-inline-browser.mjs": "9ea32f6e1d7f538bfdaa638d6c50f164528f36e1a3e7936178fe0196a6198556",
+    "tests/contract-style-methods-browser.cjs": "e519d29e36202fe96bc6c5daed696c3f5ec9851de949e4136d613a1a17be5478",
+    "docs/presentation/contract-style-lab/prism/app.js": "bc55fc303b7a3c6914cee650fb91229450e6b00547a8bd1f136dea0e8570cc1d",
+    "docs/presentation/contract-style-lab/bench/app.js": "fa78f7285ead6d89079126c330db5640b3ea54ea6d178c9726ea444f68d6b894",
+    "docs/presentation/contract-style-lab/ion/style.css": "a85c5e00badac68ae015689759e770fb0b4cf03f3952f24992ba9621764a6e4f",
+    "docs/presentation/contract-style-lab/ion/rules.json": "90bb50320cd68252dfcd47d2b762bb08a71e76f3c239f6283bc71cbfee2daada",
+    "openspec/changes/integrate-pmltwin-product-platform/features/inline-methods-and-ion-palettes.md": "7510f8b17bb61bf3d6dfb14303f5615c9b06e212ed85824429a95931c9b3836e",
+    "openspec/changes/integrate-pmltwin-product-platform/features/desktop-developer-reading.md": "e42df2c36e563792da1e11ac403cec1cc12462574c4efb9928863558cb049125",
+    "docs/contracts/method-bindings.json": "5158f8f6c9c86545d9cc29a7bbc78593a1606f93fe7632069cac01a91513cce4",
+    "openspec/changes/integrate-pmltwin-product-platform/tasks.md": "eee059286e34ea89f8d00296fe72f5056f177eb2f2b104817427d95e8a49b0eb",
+    "package.json": "9c2ae51955b53d550c3277b5aa17ccc8d077602575678d1b8eac9ca381703539"
+  },
+  "evidence": {
+    "integration/results.json": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/integration/results.json",
+      "source": "artifacts/contract-style-inline/results.json",
+      "bytes": 9547,
+      "sha256": "a2b683b97939b178067702acdfbb4a3d7816244935fed40bd4ba66ce3ae178df"
+    },
+    "backend/tests.log": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/backend/tests.log",
+      "source": "artifacts/contract-style-methods-tests.log",
+      "bytes": 1766,
+      "sha256": "3ff71bff7e19c1201ef986790152b7e0ea3734705270db343ceff6a8b76135f8"
+    },
+    "workbench/results.json": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/workbench/results.json",
+      "source": "artifacts/contract-style-lab/ion-workbench/qa.json",
+      "bytes": 3554,
+      "sha256": "70b28295cac5766a2dece981bb87ff41267ba88d116de2ef50f21100bcb22f39"
+    },
+    "workbench/browser.log": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/workbench/browser.log",
+      "source": "artifacts/ion-workbench-qa.log",
+      "bytes": 873,
+      "sha256": "529dfefa2ac9326ef7ee70c528b8a85371a43cd5d46f6a42ca99782735e96b10"
+    },
+    "docfx/results.json": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/docfx/results.json",
+      "source": "artifacts/contract-style-lab/ion-workbench/docfx-static.json",
+      "bytes": 4569,
+      "sha256": "215cb57ca08f6c4648310856ffa7b6eea3d1488f335d49edcb8c7188f18ab5db"
+    },
+    "docfx/browser.log": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/docfx/browser.log",
+      "source": "artifacts/check-static-docfx-browser.log",
+      "bytes": 1381,
+      "sha256": "7ebab46d8ab7772f9274ce988d3a73ce2fcc61951c6d58d781b44d5fc264256e"
+    },
+    "docfx/static-member-1440.png": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/docfx/static-member-1440.png",
+      "source": "artifacts/contract-style-lab/ion-workbench/docfx-static-1440.png",
+      "bytes": 101753,
+      "sha256": "caab414a8dba3584af5f640f4459abf1137d2098bc1c58d5a05f6ccf1b850f45"
+    },
+    "palettes/results.json": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/palettes/results.json",
+      "source": "artifacts/contract-style-lab/ion/themes/qa.json",
+      "bytes": 9219,
+      "sha256": "b6d2828c2ae219b226d9c0936dc811348dc9503b09b208cd77e9e5b16092f4a3"
+    },
+    "palettes/method-results.json": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/palettes/method-results.json",
+      "source": "artifacts/contract-style-lab/ion/themes/method-qa.json",
+      "bytes": 974,
+      "sha256": "8dfbfb315166bbf455b338396c7364d5a42324121e846bc2745af6b230d61a57"
+    },
+    "fixture/component-proof.json": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/fixture/component-proof.json",
+      "source": "artifacts/contract-style-methods/component-proof.json",
+      "bytes": 664,
+      "sha256": "633c05630c9a4ad8d372972b426427aa1a413bb4f740c0b7a43d59ccd555a171"
+    },
+    "workbench/overview-1920.png": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/workbench/overview-1920.png",
+      "source": "artifacts/contract-style-lab/ion-workbench/overview-1920.png",
+      "bytes": 96521,
+      "sha256": "8a0740b6cfb7f9fc1847be16b98b0211c23254f8f86b87ce792c39eec66c7088"
+    },
+    "workbench/contract-1920.png": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/workbench/contract-1920.png",
+      "source": "artifacts/contract-style-lab/ion-workbench/contract-1920.png",
+      "bytes": 84029,
+      "sha256": "268420b873a381735452056573317b6c5f8bb81ed7a8b74c31b2f9b0439e6071"
+    },
+    "workbench/methods-1920.png": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/workbench/methods-1920.png",
+      "source": "artifacts/contract-style-lab/ion-workbench/methods-1920.png",
+      "bytes": 118283,
+      "sha256": "9dea33a3ce32517f734ec7274c6ab3012d5336ad3e28460095a51353ddd661b5"
+    },
+    "workbench/evidence-1920.png": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/workbench/evidence-1920.png",
+      "source": "artifacts/contract-style-lab/ion-workbench/evidence-1920.png",
+      "bytes": 76028,
+      "sha256": "b8db58a13dad0015308902094086fa354432fcb4fa4dec13a394ee6ea1219a43"
+    },
+    "workbench/overview-1440.png": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/workbench/overview-1440.png",
+      "source": "artifacts/contract-style-lab/ion-workbench/overview-1440.png",
+      "bytes": 85957,
+      "sha256": "3a2dcb162c3ae3debdbff608d663b6766a08bddffdeb0df1a5cac165ff34551d"
+    },
+    "workbench/contract-1440.png": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/workbench/contract-1440.png",
+      "source": "artifacts/contract-style-lab/ion-workbench/contract-1440.png",
+      "bytes": 69436,
+      "sha256": "7e7159a3f1682f98a994a00cc1f8fa4e6cd5a548ee9e31a705738613bc0c5b64"
+    },
+    "workbench/methods-1440.png": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/workbench/methods-1440.png",
+      "source": "artifacts/contract-style-lab/ion-workbench/methods-1440.png",
+      "bytes": 88161,
+      "sha256": "461aed47b58318cb4f442c6ef0e290d2bc975e62d05fc239938ab88f9f0ee66a"
+    },
+    "workbench/evidence-1440.png": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/workbench/evidence-1440.png",
+      "source": "artifacts/contract-style-lab/ion-workbench/evidence-1440.png",
+      "bytes": 69201,
+      "sha256": "e99764ebff53e0bff979d64eea5b8e07fb431817b37e24bb022da100f58dd48d"
+    },
+    "workbench/overview-1024.png": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/workbench/overview-1024.png",
+      "source": "artifacts/contract-style-lab/ion-workbench/overview-1024.png",
+      "bytes": 61348,
+      "sha256": "aef5c6acc4034eb42ee955c191feb69d27849b31a28d341eb33ef07c71494939"
+    },
+    "workbench/contract-1024.png": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/workbench/contract-1024.png",
+      "source": "artifacts/contract-style-lab/ion-workbench/contract-1024.png",
+      "bytes": 56997,
+      "sha256": "0dcbc74ebfc0b012760cfa2584ccff32b2c1a6ff55f3bd45832260d610348c47"
+    },
+    "workbench/methods-1024.png": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/workbench/methods-1024.png",
+      "source": "artifacts/contract-style-lab/ion-workbench/methods-1024.png",
+      "bytes": 73975,
+      "sha256": "d6f5b29b7308dc07678e0d03e53261128a41e525bbc91556f75ec5bb40d563e7"
+    },
+    "workbench/evidence-1024.png": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/workbench/evidence-1024.png",
+      "source": "artifacts/contract-style-lab/ion-workbench/evidence-1024.png",
+      "bytes": 57909,
+      "sha256": "514ba8dc3339bd6269c9cdb7a0419b63d2a38f4b8ec9a529dd49c61bad0d6c40"
+    },
+    "palettes/project-lime-1440.png": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/palettes/project-lime-1440.png",
+      "source": "artifacts/contract-style-lab/ion/themes/project-lime-1440.png",
+      "bytes": 183003,
+      "sha256": "377a3c297d258fcd6fe3f9a065018df7aa01a164bd4198e41141d8c5e4c41ce9"
+    },
+    "palettes/method-lime-1440.png": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/palettes/method-lime-1440.png",
+      "source": "artifacts/contract-style-lab/ion/themes/method-lime-1440.png",
+      "bytes": 113748,
+      "sha256": "d96c93705f485105902f3bebe34f7fb6fb5f151a89afa9e2fd0337bbe9501b12"
+    },
+    "palettes/project-cyan-1440.png": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/palettes/project-cyan-1440.png",
+      "source": "artifacts/contract-style-lab/ion/themes/project-cyan-1440.png",
+      "bytes": 183234,
+      "sha256": "b6c32fc9731247d46e37b90624c6431fb62332544a0449ab96da9372165455b7"
+    },
+    "palettes/method-cyan-1440.png": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/palettes/method-cyan-1440.png",
+      "source": "artifacts/contract-style-lab/ion/themes/method-cyan-1440.png",
+      "bytes": 113666,
+      "sha256": "77e23c69adee6cf1d3874bcbcbfe0312a5197c8188d5c8e054d80322c5401ba4"
+    },
+    "palettes/project-violet-1440.png": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/palettes/project-violet-1440.png",
+      "source": "artifacts/contract-style-lab/ion/themes/project-violet-1440.png",
+      "bytes": 184747,
+      "sha256": "712e02ae8d313f68b3379d3943f1e8b67ee6411a0b48d1eb70cdadbd343c7c19"
+    },
+    "palettes/method-violet-1440.png": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/palettes/method-violet-1440.png",
+      "source": "artifacts/contract-style-lab/ion/themes/method-violet-1440.png",
+      "bytes": 114101,
+      "sha256": "6fd7949b990f4616fab978625f80ca17697b1e1a21612143d340523e3ca71437"
+    },
+    "palettes/project-orange-1440.png": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/palettes/project-orange-1440.png",
+      "source": "artifacts/contract-style-lab/ion/themes/project-orange-1440.png",
+      "bytes": 184651,
+      "sha256": "b2efc282c16582b3b181f6d7ca1309c5fd0ef59ee843c69ab1f8411d7859e907"
+    },
+    "palettes/method-orange-1440.png": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/palettes/method-orange-1440.png",
+      "source": "artifacts/contract-style-lab/ion/themes/method-orange-1440.png",
+      "bytes": 113920,
+      "sha256": "b1245a8a44466aea1fc013e71d5070ae0b4d231c3cce6c70e7ad0aff05884426"
+    },
+    "palettes/project-rose-1440.png": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/palettes/project-rose-1440.png",
+      "source": "artifacts/contract-style-lab/ion/themes/project-rose-1440.png",
+      "bytes": 185261,
+      "sha256": "d5e56520f643746313e5b4d3e0a37a56e0d874c4a40ac3a830e6d32e9a13e4bf"
+    },
+    "palettes/method-rose-1440.png": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/palettes/method-rose-1440.png",
+      "source": "artifacts/contract-style-lab/ion/themes/method-rose-1440.png",
+      "bytes": 114352,
+      "sha256": "71e5c491bc85e3694569da6cfcafe322f728bce573cada5cc3ee37cc41a5eb95"
+    },
+    "palettes/project-graphite-1440.png": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/palettes/project-graphite-1440.png",
+      "source": "artifacts/contract-style-lab/ion/themes/project-graphite-1440.png",
+      "bytes": 184497,
+      "sha256": "7c4c5cda42c6c3e59abcc8f26492b5bf9b33be6f363f03cf940a677a8e3893d6"
+    },
+    "palettes/method-graphite-1440.png": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/palettes/method-graphite-1440.png",
+      "source": "artifacts/contract-style-lab/ion/themes/method-graphite-1440.png",
+      "bytes": 114540,
+      "sha256": "bb0ddcaee5d479eafae7af2677b59383b048b86d154b1c8daee654526b8ac35d"
+    },
+    "fixture/fixture-1440.png": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/fixture/fixture-1440.png",
+      "source": "artifacts/contract-style-methods/fixture-1440.png",
+      "bytes": 60403,
+      "sha256": "78cf676d47f18cc1371a8ca2fe8177234f3cb7ccf4a621e210e82b4dfb76781c"
+    },
+    "fixture/fixture-390.png": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/fixture/fixture-390.png",
+      "source": "artifacts/contract-style-methods/fixture-390.png",
+      "bytes": 36634,
+      "sha256": "d0358a9de60a305be33b151bbe1a9ac32bc7a74b1c59316b50a31fa638361634"
+    },
+    "fixture/fixture-dock-1440.png": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/fixture/fixture-dock-1440.png",
+      "source": "artifacts/contract-style-methods/fixture-dock-1440.png",
+      "bytes": 26828,
+      "sha256": "22e9f77d713f806e95cb0a24b10cf0ed4f3811cb539680572ffc81786726762f"
+    },
+    "integration/docfx-inline.png": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/integration/docfx-inline.png",
+      "source": "artifacts/contract-style-inline/docfx-inline.png",
+      "bytes": 73585,
+      "sha256": "740748ebff9bc95dd318a25ddbc7919ef7cc4250b9822395ecaa6a5aace907f0"
+    },
+    "integration/ion-cyan-1440.png": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/integration/ion-cyan-1440.png",
+      "source": "artifacts/contract-style-inline/ion-cyan-1440.png",
+      "bytes": 94560,
+      "sha256": "7e640faeaa9b11a7479156ba001a336101481b6cbda905d3bff805b49a52e3f9"
+    },
+    "integration/ion-cyan-1920.png": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/integration/ion-cyan-1920.png",
+      "source": "artifacts/contract-style-inline/ion-cyan-1920.png",
+      "bytes": 125216,
+      "sha256": "0e5b41d0efd086d770fefa96802129bb33749d888d7daba5ba02330094195cf7"
+    },
+    "integration/ion-graphite-1440.png": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/integration/ion-graphite-1440.png",
+      "source": "artifacts/contract-style-inline/ion-graphite-1440.png",
+      "bytes": 95059,
+      "sha256": "dfcb1eac2ca70fe06d5ac9287ba32d2fe4e39af42f402f95eed160cb4fa3650f"
+    },
+    "integration/ion-graphite-1920.png": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/integration/ion-graphite-1920.png",
+      "source": "artifacts/contract-style-inline/ion-graphite-1920.png",
+      "bytes": 126305,
+      "sha256": "c68dce358102f144f0997258498401eaccd97ffbe4a0d38a114295ecd3873388"
+    },
+    "integration/ion-lime-1440.png": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/integration/ion-lime-1440.png",
+      "source": "artifacts/contract-style-inline/ion-lime-1440.png",
+      "bytes": 94461,
+      "sha256": "2ef78cfa6a79333b4f13fd58d761c712b1ac5a4fea1d340c218cc07302aefb6d"
+    },
+    "integration/ion-lime-1920.png": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/integration/ion-lime-1920.png",
+      "source": "artifacts/contract-style-inline/ion-lime-1920.png",
+      "bytes": 124077,
+      "sha256": "da3bbf606ca990f43ac9b376c49519883d5ccd5d89f0dd9ec522bb4fc94fa7ce"
+    },
+    "integration/ion-orange-1440.png": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/integration/ion-orange-1440.png",
+      "source": "artifacts/contract-style-inline/ion-orange-1440.png",
+      "bytes": 94913,
+      "sha256": "369cbe6187b7a8a10ce0c6cbcc34df60a4748e7ee8cb4216eb04fb6b448c9089"
+    },
+    "integration/ion-orange-1920.png": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/integration/ion-orange-1920.png",
+      "source": "artifacts/contract-style-inline/ion-orange-1920.png",
+      "bytes": 124850,
+      "sha256": "3a5af611c7e0b01fccf607f7bb303a903b2fb248d3b7182615b7c63cbaa7e78c"
+    },
+    "integration/ion-rose-1440.png": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/integration/ion-rose-1440.png",
+      "source": "artifacts/contract-style-inline/ion-rose-1440.png",
+      "bytes": 95317,
+      "sha256": "b31c808ecbbcf2a6411f0daa1ebbdd26166a0a0f8a0a2b90bdb9242cfb390fc4"
+    },
+    "integration/ion-rose-1920.png": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/integration/ion-rose-1920.png",
+      "source": "artifacts/contract-style-inline/ion-rose-1920.png",
+      "bytes": 125001,
+      "sha256": "70c04d690977081a720684c017cfa9f6ed5e485fc0123ff10072b104d6dc8bb4"
+    },
+    "integration/ion-violet-1440.png": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/integration/ion-violet-1440.png",
+      "source": "artifacts/contract-style-inline/ion-violet-1440.png",
+      "bytes": 95182,
+      "sha256": "819d0d7c5c4324ccee9bfd720da5314ec95227189ae1d39c9f6eb7a95c4f0f28"
+    },
+    "integration/ion-violet-1920.png": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/integration/ion-violet-1920.png",
+      "source": "artifacts/contract-style-inline/ion-violet-1920.png",
+      "bytes": 125263,
+      "sha256": "b511b6706629b54fb90c09b5da066a17b39f8bf49146139f396163cd0e1521f7"
+    },
+    "integration/ribbon-evidence-desktop.png": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/integration/ribbon-evidence-desktop.png",
+      "source": "artifacts/contract-style-inline/ribbon-evidence-desktop.png",
+      "bytes": 90755,
+      "sha256": "f9d79e7224da32ac0faca42f5fd2554f7b3e207ebf962d6d402b1d49969f1ac7"
+    },
+    "methods/compact-proof.json": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/methods/compact-proof.json",
+      "source": "artifacts/contract-style-methods/compact-proof.json",
+      "bytes": 123,
+      "sha256": "fdb50441c59580e0ef7f9f90e5c0edcfda1a98ea9f4e177fd351eee62f75be2d"
+    },
+    "methods/real-first-screen-1440.png": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/methods/real-first-screen-1440.png",
+      "source": "artifacts/contract-style-methods/real-first-screen-1440.png",
+      "bytes": 98687,
+      "sha256": "8bfd948a47dfae572e066b2a48ea2f8e27fe96f5306c69a9da5903d93704eb23"
+    },
+    "methods/compact-proof-1920.json": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/methods/compact-proof-1920.json",
+      "source": "artifacts/contract-style-methods/compact-proof-1920.json",
+      "bytes": 155,
+      "sha256": "4b312bea77a687d7b0d1bf3bc5e6b22a0fec4bd30d26c62bffb31bc144b17f7e"
+    },
+    "methods/real-first-screen-1920.png": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/methods/real-first-screen-1920.png",
+      "source": "artifacts/contract-style-methods/real-first-screen-1920.png",
+      "bytes": 128737,
+      "sha256": "5f80090eb564f042563feda5e3f89188ac055c2af668e7d7b6369c000d13eed6"
+    },
+    "bookkeeping/final-service.json": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/bookkeeping/final-service.json",
+      "source": "artifacts/style-inline/final-service.json",
+      "bytes": 382,
+      "sha256": "a3b8ebc837fe2b15d4d5741ee882da41e5fcc09c4e755619e9ad79b6b7329ed6"
+    },
+    "bookkeeping/openspec-after.json": {
+      "path": "docs/validation/contract-style-inline-2026-11-01.evidence/bookkeeping/openspec-after.json",
+      "source": "artifacts/style-inline/openspec-after.json",
+      "bytes": 5840,
+      "sha256": "0cf5994ca9d0f4dabf3f9d017a9d932bde7e4d13d3e05c43951705542f7415d6"
+    }
+  },
+  "status": "verified",
+  "pending": [],
+  "progress": {
+    "total": 127,
+    "complete": 100,
+    "remaining": 27,
+    "scope": "Current OpenSpec task bookkeeping; original 27 business tasks remain incomplete."
+  },
+  "repositoryChecks": {
+    "scopedWhitespace": {
+      "passed": true,
+      "command": "git diff --check -- <this change owned files>",
+      "scope": "This change only; also independently reported by Root."
+    },
+    "wholeRepositoryWhitespace": {
+      "passed": false,
+      "reason": "Existing CRLF/trailing whitespace in earlier Ribbon manifest/Desktop files outside this change; not reformatted to avoid unrelated source hash changes."
+    },
+    "openSpecStrict": {
+      "passed": true,
+      "authority": "Root final verification"
+    },
+    "staticMetadataBuild": {
+      "passed": true,
+      "files": 6,
+      "authority": "Root final bookkeeping build; not a new browser capture"
+    }
+  },
+  "finalServiceCheck": {
+    "checkedAt": "2026-11-01T11:54:47.506Z",
+    "status": "ready",
+    "reason": null,
+    "revisionId": "db23f4f0709f0e2154cf9112635d699f0f44e328fffc8b4ee20d304e84ed872e",
+    "metadataDigest": "6f4214cafed8e460fb08213d47ae3e6a9e5a2bdab4933f1cd34174ab0a6e7299",
+    "renderModelDigest": "9c5dbc9a84f254368beab84058de24dfa52c7a1ab24df80d55dd53d4e71972af",
+    "methods": 393,
+    "edges": 1485,
+    "scope": "API identity/readiness check after task bookkeeping, not a browser rerun of this revision",
+    "browserRerun": false
+  }
+}

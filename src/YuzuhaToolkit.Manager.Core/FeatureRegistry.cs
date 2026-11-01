@@ -89,7 +89,7 @@ public sealed class FeatureRegistry
         registrations.GroupBy(r => r.Descriptor.Id.StartsWith("pml.function", StringComparison.Ordinal) ? "functions" : r.Descriptor.Id.Split('.')[0], StringComparer.Ordinal)
         .Select(g => { var rows = g.ToArray(); return new FeatureRegistration(new(g.Key, "1.0", 1,
             g.Key switch { "functions" or "connection" => "CommunicationCliClient → independent communication CLI",
-                "ribbon" => "RibbonHttpAdapter → existing Ribbon HTTP v1 backend",
+                "ribbon" => "RibbonHttpAdapter → Ribbon HTTP v1 compatibility / v2 frozen deployment",
                 "plugin" => "ManagerPluginRegistry → existing worker boundary", _ => "ManagerOperationCatalog → existing application services" },
             [], rows.Select(r => r.Descriptor.Id).ToArray(), "compiled", true, "partial-operation-family-adapter",
             g.Key is "functions" or "connection" or "runtime" ? ["AM", "PDMS", "E3D2.1", "E3D3.1.6"] : []), () => rows); }), options);

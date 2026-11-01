@@ -1,0 +1,18 @@
+✔ managed browser keeps caller launch options and does not preserve stale machine paths (1.2481ms)
+✔ explicit executable wins over Edge and keeps launch flags (0.6211ms)
+✔ Edge is only an explicit alternative, and missing managed browser explains setup (0.5387ms)
+✔ ready bridge preserves exact catalog/digests and only exposes same-revision registered DocFX bytes (296.0654ms)
+✔ public drift, source/config receipt drift, missing publication and catalog corruption never return body (195.5077ms)
+✔ tampered DocFX, duplicate manifest entries, path escape and declared budgets are rejected (163.0023ms)
+✔ pointer movement or input changes during validation refuse an obsolete response (156.2656ms)
+✔ overlapping requests share bounded validation, completed responses are not cached, and a late source change hides body (229.4076ms)
+✔ HTTP method failure is separate from public content, aliases are fixed and API stays read only (277.8189ms)
+✔ verified DocFX HTTP preserves original bytes with static opaque sandbox and no script/network privilege (277.6959ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1892.806

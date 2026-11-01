@@ -1,0 +1,229 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "createdAt": "2026-11-01T04:52:58.487Z",
+  "scope": "Isolated source + real filesystem watcher + HTTP/SSE + Chromium + real FigCraft CLI. No external canvas mutation and no live engineering writes.",
+  "directory": "artifacts/contract-generation-tests/case-OqUP9o",
+  "checks": [
+    "external source edit automatically updates actual Web cards, flow labels, props and real FigCraft instances with identical digests; reading state retained",
+    "invalid source and unavailable real native tool keep lastgood; no automatic failed-input replay; explicit retry publishes corrected complete revision",
+    "Web allowlisted editor previews without writing then explicitly saves source; a non-author dependency change after preview still completes via manifest author-source identity and actual same-digest publication",
+    "EventSource reconnects after service instance and low sequence reset, retains reader state and applies next revision without page reload"
+  ],
+  "revisions": [
+    {
+      "label": "01-initial",
+      "revisionId": "da8133e8bbbe4a8263b9e723f9d4abe5141036f27b998b6cd921fc99ce22d40a",
+      "metadataDigest": "bb342fb2b9db5a6570e9c882999ccec5b914c37a66ac41263d7d042d21f1800a",
+      "renderModelDigest": "a39db655b2f12b4e4f7152892f558ce8708e931bdd3d8207e0b1153a17daf2ef",
+      "manifestUrl": "/revisions/da8133e8bbbe4a8263b9e723f9d4abe5141036f27b998b6cd921fc99ce22d40a/manifest.json",
+      "sourceRevision": "59e1934aaad0b5e3c6cc5258afa7c3dc4d64029b27127ae45a3b1096f996a51c",
+      "figcraft": {
+        "path": "design/contract-atlas.figcraft",
+        "sha256": "a5989b27025b0145d69a073ce0e559e0be5021bfec2c2a3345c0dff631afcd67",
+        "bytes": 92242,
+        "role": "figcraft"
+      },
+      "native": {
+        "generated": true,
+        "validated": true,
+        "success": true,
+        "components": 7,
+        "instances": 107,
+        "editableTexts": 525,
+        "variables": 10,
+        "images": 0,
+        "toolVersion": "figcraft-cli 0.6.0",
+        "commandCount": 675
+      },
+      "web": {
+        "view": "help",
+        "selectedId": "feature:ribbon",
+        "parentFeatureId": "feature:ribbon",
+        "flowId": "flow:ribbon",
+        "selectedFlowId": "flow:ribbon",
+        "effectiveFlowId": "flow:ribbon",
+        "query": "",
+        "status": "all",
+        "projectId": "project:pmltwin",
+        "origin": "live",
+        "revisionId": "da8133e8bbbe4a8263b9e723f9d4abe5141036f27b998b6cd921fc99ce22d40a",
+        "metadataDigest": "bb342fb2b9db5a6570e9c882999ccec5b914c37a66ac41263d7d042d21f1800a",
+        "renderModelDigest": "a39db655b2f12b4e4f7152892f558ce8708e931bdd3d8207e0b1153a17daf2ef",
+        "authorDirty": false
+      }
+    },
+    {
+      "label": "02-file-edit",
+      "revisionId": "43e9d2d1e3ed2b00546643880294fd8b25cc8e77ce126b735520b4daa8c54840",
+      "metadataDigest": "4fe7ca3386542127e830a12e70382cdc1313322ba3caef9f911ee8d197d13d42",
+      "renderModelDigest": "c29891cac572b31db8a89bb99e7f38b103b40e9345f13e35afb774c052b79e91",
+      "manifestUrl": "/revisions/43e9d2d1e3ed2b00546643880294fd8b25cc8e77ce126b735520b4daa8c54840/manifest.json",
+      "sourceRevision": "9151e26bf88c85f711a41921dab50b8bf600458de615c479496074adb0a233b5",
+      "figcraft": {
+        "path": "design/contract-atlas.figcraft",
+        "sha256": "dd49e74a1c013d504063fd8dfb76769ea9aa735e68333e078023b38cf84fb76b",
+        "bytes": 91973,
+        "role": "figcraft"
+      },
+      "native": {
+        "generated": true,
+        "validated": true,
+        "success": true,
+        "components": 8,
+        "instances": 107,
+        "editableTexts": 529,
+        "variables": 10,
+        "images": 0,
+        "toolVersion": "figcraft-cli 0.6.0",
+        "commandCount": 691
+      },
+      "web": {
+        "view": "help",
+        "selectedId": "feature:ribbon",
+        "parentFeatureId": "feature:ribbon",
+        "flowId": "flow:ribbon",
+        "selectedFlowId": "flow:ribbon",
+        "effectiveFlowId": "flow:ribbon",
+        "query": "Ribbon",
+        "status": "all",
+        "projectId": "project:pmltwin",
+        "origin": "live",
+        "revisionId": "43e9d2d1e3ed2b00546643880294fd8b25cc8e77ce126b735520b4daa8c54840",
+        "metadataDigest": "4fe7ca3386542127e830a12e70382cdc1313322ba3caef9f911ee8d197d13d42",
+        "renderModelDigest": "c29891cac572b31db8a89bb99e7f38b103b40e9345f13e35afb774c052b79e91",
+        "authorDirty": false
+      }
+    },
+    {
+      "label": "03-explicit-recovery",
+      "revisionId": "4786609a9c8a69fc5eaa82de87450e627a52f5f7e1c4036ef399b6ebefea1c39",
+      "metadataDigest": "354049e043a0199a13fb8688fcbd64bd475e88ba3385ee2f3ff6213bb8d005f6",
+      "renderModelDigest": "dff50fbdd9c2e23ca64d1746e58463989759a5949c8567b10daf11cb20ffab5b",
+      "manifestUrl": "/revisions/4786609a9c8a69fc5eaa82de87450e627a52f5f7e1c4036ef399b6ebefea1c39/manifest.json",
+      "sourceRevision": "6254c5e302ec47974d484a8be55117a3d80158abb0fcf5289ec4663897dd1d57",
+      "figcraft": {
+        "path": "design/contract-atlas.figcraft",
+        "sha256": "6eb3ef47a6fd87e2c50423d50dc356563e1c34260c9662788546c51d88250bb5",
+        "bytes": 92021,
+        "role": "figcraft"
+      },
+      "native": {
+        "generated": true,
+        "validated": true,
+        "success": true,
+        "components": 8,
+        "instances": 107,
+        "editableTexts": 529,
+        "variables": 10,
+        "images": 0,
+        "toolVersion": "figcraft-cli 0.6.0",
+        "commandCount": 691
+      },
+      "web": {
+        "view": "help",
+        "selectedId": "feature:ribbon",
+        "parentFeatureId": "feature:ribbon",
+        "flowId": "flow:ribbon",
+        "selectedFlowId": "flow:ribbon",
+        "effectiveFlowId": "flow:ribbon",
+        "query": "Ribbon",
+        "status": "all",
+        "projectId": "project:pmltwin",
+        "origin": "live",
+        "revisionId": "4786609a9c8a69fc5eaa82de87450e627a52f5f7e1c4036ef399b6ebefea1c39",
+        "metadataDigest": "354049e043a0199a13fb8688fcbd64bd475e88ba3385ee2f3ff6213bb8d005f6",
+        "renderModelDigest": "dff50fbdd9c2e23ca64d1746e58463989759a5949c8567b10daf11cb20ffab5b",
+        "authorDirty": false
+      }
+    },
+    {
+      "label": "04-web-save",
+      "revisionId": "e986c5812d7de27c87aa1181383bb5ab93c91b2dced20a338a5db7f77dc88bee",
+      "metadataDigest": "207071f5ee1f93e54151c84ea4e69d9e6179d9a9d755458b3de5b24bc57aec89",
+      "renderModelDigest": "61ac2301bd8343e05e883ef68dad5ac91cc3ab89572a7835e5fc38fa6df70de1",
+      "manifestUrl": "/revisions/e986c5812d7de27c87aa1181383bb5ab93c91b2dced20a338a5db7f77dc88bee/manifest.json",
+      "sourceRevision": "0c4748526b276124eb24976f624358ed2c6822f78249b79996b59c560e7533b2",
+      "figcraft": {
+        "path": "design/contract-atlas.figcraft",
+        "sha256": "3e34a24aa697dacca1909c2ef8b5731a55341baff6b82476747dd062911a70af",
+        "bytes": 92017,
+        "role": "figcraft"
+      },
+      "native": {
+        "generated": true,
+        "validated": true,
+        "success": true,
+        "components": 8,
+        "instances": 107,
+        "editableTexts": 529,
+        "variables": 10,
+        "images": 0,
+        "toolVersion": "figcraft-cli 0.6.0",
+        "commandCount": 691
+      },
+      "web": {
+        "view": "help",
+        "selectedId": "feature:ribbon",
+        "parentFeatureId": "feature:ribbon",
+        "flowId": "flow:ribbon",
+        "selectedFlowId": "flow:ribbon",
+        "effectiveFlowId": "flow:ribbon",
+        "query": "Ribbon",
+        "status": "all",
+        "projectId": "project:pmltwin",
+        "origin": "live",
+        "revisionId": "e986c5812d7de27c87aa1181383bb5ab93c91b2dced20a338a5db7f77dc88bee",
+        "metadataDigest": "207071f5ee1f93e54151c84ea4e69d9e6179d9a9d755458b3de5b24bc57aec89",
+        "renderModelDigest": "61ac2301bd8343e05e883ef68dad5ac91cc3ab89572a7835e5fc38fa6df70de1",
+        "authorDirty": false
+      }
+    },
+    {
+      "label": "05-reconnected",
+      "revisionId": "7233a46c0c44eea45296d760ca0d67bfbd3150fe4426296a7a11d08558830fc1",
+      "metadataDigest": "5380b3c07aa6ebd8f34609a08f59b8a1dfed49dc3822f0da6d4c819c65d22936",
+      "renderModelDigest": "d536e2bce8bbfc92f3b4cb16a5dce95540cf6a861ba8bcc2eeab2aad23c30399",
+      "manifestUrl": "/revisions/7233a46c0c44eea45296d760ca0d67bfbd3150fe4426296a7a11d08558830fc1/manifest.json",
+      "sourceRevision": "13f2cf16309fc7a031372e94c5d258811c48d410b9ffce4d72a385d4eb78839f",
+      "figcraft": {
+        "path": "design/contract-atlas.figcraft",
+        "sha256": "708e184390849122b1afbe41ebb922fc4ed2139c9b25a54905654548777bf124",
+        "bytes": 92227,
+        "role": "figcraft"
+      },
+      "native": {
+        "generated": true,
+        "validated": true,
+        "success": true,
+        "components": 8,
+        "instances": 107,
+        "editableTexts": 529,
+        "variables": 10,
+        "images": 0,
+        "toolVersion": "figcraft-cli 0.6.0",
+        "commandCount": 691
+      },
+      "web": {
+        "view": "help",
+        "selectedId": "feature:ribbon",
+        "parentFeatureId": "feature:ribbon",
+        "flowId": "flow:ribbon",
+        "selectedFlowId": "flow:ribbon",
+        "effectiveFlowId": "flow:ribbon",
+        "query": "Ribbon",
+        "status": "all",
+        "projectId": "project:pmltwin",
+        "origin": "live",
+        "revisionId": "7233a46c0c44eea45296d760ca0d67bfbd3150fe4426296a7a11d08558830fc1",
+        "metadataDigest": "5380b3c07aa6ebd8f34609a08f59b8a1dfed49dc3822f0da6d4c819c65d22936",
+        "renderModelDigest": "d536e2bce8bbfc92f3b4cb16a5dce95540cf6a861ba8bcc2eeab2aad23c30399",
+        "authorDirty": false
+      }
+    }
+  ],
+  "scriptErrors": [],
+  "httpErrors": [],
+  "repositoryPresentationUnchanged": true,
+  "originalNativeRevisionUnchanged": true
+}

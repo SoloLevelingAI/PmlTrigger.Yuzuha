@@ -1,0 +1,195 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-11-01",
+  "result": "契约已接入真实MSBuild/Roslyn与DocFX方法预览",
+  "contract": "openspec/changes/integrate-pmltwin-product-platform/features/contract-method-preview.md",
+  "guide": "docs/reference/contract-method-preview.zh-CN.md",
+  "analysis": {
+    "nodes": 13080,
+    "edges": 59229,
+    "sourceInputs": 747,
+    "graphSha256": "06b2aaae8880560ec794c431d853bf0515fd8f7c9989b5adbc0ac6b86ddf910a",
+    "producerFingerprint": "dd973b675bff7b40ab9794f0bd8f954d2cf16035c779b72cedc46ca56a0ff7f9",
+    "omittedProjects": [
+      "YuzuhaToolkit.PmlHost.Net35 : no local AVEVA SDK configured; not analyzed",
+      "YuzuhaToolkit.PmlHost.Net48 : no local AVEVA SDK configured; not analyzed"
+    ]
+  },
+  "methodCatalog": {
+    "schema": "contract-method-catalog/1",
+    "audience": "internal",
+    "methods": 202,
+    "edges": 512,
+    "bindings": 13,
+    "docfxAssets": 200,
+    "docfxScope": [
+      "YuzuhaToolkit.Manager.Core",
+      "YuzuhaToolkit.Workspace"
+    ],
+    "scope": "精确绑定根方法的直接入/出邻域；目录外关系明确标边界，未声称完整运行调用图"
+  },
+  "checks": {
+    "unit": {
+      "passed": 40,
+      "failed": 0,
+      "skipped": 0
+    },
+    "roslynSemantics": {
+      "passed": 17,
+      "failed": 0,
+      "skipped": 0
+    },
+    "methodBrowser": {
+      "count": 15,
+      "passed": true,
+      "checks": {
+        "unavailable": true,
+        "explicitBinding": true,
+        "signatureXmlPureText": true,
+        "callSiteNavigation": true,
+        "stateAndHash": true,
+        "themeViewPreserved": true,
+        "mobile": true,
+        "staleBodyHidden": true,
+        "draftBindingIsolated": true,
+        "svgExcludesRawSource": true,
+        "catalogBytesAndDigestGate": true,
+        "catalogRevisionIdentityGate": true,
+        "docfxManifestAllowlist": true,
+        "liveRefreshRetainsMethodDisclosureFocusAndState": true,
+        "headingEntrySelectsMethodPreservingStateAndFocus": true
+      },
+      "scriptErrors": []
+    },
+    "existingConsumer": {
+      "checks": 13,
+      "scriptErrors": []
+    },
+    "existingLayouts": 18,
+    "existingThemeMatrix": 12,
+    "realIntegration": {
+      "revisions": 3,
+      "checks": {
+        "realSourceBodyAndSha": true,
+        "exactDocfxMemberAndAnchor": true,
+        "callSiteNavigation": true,
+        "hashReloadAndReadingState": true,
+        "sourceEditAutomaticallyStales": true,
+        "oldBodyHidden": true,
+        "realRoslynReplayPublishesFreshBody": true,
+        "oldDocfxCannotClaimNewSource": true,
+        "mobile": true,
+        "repositoryUnchanged": true
+      },
+      "scriptErrors": [],
+      "httpErrors": []
+    }
+  },
+  "sourceUpdate": {
+    "result": "真实隔离源码ready→stale→重捕获ready；旧DocFX不冒充更新后的源码文档",
+    "original": "44d075ea468f8f01d82346d718af41ffddb13ce9d66113dcd619c0a875eabba4",
+    "fresh": "4669f838b63c58bb2a767c8d860d7765b909400a2f0f7936d536e86d89491e37",
+    "repositoryUnchanged": true
+  },
+  "limits": {
+    "businessExecution": false,
+    "rawSourceInPublicMetadataOrFigcraft": false,
+    "automaticCompilerInvocation": false,
+    "hostSdkConfigured": false,
+    "docfxIsWholeRepository": false
+  },
+  "openSpec": {
+    "complete": 70,
+    "total": 97,
+    "remaining": 27,
+    "wholePlatformComplete": false
+  },
+  "evidenceDirectory": "docs/validation/contract-method-preview-2026-11-01.evidence",
+  "method": {
+    "id": "method:0e45c2ace8a82f30235bb8a5c585b84cda999eefba0c857647c0e82b1bead239",
+    "symbolId": "YuzuhaToolkit.Manager.Core::M:YuzuhaToolkit.Manager.LaunchWorkflowService.Plan(System.String,System.String,System.String)",
+    "signature": "public LaunchWorkflowPlan Plan(string profileId, string expectedRevision, string operationId)",
+    "source": "src/YuzuhaToolkit.Manager.Core/LaunchWorkflow.cs",
+    "originalSourceSha": "44d075ea468f8f01d82346d718af41ffddb13ce9d66113dcd619c0a875eabba4",
+    "freshSourceSha": "4669f838b63c58bb2a767c8d860d7765b909400a2f0f7936d536e86d89491e37",
+    "docfxUid": "YuzuhaToolkit.Manager.LaunchWorkflowService.Plan(System.String,System.String,System.String)",
+    "docfxHref": "docfx/api/YuzuhaToolkit.Manager.LaunchWorkflowService.html#YuzuhaToolkit_Manager_LaunchWorkflowService_Plan_System_String_System_String_System_String_"
+  },
+  "sourceHashes": [
+    {
+      "path": "tools/Documentation/UiTrace.cs",
+      "sha256": "509c5c3c97d97a6a0f3c986c474addf66fb803ece7891f0585ad913276859d6f"
+    },
+    {
+      "path": "scripts/Trace-Desktop.ps1",
+      "sha256": "a082c4ac114832decf0ad333c924b23b1e5070e7843179df18f1c8251b4db0ce"
+    },
+    {
+      "path": "scripts/Capture-ContractMethods.ps1",
+      "sha256": "9252f8580e53d20708ed505407f37930616fa28359fc77da4f10169bb48a0d9e"
+    },
+    {
+      "path": "scripts/capture-contract-atlas-docfx.mjs",
+      "sha256": "94a7afa4b0be699d039db565fd9b1a2f403cee69163a46fb1390952878c0e7b9"
+    },
+    {
+      "path": "scripts/lib/contract-atlas-methods.mjs",
+      "sha256": "06f7a2963ca3380189248d1af7622e44911ad762afa193eca5dbc68902dc5151"
+    },
+    {
+      "path": "scripts/lib/contract-atlas-pipeline.mjs",
+      "sha256": "84b31d77bf978077a9ce5e53fde8ab01e904a93f0d423428a322cf889fa9b51c"
+    },
+    {
+      "path": "scripts/serve-contract-atlas.mjs",
+      "sha256": "d0fe1cc1556121f31abd8829a07b6692bcb08e496f09a20791adf79f5a9ec248"
+    },
+    {
+      "path": "docs/contracts/method-bindings.json",
+      "sha256": "1b110fbd2ff515af4232350f3b049c95945b984628b34dc4f142d4030ed6998c"
+    },
+    {
+      "path": "docs/presentation/contract-atlas/method-validator.js",
+      "sha256": "55e3af02355b9674ef14aa66dc1bbf0cce2cb303ec3361f57af747549532c16a"
+    },
+    {
+      "path": "docs/presentation/contract-atlas/method-panel.js",
+      "sha256": "60adb6eec0a6a12b7bc2141c749a4d1cdeb7423d415cab23c5084a2c1babb715"
+    },
+    {
+      "path": "docs/presentation/contract-atlas/methods.css",
+      "sha256": "de2284e756aff7e41bc3490eb87e5d34b94bc936c186fc8eb9b7851dc8b05bb1"
+    },
+    {
+      "path": "docs/presentation/contract-atlas/app.js",
+      "sha256": "5c36c65e133a05d267273302a862dbf37b391e735aa764646fa519a030092f4f"
+    },
+    {
+      "path": "docs/presentation/contract-atlas/live-client.js",
+      "sha256": "14235d4a732fb03dd6aa617063e616d862b3f76f3ba614d6fe9ddde440e7a4e0"
+    },
+    {
+      "path": "docs/presentation/contract-atlas/index.html",
+      "sha256": "95a3307882aeb2fdfc8be7261772fe046936e8674bb0706817ca56ccfddc3ce3"
+    }
+  ],
+  "preview": {
+    "url": "http://127.0.0.1:19439/#entity=feature%3Alaunch&view=help",
+    "passed": true,
+    "revisionId": "20c9e3bb1b5afef90708a8e0007b1541c549659caa3b55b5b27c4f8750ce6de9",
+    "metadataDigest": "81a97f0b6055dace4189f8a4962f1bfa368c5e9094dcab667569b309f6b72276",
+    "renderModelDigest": "500bf29c3e3cc555f3e276ad1cce8ba3ef7d411dfcdc1448780b547672259bd0",
+    "methodCatalogDigest": "a8bd5f65bdf5e1e4ba73b66a9631449b4845f12ad71c141a7e9e0cea99de91bc",
+    "manifestUrl": "/revisions/20c9e3bb1b5afef90708a8e0007b1541c549659caa3b55b5b27c4f8750ce6de9/manifest.json",
+    "catalogStatus": "ready",
+    "methods": 202,
+    "edges": 512,
+    "docfxResources": 200,
+    "exactMemberLink": "http://127.0.0.1:19439/revisions/20c9e3bb1b5afef90708a8e0007b1541c549659caa3b55b5b27c4f8750ce6de9/docfx/api/YuzuhaToolkit.Manager.LaunchWorkflowService.html#YuzuhaToolkit_Manager_LaunchWorkflowService_Plan_System_String_System_String_System_String_",
+    "headingEntry": true,
+    "incomingScopeBoundary": true,
+    "sourceEdited": false,
+    "scriptErrors": [],
+    "httpErrors": []
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "pid": 207896,
+  "started": 639291143252969172,
+  "executable": "F:\\OneDrive\\Documents\\ChatGPT\\PmlTwin\\artifacts\\desktop-dashboard\\build\\YuzuhaToolkit.Desktop.exe",
+  "windowTitle": "Phayton \u00B7 \u5DE5\u7A0B\u5DE5\u4F5C\u7A7A\u95F4",
+  "bounds": {
+    "left": -1695,
+    "top": 430,
+    "right": -95,
+    "bottom": 1326
+  },
+  "screenshot": "F:\\OneDrive\\Documents\\ChatGPT\\PmlTwin\\artifacts\\desktop-dashboard\\host-available.png",
+  "fields": {
+    "PageTitleText": "\u603B\u89C8"
+  },
+  "visibleStatusText": [
+    "\u603B\u89C8",
+    "\u672C\u673A\u5DE5\u4F5C\u53F0 \u00B7 \u5DE5\u7A0B\u73AF\u5883\u4E0E\u8FD1\u671F\u5DE5\u5177\u6D3B\u52A8",
+    "ENTRY_PROCESS_CREATED \u00B7 \u5165\u53E3\u8FDB\u7A0B\u5DF2\u521B\u5EFA\uFF1B\u5DE5\u7A0B\u767B\u5F55\u53CA Host \u8EAB\u4EFD\u5C1A\u672A\u6838\u9A8C\u3002\n\u64CD\u4F5C\u7F16\u53F7\uFF1A739dfbc42f974c9587c13ecde13796b6",
+    "\u5C1A\u672A\u9009\u62E9\u5E76\u6838\u9A8C\u76EE\u6807"
+  ]
+}

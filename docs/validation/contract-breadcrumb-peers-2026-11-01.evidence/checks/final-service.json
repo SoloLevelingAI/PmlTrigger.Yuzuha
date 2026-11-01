@@ -1,0 +1,12 @@
+{
+  "checkedAt": "2026-11-01T12:22:27.706Z",
+  "status": "ready",
+  "reason": null,
+  "revisionId": "8ec29c56a6d40a7c9debf98197e4b4367f08bec5aec8eefadb62b4102d271e54",
+  "metadataDigest": "8bc9ba0f7f661a310d6b030dbb25f8102775cd2342cc27f40e043584446f1c3a",
+  "renderModelDigest": "eac9a7b33f96e92417e80446f70a0babbe5b0078d8d9fa483a0a793148021e2d",
+  "methods": 393,
+  "edges": 1485,
+  "browserRerun": false,
+  "note": "仅任务记账/文档与静态再生成后的服务就绪检查；不冒称新修订已重跑浏览器。"
+}

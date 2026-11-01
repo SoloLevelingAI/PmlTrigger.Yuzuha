@@ -1,0 +1,143 @@
+{
+  "schemaVersion": 1,
+  "evidence": [
+    {
+      "id": "evidence:migration",
+      "title": "迁移预览验证",
+      "path": "openspec/changes/integrate-pmltwin-product-platform/features/migration-preview-continuation.md",
+      "kind": "report",
+      "publication": "approved"
+    },
+    {
+      "id": "evidence:ribbon-ui",
+      "title": "Ribbon界面分层验证",
+      "path": "openspec/changes/integrate-pmltwin-product-platform/features/ribbon-ui-continuation.md",
+      "kind": "report",
+      "publication": "approved"
+    },
+    {
+      "id": "evidence:ribbon-runtime",
+      "title": "限定产品运行时外观验证",
+      "path": "docs/validation/ribbon-restart-2026-10-31.md",
+      "kind": "report",
+      "publication": "approved"
+    },
+    {
+      "id": "evidence:database",
+      "title": "独立修订存储验证",
+      "path": "openspec/changes/integrate-pmltwin-product-platform/features/database-handoff.md",
+      "kind": "report",
+      "publication": "approved"
+    },
+    {
+      "id": "evidence:caf",
+      "title": "CAF接口隔离验证",
+      "path": "openspec/changes/integrate-pmltwin-product-platform/features/caf-adapter-handoff.md",
+      "kind": "report",
+      "publication": "approved"
+    }
+  ],
+  "verifications": [
+    {
+      "id": "verification:migration-offline",
+      "scope": "offline",
+      "result": "passed",
+      "observedAt": "2026-10-31",
+      "environment": {
+        "product": "synthetic"
+      },
+      "claim": "三格式只读预览与敏感剔除专测14项通过。",
+      "exclusions": [
+        "没有执行数据库切换"
+      ],
+      "evidenceIds": [
+        "evidence:migration"
+      ],
+      "featureIds": [
+        "feature:migration"
+      ]
+    },
+    {
+      "id": "verification:ribbon-ui",
+      "scope": "ui",
+      "result": "passed",
+      "observedAt": "2026-10-31",
+      "environment": {
+        "product": "synthetic"
+      },
+      "claim": "离线53项通过，Web DOM完整apply；原生WPF仅预览，Apply由HTTP客户端验证。",
+      "exclusions": [
+        "不是UI全程实机验收",
+        "首次新建仍为v1兼容"
+      ],
+      "evidenceIds": [
+        "evidence:ribbon-ui"
+      ],
+      "featureIds": [
+        "feature:ribbon"
+      ]
+    },
+    {
+      "id": "verification:ribbon-runtime",
+      "scope": "runtime",
+      "result": "passed",
+      "observedAt": "2026-10-31",
+      "environment": {
+        "product": "E3D",
+        "version": "2.1",
+        "module": "DESIGN"
+      },
+      "claim": "限定产品正常重启后实际页签、分组、32/16图标与Tooltip通过。",
+      "exclusions": [
+        "未点击宏",
+        "直接HTTP部署，不是UI全程",
+        "不外推其他产品与模块"
+      ],
+      "evidenceIds": [
+        "evidence:ribbon-runtime"
+      ],
+      "featureIds": [
+        "feature:ribbon"
+      ]
+    },
+    {
+      "id": "verification:database-offline",
+      "scope": "offline",
+      "result": "passed",
+      "observedAt": "2026-10-31",
+      "environment": {
+        "product": "synthetic"
+      },
+      "claim": "独立修订存储及冲突、回滚、格式门禁有隔离测试。",
+      "exclusions": [
+        "未整体切换活动存储"
+      ],
+      "evidenceIds": [
+        "evidence:database"
+      ],
+      "featureIds": [
+        "feature:database"
+      ]
+    },
+    {
+      "id": "verification:caf-static",
+      "scope": "static",
+      "result": "passed",
+      "observedAt": "2026-10-31",
+      "environment": {
+        "product": "CAF"
+      },
+      "claim": "真实SDK接口编译与生命周期隔离核查。",
+      "exclusions": [
+        "未真实注册宿主",
+        "未界面挂载"
+      ],
+      "evidenceIds": [
+        "evidence:caf"
+      ],
+      "featureIds": [
+        "feature:caf"
+      ]
+    }
+  ]
+}

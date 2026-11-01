@@ -31,3 +31,18 @@ export interface DeploymentPlan {
   uicBytes: number; replacesUic: boolean; unchanged: boolean;
 }
 export const LIMITS = { imageBytes: 12 * 1024 * 1024, imageDimension: 8192, requestBytes: 20 * 1024 * 1024 };
+
+/** v2 inputs are separate from v1; apply never accepts project/target overrides. */
+export interface FrozenDeploymentReference { planId: string; planDigest: string }
+export interface FrozenDeploymentPlan extends FrozenDeploymentReference {
+  contractVersion: 2; kind: 'file-update' | 'registration-add'; documentId: string;
+  expectedVersionId: string; projectDigest: string; exportDigest: string; expiresAt: string;
+  targetPlan: Record<string, unknown>;
+}
+export interface FrozenDeploymentReceipt extends FrozenDeploymentReference {
+  contractVersion: 2; state: 'deployed' | 'unchanged' | 'unknown';
+  workspace: 'saved' | 'unknown'; deployment: 'deployed' | 'unchanged' | 'unknown';
+  activation: { reloadRequired: true; runtimeVerified: false };
+  result?: { uicPath: string; manifestPath: string; nextUicHash: string; nextManifestHash: string; backupDirectory: string; backup: string };
+  recoveryActions: string[]; code?: 'RIBBON_RESULT_UNKNOWN'; diagnosticType?: string; message?: string;
+}

@@ -92,6 +92,7 @@
           "backend-tracing.md",
           "cli.md",
           "documentation.md",
+          "contract-method-preview.zh-CN.md",
           "features/planned-tools.md",
           "form-gadget-query.md",
           "formuse-audit.md",

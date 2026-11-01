@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "namespace": "PmlTwinRuntime20261031",
+  "documentId": "d2dd945d-c299-4782-91e4-7ae918ae5211",
+  "buttons": [
+    {
+      "id": "PmlTwinRuntime20261031.Button.1",
+      "caption": "只读核验 Large",
+      "macro": "q var !!PhaytonSession",
+      "commandKey": "Macro:0ea2c6a6-5929-4973-af3f-299c2593d16a",
+      "image": {
+        "mediaType": "image/png",
+        "base64": "iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAB10lEQVR42u2XvU9TYRjFf+ftTUzAmpaWVZlcGiP/gh8kwkocnSBoMC7EwcXJxcVojJjSwOR4B0YTRP+GDpTBiehIuDStOpTe93EgYP2ouVh779Izvcl9kvM855z3zXPFL7i9FF2JpUXgBmJKMM4AMPiKsSex7fHrm9XSTu93nRxuPbBz453mc8PuSnIMAYbFmKq5qLAShuqcNnBMfvgW6RppwOyDi4qzYaiOAxg7ar5IjRxAuu5LzWcAOvac+rBk/5sdcnY1iKVFiTOTrz65cKb6xscur9986wmfcuZZcIibw552csIxXQl+d8I0E2Bc/HEXkuP+41bi2trTPmqJS07iPNkhHySpWr4zRuVyMJDn/ZAofNOVgMkJN7Dnf0LisZptn9j3vp7/qwLDxKiBUQOZNxCkQbL0qDWyYHALCnmXeAco5B3Ntv9/CtQbXfYjn3iq/chTb3STbWfz9w4t6wy0syI3o+UMPmfVgOCTE7zLTH/ZlvP4dcPi1OXHYmd+w21WSzuYqukHQKvhWnnXAeSiwoph71NM33bZCg9P34EwVCd3UJwDXg3TDsNiM16WrDhXq+nop7/jE8wvH1TMa0GmGYOpQdd2M74I9pBtOfMb4Vp5t7fgO9xzq0QKYgvAAAAAAElFTkSuQmCC"
+      },
+      "tooltipText": "本次验收标记；仅查询已初始化会话变量。未经主代理明确批准不要点击。",
+      "tooltipTitle": "PmlTwinRuntime20261031"
+    },
+    {
+      "id": "PmlTwinRuntime20261031.Button.2",
+      "caption": "只读核验 Small",
+      "macro": "q var !!PhaytonSession",
+      "commandKey": "Macro:dde7cbf7-4436-4d96-991c-0ae1088cffb0",
+      "image": {
+        "mediaType": "image/png",
+        "base64": "iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAABoUlEQVR42u2XT0uUURTGf8+ZwLTczAco9yF+AEHoj2AGQps3dy1GmKUifYH5AP0xC1w4izZBboQgBbNWgqughbxryf28zDhRTNz3tKgRC5oBh3lfgvdZXbjn8DzPufdczhV/YWZrfTKkYUnotsOE4AoDwOGr4BjYD/jm4eLK0fl9dRdzO2sjpy1/KlQFjCHA3YPERsOS1Tiqdc4EzO2sjbSbvot0kwzg+MfEkrtxVOsYQLvJs6zIf7nWrXJafgygma31yTRNPw+r7L2OA0+nLKRhKWtyAEklrFQxnDvkBDmzBlwjP1w3SVcvmr29UGF7oTLIbRw3ckYhoBCQu4BL/QLe3Hv4z73y5bG+MQ/evfrPK9DLQfcR6ueyuISFgEJA7zZ0ThHjF0m+/7Y+6GTYMsdPcrPv+mKS3ufH73sW8E13D5mTuweZ6na4uHIksZH9SMzLg2g5NoCGJasOHzK0v/+9OfrorA3jqNZJrDEPvBjmcbh7cPz5t9bo/Kdq9ccfv+Mupl8/uYGVKnJmHZ8YZGz/TdoWOnb5nkz1g2g5Ph/wE+NZmveD5roWAAAAAElFTkSuQmCC"
+      },
+      "tooltipText": "本次验收标记；仅查询已初始化会话变量。未经主代理明确批准不要点击。",
+      "tooltipTitle": "PmlTwinRuntime20261031"
+    }
+  ],
+  "tabs": [
+    {
+      "id": "PmlTwinRuntime20261031.Tab",
+      "groups": [
+        {
+          "items": [
+            {
+              "size": "large",
+              "buttonId": "PmlTwinRuntime20261031.Button.1"
+            },
+            {
+              "size": "small",
+              "buttonId": "PmlTwinRuntime20261031.Button.2"
+            }
+          ],
+          "id": "PmlTwinRuntime20261031.Group",
+          "caption": "本次加载证据"
+        }
+      ],
+      "caption": "Phayton 实机核验 1031"
+    }
+  ]
+}

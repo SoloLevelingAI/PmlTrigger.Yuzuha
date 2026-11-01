@@ -1,0 +1,1951 @@
+{
+  "passed": true,
+  "finishedAt": "2026-11-01T06:44:45.712Z",
+  "sourceHashes": {
+    "tokens.json": "3fd1bab96aac95ecae8935bbb566dc6aedf53d5829fefed516a776b281fee76f",
+    "theme.js": "1a218dae4fc68f3071d8335b66d64a675438a3fc29706c18f4c41620d603f97e",
+    "theme-tokens.css": "aeb0ebffff795a092017af5a14f6eadc475b9f73cd51ac1ddb25b4cd7321458a",
+    "style.css": "25e1f9b1b983cd9bf4a83ec11e6fbd33a515116a4b98411bc88879cfe15c430f",
+    "document-layout.css": "4ac7686289f7f2a76789495b9eb68f4a7bf0fc48e3e0d1c840b37d55b3f81cb9",
+    "index.html": "49abaa96a08448fcd35e67efc5fff5936f4fc808da4f9caff0d05e18807a319e",
+    "app.js": "db13923ea4ffe8610a9e4864463a3d885c012b9631c6e97bbd194606a04cfcba",
+    "components.js": "7bcc04e5cf01ae32be88be8a769b334a299313c7acbe5277e32fea40486e2776",
+    "page-outline.js": "c138a1045a6c1e18af5a31c27486a48772882da26869a486c1c03a24ad7b6c18",
+    "disclosure.js": "8f4ba1c8b3648aed138cf19bd582ea7cee92ab9f015fc0ec173a27dae4018a7a",
+    "reference-index.js": "9f0d4fe96c4d336835e9f348e9e1746b9a512fb5ce8a8d42dd0c2d1927484054",
+    "atlas-data.js": "0798dc2e551f971385aa270fcefb3ad338903b3a63349e0cd4a5e664402032b7"
+  },
+  "scope": "isolated HTTP + real Chromium, presentation only",
+  "matrix": [
+    {
+      "label": "help-light-390",
+      "view": "help",
+      "theme": "light",
+      "width": 390,
+      "palette": {
+        "variables": {
+          "background": "#F4F6F5",
+          "surface": "#FFFFFF",
+          "soft": "#E7EFEB",
+          "text": "#18342F",
+          "muted": "#526C65",
+          "border": "#CBD9D3",
+          "accent": "#286951",
+          "warning": "#91601C",
+          "boundary": "#6D857B"
+        },
+        "body": "rgb(244, 246, 245)",
+        "text": "rgb(24, 52, 47)",
+        "shadow": "rgb(24, 52, 47)",
+        "scheme": "light",
+        "preference": "light",
+        "theme": "light"
+      },
+      "contrast": {
+        "failures": [],
+        "graphical": [
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "flow connector",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "flow connector",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 6.502213150564709
+          },
+          {
+            "kind": "flow connector",
+            "ratio": 5.393099202642005
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 6.502213150564709
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          }
+        ],
+        "horizontal": false
+      },
+      "svg": {
+        "background": "#F4F6F5",
+        "roles": [
+          "text",
+          "muted",
+          "accent"
+        ]
+      },
+      "state": {
+        "view": "help",
+        "selectedId": "script:ui-pending-gate",
+        "parentFeatureId": "feature:ribbon",
+        "methodId": null,
+        "methodDirection": "callees",
+        "sectionKey": "",
+        "outline": {
+          "activeKey": "overview",
+          "keys": [
+            "overview",
+            "contract",
+            "contract:field:script:ui-pending-gate/input",
+            "contract:field:script:ui-pending-gate/precondition",
+            "contract:field:script:ui-pending-gate/method",
+            "contract:field:script:ui-pending-gate/effect",
+            "contract:field:script:ui-pending-gate/validation",
+            "contract:field:script:ui-pending-gate/receipt",
+            "contract:field:script:ui-pending-gate/recovery",
+            "contract:requirements",
+            "contract:sources",
+            "methods",
+            "flow",
+            "flow:current",
+            "flow:step:step:ribbon-preview",
+            "flow:step:step:ribbon-pending",
+            "flow:step:step:ribbon-apply",
+            "flow:step:step:ribbon-check",
+            "flow:step:step:ribbon-runtime",
+            "catalog",
+            "evidence",
+            "reference",
+            "reference:index",
+            "reference:reference:context",
+            "reference:reference:goals",
+            "reference:reference:requirements",
+            "reference:reference:bindings",
+            "reference:reference:tests",
+            "reference:reference:screens",
+            "reference:reference:transitions",
+            "reference:reference:models",
+            "reference:reference:source-mappings",
+            "reference:reference:source-mapping-context"
+          ]
+        },
+        "catalogKind": "features",
+        "disclosure": {
+          "mode": "summary",
+          "scope": "published",
+          "custom": false,
+          "overrides": 0
+        },
+        "flowId": "flow:ribbon",
+        "selectedFlowId": "flow:ribbon",
+        "effectiveFlowId": "flow:ribbon",
+        "query": "Ribbon",
+        "status": "partial",
+        "projectId": "project:pmltwin",
+        "origin": "static",
+        "revisionId": null,
+        "metadataDigest": "21f74add0099ba138637bb77b54ff47ea3ae154cba877a2bc43a01382dcbfc4d",
+        "renderModelDigest": null,
+        "authorDirty": false
+      }
+    },
+    {
+      "label": "portfolio-light-390",
+      "view": "portfolio",
+      "theme": "light",
+      "width": 390,
+      "palette": {
+        "variables": {
+          "background": "#F4F6F5",
+          "surface": "#FFFFFF",
+          "soft": "#E7EFEB",
+          "text": "#18342F",
+          "muted": "#526C65",
+          "border": "#CBD9D3",
+          "accent": "#286951",
+          "warning": "#91601C",
+          "boundary": "#6D857B"
+        },
+        "body": "rgb(244, 246, 245)",
+        "text": "rgb(24, 52, 47)",
+        "shadow": "rgb(24, 52, 47)",
+        "scheme": "light",
+        "preference": "light",
+        "theme": "light"
+      },
+      "contrast": {
+        "failures": [],
+        "graphical": [
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "flow connector",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "flow connector",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 6.502213150564709
+          },
+          {
+            "kind": "flow connector",
+            "ratio": 5.393099202642005
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 6.502213150564709
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          }
+        ],
+        "horizontal": false
+      },
+      "svg": {
+        "background": "#F4F6F5",
+        "roles": [
+          "text",
+          "muted",
+          "accent"
+        ]
+      },
+      "state": {
+        "view": "portfolio",
+        "selectedId": "script:ui-pending-gate",
+        "parentFeatureId": "feature:ribbon",
+        "methodId": null,
+        "methodDirection": "callees",
+        "sectionKey": "",
+        "outline": {
+          "activeKey": "overview",
+          "keys": [
+            "overview",
+            "contract",
+            "contract:field:script:ui-pending-gate/input",
+            "contract:field:script:ui-pending-gate/precondition",
+            "contract:field:script:ui-pending-gate/method",
+            "contract:field:script:ui-pending-gate/effect",
+            "contract:field:script:ui-pending-gate/validation",
+            "contract:field:script:ui-pending-gate/receipt",
+            "contract:field:script:ui-pending-gate/recovery",
+            "contract:requirements",
+            "contract:sources",
+            "methods",
+            "flow",
+            "flow:current",
+            "flow:step:step:ribbon-preview",
+            "flow:step:step:ribbon-pending",
+            "flow:step:step:ribbon-apply",
+            "flow:step:step:ribbon-check",
+            "flow:step:step:ribbon-runtime",
+            "catalog",
+            "evidence",
+            "reference",
+            "reference:index",
+            "reference:reference:context",
+            "reference:reference:goals",
+            "reference:reference:requirements",
+            "reference:reference:bindings",
+            "reference:reference:tests",
+            "reference:reference:screens",
+            "reference:reference:transitions",
+            "reference:reference:models",
+            "reference:reference:source-mappings",
+            "reference:reference:source-mapping-context"
+          ]
+        },
+        "catalogKind": "features",
+        "disclosure": {
+          "mode": "summary",
+          "scope": "published",
+          "custom": false,
+          "overrides": 0
+        },
+        "flowId": "flow:ribbon",
+        "selectedFlowId": "flow:ribbon",
+        "effectiveFlowId": "flow:ribbon",
+        "query": "Ribbon",
+        "status": "partial",
+        "projectId": "project:pmltwin",
+        "origin": "static",
+        "revisionId": null,
+        "metadataDigest": "21f74add0099ba138637bb77b54ff47ea3ae154cba877a2bc43a01382dcbfc4d",
+        "renderModelDigest": null,
+        "authorDirty": false
+      }
+    },
+    {
+      "label": "help-dark-390",
+      "view": "help",
+      "theme": "dark",
+      "width": 390,
+      "palette": {
+        "variables": {
+          "background": "#10191C",
+          "surface": "#192428",
+          "soft": "#243439",
+          "text": "#EFF3E9",
+          "muted": "#A8B9B6",
+          "border": "#354747",
+          "accent": "#C5EC9B",
+          "warning": "#EFC17F",
+          "boundary": "#70897F"
+        },
+        "body": "rgb(16, 25, 28)",
+        "text": "rgb(239, 243, 233)",
+        "shadow": "rgb(239, 243, 233)",
+        "scheme": "dark",
+        "preference": "dark",
+        "theme": "dark"
+      },
+      "contrast": {
+        "failures": [],
+        "graphical": [
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "flow connector",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "flow connector",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 11.965002079801415
+          },
+          {
+            "kind": "flow connector",
+            "ratio": 9.51774504987456
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 11.965002079801415
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          }
+        ],
+        "horizontal": false
+      },
+      "svg": {
+        "background": "#10191C",
+        "roles": [
+          "text",
+          "muted",
+          "accent"
+        ]
+      },
+      "state": {
+        "view": "help",
+        "selectedId": "script:ui-pending-gate",
+        "parentFeatureId": "feature:ribbon",
+        "methodId": null,
+        "methodDirection": "callees",
+        "sectionKey": "",
+        "outline": {
+          "activeKey": "overview",
+          "keys": [
+            "overview",
+            "contract",
+            "contract:field:script:ui-pending-gate/input",
+            "contract:field:script:ui-pending-gate/precondition",
+            "contract:field:script:ui-pending-gate/method",
+            "contract:field:script:ui-pending-gate/effect",
+            "contract:field:script:ui-pending-gate/validation",
+            "contract:field:script:ui-pending-gate/receipt",
+            "contract:field:script:ui-pending-gate/recovery",
+            "contract:requirements",
+            "contract:sources",
+            "methods",
+            "flow",
+            "flow:current",
+            "flow:step:step:ribbon-preview",
+            "flow:step:step:ribbon-pending",
+            "flow:step:step:ribbon-apply",
+            "flow:step:step:ribbon-check",
+            "flow:step:step:ribbon-runtime",
+            "catalog",
+            "evidence",
+            "reference",
+            "reference:index",
+            "reference:reference:context",
+            "reference:reference:goals",
+            "reference:reference:requirements",
+            "reference:reference:bindings",
+            "reference:reference:tests",
+            "reference:reference:screens",
+            "reference:reference:transitions",
+            "reference:reference:models",
+            "reference:reference:source-mappings",
+            "reference:reference:source-mapping-context"
+          ]
+        },
+        "catalogKind": "features",
+        "disclosure": {
+          "mode": "summary",
+          "scope": "published",
+          "custom": false,
+          "overrides": 0
+        },
+        "flowId": "flow:ribbon",
+        "selectedFlowId": "flow:ribbon",
+        "effectiveFlowId": "flow:ribbon",
+        "query": "Ribbon",
+        "status": "partial",
+        "projectId": "project:pmltwin",
+        "origin": "static",
+        "revisionId": null,
+        "metadataDigest": "21f74add0099ba138637bb77b54ff47ea3ae154cba877a2bc43a01382dcbfc4d",
+        "renderModelDigest": null,
+        "authorDirty": false
+      }
+    },
+    {
+      "label": "portfolio-dark-390",
+      "view": "portfolio",
+      "theme": "dark",
+      "width": 390,
+      "palette": {
+        "variables": {
+          "background": "#10191C",
+          "surface": "#192428",
+          "soft": "#243439",
+          "text": "#EFF3E9",
+          "muted": "#A8B9B6",
+          "border": "#354747",
+          "accent": "#C5EC9B",
+          "warning": "#EFC17F",
+          "boundary": "#70897F"
+        },
+        "body": "rgb(16, 25, 28)",
+        "text": "rgb(239, 243, 233)",
+        "shadow": "rgb(239, 243, 233)",
+        "scheme": "dark",
+        "preference": "dark",
+        "theme": "dark"
+      },
+      "contrast": {
+        "failures": [],
+        "graphical": [
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "flow connector",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "flow connector",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 11.965002079801415
+          },
+          {
+            "kind": "flow connector",
+            "ratio": 9.51774504987456
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 11.965002079801415
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          }
+        ],
+        "horizontal": false
+      },
+      "svg": {
+        "background": "#10191C",
+        "roles": [
+          "text",
+          "muted",
+          "accent"
+        ]
+      },
+      "state": {
+        "view": "portfolio",
+        "selectedId": "script:ui-pending-gate",
+        "parentFeatureId": "feature:ribbon",
+        "methodId": null,
+        "methodDirection": "callees",
+        "sectionKey": "",
+        "outline": {
+          "activeKey": "overview",
+          "keys": [
+            "overview",
+            "contract",
+            "contract:field:script:ui-pending-gate/input",
+            "contract:field:script:ui-pending-gate/precondition",
+            "contract:field:script:ui-pending-gate/method",
+            "contract:field:script:ui-pending-gate/effect",
+            "contract:field:script:ui-pending-gate/validation",
+            "contract:field:script:ui-pending-gate/receipt",
+            "contract:field:script:ui-pending-gate/recovery",
+            "contract:requirements",
+            "contract:sources",
+            "methods",
+            "flow",
+            "flow:current",
+            "flow:step:step:ribbon-preview",
+            "flow:step:step:ribbon-pending",
+            "flow:step:step:ribbon-apply",
+            "flow:step:step:ribbon-check",
+            "flow:step:step:ribbon-runtime",
+            "catalog",
+            "evidence",
+            "reference",
+            "reference:index",
+            "reference:reference:context",
+            "reference:reference:goals",
+            "reference:reference:requirements",
+            "reference:reference:bindings",
+            "reference:reference:tests",
+            "reference:reference:screens",
+            "reference:reference:transitions",
+            "reference:reference:models",
+            "reference:reference:source-mappings",
+            "reference:reference:source-mapping-context"
+          ]
+        },
+        "catalogKind": "features",
+        "disclosure": {
+          "mode": "summary",
+          "scope": "published",
+          "custom": false,
+          "overrides": 0
+        },
+        "flowId": "flow:ribbon",
+        "selectedFlowId": "flow:ribbon",
+        "effectiveFlowId": "flow:ribbon",
+        "query": "Ribbon",
+        "status": "partial",
+        "projectId": "project:pmltwin",
+        "origin": "static",
+        "revisionId": null,
+        "metadataDigest": "21f74add0099ba138637bb77b54ff47ea3ae154cba877a2bc43a01382dcbfc4d",
+        "renderModelDigest": null,
+        "authorDirty": false
+      }
+    },
+    {
+      "label": "help-light-768",
+      "view": "help",
+      "theme": "light",
+      "width": 768,
+      "palette": {
+        "variables": {
+          "background": "#F4F6F5",
+          "surface": "#FFFFFF",
+          "soft": "#E7EFEB",
+          "text": "#18342F",
+          "muted": "#526C65",
+          "border": "#CBD9D3",
+          "accent": "#286951",
+          "warning": "#91601C",
+          "boundary": "#6D857B"
+        },
+        "body": "rgb(244, 246, 245)",
+        "text": "rgb(24, 52, 47)",
+        "shadow": "rgb(24, 52, 47)",
+        "scheme": "light",
+        "preference": "light",
+        "theme": "light"
+      },
+      "contrast": {
+        "failures": [],
+        "graphical": [
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "flow arrow",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "flow arrow",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 6.502213150564709
+          },
+          {
+            "kind": "flow arrow",
+            "ratio": 5.393099202642005
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 6.502213150564709
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          }
+        ],
+        "horizontal": false
+      },
+      "svg": {
+        "background": "#F4F6F5",
+        "roles": [
+          "text",
+          "muted",
+          "accent"
+        ]
+      },
+      "state": {
+        "view": "help",
+        "selectedId": "script:ui-pending-gate",
+        "parentFeatureId": "feature:ribbon",
+        "methodId": null,
+        "methodDirection": "callees",
+        "sectionKey": "",
+        "outline": {
+          "activeKey": "overview",
+          "keys": [
+            "overview",
+            "contract",
+            "contract:field:script:ui-pending-gate/input",
+            "contract:field:script:ui-pending-gate/precondition",
+            "contract:field:script:ui-pending-gate/method",
+            "contract:field:script:ui-pending-gate/effect",
+            "contract:field:script:ui-pending-gate/validation",
+            "contract:field:script:ui-pending-gate/receipt",
+            "contract:field:script:ui-pending-gate/recovery",
+            "contract:requirements",
+            "contract:sources",
+            "methods",
+            "flow",
+            "flow:current",
+            "flow:step:step:ribbon-preview",
+            "flow:step:step:ribbon-pending",
+            "flow:step:step:ribbon-apply",
+            "flow:step:step:ribbon-check",
+            "flow:step:step:ribbon-runtime",
+            "catalog",
+            "evidence",
+            "reference",
+            "reference:index",
+            "reference:reference:context",
+            "reference:reference:goals",
+            "reference:reference:requirements",
+            "reference:reference:bindings",
+            "reference:reference:tests",
+            "reference:reference:screens",
+            "reference:reference:transitions",
+            "reference:reference:models",
+            "reference:reference:source-mappings",
+            "reference:reference:source-mapping-context"
+          ]
+        },
+        "catalogKind": "features",
+        "disclosure": {
+          "mode": "summary",
+          "scope": "published",
+          "custom": false,
+          "overrides": 0
+        },
+        "flowId": "flow:ribbon",
+        "selectedFlowId": "flow:ribbon",
+        "effectiveFlowId": "flow:ribbon",
+        "query": "Ribbon",
+        "status": "partial",
+        "projectId": "project:pmltwin",
+        "origin": "static",
+        "revisionId": null,
+        "metadataDigest": "21f74add0099ba138637bb77b54ff47ea3ae154cba877a2bc43a01382dcbfc4d",
+        "renderModelDigest": null,
+        "authorDirty": false
+      }
+    },
+    {
+      "label": "portfolio-light-768",
+      "view": "portfolio",
+      "theme": "light",
+      "width": 768,
+      "palette": {
+        "variables": {
+          "background": "#F4F6F5",
+          "surface": "#FFFFFF",
+          "soft": "#E7EFEB",
+          "text": "#18342F",
+          "muted": "#526C65",
+          "border": "#CBD9D3",
+          "accent": "#286951",
+          "warning": "#91601C",
+          "boundary": "#6D857B"
+        },
+        "body": "rgb(244, 246, 245)",
+        "text": "rgb(24, 52, 47)",
+        "shadow": "rgb(24, 52, 47)",
+        "scheme": "light",
+        "preference": "light",
+        "theme": "light"
+      },
+      "contrast": {
+        "failures": [],
+        "graphical": [
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "flow arrow",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "flow arrow",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 6.502213150564709
+          },
+          {
+            "kind": "flow arrow",
+            "ratio": 5.393099202642005
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 6.502213150564709
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          }
+        ],
+        "horizontal": false
+      },
+      "svg": {
+        "background": "#F4F6F5",
+        "roles": [
+          "text",
+          "muted",
+          "accent"
+        ]
+      },
+      "state": {
+        "view": "portfolio",
+        "selectedId": "script:ui-pending-gate",
+        "parentFeatureId": "feature:ribbon",
+        "methodId": null,
+        "methodDirection": "callees",
+        "sectionKey": "",
+        "outline": {
+          "activeKey": "overview",
+          "keys": [
+            "overview",
+            "contract",
+            "contract:field:script:ui-pending-gate/input",
+            "contract:field:script:ui-pending-gate/precondition",
+            "contract:field:script:ui-pending-gate/method",
+            "contract:field:script:ui-pending-gate/effect",
+            "contract:field:script:ui-pending-gate/validation",
+            "contract:field:script:ui-pending-gate/receipt",
+            "contract:field:script:ui-pending-gate/recovery",
+            "contract:requirements",
+            "contract:sources",
+            "methods",
+            "flow",
+            "flow:current",
+            "flow:step:step:ribbon-preview",
+            "flow:step:step:ribbon-pending",
+            "flow:step:step:ribbon-apply",
+            "flow:step:step:ribbon-check",
+            "flow:step:step:ribbon-runtime",
+            "catalog",
+            "evidence",
+            "reference",
+            "reference:index",
+            "reference:reference:context",
+            "reference:reference:goals",
+            "reference:reference:requirements",
+            "reference:reference:bindings",
+            "reference:reference:tests",
+            "reference:reference:screens",
+            "reference:reference:transitions",
+            "reference:reference:models",
+            "reference:reference:source-mappings",
+            "reference:reference:source-mapping-context"
+          ]
+        },
+        "catalogKind": "features",
+        "disclosure": {
+          "mode": "summary",
+          "scope": "published",
+          "custom": false,
+          "overrides": 0
+        },
+        "flowId": "flow:ribbon",
+        "selectedFlowId": "flow:ribbon",
+        "effectiveFlowId": "flow:ribbon",
+        "query": "Ribbon",
+        "status": "partial",
+        "projectId": "project:pmltwin",
+        "origin": "static",
+        "revisionId": null,
+        "metadataDigest": "21f74add0099ba138637bb77b54ff47ea3ae154cba877a2bc43a01382dcbfc4d",
+        "renderModelDigest": null,
+        "authorDirty": false
+      }
+    },
+    {
+      "label": "help-dark-768",
+      "view": "help",
+      "theme": "dark",
+      "width": 768,
+      "palette": {
+        "variables": {
+          "background": "#10191C",
+          "surface": "#192428",
+          "soft": "#243439",
+          "text": "#EFF3E9",
+          "muted": "#A8B9B6",
+          "border": "#354747",
+          "accent": "#C5EC9B",
+          "warning": "#EFC17F",
+          "boundary": "#70897F"
+        },
+        "body": "rgb(16, 25, 28)",
+        "text": "rgb(239, 243, 233)",
+        "shadow": "rgb(239, 243, 233)",
+        "scheme": "dark",
+        "preference": "dark",
+        "theme": "dark"
+      },
+      "contrast": {
+        "failures": [],
+        "graphical": [
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "flow arrow",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "flow arrow",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 11.965002079801415
+          },
+          {
+            "kind": "flow arrow",
+            "ratio": 9.51774504987456
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 11.965002079801415
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          }
+        ],
+        "horizontal": false
+      },
+      "svg": {
+        "background": "#10191C",
+        "roles": [
+          "text",
+          "muted",
+          "accent"
+        ]
+      },
+      "state": {
+        "view": "help",
+        "selectedId": "script:ui-pending-gate",
+        "parentFeatureId": "feature:ribbon",
+        "methodId": null,
+        "methodDirection": "callees",
+        "sectionKey": "",
+        "outline": {
+          "activeKey": "overview",
+          "keys": [
+            "overview",
+            "contract",
+            "contract:field:script:ui-pending-gate/input",
+            "contract:field:script:ui-pending-gate/precondition",
+            "contract:field:script:ui-pending-gate/method",
+            "contract:field:script:ui-pending-gate/effect",
+            "contract:field:script:ui-pending-gate/validation",
+            "contract:field:script:ui-pending-gate/receipt",
+            "contract:field:script:ui-pending-gate/recovery",
+            "contract:requirements",
+            "contract:sources",
+            "methods",
+            "flow",
+            "flow:current",
+            "flow:step:step:ribbon-preview",
+            "flow:step:step:ribbon-pending",
+            "flow:step:step:ribbon-apply",
+            "flow:step:step:ribbon-check",
+            "flow:step:step:ribbon-runtime",
+            "catalog",
+            "evidence",
+            "reference",
+            "reference:index",
+            "reference:reference:context",
+            "reference:reference:goals",
+            "reference:reference:requirements",
+            "reference:reference:bindings",
+            "reference:reference:tests",
+            "reference:reference:screens",
+            "reference:reference:transitions",
+            "reference:reference:models",
+            "reference:reference:source-mappings",
+            "reference:reference:source-mapping-context"
+          ]
+        },
+        "catalogKind": "features",
+        "disclosure": {
+          "mode": "summary",
+          "scope": "published",
+          "custom": false,
+          "overrides": 0
+        },
+        "flowId": "flow:ribbon",
+        "selectedFlowId": "flow:ribbon",
+        "effectiveFlowId": "flow:ribbon",
+        "query": "Ribbon",
+        "status": "partial",
+        "projectId": "project:pmltwin",
+        "origin": "static",
+        "revisionId": null,
+        "metadataDigest": "21f74add0099ba138637bb77b54ff47ea3ae154cba877a2bc43a01382dcbfc4d",
+        "renderModelDigest": null,
+        "authorDirty": false
+      }
+    },
+    {
+      "label": "portfolio-dark-768",
+      "view": "portfolio",
+      "theme": "dark",
+      "width": 768,
+      "palette": {
+        "variables": {
+          "background": "#10191C",
+          "surface": "#192428",
+          "soft": "#243439",
+          "text": "#EFF3E9",
+          "muted": "#A8B9B6",
+          "border": "#354747",
+          "accent": "#C5EC9B",
+          "warning": "#EFC17F",
+          "boundary": "#70897F"
+        },
+        "body": "rgb(16, 25, 28)",
+        "text": "rgb(239, 243, 233)",
+        "shadow": "rgb(239, 243, 233)",
+        "scheme": "dark",
+        "preference": "dark",
+        "theme": "dark"
+      },
+      "contrast": {
+        "failures": [],
+        "graphical": [
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "flow arrow",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "flow arrow",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 11.965002079801415
+          },
+          {
+            "kind": "flow arrow",
+            "ratio": 9.51774504987456
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 11.965002079801415
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          }
+        ],
+        "horizontal": false
+      },
+      "svg": {
+        "background": "#10191C",
+        "roles": [
+          "text",
+          "muted",
+          "accent"
+        ]
+      },
+      "state": {
+        "view": "portfolio",
+        "selectedId": "script:ui-pending-gate",
+        "parentFeatureId": "feature:ribbon",
+        "methodId": null,
+        "methodDirection": "callees",
+        "sectionKey": "",
+        "outline": {
+          "activeKey": "overview",
+          "keys": [
+            "overview",
+            "contract",
+            "contract:field:script:ui-pending-gate/input",
+            "contract:field:script:ui-pending-gate/precondition",
+            "contract:field:script:ui-pending-gate/method",
+            "contract:field:script:ui-pending-gate/effect",
+            "contract:field:script:ui-pending-gate/validation",
+            "contract:field:script:ui-pending-gate/receipt",
+            "contract:field:script:ui-pending-gate/recovery",
+            "contract:requirements",
+            "contract:sources",
+            "methods",
+            "flow",
+            "flow:current",
+            "flow:step:step:ribbon-preview",
+            "flow:step:step:ribbon-pending",
+            "flow:step:step:ribbon-apply",
+            "flow:step:step:ribbon-check",
+            "flow:step:step:ribbon-runtime",
+            "catalog",
+            "evidence",
+            "reference",
+            "reference:index",
+            "reference:reference:context",
+            "reference:reference:goals",
+            "reference:reference:requirements",
+            "reference:reference:bindings",
+            "reference:reference:tests",
+            "reference:reference:screens",
+            "reference:reference:transitions",
+            "reference:reference:models",
+            "reference:reference:source-mappings",
+            "reference:reference:source-mapping-context"
+          ]
+        },
+        "catalogKind": "features",
+        "disclosure": {
+          "mode": "summary",
+          "scope": "published",
+          "custom": false,
+          "overrides": 0
+        },
+        "flowId": "flow:ribbon",
+        "selectedFlowId": "flow:ribbon",
+        "effectiveFlowId": "flow:ribbon",
+        "query": "Ribbon",
+        "status": "partial",
+        "projectId": "project:pmltwin",
+        "origin": "static",
+        "revisionId": null,
+        "metadataDigest": "21f74add0099ba138637bb77b54ff47ea3ae154cba877a2bc43a01382dcbfc4d",
+        "renderModelDigest": null,
+        "authorDirty": false
+      }
+    },
+    {
+      "label": "help-light-1440",
+      "view": "help",
+      "theme": "light",
+      "width": 1440,
+      "palette": {
+        "variables": {
+          "background": "#F4F6F5",
+          "surface": "#FFFFFF",
+          "soft": "#E7EFEB",
+          "text": "#18342F",
+          "muted": "#526C65",
+          "border": "#CBD9D3",
+          "accent": "#286951",
+          "warning": "#91601C",
+          "boundary": "#6D857B"
+        },
+        "body": "rgb(244, 246, 245)",
+        "text": "rgb(24, 52, 47)",
+        "shadow": "rgb(24, 52, 47)",
+        "scheme": "light",
+        "preference": "light",
+        "theme": "light"
+      },
+      "contrast": {
+        "failures": [],
+        "graphical": [
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "flow arrow",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "flow arrow",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 6.502213150564709
+          },
+          {
+            "kind": "flow arrow",
+            "ratio": 5.393099202642005
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 6.502213150564709
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          }
+        ],
+        "horizontal": false
+      },
+      "svg": {
+        "background": "#F4F6F5",
+        "roles": [
+          "text",
+          "muted",
+          "accent"
+        ]
+      },
+      "state": {
+        "view": "help",
+        "selectedId": "script:ui-pending-gate",
+        "parentFeatureId": "feature:ribbon",
+        "methodId": null,
+        "methodDirection": "callees",
+        "sectionKey": "",
+        "outline": {
+          "activeKey": "overview",
+          "keys": [
+            "overview",
+            "contract",
+            "contract:field:script:ui-pending-gate/input",
+            "contract:field:script:ui-pending-gate/precondition",
+            "contract:field:script:ui-pending-gate/method",
+            "contract:field:script:ui-pending-gate/effect",
+            "contract:field:script:ui-pending-gate/validation",
+            "contract:field:script:ui-pending-gate/receipt",
+            "contract:field:script:ui-pending-gate/recovery",
+            "contract:requirements",
+            "contract:sources",
+            "methods",
+            "flow",
+            "flow:current",
+            "flow:step:step:ribbon-preview",
+            "flow:step:step:ribbon-pending",
+            "flow:step:step:ribbon-apply",
+            "flow:step:step:ribbon-check",
+            "flow:step:step:ribbon-runtime",
+            "catalog",
+            "evidence",
+            "reference",
+            "reference:index",
+            "reference:reference:context",
+            "reference:reference:goals",
+            "reference:reference:requirements",
+            "reference:reference:bindings",
+            "reference:reference:tests",
+            "reference:reference:screens",
+            "reference:reference:transitions",
+            "reference:reference:models",
+            "reference:reference:source-mappings",
+            "reference:reference:source-mapping-context"
+          ]
+        },
+        "catalogKind": "features",
+        "disclosure": {
+          "mode": "summary",
+          "scope": "published",
+          "custom": false,
+          "overrides": 0
+        },
+        "flowId": "flow:ribbon",
+        "selectedFlowId": "flow:ribbon",
+        "effectiveFlowId": "flow:ribbon",
+        "query": "Ribbon",
+        "status": "partial",
+        "projectId": "project:pmltwin",
+        "origin": "static",
+        "revisionId": null,
+        "metadataDigest": "21f74add0099ba138637bb77b54ff47ea3ae154cba877a2bc43a01382dcbfc4d",
+        "renderModelDigest": null,
+        "authorDirty": false
+      }
+    },
+    {
+      "label": "portfolio-light-1440",
+      "view": "portfolio",
+      "theme": "light",
+      "width": 1440,
+      "palette": {
+        "variables": {
+          "background": "#F4F6F5",
+          "surface": "#FFFFFF",
+          "soft": "#E7EFEB",
+          "text": "#18342F",
+          "muted": "#526C65",
+          "border": "#CBD9D3",
+          "accent": "#286951",
+          "warning": "#91601C",
+          "boundary": "#6D857B"
+        },
+        "body": "rgb(244, 246, 245)",
+        "text": "rgb(24, 52, 47)",
+        "shadow": "rgb(24, 52, 47)",
+        "scheme": "light",
+        "preference": "light",
+        "theme": "light"
+      },
+      "contrast": {
+        "failures": [],
+        "graphical": [
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "flow arrow",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "flow arrow",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 6.502213150564709
+          },
+          {
+            "kind": "flow arrow",
+            "ratio": 5.393099202642005
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 6.502213150564709
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          }
+        ],
+        "horizontal": false
+      },
+      "svg": {
+        "background": "#F4F6F5",
+        "roles": [
+          "text",
+          "muted",
+          "accent"
+        ]
+      },
+      "state": {
+        "view": "portfolio",
+        "selectedId": "script:ui-pending-gate",
+        "parentFeatureId": "feature:ribbon",
+        "methodId": null,
+        "methodDirection": "callees",
+        "sectionKey": "",
+        "outline": {
+          "activeKey": "overview",
+          "keys": [
+            "overview",
+            "contract",
+            "contract:field:script:ui-pending-gate/input",
+            "contract:field:script:ui-pending-gate/precondition",
+            "contract:field:script:ui-pending-gate/method",
+            "contract:field:script:ui-pending-gate/effect",
+            "contract:field:script:ui-pending-gate/validation",
+            "contract:field:script:ui-pending-gate/receipt",
+            "contract:field:script:ui-pending-gate/recovery",
+            "contract:requirements",
+            "contract:sources",
+            "methods",
+            "flow",
+            "flow:current",
+            "flow:step:step:ribbon-preview",
+            "flow:step:step:ribbon-pending",
+            "flow:step:step:ribbon-apply",
+            "flow:step:step:ribbon-check",
+            "flow:step:step:ribbon-runtime",
+            "catalog",
+            "evidence",
+            "reference",
+            "reference:index",
+            "reference:reference:context",
+            "reference:reference:goals",
+            "reference:reference:requirements",
+            "reference:reference:bindings",
+            "reference:reference:tests",
+            "reference:reference:screens",
+            "reference:reference:transitions",
+            "reference:reference:models",
+            "reference:reference:source-mappings",
+            "reference:reference:source-mapping-context"
+          ]
+        },
+        "catalogKind": "features",
+        "disclosure": {
+          "mode": "summary",
+          "scope": "published",
+          "custom": false,
+          "overrides": 0
+        },
+        "flowId": "flow:ribbon",
+        "selectedFlowId": "flow:ribbon",
+        "effectiveFlowId": "flow:ribbon",
+        "query": "Ribbon",
+        "status": "partial",
+        "projectId": "project:pmltwin",
+        "origin": "static",
+        "revisionId": null,
+        "metadataDigest": "21f74add0099ba138637bb77b54ff47ea3ae154cba877a2bc43a01382dcbfc4d",
+        "renderModelDigest": null,
+        "authorDirty": false
+      }
+    },
+    {
+      "label": "help-dark-1440",
+      "view": "help",
+      "theme": "dark",
+      "width": 1440,
+      "palette": {
+        "variables": {
+          "background": "#10191C",
+          "surface": "#192428",
+          "soft": "#243439",
+          "text": "#EFF3E9",
+          "muted": "#A8B9B6",
+          "border": "#354747",
+          "accent": "#C5EC9B",
+          "warning": "#EFC17F",
+          "boundary": "#70897F"
+        },
+        "body": "rgb(16, 25, 28)",
+        "text": "rgb(239, 243, 233)",
+        "shadow": "rgb(239, 243, 233)",
+        "scheme": "dark",
+        "preference": "dark",
+        "theme": "dark"
+      },
+      "contrast": {
+        "failures": [],
+        "graphical": [
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "flow arrow",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "flow arrow",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 11.965002079801415
+          },
+          {
+            "kind": "flow arrow",
+            "ratio": 9.51774504987456
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 11.965002079801415
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          }
+        ],
+        "horizontal": false
+      },
+      "svg": {
+        "background": "#10191C",
+        "roles": [
+          "text",
+          "muted",
+          "accent"
+        ]
+      },
+      "state": {
+        "view": "help",
+        "selectedId": "script:ui-pending-gate",
+        "parentFeatureId": "feature:ribbon",
+        "methodId": null,
+        "methodDirection": "callees",
+        "sectionKey": "",
+        "outline": {
+          "activeKey": "overview",
+          "keys": [
+            "overview",
+            "contract",
+            "contract:field:script:ui-pending-gate/input",
+            "contract:field:script:ui-pending-gate/precondition",
+            "contract:field:script:ui-pending-gate/method",
+            "contract:field:script:ui-pending-gate/effect",
+            "contract:field:script:ui-pending-gate/validation",
+            "contract:field:script:ui-pending-gate/receipt",
+            "contract:field:script:ui-pending-gate/recovery",
+            "contract:requirements",
+            "contract:sources",
+            "methods",
+            "flow",
+            "flow:current",
+            "flow:step:step:ribbon-preview",
+            "flow:step:step:ribbon-pending",
+            "flow:step:step:ribbon-apply",
+            "flow:step:step:ribbon-check",
+            "flow:step:step:ribbon-runtime",
+            "catalog",
+            "evidence",
+            "reference",
+            "reference:index",
+            "reference:reference:context",
+            "reference:reference:goals",
+            "reference:reference:requirements",
+            "reference:reference:bindings",
+            "reference:reference:tests",
+            "reference:reference:screens",
+            "reference:reference:transitions",
+            "reference:reference:models",
+            "reference:reference:source-mappings",
+            "reference:reference:source-mapping-context"
+          ]
+        },
+        "catalogKind": "features",
+        "disclosure": {
+          "mode": "summary",
+          "scope": "published",
+          "custom": false,
+          "overrides": 0
+        },
+        "flowId": "flow:ribbon",
+        "selectedFlowId": "flow:ribbon",
+        "effectiveFlowId": "flow:ribbon",
+        "query": "Ribbon",
+        "status": "partial",
+        "projectId": "project:pmltwin",
+        "origin": "static",
+        "revisionId": null,
+        "metadataDigest": "21f74add0099ba138637bb77b54ff47ea3ae154cba877a2bc43a01382dcbfc4d",
+        "renderModelDigest": null,
+        "authorDirty": false
+      }
+    },
+    {
+      "label": "portfolio-dark-1440",
+      "view": "portfolio",
+      "theme": "dark",
+      "width": 1440,
+      "palette": {
+        "variables": {
+          "background": "#10191C",
+          "surface": "#192428",
+          "soft": "#243439",
+          "text": "#EFF3E9",
+          "muted": "#A8B9B6",
+          "border": "#354747",
+          "accent": "#C5EC9B",
+          "warning": "#EFC17F",
+          "boundary": "#70897F"
+        },
+        "body": "rgb(16, 25, 28)",
+        "text": "rgb(239, 243, 233)",
+        "shadow": "rgb(239, 243, 233)",
+        "scheme": "dark",
+        "preference": "dark",
+        "theme": "dark"
+      },
+      "contrast": {
+        "failures": [],
+        "graphical": [
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "flow arrow",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "flow arrow",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 11.965002079801415
+          },
+          {
+            "kind": "flow arrow",
+            "ratio": 9.51774504987456
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 11.965002079801415
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          }
+        ],
+        "horizontal": false
+      },
+      "svg": {
+        "background": "#10191C",
+        "roles": [
+          "text",
+          "muted",
+          "accent"
+        ]
+      },
+      "state": {
+        "view": "portfolio",
+        "selectedId": "script:ui-pending-gate",
+        "parentFeatureId": "feature:ribbon",
+        "methodId": null,
+        "methodDirection": "callees",
+        "sectionKey": "",
+        "outline": {
+          "activeKey": "overview",
+          "keys": [
+            "overview",
+            "contract",
+            "contract:field:script:ui-pending-gate/input",
+            "contract:field:script:ui-pending-gate/precondition",
+            "contract:field:script:ui-pending-gate/method",
+            "contract:field:script:ui-pending-gate/effect",
+            "contract:field:script:ui-pending-gate/validation",
+            "contract:field:script:ui-pending-gate/receipt",
+            "contract:field:script:ui-pending-gate/recovery",
+            "contract:requirements",
+            "contract:sources",
+            "methods",
+            "flow",
+            "flow:current",
+            "flow:step:step:ribbon-preview",
+            "flow:step:step:ribbon-pending",
+            "flow:step:step:ribbon-apply",
+            "flow:step:step:ribbon-check",
+            "flow:step:step:ribbon-runtime",
+            "catalog",
+            "evidence",
+            "reference",
+            "reference:index",
+            "reference:reference:context",
+            "reference:reference:goals",
+            "reference:reference:requirements",
+            "reference:reference:bindings",
+            "reference:reference:tests",
+            "reference:reference:screens",
+            "reference:reference:transitions",
+            "reference:reference:models",
+            "reference:reference:source-mappings",
+            "reference:reference:source-mapping-context"
+          ]
+        },
+        "catalogKind": "features",
+        "disclosure": {
+          "mode": "summary",
+          "scope": "published",
+          "custom": false,
+          "overrides": 0
+        },
+        "flowId": "flow:ribbon",
+        "selectedFlowId": "flow:ribbon",
+        "effectiveFlowId": "flow:ribbon",
+        "query": "Ribbon",
+        "status": "partial",
+        "projectId": "project:pmltwin",
+        "origin": "static",
+        "revisionId": null,
+        "metadataDigest": "21f74add0099ba138637bb77b54ff47ea3ae154cba877a2bc43a01382dcbfc4d",
+        "renderModelDigest": null,
+        "authorDirty": false
+      }
+    }
+  ],
+  "interactions": {
+    "independentThemeAndView": true,
+    "tokensAndShadow": true,
+    "svgColors": true,
+    "actualContrast": true,
+    "themePreservesSelectionFiltersFlowAndOpenDetails": true,
+    "allExplicitFlows": true,
+    "substantiveReadingViews": true,
+    "independentGlobalDisclosure": true,
+    "completeDefaultFeatureCatalog": true,
+    "noDuplicateScriptFields": true,
+    "sourcesInBothViews": true,
+    "systemDynamic": true,
+    "explicitOverridesSystem": true,
+    "persistedReopen": true,
+    "crossTab": true,
+    "removedAndInvalidStorage": true,
+    "deniedStorageSessionOnly": true,
+    "headBeforeApp": true
+  },
+  "pageErrors": [],
+  "externalNetwork": []
+}

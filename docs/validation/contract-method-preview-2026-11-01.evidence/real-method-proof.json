@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "scope": "Real MSBuild/Roslyn capture and isolated compiler-input replay, real DocFX member site, real FigCraft generation, HTTP/SSE and Chromium. Static source only; no engineering execution.",
+  "fixture": "artifacts/contract-generation-tests/case-lpSRQR",
+  "revisions": [
+    {
+      "label": "01-real-method",
+      "revisionId": "9a4b83fe20f5a10a4cf9a341ab4f4af5b49ab9448ba3f4d9d53511272727459b",
+      "metadataDigest": "493e0c14b87e9a92d16f247d600a915ea31ab9315f860472f1f3f421620bc487",
+      "renderModelDigest": "2e7c5d0516f86f5946e8e2ffccecf6c5ecf5e9d5d5105576e310fb4ca525a84b",
+      "methodCatalogDigest": "cbfe5a761cc507b70b4aadcd67ffec63b7060ac6dfcce84598579f4be4184c82",
+      "manifestUrl": "/revisions/9a4b83fe20f5a10a4cf9a341ab4f4af5b49ab9448ba3f4d9d53511272727459b/manifest.json",
+      "status": "ready",
+      "methods": 202,
+      "edges": 512,
+      "docfxAssets": 200,
+      "analysis": {
+        "id": "06b2aaae8880560ec794c431d853bf0515fd8f7c9989b5adbc0ac6b86ddf910a",
+        "kind": "static-source-trace",
+        "commit": "39e12f7261891003dfe99594fe5c5e481fe7ac4d",
+        "dirty": true,
+        "inputDigest": "3067ce85039780f7ae89f8f7ece7dde83ca59aac0e18dd2c3a32dc74e625cbea",
+        "scope": "Potential source relationships; not runtime execution, ordering, coverage or AVEVA evidence; direct incoming/outgoing neighborhood of explicit contract roots; omitted relationships are scope boundaries.",
+        "omittedProjects": [
+          "YuzuhaToolkit.PmlHost.Net35 : no local AVEVA SDK configured; not analyzed",
+          "YuzuhaToolkit.PmlHost.Net48 : no local AVEVA SDK configured; not analyzed"
+        ],
+        "reason": null
+      }
+    },
+    {
+      "label": "02-stale-source",
+      "revisionId": "cba5e8cd06f20e5ff4cc5d70127cd1e85d3f17ed8020c0563579d68383db3354",
+      "metadataDigest": "493e0c14b87e9a92d16f247d600a915ea31ab9315f860472f1f3f421620bc487",
+      "renderModelDigest": "2e7c5d0516f86f5946e8e2ffccecf6c5ecf5e9d5d5105576e310fb4ca525a84b",
+      "methodCatalogDigest": "b827798f56e5e78185c428c968731a1ae815e7cc39e5d5ee93eff9ae60fa767d",
+      "manifestUrl": "/revisions/cba5e8cd06f20e5ff4cc5d70127cd1e85d3f17ed8020c0563579d68383db3354/manifest.json",
+      "status": "stale",
+      "methods": 202,
+      "edges": 512,
+      "docfxAssets": 0,
+      "analysis": {
+        "id": "06b2aaae8880560ec794c431d853bf0515fd8f7c9989b5adbc0ac6b86ddf910a",
+        "kind": "static-source-trace",
+        "commit": "39e12f7261891003dfe99594fe5c5e481fe7ac4d",
+        "dirty": true,
+        "inputDigest": "c82e5e58ed267ef5b6c80a7e1e7c5db4ba7586d18769b4a1acab66fba32265dc",
+        "scope": "Potential source relationships; not runtime execution, ordering, coverage or AVEVA evidence; direct incoming/outgoing neighborhood of explicit contract roots; omitted relationships are scope boundaries.",
+        "omittedProjects": [
+          "YuzuhaToolkit.PmlHost.Net35 : no local AVEVA SDK configured; not analyzed",
+          "YuzuhaToolkit.PmlHost.Net48 : no local AVEVA SDK configured; not analyzed"
+        ],
+        "reason": "Source or producer changed; recapture before displaying body."
+      }
+    },
+    {
+      "label": "03-recaptured-source",
+      "revisionId": "daacb4c89fb0110102c4814a7f5b15d5dff11163eac2da0680e59a5dcac98fff",
+      "metadataDigest": "493e0c14b87e9a92d16f247d600a915ea31ab9315f860472f1f3f421620bc487",
+      "renderModelDigest": "2e7c5d0516f86f5946e8e2ffccecf6c5ecf5e9d5d5105576e310fb4ca525a84b",
+      "methodCatalogDigest": "65700994c5d2f82fd5642311cf201777bfbf4a96618757481ccf5ec2cea1f8a8",
+      "manifestUrl": "/revisions/daacb4c89fb0110102c4814a7f5b15d5dff11163eac2da0680e59a5dcac98fff/manifest.json",
+      "status": "ready",
+      "methods": 202,
+      "edges": 512,
+      "docfxAssets": 0,
+      "analysis": {
+        "id": "af67586376bcbb76ffbd419da377c18f11dc70ec3e53ff7e40b3617adfb12dd0",
+        "kind": "static-source-trace",
+        "commit": "39e12f7261891003dfe99594fe5c5e481fe7ac4d",
+        "dirty": true,
+        "inputDigest": "d72f78f2eaac38423cbc389085b09b5670ae484e9a7c6914fe1019997363910d",
+        "scope": "Potential source relationships; not runtime execution, ordering, coverage or AVEVA evidence; direct incoming/outgoing neighborhood of explicit contract roots; omitted relationships are scope boundaries.",
+        "omittedProjects": [
+          "YuzuhaToolkit.PmlHost.Net35 : no local AVEVA SDK configured; not analyzed",
+          "YuzuhaToolkit.PmlHost.Net48 : no local AVEVA SDK configured; not analyzed"
+        ],
+        "reason": null
+      }
+    }
+  ],
+  "method": {
+    "id": "method:0e45c2ace8a82f30235bb8a5c585b84cda999eefba0c857647c0e82b1bead239",
+    "symbolId": "YuzuhaToolkit.Manager.Core::M:YuzuhaToolkit.Manager.LaunchWorkflowService.Plan(System.String,System.String,System.String)",
+    "signature": "public LaunchWorkflowPlan Plan(string profileId, string expectedRevision, string operationId)",
+    "source": "src/YuzuhaToolkit.Manager.Core/LaunchWorkflow.cs",
+    "originalSourceSha": "44d075ea468f8f01d82346d718af41ffddb13ce9d66113dcd619c0a875eabba4",
+    "freshSourceSha": "4669f838b63c58bb2a767c8d860d7765b909400a2f0f7936d536e86d89491e37",
+    "docfxUid": "YuzuhaToolkit.Manager.LaunchWorkflowService.Plan(System.String,System.String,System.String)",
+    "docfxHref": "docfx/api/YuzuhaToolkit.Manager.LaunchWorkflowService.html#YuzuhaToolkit_Manager_LaunchWorkflowService_Plan_System_String_System_String_System_String_"
+  },
+  "checks": {
+    "realSourceBodyAndSha": true,
+    "exactDocfxMemberAndAnchor": true,
+    "callSiteNavigation": true,
+    "hashReloadAndReadingState": true,
+    "sourceEditAutomaticallyStales": true,
+    "oldBodyHidden": true,
+    "realRoslynReplayPublishesFreshBody": true,
+    "oldDocfxCannotClaimNewSource": true,
+    "mobile": true,
+    "repositoryUnchanged": true
+  },
+  "scriptErrors": [],
+  "httpErrors": []
+}

@@ -1,0 +1,41 @@
+{
+  "monPath": "D:\\AVEVA\\Everything3D2.10\\mon.exe",
+  "uicPath": "F:\\OneDrive\\Documents\\ChatGPT\\PmlTwin\\artifacts\\ribbon-ui-live\\Phayton.RibbonVerification.uic",
+  "modules": [
+    {
+      "manifestName": "DesignCustomization.xml",
+      "entryNames": [],
+      "error": ""
+    },
+    {
+      "manifestName": "DrawCustomization.xml",
+      "entryNames": [],
+      "error": ""
+    },
+    {
+      "manifestName": "IsodraftCustomization.xml",
+      "entryNames": [],
+      "error": ""
+    },
+    {
+      "manifestName": "MonitorCustomization.xml",
+      "entryNames": [],
+      "error": ""
+    },
+    {
+      "manifestName": "ParagonCustomization.xml",
+      "entryNames": [],
+      "error": ""
+    },
+    {
+      "manifestName": "SchematicModelManagerCustomization.xml",
+      "entryNames": [],
+      "error": ""
+    },
+    {
+      "manifestName": "SpoolerCustomization.xml",
+      "entryNames": [],
+      "error": ""
+    }
+  ]
+}

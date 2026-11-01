@@ -1,0 +1,226 @@
+{
+  "schemaVersion": 1,
+  "analysis": {
+    "graph": "artifacts/docfx/ui-trace.json",
+    "metadata": "artifacts/docfx/ui-trace-metadata.json",
+    "docfxManifest": "artifacts/contract-atlas-docfx/snapshot.json"
+  },
+  "bindings": [
+    {
+      "entityId": "feature:launch",
+      "symbolIds": [
+        "YuzuhaToolkit.Manager.Core::M:YuzuhaToolkit.Manager.LaunchWorkflowService.Plan(System.String,System.String,System.String)",
+        "YuzuhaToolkit.Manager.Core::M:YuzuhaToolkit.Manager.LaunchWorkflowService.Observe(System.String)"
+      ]
+    },
+    {
+      "entityId": "feature:deployment",
+      "symbolIds": [
+        "YuzuhaToolkit.Workspace::M:YuzuhaToolkit.Workspace.PluginDeployment.PreviewSelection(System.String,System.String,System.Collections.Generic.IEnumerable{System.String})",
+        "YuzuhaToolkit.Workspace::M:YuzuhaToolkit.Workspace.PluginDeployment.Apply(YuzuhaToolkit.Workspace.DeploymentPlan,System.String)"
+      ],
+      "reason": "Exact frozen-copy preview and apply entry points; static source does not prove deployment or runtime activation."
+    },
+    {
+      "entityId": "feature:sessions",
+      "symbolIds": [
+        "YuzuhaToolkit.Manager.Core::M:YuzuhaToolkit.Manager.CommunicationCliClient.InvokeAsync(System.String,System.Text.Json.JsonElement,PmlTwin.Phayton.OperationContext,System.Threading.CancellationToken)",
+        "YuzuhaToolkit.Desktop::M:YuzuhaToolkit.Desktop.DashboardSessionMonitor.PollAsync(System.Threading.CancellationToken)",
+        "YuzuhaToolkit.Desktop::M:YuzuhaToolkit.Desktop.DashboardSessionProbe.ProbeAsync(YuzuhaToolkit.Mcp.AvevaSessionCandidate,System.String,System.Threading.CancellationToken)",
+        "YuzuhaToolkit.Desktop::M:YuzuhaToolkit.Desktop.DesktopTaskNavigation.Decide(YuzuhaToolkit.Desktop.DashboardHealthSnapshot,System.Boolean)"
+      ],
+      "reason": "Exact Dashboard read-only availability monitor, shared CLI boundary and contextual next-entry decision; bounded direct incoming/outgoing neighborhood, not runtime execution, business health, implicit target selection or authorization. The independent read-only Host probe and task-navigation decision are explicitly bound."
+    },
+    {
+      "entityId": "feature:objects",
+      "symbolIds": [
+        "YuzuhaToolkit.Desktop::M:YuzuhaToolkit.Desktop.DesktopObjectQuery.Build(System.String,System.String,System.String,System.Int32,System.Int32)"
+      ],
+      "reason": "Bounded object-query construction only; Host execution and returned object facts remain separate."
+    },
+    {
+      "entityId": "feature:functions",
+      "symbolIds": [],
+      "resolution": "unavailable",
+      "reason": "Native function registry/permission/invocation is not mapped to a reviewed exact method root in this capture; the shared communication boundary alone is not the complete function implementation."
+    },
+    {
+      "entityId": "feature:forms",
+      "symbolIds": [
+        "YuzuhaToolkit.Mcp.Core::M:YuzuhaToolkit.Mcp.PmlFormQueryRequestSender.SendAsync(YuzuhaToolkit.Mcp.IPmlCommandService,YuzuhaToolkit.Mcp.HostIdentityResponse,YuzuhaToolkit.Pml.PmlFormQueryRequest,System.Threading.CancellationToken)"
+      ],
+      "reason": "C# identity-checked request sender; native PML Form internals are outside this compiler snapshot."
+    },
+    {
+      "entityId": "feature:arrays",
+      "symbolIds": [
+        "YuzuhaToolkit.Mcp.Core::M:YuzuhaToolkit.Pml.PmlArrayWindow.Validate(System.Int32,System.Int32,System.Int32)"
+      ],
+      "reason": "Shared non-UI bounded-window validation; static analysis does not prove any Host read executed."
+    },
+    {
+      "entityId": "feature:formuse",
+      "symbolIds": [],
+      "resolution": "unavailable",
+      "reason": "FormUse remains planned; no completed production method entry is claimed."
+    },
+    {
+      "entityId": "feature:knowledge",
+      "symbolIds": [
+        "YuzuhaToolkit.Manager.Core::M:YuzuhaToolkit.Manager.KnowledgeImportService.Preview(YuzuhaToolkit.Manager.KnowledgeImportRequest)",
+        "YuzuhaToolkit.Manager.Core::M:YuzuhaToolkit.Manager.KnowledgeImportService.Apply(YuzuhaToolkit.Manager.KnowledgeImportPlan)"
+      ],
+      "reason": "Exact local import preview/apply entry points; indexing or runtime retrieval acceptance is not inferred."
+    },
+    {
+      "entityId": "feature:activity",
+      "symbolIds": [
+        "YuzuhaToolkit.Desktop::M:YuzuhaToolkit.Desktop.DesktopActivityFilter.Apply(System.Collections.Generic.IEnumerable{YuzuhaToolkit.Workspace.ActivityEntry},System.String,System.String,System.String)"
+      ],
+      "reason": "Actual activity list filtering; not an execution or telemetry completeness claim."
+    },
+    {
+      "entityId": "feature:review",
+      "symbolIds": [],
+      "resolution": "unavailable",
+      "reason": "AI draft review/migration remains planned; no completed production method entry is claimed."
+    },
+    {
+      "entityId": "feature:tests",
+      "symbolIds": [],
+      "resolution": "unavailable",
+      "reason": "The desktop test execution center remains planned; PowerShell SDK acceptance is a separate script, not this UI implementation."
+    },
+    {
+      "entityId": "feature:web",
+      "symbolIds": [
+        "YuzuhaToolkit.Workspace::M:YuzuhaToolkit.Workspace.HtmlAppLauncher.OpenAsync(System.String,System.Int32,System.Boolean,System.Threading.CancellationToken)"
+      ],
+      "reason": "Local HTML app launch entry only; partial application-management scope remains unchanged."
+    },
+    {
+      "entityId": "feature:ribbon",
+      "symbolIds": [
+        "YuzuhaToolkit.Manager.Core::M:YuzuhaToolkit.Manager.RibbonHttpAdapter.InvokeAsync(System.String,System.String,System.Text.Json.JsonElement,System.Threading.CancellationToken)"
+      ]
+    },
+    {
+      "entityId": "feature:database",
+      "symbolIds": [],
+      "resolution": "unavailable",
+      "reason": "This capture does not provide a reviewed exact root for the complete independent application-database path; the separately bound migration preview does not prove database switching."
+    },
+    {
+      "entityId": "feature:migration",
+      "symbolIds": [
+        "YuzuhaToolkit.Manager.Core::M:YuzuhaToolkit.Manager.MigrationPreview.Preview(System.String,System.String,System.Threading.CancellationToken)"
+      ],
+      "reason": "Read-only source-material preview; no database switch or active-state migration is claimed."
+    },
+    {
+      "entityId": "feature:caf",
+      "symbolIds": [],
+      "resolution": "unavailable",
+      "reason": "CAF thin-host implementation is not in the current Desktop compiler-input snapshot; its business scope is not classified as non-C#."
+    },
+    {
+      "entityId": "feature:plugins",
+      "symbolIds": [],
+      "resolution": "unavailable",
+      "reason": "Optional licensing/VM plugin integration is not in this compiler-input scope; no complete production plugin root is claimed."
+    },
+    {
+      "entityId": "script:workbench-entry",
+      "symbolIds": [],
+      "reason": "PowerShell workbench orchestration is outside C# Roslyn analysis.",
+      "resolution": "not-applicable"
+    },
+    {
+      "entityId": "script:launch-workflow",
+      "symbolIds": [
+        "YuzuhaToolkit.Manager.Core::M:YuzuhaToolkit.Manager.LaunchWorkflowService.Plan(System.String,System.String,System.String)",
+        "YuzuhaToolkit.Manager.Core::M:YuzuhaToolkit.Manager.LaunchWorkflowService.Observe(System.String)",
+        "YuzuhaToolkit.Manager.Core::M:YuzuhaToolkit.Manager.LaunchWorkflowService.ExecuteAsync(YuzuhaToolkit.Manager.LaunchWorkflowPlan,System.String,System.String,System.Boolean,System.Threading.CancellationToken)"
+      ],
+      "reason": "Reviewed exact Plan, Observe and ExecuteAsync entry points matching this Script's existing seven-field workflow contract. Method ownership is explicit for the project/Feature/Script/method breadcrumb; static source does not prove runtime completion."
+    },
+    {
+      "entityId": "script:communication-client",
+      "symbolIds": [
+        "YuzuhaToolkit.Manager.Core::M:YuzuhaToolkit.Manager.CommunicationCliClient.InvokeAsync(System.String,System.Text.Json.JsonElement,PmlTwin.Phayton.OperationContext,System.Threading.CancellationToken)"
+      ]
+    },
+    {
+      "entityId": "script:frozen-copy",
+      "symbolIds": [
+        "YuzuhaToolkit.Workspace::M:YuzuhaToolkit.Workspace.PluginDeployment.PreviewSelection(System.String,System.String,System.Collections.Generic.IEnumerable{System.String})",
+        "YuzuhaToolkit.Workspace::M:YuzuhaToolkit.Workspace.PluginDeployment.Apply(YuzuhaToolkit.Workspace.DeploymentPlan,System.String)"
+      ],
+      "reason": "Exact frozen-copy preview and apply entry points; static source does not prove deployment or runtime activation."
+    },
+    {
+      "entityId": "script:pml-development",
+      "symbolIds": [],
+      "reason": "This contract's orchestration entry is PowerShell; this Roslyn preview does not analyze PowerShell or executed PML.",
+      "resolution": "not-applicable"
+    },
+    {
+      "entityId": "script:array-window",
+      "symbolIds": [
+        "YuzuhaToolkit.Mcp.Core::M:YuzuhaToolkit.Mcp.BoundedArrayRequest.SendAsync(YuzuhaToolkit.Mcp.IPmlCommandService,YuzuhaToolkit.Mcp.HostIdentityResponse,System.String,System.Int32,System.Int32,System.Int32,System.Threading.CancellationToken)"
+      ]
+    },
+    {
+      "entityId": "script:dbref-reader",
+      "symbolIds": [],
+      "reason": "DBREF walking and CE restoration are implemented in PML; this C# snapshot does not analyze PML.",
+      "resolution": "not-applicable"
+    },
+    {
+      "entityId": "script:host-bootstrap",
+      "symbolIds": [],
+      "reason": "This contract's Host bootstrap entry is PML; PML is outside this C# Roslyn snapshot and no execution evidence is inferred.",
+      "resolution": "not-applicable"
+    },
+    {
+      "entityId": "script:ribbon-frozen-deployment",
+      "symbolIds": [
+        "YuzuhaToolkit.Manager.Core::M:YuzuhaToolkit.Manager.RibbonHttpAdapter.InvokeAsync(System.String,System.String,System.Text.Json.JsonElement,System.Threading.CancellationToken)"
+      ],
+      "reason": "Only the Manager HTTP receipt adapter is in this Roslyn graph. The integrations/ribbon frozen deployment backend is not compiled here; its implementation body is unavailable."
+    },
+    {
+      "entityId": "script:migration-preview",
+      "symbolIds": [
+        "YuzuhaToolkit.Manager.Core::M:YuzuhaToolkit.Manager.MigrationPreview.Preview(System.String,System.String,System.Threading.CancellationToken)"
+      ],
+      "reason": "Read-only source-material preview; no database switch or active-state migration is claimed."
+    },
+    {
+      "entityId": "script:knowledge-import",
+      "symbolIds": [
+        "YuzuhaToolkit.Manager.Core::M:YuzuhaToolkit.Manager.KnowledgeImportService.Preview(YuzuhaToolkit.Manager.KnowledgeImportRequest)",
+        "YuzuhaToolkit.Manager.Core::M:YuzuhaToolkit.Manager.KnowledgeImportService.Apply(YuzuhaToolkit.Manager.KnowledgeImportPlan)"
+      ],
+      "reason": "Exact local import preview/apply entry points; indexing or runtime retrieval acceptance is not inferred."
+    },
+    {
+      "entityId": "script:sdk-acceptance",
+      "symbolIds": [],
+      "reason": "The SDK acceptance entry is PowerShell, outside this C# method analysis.",
+      "resolution": "not-applicable"
+    },
+    {
+      "entityId": "script:ui-pending-gate",
+      "symbolIds": [],
+      "resolution": "unavailable",
+      "reason": "The v2 Web JavaScript and Ribbon WPF pending implementations are outside the current Desktop compiler graph; no same-name substitute is inferred."
+    },
+    {
+      "entityId": "script:runtime-verification",
+      "symbolIds": [],
+      "reason": "This is a manual acceptance procedure; a C# method graph cannot prove runtime or visual verification.",
+      "resolution": "not-applicable"
+    }
+  ]
+}

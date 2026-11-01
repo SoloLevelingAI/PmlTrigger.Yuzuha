@@ -16,6 +16,7 @@ release/
 artifacts/
 _local-backup/
 *.log
+!docs/validation/**/*.log
 sessions/
 records/
 test-artifacts/

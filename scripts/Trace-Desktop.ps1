@@ -11,6 +11,24 @@ foreach ($name in 'ui-trace.json','ui-trace-metadata.json') {
     $receipt = Join-Path $output $name
     if (Test-Path -LiteralPath $receipt) { Remove-Item -LiteralPath $receipt -Force }
 }
+function Get-TraceHashes([string[]]$paths) {
+    $result = [ordered]@{}
+    foreach ($item in @($paths | Sort-Object -Unique -CaseSensitive)) {
+        $relative = [IO.Path]::GetRelativePath($root, $item).Replace('\','/')
+        $result[$relative] = (Get-FileHash -LiteralPath $item -Algorithm SHA256).Hash.ToLowerInvariant()
+    }
+    return $result
+}
+function Get-TraceDigest($value) {
+    $json = (($value | ConvertTo-Json -Depth 12).Replace("`r`n", "`n")) + "`n"
+    return [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([Text.Encoding]::UTF8.GetBytes($json))).ToLowerInvariant()
+}
+$producerPaths = @('scripts/Trace-Desktop.ps1','tools/Documentation/Documentation.csproj','tools/Documentation/UiTrace.cs') | ForEach-Object { Join-Path $root $_ }
+$producerBefore = Get-TraceHashes $producerPaths
+# Freeze repository build configuration before any MSBuild evaluation, not after it.
+$configurationPaths = @((Join-Path $root 'global.json')) + @((Get-ChildItem -LiteralPath $root -Filter 'Directory.Build.*' -File).FullName) + @((Get-ChildItem -LiteralPath (Join-Path $root 'src') -Recurse -File -Include '*.csproj','*.props','*.targets' | Where-Object { $_.FullName -notmatch '[\\/](obj|bin)[\\/]' }).FullName)
+$configurationBefore = Get-TraceHashes $configurationPaths
+$projectInputs = @()
 $snapshots = @()
 $xaml = @()
 $omittedProjects = @()
@@ -39,6 +57,7 @@ try {
         $project = [IO.Path]::GetFullPath($pending.Dequeue())
         if (-not $seen.Add($project)) { continue }
         if (-not $project.StartsWith($root + [IO.Path]::DirectorySeparatorChar,[StringComparison]::OrdinalIgnoreCase)) { throw 'Trace project reference escapes repository.' }
+        $projectInputs += $project
         $name = [IO.Path]::GetFileNameWithoutExtension($project)
         $generated = Join-Path $output "ui-generated/$name"
         if (Test-Path -LiteralPath $generated) {
@@ -69,9 +88,29 @@ try {
     }
     @{projects=$snapshots; xaml=@($xaml | Sort-Object -Unique); omittedProjects=$omittedProjects} |
         ConvertTo-Json -Depth 8 | Set-Content -LiteralPath (Join-Path $output 'ui-inputs.json') -Encoding utf8
+    $configurationInputs = @((Join-Path $root 'global.json')) + @((Get-ChildItem -LiteralPath $root -Filter 'Directory.Build.*' -File).FullName)
+    foreach ($projectFile in $projectInputs) {
+        $ancestor = Split-Path -Parent $projectFile
+        while ($ancestor.StartsWith($root, [StringComparison]::OrdinalIgnoreCase)) {
+            $configurationInputs += @((Get-ChildItem -LiteralPath $ancestor -Filter 'Directory.Build.*' -File).FullName)
+            if ($ancestor -eq $root) { break }
+            $ancestor = Split-Path -Parent $ancestor
+        }
+    }
+    $sourcePaths = @($snapshots | ForEach-Object { $_.sources }) + $xaml + $projectInputs + $configurationInputs
+    $sourcePaths = @($sourcePaths | Where-Object { $_ -and ([IO.Path]::GetFullPath($_)).StartsWith($root + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase) } | Sort-Object -Unique)
+    $inputPaths = $sourcePaths + @($snapshots | ForEach-Object { $_.references })
+    $inputBefore = Get-TraceHashes $inputPaths
     dotnet run --project tools/Documentation -c Release -- --ui-trace $root (Join-Path $output 'ui-inputs.json') (Join-Path $output 'ui-trace.json')
     if ($LASTEXITCODE -ne 0) { throw 'UI semantic trace failed.' }
-    @{commit=(& git rev-parse HEAD).Trim(); dirty=[bool](& git status --porcelain); environment=[Runtime.InteropServices.RuntimeInformation]::OSDescription;
+    $inputAfter = Get-TraceHashes $inputPaths
+    $configurationAfter = Get-TraceHashes $configurationPaths
+    $producerAfter = Get-TraceHashes $producerPaths
+    if ((Get-TraceDigest $configurationBefore) -ne (Get-TraceDigest $configurationAfter) -or (Get-TraceDigest $inputBefore) -ne (Get-TraceDigest $inputAfter) -or (Get-TraceDigest $producerBefore) -ne (Get-TraceDigest $producerAfter)) {
+        Remove-Item -LiteralPath (Join-Path $output 'ui-trace.json') -Force
+        throw 'Analysis inputs changed during capture; no snapshot published.'
+    }
+    @{producerFingerprint=(Get-TraceDigest $producerAfter); producerInputs=$producerAfter; sourceInputs=(Get-TraceHashes $sourcePaths); inputDigest=(Get-TraceDigest $inputAfter); graphSha256=(Get-FileHash -LiteralPath (Join-Path $output 'ui-trace.json') -Algorithm SHA256).Hash.ToLowerInvariant(); commit=(& git rev-parse HEAD).Trim(); dirty=[bool](& git status --porcelain); environment=[Runtime.InteropServices.RuntimeInformation]::OSDescription;
       finishedUtc=[DateTime]::UtcNow.ToString('o'); scope='Static compiler inputs and evidenced RPC correspondence; not runtime/AVEVA evidence'; omittedProjects=$omittedProjects} |
         ConvertTo-Json | Set-Content -LiteralPath (Join-Path $output 'ui-trace-metadata.json') -Encoding utf8
 }

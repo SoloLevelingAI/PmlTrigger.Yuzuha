@@ -193,6 +193,7 @@ namespace RibbonStudio
             deployment.Show();
             await deployment.VerifyReadOnly(mon, Path.ChangeExtension(result, "deployment.png"));
             deployment.Close();
+            await new StudioToolPage(window, false).VerifyFrozenPreview(Path.ChangeExtension(result, "frozen-v2-preview.png"));
             Ui.Capture(window, Path.ChangeExtension(result, "png"));
             File.WriteAllText(result, Json.Write(new
             {
@@ -218,6 +219,8 @@ namespace RibbonStudio
                 windowRender = true,
                 nativeLibraryWindow = true,
                 nativeModuleTransfer = true,
+                nativeFrozenRegistrationPreviewV2 = true,
+                nativeMainToolFrozenFilePreviewV2 = true,
                 nativePreviewReturn = true,
                 borderlessChrome = true,
                 hoverPressedSelectedDisabled = true,

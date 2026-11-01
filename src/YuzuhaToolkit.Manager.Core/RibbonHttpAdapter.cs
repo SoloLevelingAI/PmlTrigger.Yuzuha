@@ -41,7 +41,9 @@ public sealed class RibbonHttpAdapter
         ["workspace/versions"] = false, ["deployment/modules"] = false, ["deployment/file-preview"] = false,
         ["deployment/file-apply"] = true, ["deployment/registration-preview"] = false,
         ["deployment/registration-apply"] = true, ["management/list"] = false,
-        ["management/adopt"] = true, ["management/toggle"] = true
+        ["management/adopt"] = true, ["management/toggle"] = true,
+        ["v2/deployment/file-preview"] = false, ["v2/deployment/file-apply"] = true,
+        ["v2/deployment/registration-preview"] = false, ["v2/deployment/registration-apply"] = true
     }.AsReadOnly();
 
     /// <summary>单次请求保留 HTTP 状态及原响应；写请求失去确定回执返回 unknown，永不重发。</summary>
@@ -54,7 +56,7 @@ public sealed class RibbonHttpAdapter
         using var deadline = CancellationTokenSource.CreateLinkedTokenSource(token);
         deadline.CancelAfter(timeout);
         token = deadline.Token;
-        using var request = new HttpRequestMessage(HttpMethod.Post, new Uri(endpoint, "api/v1/" + route));
+        using var request = new HttpRequestMessage(HttpMethod.Post, new Uri(endpoint, route.StartsWith("v2/", StringComparison.Ordinal) ? "api/" + route : "api/v1/" + route));
         request.Content = new ByteArrayContent(body);
         request.Content.Headers.ContentType = new("application/json") { CharSet = "utf-8" };
         try
@@ -91,11 +93,28 @@ public sealed class RibbonHttpAdapter
                 writer.WriteEndObject();
             }
             using var data = JsonDocument.Parse(output.ToArray());
+            if (route.StartsWith("v2/", StringComparison.Ordinal) && writes && response.IsSuccessStatusCode)
+            {
+                if (!data.RootElement.TryGetProperty("response", out var receipt) || receipt.ValueKind != JsonValueKind.Object ||
+                    !receipt.TryGetProperty("contractVersion", out var version) || version.ValueKind != JsonValueKind.Number || !version.TryGetInt32(out var contractVersion) || contractVersion != 2 ||
+                    !receipt.TryGetProperty("planId", out var planId) || planId.ValueKind != JsonValueKind.String ||
+                    !input.TryGetProperty("planId", out var expectedId) || expectedId.ValueKind != JsonValueKind.String || planId.GetString() != expectedId.GetString() ||
+                    !receipt.TryGetProperty("planDigest", out var planDigest) || planDigest.ValueKind != JsonValueKind.String ||
+                    !input.TryGetProperty("planDigest", out var expectedDigest) || expectedDigest.ValueKind != JsonValueKind.String || planDigest.GetString() != expectedDigest.GetString() ||
+                    !receipt.TryGetProperty("activation", out var activation) || activation.ValueKind != JsonValueKind.Object ||
+                    !activation.TryGetProperty("runtimeVerified", out var verified) || verified.ValueKind != JsonValueKind.False ||
+                    !activation.TryGetProperty("reloadRequired", out var reload) || reload.ValueKind is not (JsonValueKind.True or JsonValueKind.False) ||
+                    !receipt.TryGetProperty("state", out var state) || state.ValueKind != JsonValueKind.String ||
+                    state.GetString() is not ("deployed" or "unchanged" or "unknown"))
+                    throw new InvalidDataException("Ribbon v2 写入回执缺少有效状态。");
+                if (state.GetString() == "unknown")
+                    return OperationResult.Fail(operation, 7, "RIBBON_RESULT_UNKNOWN", "Ribbon 写入结果不确定；按原计划核对，不要自动重放。", data.RootElement.Clone(), mayHaveExecuted: true);
+            }
             return response.IsSuccessStatusCode ? OperationResult.Ok(operation, data.RootElement.Clone())
                 : OperationResult.Fail(operation, response.StatusCode == HttpStatusCode.Forbidden ? 5 : 7,
                     "RIBBON_HTTP_" + (int)response.StatusCode, "Ribbon 拒绝请求；原状态与诊断见 data。", data.RootElement.Clone());
         }
-        catch (Exception error) when (error is HttpRequestException or IOException or OperationCanceledException or JsonException)
+        catch (Exception error) when (error is HttpRequestException or IOException or InvalidDataException or OperationCanceledException or JsonException)
         {
             return OperationResult.Fail(operation, 7, writes ? "RIBBON_RESULT_UNKNOWN" : "RIBBON_UNAVAILABLE",
                 writes ? "写请求未取得可确认回执；请在原工作区核对，不要自动重放。" : "Ribbon 服务未返回可用结果：" + error.GetType().Name,
@@ -110,8 +129,9 @@ public sealed class RibbonHttpAdapter
         foreach (var route in Routes)
         {
             var path = route.Key;
-            yield return new(new("ribbon." + path.Replace('/', '.'), 1, "Ribbon HTTP v1 兼容适配；原后端校验、历史与部署语义保持。",
-                schema.RootElement.Clone(), RequiresWrite: route.Value),
+            var v2 = path.StartsWith("v2/", StringComparison.Ordinal);
+            yield return new(new("ribbon." + path.Replace('/', '.'), v2 ? 2 : 1, v2 ? "Ribbon HTTP v2 冻结计划；部署只代表磁盘写入，实际加载未核验。" : "Ribbon HTTP v1 兼容适配；原后端校验、历史与部署语义保持。",
+                v2 ? RibbonV2Schemas.Input(path) : schema.RootElement.Clone(), RequiresWrite: route.Value),
                 new DelegateOperationHandler((id, input, _, token) => (factory ?? Local)().InvokeAsync(id, path, input, token)));
         }
     }

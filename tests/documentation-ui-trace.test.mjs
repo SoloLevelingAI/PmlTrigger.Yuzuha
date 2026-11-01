@@ -194,3 +194,41 @@ test('discarded construction retains its enclosing method or callback and constr
   assert.ok(g.edges.some(e=>e.from===constructor.id&&e.to===node(g,'M:Demo.Service.Validate').id));
   assert.ok(!g.nodes.some(n=>n.name==='_'), 'A discard is not a callable source node');
 });
+
+test('method preview preserves overload identities, generic signature, partial implementation and plain XML docs', () => {
+ const g=trace(`using System.Threading.Tasks; namespace Demo; partial class View {
+ /// <summary>Read &lt;b&gt;plain&lt;/b&gt;.</summary>
+ /// <param name="value">Input value.</param><returns>Result.</returns><remarks>No execution.</remarks>
+ public partial Task<T> Load<T>(T value);
+ public async partial Task<T> Load<T>(T value) { await Task.Yield(); return value; }
+ public int Load(int value) => value;
+ void Start(object s, object e) { Load(1); }
+ }`,view('<Button Click="Start"/>'));
+ const partial=g.nodes.find(n=>n.id.includes('Load``1'));
+ assert.ok(partial);assert.equal(partial.isPartial,true);assert.equal(partial.isAsync,true);
+ assert.equal(partial.declarations.length,2);assert.match(partial.body,/await Task.Yield/);
+ assert.match(partial.signature,/Load<T>\(T value\)/);assert.ok(!partial.signature.includes('return value'));
+ assert.match(partial.documentation.summary,/<b>plain<\/b>/);
+ assert.deepEqual(partial.documentation.parameters,[{name:'value',text:'Input value.'}]);
+ assert.equal(partial.documentation.returns,'Result.');assert.equal(partial.documentation.remarks,'No execution.');
+ assert.ok(partial.bodyEndLine>=partial.bodyStartLine);assert.ok(partial.declarations.every(d=>/^[a-f0-9]{64}$/.test(d.sourceSha256)));
+ assert.ok(g.nodes.some(n=>n.id!==partial.id&&n.id.endsWith('M:Demo.View.Load(System.Int32)')));
+});
+
+test('partial implementation encountered first still uses definition documentation and both declarations', () => {
+ const g=trace(`namespace Demo; partial class View {
+ partial void Load() { }
+ /// <summary>Definition documentation.</summary>
+ partial void Load();
+ void Start(object s, object e) { Load(); }
+ }`,view('<Button Click="Start"/>'));
+ const method=node(g,'M:Demo.View.Load');
+ assert.equal(method.documentation.summary,'Definition documentation.');
+ assert.equal(method.declarations.length,2);assert.equal(method.isPartial,true);
+ assert.match(method.body,/Load\(\) \{ \}/);assert.equal(method.bodyStartLine,2);assert.equal(method.bodyEndLine,2);
+});
+
+test('unimplemented partial declaration retains partial identity without inventing a body implementation', () => {
+ const g=trace('namespace Demo; partial class View { partial void Optional(); void Start(object s, object e) { Optional(); } }',view('<Button Click="Start"/>'));
+ const method=node(g,'M:Demo.View.Optional');assert.equal(method.isPartial,true);assert.equal(method.declarations.length,1);assert.match(method.signature,/partial void Optional\(\)/);assert.ok(!method.body.includes('{'));
+});

@@ -1,0 +1,21 @@
+{
+  "schema": "contract-document-visual-review/1",
+  "date": "2026-11-01",
+  "status": "agent-reviewed",
+  "humanStatus": "human-not-reviewed",
+  "scope": "Real FigCraft CLI document boards; editable static reference, not Web interaction or business runtime acceptance",
+  "images": [
+    "artifacts/contract-document-native-polished/generated/document-light.png",
+    "artifacts/contract-document-native-polished/generated/document-dark.png"
+  ],
+  "rubric": [
+    { "criterion": "首屏焦点", "result": "agent-pass", "observation": "32px当前任务标题与明确所属Feature目标先于参数字段；品牌24px、目录18px形成次级层次。" },
+    { "criterion": "目录与当前位置", "result": "agent-pass", "observation": "18个Feature与14个Script分组保留，launch-workflow以浅底圆角行和短标记突出；右侧仅为七字段页内目录。" },
+    { "criterion": "正文与节奏", "result": "agent-pass", "observation": "正文16px、中性文字；章节采用细分隔和24px间距，字段不再重复套蓝色描边框。" },
+    { "criterion": "配色与辅助面积", "result": "agent-pass", "observation": "只有任务header、当前行及紧凑图例使用少量浅底；六角色各192×40，不与正文争夺面积。" },
+    { "criterion": "对齐与留白", "result": "agent-pass", "observation": "左目录、正文和右目录各有统一基线；采用8px节奏和12px主要圆角，浅深导出未见文字溢出或截断。" },
+    { "criterion": "事实与边界", "result": "agent-pass", "observation": "七项文字逐字来自共享IR，32实体与原警告保留；静态非Web交互、三轴独立说明直接可见；原生文件无栅格替代。" }
+  ],
+  "figma": { "execution": "not-run", "offlineMock": "passed" },
+  "limitations": ["代理复核不等于用户视觉认可", "参考板不模拟导航/折叠交互", "不证明业务实机或运行效果"]
+}

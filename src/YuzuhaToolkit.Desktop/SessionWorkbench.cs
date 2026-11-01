@@ -50,6 +50,8 @@ internal sealed class SessionWorkbench(IWorkbenchHost host, PmlFunctionRegistry 
     private AvevaSessionCandidate? selected;
     private string? arrayKey;
     private bool dispatched;
+    private long targetEpoch;
+    private string invalidationReason = "目标身份已失效，请重新发现并明确选择。";
     /// <summary>最近核验状态，不以发现到窗口代替连接成功。</summary>
     public YuzuhaConnectionStatus Status { get; private set; } = new();
     /// <summary>阻止同一界面并行操作或切换执行目标。</summary>
@@ -101,10 +103,14 @@ internal sealed class SessionWorkbench(IWorkbenchHost host, PmlFunctionRegistry 
         var saved = discovered.SingleOrDefault(c => c.ProcessId == candidate.ProcessId && c.ProcessStartTimeUtcTicks == candidate.ProcessStartTimeUtcTicks);
         if (saved is null || !candidate.PipeDetected || !saved.PipeDetected) throw new InvalidOperationException("请重新发现并选择带 Host 专用管道的会话。");
         selected = Clone(saved); Status = new(); ClearQueries();
-        var result = await host.SelectAsync(candidate.ProcessId, model, token);
-        ValidateIdentity(result);
-        Status = result;
-        Message = "目标身份已核验。可查看能力、登记函数或执行有界查询。";
+        try
+        {
+            var result = await host.SelectAsync(candidate.ProcessId, model, token);
+            ValidateIdentity(result);
+            Status = result;
+            Message = "目标身份已核验。可查看能力、登记函数或执行有界查询。";
+        }
+        catch (Exception error) { InvalidateTarget(error.Message); throw; }
     });
 
     /// <summary>重新核验，不执行 PML。</summary>
@@ -188,28 +194,52 @@ internal sealed class SessionWorkbench(IWorkbenchHost host, PmlFunctionRegistry 
     private async Task Run(Func<Task> action)
     {
         EnsureIdle(); IsBusy = true; dispatched = false; LastResponse = null; Outcome = "running";
-        try { await action(); Outcome = "succeeded"; }
+        var epoch = targetEpoch;
+        try
+        {
+            await action();
+            if (epoch != targetEpoch) throw new IOException(invalidationReason);
+            Outcome = "succeeded";
+        }
         catch (Exception error)
         {
             Outcome = dispatched && error is (OperationCanceledException or IOException or TimeoutException) ? "unknown" : "rejected";
             Message = error.Message + (Outcome == "unknown" ? "\n结果未知：取消等待或传输失败不能撤回已经发出的操作。请检查回执；不会自动重试。" : "\n操作未完成；请修正条件后再执行。");
             throw;
         }
-        finally { IsBusy = false; }
+        finally
+        {
+            // A background invalidation may arrive while the Host owns an already-sent request.
+            // Its eventual response must not refill results or restore the former verified target.
+            if (epoch != targetEpoch) { selected = null; Status = new(); ClearQueries(); }
+            IsBusy = false;
+        }
     }
     private async Task RequireTarget(CancellationToken token)
     {
         if (selected is null) throw new InvalidOperationException("尚未选择目标，请到工程会话发现并核验。");
-        var result = await host.StatusAsync(token);
-        ValidateIdentity(result); Status = result;
+        try
+        {
+            var result = await host.StatusAsync(token);
+            ValidateIdentity(result); Status = result;
+        }
+        catch (Exception error) { InvalidateTarget(error.Message); throw; }
     }
     private void ValidateIdentity(YuzuhaConnectionStatus result)
     {
         if (selected is null || !result.TargetVerified || !result.Connected || result.Host is null || result.Host.ProcessId != selected.ProcessId || result.Host.ProcessStartTimeUtcTicks != selected.ProcessStartTimeUtcTicks || !string.Equals(result.Host.Model, result.ExpectedModel, StringComparison.OrdinalIgnoreCase))
         {
-            Status = new(); ClearQueries();
+            InvalidateTarget(result.Error ?? "目标身份失效，请重新发现并明确选择。");
             throw new InvalidOperationException(result.Error ?? "目标身份失效，已清除旧查询。请重新发现并核验，输入会保留。");
         }
+    }
+    /// <summary>界面线程撤销失效目标及旧查询；进行中的回执还会由操作末尾代次门禁丢弃，不撤销或重发已派发操作。</summary>
+    internal void InvalidateTarget(string reason)
+    {
+        invalidationReason = string.IsNullOrWhiteSpace(reason) ? "目标身份已失效，请重新发现并明确选择。" : reason;
+        targetEpoch++;
+        selected = null; Status = new(); ClearQueries();
+        if (!IsBusy) { Outcome = "rejected"; Message = invalidationReason; }
     }
     private void ClearQueries() { Forms.Clear(); Gadgets.Clear(); GadgetDetails = null; LastResponse = null; ObjectResult = null; ArrayRows.Clear(); ArrayLast = null; arrayKey = null; }
     /// <summary>窗体选择变化时清理控件和详情。</summary>

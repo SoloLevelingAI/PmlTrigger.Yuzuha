@@ -1,0 +1,219 @@
+{
+  "passed": true,
+  "finishedAt": "2026-11-01T12:19:51.043Z",
+  "scope": "Real shared metadata/catalog Chromium sibling navigation; no engineering execution",
+  "revisionId": "68054a653820f784e811f35a99e4083d3026e14c96675eb0f2150a11c062a601",
+  "metadataDigest": "4030121ceec6c3b7b02ec452212cd98fb9f5082056ca838ff6cf9839a6b0b5ee",
+  "renderModelDigest": "f1c7ec6f5be82d1324ed8f4f3c86ff6b26eca3452743559a971d381f8597b025",
+  "features": 18,
+  "scriptRoots": [
+    "method:0e45c2ace8a82f30235bb8a5c585b84cda999eefba0c857647c0e82b1bead239",
+    "method:4103a93f3929387e2b8441a2d158e91dda0075fc949a3bab4499b9d6a7950b08",
+    "method:15cacb97a17795f674469d0a9577af8b1457d6156c03e0bd15dc0da4d5dcb914"
+  ],
+  "realFixtures": {
+    "emptyFeature": "feature:formuse",
+    "singleFeature": "feature:arrays",
+    "otherFeature": "feature:deployment"
+  },
+  "checks": [
+    "1440: full 18 Feature and owner Script IDs, current/no-op, search, keyboard and outside dismissal",
+    "1440: direct siblings preserve tab/theme, clear old step, use one history entry; empty/single Script association and owner/history/refresh",
+    "1440: exact root methods only, real signature/source/SHA, no URL/history/request on method choice; same Script step then close returns overview",
+    "1440: tab, resize and content scroll dismiss stale menus",
+    "1920: full 18 Feature and owner Script IDs, current/no-op, search, keyboard and outside dismissal",
+    "1920: direct siblings preserve tab/theme, clear old step, use one history entry; empty/single Script association and owner/history/refresh",
+    "1920: exact root methods only, real signature/source/SHA, no URL/history/request on method choice; same Script step then close returns overview",
+    "1920: tab, resize and content scroll dismiss stale menus"
+  ],
+  "captures": [
+    {
+      "name": "method-sibling-1440",
+      "width": 1440,
+      "height": 900,
+      "scrollWidth": 1440
+    },
+    {
+      "name": "feature-picker-lime-1440",
+      "width": 1440,
+      "height": 900,
+      "scrollWidth": 1440,
+      "contrast": {
+        "colors": {
+          "surface": "rgb(250, 252, 243)",
+          "ink": "rgb(21, 24, 16)"
+        },
+        "ratio": 17.335725765645353
+      }
+    },
+    {
+      "name": "feature-picker-cyan-1440",
+      "width": 1440,
+      "height": 900,
+      "scrollWidth": 1440,
+      "contrast": {
+        "colors": {
+          "surface": "rgb(248, 255, 255)",
+          "ink": "rgb(16, 45, 51)"
+        },
+        "ratio": 14.350568757855854
+      }
+    },
+    {
+      "name": "feature-picker-violet-1440",
+      "width": 1440,
+      "height": 900,
+      "scrollWidth": 1440,
+      "contrast": {
+        "colors": {
+          "surface": "rgb(252, 250, 255)",
+          "ink": "rgb(42, 32, 61)"
+        },
+        "ratio": 14.760115567782112
+      }
+    },
+    {
+      "name": "feature-picker-orange-1440",
+      "width": 1440,
+      "height": 900,
+      "scrollWidth": 1440,
+      "contrast": {
+        "colors": {
+          "surface": "rgb(255, 251, 246)",
+          "ink": "rgb(56, 36, 22)"
+        },
+        "ratio": 14.232125549780992
+      }
+    },
+    {
+      "name": "feature-picker-rose-1440",
+      "width": 1440,
+      "height": 900,
+      "scrollWidth": 1440,
+      "contrast": {
+        "colors": {
+          "surface": "rgb(255, 248, 252)",
+          "ink": "rgb(56, 34, 46)"
+        },
+        "ratio": 13.982480313821506
+      }
+    },
+    {
+      "name": "feature-picker-graphite-1440",
+      "width": 1440,
+      "height": 900,
+      "scrollWidth": 1440,
+      "contrast": {
+        "colors": {
+          "surface": "rgb(28, 40, 46)",
+          "ink": "rgb(237, 245, 246)"
+        },
+        "ratio": 13.640767689119508
+      }
+    },
+    {
+      "name": "method-sibling-1920",
+      "width": 1920,
+      "height": 1080,
+      "scrollWidth": 1920
+    },
+    {
+      "name": "feature-picker-lime-1920",
+      "width": 1920,
+      "height": 1080,
+      "scrollWidth": 1920,
+      "contrast": {
+        "colors": {
+          "surface": "rgb(250, 252, 243)",
+          "ink": "rgb(21, 24, 16)"
+        },
+        "ratio": 17.335725765645353
+      }
+    },
+    {
+      "name": "feature-picker-cyan-1920",
+      "width": 1920,
+      "height": 1080,
+      "scrollWidth": 1920,
+      "contrast": {
+        "colors": {
+          "surface": "rgb(248, 255, 255)",
+          "ink": "rgb(16, 45, 51)"
+        },
+        "ratio": 14.350568757855854
+      }
+    },
+    {
+      "name": "feature-picker-violet-1920",
+      "width": 1920,
+      "height": 1080,
+      "scrollWidth": 1920,
+      "contrast": {
+        "colors": {
+          "surface": "rgb(252, 250, 255)",
+          "ink": "rgb(42, 32, 61)"
+        },
+        "ratio": 14.760115567782112
+      }
+    },
+    {
+      "name": "feature-picker-orange-1920",
+      "width": 1920,
+      "height": 1080,
+      "scrollWidth": 1920,
+      "contrast": {
+        "colors": {
+          "surface": "rgb(255, 251, 246)",
+          "ink": "rgb(56, 36, 22)"
+        },
+        "ratio": 14.232125549780992
+      }
+    },
+    {
+      "name": "feature-picker-rose-1920",
+      "width": 1920,
+      "height": 1080,
+      "scrollWidth": 1920,
+      "contrast": {
+        "colors": {
+          "surface": "rgb(255, 248, 252)",
+          "ink": "rgb(56, 34, 46)"
+        },
+        "ratio": 13.982480313821506
+      }
+    },
+    {
+      "name": "feature-picker-graphite-1920",
+      "width": 1920,
+      "height": 1080,
+      "scrollWidth": 1920,
+      "contrast": {
+        "colors": {
+          "surface": "rgb(28, 40, 46)",
+          "ink": "rgb(237, 245, 246)"
+        },
+        "ratio": 13.640767689119508
+      }
+    },
+    {
+      "name": "feature-picker-1024",
+      "width": 1024,
+      "height": 768,
+      "scrollWidth": 1024
+    },
+    {
+      "name": "script-picker-1024",
+      "width": 1024,
+      "height": 768,
+      "scrollWidth": 1024
+    }
+  ],
+  "errors": [],
+  "popups": [],
+  "writes": [],
+  "lateGates": "Controlled delayed/digest/mount races belong to isolated component fixture; not claimed by this real-source suite.",
+  "mobile": "independent-layout-planned",
+  "visualStatus": "pending-agent-review",
+  "humanStatus": "human-not-reviewed",
+  "figcraft": "not-started"
+}

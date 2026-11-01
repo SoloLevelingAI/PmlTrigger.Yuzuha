@@ -1,0 +1,426 @@
+{
+  "passed": true,
+  "matrix": [
+    {
+      "width": 1440,
+      "view": "help",
+      "detail": "summary",
+      "geometry": {
+        "pageWidth": 1440,
+        "scrollWidth": 1440,
+        "main": {
+          "left": 310,
+          "right": 1170,
+          "width": 860,
+          "top": 96
+        },
+        "site": {
+          "left": 44,
+          "right": 246,
+          "top": 96
+        },
+        "outline": {
+          "left": 1215,
+          "right": 1369,
+          "top": 96
+        }
+      },
+      "type": {
+        "body": 16,
+        "heading": 18,
+        "aux": 12,
+        "text": "rgb(24, 52, 47)",
+        "headingColor": "rgb(24, 52, 47)",
+        "neutral": "#18342F"
+      },
+      "outlineTargets": 17
+    },
+    {
+      "width": 1440,
+      "view": "help",
+      "detail": "full",
+      "geometry": {
+        "pageWidth": 1440,
+        "scrollWidth": 1440,
+        "main": {
+          "left": 310,
+          "right": 1170,
+          "width": 860,
+          "top": 96
+        },
+        "site": {
+          "left": 44,
+          "right": 246,
+          "top": 96
+        },
+        "outline": {
+          "left": 1215,
+          "right": 1369,
+          "top": 96
+        }
+      },
+      "type": {
+        "body": 16,
+        "heading": 18,
+        "aux": 12,
+        "text": "rgb(24, 52, 47)",
+        "headingColor": "rgb(24, 52, 47)",
+        "neutral": "#18342F"
+      },
+      "outlineTargets": 17
+    },
+    {
+      "width": 1440,
+      "view": "portfolio",
+      "detail": "summary",
+      "geometry": {
+        "pageWidth": 1440,
+        "scrollWidth": 1440,
+        "main": {
+          "left": 310,
+          "right": 1170,
+          "width": 860,
+          "top": 96
+        },
+        "site": {
+          "left": 42,
+          "right": 244,
+          "top": 96
+        },
+        "outline": {
+          "left": 1217,
+          "right": 1371,
+          "top": 96
+        }
+      },
+      "type": {
+        "body": 16,
+        "heading": 18,
+        "aux": 12,
+        "text": "rgb(24, 52, 47)",
+        "headingColor": "rgb(24, 52, 47)",
+        "neutral": "#18342F"
+      },
+      "outlineTargets": 17
+    },
+    {
+      "width": 1440,
+      "view": "portfolio",
+      "detail": "full",
+      "geometry": {
+        "pageWidth": 1440,
+        "scrollWidth": 1440,
+        "main": {
+          "left": 310,
+          "right": 1170,
+          "width": 860,
+          "top": 96
+        },
+        "site": {
+          "left": 42,
+          "right": 244,
+          "top": 96
+        },
+        "outline": {
+          "left": 1217,
+          "right": 1371,
+          "top": 96
+        }
+      },
+      "type": {
+        "body": 16,
+        "heading": 18,
+        "aux": 12,
+        "text": "rgb(24, 52, 47)",
+        "headingColor": "rgb(24, 52, 47)",
+        "neutral": "#18342F"
+      },
+      "outlineTargets": 17
+    },
+    {
+      "width": 1024,
+      "view": "help",
+      "detail": "summary",
+      "geometry": {
+        "pageWidth": 1024,
+        "scrollWidth": 1024,
+        "main": {
+          "left": 274,
+          "right": 1000,
+          "width": 726,
+          "top": 171.796875
+        },
+        "site": {
+          "left": 24,
+          "right": 210,
+          "top": 96
+        },
+        "outline": {
+          "left": 274,
+          "right": 1000,
+          "top": 96
+        }
+      },
+      "type": {
+        "body": 16,
+        "heading": 18,
+        "aux": 12,
+        "text": "rgb(24, 52, 47)",
+        "headingColor": "rgb(24, 52, 47)",
+        "neutral": "#18342F"
+      },
+      "outlineTargets": 17
+    },
+    {
+      "width": 1024,
+      "view": "help",
+      "detail": "full",
+      "geometry": {
+        "pageWidth": 1024,
+        "scrollWidth": 1024,
+        "main": {
+          "left": 274,
+          "right": 1000,
+          "width": 726,
+          "top": 171.796875
+        },
+        "site": {
+          "left": 24,
+          "right": 210,
+          "top": 96
+        },
+        "outline": {
+          "left": 274,
+          "right": 1000,
+          "top": 96
+        }
+      },
+      "type": {
+        "body": 16,
+        "heading": 18,
+        "aux": 12,
+        "text": "rgb(24, 52, 47)",
+        "headingColor": "rgb(24, 52, 47)",
+        "neutral": "#18342F"
+      },
+      "outlineTargets": 17
+    },
+    {
+      "width": 1024,
+      "view": "portfolio",
+      "detail": "summary",
+      "geometry": {
+        "pageWidth": 1024,
+        "scrollWidth": 1024,
+        "main": {
+          "left": 272,
+          "right": 1000,
+          "width": 728,
+          "top": 159.796875
+        },
+        "site": {
+          "left": 24,
+          "right": 210,
+          "top": 96
+        },
+        "outline": {
+          "left": 272,
+          "right": 1000,
+          "top": 96
+        }
+      },
+      "type": {
+        "body": 16,
+        "heading": 18,
+        "aux": 12,
+        "text": "rgb(24, 52, 47)",
+        "headingColor": "rgb(24, 52, 47)",
+        "neutral": "#18342F"
+      },
+      "outlineTargets": 17
+    },
+    {
+      "width": 1024,
+      "view": "portfolio",
+      "detail": "full",
+      "geometry": {
+        "pageWidth": 1024,
+        "scrollWidth": 1024,
+        "main": {
+          "left": 272,
+          "right": 1000,
+          "width": 728,
+          "top": 159.796875
+        },
+        "site": {
+          "left": 24,
+          "right": 210,
+          "top": 96
+        },
+        "outline": {
+          "left": 272,
+          "right": 1000,
+          "top": 96
+        }
+      },
+      "type": {
+        "body": 16,
+        "heading": 18,
+        "aux": 12,
+        "text": "rgb(24, 52, 47)",
+        "headingColor": "rgb(24, 52, 47)",
+        "neutral": "#18342F"
+      },
+      "outlineTargets": 17
+    },
+    {
+      "width": 390,
+      "view": "help",
+      "detail": "summary",
+      "geometry": {
+        "pageWidth": 390,
+        "scrollWidth": 390,
+        "main": {
+          "left": 20,
+          "right": 370,
+          "width": 350,
+          "top": 288.59375
+        },
+        "site": {
+          "left": 20,
+          "right": 370,
+          "top": 137
+        },
+        "outline": {
+          "left": 20,
+          "right": 370,
+          "top": 212.796875
+        }
+      },
+      "type": {
+        "body": 16,
+        "heading": 18,
+        "aux": 12,
+        "text": "rgb(24, 52, 47)",
+        "headingColor": "rgb(24, 52, 47)",
+        "neutral": "#18342F"
+      },
+      "outlineTargets": 17
+    },
+    {
+      "width": 390,
+      "view": "help",
+      "detail": "full",
+      "geometry": {
+        "pageWidth": 390,
+        "scrollWidth": 390,
+        "main": {
+          "left": 20,
+          "right": 370,
+          "width": 350,
+          "top": 288.59375
+        },
+        "site": {
+          "left": 20,
+          "right": 370,
+          "top": 137
+        },
+        "outline": {
+          "left": 20,
+          "right": 370,
+          "top": 212.796875
+        }
+      },
+      "type": {
+        "body": 16,
+        "heading": 18,
+        "aux": 12,
+        "text": "rgb(24, 52, 47)",
+        "headingColor": "rgb(24, 52, 47)",
+        "neutral": "#18342F"
+      },
+      "outlineTargets": 17
+    },
+    {
+      "width": 390,
+      "view": "portfolio",
+      "detail": "summary",
+      "geometry": {
+        "pageWidth": 390,
+        "scrollWidth": 390,
+        "main": {
+          "left": 20,
+          "right": 370,
+          "width": 350,
+          "top": 252.59375
+        },
+        "site": {
+          "left": 20,
+          "right": 370,
+          "top": 137
+        },
+        "outline": {
+          "left": 20,
+          "right": 370,
+          "top": 194.796875
+        }
+      },
+      "type": {
+        "body": 16,
+        "heading": 18,
+        "aux": 12,
+        "text": "rgb(24, 52, 47)",
+        "headingColor": "rgb(24, 52, 47)",
+        "neutral": "#18342F"
+      },
+      "outlineTargets": 17
+    },
+    {
+      "width": 390,
+      "view": "portfolio",
+      "detail": "full",
+      "geometry": {
+        "pageWidth": 390,
+        "scrollWidth": 390,
+        "main": {
+          "left": 20,
+          "right": 370,
+          "width": 350,
+          "top": 252.59375
+        },
+        "site": {
+          "left": 20,
+          "right": 370,
+          "top": 137
+        },
+        "outline": {
+          "left": 20,
+          "right": 370,
+          "top": 194.796875
+        }
+      },
+      "type": {
+        "body": 16,
+        "heading": 18,
+        "aux": 12,
+        "text": "rgb(24, 52, 47)",
+        "headingColor": "rgb(24, 52, 47)",
+        "neutral": "#18342F"
+      },
+      "outlineTargets": 17
+    }
+  ],
+  "checks": [
+    "12 responsive document layouts, full project tree, selected contract first, stable hierarchical outline and readable typography",
+    "desktop sidebars remain sticky during body scroll",
+    "long sidebars have bounded independent scrolling",
+    "explicit subsection navigation opens only necessary disclosure and restores hash without changing reading choices",
+    "same-document back and forward restore subsection and necessary disclosure",
+    "revision preserves effective section and relative reading position",
+    "global collapse downgrades field URL to parent and reload stays folded with stable reading choices",
+    "legacy flow section remains reachable and scrollspy updates without stealing focus",
+    "mobile native directories and tools open by keyboard and Escape-close safely; desktop resize restores both",
+    "independent import and draft isolate active section namespace"
+  ],
+  "scriptErrors": []
+}

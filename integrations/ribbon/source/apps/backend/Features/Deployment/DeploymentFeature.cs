@@ -61,10 +61,12 @@ namespace RibbonStudio.Backend
             return new Dictionary<string, object> { { "operation", "update-file" }, { "uicPath", path }, { "uicHash", Data.Hash(before) }, { "nextUicHash", Data.Hash(next) }, { "uicBytes", next.Length }, { "unchanged", before.SequenceEqual(next) }, { "references", refs }, { "scanErrors", errors } };
         }
         public object FileApply(object input)
+        { return FileApply(input, false); }
+        internal object FileApply(object input, bool alreadyNormalized)
         {
             lock (writes)
             {
-                var saved = store.Save(ProjectRules.Normalize(ProjectOf(input)), "save", "更新 UIC 前保存");
+                var saved = store.Save(alreadyNormalized ? ProjectOf(input) : ProjectRules.Normalize(ProjectOf(input)), "save", "更新 UIC 前保存");
                 var p = saved.project;
                 var plan = FilePreview(p);
                 string path = Data.Text(plan, "uicPath"), expected = Data.Text(input, "expectedUicHash");
@@ -127,6 +129,8 @@ namespace RibbonStudio.Backend
             };
         }
         public object Registration(object input, bool apply)
+        { return Registration(input, apply, false); }
+        internal object Registration(object input, bool apply, bool frozen)
         {
             lock (writes)
             {
@@ -158,6 +162,8 @@ namespace RibbonStudio.Backend
                     });
                     string backup = m.Path + ".RibbonStudio." + Guid.NewGuid() + ".bak";
                     File.WriteAllBytes(backup, m.Bytes);
+                    if (frozen && (Data.Hash(Data.Read(m.Path)) != Data.Text(input, "expectedManifestHash") || Data.Hash(Data.Read(source)) != Data.Text(input, "expectedUicHash")))
+                        throw new ApiError(409, "登记写入前目标发生变化，未覆盖；请核对本次快照和备份");
                     Data.Atomic(m.Path, m.Encode(next));
                     result["backup"] = backup;
                 }

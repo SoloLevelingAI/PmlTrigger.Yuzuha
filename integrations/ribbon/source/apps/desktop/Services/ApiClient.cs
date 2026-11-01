@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 namespace RibbonStudio
 {
+    public sealed class ApiRequestRejected : Exception { public readonly int Status; public ApiRequestRejected(int status, string message) : base(message) { Status = status; } }
     public sealed class ApiClient : IDisposable
     {
         readonly HttpClient client; public readonly string Address;
@@ -36,7 +37,7 @@ namespace RibbonStudio
                                 message += "\n" + Json.Write(data["issues"]);
                         }
                         catch { }
-                        throw new Exception(((int)response.StatusCode) + " · " + message);
+                        throw new ApiRequestRejected((int)response.StatusCode, ((int)response.StatusCode) + " · " + message);
                     }
                     return bytes;
                 }
@@ -49,6 +50,10 @@ namespace RibbonStudio
         public async Task<T> Post<T>(string route, object value)
         {
             return Json.Read<T>(Encoding.UTF8.GetString(await Send("api/v1/" + route, value, true)));
+        }
+        public async Task<T> PostV2<T>(string route, object value)
+        {
+            return Json.Read<T>(Encoding.UTF8.GetString(await Send("api/v2/" + route, value, true)));
         }
         public async Task<string> Text(string route, object value)
         {

@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "scope": "isolated fixture browser; not real Roslyn/source service",
+  "checks": [
+    "exact signature/source text and no HTML execution",
+    "caller/callee navigation",
+    "sandboxed inline DocFX",
+    "theme retains node and scroll",
+    "Escape focus and page/reader position",
+    "stale/unavailable/digest mismatch hide source",
+    "closed late response rejected",
+    "reopen close-event race",
+    "revision invalidation clears body and rejects late response",
+    "390 no internal horizontal overflow",
+    "desktop dock common content and old handle isolation",
+    "dock close leaves unrelated reader open"
+  ],
+  "errors": []
+}

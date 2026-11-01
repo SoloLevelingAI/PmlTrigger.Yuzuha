@@ -7,8 +7,11 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="../../src/YuzuhaToolkit.Desktop/DesktopTaskNavigation.cs" Link="Desktop/DesktopTaskNavigation.cs" />
     <Compile Include="../../src/YuzuhaToolkit.Desktop/SessionWorkbench.cs" Link="Desktop/SessionWorkbench.cs" />
     <Compile Include="../../src/YuzuhaToolkit.Desktop/DesktopCliSession.cs" Link="Desktop/DesktopCliSession.cs" />
+    <Compile Include="../../src/YuzuhaToolkit.Desktop/DashboardSessionMonitor.cs" Link="Desktop/DashboardSessionMonitor.cs" />
+    <Compile Include="../../src/YuzuhaToolkit.Desktop/DashboardSessionProbe.cs" Link="Desktop/DashboardSessionProbe.cs" />
     <Compile Include="../../src/YuzuhaToolkit.Desktop/McpWorkbenchHost.cs" Link="Desktop/McpWorkbenchHost.cs" />
     <Compile Include="../../src/YuzuhaToolkit.Desktop/DesktopDevelopmentHost.cs" Link="Desktop/DesktopDevelopmentHost.cs" />
     <Compile Include="../../src/YuzuhaToolkit.Desktop/DesktopDisplaySettings.cs" Link="Desktop/DesktopDisplaySettings.cs" />

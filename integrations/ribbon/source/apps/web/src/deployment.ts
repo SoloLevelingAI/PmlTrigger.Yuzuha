@@ -1,4 +1,5 @@
 import { mountModuleTransfer } from './module-transfer.ts';
+import { FrozenDeploymentClient, DeploymentUnknown, acknowledgeManualDeploymentCheck, activationMessage } from './frozen-deployment.ts';
 import type { RibbonProject, DeploymentTarget, DeploymentPlan } from '../../../packages/contracts/index.ts';
 
 const escape = (text: unknown) => String(text ?? '').replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
@@ -11,6 +12,20 @@ async function call(path: string, data?: unknown) {
   return result;
 }
 export async function openDeployment(project: RibbonProject, mode: 'file' | 'modules' = 'file') {
+  const shared = new FrozenDeploymentClient();
+  if (shared.locked) {
+    const displayedPlanId = shared.unknownPlanId!;
+    const app = document.querySelector<HTMLElement>('#app')!, previous = document.activeElement as HTMLElement | null; app.inert = true;
+    const layer = document.createElement('div'); layer.className = 'modal-backdrop';
+    const panel = document.createElement('section'); panel.className = 'deployment-dialog'; panel.setAttribute('role','dialog'); panel.setAttribute('aria-label','部署结果待核对');
+    const heading = document.createElement('h2'); heading.textContent = '部署结果待核对'; panel.append(heading);
+    const message = document.createElement('p'); message.className = 'deployment-feedback error'; message.textContent = new DeploymentUnknown(displayedPlanId).message; panel.append(message);
+    const dismiss = () => { layer.remove(); app.inert = false; previous?.focus(); };
+    const close = document.createElement('button'); close.className = 'secondary'; close.textContent = '关闭'; close.onclick = dismiss; panel.append(close);
+    const unlock = document.createElement('button'); unlock.className = 'primary'; unlock.textContent = '已人工核对文件与历史，解除写入暂停'; unlock.onclick = async () => { if (confirm('确认已人工核对原工作区历史、目标文件与备份？解除暂停不代表 Ribbon 已加载，之后需要重新预览。')) { try { await acknowledgeManualDeploymentCheck(displayedPlanId); dismiss(); } catch (error) { message.textContent = (error as Error).message; } } }; panel.append(unlock);
+    layer.addEventListener('keydown', event => { if (event.key === 'Escape') dismiss(); });
+    layer.append(panel); document.body.append(layer); unlock.focus(); return;
+  }
   if (project.documentId) {
     const response = await fetch('/api/v1/workspace/context', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ documentId: project.documentId }) });
     if (!response.ok) throw new Error('无法读取 UIC 文档记录');
@@ -23,7 +38,7 @@ export async function openDeployment(project: RibbonProject, mode: 'file' | 'mod
   const previous = document.activeElement as HTMLElement | null;
   layer.className = 'modal-backdrop';
   layer.innerHTML = '<section class="deployment-dialog" role="dialog" aria-modal="true" aria-labelledby="deploy-title">' +
-    '<div class="deployment-heading"><div><span class="eyebrow">DEPLOY TO AVEVA</span><h2 id="deploy-title">部署 Ribbon</h2></div><button class="icon-button" data-deploy="close" aria-label="关闭部署">×</button></div>' +
+    '<div class="deployment-heading"><div><span class="eyebrow">V1 COMPATIBILITY · FIRST DEPLOYMENT</span><h2 id="deploy-title">首次生成 Ribbon（v1 兼容入口）</h2></div><button class="icon-button" data-deploy="close" aria-label="关闭部署">×</button></div>' +
     '<p class="deployment-intro">选择目标安装和模块，预览实际文件路径。导入的自定义 UIC 先备份再覆盖原文件，保留原 Name/Path 登记，无须先接管。</p>' +
     '<label class="field"><span>已发现的 AVEVA 安装</span><select id="deployment-installation"><option value="">正在查找本机安装…</option></select></label>' +
     '<label class="field"><span>mon.exe 完整路径</span><div class="path-input"><input id="deployment-mon" placeholder="C:\\AVEVA\\…\\mon.exe" autocomplete="off"/><button class="secondary" data-deploy="inspect">检测目录</button></div><small>也可手动填写本机路径。未选择的安装不会修改。</small></label>' +
@@ -75,6 +90,7 @@ export async function openDeployment(project: RibbonProject, mode: 'file' | 'mod
     const action = (event.target as HTMLElement).closest<HTMLElement>('[data-deploy]')?.dataset.deploy;
     if (!action || working) return;
     if (action === 'close') { close(); return; }
+    if (shared.locked) { message(new DeploymentUnknown(shared.unknownPlanId!).message, true); return; }
     try {
       lock(true);
       if (action === 'inspect') await inspect();
@@ -93,9 +109,9 @@ export async function openDeployment(project: RibbonProject, mode: 'file' | 'mod
       } else if (action === 'apply') {
         if (!plan) throw new Error('请先预览部署');
         message('正在备份并部署…');
-        const result = await call('apply', { project, monPath: mon.value, manifestName: manifest.value, expectedManifestHash: plan.manifestHash, expectedUicHash: plan.uicHash });
+        const result = await shared.applyLegacy({ project, monPath: mon.value, manifestName: manifest.value, expectedManifestHash: plan.manifestHash, expectedUicHash: plan.uicHash });
         plan = null;
-        message(result.unchanged ? '目标文件已是当前版本，无须重复部署。' : '部署完成。重新进入对应模块或重启 AVEVA 后查看 Ribbon。');
+        message((result.unchanged ? '磁盘文件内容相同。' : '首次部署已写入磁盘。') + activationMessage);
         if (result.backupDirectory) view.innerHTML += '<div class="deployment-backup"><b>备份位置</b><code>' + escape(result.backupDirectory) + '</code></div>';
       }
     } catch (error) {
@@ -140,9 +156,10 @@ async function openFileUpdate(project: RibbonProject, sourcePath: string, mode: 
   const dialog = layer.querySelector<HTMLElement>('.deployment-dialog')!, intro = layer.querySelector<HTMLElement>('.deployment-intro')!, modulePanel = layer.querySelector<HTMLElement>('#module-panel')!;
   const view = layer.querySelector<HTMLElement>('#file-plan')!, feedback = layer.querySelector<HTMLElement>('#file-feedback')!, apply = layer.querySelector<HTMLButtonElement>('[data-action="apply"]')!;
   let plan: any = null, working = false;
+  const frozen = new FrozenDeploymentClient();
   const moduleTransfer = mountModuleTransfer(modulePanel, project, sourcePath, busy => {
     layer.querySelectorAll<HTMLButtonElement>('[data-mode],[data-action="close"]').forEach(button => button.disabled = busy);
-    if (busy) plan = null;
+    if (busy) { plan = null; frozen.invalidate(); }
   }, preview => {
     if (mode !== 'modules') return;
     layer.querySelector('#file-title')!.textContent = preview ? '预览模块变更' : '选择关联模块';
@@ -159,11 +176,12 @@ async function openFileUpdate(project: RibbonProject, sourcePath: string, mode: 
       intro.textContent = '核对每个模块的清单路径与新增登记。确认后将按此预览内容写入，并保存原文件备份。';
     }
     layer.querySelectorAll<HTMLButtonElement>('[data-mode]').forEach(button => { const active = button.dataset.mode === value; button.setAttribute('aria-selected', String(active)); button.classList.toggle('active', active); });
-    feedback.textContent = '';
+    if (!frozen.locked) feedback.textContent = '';
   };
   const close = () => { if (!working && !moduleTransfer.isWorking()) { layer.remove(); app.inert = false; previous?.focus(); } };
   const run = async (action: string) => {
     if (working || moduleTransfer.isWorking()) return;
+    if (frozen.locked) { feedback.textContent = new DeploymentUnknown(frozen.unknownPlanId!).message; return; }
     working = true;
     const controls = () => Array.from(layer.querySelectorAll<HTMLButtonElement | HTMLInputElement>('button,input')).filter(el => !modulePanel.contains(el));
     controls().forEach(el => el.disabled = true);
@@ -171,7 +189,7 @@ async function openFileUpdate(project: RibbonProject, sourcePath: string, mode: 
       feedback.className = 'deployment-feedback';
       if (action === 'preview') {
         feedback.textContent = '正在收集本机已发现安装中的模块引用…';
-        plan = await call('file-preview', { project });
+        const envelope = await frozen.preview('file', { project }); plan = envelope.targetPlan;
         view.innerHTML = '<h3>' + (plan.unchanged ? '文件已是当前版本' : '覆盖原文件 · 自动备份') + '</h3><p>' + (plan.uicBytes / 1024).toFixed(1) + ' KiB · Large 32×32 / Small 16×16</p><h3>关联模块（' + plan.references.length + '）</h3>' +
           '<label class="field"><span>筛选模块 / 安装 / 加载名称</span><input id="reference-filter" placeholder="例如 Design 或 Ytools" /></label><div style="overflow:auto"><table><thead><tr><th>模块 XML</th><th>加载名称</th><th>所属安装</th></tr></thead><tbody>' +
           plan.references.map((r: any) => '<tr><td>' + escape(r.manifestName) + '</td><td>' + escape(r.entryName) + '</td><td>' + escape(r.monPath) + '</td></tr>').join('') + '</tbody></table></div><p>更新文件无需选择模块。已有加载登记保持不变。</p>';
@@ -181,16 +199,16 @@ async function openFileUpdate(project: RibbonProject, sourcePath: string, mode: 
           const search = (event.target as HTMLInputElement).value.toLowerCase();
           view.querySelectorAll<HTMLTableRowElement>('tbody tr').forEach(row => row.hidden = !row.textContent!.toLowerCase().includes(search));
         });
-        feedback.textContent = '预览就绪。确认后只备份并覆盖上述 UIC 文件，记录更新前后版本。';
+        feedback.textContent = '冻结预览 ' + envelope.planId + ' · 源版本 ' + envelope.expectedVersionId + ' · 有效期 ' + envelope.expiresAt + '。确认后只更新 UIC。';
       } else {
         if (!plan) throw new Error('请先预览');
         feedback.textContent = '正在备份并更新 UIC…';
-        const result = await call('file-apply', { project, expectedUicHash: plan.uicHash }); plan = null;
-        feedback.textContent = result.unchanged ? '文件内容相同，无须重复覆盖。' : 'UIC 已更新。所有引用此文件的模块在重新加载 Ribbon 后生效。';
-        if (result.backupDirectory) view.innerHTML += '<div class="deployment-backup"><b>原文件备份</b><code>' + escape(result.backupDirectory) + '</code></div>';
+        plan = null; const receipt = await frozen.apply();
+        feedback.textContent = (receipt.state === 'unchanged' ? '磁盘文件内容相同。' : 'UIC 已部署到磁盘。') + activationMessage;
+        if (receipt.result?.backupDirectory) view.innerHTML += '<div class="deployment-backup"><b>原文件备份</b><code>' + escape(receipt.result.backupDirectory) + '</code></div>';
       }
     } catch (error) { plan = null; feedback.className = 'deployment-feedback error'; feedback.textContent = (error as Error).message; }
-    finally { working = false; controls().forEach(el => el.disabled = false); apply.disabled = !plan; }
+    finally { working = false; controls().forEach(el => el.disabled = frozen.locked && el.dataset.action !== 'close'); apply.disabled = frozen.locked || !plan; }
   };
   layer.addEventListener('click', event => {
     const target = (event.target as HTMLElement).closest<HTMLElement>('[data-action],[data-mode]');

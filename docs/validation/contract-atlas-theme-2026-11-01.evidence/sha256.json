@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "files": [
+    {
+      "path": "help-dark-1440.png",
+      "sha256": "186451cdf6976d6a56031b80daf1e2cde3092549cd3537e52f792fb569f1c8eb"
+    },
+    {
+      "path": "help-dark-390.png",
+      "sha256": "4d43e535e9aec0db626a5529e7e1d75a41a60373761c2ac2ddab98f12a51a04a"
+    },
+    {
+      "path": "help-light-1440.png",
+      "sha256": "91e9ecae915fc16c02f14443dc08d73db8bcf51cf7341f07a5cf12962df99286"
+    },
+    {
+      "path": "portfolio-dark-1440.png",
+      "sha256": "92b883b8758e2fc1f0f0b4882795653d44404220602dee3cdbd8fb73b038b03e"
+    },
+    {
+      "path": "portfolio-light-1440.png",
+      "sha256": "ef212c13a82e4405fe8d624f4d7b52787d9f64b900601f2a4b6b265b39c3a827"
+    },
+    {
+      "path": "portfolio-light-390.png",
+      "sha256": "18f076e1c6ba4d75337b5cf12312937cfc78ba8dbd8e4e2a514faf7bbcb7e80b"
+    },
+    {
+      "path": "regression-final.log",
+      "sha256": "32d37a0447289a4d4b79d4fb4690e139d45862fb4fde40f998183603897fc8f8"
+    },
+    {
+      "path": "regression-results.json",
+      "sha256": "18b650b014b275949350b1f121017441dd1a029c5c8eb23bdc23995943516351"
+    },
+    {
+      "path": "theme-failure.json",
+      "sha256": "557027a90571c316111f1230f1441a4dcbb2d7debf90fb4219721f162648de80"
+    },
+    {
+      "path": "theme-final.log",
+      "sha256": "545d45a9dc27f9553ffc512d11d6009c6c207f6c8c8181b9249a6ae6272da4da"
+    },
+    {
+      "path": "theme-results.json",
+      "sha256": "69e037316d06dac5db871add1225e7ae35f31c478613d06702c58ff312f357f4"
+    },
+    {
+      "path": "unit-final.log",
+      "sha256": "f950e19a2a74f728092557ecefa50f2d88517ef800d98501118f4b8d07a0bc2d"
+    }
+  ]
+}

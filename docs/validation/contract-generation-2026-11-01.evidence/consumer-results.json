@@ -1,0 +1,28 @@
+{
+  "passed": true,
+  "scope": "Real browser and real HTTP/SSE coordinator with native test double; not native FigCraft acceptance",
+  "checks": {
+    "stateAndFocusPreserved": true,
+    "visibleConnectionLabel": true,
+    "nativeFalseRetainsLastgood": true,
+    "manifestSourceIdentityMismatchRetainsLastgood": true,
+    "artifactHashFailureRetainsLastgood": true,
+    "staleResponseCannotOverride": true,
+    "importProtectsLocalData": true,
+    "draftConflictRetained": true,
+    "explicitSaveWaitsSharedReady": true,
+    "unknownSaveChecksWithoutReplay": true,
+    "acceptedNativeFailureCanEndReview": true,
+    "dependencyDigestDriftStillPublishesAcceptedSource": true,
+    "newAuthorRevisionDoesNotAutoCompleteAccepted": true
+  },
+  "saveRequests": 3,
+  "scriptErrors": [],
+  "fixture": "F:\\OneDrive\\Documents\\ChatGPT\\PmlTwin\\artifacts\\contract-generation-tests\\case-0JBkCJ",
+  "ignoredRevisions": [
+    "ace14458a56d3a6f19e4c37e67bc9d0ee993ad3b087bd9106016f8c92b03a472",
+    "1cc676ea01ada39d508059961e6252b60f8b7328b87e6cfb7f0b7d87afafc877",
+    "46272a4b7ed907481c8cc8d7df1e5c76713c46d09b2c740ab60304a09f49b649",
+    "b582038eaffd775e573a16c79930d18b936a9e4a34257df40273e54d20d33eef"
+  ]
+}

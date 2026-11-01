@@ -4,6 +4,13 @@
 
 ## ADDED Requirements
 
+### Requirement: MDB candidates have explicit provenance
+后续 MDB 候选发现 SHALL 区分用户手填值、静态配置提示和当前工程登录后的权威列表。当前实现只接受 MDB 输入，尚无列表发现操作；MUST NOT 将常见名称 `/ALL` 猜作默认值或将其他工程的历史列表冒充当前可用列表。
+
+#### Scenario: MDB discovery is unavailable
+- **WHEN** 已定位产品和工程但尚无受支持的 MDB 查询能力或必要登录状态
+- **THEN** 保留明确的 needsInput 与原因，允许用户提供 MDB；此输入不代表已证明登录权限。后续增加查询应先定义版本化操作、身份校验、只读边界及列表过期规则。
+
 ### Requirement: Evidence based discovery
 系统 SHALL 只读发现安装、版本、架构、初始化文件、项目、模块、UIC 引用及可用工具，返回候选身份、来源、时间、扫描范围和错误；MUST 区分静态推断与实际会话证据。状态：partial；已有扫描器见 [来源清单](../../source-inventory.md)。
 
@@ -32,3 +39,10 @@
 #### Scenario: Timeout after possible side effect
 - **WHEN** 启动、PML 或部署调用在可能生效后失去回执
 - **THEN** 标记 unknown，提供观察或核对入口，不能显示成功、自动重放或误报已回滚。
+
+### Requirement: Desktop launch uses shared durable facts
+桌面启动 SHALL 与 CLI/HTML 共享冻结计划、操作身份和持久受理语义；MUST 区分入口进程创建与工程登录、Host 核验。状态：planned；细化及测试映射见 [续作契约](../../features/continuation-contracts.md)。
+
+#### Scenario: Reopen after an uncertain launch
+- **WHEN** 桌面启动返回 unknown，用户重开窗口并输入原操作编号
+- **THEN** 可观察已有事实，不自动创建第二次启动；密码不进入恢复记录。

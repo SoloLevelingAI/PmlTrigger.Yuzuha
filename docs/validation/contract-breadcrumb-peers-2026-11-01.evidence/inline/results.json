@@ -1,0 +1,401 @@
+{
+  "passed": true,
+  "finishedAt": "2026-11-01T12:15:51.356Z",
+  "scope": "Actual shared method artifacts/current source and desktop-first inline UI, no engineering execution",
+  "revisionId": "68054a653820f784e811f35a99e4083d3026e14c96675eb0f2150a11c062a601",
+  "metadataDigest": "4030121ceec6c3b7b02ec452212cd98fb9f5082056ca838ff6cf9839a6b0b5ee",
+  "renderModelDigest": "f1c7ec6f5be82d1324ed8f4f3c86ff6b26eca3452743559a971d381f8597b025",
+  "methods": 393,
+  "edges": 1485,
+  "selected": {
+    "symbolId": "YuzuhaToolkit.Manager.Core::M:YuzuhaToolkit.Manager.LaunchWorkflowService.Plan(System.String,System.String,System.String)",
+    "sourcePath": "src/YuzuhaToolkit.Manager.Core/LaunchWorkflow.cs",
+    "sourceSha256": "44d075ea468f8f01d82346d718af41ffddb13ce9d66113dcd619c0a875eabba4",
+    "sourceLines": [
+      54,
+      76
+    ]
+  },
+  "checks": [
+    "six palettes at 1920/1440 preserve actual method/source DOM, selected method and task context without new method requests",
+    "verified DocFX member renders inside the same workspace and its exact member anchor exists",
+    "ion actual primary method entry stays in the same document and exact Plan signature/source/SHA matches",
+    "prism actual primary method entry stays in the same document and exact Plan signature/source/SHA matches",
+    "bench actual primary method entry stays in the same document and exact Plan signature/source/SHA matches",
+    "reader=evidence deep-link enters desktop pane; Script inherited evidence is identified by Feature scope",
+    "unavailable Script binding stays explicit with no invented method body",
+    "closing nested methods returns to the original contract reader and exact trigger"
+  ],
+  "themeCaptures": [
+    {
+      "theme": "lime",
+      "width": 1920,
+      "height": 1080,
+      "geometry": {
+        "pageWidth": 1920,
+        "viewport": 1920,
+        "path": {
+          "x": 24,
+          "y": 117,
+          "width": 340,
+          "height": 771,
+          "top": 117,
+          "right": 364,
+          "bottom": 888,
+          "left": 24
+        },
+        "tabs": {
+          "x": 393,
+          "y": 261.59375,
+          "width": 1502,
+          "height": 47,
+          "top": 261.59375,
+          "right": 1895,
+          "bottom": 308.59375,
+          "left": 393
+        }
+      },
+      "sourceNodeRetained": true
+    },
+    {
+      "theme": "cyan",
+      "width": 1920,
+      "height": 1080,
+      "geometry": {
+        "pageWidth": 1920,
+        "viewport": 1920,
+        "path": {
+          "x": 24,
+          "y": 117,
+          "width": 340,
+          "height": 951,
+          "top": 117,
+          "right": 364,
+          "bottom": 1068,
+          "left": 24
+        },
+        "tabs": {
+          "x": 393,
+          "y": 261.59375,
+          "width": 1502,
+          "height": 47,
+          "top": 261.59375,
+          "right": 1895,
+          "bottom": 308.59375,
+          "left": 393
+        }
+      },
+      "sourceNodeRetained": true
+    },
+    {
+      "theme": "violet",
+      "width": 1920,
+      "height": 1080,
+      "geometry": {
+        "pageWidth": 1920,
+        "viewport": 1920,
+        "path": {
+          "x": 24,
+          "y": 117,
+          "width": 340,
+          "height": 951,
+          "top": 117,
+          "right": 364,
+          "bottom": 1068,
+          "left": 24
+        },
+        "tabs": {
+          "x": 393,
+          "y": 261.59375,
+          "width": 1502,
+          "height": 47,
+          "top": 261.59375,
+          "right": 1895,
+          "bottom": 308.59375,
+          "left": 393
+        }
+      },
+      "sourceNodeRetained": true
+    },
+    {
+      "theme": "orange",
+      "width": 1920,
+      "height": 1080,
+      "geometry": {
+        "pageWidth": 1920,
+        "viewport": 1920,
+        "path": {
+          "x": 24,
+          "y": 117,
+          "width": 340,
+          "height": 951,
+          "top": 117,
+          "right": 364,
+          "bottom": 1068,
+          "left": 24
+        },
+        "tabs": {
+          "x": 393,
+          "y": 261.59375,
+          "width": 1502,
+          "height": 47,
+          "top": 261.59375,
+          "right": 1895,
+          "bottom": 308.59375,
+          "left": 393
+        }
+      },
+      "sourceNodeRetained": true
+    },
+    {
+      "theme": "rose",
+      "width": 1920,
+      "height": 1080,
+      "geometry": {
+        "pageWidth": 1920,
+        "viewport": 1920,
+        "path": {
+          "x": 24,
+          "y": 117,
+          "width": 340,
+          "height": 951,
+          "top": 117,
+          "right": 364,
+          "bottom": 1068,
+          "left": 24
+        },
+        "tabs": {
+          "x": 393,
+          "y": 261.59375,
+          "width": 1502,
+          "height": 47,
+          "top": 261.59375,
+          "right": 1895,
+          "bottom": 308.59375,
+          "left": 393
+        }
+      },
+      "sourceNodeRetained": true
+    },
+    {
+      "theme": "graphite",
+      "width": 1920,
+      "height": 1080,
+      "geometry": {
+        "pageWidth": 1920,
+        "viewport": 1920,
+        "path": {
+          "x": 24,
+          "y": 117,
+          "width": 340,
+          "height": 951,
+          "top": 117,
+          "right": 364,
+          "bottom": 1068,
+          "left": 24
+        },
+        "tabs": {
+          "x": 393,
+          "y": 261.59375,
+          "width": 1502,
+          "height": 47,
+          "top": 261.59375,
+          "right": 1895,
+          "bottom": 308.59375,
+          "left": 393
+        }
+      },
+      "sourceNodeRetained": true
+    },
+    {
+      "theme": "lime",
+      "width": 1440,
+      "height": 900,
+      "geometry": {
+        "pageWidth": 1440,
+        "viewport": 1440,
+        "path": {
+          "x": 24,
+          "y": 117,
+          "width": 300,
+          "height": 771,
+          "top": 117,
+          "right": 324,
+          "bottom": 888,
+          "left": 24
+        },
+        "tabs": {
+          "x": 345,
+          "y": 261.1875,
+          "width": 1070,
+          "height": 47,
+          "top": 261.1875,
+          "right": 1415,
+          "bottom": 308.1875,
+          "left": 345
+        }
+      },
+      "sourceNodeRetained": true
+    },
+    {
+      "theme": "cyan",
+      "width": 1440,
+      "height": 900,
+      "geometry": {
+        "pageWidth": 1440,
+        "viewport": 1440,
+        "path": {
+          "x": 24,
+          "y": 117,
+          "width": 300,
+          "height": 771,
+          "top": 117,
+          "right": 324,
+          "bottom": 888,
+          "left": 24
+        },
+        "tabs": {
+          "x": 345,
+          "y": 261.1875,
+          "width": 1070,
+          "height": 47,
+          "top": 261.1875,
+          "right": 1415,
+          "bottom": 308.1875,
+          "left": 345
+        }
+      },
+      "sourceNodeRetained": true
+    },
+    {
+      "theme": "violet",
+      "width": 1440,
+      "height": 900,
+      "geometry": {
+        "pageWidth": 1440,
+        "viewport": 1440,
+        "path": {
+          "x": 24,
+          "y": 117,
+          "width": 300,
+          "height": 771,
+          "top": 117,
+          "right": 324,
+          "bottom": 888,
+          "left": 24
+        },
+        "tabs": {
+          "x": 345,
+          "y": 261.1875,
+          "width": 1070,
+          "height": 47,
+          "top": 261.1875,
+          "right": 1415,
+          "bottom": 308.1875,
+          "left": 345
+        }
+      },
+      "sourceNodeRetained": true
+    },
+    {
+      "theme": "orange",
+      "width": 1440,
+      "height": 900,
+      "geometry": {
+        "pageWidth": 1440,
+        "viewport": 1440,
+        "path": {
+          "x": 24,
+          "y": 117,
+          "width": 300,
+          "height": 771,
+          "top": 117,
+          "right": 324,
+          "bottom": 888,
+          "left": 24
+        },
+        "tabs": {
+          "x": 345,
+          "y": 261.1875,
+          "width": 1070,
+          "height": 47,
+          "top": 261.1875,
+          "right": 1415,
+          "bottom": 308.1875,
+          "left": 345
+        }
+      },
+      "sourceNodeRetained": true
+    },
+    {
+      "theme": "rose",
+      "width": 1440,
+      "height": 900,
+      "geometry": {
+        "pageWidth": 1440,
+        "viewport": 1440,
+        "path": {
+          "x": 24,
+          "y": 117,
+          "width": 300,
+          "height": 771,
+          "top": 117,
+          "right": 324,
+          "bottom": 888,
+          "left": 24
+        },
+        "tabs": {
+          "x": 345,
+          "y": 261.1875,
+          "width": 1070,
+          "height": 47,
+          "top": 261.1875,
+          "right": 1415,
+          "bottom": 308.1875,
+          "left": 345
+        }
+      },
+      "sourceNodeRetained": true
+    },
+    {
+      "theme": "graphite",
+      "width": 1440,
+      "height": 900,
+      "geometry": {
+        "pageWidth": 1440,
+        "viewport": 1440,
+        "path": {
+          "x": 24,
+          "y": 117,
+          "width": 300,
+          "height": 771,
+          "top": 117,
+          "right": 324,
+          "bottom": 888,
+          "left": 24
+        },
+        "tabs": {
+          "x": 345,
+          "y": 261.1875,
+          "width": 1070,
+          "height": 47,
+          "top": 261.1875,
+          "right": 1415,
+          "bottom": 308.1875,
+          "left": 345
+        }
+      },
+      "sourceNodeRetained": true
+    }
+  ],
+  "popups": [],
+  "scriptErrors": [],
+  "visualReview": {
+    "status": "pending-agent-review",
+    "humanStatus": "human-not-reviewed"
+  },
+  "mobile": {
+    "status": "separate-layout-planned",
+    "currentScope": "basic access only"
+  }
+}

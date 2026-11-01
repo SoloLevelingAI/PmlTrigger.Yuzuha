@@ -1,0 +1,32 @@
+{
+  "passed": true,
+  "finishedAt": "2026-11-01T09:47:38.906Z",
+  "scope": "最终真实桌面：Dashboard默认入口→候选未暗选→明确核验→四任务往返→Dashboard主入口选择任务；仅导航/只读身份核验，无工程启动或PML执行。",
+  "desktop": {
+    "pid": 273820,
+    "executable": "F:\\OneDrive\\Documents\\ChatGPT\\PmlTwin\\artifacts\\task-map-desktop\\review-build\\YuzuhaToolkit.Desktop.exe",
+    "sha256": "e922c936fb7d916dc1392379c80eabf2b7e7eed963f949a08425540d3d96a398",
+    "assemblySha256": "d6a4e4464ffbccae70a73fef98b9ba8f7e37612c4aadb25ff3a78693765344fb",
+    "cli": "F:\\OneDrive\\Documents\\ChatGPT\\PmlTwin\\artifacts\\task-map-desktop\\review-build\\runtime\\cli\\PmlTwin.Phayton.Cli.exe",
+    "startedAt": "2026-11-01T09:47:18.114Z",
+    "scope": "本任务动线验证新窗口；保留原Desktop及E3D，不启动工程、不执行查询/PML。",
+    "startTicks": "639291232380927473",
+    "keptOpen": true
+  },
+  "target": {
+    "pid": 216560,
+    "startTicks": "639291145578564128",
+    "module": "DESIGN",
+    "project": "APS",
+    "mdb": "/ALL",
+    "restarted": false
+  },
+  "checks": [
+    "default dashboard with fresh actual Host availability",
+    "contextual primary action before selection",
+    "exact candidate without implicit first-row selection",
+    "explicit identity verification leads to task hub",
+    "four task entries and returns without manufactured results",
+    "contextual Dashboard primary action after selection"
+  ]
+}

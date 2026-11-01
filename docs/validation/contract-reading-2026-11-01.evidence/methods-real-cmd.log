@@ -1,0 +1,9 @@
+Method evidence: real Roslyn source and exact DocFX member verified
+{
+  "passed": true,
+  "methods": 347,
+  "edges": 1364,
+  "revisions": 3,
+  "output": "F:\\OneDrive\\Documents\\ChatGPT\\PmlTwin\\artifacts\\contract-atlas-method-live"
+}
+

@@ -1,0 +1,5 @@
+# Documentation analysis producer contract
+
+`UiTrace` retains schemaVersion 3 and assembly-qualified Roslyn documentation IDs. Added method fields are additive: declaration-only signature; plain-text XML summary/parameters/returns/remarks; every partial declaration with file/startLine/endLine/raw-byte SHA256; async/partial flags; and the complete primary declaration body range. The primary body uses the partial implementation. Missing external syntax remains null rather than invented source. XML is parsed with DTD prohibited and never executed.
+
+`Trace-Desktop.ps1` captures actual MSBuild inputs without launching application business operations. Its receipt binds the graph hash, sorted raw-byte input hashes, and producerFingerprint (SHA256 of UTF8, LF, two-space pretty JSON plus newline for the sorted three producer path/hash map). Inputs and producers are checked before and after Roslyn capture; changes invalidate the capture. These are static source relationships, not runtime, coverage or AVEVA evidence.

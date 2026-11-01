@@ -1,0 +1,60 @@
+{
+  "first": {
+    "metadataDigest": "f2a1de84a018ff06a8a6e1a66acc929c4fc89ad4eecd4b5abd9d3d20a868f221",
+    "renderModelDigest": "8f7bded40e8a0a38ad331fc8ec0eecf78c97cac6872c83188aecffabb64db927",
+    "native": {
+      "generated": true,
+      "validated": true,
+      "success": true,
+      "components": 7,
+      "instances": 107,
+      "editableTexts": 515,
+      "variables": 10,
+      "images": 0,
+      "toolVersion": "figcraft-cli 0.6.0",
+      "commandCount": 635
+    },
+    "figcraftSha256": "9e1b5caf09350b6b4a8d0a6649058311258302a5e6c21877e952d795266b254c"
+  },
+  "second": {
+    "metadataDigest": "12555f6715db52c0e60f5a504fe563b89eefc201a00875ee5312995d69c30188",
+    "renderModelDigest": "619acc60c150aee08c1499d24434244a1bc1c5a95c34e87928d808581b6d9530",
+    "native": {
+      "generated": true,
+      "validated": true,
+      "success": true,
+      "components": 8,
+      "instances": 107,
+      "editableTexts": 519,
+      "variables": 10,
+      "images": 0,
+      "toolVersion": "figcraft-cli 0.6.0",
+      "commandCount": 651
+    },
+    "figcraftSha256": "17306fc429adaf6ef8164cb6363fef5bc8c8abd2dbb6f30b0f90d05d162bf29d"
+  },
+  "changes": {
+    "featureTitle": "工程发现与启动 revision two",
+    "scriptAlgorithm": "增量构建 → 启动本机 Ribbon（整合入口）→ 健康核对 → 调用 Manager workbench；不复制发现/启动算法。 Revision two algorithm.",
+    "stepTitle": "解释候选 revision two",
+    "connectionLabel": "确定目标 revision two",
+    "viewProps": {
+      "density": "compact",
+      "orientation": "vertical",
+      "variant": "portfolio"
+    }
+  },
+  "changedEntityIds": [
+    "feature:launch",
+    "script:workbench-entry",
+    "step:launch-discover"
+  ],
+  "nativeAssertions": {
+    "sharedPropsExact": true,
+    "stepTitlePresent": true,
+    "connectionLabelPresent": true,
+    "dualDigestsPresent": true
+  },
+  "toolFailurePreservesLastgood": true,
+  "scope": "real CLI isolated revision builds; no external canvas; not Figma runtime"
+}

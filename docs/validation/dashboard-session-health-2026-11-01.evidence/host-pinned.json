@@ -1,0 +1,39 @@
+{
+  "operationId": "aveva.session.status",
+  "success": true,
+  "exitCode": 0,
+  "data": {
+    "SessionSelected": true,
+    "Connected": true,
+    "TargetVerified": true,
+    "SelectedSession": {
+      "ProcessId": 216560,
+      "ProcessStartTimeUtcTicks": 639291145578564128,
+      "ProcessName": "des",
+      "ExecutablePath": "D:\\AVEVA\\Everything3D2.10\\des.exe",
+      "WindowTitle": "ProjAPS | ALL | Model - AVEVA Everything3D",
+      "Product": "E3D",
+      "Project": "ProjAPS",
+      "PipeName": "yuzuha.pml.command.v1.pid-216560",
+      "PipeDetected": true
+    },
+    "PipeName": "yuzuha.pml.command.v1.pid-216560",
+    "ExpectedProcessId": 216560,
+    "ExpectedProcessStartTimeUtcTicks": 639291145578564128,
+    "ExpectedModel": "DESIGN",
+    "Host": {
+      "FormQueryVersion": 1,
+      "BoundedArrayReadVersion": 1,
+      "ProcessId": 216560,
+      "ProcessStartTimeUtcTicks": 639291145578564128,
+      "Model": "DESIGN",
+      "PipeName": "yuzuha.pml.command.v1.pid-216560",
+      "HostFramework": "net48",
+      "HostVersion": "0.3.4.2",
+      "ServerTimeUtc": "2026-11-01T07:25:08.5507656Z"
+    },
+    "Error": null
+  },
+  "error": null,
+  "schemaVersion": 1
+}

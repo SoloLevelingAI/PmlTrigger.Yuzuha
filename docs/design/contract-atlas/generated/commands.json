@@ -1,0 +1,5607 @@
+[
+  {
+    "command": "file.new",
+    "params": {
+      "name": "Phayton / Contract Atlas / public metadata"
+    }
+  },
+  {
+    "command": "page.rename",
+    "params": {
+      "id": 1,
+      "name": "Contract Atlas"
+    }
+  },
+  {
+    "command": "variable.createCollection",
+    "params": {
+      "name": "Atlas",
+      "modes": [
+        "Light",
+        "Dark"
+      ]
+    }
+  },
+  {
+    "command": "variable.create",
+    "params": {
+      "collection": "Atlas",
+      "name": "background",
+      "type": "color",
+      "values": {
+        "Light": "#F4F6F5",
+        "Dark": "#10191C"
+      }
+    }
+  },
+  {
+    "command": "variable.create",
+    "params": {
+      "collection": "Atlas",
+      "name": "surface",
+      "type": "color",
+      "values": {
+        "Light": "#FFFFFF",
+        "Dark": "#192428"
+      }
+    }
+  },
+  {
+    "command": "variable.create",
+    "params": {
+      "collection": "Atlas",
+      "name": "soft",
+      "type": "color",
+      "values": {
+        "Light": "#E7EFEB",
+        "Dark": "#243439"
+      }
+    }
+  },
+  {
+    "command": "variable.create",
+    "params": {
+      "collection": "Atlas",
+      "name": "text",
+      "type": "color",
+      "values": {
+        "Light": "#18342F",
+        "Dark": "#EFF3E9"
+      }
+    }
+  },
+  {
+    "command": "variable.create",
+    "params": {
+      "collection": "Atlas",
+      "name": "muted",
+      "type": "color",
+      "values": {
+        "Light": "#526C65",
+        "Dark": "#A8B9B6"
+      }
+    }
+  },
+  {
+    "command": "variable.create",
+    "params": {
+      "collection": "Atlas",
+      "name": "border",
+      "type": "color",
+      "values": {
+        "Light": "#CBD9D3",
+        "Dark": "#354747"
+      }
+    }
+  },
+  {
+    "command": "variable.create",
+    "params": {
+      "collection": "Atlas",
+      "name": "accent",
+      "type": "color",
+      "values": {
+        "Light": "#286951",
+        "Dark": "#C5EC9B"
+      }
+    }
+  },
+  {
+    "command": "variable.create",
+    "params": {
+      "collection": "Atlas",
+      "name": "warning",
+      "type": "color",
+      "values": {
+        "Light": "#91601C",
+        "Dark": "#EFC17F"
+      }
+    }
+  },
+  {
+    "command": "variable.create",
+    "params": {
+      "collection": "Atlas",
+      "name": "boundary",
+      "type": "color",
+      "values": {
+        "Light": "#6D857B",
+        "Dark": "#70897F"
+      }
+    }
+  },
+  {
+    "command": "variable.create",
+    "params": {
+      "collection": "Atlas",
+      "name": "radius",
+      "type": "number",
+      "values": {
+        "Light": 16,
+        "Dark": 16
+      }
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Overview",
+      "x": 0,
+      "y": 0,
+      "width": 1440,
+      "height": 1460,
+      "props": {
+        "fill": "#F4F6F5",
+        "clip": true,
+        "pluginData": {
+          "view": "overview",
+          "theme": "Light",
+          "metadataProjectId": "project:pmltwin"
+        }
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        2
+      ],
+      "field": "fill",
+      "variable": "background"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 2,
+      "x": 36,
+      "y": 30,
+      "width": 1368,
+      "height": 55,
+      "text": "PMLTWIN",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 28,
+        "fill": "#18342F",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        3
+      ],
+      "field": "fill",
+      "variable": "text"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 2,
+      "x": 36,
+      "y": 88,
+      "width": 1368,
+      "height": 80,
+      "text": "同一公开元数据 · 2026-11-01 · 规范 / 实现 / 证据三轴独立；外观不代表业务已执行",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 15,
+        "fill": "#526C65",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        4
+      ],
+      "field": "fill",
+      "variable": "muted"
+    }
+  },
+  {
+    "command": "variable.setMode",
+    "params": {
+      "ids": [
+        2
+      ],
+      "collection": "Atlas",
+      "mode": "Light"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Components",
+      "x": 1560,
+      "y": 0,
+      "width": 1440,
+      "height": 2100,
+      "props": {
+        "fill": "#F4F6F5",
+        "clip": true,
+        "pluginData": {
+          "view": "components",
+          "theme": "Light",
+          "metadataProjectId": "project:pmltwin"
+        }
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        5
+      ],
+      "field": "fill",
+      "variable": "background"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 5,
+      "x": 36,
+      "y": 30,
+      "width": 1368,
+      "height": 55,
+      "text": "Contract Atlas / Components",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 28,
+        "fill": "#18342F",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        6
+      ],
+      "field": "fill",
+      "variable": "text"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 5,
+      "x": 36,
+      "y": 88,
+      "width": 1368,
+      "height": 80,
+      "text": "同一公开元数据 · 2026-11-01 · 规范 / 实现 / 证据三轴独立；外观不代表业务已执行",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 15,
+        "fill": "#526C65",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        7
+      ],
+      "field": "fill",
+      "variable": "muted"
+    }
+  },
+  {
+    "command": "variable.setMode",
+    "params": {
+      "ids": [
+        5
+      ],
+      "collection": "Atlas",
+      "mode": "Light"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Scripts",
+      "x": 3120,
+      "y": 0,
+      "width": 1440,
+      "height": 5310,
+      "props": {
+        "fill": "#F4F6F5",
+        "clip": true,
+        "pluginData": {
+          "view": "scripts",
+          "theme": "Light",
+          "metadataProjectId": "project:pmltwin"
+        }
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        8
+      ],
+      "field": "fill",
+      "variable": "background"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 8,
+      "x": 36,
+      "y": 30,
+      "width": 1368,
+      "height": 55,
+      "text": "Contract Atlas / Scripts",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 28,
+        "fill": "#18342F",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        9
+      ],
+      "field": "fill",
+      "variable": "text"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 8,
+      "x": 36,
+      "y": 88,
+      "width": 1368,
+      "height": 80,
+      "text": "同一公开元数据 · 2026-11-01 · 规范 / 实现 / 证据三轴独立；外观不代表业务已执行",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 15,
+        "fill": "#526C65",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        10
+      ],
+      "field": "fill",
+      "variable": "muted"
+    }
+  },
+  {
+    "command": "variable.setMode",
+    "params": {
+      "ids": [
+        8
+      ],
+      "collection": "Atlas",
+      "mode": "Light"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Flows",
+      "x": 4680,
+      "y": 0,
+      "width": 1440,
+      "height": 1680,
+      "props": {
+        "fill": "#F4F6F5",
+        "clip": true,
+        "pluginData": {
+          "view": "flows",
+          "theme": "Light",
+          "metadataProjectId": "project:pmltwin"
+        }
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        11
+      ],
+      "field": "fill",
+      "variable": "background"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 11,
+      "x": 36,
+      "y": 30,
+      "width": 1368,
+      "height": 55,
+      "text": "Contract Atlas / Flows",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 28,
+        "fill": "#18342F",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        12
+      ],
+      "field": "fill",
+      "variable": "text"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 11,
+      "x": 36,
+      "y": 88,
+      "width": 1368,
+      "height": 80,
+      "text": "同一公开元数据 · 2026-11-01 · 规范 / 实现 / 证据三轴独立；外观不代表业务已执行",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 15,
+        "fill": "#526C65",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        13
+      ],
+      "field": "fill",
+      "variable": "muted"
+    }
+  },
+  {
+    "command": "variable.setMode",
+    "params": {
+      "ids": [
+        11
+      ],
+      "collection": "Atlas",
+      "mode": "Light"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Help-Light",
+      "x": 0,
+      "y": 2200,
+      "width": 1440,
+      "height": 3000,
+      "props": {
+        "fill": "#F4F6F5",
+        "clip": true,
+        "pluginData": {
+          "view": "help",
+          "theme": "Light",
+          "metadataProjectId": "project:pmltwin"
+        }
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        14
+      ],
+      "field": "fill",
+      "variable": "background"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 14,
+      "x": 36,
+      "y": 30,
+      "width": 1368,
+      "height": 55,
+      "text": "Contract Atlas / Help-Light",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 28,
+        "fill": "#18342F",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        15
+      ],
+      "field": "fill",
+      "variable": "text"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 14,
+      "x": 36,
+      "y": 88,
+      "width": 1368,
+      "height": 80,
+      "text": "同一公开元数据 · 2026-11-01 · 规范 / 实现 / 证据三轴独立；外观不代表业务已执行",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 15,
+        "fill": "#526C65",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        16
+      ],
+      "field": "fill",
+      "variable": "muted"
+    }
+  },
+  {
+    "command": "variable.setMode",
+    "params": {
+      "ids": [
+        14
+      ],
+      "collection": "Atlas",
+      "mode": "Light"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Help-Dark",
+      "x": 1560,
+      "y": 2200,
+      "width": 1440,
+      "height": 3000,
+      "props": {
+        "fill": "#F4F6F5",
+        "clip": true,
+        "pluginData": {
+          "view": "help",
+          "theme": "Dark",
+          "metadataProjectId": "project:pmltwin"
+        }
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        17
+      ],
+      "field": "fill",
+      "variable": "background"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 17,
+      "x": 36,
+      "y": 30,
+      "width": 1368,
+      "height": 55,
+      "text": "Contract Atlas / Help-Dark",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 28,
+        "fill": "#18342F",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        18
+      ],
+      "field": "fill",
+      "variable": "text"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 17,
+      "x": 36,
+      "y": 88,
+      "width": 1368,
+      "height": 80,
+      "text": "同一公开元数据 · 2026-11-01 · 规范 / 实现 / 证据三轴独立；外观不代表业务已执行",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 15,
+        "fill": "#526C65",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        19
+      ],
+      "field": "fill",
+      "variable": "muted"
+    }
+  },
+  {
+    "command": "variable.setMode",
+    "params": {
+      "ids": [
+        17
+      ],
+      "collection": "Atlas",
+      "mode": "Dark"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Portfolio-Light",
+      "x": 0,
+      "y": 5320,
+      "width": 1440,
+      "height": 2950,
+      "props": {
+        "fill": "#F4F6F5",
+        "clip": true,
+        "pluginData": {
+          "view": "portfolio",
+          "theme": "Light",
+          "metadataProjectId": "project:pmltwin"
+        }
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        20
+      ],
+      "field": "fill",
+      "variable": "background"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 20,
+      "x": 36,
+      "y": 30,
+      "width": 1368,
+      "height": 55,
+      "text": "Contract Atlas / Portfolio-Light",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 28,
+        "fill": "#18342F",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        21
+      ],
+      "field": "fill",
+      "variable": "text"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 20,
+      "x": 36,
+      "y": 88,
+      "width": 1368,
+      "height": 80,
+      "text": "同一公开元数据 · 2026-11-01 · 规范 / 实现 / 证据三轴独立；外观不代表业务已执行",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 15,
+        "fill": "#526C65",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        22
+      ],
+      "field": "fill",
+      "variable": "muted"
+    }
+  },
+  {
+    "command": "variable.setMode",
+    "params": {
+      "ids": [
+        20
+      ],
+      "collection": "Atlas",
+      "mode": "Light"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Portfolio-Dark",
+      "x": 1560,
+      "y": 5320,
+      "width": 1440,
+      "height": 2950,
+      "props": {
+        "fill": "#F4F6F5",
+        "clip": true,
+        "pluginData": {
+          "view": "portfolio",
+          "theme": "Dark",
+          "metadataProjectId": "project:pmltwin"
+        }
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        23
+      ],
+      "field": "fill",
+      "variable": "background"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 23,
+      "x": 36,
+      "y": 30,
+      "width": 1368,
+      "height": 55,
+      "text": "Contract Atlas / Portfolio-Dark",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 28,
+        "fill": "#18342F",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        24
+      ],
+      "field": "fill",
+      "variable": "text"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 23,
+      "x": 36,
+      "y": 88,
+      "width": 1368,
+      "height": 80,
+      "text": "同一公开元数据 · 2026-11-01 · 规范 / 实现 / 证据三轴独立；外观不代表业务已执行",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 15,
+        "fill": "#526C65",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        25
+      ],
+      "field": "fill",
+      "variable": "muted"
+    }
+  },
+  {
+    "command": "variable.setMode",
+    "params": {
+      "ids": [
+        23
+      ],
+      "collection": "Atlas",
+      "mode": "Dark"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 11,
+      "x": 36,
+      "y": 180,
+      "width": 1368,
+      "height": 48,
+      "text": "发现到观察 · 计划绑定一次动作，未知沿原编号核对。",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 18,
+        "fill": "#18342F",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        26
+      ],
+      "field": "fill",
+      "variable": "text"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "step:launch-discover",
+      "parent": 11,
+      "x": 36,
+      "y": 240,
+      "width": 300,
+      "height": 170,
+      "props": {
+        "fill": "#E7EFEB",
+        "stroke": "#6D857B",
+        "strokeWeight": 1,
+        "cornerRadius": 16,
+        "pluginData": {
+          "metadataId": "feature:launch",
+          "stepId": "step:launch-discover",
+          "flowId": "flow:launch"
+        }
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        27
+      ],
+      "field": "fill",
+      "variable": "soft"
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        27
+      ],
+      "field": "stroke",
+      "variable": "boundary"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 27,
+      "x": 16,
+      "y": 16,
+      "width": 268,
+      "height": 50,
+      "text": "解释候选",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 16,
+        "fill": "#18342F",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        28
+      ],
+      "field": "fill",
+      "variable": "text"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 27,
+      "x": 16,
+      "y": 70,
+      "width": 268,
+      "height": 80,
+      "text": "保留来源与歧义。\nfeature:launch",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 13,
+        "fill": "#526C65",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        29
+      ],
+      "field": "fill",
+      "variable": "muted"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "step:launch-plan",
+      "parent": 11,
+      "x": 366,
+      "y": 240,
+      "width": 300,
+      "height": 170,
+      "props": {
+        "fill": "#E7EFEB",
+        "stroke": "#6D857B",
+        "strokeWeight": 1,
+        "cornerRadius": 16,
+        "pluginData": {
+          "metadataId": "script:launch-workflow",
+          "stepId": "step:launch-plan",
+          "flowId": "flow:launch"
+        }
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        30
+      ],
+      "field": "fill",
+      "variable": "soft"
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        30
+      ],
+      "field": "stroke",
+      "variable": "boundary"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 30,
+      "x": 16,
+      "y": 16,
+      "width": 268,
+      "height": 50,
+      "text": "冻结计划",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 16,
+        "fill": "#18342F",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        31
+      ],
+      "field": "fill",
+      "variable": "text"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 30,
+      "x": 16,
+      "y": 70,
+      "width": 268,
+      "height": 80,
+      "text": "修订与文件摘要绑定。\nscript:launch-workflow",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 13,
+        "fill": "#526C65",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        32
+      ],
+      "field": "fill",
+      "variable": "muted"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "step:launch-execute",
+      "parent": 11,
+      "x": 696,
+      "y": 240,
+      "width": 300,
+      "height": 170,
+      "props": {
+        "fill": "#E7EFEB",
+        "stroke": "#6D857B",
+        "strokeWeight": 1,
+        "cornerRadius": 16,
+        "pluginData": {
+          "metadataId": "script:launch-workflow",
+          "stepId": "step:launch-execute",
+          "flowId": "flow:launch"
+        }
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        33
+      ],
+      "field": "fill",
+      "variable": "soft"
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        33
+      ],
+      "field": "stroke",
+      "variable": "boundary"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 33,
+      "x": 16,
+      "y": 16,
+      "width": 268,
+      "height": 50,
+      "text": "受理再执行",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 16,
+        "fill": "#18342F",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        34
+      ],
+      "field": "fill",
+      "variable": "text"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 33,
+      "x": 16,
+      "y": 70,
+      "width": 268,
+      "height": 80,
+      "text": "持久受理失败不启动。\nscript:launch-workflow",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 13,
+        "fill": "#526C65",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        35
+      ],
+      "field": "fill",
+      "variable": "muted"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "step:launch-observe",
+      "parent": 11,
+      "x": 1026,
+      "y": 240,
+      "width": 300,
+      "height": 170,
+      "props": {
+        "fill": "#E7EFEB",
+        "stroke": "#6D857B",
+        "strokeWeight": 1,
+        "cornerRadius": 16,
+        "pluginData": {
+          "metadataId": "script:launch-workflow",
+          "stepId": "step:launch-observe",
+          "flowId": "flow:launch"
+        }
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        36
+      ],
+      "field": "fill",
+      "variable": "soft"
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        36
+      ],
+      "field": "stroke",
+      "variable": "boundary"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 36,
+      "x": 16,
+      "y": 16,
+      "width": 268,
+      "height": 50,
+      "text": "观察原编号",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 16,
+        "fill": "#18342F",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        37
+      ],
+      "field": "fill",
+      "variable": "text"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 36,
+      "x": 16,
+      "y": 70,
+      "width": 268,
+      "height": 80,
+      "text": "unknown不重放。\nscript:launch-workflow",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 13,
+        "fill": "#526C65",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        38
+      ],
+      "field": "fill",
+      "variable": "muted"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 11,
+      "x": 36,
+      "y": 450,
+      "width": 1368,
+      "height": 30,
+      "text": "step:launch-discover → step:launch-plan  / 确定目标 [next]",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 13,
+        "fill": "#526C65",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        39
+      ],
+      "field": "fill",
+      "variable": "muted"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 11,
+      "x": 36,
+      "y": 480,
+      "width": 1368,
+      "height": 30,
+      "text": "step:launch-plan → step:launch-execute  / 明确授权 [next]",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 13,
+        "fill": "#526C65",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        40
+      ],
+      "field": "fill",
+      "variable": "muted"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 11,
+      "x": 36,
+      "y": 510,
+      "width": 1368,
+      "height": 30,
+      "text": "step:launch-execute → step:launch-observe  / 回执或unknown [uncertain]",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 13,
+        "fill": "#91601C",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        41
+      ],
+      "field": "fill",
+      "variable": "warning"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 11,
+      "x": 36,
+      "y": 600,
+      "width": 1368,
+      "height": 48,
+      "text": "编辑、部署与独立加载核验 · 磁盘写入不等于运行时已加载。",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 18,
+        "fill": "#18342F",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        42
+      ],
+      "field": "fill",
+      "variable": "text"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "step:ribbon-preview",
+      "parent": 11,
+      "x": 36,
+      "y": 660,
+      "width": 300,
+      "height": 170,
+      "props": {
+        "fill": "#E7EFEB",
+        "stroke": "#6D857B",
+        "strokeWeight": 1,
+        "cornerRadius": 16,
+        "pluginData": {
+          "metadataId": "script:ribbon-frozen-deployment",
+          "stepId": "step:ribbon-preview",
+          "flowId": "flow:ribbon"
+        }
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        43
+      ],
+      "field": "fill",
+      "variable": "soft"
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        43
+      ],
+      "field": "stroke",
+      "variable": "boundary"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 43,
+      "x": 16,
+      "y": 16,
+      "width": 268,
+      "height": 50,
+      "text": "冻结差异",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 16,
+        "fill": "#18342F",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        44
+      ],
+      "field": "fill",
+      "variable": "text"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 43,
+      "x": 16,
+      "y": 70,
+      "width": 268,
+      "height": 80,
+      "text": "绑定文档、目标与期限。\nscript:ribbon-frozen-deployment",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 13,
+        "fill": "#526C65",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        45
+      ],
+      "field": "fill",
+      "variable": "muted"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "step:ribbon-pending",
+      "parent": 11,
+      "x": 366,
+      "y": 660,
+      "width": 300,
+      "height": 170,
+      "props": {
+        "fill": "#E7EFEB",
+        "stroke": "#6D857B",
+        "strokeWeight": 1,
+        "cornerRadius": 16,
+        "pluginData": {
+          "metadataId": "script:ui-pending-gate",
+          "stepId": "step:ribbon-pending",
+          "flowId": "flow:ribbon"
+        }
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        46
+      ],
+      "field": "fill",
+      "variable": "soft"
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        46
+      ],
+      "field": "stroke",
+      "variable": "boundary"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 46,
+      "x": 16,
+      "y": 16,
+      "width": 268,
+      "height": 50,
+      "text": "先记录pending",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 16,
+        "fill": "#18342F",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        47
+      ],
+      "field": "fill",
+      "variable": "text"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 46,
+      "x": 16,
+      "y": 70,
+      "width": 268,
+      "height": 80,
+      "text": "写前持久，跨页面互斥。\nscript:ui-pending-gate",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 13,
+        "fill": "#526C65",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        48
+      ],
+      "field": "fill",
+      "variable": "muted"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "step:ribbon-apply",
+      "parent": 11,
+      "x": 696,
+      "y": 660,
+      "width": 300,
+      "height": 170,
+      "props": {
+        "fill": "#E7EFEB",
+        "stroke": "#6D857B",
+        "strokeWeight": 1,
+        "cornerRadius": 16,
+        "pluginData": {
+          "metadataId": "script:ribbon-frozen-deployment",
+          "stepId": "step:ribbon-apply",
+          "flowId": "flow:ribbon"
+        }
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        49
+      ],
+      "field": "fill",
+      "variable": "soft"
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        49
+      ],
+      "field": "stroke",
+      "variable": "boundary"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 49,
+      "x": 16,
+      "y": 16,
+      "width": 268,
+      "height": 50,
+      "text": "仅发送原引用",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 16,
+        "fill": "#18342F",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        50
+      ],
+      "field": "fill",
+      "variable": "text"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 49,
+      "x": 16,
+      "y": 70,
+      "width": 268,
+      "height": 80,
+      "text": "写后哈希核验。\nscript:ribbon-frozen-deployment",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 13,
+        "fill": "#526C65",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        51
+      ],
+      "field": "fill",
+      "variable": "muted"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "step:ribbon-check",
+      "parent": 11,
+      "x": 1026,
+      "y": 660,
+      "width": 300,
+      "height": 170,
+      "props": {
+        "fill": "#E7EFEB",
+        "stroke": "#6D857B",
+        "strokeWeight": 1,
+        "cornerRadius": 16,
+        "pluginData": {
+          "metadataId": "script:ui-pending-gate",
+          "stepId": "step:ribbon-check",
+          "flowId": "flow:ribbon"
+        }
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        52
+      ],
+      "field": "fill",
+      "variable": "soft"
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        52
+      ],
+      "field": "stroke",
+      "variable": "boundary"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 52,
+      "x": 16,
+      "y": 16,
+      "width": 268,
+      "height": 50,
+      "text": "人工核对",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 16,
+        "fill": "#18342F",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        53
+      ],
+      "field": "fill",
+      "variable": "text"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 52,
+      "x": 16,
+      "y": 70,
+      "width": 268,
+      "height": 80,
+      "text": "不确定时暂停，不自动重放。\nscript:ui-pending-gate",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 13,
+        "fill": "#526C65",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        54
+      ],
+      "field": "fill",
+      "variable": "muted"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "step:ribbon-runtime",
+      "parent": 11,
+      "x": 36,
+      "y": 850,
+      "width": 300,
+      "height": 170,
+      "props": {
+        "fill": "#E7EFEB",
+        "stroke": "#6D857B",
+        "strokeWeight": 1,
+        "cornerRadius": 16,
+        "pluginData": {
+          "metadataId": "script:runtime-verification",
+          "stepId": "step:ribbon-runtime",
+          "flowId": "flow:ribbon"
+        }
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        55
+      ],
+      "field": "fill",
+      "variable": "soft"
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        55
+      ],
+      "field": "stroke",
+      "variable": "boundary"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 55,
+      "x": 16,
+      "y": 16,
+      "width": 268,
+      "height": 50,
+      "text": "独立核验加载",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 16,
+        "fill": "#18342F",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        56
+      ],
+      "field": "fill",
+      "variable": "text"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 55,
+      "x": 16,
+      "y": 70,
+      "width": 268,
+      "height": 80,
+      "text": "产品范围、实际UI与未执行宏分别记录。\nscript:runtime-verification",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 13,
+        "fill": "#526C65",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        57
+      ],
+      "field": "fill",
+      "variable": "muted"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 11,
+      "x": 36,
+      "y": 1060,
+      "width": 1368,
+      "height": 30,
+      "text": "step:ribbon-preview → step:ribbon-pending  / 确认 [next]",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 13,
+        "fill": "#526C65",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        58
+      ],
+      "field": "fill",
+      "variable": "muted"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 11,
+      "x": 36,
+      "y": 1090,
+      "width": 1368,
+      "height": 30,
+      "text": "step:ribbon-pending → step:ribbon-apply  / 记录成功 [next]",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 13,
+        "fill": "#526C65",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        59
+      ],
+      "field": "fill",
+      "variable": "muted"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 11,
+      "x": 36,
+      "y": 1120,
+      "width": 1368,
+      "height": 30,
+      "text": "step:ribbon-apply → step:ribbon-check  / unknown [uncertain]",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 13,
+        "fill": "#91601C",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        60
+      ],
+      "field": "fill",
+      "variable": "warning"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 11,
+      "x": 36,
+      "y": 1150,
+      "width": 1368,
+      "height": 30,
+      "text": "step:ribbon-check → step:ribbon-preview  / 人工核对后新预览 [recovery]",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 13,
+        "fill": "#526C65",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        61
+      ],
+      "field": "fill",
+      "variable": "muted"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 11,
+      "x": 36,
+      "y": 1180,
+      "width": 1368,
+      "height": 30,
+      "text": "step:ribbon-apply → step:ribbon-runtime  / 独立授权与证据 [next]",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 13,
+        "fill": "#526C65",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        62
+      ],
+      "field": "fill",
+      "variable": "muted"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 11,
+      "x": 36,
+      "y": 1270,
+      "width": 1368,
+      "height": 48,
+      "text": "先只读预览，再考虑切换 · 只读阶段已完成；写入切换另属未完成契约。",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 18,
+        "fill": "#18342F",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        63
+      ],
+      "field": "fill",
+      "variable": "text"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "step:migration-read",
+      "parent": 11,
+      "x": 36,
+      "y": 1330,
+      "width": 300,
+      "height": 170,
+      "props": {
+        "fill": "#E7EFEB",
+        "stroke": "#6D857B",
+        "strokeWeight": 1,
+        "cornerRadius": 16,
+        "pluginData": {
+          "metadataId": "script:migration-preview",
+          "stepId": "step:migration-read",
+          "flowId": "flow:migration"
+        }
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        64
+      ],
+      "field": "fill",
+      "variable": "soft"
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        64
+      ],
+      "field": "stroke",
+      "variable": "boundary"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 64,
+      "x": 16,
+      "y": 16,
+      "width": 268,
+      "height": 50,
+      "text": "受限读取",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 16,
+        "fill": "#18342F",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        65
+      ],
+      "field": "fill",
+      "variable": "text"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 64,
+      "x": 16,
+      "y": 70,
+      "width": 268,
+      "height": 80,
+      "text": "明确来源与预算。\nscript:migration-preview",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 13,
+        "fill": "#526C65",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        66
+      ],
+      "field": "fill",
+      "variable": "muted"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "step:migration-review",
+      "parent": 11,
+      "x": 366,
+      "y": 1330,
+      "width": 300,
+      "height": 170,
+      "props": {
+        "fill": "#E7EFEB",
+        "stroke": "#6D857B",
+        "strokeWeight": 1,
+        "cornerRadius": 16,
+        "pluginData": {
+          "metadataId": "feature:migration",
+          "stepId": "step:migration-review",
+          "flowId": "flow:migration"
+        }
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        67
+      ],
+      "field": "fill",
+      "variable": "soft"
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        67
+      ],
+      "field": "stroke",
+      "variable": "boundary"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 67,
+      "x": 16,
+      "y": 16,
+      "width": 268,
+      "height": 50,
+      "text": "净化与审查",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 16,
+        "fill": "#18342F",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        68
+      ],
+      "field": "fill",
+      "variable": "text"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 67,
+      "x": 16,
+      "y": 70,
+      "width": 268,
+      "height": 80,
+      "text": "保留历史，剔除秘密，不激活。\nfeature:migration",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 13,
+        "fill": "#526C65",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        69
+      ],
+      "field": "fill",
+      "variable": "muted"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "step:migration-future",
+      "parent": 11,
+      "x": 696,
+      "y": 1330,
+      "width": 300,
+      "height": 170,
+      "props": {
+        "fill": "#E7EFEB",
+        "stroke": "#6D857B",
+        "strokeWeight": 1,
+        "cornerRadius": 16,
+        "pluginData": {
+          "metadataId": "feature:database",
+          "stepId": "step:migration-future",
+          "flowId": "flow:migration"
+        }
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        70
+      ],
+      "field": "fill",
+      "variable": "soft"
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        70
+      ],
+      "field": "stroke",
+      "variable": "boundary"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 70,
+      "x": 16,
+      "y": 16,
+      "width": 268,
+      "height": 50,
+      "text": "未来显式切换",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 16,
+        "fill": "#18342F",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        71
+      ],
+      "field": "fill",
+      "variable": "text"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 70,
+      "x": 16,
+      "y": 70,
+      "width": 268,
+      "height": 80,
+      "text": "切换、备份与恢复尚未闭环。\nfeature:database",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 13,
+        "fill": "#526C65",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        72
+      ],
+      "field": "fill",
+      "variable": "muted"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 11,
+      "x": 36,
+      "y": 1540,
+      "width": 1368,
+      "height": 30,
+      "text": "step:migration-read → step:migration-review  / 材料完整 [next]",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 13,
+        "fill": "#526C65",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        73
+      ],
+      "field": "fill",
+      "variable": "muted"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 11,
+      "x": 36,
+      "y": 1570,
+      "width": 1368,
+      "height": 30,
+      "text": "step:migration-review → step:migration-future  / 独立待实现 [uncertain]",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 13,
+        "fill": "#91601C",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        74
+      ],
+      "field": "fill",
+      "variable": "warning"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "component",
+      "name": "FeatureCard",
+      "parent": 5,
+      "x": 36,
+      "y": 180,
+      "width": 650,
+      "height": 360,
+      "props": {
+        "fill": "#FFFFFF",
+        "cornerRadius": 16,
+        "stroke": "#CBD9D3",
+        "strokeWeight": 1,
+        "pluginData": {
+          "componentKind": "FeatureCard"
+        }
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        75
+      ],
+      "field": "fill",
+      "variable": "surface"
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        75
+      ],
+      "field": "stroke",
+      "variable": "border"
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        75
+      ],
+      "field": "cornerRadius",
+      "variable": "radius"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 75,
+      "x": 18,
+      "y": 18,
+      "width": 614,
+      "height": 34,
+      "text": "Title",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 18,
+        "fill": "#18342F",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        76
+      ],
+      "field": "fill",
+      "variable": "text"
+    }
+  },
+  {
+    "command": "component.addProperty",
+    "params": {
+      "id": 75,
+      "name": "Title",
+      "type": "text",
+      "default": "Title",
+      "layer": 76
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 75,
+      "x": 18,
+      "y": 58,
+      "width": 614,
+      "height": 200,
+      "text": "Body",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 13,
+        "fill": "#18342F",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        77
+      ],
+      "field": "fill",
+      "variable": "text"
+    }
+  },
+  {
+    "command": "component.addProperty",
+    "params": {
+      "id": 75,
+      "name": "Body",
+      "type": "text",
+      "default": "Body",
+      "layer": 77
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 75,
+      "x": 18,
+      "y": 252,
+      "width": 614,
+      "height": 32,
+      "text": "Status",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 12,
+        "fill": "#18342F",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        78
+      ],
+      "field": "fill",
+      "variable": "text"
+    }
+  },
+  {
+    "command": "component.addProperty",
+    "params": {
+      "id": 75,
+      "name": "Status",
+      "type": "text",
+      "default": "Status",
+      "layer": 78
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 75,
+      "x": 18,
+      "y": 295,
+      "width": 614,
+      "height": 60,
+      "text": "Limit",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 11,
+        "fill": "#91601C",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        79
+      ],
+      "field": "fill",
+      "variable": "warning"
+    }
+  },
+  {
+    "command": "component.addProperty",
+    "params": {
+      "id": 75,
+      "name": "Limit",
+      "type": "text",
+      "default": "Limit",
+      "layer": 79
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "component",
+      "name": "ScriptCard",
+      "parent": 5,
+      "x": 36,
+      "y": 560,
+      "width": 650,
+      "height": 700,
+      "props": {
+        "fill": "#FFFFFF",
+        "cornerRadius": 16,
+        "stroke": "#CBD9D3",
+        "strokeWeight": 1,
+        "pluginData": {
+          "componentKind": "ScriptCard"
+        }
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        80
+      ],
+      "field": "fill",
+      "variable": "surface"
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        80
+      ],
+      "field": "stroke",
+      "variable": "border"
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        80
+      ],
+      "field": "cornerRadius",
+      "variable": "radius"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 80,
+      "x": 18,
+      "y": 18,
+      "width": 614,
+      "height": 34,
+      "text": "Title",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 18,
+        "fill": "#18342F",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        81
+      ],
+      "field": "fill",
+      "variable": "text"
+    }
+  },
+  {
+    "command": "component.addProperty",
+    "params": {
+      "id": 80,
+      "name": "Title",
+      "type": "text",
+      "default": "Title",
+      "layer": 81
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 80,
+      "x": 18,
+      "y": 58,
+      "width": 614,
+      "height": 540,
+      "text": "Body",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 13,
+        "fill": "#18342F",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        82
+      ],
+      "field": "fill",
+      "variable": "text"
+    }
+  },
+  {
+    "command": "component.addProperty",
+    "params": {
+      "id": 80,
+      "name": "Body",
+      "type": "text",
+      "default": "Body",
+      "layer": 82
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 80,
+      "x": 18,
+      "y": 592,
+      "width": 614,
+      "height": 32,
+      "text": "Status",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 12,
+        "fill": "#18342F",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        83
+      ],
+      "field": "fill",
+      "variable": "text"
+    }
+  },
+  {
+    "command": "component.addProperty",
+    "params": {
+      "id": 80,
+      "name": "Status",
+      "type": "text",
+      "default": "Status",
+      "layer": 83
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 80,
+      "x": 18,
+      "y": 635,
+      "width": 614,
+      "height": 60,
+      "text": "Limit",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 11,
+        "fill": "#91601C",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        84
+      ],
+      "field": "fill",
+      "variable": "warning"
+    }
+  },
+  {
+    "command": "component.addProperty",
+    "params": {
+      "id": 80,
+      "name": "Limit",
+      "type": "text",
+      "default": "Limit",
+      "layer": 84
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "component",
+      "name": "EvidenceBadge",
+      "parent": 5,
+      "x": 36,
+      "y": 1290,
+      "width": 650,
+      "height": 340,
+      "props": {
+        "fill": "#E7EFEB",
+        "cornerRadius": 16,
+        "stroke": "#CBD9D3",
+        "strokeWeight": 1,
+        "pluginData": {
+          "componentKind": "EvidenceBadge"
+        }
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        85
+      ],
+      "field": "fill",
+      "variable": "soft"
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        85
+      ],
+      "field": "stroke",
+      "variable": "border"
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        85
+      ],
+      "field": "cornerRadius",
+      "variable": "radius"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 85,
+      "x": 18,
+      "y": 18,
+      "width": 614,
+      "height": 34,
+      "text": "Title",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 18,
+        "fill": "#18342F",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        86
+      ],
+      "field": "fill",
+      "variable": "text"
+    }
+  },
+  {
+    "command": "component.addProperty",
+    "params": {
+      "id": 85,
+      "name": "Title",
+      "type": "text",
+      "default": "Title",
+      "layer": 86
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 85,
+      "x": 18,
+      "y": 58,
+      "width": 614,
+      "height": 150,
+      "text": "Body",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 13,
+        "fill": "#18342F",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        87
+      ],
+      "field": "fill",
+      "variable": "text"
+    }
+  },
+  {
+    "command": "component.addProperty",
+    "params": {
+      "id": 85,
+      "name": "Body",
+      "type": "text",
+      "default": "Body",
+      "layer": 87
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 85,
+      "x": 18,
+      "y": 232,
+      "width": 614,
+      "height": 32,
+      "text": "Status",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 12,
+        "fill": "#18342F",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        88
+      ],
+      "field": "fill",
+      "variable": "text"
+    }
+  },
+  {
+    "command": "component.addProperty",
+    "params": {
+      "id": 85,
+      "name": "Status",
+      "type": "text",
+      "default": "Status",
+      "layer": 88
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 85,
+      "x": 18,
+      "y": 275,
+      "width": 614,
+      "height": 60,
+      "text": "Limit",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 11,
+        "fill": "#91601C",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        89
+      ],
+      "field": "fill",
+      "variable": "warning"
+    }
+  },
+  {
+    "command": "component.addProperty",
+    "params": {
+      "id": 85,
+      "name": "Limit",
+      "type": "text",
+      "default": "Limit",
+      "layer": 89
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "component",
+      "name": "FeatureTile",
+      "parent": 5,
+      "x": 36,
+      "y": 1660,
+      "width": 430,
+      "height": 190,
+      "props": {
+        "fill": "#FFFFFF",
+        "cornerRadius": 16,
+        "stroke": "#CBD9D3",
+        "strokeWeight": 1,
+        "pluginData": {
+          "componentKind": "FeatureTile"
+        }
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        90
+      ],
+      "field": "fill",
+      "variable": "surface"
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        90
+      ],
+      "field": "stroke",
+      "variable": "border"
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        90
+      ],
+      "field": "cornerRadius",
+      "variable": "radius"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 90,
+      "x": 18,
+      "y": 18,
+      "width": 394,
+      "height": 34,
+      "text": "Title",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 18,
+        "fill": "#18342F",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        91
+      ],
+      "field": "fill",
+      "variable": "text"
+    }
+  },
+  {
+    "command": "component.addProperty",
+    "params": {
+      "id": 90,
+      "name": "Title",
+      "type": "text",
+      "default": "Title",
+      "layer": 91
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 90,
+      "x": 18,
+      "y": 58,
+      "width": 394,
+      "height": 42,
+      "text": "Body",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 13,
+        "fill": "#18342F",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        92
+      ],
+      "field": "fill",
+      "variable": "text"
+    }
+  },
+  {
+    "command": "component.addProperty",
+    "params": {
+      "id": 90,
+      "name": "Body",
+      "type": "text",
+      "default": "Body",
+      "layer": 92
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 90,
+      "x": 18,
+      "y": 82,
+      "width": 394,
+      "height": 32,
+      "text": "Status",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 12,
+        "fill": "#18342F",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        93
+      ],
+      "field": "fill",
+      "variable": "text"
+    }
+  },
+  {
+    "command": "component.addProperty",
+    "params": {
+      "id": 90,
+      "name": "Status",
+      "type": "text",
+      "default": "Status",
+      "layer": 93
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 90,
+      "x": 18,
+      "y": 125,
+      "width": 394,
+      "height": 60,
+      "text": "Limit",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 11,
+        "fill": "#91601C",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        94
+      ],
+      "field": "fill",
+      "variable": "warning"
+    }
+  },
+  {
+    "command": "component.addProperty",
+    "params": {
+      "id": 90,
+      "name": "Limit",
+      "type": "text",
+      "default": "Limit",
+      "layer": 94
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "parent": 5,
+      "x": 740,
+      "y": 200,
+      "width": 640,
+      "height": 500,
+      "text": "原生主组件与文字属性\n\nFeatureCard / ScriptCard / EvidenceBadge\n\n每个样本都是这些组件的instance；Title/Body/Status/Limit可覆盖。\n\nAtlas颜色与圆角变量绑定可检查。\n\nmetadata ID写入pluginData，供精确追溯。",
+      "props": {
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 20,
+        "fill": "#18342F",
+        "textAutoResize": "height"
+      }
+    }
+  },
+  {
+    "command": "variable.bind",
+    "params": {
+      "ids": [
+        95
+      ],
+      "field": "fill",
+      "variable": "text"
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 90,
+      "parent": 2,
+      "x": 36,
+      "y": 190
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "工程发现与启动",
+        "Body": "feature:launch",
+        "Status": "实现：implemented · 既有目录登记状态；完整平台范围见限制与独立证据",
+        "Limit": "限制：入口创建不等于登录或Host已核验"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "FeatureTile / feature:launch",
+      "width": 430,
+      "pluginData": {
+        "metadataId": "feature:launch",
+        "entityType": "feature",
+        "view": "overview",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 90,
+      "parent": 2,
+      "x": 496,
+      "y": 190
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "文件与运行目录部署",
+        "Body": "feature:deployment",
+        "Status": "实现：partial · 既有目录登记状态；完整平台范围见限制与独立证据",
+        "Limit": "限制：复制成功不等于运行时已加载"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "FeatureTile / feature:deployment",
+      "width": 430,
+      "pluginData": {
+        "metadataId": "feature:deployment",
+        "entityType": "feature",
+        "view": "overview",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 90,
+      "parent": 2,
+      "x": 956,
+      "y": 190
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "会话发现与身份核验",
+        "Body": "feature:sessions",
+        "Status": "实现：implemented · 既有目录登记状态；完整平台范围见限制与独立证据",
+        "Limit": "限制：发现不等于登录"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "FeatureTile / feature:sessions",
+      "width": 430,
+      "pluginData": {
+        "metadataId": "feature:sessions",
+        "entityType": "feature",
+        "view": "overview",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 90,
+      "parent": 2,
+      "x": 36,
+      "y": 400
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "对象与全局数据查询",
+        "Body": "feature:objects",
+        "Status": "实现：implemented · 既有目录登记状态；完整平台范围见限制与独立证据",
+        "Limit": "限制：对象身份不能跨工程永久复用"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "FeatureTile / feature:objects",
+      "width": 430,
+      "pluginData": {
+        "metadataId": "feature:objects",
+        "entityType": "feature",
+        "view": "overview",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 90,
+      "parent": 2,
+      "x": 496,
+      "y": 400
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "函数登记、许可与调用",
+        "Body": "feature:functions",
+        "Status": "实现：implemented · 既有目录登记状态；完整平台范围见限制与独立证据",
+        "Limit": "限制：注册不表示Host已加载"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "FeatureTile / feature:functions",
+      "width": 430,
+      "pluginData": {
+        "metadataId": "feature:functions",
+        "entityType": "feature",
+        "view": "overview",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 90,
+      "parent": 2,
+      "x": 956,
+      "y": 400
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "原生Form与Gadget查询",
+        "Body": "feature:forms",
+        "Status": "实现：implemented · 既有目录登记状态；完整平台范围见限制与独立证据",
+        "Limit": "限制：不执行业务回调"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "FeatureTile / feature:forms",
+      "width": 430,
+      "pluginData": {
+        "metadataId": "feature:forms",
+        "entityType": "feature",
+        "view": "overview",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 90,
+      "parent": 2,
+      "x": 36,
+      "y": 610
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "已有数组的有界读取",
+        "Body": "feature:arrays",
+        "Status": "实现：implemented · 既有目录登记状态；完整平台范围见限制与独立证据",
+        "Limit": "限制：稀疏槽位不压缩"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "FeatureTile / feature:arrays",
+      "width": 430,
+      "pluginData": {
+        "metadataId": "feature:arrays",
+        "entityType": "feature",
+        "view": "overview",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 90,
+      "parent": 2,
+      "x": 496,
+      "y": 610
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "FormUse跟踪原型",
+        "Body": "feature:formuse",
+        "Status": "实现：planned · 既有目录登记状态；完整平台范围见限制与独立证据",
+        "Limit": "限制：仍为planned"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "FeatureTile / feature:formuse",
+      "width": 430,
+      "pluginData": {
+        "metadataId": "feature:formuse",
+        "entityType": "feature",
+        "view": "overview",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 90,
+      "parent": 2,
+      "x": 956,
+      "y": 610
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "分层知识与经验",
+        "Body": "feature:knowledge",
+        "Status": "实现：partial · 既有目录登记状态；完整平台范围见限制与独立证据",
+        "Limit": "限制：官方默认接入仍待完成"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "FeatureTile / feature:knowledge",
+      "width": 430,
+      "pluginData": {
+        "metadataId": "feature:knowledge",
+        "entityType": "feature",
+        "view": "overview",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 90,
+      "parent": 2,
+      "x": 36,
+      "y": 820
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "运行记录与日志",
+        "Body": "feature:activity",
+        "Status": "实现：implemented · 既有目录登记状态；完整平台范围见限制与独立证据",
+        "Limit": "限制：不是所有平台动作的统一协调者"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "FeatureTile / feature:activity",
+      "width": 430,
+      "pluginData": {
+        "metadataId": "feature:activity",
+        "entityType": "feature",
+        "view": "overview",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 90,
+      "parent": 2,
+      "x": 496,
+      "y": 820
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "AI草稿评审与迁移",
+        "Body": "feature:review",
+        "Status": "实现：planned · 既有目录登记状态；完整平台范围见限制与独立证据",
+        "Limit": "限制：完整GUI仍planned"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "FeatureTile / feature:review",
+      "width": 430,
+      "pluginData": {
+        "metadataId": "feature:review",
+        "entityType": "feature",
+        "view": "overview",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 90,
+      "parent": 2,
+      "x": 956,
+      "y": 820
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "桌面测试执行中心",
+        "Body": "feature:tests",
+        "Status": "实现：planned · 既有目录登记状态；完整平台范围见限制与独立证据",
+        "Limit": "限制：执行器存在不代表桌面中心完成"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "FeatureTile / feature:tests",
+      "width": 430,
+      "pluginData": {
+        "metadataId": "feature:tests",
+        "entityType": "feature",
+        "view": "overview",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 90,
+      "parent": 2,
+      "x": 36,
+      "y": 1030
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "本机HTML应用管理",
+        "Body": "feature:web",
+        "Status": "实现：partial · 既有目录登记状态；完整平台范围见限制与独立证据",
+        "Limit": "限制：远程分发未完成"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "FeatureTile / feature:web",
+      "width": 430,
+      "pluginData": {
+        "metadataId": "feature:web",
+        "entityType": "feature",
+        "view": "overview",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 90,
+      "parent": 2,
+      "x": 496,
+      "y": 1030
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "Ribbon编辑与冻结部署",
+        "Body": "feature:ribbon",
+        "Status": "实现：partial · 明确平台切片；未声称整体完成",
+        "Limit": "限制：首次新文件为v1兼容；限定运行时外观通过，未点击宏"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "FeatureTile / feature:ribbon",
+      "width": 430,
+      "pluginData": {
+        "metadataId": "feature:ribbon",
+        "entityType": "feature",
+        "view": "overview",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 90,
+      "parent": 2,
+      "x": 956,
+      "y": 1030
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "独立应用数据库",
+        "Body": "feature:database",
+        "Status": "实现：partial · 明确平台切片；未声称整体完成",
+        "Limit": "限制：尚未整体替换活动写者"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "FeatureTile / feature:database",
+      "width": 430,
+      "pluginData": {
+        "metadataId": "feature:database",
+        "entityType": "feature",
+        "view": "overview",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 90,
+      "parent": 2,
+      "x": 36,
+      "y": 1240
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "只读迁移预览",
+        "Body": "feature:migration",
+        "Status": "实现：implemented · 只读迁移预览；不包含写入切换",
+        "Limit": "限制：不替代写入切换和恢复"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "FeatureTile / feature:migration",
+      "width": 430,
+      "pluginData": {
+        "metadataId": "feature:migration",
+        "entityType": "feature",
+        "view": "overview",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 90,
+      "parent": 2,
+      "x": 496,
+      "y": 1240
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "CAF薄宿主适配",
+        "Body": "feature:caf",
+        "Status": "实现：partial · 明确平台切片；未声称整体完成",
+        "Limit": "限制：SDK编译不等于真实宿主注册或UI挂载"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "FeatureTile / feature:caf",
+      "width": 430,
+      "pluginData": {
+        "metadataId": "feature:caf",
+        "entityType": "feature",
+        "view": "overview",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 90,
+      "parent": 2,
+      "x": 956,
+      "y": 1240
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "可选许可与VM插件",
+        "Body": "feature:plugins",
+        "Status": "实现：partial · 明确平台切片；未声称整体完成",
+        "Limit": "限制：基础包不应依赖可选实验能力"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "FeatureTile / feature:plugins",
+      "width": 430,
+      "pluginData": {
+        "metadataId": "feature:plugins",
+        "entityType": "feature",
+        "view": "overview",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 80,
+      "parent": 8,
+      "x": 36,
+      "y": 190
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "启动工作台与本地服务编排",
+        "Body": "input：NoBrowser/NoBuild、端口、构建配置；整合入口另接 Ribbon 数据目录与端口。\nprecondition：匹配仓库 SDK；所需 CLI/Ribbon 后端存在或允许本次构建；本机端口可用。\nmethod：增量构建 → 启动本机 Ribbon（整合入口）→ 健康核对 → 调用 Manager workbench；不复制发现/启动算法。\neffect：可构建、启动本机服务/浏览器、创建应用工作目录；此入口本身不登录或启动 AVEVA。\nvalidation：构建退出码、文件存在、health 实现/版本/状态与自有进程仍存活。\nreceipt：前台退出码、本机端点及下游操作回执；服务ready不是产品已连接。\nrecovery：失败不继续启动下游；finally 停自有服务并还原本进程环境。停止服务不撤销已经明确受理的产品动作。",
+        "Status": "powershell · workflow",
+        "Limit": "七字段来源随公开JSON保留；静态关系不是运行轨迹"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "ScriptCard / script:workbench-entry",
+      "pluginData": {
+        "metadataId": "script:workbench-entry",
+        "entityType": "ScriptCard",
+        "view": "scripts",
+        "theme": "Light",
+        "metadataSchema": "project-contract-metadata/1",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 80,
+      "parent": 8,
+      "x": 726,
+      "y": 190
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "启动计划、受理与观察",
+        "Body": "input：profileId、expectedRevision、operationId；execute 接冻结计划、本次内存密码、requestId和启动授权。\nprecondition：配置有效、文件/修订/计划期限匹配；有权限；原编号没有冲突事实。\nmethod：Plan 冻结入口/INIT/EVARS → 缓存摘要 → 跨进程操作租约 → 同编号去重 → accepted持久化 → 唯一LaunchService.Start → 持久回执。\neffect：计划写非秘密缓存；执行创建入口进程；观察读取/更新观察事实，不再次启动。\nvalidation：同编号同摘要复用，异摘要冲突；受理持久失败不调用启动；退出入口保留交接候选，不能推定工程关闭。\nreceipt：operationId/attemptId/requestId、state/phase/code/message、入口身份、观察与Host未核验。\nrecovery：中断accepted变unknown；写后回执失败保留不确定性；按原编号Observe，不能自动重放。",
+        "Status": "csharp · workflow",
+        "Limit": "七字段来源随公开JSON保留；静态关系不是运行轨迹"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "ScriptCard / script:launch-workflow",
+      "pluginData": {
+        "metadataId": "script:launch-workflow",
+        "entityType": "ScriptCard",
+        "view": "scripts",
+        "theme": "Light",
+        "metadataSchema": "project-contract-metadata/1",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 80,
+      "parent": 8,
+      "x": 36,
+      "y": 920
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "通信CLI子进程边界",
+        "Body": "input：已注册通信操作、JSON stdin、requestId；目标操作含PID、启动时间、模块及明确授权。\nprecondition：明确通信程序路径/身份、兼容协议；管理操作不能借此绕回通信边界。\nmethod：ArgumentList → 单份stdin JSON → 并行读取stdout/stderr → 时间/体积预算 → 核对关联回执。\neffect：创建本次自有通信进程；下游操作可查询或改变宿主，必须按operation判断。\nvalidation：程序指纹、版本、JSON、requestId、退出码与输出预算；PID身份校验不因GUI已选过而省略。\nreceipt：原通信结果、分层evidence及mayHaveExecuted；stderr不是可替代业务结果的stdout。\nrecovery：终止/回收自有子进程不等于取消宿主动作；发出后无确定回执为unknown，不重发。",
+        "Status": "csharp · transport",
+        "Limit": "七字段来源随公开JSON保留；静态关系不是运行轨迹"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "ScriptCard / script:communication-client",
+      "pluginData": {
+        "metadataId": "script:communication-client",
+        "entityType": "ScriptCard",
+        "view": "scripts",
+        "theme": "Light",
+        "metadataSchema": "project-contract-metadata/1",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 80,
+      "parent": 8,
+      "x": 726,
+      "y": 920
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "冻结复制与条件恢复",
+        "Body": "input：源、插件专用注册目标、冻结文件计划和摘要；恢复接原回执。\nprecondition：路径边界、无链接、不互含、格式及大小预算满足；授权明确。\nmethod：枚举冻结 → 全部写前复验 → 备份/暂存/写入 → 结果回读；不另建第二复制引擎。\neffect：写目标和本操作备份；不自动删除无关文件、不加载Host。\nvalidation：源/目标变化拒绝；检查实际复制与恢复未解决项。\nreceipt：DeploymentReceipt、应用异常中的部分结果、DeploymentRestoreReceipt。\nrecovery：仅恢复本次所有权内文件；外部改动不覆盖，RecoveryErrors/Unresolved单列，不承诺无条件回滚。",
+        "Status": "csharp · algorithm",
+        "Limit": "七字段来源随公开JSON保留；静态关系不是运行轨迹"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "ScriptCard / script:frozen-copy",
+      "pluginData": {
+        "metadataId": "script:frozen-copy",
+        "entityType": "ScriptCard",
+        "view": "scripts",
+        "theme": "Light",
+        "metadataSchema": "project-contract-metadata/1",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 80,
+      "parent": 8,
+      "x": 36,
+      "y": 1650
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "PML部署、重载与验证",
+        "Body": "input：CLI、源目录、注册PMLLIB、schema1清单、PID/ExpectedModel、独立证据目录与AllowExecution。\nprecondition：明确获准的部署/加载/验证任务；清单字段和期望字符串有效；不复用任意旧证据目录充当新结果。\nmethod：固定发现身份 → 冻结复制 → REHASH ALL → Object/Form重载 → 验证宏 → 读取结果全局数组 → 精确比对expected。\neffect：写部署文件与run.json/rpc.json；重载、宏和窗口可能改变宿主运行态。\nvalidation：复制后对冻结源哈希回读；结果项数、UnparsedCount与每个键/字符串精确一致。该包装器不具有启动协调器的operationId持久去重；清单不是每步重新哈希冻结，不能补造此保证。\nreceipt：每步执行前保存状态、原始调用与响应；失败或unknown停止，最后写rpc证据。\nrecovery：不自动重发/重跑全流程；先检查已复制文件、原始调用、加载状态及原备份，再明确选择下一动作。",
+        "Status": "powershell · workflow",
+        "Limit": "七字段来源随公开JSON保留；静态关系不是运行轨迹"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "ScriptCard / script:pml-development",
+      "pluginData": {
+        "metadataId": "script:pml-development",
+        "entityType": "ScriptCard",
+        "view": "scripts",
+        "theme": "Light",
+        "metadataSchema": "project-contract-metadata/1",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 80,
+      "parent": 8,
+      "x": 726,
+      "y": 1650
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "数组窗口算法",
+        "Body": "input：原生MAXINDEX上界、startIndex、maxItems、maxCharacters与槽位读取委托。\nprecondition：startIndex≥1，maxItems为1–1000，maxCharacters为1–262144，上界非负。\nmethod：按原生索引顺序读取，不按已设置元素数压缩；字符预算不拆行。\neffect：算法本身不创建或改写数组；委托仍受宿主协议约束。\nvalidation：首行超预算明确失败；其余超预算保留下一索引；空、0、false和unset不相互转换。\nreceipt：Rows、StartIndex、NextIndex、Truncated、Characters及IndexUpperBound。\nrecovery：同目标/条件才能接续；换目标/筛选重置页，不拼旧结果。",
+        "Status": "csharp · algorithm",
+        "Limit": "七字段来源随公开JSON保留；静态关系不是运行轨迹"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "ScriptCard / script:array-window",
+      "pluginData": {
+        "metadataId": "script:array-window",
+        "entityType": "ScriptCard",
+        "view": "scripts",
+        "theme": "Light",
+        "metadataSchema": "project-contract-metadata/1",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 80,
+      "parent": 8,
+      "x": 36,
+      "y": 2380
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "DBREF对象读取与恢复",
+        "Body": "input：size/depth/startStr/name；name支持短名、绝对名或DBREF字符串。\nprecondition：目标PML已加载、当前会话/工程明确；参数与预算还需调用层约束。\nmethod：保存CE → 解析目标 → 临时切CE → walker读取扁平数组 → 尝试还原CE。\neffect：会临时改变CE；不应表述成纯无状态函数，也不自动获得写工程权限。\nvalidation：原PML通过badref/handle处理部分失败；独立通信身份与预算不能省略。\nreceipt：返回ARRAY；若目标无效或部分错误也可能是空数组，因此必须结合外层成功/错误证据。\nrecovery：原实现包含正常及读取异常后的CE恢复尝试，但不是通用finally保证；若原生恢复失败须人工核对CE，不能从空结果推断已恢复。",
+        "Status": "pml · runtime",
+        "Limit": "七字段来源随公开JSON保留；静态关系不是运行轨迹"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "ScriptCard / script:dbref-reader",
+      "pluginData": {
+        "metadataId": "script:dbref-reader",
+        "entityType": "ScriptCard",
+        "view": "scripts",
+        "theme": "Light",
+        "metadataSchema": "project-contract-metadata/1",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 80,
+      "parent": 8,
+      "x": 726,
+      "y": 2380
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "Host解析与启动策略",
+        "Body": "input：Current Session/BANNER、PMLUI根、进程环境中的启动策略及可选override。\nprecondition：对应profile的Host文件实际存在；安装目录token与安装预览一致。\nmethod：E3D2.1→net48/2.1、E3D3.1系列→net48/3.1.6、AM/PDMS→net35；策略仅none/空或rehash-all，未知值不当作PML执行。\neffect：更新会话描述与解析结果；显式rehash-all可执行REHASH，默认关闭。\nvalidation：不支持映射或缺DLL不得设为成功；策略执行前写开始日志，一旦开始即消耗会话防重试守卫。\nreceipt：产品/版本/模块/profile/framework信息及策略报告；路径存在不是Host握手成功。\nrecovery：不自动降级加载错误运行时；改策略环境值通常由新进程读取，失败后不能借重试重复执行当前会话动作。",
+        "Status": "pml · runtime",
+        "Limit": "七字段来源随公开JSON保留；静态关系不是运行轨迹"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "ScriptCard / script:host-bootstrap",
+      "pluginData": {
+        "metadataId": "script:host-bootstrap",
+        "entityType": "ScriptCard",
+        "view": "scripts",
+        "theme": "Light",
+        "metadataSchema": "project-contract-metadata/1",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 80,
+      "parent": 8,
+      "x": 36,
+      "y": 3110
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "Ribbon冻结部署与回执映射",
+        "Body": "input：preview是project及选定模块信息；apply严格为planId/planDigest，写授权独立。\nprecondition：已有文档身份、权威来源/托管保护通过、计划期限/历史/目标一致；不能用伪造preferredBinding接管原生文件。\nmethod：规范化与验证 → 缓存项目/目标/摘要 → apply写锁复验 → 消费计划 → 复用原文件/登记引擎 → 写后哈希回读。\neffect：file-update仅写UIC；registration-add仅写选定XML及相关工作区记录/绑定。未选XML及登记时UIC保持字节；不执行宏或重启。\nvalidation：缓存最多64项、五分钟、单规范化输入4MiB、总缓存32MiB；HTTP及Manager另有20MiB输入/输出限制。Manager核对v2、请求编号/摘要、state及activation类型，旧v1错误保留。\nreceipt：workspace/deployment/activation分列；deployed仅磁盘成功，runtimeVerified始终false；不确认写入为RIBBON_RESULT_UNKNOWN。\nrecovery：存活缓存同计划返原回执；过期/后端重启没有持久执行事实，人工核对工作区/目标/备份，不自动重新执行；真实加载另验收。",
+        "Status": "csharp · workflow",
+        "Limit": "七字段来源随公开JSON保留；静态关系不是运行轨迹"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "ScriptCard / script:ribbon-frozen-deployment",
+      "pluginData": {
+        "metadataId": "script:ribbon-frozen-deployment",
+        "entityType": "ScriptCard",
+        "view": "scripts",
+        "theme": "Light",
+        "metadataSchema": "project-contract-metadata/1",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 80,
+      "parent": 8,
+      "x": 726,
+      "y": 3110
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "只读迁移材料解析",
+        "Body": "input：rewrite/next/ribbon和本机绝对source；不自动跟随portable重定向。\nprecondition：明确支持结构；rewrite v3仅允许根内`.control/generations/<GUID-N>.json`及匹配SHA256。\nmethod：受限枚举 → 原字节摘要 → UTF8/JSON/版本/重复键核查 → 递归净化 → 保留身份与历史材料。\neffect：只读来源，不保存计划、不写Database、不激活；不完整数据也不发布为活动配置。\nvalidation：256文件、单文件2MiB、总16MiB、深度64；拒绝链接/越界；敏感字段/凭据引用及可能夹带秘密的已知容器剔除，只报路径。未知普通文本保留不意味着能识别任意恶意隐写。\nreceipt：schema1报告含activate=false、complete、文件SHA256、sourceVersion、净化content与code/file/path诊断；不完整操作退出码2。\nrecovery：不改来源所以无需数据回退；修正格式/预算后另行预览。此报告不是可直接执行的Database切换计划。",
+        "Status": "csharp · algorithm",
+        "Limit": "七字段来源随公开JSON保留；静态关系不是运行轨迹"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "ScriptCard / script:migration-preview",
+      "pluginData": {
+        "metadataId": "script:migration-preview",
+        "entityType": "ScriptCard",
+        "view": "scripts",
+        "theme": "Light",
+        "metadataSchema": "project-contract-metadata/1",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 80,
+      "parent": 8,
+      "x": 36,
+      "y": 3840
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "知识双路导入",
+        "Body": "input：product/version/role/name与选定资料源或SQLite；apply使用缓存计划引用。\nprecondition：明确写授权、目标名无冲突、源未变、schema受支持；活动写占用/WAL等不能被不一致单文件复制绕过。\nmethod：只读预览 → 私有暂存建库或一致备份 → 分层检查 → 重命名发布/登记。\neffect：创建产品版本隔离库；不覆盖同名库，不重建个人/工程/经验层。\nvalidation：完整性、schema、关系、FTS/MATCH、清单与来源指纹，canEnable决定能否启用。\nreceipt：库身份、数据库SHA256、路径、检查项和来源证据状态；数据库身份与chunk ID共同定位正文。\nrecovery：失败清理本次暂存，保留旧库；已启用库变化要重检，不能把旧报告当新鲜证据。",
+        "Status": "csharp · workflow",
+        "Limit": "七字段来源随公开JSON保留；静态关系不是运行轨迹"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "ScriptCard / script:knowledge-import",
+      "pluginData": {
+        "metadataId": "script:knowledge-import",
+        "entityType": "ScriptCard",
+        "view": "scripts",
+        "theme": "Light",
+        "metadataSchema": "project-contract-metadata/1",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 80,
+      "parent": 8,
+      "x": 726,
+      "y": 3840
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "SDK选择与按ID验证",
+        "Body": "input：仓库SDK版本、明确TestId/Describe、相应测试入口与独立报告目录。\nprecondition：helper要求host实际含10.0.302，只有10.0.400不能满足精确门禁；Windows/WPF/浏览器等按测试入口声明。\nmethod：选择已有dotnet host并设置当前进程环境 → 核对测试ID/源码定位与摘要 → 新目录执行 → 解析原始结果/视口证据。\neffect：构建、启动自有测试进程、写报告/截图；helper不安装SDK、不修改机器级环境。部分入口直接调用dotnet，不能假定全部自动dot-source helper。\nvalidation：无匹配测试不能算通过；failed/skipped/not-run分别统计；截图需记录请求DIP、实际布局、PNG像素与DPI，图片存在不是验收。\nreceipt：commit/dirty、SDK/系统、执行数量、console/TRX/summary、源码身份及关联截图；历史结果不冒充本轮。\nrecovery：超时停止自有夹具并保留部分证据；环境缺失先修环境，重跑写新报告。首次CLI行为应在调用前设置首次运行/证书抑制环境，避免开发证书等非任务副作用。",
+        "Status": "powershell · build",
+        "Limit": "七字段来源随公开JSON保留；静态关系不是运行轨迹"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "ScriptCard / script:sdk-acceptance",
+      "pluginData": {
+        "metadataId": "script:sdk-acceptance",
+        "entityType": "ScriptCard",
+        "view": "scripts",
+        "theme": "Light",
+        "metadataSchema": "project-contract-metadata/1",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 80,
+      "parent": 8,
+      "x": 36,
+      "y": 4570
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "UI发送前持久门禁",
+        "Body": "input：已确认的v2计划引用，或明确标记的v1首次生成输入；记录非秘密planId/digest/kind/端点，不记录项目口令。\nprecondition：没有未决部署记录；状态存储可写可回读；新建v1不冒充服务端冻结计划。\nmethod：消费本地计划 → 发送前持久pending → 发一次apply → 核对回执身份/状态/activation → 可确认结束时清记录。Web使用同源navigator.locks覆盖整个写请求，锁内再次核对localStorage，无可靠锁支持则拒绝发送；WPF使用跨进程FileShare.None租约覆盖整个写请求，并在发送前CreateNew写pending、Flush(true)。\neffect：写本机非秘密门禁记录；复用既有API，不建立第二个部署引擎。读到pending的新页面/进程先暂停写入，不因为页面关闭或服务重启自动解除。\nvalidation：存储失败不得发送；v2回执必须匹配计划编号/摘要、版本、有效状态和activation类型。断连/超时/错身份/损坏回执保留unknown，阻止批次继续或自动重新预览。v1兼容入口发送后任何错误均保守unknown，不把旧引擎可能已保存历史的4xx当成无副作用拒绝；v2明确写前拒绝可以清理本地pending。跨页面竞争保护来自navigator锁而非localStorage自身原子性；人工解除必须核对原计划，不能视为服务器撤销。\nreceipt：UI显示原编号、磁盘状态、未核验加载与人工核对出口；pending本身只说明可能未决，不证明服务器已受理或未执行。\nrecovery：重开读取记录后核对工作区历史、文件和备份；仅显式人工核对并二次确认才解除暂停。解除也获取同一Web锁/WPF跨进程租约，并比较提示时原编号与当前持久编号，旧A不能清除新B；当前持久记录优先于旧进程/标签内存编号。旧计划不重放、后续须新预览。上述客户端专项与离线全量已通过，原生预览、HTTP客户端与Web DOM证据仍各按其范围陈述。",
+        "Status": "typescript/csharp · workflow",
+        "Limit": "七字段来源随公开JSON保留；静态关系不是运行轨迹"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "ScriptCard / script:ui-pending-gate",
+      "pluginData": {
+        "metadataId": "script:ui-pending-gate",
+        "entityType": "ScriptCard",
+        "view": "scripts",
+        "theme": "Light",
+        "metadataSchema": "project-contract-metadata/1",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 80,
+      "parent": 8,
+      "x": 726,
+      "y": 4570
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "独立运行时验收与收尾",
+        "Body": "input：明确授权的独立测试界面文件、单模块登记、目标产品与冻结备份。\nprecondition：启动、文件写入与重启分别获准；新会话重新严格核验。\nmethod：直接HTTP冻结部署后正常重启，独立核验身份与实际界面，再有条件恢复。\neffect：改变独立测试文件与指定登记并启动、退出真实产品；未点击宏。\nvalidation：新旧会话分别核对；实际页签、分组、大小图标与Tooltip限定外观证据。\nreceipt：部署时仍为磁盘成功、运行时未核验；后续外观通过作为独立事实追加。\nrecovery：正常退出后按冻结摘要恢复唯一测试登记；保留备份，其他产品不外推。",
+        "Status": "procedure · acceptance",
+        "Limit": "七字段来源随公开JSON保留；静态关系不是运行轨迹"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "ScriptCard / script:runtime-verification",
+      "pluginData": {
+        "metadataId": "script:runtime-verification",
+        "entityType": "ScriptCard",
+        "view": "scripts",
+        "theme": "Light",
+        "metadataSchema": "project-contract-metadata/1",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 75,
+      "parent": 14,
+      "x": 36,
+      "y": 190
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "工程发现与启动",
+        "Body": "职责：冻结一次启动，保存修订并观察原编号。\n输入：配置修订；明确产品与模块\n输出：候选来源；启动计划与关联回执\n副作用：授权后创建入口进程\n失败：歧义、冲突与unknown\n规范：R02:verified · R03:verified · R04:verified · R05:verified · R06:verified · R13:verified · R14:verified · R15:verified · R16:verified · R23:verified\n证据：未单独关联本轮记录",
+        "Status": "实现：implemented · 既有目录登记状态；完整平台范围见限制与独立证据",
+        "Limit": "限制：入口创建不等于登录或Host已核验"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "FeatureCard / feature:launch",
+      "pluginData": {
+        "metadataId": "feature:launch",
+        "entityType": "FeatureCard",
+        "view": "help",
+        "theme": "Light",
+        "metadataSchema": "project-contract-metadata/1",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 75,
+      "parent": 14,
+      "x": 36,
+      "y": 580
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "文件与运行目录部署",
+        "Body": "职责：冻结文件差异，备份并有条件恢复。\n输入：源与专用目标；冻结计划\n输出：逐文件差异；备份及恢复回执\n副作用：写目标文件与托管环境段\n失败：源或目标变化拒绝；部分恢复明确报告\n规范：R10:partial · R19:partial\n证据：未单独关联本轮记录",
+        "Status": "实现：partial · 既有目录登记状态；完整平台范围见限制与独立证据",
+        "Limit": "限制：复制成功不等于运行时已加载"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "FeatureCard / feature:deployment",
+      "pluginData": {
+        "metadataId": "feature:deployment",
+        "entityType": "FeatureCard",
+        "view": "help",
+        "theme": "Light",
+        "metadataSchema": "project-contract-metadata/1",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 80,
+      "parent": 14,
+      "x": 36,
+      "y": 970
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "启动工作台与本地服务编排",
+        "Body": "input：NoBrowser/NoBuild、端口、构建配置；整合入口另接 Ribbon 数据目录与端口。\nprecondition：匹配仓库 SDK；所需 CLI/Ribbon 后端存在或允许本次构建；本机端口可用。\nmethod：增量构建 → 启动本机 Ribbon（整合入口）→ 健康核对 → 调用 Manager workbench；不复制发现/启动算法。\neffect：可构建、启动本机服务/浏览器、创建应用工作目录；此入口本身不登录或启动 AVEVA。\nvalidation：构建退出码、文件存在、health 实现/版本/状态与自有进程仍存活。\nreceipt：前台退出码、本机端点及下游操作回执；服务ready不是产品已连接。\nrecovery：失败不继续启动下游；finally 停自有服务并还原本进程环境。停止服务不撤销已经明确受理的产品动作。",
+        "Status": "powershell · workflow",
+        "Limit": "七字段来源随公开JSON保留；静态关系不是运行轨迹"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "ScriptCard / script:workbench-entry",
+      "pluginData": {
+        "metadataId": "script:workbench-entry",
+        "entityType": "ScriptCard",
+        "view": "help",
+        "theme": "Light",
+        "metadataSchema": "project-contract-metadata/1",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 80,
+      "parent": 14,
+      "x": 36,
+      "y": 1700
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "启动计划、受理与观察",
+        "Body": "input：profileId、expectedRevision、operationId；execute 接冻结计划、本次内存密码、requestId和启动授权。\nprecondition：配置有效、文件/修订/计划期限匹配；有权限；原编号没有冲突事实。\nmethod：Plan 冻结入口/INIT/EVARS → 缓存摘要 → 跨进程操作租约 → 同编号去重 → accepted持久化 → 唯一LaunchService.Start → 持久回执。\neffect：计划写非秘密缓存；执行创建入口进程；观察读取/更新观察事实，不再次启动。\nvalidation：同编号同摘要复用，异摘要冲突；受理持久失败不调用启动；退出入口保留交接候选，不能推定工程关闭。\nreceipt：operationId/attemptId/requestId、state/phase/code/message、入口身份、观察与Host未核验。\nrecovery：中断accepted变unknown；写后回执失败保留不确定性；按原编号Observe，不能自动重放。",
+        "Status": "csharp · workflow",
+        "Limit": "七字段来源随公开JSON保留；静态关系不是运行轨迹"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "ScriptCard / script:launch-workflow",
+      "pluginData": {
+        "metadataId": "script:launch-workflow",
+        "entityType": "ScriptCard",
+        "view": "help",
+        "theme": "Light",
+        "metadataSchema": "project-contract-metadata/1",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 85,
+      "parent": 14,
+      "x": 740,
+      "y": 190
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "offline / passed",
+        "Body": "三格式只读预览与敏感剔除专测14项通过。",
+        "Status": "2026-10-31 · product=synthetic",
+        "Limit": "排除：没有执行数据库切换"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "EvidenceBadge / verification:migration-offline",
+      "pluginData": {
+        "metadataId": "verification:migration-offline",
+        "entityType": "EvidenceBadge",
+        "view": "help",
+        "theme": "Light",
+        "metadataSchema": "project-contract-metadata/1",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 85,
+      "parent": 14,
+      "x": 740,
+      "y": 560
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "ui / passed",
+        "Body": "离线53项通过，Web DOM完整apply；原生WPF仅预览，Apply由HTTP客户端验证。",
+        "Status": "2026-10-31 · product=synthetic",
+        "Limit": "排除：不是UI全程实机验收；首次新建仍为v1兼容"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "EvidenceBadge / verification:ribbon-ui",
+      "pluginData": {
+        "metadataId": "verification:ribbon-ui",
+        "entityType": "EvidenceBadge",
+        "view": "help",
+        "theme": "Light",
+        "metadataSchema": "project-contract-metadata/1",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 85,
+      "parent": 14,
+      "x": 740,
+      "y": 930
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "runtime / passed",
+        "Body": "限定产品正常重启后实际页签、分组、32/16图标与Tooltip通过。",
+        "Status": "2026-10-31 · product=E3D · version=2.1 · module=DESIGN",
+        "Limit": "排除：未点击宏；直接HTTP部署，不是UI全程；不外推其他产品与模块"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "EvidenceBadge / verification:ribbon-runtime",
+      "pluginData": {
+        "metadataId": "verification:ribbon-runtime",
+        "entityType": "EvidenceBadge",
+        "view": "help",
+        "theme": "Light",
+        "metadataSchema": "project-contract-metadata/1",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 85,
+      "parent": 14,
+      "x": 740,
+      "y": 1300
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "offline / passed",
+        "Body": "独立修订存储及冲突、回滚、格式门禁有隔离测试。",
+        "Status": "2026-10-31 · product=synthetic",
+        "Limit": "排除：未整体切换活动存储"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "EvidenceBadge / verification:database-offline",
+      "pluginData": {
+        "metadataId": "verification:database-offline",
+        "entityType": "EvidenceBadge",
+        "view": "help",
+        "theme": "Light",
+        "metadataSchema": "project-contract-metadata/1",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 85,
+      "parent": 14,
+      "x": 740,
+      "y": 1670
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "static / passed",
+        "Body": "真实SDK接口编译与生命周期隔离核查。",
+        "Status": "2026-10-31 · product=CAF",
+        "Limit": "排除：未真实注册宿主；未界面挂载"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "EvidenceBadge / verification:caf-static",
+      "pluginData": {
+        "metadataId": "verification:caf-static",
+        "entityType": "EvidenceBadge",
+        "view": "help",
+        "theme": "Light",
+        "metadataSchema": "project-contract-metadata/1",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 75,
+      "parent": 17,
+      "x": 36,
+      "y": 190
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "工程发现与启动",
+        "Body": "职责：冻结一次启动，保存修订并观察原编号。\n输入：配置修订；明确产品与模块\n输出：候选来源；启动计划与关联回执\n副作用：授权后创建入口进程\n失败：歧义、冲突与unknown\n规范：R02:verified · R03:verified · R04:verified · R05:verified · R06:verified · R13:verified · R14:verified · R15:verified · R16:verified · R23:verified\n证据：未单独关联本轮记录",
+        "Status": "实现：implemented · 既有目录登记状态；完整平台范围见限制与独立证据",
+        "Limit": "限制：入口创建不等于登录或Host已核验"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "FeatureCard / feature:launch",
+      "pluginData": {
+        "metadataId": "feature:launch",
+        "entityType": "FeatureCard",
+        "view": "help",
+        "theme": "Dark",
+        "metadataSchema": "project-contract-metadata/1",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 75,
+      "parent": 17,
+      "x": 36,
+      "y": 580
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "文件与运行目录部署",
+        "Body": "职责：冻结文件差异，备份并有条件恢复。\n输入：源与专用目标；冻结计划\n输出：逐文件差异；备份及恢复回执\n副作用：写目标文件与托管环境段\n失败：源或目标变化拒绝；部分恢复明确报告\n规范：R10:partial · R19:partial\n证据：未单独关联本轮记录",
+        "Status": "实现：partial · 既有目录登记状态；完整平台范围见限制与独立证据",
+        "Limit": "限制：复制成功不等于运行时已加载"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "FeatureCard / feature:deployment",
+      "pluginData": {
+        "metadataId": "feature:deployment",
+        "entityType": "FeatureCard",
+        "view": "help",
+        "theme": "Dark",
+        "metadataSchema": "project-contract-metadata/1",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 80,
+      "parent": 17,
+      "x": 36,
+      "y": 970
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "启动工作台与本地服务编排",
+        "Body": "input：NoBrowser/NoBuild、端口、构建配置；整合入口另接 Ribbon 数据目录与端口。\nprecondition：匹配仓库 SDK；所需 CLI/Ribbon 后端存在或允许本次构建；本机端口可用。\nmethod：增量构建 → 启动本机 Ribbon（整合入口）→ 健康核对 → 调用 Manager workbench；不复制发现/启动算法。\neffect：可构建、启动本机服务/浏览器、创建应用工作目录；此入口本身不登录或启动 AVEVA。\nvalidation：构建退出码、文件存在、health 实现/版本/状态与自有进程仍存活。\nreceipt：前台退出码、本机端点及下游操作回执；服务ready不是产品已连接。\nrecovery：失败不继续启动下游；finally 停自有服务并还原本进程环境。停止服务不撤销已经明确受理的产品动作。",
+        "Status": "powershell · workflow",
+        "Limit": "七字段来源随公开JSON保留；静态关系不是运行轨迹"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "ScriptCard / script:workbench-entry",
+      "pluginData": {
+        "metadataId": "script:workbench-entry",
+        "entityType": "ScriptCard",
+        "view": "help",
+        "theme": "Dark",
+        "metadataSchema": "project-contract-metadata/1",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 80,
+      "parent": 17,
+      "x": 36,
+      "y": 1700
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "启动计划、受理与观察",
+        "Body": "input：profileId、expectedRevision、operationId；execute 接冻结计划、本次内存密码、requestId和启动授权。\nprecondition：配置有效、文件/修订/计划期限匹配；有权限；原编号没有冲突事实。\nmethod：Plan 冻结入口/INIT/EVARS → 缓存摘要 → 跨进程操作租约 → 同编号去重 → accepted持久化 → 唯一LaunchService.Start → 持久回执。\neffect：计划写非秘密缓存；执行创建入口进程；观察读取/更新观察事实，不再次启动。\nvalidation：同编号同摘要复用，异摘要冲突；受理持久失败不调用启动；退出入口保留交接候选，不能推定工程关闭。\nreceipt：operationId/attemptId/requestId、state/phase/code/message、入口身份、观察与Host未核验。\nrecovery：中断accepted变unknown；写后回执失败保留不确定性；按原编号Observe，不能自动重放。",
+        "Status": "csharp · workflow",
+        "Limit": "七字段来源随公开JSON保留；静态关系不是运行轨迹"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "ScriptCard / script:launch-workflow",
+      "pluginData": {
+        "metadataId": "script:launch-workflow",
+        "entityType": "ScriptCard",
+        "view": "help",
+        "theme": "Dark",
+        "metadataSchema": "project-contract-metadata/1",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 85,
+      "parent": 17,
+      "x": 740,
+      "y": 190
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "offline / passed",
+        "Body": "三格式只读预览与敏感剔除专测14项通过。",
+        "Status": "2026-10-31 · product=synthetic",
+        "Limit": "排除：没有执行数据库切换"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "EvidenceBadge / verification:migration-offline",
+      "pluginData": {
+        "metadataId": "verification:migration-offline",
+        "entityType": "EvidenceBadge",
+        "view": "help",
+        "theme": "Dark",
+        "metadataSchema": "project-contract-metadata/1",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 85,
+      "parent": 17,
+      "x": 740,
+      "y": 560
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "ui / passed",
+        "Body": "离线53项通过，Web DOM完整apply；原生WPF仅预览，Apply由HTTP客户端验证。",
+        "Status": "2026-10-31 · product=synthetic",
+        "Limit": "排除：不是UI全程实机验收；首次新建仍为v1兼容"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "EvidenceBadge / verification:ribbon-ui",
+      "pluginData": {
+        "metadataId": "verification:ribbon-ui",
+        "entityType": "EvidenceBadge",
+        "view": "help",
+        "theme": "Dark",
+        "metadataSchema": "project-contract-metadata/1",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 85,
+      "parent": 17,
+      "x": 740,
+      "y": 930
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "runtime / passed",
+        "Body": "限定产品正常重启后实际页签、分组、32/16图标与Tooltip通过。",
+        "Status": "2026-10-31 · product=E3D · version=2.1 · module=DESIGN",
+        "Limit": "排除：未点击宏；直接HTTP部署，不是UI全程；不外推其他产品与模块"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "EvidenceBadge / verification:ribbon-runtime",
+      "pluginData": {
+        "metadataId": "verification:ribbon-runtime",
+        "entityType": "EvidenceBadge",
+        "view": "help",
+        "theme": "Dark",
+        "metadataSchema": "project-contract-metadata/1",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 85,
+      "parent": 17,
+      "x": 740,
+      "y": 1300
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "offline / passed",
+        "Body": "独立修订存储及冲突、回滚、格式门禁有隔离测试。",
+        "Status": "2026-10-31 · product=synthetic",
+        "Limit": "排除：未整体切换活动存储"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "EvidenceBadge / verification:database-offline",
+      "pluginData": {
+        "metadataId": "verification:database-offline",
+        "entityType": "EvidenceBadge",
+        "view": "help",
+        "theme": "Dark",
+        "metadataSchema": "project-contract-metadata/1",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 85,
+      "parent": 17,
+      "x": 740,
+      "y": 1670
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "static / passed",
+        "Body": "真实SDK接口编译与生命周期隔离核查。",
+        "Status": "2026-10-31 · product=CAF",
+        "Limit": "排除：未真实注册宿主；未界面挂载"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "EvidenceBadge / verification:caf-static",
+      "pluginData": {
+        "metadataId": "verification:caf-static",
+        "entityType": "EvidenceBadge",
+        "view": "help",
+        "theme": "Dark",
+        "metadataSchema": "project-contract-metadata/1",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 75,
+      "parent": 20,
+      "x": 36,
+      "y": 190
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "工程发现与启动",
+        "Body": "职责：冻结一次启动，保存修订并观察原编号。\n输入：配置修订；明确产品与模块\n输出：候选来源；启动计划与关联回执\n副作用：授权后创建入口进程\n失败：歧义、冲突与unknown\n规范：R02:verified · R03:verified · R04:verified · R05:verified · R06:verified · R13:verified · R14:verified · R15:verified · R16:verified · R23:verified\n证据：未单独关联本轮记录",
+        "Status": "实现：implemented · 既有目录登记状态；完整平台范围见限制与独立证据",
+        "Limit": "限制：入口创建不等于登录或Host已核验"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "FeatureCard / feature:launch",
+      "pluginData": {
+        "metadataId": "feature:launch",
+        "entityType": "FeatureCard",
+        "view": "portfolio",
+        "theme": "Light",
+        "metadataSchema": "project-contract-metadata/1",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 75,
+      "parent": 20,
+      "x": 726,
+      "y": 190
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "文件与运行目录部署",
+        "Body": "职责：冻结文件差异，备份并有条件恢复。\n输入：源与专用目标；冻结计划\n输出：逐文件差异；备份及恢复回执\n副作用：写目标文件与托管环境段\n失败：源或目标变化拒绝；部分恢复明确报告\n规范：R10:partial · R19:partial\n证据：未单独关联本轮记录",
+        "Status": "实现：partial · 既有目录登记状态；完整平台范围见限制与独立证据",
+        "Limit": "限制：复制成功不等于运行时已加载"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "FeatureCard / feature:deployment",
+      "pluginData": {
+        "metadataId": "feature:deployment",
+        "entityType": "FeatureCard",
+        "view": "portfolio",
+        "theme": "Light",
+        "metadataSchema": "project-contract-metadata/1",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 80,
+      "parent": 20,
+      "x": 36,
+      "y": 950
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "启动工作台与本地服务编排",
+        "Body": "input：NoBrowser/NoBuild、端口、构建配置；整合入口另接 Ribbon 数据目录与端口。\nprecondition：匹配仓库 SDK；所需 CLI/Ribbon 后端存在或允许本次构建；本机端口可用。\nmethod：增量构建 → 启动本机 Ribbon（整合入口）→ 健康核对 → 调用 Manager workbench；不复制发现/启动算法。\neffect：可构建、启动本机服务/浏览器、创建应用工作目录；此入口本身不登录或启动 AVEVA。\nvalidation：构建退出码、文件存在、health 实现/版本/状态与自有进程仍存活。\nreceipt：前台退出码、本机端点及下游操作回执；服务ready不是产品已连接。\nrecovery：失败不继续启动下游；finally 停自有服务并还原本进程环境。停止服务不撤销已经明确受理的产品动作。",
+        "Status": "powershell · workflow",
+        "Limit": "七字段来源随公开JSON保留；静态关系不是运行轨迹"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "ScriptCard / script:workbench-entry",
+      "pluginData": {
+        "metadataId": "script:workbench-entry",
+        "entityType": "ScriptCard",
+        "view": "portfolio",
+        "theme": "Light",
+        "metadataSchema": "project-contract-metadata/1",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 80,
+      "parent": 20,
+      "x": 726,
+      "y": 950
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "启动计划、受理与观察",
+        "Body": "input：profileId、expectedRevision、operationId；execute 接冻结计划、本次内存密码、requestId和启动授权。\nprecondition：配置有效、文件/修订/计划期限匹配；有权限；原编号没有冲突事实。\nmethod：Plan 冻结入口/INIT/EVARS → 缓存摘要 → 跨进程操作租约 → 同编号去重 → accepted持久化 → 唯一LaunchService.Start → 持久回执。\neffect：计划写非秘密缓存；执行创建入口进程；观察读取/更新观察事实，不再次启动。\nvalidation：同编号同摘要复用，异摘要冲突；受理持久失败不调用启动；退出入口保留交接候选，不能推定工程关闭。\nreceipt：operationId/attemptId/requestId、state/phase/code/message、入口身份、观察与Host未核验。\nrecovery：中断accepted变unknown；写后回执失败保留不确定性；按原编号Observe，不能自动重放。",
+        "Status": "csharp · workflow",
+        "Limit": "七字段来源随公开JSON保留；静态关系不是运行轨迹"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "ScriptCard / script:launch-workflow",
+      "pluginData": {
+        "metadataId": "script:launch-workflow",
+        "entityType": "ScriptCard",
+        "view": "portfolio",
+        "theme": "Light",
+        "metadataSchema": "project-contract-metadata/1",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 85,
+      "parent": 20,
+      "x": 36,
+      "y": 1740
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "offline / passed",
+        "Body": "三格式只读预览与敏感剔除专测14项通过。",
+        "Status": "2026-10-31 · product=synthetic",
+        "Limit": "排除：没有执行数据库切换"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "EvidenceBadge / verification:migration-offline",
+      "pluginData": {
+        "metadataId": "verification:migration-offline",
+        "entityType": "EvidenceBadge",
+        "view": "portfolio",
+        "theme": "Light",
+        "metadataSchema": "project-contract-metadata/1",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 85,
+      "parent": 20,
+      "x": 726,
+      "y": 1740
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "ui / passed",
+        "Body": "离线53项通过，Web DOM完整apply；原生WPF仅预览，Apply由HTTP客户端验证。",
+        "Status": "2026-10-31 · product=synthetic",
+        "Limit": "排除：不是UI全程实机验收；首次新建仍为v1兼容"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "EvidenceBadge / verification:ribbon-ui",
+      "pluginData": {
+        "metadataId": "verification:ribbon-ui",
+        "entityType": "EvidenceBadge",
+        "view": "portfolio",
+        "theme": "Light",
+        "metadataSchema": "project-contract-metadata/1",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 85,
+      "parent": 20,
+      "x": 36,
+      "y": 2110
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "runtime / passed",
+        "Body": "限定产品正常重启后实际页签、分组、32/16图标与Tooltip通过。",
+        "Status": "2026-10-31 · product=E3D · version=2.1 · module=DESIGN",
+        "Limit": "排除：未点击宏；直接HTTP部署，不是UI全程；不外推其他产品与模块"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "EvidenceBadge / verification:ribbon-runtime",
+      "pluginData": {
+        "metadataId": "verification:ribbon-runtime",
+        "entityType": "EvidenceBadge",
+        "view": "portfolio",
+        "theme": "Light",
+        "metadataSchema": "project-contract-metadata/1",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 85,
+      "parent": 20,
+      "x": 726,
+      "y": 2110
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "offline / passed",
+        "Body": "独立修订存储及冲突、回滚、格式门禁有隔离测试。",
+        "Status": "2026-10-31 · product=synthetic",
+        "Limit": "排除：未整体切换活动存储"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "EvidenceBadge / verification:database-offline",
+      "pluginData": {
+        "metadataId": "verification:database-offline",
+        "entityType": "EvidenceBadge",
+        "view": "portfolio",
+        "theme": "Light",
+        "metadataSchema": "project-contract-metadata/1",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 85,
+      "parent": 20,
+      "x": 36,
+      "y": 2480
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "static / passed",
+        "Body": "真实SDK接口编译与生命周期隔离核查。",
+        "Status": "2026-10-31 · product=CAF",
+        "Limit": "排除：未真实注册宿主；未界面挂载"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "EvidenceBadge / verification:caf-static",
+      "pluginData": {
+        "metadataId": "verification:caf-static",
+        "entityType": "EvidenceBadge",
+        "view": "portfolio",
+        "theme": "Light",
+        "metadataSchema": "project-contract-metadata/1",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 75,
+      "parent": 23,
+      "x": 36,
+      "y": 190
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "工程发现与启动",
+        "Body": "职责：冻结一次启动，保存修订并观察原编号。\n输入：配置修订；明确产品与模块\n输出：候选来源；启动计划与关联回执\n副作用：授权后创建入口进程\n失败：歧义、冲突与unknown\n规范：R02:verified · R03:verified · R04:verified · R05:verified · R06:verified · R13:verified · R14:verified · R15:verified · R16:verified · R23:verified\n证据：未单独关联本轮记录",
+        "Status": "实现：implemented · 既有目录登记状态；完整平台范围见限制与独立证据",
+        "Limit": "限制：入口创建不等于登录或Host已核验"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "FeatureCard / feature:launch",
+      "pluginData": {
+        "metadataId": "feature:launch",
+        "entityType": "FeatureCard",
+        "view": "portfolio",
+        "theme": "Dark",
+        "metadataSchema": "project-contract-metadata/1",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 75,
+      "parent": 23,
+      "x": 726,
+      "y": 190
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "文件与运行目录部署",
+        "Body": "职责：冻结文件差异，备份并有条件恢复。\n输入：源与专用目标；冻结计划\n输出：逐文件差异；备份及恢复回执\n副作用：写目标文件与托管环境段\n失败：源或目标变化拒绝；部分恢复明确报告\n规范：R10:partial · R19:partial\n证据：未单独关联本轮记录",
+        "Status": "实现：partial · 既有目录登记状态；完整平台范围见限制与独立证据",
+        "Limit": "限制：复制成功不等于运行时已加载"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "FeatureCard / feature:deployment",
+      "pluginData": {
+        "metadataId": "feature:deployment",
+        "entityType": "FeatureCard",
+        "view": "portfolio",
+        "theme": "Dark",
+        "metadataSchema": "project-contract-metadata/1",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 80,
+      "parent": 23,
+      "x": 36,
+      "y": 950
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "启动工作台与本地服务编排",
+        "Body": "input：NoBrowser/NoBuild、端口、构建配置；整合入口另接 Ribbon 数据目录与端口。\nprecondition：匹配仓库 SDK；所需 CLI/Ribbon 后端存在或允许本次构建；本机端口可用。\nmethod：增量构建 → 启动本机 Ribbon（整合入口）→ 健康核对 → 调用 Manager workbench；不复制发现/启动算法。\neffect：可构建、启动本机服务/浏览器、创建应用工作目录；此入口本身不登录或启动 AVEVA。\nvalidation：构建退出码、文件存在、health 实现/版本/状态与自有进程仍存活。\nreceipt：前台退出码、本机端点及下游操作回执；服务ready不是产品已连接。\nrecovery：失败不继续启动下游；finally 停自有服务并还原本进程环境。停止服务不撤销已经明确受理的产品动作。",
+        "Status": "powershell · workflow",
+        "Limit": "七字段来源随公开JSON保留；静态关系不是运行轨迹"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "ScriptCard / script:workbench-entry",
+      "pluginData": {
+        "metadataId": "script:workbench-entry",
+        "entityType": "ScriptCard",
+        "view": "portfolio",
+        "theme": "Dark",
+        "metadataSchema": "project-contract-metadata/1",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 80,
+      "parent": 23,
+      "x": 726,
+      "y": 950
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "启动计划、受理与观察",
+        "Body": "input：profileId、expectedRevision、operationId；execute 接冻结计划、本次内存密码、requestId和启动授权。\nprecondition：配置有效、文件/修订/计划期限匹配；有权限；原编号没有冲突事实。\nmethod：Plan 冻结入口/INIT/EVARS → 缓存摘要 → 跨进程操作租约 → 同编号去重 → accepted持久化 → 唯一LaunchService.Start → 持久回执。\neffect：计划写非秘密缓存；执行创建入口进程；观察读取/更新观察事实，不再次启动。\nvalidation：同编号同摘要复用，异摘要冲突；受理持久失败不调用启动；退出入口保留交接候选，不能推定工程关闭。\nreceipt：operationId/attemptId/requestId、state/phase/code/message、入口身份、观察与Host未核验。\nrecovery：中断accepted变unknown；写后回执失败保留不确定性；按原编号Observe，不能自动重放。",
+        "Status": "csharp · workflow",
+        "Limit": "七字段来源随公开JSON保留；静态关系不是运行轨迹"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "ScriptCard / script:launch-workflow",
+      "pluginData": {
+        "metadataId": "script:launch-workflow",
+        "entityType": "ScriptCard",
+        "view": "portfolio",
+        "theme": "Dark",
+        "metadataSchema": "project-contract-metadata/1",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 85,
+      "parent": 23,
+      "x": 36,
+      "y": 1740
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "offline / passed",
+        "Body": "三格式只读预览与敏感剔除专测14项通过。",
+        "Status": "2026-10-31 · product=synthetic",
+        "Limit": "排除：没有执行数据库切换"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "EvidenceBadge / verification:migration-offline",
+      "pluginData": {
+        "metadataId": "verification:migration-offline",
+        "entityType": "EvidenceBadge",
+        "view": "portfolio",
+        "theme": "Dark",
+        "metadataSchema": "project-contract-metadata/1",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 85,
+      "parent": 23,
+      "x": 726,
+      "y": 1740
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "ui / passed",
+        "Body": "离线53项通过，Web DOM完整apply；原生WPF仅预览，Apply由HTTP客户端验证。",
+        "Status": "2026-10-31 · product=synthetic",
+        "Limit": "排除：不是UI全程实机验收；首次新建仍为v1兼容"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "EvidenceBadge / verification:ribbon-ui",
+      "pluginData": {
+        "metadataId": "verification:ribbon-ui",
+        "entityType": "EvidenceBadge",
+        "view": "portfolio",
+        "theme": "Dark",
+        "metadataSchema": "project-contract-metadata/1",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 85,
+      "parent": 23,
+      "x": 36,
+      "y": 2110
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "runtime / passed",
+        "Body": "限定产品正常重启后实际页签、分组、32/16图标与Tooltip通过。",
+        "Status": "2026-10-31 · product=E3D · version=2.1 · module=DESIGN",
+        "Limit": "排除：未点击宏；直接HTTP部署，不是UI全程；不外推其他产品与模块"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "EvidenceBadge / verification:ribbon-runtime",
+      "pluginData": {
+        "metadataId": "verification:ribbon-runtime",
+        "entityType": "EvidenceBadge",
+        "view": "portfolio",
+        "theme": "Dark",
+        "metadataSchema": "project-contract-metadata/1",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 85,
+      "parent": 23,
+      "x": 726,
+      "y": 2110
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "offline / passed",
+        "Body": "独立修订存储及冲突、回滚、格式门禁有隔离测试。",
+        "Status": "2026-10-31 · product=synthetic",
+        "Limit": "排除：未整体切换活动存储"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "EvidenceBadge / verification:database-offline",
+      "pluginData": {
+        "metadataId": "verification:database-offline",
+        "entityType": "EvidenceBadge",
+        "view": "portfolio",
+        "theme": "Dark",
+        "metadataSchema": "project-contract-metadata/1",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "instance.create",
+    "params": {
+      "component": 85,
+      "parent": 23,
+      "x": 36,
+      "y": 2480
+    }
+  },
+  {
+    "command": "instance.setProperties",
+    "params": {
+      "properties": {
+        "Title": "static / passed",
+        "Body": "真实SDK接口编译与生命周期隔离核查。",
+        "Status": "2026-10-31 · product=CAF",
+        "Limit": "排除：未真实注册宿主；未界面挂载"
+      }
+    }
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "name": "EvidenceBadge / verification:caf-static",
+      "pluginData": {
+        "metadataId": "verification:caf-static",
+        "entityType": "EvidenceBadge",
+        "view": "portfolio",
+        "theme": "Dark",
+        "metadataSchema": "project-contract-metadata/1",
+        "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3"
+      }
+    }
+  },
+  {
+    "command": "component.list",
+    "params": {}
+  },
+  {
+    "command": "variable.list",
+    "params": {}
+  }
+]

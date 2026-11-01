@@ -1,0 +1,1255 @@
+{
+  "passed": true,
+  "finishedAt": "2026-11-01T09:55:50.956Z",
+  "sourceHashes": {
+    "tokens.json": "3fd1bab96aac95ecae8935bbb566dc6aedf53d5829fefed516a776b281fee76f",
+    "theme.js": "1a218dae4fc68f3071d8335b66d64a675438a3fc29706c18f4c41620d603f97e",
+    "theme-tokens.css": "aeb0ebffff795a092017af5a14f6eadc475b9f73cd51ac1ddb25b4cd7321458a",
+    "style.css": "25e1f9b1b983cd9bf4a83ec11e6fbd33a515116a4b98411bc88879cfe15c430f",
+    "document-layout.css": "3e492e1e9049e5d767e1e05cdb1f8160c6bdbfee65ca4fd942a08eeb8cac8b1d",
+    "index.html": "325a38ae7a839aa59847a0ee7109899f990b6edb901606070347fa74cd2cbedc",
+    "app.js": "d268a9525fa4555ffea046c51c2433b7f64750ea39b1fa7bc54a49978b497920",
+    "components.js": "cf5cd3816fbc4fd5fd5975b7e3ddf60afd1a2bc15ba6d18396e671281f6542b8",
+    "page-outline.js": "c138a1045a6c1e18af5a31c27486a48772882da26869a486c1c03a24ad7b6c18",
+    "disclosure.js": "8f4ba1c8b3648aed138cf19bd582ea7cee92ab9f015fc0ec173a27dae4018a7a",
+    "reference-index.js": "9f0d4fe96c4d336835e9f348e9e1746b9a512fb5ce8a8d42dd0c2d1927484054",
+    "atlas-data.js": "a03f58230998ad1729e27957947045f20d59fa216aa1d61d9cfec571d78328da"
+  },
+  "scope": "isolated HTTP + real Chromium, presentation only",
+  "matrix": [
+    {
+      "label": "help-light-390",
+      "view": "help",
+      "theme": "light",
+      "width": 390,
+      "palette": {
+        "variables": {
+          "background": "#F4F6F5",
+          "surface": "#FFFFFF",
+          "soft": "#E7EFEB",
+          "text": "#18342F",
+          "muted": "#526C65",
+          "border": "#CBD9D3",
+          "accent": "#286951",
+          "warning": "#91601C",
+          "boundary": "#6D857B"
+        },
+        "body": "rgb(244, 246, 245)",
+        "text": "rgb(24, 52, 47)",
+        "shadow": "rgb(24, 52, 47)",
+        "scheme": "light",
+        "preference": "light",
+        "theme": "light"
+      },
+      "contrast": {
+        "failures": [],
+        "graphical": [
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          }
+        ],
+        "horizontal": false
+      },
+      "svg": {
+        "background": "#F4F6F5",
+        "roles": [
+          "text",
+          "muted",
+          "accent"
+        ]
+      },
+      "state": {
+        "view": "help",
+        "branch": "contract",
+        "stepId": null,
+        "selectedId": "script:ui-pending-gate",
+        "parentFeatureId": "feature:ribbon",
+        "methodId": null,
+        "methodDirection": "callees",
+        "sectionKey": "",
+        "outline": {
+          "activeKey": "overview",
+          "keys": [
+            "overview",
+            "overview:goal",
+            "overview:deliverables",
+            "contract",
+            "contract:input-summary",
+            "contract:implementation-summary",
+            "contract:boundaries",
+            "contract:details",
+            "contract:field:script:ui-pending-gate/input",
+            "contract:field:script:ui-pending-gate/precondition",
+            "contract:field:script:ui-pending-gate/method",
+            "contract:field:script:ui-pending-gate/effect",
+            "contract:field:script:ui-pending-gate/validation",
+            "contract:field:script:ui-pending-gate/receipt",
+            "contract:field:script:ui-pending-gate/recovery",
+            "contract:requirements",
+            "contract:sources"
+          ]
+        },
+        "catalogKind": "features",
+        "disclosure": {
+          "mode": "summary",
+          "scope": "published",
+          "custom": false,
+          "overrides": 0
+        },
+        "flowId": "flow:ribbon",
+        "selectedFlowId": "flow:ribbon",
+        "effectiveFlowId": "flow:ribbon",
+        "query": "Ribbon",
+        "status": "partial",
+        "projectId": "project:pmltwin",
+        "origin": "static",
+        "revisionId": null,
+        "metadataDigest": "3fc46b35498f984114dab4a36b045fc95583056a682ef9f07d91eb699bb4ebc9",
+        "renderModelDigest": null,
+        "authorDirty": false
+      }
+    },
+    {
+      "label": "portfolio-light-390",
+      "view": "portfolio",
+      "theme": "light",
+      "width": 390,
+      "palette": {
+        "variables": {
+          "background": "#F4F6F5",
+          "surface": "#FFFFFF",
+          "soft": "#E7EFEB",
+          "text": "#18342F",
+          "muted": "#526C65",
+          "border": "#CBD9D3",
+          "accent": "#286951",
+          "warning": "#91601C",
+          "boundary": "#6D857B"
+        },
+        "body": "rgb(244, 246, 245)",
+        "text": "rgb(24, 52, 47)",
+        "shadow": "rgb(24, 52, 47)",
+        "scheme": "light",
+        "preference": "light",
+        "theme": "light"
+      },
+      "contrast": {
+        "failures": [],
+        "graphical": [
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          }
+        ],
+        "horizontal": false
+      },
+      "svg": {
+        "background": "#F4F6F5",
+        "roles": [
+          "text",
+          "muted",
+          "accent"
+        ]
+      },
+      "state": {
+        "view": "portfolio",
+        "branch": "contract",
+        "stepId": null,
+        "selectedId": "script:ui-pending-gate",
+        "parentFeatureId": "feature:ribbon",
+        "methodId": null,
+        "methodDirection": "callees",
+        "sectionKey": "",
+        "outline": {
+          "activeKey": "overview",
+          "keys": [
+            "overview",
+            "overview:goal",
+            "overview:deliverables",
+            "contract",
+            "contract:input-summary",
+            "contract:implementation-summary",
+            "contract:boundaries",
+            "contract:details",
+            "contract:field:script:ui-pending-gate/input",
+            "contract:field:script:ui-pending-gate/precondition",
+            "contract:field:script:ui-pending-gate/method",
+            "contract:field:script:ui-pending-gate/effect",
+            "contract:field:script:ui-pending-gate/validation",
+            "contract:field:script:ui-pending-gate/receipt",
+            "contract:field:script:ui-pending-gate/recovery",
+            "contract:requirements",
+            "contract:sources"
+          ]
+        },
+        "catalogKind": "features",
+        "disclosure": {
+          "mode": "summary",
+          "scope": "published",
+          "custom": false,
+          "overrides": 0
+        },
+        "flowId": "flow:ribbon",
+        "selectedFlowId": "flow:ribbon",
+        "effectiveFlowId": "flow:ribbon",
+        "query": "Ribbon",
+        "status": "partial",
+        "projectId": "project:pmltwin",
+        "origin": "static",
+        "revisionId": null,
+        "metadataDigest": "3fc46b35498f984114dab4a36b045fc95583056a682ef9f07d91eb699bb4ebc9",
+        "renderModelDigest": null,
+        "authorDirty": false
+      }
+    },
+    {
+      "label": "help-dark-390",
+      "view": "help",
+      "theme": "dark",
+      "width": 390,
+      "palette": {
+        "variables": {
+          "background": "#10191C",
+          "surface": "#192428",
+          "soft": "#243439",
+          "text": "#EFF3E9",
+          "muted": "#A8B9B6",
+          "border": "#354747",
+          "accent": "#C5EC9B",
+          "warning": "#EFC17F",
+          "boundary": "#70897F"
+        },
+        "body": "rgb(16, 25, 28)",
+        "text": "rgb(239, 243, 233)",
+        "shadow": "rgb(239, 243, 233)",
+        "scheme": "dark",
+        "preference": "dark",
+        "theme": "dark"
+      },
+      "contrast": {
+        "failures": [],
+        "graphical": [
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          }
+        ],
+        "horizontal": false
+      },
+      "svg": {
+        "background": "#10191C",
+        "roles": [
+          "text",
+          "muted",
+          "accent"
+        ]
+      },
+      "state": {
+        "view": "help",
+        "branch": "contract",
+        "stepId": null,
+        "selectedId": "script:ui-pending-gate",
+        "parentFeatureId": "feature:ribbon",
+        "methodId": null,
+        "methodDirection": "callees",
+        "sectionKey": "",
+        "outline": {
+          "activeKey": "overview",
+          "keys": [
+            "overview",
+            "overview:goal",
+            "overview:deliverables",
+            "contract",
+            "contract:input-summary",
+            "contract:implementation-summary",
+            "contract:boundaries",
+            "contract:details",
+            "contract:field:script:ui-pending-gate/input",
+            "contract:field:script:ui-pending-gate/precondition",
+            "contract:field:script:ui-pending-gate/method",
+            "contract:field:script:ui-pending-gate/effect",
+            "contract:field:script:ui-pending-gate/validation",
+            "contract:field:script:ui-pending-gate/receipt",
+            "contract:field:script:ui-pending-gate/recovery",
+            "contract:requirements",
+            "contract:sources"
+          ]
+        },
+        "catalogKind": "features",
+        "disclosure": {
+          "mode": "summary",
+          "scope": "published",
+          "custom": false,
+          "overrides": 0
+        },
+        "flowId": "flow:ribbon",
+        "selectedFlowId": "flow:ribbon",
+        "effectiveFlowId": "flow:ribbon",
+        "query": "Ribbon",
+        "status": "partial",
+        "projectId": "project:pmltwin",
+        "origin": "static",
+        "revisionId": null,
+        "metadataDigest": "3fc46b35498f984114dab4a36b045fc95583056a682ef9f07d91eb699bb4ebc9",
+        "renderModelDigest": null,
+        "authorDirty": false
+      }
+    },
+    {
+      "label": "portfolio-dark-390",
+      "view": "portfolio",
+      "theme": "dark",
+      "width": 390,
+      "palette": {
+        "variables": {
+          "background": "#10191C",
+          "surface": "#192428",
+          "soft": "#243439",
+          "text": "#EFF3E9",
+          "muted": "#A8B9B6",
+          "border": "#354747",
+          "accent": "#C5EC9B",
+          "warning": "#EFC17F",
+          "boundary": "#70897F"
+        },
+        "body": "rgb(16, 25, 28)",
+        "text": "rgb(239, 243, 233)",
+        "shadow": "rgb(239, 243, 233)",
+        "scheme": "dark",
+        "preference": "dark",
+        "theme": "dark"
+      },
+      "contrast": {
+        "failures": [],
+        "graphical": [
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          }
+        ],
+        "horizontal": false
+      },
+      "svg": {
+        "background": "#10191C",
+        "roles": [
+          "text",
+          "muted",
+          "accent"
+        ]
+      },
+      "state": {
+        "view": "portfolio",
+        "branch": "contract",
+        "stepId": null,
+        "selectedId": "script:ui-pending-gate",
+        "parentFeatureId": "feature:ribbon",
+        "methodId": null,
+        "methodDirection": "callees",
+        "sectionKey": "",
+        "outline": {
+          "activeKey": "overview",
+          "keys": [
+            "overview",
+            "overview:goal",
+            "overview:deliverables",
+            "contract",
+            "contract:input-summary",
+            "contract:implementation-summary",
+            "contract:boundaries",
+            "contract:details",
+            "contract:field:script:ui-pending-gate/input",
+            "contract:field:script:ui-pending-gate/precondition",
+            "contract:field:script:ui-pending-gate/method",
+            "contract:field:script:ui-pending-gate/effect",
+            "contract:field:script:ui-pending-gate/validation",
+            "contract:field:script:ui-pending-gate/receipt",
+            "contract:field:script:ui-pending-gate/recovery",
+            "contract:requirements",
+            "contract:sources"
+          ]
+        },
+        "catalogKind": "features",
+        "disclosure": {
+          "mode": "summary",
+          "scope": "published",
+          "custom": false,
+          "overrides": 0
+        },
+        "flowId": "flow:ribbon",
+        "selectedFlowId": "flow:ribbon",
+        "effectiveFlowId": "flow:ribbon",
+        "query": "Ribbon",
+        "status": "partial",
+        "projectId": "project:pmltwin",
+        "origin": "static",
+        "revisionId": null,
+        "metadataDigest": "3fc46b35498f984114dab4a36b045fc95583056a682ef9f07d91eb699bb4ebc9",
+        "renderModelDigest": null,
+        "authorDirty": false
+      }
+    },
+    {
+      "label": "help-light-768",
+      "view": "help",
+      "theme": "light",
+      "width": 768,
+      "palette": {
+        "variables": {
+          "background": "#F4F6F5",
+          "surface": "#FFFFFF",
+          "soft": "#E7EFEB",
+          "text": "#18342F",
+          "muted": "#526C65",
+          "border": "#CBD9D3",
+          "accent": "#286951",
+          "warning": "#91601C",
+          "boundary": "#6D857B"
+        },
+        "body": "rgb(244, 246, 245)",
+        "text": "rgb(24, 52, 47)",
+        "shadow": "rgb(24, 52, 47)",
+        "scheme": "light",
+        "preference": "light",
+        "theme": "light"
+      },
+      "contrast": {
+        "failures": [],
+        "graphical": [
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          }
+        ],
+        "horizontal": false
+      },
+      "svg": {
+        "background": "#F4F6F5",
+        "roles": [
+          "text",
+          "muted",
+          "accent"
+        ]
+      },
+      "state": {
+        "view": "help",
+        "branch": "contract",
+        "stepId": null,
+        "selectedId": "script:ui-pending-gate",
+        "parentFeatureId": "feature:ribbon",
+        "methodId": null,
+        "methodDirection": "callees",
+        "sectionKey": "",
+        "outline": {
+          "activeKey": "overview",
+          "keys": [
+            "overview",
+            "overview:goal",
+            "overview:deliverables",
+            "contract",
+            "contract:input-summary",
+            "contract:implementation-summary",
+            "contract:boundaries",
+            "contract:details",
+            "contract:field:script:ui-pending-gate/input",
+            "contract:field:script:ui-pending-gate/precondition",
+            "contract:field:script:ui-pending-gate/method",
+            "contract:field:script:ui-pending-gate/effect",
+            "contract:field:script:ui-pending-gate/validation",
+            "contract:field:script:ui-pending-gate/receipt",
+            "contract:field:script:ui-pending-gate/recovery",
+            "contract:requirements",
+            "contract:sources"
+          ]
+        },
+        "catalogKind": "features",
+        "disclosure": {
+          "mode": "summary",
+          "scope": "published",
+          "custom": false,
+          "overrides": 0
+        },
+        "flowId": "flow:ribbon",
+        "selectedFlowId": "flow:ribbon",
+        "effectiveFlowId": "flow:ribbon",
+        "query": "Ribbon",
+        "status": "partial",
+        "projectId": "project:pmltwin",
+        "origin": "static",
+        "revisionId": null,
+        "metadataDigest": "3fc46b35498f984114dab4a36b045fc95583056a682ef9f07d91eb699bb4ebc9",
+        "renderModelDigest": null,
+        "authorDirty": false
+      }
+    },
+    {
+      "label": "portfolio-light-768",
+      "view": "portfolio",
+      "theme": "light",
+      "width": 768,
+      "palette": {
+        "variables": {
+          "background": "#F4F6F5",
+          "surface": "#FFFFFF",
+          "soft": "#E7EFEB",
+          "text": "#18342F",
+          "muted": "#526C65",
+          "border": "#CBD9D3",
+          "accent": "#286951",
+          "warning": "#91601C",
+          "boundary": "#6D857B"
+        },
+        "body": "rgb(244, 246, 245)",
+        "text": "rgb(24, 52, 47)",
+        "shadow": "rgb(24, 52, 47)",
+        "scheme": "light",
+        "preference": "light",
+        "theme": "light"
+      },
+      "contrast": {
+        "failures": [],
+        "graphical": [
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          }
+        ],
+        "horizontal": false
+      },
+      "svg": {
+        "background": "#F4F6F5",
+        "roles": [
+          "text",
+          "muted",
+          "accent"
+        ]
+      },
+      "state": {
+        "view": "portfolio",
+        "branch": "contract",
+        "stepId": null,
+        "selectedId": "script:ui-pending-gate",
+        "parentFeatureId": "feature:ribbon",
+        "methodId": null,
+        "methodDirection": "callees",
+        "sectionKey": "",
+        "outline": {
+          "activeKey": "overview",
+          "keys": [
+            "overview",
+            "overview:goal",
+            "overview:deliverables",
+            "contract",
+            "contract:input-summary",
+            "contract:implementation-summary",
+            "contract:boundaries",
+            "contract:details",
+            "contract:field:script:ui-pending-gate/input",
+            "contract:field:script:ui-pending-gate/precondition",
+            "contract:field:script:ui-pending-gate/method",
+            "contract:field:script:ui-pending-gate/effect",
+            "contract:field:script:ui-pending-gate/validation",
+            "contract:field:script:ui-pending-gate/receipt",
+            "contract:field:script:ui-pending-gate/recovery",
+            "contract:requirements",
+            "contract:sources"
+          ]
+        },
+        "catalogKind": "features",
+        "disclosure": {
+          "mode": "summary",
+          "scope": "published",
+          "custom": false,
+          "overrides": 0
+        },
+        "flowId": "flow:ribbon",
+        "selectedFlowId": "flow:ribbon",
+        "effectiveFlowId": "flow:ribbon",
+        "query": "Ribbon",
+        "status": "partial",
+        "projectId": "project:pmltwin",
+        "origin": "static",
+        "revisionId": null,
+        "metadataDigest": "3fc46b35498f984114dab4a36b045fc95583056a682ef9f07d91eb699bb4ebc9",
+        "renderModelDigest": null,
+        "authorDirty": false
+      }
+    },
+    {
+      "label": "help-dark-768",
+      "view": "help",
+      "theme": "dark",
+      "width": 768,
+      "palette": {
+        "variables": {
+          "background": "#10191C",
+          "surface": "#192428",
+          "soft": "#243439",
+          "text": "#EFF3E9",
+          "muted": "#A8B9B6",
+          "border": "#354747",
+          "accent": "#C5EC9B",
+          "warning": "#EFC17F",
+          "boundary": "#70897F"
+        },
+        "body": "rgb(16, 25, 28)",
+        "text": "rgb(239, 243, 233)",
+        "shadow": "rgb(239, 243, 233)",
+        "scheme": "dark",
+        "preference": "dark",
+        "theme": "dark"
+      },
+      "contrast": {
+        "failures": [],
+        "graphical": [
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          }
+        ],
+        "horizontal": false
+      },
+      "svg": {
+        "background": "#10191C",
+        "roles": [
+          "text",
+          "muted",
+          "accent"
+        ]
+      },
+      "state": {
+        "view": "help",
+        "branch": "contract",
+        "stepId": null,
+        "selectedId": "script:ui-pending-gate",
+        "parentFeatureId": "feature:ribbon",
+        "methodId": null,
+        "methodDirection": "callees",
+        "sectionKey": "",
+        "outline": {
+          "activeKey": "overview",
+          "keys": [
+            "overview",
+            "overview:goal",
+            "overview:deliverables",
+            "contract",
+            "contract:input-summary",
+            "contract:implementation-summary",
+            "contract:boundaries",
+            "contract:details",
+            "contract:field:script:ui-pending-gate/input",
+            "contract:field:script:ui-pending-gate/precondition",
+            "contract:field:script:ui-pending-gate/method",
+            "contract:field:script:ui-pending-gate/effect",
+            "contract:field:script:ui-pending-gate/validation",
+            "contract:field:script:ui-pending-gate/receipt",
+            "contract:field:script:ui-pending-gate/recovery",
+            "contract:requirements",
+            "contract:sources"
+          ]
+        },
+        "catalogKind": "features",
+        "disclosure": {
+          "mode": "summary",
+          "scope": "published",
+          "custom": false,
+          "overrides": 0
+        },
+        "flowId": "flow:ribbon",
+        "selectedFlowId": "flow:ribbon",
+        "effectiveFlowId": "flow:ribbon",
+        "query": "Ribbon",
+        "status": "partial",
+        "projectId": "project:pmltwin",
+        "origin": "static",
+        "revisionId": null,
+        "metadataDigest": "3fc46b35498f984114dab4a36b045fc95583056a682ef9f07d91eb699bb4ebc9",
+        "renderModelDigest": null,
+        "authorDirty": false
+      }
+    },
+    {
+      "label": "portfolio-dark-768",
+      "view": "portfolio",
+      "theme": "dark",
+      "width": 768,
+      "palette": {
+        "variables": {
+          "background": "#10191C",
+          "surface": "#192428",
+          "soft": "#243439",
+          "text": "#EFF3E9",
+          "muted": "#A8B9B6",
+          "border": "#354747",
+          "accent": "#C5EC9B",
+          "warning": "#EFC17F",
+          "boundary": "#70897F"
+        },
+        "body": "rgb(16, 25, 28)",
+        "text": "rgb(239, 243, 233)",
+        "shadow": "rgb(239, 243, 233)",
+        "scheme": "dark",
+        "preference": "dark",
+        "theme": "dark"
+      },
+      "contrast": {
+        "failures": [],
+        "graphical": [
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          }
+        ],
+        "horizontal": false
+      },
+      "svg": {
+        "background": "#10191C",
+        "roles": [
+          "text",
+          "muted",
+          "accent"
+        ]
+      },
+      "state": {
+        "view": "portfolio",
+        "branch": "contract",
+        "stepId": null,
+        "selectedId": "script:ui-pending-gate",
+        "parentFeatureId": "feature:ribbon",
+        "methodId": null,
+        "methodDirection": "callees",
+        "sectionKey": "",
+        "outline": {
+          "activeKey": "overview",
+          "keys": [
+            "overview",
+            "overview:goal",
+            "overview:deliverables",
+            "contract",
+            "contract:input-summary",
+            "contract:implementation-summary",
+            "contract:boundaries",
+            "contract:details",
+            "contract:field:script:ui-pending-gate/input",
+            "contract:field:script:ui-pending-gate/precondition",
+            "contract:field:script:ui-pending-gate/method",
+            "contract:field:script:ui-pending-gate/effect",
+            "contract:field:script:ui-pending-gate/validation",
+            "contract:field:script:ui-pending-gate/receipt",
+            "contract:field:script:ui-pending-gate/recovery",
+            "contract:requirements",
+            "contract:sources"
+          ]
+        },
+        "catalogKind": "features",
+        "disclosure": {
+          "mode": "summary",
+          "scope": "published",
+          "custom": false,
+          "overrides": 0
+        },
+        "flowId": "flow:ribbon",
+        "selectedFlowId": "flow:ribbon",
+        "effectiveFlowId": "flow:ribbon",
+        "query": "Ribbon",
+        "status": "partial",
+        "projectId": "project:pmltwin",
+        "origin": "static",
+        "revisionId": null,
+        "metadataDigest": "3fc46b35498f984114dab4a36b045fc95583056a682ef9f07d91eb699bb4ebc9",
+        "renderModelDigest": null,
+        "authorDirty": false
+      }
+    },
+    {
+      "label": "help-light-1440",
+      "view": "help",
+      "theme": "light",
+      "width": 1440,
+      "palette": {
+        "variables": {
+          "background": "#F4F6F5",
+          "surface": "#FFFFFF",
+          "soft": "#E7EFEB",
+          "text": "#18342F",
+          "muted": "#526C65",
+          "border": "#CBD9D3",
+          "accent": "#286951",
+          "warning": "#91601C",
+          "boundary": "#6D857B"
+        },
+        "body": "rgb(244, 246, 245)",
+        "text": "rgb(24, 52, 47)",
+        "shadow": "rgb(24, 52, 47)",
+        "scheme": "light",
+        "preference": "light",
+        "theme": "light"
+      },
+      "contrast": {
+        "failures": [],
+        "graphical": [
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          }
+        ],
+        "horizontal": false
+      },
+      "svg": {
+        "background": "#F4F6F5",
+        "roles": [
+          "text",
+          "muted",
+          "accent"
+        ]
+      },
+      "state": {
+        "view": "help",
+        "branch": "contract",
+        "stepId": null,
+        "selectedId": "script:ui-pending-gate",
+        "parentFeatureId": "feature:ribbon",
+        "methodId": null,
+        "methodDirection": "callees",
+        "sectionKey": "",
+        "outline": {
+          "activeKey": "overview",
+          "keys": [
+            "overview",
+            "overview:goal",
+            "overview:deliverables",
+            "contract",
+            "contract:input-summary",
+            "contract:implementation-summary",
+            "contract:boundaries",
+            "contract:details",
+            "contract:field:script:ui-pending-gate/input",
+            "contract:field:script:ui-pending-gate/precondition",
+            "contract:field:script:ui-pending-gate/method",
+            "contract:field:script:ui-pending-gate/effect",
+            "contract:field:script:ui-pending-gate/validation",
+            "contract:field:script:ui-pending-gate/receipt",
+            "contract:field:script:ui-pending-gate/recovery",
+            "contract:requirements",
+            "contract:sources"
+          ]
+        },
+        "catalogKind": "features",
+        "disclosure": {
+          "mode": "summary",
+          "scope": "published",
+          "custom": false,
+          "overrides": 0
+        },
+        "flowId": "flow:ribbon",
+        "selectedFlowId": "flow:ribbon",
+        "effectiveFlowId": "flow:ribbon",
+        "query": "Ribbon",
+        "status": "partial",
+        "projectId": "project:pmltwin",
+        "origin": "static",
+        "revisionId": null,
+        "metadataDigest": "3fc46b35498f984114dab4a36b045fc95583056a682ef9f07d91eb699bb4ebc9",
+        "renderModelDigest": null,
+        "authorDirty": false
+      }
+    },
+    {
+      "label": "portfolio-light-1440",
+      "view": "portfolio",
+      "theme": "light",
+      "width": 1440,
+      "palette": {
+        "variables": {
+          "background": "#F4F6F5",
+          "surface": "#FFFFFF",
+          "soft": "#E7EFEB",
+          "text": "#18342F",
+          "muted": "#526C65",
+          "border": "#CBD9D3",
+          "accent": "#286951",
+          "warning": "#91601C",
+          "boundary": "#6D857B"
+        },
+        "body": "rgb(244, 246, 245)",
+        "text": "rgb(24, 52, 47)",
+        "shadow": "rgb(24, 52, 47)",
+        "scheme": "light",
+        "preference": "light",
+        "theme": "light"
+      },
+      "contrast": {
+        "failures": [],
+        "graphical": [
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          }
+        ],
+        "horizontal": false
+      },
+      "svg": {
+        "background": "#F4F6F5",
+        "roles": [
+          "text",
+          "muted",
+          "accent"
+        ]
+      },
+      "state": {
+        "view": "portfolio",
+        "branch": "contract",
+        "stepId": null,
+        "selectedId": "script:ui-pending-gate",
+        "parentFeatureId": "feature:ribbon",
+        "methodId": null,
+        "methodDirection": "callees",
+        "sectionKey": "",
+        "outline": {
+          "activeKey": "overview",
+          "keys": [
+            "overview",
+            "overview:goal",
+            "overview:deliverables",
+            "contract",
+            "contract:input-summary",
+            "contract:implementation-summary",
+            "contract:boundaries",
+            "contract:details",
+            "contract:field:script:ui-pending-gate/input",
+            "contract:field:script:ui-pending-gate/precondition",
+            "contract:field:script:ui-pending-gate/method",
+            "contract:field:script:ui-pending-gate/effect",
+            "contract:field:script:ui-pending-gate/validation",
+            "contract:field:script:ui-pending-gate/receipt",
+            "contract:field:script:ui-pending-gate/recovery",
+            "contract:requirements",
+            "contract:sources"
+          ]
+        },
+        "catalogKind": "features",
+        "disclosure": {
+          "mode": "summary",
+          "scope": "published",
+          "custom": false,
+          "overrides": 0
+        },
+        "flowId": "flow:ribbon",
+        "selectedFlowId": "flow:ribbon",
+        "effectiveFlowId": "flow:ribbon",
+        "query": "Ribbon",
+        "status": "partial",
+        "projectId": "project:pmltwin",
+        "origin": "static",
+        "revisionId": null,
+        "metadataDigest": "3fc46b35498f984114dab4a36b045fc95583056a682ef9f07d91eb699bb4ebc9",
+        "renderModelDigest": null,
+        "authorDirty": false
+      }
+    },
+    {
+      "label": "help-dark-1440",
+      "view": "help",
+      "theme": "dark",
+      "width": 1440,
+      "palette": {
+        "variables": {
+          "background": "#10191C",
+          "surface": "#192428",
+          "soft": "#243439",
+          "text": "#EFF3E9",
+          "muted": "#A8B9B6",
+          "border": "#354747",
+          "accent": "#C5EC9B",
+          "warning": "#EFC17F",
+          "boundary": "#70897F"
+        },
+        "body": "rgb(16, 25, 28)",
+        "text": "rgb(239, 243, 233)",
+        "shadow": "rgb(239, 243, 233)",
+        "scheme": "dark",
+        "preference": "dark",
+        "theme": "dark"
+      },
+      "contrast": {
+        "failures": [],
+        "graphical": [
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          }
+        ],
+        "horizontal": false
+      },
+      "svg": {
+        "background": "#10191C",
+        "roles": [
+          "text",
+          "muted",
+          "accent"
+        ]
+      },
+      "state": {
+        "view": "help",
+        "branch": "contract",
+        "stepId": null,
+        "selectedId": "script:ui-pending-gate",
+        "parentFeatureId": "feature:ribbon",
+        "methodId": null,
+        "methodDirection": "callees",
+        "sectionKey": "",
+        "outline": {
+          "activeKey": "overview",
+          "keys": [
+            "overview",
+            "overview:goal",
+            "overview:deliverables",
+            "contract",
+            "contract:input-summary",
+            "contract:implementation-summary",
+            "contract:boundaries",
+            "contract:details",
+            "contract:field:script:ui-pending-gate/input",
+            "contract:field:script:ui-pending-gate/precondition",
+            "contract:field:script:ui-pending-gate/method",
+            "contract:field:script:ui-pending-gate/effect",
+            "contract:field:script:ui-pending-gate/validation",
+            "contract:field:script:ui-pending-gate/receipt",
+            "contract:field:script:ui-pending-gate/recovery",
+            "contract:requirements",
+            "contract:sources"
+          ]
+        },
+        "catalogKind": "features",
+        "disclosure": {
+          "mode": "summary",
+          "scope": "published",
+          "custom": false,
+          "overrides": 0
+        },
+        "flowId": "flow:ribbon",
+        "selectedFlowId": "flow:ribbon",
+        "effectiveFlowId": "flow:ribbon",
+        "query": "Ribbon",
+        "status": "partial",
+        "projectId": "project:pmltwin",
+        "origin": "static",
+        "revisionId": null,
+        "metadataDigest": "3fc46b35498f984114dab4a36b045fc95583056a682ef9f07d91eb699bb4ebc9",
+        "renderModelDigest": null,
+        "authorDirty": false
+      }
+    },
+    {
+      "label": "portfolio-dark-1440",
+      "view": "portfolio",
+      "theme": "dark",
+      "width": 1440,
+      "palette": {
+        "variables": {
+          "background": "#10191C",
+          "surface": "#192428",
+          "soft": "#243439",
+          "text": "#EFF3E9",
+          "muted": "#A8B9B6",
+          "border": "#354747",
+          "accent": "#C5EC9B",
+          "warning": "#EFC17F",
+          "boundary": "#70897F"
+        },
+        "body": "rgb(16, 25, 28)",
+        "text": "rgb(239, 243, 233)",
+        "shadow": "rgb(239, 243, 233)",
+        "scheme": "dark",
+        "preference": "dark",
+        "theme": "dark"
+      },
+      "contrast": {
+        "failures": [],
+        "graphical": [
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          }
+        ],
+        "horizontal": false
+      },
+      "svg": {
+        "background": "#10191C",
+        "roles": [
+          "text",
+          "muted",
+          "accent"
+        ]
+      },
+      "state": {
+        "view": "portfolio",
+        "branch": "contract",
+        "stepId": null,
+        "selectedId": "script:ui-pending-gate",
+        "parentFeatureId": "feature:ribbon",
+        "methodId": null,
+        "methodDirection": "callees",
+        "sectionKey": "",
+        "outline": {
+          "activeKey": "overview",
+          "keys": [
+            "overview",
+            "overview:goal",
+            "overview:deliverables",
+            "contract",
+            "contract:input-summary",
+            "contract:implementation-summary",
+            "contract:boundaries",
+            "contract:details",
+            "contract:field:script:ui-pending-gate/input",
+            "contract:field:script:ui-pending-gate/precondition",
+            "contract:field:script:ui-pending-gate/method",
+            "contract:field:script:ui-pending-gate/effect",
+            "contract:field:script:ui-pending-gate/validation",
+            "contract:field:script:ui-pending-gate/receipt",
+            "contract:field:script:ui-pending-gate/recovery",
+            "contract:requirements",
+            "contract:sources"
+          ]
+        },
+        "catalogKind": "features",
+        "disclosure": {
+          "mode": "summary",
+          "scope": "published",
+          "custom": false,
+          "overrides": 0
+        },
+        "flowId": "flow:ribbon",
+        "selectedFlowId": "flow:ribbon",
+        "effectiveFlowId": "flow:ribbon",
+        "query": "Ribbon",
+        "status": "partial",
+        "projectId": "project:pmltwin",
+        "origin": "static",
+        "revisionId": null,
+        "metadataDigest": "3fc46b35498f984114dab4a36b045fc95583056a682ef9f07d91eb699bb4ebc9",
+        "renderModelDigest": null,
+        "authorDirty": false
+      }
+    }
+  ],
+  "interactions": {
+    "independentThemeAndView": true,
+    "tokensAndShadow": true,
+    "svgColors": true,
+    "actualContrast": true,
+    "themePreservesSelectionFiltersFlowAndOpenDetails": true,
+    "allExplicitFlows": true,
+    "substantiveReadingViews": true,
+    "independentGlobalDisclosure": true,
+    "completeDefaultFeatureCatalog": true,
+    "noDuplicateScriptFields": true,
+    "sourcesInBothViews": true,
+    "systemDynamic": true,
+    "explicitOverridesSystem": true,
+    "persistedReopen": true,
+    "crossTab": true,
+    "removedAndInvalidStorage": true,
+    "deniedStorageSessionOnly": true,
+    "headBeforeApp": true
+  },
+  "pageErrors": [],
+  "externalNetwork": []
+}

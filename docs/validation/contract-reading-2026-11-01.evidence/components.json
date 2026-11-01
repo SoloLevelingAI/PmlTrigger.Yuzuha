@@ -1,0 +1,83 @@
+{
+  "passed": true,
+  "matrix": [
+    {
+      "width": 390,
+      "mode": "portfolio",
+      "summaryHeight": 16139,
+      "fullHeight": 97896,
+      "details": 128,
+      "cards": 32,
+      "scripts": 14,
+      "fields": 188
+    },
+    {
+      "width": 390,
+      "mode": "help",
+      "summaryHeight": 16139,
+      "fullHeight": 97896,
+      "details": 128,
+      "cards": 32,
+      "scripts": 14,
+      "fields": 188
+    },
+    {
+      "width": 768,
+      "mode": "portfolio",
+      "summaryHeight": 9412,
+      "fullHeight": 79720,
+      "details": 128,
+      "cards": 32,
+      "scripts": 14,
+      "fields": 188
+    },
+    {
+      "width": 768,
+      "mode": "help",
+      "summaryHeight": 9412,
+      "fullHeight": 79720,
+      "details": 128,
+      "cards": 32,
+      "scripts": 14,
+      "fields": 188
+    },
+    {
+      "width": 1440,
+      "mode": "portfolio",
+      "summaryHeight": 7616,
+      "fullHeight": 79105,
+      "details": 128,
+      "cards": 32,
+      "scripts": 14,
+      "fields": 188
+    },
+    {
+      "width": 1440,
+      "mode": "help",
+      "summaryHeight": 7616,
+      "fullHeight": 79105,
+      "details": 128,
+      "cards": 32,
+      "scripts": 14,
+      "fields": 188
+    }
+  ],
+  "checks": {
+    "all32CardsAnd14SevenFields": true,
+    "persistentLimitsAndEvidenceScope": true,
+    "completeOriginalRequirements": true,
+    "projectOwnSections": true,
+    "allShadowDetailsControlled": true,
+    "noInitialToggleFeedback": true,
+    "localToggleComposed": true,
+    "viewIndependent": true,
+    "nativeKeyboardAnd44px": true,
+    "noNestedInteractiveControls": true,
+    "methodGroupsAndNoEmptyContext": true,
+    "standaloneSummary": true,
+    "responsiveCardsAndOpenFullRow": true,
+    "detachedToggleIgnored": true,
+    "analysisIdentityCompactAndFullyReachable": true
+  },
+  "scriptErrors": []
+}

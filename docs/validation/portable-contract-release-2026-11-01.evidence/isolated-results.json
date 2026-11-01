@@ -1,0 +1,52 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "label": "isolated-metadata",
+      "passed": true,
+      "command": "node.exe <isolated-checkout>/scripts/contract-atlas-metadata.mjs check"
+    },
+    {
+      "label": "isolated-theme",
+      "passed": true,
+      "command": "node.exe <isolated-checkout>/scripts/build-contract-atlas-theme.mjs --check"
+    },
+    {
+      "label": "isolated-palette",
+      "passed": true,
+      "command": "node.exe <isolated-checkout>/docs/presentation/contract-style-lab/ion/theme.js --check"
+    },
+    {
+      "label": "isolated-install",
+      "passed": true,
+      "command": "cmd.exe /d /s /c npm ci --no-audit --no-fund"
+    },
+    {
+      "label": "isolated-node-tests",
+      "passed": true,
+      "command": "cmd.exe /d /s /c npm run contracts:test"
+    },
+    {
+      "label": "isolated-extra-tests",
+      "passed": true,
+      "command": "node.exe --test tests/contract-browser-helper.test.mjs tests/contract-style-methods.test.mjs"
+    },
+    {
+      "label": "isolated-browser-fixture",
+      "passed": true,
+      "command": "node.exe tests/contract-style-methods-browser.cjs"
+    },
+    {
+      "label": "isolated-fresh-preview",
+      "passed": true,
+      "features": 18,
+      "scripts": 14,
+      "methodStatus": "unavailable",
+      "methodCatalogNull": true,
+      "assets200": true,
+      "scope": "无捕获产物时公共展示可用，方法明确未生成"
+    }
+  ],
+  "scope": "实际暂存检出、路径含空格、不同cwd、无原node_modules/artifacts；npm ci后执行原断言。",
+  "browser": "显式已安装Edge通道，未冒称受管Chromium已安装"
+}

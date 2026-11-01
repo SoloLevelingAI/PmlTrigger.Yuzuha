@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "report": {
+    "path": "artifacts/contract-style-breadcrumb/results.json",
+    "sha256": "3baa075f3067f2f52146b7a149ebd4d2203842c621ede448c16aae775c3c3026"
+  },
+  "test": {
+    "path": "tests/contract-style-breadcrumb-browser.mjs",
+    "sha256": "5f6b36897cff5dbca23081d84eda223c34d696bc1e07a302d052409d4b96f33b"
+  },
+  "environment": {
+    "browser": "Real Chromium 1243 via Playwright",
+    "headless": true,
+    "args": [
+      "--disable-gpu"
+    ],
+    "rendering": "software-rendered browser",
+    "reason": "Native GPU path previously stalled animation-frame/action/screenshot scheduling. Completed acceptance used software rendering with the same visibility, focus, interaction, geometry and source assertions.",
+    "loopback": "Authorized local read-only service, require_escalated used for sandbox loopback access"
+  },
+  "history": {
+    "passed": true,
+    "widths": [
+      1440,
+      1920
+    ],
+    "scenario": [
+      "Script A in contract -> direct sibling Script B (one history entry, contract retained)",
+      "B manually selects evidence (reader replaceState)",
+      "back -> A restores contract and original step",
+      "forward -> B restores evidence and cleared step",
+      "reload B -> evidence, owner and theme restored"
+    ],
+    "methodSelection": "No new history, URL parameter, navigation or backend request; refresh only promises valid entity/reader context, not exact method bookmark."
+  },
+  "visualReview": {
+    "status": "agent-reviewed",
+    "humanStatus": "human-not-reviewed",
+    "reviewedScreenshots": [
+      "feature-picker-graphite-1440.png",
+      "method-sibling-1920.png",
+      "script-picker-1024.png"
+    ],
+    "observations": [
+      "Stable opaque menu surfaces, clear current marker and searchable owner-limited choices.",
+      "Actual Observe signature/source appears in the same task workspace; original step remains in left rail.",
+      "Compact desktop Script menu remains within viewport."
+    ],
+    "rootAdditionalReview": "Root independently reviewed Graphite/Lime Feature menu and Observe source screenshots."
+  },
+  "boundaries": {
+    "mobile": "independent-layout-planned; no new mobile-layout acceptance",
+    "figcraft": "not-started",
+    "engineeringExecution": false,
+    "lateGates": "Isolated methods component fixture is separate evidence; not claimed as real Roslyn-source verification here."
+  }
+}

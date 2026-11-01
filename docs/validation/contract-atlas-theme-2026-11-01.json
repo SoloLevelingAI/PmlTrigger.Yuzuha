@@ -1,0 +1,143 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-11-01",
+  "problem": "Reading view previously selected color palette; theme state and reading depth were coupled",
+  "result": "independent light/dark/system and substantive help/portfolio reading",
+  "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3",
+  "checks": {
+    "unit": {
+      "passed": 11,
+      "failed": 0,
+      "skipped": 0
+    },
+    "regressionLayouts": 18,
+    "themeMatrix": 12,
+    "interactions": {
+      "independentThemeAndView": true,
+      "tokensAndShadow": true,
+      "svgColors": true,
+      "actualContrast": true,
+      "themePreservesSelectionFiltersFlowAndOpenDetails": true,
+      "allExplicitFlows": true,
+      "substantiveReadingViews": true,
+      "systemDynamic": true,
+      "explicitOverridesSystem": true,
+      "persistedReopen": true,
+      "crossTab": true,
+      "removedAndInvalidStorage": true,
+      "deniedStorageSessionOnly": true,
+      "headBeforeApp": true
+    },
+    "pageErrors": [],
+    "externalNetwork": [],
+    "themeCssDrift": "passed",
+    "sourceDrift": "passed",
+    "native": {
+      "toolVersion": "0.6.0",
+      "nativeGeneration": "passed",
+      "commands": 451,
+      "components": 4,
+      "instances": 68,
+      "editableTexts": 342,
+      "images": 0,
+      "variables": 10,
+      "visualReview": [
+        "help-light",
+        "help-dark",
+        "portfolio-light",
+        "portfolio-dark"
+      ],
+      "findings": "All four independent reading-view/color-theme combinations visually inspected; Chinese glyphs readable; same facts and exclusions preserved; no observed overlap. This is author visual QA, not user visual approval.",
+      "requirementIdentity": "Original R IDs with per-requirement status preserved in FeatureCard Body, same adapter used by Figma",
+      "flowLayout": "Shared native/Figma model: maximum four steps per row; per-flow and board height account for step rows and all connections",
+      "colorModes": [
+        "Light",
+        "Dark"
+      ],
+      "themeSamples": [
+        {
+          "view": "help",
+          "theme": "Light",
+          "name": "Help-Light"
+        },
+        {
+          "view": "help",
+          "theme": "Dark",
+          "name": "Help-Dark"
+        },
+        {
+          "view": "portfolio",
+          "theme": "Light",
+          "name": "Portfolio-Light"
+        },
+        {
+          "view": "portfolio",
+          "theme": "Dark",
+          "name": "Portfolio-Dark"
+        }
+      ],
+      "themeSemantics": "reading view independent from color mode; soft and boundary are distinct native variable bindings"
+    },
+    "figma": {
+      "execution": "not-run",
+      "offlineMock": "passed",
+      "manifest": "registration template without invented id",
+      "exclusions": [
+        "real Figma import and rendering",
+        "font fallback in Figma",
+        "user visual approval"
+      ]
+    }
+  },
+  "fixedRegression": {
+    "sequence": "explicit dark to light to system, then emulated system dark",
+    "finding": "media query became dark but DOM and CSS stayed light",
+    "resolution": "own fresh system subscription when entering system mode; getState reports actually applied theme",
+    "verification": "original full sequence passed; historical failure preserved"
+  },
+  "scope": "real local Chromium with media emulation; FigCraft native generation/rendering; no AVEVA or external publishing",
+  "evidenceDirectory": "docs/validation/contract-atlas-theme-2026-11-01.evidence",
+  "sourceHashes": [
+    {
+      "path": "docs/presentation/contract-atlas/theme.js",
+      "sha256": "1a218dae4fc68f3071d8335b66d64a675438a3fc29706c18f4c41620d603f97e"
+    },
+    {
+      "path": "docs/presentation/contract-atlas/theme-tokens.css",
+      "sha256": "42af3a538338376474bb1c42a1d3a6fd4ebf2e0c949798bdf4dde8641f5dcc52"
+    },
+    {
+      "path": "docs/presentation/contract-atlas/tokens.json",
+      "sha256": "67ae804098d62a36db529ce3b67220c044dee696ba726a9f81fdf73a7701284d"
+    },
+    {
+      "path": "docs/presentation/contract-atlas/index.html",
+      "sha256": "cb87eb463fdddd70d94634cccdba52d08e05d3e33a23a9431f8f1f4b1ca4d63a"
+    },
+    {
+      "path": "docs/presentation/contract-atlas/style.css",
+      "sha256": "81d96a760aaec89d0520255af46124612a682099dac7d1abd717dce9f9a00ce4"
+    },
+    {
+      "path": "docs/presentation/contract-atlas/app.js",
+      "sha256": "b8cad19754dbd0380b62cd129b403a4e3eae5cc9319ca2ad6a9aaba914018b50"
+    },
+    {
+      "path": "docs/presentation/contract-atlas/components.js",
+      "sha256": "f0a9380b2e64043e348b09c5324d2f5b6269f1ab090c23f64eebc89b68b0246d"
+    },
+    {
+      "path": "scripts/build-contract-atlas-theme.mjs",
+      "sha256": "9f381a08896ec3b0dcc3f9cf0d7e2ecf9ca9438efb0951a9de3668d669c2d7b0"
+    },
+    {
+      "path": "docs/design/contract-atlas/generated/build-manifest.json",
+      "sha256": "84fb7304069aa1a23a72efd8c29d1b52714a5e134faa42f4c3dcb07511f7493f"
+    }
+  ],
+  "limitations": [
+    "Figma real execution not-run",
+    "Full-page controller remains single instance; reusable lower-level Web Components remain independent",
+    "Business backlog unchanged"
+  ]
+}

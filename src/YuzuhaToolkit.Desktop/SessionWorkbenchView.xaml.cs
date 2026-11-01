@@ -27,12 +27,14 @@ public partial class SessionWorkbenchView : UserControl, IDisposable
     private string? parameterIdentity;
     private string? formName, gadgetName;
     private List<ParameterRow> parameters = [];
+    private DashboardHealthSnapshot? dashboardEvidence;
+    private Task? discoveryTask;
 
     /// <summary>建立本机服务依赖；不会自动选择目标或执行查询。</summary>
     public SessionWorkbenchView()
     {
         host = new(registry); model = new(host, registry); InitializeComponent();
-        Loaded += (_, _) => { if (initialized) return; initialized = true; DiscoverNow(); ReloadFunctions(); Render(); };
+        Loaded += (_, _) => { if (initialized) return; initialized = true; if (!Environment.GetCommandLineArgs().Any(arg => arg is "--smoke-output" or "--launch-lifecycle-smoke-output")) DiscoverNow(); ReloadFunctions(); Render(); };
         SizeChanged += (_, _) => { foreach (var grid in new[] { SessionColumns, SessionMiddleColumns, SessionLowerColumns, FunctionColumns, FunctionArrayColumns }) StackNarrowColumns(grid); };
     }
     private void StackNarrowColumns(Grid grid)
@@ -44,7 +46,9 @@ public partial class SessionWorkbenchView : UserControl, IDisposable
         Grid.SetColumnSpan(cards[0], narrow ? 3 : 1); Grid.SetColumn(cards[1], narrow ? 0 : 2); Grid.SetRow(cards[1], narrow ? 1 : 0); Grid.SetColumnSpan(cards[1], narrow ? 3 : 1);
     }
     private CancellationToken Token => pending?.Token ?? CancellationToken.None;
-    private async void DiscoverNow()
+    private async void DiscoverNow() => await DiscoverTaskAsync();
+    private Task DiscoverTaskAsync() => discoveryTask is { IsCompleted: false } ? discoveryTask : discoveryTask = DiscoverCoreAsync();
+    private async Task DiscoverCoreAsync()
     {
         if (disposed || model.IsBusy) return;
         var source = model;
@@ -52,7 +56,10 @@ public partial class SessionWorkbenchView : UserControl, IDisposable
         {
             var response = await source.DiscoverAsync(discoveryCancellation.Token);
             if (disposed || !ReferenceEquals(source, model)) return;
-            var rows = response.Sessions.Select(c => new SessionRow(c)).ToArray(); SessionsGrid.ItemsSource = rows; CandidateCountText.Text = "全部 " + rows.Length;
+            var previous = (SessionsGrid.SelectedItem as SessionRow)?.Candidate;
+            var rows = response.Sessions.Select(c => new SessionRow(c, dashboardEvidence?.Sessions.FirstOrDefault(row => row.ProcessId == c.ProcessId && row.StartTicks == c.ProcessStartTimeUtcTicks)?.Module)).ToArray(); SessionsGrid.ItemsSource = rows;
+            SessionsGrid.SelectedItem = previous is null ? null : rows.FirstOrDefault(row => row.Candidate.ProcessId == previous.ProcessId && row.Candidate.ProcessStartTimeUtcTicks == previous.ProcessStartTimeUtcTicks);
+            CandidateCountText.Text = "全部 " + rows.Length;
             CandidatesChanged?.Invoke(rows.Select(row => row.Candidate).ToArray());
         }
         catch (Exception error) { if (!disposed) FeedbackText.Text = error.Message; }
@@ -77,20 +84,22 @@ public partial class SessionWorkbenchView : UserControl, IDisposable
     private async void SelectSession(object sender, RoutedEventArgs e)
     {
         if (SessionsGrid.SelectedItem is not SessionRow row) { FeedbackText.Text = "请选择一个发现到的会话。"; return; }
-        await Run(() => model.SelectAsync(row.Candidate, token: Token));
+        await Run(() => model.SelectAsync(row.Candidate, token: Token), showResult: false);
+        if (HasFreshTarget) OpenTaskHub();
     }
-    private async void VerifyTarget(object sender, RoutedEventArgs e) => await Run(() => model.VerifyAsync(Token));
+    private async void VerifyTarget(object sender, RoutedEventArgs e) => await Run(() => model.VerifyAsync(Token), showResult: false);
     private void ShowFunctions(object sender, RoutedEventArgs e) => FlowTabs.SelectedIndex = 1;
-    private void ShowSessions(object sender, RoutedEventArgs e) => FlowTabs.SelectedIndex = 0;
+    private async void ShowSessions(object sender, RoutedEventArgs e) => await OpenSelectionAsync();
     private void ShowQueries(object sender, RoutedEventArgs e) => FlowTabs.SelectedIndex = 2;
-    private async Task Run(Func<Task> action)
+    private async Task Run(Func<Task> action, bool showResult = true)
     {
         if (pending is not null) return;
         pending = new(); FlowTabs.IsEnabled = false; CancelWaitButton.Visibility = Visibility.Visible;
+        resultTargetPid = model.Status.Host?.ProcessId; TaskResultPanel.Visibility = Visibility.Collapsed; RenderTaskNavigation();
         FeedbackText.Text = "正在处理，请等待结果。发送后的取消不能撤回远端操作。";
         try { await Task.Run(action); }
         catch (Exception error) { FeedbackText.Text = model.Message == "" ? error.Message : model.Message; }
-        finally { pending.Dispose(); pending = null; FlowTabs.IsEnabled = true; CancelWaitButton.Visibility = Visibility.Collapsed; Render(); }
+        finally { pending.Dispose(); pending = null; FlowTabs.IsEnabled = true; CancelWaitButton.Visibility = Visibility.Collapsed; Render(); if (showResult) ShowTaskResult(); }
     }
     private void CancelWait(object sender, RoutedEventArgs e) { pending?.Cancel(); CancelWaitButton.IsEnabled = false; }
     private void BrowseFunction(object sender, RoutedEventArgs e)
@@ -210,7 +219,8 @@ public partial class SessionWorkbenchView : UserControl, IDisposable
     }
     private void Render()
     {
-        var status = model.Status;
+        RenderTaskNavigation();
+        var status = model.Status.Host is { } current && !DashboardAllows(current) ? new YuzuhaConnectionStatus() : model.Status;
         TargetDisplayName = status.TargetVerified ? SessionsGrid.Items.OfType<SessionRow>().FirstOrDefault(row => row.Candidate.ProcessId == status.Host!.ProcessId && row.Candidate.ProcessStartTimeUtcTicks == status.Host.ProcessStartTimeUtcTicks)?.Candidate.Product ?? "AVEVA 工程会话" : "尚未选择 AVEVA 工程";
         var targetSummary = (smokeMode ? "UI 合成夹具 · " : "") + (status.TargetVerified ? $"已核验 · PID {status.Host!.ProcessId} · {status.Host.Model}" : "尚未选择并核验目标");
         TargetText.Text = TargetDisplayName;
@@ -262,11 +272,13 @@ public partial class SessionWorkbenchView : UserControl, IDisposable
     /// <summary>从总览进入原生查询入口。</summary>
     internal void OpenQueries() => FlowTabs.SelectedIndex = 2;
     /// <summary>返回会话总页，保留已填写的函数与查询条件。</summary>
-    internal void OpenSessions() => FlowTabs.SelectedIndex = 0;
+    internal async void OpenSessions() => await OpenSelectionAsync();
     /// <summary>复用当前页已有操作，供全局主按钮使用。</summary>
     internal void PrimaryAction()
     {
         if (pending is not null) { FeedbackText.Text = "当前操作尚未结束，请先等待结果或取消等待。"; return; }
+        if (FlowTabs.SelectedIndex == 3) { ShowSessions(this, new()); return; }
+        if (FlowTabs.SelectedIndex is 4 or 5) { OpenTaskHub(); return; }
         if (FlowTabs.SelectedIndex == 1) ExpandRegistration(this, new());
         else if (FlowTabs.SelectedIndex == 2) VerifyTarget(this, new());
         else DiscoverSessions(this, new());
@@ -280,18 +292,28 @@ public partial class SessionWorkbenchView : UserControl, IDisposable
     /// <summary>与已核验启动身份匹配的产品名称，用于总览横幅。</summary>
     internal string TargetDisplayName { get; private set; } = "尚未选择 AVEVA 工程";
     /// <summary>用同次已核验启动身份标记候选，不把发现到管道当作已连接。</summary>
-    internal bool MatchesTarget(AvevaSessionCandidate candidate) => model.Status.TargetVerified && model.Status.Host is { } identity && identity.ProcessId == candidate.ProcessId && identity.ProcessStartTimeUtcTicks == candidate.ProcessStartTimeUtcTicks;
+    internal bool MatchesTarget(AvevaSessionCandidate candidate) => model.Status.TargetVerified && model.Status.Host is { } identity && identity.ProcessId == candidate.ProcessId && identity.ProcessStartTimeUtcTicks == candidate.ProcessStartTimeUtcTicks && DashboardAllows(identity);
+    private bool DashboardAllows(HostIdentityResponse identity) => dashboardEvidence is null || dashboardEvidence.Sessions.Any(row => row.IsAvailable && row.ProcessId == identity.ProcessId && row.StartTicks == identity.ProcessStartTimeUtcTicks && row.PipeName == identity.PipeName && string.Equals(row.Module, identity.Model, StringComparison.OrdinalIgnoreCase));
+    /// <summary>后台监测只撤销失效证据，不自动选择或替换操作目标。</summary>
+    internal void ApplyDashboardSnapshot(DashboardHealthSnapshot snapshot)
+    {
+        dashboardEvidence = snapshot;
+        if (model.Status.TargetVerified && model.Status.Host is { } identity && !DashboardAllows(identity) && (!snapshot.IsRefreshing || snapshot.Sessions.Any(row => row.ProcessId == identity.ProcessId && row.StartTicks == identity.ProcessStartTimeUtcTicks && row.State is DashboardSessionState.Failed or DashboardSessionState.Expired)))
+            model.InvalidateTarget("后台只读监测未再确认该目标身份；旧结果已清除，请明确重新选择并核验。");
+        if (!model.IsBusy && pending is null) Render();
+        else if (!model.Status.TargetVerified) { IdentityStateText.Text = "核验已失效"; TargetDisplayName = "操作目标已失效"; TargetChanged?.Invoke("后台监测已撤销旧身份；正在等待当前操作回执，不会重放。"); }
+    }
     /// <summary>取得明确选择且已经核验的目标，开发流程随后仍逐步核验。</summary>
     internal YuzuhaToolkit.Workspace.DevelopmentTarget DevelopmentTarget()
     {
-        if (IsRunning || !model.Status.TargetVerified || model.Status.Host is not { } host)
+        if (IsRunning || !model.Status.TargetVerified || model.Status.Host is not { } host || !DashboardAllows(host))
             throw new InvalidOperationException("请先到工程会话明确选择并核验目标。");
         return new(host.ProcessId,host.ProcessStartTimeUtcTicks,host.Model!);
     }
     private void FlowChanged(object sender, SelectionChangedEventArgs e)
     {
         if (!ReferenceEquals(e.Source, FlowTabs)) return;
-        SectionChanged?.Invoke(FlowTabs.SelectedIndex switch { 1 => "能力与函数", 2 => "原生 Form / Gadget", _ => "工程会话" });
+        SectionChanged?.Invoke(FlowTabs.SelectedIndex switch { 1 => "能力与函数", 2 => "原生 Form / Gadget", 3 => "会话任务", 4 => "读取已有数组", 5 => "对象查询", _ => "工程会话" });
     }
     private void QueryCardsSizeChanged(object sender, SizeChangedEventArgs e)
     {
@@ -321,7 +343,7 @@ public partial class SessionWorkbenchView : UserControl, IDisposable
         await Run(() => model.ReadArrayAsync("UiProbeResults", 100, 32768));
         await Run(() => model.ReadObjectAsync(DesktopObjectQuery.Build("current", "", "", 30, 2)));
         if (FormsGrid.Items.Count != 1 || GadgetsGrid.Items.Count != 1 || PropertiesGrid.Items.Count != 5 || ObjectRowsGrid.Items.Count != 2 || (SessionsGrid.SelectedItem as SessionRow)?.HostLabel != "已核验") throw new InvalidOperationException("界面夹具没有正确绑定会话、对象、窗体、控件与属性。");
-        Render();
+        Render(); VerifyTaskNavigationSmoke();
     }
     /// <summary>仅界面验证按序展示三个流程页。</summary>
     internal void SelectSmokeFlow(int index) => FlowTabs.SelectedIndex = index;
@@ -345,12 +367,15 @@ public partial class SessionWorkbenchView : UserControl, IDisposable
         if (model.Outcome != (unknown ? "unknown" : "rejected")) throw new InvalidOperationException("故障状态未正确显示。");
     }
     /// <summary>发现候选的只读界面行；不代表已连接。</summary>
-    private sealed class SessionRow(AvevaSessionCandidate candidate)
+    private sealed class SessionRow(AvevaSessionCandidate candidate, string? module = null)
     {
         /// <summary>本次只读发现得到的候选身份。</summary>
         public AvevaSessionCandidate Candidate { get; } = candidate;
         /// <summary>产品和项目的界面摘要。</summary>
         public string Display => Candidate.Product + " · " + Candidate.Project;
+        /// <summary>辅助技术读取精确候选身份，不隐式选择第一项。</summary>
+        public string Label => $"{Candidate.Product} · PID {Candidate.ProcessId} · {module ?? "模块待核验"} · 启动 {Candidate.ProcessStartTimeUtcTicks} ({Started}) · {Candidate.Project}";
+        public override string ToString() => Label;
         /// <summary>候选进程启动时间，转换为本机显示。</summary>
         public string Started => new DateTime(Candidate.ProcessStartTimeUtcTicks, DateTimeKind.Utc).ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss");
         /// <summary>区分发现管道与身份核验成功。</summary>

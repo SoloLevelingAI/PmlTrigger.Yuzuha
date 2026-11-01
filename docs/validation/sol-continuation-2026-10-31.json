@@ -1,0 +1,246 @@
+{
+  "schemaVersion": 1,
+  "baseline": "39e12f7261891003dfe99594fe5c5e481fe7ac4d",
+  "branch": "codex/aps-contract-implementation",
+  "observedAt": "2026-10-31T14:36:10.231510+00:00",
+  "scope": "Sol首批续作；离线合成与真实控件验证，不是AVEVA实机或平台全部完成",
+  "sdk": "10.0.302",
+  "managerCounters": {
+    "total": "226",
+    "executed": "224",
+    "passed": "224",
+    "failed": "0",
+    "error": "0",
+    "timeout": "0",
+    "aborted": "0",
+    "inconclusive": "0",
+    "passedButRunAborted": "0",
+    "notRunnable": "0",
+    "notExecuted": "0",
+    "disconnected": "0",
+    "warning": "0",
+    "completed": "0",
+    "inProgress": "0",
+    "pending": "0"
+  },
+  "desktopTests": {
+    "passed": 56,
+    "failed": 0
+  },
+  "ribbonTests": {
+    "passed": 44,
+    "failed": 0,
+    "skipped": 0
+  },
+  "liveAveva": false,
+  "committed": false,
+  "pushed": false,
+  "remainingPlatformTasks": 29,
+  "remainingManagerTasks": 13,
+  "files": [
+    {
+      "path": "docs/reference/ribbon-adapter.md",
+      "sha256": "3d89a8bf22b5ad6610c11028c03c3783ad10cb126b650003e9c2843c6ec6dc4d"
+    },
+    {
+      "path": "integrations/ribbon/manifest.json",
+      "sha256": "af5606ee9293f1eec29e5c05e8684eedf80f5154f02977e444e7a99ee963f401"
+    },
+    {
+      "path": "integrations/ribbon/source/apps/backend/Features/Deployment/DeploymentFeature.cs",
+      "sha256": "7e88478b7078b782f56063c2905c9170fe467753bd2a26409b0588dc09186dce"
+    },
+    {
+      "path": "integrations/ribbon/source/apps/backend/Features/Deployment/FrozenDeploymentFeature.cs",
+      "sha256": "7f5567ba8774d1699692b53793dcf120dac582041a0773278a8232c23234b98b"
+    },
+    {
+      "path": "integrations/ribbon/source/apps/backend/Features/Workspace/WorkspaceFiles.cs",
+      "sha256": "dde0f7629185564859641e2c26201e283f35fbb1995a1ddff6ee32ee32672f1b"
+    },
+    {
+      "path": "integrations/ribbon/source/apps/backend/Host/Program.cs",
+      "sha256": "0e3bf0ee6f29ed9d25c685c20e15d7d2c83c0a1b2ab114dbb67d9f2c4d3bd006"
+    },
+    {
+      "path": "integrations/ribbon/source/packages/contracts/index.ts",
+      "sha256": "d3e0bba10aff9021cc50379d98cc0a1b1abbc791a08ae2c859c028cf32062528"
+    },
+    {
+      "path": "integrations/ribbon/source/tests/frozen-deployment.test.ts",
+      "sha256": "d193d1e9693666998e95f0bc7a4c13fe9e5d29a7e059740984a8782aedc36797"
+    },
+    {
+      "path": "integrations/ribbon/source/tests/support/FrozenCacheTests.cs",
+      "sha256": "6046fe95d025b82bf83ef059b310fa51d1b95f9746b5d01d76760176860f3870"
+    },
+    {
+      "path": "openspec/changes/integrate-pmltwin-product-platform/contracts.md",
+      "sha256": "23f45ae6ebacd16f52c4d83b3b39915156a5fd841315d207059e04028f9e4fd7"
+    },
+    {
+      "path": "openspec/changes/integrate-pmltwin-product-platform/design.md",
+      "sha256": "4e96d6fe39c3638563ac677301f08f6f3915eb01bf0162382ab356f0ddd18ca6"
+    },
+    {
+      "path": "openspec/changes/integrate-pmltwin-product-platform/features/continuation-contracts.md",
+      "sha256": "423717e33291bf0e96d69fa436124e6ca43706c66ac469d8800d5a0098c6bb00"
+    },
+    {
+      "path": "openspec/changes/integrate-pmltwin-product-platform/features/migration-preview-continuation.md",
+      "sha256": "231d55ecc78a9311e40b5306b89aa5e82e922689325b8cf06bba22e07b14911d"
+    },
+    {
+      "path": "openspec/changes/integrate-pmltwin-product-platform/features/ribbon-v2-continuation.md",
+      "sha256": "5784747e7f233ae5c4c7eb9d8885ed2e59368e5b4f618ce301e6c8ecf5722371"
+    },
+    {
+      "path": "openspec/changes/integrate-pmltwin-product-platform/features/sol-continuation-handoff.md",
+      "sha256": "4dee2e9fbe6dfa28473ec0876c893c745160beb9a571e0be81f28bde857aa70b"
+    },
+    {
+      "path": "openspec/changes/integrate-pmltwin-product-platform/features/wpf-launch-continuation.md",
+      "sha256": "f6254e6269747304b1f885741008c879f0e412552662ad31f807357f4e6b0e93"
+    },
+    {
+      "path": "openspec/changes/integrate-pmltwin-product-platform/specs/application-database-boundary/spec.md",
+      "sha256": "b8a8b513a9461221470e7b1bc5dd7d41f1f0c1c7ab5eaef65c9d8206658825f4"
+    },
+    {
+      "path": "openspec/changes/integrate-pmltwin-product-platform/specs/environment-assisted-workflows/spec.md",
+      "sha256": "6b61f3ddb24707d70bc3b905fbf695b3e5e78dfed6f8e8459941b7a4c90705e2"
+    },
+    {
+      "path": "openspec/changes/integrate-pmltwin-product-platform/specs/ribbon-uic-integration/spec.md",
+      "sha256": "d266a75c8343dccae43d4aa73d25e4824ccc3054cd649b4508b2d769afa14aa2"
+    },
+    {
+      "path": "openspec/changes/integrate-pmltwin-product-platform/tasks.md",
+      "sha256": "89849ea8110411d73f70be5d176374d0bdf34b0e57e14cb3a160af00a84d36ea"
+    },
+    {
+      "path": "src/YuzuhaToolkit.Desktop/MainWindow.LaunchLifecycleSmoke.cs",
+      "sha256": "e3e85683076924d802b897ca3fcb8b3bd1f23178197bda48f4996596210afbeb"
+    },
+    {
+      "path": "src/YuzuhaToolkit.Desktop/MainWindow.LaunchWorkflow.xaml.cs",
+      "sha256": "eaf8b857bf35ab2923ef73950db9f3956fea3e339b23fd721abfcfeb9a3fd490"
+    },
+    {
+      "path": "src/YuzuhaToolkit.Desktop/MainWindow.xaml",
+      "sha256": "803f0d590a4c95ba93c4c70fa8374d3b97420f742ed4fe008534685238fcb3f2"
+    },
+    {
+      "path": "src/YuzuhaToolkit.Desktop/MainWindow.xaml.cs",
+      "sha256": "405912ef5c3be9d343095664e049b15a86a06d3c2215a906751cea82359aaa45"
+    },
+    {
+      "path": "src/YuzuhaToolkit.Manager.Core/FeatureRegistry.cs",
+      "sha256": "f3a994b283ed8f6835866bd02bcc3cef4938b8ad772e6831a2d24859c29b98a5"
+    },
+    {
+      "path": "src/YuzuhaToolkit.Manager.Core/ManagerOperationCatalog.cs",
+      "sha256": "c7a07b6fcff8a164da4501a3e1450fdb46d5bed665b9414d9274f71dc17eb357"
+    },
+    {
+      "path": "src/YuzuhaToolkit.Manager.Core/MigrationPreview.cs",
+      "sha256": "13aa07b4104e64c164e940cb9e88e7f848f772c48d9123a4548072e84bf4ee38"
+    },
+    {
+      "path": "src/YuzuhaToolkit.Manager.Core/MigrationPreviewOperations.cs",
+      "sha256": "4d75f417b4d5f5cf00d3d7cdadf277d789258f5b8def8d61f4e272c73ad35fa8"
+    },
+    {
+      "path": "src/YuzuhaToolkit.Manager.Core/RibbonHttpAdapter.cs",
+      "sha256": "eef495bc061f6a581def26f0831e6a264587052dcbc479a9686644867ef82783"
+    },
+    {
+      "path": "src/YuzuhaToolkit.Manager.Core/RibbonV2Schemas.cs",
+      "sha256": "3f069576410ba516cb29dd9f895bce246096e8bdb25029d9cb8a53a843c27a5b"
+    },
+    {
+      "path": "tests/YuzuhaToolkit.Manager.Tests/MigrationPreviewTests.cs",
+      "sha256": "e7e75eda1a7d06505cd6fa8405bfe2981e51cc4837274a29691f150998555f31"
+    },
+    {
+      "path": "tests/YuzuhaToolkit.Manager.Tests/RibbonHttpAdapterTests.cs",
+      "sha256": "5b70d781166534daddeb412cffe4371dc74bab754d5447d5f9db195cf507aa1e"
+    },
+    {
+      "path": "tests/YuzuhaToolkit.Tests/DesktopLaunchWorkflowTests.cs",
+      "sha256": "467c6905f810a4af78f3736e3d3b6cedab3db6095fb0bee92c5e5005cadd7ef2"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "artifacts/continuation/final-tests/manager-final.trx",
+      "sha256": "718a2e50a3647c14f61ca25beda86d18ded867e53735e8ea3789794dbc62a3a0",
+      "bytes": 345625
+    },
+    {
+      "path": "artifacts/continuation/manager-final.log",
+      "sha256": "68018710143b5408dbf79cf83a64c5cce08ff38e2b1540743f93dbca622ff7ec",
+      "bytes": 2778
+    },
+    {
+      "path": "artifacts/continuation/wpf-launch-tests.log",
+      "sha256": "2ca16217b13812917301390b088ef3735792288dcda4fca099bbab385643b53b",
+      "bytes": 2233
+    },
+    {
+      "path": "artifacts/continuation/wpf-launch-build.log",
+      "sha256": "180b1336ba48b542edf8e4cd074064de19d0aa14d0efc618599b3912079afcf7",
+      "bytes": 228
+    },
+    {
+      "path": "artifacts/continuation/wpf-launch-smoke-final/launch-lifecycle-ui.json",
+      "sha256": "88f07055088b830dd31570949ace5ae25d502ef23e13031103955e35efdcc081",
+      "bytes": 2337
+    },
+    {
+      "path": "artifacts/continuation/wpf-launch-smoke-final/launch-workflow-ui.json",
+      "sha256": "869539bf9157a77b45d402b4c205ee0bbc74c31f6244c808ee7afb78cfe95309",
+      "bytes": 307
+    },
+    {
+      "path": "artifacts/continuation/wpf-launch-smoke-final/launch-workflow-unknown.png",
+      "sha256": "98cc45100c233c4140d6df5d1e945b2558b7583c9a7ef1410f8099220158e7ab",
+      "bytes": 124593
+    },
+    {
+      "path": "artifacts/continuation/wpf-launch-smoke-final/binding-errors.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "artifacts/ribbon-native-before/regression.log",
+      "sha256": "8c3260c7f76705ca1560179968612c9ae9a53f1c9d0bdc3056c2735b6c6c0608",
+      "bytes": 1948
+    },
+    {
+      "path": "artifacts/ribbon-native-after-first.log",
+      "sha256": "e9758177b1607368fcc4a3caabcfd8d3c0525f682a1865f4a871cd22cbf362fd",
+      "bytes": 6750
+    },
+    {
+      "path": "artifacts/ribbon-native-after.log",
+      "sha256": "39b96da3b0b518bae73fd16abd1ecfd28f18b01a6e3e81d5612699b12f39ced8",
+      "bytes": 4762
+    },
+    {
+      "path": "artifacts/continuation/manager-cli-build.log",
+      "sha256": "06a99b834f8607b3cde140f7034e06b267c3fdac9dc2278233ac91913f64f157",
+      "bytes": 1512
+    },
+    {
+      "path": "artifacts/continuation/registered-schemas.json",
+      "sha256": "5315b02fde104d0b878c8f96c13a5fc055f326336782436fdcdf9730af8767c0",
+      "bytes": 18603
+    },
+    {
+      "path": "artifacts/continuation/migration-cli-rejection.json",
+      "sha256": "239cfcc878474be5d7b63c04bd3441956eb6069222b0e53fd6bc484c6aecc009",
+      "bytes": 693
+    }
+  ]
+}

@@ -7,7 +7,7 @@ namespace RibbonStudio.Backend
 {
     public sealed class WorkspaceFiles
     {
-        public readonly string Root; readonly object gate = new object();
+        public readonly string Root; readonly object gate = Data.WriteGate;
         public WorkspaceFiles(string root)
         {
             // Keep internal workspace I/O independent of the OS long-path opt-in policy.

@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "scope": "isolated real FigCraft CLI arrow revision verification",
+  "date": "2026-11-01",
+  "tests": {
+    "skipped": 0,
+    "passed": 3,
+    "failed": 0
+  },
+  "metadataDigest": "38aaa00e644c7ed377f89485ab44fe9d0081135e18bde4949431857eeeceb2d0",
+  "renderModelDigest": "1354b749ed5d556242f7cc0ba034de9a43f9eb006925fa674a41f6a23dc80643",
+  "native": {
+    "generated": true,
+    "validated": true,
+    "success": true,
+    "components": 8,
+    "instances": 107,
+    "editableTexts": 529,
+    "variables": 10,
+    "images": 0,
+    "toolVersion": "figcraft-cli 0.6.0",
+    "commandCount": 691
+  },
+  "visualReview": {
+    "result": "passed",
+    "observed": "next solid arrow, uncertain dashed arrow, recovery dotted loop, wrapping primary path, full indexed relation text",
+    "image": "flows-with-native-arrows.png",
+    "exclusions": [
+      "user visual approval",
+      "real Figma runtime"
+    ]
+  },
+  "structuralAssertions": [
+    "each IR connection has editable native vector with exact flowId/from/to/kind/label",
+    "connectionVector marker accepted as native serialized true string or boolean",
+    "all routes derived solely from connections; absent connections generate zero routes",
+    "40 steps and 40 mixed-kind routes: positive bounds, within frame, no route segment crosses step body"
+  ],
+  "figma": {
+    "execution": "not-run",
+    "offlineMock": "passed",
+    "geometry": "same shared flowLayout and routeVector"
+  }
+}

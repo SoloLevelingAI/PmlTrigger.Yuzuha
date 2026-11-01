@@ -1,0 +1,313 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "finishedAt": "2026-11-01T06:55:14.254Z",
+  "scope": "常规文档布局、稳定页内目录、共享区块/CSS/原生设计与独立视觉复核；真实浏览器和共同服务，无工程业务动作",
+  "contract": "openspec/changes/integrate-pmltwin-product-platform/features/contract-document-navigation.md",
+  "guide": "docs/reference/contract-document-navigation.zh-CN.md",
+  "progress": {
+    "total": 108,
+    "complete": 81,
+    "remaining": 27
+  },
+  "revision": {
+    "revisionId": "7c8551440c453a99f9cb9e5c3a8bbf1b2ebbff9ad688f161feeb3d08b9f6db50",
+    "metadataDigest": "3e12b8a000be565d771ab38ae031ec442ba8ada477488d06dc4de2fcae0a66cd",
+    "renderModelDigest": "e8b7fbbecc853ee8ea9636ccd3092d0222862b2d6733a3a5996bb1e41f33aadf",
+    "methodCatalogDigest": "a93ebf8bf7489a63dce898664742edf7ec6e74b605694e42f393a613f08cf082",
+    "manifestUrl": "/revisions/7c8551440c453a99f9cb9e5c3a8bbf1b2ebbff9ad688f161feeb3d08b9f6db50/manifest.json"
+  },
+  "coverage": {
+    "features": 18,
+    "scripts": 14,
+    "requirements": 24,
+    "flows": 3,
+    "sourceMappings": 191
+  },
+  "tests": {
+    "node": {
+      "passed": 50,
+      "failed": 0,
+      "skipped": 0
+    },
+    "documentMatrices": 12,
+    "documentInteractions": 10,
+    "outlineChecks": 12,
+    "existingLayoutChecks": 18,
+    "existingThemeMatrices": 12,
+    "existingReadingChecks": 9,
+    "realServiceChecks": 8,
+    "metadataCheck": true,
+    "themeCssCheck": true,
+    "openSpecStrict": true,
+    "diffCheck": true
+  },
+  "native": {
+    "generated": true,
+    "validated": true,
+    "success": true,
+    "components": 7,
+    "instances": 107,
+    "editableTexts": 673,
+    "variables": 40,
+    "images": 0,
+    "toolVersion": "figcraft-cli 0.6.0",
+    "commandCount": 1123
+  },
+  "method": {
+    "symbolId": "YuzuhaToolkit.Manager.Core::M:YuzuhaToolkit.Manager.LaunchWorkflowService.ExecuteAsync(YuzuhaToolkit.Manager.LaunchWorkflowPlan,System.String,System.String,System.Boolean,System.Threading.CancellationToken)",
+    "sourceSha": "44d075ea468f8f01d82346d718af41ffddb13ce9d66113dcd619c0a875eabba4",
+    "docfx": "http://127.0.0.1:19439/revisions/7c8551440c453a99f9cb9e5c3a8bbf1b2ebbff9ad688f161feeb3d08b9f6db50/docfx/api/YuzuhaToolkit.Manager.LaunchWorkflowService.html#YuzuhaToolkit_Manager_LaunchWorkflowService_ExecuteAsync_YuzuhaToolkit_Manager_LaunchWorkflowPlan_System_String_System_String_System_Boolean_System_Threading_CancellationToken_"
+  },
+  "visualReview": {
+    "web": {
+      "status": "agent-reviewed",
+      "humanStatus": "human-not-reviewed",
+      "scope": "Independent agent inspected actual desktop/mobile Web renders; primary agent inspected final published render. Functional success is not used as aesthetic approval.",
+      "rubric": [
+        {
+          "criterion": "首屏任务焦点",
+          "result": "agent-pass",
+          "observation": "作品集先显示所属Feature目标与交付，参数和语言分类退为辅助；390×844目标句可见。"
+        },
+        {
+          "criterion": "标题与正文层级",
+          "result": "agent-pass",
+          "observation": "标题/目标/技术标签/交付/正文顺序明确；正文16px、字段18px、辅助至少12px。"
+        },
+        {
+          "criterion": "对齐留白",
+          "result": "agent-pass",
+          "observation": "中间白色正文与两侧导航分离；去掉重复标题边线，手机工具收为次级入口。"
+        },
+        {
+          "criterion": "克制配色",
+          "result": "agent-pass",
+          "observation": "类别浅底/细边与中性正文、独立警告并存，六色不替代内容叙事。"
+        },
+        {
+          "criterion": "作品集价值",
+          "result": "agent-pass",
+          "observation": "作品集先解释任务目标和产物，指南提供技术核对说明，两视图具有实际内容差别。"
+        }
+      ],
+      "limitations": [
+        "代理判断不等于用户视觉认可。",
+        "文档是实现说明与作品集，不是业务GUI运行截图。"
+      ]
+    },
+    "native": {
+      "schema": "contract-document-visual-review/1",
+      "date": "2026-11-01",
+      "status": "agent-reviewed",
+      "humanStatus": "human-not-reviewed",
+      "scope": "Real FigCraft CLI document boards; editable static reference, not Web interaction or business runtime acceptance",
+      "images": [
+        "artifacts/contract-document-native-polished/generated/document-light.png",
+        "artifacts/contract-document-native-polished/generated/document-dark.png"
+      ],
+      "rubric": [
+        {
+          "criterion": "首屏焦点",
+          "result": "agent-pass",
+          "observation": "32px当前任务标题与明确所属Feature目标先于参数字段；品牌24px、目录18px形成次级层次。"
+        },
+        {
+          "criterion": "目录与当前位置",
+          "result": "agent-pass",
+          "observation": "18个Feature与14个Script分组保留，launch-workflow以浅底圆角行和短标记突出；右侧仅为七字段页内目录。"
+        },
+        {
+          "criterion": "正文与节奏",
+          "result": "agent-pass",
+          "observation": "正文16px、中性文字；章节采用细分隔和24px间距，字段不再重复套蓝色描边框。"
+        },
+        {
+          "criterion": "配色与辅助面积",
+          "result": "agent-pass",
+          "observation": "只有任务header、当前行及紧凑图例使用少量浅底；六角色各192×40，不与正文争夺面积。"
+        },
+        {
+          "criterion": "对齐与留白",
+          "result": "agent-pass",
+          "observation": "左目录、正文和右目录各有统一基线；采用8px节奏和12px主要圆角，浅深导出未见文字溢出或截断。"
+        },
+        {
+          "criterion": "事实与边界",
+          "result": "agent-pass",
+          "observation": "七项文字逐字来自共享IR，32实体与原警告保留；静态非Web交互、三轴独立说明直接可见；原生文件无栅格替代。"
+        }
+      ],
+      "figma": {
+        "execution": "not-run",
+        "offlineMock": "passed"
+      },
+      "limitations": [
+        "代理复核不等于用户视觉认可",
+        "参考板不模拟导航/折叠交互",
+        "不证明业务实机或运行效果"
+      ]
+    },
+    "rule": "美观独立复核，分色、结构及测试通过不替代视觉判断，也不代称用户认可。"
+  },
+  "designSystem": {
+    "sectionRoles": [
+      "overview",
+      "contract",
+      "flow",
+      "implementation",
+      "evidence",
+      "reference"
+    ],
+    "typography": {
+      "body": {
+        "size": 16,
+        "weight": 400,
+        "lineHeight": 1.7
+      },
+      "card": {
+        "size": 14,
+        "weight": 400,
+        "lineHeight": 1.7
+      },
+      "meta": {
+        "size": 12,
+        "weight": 400,
+        "lineHeight": 1.6
+      },
+      "title": {
+        "size": 32,
+        "weight": 600,
+        "lineHeight": 1.3
+      },
+      "heading": {
+        "size": 24,
+        "weight": 600,
+        "lineHeight": 1.4
+      },
+      "subheading": {
+        "size": 18,
+        "weight": 600,
+        "lineHeight": 1.5
+      }
+    },
+    "sharedSources": [
+      "tokens.json",
+      "shared render model"
+    ],
+    "cssGenerated": true
+  },
+  "scriptErrors": [],
+  "sources": {
+    "openspec/changes/integrate-pmltwin-product-platform/tasks.md": "2da0c20940dfeebb8145afe8a9d72c0eff2c25894adc88ba72fc3e49b3303568",
+    "openspec/changes/integrate-pmltwin-product-platform/features/contract-document-navigation.md": "23b6382171beb29226e6fe3ce1caf3b71a8faeb2fd6a69dae4577627d50c30e5",
+    "openspec/changes/integrate-pmltwin-product-platform/specs/feature-design-evidence/spec.md": "ae87793872ec3d10febef53f8b93b9e8a7513244144497c2dab5af94270b0eb2",
+    "docs/presentation/contract-atlas/index.html": "49abaa96a08448fcd35e67efc5fff5936f4fc808da4f9caff0d05e18807a319e",
+    "docs/presentation/contract-atlas/document-layout.css": "4ac7686289f7f2a76789495b9eb68f4a7bf0fc48e3e0d1c840b37d55b3f81cb9",
+    "docs/presentation/contract-atlas/app.js": "5d33338acc3fd751864bb5f5960991b3ce2b3896deeb109498f8d2af7c02217c",
+    "docs/presentation/contract-atlas/page-outline.js": "c138a1045a6c1e18af5a31c27486a48772882da26869a486c1c03a24ad7b6c18",
+    "docs/presentation/contract-atlas/components.js": "7bcc04e5cf01ae32be88be8a769b334a299313c7acbe5277e32fea40486e2776",
+    "docs/presentation/contract-atlas/tokens.json": "3fd1bab96aac95ecae8935bbb566dc6aedf53d5829fefed516a776b281fee76f",
+    "docs/presentation/contract-atlas/theme-tokens.css": "aeb0ebffff795a092017af5a14f6eadc475b9f73cd51ac1ddb25b4cd7321458a",
+    "scripts/build-contract-atlas-theme.mjs": "b778e726b77d99c5a8e0720aee9eda59fa992f3732b31e0c0dce518223e961e2",
+    "scripts/build-contract-atlas-design.mjs": "1cd61f930c303c48669ec0c60e004f1bdc72361449a9ef6beb6489faa2c00a8f",
+    "docs/design/contract-atlas/source/adapter-core.js": "44a02447f3f2680c7d1acb6c6ebde9e935b7892ba75604750aea6f343e23aabb",
+    "docs/design/contract-atlas/source/native-commands.mjs": "4c94ec600795ee8c94a0b0522aa9615545f77f3b96144cc76e20104649f4b42f",
+    "docs/design/contract-atlas/source/figma-runtime.js": "fb6763aa9592c5d4a68430c3a20454afa8e795283e1308dc820dfd8dd55b6edb"
+  },
+  "evidence": {
+    "document": {
+      "path": "docs/validation/contract-document-2026-11-01.evidence/document.json",
+      "bytes": 9508,
+      "sha256": "4957bafd62d7af1690012fcd349c1b130d37f976d6c6f80484e184061ee61c3a"
+    },
+    "outline": {
+      "path": "docs/validation/contract-document-2026-11-01.evidence/outline.json",
+      "bytes": 636,
+      "sha256": "be2849a36e0ecf17ab8fb1de78aec04aa0bda7a620886c3ccde8183bf1fff807"
+    },
+    "native": {
+      "path": "docs/validation/contract-document-2026-11-01.evidence/native.json",
+      "bytes": 808,
+      "sha256": "198991bed081fcf2075b9d41438479d390c11a65873f998c1f240ba8f1da37d0"
+    },
+    "nativeVisual": {
+      "path": "docs/validation/contract-document-2026-11-01.evidence/nativeVisual.json",
+      "bytes": 1924,
+      "sha256": "2e5e8f3896d00161993689f387d88cf9b6ace24e3b575060ab976bb16bab12f8"
+    },
+    "live": {
+      "path": "docs/validation/contract-document-2026-11-01.evidence/live.json",
+      "bytes": 2968,
+      "sha256": "62dcdbd252aeeb43fa506564bf2d6576a4563efba88932fda7138ac12e09c5ca"
+    },
+    "receipts": {
+      "path": "docs/validation/contract-document-2026-11-01.evidence/receipts.json",
+      "bytes": 2476,
+      "sha256": "2f629cf3417b2a10d38213b23c5033cbfb69381a0dd947a470bec03baa5349e3"
+    },
+    "static": {
+      "path": "docs/validation/contract-document-2026-11-01.evidence/static.json",
+      "bytes": 3439,
+      "sha256": "5e72894ba087041a443c45e4950d748c12869012f58e6fd858591c18d7525b96"
+    },
+    "theme": {
+      "path": "docs/validation/contract-document-2026-11-01.evidence/theme.json",
+      "bytes": 57997,
+      "sha256": "52f321ae6f7daf4ff66d15c27585cb575c49009db67d15e7aea95cd4d419953c"
+    },
+    "reading": {
+      "path": "docs/validation/contract-document-2026-11-01.evidence/reading.json",
+      "bytes": 1598,
+      "sha256": "86b75fd4f075cf5def0da4283d3c4417a86660b725241fc8c795b8fbf157b73f"
+    },
+    "node-regression.tap": {
+      "path": "docs/validation/contract-document-2026-11-01.evidence/node-regression.tap",
+      "bytes": 13462,
+      "sha256": "9068be42896712928e89598b4227ed23de6978d82767904de390fda7f27a65f0"
+    },
+    "real-service.log": {
+      "path": "docs/validation/contract-document-2026-11-01.evidence/real-service.log",
+      "bytes": 674,
+      "sha256": "cc13889a10c6e3605b433a6fb69444a4584fbacb1e99bc265c77ded13add18d5"
+    },
+    "portfolio-light-1440.png": {
+      "path": "docs/validation/contract-document-2026-11-01.evidence/portfolio-light-1440.png",
+      "bytes": 131106,
+      "sha256": "4c91e2e4d82fe239cd5a77b7ca814f1353a3ac6001ec39ae7c6151e423dea909"
+    },
+    "portfolio-dark-1440.png": {
+      "path": "docs/validation/contract-document-2026-11-01.evidence/portfolio-dark-1440.png",
+      "bytes": 130816,
+      "sha256": "49adea66c1bed86adaa79886d7f548ea0aafc74048378d130e7b2794e467e861"
+    },
+    "portfolio-light-390.png": {
+      "path": "docs/validation/contract-document-2026-11-01.evidence/portfolio-light-390.png",
+      "bytes": 48089,
+      "sha256": "fc8270d1ee31ef361754c27a2cdf7d1eac9287de3695c294a5b64a36a7064acd"
+    },
+    "portfolio-dark-390.png": {
+      "path": "docs/validation/contract-document-2026-11-01.evidence/portfolio-dark-390.png",
+      "bytes": 48548,
+      "sha256": "3b21410044255cef9b0869476e30dfc074e1e9a9c5c4a6c7bfe15c525f8cf206"
+    },
+    "figcraft-document-light.png": {
+      "path": "docs/validation/contract-document-2026-11-01.evidence/figcraft-document-light.png",
+      "bytes": 404358,
+      "sha256": "9beb07f4494b1ccd9b3ebf0b8da9d07019f894d7d5fa1ef487a038a127dea838"
+    },
+    "figcraft-document-dark.png": {
+      "path": "docs/validation/contract-document-2026-11-01.evidence/figcraft-document-dark.png",
+      "bytes": 406209,
+      "sha256": "5efd8f4df5a1e3f75074f464a7bc33375b403e938791aecf95ae37d4f0cbdbff"
+    }
+  },
+  "boundaries": [
+    "原平台27项业务未完成仍保留原账。",
+    "真实Roslyn/DocFX为静态分析与API快照，不是运行执行或覆盖证明。",
+    "方法页面从精确显式绑定的ExecuteAsync进入；来源和同修订DocFX已核验。",
+    "FigCraft为真实可编辑原生产物；静态板不具备Web导航/折叠，Figma真实宿主未运行。",
+    "合成Shadow专项和mock测试与真实共同服务/CLI证据分别保存。",
+    "视觉复核为agent-reviewed，用户认可为human-not-reviewed。"
+  ]
+}

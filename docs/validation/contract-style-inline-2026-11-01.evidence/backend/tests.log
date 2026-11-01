@@ -1,0 +1,22 @@
+✔ missing snapshot is explicit unavailable; exact binding/config errors fail without guessing (62.4792ms)
+✔ exact overloaded method identity, partial implementation body, XML, async, external and call positions survive (58.6042ms)
+✔ source/producer/old shape stale hides all bodies, input drift supersedes and malformed browser catalog is rejected (129.2988ms)
+✔ xref uses exact published member href and verified assets; wrong hashes and escaped href fail (119.0769ms)
+✔ 64KiB source previews truncate UTF8 safely; configuration-only changes stale the captured compiler snapshot (105.8754ms)
+✔ out-of-scope callers of selected neighbors are summarized without inventing followable methods or edges (48.153ms)
+✔ empty bindings distinguish unavailable C# scope from not-applicable, with backward-compatible defaults (109.5457ms)
+✔ ready bridge preserves exact catalog/digests and only exposes same-revision registered DocFX bytes (249.905ms)
+✔ public drift, source/config receipt drift, missing publication and catalog corruption never return body (139.4682ms)
+✔ tampered DocFX, duplicate manifest entries, path escape and declared budgets are rejected (107.5002ms)
+✔ pointer movement or input changes during validation refuse an obsolete response (97.9019ms)
+✔ overlapping requests share bounded validation, completed responses are not cached, and a late source change hides body (156.9946ms)
+✔ HTTP method failure is separate from public content, aliases are fixed and API stays read only (206.4983ms)
+✔ verified DocFX HTTP preserves original bytes with static opaque sandbox and no script/network privilege (203.4441ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1479.5981

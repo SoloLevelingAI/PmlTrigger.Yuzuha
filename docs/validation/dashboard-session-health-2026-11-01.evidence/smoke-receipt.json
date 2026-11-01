@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "scope": "existing_Test-Desktop_receipt_and_all_PNG_IHDR_checks",
+  "pages": 12,
+  "themes": [
+    "Light",
+    "Dark"
+  ],
+  "viewports": [
+    "1440x960",
+    "1280x720",
+    "853x480"
+  ],
+  "captures": 118,
+  "bindingErrorBytes": 0
+}

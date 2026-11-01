@@ -1,0 +1,11 @@
+{
+  "status": "fixed-and-regression-tested",
+  "observedBeforeFix": {
+    "manifestAuthor": "6254c5e302ec47974d484a8be55117a3d80158abb0fcf5289ec4663897dd1d57",
+    "capturedAuthor": "0c4748526b276124eb24976f624358ed2c6822f78249b79996b59c560e7533b2",
+    "browserRefusedCompletion": true
+  },
+  "cause": "save interleaved between initial author-byte read and later dependency hashes",
+  "fix": "reject inconsistent snapshot; bind manifest, captured source and public metadata provenance; client checks provenance",
+  "regression": "source snapshot rejects a save interleaved between author bytes and dependency hashes"
+}

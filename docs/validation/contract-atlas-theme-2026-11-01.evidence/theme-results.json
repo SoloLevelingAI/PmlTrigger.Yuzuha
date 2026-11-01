@@ -1,0 +1,1211 @@
+{
+  "passed": true,
+  "finishedAt": "2026-11-01T04:08:06.428Z",
+  "sourceHashes": {
+    "tokens.json": "67ae804098d62a36db529ce3b67220c044dee696ba726a9f81fdf73a7701284d",
+    "theme.js": "1a218dae4fc68f3071d8335b66d64a675438a3fc29706c18f4c41620d603f97e",
+    "theme-tokens.css": "42af3a538338376474bb1c42a1d3a6fd4ebf2e0c949798bdf4dde8641f5dcc52",
+    "style.css": "81d96a760aaec89d0520255af46124612a682099dac7d1abd717dce9f9a00ce4",
+    "index.html": "cb87eb463fdddd70d94634cccdba52d08e05d3e33a23a9431f8f1f4b1ca4d63a",
+    "app.js": "b8cad19754dbd0380b62cd129b403a4e3eae5cc9319ca2ad6a9aaba914018b50",
+    "components.js": "f0a9380b2e64043e348b09c5324d2f5b6269f1ab090c23f64eebc89b68b0246d",
+    "atlas-data.js": "47f04a96b4c04bb7eb8dea3e36de834789031229d608a914bc68f50e0bca128b"
+  },
+  "scope": "isolated HTTP + real Chromium, presentation only",
+  "matrix": [
+    {
+      "label": "help-light-390",
+      "view": "help",
+      "theme": "light",
+      "width": 390,
+      "palette": {
+        "variables": {
+          "background": "#F4F6F5",
+          "surface": "#FFFFFF",
+          "soft": "#E7EFEB",
+          "text": "#18342F",
+          "muted": "#526C65",
+          "border": "#CBD9D3",
+          "accent": "#286951",
+          "warning": "#91601C",
+          "boundary": "#6D857B"
+        },
+        "body": "rgb(244, 246, 245)",
+        "text": "rgb(24, 52, 47)",
+        "shadow": "rgb(24, 52, 47)",
+        "scheme": "light",
+        "preference": "light",
+        "theme": "light"
+      },
+      "contrast": {
+        "failures": [],
+        "graphical": [
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "flow connector",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "flow connector",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 6.502213150564709
+          },
+          {
+            "kind": "flow connector",
+            "ratio": 5.393099202642005
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 6.502213150564709
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 3.9688047239328688
+          }
+        ],
+        "horizontal": false
+      },
+      "svg": {
+        "background": "#F4F6F5",
+        "roles": [
+          "text",
+          "muted",
+          "accent"
+        ]
+      },
+      "state": {
+        "view": "help",
+        "selectedId": "script:ui-pending-gate",
+        "parentFeatureId": "feature:ribbon",
+        "flowId": "flow:ribbon",
+        "selectedFlowId": "flow:ribbon",
+        "effectiveFlowId": "flow:ribbon",
+        "query": "Ribbon",
+        "status": "partial",
+        "projectId": "project:pmltwin"
+      }
+    },
+    {
+      "label": "portfolio-light-390",
+      "view": "portfolio",
+      "theme": "light",
+      "width": 390,
+      "palette": {
+        "variables": {
+          "background": "#F4F6F5",
+          "surface": "#FFFFFF",
+          "soft": "#E7EFEB",
+          "text": "#18342F",
+          "muted": "#526C65",
+          "border": "#CBD9D3",
+          "accent": "#286951",
+          "warning": "#91601C",
+          "boundary": "#6D857B"
+        },
+        "body": "rgb(244, 246, 245)",
+        "text": "rgb(24, 52, 47)",
+        "shadow": "rgb(24, 52, 47)",
+        "scheme": "light",
+        "preference": "light",
+        "theme": "light"
+      },
+      "contrast": {
+        "failures": [],
+        "graphical": [
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "flow connector",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "flow connector",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 6.502213150564709
+          },
+          {
+            "kind": "flow connector",
+            "ratio": 5.393099202642005
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 6.502213150564709
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 3.9688047239328688
+          }
+        ],
+        "horizontal": false
+      },
+      "svg": {
+        "background": "#F4F6F5",
+        "roles": [
+          "text",
+          "muted",
+          "accent"
+        ]
+      },
+      "state": {
+        "view": "portfolio",
+        "selectedId": "script:ui-pending-gate",
+        "parentFeatureId": "feature:ribbon",
+        "flowId": "flow:ribbon",
+        "selectedFlowId": "flow:ribbon",
+        "effectiveFlowId": "flow:ribbon",
+        "query": "Ribbon",
+        "status": "partial",
+        "projectId": "project:pmltwin"
+      }
+    },
+    {
+      "label": "help-dark-390",
+      "view": "help",
+      "theme": "dark",
+      "width": 390,
+      "palette": {
+        "variables": {
+          "background": "#10191C",
+          "surface": "#192428",
+          "soft": "#243439",
+          "text": "#EFF3E9",
+          "muted": "#A8B9B6",
+          "border": "#354747",
+          "accent": "#C5EC9B",
+          "warning": "#EFC17F",
+          "boundary": "#70897F"
+        },
+        "body": "rgb(16, 25, 28)",
+        "text": "rgb(239, 243, 233)",
+        "shadow": "rgb(239, 243, 233)",
+        "scheme": "dark",
+        "preference": "dark",
+        "theme": "dark"
+      },
+      "contrast": {
+        "failures": [],
+        "graphical": [
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "flow connector",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "flow connector",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 11.965002079801415
+          },
+          {
+            "kind": "flow connector",
+            "ratio": 9.51774504987456
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 11.965002079801415
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 4.208689413426293
+          }
+        ],
+        "horizontal": false
+      },
+      "svg": {
+        "background": "#10191C",
+        "roles": [
+          "text",
+          "muted",
+          "accent"
+        ]
+      },
+      "state": {
+        "view": "help",
+        "selectedId": "script:ui-pending-gate",
+        "parentFeatureId": "feature:ribbon",
+        "flowId": "flow:ribbon",
+        "selectedFlowId": "flow:ribbon",
+        "effectiveFlowId": "flow:ribbon",
+        "query": "Ribbon",
+        "status": "partial",
+        "projectId": "project:pmltwin"
+      }
+    },
+    {
+      "label": "portfolio-dark-390",
+      "view": "portfolio",
+      "theme": "dark",
+      "width": 390,
+      "palette": {
+        "variables": {
+          "background": "#10191C",
+          "surface": "#192428",
+          "soft": "#243439",
+          "text": "#EFF3E9",
+          "muted": "#A8B9B6",
+          "border": "#354747",
+          "accent": "#C5EC9B",
+          "warning": "#EFC17F",
+          "boundary": "#70897F"
+        },
+        "body": "rgb(16, 25, 28)",
+        "text": "rgb(239, 243, 233)",
+        "shadow": "rgb(239, 243, 233)",
+        "scheme": "dark",
+        "preference": "dark",
+        "theme": "dark"
+      },
+      "contrast": {
+        "failures": [],
+        "graphical": [
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "flow connector",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "flow connector",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 11.965002079801415
+          },
+          {
+            "kind": "flow connector",
+            "ratio": 9.51774504987456
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 11.965002079801415
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 4.208689413426293
+          }
+        ],
+        "horizontal": false
+      },
+      "svg": {
+        "background": "#10191C",
+        "roles": [
+          "text",
+          "muted",
+          "accent"
+        ]
+      },
+      "state": {
+        "view": "portfolio",
+        "selectedId": "script:ui-pending-gate",
+        "parentFeatureId": "feature:ribbon",
+        "flowId": "flow:ribbon",
+        "selectedFlowId": "flow:ribbon",
+        "effectiveFlowId": "flow:ribbon",
+        "query": "Ribbon",
+        "status": "partial",
+        "projectId": "project:pmltwin"
+      }
+    },
+    {
+      "label": "help-light-768",
+      "view": "help",
+      "theme": "light",
+      "width": 768,
+      "palette": {
+        "variables": {
+          "background": "#F4F6F5",
+          "surface": "#FFFFFF",
+          "soft": "#E7EFEB",
+          "text": "#18342F",
+          "muted": "#526C65",
+          "border": "#CBD9D3",
+          "accent": "#286951",
+          "warning": "#91601C",
+          "boundary": "#6D857B"
+        },
+        "body": "rgb(244, 246, 245)",
+        "text": "rgb(24, 52, 47)",
+        "shadow": "rgb(24, 52, 47)",
+        "scheme": "light",
+        "preference": "light",
+        "theme": "light"
+      },
+      "contrast": {
+        "failures": [],
+        "graphical": [
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "flow arrow",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "flow arrow",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 6.502213150564709
+          },
+          {
+            "kind": "flow arrow",
+            "ratio": 5.393099202642005
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 6.502213150564709
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 3.9688047239328688
+          }
+        ],
+        "horizontal": false
+      },
+      "svg": {
+        "background": "#F4F6F5",
+        "roles": [
+          "text",
+          "muted",
+          "accent"
+        ]
+      },
+      "state": {
+        "view": "help",
+        "selectedId": "script:ui-pending-gate",
+        "parentFeatureId": "feature:ribbon",
+        "flowId": "flow:ribbon",
+        "selectedFlowId": "flow:ribbon",
+        "effectiveFlowId": "flow:ribbon",
+        "query": "Ribbon",
+        "status": "partial",
+        "projectId": "project:pmltwin"
+      }
+    },
+    {
+      "label": "portfolio-light-768",
+      "view": "portfolio",
+      "theme": "light",
+      "width": 768,
+      "palette": {
+        "variables": {
+          "background": "#F4F6F5",
+          "surface": "#FFFFFF",
+          "soft": "#E7EFEB",
+          "text": "#18342F",
+          "muted": "#526C65",
+          "border": "#CBD9D3",
+          "accent": "#286951",
+          "warning": "#91601C",
+          "boundary": "#6D857B"
+        },
+        "body": "rgb(244, 246, 245)",
+        "text": "rgb(24, 52, 47)",
+        "shadow": "rgb(24, 52, 47)",
+        "scheme": "light",
+        "preference": "light",
+        "theme": "light"
+      },
+      "contrast": {
+        "failures": [],
+        "graphical": [
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "flow arrow",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "flow arrow",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 6.502213150564709
+          },
+          {
+            "kind": "flow arrow",
+            "ratio": 5.393099202642005
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 6.502213150564709
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 3.9688047239328688
+          }
+        ],
+        "horizontal": false
+      },
+      "svg": {
+        "background": "#F4F6F5",
+        "roles": [
+          "text",
+          "muted",
+          "accent"
+        ]
+      },
+      "state": {
+        "view": "portfolio",
+        "selectedId": "script:ui-pending-gate",
+        "parentFeatureId": "feature:ribbon",
+        "flowId": "flow:ribbon",
+        "selectedFlowId": "flow:ribbon",
+        "effectiveFlowId": "flow:ribbon",
+        "query": "Ribbon",
+        "status": "partial",
+        "projectId": "project:pmltwin"
+      }
+    },
+    {
+      "label": "help-dark-768",
+      "view": "help",
+      "theme": "dark",
+      "width": 768,
+      "palette": {
+        "variables": {
+          "background": "#10191C",
+          "surface": "#192428",
+          "soft": "#243439",
+          "text": "#EFF3E9",
+          "muted": "#A8B9B6",
+          "border": "#354747",
+          "accent": "#C5EC9B",
+          "warning": "#EFC17F",
+          "boundary": "#70897F"
+        },
+        "body": "rgb(16, 25, 28)",
+        "text": "rgb(239, 243, 233)",
+        "shadow": "rgb(239, 243, 233)",
+        "scheme": "dark",
+        "preference": "dark",
+        "theme": "dark"
+      },
+      "contrast": {
+        "failures": [],
+        "graphical": [
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "flow arrow",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "flow arrow",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 11.965002079801415
+          },
+          {
+            "kind": "flow arrow",
+            "ratio": 9.51774504987456
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 11.965002079801415
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 4.208689413426293
+          }
+        ],
+        "horizontal": false
+      },
+      "svg": {
+        "background": "#10191C",
+        "roles": [
+          "text",
+          "muted",
+          "accent"
+        ]
+      },
+      "state": {
+        "view": "help",
+        "selectedId": "script:ui-pending-gate",
+        "parentFeatureId": "feature:ribbon",
+        "flowId": "flow:ribbon",
+        "selectedFlowId": "flow:ribbon",
+        "effectiveFlowId": "flow:ribbon",
+        "query": "Ribbon",
+        "status": "partial",
+        "projectId": "project:pmltwin"
+      }
+    },
+    {
+      "label": "portfolio-dark-768",
+      "view": "portfolio",
+      "theme": "dark",
+      "width": 768,
+      "palette": {
+        "variables": {
+          "background": "#10191C",
+          "surface": "#192428",
+          "soft": "#243439",
+          "text": "#EFF3E9",
+          "muted": "#A8B9B6",
+          "border": "#354747",
+          "accent": "#C5EC9B",
+          "warning": "#EFC17F",
+          "boundary": "#70897F"
+        },
+        "body": "rgb(16, 25, 28)",
+        "text": "rgb(239, 243, 233)",
+        "shadow": "rgb(239, 243, 233)",
+        "scheme": "dark",
+        "preference": "dark",
+        "theme": "dark"
+      },
+      "contrast": {
+        "failures": [],
+        "graphical": [
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "flow arrow",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "flow arrow",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 11.965002079801415
+          },
+          {
+            "kind": "flow arrow",
+            "ratio": 9.51774504987456
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 11.965002079801415
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 4.208689413426293
+          }
+        ],
+        "horizontal": false
+      },
+      "svg": {
+        "background": "#10191C",
+        "roles": [
+          "text",
+          "muted",
+          "accent"
+        ]
+      },
+      "state": {
+        "view": "portfolio",
+        "selectedId": "script:ui-pending-gate",
+        "parentFeatureId": "feature:ribbon",
+        "flowId": "flow:ribbon",
+        "selectedFlowId": "flow:ribbon",
+        "effectiveFlowId": "flow:ribbon",
+        "query": "Ribbon",
+        "status": "partial",
+        "projectId": "project:pmltwin"
+      }
+    },
+    {
+      "label": "help-light-1440",
+      "view": "help",
+      "theme": "light",
+      "width": 1440,
+      "palette": {
+        "variables": {
+          "background": "#F4F6F5",
+          "surface": "#FFFFFF",
+          "soft": "#E7EFEB",
+          "text": "#18342F",
+          "muted": "#526C65",
+          "border": "#CBD9D3",
+          "accent": "#286951",
+          "warning": "#91601C",
+          "boundary": "#6D857B"
+        },
+        "body": "rgb(244, 246, 245)",
+        "text": "rgb(24, 52, 47)",
+        "shadow": "rgb(24, 52, 47)",
+        "scheme": "light",
+        "preference": "light",
+        "theme": "light"
+      },
+      "contrast": {
+        "failures": [],
+        "graphical": [
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "flow arrow",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "flow arrow",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 6.502213150564709
+          },
+          {
+            "kind": "flow arrow",
+            "ratio": 5.393099202642005
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 6.502213150564709
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 3.9688047239328688
+          }
+        ],
+        "horizontal": false
+      },
+      "svg": {
+        "background": "#F4F6F5",
+        "roles": [
+          "text",
+          "muted",
+          "accent"
+        ]
+      },
+      "state": {
+        "view": "help",
+        "selectedId": "script:ui-pending-gate",
+        "parentFeatureId": "feature:ribbon",
+        "flowId": "flow:ribbon",
+        "selectedFlowId": "flow:ribbon",
+        "effectiveFlowId": "flow:ribbon",
+        "query": "Ribbon",
+        "status": "partial",
+        "projectId": "project:pmltwin"
+      }
+    },
+    {
+      "label": "portfolio-light-1440",
+      "view": "portfolio",
+      "theme": "light",
+      "width": 1440,
+      "palette": {
+        "variables": {
+          "background": "#F4F6F5",
+          "surface": "#FFFFFF",
+          "soft": "#E7EFEB",
+          "text": "#18342F",
+          "muted": "#526C65",
+          "border": "#CBD9D3",
+          "accent": "#286951",
+          "warning": "#91601C",
+          "boundary": "#6D857B"
+        },
+        "body": "rgb(244, 246, 245)",
+        "text": "rgb(24, 52, 47)",
+        "shadow": "rgb(24, 52, 47)",
+        "scheme": "light",
+        "preference": "light",
+        "theme": "light"
+      },
+      "contrast": {
+        "failures": [],
+        "graphical": [
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "flow arrow",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "flow arrow",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 6.502213150564709
+          },
+          {
+            "kind": "flow arrow",
+            "ratio": 5.393099202642005
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 3.9688047239328688
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 6.502213150564709
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 3.9688047239328688
+          }
+        ],
+        "horizontal": false
+      },
+      "svg": {
+        "background": "#F4F6F5",
+        "roles": [
+          "text",
+          "muted",
+          "accent"
+        ]
+      },
+      "state": {
+        "view": "portfolio",
+        "selectedId": "script:ui-pending-gate",
+        "parentFeatureId": "feature:ribbon",
+        "flowId": "flow:ribbon",
+        "selectedFlowId": "flow:ribbon",
+        "effectiveFlowId": "flow:ribbon",
+        "query": "Ribbon",
+        "status": "partial",
+        "projectId": "project:pmltwin"
+      }
+    },
+    {
+      "label": "help-dark-1440",
+      "view": "help",
+      "theme": "dark",
+      "width": 1440,
+      "palette": {
+        "variables": {
+          "background": "#10191C",
+          "surface": "#192428",
+          "soft": "#243439",
+          "text": "#EFF3E9",
+          "muted": "#A8B9B6",
+          "border": "#354747",
+          "accent": "#C5EC9B",
+          "warning": "#EFC17F",
+          "boundary": "#70897F"
+        },
+        "body": "rgb(16, 25, 28)",
+        "text": "rgb(239, 243, 233)",
+        "shadow": "rgb(239, 243, 233)",
+        "scheme": "dark",
+        "preference": "dark",
+        "theme": "dark"
+      },
+      "contrast": {
+        "failures": [],
+        "graphical": [
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "flow arrow",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "flow arrow",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 11.965002079801415
+          },
+          {
+            "kind": "flow arrow",
+            "ratio": 9.51774504987456
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 11.965002079801415
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 4.208689413426293
+          }
+        ],
+        "horizontal": false
+      },
+      "svg": {
+        "background": "#10191C",
+        "roles": [
+          "text",
+          "muted",
+          "accent"
+        ]
+      },
+      "state": {
+        "view": "help",
+        "selectedId": "script:ui-pending-gate",
+        "parentFeatureId": "feature:ribbon",
+        "flowId": "flow:ribbon",
+        "selectedFlowId": "flow:ribbon",
+        "effectiveFlowId": "flow:ribbon",
+        "query": "Ribbon",
+        "status": "partial",
+        "projectId": "project:pmltwin"
+      }
+    },
+    {
+      "label": "portfolio-dark-1440",
+      "view": "portfolio",
+      "theme": "dark",
+      "width": 1440,
+      "palette": {
+        "variables": {
+          "background": "#10191C",
+          "surface": "#192428",
+          "soft": "#243439",
+          "text": "#EFF3E9",
+          "muted": "#A8B9B6",
+          "border": "#354747",
+          "accent": "#C5EC9B",
+          "warning": "#EFC17F",
+          "boundary": "#70897F"
+        },
+        "body": "rgb(16, 25, 28)",
+        "text": "rgb(239, 243, 233)",
+        "shadow": "rgb(239, 243, 233)",
+        "scheme": "dark",
+        "preference": "dark",
+        "theme": "dark"
+      },
+      "contrast": {
+        "failures": [],
+        "graphical": [
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "input boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "flow arrow",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "flow arrow",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 11.965002079801415
+          },
+          {
+            "kind": "flow arrow",
+            "ratio": 9.51774504987456
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 4.208689413426293
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 11.965002079801415
+          },
+          {
+            "kind": "step boundary",
+            "ratio": 4.208689413426293
+          }
+        ],
+        "horizontal": false
+      },
+      "svg": {
+        "background": "#10191C",
+        "roles": [
+          "text",
+          "muted",
+          "accent"
+        ]
+      },
+      "state": {
+        "view": "portfolio",
+        "selectedId": "script:ui-pending-gate",
+        "parentFeatureId": "feature:ribbon",
+        "flowId": "flow:ribbon",
+        "selectedFlowId": "flow:ribbon",
+        "effectiveFlowId": "flow:ribbon",
+        "query": "Ribbon",
+        "status": "partial",
+        "projectId": "project:pmltwin"
+      }
+    }
+  ],
+  "interactions": {
+    "independentThemeAndView": true,
+    "tokensAndShadow": true,
+    "svgColors": true,
+    "actualContrast": true,
+    "themePreservesSelectionFiltersFlowAndOpenDetails": true,
+    "allExplicitFlows": true,
+    "substantiveReadingViews": true,
+    "systemDynamic": true,
+    "explicitOverridesSystem": true,
+    "persistedReopen": true,
+    "crossTab": true,
+    "removedAndInvalidStorage": true,
+    "deniedStorageSessionOnly": true,
+    "headBeforeApp": true
+  },
+  "pageErrors": [],
+  "externalNetwork": []
+}

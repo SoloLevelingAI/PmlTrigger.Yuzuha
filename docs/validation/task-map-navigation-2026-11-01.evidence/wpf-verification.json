@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "build": "review-build",
+  "smokeExit": 0,
+  "screenshots": 118,
+  "bindingErrors": 0,
+  "scope": "Synthetic_WPF_layout_navigation_not_live_AVEVA",
+  "checks": {
+    "maintenanceDefaultCollapsed": true,
+    "legacyQueriesDefaultCollapsed": true,
+    "taskMapNavigation": true
+  }
+}

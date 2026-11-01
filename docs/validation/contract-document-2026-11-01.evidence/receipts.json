@@ -1,0 +1,62 @@
+{
+  "passed": true,
+  "finishedAt": "2026-11-01T06:53:59.436Z",
+  "scope": "Read-only real running coordinator, actual FigCraft CLI output, actual Roslyn capture and exact DocFX member; no synthetic analysis or engineering actions",
+  "revision": {
+    "revisionId": "7c8551440c453a99f9cb9e5c3a8bbf1b2ebbff9ad688f161feeb3d08b9f6db50",
+    "metadataDigest": "3e12b8a000be565d771ab38ae031ec442ba8ada477488d06dc4de2fcae0a66cd",
+    "renderModelDigest": "e8b7fbbecc853ee8ea9636ccd3092d0222862b2d6733a3a5996bb1e41f33aadf",
+    "methodCatalogDigest": "a93ebf8bf7489a63dce898664742edf7ec6e74b605694e42f393a613f08cf082",
+    "manifestUrl": "/revisions/7c8551440c453a99f9cb9e5c3a8bbf1b2ebbff9ad688f161feeb3d08b9f6db50/manifest.json"
+  },
+  "native": {
+    "generated": true,
+    "validated": true,
+    "success": true,
+    "components": 7,
+    "instances": 107,
+    "editableTexts": 673,
+    "variables": 40,
+    "images": 0,
+    "toolVersion": "figcraft-cli 0.6.0",
+    "commandCount": 1123
+  },
+  "nativeArtifact": {
+    "path": "design/contract-atlas.figcraft",
+    "bytes": 106522,
+    "sha256": "6cc3691a2a90cfa515d4ad586dec89c6288a573a87e27f481d31926dbaeef792"
+  },
+  "coverage": {
+    "features": 18,
+    "scripts": 14,
+    "requirements": 24,
+    "flows": 3,
+    "sourceMappings": 191
+  },
+  "methods": {
+    "status": "ready",
+    "count": 347,
+    "edges": 1364,
+    "bindings": 32,
+    "resolutions": {
+      "resolved": 18,
+      "unavailable": 8,
+      "not-applicable": 6
+    },
+    "selected": "YuzuhaToolkit.Manager.Core::M:YuzuhaToolkit.Manager.LaunchWorkflowService.Plan(System.String,System.String,System.String)",
+    "sourceSha": "44d075ea468f8f01d82346d718af41ffddb13ce9d66113dcd619c0a875eabba4",
+    "docfx": "http://127.0.0.1:19439/revisions/7c8551440c453a99f9cb9e5c3a8bbf1b2ebbff9ad688f161feeb3d08b9f6db50/docfx/api/YuzuhaToolkit.Manager.LaunchWorkflowService.html#YuzuhaToolkit_Manager_LaunchWorkflowService_Plan_System_String_System_String_System_String_"
+  },
+  "compression": {
+    "summary": 4475,
+    "full": 58468
+  },
+  "checks": [
+    "real shared Web, FigCraft and method catalog have matching byte receipts and digests",
+    "real Roslyn Plan body, file SHA and exact same-revision DocFX member anchor",
+    "real method groups and nested content obey total disclosure with direction focus preserved",
+    "proof sources, full appendix entry and focused appendix search survive real-data replacement"
+  ],
+  "scriptErrors": [],
+  "httpErrors": []
+}

@@ -1,0 +1,53 @@
+{
+  "passed": true,
+  "scope": "Real Chromium against file snapshot and explicitly synthetic method consumer data; real method/service checks are separate",
+  "checks": [
+    "complete 18 Feature and 14 Script catalog with explicit category counts",
+    "search crosses Feature and Script while navigation and cards agree",
+    "global all crosses nested Shadow roots, full appendix and later navigation; measured compression",
+    "local mixed state survives native keyboard, navigation, reading, theme and filters",
+    "global disclosure mode restores from hash and does not follow reading view",
+    "all selected method groups participate and closing focused source returns focus safely",
+    "new published revision keeps stable-key local disclosure, focus and reading choices",
+    "draft and published local disclosure are isolated",
+    "six viewport/read-mode combinations remain bounded with genuine summary/full geometry"
+  ],
+  "heights": [
+    {
+      "label": "launch-1440",
+      "summary": 2980,
+      "full": 41092
+    },
+    {
+      "label": "portfolio-1440",
+      "summary": 3426,
+      "full": 36704
+    },
+    {
+      "label": "help-1440",
+      "summary": 3431,
+      "full": 36687
+    },
+    {
+      "label": "portfolio-768",
+      "summary": 4477,
+      "full": 42797
+    },
+    {
+      "label": "help-768",
+      "summary": 4503,
+      "full": 43018
+    },
+    {
+      "label": "portfolio-390",
+      "summary": 5838,
+      "full": 45716
+    },
+    {
+      "label": "help-390",
+      "summary": 5854,
+      "full": 45731
+    }
+  ],
+  "scriptErrors": []
+}

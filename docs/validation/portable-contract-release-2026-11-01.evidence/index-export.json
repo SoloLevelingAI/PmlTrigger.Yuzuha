@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "indexEntries": 2925,
+  "validationEvidenceFilesIdentical": 301,
+  "untrackedAfterStage": [],
+  "isolatedPathLabel": "OS temporary directory / repo with spaces",
+  "gitDirectoryPresent": false,
+  "artifactsPresent": false,
+  "nodeModulesPresent": false,
+  "stagedDiffSha256": "440937e75bf5d0ac20cbdee67bfc187af3777af979c76d98cab4f3d72d67e6e8",
+  "postInitialExportPatches": [
+    {
+      "path": "tests/support/contract-atlas-live-fixture.mjs",
+      "source": "actual staged blob",
+      "reason": "Windows short-path alias and OS temporary fixture isolation",
+      "sha256": "c63bd47c1b798244b6d0de69b630495186f54c5f2c70e7a35530ef50200dbad5"
+    }
+  ]
+}

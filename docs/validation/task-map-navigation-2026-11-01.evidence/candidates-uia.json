@@ -1,0 +1,693 @@
+{
+  "pid": 273820,
+  "started": "639291232380927473",
+  "executable": "F:\\OneDrive\\Documents\\ChatGPT\\PmlTwin\\artifacts\\task-map-desktop\\review-build\\YuzuhaToolkit.Desktop.exe",
+  "windowTitle": "Phayton \u00B7 \u5DE5\u7A0B\u5DE5\u4F5C\u7A7A\u95F4",
+  "rows": [
+    {
+      "id": "PageTitleText",
+      "name": "\u5DE5\u7A0B\u4F1A\u8BDD",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "PageSubtitleText",
+      "name": "\u5148\u6838\u9A8C PID \u4E0E\u542F\u52A8\u8EAB\u4EFD\uFF0C\u518D\u67E5\u8BE2\u6216\u8C03\u7528 PML",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "Ctrl K",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "NavigationSearch",
+      "name": "",
+      "type": "ControlType.Edit",
+      "enabled": true
+    },
+    {
+      "id": "HeaderActionButton",
+      "name": "",
+      "type": "ControlType.Button",
+      "enabled": true
+    },
+    {
+      "id": "HeaderActionText",
+      "name": "\u626B\u63CF\u4F1A\u8BDD",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "",
+      "type": "ControlType.Button",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "?",
+      "type": "ControlType.Button",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "?",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "HeartbeatText",
+      "name": "4 \u4E2A\u672C\u673A\u670D\u52A1\u5728\u7EBF \u00B7 0 \u4E2A\u5DE5\u5177\u8FD0\u884C\u4E2D",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "MessageText",
+      "name": "\u53D1\u73B0 3 \u4E2A\u4EA7\u54C1\u5165\u53E3\u30011 \u4E2A\u5B57\u9762\u6CE8\u518C\u76EE\u5F55\u5019\u9009\u3002\u672A\u66F4\u6539\u73AF\u5883\u3002",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "Tabs",
+      "name": "",
+      "type": "ControlType.Pane",
+      "enabled": true
+    },
+    {
+      "id": "SessionView",
+      "name": "",
+      "type": "ControlType.Custom",
+      "enabled": true
+    },
+    {
+      "id": "SessionTaskBack",
+      "name": "\u2190 \u8FD4\u56DE\u4EFB\u52A1\u5165\u53E3",
+      "type": "ControlType.Button",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "\u2190 \u8FD4\u56DE\u4EFB\u52A1\u5165\u53E3",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "TaskPathText",
+      "name": "\u9009\u62E9\u76EE\u6807\u5E76\u6838\u9A8C  \u2192  \u9009\u62E9\u4EFB\u52A1  \u2192  \u672C\u6B21\u7ED3\u679C",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "FeedbackText",
+      "name": "\u53D1\u73B0 1 \u4E2A\u8FD0\u884C\u4F1A\u8BDD\u3002\u8BF7\u9009\u62E9\u76EE\u6807\u5E76\u6838\u9A8C\uFF1B\u65E0 Host \u7684\u5DE5\u7A0B\u7A97\u53E3\u4E5F\u4F1A\u5217\u51FA\u3002",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "FlowTabs",
+      "name": "",
+      "type": "ControlType.Pane",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "",
+      "type": "ControlType.Pane",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "\u2659 \u80FD\u529B\u4E0E\u51FD\u6570",
+      "type": "ControlType.Button",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "\u2659 \u80FD\u529B\u4E0E\u51FD\u6570",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "\u27F3 \u626B\u63CF\u4F1A\u8BDD",
+      "type": "ControlType.Button",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "\u27F3 \u626B\u63CF\u4F1A\u8BDD",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "\u5DE5\u7A0B\u4F1A\u8BDD",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "\u9009\u62E9\u76EE\u6807 PID \u540E\u518D\u6267\u884C\u67E5\u8BE2\u6216\u8C03\u7528",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "SessionSelectVerify",
+      "name": "\u9009\u62E9\u5E76\u6838\u9A8C  \u2192",
+      "type": "ControlType.Button",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "\u9009\u62E9\u5E76\u6838\u9A8C  \u2192",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "CandidateCountText",
+      "name": "\u5168\u90E8 1",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "SessionCandidates",
+      "name": "",
+      "type": "ControlType.DataGrid",
+      "enabled": true
+    },
+    {
+      "id": "PART_ColumnHeadersPresenter",
+      "name": "",
+      "type": "ControlType.Header",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "\u4F1A\u8BDD / \u4EA7\u54C1",
+      "type": "ControlType.HeaderItem",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "\u4F1A\u8BDD / \u4EA7\u54C1",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "PART_RightHeaderGripper",
+      "name": "",
+      "type": "ControlType.Thumb",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "PID",
+      "type": "ControlType.HeaderItem",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "PID",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "PART_LeftHeaderGripper",
+      "name": "",
+      "type": "ControlType.Thumb",
+      "enabled": true
+    },
+    {
+      "id": "PART_RightHeaderGripper",
+      "name": "",
+      "type": "ControlType.Thumb",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "Host \u7BA1\u9053",
+      "type": "ControlType.HeaderItem",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "Host \u7BA1\u9053",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "PART_LeftHeaderGripper",
+      "name": "",
+      "type": "ControlType.Thumb",
+      "enabled": true
+    },
+    {
+      "id": "PART_RightHeaderGripper",
+      "name": "",
+      "type": "ControlType.Thumb",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "E3D \u00B7 PID 216560 \u00B7 DESIGN \u00B7 \u542F\u52A8 639291145578564128 (2026-11-01 15:22:37) \u00B7 ProjAPS",
+      "type": "ControlType.DataItem",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "\u9879: E3D \u00B7 PID 216560 \u00B7 DESIGN \u00B7 \u542F\u52A8 639291145578564128 (2026-11-01 15:22:37) \u00B7 ProjAPS\uFF0C\u5217\u663E\u793A\u7D22\u5F15: 0",
+      "type": "ControlType.Custom",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "E",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "E3D",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "ProjAPS | ALL | Model - AVEVA Everything3D",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "216560",
+      "type": "ControlType.Custom",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "216560",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "\u5DF2\u53D1\u73B0\uFF0C\u5F85\u6838\u9A8C",
+      "type": "ControlType.Custom",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "\u5DF2\u53D1\u73B0\uFF0C\u5F85\u6838\u9A8C",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "\u53D1\u73B0\u4E0D\u81EA\u52A8\u8FDE\u63A5 \u00B7 \u65E0 Host \u7684\u7A97\u53E3\u4FDD\u7559\u4E3A\u5019\u9009",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "IdentityStateText",
+      "name": "\u5F85\u6838\u9A8C",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "\u5F53\u524D\u4F1A\u8BDD\u8EAB\u4EFD",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "PID \u002B \u8FDB\u7A0B\u542F\u52A8\u65F6\u95F4 \u002B Host \u8EAB\u4EFD",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "TargetText",
+      "name": "\u5C1A\u672A\u9009\u62E9 AVEVA \u5DE5\u7A0B",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "TargetDetailsText",
+      "name": "\u8BF7\u53D1\u73B0\u3001\u9009\u62E9\u5E76\u6838\u9A8C\uFF1B\u65E7\u67E5\u8BE2\u4E0D\u80FD\u4F5C\u4E3A\u5F53\u524D\u7ED3\u679C\u3002",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "\u27F3 \u91CD\u65B0\u6838\u9A8C",
+      "type": "ControlType.Button",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "\u27F3 \u91CD\u65B0\u6838\u9A8C",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "SessionLegacyDetailsExpander",
+      "name": "\u66F4\u591A\u67E5\u8BE2\u4E0E\u7ED3\u679C\uFF08\u6309\u9700\u5C55\u5F00\uFF09",
+      "type": "ControlType.Group",
+      "enabled": true
+    },
+    {
+      "id": "HeaderSite",
+      "name": "\u66F4\u591A\u67E5\u8BE2\u4E0E\u7ED3\u679C\uFF08\u6309\u9700\u5C55\u5F00\uFF09",
+      "type": "ControlType.Button",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "\u66F4\u591A\u67E5\u8BE2\u4E0E\u7ED3\u679C\uFF08\u6309\u9700\u5C55\u5F00\uFF09",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "P",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "Phayton",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "/   \u5DE5\u7A0B\u5DE5\u4F5C\u7A7A\u95F4",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "\u6700\u5C0F\u5316",
+      "type": "ControlType.Button",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "\u2014",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "MaximizeWindowButton",
+      "name": "\u6700\u5927\u5316\u6216\u8FD8\u539F",
+      "type": "ControlType.Button",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "\u25A1",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "\u5173\u95ED\u5DE5\u4F5C\u53F0",
+      "type": "ControlType.Button",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "\u00D7",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "",
+      "type": "ControlType.Pane",
+      "enabled": true
+    },
+    {
+      "id": "\u603B\u89C8",
+      "name": "Dashboard \u603B\u89C8",
+      "type": "ControlType.Button",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "\u603B\u89C8",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "\u542F\u52A8\u5DE5\u7A0B",
+      "name": "\u542F\u52A8\u5DE5\u7A0B",
+      "type": "ControlType.Button",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "\u5DE5\u7A0B",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "Web \u5E94\u7528",
+      "name": "Web \u5E94\u7528",
+      "type": "ControlType.Button",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "\u5F00\u53D1",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "\u77E5\u8BC6\u5E93",
+      "name": "\u77E5\u8BC6\u5E93",
+      "type": "ControlType.Button",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "\u77E5\u8BC6",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "\u8BBE\u7F6E",
+      "name": "\u8BBE\u7F6E",
+      "type": "ControlType.Button",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "\u8BBE\u7F6E",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "ContextTitle",
+      "name": "\u5DE5\u7A0B",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "ContextDescription",
+      "name": "\u4ECE\u4E00\u4E2A\u5DE5\u7A0B\u5F00\u59CB",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "\u6253\u5F00 Phayton DocFX",
+      "type": "ControlType.Button",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "\u5F00\u53D1\u6587\u6863  \u2197",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "\u8BBE\u7F6E",
+      "name": "",
+      "type": "ControlType.Button",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "AVEVA \u73AF\u5883",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "SidebarTargetText",
+      "name": "\u5C1A\u672A\u9009\u62E9\u5E76\u6838\u9A8C\u76EE\u6807",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "\u7BA1\u7406\u73AF\u5883  \u203A",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "\u8BBE\u7F6E",
+      "name": "",
+      "type": "ControlType.Button",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "P",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "MaintainerText",
+      "name": "huang y t",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "\u672C\u673A\u7EF4\u62A4\u8005",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "SidebarFooter",
+      "name": "Phayton \u00B7 0.3.4.2",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "",
+      "type": "ControlType.Pane",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "\u9009\u62E9\u4EFB\u52A1",
+      "type": "ControlType.Button",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "\u9009\u62E9\u4EFB\u52A1",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "\u8FDE\u63A5\u4E0E\u6838\u9A8C",
+      "type": "ControlType.Button",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "\u8FDE\u63A5\u4E0E\u6838\u9A8C",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "\u542F\u52A8\u5DE5\u7A0B",
+      "type": "ControlType.Button",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "\u542F\u52A8\u5DE5\u7A0B",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "\u5168\u90E8\u914D\u7F6E",
+      "type": "ControlType.Button",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "\u5168\u90E8\u914D\u7F6E",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "\u80FD\u529B\u4E0E\u51FD\u6570",
+      "type": "ControlType.Button",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "\u80FD\u529B\u4E0E\u51FD\u6570",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "\u539F\u751F Form / Gadget",
+      "type": "ControlType.Button",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "\u539F\u751F Form / Gadget",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "\u5DF2\u4FDD\u5B58\u7684\u5DE5\u7A0B",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "ProfilesBox",
+      "name": "",
+      "type": "ControlType.List",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "YuzuhaToolkit.Workspace.LaunchProfile",
+      "type": "ControlType.ListItem",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "APS \u00B7 Design \u00B7 Everything3D2.10",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "APS",
+      "type": "ControlType.Text",
+      "enabled": true
+    },
+    {
+      "id": "VerticalScrollBar",
+      "name": "",
+      "type": "ControlType.ScrollBar",
+      "enabled": true
+    },
+    {
+      "id": "",
+      "name": "",
+      "type": "ControlType.Thumb",
+      "enabled": true
+    }
+  ],
+  "selectedCandidates": []
+}

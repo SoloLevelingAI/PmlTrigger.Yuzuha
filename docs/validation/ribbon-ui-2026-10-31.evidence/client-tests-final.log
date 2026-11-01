@@ -1,0 +1,17 @@
+✔ desktop v2 UI client persists before send, locks across process restart and handles v1 uncertainty (2985.604ms)
+✔ web UI sends only cached plan reference, persists before send and consumes once (15.4086ms)
+✔ web pending survives tool recreation before a response and manual acknowledgment never replays (2.5395ms)
+✔ web malformed, wrong-identity, network and server-error write responses stay unknown across instances (3.1423ms)
+✔ web explicit conflicts clear pending while persistence failure refuses before a write (0.4682ms)
+✔ v1 first deployment also persists an uncertain reference and blocks v2 until manual check (0.481ms)
+✔ two web clients cannot overwrite an unresolved plan and unsupported locks refuse before send (2.1545ms)
+✔ v1 conflict after send remains unknown because legacy history may already have changed (0.2611ms)
+✔ manual acknowledgment of a stale local identity cannot erase a newer persistent plan (0.379ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3243.042

@@ -1,0 +1,26 @@
+{
+  "passed": true,
+  "scope": "real isolated Chromium reference component; fixture safety/disclosure/search/geometry plus every current shared-IR section row/cell exact comparison",
+  "fixtureRows": 193,
+  "realRows": 352,
+  "realSections": 10,
+  "sourceMappings": 191,
+  "matrices": [
+    {
+      "width": 390,
+      "pageWidth": 390,
+      "internalScroll": true
+    },
+    {
+      "width": 768,
+      "pageWidth": 768,
+      "internalScroll": true
+    },
+    {
+      "width": 1440,
+      "pageWidth": 1440,
+      "internalScroll": false
+    }
+  ],
+  "pageErrors": []
+}

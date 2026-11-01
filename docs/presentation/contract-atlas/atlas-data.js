@@ -1,0 +1,6543 @@
+globalThis.CONTRACT_ATLAS_DATA = {
+  "schema": "project-contract-metadata/1",
+  "schemaVersion": 1,
+  "snapshotDate": "2026-11-01",
+  "audience": "public",
+  "project": {
+    "id": "project:pmltwin",
+    "title": "PMLTWIN",
+    "summary": "让发现、配置、受控执行和证据围绕同一任务协作。",
+    "goalIds": [
+      "canonical:G1",
+      "canonical:G2",
+      "canonical:G3"
+    ],
+    "featureIds": [
+      "feature:launch",
+      "feature:deployment",
+      "feature:sessions",
+      "feature:objects",
+      "feature:functions",
+      "feature:forms",
+      "feature:arrays",
+      "feature:formuse",
+      "feature:knowledge",
+      "feature:activity",
+      "feature:review",
+      "feature:tests",
+      "feature:web",
+      "feature:ribbon",
+      "feature:database",
+      "feature:migration",
+      "feature:caf",
+      "feature:plugins"
+    ]
+  },
+  "features": [
+    {
+      "id": "feature:launch",
+      "sourceId": "launch",
+      "title": "工程发现与启动",
+      "responsibility": "冻结一次启动，保存修订并观察原编号。",
+      "inputs": [
+        "配置修订",
+        "明确产品与模块"
+      ],
+      "outputs": [
+        "候选来源",
+        "启动计划与关联回执"
+      ],
+      "effects": [
+        "授权后创建入口进程"
+      ],
+      "failures": [
+        "歧义、冲突与unknown"
+      ],
+      "limitations": [
+        "入口创建不等于登录或Host已核验"
+      ],
+      "requirementIds": [
+        "canonical:R02",
+        "canonical:R03",
+        "canonical:R04",
+        "canonical:R05",
+        "canonical:R06",
+        "canonical:R13",
+        "canonical:R14",
+        "canonical:R15",
+        "canonical:R16",
+        "canonical:R23"
+      ],
+      "scriptIds": [
+        "script:workbench-entry",
+        "script:launch-workflow",
+        "script:host-bootstrap"
+      ],
+      "implementation": {
+        "status": "implemented",
+        "scope": "既有目录登记状态；完整平台范围见限制与独立证据",
+        "sourceRefs": [
+          "source:capabilities"
+        ]
+      },
+      "verificationIds": [],
+      "audience": "public"
+    },
+    {
+      "id": "feature:deployment",
+      "sourceId": "deployment",
+      "title": "文件与运行目录部署",
+      "responsibility": "冻结文件差异，备份并有条件恢复。",
+      "inputs": [
+        "源与专用目标",
+        "冻结计划"
+      ],
+      "outputs": [
+        "逐文件差异",
+        "备份及恢复回执"
+      ],
+      "effects": [
+        "写目标文件与托管环境段"
+      ],
+      "failures": [
+        "源或目标变化拒绝",
+        "部分恢复明确报告"
+      ],
+      "limitations": [
+        "复制成功不等于运行时已加载"
+      ],
+      "requirementIds": [
+        "canonical:R10",
+        "canonical:R19"
+      ],
+      "scriptIds": [
+        "script:frozen-copy",
+        "script:pml-development"
+      ],
+      "implementation": {
+        "status": "partial",
+        "scope": "既有目录登记状态；完整平台范围见限制与独立证据",
+        "sourceRefs": [
+          "source:capabilities"
+        ]
+      },
+      "verificationIds": [],
+      "audience": "public"
+    },
+    {
+      "id": "feature:sessions",
+      "sourceId": "sessions",
+      "title": "会话发现与身份核验",
+      "responsibility": "每次调用绑定明确目标身份。",
+      "inputs": [
+        "选定会话",
+        "模块与启动身份"
+      ],
+      "outputs": [
+        "身份与协议证据"
+      ],
+      "effects": [
+        "创建通信子进程"
+      ],
+      "failures": [
+        "身份变化或协议不足拒绝"
+      ],
+      "limitations": [
+        "发现不等于登录"
+      ],
+      "requirementIds": [
+        "canonical:R17"
+      ],
+      "scriptIds": [
+        "script:communication-client",
+        "script:host-bootstrap",
+        "script:runtime-verification"
+      ],
+      "implementation": {
+        "status": "implemented",
+        "scope": "既有目录登记状态；完整平台范围见限制与独立证据",
+        "sourceRefs": [
+          "source:capabilities"
+        ]
+      },
+      "verificationIds": [],
+      "audience": "public"
+    },
+    {
+      "id": "feature:objects",
+      "sourceId": "objects",
+      "title": "对象与全局数据查询",
+      "responsibility": "读取当前对象、指定元素及全局路径。",
+      "inputs": [
+        "已核验目标",
+        "对象路径与预算"
+      ],
+      "outputs": [
+        "原始数据与读取诊断"
+      ],
+      "effects": [
+        "部分原生包装临时切换当前对象"
+      ],
+      "failures": [
+        "空结果与失败分别核对"
+      ],
+      "limitations": [
+        "对象身份不能跨工程永久复用"
+      ],
+      "requirementIds": [
+        "canonical:R09",
+        "canonical:R17",
+        "canonical:R18"
+      ],
+      "scriptIds": [
+        "script:communication-client",
+        "script:dbref-reader"
+      ],
+      "implementation": {
+        "status": "implemented",
+        "scope": "既有目录登记状态；完整平台范围见限制与独立证据",
+        "sourceRefs": [
+          "source:capabilities"
+        ]
+      },
+      "verificationIds": [],
+      "audience": "public"
+    },
+    {
+      "id": "feature:functions",
+      "sourceId": "functions",
+      "title": "函数登记、许可与调用",
+      "responsibility": "源码签名、许可和Host加载分别验证。",
+      "inputs": [
+        "函数源码摘要",
+        "显式许可"
+      ],
+      "outputs": [
+        "签名列表与调用回执"
+      ],
+      "effects": [
+        "明确调用可能改变宿主"
+      ],
+      "failures": [
+        "源码变化撤销旧许可",
+        "不确定结果不重发"
+      ],
+      "limitations": [
+        "注册不表示Host已加载"
+      ],
+      "requirementIds": [
+        "canonical:R08",
+        "canonical:R11",
+        "canonical:R16",
+        "canonical:R17"
+      ],
+      "scriptIds": [
+        "script:communication-client",
+        "script:pml-development"
+      ],
+      "implementation": {
+        "status": "implemented",
+        "scope": "既有目录登记状态；完整平台范围见限制与独立证据",
+        "sourceRefs": [
+          "source:capabilities"
+        ]
+      },
+      "verificationIds": [],
+      "audience": "public"
+    },
+    {
+      "id": "feature:forms",
+      "sourceId": "forms",
+      "title": "原生Form与Gadget查询",
+      "responsibility": "通过既有元数据读取窗体和控件。",
+      "inputs": [
+        "明确目标",
+        "查询条件与预算"
+      ],
+      "outputs": [
+        "元数据、原生缺失值与续页"
+      ],
+      "effects": [
+        "管理请求专用临时变量"
+      ],
+      "failures": [
+        "条件变化清除旧续页"
+      ],
+      "limitations": [
+        "不执行业务回调"
+      ],
+      "requirementIds": [
+        "canonical:R09",
+        "canonical:R17",
+        "canonical:R18"
+      ],
+      "scriptIds": [
+        "script:communication-client",
+        "script:pml-development"
+      ],
+      "implementation": {
+        "status": "implemented",
+        "scope": "既有目录登记状态；完整平台范围见限制与独立证据",
+        "sourceRefs": [
+          "source:capabilities"
+        ]
+      },
+      "verificationIds": [],
+      "audience": "public"
+    },
+    {
+      "id": "feature:arrays",
+      "sourceId": "arrays",
+      "title": "已有数组的有界读取",
+      "responsibility": "按原生索引和字符预算读取窗口。",
+      "inputs": [
+        "起点、项数与字符预算"
+      ],
+      "outputs": [
+        "原始行、截断和下一索引"
+      ],
+      "effects": [
+        "算法不改写原数组"
+      ],
+      "failures": [
+        "首行超预算明确失败"
+      ],
+      "limitations": [
+        "稀疏槽位不压缩"
+      ],
+      "requirementIds": [
+        "canonical:R18"
+      ],
+      "scriptIds": [
+        "script:array-window"
+      ],
+      "implementation": {
+        "status": "implemented",
+        "scope": "既有目录登记状态；完整平台范围见限制与独立证据",
+        "sourceRefs": [
+          "source:capabilities"
+        ]
+      },
+      "verificationIds": [],
+      "audience": "public"
+    },
+    {
+      "id": "feature:formuse",
+      "sourceId": "formuse",
+      "title": "FormUse跟踪原型",
+      "responsibility": "记录原型支持范围，不冒充完整交付。",
+      "inputs": [
+        "原型窗体与跟踪选择"
+      ],
+      "outputs": [
+        "原型事件和限制"
+      ],
+      "effects": [
+        "可能装饰回调"
+      ],
+      "failures": [
+        "按原型报告具体失败"
+      ],
+      "limitations": [
+        "仍为planned"
+      ],
+      "requirementIds": [
+        "canonical:R08"
+      ],
+      "scriptIds": [],
+      "implementation": {
+        "status": "planned",
+        "scope": "既有目录登记状态；完整平台范围见限制与独立证据",
+        "sourceRefs": [
+          "source:capabilities"
+        ]
+      },
+      "verificationIds": [],
+      "audience": "public"
+    },
+    {
+      "id": "feature:knowledge",
+      "sourceId": "knowledge",
+      "title": "分层知识与经验",
+      "responsibility": "按产品版本保存来源、库身份和正文。",
+      "inputs": [
+        "明确资料源或已有库"
+      ],
+      "outputs": [
+        "分层检查与来源定位"
+      ],
+      "effects": [
+        "导入发布新隔离库"
+      ],
+      "failures": [
+        "损坏、冲突或来源变化拒绝启用"
+      ],
+      "limitations": [
+        "官方默认接入仍待完成"
+      ],
+      "requirementIds": [
+        "canonical:R07",
+        "canonical:R20"
+      ],
+      "scriptIds": [
+        "script:knowledge-import"
+      ],
+      "implementation": {
+        "status": "partial",
+        "scope": "既有目录登记状态；完整平台范围见限制与独立证据",
+        "sourceRefs": [
+          "source:capabilities"
+        ]
+      },
+      "verificationIds": [],
+      "audience": "public"
+    },
+    {
+      "id": "feature:activity",
+      "sourceId": "activity",
+      "title": "运行记录与日志",
+      "responsibility": "关联本次动作和事实，不确定单列。",
+      "inputs": [
+        "关联编号与筛选条件"
+      ],
+      "outputs": [
+        "状态、阶段和保留范围内证据"
+      ],
+      "effects": [
+        "写本机记录"
+      ],
+      "failures": [
+        "日志故障与业务结果分开"
+      ],
+      "limitations": [
+        "不是所有平台动作的统一协调者"
+      ],
+      "requirementIds": [
+        "canonical:R09",
+        "canonical:R21"
+      ],
+      "scriptIds": [],
+      "implementation": {
+        "status": "implemented",
+        "scope": "既有目录登记状态；完整平台范围见限制与独立证据",
+        "sourceRefs": [
+          "source:capabilities"
+        ]
+      },
+      "verificationIds": [],
+      "audience": "public"
+    },
+    {
+      "id": "feature:review",
+      "sourceId": "review",
+      "title": "AI草稿评审与迁移",
+      "responsibility": "面向人工差异审核的候选桌面能力。",
+      "inputs": [
+        "独立草稿与审核选择"
+      ],
+      "outputs": [
+        "批准快照及迁移回执"
+      ],
+      "effects": [
+        "按明确批准提交"
+      ],
+      "failures": [
+        "失败保留审核上下文"
+      ],
+      "limitations": [
+        "完整GUI仍planned"
+      ],
+      "requirementIds": [
+        "canonical:R01",
+        "canonical:R12"
+      ],
+      "scriptIds": [],
+      "implementation": {
+        "status": "planned",
+        "scope": "既有目录登记状态；完整平台范围见限制与独立证据",
+        "sourceRefs": [
+          "source:capabilities"
+        ]
+      },
+      "verificationIds": [],
+      "audience": "public"
+    },
+    {
+      "id": "feature:tests",
+      "sourceId": "tests",
+      "title": "桌面测试执行中心",
+      "responsibility": "复用按ID执行器，桌面中心仍待接线。",
+      "inputs": [
+        "真实测试ID"
+      ],
+      "outputs": [
+        "独立运行记录与证据"
+      ],
+      "effects": [
+        "启动自有测试夹具并写报告"
+      ],
+      "failures": [
+        "跳过与未运行不算通过"
+      ],
+      "limitations": [
+        "执行器存在不代表桌面中心完成"
+      ],
+      "requirementIds": [
+        "canonical:R22",
+        "canonical:R24"
+      ],
+      "scriptIds": [
+        "script:sdk-acceptance"
+      ],
+      "implementation": {
+        "status": "planned",
+        "scope": "既有目录登记状态；完整平台范围见限制与独立证据",
+        "sourceRefs": [
+          "source:capabilities"
+        ]
+      },
+      "verificationIds": [],
+      "audience": "public"
+    },
+    {
+      "id": "feature:web",
+      "sourceId": "web",
+      "title": "本机HTML应用管理",
+      "responsibility": "按钮参数绑定既有IPC操作。",
+      "inputs": [
+        "本机应用定义与参数"
+      ],
+      "outputs": [
+        "目录和原始调用回执"
+      ],
+      "effects": [
+        "目录编辑及获准按钮动作"
+      ],
+      "failures": [
+        "保留原操作授权与失败"
+      ],
+      "limitations": [
+        "远程分发未完成"
+      ],
+      "requirementIds": [
+        "canonical:R11",
+        "canonical:R16"
+      ],
+      "scriptIds": [],
+      "implementation": {
+        "status": "partial",
+        "scope": "既有目录登记状态；完整平台范围见限制与独立证据",
+        "sourceRefs": [
+          "source:capabilities"
+        ]
+      },
+      "verificationIds": [],
+      "audience": "public"
+    },
+    {
+      "id": "feature:ribbon",
+      "sourceId": "ribbon",
+      "title": "Ribbon编辑与冻结部署",
+      "responsibility": "编辑历史、磁盘部署和实际加载分开。",
+      "inputs": [
+        "文档修订",
+        "目标模块与冻结引用"
+      ],
+      "outputs": [
+        "差异、备份和分层回执"
+      ],
+      "effects": [
+        "仅写获准UIC或选定清单"
+      ],
+      "failures": [
+        "源变化拒绝",
+        "unknown保留原编号"
+      ],
+      "limitations": [
+        "首次新文件为v1兼容",
+        "限定运行时外观通过，未点击宏"
+      ],
+      "requirementIds": [],
+      "scriptIds": [
+        "script:ribbon-frozen-deployment",
+        "script:ui-pending-gate",
+        "script:runtime-verification"
+      ],
+      "implementation": {
+        "status": "partial",
+        "scope": "明确平台切片；未声称整体完成",
+        "sourceRefs": [
+          "source:overview"
+        ]
+      },
+      "verificationIds": [
+        "verification:ribbon-ui",
+        "verification:ribbon-runtime"
+      ],
+      "audience": "public"
+    },
+    {
+      "id": "feature:database",
+      "sourceId": "database",
+      "title": "独立应用数据库",
+      "responsibility": "提供隔离范围的文本修订与CAS事务。",
+      "inputs": [
+        "DataScope",
+        "身份与预期修订"
+      ],
+      "outputs": [
+        "历史、提交或冲突"
+      ],
+      "effects": [
+        "写显式应用数据库"
+      ],
+      "failures": [
+        "不兼容格式和只读拒绝写入"
+      ],
+      "limitations": [
+        "尚未整体替换活动写者"
+      ],
+      "requirementIds": [
+        "canonical:R14"
+      ],
+      "scriptIds": [
+        "script:migration-preview"
+      ],
+      "implementation": {
+        "status": "partial",
+        "scope": "明确平台切片；未声称整体完成",
+        "sourceRefs": [
+          "source:overview"
+        ]
+      },
+      "verificationIds": [
+        "verification:database-offline"
+      ],
+      "audience": "public"
+    },
+    {
+      "id": "feature:migration",
+      "sourceId": "migration",
+      "title": "只读迁移预览",
+      "responsibility": "保留字段和历史，剔除秘密并说明不支持项。",
+      "inputs": [
+        "明确来源格式与路径"
+      ],
+      "outputs": [
+        "摘要、净化材料和诊断"
+      ],
+      "effects": [
+        "只读来源，不激活"
+      ],
+      "failures": [
+        "未来版本、损坏或预算拒绝"
+      ],
+      "limitations": [
+        "不替代写入切换和恢复"
+      ],
+      "requirementIds": [],
+      "scriptIds": [
+        "script:migration-preview"
+      ],
+      "implementation": {
+        "status": "implemented",
+        "scope": "只读迁移预览；不包含写入切换",
+        "sourceRefs": [
+          "source:overview"
+        ]
+      },
+      "verificationIds": [
+        "verification:migration-offline"
+      ],
+      "audience": "public"
+    },
+    {
+      "id": "feature:caf",
+      "sourceId": "caf",
+      "title": "CAF薄宿主适配",
+      "responsibility": "验证真实SDK身份，隔离旧运行时。",
+      "inputs": [
+        "匹配宿主服务上下文"
+      ],
+      "outputs": [
+        "只读适配描述"
+      ],
+      "effects": [
+        "当前仅内存生命周期"
+      ],
+      "failures": [
+        "未支持版本明确拒绝"
+      ],
+      "limitations": [
+        "SDK编译不等于真实宿主注册或UI挂载"
+      ],
+      "requirementIds": [],
+      "scriptIds": [],
+      "implementation": {
+        "status": "partial",
+        "scope": "明确平台切片；未声称整体完成",
+        "sourceRefs": [
+          "source:overview"
+        ]
+      },
+      "verificationIds": [
+        "verification:caf-static"
+      ],
+      "audience": "public"
+    },
+    {
+      "id": "feature:plugins",
+      "sourceId": "plugins",
+      "title": "可选许可与VM插件",
+      "responsibility": "显式插件清单复用既有worker边界。",
+      "inputs": [
+        "插件身份、计划与明确许可"
+      ],
+      "outputs": [
+        "状态和独立证据"
+      ],
+      "effects": [
+        "明确执行才改变VM等外部资源"
+      ],
+      "failures": [
+        "缺失、停用、崩溃和unknown分别报告"
+      ],
+      "limitations": [
+        "基础包不应依赖可选实验能力"
+      ],
+      "requirementIds": [],
+      "scriptIds": [],
+      "implementation": {
+        "status": "partial",
+        "scope": "明确平台切片；未声称整体完成",
+        "sourceRefs": [
+          "source:overview"
+        ]
+      },
+      "verificationIds": [],
+      "audience": "public"
+    }
+  ],
+  "scripts": [
+    {
+      "id": "script:workbench-entry",
+      "title": "启动工作台与本地服务编排",
+      "language": "powershell",
+      "role": "workflow",
+      "featureIds": [
+        "feature:launch"
+      ],
+      "contract": {
+        "input": {
+          "text": "NoBrowser/NoBuild、端口、构建配置；整合入口另接 Ribbon 数据目录与端口。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "precondition": {
+          "text": "匹配仓库 SDK；所需 CLI/Ribbon 后端存在或允许本次构建；本机端口可用。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "method": {
+          "text": "增量构建 → 启动本机 Ribbon（整合入口）→ 健康核对 → 调用 Manager workbench；不复制发现/启动算法。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "effect": {
+          "text": "可构建、启动本机服务/浏览器、创建应用工作目录；此入口本身不登录或启动 AVEVA。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "validation": {
+          "text": "构建退出码、文件存在、health 实现/版本/状态与自有进程仍存活。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "receipt": {
+          "text": "前台退出码、本机端点及下游操作回执；服务ready不是产品已连接。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "recovery": {
+          "text": "失败不继续启动下游；finally 停自有服务并还原本进程环境。停止服务不撤销已经明确受理的产品动作。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        }
+      },
+      "audience": "public"
+    },
+    {
+      "id": "script:launch-workflow",
+      "title": "启动计划、受理与观察",
+      "language": "csharp",
+      "role": "workflow",
+      "featureIds": [
+        "feature:launch"
+      ],
+      "contract": {
+        "input": {
+          "text": "profileId、expectedRevision、operationId；execute 接冻结计划、本次内存密码、requestId和启动授权。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "precondition": {
+          "text": "配置有效、文件/修订/计划期限匹配；有权限；原编号没有冲突事实。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "method": {
+          "text": "Plan 冻结入口/INIT/EVARS → 缓存摘要 → 跨进程操作租约 → 同编号去重 → accepted持久化 → 唯一LaunchService.Start → 持久回执。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "effect": {
+          "text": "计划写非秘密缓存；执行创建入口进程；观察读取/更新观察事实，不再次启动。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "validation": {
+          "text": "同编号同摘要复用，异摘要冲突；受理持久失败不调用启动；退出入口保留交接候选，不能推定工程关闭。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "receipt": {
+          "text": "operationId/attemptId/requestId、state/phase/code/message、入口身份、观察与Host未核验。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "recovery": {
+          "text": "中断accepted变unknown；写后回执失败保留不确定性；按原编号Observe，不能自动重放。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        }
+      },
+      "audience": "public"
+    },
+    {
+      "id": "script:communication-client",
+      "title": "通信CLI子进程边界",
+      "language": "csharp",
+      "role": "transport",
+      "featureIds": [
+        "feature:sessions",
+        "feature:objects",
+        "feature:forms",
+        "feature:functions"
+      ],
+      "contract": {
+        "input": {
+          "text": "已注册通信操作、JSON stdin、requestId；目标操作含PID、启动时间、模块及明确授权。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "precondition": {
+          "text": "明确通信程序路径/身份、兼容协议；管理操作不能借此绕回通信边界。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "method": {
+          "text": "ArgumentList → 单份stdin JSON → 并行读取stdout/stderr → 时间/体积预算 → 核对关联回执。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "effect": {
+          "text": "创建本次自有通信进程；下游操作可查询或改变宿主，必须按operation判断。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "validation": {
+          "text": "程序指纹、版本、JSON、requestId、退出码与输出预算；PID身份校验不因GUI已选过而省略。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "receipt": {
+          "text": "原通信结果、分层evidence及mayHaveExecuted；stderr不是可替代业务结果的stdout。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "recovery": {
+          "text": "终止/回收自有子进程不等于取消宿主动作；发出后无确定回执为unknown，不重发。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        }
+      },
+      "audience": "public"
+    },
+    {
+      "id": "script:frozen-copy",
+      "title": "冻结复制与条件恢复",
+      "language": "csharp",
+      "role": "algorithm",
+      "featureIds": [
+        "feature:deployment"
+      ],
+      "contract": {
+        "input": {
+          "text": "源、插件专用注册目标、冻结文件计划和摘要；恢复接原回执。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "precondition": {
+          "text": "路径边界、无链接、不互含、格式及大小预算满足；授权明确。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "method": {
+          "text": "枚举冻结 → 全部写前复验 → 备份/暂存/写入 → 结果回读；不另建第二复制引擎。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "effect": {
+          "text": "写目标和本操作备份；不自动删除无关文件、不加载Host。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "validation": {
+          "text": "源/目标变化拒绝；检查实际复制与恢复未解决项。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "receipt": {
+          "text": "DeploymentReceipt、应用异常中的部分结果、DeploymentRestoreReceipt。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "recovery": {
+          "text": "仅恢复本次所有权内文件；外部改动不覆盖，RecoveryErrors/Unresolved单列，不承诺无条件回滚。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        }
+      },
+      "audience": "public"
+    },
+    {
+      "id": "script:pml-development",
+      "title": "PML部署、重载与验证",
+      "language": "powershell",
+      "role": "workflow",
+      "featureIds": [
+        "feature:deployment",
+        "feature:forms",
+        "feature:functions"
+      ],
+      "contract": {
+        "input": {
+          "text": "CLI、源目录、注册PMLLIB、schema1清单、PID/ExpectedModel、独立证据目录与AllowExecution。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "precondition": {
+          "text": "明确获准的部署/加载/验证任务；清单字段和期望字符串有效；不复用任意旧证据目录充当新结果。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "method": {
+          "text": "固定发现身份 → 冻结复制 → REHASH ALL → Object/Form重载 → 验证宏 → 读取结果全局数组 → 精确比对expected。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "effect": {
+          "text": "写部署文件与run.json/rpc.json；重载、宏和窗口可能改变宿主运行态。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "validation": {
+          "text": "复制后对冻结源哈希回读；结果项数、UnparsedCount与每个键/字符串精确一致。该包装器不具有启动协调器的operationId持久去重；清单不是每步重新哈希冻结，不能补造此保证。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "receipt": {
+          "text": "每步执行前保存状态、原始调用与响应；失败或unknown停止，最后写rpc证据。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "recovery": {
+          "text": "不自动重发/重跑全流程；先检查已复制文件、原始调用、加载状态及原备份，再明确选择下一动作。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        }
+      },
+      "audience": "public"
+    },
+    {
+      "id": "script:array-window",
+      "title": "数组窗口算法",
+      "language": "csharp",
+      "role": "algorithm",
+      "featureIds": [
+        "feature:arrays"
+      ],
+      "contract": {
+        "input": {
+          "text": "原生MAXINDEX上界、startIndex、maxItems、maxCharacters与槽位读取委托。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "precondition": {
+          "text": "startIndex≥1，maxItems为1–1000，maxCharacters为1–262144，上界非负。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "method": {
+          "text": "按原生索引顺序读取，不按已设置元素数压缩；字符预算不拆行。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "effect": {
+          "text": "算法本身不创建或改写数组；委托仍受宿主协议约束。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "validation": {
+          "text": "首行超预算明确失败；其余超预算保留下一索引；空、0、false和unset不相互转换。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "receipt": {
+          "text": "Rows、StartIndex、NextIndex、Truncated、Characters及IndexUpperBound。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "recovery": {
+          "text": "同目标/条件才能接续；换目标/筛选重置页，不拼旧结果。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        }
+      },
+      "audience": "public"
+    },
+    {
+      "id": "script:dbref-reader",
+      "title": "DBREF对象读取与恢复",
+      "language": "pml",
+      "role": "runtime",
+      "featureIds": [
+        "feature:objects"
+      ],
+      "contract": {
+        "input": {
+          "text": "size/depth/startStr/name；name支持短名、绝对名或DBREF字符串。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "precondition": {
+          "text": "目标PML已加载、当前会话/工程明确；参数与预算还需调用层约束。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "method": {
+          "text": "保存CE → 解析目标 → 临时切CE → walker读取扁平数组 → 尝试还原CE。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "effect": {
+          "text": "会临时改变CE；不应表述成纯无状态函数，也不自动获得写工程权限。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "validation": {
+          "text": "原PML通过badref/handle处理部分失败；独立通信身份与预算不能省略。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "receipt": {
+          "text": "返回ARRAY；若目标无效或部分错误也可能是空数组，因此必须结合外层成功/错误证据。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "recovery": {
+          "text": "原实现包含正常及读取异常后的CE恢复尝试，但不是通用finally保证；若原生恢复失败须人工核对CE，不能从空结果推断已恢复。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        }
+      },
+      "audience": "public"
+    },
+    {
+      "id": "script:host-bootstrap",
+      "title": "Host解析与启动策略",
+      "language": "pml",
+      "role": "runtime",
+      "featureIds": [
+        "feature:launch",
+        "feature:sessions"
+      ],
+      "contract": {
+        "input": {
+          "text": "Current Session/BANNER、PMLUI根、进程环境中的启动策略及可选override。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "precondition": {
+          "text": "对应profile的Host文件实际存在；安装目录token与安装预览一致。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "method": {
+          "text": "E3D2.1→net48/2.1、E3D3.1系列→net48/3.1.6、AM/PDMS→net35；策略仅none/空或rehash-all，未知值不当作PML执行。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "effect": {
+          "text": "更新会话描述与解析结果；显式rehash-all可执行REHASH，默认关闭。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "validation": {
+          "text": "不支持映射或缺DLL不得设为成功；策略执行前写开始日志，一旦开始即消耗会话防重试守卫。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "receipt": {
+          "text": "产品/版本/模块/profile/framework信息及策略报告；路径存在不是Host握手成功。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "recovery": {
+          "text": "不自动降级加载错误运行时；改策略环境值通常由新进程读取，失败后不能借重试重复执行当前会话动作。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        }
+      },
+      "audience": "public"
+    },
+    {
+      "id": "script:ribbon-frozen-deployment",
+      "title": "Ribbon冻结部署与回执映射",
+      "language": "csharp",
+      "role": "workflow",
+      "featureIds": [
+        "feature:ribbon"
+      ],
+      "contract": {
+        "input": {
+          "text": "preview是project及选定模块信息；apply严格为planId/planDigest，写授权独立。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "precondition": {
+          "text": "已有文档身份、权威来源/托管保护通过、计划期限/历史/目标一致；不能用伪造preferredBinding接管原生文件。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "method": {
+          "text": "规范化与验证 → 缓存项目/目标/摘要 → apply写锁复验 → 消费计划 → 复用原文件/登记引擎 → 写后哈希回读。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "effect": {
+          "text": "file-update仅写UIC；registration-add仅写选定XML及相关工作区记录/绑定。未选XML及登记时UIC保持字节；不执行宏或重启。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "validation": {
+          "text": "缓存最多64项、五分钟、单规范化输入4MiB、总缓存32MiB；HTTP及Manager另有20MiB输入/输出限制。Manager核对v2、请求编号/摘要、state及activation类型，旧v1错误保留。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "receipt": {
+          "text": "workspace/deployment/activation分列；deployed仅磁盘成功，runtimeVerified始终false；不确认写入为RIBBON_RESULT_UNKNOWN。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "recovery": {
+          "text": "存活缓存同计划返原回执；过期/后端重启没有持久执行事实，人工核对工作区/目标/备份，不自动重新执行；真实加载另验收。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        }
+      },
+      "audience": "public"
+    },
+    {
+      "id": "script:migration-preview",
+      "title": "只读迁移材料解析",
+      "language": "csharp",
+      "role": "algorithm",
+      "featureIds": [
+        "feature:migration",
+        "feature:database"
+      ],
+      "contract": {
+        "input": {
+          "text": "rewrite/next/ribbon和本机绝对source；不自动跟随portable重定向。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "precondition": {
+          "text": "明确支持结构；rewrite v3仅允许根内`.control/generations/<GUID-N>.json`及匹配SHA256。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "method": {
+          "text": "受限枚举 → 原字节摘要 → UTF8/JSON/版本/重复键核查 → 递归净化 → 保留身份与历史材料。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "effect": {
+          "text": "只读来源，不保存计划、不写Database、不激活；不完整数据也不发布为活动配置。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "validation": {
+          "text": "256文件、单文件2MiB、总16MiB、深度64；拒绝链接/越界；敏感字段/凭据引用及可能夹带秘密的已知容器剔除，只报路径。未知普通文本保留不意味着能识别任意恶意隐写。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "receipt": {
+          "text": "schema1报告含activate=false、complete、文件SHA256、sourceVersion、净化content与code/file/path诊断；不完整操作退出码2。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "recovery": {
+          "text": "不改来源所以无需数据回退；修正格式/预算后另行预览。此报告不是可直接执行的Database切换计划。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        }
+      },
+      "audience": "public"
+    },
+    {
+      "id": "script:knowledge-import",
+      "title": "知识双路导入",
+      "language": "csharp",
+      "role": "workflow",
+      "featureIds": [
+        "feature:knowledge"
+      ],
+      "contract": {
+        "input": {
+          "text": "product/version/role/name与选定资料源或SQLite；apply使用缓存计划引用。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "precondition": {
+          "text": "明确写授权、目标名无冲突、源未变、schema受支持；活动写占用/WAL等不能被不一致单文件复制绕过。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "method": {
+          "text": "只读预览 → 私有暂存建库或一致备份 → 分层检查 → 重命名发布/登记。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "effect": {
+          "text": "创建产品版本隔离库；不覆盖同名库，不重建个人/工程/经验层。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "validation": {
+          "text": "完整性、schema、关系、FTS/MATCH、清单与来源指纹，canEnable决定能否启用。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "receipt": {
+          "text": "库身份、数据库SHA256、路径、检查项和来源证据状态；数据库身份与chunk ID共同定位正文。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "recovery": {
+          "text": "失败清理本次暂存，保留旧库；已启用库变化要重检，不能把旧报告当新鲜证据。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        }
+      },
+      "audience": "public"
+    },
+    {
+      "id": "script:sdk-acceptance",
+      "title": "SDK选择与按ID验证",
+      "language": "powershell",
+      "role": "build",
+      "featureIds": [
+        "feature:tests"
+      ],
+      "contract": {
+        "input": {
+          "text": "仓库SDK版本、明确TestId/Describe、相应测试入口与独立报告目录。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "precondition": {
+          "text": "helper要求host实际含10.0.302，只有10.0.400不能满足精确门禁；Windows/WPF/浏览器等按测试入口声明。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "method": {
+          "text": "选择已有dotnet host并设置当前进程环境 → 核对测试ID/源码定位与摘要 → 新目录执行 → 解析原始结果/视口证据。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "effect": {
+          "text": "构建、启动自有测试进程、写报告/截图；helper不安装SDK、不修改机器级环境。部分入口直接调用dotnet，不能假定全部自动dot-source helper。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "validation": {
+          "text": "无匹配测试不能算通过；failed/skipped/not-run分别统计；截图需记录请求DIP、实际布局、PNG像素与DPI，图片存在不是验收。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "receipt": {
+          "text": "commit/dirty、SDK/系统、执行数量、console/TRX/summary、源码身份及关联截图；历史结果不冒充本轮。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "recovery": {
+          "text": "超时停止自有夹具并保留部分证据；环境缺失先修环境，重跑写新报告。首次CLI行为应在调用前设置首次运行/证书抑制环境，避免开发证书等非任务副作用。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        }
+      },
+      "audience": "public"
+    },
+    {
+      "id": "script:ui-pending-gate",
+      "title": "UI发送前持久门禁",
+      "language": "typescript/csharp",
+      "role": "workflow",
+      "featureIds": [
+        "feature:ribbon"
+      ],
+      "contract": {
+        "input": {
+          "text": "已确认的v2计划引用，或明确标记的v1首次生成输入；记录非秘密planId/digest/kind/端点，不记录项目口令。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "precondition": {
+          "text": "没有未决部署记录；状态存储可写可回读；新建v1不冒充服务端冻结计划。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "method": {
+          "text": "消费本地计划 → 发送前持久pending → 发一次apply → 核对回执身份/状态/activation → 可确认结束时清记录。Web使用同源navigator.locks覆盖整个写请求，锁内再次核对localStorage，无可靠锁支持则拒绝发送；WPF使用跨进程FileShare.None租约覆盖整个写请求，并在发送前CreateNew写pending、Flush(true)。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "effect": {
+          "text": "写本机非秘密门禁记录；复用既有API，不建立第二个部署引擎。读到pending的新页面/进程先暂停写入，不因为页面关闭或服务重启自动解除。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "validation": {
+          "text": "存储失败不得发送；v2回执必须匹配计划编号/摘要、版本、有效状态和activation类型。断连/超时/错身份/损坏回执保留unknown，阻止批次继续或自动重新预览。v1兼容入口发送后任何错误均保守unknown，不把旧引擎可能已保存历史的4xx当成无副作用拒绝；v2明确写前拒绝可以清理本地pending。跨页面竞争保护来自navigator锁而非localStorage自身原子性；人工解除必须核对原计划，不能视为服务器撤销。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "receipt": {
+          "text": "UI显示原编号、磁盘状态、未核验加载与人工核对出口；pending本身只说明可能未决，不证明服务器已受理或未执行。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        },
+        "recovery": {
+          "text": "重开读取记录后核对工作区历史、文件和备份；仅显式人工核对并二次确认才解除暂停。解除也获取同一Web锁/WPF跨进程租约，并比较提示时原编号与当前持久编号，旧A不能清除新B；当前持久记录优先于旧进程/标签内存编号。旧计划不重放、后续须新预览。上述客户端专项与离线全量已通过，原生预览、HTTP客户端与Web DOM证据仍各按其范围陈述。",
+          "sourceRefs": [
+            "source:overview"
+          ]
+        }
+      },
+      "audience": "public"
+    },
+    {
+      "id": "script:runtime-verification",
+      "title": "独立运行时验收与收尾",
+      "language": "procedure",
+      "role": "acceptance",
+      "featureIds": [
+        "feature:ribbon",
+        "feature:sessions"
+      ],
+      "contract": {
+        "input": {
+          "text": "明确授权的独立测试界面文件、单模块登记、目标产品与冻结备份。",
+          "sourceRefs": [
+            "source:presentation",
+            "source:overview"
+          ]
+        },
+        "precondition": {
+          "text": "启动、文件写入与重启分别获准；新会话重新严格核验。",
+          "sourceRefs": [
+            "source:presentation",
+            "source:overview"
+          ]
+        },
+        "method": {
+          "text": "直接HTTP冻结部署后正常重启，独立核验身份与实际界面，再有条件恢复。",
+          "sourceRefs": [
+            "source:presentation",
+            "source:overview"
+          ]
+        },
+        "effect": {
+          "text": "改变独立测试文件与指定登记并启动、退出真实产品；未点击宏。",
+          "sourceRefs": [
+            "source:presentation",
+            "source:overview"
+          ]
+        },
+        "validation": {
+          "text": "新旧会话分别核对；实际页签、分组、大小图标与Tooltip限定外观证据。",
+          "sourceRefs": [
+            "source:presentation",
+            "source:overview"
+          ]
+        },
+        "receipt": {
+          "text": "部署时仍为磁盘成功、运行时未核验；后续外观通过作为独立事实追加。",
+          "sourceRefs": [
+            "source:presentation",
+            "source:overview"
+          ]
+        },
+        "recovery": {
+          "text": "正常退出后按冻结摘要恢复唯一测试登记；保留备份，其他产品不外推。",
+          "sourceRefs": [
+            "source:presentation",
+            "source:overview"
+          ]
+        }
+      },
+      "audience": "public"
+    }
+  ],
+  "requirements": [
+    {
+      "id": "canonical:R01",
+      "layer": "FE",
+      "goal": "G3",
+      "priority": "P0",
+      "status": "planned",
+      "rule": "常用任务从工作台完成；字段、下一步与失败出口可见。",
+      "acceptance": "非实现者按 PRD 完成启动配置、检索、查询、历史恢复；不编辑 JSON，不需要解释控件含义；记录步骤、阻塞和误操作。",
+      "screens": [
+        "S01",
+        "S02",
+        "S04",
+        "S08"
+      ],
+      "operations": [],
+      "bindings": [
+        "B20"
+      ],
+      "tests": [],
+      "originalId": "R01",
+      "authority": "canonical",
+      "sourceRefs": [
+        "source:canonical"
+      ]
+    },
+    {
+      "id": "canonical:R02",
+      "layer": "FE",
+      "goal": "G1",
+      "priority": "P0",
+      "status": "verified",
+      "rule": "产品改变即更新模块；AM 不出现 DESIGN；安装发现与登录成功分别显示。",
+      "acceptance": "E3D/AM 切换后模块属于当前产品；无安装只显示未发现；保存无效组合被拒绝。",
+      "screens": [
+        "S01",
+        "S02",
+        "S24",
+        "S25",
+        "S26"
+      ],
+      "operations": [
+        "launch.modules.list",
+        "launch.profile.validate"
+      ],
+      "bindings": [
+        "B02",
+        "B08",
+        "B09",
+        "B22"
+      ],
+      "tests": [
+        "T02"
+      ],
+      "originalId": "R02",
+      "authority": "canonical",
+      "sourceRefs": [
+        "source:canonical"
+      ]
+    },
+    {
+      "id": "canonical:R03",
+      "layer": "FE",
+      "goal": "G3",
+      "priority": "P0",
+      "status": "verified",
+      "rule": "配置列表同时应用产品、收藏/最近下拉与输入搜索；空结果可清空条件。",
+      "acceptance": "两个下拉和关键字取交集；重置后恢复全部；保留当前草稿。",
+      "screens": [
+        "S01",
+        "S02"
+      ],
+      "operations": [
+        "launch.profile.list"
+      ],
+      "bindings": [
+        "B01",
+        "B21"
+      ],
+      "tests": [
+        "T10"
+      ],
+      "originalId": "R03",
+      "authority": "canonical",
+      "sourceRefs": [
+        "source:canonical"
+      ]
+    },
+    {
+      "id": "canonical:R04",
+      "layer": "FE",
+      "goal": "G3",
+      "priority": "P0",
+      "status": "verified",
+      "rule": "编辑→差异预览→保存→重开；未保存草稿离开需确认。",
+      "acceptance": "保存显示修订；新服务重读相同值；取消离开保留草稿；保存失败不显示成功。",
+      "screens": [
+        "S03",
+        "S04",
+        "S05"
+      ],
+      "operations": [
+        "launch.profile.preview",
+        "launch.profile.save",
+        "launch.profile.read"
+      ],
+      "bindings": [
+        "B03",
+        "B20"
+      ],
+      "tests": [
+        "T01"
+      ],
+      "originalId": "R04",
+      "authority": "canonical",
+      "sourceRefs": [
+        "source:canonical"
+      ]
+    },
+    {
+      "id": "canonical:R05",
+      "layer": "FE",
+      "goal": "G3",
+      "priority": "P0",
+      "status": "verified",
+      "rule": "过期修订进入冲突状态；保留草稿，允许重新读取并比较。",
+      "acceptance": "外部修改后保存被拒绝；界面不悄悄覆盖，草稿仍可查看。",
+      "screens": [
+        "S06"
+      ],
+      "operations": [
+        "launch.profile.save"
+      ],
+      "bindings": [
+        "B03",
+        "B25"
+      ],
+      "tests": [
+        "T03"
+      ],
+      "originalId": "R05",
+      "authority": "canonical",
+      "sourceRefs": [
+        "source:canonical"
+      ]
+    },
+    {
+      "id": "canonical:R06",
+      "layer": "FE",
+      "goal": "G3",
+      "priority": "P0",
+      "status": "verified",
+      "rule": "历史先预览再恢复；恢复生成新修订。",
+      "acceptance": "选历史→查看差异→确认；取消不写入；恢复后其他配置不变。",
+      "screens": [
+        "S07",
+        "S08",
+        "S09"
+      ],
+      "operations": [
+        "launch.profile.history",
+        "launch.profile.restore.preview",
+        "launch.profile.restore"
+      ],
+      "bindings": [
+        "B05",
+        "B06",
+        "B23"
+      ],
+      "tests": [
+        "T04"
+      ],
+      "originalId": "R06",
+      "authority": "canonical",
+      "sourceRefs": [
+        "source:canonical"
+      ]
+    },
+    {
+      "id": "canonical:R07",
+      "layer": "FE",
+      "goal": "G1",
+      "priority": "P0",
+      "status": "planned",
+      "rule": "知识入口默认官方 HTML 与源码；个人经验为补充，结果显示来源、产品与版本。",
+      "acceptance": "首次使用无需手动登记函数；无官方资料显示定位/导入入口；经验不会覆盖官方来源。",
+      "screens": [
+        "S10",
+        "S11"
+      ],
+      "operations": [
+        "knowledge.layers.search"
+      ],
+      "bindings": [
+        "B17"
+      ],
+      "tests": [],
+      "originalId": "R07",
+      "authority": "canonical",
+      "sourceRefs": [
+        "source:canonical"
+      ]
+    },
+    {
+      "id": "canonical:R08",
+      "layer": "FE",
+      "goal": "G1",
+      "priority": "P0",
+      "status": "partial",
+      "rule": "能力从 CLI 契约和已选源码发现，显示签名、来源与可用性。",
+      "acceptance": "CLI 契约已可枚举；PML 自动发现仍需实现；缺协议或未授权显示原因，不能冒充不可发现。",
+      "screens": [
+        "S12"
+      ],
+      "operations": [
+        "pml.functions.list"
+      ],
+      "bindings": [
+        "B13",
+        "B30"
+      ],
+      "tests": [
+        "T07"
+      ],
+      "originalId": "R08",
+      "authority": "canonical",
+      "sourceRefs": [
+        "source:canonical"
+      ]
+    },
+    {
+      "id": "canonical:R09",
+      "layer": "FE",
+      "goal": "G2",
+      "priority": "P0",
+      "status": "partial",
+      "rule": "查询结果与运行记录分开展示；两表均有下拉条件和输入筛选。",
+      "acceptance": "改变查询种类/目标清除旧续页；结果可空；记录按状态/操作及文字筛选，保留关联编号。",
+      "screens": [
+        "S13",
+        "S14",
+        "S15"
+      ],
+      "operations": [
+        "pml.forms.list",
+        "pml.gadgets.list",
+        "runtime.calls"
+      ],
+      "bindings": [
+        "B24",
+        "B19"
+      ],
+      "tests": [
+        "T14"
+      ],
+      "originalId": "R09",
+      "authority": "canonical",
+      "sourceRefs": [
+        "source:canonical"
+      ]
+    },
+    {
+      "id": "canonical:R10",
+      "layer": "FE",
+      "goal": "G1",
+      "priority": "P0",
+      "status": "partial",
+      "rule": "脚本流程包含写入计划、备份、加载、执行与结果对比。",
+      "acceptance": "先看文件差异与执行目标；加载失败有回执；修正后独立验证，不用脚本合集替代工作流。",
+      "screens": [
+        "S17",
+        "S18"
+      ],
+      "operations": [
+        "workspace.pmllib.inspect",
+        "pml.command.execute"
+      ],
+      "bindings": [
+        "B16"
+      ],
+      "tests": [
+        "T12"
+      ],
+      "originalId": "R10",
+      "authority": "canonical",
+      "sourceRefs": [
+        "source:canonical"
+      ]
+    },
+    {
+      "id": "canonical:R11",
+      "layer": "FE",
+      "goal": "G2",
+      "priority": "P0",
+      "status": "partial",
+      "rule": "执行模式与权限可见；结果不明有单独状态和核验入口。",
+      "acceptance": "关闭执行仍可查资料/看计划；未知结果不显示成功，不出现自动重试按钮。",
+      "screens": [
+        "S16",
+        "S19",
+        "S22",
+        "S23",
+        "S27",
+        "S28"
+      ],
+      "operations": [
+        "runtime.status"
+      ],
+      "bindings": [
+        "B18",
+        "B19"
+      ],
+      "tests": [
+        "T09",
+        "T13"
+      ],
+      "originalId": "R11",
+      "authority": "canonical",
+      "sourceRefs": [
+        "source:canonical"
+      ]
+    },
+    {
+      "id": "canonical:R12",
+      "layer": "FE",
+      "goal": "G3",
+      "priority": "P1",
+      "status": "planned",
+      "rule": "业务错误定位字段或动作，并保留可恢复上下文。",
+      "acceptance": "键盘完成筛选与确认；焦点可见；空/加载/拒绝/冲突/未知状态都有文案和出口；可用性实测另记。",
+      "screens": [
+        "S06",
+        "S19",
+        "S20"
+      ],
+      "operations": [],
+      "bindings": [
+        "B20"
+      ],
+      "tests": [],
+      "originalId": "R12",
+      "authority": "canonical",
+      "sourceRefs": [
+        "source:canonical"
+      ]
+    },
+    {
+      "id": "canonical:R13",
+      "layer": "BE",
+      "goal": "G3",
+      "priority": "P0",
+      "status": "verified",
+      "rule": "WPF 与 CLI 共用启动配置服务；存储与产品目录按实际变化点替换。",
+      "acceptance": "同输入经两个适配器得到相同规则/修订；替换存储或目录不改用例；不为每个方法新增接口。",
+      "screens": [
+        "S04"
+      ],
+      "operations": [
+        "launch.profile.save"
+      ],
+      "bindings": [
+        "B03",
+        "B07",
+        "B08",
+        "B13"
+      ],
+      "tests": [
+        "T01",
+        "T02"
+      ],
+      "originalId": "R13",
+      "authority": "canonical",
+      "sourceRefs": [
+        "source:canonical"
+      ]
+    },
+    {
+      "id": "canonical:R14",
+      "layer": "BE",
+      "goal": "G3",
+      "priority": "P0",
+      "status": "verified",
+      "rule": "提交使用 expectedRevision、文件锁与历史；未知字段保留。",
+      "acceptance": "并发只有一个胜者；外部编辑被检测；旧字段不丢；中断只能恢复到旧态或已提交态。",
+      "screens": [
+        "S05",
+        "S06"
+      ],
+      "operations": [
+        "launch.profile.update"
+      ],
+      "bindings": [
+        "B04",
+        "B07",
+        "B25"
+      ],
+      "tests": [
+        "T03",
+        "T05"
+      ],
+      "originalId": "R14",
+      "authority": "canonical",
+      "sourceRefs": [
+        "source:canonical"
+      ]
+    },
+    {
+      "id": "canonical:R15",
+      "layer": "BE",
+      "goal": "G3",
+      "priority": "P0",
+      "status": "verified",
+      "rule": "恢复重新校验当前环境，只恢复目标配置，产生新历史。",
+      "acceptance": "失效路径拒绝；其他配置、旧历史与独立凭据不被回写。",
+      "screens": [
+        "S08",
+        "S09"
+      ],
+      "operations": [
+        "launch.profile.restore"
+      ],
+      "bindings": [
+        "B05",
+        "B06"
+      ],
+      "tests": [
+        "T04"
+      ],
+      "originalId": "R15",
+      "authority": "canonical",
+      "sourceRefs": [
+        "source:canonical"
+      ]
+    },
+    {
+      "id": "canonical:R16",
+      "layer": "BE",
+      "goal": "G1",
+      "priority": "P0",
+      "status": "verified",
+      "rule": "CLI 原生分派 JSON；写配置、启动与执行分别授权。",
+      "acceptance": "inline/file/stdin 仅选一种；JSON 不能自授权限；禁用独立 MCP；全部 46 项操作可描述。",
+      "screens": [
+        "S12",
+        "S16"
+      ],
+      "operations": [
+        "builtin.usage",
+        "launch.profile.save"
+      ],
+      "bindings": [
+        "B11",
+        "B12",
+        "B13"
+      ],
+      "tests": [
+        "T06",
+        "T07",
+        "T08"
+      ],
+      "originalId": "R16",
+      "authority": "canonical",
+      "sourceRefs": [
+        "source:canonical"
+      ]
+    },
+    {
+      "id": "canonical:R17",
+      "layer": "BE",
+      "goal": "G2",
+      "priority": "P0",
+      "status": "verified",
+      "rule": "每次目标调用核验 PID、启动时间、模块与 Host 协议。",
+      "acceptance": "错误身份/旧协议在分派前拒绝；不得回退为无约束原始命令。",
+      "screens": [
+        "S13",
+        "S20",
+        "S26",
+        "S29"
+      ],
+      "operations": [
+        "aveva.session.status",
+        "pml.forms.list"
+      ],
+      "bindings": [
+        "B14",
+        "B15"
+      ],
+      "tests": [
+        "T09"
+      ],
+      "originalId": "R17",
+      "authority": "canonical",
+      "sourceRefs": [
+        "source:canonical"
+      ]
+    },
+    {
+      "id": "canonical:R18",
+      "layer": "BE",
+      "goal": "G2",
+      "priority": "P0",
+      "status": "verified",
+      "rule": "查询受项数/字符预算约束；续页保留边界与原生缺失值。",
+      "acceptance": "空字符串、0、false 不互换；未支持属性保留原生原因；条件变化不能拼接旧页。",
+      "screens": [
+        "S13",
+        "S14"
+      ],
+      "operations": [
+        "pml.array.window",
+        "pml.gadget.read"
+      ],
+      "bindings": [
+        "B15",
+        "B24",
+        "B31"
+      ],
+      "tests": [
+        "T14"
+      ],
+      "originalId": "R18",
+      "authority": "canonical",
+      "sourceRefs": [
+        "source:canonical"
+      ]
+    },
+    {
+      "id": "canonical:R19",
+      "layer": "BE",
+      "goal": "G1",
+      "priority": "P0",
+      "status": "partial",
+      "rule": "复制计划冻结源/目标哈希，执行保留备份；与 PML 加载/调试串联。",
+      "acceptance": "复制前变更任一端即拒绝；路径不能越界；部署成功与运行成功分开记录。",
+      "screens": [
+        "S17",
+        "S18"
+      ],
+      "operations": [
+        "workspace.pmllib.inspect",
+        "pml.command.execute"
+      ],
+      "bindings": [
+        "B16",
+        "B29"
+      ],
+      "tests": [
+        "T12"
+      ],
+      "originalId": "R19",
+      "authority": "canonical",
+      "sourceRefs": [
+        "source:canonical"
+      ]
+    },
+    {
+      "id": "canonical:R20",
+      "layer": "BE",
+      "goal": "G1",
+      "priority": "P0",
+      "status": "planned",
+      "rule": "官方 HTML/源码是知识主源；按产品版本建立引用，个人资料独立补充。",
+      "acceptance": "保留来源/版本/块 ID；旧索引可辨识；无资料不编造答案；默认官方流程尚待实现。",
+      "screens": [
+        "S10",
+        "S11"
+      ],
+      "operations": [
+        "knowledge.layers.search"
+      ],
+      "bindings": [
+        "B17"
+      ],
+      "tests": [],
+      "originalId": "R20",
+      "authority": "canonical",
+      "sourceRefs": [
+        "source:canonical"
+      ]
+    },
+    {
+      "id": "canonical:R21",
+      "layer": "BE",
+      "goal": "G3",
+      "priority": "P0",
+      "status": "verified",
+      "rule": "日志关联开始、结束、耗时与目标；未结束操作归为未知。",
+      "acceptance": "命名秘密脱敏；日志故障不把已执行改成失败并诱发重试；记录结果与业务结果分别保存。",
+      "screens": [
+        "S15",
+        "S19"
+      ],
+      "operations": [
+        "runtime.calls",
+        "runtime.status"
+      ],
+      "bindings": [
+        "B18",
+        "B19"
+      ],
+      "tests": [
+        "T11",
+        "T13"
+      ],
+      "originalId": "R21",
+      "authority": "canonical",
+      "sourceRefs": [
+        "source:canonical"
+      ]
+    },
+    {
+      "id": "canonical:R22",
+      "layer": "BE",
+      "goal": "G3",
+      "priority": "P0",
+      "status": "verified",
+      "rule": "代码、JSON、TOML 用同一业务路径测试，逐步保存输入、输出与结论。",
+      "acceptance": "解析失败/超时保留部分结果；历史证据与本轮运行区分；报告按新目录保存。",
+      "screens": [
+        "S18"
+      ],
+      "operations": [
+        "launch.workspace.read",
+        "launch.profile.save"
+      ],
+      "bindings": [
+        "B03",
+        "B12"
+      ],
+      "tests": [
+        "T07",
+        "T08"
+      ],
+      "originalId": "R22",
+      "authority": "canonical",
+      "sourceRefs": [
+        "source:canonical"
+      ]
+    },
+    {
+      "id": "canonical:R23",
+      "layer": "BE",
+      "goal": "G1",
+      "priority": "P0",
+      "status": "verified",
+      "rule": "启动初始化读 Current Session；产品系列选择 Host；REHASH 由独立策略和环境值控制。",
+      "acceptance": "E3D2.1→2.1/net48；3.1→3.1.6/net48；AM/PDMS→net35；none/空关闭，rehash-all 每新会话一次；改值下次进程生效。",
+      "screens": [
+        "S01",
+        "S16"
+      ],
+      "operations": [
+        "launch.profile.preview"
+      ],
+      "bindings": [
+        "B10"
+      ],
+      "tests": [],
+      "originalId": "R23",
+      "authority": "canonical",
+      "sourceRefs": [
+        "source:canonical"
+      ]
+    },
+    {
+      "id": "canonical:R24",
+      "layer": "BE",
+      "goal": "G3",
+      "priority": "P1",
+      "status": "verified",
+      "rule": "文档从 Roslyn 生成签名、源码定位、静态调用与实现候选；手写只写业务约束。",
+      "acceptance": "缺符号/失效源码哈希/悬空需求引用使构建失败；静态候选不得描述为实机执行；契约元数据可无损展开。",
+      "screens": [
+        "S21"
+      ],
+      "operations": [],
+      "bindings": [
+        "B03",
+        "B04",
+        "B07",
+        "B08"
+      ],
+      "tests": [
+        "T15"
+      ],
+      "originalId": "R24",
+      "authority": "canonical",
+      "sourceRefs": [
+        "source:canonical"
+      ]
+    }
+  ],
+  "canonical": {
+    "schema": "phayton.handoff/1",
+    "baseline": "0923e4a09eb72112373fbab0df4da0ebca51b2a1",
+    "date": "2026-10-26",
+    "terms": {
+      "BRD": "业务目标与边界",
+      "PRD": "产品任务与交互",
+      "SRS": "可验证的软件要求",
+      "FRD": "触发、规则、结果",
+      "SDD": "结构、职责、变化点",
+      "SDS": "接口、数据、失败与实现约束"
+    },
+    "states": {
+      "verified": "具备实现与验收依据；环境和时点以关联报告为准",
+      "partial": "已有部分能力，目标流程未闭合",
+      "planned": "待实现；原型可演示，产品未交付"
+    },
+    "goals": [
+      [
+        "G1",
+        "开发更便捷",
+        "AI 查资料、写 PML、部署、加载、调试并核对结果。"
+      ],
+      [
+        "G2",
+        "辅助三维使用",
+        "AI 结合对象数据、视图与资料核查问题及隐含关系。"
+      ],
+      [
+        "G3",
+        "可持续接手",
+        "同一行为由界面、CLI、测试与文档引用；配置可回溯。"
+      ]
+    ],
+    "requirementFields": [
+      "id",
+      "layer",
+      "goal",
+      "priority",
+      "status",
+      "rule",
+      "acceptance",
+      "screens",
+      "operations",
+      "bindings",
+      "tests"
+    ],
+    "requirements": [
+      [
+        "R01",
+        "FE",
+        "G3",
+        "P0",
+        "planned",
+        "常用任务从工作台完成；字段、下一步与失败出口可见。",
+        "非实现者按 PRD 完成启动配置、检索、查询、历史恢复；不编辑 JSON，不需要解释控件含义；记录步骤、阻塞和误操作。",
+        [
+          "S01",
+          "S02",
+          "S04",
+          "S08"
+        ],
+        [],
+        [
+          "B20"
+        ],
+        []
+      ],
+      [
+        "R02",
+        "FE",
+        "G1",
+        "P0",
+        "verified",
+        "产品改变即更新模块；AM 不出现 DESIGN；安装发现与登录成功分别显示。",
+        "E3D/AM 切换后模块属于当前产品；无安装只显示未发现；保存无效组合被拒绝。",
+        [
+          "S01",
+          "S02",
+          "S24",
+          "S25",
+          "S26"
+        ],
+        [
+          "launch.modules.list",
+          "launch.profile.validate"
+        ],
+        [
+          "B02",
+          "B08",
+          "B09",
+          "B22"
+        ],
+        [
+          "T02"
+        ]
+      ],
+      [
+        "R03",
+        "FE",
+        "G3",
+        "P0",
+        "verified",
+        "配置列表同时应用产品、收藏/最近下拉与输入搜索；空结果可清空条件。",
+        "两个下拉和关键字取交集；重置后恢复全部；保留当前草稿。",
+        [
+          "S01",
+          "S02"
+        ],
+        [
+          "launch.profile.list"
+        ],
+        [
+          "B01",
+          "B21"
+        ],
+        [
+          "T10"
+        ]
+      ],
+      [
+        "R04",
+        "FE",
+        "G3",
+        "P0",
+        "verified",
+        "编辑→差异预览→保存→重开；未保存草稿离开需确认。",
+        "保存显示修订；新服务重读相同值；取消离开保留草稿；保存失败不显示成功。",
+        [
+          "S03",
+          "S04",
+          "S05"
+        ],
+        [
+          "launch.profile.preview",
+          "launch.profile.save",
+          "launch.profile.read"
+        ],
+        [
+          "B03",
+          "B20"
+        ],
+        [
+          "T01"
+        ]
+      ],
+      [
+        "R05",
+        "FE",
+        "G3",
+        "P0",
+        "verified",
+        "过期修订进入冲突状态；保留草稿，允许重新读取并比较。",
+        "外部修改后保存被拒绝；界面不悄悄覆盖，草稿仍可查看。",
+        [
+          "S06"
+        ],
+        [
+          "launch.profile.save"
+        ],
+        [
+          "B03",
+          "B25"
+        ],
+        [
+          "T03"
+        ]
+      ],
+      [
+        "R06",
+        "FE",
+        "G3",
+        "P0",
+        "verified",
+        "历史先预览再恢复；恢复生成新修订。",
+        "选历史→查看差异→确认；取消不写入；恢复后其他配置不变。",
+        [
+          "S07",
+          "S08",
+          "S09"
+        ],
+        [
+          "launch.profile.history",
+          "launch.profile.restore.preview",
+          "launch.profile.restore"
+        ],
+        [
+          "B05",
+          "B06",
+          "B23"
+        ],
+        [
+          "T04"
+        ]
+      ],
+      [
+        "R07",
+        "FE",
+        "G1",
+        "P0",
+        "planned",
+        "知识入口默认官方 HTML 与源码；个人经验为补充，结果显示来源、产品与版本。",
+        "首次使用无需手动登记函数；无官方资料显示定位/导入入口；经验不会覆盖官方来源。",
+        [
+          "S10",
+          "S11"
+        ],
+        [
+          "knowledge.layers.search"
+        ],
+        [
+          "B17"
+        ],
+        []
+      ],
+      [
+        "R08",
+        "FE",
+        "G1",
+        "P0",
+        "partial",
+        "能力从 CLI 契约和已选源码发现，显示签名、来源与可用性。",
+        "CLI 契约已可枚举；PML 自动发现仍需实现；缺协议或未授权显示原因，不能冒充不可发现。",
+        [
+          "S12"
+        ],
+        [
+          "pml.functions.list"
+        ],
+        [
+          "B13",
+          "B30"
+        ],
+        [
+          "T07"
+        ]
+      ],
+      [
+        "R09",
+        "FE",
+        "G2",
+        "P0",
+        "partial",
+        "查询结果与运行记录分开展示；两表均有下拉条件和输入筛选。",
+        "改变查询种类/目标清除旧续页；结果可空；记录按状态/操作及文字筛选，保留关联编号。",
+        [
+          "S13",
+          "S14",
+          "S15"
+        ],
+        [
+          "pml.forms.list",
+          "pml.gadgets.list",
+          "runtime.calls"
+        ],
+        [
+          "B24",
+          "B19"
+        ],
+        [
+          "T14"
+        ]
+      ],
+      [
+        "R10",
+        "FE",
+        "G1",
+        "P0",
+        "partial",
+        "脚本流程包含写入计划、备份、加载、执行与结果对比。",
+        "先看文件差异与执行目标；加载失败有回执；修正后独立验证，不用脚本合集替代工作流。",
+        [
+          "S17",
+          "S18"
+        ],
+        [
+          "workspace.pmllib.inspect",
+          "pml.command.execute"
+        ],
+        [
+          "B16"
+        ],
+        [
+          "T12"
+        ]
+      ],
+      [
+        "R11",
+        "FE",
+        "G2",
+        "P0",
+        "partial",
+        "执行模式与权限可见；结果不明有单独状态和核验入口。",
+        "关闭执行仍可查资料/看计划；未知结果不显示成功，不出现自动重试按钮。",
+        [
+          "S16",
+          "S19",
+          "S22",
+          "S23",
+          "S27",
+          "S28"
+        ],
+        [
+          "runtime.status"
+        ],
+        [
+          "B18",
+          "B19"
+        ],
+        [
+          "T09",
+          "T13"
+        ]
+      ],
+      [
+        "R12",
+        "FE",
+        "G3",
+        "P1",
+        "planned",
+        "业务错误定位字段或动作，并保留可恢复上下文。",
+        "键盘完成筛选与确认；焦点可见；空/加载/拒绝/冲突/未知状态都有文案和出口；可用性实测另记。",
+        [
+          "S06",
+          "S19",
+          "S20"
+        ],
+        [],
+        [
+          "B20"
+        ],
+        []
+      ],
+      [
+        "R13",
+        "BE",
+        "G3",
+        "P0",
+        "verified",
+        "WPF 与 CLI 共用启动配置服务；存储与产品目录按实际变化点替换。",
+        "同输入经两个适配器得到相同规则/修订；替换存储或目录不改用例；不为每个方法新增接口。",
+        [
+          "S04"
+        ],
+        [
+          "launch.profile.save"
+        ],
+        [
+          "B03",
+          "B07",
+          "B08",
+          "B13"
+        ],
+        [
+          "T01",
+          "T02"
+        ]
+      ],
+      [
+        "R14",
+        "BE",
+        "G3",
+        "P0",
+        "verified",
+        "提交使用 expectedRevision、文件锁与历史；未知字段保留。",
+        "并发只有一个胜者；外部编辑被检测；旧字段不丢；中断只能恢复到旧态或已提交态。",
+        [
+          "S05",
+          "S06"
+        ],
+        [
+          "launch.profile.update"
+        ],
+        [
+          "B04",
+          "B07",
+          "B25"
+        ],
+        [
+          "T03",
+          "T05"
+        ]
+      ],
+      [
+        "R15",
+        "BE",
+        "G3",
+        "P0",
+        "verified",
+        "恢复重新校验当前环境，只恢复目标配置，产生新历史。",
+        "失效路径拒绝；其他配置、旧历史与独立凭据不被回写。",
+        [
+          "S08",
+          "S09"
+        ],
+        [
+          "launch.profile.restore"
+        ],
+        [
+          "B05",
+          "B06"
+        ],
+        [
+          "T04"
+        ]
+      ],
+      [
+        "R16",
+        "BE",
+        "G1",
+        "P0",
+        "verified",
+        "CLI 原生分派 JSON；写配置、启动与执行分别授权。",
+        "inline/file/stdin 仅选一种；JSON 不能自授权限；禁用独立 MCP；全部 46 项操作可描述。",
+        [
+          "S12",
+          "S16"
+        ],
+        [
+          "builtin.usage",
+          "launch.profile.save"
+        ],
+        [
+          "B11",
+          "B12",
+          "B13"
+        ],
+        [
+          "T06",
+          "T07",
+          "T08"
+        ]
+      ],
+      [
+        "R17",
+        "BE",
+        "G2",
+        "P0",
+        "verified",
+        "每次目标调用核验 PID、启动时间、模块与 Host 协议。",
+        "错误身份/旧协议在分派前拒绝；不得回退为无约束原始命令。",
+        [
+          "S13",
+          "S20",
+          "S26",
+          "S29"
+        ],
+        [
+          "aveva.session.status",
+          "pml.forms.list"
+        ],
+        [
+          "B14",
+          "B15"
+        ],
+        [
+          "T09"
+        ]
+      ],
+      [
+        "R18",
+        "BE",
+        "G2",
+        "P0",
+        "verified",
+        "查询受项数/字符预算约束；续页保留边界与原生缺失值。",
+        "空字符串、0、false 不互换；未支持属性保留原生原因；条件变化不能拼接旧页。",
+        [
+          "S13",
+          "S14"
+        ],
+        [
+          "pml.array.window",
+          "pml.gadget.read"
+        ],
+        [
+          "B15",
+          "B24",
+          "B31"
+        ],
+        [
+          "T14"
+        ]
+      ],
+      [
+        "R19",
+        "BE",
+        "G1",
+        "P0",
+        "partial",
+        "复制计划冻结源/目标哈希，执行保留备份；与 PML 加载/调试串联。",
+        "复制前变更任一端即拒绝；路径不能越界；部署成功与运行成功分开记录。",
+        [
+          "S17",
+          "S18"
+        ],
+        [
+          "workspace.pmllib.inspect",
+          "pml.command.execute"
+        ],
+        [
+          "B16",
+          "B29"
+        ],
+        [
+          "T12"
+        ]
+      ],
+      [
+        "R20",
+        "BE",
+        "G1",
+        "P0",
+        "planned",
+        "官方 HTML/源码是知识主源；按产品版本建立引用，个人资料独立补充。",
+        "保留来源/版本/块 ID；旧索引可辨识；无资料不编造答案；默认官方流程尚待实现。",
+        [
+          "S10",
+          "S11"
+        ],
+        [
+          "knowledge.layers.search"
+        ],
+        [
+          "B17"
+        ],
+        []
+      ],
+      [
+        "R21",
+        "BE",
+        "G3",
+        "P0",
+        "verified",
+        "日志关联开始、结束、耗时与目标；未结束操作归为未知。",
+        "命名秘密脱敏；日志故障不把已执行改成失败并诱发重试；记录结果与业务结果分别保存。",
+        [
+          "S15",
+          "S19"
+        ],
+        [
+          "runtime.calls",
+          "runtime.status"
+        ],
+        [
+          "B18",
+          "B19"
+        ],
+        [
+          "T11",
+          "T13"
+        ]
+      ],
+      [
+        "R22",
+        "BE",
+        "G3",
+        "P0",
+        "verified",
+        "代码、JSON、TOML 用同一业务路径测试，逐步保存输入、输出与结论。",
+        "解析失败/超时保留部分结果；历史证据与本轮运行区分；报告按新目录保存。",
+        [
+          "S18"
+        ],
+        [
+          "launch.workspace.read",
+          "launch.profile.save"
+        ],
+        [
+          "B03",
+          "B12"
+        ],
+        [
+          "T07",
+          "T08"
+        ]
+      ],
+      [
+        "R23",
+        "BE",
+        "G1",
+        "P0",
+        "verified",
+        "启动初始化读 Current Session；产品系列选择 Host；REHASH 由独立策略和环境值控制。",
+        "E3D2.1→2.1/net48；3.1→3.1.6/net48；AM/PDMS→net35；none/空关闭，rehash-all 每新会话一次；改值下次进程生效。",
+        [
+          "S01",
+          "S16"
+        ],
+        [
+          "launch.profile.preview"
+        ],
+        [
+          "B10"
+        ],
+        []
+      ],
+      [
+        "R24",
+        "BE",
+        "G3",
+        "P1",
+        "verified",
+        "文档从 Roslyn 生成签名、源码定位、静态调用与实现候选；手写只写业务约束。",
+        "缺符号/失效源码哈希/悬空需求引用使构建失败；静态候选不得描述为实机执行；契约元数据可无损展开。",
+        [
+          "S21"
+        ],
+        [],
+        [
+          "B03",
+          "B04",
+          "B07",
+          "B08"
+        ],
+        [
+          "T15"
+        ]
+      ]
+    ],
+    "bindingFields": [
+      "id",
+      "project",
+      "type",
+      "member"
+    ],
+    "bindings": [
+      [
+        "B01",
+        "YuzuhaToolkit.Workspace",
+        "YuzuhaToolkit.Workspace.LaunchProfileService",
+        "List"
+      ],
+      [
+        "B02",
+        "YuzuhaToolkit.Workspace",
+        "YuzuhaToolkit.Workspace.LaunchProfileService",
+        "Validate"
+      ],
+      [
+        "B03",
+        "YuzuhaToolkit.Workspace",
+        "YuzuhaToolkit.Workspace.LaunchProfileService",
+        "Save"
+      ],
+      [
+        "B04",
+        "YuzuhaToolkit.Workspace",
+        "YuzuhaToolkit.Workspace.WorkspaceConfigurationStore",
+        "Commit"
+      ],
+      [
+        "B05",
+        "YuzuhaToolkit.Workspace",
+        "YuzuhaToolkit.Workspace.LaunchProfileService",
+        "PreviewRestore"
+      ],
+      [
+        "B06",
+        "YuzuhaToolkit.Workspace",
+        "YuzuhaToolkit.Workspace.LaunchProfileService",
+        "Restore"
+      ],
+      [
+        "B07",
+        "YuzuhaToolkit.Workspace",
+        "YuzuhaToolkit.Workspace.IConfigurationStore`1",
+        "Commit"
+      ],
+      [
+        "B08",
+        "YuzuhaToolkit.Workspace",
+        "YuzuhaToolkit.Workspace.IProductModuleCatalog",
+        "Get"
+      ],
+      [
+        "B09",
+        "YuzuhaToolkit.Workspace",
+        "YuzuhaToolkit.Workspace.ProductModuleCatalog",
+        "Get"
+      ],
+      [
+        "B10",
+        "YuzuhaToolkit.Workspace",
+        "YuzuhaToolkit.Workspace.LaunchService",
+        "Preview"
+      ],
+      [
+        "B11",
+        "YuzuhaToolkit.Cli.Compatibility",
+        "YuzuhaToolkit.Mcp.NativeCliHost",
+        null
+      ],
+      [
+        "B12",
+        "PmlTwin.Phayton",
+        "PmlTwin.Phayton.OperationExecutor",
+        "InvokeAsync"
+      ],
+      [
+        "B13",
+        "YuzuhaToolkit.Cli.Compatibility",
+        "YuzuhaToolkit.Mcp.NativeOperationCatalog",
+        "Create"
+      ],
+      [
+        "B14",
+        "YuzuhaToolkit.Mcp.Core",
+        "YuzuhaToolkit.Mcp.YuzuhaRpcBridge",
+        "SelectSessionAsync"
+      ],
+      [
+        "B15",
+        "YuzuhaToolkit.Mcp.Core",
+        "YuzuhaToolkit.Mcp.PmlFormQueryRequestSender",
+        "SendAsync"
+      ],
+      [
+        "B16",
+        "YuzuhaToolkit.Mcp.Core",
+        "YuzuhaToolkit.Mcp.WorkspaceTools",
+        null
+      ],
+      [
+        "B17",
+        "YuzuhaToolkit.Knowledge.Core",
+        "YuzuhaToolkit.Knowledge.KnowledgeRepository",
+        null
+      ],
+      [
+        "B18",
+        "YuzuhaToolkit.Workspace",
+        "YuzuhaToolkit.Workspace.RuntimeJournal",
+        "Complete"
+      ],
+      [
+        "B19",
+        "YuzuhaToolkit.Workspace",
+        "YuzuhaToolkit.Workspace.RuntimeReader",
+        "Recent"
+      ],
+      [
+        "B20",
+        "YuzuhaToolkit.Desktop",
+        "YuzuhaToolkit.Desktop.MainWindow",
+        "PreviewProfileChanges"
+      ],
+      [
+        "B21",
+        "YuzuhaToolkit.Desktop",
+        "YuzuhaToolkit.Desktop.MainWindow",
+        "LaunchProfileFilterChanged"
+      ],
+      [
+        "B22",
+        "YuzuhaToolkit.Desktop",
+        "YuzuhaToolkit.Desktop.MainWindow",
+        "ProductIdentityChanged"
+      ],
+      [
+        "B23",
+        "YuzuhaToolkit.Desktop",
+        "YuzuhaToolkit.Desktop.MainWindow",
+        "ConfirmRestoreProfile"
+      ],
+      [
+        "B24",
+        "YuzuhaToolkit.Desktop",
+        "YuzuhaToolkit.Desktop.SessionWorkbench",
+        "QueryAsync"
+      ],
+      [
+        "B25",
+        "YuzuhaToolkit.Workspace",
+        "YuzuhaToolkit.Workspace.ConfigurationConflictException",
+        null
+      ],
+      [
+        "B29",
+        "YuzuhaToolkit.Workspace",
+        "YuzuhaToolkit.Workspace.DirectoryInspector",
+        "Scan"
+      ],
+      [
+        "B30",
+        "YuzuhaToolkit.Mcp.Core",
+        "YuzuhaToolkit.Mcp.PmlFunctionRegistry",
+        null
+      ],
+      [
+        "B31",
+        "YuzuhaToolkit.PmlHost.Net48",
+        "YuzuhaToolkit.PmlHost.PmlCommandRpcService",
+        null
+      ]
+    ],
+    "testFields": [
+      "id",
+      "file",
+      "method"
+    ],
+    "tests": [
+      [
+        "T01",
+        "tests/YuzuhaToolkit.Tests/LaunchLifecycleTests.cs",
+        "SavedProfileIsReadByNewServiceAndDraftDoesNotMutateFile"
+      ],
+      [
+        "T02",
+        "tests/YuzuhaToolkit.Tests/LaunchLifecycleTests.cs",
+        "InvalidProductModuleRejectsBeforePersistence"
+      ],
+      [
+        "T03",
+        "tests/YuzuhaToolkit.Tests/LaunchLifecycleTests.cs",
+        "ConcurrentEditorsCannotOverwriteTheFirstSavedChange"
+      ],
+      [
+        "T04",
+        "tests/YuzuhaToolkit.Tests/LaunchLifecycleTests.cs",
+        "RestoreCreatesNewRevisionAndKeepsOtherProfilesAndOldHistory"
+      ],
+      [
+        "T05",
+        "tests/YuzuhaToolkit.Tests/LaunchLifecycleTests.cs",
+        "JsonUpdatePreservesUnknownWorkspaceAndProfileFields"
+      ],
+      [
+        "T06",
+        "tests/YuzuhaToolkit.Tests/LaunchLifecycleTests.cs",
+        "PermissionDenialAndUnknownPatchFieldsLeaveFileUntouched"
+      ],
+      [
+        "T07",
+        "tests/YuzuhaToolkit.Tests/NativeCliCapabilityTests.cs",
+        "EveryFormerToolHasARealNativePositivePathAndRecordedFailureGates"
+      ],
+      [
+        "T08",
+        "tests/YuzuhaToolkit.Tests/NativeCliCapabilityTests.cs",
+        "FileStdinAndInlineJsonUseTheSameDispatcherAndRejectAmbiguity"
+      ],
+      [
+        "T09",
+        "tests/YuzuhaToolkit.Tests/NativeCliCapabilityTests.cs",
+        "ExplicitTargetAuthorizationProtocolAndTransportFailuresPreserveTruth"
+      ],
+      [
+        "T10",
+        "tests/YuzuhaToolkit.Tests/LaunchLifecycleTests.cs",
+        "FiltersFavoritesDefaultsAndHistoryUseSameService"
+      ],
+      [
+        "T11",
+        "tests/YuzuhaToolkit.Tests/WorkspaceBehaviorTests.cs",
+        "JournalPersistsCorrelatedStartAndCompletionWithRedactedNamedSecrets"
+      ],
+      [
+        "T12",
+        "tests/YuzuhaToolkit.Tests/WorkspaceBehaviorTests.cs",
+        "ChangedTargetStopsWholeCopyBeforeAnyWrites"
+      ],
+      [
+        "T13",
+        "tests/YuzuhaToolkit.Tests/WorkspaceBehaviorTests.cs",
+        "ExitedProcessWithUnfinishedCallIsReportedAsUnknownRatherThanSuccess"
+      ],
+      [
+        "T14",
+        "tests/YuzuhaToolkit.Tests/PmlFormQueryTests.cs",
+        "FormListsUseNativeManagerAndHonorScanBudget"
+      ],
+      [
+        "T15",
+        "tests/handoff-specifications.test.mjs",
+        "compact metadata preserves every value"
+      ]
+    ],
+    "screenFields": [
+      "id",
+      "title",
+      "section",
+      "question",
+      "answer",
+      "requirements"
+    ],
+    "screens": [
+      [
+        "S01",
+        "启动配置",
+        "launch",
+        "从哪个环境开始？",
+        "先选产品与安装，再选择模块和工程；不依赖 LaunchDesk。",
+        [
+          "R02",
+          "R03",
+          "R23"
+        ]
+      ],
+      [
+        "S02",
+        "组合筛选",
+        "launch",
+        "怎样找到需要的配置？",
+        "产品、收藏范围与文字取交集；清空条件可回到全部。",
+        [
+          "R03"
+        ]
+      ],
+      [
+        "S03",
+        "编辑配置",
+        "launch",
+        "哪里修改常变配置？",
+        "在当前工作台编辑；保存前展示实际差异。",
+        [
+          "R04"
+        ]
+      ],
+      [
+        "S04",
+        "保存预览",
+        "launch",
+        "点击保存会改变什么？",
+        "只提交配置与历史；新值在下次启动生效。",
+        [
+          "R04",
+          "R13"
+        ]
+      ],
+      [
+        "S05",
+        "已保存并重开",
+        "launch",
+        "怎样确认持久化？",
+        "显示新修订；重新读取与保存值一致。",
+        [
+          "R04",
+          "R14"
+        ]
+      ],
+      [
+        "S06",
+        "并发冲突",
+        "launch",
+        "别人刚改过怎么办？",
+        "保留草稿；重新读取、比较，再选择保存。",
+        [
+          "R05"
+        ]
+      ],
+      [
+        "S07",
+        "配置历史",
+        "launch",
+        "如何找到旧配置？",
+        "历史显示时间、原因与修订；先选一条查看差异。",
+        [
+          "R06"
+        ]
+      ],
+      [
+        "S08",
+        "恢复预览",
+        "launch",
+        "恢复会覆盖什么？",
+        "仅恢复当前配置；校验当前环境；写入新修订。",
+        [
+          "R06",
+          "R15"
+        ]
+      ],
+      [
+        "S09",
+        "已恢复",
+        "launch",
+        "能再回到恢复前吗？",
+        "旧历史仍在，恢复记录也是一个新版本。",
+        [
+          "R06"
+        ]
+      ],
+      [
+        "S10",
+        "官方资料",
+        "knowledge",
+        "知识从哪里开始？",
+        "默认官方 HTML 与源码；个人经验独立补充。",
+        [
+          "R07",
+          "R20"
+        ]
+      ],
+      [
+        "S11",
+        "资料检索",
+        "knowledge",
+        "AI 用了哪份依据？",
+        "结果展示来源、产品版本、块 ID；没有资料就明确说明。",
+        [
+          "R07",
+          "R20"
+        ]
+      ],
+      [
+        "S12",
+        "能力发现",
+        "capability",
+        "需要手工登记每个函数吗？",
+        "CLI 从契约枚举；目标中的 PML 自动发现为下一阶段。",
+        [
+          "R08",
+          "R16"
+        ]
+      ],
+      [
+        "S13",
+        "查询结果",
+        "query",
+        "怎样有条件地看模型信息？",
+        "先核验目标；按种类与文字筛选；预算内分页。",
+        [
+          "R09",
+          "R17",
+          "R18"
+        ]
+      ],
+      [
+        "S14",
+        "查询筛选结果",
+        "query",
+        "条件变了还能接旧页吗？",
+        "条件变更重新查询，不拼接旧续页；保留空值与原生类型。",
+        [
+          "R09",
+          "R18"
+        ]
+      ],
+      [
+        "S15",
+        "运行记录",
+        "records",
+        "怎么找到这次调用？",
+        "按状态、操作与文字筛选；通过关联编号回到回执。",
+        [
+          "R09",
+          "R21"
+        ]
+      ],
+      [
+        "S16",
+        "权限与启动动作",
+        "permissions",
+        "既要方便又要可控，怎么选？",
+        "查资料、写配置、启动与执行分别授权；REHASH 默认关闭。",
+        [
+          "R11",
+          "R16",
+          "R23"
+        ]
+      ],
+      [
+        "S17",
+        "脚本部署计划",
+        "scripts",
+        "AI 写完代码以后做什么？",
+        "看文件差异与备份，再确认复制与加载目标。",
+        [
+          "R10",
+          "R19"
+        ]
+      ],
+      [
+        "S18",
+        "加载与调试",
+        "scripts",
+        "结果不对怎么继续？",
+        "回读输出与预期，保存失败回执，修改后独立验证。",
+        [
+          "R10",
+          "R22"
+        ]
+      ],
+      [
+        "S19",
+        "结果不明",
+        "records",
+        "超时能直接再点一次吗？",
+        "先核验模型与回执；可能已执行的命令不自动重试。",
+        [
+          "R11",
+          "R21"
+        ]
+      ],
+      [
+        "S20",
+        "目标不可用",
+        "query",
+        "连接不可用还可以做什么？",
+        "查资料、看配置和计划；重新发现并核验目标。",
+        [
+          "R12",
+          "R17"
+        ]
+      ],
+      [
+        "S21",
+        "需求与实现索引",
+        "overview",
+        "接手时先看什么？",
+        "任务→需求→交互→操作→Roslyn 符号→测试，按 ID 跳转。",
+        [
+          "R24"
+        ]
+      ],
+      [
+        "S22",
+        "开发授权已设置",
+        "permissions",
+        "设置授权是否等于已执行？",
+        "许可不会自动执行；返回计划，仍需核对目标与差异。",
+        [
+          "R11",
+          "R16"
+        ]
+      ],
+      [
+        "S23",
+        "执行未授权",
+        "scripts",
+        "为什么现在不能加载？",
+        "PML 执行未授权；可继续预览，或明确调整后续许可。",
+        [
+          "R10",
+          "R11",
+          "R16"
+        ]
+      ],
+      [
+        "S24",
+        "未发现安装",
+        "launch",
+        "没有找到安装怎么办？",
+        "选择产品后可手动定位安装；发现环境不代表已登录。",
+        [
+          "R02",
+          "R12"
+        ]
+      ],
+      [
+        "S25",
+        "启动预览",
+        "launch",
+        "即将启动哪个工程？",
+        "核对产品、模块、工程、MDB 与许可；保存和启动分别确认。",
+        [
+          "R02",
+          "R04",
+          "R16",
+          "R23"
+        ]
+      ],
+      [
+        "S26",
+        "进程已启动",
+        "launch",
+        "程序启动后就连接了吗？",
+        "已创建进程；继续发现并核验 Host，才能查询或执行。",
+        [
+          "R02",
+          "R17"
+        ]
+      ],
+      [
+        "S27",
+        "启动未授权",
+        "launch",
+        "为什么没有启动工程？",
+        "本次没有创建进程；先明确允许启动，再回到启动计划。",
+        [
+          "R11",
+          "R16"
+        ]
+      ],
+      [
+        "S28",
+        "启动许可已设置",
+        "permissions",
+        "允许启动会立即打开工程吗？",
+        "不会。回到启动计划核对后，再确认创建进程。",
+        [
+          "R11",
+          "R16"
+        ]
+      ],
+      [
+        "S29",
+        "目标已核验",
+        "launch",
+        "现在可以做什么？",
+        "核验目标身份与 Host 协议后，可进入查询；执行仍需单独授权。",
+        [
+          "R09",
+          "R17"
+        ]
+      ],
+      [
+        "S30",
+        "配置写入未授权",
+        "launch",
+        "为什么文件没有改变？",
+        "本次没有提交配置；草稿仍在。明确允许写入后，返回编辑并重新预览。",
+        [
+          "R04",
+          "R12",
+          "R16"
+        ]
+      ]
+    ],
+    "transitionFields": [
+      "from",
+      "control",
+      "label",
+      "to",
+      "guard",
+      "otherwise"
+    ],
+    "transitions": [
+      [
+        "S01",
+        "filter",
+        "应用筛选",
+        "S02"
+      ],
+      [
+        "S02",
+        "reset",
+        "清空条件",
+        "S01"
+      ],
+      [
+        "S01",
+        "edit",
+        "编辑所选配置",
+        "S03"
+      ],
+      [
+        "S03",
+        "preview",
+        "查看保存差异",
+        "S04"
+      ],
+      [
+        "S04",
+        "save",
+        "确认保存",
+        "S05",
+        "writeAllowed",
+        "S30"
+      ],
+      [
+        "S05",
+        "reopen",
+        "重新读取",
+        "S05"
+      ],
+      [
+        "S04",
+        "conflict",
+        "评审：修订冲突",
+        "S06"
+      ],
+      [
+        "S06",
+        "compare",
+        "重读并保留草稿",
+        "S03"
+      ],
+      [
+        "S05",
+        "history",
+        "查看历史",
+        "S07"
+      ],
+      [
+        "S07",
+        "restore",
+        "预览所选修订",
+        "S08"
+      ],
+      [
+        "S08",
+        "confirm",
+        "确认恢复为新修订",
+        "S09",
+        "writeAllowed",
+        "S30"
+      ],
+      [
+        "S08",
+        "cancel",
+        "取消恢复",
+        "S07"
+      ],
+      [
+        "S10",
+        "search",
+        "检索官方资料",
+        "S11"
+      ],
+      [
+        "S11",
+        "discover",
+        "查看相关能力",
+        "S12"
+      ],
+      [
+        "S12",
+        "plan",
+        "进入脚本计划",
+        "S17"
+      ],
+      [
+        "S13",
+        "filter",
+        "应用筛选",
+        "S14"
+      ],
+      [
+        "S14",
+        "reset",
+        "清空查询条件",
+        "S13"
+      ],
+      [
+        "S13",
+        "unavailable",
+        "评审：目标失效",
+        "S20"
+      ],
+      [
+        "S20",
+        "retry",
+        "重新发现目标",
+        "S13"
+      ],
+      [
+        "S17",
+        "apply",
+        "确认部署与加载",
+        "S18",
+        "executionAllowed",
+        "S23"
+      ],
+      [
+        "S18",
+        "verify",
+        "查看运行回执",
+        "S15"
+      ],
+      [
+        "S18",
+        "timeout",
+        "评审：结果未知",
+        "S19"
+      ],
+      [
+        "S19",
+        "inspect",
+        "核验关联回执",
+        "S15"
+      ],
+      [
+        "S15",
+        "permission",
+        "调整后续执行权限",
+        "S16"
+      ],
+      [
+        "S16",
+        "enable",
+        "允许后续执行",
+        "S22"
+      ],
+      [
+        "S22",
+        "continue",
+        "返回脚本计划",
+        "S17"
+      ],
+      [
+        "S22",
+        "disable",
+        "关闭执行",
+        "S16"
+      ],
+      [
+        "S23",
+        "permission",
+        "调整执行许可",
+        "S16"
+      ],
+      [
+        "S23",
+        "preview",
+        "返回只读计划",
+        "S17"
+      ],
+      [
+        "S01",
+        "missing",
+        "评审：缺安装",
+        "S24"
+      ],
+      [
+        "S24",
+        "locate",
+        "定位安装并编辑",
+        "S03"
+      ],
+      [
+        "S01",
+        "start",
+        "查看启动计划",
+        "S25"
+      ],
+      [
+        "S05",
+        "start",
+        "查看启动计划",
+        "S25"
+      ],
+      [
+        "S25",
+        "launch",
+        "确认启动",
+        "S26",
+        "launchAllowed",
+        "S27"
+      ],
+      [
+        "S25",
+        "cancel",
+        "返回配置",
+        "S01"
+      ],
+      [
+        "S26",
+        "verify",
+        "发现并核验 Host",
+        "S29"
+      ],
+      [
+        "S26",
+        "unavailable",
+        "评审：目标失效",
+        "S20"
+      ],
+      [
+        "S27",
+        "permission",
+        "调整启动许可",
+        "S16"
+      ],
+      [
+        "S16",
+        "enableLaunch",
+        "允许后续启动",
+        "S28"
+      ],
+      [
+        "S28",
+        "continue",
+        "返回启动计划",
+        "S25"
+      ],
+      [
+        "S28",
+        "disableLaunch",
+        "关闭启动许可",
+        "S16"
+      ],
+      [
+        "S29",
+        "query",
+        "进入查询结果",
+        "S13"
+      ],
+      [
+        "S16",
+        "disableWrite",
+        "关闭配置写入",
+        "S30"
+      ],
+      [
+        "S30",
+        "enableWrite",
+        "允许后续配置写入",
+        "S03"
+      ],
+      [
+        "S30",
+        "permission",
+        "查看权限范围",
+        "S16"
+      ]
+    ],
+    "models": [
+      {
+        "id": "M1",
+        "name": "配置修订",
+        "facts": [
+          "共享服务",
+          "expectedRevision",
+          "保留未知字段",
+          "草稿隔离",
+          "恢复生成新修订"
+        ],
+        "plain": "界面保存配置时应调用与命令行相同的服务。命令行保存配置时也应调用这个服务。两者都应提供读取时取得的修订，保存前检查当前文件是否仍是那个修订，如果已经变化则拒绝保存。没有修改的扩展字段不能在保存时被删掉。界面编辑中的值与已经保存的值分开。恢复历史也应检查当前修订，校验字段，只更新选中的配置，并再增加一条修订，不能把整份旧文件覆盖回去。",
+        "model": "WPF/CLI→共享服务；草稿隔离。提交(读取修订,draft)→新修订；过期拒绝并保留草稿；未知字段保留。恢复=校验后提交目标配置，生成新修订。",
+        "decision": "采用：已有重复入口和真实并发变化点。"
+      },
+      {
+        "id": "M2",
+        "name": "执行状态机",
+        "facts": [
+          "目标核验",
+          "分权授权",
+          "分派边界",
+          "结果不明",
+          "不自动重试"
+        ],
+        "plain": "执行 PML 以前需要核对目标进程身份和模块，也需要检查是否允许执行；允许写配置或启动程序不代表允许执行 PML。只有这些检查通过才能把操作发给 Host。发给 Host 以前失败可明确说没有执行。已经发送后出现超时或连接中断，则不能据此说没有执行，也不能简单显示成功。应保存结果不明状态，让使用者核验回执和模型，然后自行决定下一步，程序不能自动再次发送同一命令。",
+        "model": "核验目标+执行授权→分派→成功/失败/未知。分派前拒绝=未执行；分派后超时/断线=可能已执行，先核验，不自动重试。写配置、启动、执行权限独立。",
+        "decision": "采用：状态比异常文本更能表达执行边界；不新增通用 Command 总线。"
+      },
+      {
+        "id": "M3",
+        "name": "端口与用例",
+        "facts": [
+          "存储变化点",
+          "目录变化点",
+          "用例内聚",
+          "不逐方法接口化"
+        ],
+        "plain": "配置可能存于本机文件，也可能在将来使用另一种持久化方式，因此配置存储需要可替换。不同产品和安装版本的模块来源不同，因此模块目录也需要可替换。保存、复制配置、设默认以及恢复仍属于同一个启动配置用例，应放在同一个服务内保持规则一致。不能因为想采用某种设计模式，就把服务里的每一个方法都拆成一个接口、一个命令和一个处理器，增加定位路径和需要理解的概念。",
+        "model": "启动用例内聚 B03（共享服务）；可替换 B07（存储）/B08（模块）。无独立变化点就用具体类，不逐方法建接口/Command。",
+        "decision": "采用现有两端口；没有第二实现/独立变化压力时继续用具体类。"
+      }
+    ],
+    "sourceMappings": {
+      "schema": 1,
+      "policy": "来源责任映射；不升级实现或验收状态",
+      "counts": {
+        "Archon": 49,
+        "Next": 39,
+        "PMLTWIN": 103
+      },
+      "rows": [
+        {
+          "source": "Archon",
+          "id": "BRD-001",
+          "owner": "launch",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "待确认"
+        },
+        {
+          "source": "Archon",
+          "id": "BRD-002",
+          "owner": "tools-deployment",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "待确认"
+        },
+        {
+          "source": "Archon",
+          "id": "BRD-003",
+          "owner": "configuration",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "待确认"
+        },
+        {
+          "source": "Archon",
+          "id": "BRD-004",
+          "owner": "composition",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "待确认"
+        },
+        {
+          "source": "Archon",
+          "id": "BRD-005",
+          "owner": "composition",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "待确认"
+        },
+        {
+          "source": "Archon",
+          "id": "PRD-001",
+          "owner": "composition",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "待确认"
+        },
+        {
+          "source": "Archon",
+          "id": "PRD-002",
+          "owner": "launch",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "实现观察"
+        },
+        {
+          "source": "Archon",
+          "id": "PRD-003",
+          "owner": "launch",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "实现观察"
+        },
+        {
+          "source": "Archon",
+          "id": "PRD-004",
+          "owner": "health",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "实现观察"
+        },
+        {
+          "source": "Archon",
+          "id": "PRD-005",
+          "owner": "tools-deployment",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "实现观察"
+        },
+        {
+          "source": "Archon",
+          "id": "PRD-006",
+          "owner": "configuration",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "实现观察"
+        },
+        {
+          "source": "Archon",
+          "id": "PRD-007",
+          "owner": "composition",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "待确认"
+        },
+        {
+          "source": "Archon",
+          "id": "SRS-001",
+          "owner": "composition",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "实现观察"
+        },
+        {
+          "source": "Archon",
+          "id": "SRS-002",
+          "owner": "configuration",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "实现观察"
+        },
+        {
+          "source": "Archon",
+          "id": "SRS-003",
+          "owner": "composition",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "实现观察"
+        },
+        {
+          "source": "Archon",
+          "id": "SRS-004",
+          "owner": "launch",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "实现观察"
+        },
+        {
+          "source": "Archon",
+          "id": "SRS-005",
+          "owner": "configuration",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "实现观察"
+        },
+        {
+          "source": "Archon",
+          "id": "SRS-006",
+          "owner": "launch",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "实现观察"
+        },
+        {
+          "source": "Archon",
+          "id": "SRS-007",
+          "owner": "composition",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "实现观察"
+        },
+        {
+          "source": "Archon",
+          "id": "SRS-008",
+          "owner": "health",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "实现观察"
+        },
+        {
+          "source": "Archon",
+          "id": "SRS-009",
+          "owner": "tools-deployment",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "实现观察"
+        },
+        {
+          "source": "Archon",
+          "id": "SRS-010",
+          "owner": "tools-deployment",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "实现观察"
+        },
+        {
+          "source": "Archon",
+          "id": "SRS-011",
+          "owner": "environment-variables",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "实现观察"
+        },
+        {
+          "source": "Archon",
+          "id": "SRS-012",
+          "owner": "configuration",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "实现观察"
+        },
+        {
+          "source": "Archon",
+          "id": "SRS-013",
+          "owner": "configuration",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "实现观察"
+        },
+        {
+          "source": "Archon",
+          "id": "SRS-014",
+          "owner": "composition",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "待确认"
+        },
+        {
+          "source": "Archon",
+          "id": "FRD-001",
+          "owner": "configuration",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "实现观察"
+        },
+        {
+          "source": "Archon",
+          "id": "FRD-002",
+          "owner": "launch",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "实现观察"
+        },
+        {
+          "source": "Archon",
+          "id": "FRD-003",
+          "owner": "health",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "实现观察"
+        },
+        {
+          "source": "Archon",
+          "id": "FRD-004",
+          "owner": "tools-deployment",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "实现观察"
+        },
+        {
+          "source": "Archon",
+          "id": "FRD-005",
+          "owner": "environment-variables",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "实现观察"
+        },
+        {
+          "source": "Archon",
+          "id": "FRD-006",
+          "owner": "configuration",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "实现观察"
+        },
+        {
+          "source": "Archon",
+          "id": "FRD-007",
+          "owner": "configuration",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "实现观察"
+        },
+        {
+          "source": "Archon",
+          "id": "FRD-008",
+          "owner": "design-evidence",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "实现观察"
+        },
+        {
+          "source": "Archon",
+          "id": "SDD-001",
+          "owner": "composition",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "实现观察"
+        },
+        {
+          "source": "Archon",
+          "id": "SDD-002",
+          "owner": "composition",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "实现观察"
+        },
+        {
+          "source": "Archon",
+          "id": "SDD-003",
+          "owner": "composition",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "实现观察"
+        },
+        {
+          "source": "Archon",
+          "id": "SDD-004",
+          "owner": "composition",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "实现观察"
+        },
+        {
+          "source": "Archon",
+          "id": "SDD-005",
+          "owner": "composition",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "实现观察"
+        },
+        {
+          "source": "Archon",
+          "id": "SDD-006",
+          "owner": "composition",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "实现观察"
+        },
+        {
+          "source": "Archon",
+          "id": "SDS-001",
+          "owner": "configuration",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "实现观察"
+        },
+        {
+          "source": "Archon",
+          "id": "SDS-002",
+          "owner": "composition",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "实现观察"
+        },
+        {
+          "source": "Archon",
+          "id": "SDS-003",
+          "owner": "launch",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "实现观察"
+        },
+        {
+          "source": "Archon",
+          "id": "SDS-004",
+          "owner": "health",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "实现观察"
+        },
+        {
+          "source": "Archon",
+          "id": "SDS-005",
+          "owner": "tools-deployment",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "实现观察"
+        },
+        {
+          "source": "Archon",
+          "id": "SDS-006",
+          "owner": "environment-variables",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "实现观察"
+        },
+        {
+          "source": "Archon",
+          "id": "SDS-007",
+          "owner": "configuration",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "实现观察"
+        },
+        {
+          "source": "Archon",
+          "id": "SDS-008",
+          "owner": "configuration",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "实现观察"
+        },
+        {
+          "source": "Archon",
+          "id": "SDS-009",
+          "owner": "composition",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "实现观察"
+        },
+        {
+          "source": "Next",
+          "id": "PM-01",
+          "owner": "environment",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "已实现并通过验证"
+        },
+        {
+          "source": "Next",
+          "id": "PM-02",
+          "owner": "environment",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "已实现并通过验证"
+        },
+        {
+          "source": "Next",
+          "id": "PM-03",
+          "owner": "environment",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "已实现并通过验证"
+        },
+        {
+          "source": "Next",
+          "id": "PM-04",
+          "owner": "environment",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "已实现并通过验证"
+        },
+        {
+          "source": "Next",
+          "id": "PM-05",
+          "owner": "environment",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "已实现并通过验证；当前只查目录"
+        },
+        {
+          "source": "Next",
+          "id": "RP-01",
+          "owner": "environment",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "方案已补齐，待评审/实现"
+        },
+        {
+          "source": "Next",
+          "id": "RP-02",
+          "owner": "environment",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "方案已补齐，待评审/实现"
+        },
+        {
+          "source": "Next",
+          "id": "RP-03",
+          "owner": "environment",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "方案已补齐，待评审/实现"
+        },
+        {
+          "source": "Next",
+          "id": "PF-01",
+          "owner": "configuration",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "用户已批准Tomlyn 2.10.1；明确暂不安装"
+        },
+        {
+          "source": "Next",
+          "id": "PF-02",
+          "owner": "configuration",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "方案已补齐，待评审/实现"
+        },
+        {
+          "source": "Next",
+          "id": "CR-01",
+          "owner": "configuration",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "基础能力已有；导出边界方案待评审/实现"
+        },
+        {
+          "source": "Next",
+          "id": "CR-02",
+          "owner": "configuration",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "共享引用与授权图稿已设计；待评审/实现"
+        },
+        {
+          "source": "Next",
+          "id": "CR-03",
+          "owner": "configuration",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "方案已补齐，待评审/实现"
+        },
+        {
+          "source": "Next",
+          "id": "CR-04",
+          "owner": "configuration",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "方案已补齐，待评审/实现"
+        },
+        {
+          "source": "Next",
+          "id": "CR-05",
+          "owner": "configuration",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "方案已补齐，待评审/实现"
+        },
+        {
+          "source": "Next",
+          "id": "CR-06",
+          "owner": "configuration",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "方案已补齐，待评审/实现"
+        },
+        {
+          "source": "Next",
+          "id": "CR-07",
+          "owner": "configuration",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "边界已具体化，待评审/落实"
+        },
+        {
+          "source": "Next",
+          "id": "VM-01",
+          "owner": "optional-diagnostics",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "G0/G1环境与10项OS检查通过；16项产品场景仍待实现后分层验证"
+        },
+        {
+          "source": "Next",
+          "id": "VM-02",
+          "owner": "optional-diagnostics",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "G0/G1通过，配置前和Ready快照保留；原VMX哈希例外未掩盖，见[实际记录](xref:remote-project-lab-results)"
+        },
+        {
+          "source": "Next",
+          "id": "LC-01",
+          "owner": "optional-diagnostics",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "只读清单已核对；恢复主机名后AVEVA201签出/归还通过；现有厂商启动链已进入Model，未改许可密钥"
+        },
+        {
+          "source": "Next",
+          "id": "UX-01",
+          "owner": "design-evidence",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "图稿与8张预览已交付，待评审"
+        },
+        {
+          "source": "Next",
+          "id": "LC-02",
+          "owner": "optional-diagnostics",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "已查明：克隆改名使0008主机名绑定失配，RMS拒绝加载许可"
+        },
+        {
+          "source": "Next",
+          "id": "LC-03",
+          "owner": "optional-diagnostics",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "首次失败；恢复主机名后签出/归还通过，后续已定位实验器重定向模式并用原生启动进入Model；清理完成"
+        },
+        {
+          "source": "Next",
+          "id": "LC-04",
+          "owner": "optional-diagnostics",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "已确认失配；后续按LC-05授权恢复名称，指纹重新匹配"
+        },
+        {
+          "source": "Next",
+          "id": "LC-05",
+          "owner": "optional-diagnostics",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "UID3保留；配置与10项SMB通过，4546及AVEVA201签出通过；应用FNF7，克隆关机"
+        },
+        {
+          "source": "Next",
+          "id": "LC-06",
+          "owner": "optional-diagnostics",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "A/B失败、C/D原生句柄启动成功；并非目录缺失，详见开发对照"
+        },
+        {
+          "source": "Next",
+          "id": "DV-01",
+          "owner": "optional-diagnostics",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "dev/RemoteProjectLab已拆分；机器/用户绑定开关默认关闭，6项开关检查及48项架构测试通过"
+        },
+        {
+          "source": "Next",
+          "id": "DV-02",
+          "owner": "optional-diagnostics",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "调用链与图示已补齐；主题仅构建通过，视觉验收重开，见UX-03"
+        },
+        {
+          "source": "Next",
+          "id": "MD-01",
+          "owner": "launch",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "已实现LaunchModel/LaunchWorkspace；原UI不变，草稿版本冲突、快照与记录失败均阻止执行"
+        },
+        {
+          "source": "Next",
+          "id": "DV-03",
+          "owner": "optional-diagnostics",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "用户已确认双包；LabSettings可配置VM，LaunchModel统一许可参数，默认关闭；真实VM参数回归未执行"
+        },
+        {
+          "source": "Next",
+          "id": "FM-01",
+          "owner": "composition",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "WorkspaceHost为唯一login.launch装配入口；两包比较共用DLL哈希，具体CAF插件API适配未实施"
+        },
+        {
+          "source": "Next",
+          "id": "AD-01",
+          "owner": "composition",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "已采用无新依赖的XML清单，工厂与入口受清单约束；启动时装配，VM动作仍需本机授权；TOML解析适配/热卸载未实现"
+        },
+        {
+          "source": "Next",
+          "id": "DG-01",
+          "owner": "tools-deployment",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "已发现三份空Error；同包校验/隔离复制通过，历史底层原因因证据丢失仍未确定，原程序未修复"
+        },
+        {
+          "source": "Next",
+          "id": "UX-04",
+          "owner": "design-evidence",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "新主题已实现；实际呈现与功能检查，视觉仍待评审"
+        },
+        {
+          "source": "Next",
+          "id": "UX-03",
+          "owner": "design-evidence",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "2026-10-31新主题已实现并检查，仍待用户视觉评审"
+        },
+        {
+          "source": "Next",
+          "id": "DOC-03",
+          "owner": "design-evidence",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "8幕导入、6变量/11项回写验证及逐页对照已落地，待用户视觉评审"
+        },
+        {
+          "source": "Next",
+          "id": "DOC-02",
+          "owner": "design-evidence",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "八幕HTML与8张FigCraft画板已交付；交互/窄屏/链接校验通过，展示不操作产品或VM"
+        },
+        {
+          "source": "Next",
+          "id": "DOC-01",
+          "owner": "design-evidence",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "文档入口与元信息已整理；理解成本未做计时实测"
+        },
+        {
+          "source": "Next",
+          "id": "UX-02",
+          "owner": "design-evidence",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "验收契约已写；尚未实施WPF"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "G1",
+          "owner": "composition",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "G2",
+          "owner": "composition",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "G3",
+          "owner": "composition",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "R01",
+          "owner": "composition",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "planned"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "R02",
+          "owner": "environment",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "verified"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "R03",
+          "owner": "launch",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "verified"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "R04",
+          "owner": "configuration",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "verified"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "R05",
+          "owner": "configuration",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "verified"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "R06",
+          "owner": "configuration",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "verified"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "R07",
+          "owner": "knowledge",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "planned"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "R08",
+          "owner": "communication",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "partial"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "R09",
+          "owner": "communication",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "partial"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "R10",
+          "owner": "tools-deployment",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "partial"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "R11",
+          "owner": "communication",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "partial"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "R12",
+          "owner": "composition",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "planned"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "R13",
+          "owner": "composition",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "verified"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "R14",
+          "owner": "configuration",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "verified"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "R15",
+          "owner": "configuration",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "verified"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "R16",
+          "owner": "communication",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "verified"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "R17",
+          "owner": "communication",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "verified"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "R18",
+          "owner": "communication",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "verified"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "R19",
+          "owner": "tools-deployment",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "partial"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "R20",
+          "owner": "knowledge",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "planned"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "R21",
+          "owner": "communication",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "verified"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "R22",
+          "owner": "composition",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "verified"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "R23",
+          "owner": "launch",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "verified"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "R24",
+          "owner": "design-evidence",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "verified"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "B01",
+          "owner": "launch",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "B02",
+          "owner": "launch",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "B03",
+          "owner": "configuration",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "B04",
+          "owner": "configuration",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "B05",
+          "owner": "configuration",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "B06",
+          "owner": "configuration",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "B07",
+          "owner": "configuration",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "B08",
+          "owner": "environment",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "B09",
+          "owner": "environment",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "B10",
+          "owner": "launch",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "B11",
+          "owner": "communication",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "B12",
+          "owner": "composition",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "B13",
+          "owner": "communication",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "B14",
+          "owner": "communication",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "B15",
+          "owner": "communication",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "B16",
+          "owner": "tools-deployment",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "B17",
+          "owner": "knowledge",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "B18",
+          "owner": "communication",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "B19",
+          "owner": "communication",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "B20",
+          "owner": "composition",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "B21",
+          "owner": "launch",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "B22",
+          "owner": "environment",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "B23",
+          "owner": "configuration",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "B24",
+          "owner": "communication",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "B25",
+          "owner": "configuration",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "B29",
+          "owner": "environment",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "B30",
+          "owner": "communication",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "B31",
+          "owner": "communication",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "T01",
+          "owner": "launch",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "T02",
+          "owner": "launch",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "T03",
+          "owner": "configuration",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "T04",
+          "owner": "configuration",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "T05",
+          "owner": "configuration",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "T06",
+          "owner": "configuration",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "T07",
+          "owner": "communication",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "T08",
+          "owner": "communication",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "T09",
+          "owner": "communication",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "T10",
+          "owner": "launch",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "T11",
+          "owner": "communication",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "T12",
+          "owner": "tools-deployment",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "T13",
+          "owner": "communication",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "T14",
+          "owner": "communication",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "T15",
+          "owner": "composition",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "S01",
+          "owner": "launch",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "S02",
+          "owner": "launch",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "S03",
+          "owner": "configuration",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "S04",
+          "owner": "configuration",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "S05",
+          "owner": "configuration",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "S06",
+          "owner": "configuration",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "S07",
+          "owner": "configuration",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "S08",
+          "owner": "configuration",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "S09",
+          "owner": "configuration",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "S10",
+          "owner": "knowledge",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "S11",
+          "owner": "knowledge",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "S12",
+          "owner": "communication",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "S13",
+          "owner": "communication",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "S14",
+          "owner": "communication",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "S15",
+          "owner": "communication",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "S16",
+          "owner": "communication",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "S17",
+          "owner": "tools-deployment",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "S18",
+          "owner": "communication",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "S19",
+          "owner": "communication",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "S20",
+          "owner": "communication",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "S21",
+          "owner": "design-evidence",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "S22",
+          "owner": "communication",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "S23",
+          "owner": "communication",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "S24",
+          "owner": "environment",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "S25",
+          "owner": "launch",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "S26",
+          "owner": "launch",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "S27",
+          "owner": "launch",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "S28",
+          "owner": "launch",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "S29",
+          "owner": "communication",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "S30",
+          "owner": "configuration",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "M1",
+          "owner": "configuration",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "M2",
+          "owner": "communication",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        },
+        {
+          "source": "PMLTWIN",
+          "id": "M3",
+          "owner": "composition",
+          "mappingStatus": "source-accountability-reviewed; implementation-status-unchanged",
+          "sourceStatus": "source-preserved"
+        }
+      ]
+    }
+  },
+  "edges": [
+    {
+      "id": "edge:project-launch",
+      "from": "project:pmltwin",
+      "to": "feature:launch",
+      "relation": "contains",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:launch-uses-workbench-entry",
+      "from": "feature:launch",
+      "to": "script:workbench-entry",
+      "relation": "uses",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation",
+        "source:overview"
+      ]
+    },
+    {
+      "id": "edge:launch-uses-launch-workflow",
+      "from": "feature:launch",
+      "to": "script:launch-workflow",
+      "relation": "uses",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation",
+        "source:overview"
+      ]
+    },
+    {
+      "id": "edge:launch-uses-host-bootstrap",
+      "from": "feature:launch",
+      "to": "script:host-bootstrap",
+      "relation": "uses",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation",
+        "source:overview"
+      ]
+    },
+    {
+      "id": "edge:launch-traces-R02",
+      "from": "feature:launch",
+      "to": "canonical:R02",
+      "relation": "tracesTo",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:launch-traces-R03",
+      "from": "feature:launch",
+      "to": "canonical:R03",
+      "relation": "tracesTo",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:launch-traces-R04",
+      "from": "feature:launch",
+      "to": "canonical:R04",
+      "relation": "tracesTo",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:launch-traces-R05",
+      "from": "feature:launch",
+      "to": "canonical:R05",
+      "relation": "tracesTo",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:launch-traces-R06",
+      "from": "feature:launch",
+      "to": "canonical:R06",
+      "relation": "tracesTo",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:launch-traces-R13",
+      "from": "feature:launch",
+      "to": "canonical:R13",
+      "relation": "tracesTo",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:launch-traces-R14",
+      "from": "feature:launch",
+      "to": "canonical:R14",
+      "relation": "tracesTo",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:launch-traces-R15",
+      "from": "feature:launch",
+      "to": "canonical:R15",
+      "relation": "tracesTo",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:launch-traces-R16",
+      "from": "feature:launch",
+      "to": "canonical:R16",
+      "relation": "tracesTo",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:launch-traces-R23",
+      "from": "feature:launch",
+      "to": "canonical:R23",
+      "relation": "tracesTo",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:project-deployment",
+      "from": "project:pmltwin",
+      "to": "feature:deployment",
+      "relation": "contains",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:deployment-uses-frozen-copy",
+      "from": "feature:deployment",
+      "to": "script:frozen-copy",
+      "relation": "uses",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation",
+        "source:overview"
+      ]
+    },
+    {
+      "id": "edge:deployment-uses-pml-development",
+      "from": "feature:deployment",
+      "to": "script:pml-development",
+      "relation": "uses",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation",
+        "source:overview"
+      ]
+    },
+    {
+      "id": "edge:deployment-traces-R10",
+      "from": "feature:deployment",
+      "to": "canonical:R10",
+      "relation": "tracesTo",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:deployment-traces-R19",
+      "from": "feature:deployment",
+      "to": "canonical:R19",
+      "relation": "tracesTo",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:project-sessions",
+      "from": "project:pmltwin",
+      "to": "feature:sessions",
+      "relation": "contains",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:sessions-uses-communication-client",
+      "from": "feature:sessions",
+      "to": "script:communication-client",
+      "relation": "uses",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation",
+        "source:overview"
+      ]
+    },
+    {
+      "id": "edge:sessions-uses-host-bootstrap",
+      "from": "feature:sessions",
+      "to": "script:host-bootstrap",
+      "relation": "uses",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation",
+        "source:overview"
+      ]
+    },
+    {
+      "id": "edge:sessions-uses-runtime-verification",
+      "from": "feature:sessions",
+      "to": "script:runtime-verification",
+      "relation": "uses",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation",
+        "source:overview"
+      ]
+    },
+    {
+      "id": "edge:sessions-traces-R17",
+      "from": "feature:sessions",
+      "to": "canonical:R17",
+      "relation": "tracesTo",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:project-objects",
+      "from": "project:pmltwin",
+      "to": "feature:objects",
+      "relation": "contains",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:objects-uses-communication-client",
+      "from": "feature:objects",
+      "to": "script:communication-client",
+      "relation": "uses",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation",
+        "source:overview"
+      ]
+    },
+    {
+      "id": "edge:objects-uses-dbref-reader",
+      "from": "feature:objects",
+      "to": "script:dbref-reader",
+      "relation": "uses",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation",
+        "source:overview"
+      ]
+    },
+    {
+      "id": "edge:objects-traces-R09",
+      "from": "feature:objects",
+      "to": "canonical:R09",
+      "relation": "tracesTo",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:objects-traces-R17",
+      "from": "feature:objects",
+      "to": "canonical:R17",
+      "relation": "tracesTo",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:objects-traces-R18",
+      "from": "feature:objects",
+      "to": "canonical:R18",
+      "relation": "tracesTo",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:project-functions",
+      "from": "project:pmltwin",
+      "to": "feature:functions",
+      "relation": "contains",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:functions-uses-communication-client",
+      "from": "feature:functions",
+      "to": "script:communication-client",
+      "relation": "uses",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation",
+        "source:overview"
+      ]
+    },
+    {
+      "id": "edge:functions-uses-pml-development",
+      "from": "feature:functions",
+      "to": "script:pml-development",
+      "relation": "uses",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation",
+        "source:overview"
+      ]
+    },
+    {
+      "id": "edge:functions-traces-R08",
+      "from": "feature:functions",
+      "to": "canonical:R08",
+      "relation": "tracesTo",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:functions-traces-R11",
+      "from": "feature:functions",
+      "to": "canonical:R11",
+      "relation": "tracesTo",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:functions-traces-R16",
+      "from": "feature:functions",
+      "to": "canonical:R16",
+      "relation": "tracesTo",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:functions-traces-R17",
+      "from": "feature:functions",
+      "to": "canonical:R17",
+      "relation": "tracesTo",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:project-forms",
+      "from": "project:pmltwin",
+      "to": "feature:forms",
+      "relation": "contains",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:forms-uses-communication-client",
+      "from": "feature:forms",
+      "to": "script:communication-client",
+      "relation": "uses",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation",
+        "source:overview"
+      ]
+    },
+    {
+      "id": "edge:forms-uses-pml-development",
+      "from": "feature:forms",
+      "to": "script:pml-development",
+      "relation": "uses",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation",
+        "source:overview"
+      ]
+    },
+    {
+      "id": "edge:forms-traces-R09",
+      "from": "feature:forms",
+      "to": "canonical:R09",
+      "relation": "tracesTo",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:forms-traces-R17",
+      "from": "feature:forms",
+      "to": "canonical:R17",
+      "relation": "tracesTo",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:forms-traces-R18",
+      "from": "feature:forms",
+      "to": "canonical:R18",
+      "relation": "tracesTo",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:project-arrays",
+      "from": "project:pmltwin",
+      "to": "feature:arrays",
+      "relation": "contains",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:arrays-uses-array-window",
+      "from": "feature:arrays",
+      "to": "script:array-window",
+      "relation": "uses",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation",
+        "source:overview"
+      ]
+    },
+    {
+      "id": "edge:arrays-traces-R18",
+      "from": "feature:arrays",
+      "to": "canonical:R18",
+      "relation": "tracesTo",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:project-formuse",
+      "from": "project:pmltwin",
+      "to": "feature:formuse",
+      "relation": "contains",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:formuse-traces-R08",
+      "from": "feature:formuse",
+      "to": "canonical:R08",
+      "relation": "tracesTo",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:project-knowledge",
+      "from": "project:pmltwin",
+      "to": "feature:knowledge",
+      "relation": "contains",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:knowledge-uses-knowledge-import",
+      "from": "feature:knowledge",
+      "to": "script:knowledge-import",
+      "relation": "uses",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation",
+        "source:overview"
+      ]
+    },
+    {
+      "id": "edge:knowledge-traces-R07",
+      "from": "feature:knowledge",
+      "to": "canonical:R07",
+      "relation": "tracesTo",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:knowledge-traces-R20",
+      "from": "feature:knowledge",
+      "to": "canonical:R20",
+      "relation": "tracesTo",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:project-activity",
+      "from": "project:pmltwin",
+      "to": "feature:activity",
+      "relation": "contains",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:activity-traces-R09",
+      "from": "feature:activity",
+      "to": "canonical:R09",
+      "relation": "tracesTo",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:activity-traces-R21",
+      "from": "feature:activity",
+      "to": "canonical:R21",
+      "relation": "tracesTo",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:project-review",
+      "from": "project:pmltwin",
+      "to": "feature:review",
+      "relation": "contains",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:review-traces-R01",
+      "from": "feature:review",
+      "to": "canonical:R01",
+      "relation": "tracesTo",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:review-traces-R12",
+      "from": "feature:review",
+      "to": "canonical:R12",
+      "relation": "tracesTo",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:project-tests",
+      "from": "project:pmltwin",
+      "to": "feature:tests",
+      "relation": "contains",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:tests-uses-sdk-acceptance",
+      "from": "feature:tests",
+      "to": "script:sdk-acceptance",
+      "relation": "uses",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation",
+        "source:overview"
+      ]
+    },
+    {
+      "id": "edge:tests-traces-R22",
+      "from": "feature:tests",
+      "to": "canonical:R22",
+      "relation": "tracesTo",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:tests-traces-R24",
+      "from": "feature:tests",
+      "to": "canonical:R24",
+      "relation": "tracesTo",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:project-web",
+      "from": "project:pmltwin",
+      "to": "feature:web",
+      "relation": "contains",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:web-traces-R11",
+      "from": "feature:web",
+      "to": "canonical:R11",
+      "relation": "tracesTo",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:web-traces-R16",
+      "from": "feature:web",
+      "to": "canonical:R16",
+      "relation": "tracesTo",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:project-ribbon",
+      "from": "project:pmltwin",
+      "to": "feature:ribbon",
+      "relation": "contains",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:ribbon-uses-ribbon-frozen-deployment",
+      "from": "feature:ribbon",
+      "to": "script:ribbon-frozen-deployment",
+      "relation": "uses",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation",
+        "source:overview"
+      ]
+    },
+    {
+      "id": "edge:ribbon-uses-ui-pending-gate",
+      "from": "feature:ribbon",
+      "to": "script:ui-pending-gate",
+      "relation": "uses",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation",
+        "source:overview"
+      ]
+    },
+    {
+      "id": "edge:ribbon-uses-runtime-verification",
+      "from": "feature:ribbon",
+      "to": "script:runtime-verification",
+      "relation": "uses",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation",
+        "source:overview"
+      ]
+    },
+    {
+      "id": "edge:ribbon-verified-ribbon-ui",
+      "from": "feature:ribbon",
+      "to": "verification:ribbon-ui",
+      "relation": "verifiedBy",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:evidence"
+      ]
+    },
+    {
+      "id": "edge:ribbon-verified-ribbon-runtime",
+      "from": "feature:ribbon",
+      "to": "verification:ribbon-runtime",
+      "relation": "verifiedBy",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:evidence"
+      ]
+    },
+    {
+      "id": "edge:project-database",
+      "from": "project:pmltwin",
+      "to": "feature:database",
+      "relation": "contains",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:database-uses-migration-preview",
+      "from": "feature:database",
+      "to": "script:migration-preview",
+      "relation": "uses",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation",
+        "source:overview"
+      ]
+    },
+    {
+      "id": "edge:database-traces-R14",
+      "from": "feature:database",
+      "to": "canonical:R14",
+      "relation": "tracesTo",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:database-verified-database-offline",
+      "from": "feature:database",
+      "to": "verification:database-offline",
+      "relation": "verifiedBy",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:evidence"
+      ]
+    },
+    {
+      "id": "edge:project-migration",
+      "from": "project:pmltwin",
+      "to": "feature:migration",
+      "relation": "contains",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:migration-uses-migration-preview",
+      "from": "feature:migration",
+      "to": "script:migration-preview",
+      "relation": "uses",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation",
+        "source:overview"
+      ]
+    },
+    {
+      "id": "edge:migration-verified-migration-offline",
+      "from": "feature:migration",
+      "to": "verification:migration-offline",
+      "relation": "verifiedBy",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:evidence"
+      ]
+    },
+    {
+      "id": "edge:project-caf",
+      "from": "project:pmltwin",
+      "to": "feature:caf",
+      "relation": "contains",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:caf-verified-caf-static",
+      "from": "feature:caf",
+      "to": "verification:caf-static",
+      "relation": "verifiedBy",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:evidence"
+      ]
+    },
+    {
+      "id": "edge:project-plugins",
+      "from": "project:pmltwin",
+      "to": "feature:plugins",
+      "relation": "contains",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:presentation"
+      ]
+    }
+  ],
+  "verifications": [
+    {
+      "id": "verification:migration-offline",
+      "scope": "offline",
+      "result": "passed",
+      "observedAt": "2026-10-31",
+      "environment": {
+        "product": "synthetic"
+      },
+      "claim": "三格式只读预览与敏感剔除专测14项通过。",
+      "exclusions": [
+        "没有执行数据库切换"
+      ],
+      "evidenceIds": [
+        "evidence:migration"
+      ]
+    },
+    {
+      "id": "verification:ribbon-ui",
+      "scope": "ui",
+      "result": "passed",
+      "observedAt": "2026-10-31",
+      "environment": {
+        "product": "synthetic"
+      },
+      "claim": "离线53项通过，Web DOM完整apply；原生WPF仅预览，Apply由HTTP客户端验证。",
+      "exclusions": [
+        "不是UI全程实机验收",
+        "首次新建仍为v1兼容"
+      ],
+      "evidenceIds": [
+        "evidence:ribbon-ui"
+      ]
+    },
+    {
+      "id": "verification:ribbon-runtime",
+      "scope": "runtime",
+      "result": "passed",
+      "observedAt": "2026-10-31",
+      "environment": {
+        "product": "E3D",
+        "version": "2.1",
+        "module": "DESIGN"
+      },
+      "claim": "限定产品正常重启后实际页签、分组、32/16图标与Tooltip通过。",
+      "exclusions": [
+        "未点击宏",
+        "直接HTTP部署，不是UI全程",
+        "不外推其他产品与模块"
+      ],
+      "evidenceIds": [
+        "evidence:ribbon-runtime"
+      ]
+    },
+    {
+      "id": "verification:database-offline",
+      "scope": "offline",
+      "result": "passed",
+      "observedAt": "2026-10-31",
+      "environment": {
+        "product": "synthetic"
+      },
+      "claim": "独立修订存储及冲突、回滚、格式门禁有隔离测试。",
+      "exclusions": [
+        "未整体切换活动存储"
+      ],
+      "evidenceIds": [
+        "evidence:database"
+      ]
+    },
+    {
+      "id": "verification:caf-static",
+      "scope": "static",
+      "result": "passed",
+      "observedAt": "2026-10-31",
+      "environment": {
+        "product": "CAF"
+      },
+      "claim": "真实SDK接口编译与生命周期隔离核查。",
+      "exclusions": [
+        "未真实注册宿主",
+        "未界面挂载"
+      ],
+      "evidenceIds": [
+        "evidence:caf"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "evidence:migration",
+      "kind": "report",
+      "title": "迁移预览验证",
+      "sourceRef": "source:evidence-migration",
+      "audience": "public",
+      "publication": "approved"
+    },
+    {
+      "id": "evidence:ribbon-ui",
+      "kind": "report",
+      "title": "Ribbon界面分层验证",
+      "sourceRef": "source:evidence-ribbon-ui",
+      "audience": "public",
+      "publication": "approved"
+    },
+    {
+      "id": "evidence:ribbon-runtime",
+      "kind": "report",
+      "title": "限定产品运行时外观验证",
+      "sourceRef": "source:evidence-ribbon-runtime",
+      "audience": "public",
+      "publication": "approved"
+    },
+    {
+      "id": "evidence:database",
+      "kind": "report",
+      "title": "独立修订存储验证",
+      "sourceRef": "source:evidence-database",
+      "audience": "public",
+      "publication": "approved"
+    },
+    {
+      "id": "evidence:caf",
+      "kind": "report",
+      "title": "CAF接口隔离验证",
+      "sourceRef": "source:evidence-caf",
+      "audience": "public",
+      "publication": "approved"
+    }
+  ],
+  "sources": [
+    {
+      "id": "source:canonical",
+      "title": "既有生效规范",
+      "sha256": "ff9bc47548d0d6bd920e1519f4b877a4720061d106fc7694943e69003be82c19",
+      "authority": "canonical",
+      "audience": "public"
+    },
+    {
+      "id": "source:capabilities",
+      "title": "既有Feature与Script目录",
+      "sha256": "5438cb4a844055893561efd99a8ee6263d2dfea486f8626c2779cc5197e56cf9",
+      "authority": "catalog",
+      "audience": "public"
+    },
+    {
+      "id": "source:overview",
+      "title": "总体、Feature与内部Script审阅说明",
+      "sha256": "bd67b1a0405b05cfe696dfe6f4eddbed8f05a9a224f1d1ce8d86c33c017fc6bb",
+      "authority": "reviewed-summary",
+      "audience": "public"
+    },
+    {
+      "id": "source:presentation",
+      "title": "明确ID映射及公开审阅摘要",
+      "sha256": "59e1934aaad0b5e3c6cc5258afa7c3dc4d64029b27127ae45a3b1096f996a51c",
+      "authority": "presentation",
+      "audience": "public"
+    },
+    {
+      "id": "source:evidence",
+      "title": "独立人工审阅的只读证据账本",
+      "sha256": "40323c99e3b189b631ee51f58b30aa9263e0e9140d38c1e088e3954c5df91132",
+      "authority": "evidence",
+      "audience": "public"
+    },
+    {
+      "id": "source:source-mappings",
+      "title": "来源限定原ID责任映射",
+      "sha256": "e60c5eba64b1bb8172710b7be5956f07a8f67882da558f0b823140fc42e6dc6b",
+      "authority": "proposal",
+      "audience": "public"
+    },
+    {
+      "id": "source:openspec-proposal",
+      "title": "平台候选proposal",
+      "sha256": "8cc7005d53bdcc99ab18ef42f432736bfbb1b6c7a7db4ffa63c8983c069f8848",
+      "authority": "proposal",
+      "audience": "public"
+    },
+    {
+      "id": "source:openspec-contracts",
+      "title": "平台候选contracts",
+      "sha256": "23f45ae6ebacd16f52c4d83b3b39915156a5fd841315d207059e04028f9e4fd7",
+      "authority": "proposal",
+      "audience": "public"
+    },
+    {
+      "id": "source:openspec-design",
+      "title": "平台候选design",
+      "sha256": "ba94e6769cb06b9c9fdca6a69377fd80ccde10ed57872fe22078e74156cccbf0",
+      "authority": "proposal",
+      "audience": "public"
+    },
+    {
+      "id": "source:openspec-tasks",
+      "title": "平台候选tasks",
+      "sha256": "6cb436ea3b27295c87b5c006c7884b2bc05ae7dc42f46a3b54dc86f8a127b5e1",
+      "authority": "proposal",
+      "audience": "public"
+    },
+    {
+      "id": "source:validator",
+      "title": "共享导入验证器",
+      "sha256": "a053f6ec4ca71c18168899f8f35d285e534e4ee56b9f27a438e7c2dd613f7bbf",
+      "authority": "presentation",
+      "audience": "public"
+    },
+    {
+      "id": "source:render-model",
+      "title": "共同组件事实投影",
+      "sha256": "692ad8fa220552a79c55a5e5ff50261c3e851101943cabab08ebc7b996e5fbdc",
+      "authority": "presentation",
+      "audience": "public"
+    },
+    {
+      "id": "source:evidence-migration",
+      "title": "迁移预览验证",
+      "sha256": "3c0e42140b5a46e65301098e82794e459a092fb1acdce8ffdc1601a24deb72a1",
+      "authority": "evidence",
+      "audience": "public"
+    },
+    {
+      "id": "source:evidence-ribbon-ui",
+      "title": "Ribbon界面分层验证",
+      "sha256": "526b7e7542a1502f9aac70f642e89911503b4faa478bfe8958f150db04ed5567",
+      "authority": "evidence",
+      "audience": "public"
+    },
+    {
+      "id": "source:evidence-ribbon-runtime",
+      "title": "限定产品运行时外观验证",
+      "sha256": "9778c9cfde3970cbfb91588678bfc5becc08f4007fb7305c1ca7181d7c680044",
+      "authority": "evidence",
+      "audience": "public"
+    },
+    {
+      "id": "source:evidence-database",
+      "title": "独立修订存储验证",
+      "sha256": "4a57b1c75ec338f29896d4acf24a92ffd237a11ea2b64d2f96b08ed22b7b9953",
+      "authority": "evidence",
+      "audience": "public"
+    },
+    {
+      "id": "source:evidence-caf",
+      "title": "CAF接口隔离验证",
+      "sha256": "504b9ef46c610669bf1c4e4113b15950abfbd22c7b08f77fa89c7f9088c9814d",
+      "authority": "evidence",
+      "audience": "public"
+    }
+  ],
+  "flows": [
+    {
+      "id": "flow:launch",
+      "title": "发现到观察",
+      "summary": "计划绑定一次动作，未知沿原编号核对。",
+      "featureIds": [
+        "feature:launch"
+      ],
+      "steps": [
+        {
+          "id": "step:launch-discover",
+          "title": "解释候选",
+          "summary": "保留来源与歧义。",
+          "entityId": "feature:launch"
+        },
+        {
+          "id": "step:launch-plan",
+          "title": "冻结计划",
+          "summary": "修订与文件摘要绑定。",
+          "entityId": "script:launch-workflow"
+        },
+        {
+          "id": "step:launch-execute",
+          "title": "受理再执行",
+          "summary": "持久受理失败不启动。",
+          "entityId": "script:launch-workflow"
+        },
+        {
+          "id": "step:launch-observe",
+          "title": "观察原编号",
+          "summary": "unknown不重放。",
+          "entityId": "script:launch-workflow"
+        }
+      ],
+      "connections": [
+        {
+          "from": "step:launch-discover",
+          "to": "step:launch-plan",
+          "label": "确定目标",
+          "kind": "next"
+        },
+        {
+          "from": "step:launch-plan",
+          "to": "step:launch-execute",
+          "label": "明确授权",
+          "kind": "next"
+        },
+        {
+          "from": "step:launch-execute",
+          "to": "step:launch-observe",
+          "label": "回执或unknown",
+          "kind": "uncertain"
+        }
+      ]
+    },
+    {
+      "id": "flow:ribbon",
+      "title": "编辑、部署与独立加载核验",
+      "summary": "磁盘写入不等于运行时已加载。",
+      "featureIds": [
+        "feature:ribbon"
+      ],
+      "steps": [
+        {
+          "id": "step:ribbon-preview",
+          "title": "冻结差异",
+          "summary": "绑定文档、目标与期限。",
+          "entityId": "script:ribbon-frozen-deployment"
+        },
+        {
+          "id": "step:ribbon-pending",
+          "title": "先记录pending",
+          "summary": "写前持久，跨页面互斥。",
+          "entityId": "script:ui-pending-gate"
+        },
+        {
+          "id": "step:ribbon-apply",
+          "title": "仅发送原引用",
+          "summary": "写后哈希核验。",
+          "entityId": "script:ribbon-frozen-deployment"
+        },
+        {
+          "id": "step:ribbon-check",
+          "title": "人工核对",
+          "summary": "不确定时暂停，不自动重放。",
+          "entityId": "script:ui-pending-gate"
+        },
+        {
+          "id": "step:ribbon-runtime",
+          "title": "独立核验加载",
+          "summary": "产品范围、实际UI与未执行宏分别记录。",
+          "entityId": "script:runtime-verification"
+        }
+      ],
+      "connections": [
+        {
+          "from": "step:ribbon-preview",
+          "to": "step:ribbon-pending",
+          "label": "确认",
+          "kind": "next"
+        },
+        {
+          "from": "step:ribbon-pending",
+          "to": "step:ribbon-apply",
+          "label": "记录成功",
+          "kind": "next"
+        },
+        {
+          "from": "step:ribbon-apply",
+          "to": "step:ribbon-check",
+          "label": "unknown",
+          "kind": "uncertain"
+        },
+        {
+          "from": "step:ribbon-check",
+          "to": "step:ribbon-preview",
+          "label": "人工核对后新预览",
+          "kind": "recovery"
+        },
+        {
+          "from": "step:ribbon-apply",
+          "to": "step:ribbon-runtime",
+          "label": "独立授权与证据",
+          "kind": "next"
+        }
+      ]
+    },
+    {
+      "id": "flow:migration",
+      "title": "先只读预览，再考虑切换",
+      "summary": "只读阶段已完成；写入切换另属未完成契约。",
+      "featureIds": [
+        "feature:migration",
+        "feature:database"
+      ],
+      "steps": [
+        {
+          "id": "step:migration-read",
+          "title": "受限读取",
+          "summary": "明确来源与预算。",
+          "entityId": "script:migration-preview"
+        },
+        {
+          "id": "step:migration-review",
+          "title": "净化与审查",
+          "summary": "保留历史，剔除秘密，不激活。",
+          "entityId": "feature:migration"
+        },
+        {
+          "id": "step:migration-future",
+          "title": "未来显式切换",
+          "summary": "切换、备份与恢复尚未闭环。",
+          "entityId": "feature:database"
+        }
+      ],
+      "connections": [
+        {
+          "from": "step:migration-read",
+          "to": "step:migration-review",
+          "label": "材料完整",
+          "kind": "next"
+        },
+        {
+          "from": "step:migration-review",
+          "to": "step:migration-future",
+          "label": "独立待实现",
+          "kind": "uncertain"
+        }
+      ]
+    }
+  ],
+  "views": [
+    {
+      "id": "view:overview",
+      "component": "ProjectOverview",
+      "entityId": "project:pmltwin",
+      "props": {}
+    },
+    {
+      "id": "view:launch",
+      "component": "FeatureCard",
+      "entityId": "feature:launch",
+      "props": {}
+    },
+    {
+      "id": "view:deployment",
+      "component": "FeatureCard",
+      "entityId": "feature:deployment",
+      "props": {}
+    },
+    {
+      "id": "view:sessions",
+      "component": "FeatureCard",
+      "entityId": "feature:sessions",
+      "props": {}
+    },
+    {
+      "id": "view:objects",
+      "component": "FeatureCard",
+      "entityId": "feature:objects",
+      "props": {}
+    },
+    {
+      "id": "view:functions",
+      "component": "FeatureCard",
+      "entityId": "feature:functions",
+      "props": {}
+    },
+    {
+      "id": "view:forms",
+      "component": "FeatureCard",
+      "entityId": "feature:forms",
+      "props": {}
+    },
+    {
+      "id": "view:arrays",
+      "component": "FeatureCard",
+      "entityId": "feature:arrays",
+      "props": {}
+    },
+    {
+      "id": "view:formuse",
+      "component": "FeatureCard",
+      "entityId": "feature:formuse",
+      "props": {}
+    },
+    {
+      "id": "view:knowledge",
+      "component": "FeatureCard",
+      "entityId": "feature:knowledge",
+      "props": {}
+    },
+    {
+      "id": "view:activity",
+      "component": "FeatureCard",
+      "entityId": "feature:activity",
+      "props": {}
+    },
+    {
+      "id": "view:review",
+      "component": "FeatureCard",
+      "entityId": "feature:review",
+      "props": {}
+    },
+    {
+      "id": "view:tests",
+      "component": "FeatureCard",
+      "entityId": "feature:tests",
+      "props": {}
+    },
+    {
+      "id": "view:web",
+      "component": "FeatureCard",
+      "entityId": "feature:web",
+      "props": {}
+    },
+    {
+      "id": "view:ribbon",
+      "component": "FeatureCard",
+      "entityId": "feature:ribbon",
+      "props": {}
+    },
+    {
+      "id": "view:database",
+      "component": "FeatureCard",
+      "entityId": "feature:database",
+      "props": {}
+    },
+    {
+      "id": "view:migration",
+      "component": "FeatureCard",
+      "entityId": "feature:migration",
+      "props": {}
+    },
+    {
+      "id": "view:caf",
+      "component": "FeatureCard",
+      "entityId": "feature:caf",
+      "props": {}
+    },
+    {
+      "id": "view:plugins",
+      "component": "FeatureCard",
+      "entityId": "feature:plugins",
+      "props": {}
+    },
+    {
+      "id": "view:script-workbench-entry",
+      "component": "ScriptContractCard",
+      "entityId": "script:workbench-entry",
+      "props": {}
+    },
+    {
+      "id": "view:script-launch-workflow",
+      "component": "ScriptContractCard",
+      "entityId": "script:launch-workflow",
+      "props": {}
+    },
+    {
+      "id": "view:script-communication-client",
+      "component": "ScriptContractCard",
+      "entityId": "script:communication-client",
+      "props": {}
+    },
+    {
+      "id": "view:script-frozen-copy",
+      "component": "ScriptContractCard",
+      "entityId": "script:frozen-copy",
+      "props": {}
+    },
+    {
+      "id": "view:script-pml-development",
+      "component": "ScriptContractCard",
+      "entityId": "script:pml-development",
+      "props": {}
+    },
+    {
+      "id": "view:script-array-window",
+      "component": "ScriptContractCard",
+      "entityId": "script:array-window",
+      "props": {}
+    },
+    {
+      "id": "view:script-dbref-reader",
+      "component": "ScriptContractCard",
+      "entityId": "script:dbref-reader",
+      "props": {}
+    },
+    {
+      "id": "view:script-host-bootstrap",
+      "component": "ScriptContractCard",
+      "entityId": "script:host-bootstrap",
+      "props": {}
+    },
+    {
+      "id": "view:script-ribbon-frozen-deployment",
+      "component": "ScriptContractCard",
+      "entityId": "script:ribbon-frozen-deployment",
+      "props": {}
+    },
+    {
+      "id": "view:script-migration-preview",
+      "component": "ScriptContractCard",
+      "entityId": "script:migration-preview",
+      "props": {}
+    },
+    {
+      "id": "view:script-knowledge-import",
+      "component": "ScriptContractCard",
+      "entityId": "script:knowledge-import",
+      "props": {}
+    },
+    {
+      "id": "view:script-sdk-acceptance",
+      "component": "ScriptContractCard",
+      "entityId": "script:sdk-acceptance",
+      "props": {}
+    },
+    {
+      "id": "view:script-ui-pending-gate",
+      "component": "ScriptContractCard",
+      "entityId": "script:ui-pending-gate",
+      "props": {}
+    },
+    {
+      "id": "view:script-runtime-verification",
+      "component": "ScriptContractCard",
+      "entityId": "script:runtime-verification",
+      "props": {}
+    }
+  ],
+  "diagnostics": []
+};

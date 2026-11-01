@@ -1,0 +1,92 @@
+{
+  "id": "prism",
+  "name": "PRISM / 液态中枢",
+  "tagline": "让复杂，有迹可循。",
+  "weights": {
+    "acid": 25,
+    "glass": 60,
+    "skeuo": 15
+  },
+  "palette": {
+    "space": "#071A21",
+    "readingSurface": "#15333F",
+    "ink": "#EDF4F5",
+    "muted": "#AEC4CD",
+    "pathAccent": "#D5FF76",
+    "uncertainty": "#FFCC91"
+  },
+  "layout": [
+    "非对称入口与层叠观察窗，而非三栏文档",
+    "浮动工具舱与五类任务透镜",
+    "任务进入后切换为一个带步骤轨道的观察窗，细约由共享阅读器展开",
+    "酸性色仅引导明确选择与真实next路径，不代表运行状态"
+  ],
+  "materials": [
+    "玻璃用于导航与外壳深度，正文底面保持接近不透明",
+    "折射边和两层轻旋转空白镜片只作装饰，不伪造业务界面",
+    "控件以细内高光、微投影和凹面分区形成15%拟物触感",
+    "backdrop-filter不可用时退为稳定实色"
+  ],
+  "typography": [
+    "Segoe UI / Microsoft YaHei，等宽只用于观察标签",
+    "入口大标题与任务标题中性，正文15–16px、辅助信息不作为唯一任务答案",
+    "共享阅读器保留全部原文、状态、来源与证据排除范围"
+  ],
+  "interaction": [
+    "真实Feature与flow/step来自共同IR",
+    "重复Script保留独立stepId，不按数组顺序补造下一步",
+    "文档、证据、规范与实际操作分开；本页没有软件执行动作",
+    "切换ION/PRISM/BENCH保留同一有效内容状态",
+    "键盘焦点可见，减少动态效果偏好下无位移动效"
+  ],
+  "responsive": [
+    "1440：双重心非对称空间，全部主入口在首屏",
+    "1024：压缩镜片间距，保留两重心与完整控件",
+    "390：先任务入口再观察窗，分组按钮换行，步骤轨道两列，所有内容自身换行",
+    "共享长表与代码由阅读器容器滚动，不扩展页面宽度"
+  ],
+  "regions": [
+    {
+      "id": "B1",
+      "name": "浮动指挥舱",
+      "focus": "品牌、跨版导航与目录的玻璃/拟物平衡",
+      "selector": ".command-shell",
+      "context": "any"
+    },
+    {
+      "id": "B2",
+      "name": "折光入口",
+      "focus": "主标题、任务价值和直接进入动作",
+      "selector": ".intro",
+      "context": "project"
+    },
+    {
+      "id": "B3",
+      "name": "内容透镜",
+      "focus": "稳定文字底面、折射边和层叠空间",
+      "selector": ".observatory",
+      "context": "project"
+    },
+    {
+      "id": "B4",
+      "name": "阅读分组底舱",
+      "focus": "五组导航，酸性短标记只指当前选中组",
+      "selector": ".group-dock",
+      "context": "project"
+    },
+    {
+      "id": "B5",
+      "name": "任务观察窗",
+      "focus": "进入启动任务后，独立步骤、交付与真实出口",
+      "selector": ".journey-lens",
+      "context": "task"
+    },
+    {
+      "id": "B6",
+      "name": "共同内容底签",
+      "focus": "只读边界和来源快照，避免伪实时指标",
+      "selector": ".context-strip",
+      "context": "any"
+    }
+  ]
+}

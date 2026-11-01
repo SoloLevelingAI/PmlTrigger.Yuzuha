@@ -35,3 +35,10 @@
 #### Scenario: Old runtime host
 - **WHEN** 现代管理器连接 NET35 或 NET48 产品宿主
 - **THEN** 使用版本匹配的进程协议和宿主适配，不尝试将现代 Database DLL 直接加载到旧宿主。
+
+### Requirement: Read only legacy migration preview
+迁移预览 SHALL 明确支持格式、来源摘要、字段及历史映射、秘密剔除和不支持项；MUST 只读选定来源并保持 activate=false。状态：planned；细化见 [续作契约](../../features/continuation-contracts.md)。
+
+#### Scenario: Legacy source contains credentials and unsupported launch mode
+- **WHEN** 来源包含秘密、凭据引用或 Direct 启动配置
+- **THEN** 输出剔除路径及不支持诊断而非秘密值；不将 Direct 改成 Monitor，不写来源或激活配置。

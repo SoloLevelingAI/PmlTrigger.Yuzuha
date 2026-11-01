@@ -1,0 +1,19 @@
+  正在确定要还原的项目…
+  所有项目均是最新的，无法还原。
+  YuzuhaToolkit.Workspace -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Workspace\bin\Release\net10.0\YuzuhaToolkit.Workspace.dll
+  PmlTwin.Phayton -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\PmlTwin.Phayton\bin\Release\net10.0\PmlTwin.Phayton.dll
+  YuzuhaToolkit.Builtins -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Builtins\bin\Release\net10.0\YuzuhaToolkit.Builtins.dll
+  PlantHost.Rpc.Net10 -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\PlantHost.Rpc.Net10\bin\Release\net10.0\PlantHost.Rpc.Net10.dll
+  YuzuhaToolkit.Communication.Contracts -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Communication.Contracts\bin\Release\net10.0\YuzuhaToolkit.Communication.Contracts.dll
+  YuzuhaToolkit.Knowledge.Core -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Knowledge.Core\bin\Release\net10.0\YuzuhaToolkit.Knowledge.Core.dll
+  YuzuhaToolkit.Plugins.Contracts -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Plugins.Contracts\bin\Release\net10.0\YuzuhaToolkit.Plugins.Contracts.dll
+  YuzuhaToolkit.Mcp.Core -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Mcp.Core\bin\Release\net10.0\YuzuhaToolkit.Mcp.Core.dll
+  YuzuhaToolkit.Manager.Core -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Manager.Core\bin\Release\net10.0\YuzuhaToolkit.Manager.Core.dll
+  YuzuhaToolkit.Desktop -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Desktop\bin\Release\net10.0-windows\YuzuhaToolkit.Desktop.dll
+
+已成功生成。
+    0 个警告
+    0 个错误
+
+已用时间 00:00:05.01
+UI static trace: 330 XAML entries, 59797 relationships, 715 explicit boundaries.

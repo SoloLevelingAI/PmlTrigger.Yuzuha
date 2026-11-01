@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "scope": "isolated real Chromium synthetic nested Shadow DOM; no app integration or engineering execution",
+  "checks": [
+    "registered DOM/shadow order",
+    "unique stable keys and duplicate refusal",
+    "normal links and keyboard",
+    "all necessary disclosure keys and synchronous repaint",
+    "summary opens own details",
+    "top offset and heading focus",
+    "scrollspy without URL/focus mutation",
+    "closed visible ancestor",
+    "relative revision position",
+    "missing target fallback",
+    "narrow directory closure",
+    "stale navigation invalidation and destroy"
+  ],
+  "pageErrors": []
+}

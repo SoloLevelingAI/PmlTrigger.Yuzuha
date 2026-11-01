@@ -39,3 +39,25 @@
 #### Scenario: Attempt to bypass protection
 - **WHEN** HTTP、CLI 或 CAF 入口伪造 managed/sourcePath 等字段以接管、覆盖或移除受保护原生条目
 - **THEN** 拒绝操作并返回权限原因，不写文件；自动发现结果不授予写权限，合法托管操作仍须通过摘要重验。
+
+### Requirement: Versioned frozen deployment and activation evidence
+严格版本化部署入口 SHALL 绑定预览输入、源修订、权威目标、前后哈希及期限；MUST 保持旧 v1 的兼容边界并分离保存、落盘与实际加载。状态：planned；细化见 [续作契约](../../features/continuation-contracts.md)。
+
+#### Scenario: Preview no longer matches source or target
+- **WHEN** 应用冻结计划时文档历史、目标文件或计划身份已变化
+- **THEN** 在业务写入前拒绝，不以新输入套用旧目标哈希，不为前置校验失败创建编辑历史。
+
+#### Scenario: File changes complete while AVEVA is running
+- **WHEN** UIC 或选定加载 XML 已写入且回读通过
+- **THEN** 报告配置已部署及待重新加载，不能将其标成已在 AVEVA 加载；不会自动重启或执行宏。
+
+### Requirement: UI uses frozen plans and preserves uncertain outcomes
+Ribbon 编辑 UI SHALL 通过 v2 预览获得服务端计划，再仅以 planId/planDigest 应用。修改文档或目标后 MUST 重新预览；网络中断或 unknown MUST 保留原计划身份与核对提示，禁止自动重试或以新计划掩盖不确定写入。
+
+#### Scenario: Apply from the UI
+- **WHEN** 用户检查冻结预览并确认应用
+- **THEN** 锁定重复提交，校验回执身份，分别展示部署状态和待重启状态；文件回执不能设置 runtimeVerified=true。
+
+#### Scenario: Verify after restart
+- **WHEN** 在明确授权的 APS 环境验证重启生效
+- **THEN** 记录前后进程身份、启动时间、产品/模块/工程及实际可见的 Ribbon 控件证据；仅发现新进程或文件哈希相同不构成加载验收通过。

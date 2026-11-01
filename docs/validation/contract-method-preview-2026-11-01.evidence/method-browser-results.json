@@ -1,0 +1,21 @@
+{
+  "passed": true,
+  "checks": {
+    "unavailable": true,
+    "explicitBinding": true,
+    "signatureXmlPureText": true,
+    "callSiteNavigation": true,
+    "stateAndHash": true,
+    "themeViewPreserved": true,
+    "mobile": true,
+    "staleBodyHidden": true,
+    "draftBindingIsolated": true,
+    "svgExcludesRawSource": true,
+    "catalogBytesAndDigestGate": true,
+    "catalogRevisionIdentityGate": true,
+    "docfxManifestAllowlist": true,
+    "liveRefreshRetainsMethodDisclosureFocusAndState": true,
+    "headingEntrySelectsMethodPreservingStateAndFocus": true
+  },
+  "scriptErrors": []
+}

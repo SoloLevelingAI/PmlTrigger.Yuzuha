@@ -45,6 +45,11 @@ namespace RibbonStudio.Backend
         }
         static void Routes()
         {
+            var frozen = new FrozenDeploymentFeature(store, deployment);
+            post["v2/deployment/file-preview"] = x => frozen.Preview(x, "file-update");
+            post["v2/deployment/file-apply"] = x => frozen.Apply(x, "file-update");
+            post["v2/deployment/registration-preview"] = x => frozen.Preview(x, "registration-add");
+            post["v2/deployment/registration-apply"] = x => frozen.Apply(x, "registration-add");
             var registration = new RegistrationFeature(store);
             post["registration/scan"] = registration.Scan;
             post["registration/profiles"] = x => registration.Profiles();
@@ -124,7 +129,7 @@ namespace RibbonStudio.Backend
                 }
                 if (route.StartsWith("/api/"))
                 {
-                    string name = route.StartsWith("/api/v1/") ? route.Substring(8) : "";
+                    string name = route.StartsWith("/api/v2/") ? "v2/" + route.Substring(8) : route.StartsWith("/api/v1/") ? route.Substring(8) : "";
                     if (!post.ContainsKey(name))
                         throw new ApiError(404, "API 不存在");
                     if (req.HttpMethod != "POST")

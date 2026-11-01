@@ -1,0 +1,63 @@
+
+> contracts:test
+> node --test tests/contract-atlas-metadata.test.mjs tests/contract-atlas-authoring.test.mjs tests/contract-atlas-render-model.test.mjs tests/contract-atlas-pipeline.test.mjs tests/contract-atlas-design.test.mjs tests/contract-atlas-design-tokens.test.mjs tests/contract-atlas-methods.test.mjs tests/contract-atlas-bindings.test.mjs tests/contract-atlas-disclosure.test.mjs
+
+✔ editable is a flat allowlisted projection without canonical/source/implementation/verification mutation fields (1.9456ms)
+✔ pure patch previews change Feature, public seven fields and flow while keeping original canonical/internal script immutable (55.0898ms)
+✔ identity, canonical status, implementation facts and evidence facts cannot be patched (1.5024ms)
+✔ supported presentation views reach shared model; hidden evidence and unsupported props reject before save (33.1521ms)
+✔ candidate generation rejects dangling deletion, public leaks and removal of an original Feature (34.0609ms)
+✔ reviewed evidence claims, dates and exclusions are read-only for both author candidates and file editing (109.3753ms)
+✔ every Feature and Script has one explicit binding or an honest scoped absence (1.1704ms)
+✔ reviewed bindings resolve exact captured symbols and remain inside the direct method catalog budgets (250.1502ms)
+✔ independent section tokens retain theme roles and generate all safe CSS variables with readable neutral text (2.0167ms)
+✔ unsafe/missing section and typography candidates fail before CSS generation (1.9642ms)
+✔ new-dir API consumes shared IR, implements supported layout props and refuses unsafe publication inputs (235.6397ms)
+✔ REAL FigCraft: Feature/Script/step/connection revisions update native components, dual digests, props and preserve lastgood on tool failure (11504.0188ms)
+✔ Figma offline mock consumes the same bundled shared IR text and independent themes; actual Figma remains not-run (163.9998ms)
+✔ explicit global actions clear local overrides and govern unseen content and later scopes (0.6895ms)
+✔ local reading survives navigation scope reuse and remains isolated from independent drafts (0.1159ms)
+✔ no-op native toggles do not generate state loops and removed owners are pruned (0.1655ms)
+✔ canonical identities, all tuple fields, status and 13 original Feature states remain faithful (6.7269ms)
+✔ fourteen reviewed Script contracts have exactly seven fields and public runtime summary never rewrites internal original (3.6745ms)
+✔ stable build/check includes raw byte source fingerprints and rejects even nonsemantic source drift (774.3408ms)
+✔ duplicate IDs, canonical registry corruption, dangling source/goal/edge and unrenderable flow references fail without throwing (39.0019ms)
+✔ public projection rejects leaking paths, machine identities, secret assignments or unreviewed evidence (25.3909ms)
+✔ unsafe URLs, active markup, execution props and prototype pollution are rejected (16.2878ms)
+✔ text/depth/byte/entity/edge/flow/step limits are independent and enforced (44.4571ms)
+✔ browser IIFE and Node use identical validation results; generated external schema is same object (27.7332ms)
+✔ missing snapshot is explicit unavailable; exact binding/config errors fail without guessing (59.6057ms)
+✔ exact overloaded method identity, partial implementation body, XML, async, external and call positions survive (49.3256ms)
+✔ source/producer/old shape stale hides all bodies, input drift supersedes and malformed browser catalog is rejected (139.9676ms)
+✔ xref uses exact published member href and verified assets; wrong hashes and escaped href fail (138.2057ms)
+✔ 64KiB source previews truncate UTF8 safely; configuration-only changes stale the captured compiler snapshot (126.1152ms)
+✔ out-of-scope callers of selected neighbors are summarized without inventing followable methods or edges (58.1836ms)
+✔ empty bindings distinguish unavailable C# scope from not-applicable, with backward-compatible defaults (140.125ms)
+✔ shared publication, unchanged-input deduplication, authoring CAS and durable request reuse (2272.3491ms)
+✔ invalid source and native failure retain lastgood, corrected metadata publishes automatically (1879.6277ms)
+✔ input changed during a build never publishes obsolete output (1738.5072ms)
+✔ publication recovery refuses a manifest with missing required artifact roles (792.1777ms)
+✔ final validation cannot publish superseded source, and cached revisions cannot bypass renderer restart (2529.4422ms)
+✔ HTTP authoring rejects cross-origin, missing token, unknown fields, and unpublished paths (917.2803ms)
+✔ already-current validation cannot clear a renderer restart or reopen authoring (1099.5437ms)
+✔ read-only watcher permits explicit same-origin regeneration without exposing source editing (1039.6742ms)
+✔ shutdown retains the writer lease until an accepted save settles and rejects new saves (1719.5204ms)
+✔ source snapshot rejects a save interleaved between author bytes and dependency hashes (165.3774ms)
+✔ method-only input changes publish a new revision while public facts remain unchanged (1596.2442ms)
+✔ shared cards preserve every Script field, requirement status, implementation scope, limitation and environment/exclusion (12.8655ms)
+✔ shared validation rejects any changed fact or digest; null marks an explicitly unbound local model (132.2249ms)
+✔ views are consumed, unknown values reject and reading mode remains the fallback only when no author variant exists (14.054ms)
+✔ same no-DOM IIFE produces identical browser/Node model and validates without trusting renderer-rewritten facts (76.4036ms)
+✔ small valid metadata cannot multiply a large proof into an unpublishable render model (29.1301ms)
+✔ metadata budget uses exact published pretty UTF-8 bytes instead of accepting a compact-only transport fit (37.1057ms)
+✔ reference index preserves every canonical row, field registry, unknown cell and original status without reconstruction (39.1545ms)
+✔ reference projection retains extension tuple cells after upstream acceptance without guessing column meaning (12.9356ms)
+✔ task map keeps all entity facts and repeated steps, with only registered flow transitions as execution-shaped edges (36.6131ms)
+ℹ tests 51
+ℹ suites 0
+ℹ pass 51
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 16699.1242

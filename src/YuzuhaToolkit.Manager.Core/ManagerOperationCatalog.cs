@@ -74,6 +74,7 @@ public static class ManagerOperationCatalog
         registrations.AddRange(LaunchDiscoveryOperations.Registrations());
         registrations.AddRange(CopyOperations.Registrations());
         registrations.AddRange(LaunchDeskImportOperations.Registrations());
+        registrations.AddRange(MigrationPreviewOperations.Registrations());
         registrations.AddRange(PluginOperations.Registrations());
         registrations.AddRange(FunctionManagementOperations.Registrations(communication));
         registrations.AddRange(RibbonHttpAdapter.Registrations());

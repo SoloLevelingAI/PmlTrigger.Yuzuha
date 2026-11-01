@@ -4,6 +4,12 @@
 
 rewrite、Next 与 Ribbon/UIC 的源码、契约、测试、设计和作品集现已纳入 `integrations/`。换电脑请先读[单仓接手](docs/reference/portable-development.md)，运行 `./scripts/Test-IntegratedWorkspace.ps1`；作品集总入口为 `node scripts/Serve-IntegratedPortfolio.mjs`。不需要另行取得本机相邻项目。
 
+[契约图谱与流程组件](docs/presentation/contract-atlas/index.html)从元数据呈现总体→Feature→Script，支持项目帮助与作品集视图；打开本地HTML即可使用。[复用说明](docs/presentation/contract-atlas/README.md)介绍重新提取、JSON填充、SVG导出及FigCraft/Figma组件入口，规范与实机证据范围随图保留。
+
+[契约到组件的自动生成链](docs/reference/contract-generation-pipeline.zh-CN.md)说明作者字段、共享模型与共同修订；运行`npm run contracts:watch`后，编辑元数据自动更新Web流程卡片并生成同修订FigCraft文件，失败保留上一版。
+
+[契约到方法预览](docs/reference/contract-method-preview.zh-CN.md)复用MSBuild/Roslyn与真实DocFX成员引用；运行`npm run contracts:methods:capture`后，可从Feature/Script查看签名、XML、源码摘要和直接静态调用关系。
+
 当前平台集成候选的实现、验证边界与接手顺序见 [平台交接](openspec/changes/integrate-pmltwin-product-platform/features/platform-foundation-handoff.md)。管理器已有独立 CLI 和接同一后端的本机启动 HTML；Database 修订 DLL、函数入口、Ribbon HTTP 适配与 CAF 编译切片正在逐项融合，不能将这些切片视为完整 WPF/CAF 产品已交付。APS 启动及 Host/PML 实证见 [核验报告](docs/validation/cli-host-compatibility-2026-10-31.md)。
 
 面向 E3D、AM / PDMS 的本机连接层与工作台：查资料、写 PML、备份部署、加载调试、回读结果；也可结合对象数据与视图追查问题和隐含关系。任务能力受平台、脚本与 AI 上下文约束，不承诺自动布管。

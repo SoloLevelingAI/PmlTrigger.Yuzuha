@@ -1,0 +1,36 @@
+{
+  "passed": true,
+  "finishedAt": "2026-11-01T09:47:37.400Z",
+  "pid": 273820,
+  "scope": "真实桌面上的显式目标核验后四类任务往返导航；无查询/授权/PML执行，不重启E3D。",
+  "records": [
+    {
+      "task": "object",
+      "pageTitle": "对象查询",
+      "screenshot": "object-task.png",
+      "returnedToHub": true,
+      "noFabricatedResult": true
+    },
+    {
+      "task": "array",
+      "pageTitle": "读取已有数组",
+      "screenshot": "array-task.png",
+      "returnedToHub": true,
+      "noFabricatedResult": true
+    },
+    {
+      "task": "forms",
+      "pageTitle": "原生 Form / Gadget",
+      "screenshot": "forms-task.png",
+      "returnedToHub": true,
+      "noFabricatedResult": true
+    },
+    {
+      "task": "function",
+      "pageTitle": "能力与函数",
+      "screenshot": "function-task.png",
+      "returnedToHub": true,
+      "noFabricatedResult": true
+    }
+  ]
+}

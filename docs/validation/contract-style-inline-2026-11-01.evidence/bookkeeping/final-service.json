@@ -1,0 +1,10 @@
+{
+  "checkedAt": "2026-11-01T11:54:47.506Z",
+  "status": "ready",
+  "reason": null,
+  "revisionId": "db23f4f0709f0e2154cf9112635d699f0f44e328fffc8b4ee20d304e84ed872e",
+  "metadataDigest": "6f4214cafed8e460fb08213d47ae3e6a9e5a2bdab4933f1cd34174ab0a6e7299",
+  "renderModelDigest": "9c5dbc9a84f254368beab84058de24dfa52c7a1ab24df80d55dd53d4e71972af",
+  "methods": 393,
+  "edges": 1485
+}

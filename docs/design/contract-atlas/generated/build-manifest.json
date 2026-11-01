@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3",
+  "inputs": {
+    "docs/contracts/project.public.json": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3",
+    "docs/presentation/contract-atlas/tokens.json": "67ae804098d62a36db529ce3b67220c044dee696ba726a9f81fdf73a7701284d",
+    "docs/presentation/contract-atlas/metadata-validator.js": "a053f6ec4ca71c18168899f8f35d285e534e4ee56b9f27a438e7c2dd613f7bbf",
+    "docs/design/contract-atlas/source/adapter-core.js": "6cbaed0973bec72f84db802596268f23149d3c6b7dd59fdb0c330bb82193ccd0",
+    "docs/design/contract-atlas/source/figma-runtime.js": "db5485c3f6f5035363ccb2d1370cee089639ab21268ea1cd797b77d0d11d8295",
+    "docs/design/contract-atlas/source/figma-globals.js": "ee8cce789b89dcbd3a65bb0e93fda214bfca81e01138384345cb43818df95771",
+    "scripts/build-contract-atlas-design.mjs": "4299d25afe5e2b5fd791df608f79cfc6d5820e96a9c3d977de05008ad9ae43e9"
+  },
+  "outputs": {
+    "contract-atlas.figcraft": "6d1f88eb9da4937b56e405821bbb24e7c944cb8eadb23ba05559852dd8addb7f",
+    "figma-plugin/code.js": "0d2f9249a6a32ae5a3a10f11f0d424046373ed349373c5044a98ed393414b50f",
+    "generated/native.json": "bf350cf5811e70d05532d30319a5f765446b802c65bfd50de0026cc383eef957",
+    "generated/entity-map.json": "c694141fc6fa5cb0162fe6d6ef9d77a21035a95d4b17a8da631fa1e87cf508b9",
+    "generated/overview.png": "4722e3b3d7938de68f31023c7a178f643fe08339e93360c554f3774171ccfa5c",
+    "generated/components.png": "8123b4699dc263e43e0c2b16945b4e6f93e52066335833a67b9b8c75abae37f8",
+    "generated/scripts.png": "5338d58a9b18adba0d2e37b19a72c47a3987f1891f4a3b7a8b4c88dc44963d96",
+    "generated/flows.png": "7f75c3811d5a7e5b976eab5003961014a3048d5712320171751b225b52cdd674",
+    "generated/help-light.png": "641f9c8d1919c4e95f5e590fdfb06c53bde5234dc77d99267a76ea71a4239f16",
+    "generated/help-dark.png": "90303e8ffb089d41dc5ffb52e1a681433a67668ca3be71fb99f476b8a0ba1008",
+    "generated/portfolio-light.png": "45adeb56536f0e2a7db5ac289b8d5ce3f023b7bb373bf9d02fb99078b7ef6ffb",
+    "generated/portfolio-dark.png": "c55d5fbfeaed713668f3639c62858bba7fd5162d4536cd10884666e1a493660a"
+  },
+  "figcraft": {
+    "version": "0.6.0",
+    "components": [
+      "FeatureCard",
+      "ScriptCard",
+      "EvidenceBadge",
+      "FeatureTile"
+    ],
+    "nativeGenerated": true,
+    "colorModes": [
+      "Light",
+      "Dark"
+    ],
+    "themeSamples": [
+      {
+        "view": "help",
+        "theme": "Light",
+        "name": "Help-Light"
+      },
+      {
+        "view": "help",
+        "theme": "Dark",
+        "name": "Help-Dark"
+      },
+      {
+        "view": "portfolio",
+        "theme": "Light",
+        "name": "Portfolio-Light"
+      },
+      {
+        "view": "portfolio",
+        "theme": "Dark",
+        "name": "Portfolio-Dark"
+      }
+    ],
+    "font": "Microsoft YaHei (system font; glyph rendering requires visual review)"
+  },
+  "figma": {
+    "execution": "not-run",
+    "validation": "offline mock only",
+    "manifest": "template; obtain an ID using Figma Create new Plugin"
+  }
+}

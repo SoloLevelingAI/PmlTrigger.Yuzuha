@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "files": [
+    {
+      "path": "browser-final.log",
+      "sha256": "32d37a0447289a4d4b79d4fb4690e139d45862fb4fde40f998183603897fc8f8"
+    },
+    {
+      "path": "browser-results.json",
+      "sha256": "18b650b014b275949350b1f121017441dd1a029c5c8eb23bdc23995943516351"
+    },
+    {
+      "path": "export-feature-portfolio.svg",
+      "sha256": "bbdabba0ee9483fb4664270b18fae5eaa394aff1ccf034d3ace6065c7a494c96"
+    },
+    {
+      "path": "export-script-portfolio.svg",
+      "sha256": "9469f27998bdb2ef513a99318ba7fc429822ce25fa6403f9bdc4c4af352ee96b"
+    },
+    {
+      "path": "help-1440-script.png",
+      "sha256": "88b6ce995d73e6803637b21bd45774f394f096ceac3f9624f37f45083e1b87df"
+    },
+    {
+      "path": "portfolio-1440-overview.png",
+      "sha256": "cb518f8d8f6595a4de1f8a1d22e9db93a5eb6a51cc90b12a5969f29839159a4d"
+    },
+    {
+      "path": "portfolio-390-script.png",
+      "sha256": "f8598cc66993fc6e8c4e265267203ead4a8046edf1fe2983bff15cdcb4df96db"
+    },
+    {
+      "path": "unit-final.log",
+      "sha256": "f37efa1fc8e0da370a285febf78551e5a7736577a8c2f41eb879bef5596dc599"
+    }
+  ]
+}

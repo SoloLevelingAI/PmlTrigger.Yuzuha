@@ -50,6 +50,8 @@ namespace RibbonStudio
         readonly StackPanel update = new StackPanel { Margin = new Thickness(18) }, moduleEditor = new StackPanel { Margin = new Thickness(18) }, review = new StackPanel { Margin = new Thickness(18) };
         readonly TextBlock feedback = Ui.Text("", 11, Ui.Muted), counts = Ui.Text("", 11, Ui.Muted), leftCount = Ui.Text("未关联", 13), rightCount = Ui.Text("已关联 / 已选", 13);
         readonly DataGrid left = ModuleGrid(), right = ModuleGrid(); readonly Button updateApply, modulesApply; Plan filePlan; List<Plan> plans = new List<Plan>(); List<ModuleRow> rows = new List<ModuleRow>(); string sourcePath, scannedMon; bool working, loadingTargets; Task initializeTask;
+        readonly FrozenDeploymentClient frozen; FrozenPlan frozenFile;
+        readonly Dictionary<string, FrozenPlan> frozenModules = new Dictionary<string, FrozenPlan>();
         public Task Ready()
         {
             return initializeTask ?? (initializeTask = Initialize());
@@ -58,6 +60,7 @@ namespace RibbonStudio
         {
             embedded = embed;
             main = owner;
+            frozen = new FrozenDeploymentClient(Api);
             project = Json.Copy(value);
             Owner = owner;
             Title = "Ribbon Studio · 部署与模块关联";
@@ -74,6 +77,7 @@ namespace RibbonStudio
             var heading = Ui.Text("部署与模块关联", 21);
             DockPanel.SetDock(heading, Dock.Top);
             root.Children.Add(heading);
+            var recover = Ui.Sync("人工核对后解除写入暂停", () => { if (FrozenDeploymentClient.ConfirmManualCheck(main)) feedback.Text = "写入暂停已解除，请重新预览。实际 Ribbon 加载未核验。"; }); DockPanel.SetDock(recover, Dock.Top); root.Children.Add(recover);
             DockPanel.SetDock(feedback, Dock.Bottom);
             root.Children.Add(feedback);
             root.Children.Add(tabs);
@@ -143,6 +147,7 @@ namespace RibbonStudio
                 await Run(PreviewFile);
             else if (tabs.SelectedIndex == 1 && String.IsNullOrEmpty(sourcePath))
                 feedback.Text = "请先导入本机 UIC，或完成新项目首次部署后，再加入其他模块。";
+            if (frozen.Locked) feedback.Text = frozen.Status;
         }
         void BuildUpdate()
         {
@@ -188,14 +193,13 @@ namespace RibbonStudio
         }
         async Task PreviewFile()
         {
+            frozen.EnsureAvailable(); frozenFile = null;
             filePlan = null;
             updateApply.IsEnabled = false;
             feedback.Text = "正在生成并收集关联…";
             var existing = !String.IsNullOrEmpty(sourcePath);
-            var plan = existing ? await Api.Post<Plan>("deployment/file-preview", new
-            {
-                project
-            }) : await Api.Post<Plan>("deployment/preview", new
+            if (existing) frozenFile = await frozen.Preview("file", new { project });
+            var plan = existing ? frozenFile.targetPlan : await Api.Post<Plan>("deployment/preview", new
             {
                 project,
                 monPath = mon.Text.Trim(),
@@ -204,6 +208,7 @@ namespace RibbonStudio
             BuildUpdate();
             var content = new StackPanel();
             content.Children.Add(Ui.Text(plan.unchanged ? "文件已是当前版本" : "确认前检查实际目标", 15));
+            content.Children.Add(Ui.Text(existing ? "v2 冻结计划 " + frozenFile.planId + " · 源版本 " + frozenFile.expectedVersionId + " · 有效期 " + frozenFile.expiresAt : "v1 兼容入口：新文件首次部署，不属于 v2 冻结计划", 11));
             content.Children.Add(Ui.Text("UIC：" + plan.uicPath + "\n生成大小：" + (plan.uicBytes / 1024.0).ToString("0.0") + " KiB · 图标 32×32 / 16×16", 12));
             if (plan.references != null)
             {
@@ -231,6 +236,7 @@ namespace RibbonStudio
         }
         async Task ApplyFile()
         {
+            frozen.EnsureAvailable();
             if (filePlan == null)
                 throw new Exception("请先预览");
             var plan = filePlan;
@@ -238,13 +244,14 @@ namespace RibbonStudio
             updateApply.IsEnabled = false;
             Plan result;
             if (!String.IsNullOrEmpty(sourcePath))
-                result = await Api.Post<Plan>("deployment/file-apply", new
-                {
-                    project,
-                    expectedUicHash = plan.uicHash
-                });
+            {
+                var envelope = frozenFile; frozenFile = null;
+                var receipt = await frozen.Apply("file", envelope);
+                feedback.Text = (receipt.state == "unchanged" ? "磁盘内容相同。" : "UIC 已部署到磁盘。") + FrozenDeploymentClient.ActivationMessage;
+                return;
+            }
             else
-                result = await Api.Post<Plan>("deployment/apply", new
+                result = await frozen.ApplyLegacy(new
                 {
                     project,
                     monPath = plan.monPath,
@@ -252,7 +259,7 @@ namespace RibbonStudio
                     expectedManifestHash = plan.manifestHash,
                     expectedUicHash = plan.uicHash
                 });
-            feedback.Text = result.unchanged ? "文件内容相同，无须重复覆盖" : "部署完成。备份：" + result.backupDirectory + "；重新加载 AVEVA Ribbon 后查看。";
+            feedback.Text = (result.unchanged ? "磁盘内容相同。" : "首次部署已写入磁盘。备份：" + result.backupDirectory + "。") + FrozenDeploymentClient.ActivationMessage;
             var doc = await Api.Post<Document>("workspace/context", new
             {
                 documentId = project.documentId
@@ -369,6 +376,7 @@ namespace RibbonStudio
         }
         async Task PreviewModules()
         {
+            frozen.EnsureAvailable(); frozenModules.Clear();
             InvalidateModules();
             if (String.IsNullOrEmpty(sourcePath))
                 throw new Exception("请先导入本机文件或完成首次部署");
@@ -378,16 +386,17 @@ namespace RibbonStudio
             if (selected.Count == 0)
                 throw new Exception("请将需要加入的模块移到右侧");
             var next = new List<Plan>();
-            foreach (var row in selected)
+            foreach (var row in selected.Take(1))
             {
                 feedback.Text = "正在预览 " + row.manifestName;
-                var plan = await Api.Post<Plan>("deployment/registration-preview", new
+                var envelope = await frozen.Preview("registration", new
                 {
                     project,
                     monPath = scannedMon,
                     manifestName = row.manifestName,
                     entryName = entryName.Text.Trim()
                 });
+                var plan = envelope.targetPlan; frozenModules[row.manifestName] = envelope;
                 plan.monPath = scannedMon;
                 plan.manifestName = row.manifestName;
                 next.Add(plan);
@@ -442,10 +451,11 @@ namespace RibbonStudio
             review.Children.Add(actions);
             moduleEditor.Visibility = Visibility.Collapsed;
             review.Visibility = Visibility.Visible;
-            feedback.Text = "请核对实际路径与新增登记，确认后保存原 XML 备份再写入。";
+            feedback.Text = "本次只确认一个模块，其余保留选择并需另行预览。冻结计划 " + frozenModules.Values.First().planId + " · 有效期 " + frozenModules.Values.First().expiresAt;
         }
         async Task ApplyModules()
         {
+            frozen.EnsureAvailable();
             if (plans.Count == 0)
                 throw new Exception("请先预览");
             var batch = plans.ToList();
@@ -457,22 +467,14 @@ namespace RibbonStudio
                 foreach (var plan in batch)
                 {
                     feedback.Text = "正在加入 " + plan.manifestName;
-                    await Api.Post<Plan>("deployment/registration-apply", new
-                    {
-                        project,
-                        monPath = plan.monPath,
-                        manifestName = plan.manifestName,
-                        entryName = plan.entryName,
-                        expectedManifestHash = plan.manifestHash,
-                        expectedUicHash = plan.uicHash
-                    });
+                    await frozen.Apply("registration", frozenModules[plan.manifestName]);
                     var row = rows.First(r => r.manifestName == plan.manifestName);
                     row.entryNames = new List<string> { plan.entryName };
                     row.Selected = false;
                     row.Marked = false;
                     completed++;
                 }
-                feedback.Text = "已加入 " + completed + " 个模块；UIC 内容保持不变。";
+                feedback.Text = "已登记 " + completed + " 个模块；其余选择须重新预览。" + FrozenDeploymentClient.ActivationMessage;
             }
             catch (Exception error) { throw new Exception("已成功加入 " + completed + " 个，剩余保留待加入。" + error.Message); }
             finally { InvalidateModules(); Filter(); }
@@ -503,6 +505,8 @@ namespace RibbonStudio
             await PreviewModules();
             if (plans.Count != 1 || plans[0].addedEntries.Count != 1)
                 throw new Exception("Native preview content missing");
+            if (frozenModules.Count != 1 || frozenModules.Values.First().contractVersion != 2 || frozenModules.Values.First().kind != "registration-add")
+                throw new Exception("Native module preview did not use frozen v2");
             InvalidateModules();
             await PreviewModules();
             Ui.Capture(this, snapshot);

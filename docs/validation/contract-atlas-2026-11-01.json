@@ -1,0 +1,288 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-11-01",
+  "scope": "contract metadata, reusable Web/design presentation; no product runtime operation",
+  "git": {
+    "head": "39e12f7261891003dfe99594fe5c5e481fe7ac4d",
+    "committed": false,
+    "pushed": false
+  },
+  "metadata": {
+    "schema": "project-contract-metadata/1",
+    "features": 18,
+    "scripts": 14,
+    "requirements": 24,
+    "flows": 3,
+    "canonicalUnchanged": true,
+    "standardSchema": "Ajv 8.17.1 draft 2020-12 strict: internal/public passed",
+    "driftCheck": "passed"
+  },
+  "tests": {
+    "unit": {
+      "passed": 11,
+      "failed": 0,
+      "skipped": 0
+    },
+    "browser": {
+      "schemaVersion": 1,
+      "passed": true,
+      "scope": "file:// native Web Components; public metadata only; no business or runtime execution",
+      "viewports": [
+        1440,
+        768,
+        390
+      ],
+      "views": [
+        "portfolio",
+        "help"
+      ],
+      "geometryChecks": [
+        {
+          "label": "portfolio-1440-overview",
+          "horizontal": false,
+          "overflow": [],
+          "objectObject": false,
+          "overlaps": []
+        },
+        {
+          "label": "portfolio-1440-feature",
+          "horizontal": false,
+          "overflow": [],
+          "objectObject": false,
+          "overlaps": []
+        },
+        {
+          "label": "portfolio-1440-script",
+          "horizontal": false,
+          "overflow": [],
+          "objectObject": false,
+          "overlaps": []
+        },
+        {
+          "label": "help-1440-overview",
+          "horizontal": false,
+          "overflow": [],
+          "objectObject": false,
+          "overlaps": []
+        },
+        {
+          "label": "help-1440-feature",
+          "horizontal": false,
+          "overflow": [],
+          "objectObject": false,
+          "overlaps": []
+        },
+        {
+          "label": "help-1440-script",
+          "horizontal": false,
+          "overflow": [],
+          "objectObject": false,
+          "overlaps": []
+        },
+        {
+          "label": "portfolio-768-overview",
+          "horizontal": false,
+          "overflow": [],
+          "objectObject": false,
+          "overlaps": []
+        },
+        {
+          "label": "portfolio-768-feature",
+          "horizontal": false,
+          "overflow": [],
+          "objectObject": false,
+          "overlaps": []
+        },
+        {
+          "label": "portfolio-768-script",
+          "horizontal": false,
+          "overflow": [],
+          "objectObject": false,
+          "overlaps": []
+        },
+        {
+          "label": "help-768-overview",
+          "horizontal": false,
+          "overflow": [],
+          "objectObject": false,
+          "overlaps": []
+        },
+        {
+          "label": "help-768-feature",
+          "horizontal": false,
+          "overflow": [],
+          "objectObject": false,
+          "overlaps": []
+        },
+        {
+          "label": "help-768-script",
+          "horizontal": false,
+          "overflow": [],
+          "objectObject": false,
+          "overlaps": []
+        },
+        {
+          "label": "portfolio-390-overview",
+          "horizontal": false,
+          "overflow": [],
+          "objectObject": false,
+          "overlaps": []
+        },
+        {
+          "label": "portfolio-390-feature",
+          "horizontal": false,
+          "overflow": [],
+          "objectObject": false,
+          "overlaps": []
+        },
+        {
+          "label": "portfolio-390-script",
+          "horizontal": false,
+          "overflow": [],
+          "objectObject": false,
+          "overlaps": []
+        },
+        {
+          "label": "help-390-overview",
+          "horizontal": false,
+          "overflow": [],
+          "objectObject": false,
+          "overlaps": []
+        },
+        {
+          "label": "help-390-feature",
+          "horizontal": false,
+          "overflow": [],
+          "objectObject": false,
+          "overlaps": []
+        },
+        {
+          "label": "help-390-script",
+          "horizontal": false,
+          "overflow": [],
+          "objectObject": false,
+          "overlaps": []
+        }
+      ],
+      "interactions": {
+        "drilldown": true,
+        "sevenFields": true,
+        "searchAndStatusFilter": true,
+        "emptyState": true,
+        "keyboard": true,
+        "dialogFocusReturn": true,
+        "hashRestore": true,
+        "safeImportAndPreservedOriginal": true,
+        "pureSvg": true
+      },
+      "scriptErrors": [],
+      "networkRequests": []
+    },
+    "figcraft": {
+      "toolVersion": "0.6.0",
+      "nativeGeneration": "passed",
+      "commands": 365,
+      "components": 4,
+      "instances": 50,
+      "editableTexts": 266,
+      "images": 0,
+      "variables": 8,
+      "visualReview": [
+        "overview",
+        "help",
+        "portfolio",
+        "flows"
+      ],
+      "findings": "Chinese glyphs readable; each verification has independent card; product/version/module and all exclusions retained; no observed overlap in reviewed renders; original requirement IDs and states visually checked without overlap",
+      "requirementIdentity": "Original R IDs with per-requirement status preserved in FeatureCard Body, same adapter used by Figma",
+      "flowLayout": "Shared native/Figma model: maximum four steps per row; per-flow and board height account for step rows and all connections"
+    },
+    "figma": {
+      "execution": "not-run",
+      "offlineMock": "passed",
+      "manifest": "registration template without invented id",
+      "exclusions": [
+        "real Figma import and rendering",
+        "font fallback in Figma",
+        "user visual approval"
+      ]
+    }
+  },
+  "preview": {
+    "url": "http://127.0.0.1:19439/",
+    "loopbackOnly": true,
+    "headStatus": 200,
+    "pathTraversalStatus": 403
+  },
+  "independentReview": {
+    "closed": [
+      "canonical malformed registry returns errors instead of throwing",
+      "renderable flow references and independent edge budget",
+      "SVG canonical IDs/status and evidence product/version/module retained",
+      "native long evidence cards no overlap",
+      "Figma complete Script instances and accurate rendered counts",
+      "40-step flow wraps within native frames"
+    ],
+    "visualReview": "root inspected Web desktop/mobile and FigCraft portfolio/flows; user visual approval not claimed"
+  },
+  "earlierAttempts": {
+    "browser": "first search assertion failed; original failure.json/png retained in ignored artifacts/contract-atlas; final run passed",
+    "environment": "sandbox prevented browser/socket checks; final normal-permission runs passed"
+  },
+  "evidenceDirectory": "docs/validation/contract-atlas-2026-11-01.evidence",
+  "files": [
+    {
+      "path": "docs/contracts/project.internal.json",
+      "sha256": "2d96ace843ed6cded26edf6b66787d12ccece005590d404f1fd7452095c9343a"
+    },
+    {
+      "path": "docs/contracts/project.public.json",
+      "sha256": "3e1e7f60315bcf8c7e5e58004f08f683c3c381f12c8db3cbc8750e4c727af6c5"
+    },
+    {
+      "path": "docs/contracts/schema.json",
+      "sha256": "f28e42fc82f5f8f4135c5a598b346fd7e703dec5dc95b701a53ec6e6ebd72028"
+    },
+    {
+      "path": "docs/contracts/presentation.json",
+      "sha256": "0c07dfdf95d0985e5af2a4d9553532fbda46c88df76e7f6cc640ee4e85579c5c"
+    },
+    {
+      "path": "docs/presentation/contract-atlas/components.js",
+      "sha256": "654eb0609ca2ab4b839cc04588c4973f89be8d6f6de2538f74926522c4bfe996"
+    },
+    {
+      "path": "docs/presentation/contract-atlas/app.js",
+      "sha256": "523a4b3daa4620c137b47806880738f265d398cb61e49c5eafa66a1b226cd886"
+    },
+    {
+      "path": "docs/presentation/contract-atlas/metadata-validator.js",
+      "sha256": "a053f6ec4ca71c18168899f8f35d285e534e4ee56b9f27a438e7c2dd613f7bbf"
+    },
+    {
+      "path": "docs/presentation/contract-atlas/style.css",
+      "sha256": "64dd1f0eb10991cca2a10c9f513d30102985591acd9bdbb3ba7e3c5427d4802f"
+    },
+    {
+      "path": "docs/presentation/contract-atlas/tokens.json",
+      "sha256": "3c1b12da49c7e0541d097ccd57e82df23aab2626d5e9079cdc387afa150cd20c"
+    },
+    {
+      "path": "docs/presentation/contract-atlas/preview.png",
+      "sha256": "3f8cdf9bc9475a45f01d2b05e16b6bf3a34e984bc7367def24b7637f29ef1c4c"
+    },
+    {
+      "path": "docs/design/contract-atlas/contract-atlas.figcraft",
+      "sha256": "905099c51860201b91474187d4c6ea54cf7d17e856a64480a66fa4f5e5cdb26f"
+    },
+    {
+      "path": "docs/design/contract-atlas/generated/build-manifest.json",
+      "sha256": "fed5934148a56aa1b428508bd3fa34b9cf8ed8994a14e3f9d45b985d563d3ece"
+    }
+  ],
+  "limitations": [
+    "Figma execution not-run; official plugin registration template requires a Figma-assigned ID",
+    "Full page app controller is single-instance; five lower-level Web Components are reusable",
+    "Existing platform and manager business backlog is not completed by presentation generation"
+  ]
+}

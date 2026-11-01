@@ -1,0 +1,47 @@
+{
+  "status": "passed",
+  "results": [
+    {
+      "width": 1440,
+      "choices": 18,
+      "expected": 18,
+      "search": true,
+      "panel": {
+        "x": 504,
+        "y": 174,
+        "width": 460,
+        "height": 710,
+        "top": 174,
+        "right": 964,
+        "bottom": 884,
+        "left": 504
+      },
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      }
+    },
+    {
+      "width": 1024,
+      "choices": 18,
+      "expected": 18,
+      "search": true,
+      "panel": {
+        "x": 417,
+        "y": 170,
+        "width": 460,
+        "height": 714,
+        "top": 170,
+        "right": 877,
+        "bottom": 884,
+        "left": 417
+      },
+      "viewport": {
+        "width": 1024,
+        "height": 900
+      }
+    }
+  ],
+  "errors": [],
+  "scope": "independent popup geometry, exact Feature count, initial search focus, arrows/End/Esc and graphite visual review"
+}

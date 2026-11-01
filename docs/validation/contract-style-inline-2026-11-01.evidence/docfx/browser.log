@@ -1,0 +1,46 @@
+{
+  "state": {
+    "url": "http://127.0.0.1:19440/method-docfx/25cdf90969acc8091cdb0cf95c858fae6a8a99cae7ac2c9bf7a1c67f645a59a7/docfx/api/YuzuhaToolkit.Manager.LaunchWorkflowService.html#YuzuhaToolkit_Manager_LaunchWorkflowService_Plan_System_String_System_String_System_String_",
+    "text": "Toggle navigation\nShow / Hide Table of Contents\nClass LaunchWorkflowService\n\n复用配置与启动后端的薄协调层，提供跨进程租约、先受理后执行及持久观察。\n\nInheritance\nobject\nLaunchWorkflowService\nInherited Members\nobject.Equals(object)\nobjec",
+    "h1": "Class LaunchWorkflowService",
+    "h1Style": {
+      "display": "block",
+      "visibility": "visible",
+      "opacity": "1",
+      "rect": {
+        "x": 30,
+        "y": -2088,
+        "width": 679,
+        "height": 39.59375,
+        "top": -2088,
+        "right": 709,
+        "bottom": -2048.40625,
+        "left": 30
+      }
+    },
+    "anchor": true,
+    "anchorRect": {
+      "x": 30,
+      "y": 80.890625,
+      "width": 679,
+      "height": 19.796875,
+      "top": 80.890625,
+      "right": 709,
+      "bottom": 100.6875,
+      "left": 30
+    },
+    "scrollY": 2299,
+    "bodyRect": {
+      "x": 0,
+      "y": -2299,
+      "width": 724,
+      "height": 648,
+      "top": -2299,
+      "right": 724,
+      "bottom": -1651,
+      "left": 0
+    }
+  },
+  "requests": 5,
+  "console": 4
+}

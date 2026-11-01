@@ -1,0 +1,19 @@
+✔ same metadata produces factual cards and requires all seven script contracts (29.6715ms)
+✔ real FigCraft output contains editable properties, bound variables, linked instances and full metadata identity (16.4387ms)
+✔ Figma mock creates genuine API component/instance/property calls on a new page; no claim of real Figma execution (32.5188ms)
+✔ canonical identities, all tuple fields, status and 13 original Feature states remain faithful (8.2724ms)
+✔ fourteen reviewed Script contracts have exactly seven fields and public runtime summary never rewrites internal original (5.7139ms)
+✔ stable build/check includes raw byte source fingerprints and rejects even nonsemantic source drift (474.2152ms)
+✔ duplicate IDs, canonical registry corruption, dangling source/goal/edge and unrenderable flow references fail without throwing (50.9285ms)
+✔ public projection rejects leaking paths, machine identities, secret assignments or unreviewed evidence (42.1171ms)
+✔ unsafe URLs, active markup, execution props and prototype pollution are rejected (25.8813ms)
+✔ text/depth/byte/entity/edge/flow/step limits are independent and enforced (61.1457ms)
+✔ browser IIFE and Node use identical validation results; generated external schema is same object (37.8626ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 965.1959

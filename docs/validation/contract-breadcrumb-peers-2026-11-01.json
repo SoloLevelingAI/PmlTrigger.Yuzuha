@@ -1,0 +1,437 @@
+{
+  "schemaVersion": 1,
+  "audience": "internal",
+  "passed": true,
+  "date": "2026-11-01",
+  "finishedAt": "2026-11-01T12:22:27.759Z",
+  "scope": "ION桌面面包屑同级导航、精确方法选择及关闭/历史恢复；页面只读",
+  "contracts": [
+    "openspec/changes/integrate-pmltwin-product-platform/features/desktop-developer-reading.md",
+    "openspec/changes/integrate-pmltwin-product-platform/specs/feature-design-evidence/spec.md"
+  ],
+  "progress": {
+    "total": 131,
+    "complete": 104,
+    "remaining": 27
+  },
+  "entry": "http://127.0.0.1:19440/ion/index.html?reader=methods#entity=script%3Alaunch-workflow&feature=feature%3Alaunch&flow=flow%3Alaunch&pane=task",
+  "capturedPublication": {
+    "revisionId": "68054a653820f784e811f35a99e4083d3026e14c96675eb0f2150a11c062a601",
+    "metadataDigest": "4030121ceec6c3b7b02ec452212cd98fb9f5082056ca838ff6cf9839a6b0b5ee",
+    "renderModelDigest": "f1c7ec6f5be82d1324ed8f4f3c86ff6b26eca3452743559a971d381f8597b025"
+  },
+  "finalService": {
+    "checkedAt": "2026-11-01T12:22:27.706Z",
+    "status": "ready",
+    "reason": null,
+    "revisionId": "8ec29c56a6d40a7c9debf98197e4b4367f08bec5aec8eefadb62b4102d271e54",
+    "metadataDigest": "8bc9ba0f7f661a310d6b030dbb25f8102775cd2342cc27f40e043584446f1c3a",
+    "renderModelDigest": "eac9a7b33f96e92417e80446f70a0babbe5b0078d8d9fa483a0a793148021e2d",
+    "methods": 393,
+    "edges": 1485,
+    "browserRerun": false,
+    "note": "仅任务记账/文档与静态再生成后的服务就绪检查；不冒称新修订已重跑浏览器。"
+  },
+  "tests": {
+    "realBrowser": {
+      "passed": true,
+      "checks": [
+        "1440: full 18 Feature and owner Script IDs, current/no-op, search, keyboard and outside dismissal",
+        "1440: direct siblings preserve tab/theme, clear old step, use one history entry; empty/single Script association and owner/history/refresh",
+        "1440: exact root methods only, real signature/source/SHA, no URL/history/request on method choice; same Script step then close returns overview",
+        "1440: tab, resize and content scroll dismiss stale menus",
+        "1920: full 18 Feature and owner Script IDs, current/no-op, search, keyboard and outside dismissal",
+        "1920: direct siblings preserve tab/theme, clear old step, use one history entry; empty/single Script association and owner/history/refresh",
+        "1920: exact root methods only, real signature/source/SHA, no URL/history/request on method choice; same Script step then close returns overview",
+        "1920: tab, resize and content scroll dismiss stale menus"
+      ],
+      "captures": 16,
+      "features": 18,
+      "exactScriptMethodRoots": [
+        "method:0e45c2ace8a82f30235bb8a5c585b84cda999eefba0c857647c0e82b1bead239",
+        "method:4103a93f3929387e2b8441a2d158e91dda0075fc949a3bab4499b9d6a7950b08",
+        "method:15cacb97a17795f674469d0a9577af8b1457d6156c03e0bd15dc0da4d5dcb914"
+      ],
+      "realEmptySingleOwners": {
+        "emptyFeature": "feature:formuse",
+        "singleFeature": "feature:arrays",
+        "otherFeature": "feature:deployment"
+      },
+      "errors": [],
+      "popups": [],
+      "writes": []
+    },
+    "fixture": {
+      "passed": true,
+      "checks": [
+        "exact signature/source text and no HTML execution",
+        "caller/callee navigation",
+        "sandboxed inline DocFX",
+        "theme retains node and scroll",
+        "Escape focus and page/reader position",
+        "stale/unavailable/digest mismatch hide source",
+        "closed late response rejected",
+        "reopen close-event race",
+        "revision invalidation clears body and rejects late response",
+        "390 no internal horizontal overflow",
+        "desktop dock common content and old handle isolation",
+        "dock close leaves unrelated reader open",
+        "exact ordered Script roots exclude neighbor and other Script",
+        "sibling selection preserves URL and uses no request",
+        "wrong digest/revision/Script/owner rejected",
+        "same method does not rebuild",
+        "same Script step keeps DOM and candidates",
+        "ambiguous Feature ownership yields no candidates",
+        "loading/update/close events clear candidates"
+      ],
+      "errors": [],
+      "scope": "隔离组件证据仅证明有界根、旧owner/摘要/Script/邻域拒绝及异步清理，不代替真实源码。"
+    },
+    "inlineRegression": {
+      "passed": true,
+      "checks": [
+        "six palettes at 1920/1440 preserve actual method/source DOM, selected method and task context without new method requests",
+        "verified DocFX member renders inside the same workspace and its exact member anchor exists",
+        "ion actual primary method entry stays in the same document and exact Plan signature/source/SHA matches",
+        "prism actual primary method entry stays in the same document and exact Plan signature/source/SHA matches",
+        "bench actual primary method entry stays in the same document and exact Plan signature/source/SHA matches",
+        "reader=evidence deep-link enters desktop pane; Script inherited evidence is identified by Feature scope",
+        "unavailable Script binding stays explicit with no invented method body",
+        "closing nested methods returns to the original contract reader and exact trigger"
+      ],
+      "source": {
+        "symbolId": "YuzuhaToolkit.Manager.Core::M:YuzuhaToolkit.Manager.LaunchWorkflowService.Plan(System.String,System.String,System.String)",
+        "sourcePath": "src/YuzuhaToolkit.Manager.Core/LaunchWorkflow.cs",
+        "sourceSha256": "44d075ea468f8f01d82346d718af41ffddb13ce9d66113dcd619c0a875eabba4",
+        "sourceLines": [
+          54,
+          76
+        ]
+      },
+      "scope": "三版同页方法、源行/SHA、DocFX、主题及关闭焦点既有8组回归。"
+    },
+    "independentReview": {
+      "status": "passed",
+      "results": [
+        {
+          "width": 1440,
+          "choices": 18,
+          "expected": 18,
+          "search": true,
+          "panel": {
+            "x": 504,
+            "y": 174,
+            "width": 460,
+            "height": 710,
+            "top": 174,
+            "right": 964,
+            "bottom": 884,
+            "left": 504
+          },
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          }
+        },
+        {
+          "width": 1024,
+          "choices": 18,
+          "expected": 18,
+          "search": true,
+          "panel": {
+            "x": 417,
+            "y": 170,
+            "width": 460,
+            "height": 714,
+            "top": 170,
+            "right": 877,
+            "bottom": 884,
+            "left": 417
+          },
+          "viewport": {
+            "width": 1024,
+            "height": 900
+          }
+        }
+      ],
+      "errors": [],
+      "scope": "independent popup geometry, exact Feature count, initial search focus, arrows/End/Esc and graphite visual review"
+    },
+    "checks": [
+      {
+        "command": "node scripts/contract-atlas-metadata.mjs check",
+        "passed": true,
+        "output": "{\"files\":6,\"mode\":\"check\"}"
+      },
+      {
+        "command": "node docs/presentation/contract-style-lab/ion/theme.js --check",
+        "passed": true,
+        "output": "ION palettes checked: 6"
+      },
+      {
+        "command": "node artifacts/openspec-tool/node_modules/@fission-ai/openspec/bin/openspec.js validate integrate-pmltwin-product-platform --strict",
+        "passed": true,
+        "output": "Change 'integrate-pmltwin-product-platform' is valid"
+      },
+      {
+        "command": "node --check docs/presentation/contract-style-lab/ion/breadcrumb-picker.js",
+        "passed": true,
+        "output": ""
+      },
+      {
+        "command": "node --check docs/presentation/contract-style-lab/ion/workbench.js",
+        "passed": true,
+        "output": ""
+      },
+      {
+        "command": "node --check docs/presentation/contract-style-lab/shared/content.js",
+        "passed": true,
+        "output": ""
+      },
+      {
+        "command": "node --check docs/presentation/contract-style-lab/shared/methods.js",
+        "passed": true,
+        "output": ""
+      },
+      {
+        "command": "node --check tests/contract-style-breadcrumb-browser.mjs",
+        "passed": true,
+        "output": ""
+      },
+      {
+        "command": "node --check tests/contract-style-methods-browser.cjs",
+        "passed": true,
+        "output": ""
+      },
+      {
+        "command": "node --check tests/contract-style-inline-browser.mjs",
+        "passed": true,
+        "output": ""
+      }
+    ]
+  },
+  "visualReview": {
+    "status": "agent-reviewed",
+    "humanStatus": "human-not-reviewed",
+    "figcraft": "not-started",
+    "observations": [
+      "已目检浅色及石墨主题菜单、方法切换后真实源码、1024菜单；当前项、名称/ID与完整签名提示清楚。",
+      "非模态弹层使用同源语义颜色，菜单内部滚动且四边在视口，任务步骤与当前栏目不被重排。"
+    ]
+  },
+  "renderEnvironment": {
+    "engine": "Chromium 1243 / Playwright",
+    "args": [
+      "--disable-gpu"
+    ],
+    "note": "本机原GPU路径发生rAF/截图卡顿；软件渲染保留全部可见性/布局/焦点断言。旧失败材料未计入成功，详见浏览器验收收据。"
+  },
+  "behavior": [
+    "名称返回所属层；独立箭头直接切同级。",
+    "Feature来自项目18项；Script来自当前Feature.scriptIds；方法仅活动Script精确绑定根。",
+    "同级切新实体保持栏目/主题、清旧step/源码且只新增一次历史；重选当前项不重建。",
+    "方法仅面板内切换，不增加URL方法参数、历史或请求，不承诺精确方法书签。",
+    "同Script换步骤保方法节点，关闭时有效mount owner回当前摘要。"
+  ],
+  "boundaries": [
+    "原27项业务任务保留未完成；未登录/部署/执行PML或操作E3D/Desktop。",
+    "主验收1440x900/1920x1080，1024x768触达复核；独立审阅另为1440x900及1024x900，准确尺寸见各原收据。",
+    "手机独立布局后续设计；本轮不生成FigCraft稿或代称用户视觉认可。",
+    "方法关系仍为有界静态分析，内部目录不加入公共内容投影。",
+    "全仓既有Ribbon CRLF差异未格式化；本轮scoped git diff和逐文件行末空格检查通过。"
+  ],
+  "sourceHashRule": "原始字节SHA256；验证报告不自我哈希，复制证据保留原字节。",
+  "sourceHashes": {
+    "docs/presentation/contract-style-lab/ion/breadcrumb-picker.js": "4f4d479a76834c8581017172a3babfbdabae1f3c91fe349c81224581b3a685cb",
+    "docs/presentation/contract-style-lab/ion/workbench.js": "2161022586fa5da96a4e10a55078e7c1480bd753f641b995d7f0d8f8cb20c802",
+    "docs/presentation/contract-style-lab/ion/workbench.css": "f6a5a307a8b3e2ad72a801e40e8c41ae289076eb5b9c4c32972dc19dd826670a",
+    "docs/presentation/contract-style-lab/shared/content.js": "82846c7ce0c9396c5d491331415f7c5d179117aa21acf9b9737ab49f50bc95b2",
+    "docs/presentation/contract-style-lab/shared/methods.js": "02c19c1654d8fe200191615662c035fdc5704daf4a62b8261f63cd3982def8f4",
+    "tests/contract-style-breadcrumb-browser.mjs": "5f6b36897cff5dbca23081d84eda223c34d696bc1e07a302d052409d4b96f33b",
+    "tests/contract-style-methods-browser.cjs": "75d878f50ccdb09ebcbc10f13bf77ce45da923f6c883976c3cab7322bf6d25dd",
+    "tests/contract-style-inline-browser.mjs": "ef3966774bda611eee807884ad00de4563dc9cf9bd05e19ec4ee79035987c1e6",
+    "docs/reference/ion-desktop-workbench.zh-CN.md": "796ab1535a81e04a9ea4cc32c19cd0f90d269628da0a4d3f8224cd1821d985a7",
+    "docs/presentation/contract-style-lab/README.md": "2792aeea96a516d965ec4a1043e34e7794db41bdce7c8eae07ea8c402f438164",
+    "openspec/changes/integrate-pmltwin-product-platform/features/desktop-developer-reading.md": "ea0099d857079b93148fd4fae185e451efc49ae4b65aeb4183464f0dbaa67711",
+    "openspec/changes/integrate-pmltwin-product-platform/specs/feature-design-evidence/spec.md": "5c39f9e0f68fd88f5d4764b0dea5200a1631f318360593da785e97e25888733a",
+    "openspec/changes/integrate-pmltwin-product-platform/design.md": "ba94e6769cb06b9c9fdca6a69377fd80ccde10ed57872fe22078e74156cccbf0",
+    "openspec/changes/integrate-pmltwin-product-platform/tasks.md": "6cb436ea3b27295c87b5c006c7884b2bc05ae7dc42f46a3b54dc86f8a127b5e1",
+    "package.json": "5a0e83ca605230ebb1533df5cd0743774771e4311e425ef83825c6378c680711"
+  },
+  "evidence": {
+    "browser/results.json": {
+      "path": "docs/validation/contract-breadcrumb-peers-2026-11-01.evidence/browser/results.json",
+      "source": "artifacts/contract-style-breadcrumb/results.json",
+      "bytes": 6208,
+      "sha256": "3baa075f3067f2f52146b7a149ebd4d2203842c621ede448c16aae775c3c3026"
+    },
+    "browser/acceptance-notes.json": {
+      "path": "docs/validation/contract-breadcrumb-peers-2026-11-01.evidence/browser/acceptance-notes.json",
+      "source": "artifacts/contract-style-breadcrumb/acceptance-notes.json",
+      "bytes": 2427,
+      "sha256": "55a4a2113c33907396b471aed6a5813985dad6bbb23c2de3b1a8883cf7e00267"
+    },
+    "browser/run.log": {
+      "path": "docs/validation/contract-breadcrumb-peers-2026-11-01.evidence/browser/run.log",
+      "source": "artifacts/contract-style-breadcrumb-browser.log",
+      "bytes": 37,
+      "sha256": "3c9d4822a5b7cd2c86c279fcd7593dfc7401aa17b80e6b62684652f51eba9ace"
+    },
+    "fixture/results.json": {
+      "path": "docs/validation/contract-breadcrumb-peers-2026-11-01.evidence/fixture/results.json",
+      "source": "artifacts/contract-style-methods/component-proof.json",
+      "bytes": 1035,
+      "sha256": "94fc9a37207031331e535724760148bfd7b2f9d6f219e00a67d632e90e144048"
+    },
+    "inline/results.json": {
+      "path": "docs/validation/contract-breadcrumb-peers-2026-11-01.evidence/inline/results.json",
+      "source": "artifacts/contract-style-inline/results.json",
+      "bytes": 9546,
+      "sha256": "e795192173836acab4812240028abe586cdaba6f4db2e166c5bda5e9645ffcdb"
+    },
+    "inline/run.log": {
+      "path": "docs/validation/contract-breadcrumb-peers-2026-11-01.evidence/inline/run.log",
+      "source": "artifacts/breadcrumb-peers/inline-regression.log",
+      "bytes": 161,
+      "sha256": "89287d15016febd60269806b09b70b197c7e05d64577d24acf69256d7ce00d9b"
+    },
+    "review/results.json": {
+      "path": "docs/validation/contract-breadcrumb-peers-2026-11-01.evidence/review/results.json",
+      "source": "artifacts/breadcrumb-peers/review-ion.json",
+      "bytes": 914,
+      "sha256": "1795655a1f5b907274da638e96e9db05bf1f29090ca84ffdb0086863c5cd5a55"
+    },
+    "checks/openspec-after.json": {
+      "path": "docs/validation/contract-breadcrumb-peers-2026-11-01.evidence/checks/openspec-after.json",
+      "source": "artifacts/breadcrumb-peers/openspec-after.json",
+      "bytes": 5841,
+      "sha256": "cfe955dd8fc11f1853c7f68fdd36c6856c07beaf84c24b9183bafda2160d8dc4"
+    },
+    "checks/final-service.json": {
+      "path": "docs/validation/contract-breadcrumb-peers-2026-11-01.evidence/checks/final-service.json",
+      "source": "artifacts/breadcrumb-peers/final-service.json",
+      "bytes": 528,
+      "sha256": "aefec7a08cbd69788e012a2ba316e9b399939c5c51a1477f586d0aa03c17b900"
+    },
+    "browser/feature-picker-1024.png": {
+      "path": "docs/validation/contract-breadcrumb-peers-2026-11-01.evidence/browser/feature-picker-1024.png",
+      "source": "artifacts/contract-style-breadcrumb/feature-picker-1024.png",
+      "bytes": 82035,
+      "sha256": "b534544bc3511f146754628a9bd9da2d16b325dbf2fc96cef61989780d9dd684"
+    },
+    "browser/feature-picker-cyan-1440.png": {
+      "path": "docs/validation/contract-breadcrumb-peers-2026-11-01.evidence/browser/feature-picker-cyan-1440.png",
+      "source": "artifacts/contract-style-breadcrumb/feature-picker-cyan-1440.png",
+      "bytes": 96257,
+      "sha256": "957f3ca6d5faef4699e3bc48f3ae9ce714ecb5bd2e9016b45c07ccfaaeee46b9"
+    },
+    "browser/feature-picker-cyan-1920.png": {
+      "path": "docs/validation/contract-breadcrumb-peers-2026-11-01.evidence/browser/feature-picker-cyan-1920.png",
+      "source": "artifacts/contract-style-breadcrumb/feature-picker-cyan-1920.png",
+      "bytes": 114671,
+      "sha256": "161ac54110d14c47fe825fcc86caae93110bea6b44cddf573c5cecbdeab4913d"
+    },
+    "browser/feature-picker-graphite-1440.png": {
+      "path": "docs/validation/contract-breadcrumb-peers-2026-11-01.evidence/browser/feature-picker-graphite-1440.png",
+      "source": "artifacts/contract-style-breadcrumb/feature-picker-graphite-1440.png",
+      "bytes": 96335,
+      "sha256": "a11401327c78bde0bbe11eb3c2b49fa43cdcf3c0df46c626d7669eb755583f23"
+    },
+    "browser/feature-picker-graphite-1920.png": {
+      "path": "docs/validation/contract-breadcrumb-peers-2026-11-01.evidence/browser/feature-picker-graphite-1920.png",
+      "source": "artifacts/contract-style-breadcrumb/feature-picker-graphite-1920.png",
+      "bytes": 115223,
+      "sha256": "efaf4fdd70f0d1d7dc26fc4ca973a70a584c3dc5a8a753d78aa9c47dcba32451"
+    },
+    "browser/feature-picker-lime-1440.png": {
+      "path": "docs/validation/contract-breadcrumb-peers-2026-11-01.evidence/browser/feature-picker-lime-1440.png",
+      "source": "artifacts/contract-style-breadcrumb/feature-picker-lime-1440.png",
+      "bytes": 95494,
+      "sha256": "2e1ce8c4ef56d9ee2975fe23b001a2e21e67ea08d46b2f27cc3f678e3440494d"
+    },
+    "browser/feature-picker-lime-1920.png": {
+      "path": "docs/validation/contract-breadcrumb-peers-2026-11-01.evidence/browser/feature-picker-lime-1920.png",
+      "source": "artifacts/contract-style-breadcrumb/feature-picker-lime-1920.png",
+      "bytes": 113668,
+      "sha256": "9dc1f149708fe02c432dadee440e8f08dfda444ed1f9893939819eb86ed2a50e"
+    },
+    "browser/feature-picker-orange-1440.png": {
+      "path": "docs/validation/contract-breadcrumb-peers-2026-11-01.evidence/browser/feature-picker-orange-1440.png",
+      "source": "artifacts/contract-style-breadcrumb/feature-picker-orange-1440.png",
+      "bytes": 96596,
+      "sha256": "3311b97c860d117d07939dcc3339c4d73fbd4ce5b15d0cbd1269a2d43d140748"
+    },
+    "browser/feature-picker-orange-1920.png": {
+      "path": "docs/validation/contract-breadcrumb-peers-2026-11-01.evidence/browser/feature-picker-orange-1920.png",
+      "source": "artifacts/contract-style-breadcrumb/feature-picker-orange-1920.png",
+      "bytes": 115111,
+      "sha256": "79580e90ad714c5293c7fb97703cb00ee87aab33de9dcfbc955ee65ce79f9d41"
+    },
+    "browser/feature-picker-rose-1440.png": {
+      "path": "docs/validation/contract-breadcrumb-peers-2026-11-01.evidence/browser/feature-picker-rose-1440.png",
+      "source": "artifacts/contract-style-breadcrumb/feature-picker-rose-1440.png",
+      "bytes": 97150,
+      "sha256": "1b98916b7b54420b59a88af4d8c8a6baf9a70b563d1a0ba0bfd598e17bbe5f91"
+    },
+    "browser/feature-picker-rose-1920.png": {
+      "path": "docs/validation/contract-breadcrumb-peers-2026-11-01.evidence/browser/feature-picker-rose-1920.png",
+      "source": "artifacts/contract-style-breadcrumb/feature-picker-rose-1920.png",
+      "bytes": 115510,
+      "sha256": "b52ffe3b2f535727cafb0af6c79fe986befb411fc698500903ed8cebf583e481"
+    },
+    "browser/feature-picker-violet-1440.png": {
+      "path": "docs/validation/contract-breadcrumb-peers-2026-11-01.evidence/browser/feature-picker-violet-1440.png",
+      "source": "artifacts/contract-style-breadcrumb/feature-picker-violet-1440.png",
+      "bytes": 96949,
+      "sha256": "9992d44b0465f9946bb54c0f4840b28cb402ad8061bc4c9ac896ed8ef4fa8b7a"
+    },
+    "browser/feature-picker-violet-1920.png": {
+      "path": "docs/validation/contract-breadcrumb-peers-2026-11-01.evidence/browser/feature-picker-violet-1920.png",
+      "source": "artifacts/contract-style-breadcrumb/feature-picker-violet-1920.png",
+      "bytes": 115364,
+      "sha256": "a33033c50fcb069d52dc7f937db9c7b1fe6101a2b2b906143d011b84d516e011"
+    },
+    "browser/method-sibling-1440.png": {
+      "path": "docs/validation/contract-breadcrumb-peers-2026-11-01.evidence/browser/method-sibling-1440.png",
+      "source": "artifacts/contract-style-breadcrumb/method-sibling-1440.png",
+      "bytes": 99502,
+      "sha256": "761b4f993143efecbac866b4ff677851e811332505c90a7cb7f1953db79b28d7"
+    },
+    "browser/method-sibling-1920.png": {
+      "path": "docs/validation/contract-breadcrumb-peers-2026-11-01.evidence/browser/method-sibling-1920.png",
+      "source": "artifacts/contract-style-breadcrumb/method-sibling-1920.png",
+      "bytes": 123428,
+      "sha256": "ce9d304066eefbbd42a4e9ecadc0bc64275e7dde22b3369588018b5e136e49f2"
+    },
+    "browser/script-picker-1024.png": {
+      "path": "docs/validation/contract-breadcrumb-peers-2026-11-01.evidence/browser/script-picker-1024.png",
+      "source": "artifacts/contract-style-breadcrumb/script-picker-1024.png",
+      "bytes": 81603,
+      "sha256": "363028036461c4632527aca44523295214e93d6de89a2d0d0f0b2971777a2e57"
+    },
+    "review/review-feature-1024.png": {
+      "path": "docs/validation/contract-breadcrumb-peers-2026-11-01.evidence/review/review-feature-1024.png",
+      "source": "artifacts/breadcrumb-peers/review-feature-1024.png",
+      "bytes": 93149,
+      "sha256": "1594396cc7d8968a7defe655c18d82849f81082d0f125f61353eb9721a4db44e"
+    },
+    "review/review-feature-1440.png": {
+      "path": "docs/validation/contract-breadcrumb-peers-2026-11-01.evidence/review/review-feature-1440.png",
+      "source": "artifacts/breadcrumb-peers/review-feature-1440.png",
+      "bytes": 101921,
+      "sha256": "b3f362e5b69508ea81ecacfef28dadb6fb5f101f5aeccb8600f94e8aba5b7fb3"
+    },
+    "review/review-script-1024.png": {
+      "path": "docs/validation/contract-breadcrumb-peers-2026-11-01.evidence/review/review-script-1024.png",
+      "source": "artifacts/breadcrumb-peers/review-script-1024.png",
+      "bytes": 89464,
+      "sha256": "9553dfee1815662e4757f912ca71ddd952d06d52c405a53759a92dcd66087f94"
+    },
+    "review/review-script-1440.png": {
+      "path": "docs/validation/contract-breadcrumb-peers-2026-11-01.evidence/review/review-script-1440.png",
+      "source": "artifacts/breadcrumb-peers/review-script-1440.png",
+      "bytes": 98069,
+      "sha256": "1014603f9f45d2d10724125f9cd8f1a79e46181d0c8f3b10152d9f5acb0abf16"
+    }
+  }
+}

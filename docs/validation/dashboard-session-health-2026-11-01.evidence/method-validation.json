@@ -1,0 +1,39 @@
+{
+  "docfx": {
+    "fresh": true,
+    "sourceInputs": 92,
+    "files": 200,
+    "staleSources": [],
+    "invalidAssets": []
+  },
+  "roslyn": {
+    "fresh": true,
+    "graphBytes": 72649830,
+    "nodes": 13205,
+    "edges": 59622,
+    "sourceInputs": 750,
+    "staleSources": [],
+    "graphSha256": "30bc15e3f25a9096c2f16be103feb518e2511a6cda681e4c097265362e83c396",
+    "producerFingerprint": "dd973b675bff7b40ab9794f0bd8f954d2cf16035c779b72cedc46ca56a0ff7f9",
+    "graphReceiptMatches": true,
+    "producerReceiptMatches": true,
+    "finishedUtc": "2026-11-01T07:29:38.8594072Z",
+    "omittedProjects": [
+      "YuzuhaToolkit.PmlHost.Net35 : no local AVEVA SDK configured; not analyzed",
+      "YuzuhaToolkit.PmlHost.Net48 : no local AVEVA SDK configured; not analyzed"
+    ]
+  },
+  "passed": true,
+  "catalog": {
+    "status": "ready",
+    "methods": 387,
+    "edges": 1477,
+    "bindings": 32,
+    "docfxAssets": 200,
+    "apiLinks": 29,
+    "metadataDigest": "a0be5ed95ec5ee61a7775b64d2b5ad6c47bb8975cb54f10169ba0ae3d88fb474",
+    "renderModelDigest": "f63a2346d68420a16462f71684171e6a7d98b23485eb1fdeaa4a88b0471fe5c3",
+    "inputDigest": "7ab808d353870c5af011c4df1dc150084e94c8ff9df97b5fc859ae3fed5ee050",
+    "diagnostics": []
+  }
+}

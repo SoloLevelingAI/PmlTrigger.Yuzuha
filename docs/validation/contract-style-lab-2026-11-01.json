@@ -1,0 +1,339 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "date": "2026-11-01",
+  "finishedAt": "2026-11-01T10:54:13.449Z",
+  "scope": "三套独立网页候选、共同公共内容、同内容比较与15区域评审；不覆盖原Atlas/Desktop/原生稿",
+  "contract": "openspec/changes/integrate-pmltwin-product-platform/features/independent-visual-directions.md",
+  "entry": "http://127.0.0.1:19440/",
+  "progress": {
+    "total": 122,
+    "complete": 95,
+    "remaining": 27
+  },
+  "content": {
+    "metadataDigest": "e66b9eed7bd984a8c5ee92a1edf8c913d282e5ae07c49d6c8549c6c9938960dc",
+    "renderModelDigest": "e73a03e314db9868e4173ceccf7a64f8c7e5b35ac3c470105c44eec521e0c184",
+    "coverage": {
+      "features": 18,
+      "scripts": 14,
+      "requirements": 24,
+      "flows": 3,
+      "sourceMappings": 191
+    }
+  },
+  "variants": [
+    {
+      "id": "ion",
+      "name": "ION / 离子航图",
+      "url": "http://127.0.0.1:19440/ion/index.html",
+      "weights": {
+        "acid": 50,
+        "glass": 30,
+        "skeuo": 20
+      },
+      "regions": [
+        {
+          "id": "A1",
+          "name": "离子海报",
+          "focus": "标题、荧光标记与任务导语的比例",
+          "selector": ".hero",
+          "context": "project"
+        },
+        {
+          "id": "A2",
+          "name": "轨道导航",
+          "focus": "chrome主视觉与五个真实目标节点的融合",
+          "selector": ".orbit",
+          "context": "project"
+        },
+        {
+          "id": "A3",
+          "name": "任务账册",
+          "focus": "不用重复圆角卡片的可选择Feature列表",
+          "selector": ".feature-ledger",
+          "context": "project"
+        },
+        {
+          "id": "A4",
+          "name": "步骤标尺",
+          "focus": "当前阅读位置与前后步骤的清晰动线",
+          "selector": ".step-track",
+          "context": "task"
+        },
+        {
+          "id": "A5",
+          "name": "契约阅读出口",
+          "focus": "任务说明、完整原文和证据之间的边界",
+          "selector": ".reading-exits",
+          "context": "task"
+        }
+      ]
+    },
+    {
+      "id": "prism",
+      "name": "PRISM / 液态中枢",
+      "url": "http://127.0.0.1:19440/prism/index.html",
+      "weights": {
+        "acid": 25,
+        "glass": 60,
+        "skeuo": 15
+      },
+      "regions": [
+        {
+          "id": "B1",
+          "name": "浮动指挥舱",
+          "focus": "品牌、跨版导航与目录的玻璃/拟物平衡",
+          "selector": ".command-shell",
+          "context": "any"
+        },
+        {
+          "id": "B2",
+          "name": "折光入口",
+          "focus": "主标题、任务价值和直接进入动作",
+          "selector": ".intro",
+          "context": "project"
+        },
+        {
+          "id": "B3",
+          "name": "内容透镜",
+          "focus": "稳定文字底面、折射边和层叠空间",
+          "selector": ".observatory",
+          "context": "project"
+        },
+        {
+          "id": "B4",
+          "name": "阅读分组底舱",
+          "focus": "五组导航，酸性短标记只指当前选中组",
+          "selector": ".group-dock",
+          "context": "project"
+        },
+        {
+          "id": "B5",
+          "name": "任务观察窗",
+          "focus": "进入启动任务后，独立步骤、交付与真实出口",
+          "selector": ".journey-lens",
+          "context": "task"
+        },
+        {
+          "id": "B6",
+          "name": "共同内容底签",
+          "focus": "只读边界和来源快照，避免伪实时指标",
+          "selector": ".context-strip",
+          "context": "any"
+        }
+      ]
+    },
+    {
+      "id": "bench",
+      "name": "BENCH / 工程标本",
+      "url": "http://127.0.0.1:19440/bench/index.html",
+      "weights": {
+        "acid": 20,
+        "glass": 25,
+        "skeuo": 55
+      },
+      "regions": [
+        {
+          "id": "C1",
+          "name": "工作台首屏",
+          "focus": "任务入口、档案标题与索引印章的主次",
+          "selector": ".intro",
+          "context": "any"
+        },
+        {
+          "id": "C2",
+          "name": "纸张任务档案",
+          "focus": "五组任务与完整契约出口",
+          "selector": ".paper",
+          "context": "any"
+        },
+        {
+          "id": "C3",
+          "name": "证据观察窗",
+          "focus": "克制玻璃与证据范围语义",
+          "selector": ".glass",
+          "context": "any"
+        },
+        {
+          "id": "C4",
+          "name": "流程记录托盘",
+          "focus": "实体页签、真实步骤与关系",
+          "selector": ".flow-tray",
+          "context": "any"
+        }
+      ]
+    }
+  ],
+  "tests": {
+    "layouts": 37,
+    "viewportSizes": [
+      "1440x900",
+      "1024x768",
+      "390x844"
+    ],
+    "originalFieldReaderChecks": 9,
+    "originalFieldsPerScript": 7,
+    "exactCatalogEntities": 32,
+    "sourceMappings": 191,
+    "realPreviews": 12,
+    "comparisonCases": 4,
+    "regionDeepLinks": 15,
+    "minimumContractBodyContrast": 13.426844430658083,
+    "checks": [
+      "shared validated content, full catalog and canonical source mappings",
+      "three independent DOM/CSS structures and nine responsive project/task/step scenarios",
+      "all seven original Script fields and source-preserving links",
+      "body contrast, dialog keyboard exit and focus restoration",
+      "same-Script step history/reload and same-context style links",
+      "real twelve previews and four same-content gallery cases",
+      "gallery contract deep-link opens exact selected Script",
+      "review region deep-link focuses its declared region",
+      "loopback read-only API and path boundary"
+    ],
+    "scriptErrors": [],
+    "writeRequests": []
+  },
+  "visualReview": {
+    "status": "agent-reviewed",
+    "humanStatus": "human-not-reviewed",
+    "figcraft": "not-started",
+    "observations": [
+      "ION使用编辑式大字、荧光标记、真实五组轨道与线性账册，避免旧三栏结构。",
+      "PRISM使用层叠透镜、浮动导航舱与深色稳定正文面，玻璃及酸性高亮有明确分工。",
+      "BENCH使用纸质档案、玻璃证据窗、金属流程托盘；任务页路线在长正文之前。",
+      "比较页桌面首屏完整显示三版预览与名称，手机有三版直接入口；预览与链接使用同一内容场景。"
+    ]
+  },
+  "boundaries": [
+    "视觉权重为设计约定，不是测量结果。",
+    "页面只读，选中步骤是阅读位置；未调用登录/部署/PML，也未操作现有E3D和Desktop。",
+    "方法入口沿用原Atlas，不复制内部源码进入公共候选。",
+    "由用户随后指定FigCraft深化区域；本轮不生成三套原生稿，也不代表用户视觉认可。",
+    "原27项业务未完成任务保持不变。"
+  ],
+  "sourceHashes": {
+    "docs/presentation/contract-style-lab/index.html": "1eb0a7146e2b709d6f8320ab9eb79b72935986660f311b7d908a5e8ba03feb8f",
+    "docs/presentation/contract-style-lab/gallery.css": "e86058c21ab677258f1706baacaf728e616c75b3ecb4386adee2bd6686954698",
+    "docs/presentation/contract-style-lab/gallery.js": "b39b740c8d37b0c680cd800df7ffb7b2b4d671699eab78dc8553896af58ae6fd",
+    "docs/presentation/contract-style-lab/shared/content.js": "8dd0003fce299d5eca4acd479ee5cb6f6141d399953f23a759b62fc82d3e24b8",
+    "docs/presentation/contract-style-lab/shared/reader.css": "89c525ab10516534618fb32704f485500aed315cf586d1b97950ecc75cfc510f",
+    "docs/presentation/contract-style-lab/README.md": "c36b2f6784ae36d7abba8482247c2b878049c621b02a26ed33246aa3eb705b61",
+    "docs/presentation/contract-style-lab/ion/index.html": "dbf4c0932e1787e64e6b37db262d4029bc22f8223020eb98dd275c6b57c56356",
+    "docs/presentation/contract-style-lab/ion/style.css": "152336945d5d860f8427443412c8fca6073b4e746fdb6a4c4009267d6ae0c871",
+    "docs/presentation/contract-style-lab/ion/app.js": "0b07781ccf13ba67819755100d947dccd71122571f379b2c3737bca81687d7ca",
+    "docs/presentation/contract-style-lab/ion/rules.json": "8896216371f543fc252171277c35494ee227d63fa330226fa0e82d05b20d942a",
+    "docs/presentation/contract-style-lab/prism/index.html": "f1091c2a5ca482d72d2374333611bfa9b04876bc5b464975bae0c7dbed6e5ca9",
+    "docs/presentation/contract-style-lab/prism/style.css": "fef0ddeea6ebf342707e2c504213ee0233d0f034e12440071a82888df33d0ff0",
+    "docs/presentation/contract-style-lab/prism/app.js": "3d6a4bc7d53385716c98f0d82dceb69af0fc0ff2441c8970605300944a834d66",
+    "docs/presentation/contract-style-lab/prism/rules.json": "f27e272299898f1cb901a48671ea8a81fc8635d1ed3331b094af5cfaa51357cc",
+    "docs/presentation/contract-style-lab/bench/index.html": "a198be05bcd38eee9ec191a393f170bfd5342ffda928ebd58f6341260392f72a",
+    "docs/presentation/contract-style-lab/bench/style.css": "63b7e45e23d850a7143f1ee57250f87a2ba8a5d6b0284777f6b6b325a4e48d6a",
+    "docs/presentation/contract-style-lab/bench/app.js": "ac36bf14f0f9a4300a68ca6250b6620e084866414e67cac53cac5909679c6747",
+    "docs/presentation/contract-style-lab/bench/rules.json": "a591ce67afff9ad903b8ecfcbdde835a2fa12b596c42a33a6d9c6d628c4ccb7f",
+    "scripts/serve-contract-style-lab.mjs": "b964b417e5080b1851fff52cb4e77ae9b5651ba4fe1bebf346bf12346708339e",
+    "tests/contract-style-lab-browser.mjs": "a0403946ac37a6e15343459e4085a48966f61c1685dafd1fcee9641c8d03ecb3"
+  },
+  "evidence": {
+    "browser-results.json": {
+      "path": "docs/validation/contract-style-lab-2026-11-01.evidence/browser-results.json",
+      "bytes": 27744,
+      "sha256": "2ed021ec8e7ff61fbae5ac2c45ec15f5a20fe3d6e2263ad79ced3c7df81ca0a3"
+    },
+    "browser.log": {
+      "path": "docs/validation/contract-style-lab-2026-11-01.evidence/browser.log",
+      "bytes": 173,
+      "sha256": "bcde4d0f3b13ee73b6a47f41b2a8524ee240ca4fa31c8480f8d81988138c9c59"
+    },
+    "gallery-desktop.png": {
+      "path": "docs/validation/contract-style-lab-2026-11-01.evidence/gallery-desktop.png",
+      "bytes": 314499,
+      "sha256": "418be499f1b52a1cc96747c23ffc8065ae4e330b82d2ee8b3a827e0b7336b2b9"
+    },
+    "gallery-mobile.png": {
+      "path": "docs/validation/contract-style-lab-2026-11-01.evidence/gallery-mobile.png",
+      "bytes": 214896,
+      "sha256": "8f9eed1458a53194d37e7e8ee268dcfe5d578e182d26f4a0d67c4bfed13741f1"
+    },
+    "comparison.png": {
+      "path": "docs/validation/contract-style-lab-2026-11-01.evidence/comparison.png",
+      "bytes": 215509,
+      "sha256": "75e7b79e2d3375352896b3e8bf50a145aec7671c78bb994c638201bb54984a1d"
+    },
+    "ion-project-1440.png": {
+      "path": "docs/validation/contract-style-lab-2026-11-01.evidence/ion-project-1440.png",
+      "bytes": 172031,
+      "sha256": "819314d141b83b8d7ff3040abbc335084da1a8d987116fb24bbba935ca223d7d"
+    },
+    "ion-project-390.png": {
+      "path": "docs/validation/contract-style-lab-2026-11-01.evidence/ion-project-390.png",
+      "bytes": 87026,
+      "sha256": "03e3a2c588f52b068f4958bf999d90d7a74390208d5bd85ac5bf04d2ea1014f4"
+    },
+    "ion-step-1440.png": {
+      "path": "docs/validation/contract-style-lab-2026-11-01.evidence/ion-step-1440.png",
+      "bytes": 83324,
+      "sha256": "94a9ec7c08137a17514af064c9f525db885cd86b497d8deedca357094dfee676"
+    },
+    "ion-step-390.png": {
+      "path": "docs/validation/contract-style-lab-2026-11-01.evidence/ion-step-390.png",
+      "bytes": 40194,
+      "sha256": "49d42434d10794a6d0c3114cfa1fe59219976ac4be3deebd3c870dbd089b2413"
+    },
+    "ion-contract-390.png": {
+      "path": "docs/validation/contract-style-lab-2026-11-01.evidence/ion-contract-390.png",
+      "bytes": 46836,
+      "sha256": "05715ab4c0d1fa43e0decc9e65b2e6ab72ab431afde0dc9bc029d6562757cd90"
+    },
+    "prism-project-1440.png": {
+      "path": "docs/validation/contract-style-lab-2026-11-01.evidence/prism-project-1440.png",
+      "bytes": 503541,
+      "sha256": "c8d3d006dae77fda652d9248031848e31821416264f7de891aed69ced2ad040e"
+    },
+    "prism-project-390.png": {
+      "path": "docs/validation/contract-style-lab-2026-11-01.evidence/prism-project-390.png",
+      "bytes": 197498,
+      "sha256": "e8c10f2c13a5f5aa980956caab5b8e74dbc259c534ff90667d116dd565474f2d"
+    },
+    "prism-step-1440.png": {
+      "path": "docs/validation/contract-style-lab-2026-11-01.evidence/prism-step-1440.png",
+      "bytes": 464757,
+      "sha256": "fb75445ca560d9b7d54c1f2a601e0cf1654dec056dda3b8fef94308080b911a4"
+    },
+    "prism-step-390.png": {
+      "path": "docs/validation/contract-style-lab-2026-11-01.evidence/prism-step-390.png",
+      "bytes": 159639,
+      "sha256": "6a32af9e5f6bcf30c6c0271a3ad761d6ea0e3a4bb286ee16734717b9ec952a85"
+    },
+    "prism-contract-390.png": {
+      "path": "docs/validation/contract-style-lab-2026-11-01.evidence/prism-contract-390.png",
+      "bytes": 49240,
+      "sha256": "3ff1634bd2435af61937eaba575fc20c65c5ac34cf9b40bb845558edd425e8a6"
+    },
+    "bench-project-1440.png": {
+      "path": "docs/validation/contract-style-lab-2026-11-01.evidence/bench-project-1440.png",
+      "bytes": 322909,
+      "sha256": "16ee303dbf2bfb9449f44c9a7bf5418d33b7d1fc1d032f2de863f513d946a67f"
+    },
+    "bench-project-390.png": {
+      "path": "docs/validation/contract-style-lab-2026-11-01.evidence/bench-project-390.png",
+      "bytes": 74051,
+      "sha256": "8d6b98f4871892f4cf3642453f0f0d4bae4018ecff8eccf17dcfe78119383fa0"
+    },
+    "bench-step-1440.png": {
+      "path": "docs/validation/contract-style-lab-2026-11-01.evidence/bench-step-1440.png",
+      "bytes": 349513,
+      "sha256": "0421426d8580506ce7362ad180402d4b7a7089d1b92519e39679915802077c3e"
+    },
+    "bench-step-390.png": {
+      "path": "docs/validation/contract-style-lab-2026-11-01.evidence/bench-step-390.png",
+      "bytes": 106319,
+      "sha256": "9b5cce64c9ba90f958d151278ed52d13ada697c3df5171a28226131bb77c63d2"
+    },
+    "bench-contract-390.png": {
+      "path": "docs/validation/contract-style-lab-2026-11-01.evidence/bench-contract-390.png",
+      "bytes": 87620,
+      "sha256": "f8df51fc01ac05e9af61d81b56c2a7c8c888286f1117a7c68f2e7ca73c0b0730"
+    }
+  }
+}

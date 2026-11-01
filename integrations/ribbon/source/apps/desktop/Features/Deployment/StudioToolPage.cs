@@ -28,17 +28,20 @@ namespace RibbonStudio
         internal readonly List<string> ExtraMons = new List<string>();
         public bool IsWorking { get; private set; }
         ApiClient Api { get { return main.Api; } }
-        sealed class PendingRegistration { public Project Project; public Target Target; public string Manifest, Name; public Plan Plan; }
-        sealed class PreparedDeployment { public Project Project; public Plan Plan; public string Fingerprint; }
+        readonly FrozenDeploymentClient frozen;
+        sealed class PendingRegistration { public Project Project; public Target Target; public string Manifest, Name; public Plan Plan; public FrozenPlan Frozen; }
+        sealed class PreparedDeployment { public Project Project; public Plan Plan; public string Fingerprint; public FrozenPlan Frozen; }
         public StudioToolPage(MainWindow owner, bool registrations, bool compact = false)
         {
             main = owner; registration = registrations; Content = root;
+            frozen = new FrozenDeploymentClient(Api);
             var commands = new DockPanel { Background = Brushes.White, Height = 58, Margin = new Thickness(0, 0, 0, 8) };
             var heading = Ui.Text(registration ? "加载登记" : "部署", 15); heading.Margin = new Thickness(20, 15, 20, 0); commands.Children.Add(heading);
             commands.Children.Add(Ui.Button("＋ 添加 UIC", AddUic));
             if (!registration) commands.Children.Add(Ui.Button("从已打开文件加入", Reload));
             profileButton = Ui.Button("部署配置 ▾", ChooseProfile); DockPanel.SetDock(profileButton, Dock.Right); commands.Children.Add(profileButton);
             commands.Children.Add(Ui.Button("重新扫描", () => Run(ReloadCore)));
+            commands.Children.Add(Ui.Sync("人工核对后解除写入暂停", () => { if (FrozenDeploymentClient.ConfirmManualCheck(main)) feedback.Text = "写入暂停已解除；请重新预览。实际 Ribbon 加载未核验。"; }));
             var commandItems = commands.Children.Cast<UIElement>().Where(c => c != profileButton).ToList(); commands.Children.Clear(); commands.Children.Add(profileButton);
             var commandRow = new StackPanel { Orientation = Orientation.Horizontal }; foreach (var c in commandItems) { var b = c as Button; if (b != null) { b.Height = 32; b.MinHeight = 0; b.VerticalAlignment = VerticalAlignment.Center; b.Padding = new Thickness(12, 4, 12, 4); } commandRow.Children.Add(c); } commands.Children.Add(commandRow);
             profileButton.Height = 32; profileButton.MinHeight = 0; profileButton.VerticalAlignment = VerticalAlignment.Center;
@@ -96,6 +99,7 @@ namespace RibbonStudio
             uicList.SelectedItem = selected; RenderDetails();
             feedback.Text = "已读取 " + scan.targets.Count + " 个安装 · " + scan.scannedAt + (scan.errors.Count > 0 ? " · 未读取 " + scan.errors.Count + " 项（右键状态查看）" : " · 尚未写入");
             feedback.ToolTip = String.Join("\n", scan.errors);
+            if (frozen.Locked) feedback.Text = frozen.Status;
             var errors = new ContextMenu(); var show = new MenuItem { Header = "查看扫描范围与未读取项" }; show.Click += (s,e) => Ui.Message(String.Join("\n", scan.targets.Select(t=>t.monPath)) + "\n" + String.Join("\n", scan.errors), "扫描详情"); errors.Items.Add(show); feedback.ContextMenu = errors;
         }
         internal static bool Same(string a, string b) { if (String.IsNullOrEmpty(a) || String.IsNullOrEmpty(b)) return false; try { return String.Equals(Path.GetFullPath(a), Path.GetFullPath(b), StringComparison.OrdinalIgnoreCase); } catch { return false; } }
@@ -187,42 +191,74 @@ namespace RibbonStudio
         }
         async Task ReviewRegistration()
         {
+            frozen.EnsureAvailable();
             if (pending.Count == 0) { feedback.Text = "先选择 UIC，再选择需要加入的 XML"; return; }
-            await main.SaveOpenProjects();
-            foreach (var p in pending) { p.Project = await Latest(p.Project); p.Plan = await Api.Post<Plan>("deployment/registration-preview", new { project = p.Project, monPath = p.Target.monPath, manifestName = p.Manifest, entryName = p.Name }); }
-            var review = new StackPanel(); foreach (var p in pending) { review.Children.Add(Ui.Text(p.Plan.manifestPath, 13)); review.Children.Add(Ui.Code("<CustomizationFile Name=\"" + p.Name + "\" Path=\"" + p.Plan.uicPath + "\" />")); review.Children.Add(new Expander { Header = "查看目标 XML", Content = Ui.Code(p.Plan.afterXml) }); }
-            if (!ConfirmReview("核对 XML 路径登记", review)) return;
-            int applied = 0;
-            var expected = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-            foreach (var p in pending) if (!expected.ContainsKey(p.Plan.manifestPath)) expected[p.Plan.manifestPath] = p.Plan.manifestHash;
-            foreach (var p in pending.ToList()) { try {
-                var fresh = await Api.Post<Plan>("deployment/registration-preview", new { project = p.Project, monPath = p.Target.monPath, manifestName = p.Manifest, entryName = p.Name });
-                if (fresh.manifestHash != expected[p.Plan.manifestPath] || fresh.uicHash != p.Plan.uicHash) throw new Exception("XML 或 UIC 在预览后发生变化，请重新预览");
-                var result = await Api.Post<Plan>("deployment/registration-apply", new { project = p.Project, monPath = p.Target.monPath, manifestName = p.Manifest, entryName = p.Name, expectedManifestHash = fresh.manifestHash, expectedUicHash = fresh.uicHash });
-                expected[p.Plan.manifestPath] = result.nextManifestHash; pending.Remove(p); applied++;
-            } catch(Exception e) { throw new Exception("已完成 " + applied + " 项；剩余项未继续。" + e.Message); } }
-            await ReloadCore(); feedback.Text = "已备份并写入 " + applied + " 个 XML；UIC 内容保持不变";
+            await main.SaveOpenProjects(); int applied = 0;
+            foreach (var p in pending.ToList())
+            {
+                try
+                {
+                    p.Project = await Latest(p.Project);
+                    p.Frozen = await frozen.Preview("registration", new { project = p.Project, monPath = p.Target.monPath, manifestName = p.Manifest, entryName = p.Name });
+                    p.Plan = p.Frozen.targetPlan;
+                    var review = new StackPanel(); review.Children.Add(Ui.Text(p.Plan.manifestPath, 13));
+                    review.Children.Add(Ui.Text("冻结计划 " + p.Frozen.planId + " · 源版本 " + p.Frozen.expectedVersionId + " · 有效期 " + p.Frozen.expiresAt, 11));
+                    review.Children.Add(Ui.Text("本次仅确认这一项；剩余 " + (pending.Count - 1) + " 项将各自预览并确认。", 12));
+                    review.Children.Add(new Expander { Header = "查看目标 XML", Content = Ui.Code(p.Plan.afterXml) });
+                    if (!ConfirmReview("v2 冻结登记 · 核对本次 XML", review)) { feedback.Text = "已停止；先前完成 " + applied + " 项，其余尚未确认。"; return; }
+                    await frozen.Apply("registration", p.Frozen); pending.Remove(p); applied++;
+                }
+                catch (Exception error) { p.Frozen = null; throw new Exception("已完成 " + applied + " 项；剩余项未继续。" + error.Message); }
+            }
+            await ReloadCore(); feedback.Text = "已登记 " + applied + " 个 XML；UIC 内容保持不变。" + FrozenDeploymentClient.ActivationMessage;
         }
         async Task ReviewDeployment()
         {
+            frozen.EnsureAvailable();
             await main.SaveOpenProjects(); prepared.Clear(); var selectedRows = files.Where(f => f.Marked).ToList(); if (selectedRows.Count == 0) { feedback.Text = "请勾选需要部署的 UIC"; return; }
-            foreach(var row in selectedRows)
+            foreach (var row in selectedRows)
             {
-                var current = await Latest(row.Project); var p = await Api.Post<Project>("projects/normalize", current); Plan plan;
-                if (!String.IsNullOrEmpty(row.Path)) plan = await Api.Post<Plan>("deployment/file-preview", new { project = p });
-                else { if (profile == null || profile.manifests.Count == 0) throw new Exception("新文件首次部署需先选择包含首次模块的部署配置"); plan = await Api.Post<Plan>("deployment/preview", new { project = p, monPath = profile.monPath, manifestName = profile.manifests[0] }); }
-                prepared.Add(new PreparedDeployment { Project = p, Plan = plan, Fingerprint = Json.Write(current) });
+                var current = await Latest(row.Project); FrozenPlan envelope = null; Plan plan; var p = current;
+                if (!String.IsNullOrEmpty(row.Path)) { envelope = await frozen.Preview("file", new { project = p }); plan = envelope.targetPlan; }
+                else { p = await Api.Post<Project>("projects/normalize", current); if (profile == null || profile.manifests.Count == 0) throw new Exception("新文件首次部署需先选择包含首次模块的部署配置"); plan = await Api.Post<Plan>("deployment/preview", new { project = p, monPath = profile.monPath, manifestName = profile.manifests[0] }); }
+                prepared.Add(new PreparedDeployment { Project = p, Plan = plan, Frozen = envelope, Fingerprint = Json.Write(current) });
             }
-            var review = new StackPanel(); foreach (var p in prepared) review.Children.Add(Ui.Text(p.Plan.uicPath + "\n" + (p.Plan.unchanged ? "内容相同" : "将备份并写入") + " · " + p.Plan.uicBytes + " bytes", 13));
-            if (!ConfirmReview("核对批量 UIC 部署", review)) return;
+            var review = new StackPanel();
+            foreach (var p in prepared) review.Children.Add(Ui.Text(p.Plan.uicPath + "\n" + (p.Plan.unchanged ? "内容相同" : "将备份并写入") + " · " + p.Plan.uicBytes + " bytes\n" + (p.Frozen == null ? "v1 兼容入口：新文件首次部署，不属于 v2 冻结计划" : "v2 冻结计划 " + p.Frozen.planId + " · 源版本 " + p.Frozen.expectedVersionId + " · 有效期 " + p.Frozen.expiresAt), 13));
+            if (!ConfirmReview("核对 UIC 部署 · 已有文件 v2 / 首次生成 v1", review)) return;
             foreach (var p in prepared) if (Json.Write(await Latest(p.Project)) != p.Fingerprint) throw new Exception("编辑内容已变化，请重新预览");
             int count = 0;
-            foreach(var p in prepared) { try { if (p.Plan.operation == "update-file") await Api.Post<Plan>("deployment/file-apply", new { project = p.Project, expectedUicHash = p.Plan.uicHash }); else await Api.Post<Plan>("deployment/apply", new { project = p.Project, monPath = p.Plan.monPath, manifestName = profile.manifests[0], expectedUicHash = p.Plan.uicHash, expectedManifestHash = p.Plan.manifestHash }); count++; } catch(Exception e) { throw new Exception("已完成 " + count + " 项；其余未继续。" + e.Message); } }
-            await ReloadCore(); feedback.Text = "已完成 " + count + " 个 UIC；修改前备份与历史已保留";
+            foreach (var p in prepared)
+            {
+                try
+                {
+                    frozen.EnsureAvailable();
+                    if (p.Frozen != null) await frozen.Apply("file", p.Frozen);
+                    else await frozen.ApplyLegacy(new { project = p.Project, monPath = p.Plan.monPath, manifestName = profile.manifests[0], expectedUicHash = p.Plan.uicHash, expectedManifestHash = p.Plan.manifestHash });
+                    count++;
+                }
+                catch (Exception error) { prepared.Clear(); throw new Exception("已完成 " + count + " 项；其余未继续。" + error.Message); }
+            }
+            prepared.Clear(); await ReloadCore(); feedback.Text = "已完成 " + count + " 个 UIC；备份与历史已保留。" + FrozenDeploymentClient.ActivationMessage;
         }
         bool ConfirmReview(string title, Panel review)
         {
             var dialog = Ui.Dialog(title, main, 940, 620); var root = new DockPanel(); var actions = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(16) }; actions.Children.Add(Ui.Sync("取消", () => dialog.DialogResult = false)); actions.Children.Add(Ui.Sync("确认备份并写入", () => dialog.DialogResult = true)); DockPanel.SetDock(actions,Dock.Bottom); root.Children.Add(actions); review.Margin = new Thickness(20); root.Children.Add(Ui.Scroll(review)); dialog.Content = root; Chrome.Install(dialog); return dialog.ShowDialog() == true;
+        }
+        public async Task VerifyFrozenPreview(string snapshot)
+        {
+            await ReloadCore(); var row = files.FirstOrDefault(f => !String.IsNullOrEmpty(f.Path));
+            if (row == null) throw new Exception("No existing file for native v2 preview verification");
+            foreach (var file in files) file.Marked = file == row;
+            bool observed = false; var timer = new System.Windows.Threading.DispatcherTimer { Interval = TimeSpan.FromMilliseconds(150) };
+            timer.Tick += (s, e) => {
+                var dialog = Application.Current.Windows.OfType<Window>().FirstOrDefault(w => w.Title == "核对 UIC 部署 · 已有文件 v2 / 首次生成 v1");
+                if (dialog == null) return;
+                observed = prepared.Count == 1 && prepared[0].Frozen != null && prepared[0].Frozen.contractVersion == 2 && prepared[0].Frozen.kind == "file-update";
+                timer.Stop(); dialog.UpdateLayout(); Ui.Capture(dialog, snapshot); dialog.DialogResult = false;
+            };
+            timer.Start(); try { await ReviewDeployment(); } finally { timer.Stop(); }
+            if (!observed) throw new Exception("Native StudioToolPage did not display a v2 frozen preview");
         }
     }
 }

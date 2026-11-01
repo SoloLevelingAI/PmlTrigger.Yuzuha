@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-31",
+  "scope": "isolated fixtures only; UI does not claim AVEVA runtime verification",
+  "cwd": "integrations/ribbon/source",
+  "commands": [
+    {
+      "command": "node --import tsx --test tests/*.test.ts",
+      "exitCode": 0,
+      "passed": 53,
+      "failed": 0,
+      "skipped": 0,
+      "log": "full-tests-final.log",
+      "runner": "parent agent"
+    },
+    {
+      "command": "node --import tsx --test tests/frozen-ui.test.ts tests/frozen-desktop-ui.test.ts",
+      "exitCode": 0,
+      "passed": 9,
+      "failed": 0,
+      "log": "client-tests-final.log"
+    },
+    {
+      "command": "node G:/nodejs/node_modules/npm/bin/npm-cli.js run build",
+      "exitCode": 0,
+      "log": "build-final.log"
+    },
+    {
+      "command": "node scripts/build-desktop.mjs; node --import tsx tests/desktop-smoke.ts",
+      "exitCode": 0,
+      "log": "desktop-smoke-final.log",
+      "scope": "main StudioToolPage v2 file preview confirmation displayed and cancelled; native registration v2 preview; seed/restore/docked restart; no Apply in main-tool native UI case"
+    },
+    {
+      "command": "UIC_CHROMIUM_EXE=<existing Chromium chrome.exe> node --import tsx tests/ribbon-ui-browser-smoke.ts",
+      "exitCode": 0,
+      "log": "browser-final.log",
+      "result": "web-results.json",
+      "scope": "real DOM file and registration Apply to temporary fixtures; concurrency, unknown, reload/tab/page-close pending and manual-check protection"
+    }
+  ],
+  "earlierAttempt": {
+    "log": "browser-concurrency-first.log",
+    "exitCode": 1,
+    "reason": "test expected a later cross-tab lock message; UI safely rejected earlier with persistent unknown plan; final test accepts both safe rejection phases"
+  },
+  "runtimeVerified": false
+}

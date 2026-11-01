@@ -1,0 +1,87 @@
+{
+  "schema": "project-contract-metadata/1",
+  "metadataDigest": "3dac030c2e37ae7b099a28fb0f1d8d43ab9c12c7f594338de93c04b9dc8929d3",
+  "input": "docs/contracts/project.public.json",
+  "project": "project:pmltwin",
+  "features": [
+    "feature:launch",
+    "feature:deployment",
+    "feature:sessions",
+    "feature:objects",
+    "feature:functions",
+    "feature:forms",
+    "feature:arrays",
+    "feature:formuse",
+    "feature:knowledge",
+    "feature:activity",
+    "feature:review",
+    "feature:tests",
+    "feature:web",
+    "feature:ribbon",
+    "feature:database",
+    "feature:migration",
+    "feature:caf",
+    "feature:plugins"
+  ],
+  "scripts": [
+    "script:workbench-entry",
+    "script:launch-workflow",
+    "script:communication-client",
+    "script:frozen-copy",
+    "script:pml-development",
+    "script:array-window",
+    "script:dbref-reader",
+    "script:host-bootstrap",
+    "script:ribbon-frozen-deployment",
+    "script:migration-preview",
+    "script:knowledge-import",
+    "script:sdk-acceptance",
+    "script:ui-pending-gate",
+    "script:runtime-verification"
+  ],
+  "sampleIds": [
+    "feature:launch",
+    "feature:deployment",
+    "script:workbench-entry",
+    "script:launch-workflow"
+  ],
+  "themeSamples": [
+    {
+      "view": "help",
+      "theme": "Light",
+      "name": "Help-Light"
+    },
+    {
+      "view": "help",
+      "theme": "Dark",
+      "name": "Help-Dark"
+    },
+    {
+      "view": "portfolio",
+      "theme": "Light",
+      "name": "Portfolio-Light"
+    },
+    {
+      "view": "portfolio",
+      "theme": "Dark",
+      "name": "Portfolio-Dark"
+    }
+  ],
+  "tokenSchemaVersion": 2,
+  "frames": {
+    "Overview": 2,
+    "Components": 5,
+    "Scripts": 8,
+    "Flows": 11,
+    "Help-Light": 14,
+    "Help-Dark": 17,
+    "Portfolio-Light": 20,
+    "Portfolio-Dark": 23
+  },
+  "components": {
+    "FeatureCard": 75,
+    "ScriptCard": 80,
+    "EvidenceBadge": 85,
+    "FeatureTile": 90
+  }
+}

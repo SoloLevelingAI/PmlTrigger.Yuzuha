@@ -1,0 +1,16 @@
+{
+  "command": "node tests/contract-atlas-method-live-browser.mjs (PowerShell Tee-Object wrapper)",
+  "testProofPassed": true,
+  "publishedRevisions": 3,
+  "scriptErrors": [],
+  "httpErrors": [],
+  "observedExecExitCode": -532462766,
+  "postProofFailure": "Unhandled exception. System.DllNotFoundException: Dll was not found. at __std_type_info_destroy_list(__type_info_node*) / __scrt_uninitialize_type_info() / _app_exit_callback() / <CrtImplementationDetails>.ModuleUninitializer.SingletonDomainUnload(Object source, EventArgs arguments)",
+  "interpretation": "All test assertions and proof generation completed. The surrounding process subsequently failed during native/CLR shutdown. This is not an exit-zero run and the actual shutdown origin is not yet established.",
+  "retry": {
+    "command": "G:\\nodejs\\node.exe tests/contract-atlas-method-live-browser.mjs (cmd.exe, no PowerShell wrapper)",
+    "exitCode": 0,
+    "proofPassed": true,
+    "log": "docs/validation/contract-reading-2026-11-01.evidence/methods-real-cmd.log"
+  }
+}

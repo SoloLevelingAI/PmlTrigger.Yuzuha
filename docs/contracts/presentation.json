@@ -1,0 +1,840 @@
+{
+  "schemaVersion": 1,
+  "snapshotDate": "2026-11-01",
+  "hashPolicy": "sha256-raw-bytes",
+  "project": {
+    "id": "project:pmltwin",
+    "title": "PMLTWIN",
+    "summary": "让发现、配置、受控执行和证据围绕同一任务协作。",
+    "goalIds": [
+      "canonical:G1",
+      "canonical:G2",
+      "canonical:G3"
+    ],
+    "featureIds": [
+      "feature:launch",
+      "feature:deployment",
+      "feature:sessions",
+      "feature:objects",
+      "feature:functions",
+      "feature:forms",
+      "feature:arrays",
+      "feature:formuse",
+      "feature:knowledge",
+      "feature:activity",
+      "feature:review",
+      "feature:tests",
+      "feature:web",
+      "feature:ribbon",
+      "feature:database",
+      "feature:migration",
+      "feature:caf",
+      "feature:plugins"
+    ]
+  },
+  "features": [
+    {
+      "id": "feature:launch",
+      "sourceId": "launch",
+      "title": "工程发现与启动",
+      "responsibility": "冻结一次启动，保存修订并观察原编号。",
+      "inputs": [
+        "配置修订",
+        "明确产品与模块"
+      ],
+      "outputs": [
+        "候选来源",
+        "启动计划与关联回执"
+      ],
+      "effects": [
+        "授权后创建入口进程"
+      ],
+      "failures": [
+        "歧义、冲突与unknown"
+      ],
+      "limitations": [
+        "入口创建不等于登录或Host已核验"
+      ],
+      "requirementIds": [
+        "canonical:R02",
+        "canonical:R03",
+        "canonical:R04",
+        "canonical:R05",
+        "canonical:R06",
+        "canonical:R13",
+        "canonical:R14",
+        "canonical:R15",
+        "canonical:R16",
+        "canonical:R23"
+      ]
+    },
+    {
+      "id": "feature:deployment",
+      "sourceId": "deployment",
+      "title": "文件与运行目录部署",
+      "responsibility": "冻结文件差异，备份并有条件恢复。",
+      "inputs": [
+        "源与专用目标",
+        "冻结计划"
+      ],
+      "outputs": [
+        "逐文件差异",
+        "备份及恢复回执"
+      ],
+      "effects": [
+        "写目标文件与托管环境段"
+      ],
+      "failures": [
+        "源或目标变化拒绝",
+        "部分恢复明确报告"
+      ],
+      "limitations": [
+        "复制成功不等于运行时已加载"
+      ],
+      "requirementIds": [
+        "canonical:R10",
+        "canonical:R19"
+      ]
+    },
+    {
+      "id": "feature:sessions",
+      "sourceId": "sessions",
+      "title": "会话发现与身份核验",
+      "responsibility": "每次调用绑定明确目标身份。",
+      "inputs": [
+        "选定会话",
+        "模块与启动身份"
+      ],
+      "outputs": [
+        "身份与协议证据"
+      ],
+      "effects": [
+        "创建通信子进程"
+      ],
+      "failures": [
+        "身份变化或协议不足拒绝"
+      ],
+      "limitations": [
+        "发现不等于登录"
+      ],
+      "requirementIds": [
+        "canonical:R17"
+      ]
+    },
+    {
+      "id": "feature:objects",
+      "sourceId": "objects",
+      "title": "对象与全局数据查询",
+      "responsibility": "读取当前对象、指定元素及全局路径。",
+      "inputs": [
+        "已核验目标",
+        "对象路径与预算"
+      ],
+      "outputs": [
+        "原始数据与读取诊断"
+      ],
+      "effects": [
+        "部分原生包装临时切换当前对象"
+      ],
+      "failures": [
+        "空结果与失败分别核对"
+      ],
+      "limitations": [
+        "对象身份不能跨工程永久复用"
+      ],
+      "requirementIds": [
+        "canonical:R09",
+        "canonical:R17",
+        "canonical:R18"
+      ]
+    },
+    {
+      "id": "feature:functions",
+      "sourceId": "functions",
+      "title": "函数登记、许可与调用",
+      "responsibility": "源码签名、许可和Host加载分别验证。",
+      "inputs": [
+        "函数源码摘要",
+        "显式许可"
+      ],
+      "outputs": [
+        "签名列表与调用回执"
+      ],
+      "effects": [
+        "明确调用可能改变宿主"
+      ],
+      "failures": [
+        "源码变化撤销旧许可",
+        "不确定结果不重发"
+      ],
+      "limitations": [
+        "注册不表示Host已加载"
+      ],
+      "requirementIds": [
+        "canonical:R08",
+        "canonical:R11",
+        "canonical:R16",
+        "canonical:R17"
+      ]
+    },
+    {
+      "id": "feature:forms",
+      "sourceId": "forms",
+      "title": "原生Form与Gadget查询",
+      "responsibility": "通过既有元数据读取窗体和控件。",
+      "inputs": [
+        "明确目标",
+        "查询条件与预算"
+      ],
+      "outputs": [
+        "元数据、原生缺失值与续页"
+      ],
+      "effects": [
+        "管理请求专用临时变量"
+      ],
+      "failures": [
+        "条件变化清除旧续页"
+      ],
+      "limitations": [
+        "不执行业务回调"
+      ],
+      "requirementIds": [
+        "canonical:R09",
+        "canonical:R17",
+        "canonical:R18"
+      ]
+    },
+    {
+      "id": "feature:arrays",
+      "sourceId": "arrays",
+      "title": "已有数组的有界读取",
+      "responsibility": "按原生索引和字符预算读取窗口。",
+      "inputs": [
+        "起点、项数与字符预算"
+      ],
+      "outputs": [
+        "原始行、截断和下一索引"
+      ],
+      "effects": [
+        "算法不改写原数组"
+      ],
+      "failures": [
+        "首行超预算明确失败"
+      ],
+      "limitations": [
+        "稀疏槽位不压缩"
+      ],
+      "requirementIds": [
+        "canonical:R18"
+      ]
+    },
+    {
+      "id": "feature:formuse",
+      "sourceId": "formuse",
+      "title": "FormUse跟踪原型",
+      "responsibility": "记录原型支持范围，不冒充完整交付。",
+      "inputs": [
+        "原型窗体与跟踪选择"
+      ],
+      "outputs": [
+        "原型事件和限制"
+      ],
+      "effects": [
+        "可能装饰回调"
+      ],
+      "failures": [
+        "按原型报告具体失败"
+      ],
+      "limitations": [
+        "仍为planned"
+      ],
+      "requirementIds": [
+        "canonical:R08"
+      ]
+    },
+    {
+      "id": "feature:knowledge",
+      "sourceId": "knowledge",
+      "title": "分层知识与经验",
+      "responsibility": "按产品版本保存来源、库身份和正文。",
+      "inputs": [
+        "明确资料源或已有库"
+      ],
+      "outputs": [
+        "分层检查与来源定位"
+      ],
+      "effects": [
+        "导入发布新隔离库"
+      ],
+      "failures": [
+        "损坏、冲突或来源变化拒绝启用"
+      ],
+      "limitations": [
+        "官方默认接入仍待完成"
+      ],
+      "requirementIds": [
+        "canonical:R07",
+        "canonical:R20"
+      ]
+    },
+    {
+      "id": "feature:activity",
+      "sourceId": "activity",
+      "title": "运行记录与日志",
+      "responsibility": "关联本次动作和事实，不确定单列。",
+      "inputs": [
+        "关联编号与筛选条件"
+      ],
+      "outputs": [
+        "状态、阶段和保留范围内证据"
+      ],
+      "effects": [
+        "写本机记录"
+      ],
+      "failures": [
+        "日志故障与业务结果分开"
+      ],
+      "limitations": [
+        "不是所有平台动作的统一协调者"
+      ],
+      "requirementIds": [
+        "canonical:R09",
+        "canonical:R21"
+      ]
+    },
+    {
+      "id": "feature:review",
+      "sourceId": "review",
+      "title": "AI草稿评审与迁移",
+      "responsibility": "面向人工差异审核的候选桌面能力。",
+      "inputs": [
+        "独立草稿与审核选择"
+      ],
+      "outputs": [
+        "批准快照及迁移回执"
+      ],
+      "effects": [
+        "按明确批准提交"
+      ],
+      "failures": [
+        "失败保留审核上下文"
+      ],
+      "limitations": [
+        "完整GUI仍planned"
+      ],
+      "requirementIds": [
+        "canonical:R01",
+        "canonical:R12"
+      ]
+    },
+    {
+      "id": "feature:tests",
+      "sourceId": "tests",
+      "title": "桌面测试执行中心",
+      "responsibility": "复用按ID执行器，桌面中心仍待接线。",
+      "inputs": [
+        "真实测试ID"
+      ],
+      "outputs": [
+        "独立运行记录与证据"
+      ],
+      "effects": [
+        "启动自有测试夹具并写报告"
+      ],
+      "failures": [
+        "跳过与未运行不算通过"
+      ],
+      "limitations": [
+        "执行器存在不代表桌面中心完成"
+      ],
+      "requirementIds": [
+        "canonical:R22",
+        "canonical:R24"
+      ]
+    },
+    {
+      "id": "feature:web",
+      "sourceId": "web",
+      "title": "本机HTML应用管理",
+      "responsibility": "按钮参数绑定既有IPC操作。",
+      "inputs": [
+        "本机应用定义与参数"
+      ],
+      "outputs": [
+        "目录和原始调用回执"
+      ],
+      "effects": [
+        "目录编辑及获准按钮动作"
+      ],
+      "failures": [
+        "保留原操作授权与失败"
+      ],
+      "limitations": [
+        "远程分发未完成"
+      ],
+      "requirementIds": [
+        "canonical:R11",
+        "canonical:R16"
+      ]
+    },
+    {
+      "id": "feature:ribbon",
+      "sourceId": "ribbon",
+      "title": "Ribbon编辑与冻结部署",
+      "responsibility": "编辑历史、磁盘部署和实际加载分开。",
+      "inputs": [
+        "文档修订",
+        "目标模块与冻结引用"
+      ],
+      "outputs": [
+        "差异、备份和分层回执"
+      ],
+      "effects": [
+        "仅写获准UIC或选定清单"
+      ],
+      "failures": [
+        "源变化拒绝",
+        "unknown保留原编号"
+      ],
+      "limitations": [
+        "首次新文件为v1兼容",
+        "限定运行时外观通过，未点击宏"
+      ],
+      "requirementIds": []
+    },
+    {
+      "id": "feature:database",
+      "sourceId": "database",
+      "title": "独立应用数据库",
+      "responsibility": "提供隔离范围的文本修订与CAS事务。",
+      "inputs": [
+        "DataScope",
+        "身份与预期修订"
+      ],
+      "outputs": [
+        "历史、提交或冲突"
+      ],
+      "effects": [
+        "写显式应用数据库"
+      ],
+      "failures": [
+        "不兼容格式和只读拒绝写入"
+      ],
+      "limitations": [
+        "尚未整体替换活动写者"
+      ],
+      "requirementIds": [
+        "canonical:R14"
+      ]
+    },
+    {
+      "id": "feature:migration",
+      "sourceId": "migration",
+      "title": "只读迁移预览",
+      "responsibility": "保留字段和历史，剔除秘密并说明不支持项。",
+      "inputs": [
+        "明确来源格式与路径"
+      ],
+      "outputs": [
+        "摘要、净化材料和诊断"
+      ],
+      "effects": [
+        "只读来源，不激活"
+      ],
+      "failures": [
+        "未来版本、损坏或预算拒绝"
+      ],
+      "limitations": [
+        "不替代写入切换和恢复"
+      ],
+      "requirementIds": []
+    },
+    {
+      "id": "feature:caf",
+      "sourceId": "caf",
+      "title": "CAF薄宿主适配",
+      "responsibility": "验证真实SDK身份，隔离旧运行时。",
+      "inputs": [
+        "匹配宿主服务上下文"
+      ],
+      "outputs": [
+        "只读适配描述"
+      ],
+      "effects": [
+        "当前仅内存生命周期"
+      ],
+      "failures": [
+        "未支持版本明确拒绝"
+      ],
+      "limitations": [
+        "SDK编译不等于真实宿主注册或UI挂载"
+      ],
+      "requirementIds": []
+    },
+    {
+      "id": "feature:plugins",
+      "sourceId": "plugins",
+      "title": "可选许可与VM插件",
+      "responsibility": "显式插件清单复用既有worker边界。",
+      "inputs": [
+        "插件身份、计划与明确许可"
+      ],
+      "outputs": [
+        "状态和独立证据"
+      ],
+      "effects": [
+        "明确执行才改变VM等外部资源"
+      ],
+      "failures": [
+        "缺失、停用、崩溃和unknown分别报告"
+      ],
+      "limitations": [
+        "基础包不应依赖可选实验能力"
+      ],
+      "requirementIds": []
+    }
+  ],
+  "scripts": [
+    {
+      "id": "script:workbench-entry",
+      "title": "启动工作台与本地服务编排",
+      "language": "powershell",
+      "role": "workflow",
+      "featureIds": [
+        "feature:launch"
+      ],
+      "section": 1,
+      "publicOverrides": {}
+    },
+    {
+      "id": "script:launch-workflow",
+      "title": "启动计划、受理与观察",
+      "language": "csharp",
+      "role": "workflow",
+      "featureIds": [
+        "feature:launch"
+      ],
+      "section": 2,
+      "publicOverrides": {}
+    },
+    {
+      "id": "script:communication-client",
+      "title": "通信CLI子进程边界",
+      "language": "csharp",
+      "role": "transport",
+      "featureIds": [
+        "feature:sessions",
+        "feature:objects",
+        "feature:forms",
+        "feature:functions"
+      ],
+      "section": 3,
+      "publicOverrides": {}
+    },
+    {
+      "id": "script:frozen-copy",
+      "title": "冻结复制与条件恢复",
+      "language": "csharp",
+      "role": "algorithm",
+      "featureIds": [
+        "feature:deployment"
+      ],
+      "section": 4,
+      "publicOverrides": {}
+    },
+    {
+      "id": "script:pml-development",
+      "title": "PML部署、重载与验证",
+      "language": "powershell",
+      "role": "workflow",
+      "featureIds": [
+        "feature:deployment",
+        "feature:forms",
+        "feature:functions"
+      ],
+      "section": 5,
+      "publicOverrides": {}
+    },
+    {
+      "id": "script:array-window",
+      "title": "数组窗口算法",
+      "language": "csharp",
+      "role": "algorithm",
+      "featureIds": [
+        "feature:arrays"
+      ],
+      "section": 6,
+      "publicOverrides": {}
+    },
+    {
+      "id": "script:dbref-reader",
+      "title": "DBREF对象读取与恢复",
+      "language": "pml",
+      "role": "runtime",
+      "featureIds": [
+        "feature:objects"
+      ],
+      "section": 7,
+      "publicOverrides": {}
+    },
+    {
+      "id": "script:host-bootstrap",
+      "title": "Host解析与启动策略",
+      "language": "pml",
+      "role": "runtime",
+      "featureIds": [
+        "feature:launch",
+        "feature:sessions"
+      ],
+      "section": 8,
+      "publicOverrides": {}
+    },
+    {
+      "id": "script:ribbon-frozen-deployment",
+      "title": "Ribbon冻结部署与回执映射",
+      "language": "csharp",
+      "role": "workflow",
+      "featureIds": [
+        "feature:ribbon"
+      ],
+      "section": 9,
+      "publicOverrides": {}
+    },
+    {
+      "id": "script:migration-preview",
+      "title": "只读迁移材料解析",
+      "language": "csharp",
+      "role": "algorithm",
+      "featureIds": [
+        "feature:migration",
+        "feature:database"
+      ],
+      "section": 10,
+      "publicOverrides": {}
+    },
+    {
+      "id": "script:knowledge-import",
+      "title": "知识双路导入",
+      "language": "csharp",
+      "role": "workflow",
+      "featureIds": [
+        "feature:knowledge"
+      ],
+      "section": 11,
+      "publicOverrides": {}
+    },
+    {
+      "id": "script:sdk-acceptance",
+      "title": "SDK选择与按ID验证",
+      "language": "powershell",
+      "role": "build",
+      "featureIds": [
+        "feature:tests"
+      ],
+      "section": 12,
+      "publicOverrides": {}
+    },
+    {
+      "id": "script:ui-pending-gate",
+      "title": "UI发送前持久门禁",
+      "language": "typescript/csharp",
+      "role": "workflow",
+      "featureIds": [
+        "feature:ribbon"
+      ],
+      "section": 13,
+      "publicOverrides": {}
+    },
+    {
+      "id": "script:runtime-verification",
+      "title": "独立运行时验收与收尾",
+      "language": "procedure",
+      "role": "acceptance",
+      "featureIds": [
+        "feature:ribbon",
+        "feature:sessions"
+      ],
+      "section": 14,
+      "publicOverrides": {
+        "input": "明确授权的独立测试界面文件、单模块登记、目标产品与冻结备份。",
+        "precondition": "启动、文件写入与重启分别获准；新会话重新严格核验。",
+        "method": "直接HTTP冻结部署后正常重启，独立核验身份与实际界面，再有条件恢复。",
+        "effect": "改变独立测试文件与指定登记并启动、退出真实产品；未点击宏。",
+        "validation": "新旧会话分别核对；实际页签、分组、大小图标与Tooltip限定外观证据。",
+        "receipt": "部署时仍为磁盘成功、运行时未核验；后续外观通过作为独立事实追加。",
+        "recovery": "正常退出后按冻结摘要恢复唯一测试登记；保留备份，其他产品不外推。"
+      }
+    }
+  ],
+  "flows": [
+    {
+      "id": "flow:launch",
+      "title": "发现到观察",
+      "summary": "计划绑定一次动作，未知沿原编号核对。",
+      "featureIds": [
+        "feature:launch"
+      ],
+      "steps": [
+        {
+          "id": "step:launch-discover",
+          "title": "解释候选",
+          "summary": "保留来源与歧义。",
+          "entityId": "feature:launch"
+        },
+        {
+          "id": "step:launch-plan",
+          "title": "冻结计划",
+          "summary": "修订与文件摘要绑定。",
+          "entityId": "script:launch-workflow"
+        },
+        {
+          "id": "step:launch-execute",
+          "title": "受理再执行",
+          "summary": "持久受理失败不启动。",
+          "entityId": "script:launch-workflow"
+        },
+        {
+          "id": "step:launch-observe",
+          "title": "观察原编号",
+          "summary": "unknown不重放。",
+          "entityId": "script:launch-workflow"
+        }
+      ],
+      "connections": [
+        {
+          "from": "step:launch-discover",
+          "to": "step:launch-plan",
+          "label": "确定目标",
+          "kind": "next"
+        },
+        {
+          "from": "step:launch-plan",
+          "to": "step:launch-execute",
+          "label": "明确授权",
+          "kind": "next"
+        },
+        {
+          "from": "step:launch-execute",
+          "to": "step:launch-observe",
+          "label": "回执或unknown",
+          "kind": "uncertain"
+        }
+      ]
+    },
+    {
+      "id": "flow:ribbon",
+      "title": "编辑、部署与独立加载核验",
+      "summary": "磁盘写入不等于运行时已加载。",
+      "featureIds": [
+        "feature:ribbon"
+      ],
+      "steps": [
+        {
+          "id": "step:ribbon-preview",
+          "title": "冻结差异",
+          "summary": "绑定文档、目标与期限。",
+          "entityId": "script:ribbon-frozen-deployment"
+        },
+        {
+          "id": "step:ribbon-pending",
+          "title": "先记录pending",
+          "summary": "写前持久，跨页面互斥。",
+          "entityId": "script:ui-pending-gate"
+        },
+        {
+          "id": "step:ribbon-apply",
+          "title": "仅发送原引用",
+          "summary": "写后哈希核验。",
+          "entityId": "script:ribbon-frozen-deployment"
+        },
+        {
+          "id": "step:ribbon-check",
+          "title": "人工核对",
+          "summary": "不确定时暂停，不自动重放。",
+          "entityId": "script:ui-pending-gate"
+        },
+        {
+          "id": "step:ribbon-runtime",
+          "title": "独立核验加载",
+          "summary": "产品范围、实际UI与未执行宏分别记录。",
+          "entityId": "script:runtime-verification"
+        }
+      ],
+      "connections": [
+        {
+          "from": "step:ribbon-preview",
+          "to": "step:ribbon-pending",
+          "label": "确认",
+          "kind": "next"
+        },
+        {
+          "from": "step:ribbon-pending",
+          "to": "step:ribbon-apply",
+          "label": "记录成功",
+          "kind": "next"
+        },
+        {
+          "from": "step:ribbon-apply",
+          "to": "step:ribbon-check",
+          "label": "unknown",
+          "kind": "uncertain"
+        },
+        {
+          "from": "step:ribbon-check",
+          "to": "step:ribbon-preview",
+          "label": "人工核对后新预览",
+          "kind": "recovery"
+        },
+        {
+          "from": "step:ribbon-apply",
+          "to": "step:ribbon-runtime",
+          "label": "独立授权与证据",
+          "kind": "next"
+        }
+      ]
+    },
+    {
+      "id": "flow:migration",
+      "title": "先只读预览，再考虑切换",
+      "summary": "只读阶段已完成；写入切换另属未完成契约。",
+      "featureIds": [
+        "feature:migration",
+        "feature:database"
+      ],
+      "steps": [
+        {
+          "id": "step:migration-read",
+          "title": "受限读取",
+          "summary": "明确来源与预算。",
+          "entityId": "script:migration-preview"
+        },
+        {
+          "id": "step:migration-review",
+          "title": "净化与审查",
+          "summary": "保留历史，剔除秘密，不激活。",
+          "entityId": "feature:migration"
+        },
+        {
+          "id": "step:migration-future",
+          "title": "未来显式切换",
+          "summary": "切换、备份与恢复尚未闭环。",
+          "entityId": "feature:database"
+        }
+      ],
+      "connections": [
+        {
+          "from": "step:migration-read",
+          "to": "step:migration-review",
+          "label": "材料完整",
+          "kind": "next"
+        },
+        {
+          "from": "step:migration-review",
+          "to": "step:migration-future",
+          "label": "独立待实现",
+          "kind": "uncertain"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+[
+  {
+    "name": "本次加载证据",
+    "type": "ControlType.Group",
+    "offscreen": false,
+    "bounds": "-1352,560,183,89"
+  },
+  {
+    "name": "只读核验 Large",
+    "type": "ControlType.Button",
+    "offscreen": false,
+    "bounds": "-1351,561,61,71"
+  },
+  {
+    "name": "只读核验 Small",
+    "type": "ControlType.Button",
+    "offscreen": false,
+    "bounds": "-1290,562,116,21"
+  },
+  {
+    "name": "Phayton 重启核验 1031",
+    "type": "ControlType.TabItem",
+    "offscreen": false,
+    "bounds": "-463,535,154,24"
+  }
+]

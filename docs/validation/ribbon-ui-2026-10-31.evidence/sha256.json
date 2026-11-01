@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "files": [
+    {
+      "path": "browser-concurrency-first.log",
+      "sha256": "833ac36d1a43851f4bc62643c7b6cfcf8fc39cff00e7fea0fea31f36c476d4a1"
+    },
+    {
+      "path": "browser-final.log",
+      "sha256": "5444514018fa01e294c0a69f0a94bacf7719be844fa7d256028a29426bff2183"
+    },
+    {
+      "path": "build-final.log",
+      "sha256": "0f745fe786fd691329e54f7f93d71f3bb286ec21f44c8b61ba75d126abb9ac14"
+    },
+    {
+      "path": "client-tests-final.log",
+      "sha256": "148719c91726e812ee7bbd961e90add2495b3ce1aa6de49c02dae0f9006e00e3"
+    },
+    {
+      "path": "commands.json",
+      "sha256": "0a6550f0ccd13beb09f5fac4f1a149d1fbbc3ea1ff67c559396c8233ceb4df21"
+    },
+    {
+      "path": "desktop-main-frozen-preview.png",
+      "sha256": "f14455bbfc42833024cfe7f9dc47380c26cb6bb93819b7aadeae011f5f9261b6"
+    },
+    {
+      "path": "desktop-results.json",
+      "sha256": "00edcc8944fc360169734ca51980469d8bdd0f931b4fe46a9c79aff405c5b702"
+    },
+    {
+      "path": "desktop-smoke-final.log",
+      "sha256": "34c0135af4b134dfc552c86e26e0cdc7ad2b751234fa3a5cc25ec2854c246678"
+    },
+    {
+      "path": "full-tests-final.log",
+      "sha256": "3d096693fe70dd64462d5862a8351bdf5c7d3afa272756fadaad5abe891eb460"
+    },
+    {
+      "path": "web-file-deployed.png",
+      "sha256": "6ef3d67088430823b73ff07dcfa0da3a3f9c1ba12a18eecdbdde3a68d62e58a1"
+    },
+    {
+      "path": "web-module-deployed.png",
+      "sha256": "f176f5e4692b98a5a8b18b28a3222f97e183b879cee6dba1e6757fc12ebd3ff2"
+    },
+    {
+      "path": "web-pending-after-page-close.png",
+      "sha256": "a91aa366316b906758e5e0e827463c44c6f8936dd6b8a8721168e401e8a65fd3"
+    },
+    {
+      "path": "web-results.json",
+      "sha256": "3010bfa4640bbdf7eb0387e1d582db117c87652cca247ef4ed0a5b2b446d486d"
+    },
+    {
+      "path": "web-unknown-after-reload.png",
+      "sha256": "ed7bfd31638ef7c4ebdca7ea92b7965dd5894e5e901327b6abbe8cc60a547bfb"
+    }
+  ]
+}

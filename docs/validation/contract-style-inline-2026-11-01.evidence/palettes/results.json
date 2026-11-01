@@ -1,0 +1,454 @@
+{
+  "checks": [
+    "six palettes: text >=4.5, key boundaries >=3 on all solid surfaces; metallic captions and active controls >=4.5",
+    "1440 six themes: actual project rendered/no horizontal overflow/44px selector",
+    "1920 six themes: actual project rendered/no horizontal overflow/44px selector",
+    "1024 six themes: actual project rendered/no horizontal overflow/44px selector",
+    "390 six themes: actual project rendered/no horizontal overflow/44px selector",
+    "theme switch keeps original main node, full task route, hash, selector focus",
+    "native theme select keyboard End/Enter changes palette and keeps focus",
+    "open contract reader retains node, disclosure, focus and scroll when theme updates",
+    "saved theme restored without URL",
+    "implicit tab syncs storage; explicit URL preference resists another tab",
+    "denied storage: default loads and current session switch remains usable",
+    "head bootstrap applies URL over stored preference before deferred app starts"
+  ],
+  "errors": [],
+  "contrast": [
+    {
+      "theme": "lime",
+      "fg": "ink",
+      "bg": "paper",
+      "ratio": 15.912223874089639
+    },
+    {
+      "theme": "lime",
+      "fg": "ink",
+      "bg": "surface",
+      "ratio": 17.335725765645353
+    },
+    {
+      "theme": "lime",
+      "fg": "ink",
+      "bg": "soft",
+      "ratio": 14.432758632481953
+    },
+    {
+      "theme": "lime",
+      "fg": "muted",
+      "bg": "paper",
+      "ratio": 6.232778868395822
+    },
+    {
+      "theme": "lime",
+      "fg": "muted",
+      "bg": "surface",
+      "ratio": 6.790361050434946
+    },
+    {
+      "theme": "lime",
+      "fg": "muted",
+      "bg": "soft",
+      "ratio": 5.6532759800890755
+    },
+    {
+      "theme": "lime",
+      "fg": "pink",
+      "bg": "paper",
+      "ratio": 6.4026027925954585
+    },
+    {
+      "theme": "lime",
+      "fg": "pink",
+      "bg": "surface",
+      "ratio": 6.975377362527217
+    },
+    {
+      "theme": "lime",
+      "fg": "pink",
+      "bg": "soft",
+      "ratio": 5.807310245028331
+    },
+    {
+      "theme": "lime",
+      "fg": "link",
+      "bg": "paper",
+      "ratio": 7.636711139298042
+    },
+    {
+      "theme": "lime",
+      "fg": "link",
+      "bg": "surface",
+      "ratio": 8.319888603244909
+    },
+    {
+      "theme": "lime",
+      "fg": "link",
+      "bg": "soft",
+      "ratio": 6.926675334108864
+    },
+    {
+      "theme": "cyan",
+      "fg": "ink",
+      "bg": "paper",
+      "ratio": 13.125059681524428
+    },
+    {
+      "theme": "cyan",
+      "fg": "ink",
+      "bg": "surface",
+      "ratio": 14.350568757855854
+    },
+    {
+      "theme": "cyan",
+      "fg": "ink",
+      "bg": "soft",
+      "ratio": 11.834502795380189
+    },
+    {
+      "theme": "cyan",
+      "fg": "muted",
+      "bg": "paper",
+      "ratio": 6.582908605126515
+    },
+    {
+      "theme": "cyan",
+      "fg": "muted",
+      "bg": "surface",
+      "ratio": 7.197565943073627
+    },
+    {
+      "theme": "cyan",
+      "fg": "muted",
+      "bg": "soft",
+      "ratio": 5.935626365095019
+    },
+    {
+      "theme": "cyan",
+      "fg": "pink",
+      "bg": "paper",
+      "ratio": 6.8177575495640905
+    },
+    {
+      "theme": "cyan",
+      "fg": "pink",
+      "bg": "surface",
+      "ratio": 7.454343131645608
+    },
+    {
+      "theme": "cyan",
+      "fg": "pink",
+      "bg": "soft",
+      "ratio": 6.147383153778495
+    },
+    {
+      "theme": "cyan",
+      "fg": "link",
+      "bg": "paper",
+      "ratio": 6.680011996407669
+    },
+    {
+      "theme": "cyan",
+      "fg": "link",
+      "bg": "surface",
+      "ratio": 7.303736042639936
+    },
+    {
+      "theme": "cyan",
+      "fg": "link",
+      "bg": "soft",
+      "ratio": 6.023181803580023
+    },
+    {
+      "theme": "violet",
+      "fg": "ink",
+      "bg": "paper",
+      "ratio": 13.26784995572414
+    },
+    {
+      "theme": "violet",
+      "fg": "ink",
+      "bg": "surface",
+      "ratio": 14.760115567782112
+    },
+    {
+      "theme": "violet",
+      "fg": "ink",
+      "bg": "soft",
+      "ratio": 11.890016054604466
+    },
+    {
+      "theme": "violet",
+      "fg": "muted",
+      "bg": "paper",
+      "ratio": 6.233273122165256
+    },
+    {
+      "theme": "violet",
+      "fg": "muted",
+      "bg": "surface",
+      "ratio": 6.934343692138006
+    },
+    {
+      "theme": "violet",
+      "fg": "muted",
+      "bg": "soft",
+      "ratio": 5.58596289094335
+    },
+    {
+      "theme": "violet",
+      "fg": "pink",
+      "bg": "paper",
+      "ratio": 6.588070507722547
+    },
+    {
+      "theme": "violet",
+      "fg": "pink",
+      "bg": "surface",
+      "ratio": 7.329045955989974
+    },
+    {
+      "theme": "violet",
+      "fg": "pink",
+      "bg": "soft",
+      "ratio": 5.903915432197999
+    },
+    {
+      "theme": "violet",
+      "fg": "link",
+      "bg": "paper",
+      "ratio": 7.414143901305298
+    },
+    {
+      "theme": "violet",
+      "fg": "link",
+      "bg": "surface",
+      "ratio": 8.248029724832715
+    },
+    {
+      "theme": "violet",
+      "fg": "link",
+      "bg": "soft",
+      "ratio": 6.644203115941588
+    },
+    {
+      "theme": "orange",
+      "fg": "ink",
+      "bg": "paper",
+      "ratio": 13.341900294961487
+    },
+    {
+      "theme": "orange",
+      "fg": "ink",
+      "bg": "surface",
+      "ratio": 14.232125549780992
+    },
+    {
+      "theme": "orange",
+      "fg": "ink",
+      "bg": "soft",
+      "ratio": 11.616598557981115
+    },
+    {
+      "theme": "orange",
+      "fg": "muted",
+      "bg": "paper",
+      "ratio": 6.513729655689243
+    },
+    {
+      "theme": "orange",
+      "fg": "muted",
+      "bg": "surface",
+      "ratio": 6.9483518994749485
+    },
+    {
+      "theme": "orange",
+      "fg": "muted",
+      "bg": "soft",
+      "ratio": 5.671409683216862
+    },
+    {
+      "theme": "orange",
+      "fg": "pink",
+      "bg": "paper",
+      "ratio": 6.502153290598809
+    },
+    {
+      "theme": "orange",
+      "fg": "pink",
+      "bg": "surface",
+      "ratio": 6.936003112740319
+    },
+    {
+      "theme": "orange",
+      "fg": "pink",
+      "bg": "soft",
+      "ratio": 5.661330310485604
+    },
+    {
+      "theme": "orange",
+      "fg": "link",
+      "bg": "paper",
+      "ratio": 7.64018413824908
+    },
+    {
+      "theme": "orange",
+      "fg": "link",
+      "bg": "surface",
+      "ratio": 8.149967956219095
+    },
+    {
+      "theme": "orange",
+      "fg": "link",
+      "bg": "soft",
+      "ratio": 6.652197219357999
+    },
+    {
+      "theme": "rose",
+      "fg": "ink",
+      "bg": "paper",
+      "ratio": 12.745839951496741
+    },
+    {
+      "theme": "rose",
+      "fg": "ink",
+      "bg": "surface",
+      "ratio": 13.982480313821506
+    },
+    {
+      "theme": "rose",
+      "fg": "ink",
+      "bg": "soft",
+      "ratio": 11.279164545887703
+    },
+    {
+      "theme": "rose",
+      "fg": "muted",
+      "bg": "paper",
+      "ratio": 5.969759275823482
+    },
+    {
+      "theme": "rose",
+      "fg": "muted",
+      "bg": "surface",
+      "ratio": 6.548963573220851
+    },
+    {
+      "theme": "rose",
+      "fg": "muted",
+      "bg": "soft",
+      "ratio": 5.28281364175183
+    },
+    {
+      "theme": "rose",
+      "fg": "pink",
+      "bg": "paper",
+      "ratio": 5.693421448804679
+    },
+    {
+      "theme": "rose",
+      "fg": "pink",
+      "bg": "surface",
+      "ratio": 6.245814605325573
+    },
+    {
+      "theme": "rose",
+      "fg": "pink",
+      "bg": "soft",
+      "ratio": 5.0382742600352
+    },
+    {
+      "theme": "rose",
+      "fg": "link",
+      "bg": "paper",
+      "ratio": 7.476791398714248
+    },
+    {
+      "theme": "rose",
+      "fg": "link",
+      "bg": "surface",
+      "ratio": 8.20221256040449
+    },
+    {
+      "theme": "rose",
+      "fg": "link",
+      "bg": "soft",
+      "ratio": 6.616430206427689
+    },
+    {
+      "theme": "graphite",
+      "fg": "ink",
+      "bg": "paper",
+      "ratio": 16.240605407867797
+    },
+    {
+      "theme": "graphite",
+      "fg": "ink",
+      "bg": "surface",
+      "ratio": 13.640767689119508
+    },
+    {
+      "theme": "graphite",
+      "fg": "ink",
+      "bg": "soft",
+      "ratio": 10.953164804809784
+    },
+    {
+      "theme": "graphite",
+      "fg": "muted",
+      "bg": "paper",
+      "ratio": 9.084085256566809
+    },
+    {
+      "theme": "graphite",
+      "fg": "muted",
+      "bg": "surface",
+      "ratio": 7.6298816171565305
+    },
+    {
+      "theme": "graphite",
+      "fg": "muted",
+      "bg": "soft",
+      "ratio": 6.126587058627525
+    },
+    {
+      "theme": "graphite",
+      "fg": "pink",
+      "bg": "paper",
+      "ratio": 9.741196428135687
+    },
+    {
+      "theme": "graphite",
+      "fg": "pink",
+      "bg": "surface",
+      "ratio": 8.181800748998366
+    },
+    {
+      "theme": "graphite",
+      "fg": "pink",
+      "bg": "soft",
+      "ratio": 6.569763084183121
+    },
+    {
+      "theme": "graphite",
+      "fg": "link",
+      "bg": "paper",
+      "ratio": 13.663796889250648
+    },
+    {
+      "theme": "graphite",
+      "fg": "link",
+      "bg": "surface",
+      "ratio": 11.476461279410644
+    },
+    {
+      "theme": "graphite",
+      "fg": "link",
+      "bg": "soft",
+      "ratio": 9.215285725426567
+    }
+  ],
+  "desktopPriority": true,
+  "mobile": "minimum reachability; independent layout planned",
+  "status": "passed"
+}

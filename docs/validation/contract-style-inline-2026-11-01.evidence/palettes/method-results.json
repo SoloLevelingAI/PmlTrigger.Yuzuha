@@ -1,0 +1,29 @@
+{
+  "status": "passed",
+  "checks": [
+    "real normal task -> methods dock; changing theme preserves source/panel nodes, source disclosure, active method/direction, full route, focus and both scrolls",
+    "1440 all six themes: real inline source dock visible, no horizontal overflow",
+    "1920 all six themes: real inline source dock visible, no horizontal overflow",
+    "1024 all six themes: real inline source dock visible, no horizontal overflow"
+  ],
+  "errors": [],
+  "actualMethod": {
+    "route": {
+      "entity": "feature:launch",
+      "feature": "feature:launch",
+      "flow": "flow:launch",
+      "step": "step:launch-discover",
+      "pane": "task",
+      "region": null
+    },
+    "method": {
+      "open": true,
+      "docked": true,
+      "entityId": "feature:launch",
+      "methodId": "method:0e45c2ace8a82f30235bb8a5c585b84cda999eefba0c857647c0e82b1bead239",
+      "direction": "callees",
+      "status": "ready"
+    },
+    "sourceLength": 1700
+  }
+}

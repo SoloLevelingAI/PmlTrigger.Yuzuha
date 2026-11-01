@@ -1,0 +1,420 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "date": "2026-11-01",
+  "timezone": "Asia/Shanghai",
+  "finishedAt": "2026-11-01T09:59:27.308Z",
+  "scope": "契约先行的任务动线：同源地图、Web分支往返、可编辑FigCraft及真实Desktop任务导航；不代表全产品完成",
+  "contract": "openspec/changes/integrate-pmltwin-product-platform/features/task-map-navigation.md",
+  "guide": "docs/reference/task-map-navigation.zh-CN.md",
+  "progress": {
+    "total": 118,
+    "complete": 91,
+    "remaining": 27
+  },
+  "remainingOriginalTasks": 27,
+  "revision": {
+    "revisionId": "17079bcc50f849a4f32e5c1e07a960270fdea93c5349585aaa1a9348be764fc8",
+    "metadataDigest": "3fc46b35498f984114dab4a36b045fc95583056a682ef9f07d91eb699bb4ebc9",
+    "renderModelDigest": "d639325853a06cab762e82611ad9140ac84458db1581109350c0e5dfffb441d5",
+    "methodCatalogDigest": "5bedb9735fbf259b054163c03d5cd9bec9d7c1d9809c950c34643612564a2e9d",
+    "manifestUrl": "/revisions/17079bcc50f849a4f32e5c1e07a960270fdea93c5349585aaa1a9348be764fc8/manifest.json"
+  },
+  "taskMap": {
+    "schema": "contract-task-map/1",
+    "nodes": 50,
+    "edges": 71,
+    "groups": 5,
+    "coverage": {
+      "features": 18,
+      "scripts": 14,
+      "requirements": 24,
+      "flows": 3,
+      "sourceMappings": 191
+    }
+  },
+  "tests": {
+    "node": {
+      "passed": 51,
+      "failed": 0,
+      "skipped": 0
+    },
+    "desktopModels": {
+      "passed": 45,
+      "failed": 0,
+      "skipped": 0
+    },
+    "web": {
+      "firstScreenMatrices": 12,
+      "pathMatrices": 6,
+      "interactionGroups": 10,
+      "scriptErrors": []
+    },
+    "generation": {
+      "realSharedRevisions": 5,
+      "repositoryPresentationUnchanged": true
+    },
+    "wpf": {
+      "passed": true,
+      "build": "review-build",
+      "smokeExit": 0,
+      "screenshots": 118,
+      "bindingErrors": 0,
+      "scope": "Synthetic_WPF_layout_navigation_not_live_AVEVA",
+      "checks": {
+        "maintenanceDefaultCollapsed": true,
+        "legacyQueriesDefaultCollapsed": true,
+        "taskMapNavigation": true
+      }
+    },
+    "realNavigation": [
+      {
+        "task": "object",
+        "pageTitle": "对象查询",
+        "screenshot": "object-task.png",
+        "returnedToHub": true,
+        "noFabricatedResult": true
+      },
+      {
+        "task": "array",
+        "pageTitle": "读取已有数组",
+        "screenshot": "array-task.png",
+        "returnedToHub": true,
+        "noFabricatedResult": true
+      },
+      {
+        "task": "forms",
+        "pageTitle": "原生 Form / Gadget",
+        "screenshot": "forms-task.png",
+        "returnedToHub": true,
+        "noFabricatedResult": true
+      },
+      {
+        "task": "function",
+        "pageTitle": "能力与函数",
+        "screenshot": "function-task.png",
+        "returnedToHub": true,
+        "noFabricatedResult": true
+      }
+    ],
+    "actualMethodChecks": [
+      "real bound method source outline opens only required branch and focuses its summary",
+      "outline location group retains the exact real same-revision DocFX anchor",
+      "all-collapse writes parent method section and reload does not reopen source or change exact task/step selection",
+      "real Script receipt section is reachable across Shadow roots without global expansion",
+      "session Feature opens the actual Dashboard monitor source from its exact symbol binding",
+      "new task-navigation decision opens exact fresh Roslyn source and original file SHA, without inferring a runtime trace"
+    ],
+    "compatibility": {
+      "documentMatrices": 12,
+      "staticGeometries": 18,
+      "themeMatrices": 12,
+      "passed": true
+    },
+    "methodsUi": {
+      "checks": 17,
+      "passed": true,
+      "scriptErrors": []
+    },
+    "legacyReading": {
+      "status": "not-run",
+      "reason": "历史全页排版假设保留；公开contracts:reading入口现指向已验收的任务地图/分支测试，真实reading-live及document-live已通过。"
+    }
+  },
+  "desktop": {
+    "pid": 273820,
+    "executable": "F:\\OneDrive\\Documents\\ChatGPT\\PmlTwin\\artifacts\\task-map-desktop\\review-build\\YuzuhaToolkit.Desktop.exe",
+    "sha256": "e922c936fb7d916dc1392379c80eabf2b7e7eed963f949a08425540d3d96a398",
+    "assemblySha256": "d6a4e4464ffbccae70a73fef98b9ba8f7e37612c4aadb25ff3a78693765344fb",
+    "cli": "F:\\OneDrive\\Documents\\ChatGPT\\PmlTwin\\artifacts\\task-map-desktop\\review-build\\runtime\\cli\\PmlTwin.Phayton.Cli.exe",
+    "startedAt": "2026-11-01T09:47:18.114Z",
+    "scope": "本任务动线验证新窗口；保留原Desktop及E3D，不启动工程、不执行查询/PML。",
+    "startTicks": "639291232380927473",
+    "keptOpen": true
+  },
+  "realE3D": {
+    "pid": 216560,
+    "startTicks": "639291145578564128",
+    "module": "DESIGN",
+    "project": "APS",
+    "mdb": "/ALL",
+    "restarted": false
+  },
+  "methodPreview": {
+    "passed": true,
+    "docfx": {
+      "fresh": true,
+      "sourceInputs": 92,
+      "files": 200,
+      "staleSources": [],
+      "invalidAssets": []
+    },
+    "roslyn": {
+      "fresh": true,
+      "graphBytes": 72844133,
+      "nodes": 13240,
+      "edges": 59797,
+      "sourceInputs": 754,
+      "staleSources": [],
+      "graphSha256": "84871d60db2c46e99d14f73a3cbcf61fadd42acb11f797d864779d8ee26d7355",
+      "producerFingerprint": "dd973b675bff7b40ab9794f0bd8f954d2cf16035c779b72cedc46ca56a0ff7f9",
+      "graphReceiptMatches": true,
+      "producerReceiptMatches": true,
+      "finishedUtc": "2026-11-01T09:45:45.9316216Z",
+      "omittedProjects": [
+        "YuzuhaToolkit.PmlHost.Net35 : no local AVEVA SDK configured; not analyzed",
+        "YuzuhaToolkit.PmlHost.Net48 : no local AVEVA SDK configured; not analyzed"
+      ]
+    },
+    "captureHostExitCode": 0,
+    "catalog": {
+      "status": "ready",
+      "methods": 393,
+      "edges": 1485,
+      "bindings": 32,
+      "apiLinks": 29,
+      "metadataDigest": "3fc46b35498f984114dab4a36b045fc95583056a682ef9f07d91eb699bb4ebc9",
+      "renderModelDigest": "d639325853a06cab762e82611ad9140ac84458db1581109350c0e5dfffb441d5",
+      "inputDigest": "7919338231568c01a599a5ca9639a7de407b273ccce303dcb0e71cf3fda72673",
+      "diagnostics": []
+    }
+  },
+  "native": {
+    "generated": true,
+    "validated": true,
+    "success": true,
+    "components": 7,
+    "instances": 107,
+    "editableTexts": 769,
+    "variables": 40,
+    "images": 0,
+    "toolVersion": "figcraft-cli 0.6.0",
+    "commandCount": 1457
+  },
+  "visualReview": {
+    "status": "agent-reviewed",
+    "humanStatus": "human-not-reviewed",
+    "observations": [
+      "Web先选任务，步骤与前后路径先于说明/交付；390×844首任务卡完整可见。",
+      "Desktop首屏会话与下一步全宽，统计默认折叠；明确核验后四任务标题/说明分层可见。",
+      "FigCraft浅深地图保留主干、五类分支、真实四步及契约/方法/证据出口，可编辑静态图不冒称交互。"
+    ]
+  },
+  "limitations": [
+    "原27项平台业务任务仍未完成。",
+    "真实环境限现有APS /ALL DESIGN / E3D2.1；本轮只读核验与导航，无工程查询、PML执行或E3D重启。",
+    "只读Web地图位置不代表执行进度，三轴状态与证据范围独立。",
+    "Figma真实宿主未运行；FigCraft是可编辑静态参考，不声明Web交互。",
+    "方法为有界静态分析；未配置的AVEVA Host SDK项目未分析，不是运行调用栈。"
+  ],
+  "sourceHashes": {
+    "docs/contracts/method-bindings.json": "081756ec77d871ea3ecbdcfa20901dc499a856eb4ade851e975fc4f88a7075f0",
+    "docs/presentation/contract-atlas/render-model.js": "692ad8fa220552a79c55a5e5ff50261c3e851101943cabab08ebc7b996e5fbdc",
+    "docs/presentation/contract-atlas/app.js": "d268a9525fa4555ffea046c51c2433b7f64750ea39b1fa7bc54a49978b497920",
+    "docs/presentation/contract-atlas/index.html": "325a38ae7a839aa59847a0ee7109899f990b6edb901606070347fa74cd2cbedc",
+    "docs/presentation/contract-atlas/task-map.js": "59fb754dc3828c0983476b48f7d0e3d09cfa6d5f50ba77082ef84351206542a3",
+    "docs/presentation/contract-atlas/task-map.css": "9208f3cb8d2dc3d6e5c4c95b626317bbe1865b711d8ac6ba49fd013daecc6f7d",
+    "docs/presentation/contract-atlas/document-layout.css": "3e492e1e9049e5d767e1e05cdb1f8160c6bdbfee65ca4fd942a08eeb8cac8b1d",
+    "docs/design/contract-atlas/source/adapter-core.js": "bc16aa13497bdb363f6ede9cb8c9ed9a6245aa8706a19e8d6559d6cb81c1d437",
+    "src/YuzuhaToolkit.Desktop/DesktopTaskNavigation.cs": "c956df13bc8ef70849164c6f46ebdc0ebf8bf7796b8d4f9f49a00e6a944e402b",
+    "src/YuzuhaToolkit.Desktop/MainWindow.TaskNavigation.cs": "141fec6254b54471067bb93fa8257817c75f29727edb22da4fa0c2a0669c0ddc",
+    "src/YuzuhaToolkit.Desktop/MainWindow.WorkspaceTabs.cs": "44c66c8405c87ce13172a4ee519e62bcb04c49d66af964ba8aa5ce6e74614101",
+    "src/YuzuhaToolkit.Desktop/SessionWorkbenchView.TaskNavigation.cs": "0ab0e93337fd00b23f356e2573a7c4f85a7e2ba75060db321217e1c8215bb45b",
+    "src/YuzuhaToolkit.Desktop/MainWindow.xaml": "ac99c6a37c89f0188808c23b61da06739ecfaecb312df4d8988bc7417e21256b",
+    "src/YuzuhaToolkit.Desktop/SessionWorkbenchView.xaml": "b354cb9a887542315202833fb6f6e2a401c32da9e02fad81fa2da53f3d64c729",
+    "openspec/changes/integrate-pmltwin-product-platform/features/task-map-navigation.md": "fa1c1ad5b1c54c5933bd084d20895b63f3c7393b9cac64e910cd80ceab8b346a",
+    "openspec/changes/integrate-pmltwin-product-platform/tasks.md": "1edc50e62daa1b422d1b7d39262d39b467263dce3551969ec8fb9ad4ef9590bb"
+  },
+  "evidence": {
+    "node-tests.log": {
+      "path": "docs/validation/task-map-navigation-2026-11-01.evidence/node-tests.log",
+      "bytes": 6014,
+      "sha256": "50e203a294756953f76aee589f71558ef9b44c70e187f999cc1f033023fd2c76"
+    },
+    "generation-live.log": {
+      "path": "docs/validation/task-map-navigation-2026-11-01.evidence/generation-live.log",
+      "bytes": 385,
+      "sha256": "a97a295b686b2d589a0f3aaae91e599fd945acb918a006b15166e1ffbe4f2993"
+    },
+    "document-live.log": {
+      "path": "docs/validation/task-map-navigation-2026-11-01.evidence/document-live.log",
+      "bytes": 673,
+      "sha256": "55f33c801ff7dfd847a28ae7997f0635e9568e713293d8f10f514cc53b85b356"
+    },
+    "document-regression.json": {
+      "path": "docs/validation/task-map-navigation-2026-11-01.evidence/document-regression.json",
+      "bytes": 9515,
+      "sha256": "fcb1cdfe4ae71791ca1f9c16e16c8721b49119af9599e4bcc009c940f8bdc1eb"
+    },
+    "static-regression.json": {
+      "path": "docs/validation/task-map-navigation-2026-11-01.evidence/static-regression.json",
+      "bytes": 3439,
+      "sha256": "5e72894ba087041a443c45e4950d748c12869012f58e6fd858591c18d7525b96"
+    },
+    "theme-regression.json": {
+      "path": "docs/validation/task-map-navigation-2026-11-01.evidence/theme-regression.json",
+      "bytes": 37663,
+      "sha256": "1406e45b601fa9f10f3c48d0cbf3c45d7c9f5c538bee420de82fddb312bf6cb4"
+    },
+    "methods-ui-regression.json": {
+      "path": "docs/validation/task-map-navigation-2026-11-01.evidence/methods-ui-regression.json",
+      "bytes": 688,
+      "sha256": "76f5852212eb8062b7cc9fd0b0ac955af09b46b854de567c8d4c864153cc6ac1"
+    },
+    "web-task-map.json": {
+      "path": "docs/validation/task-map-navigation-2026-11-01.evidence/web-task-map.json",
+      "bytes": 4593,
+      "sha256": "67973ca4dbdd52ed53f40b6834a36d8b9a96c4b2a51e3e7061b47a84091f0b45"
+    },
+    "native-task-map.json": {
+      "path": "docs/validation/task-map-navigation-2026-11-01.evidence/native-task-map.json",
+      "bytes": 1408,
+      "sha256": "218fe42c107104bcc85b89821979a96ab1cde3a3ce865861bb26d8dbf08f551b"
+    },
+    "generation-proof.json": {
+      "path": "docs/validation/task-map-navigation-2026-11-01.evidence/generation-proof.json",
+      "bytes": 12676,
+      "sha256": "83199704f01b2af350107a48b2676424396822904ad5d4f1799cb51e0fd773df"
+    },
+    "document-live.json": {
+      "path": "docs/validation/task-map-navigation-2026-11-01.evidence/document-live.json",
+      "bytes": 3204,
+      "sha256": "b49d1cd4ceaa0de3ed39bd905ab7cd9e6ffdd10998672b5118ab062e1cdf6a9d"
+    },
+    "real-desktop.json": {
+      "path": "docs/validation/task-map-navigation-2026-11-01.evidence/real-desktop.json",
+      "bytes": 1509,
+      "sha256": "77f522e0790e0e1049fc448d9fc0929dad9693f2b833b77e5c2b8f1f438f3e99"
+    },
+    "real-navigation.json": {
+      "path": "docs/validation/task-map-navigation-2026-11-01.evidence/real-navigation.json",
+      "bytes": 935,
+      "sha256": "feb478223baf902d641a861b4c42c3ccda11c492423858ef5fc0f6ee4de74203"
+    },
+    "wpf-verification.json": {
+      "path": "docs/validation/task-map-navigation-2026-11-01.evidence/wpf-verification.json",
+      "bytes": 303,
+      "sha256": "bf19fcad349dcdd57ed975d3c418527826db2ed2f40d64263e7e0c5b5f257f99"
+    },
+    "wpf-smoke.json": {
+      "path": "docs/validation/task-map-navigation-2026-11-01.evidence/wpf-smoke.json",
+      "bytes": 26278,
+      "sha256": "d4b709f07fc3bc830c479819a32a9ea9522713aeba3a1962466dbde5f7b11d85"
+    },
+    "wpf-build.log": {
+      "path": "docs/validation/task-map-navigation-2026-11-01.evidence/wpf-build.log",
+      "bytes": 1472,
+      "sha256": "1b4ed2dd8cd2887ec7c53cd151cc90d6746f4de8315881c73727113513cfe655"
+    },
+    "desktop-model-tests.log": {
+      "path": "docs/validation/task-map-navigation-2026-11-01.evidence/desktop-model-tests.log",
+      "bytes": 2338,
+      "sha256": "d40d60b7329264d3056b4571b7229a471622f3dd9aba35b3711452b6c38cd9d8"
+    },
+    "desktop-model-tests.trx": {
+      "path": "docs/validation/task-map-navigation-2026-11-01.evidence/desktop-model-tests.trx",
+      "bytes": 66327,
+      "sha256": "5960f038bbb7554ac9a3003847f0b87f1d788f62ee8eb6fa9e4e4640d61ef714"
+    },
+    "method-validation.json": {
+      "path": "docs/validation/task-map-navigation-2026-11-01.evidence/method-validation.json",
+      "bytes": 1239,
+      "sha256": "249fb162171c8a55d96039112afd3b5d3410d62e4bc1eac4c4bd655d451485c0"
+    },
+    "method-capture.log": {
+      "path": "docs/validation/task-map-navigation-2026-11-01.evidence/method-capture.log",
+      "bytes": 1742,
+      "sha256": "4c0d5d316e415f224f9f761cffeb56047c00018f4ffd60a806423ab32a0e2981"
+    },
+    "sessions.json": {
+      "path": "docs/validation/task-map-navigation-2026-11-01.evidence/sessions.json",
+      "bytes": 625,
+      "sha256": "a7662337b04a5e2377debcda6afe152d996135f1d1deb50fe5277edcd5213fa0"
+    },
+    "host-status.json": {
+      "path": "docs/validation/task-map-navigation-2026-11-01.evidence/host-status.json",
+      "bytes": 1218,
+      "sha256": "6953c604901bee0309652145ee9cfc3085b577fe0a7591b4d83f5611686ebf77"
+    },
+    "candidates-uia.json": {
+      "path": "docs/validation/task-map-navigation-2026-11-01.evidence/candidates-uia.json",
+      "bytes": 16835,
+      "sha256": "8a526581f9df48f82cb1967dbd36bc9239d279dc5d7dc943b95fa08f3ae2b839"
+    },
+    "task-hub-uia.json": {
+      "path": "docs/validation/task-map-navigation-2026-11-01.evidence/task-hub-uia.json",
+      "bytes": 12972,
+      "sha256": "759bd734517645f595450f04c7d454f2d1f3b57d079bee2dccbfe131fb4ea1f7"
+    },
+    "desktop-dashboard.png": {
+      "path": "docs/validation/task-map-navigation-2026-11-01.evidence/desktop-dashboard.png",
+      "bytes": 125215,
+      "sha256": "920a729e6b0c21c7da99635d9f581c8011f78b8ed1ffd0067ed533418291b1c4"
+    },
+    "desktop-select.png": {
+      "path": "docs/validation/task-map-navigation-2026-11-01.evidence/desktop-select.png",
+      "bytes": 153794,
+      "sha256": "493e333861d5225dc8d2ef7fad81a6f6387eaf9ed6be1fd7d4b1ef8e6f6bec22"
+    },
+    "desktop-tasks.png": {
+      "path": "docs/validation/task-map-navigation-2026-11-01.evidence/desktop-tasks.png",
+      "bytes": 145788,
+      "sha256": "1133c22fac88aa51127137f6782bdecda2f60cfe6dafbc92d493395e2aad6897"
+    },
+    "desktop-target-ready.png": {
+      "path": "docs/validation/task-map-navigation-2026-11-01.evidence/desktop-target-ready.png",
+      "bytes": 122679,
+      "sha256": "4fe379ada6769ac3fb355edd481425be43663ee3ffe9bcb23843d80e7f05c595"
+    },
+    "desktop-object.png": {
+      "path": "docs/validation/task-map-navigation-2026-11-01.evidence/desktop-object.png",
+      "bytes": 135856,
+      "sha256": "d7e67f08a23311a55374e201086d951c89ceaa5edbbbe21e06c8ee117996f611"
+    },
+    "desktop-array.png": {
+      "path": "docs/validation/task-map-navigation-2026-11-01.evidence/desktop-array.png",
+      "bytes": 133276,
+      "sha256": "7fa41fb2474646e1a3c355182477e08fe0e890b143c53711d96cabc70e308e72"
+    },
+    "web-project-light.png": {
+      "path": "docs/validation/task-map-navigation-2026-11-01.evidence/web-project-light.png",
+      "bytes": 103876,
+      "sha256": "0d262213d5f8c666c904040fd91268fe834d1936b41920f1803102f53ec5b651"
+    },
+    "web-project-mobile.png": {
+      "path": "docs/validation/task-map-navigation-2026-11-01.evidence/web-project-mobile.png",
+      "bytes": 45910,
+      "sha256": "2f6ec3a0578c07e7e8ac5fe7cb624fdc2c263129dd780043e9350ec0c3faf904"
+    },
+    "web-step-light.png": {
+      "path": "docs/validation/task-map-navigation-2026-11-01.evidence/web-step-light.png",
+      "bytes": 98497,
+      "sha256": "548db83f57afe40737734f5d68ae4b5964a278bd9ba7d33ec537a0b991e0e052"
+    },
+    "web-step-dark.png": {
+      "path": "docs/validation/task-map-navigation-2026-11-01.evidence/web-step-dark.png",
+      "bytes": 97899,
+      "sha256": "03ea1a5fb59abb3811a7e665ed60e59328b86d796c4cf51d3273803dc536ddc6"
+    },
+    "web-step-mobile.png": {
+      "path": "docs/validation/task-map-navigation-2026-11-01.evidence/web-step-mobile.png",
+      "bytes": 38680,
+      "sha256": "da93f117fe34481c2ad1545f784253b681df57f8c7e2c3cddc5e40c4f99502f9"
+    },
+    "figcraft-map-light.png": {
+      "path": "docs/validation/task-map-navigation-2026-11-01.evidence/figcraft-map-light.png",
+      "bytes": 392001,
+      "sha256": "6223bdbbf30069cd7d1323e0cb900b809129e67b38445dba277c98bd17dea95e"
+    },
+    "figcraft-map-dark.png": {
+      "path": "docs/validation/task-map-navigation-2026-11-01.evidence/figcraft-map-dark.png",
+      "bytes": 391554,
+      "sha256": "869e76499279dc8889d2a4163714e1e911264e3aae67fef1c30b711a8d35e49c"
+    },
+    "published-manifest.json": {
+      "path": "docs/validation/task-map-navigation-2026-11-01.evidence/published-manifest.json",
+      "bytes": 55584,
+      "sha256": "f2149650b8016a4e906e27104b7127ae382801a218878c93d7c20156bc08b6b0"
+    }
+  }
+}

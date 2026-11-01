@@ -1,0 +1,4 @@
+{"dock":{"x":393,"y":308.59375,"width":1487,"height":758.40625,"top":308.59375,"right":1880,"bottom":1067,"left":393},"panel":{"x":393,"y":308.59375,"width":1502,"height":758.40625,"top":308.59375,"right":1895,"bottom":1067,"left":393},"style":"","display":"flex","height":"758.406px"}
+{"dock":{"x":345,"y":308.1875,"width":1055,"height":578.8125,"top":308.1875,"right":1400,"bottom":887,"left":345},"panel":{"x":345,"y":308.1875,"width":1070,"height":578.8125,"top":308.1875,"right":1415,"bottom":887,"left":345},"style":"","display":"flex","height":"578.812px"}
+{"dock":{"x":275,"y":290.28125,"width":719,"height":462.71875,"top":290.28125,"right":994,"bottom":753,"left":275},"panel":{"x":275,"y":290.28125,"width":734,"height":462.71875,"top":290.28125,"right":1009,"bottom":753,"left":275},"style":"","display":"flex","height":"462.719px"}
+Workbench desktop QA passed

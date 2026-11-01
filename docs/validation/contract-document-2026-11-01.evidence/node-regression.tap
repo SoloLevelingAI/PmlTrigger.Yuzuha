@@ -1,0 +1,310 @@
+TAP version 13
+# Subtest: editable is a flat allowlisted projection without canonical/source/implementation/verification mutation fields
+ok 1 - editable is a flat allowlisted projection without canonical/source/implementation/verification mutation fields
+  ---
+  duration_ms: 3.1415
+  type: 'test'
+  ...
+# Subtest: pure patch previews change Feature, public seven fields and flow while keeping original canonical/internal script immutable
+ok 2 - pure patch previews change Feature, public seven fields and flow while keeping original canonical/internal script immutable
+  ---
+  duration_ms: 68.3963
+  type: 'test'
+  ...
+# Subtest: identity, canonical status, implementation facts and evidence facts cannot be patched
+ok 3 - identity, canonical status, implementation facts and evidence facts cannot be patched
+  ---
+  duration_ms: 1.7121
+  type: 'test'
+  ...
+# Subtest: supported presentation views reach shared model; hidden evidence and unsupported props reject before save
+ok 4 - supported presentation views reach shared model; hidden evidence and unsupported props reject before save
+  ---
+  duration_ms: 42.2141
+  type: 'test'
+  ...
+# Subtest: candidate generation rejects dangling deletion, public leaks and removal of an original Feature
+ok 5 - candidate generation rejects dangling deletion, public leaks and removal of an original Feature
+  ---
+  duration_ms: 46.6152
+  type: 'test'
+  ...
+# Subtest: reviewed evidence claims, dates and exclusions are read-only for both author candidates and file editing
+ok 6 - reviewed evidence claims, dates and exclusions are read-only for both author candidates and file editing
+  ---
+  duration_ms: 130.3577
+  type: 'test'
+  ...
+# Subtest: every Feature and Script has one explicit binding or an honest scoped absence
+ok 7 - every Feature and Script has one explicit binding or an honest scoped absence
+  ---
+  duration_ms: 1.8058
+  type: 'test'
+  ...
+# Subtest: reviewed bindings resolve exact captured symbols and remain inside the direct method catalog budgets
+ok 8 - reviewed bindings resolve exact captured symbols and remain inside the direct method catalog budgets
+  ---
+  duration_ms: 310.0874
+  type: 'test'
+  ...
+# Subtest: independent section tokens retain theme roles and generate all safe CSS variables with readable neutral text
+ok 9 - independent section tokens retain theme roles and generate all safe CSS variables with readable neutral text
+  ---
+  duration_ms: 3.4268
+  type: 'test'
+  ...
+# Subtest: unsafe/missing section and typography candidates fail before CSS generation
+ok 10 - unsafe/missing section and typography candidates fail before CSS generation
+  ---
+  duration_ms: 2.038
+  type: 'test'
+  ...
+# Subtest: new-dir API consumes shared IR, implements supported layout props and refuses unsafe publication inputs
+ok 11 - new-dir API consumes shared IR, implements supported layout props and refuses unsafe publication inputs
+  ---
+  duration_ms: 242.7327
+  type: 'test'
+  ...
+# Subtest: REAL FigCraft: Feature/Script/step/connection revisions update native components, dual digests, props and preserve lastgood on tool failure
+ok 12 - REAL FigCraft: Feature/Script/step/connection revisions update native components, dual digests, props and preserve lastgood on tool failure
+  ---
+  duration_ms: 10079.0253
+  type: 'test'
+  ...
+# Subtest: Figma offline mock consumes the same bundled shared IR text and independent themes; actual Figma remains not-run
+ok 13 - Figma offline mock consumes the same bundled shared IR text and independent themes; actual Figma remains not-run
+  ---
+  duration_ms: 194.5512
+  type: 'test'
+  ...
+# Subtest: explicit global actions clear local overrides and govern unseen content and later scopes
+ok 14 - explicit global actions clear local overrides and govern unseen content and later scopes
+  ---
+  duration_ms: 1.0776
+  type: 'test'
+  ...
+# Subtest: local reading survives navigation scope reuse and remains isolated from independent drafts
+ok 15 - local reading survives navigation scope reuse and remains isolated from independent drafts
+  ---
+  duration_ms: 0.1782
+  type: 'test'
+  ...
+# Subtest: no-op native toggles do not generate state loops and removed owners are pruned
+ok 16 - no-op native toggles do not generate state loops and removed owners are pruned
+  ---
+  duration_ms: 0.2548
+  type: 'test'
+  ...
+# Subtest: canonical identities, all tuple fields, status and 13 original Feature states remain faithful
+ok 17 - canonical identities, all tuple fields, status and 13 original Feature states remain faithful
+  ---
+  duration_ms: 8.0269
+  type: 'test'
+  ...
+# Subtest: fourteen reviewed Script contracts have exactly seven fields and public runtime summary never rewrites internal original
+ok 18 - fourteen reviewed Script contracts have exactly seven fields and public runtime summary never rewrites internal original
+  ---
+  duration_ms: 6.7638
+  type: 'test'
+  ...
+# Subtest: stable build/check includes raw byte source fingerprints and rejects even nonsemantic source drift
+ok 19 - stable build/check includes raw byte source fingerprints and rejects even nonsemantic source drift
+  ---
+  duration_ms: 963.3153
+  type: 'test'
+  ...
+# Subtest: duplicate IDs, canonical registry corruption, dangling source/goal/edge and unrenderable flow references fail without throwing
+ok 20 - duplicate IDs, canonical registry corruption, dangling source/goal/edge and unrenderable flow references fail without throwing
+  ---
+  duration_ms: 50.7163
+  type: 'test'
+  ...
+# Subtest: public projection rejects leaking paths, machine identities, secret assignments or unreviewed evidence
+ok 21 - public projection rejects leaking paths, machine identities, secret assignments or unreviewed evidence
+  ---
+  duration_ms: 38.263
+  type: 'test'
+  ...
+# Subtest: unsafe URLs, active markup, execution props and prototype pollution are rejected
+ok 22 - unsafe URLs, active markup, execution props and prototype pollution are rejected
+  ---
+  duration_ms: 17.0229
+  type: 'test'
+  ...
+# Subtest: text/depth/byte/entity/edge/flow/step limits are independent and enforced
+ok 23 - text/depth/byte/entity/edge/flow/step limits are independent and enforced
+  ---
+  duration_ms: 52.2264
+  type: 'test'
+  ...
+# Subtest: browser IIFE and Node use identical validation results; generated external schema is same object
+ok 24 - browser IIFE and Node use identical validation results; generated external schema is same object
+  ---
+  duration_ms: 36.3406
+  type: 'test'
+  ...
+# Subtest: missing snapshot is explicit unavailable; exact binding/config errors fail without guessing
+ok 25 - missing snapshot is explicit unavailable; exact binding/config errors fail without guessing
+  ---
+  duration_ms: 66.0785
+  type: 'test'
+  ...
+# Subtest: exact overloaded method identity, partial implementation body, XML, async, external and call positions survive
+ok 26 - exact overloaded method identity, partial implementation body, XML, async, external and call positions survive
+  ---
+  duration_ms: 66.6436
+  type: 'test'
+  ...
+# Subtest: source/producer/old shape stale hides all bodies, input drift supersedes and malformed browser catalog is rejected
+ok 27 - source/producer/old shape stale hides all bodies, input drift supersedes and malformed browser catalog is rejected
+  ---
+  duration_ms: 222.0039
+  type: 'test'
+  ...
+# Subtest: xref uses exact published member href and verified assets; wrong hashes and escaped href fail
+ok 28 - xref uses exact published member href and verified assets; wrong hashes and escaped href fail
+  ---
+  duration_ms: 155.1054
+  type: 'test'
+  ...
+# Subtest: 64KiB source previews truncate UTF8 safely; configuration-only changes stale the captured compiler snapshot
+ok 29 - 64KiB source previews truncate UTF8 safely; configuration-only changes stale the captured compiler snapshot
+  ---
+  duration_ms: 160.2711
+  type: 'test'
+  ...
+# Subtest: out-of-scope callers of selected neighbors are summarized without inventing followable methods or edges
+ok 30 - out-of-scope callers of selected neighbors are summarized without inventing followable methods or edges
+  ---
+  duration_ms: 66.7603
+  type: 'test'
+  ...
+# Subtest: empty bindings distinguish unavailable C\# scope from not-applicable, with backward-compatible defaults
+ok 31 - empty bindings distinguish unavailable C\# scope from not-applicable, with backward-compatible defaults
+  ---
+  duration_ms: 136.4376
+  type: 'test'
+  ...
+# Subtest: shared publication, unchanged-input deduplication, authoring CAS and durable request reuse
+ok 32 - shared publication, unchanged-input deduplication, authoring CAS and durable request reuse
+  ---
+  duration_ms: 1582.4596
+  type: 'test'
+  ...
+# Subtest: invalid source and native failure retain lastgood, corrected metadata publishes automatically
+ok 33 - invalid source and native failure retain lastgood, corrected metadata publishes automatically
+  ---
+  duration_ms: 1292.568
+  type: 'test'
+  ...
+# Subtest: input changed during a build never publishes obsolete output
+ok 34 - input changed during a build never publishes obsolete output
+  ---
+  duration_ms: 1124.8914
+  type: 'test'
+  ...
+# Subtest: publication recovery refuses a manifest with missing required artifact roles
+ok 35 - publication recovery refuses a manifest with missing required artifact roles
+  ---
+  duration_ms: 486.0469
+  type: 'test'
+  ...
+# Subtest: final validation cannot publish superseded source, and cached revisions cannot bypass renderer restart
+ok 36 - final validation cannot publish superseded source, and cached revisions cannot bypass renderer restart
+  ---
+  duration_ms: 1466.592
+  type: 'test'
+  ...
+# Subtest: HTTP authoring rejects cross-origin, missing token, unknown fields, and unpublished paths
+ok 37 - HTTP authoring rejects cross-origin, missing token, unknown fields, and unpublished paths
+  ---
+  duration_ms: 591.8338
+  type: 'test'
+  ...
+# Subtest: already-current validation cannot clear a renderer restart or reopen authoring
+ok 38 - already-current validation cannot clear a renderer restart or reopen authoring
+  ---
+  duration_ms: 717.6551
+  type: 'test'
+  ...
+# Subtest: read-only watcher permits explicit same-origin regeneration without exposing source editing
+ok 39 - read-only watcher permits explicit same-origin regeneration without exposing source editing
+  ---
+  duration_ms: 727.3845
+  type: 'test'
+  ...
+# Subtest: shutdown retains the writer lease until an accepted save settles and rejects new saves
+ok 40 - shutdown retains the writer lease until an accepted save settles and rejects new saves
+  ---
+  duration_ms: 1046.852
+  type: 'test'
+  ...
+# Subtest: source snapshot rejects a save interleaved between author bytes and dependency hashes
+ok 41 - source snapshot rejects a save interleaved between author bytes and dependency hashes
+  ---
+  duration_ms: 170.074
+  type: 'test'
+  ...
+# Subtest: method-only input changes publish a new revision while public facts remain unchanged
+ok 42 - method-only input changes publish a new revision while public facts remain unchanged
+  ---
+  duration_ms: 1043.9634
+  type: 'test'
+  ...
+# Subtest: shared cards preserve every Script field, requirement status, implementation scope, limitation and environment/exclusion
+ok 43 - shared cards preserve every Script field, requirement status, implementation scope, limitation and environment/exclusion
+  ---
+  duration_ms: 14.9201
+  type: 'test'
+  ...
+# Subtest: shared validation rejects any changed fact or digest; null marks an explicitly unbound local model
+ok 44 - shared validation rejects any changed fact or digest; null marks an explicitly unbound local model
+  ---
+  duration_ms: 128.3063
+  type: 'test'
+  ...
+# Subtest: views are consumed, unknown values reject and reading mode remains the fallback only when no author variant exists
+ok 45 - views are consumed, unknown values reject and reading mode remains the fallback only when no author variant exists
+  ---
+  duration_ms: 16.0372
+  type: 'test'
+  ...
+# Subtest: same no-DOM IIFE produces identical browser/Node model and validates without trusting renderer-rewritten facts
+ok 46 - same no-DOM IIFE produces identical browser/Node model and validates without trusting renderer-rewritten facts
+  ---
+  duration_ms: 47.7496
+  type: 'test'
+  ...
+# Subtest: small valid metadata cannot multiply a large proof into an unpublishable render model
+ok 47 - small valid metadata cannot multiply a large proof into an unpublishable render model
+  ---
+  duration_ms: 31.5341
+  type: 'test'
+  ...
+# Subtest: metadata budget uses exact published pretty UTF-8 bytes instead of accepting a compact-only transport fit
+ok 48 - metadata budget uses exact published pretty UTF-8 bytes instead of accepting a compact-only transport fit
+  ---
+  duration_ms: 50.2365
+  type: 'test'
+  ...
+# Subtest: reference index preserves every canonical row, field registry, unknown cell and original status without reconstruction
+ok 49 - reference index preserves every canonical row, field registry, unknown cell and original status without reconstruction
+  ---
+  duration_ms: 35.9085
+  type: 'test'
+  ...
+# Subtest: reference projection retains extension tuple cells after upstream acceptance without guessing column meaning
+ok 50 - reference projection retains extension tuple cells after upstream acceptance without guessing column meaning
+  ---
+  duration_ms: 9.0292
+  type: 'test'
+  ...
+1..50
+# tests 50
+# suites 0
+# pass 50
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 10794.0874

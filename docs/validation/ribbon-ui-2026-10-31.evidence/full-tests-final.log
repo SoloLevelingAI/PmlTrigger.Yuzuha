@@ -1,0 +1,67 @@
+
+> ribbon-uic-designer@0.4.0 test
+> node --import tsx --test tests/*.test.ts
+
+✔ standalone API validates, normalizes and exports without a frontend (456.3805ms)
+✔ sample export has namespace, ordered groups, decoded icons, stable keys and size references (64.1886ms)
+✔ Macro, caption and Tooltip preserve special characters without executing commands (26.2476ms)
+✔ normalization assigns missing IDs and keys, preserves keys and is idempotent (31.6805ms)
+✔ rejects duplicate IDs, dangling references, empty text, invalid sizes and unsupported version (23.9697ms)
+✔ malformed project shapes and unsupported XML control characters give field errors (20.4597ms)
+✔ accepts real PNG/JPEG and absent icons, rejects spoofed or damaged image data (30.7988ms)
+✔ moving, reordering and reusing button references preserves definition and independent sizes (26.2837ms)
+✔ large source images normalize to 32px and export each reference at exactly 32px or 16px (192.7448ms)
+▶ C# API preserves UIC roundtrip, legacy workspace and deployment protections
+  ✔ opens workspace written by the previous TypeScript store (50.3514ms)
+  ✔ imported opaque XML and special text survive export (23.5338ms)
+  ✔ shared mixed image variants are 32 and 16 pixels (6.5282ms)
+  ✔ five drafts and lasting save survive backend restart-compatible JSON (215.0176ms)
+  ✔ native protected, custom adopt keeps edited draft and original path (93.019ms)
+  ✔ stale preview refuses overwrite (652.9644ms)
+  ✔ malformed manifests and DTD are rejected (22.8837ms)
+✔ C# API preserves UIC roundtrip, legacy workspace and deployment protections (1569.5703ms)
+✔ C# atomic history survives paths beyond MAX_PATH and backend restart (748.9285ms)
+✔ deployment preview is read-only; apply backs up, registers once, verifies, and updates deterministically (175.0697ms)
+✔ stale preview, unrelated UIC files, invalid target paths and malformed manifests cannot overwrite files (75.302ms)
+✔ UTF-16 BOM, CRLF and self-closing customization lists are preserved on deployment (65.9859ms)
+▶ v2 freezes server-owned input, rejects stale plans before Save, preserves deployment boundaries
+  ✔ missing, tampered, extra-field and cross-kind references refuse without history writes (805.6455ms)
+  ✔ revision and target changes refuse before Save (87.0309ms)
+  ✔ apply uses cached project, replays receipt without reexecution and never claims loaded (123.3592ms)
+  ✔ registration freezes name, preserves UIC, encoding and unselected XML (113.1576ms)
+  ✔ forged native source cannot bypass server authoritative protection (61.3424ms)
+  ✔ explicit undiscovered installation cannot adopt native UIC through registration (62.5391ms)
+  ✔ backend restart invalidates plans without altering persistent workspace (368.65ms)
+✔ v2 freezes server-owned input, rejects stale plans before Save, preserves deployment boundaries (2027.8056ms)
+✔ v2 cache expiration, bounded admission and consumed unknown receipts (2908.1938ms)
+✔ desktop v2 UI client persists before send, locks across process restart and handles v1 uncertainty (4372.7943ms)
+✔ web UI sends only cached plan reference, persists before send and consumes once (19.1966ms)
+✔ web pending survives tool recreation before a response and manual acknowledgment never replays (3.958ms)
+✔ web malformed, wrong-identity, network and server-error write responses stay unknown across instances (4.7376ms)
+✔ web explicit conflicts clear pending while persistence failure refuses before a write (0.5511ms)
+✔ v1 first deployment also persists an uncertain reference and blocks v2 until manual check (0.5589ms)
+✔ two web clients cannot overwrite an unresolved plan and unsupported locks refuse before send (4.0551ms)
+✔ v1 conflict after send remains unknown because legacy history may already have changed (0.4392ms)
+✔ manual acknowledgment of a stale local identity cannot erase a newer persistent plan (0.8003ms)
+✔ registration scan deduplicates XML paths, reports actual installation metadata and persists profiles (2380.1199ms)
+✔ multiple UIC files can join one XML with backups, without changing UIC bytes (1144.8972ms)
+✔ only five automatic drafts remain; saving an identical draft creates a lasting snapshot with monotonic numbering (427.0039ms)
+✔ shared UIC updates once without choosing a module; adding a module only changes its manifest (7689.4003ms)
+✔ module collection distinguishes relative existing references, available modules and unreadable manifests (53.8631ms)
+✔ imported UIC retains shortcuts, extra attributes, names and opaque nodes while editing fields and moving tools (45.8165ms)
+✔ unsupported visible tools and DTD cannot be silently imported or discarded (26.3836ms)
+✔ versions persist across store recreation, save drafts, restore as a new version and serialize concurrent saves (97.9554ms)
+✔ management protects native entries, adopts existing absolute path and deploys in place without duplicate hash UIC (159.3334ms)
+✔ managed loading can be removed and restored without deleting UIC or losing snapshots, stale edits are refused (120.8976ms)
+✔ adopting after editing an imported file preserves the edited draft and original path (133.2573ms)
+✔ editing Macro preserves untouched rich tooltip formatting and invalid structural drafts are refused (51.6221ms)
+✔ old deployments require matching backup receipts and current UIC hash before becoming managed (109.1999ms)
+✔ import-edit-deploy directly overwrites original custom UIC with exact backup and preserves its loading path (166.7609ms)
+ℹ tests 53
+ℹ suites 0
+ℹ pass 53
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9918.4083

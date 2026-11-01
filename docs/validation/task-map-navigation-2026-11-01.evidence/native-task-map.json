@@ -1,0 +1,44 @@
+{
+  "passed": true,
+  "schema": "contract-task-map/1",
+  "metadataDigest": "acf8663630a23500ff6614980384cc909fb09ceca441e4b934705dc00e981047",
+  "renderModelDigest": "eefcdd273726183bf509fa19a7c492129bf94972c2cba986d29359ad90e2e572",
+  "map": {
+    "nodes": 50,
+    "edges": 71,
+    "groups": 5,
+    "features": 18,
+    "scripts": 14,
+    "steps": 12,
+    "flows": 3
+  },
+  "native": {
+    "generated": true,
+    "validated": true,
+    "success": true,
+    "components": 7,
+    "instances": 107,
+    "editableTexts": 769,
+    "variables": 40,
+    "images": 0
+  },
+  "focus": {
+    "flowId": "flow:launch",
+    "stepId": "step:launch-plan",
+    "boxes": 14,
+    "relations": 13
+  },
+  "visualReview": {
+    "status": "agent-reviewed",
+    "humanStatus": "human-not-reviewed",
+    "light": "taskmap-light.png",
+    "dark": "taskmap-dark.png",
+    "observations": [
+      "Task trunk, five reading groups and focused launch branch remain visually separate.",
+      "Four launch steps retain three distinct occurrences of the same Script.",
+      "Only registered transitions have arrowheads; grouping and documentation branches do not.",
+      "Deliverable and limits retain original source text; independent verification absence remains explicit."
+    ]
+  },
+  "scope": "Real FigCraft CLI generation and structural validation; editable static reference, not execution or Web interaction; Figma host not run"
+}

@@ -1,0 +1,30 @@
+[
+  {
+    "Path": "D:\\AVEVA\\Everything3D2.10\\DesignCustomization.xml",
+    "Hash": "78111FE80BB9781DEEC25E222B8ED731A95BFE78284DA0F2AB5D88995B046F5D"
+  },
+  {
+    "Path": "D:\\AVEVA\\Everything3D2.10\\DrawCustomization.xml",
+    "Hash": "AD919E13E8C96360EC98101412CF1A781314D98E9B0B9F46C8427A90BAB9C89B"
+  },
+  {
+    "Path": "D:\\AVEVA\\Everything3D2.10\\IsodraftCustomization.xml",
+    "Hash": "4DF210466DB73DB31DB4C256E492BFD8B4A3C5D02A2FB5EAA828371C348087BD"
+  },
+  {
+    "Path": "D:\\AVEVA\\Everything3D2.10\\MonitorCustomization.xml",
+    "Hash": "7002B8654EA63BA8654D7D785281E38ED3FF8101815B3C0F2D6B2A4131415D6C"
+  },
+  {
+    "Path": "D:\\AVEVA\\Everything3D2.10\\ParagonCustomization.xml",
+    "Hash": "49D3664F5F43EDC164965852843E06DA52E412B8DA5CDFEA02282B7240F2E78E"
+  },
+  {
+    "Path": "D:\\AVEVA\\Everything3D2.10\\SchematicModelManagerCustomization.xml",
+    "Hash": "EB34BD85363B7B062A567D2A414CC62ED78CD4C62437624B1A5D6C0A02352677"
+  },
+  {
+    "Path": "D:\\AVEVA\\Everything3D2.10\\SpoolerCustomization.xml",
+    "Hash": "3DE3BC1D6A774F69EB379D740906178C9D42D6690AC59DDD5AED36A26893B5C9"
+  }
+]

@@ -9,6 +9,89 @@ namespace YuzuhaToolkit.Manager.Tests;
 
 public sealed class RibbonHttpAdapterTests
 {
+    [Theory]
+    [InlineData("none", true)]
+    [InlineData("planId", false)]
+    [InlineData("planDigest", false)]
+    [InlineData("contractVersion", false)]
+    [InlineData("runtimeVerified", false)]
+    [InlineData("reloadRequired", false)]
+    [InlineData("state", false)]
+    public async Task V2ReceiptMustMatchReferenceAndActivationContract(string changed, bool success)
+    {
+        const string id = "f02315fc-0b53-4205-94da-c7e32c80fc8c";
+        var digest = new string('a', 64);
+        var body = "{\"contractVersion\":" + (changed == "contractVersion" ? "1" : "2") +
+            ",\"planId\":\"" + (changed == "planId" ? "different" : id) + "\",\"planDigest\":\"" +
+            (changed == "planDigest" ? new string('b', 64) : digest) + "\",\"state\":\"" +
+            (changed == "state" ? "loaded" : "deployed") + "\",\"activation\":{\"runtimeVerified\":" +
+            (changed == "runtimeVerified" ? "true" : "false") + ",\"reloadRequired\":" + (changed == "reloadRequired" ? "\"yes\"" : "true") + "}}";
+        using var input = JsonDocument.Parse("{\"planId\":\"" + id + "\",\"planDigest\":\"" + digest + "\"}");
+        using var client = new HttpClient(new Handler((_, _) => Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(body, Encoding.UTF8, "application/json") })));
+        var result = await new RibbonHttpAdapter(new("http://127.0.0.1:4318/"), client).InvokeAsync("ribbon.v2.deployment.file-apply", "v2/deployment/file-apply", input.RootElement, default);
+        Assert.Equal(success, result.Success); Assert.Equal(1, result.SchemaVersion);
+        if (!success) { Assert.Equal("RIBBON_RESULT_UNKNOWN", result.Error!.Code); Assert.True(result.Error.MayHaveExecuted); }
+    }
+    [Theory]
+    [InlineData("application/json", "{\"state\":\"unknown\"}")]
+    [InlineData("application/json", "{}")]
+    [InlineData("text/plain", "written")]
+    public async Task V2UnconfirmedWritesAreUnknown(string mediaType, string body)
+    {
+        var calls = 0;
+        using var client = new HttpClient(new Handler((request, _) => {
+            calls++; Assert.Equal("/api/v2/deployment/file-apply", request.RequestUri!.AbsolutePath);
+            return Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(body, Encoding.UTF8, mediaType) });
+        }));
+        var result = await new RibbonHttpAdapter(new("http://127.0.0.1:4318/"), client).InvokeAsync("ribbon.v2.deployment.file-apply", "v2/deployment/file-apply", Input, default);
+        Assert.False(result.Success); Assert.Equal("RIBBON_RESULT_UNKNOWN", result.Error!.Code); Assert.True(result.Error.MayHaveExecuted); Assert.Equal(1, calls);
+    }
+
+    [Fact]
+    public async Task V2WriteGrantIsCheckedBeforeClientConstruction()
+    {
+        var executor = new OperationExecutor(new OperationRegistry(RibbonHttpAdapter.Registrations(() => throw new Exception("must not construct"))));
+        using var input = JsonDocument.Parse("{\"planId\":\"f02315fc-0b53-4205-94da-c7e32c80fc8c\",\"planDigest\":\"" + new string('a', 64) + "\"}");
+        var result = await executor.InvokeAsync("ribbon.v2.deployment.file-apply", input.RootElement, new());
+        Assert.Equal("WRITE_NOT_AUTHORIZED", result.Error!.Code);
+    }
+
+    [Fact]
+    public void V2DescriptorsHaveExactReferenceSchemasAndV1RemainsRegistered()
+    {
+        var registrations = RibbonHttpAdapter.Registrations().ToArray();
+        Assert.Equal(RibbonHttpAdapter.Routes.Count, registrations.Length);
+        // Serialize the public descriptors through the same registry catalog used by clients.
+        _ = new OperationRegistry(registrations);
+        Assert.Contains(registrations, r => r.Descriptor.Id == "ribbon.workspace.save");
+        foreach (var item in registrations.Where(r => r.Descriptor.Id.StartsWith("ribbon.v2.", StringComparison.Ordinal)))
+        {
+            Assert.Equal(2, item.Descriptor.ContractVersion);
+            Assert.False(item.Descriptor.InputSchema.GetProperty("additionalProperties").GetBoolean());
+            if (item.Descriptor.Id.EndsWith("-apply", StringComparison.Ordinal))
+            {
+                Assert.True(item.Descriptor.RequiresWrite);
+                Assert.Equal(new[] { "planId", "planDigest" }, item.Descriptor.InputSchema.GetProperty("required").EnumerateArray().Select(x => x.GetString()));
+                Assert.False(item.Descriptor.InputSchema.GetProperty("properties").TryGetProperty("project", out _));
+            }
+        }
+    }
+
+    [Fact]
+    public async Task V2PreviewAcceptsDocumentSchemaThroughExecutorAndKeepsEnvelopeVersionOne()
+    {
+        using var client = new HttpClient(new Handler((request, _) => {
+            Assert.Equal("/api/v2/deployment/file-preview", request.RequestUri!.AbsolutePath);
+            return Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent("{\"contractVersion\":2,\"planId\":\"frozen\"}", Encoding.UTF8, "application/json") });
+        }));
+        var adapter = new RibbonHttpAdapter(new("http://127.0.0.1:4318/"), client);
+        var executor = new OperationExecutor(new OperationRegistry(RibbonHttpAdapter.Registrations(() => adapter)));
+        using var input = JsonDocument.Parse("""
+        {"project":{"schemaVersion":1,"namespace":"test","documentId":"f02315fc-0b53-4205-94da-c7e32c80fc8c","buttons":[{"id":"b","caption":"Button","macro":"show !!Form","commandKey":"macro:b","image":null,"tooltipText":"text","tooltipTitle":"title"}],"tabs":[{"id":"t","caption":"Tab","groups":[{"id":"g","caption":"Group","items":[{"buttonId":"b","size":"large"}]}]}]}}
+        """);
+        var result = await executor.InvokeAsync("ribbon.v2.deployment.file-preview", input.RootElement, new());
+        Assert.True(result.Success, result.Error?.Message); Assert.Equal(1, result.SchemaVersion);
+    }
     private sealed class Handler(Func<HttpRequestMessage, CancellationToken, Task<HttpResponseMessage>> send) : HttpMessageHandler
     {
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken) => send(request, cancellationToken);

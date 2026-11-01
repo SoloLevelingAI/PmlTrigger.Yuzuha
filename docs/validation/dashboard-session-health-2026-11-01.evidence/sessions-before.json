@@ -1,0 +1,12 @@
+{
+  "operationId": "aveva.sessions.list",
+  "success": true,
+  "exitCode": 0,
+  "data": {
+    "Count": 0,
+    "Sessions": [],
+    "Error": null
+  },
+  "error": null,
+  "schemaVersion": 1
+}

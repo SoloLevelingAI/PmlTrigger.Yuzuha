@@ -1,0 +1,21 @@
+{
+  "contractVersion": 2,
+  "planId": "8f724d0a-7707-46ec-9326-2db0f652f84b",
+  "kind": "file-update",
+  "documentId": "79dcb3ff-d479-4573-8261-59336f66748f",
+  "expectedVersionId": "c3c4acbe-7a02-427c-b06f-b92c88b3b01b",
+  "projectDigest": "2f8f3ea978affc3efcef923730de07b4edd4b70d39c32beaee218d3608f5ab9c",
+  "exportDigest": "926d5e09603eff5a1cac8894f7b282692a4676f9274f0deb2984a647e3a86825",
+  "expiresAt": "2026-10-31T15:40:03.7618278Z",
+  "targetPlan": {
+    "operation": "update-file",
+    "uicPath": "F:\\OneDrive\\Documents\\ChatGPT\\PmlTwin\\artifacts\\ribbon-ui-live\\Phayton.RibbonVerification.uic",
+    "uicHash": "47ecdee98ecb178b400f3b0d42d1c06a178842517d4f92e37ed0c187a37af478",
+    "nextUicHash": "926d5e09603eff5a1cac8894f7b282692a4676f9274f0deb2984a647e3a86825",
+    "uicBytes": 3996,
+    "unchanged": false,
+    "references": [],
+    "scanErrors": []
+  },
+  "planDigest": "9f3c27a3b9113dc097f3c40cbbcca3b204310de84ffa71348ac83dd6d9bd6bd5"
+}

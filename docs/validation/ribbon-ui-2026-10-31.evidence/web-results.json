@@ -1,0 +1,110 @@
+{
+  "passed": true,
+  "scope": "real Chromium DOM + isolated backend/installation; no AVEVA runtime acceptance",
+  "fixture": "F:\\OneDrive\\Documents\\ChatGPT\\PmlTwin\\integrations\\ribbon\\source\\.runtime\\web-v2-ui-uOXEKh",
+  "fileAndRegistrationV2": true,
+  "applyOnlyReference": true,
+  "oneModulePerConfirmation": true,
+  "unknownPersistsAcrossRefreshAndTabs": true,
+  "pendingBeforeSendSurvivesPageClose": true,
+  "crossTabConcurrentWriteRejected": true,
+  "manualAcknowledgmentDoesNotReplay": true,
+  "runtimeVerified": false,
+  "requests": [
+    {
+      "url": "http://127.0.0.1:5173/api/v2/deployment/file-preview",
+      "body": {
+        "keys": [
+          "project"
+        ],
+        "documentId": "b3fa9395-bfae-47c2-bfd7-4130cdfb5ce7"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:5173/api/v2/deployment/file-apply",
+      "body": {
+        "planId": "6b64be7e-4cc6-496f-9065-bd32f2819076",
+        "planDigest": "e43597187caec6a95b554ac67b4462aff66d037da613bd5e3874e914b4e0d7cc"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:5173/api/v2/deployment/registration-preview",
+      "body": {
+        "keys": [
+          "project",
+          "monPath",
+          "manifestName",
+          "entryName"
+        ],
+        "documentId": "b3fa9395-bfae-47c2-bfd7-4130cdfb5ce7"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:5173/api/v2/deployment/registration-apply",
+      "body": {
+        "planId": "4c325439-bb6b-4b0f-82b9-b4318c26915b",
+        "planDigest": "152ad2038b61e41d71d1d083cabaa19dfde068a2fc44ba70f1dd2ae3c2929c19"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:5173/api/v2/deployment/registration-preview",
+      "body": {
+        "keys": [
+          "project",
+          "monPath",
+          "manifestName",
+          "entryName"
+        ],
+        "documentId": "b3fa9395-bfae-47c2-bfd7-4130cdfb5ce7"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:5173/api/v2/deployment/registration-apply",
+      "body": {
+        "planId": "c0f47c01-48c8-4c6f-b3f5-a3e90f6527ea",
+        "planDigest": "0da5b64fdc93693a01d00935939b2c40daa556d55c46af790149ee3a75dcb828"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:5173/api/v2/deployment/file-preview",
+      "body": {
+        "keys": [
+          "project"
+        ],
+        "documentId": "b3fa9395-bfae-47c2-bfd7-4130cdfb5ce7"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:5173/api/v2/deployment/file-apply",
+      "body": {
+        "planId": "efcbff45-ea0d-405a-a762-90ace5d5be95",
+        "planDigest": "957d2fd172cd6617455494259b1c54024a86a1edb018a851236ca81d3e7dcc25"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:5173/api/v2/deployment/file-preview",
+      "body": {
+        "keys": [
+          "project"
+        ],
+        "documentId": "b3fa9395-bfae-47c2-bfd7-4130cdfb5ce7"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:5173/api/v2/deployment/file-preview",
+      "body": {
+        "keys": [
+          "project"
+        ],
+        "documentId": "b3fa9395-bfae-47c2-bfd7-4130cdfb5ce7"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:5173/api/v2/deployment/file-apply",
+      "body": {
+        "planId": "e6195ec0-24b4-4f0a-8f78-028dc74289f7",
+        "planDigest": "a2c957f08eb6ae6a52c916ae24a2c1ba971a60c91104212f44dbce244614149e"
+      }
+    }
+  ]
+}

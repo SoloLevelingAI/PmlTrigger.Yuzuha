@@ -12,7 +12,10 @@ internal static class UiTrace
 {
     internal sealed record Project(string Name, string[] Sources, string[] References, string Defines, string? OutputType = null);
     internal sealed record Manifest(Project[] Projects, string[] Xaml, string[]? OmittedProjects = null);
-    internal sealed record Node(string Id, string Name, string? File, int? Line, bool Generated, string? SourceSha256, string? TypeId, string? Summary, string? Body);
+    internal sealed record ParameterDocumentation(string Name, string Text);
+    internal sealed record Documentation(string? Summary, ParameterDocumentation[] Parameters, string? Returns, string? Remarks);
+    internal sealed record Declaration(string File, int StartLine, int EndLine, string SourceSha256);
+    internal sealed record Node(string Id, string Name, string? File, int? Line, bool Generated, string? SourceSha256, string? TypeId, string? Summary, string? Body, string Signature, Documentation Documentation, Declaration[] Declarations, bool IsAsync, bool IsPartial, int? BodyStartLine, int? BodyEndLine);
     internal sealed record Evidence(string Role, string File, int Line);
     internal sealed record Edge(string From, string To, string Kind, string File, int Line, string Expression, string[] Context, int Offset, Evidence[]? Evidence = null, string? CallbackReceiver = null);
     internal sealed record Page(string Id, string View, string Name, string Kind, string? ParentId, string[] HostedViews, string File, int Line);
@@ -43,7 +46,12 @@ internal static class UiTrace
         var types = new List<INamedTypeSymbol>();
         var assignedFields = new HashSet<string>();
         string Relative(string file) => Path.GetRelativePath(repository, file).Replace('\\', '/');
-        static ISymbol Canonical(ISymbol symbol) => symbol is IMethodSymbol method ? (method.ReducedFrom ?? method).OriginalDefinition : symbol.OriginalDefinition;
+        static ISymbol Canonical(ISymbol symbol)
+        {
+            if (symbol is not IMethodSymbol method) return symbol.OriginalDefinition;
+            var original = (method.ReducedFrom ?? method).OriginalDefinition;
+            return original.PartialDefinitionPart ?? original;
+        }
         string Id(ISymbol symbol)
         {
             symbol = Canonical(symbol);
@@ -61,10 +69,30 @@ internal static class UiTrace
                 var file = syntax?.SyntaxTree.FilePath;
                 var owner = symbol as INamedTypeSymbol ?? symbol.ContainingType;
                 var comment = symbol.GetDocumentationCommentXml();
-                var summary = string.IsNullOrWhiteSpace(comment) ? null : XElement.Parse(comment).Element("summary")?.Value.Trim();
+                XElement? xml = null;
+                if (!string.IsNullOrWhiteSpace(comment))
+                {
+                    using var reader = XmlReader.Create(new StringReader(comment), new XmlReaderSettings { DtdProcessing = DtdProcessing.Prohibit, XmlResolver = null });
+                    xml = XElement.Load(reader);
+                }
+                var summary = xml?.Element("summary")?.Value.Trim();
+                var documentation = new Documentation(summary, xml?.Elements("param").Select(p => new ParameterDocumentation(p.Attribute("name")?.Value ?? "", p.Value.Trim())).ToArray() ?? [], xml?.Element("returns")?.Value.Trim(), xml?.Element("remarks")?.Value.Trim());
+                var related = new List<ISymbol> { symbol };
+                if (symbol is IMethodSymbol method)
+                {
+                    if (method.PartialDefinitionPart is { } definition) related.Add(definition);
+                    if (method.PartialImplementationPart is { } part) related.Add(part);
+                }
+                var declarations = related.SelectMany(s => s.DeclaringSyntaxReferences).Select(r => r.GetSyntax()).DistinctBy(n => (n.SyntaxTree.FilePath, n.SpanStart)).Select(n => new Declaration(Relative(n.SyntaxTree.FilePath), Line(n), n.GetLocation().GetLineSpan().EndLinePosition.Line + 1, Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(n.SyntaxTree.FilePath))).ToLowerInvariant())).OrderBy(d => d.File).ThenBy(d => d.StartLine).ToArray();
+                var signature = syntax switch
+                {
+                    BaseMethodDeclarationSyntax m => m.WithBody(null).WithExpressionBody(null).WithSemicolonToken(default).WithoutTrivia().ToString().Trim(),
+                    LocalFunctionStatementSyntax m => m.WithBody(null).WithExpressionBody(null).WithSemicolonToken(default).WithoutTrivia().ToString().Trim(),
+                    _ => symbol.ToDisplayString(SymbolDisplayFormat.CSharpErrorMessageFormat)
+                };
                 nodes[id] = new(id, symbol is IMethodSymbol { MethodKind: MethodKind.AnonymousFunction } ? symbol.ContainingSymbol.Name + ".回调 L" + Line(syntax!) : symbol.ToDisplayString(SymbolDisplayFormat.CSharpErrorMessageFormat), file is null ? null : Relative(file), syntax is null ? null : Line(syntax), file?.EndsWith(".g.cs", StringComparison.OrdinalIgnoreCase) == true || file?.Contains("ui-generated", StringComparison.OrdinalIgnoreCase) == true,
                     file is null ? null : Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(file))).ToLowerInvariant(), owner is null ? null : owner.ContainingAssembly.Name + "::" + owner.OriginalDefinition.GetDocumentationCommentId()?[2..], summary,
-                    syntax is BaseMethodDeclarationSyntax or AccessorDeclarationSyntax or LocalFunctionStatementSyntax or AnonymousFunctionExpressionSyntax or PropertyDeclarationSyntax ? syntax.ToString() : null);
+                    syntax is BaseMethodDeclarationSyntax or AccessorDeclarationSyntax or LocalFunctionStatementSyntax or AnonymousFunctionExpressionSyntax or PropertyDeclarationSyntax ? syntax.ToString() : null, signature, documentation, declarations, symbol is IMethodSymbol { IsAsync: true } || declaration is IMethodSymbol { IsAsync: true }, symbol is IMethodSymbol { IsPartialDefinition: true } or IMethodSymbol { PartialDefinitionPart: not null } or IMethodSymbol { PartialImplementationPart: not null }, syntax is null ? null : Line(syntax), syntax is null ? null : syntax.GetLocation().GetLineSpan().EndLinePosition.Line + 1);
             }
             return id;
         }

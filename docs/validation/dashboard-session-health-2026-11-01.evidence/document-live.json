@@ -1,0 +1,61 @@
+{
+  "passed": true,
+  "finishedAt": "2026-11-01T07:45:49.308Z",
+  "scope": "Real running shared coordinator, actual Roslyn catalog and DocFX/native artifacts; read-only browser navigation only",
+  "revision": {
+    "revisionId": "476203c4f4223b79141c92246ce36d32d05ffd20ac5f99c5cc00a669db5eec6b",
+    "metadataDigest": "b95e0c10704b0ad4a4248b3d3c55f62e174341d4f89536072d3ab9b90d7e6294",
+    "renderModelDigest": "acb362e510ff66266d13baa94908c11148613d055b97b4326d50db0864f72e1c",
+    "methodCatalogDigest": "d93d74bda46821018155896d8fd44500db29d15287a14340060da8c356ccb0c3",
+    "manifestUrl": "/revisions/476203c4f4223b79141c92246ce36d32d05ffd20ac5f99c5cc00a669db5eec6b/manifest.json"
+  },
+  "native": {
+    "generated": true,
+    "validated": true,
+    "success": true,
+    "components": 7,
+    "instances": 107,
+    "editableTexts": 677,
+    "variables": 40,
+    "images": 0,
+    "toolVersion": "figcraft-cli 0.6.0",
+    "commandCount": 1131
+  },
+  "methods": {
+    "status": "ready",
+    "count": 387,
+    "edges": 1477,
+    "bindings": 32,
+    "resolutions": {
+      "resolved": 18,
+      "unavailable": 8,
+      "not-applicable": 6
+    },
+    "selected": "YuzuhaToolkit.Manager.Core::M:YuzuhaToolkit.Manager.LaunchWorkflowService.Plan(System.String,System.String,System.String)",
+    "sourceSha": "44d075ea468f8f01d82346d718af41ffddb13ce9d66113dcd619c0a875eabba4",
+    "docfx": "http://127.0.0.1:19439/revisions/476203c4f4223b79141c92246ce36d32d05ffd20ac5f99c5cc00a669db5eec6b/docfx/api/YuzuhaToolkit.Manager.LaunchWorkflowService.html#YuzuhaToolkit_Manager_LaunchWorkflowService_Plan_System_String_System_String_System_String_"
+  },
+  "selectedMethod": {
+    "symbolId": "YuzuhaToolkit.Manager.Core::M:YuzuhaToolkit.Manager.LaunchWorkflowService.ExecuteAsync(YuzuhaToolkit.Manager.LaunchWorkflowPlan,System.String,System.String,System.Boolean,System.Threading.CancellationToken)",
+    "sourceSha": "44d075ea468f8f01d82346d718af41ffddb13ce9d66113dcd619c0a875eabba4",
+    "docfx": "http://127.0.0.1:19439/revisions/476203c4f4223b79141c92246ce36d32d05ffd20ac5f99c5cc00a669db5eec6b/docfx/api/YuzuhaToolkit.Manager.LaunchWorkflowService.html#YuzuhaToolkit_Manager_LaunchWorkflowService_ExecuteAsync_YuzuhaToolkit_Manager_LaunchWorkflowPlan_System_String_System_String_System_Boolean_System_Threading_CancellationToken_"
+  },
+  "checks": [
+    "real bound method source outline opens only required branch and focuses its summary",
+    "outline location group retains the exact real same-revision DocFX anchor",
+    "all-collapse writes parent method section and reload does not reopen source or change selection",
+    "real Script receipt section is reachable across Shadow roots without global expansion",
+    "session Feature opens the actual Dashboard monitor source from its exact symbol binding"
+  ],
+  "scriptErrors": [],
+  "visualReview": {
+    "agentReviewed": true,
+    "humanReviewed": false,
+    "images": [
+      "portfolio-light-1440.png",
+      "portfolio-dark-1440.png",
+      "portfolio-light-390.png",
+      "portfolio-dark-390.png"
+    ]
+  }
+}

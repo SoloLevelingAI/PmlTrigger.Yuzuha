@@ -150,7 +150,7 @@ internal sealed class PreparationWorkbench
     private static bool NeedsRecovery(OperationResult result) => result.Error?.MayHaveExecuted == true || result.Error?.Code.Contains("RECOVERY_REQUIRED", StringComparison.Ordinal) == true;
     /// <summary>撤销当前执行资格，同时保留恢复回执。</summary>
     private void ClearPlan() { Plan = null; ApplyOperation = null; }
-    /// <summary>单次调用统一执行器，并把写入中断保留为未知而非重发。</summary>
+    /// <summary>在后台单次调用统一执行器，回到调用方上下文更新状态；写入中断保留为未知而非重发。</summary>
     private async Task<OperationResult> Call(string operation, object input, bool write, CancellationToken token)
     {
         if (Busy) throw new InvalidOperationException("同一次操作尚在等待，不会再次发送。");
@@ -158,7 +158,7 @@ internal sealed class PreparationWorkbench
         try
         {
             var json = input is JsonElement element ? element : JsonSerializer.SerializeToElement(input);
-            Result = await invoke(operation, json, new(AllowWrite: write), token).ConfigureAwait(false);
+            Result = await Task.Run(() => invoke(operation, json, new(AllowWrite: write), token), CancellationToken.None);
             if (write && NeedsRecovery(Result)) { if (!Unresolved) unresolvedRecovery = null;Unresolved = true;unresolvedResults.Add(Result); }
             return Result;
         }

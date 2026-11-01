@@ -25,6 +25,16 @@ public partial class PreparationWorkbenchView : UserControl
     public event Action<string>? DocumentationRequested;
     /// <summary>用户明确切换配色后由宿主保存偏好。</summary>
     public event Action<string>? PaletteRequested;
+    /// <summary>当前准备调用尚未取得回执时保持窗口存活，不自动取消或重放后台事务。</summary>
+    public bool IsRunning => work.Busy;
+
+    /// <summary>在动作旁提示普通关窗已暂缓，保持当前调用和恢复边界不变。</summary>
+    internal void ShowPendingCloseNotice()
+    {
+        if (!IsRunning) return;
+        InlineResult.Text = "请等待本次准备回执后再关闭窗口；不会自动取消或重发。";
+        InlineResult.SetResourceReference(TextBlock.ForegroundProperty, "Text.Primary");InlineResult.FontWeight = FontWeights.SemiBold;
+    }
 
     /// <summary>建立固定控件和阅读面板，不发现安装、不写文件、不启动产品。</summary>
     public PreparationWorkbenchView()
@@ -140,7 +150,7 @@ public partial class PreparationWorkbenchView : UserControl
         notice = null;
         PackagePanel.IsEnabled = DiscoveryPanel.IsEnabled = DeploymentPanel.IsEnabled = OwnershipPanel.IsEnabled = false;PrimaryAction.IsEnabled = RestoreButton.IsEnabled = false;
         InlineResult.Text = "正在等待本次回执；不会自动重发。";
-        try { await action(); }
+        try { var pending = action();RenderStatus();await pending; }
         catch (Exception error) when (error is ArgumentException or InvalidOperationException or UnauthorizedAccessException or IOException) { notice = error.Message; }
         finally { Render(); }
     }
@@ -198,7 +208,7 @@ public partial class PreparationWorkbenchView : UserControl
         RecoverySummary.Text = work.Receipt is null ? work.Unresolved ? "本次没有可执行恢复引用。请展开完整诊断，按备份及原操作身份人工核查；不会自动重放。" : "尚无可恢复回执。旧所有权移交不会被当作可自动撤销的EVARS写入。" : Friendly(work.Receipt.Summary);
         RecoveryIdentity.Text = work.Receipt is null ? "" : work.Receipt.Kind + " · " + work.Receipt.PlanId + "\nSHA256 " + work.Receipt.Sha256;
         RecoveryIdentityExpander.Visibility = work.Receipt is null ? Visibility.Collapsed : Visibility.Visible;
-        StageStatus.Text = work.Unresolved ? "上次结果待核查；未自动重试。" : work.Plan is not null ? "已取得冻结计划，需人工核对并进入明确应用。" : work.Result is not null ? (work.Result.Success ? "最近一次调用成功；不推定其他阶段完成。" : "最近一次调用被拒绝或失败；原因见动作旁回执。") : "当前是阅读位置；尚未执行此阶段。";
+        StageStatus.Text = work.Busy ? "正在等待本次回执；可继续阅读，输入已锁定。" : work.Unresolved ? "上次结果待核查；未自动重试。" : work.Plan is not null ? "已取得冻结计划，需人工核对并进入明确应用。" : work.Result is not null ? (work.Result.Success ? "最近一次调用成功；不推定其他阶段完成。" : "最近一次调用被拒绝或失败；原因见动作旁回执。") : "当前是阅读位置；尚未执行此阶段。";
         StageStatus.SetResourceReference(TextBlock.ForegroundProperty, work.Unresolved ? "Text.Warning" : "Text.Secondary");StageStatus.FontWeight = work.Unresolved ? FontWeights.SemiBold : FontWeights.Normal;
         if (work.Result is { } result)
         {
@@ -209,6 +219,16 @@ public partial class PreparationWorkbenchView : UserControl
             EvidenceOperation.Text = InlineOperation.Text + (result.Data is { ValueKind: JsonValueKind.Object } metadata && metadata.TryGetProperty("kind", out var kind) ? " · " + kind.GetString() : "");
             EvidenceResult.Text = result.Data is { } data ? ResultSummary(data) : "无成功数据；保留错误，不推定未产生效果。";
             foreach (var text in new[] { InlineResult, EvidenceOutcome }) { text.SetResourceReference(TextBlock.ForegroundProperty, result.Success ? "Text.Primary" : result.Error?.MayHaveExecuted == true || work.Unresolved ? "Text.Warning" : "Text.Danger");text.FontWeight = result.Success ? FontWeights.Normal : FontWeights.SemiBold; }
+        }
+        else { InlineOperation.Text = EvidenceOperation.Text = EvidenceResult.Text = "";EvidenceOutcome.Text = "尚未执行；阅读阶段不是验收通过。"; }
+        if (work.Busy)
+        {
+            InlineResult.Text = "正在等待本次回执；不会自动重发。";
+            InlineOperation.Text = work.Result is { } prior ? "上一次回执 · " + prior.OperationId + (prior.Error is { } priorError ? " · " + priorError.Code : "") : "本次调用尚未返回。";
+            EvidenceOutcome.Text = work.Result is null ? "当前正在等待；尚无已收到的回执。" : "当前正在等待；下方保留上一次已收到的回执。";
+            EvidenceOperation.Text = work.Result is null ? "" : "上一次回执 · " + EvidenceOperation.Text;
+            if (work.Result is { } received) EvidenceResult.Text = (received.Success ? "上一次结果：成功。" : "上一次结果：" + received.Error?.Message) + "\n" + EvidenceResult.Text;
+            foreach (var text in new[] { InlineResult, EvidenceOutcome }) { text.SetResourceReference(TextBlock.ForegroundProperty, "Text.Primary");text.FontWeight = FontWeights.SemiBold; }
         }
         if (notice is not null) InlineResult.Text = notice;
         if (work.Stage == "install" && CanContinueFromInstall()) ActionEffect.Text = "只进入环境选择；不会自动扫描或写入产品环境。";

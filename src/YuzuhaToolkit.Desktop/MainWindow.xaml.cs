@@ -365,11 +365,12 @@ public partial class MainWindow : Window
         finally { _copying = false; }
     }
 
-    /// <summary>复制事务完成前保留进程，避免窗口关闭中断文件恢复。</summary>
+    /// <summary>准备或复制事务完成前保留进程，避免窗口关闭中断文件写入和恢复。</summary>
     /// <param name="e">窗口关闭事件。</param>
     protected override void OnClosing(CancelEventArgs e)
     {
-        if (_copying || SessionView.IsRunning) { e.Cancel = true; Say("操作正在进行。请先等待结果，或在会话页取消等待；取消不会撤回已发出的 AVEVA 操作。"); }
+        if (PreparationView.IsRunning) { e.Cancel = true;PreparationView.ShowPendingCloseNotice();Say("安装与环境准备尚在等待本次回执，请等待结果后再关闭；不会自动取消或重发。"); }
+        else if (_copying || SessionView.IsRunning) { e.Cancel = true; Say("操作正在进行。请先等待结果，或在会话页取消等待；取消不会撤回已发出的 AVEVA 操作。"); }
         base.OnClosing(e);
     }
 

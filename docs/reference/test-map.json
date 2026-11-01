@@ -1665,7 +1665,7 @@
       "runner": "desktop-preparation",
       "purpose": "通过真实WPF控件验证安装交接、旧所有权移交与部署的CTA顺序、六主题三视口、草稿保持和unknown回执恢复；后端回执为合成，不是产品安装或AVEVA实机。",
       "environment": "Windows x64 / NET10 SDK与WPF；隔离状态和合成回执，无AVEVA调用",
-      "expected": "31张原生截图及PNG/视口尺寸一致；六主题与八阶段可达；核心动作/反馈在首屏，导航不执行写入，unknown按本次回执恢复，绑定错误零。"
+      "expected": "31张原生截图及PNG/视口尺寸一致；六主题与八阶段可达；核心动作/反馈在首屏，导航不执行写入，unknown按本次回执恢复，绑定错误零。dispatcherResponsive与closeRetainedWhileBusy均为true；同步handler未释放前真实Dispatcher仍能阅读，等待投影不冒充本次成功，普通关窗等待本次回执且不取消或重发。"
     },
     {
       "id": "smoke:installer-contracts",
@@ -3246,6 +3246,16 @@
       "targets": [
         {
           "uid": "SetupBridge::Program"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PreparationWorkbenchTests.SynchronousManagerHandlerRunsInBackgroundWhileCallerAndReadingRemainAvailable",
+      "purpose": "真实OperationExecutor同步阻塞handler尚未释放时，调用方已取得Task、Busy门禁和阅读仍可用；后台执行不改变明确授权/唯一调用，超时仅死锁watchdog。",
+      "environment": "Windows/NET10；独立调用线程与真实同步门闩，不扫描真实AVEVA或写环境。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.PreparationWorkbench"
         }
       ]
     }

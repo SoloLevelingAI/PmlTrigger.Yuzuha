@@ -16,7 +16,7 @@ $process = Start-Process -FilePath $exe -ArgumentList '--preparation-smoke-outpu
 if (-not $process.WaitForExit(60000)) { Stop-Process -Id $process.Id -ErrorAction SilentlyContinue; throw 'Isolated preparation smoke timed out.' }
 if ($process.ExitCode -ne 0 -or -not (Test-Path -LiteralPath $report)) { throw "Preparation smoke failed. See $OutputDirectory/smoke-error.txt" }
 $receipt = Get-Content -LiteralPath $report -Raw | ConvertFrom-Json
-if ($receipt.passed -ne $true -or $receipt.palettes.Count -ne 6 -or $receipt.stages -ne 8 -or $receipt.readers -ne 4 -or $receipt.screenshots -ne 31 -or $receipt.viewportEvidence.Count -ne 31 -or $receipt.themePreservesDraft -ne $true -or $receipt.navigationTransitions -ne $true -or $receipt.unknownRecovery -ne $true) { throw 'Invalid preparation receipt.' }
+if ($receipt.passed -ne $true -or $receipt.palettes.Count -ne 6 -or $receipt.stages -ne 8 -or $receipt.readers -ne 4 -or $receipt.screenshots -ne 31 -or $receipt.viewportEvidence.Count -ne 31 -or $receipt.dispatcherResponsive -ne $true -or $receipt.closeRetainedWhileBusy -ne $true -or $receipt.themePreservesDraft -ne $true -or $receipt.navigationTransitions -ne $true -or $receipt.unknownRecovery -ne $true) { throw 'Invalid preparation receipt.' }
 foreach ($capture in $receipt.viewportEvidence) {
     $imagePath = [IO.Path]::GetFullPath((Join-Path (Split-Path $OutputDirectory -Parent) $capture.file))
     if (-not $imagePath.StartsWith($OutputDirectory + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase)) { throw 'Capture escaped output directory.' }

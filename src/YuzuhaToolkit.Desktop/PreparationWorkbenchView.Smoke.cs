@@ -10,6 +10,47 @@ namespace YuzuhaToolkit.Desktop;
 /// <summary>准备工作区的原生合成验收；只使用注入回执，不发现或修改真实厂商环境。</summary>
 public partial class PreparationWorkbenchView
 {
+    /// <summary>在真实Dispatcher上证明同步Manager处理器阻塞期间仍可阅读，且输入、重复调用、写入和关窗仍受门禁约束。</summary>
+    /// <param name="checkClosing">由真实主窗口调用OnClosing，验证等待时拒绝关窗及完成后解除。</param>
+    internal async Task AssertSmokeDispatcherResponsiveAsync(Action<bool> checkClosing)
+    {
+        var original = work;var uiThread = Environment.CurrentManagedThreadId;var entered = new TaskCompletionSource<int>(TaskCreationOptions.RunContinuationsAsynchronously);
+        using var release = new ManualResetEventSlim();var watchdogTriggered = 0;var calls = 0;
+        await using var watchdog = new System.Threading.Timer(_ => { Interlocked.Exchange(ref watchdogTriggered, 1);release.Set(); }, null, TimeSpan.FromSeconds(20), Timeout.InfiniteTimeSpan);
+        using var schema = JsonDocument.Parse("{\"type\":\"object\",\"properties\":{\"packageRoot\":{\"type\":\"string\"}},\"required\":[\"packageRoot\"],\"additionalProperties\":false}");
+        var executor = new OperationExecutor(new OperationRegistry([new(new("setup.handoff.inspect", 1, "synchronously blocked native dispatcher fixture", schema.RootElement.Clone()), new DelegateOperationHandler((id, input, context, token) =>
+        {
+            if (Interlocked.Increment(ref calls) == 1) return Task.FromResult(OperationResult.Ok(id, JsonSerializer.SerializeToElement(new { scope = "先前已收到的合成回执，不代表本次完成" })));
+            entered.TrySetResult(Environment.CurrentManagedThreadId);release.Wait();
+            return Task.FromResult(context.AllowWrite ? OperationResult.Fail(id, 4, "FIXTURE_WRITE_REJECTED", "合成只读处理器拒绝写入。") : OperationResult.Ok(id, JsonSerializer.SerializeToElement(new { scope = "同步阻塞夹具，不访问真实厂商环境" })));
+        }))]));
+        var fixture = new PreparationWorkbench(executor.InvokeAsync);Task? pending = null;
+        try
+        {
+            UseFixture(fixture);await Run(() => work.InspectAsync());var previousResult = work.Result;pending = Run(() => work.InspectAsync());
+            var backendThread = await entered.Task.WaitAsync(TimeSpan.FromSeconds(20));
+            await Dispatcher.InvokeAsync(() =>
+            {
+                if (Volatile.Read(ref watchdogTriggered) != 0 || release.IsSet || pending.IsCompleted || !work.Busy || backendThread == uiThread || !Dispatcher.CheckAccess()) throw new InvalidOperationException("同步处理器尚未释放时，原生Dispatcher没有保持可响应。");
+                Stages.SelectedItem = stages.First(s => s.Id == "recover");Readers.SelectedIndex = 3;UpdateLayout();
+                if (work.Stage != "recover" || work.Reader != "evidence" || PackagePanel.IsEnabled || PrimaryAction.IsEnabled || !EvidenceOutcome.IsVisible) throw new InvalidOperationException($"等待期间阅读未响应，或输入/主写入动作仍可用：{work.Stage}/{work.Reader}/input={PackagePanel.IsEnabled}/action={PrimaryAction.IsEnabled}/evidence={EvidenceOutcome.IsVisible}。");
+                if (!InlineResult.Text.StartsWith("正在等待", StringComparison.Ordinal) || !EvidenceOutcome.Text.Contains("当前正在等待", StringComparison.Ordinal) || !EvidenceOutcome.Text.Contains("上一次已收到", StringComparison.Ordinal) || !EvidenceOperation.Text.StartsWith("上一次回执 · setup.handoff.inspect", StringComparison.Ordinal) || !ReferenceEquals(previousResult, work.Result) || !EvidenceResult.Text.Contains("先前已收到的合成回执", StringComparison.Ordinal)) throw new InvalidOperationException("等待状态混入上次成功，或清除了上次已收到的回执。");
+                checkClosing(true);
+                if (!IsRunning || !InlineResult.Text.Contains("等待本次准备回执", StringComparison.Ordinal) || !ReferenceEquals(previousResult, work.Result)) throw new InvalidOperationException("等待时关窗没有就近提示，或破坏了当前调用和回执。");
+                var rejected = false;try { work.Change(work.Draft with { PackageRoot = "changed" }); } catch (InvalidOperationException) { rejected = true; }
+                if (!rejected) throw new InvalidOperationException("等待期间允许改写执行输入。");
+                foreach (var duplicate in new[] { work.InspectAsync(), work.ApplyAsync(true) })
+                {
+                    if (!duplicate.IsCompleted) throw new InvalidOperationException("等待期间重复发送了管理器操作。");
+                    rejected = false;try { duplicate.GetAwaiter().GetResult(); } catch (InvalidOperationException) { rejected = true; }
+                    if (!rejected) throw new InvalidOperationException("等待期间的重复或写入调用没有被拒绝。");
+                }
+                if (Volatile.Read(ref calls) != 2 || release.IsSet) throw new InvalidOperationException("Dispatcher验收没有发生在同一次同步处理器等待期间。");
+            }, DispatcherPriority.ApplicationIdle);
+        }
+        finally { release.Set();if (pending is not null) await pending;try { checkClosing(false); } finally { UseFixture(original); } }
+        if (Volatile.Read(ref watchdogTriggered) != 0 || fixture.Busy || fixture.Result?.Success != true || calls != 2) throw new InvalidOperationException("后台同步处理器未可靠完成唯一等待调用。");
+    }
     /// <summary>以合成安装和载荷验证实际表单输入、选择、预览、栏目及回执显示。</summary>
     internal async Task PrepareSmokeAsync()
     {

@@ -186,6 +186,30 @@ public sealed class PreparationWorkbenchTests
         Assert.False(work.Busy);Assert.Equal(1, calls);Assert.Equal("recover", work.Stage);Assert.Equal("evidence", work.Reader);
     }
 
+    /// <summary>验证真实统一执行器中的同步阻塞处理器不占用调用线程，等待期间保持单次调用与输入门禁。</summary>
+    [Fact]
+    public async Task SynchronousManagerHandlerRunsInBackgroundWhileCallerAndReadingRemainAvailable()
+    {
+        using var entered = new ManualResetEventSlim();using var release = new ManualResetEventSlim();using var returned = new ManualResetEventSlim();using var cancellation = new CancellationTokenSource();
+        var callerThread = 0;var handlerThread = 0;var calls = 0;OperationContext? observed = null;CancellationToken observedToken = default;
+        using var schema = JsonDocument.Parse("{\"type\":\"object\",\"properties\":{\"packageRoot\":{\"type\":\"string\"}},\"required\":[\"packageRoot\"],\"additionalProperties\":false}");
+        var executor = new OperationExecutor(new OperationRegistry([new(new("setup.handoff.inspect", 1, "synchronously blocked manager fixture", schema.RootElement.Clone()), new DelegateOperationHandler((id, input, context, token) =>
+        { handlerThread = Environment.CurrentManagedThreadId;observed = context;observedToken = token;Interlocked.Increment(ref calls);entered.Set();release.Wait();return Task.FromResult(OperationResult.Ok(id, JsonSerializer.SerializeToElement(new { verified = true }))); }))]));
+        var work = new PreparationWorkbench(executor.InvokeAsync);Task<OperationResult>? pending = null;
+        var caller = new Thread(() => { callerThread = Environment.CurrentManagedThreadId;pending = work.InspectAsync(cancellation.Token);returned.Set(); }) { IsBackground = true };
+        caller.Start();
+        try
+        {
+            Assert.True(entered.Wait(TimeSpan.FromSeconds(10)), "同步处理器未进入；超时仅防止测试死锁。");
+            Assert.True(returned.Wait(TimeSpan.FromSeconds(10)), "同步处理器尚未释放时，调用线程应已取得未完成任务。");
+            Assert.NotEqual(callerThread, handlerThread);Assert.True(work.Busy);Assert.NotNull(pending);Assert.False(pending.IsCompleted);Assert.False(release.IsSet);
+            Assert.Throws<InvalidOperationException>(() => work.Change(work.Draft with { PackageRoot = "changed" }));await Assert.ThrowsAsync<InvalidOperationException>(() => work.InspectAsync());
+            work.SelectStage("recover");work.Reader = "scripts";Assert.Equal(1, Volatile.Read(ref calls));Assert.False(observed!.AllowWrite);Assert.Equal(cancellation.Token, observedToken);
+        }
+        finally { release.Set();Assert.True(caller.Join(TimeSpan.FromSeconds(10)), "调用线程未结束。"); }
+        var result = await pending!;Assert.True(result.Success);Assert.False(work.Busy);Assert.Equal("recover", work.Stage);Assert.Equal("scripts", work.Reader);Assert.Equal(1, calls);
+    }
+
     /// <summary>验证迁移只读预览和旧所有权转移保有不同作用与冻结身份。</summary>
     [Fact]
     public async Task MigrationPreviewAndOwnershipTransferKeepDistinctEffectsAndFrozenIdentities()

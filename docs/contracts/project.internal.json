@@ -9761,7 +9761,7 @@
       "environment": {
         "product": "synthetic"
       },
-      "claim": "WPF统计与元信息降为辅助层级，23关联测试及独立发布程序31/118截图通过；Web六主题16截图、完整字段/可读辅助字与装饰隐藏通过，FigCraft318个可编辑文字。实际打开WPF供用户查看。",
+      "claim": "WPF统计与元信息降为辅助层级，24关联测试及最终发布程序31/118截图通过；同步处理等待期间真实Dispatcher可阅读、普通关窗保留本次调用，旧回执不冒充本次成功。Web六主题16截图、完整字段/可读辅助字与装饰隐藏通过，FigCraft318个可编辑文字。实际打开WPF供用户查看，打开构建身份独立记录。",
       "exclusions": [
         "界面回执为明确合成数据，不代称AVEVA实机。",
         "打开窗口不表示安装、Skill更新或用户视觉认可。",
@@ -9917,7 +9917,7 @@
       "id": "source:evidence",
       "title": "独立人工审阅的只读证据账本",
       "path": "docs/contracts/evidence.json",
-      "sha256": "43ecf205380c6f67d7da091f457e4c0ca47a80b619cabc9553ac185307eece8e",
+      "sha256": "5ddd342d04d1826b6a5cb13d54de7585b27d75a26f8704719ccc2db63ca44627",
       "authority": "evidence",
       "audience": "internal"
     },
@@ -10061,7 +10061,7 @@
       "id": "source:evidence-visual-priority-skill",
       "title": "作品集视觉层级、完整源码及Skill接管追加验收",
       "path": "docs/validation/visual-priority-skill-adoption-2026-11-02.json",
-      "sha256": "8847589e1f8488c1c205c30f75bc4a2661933e52029129bc5571f56b0308e112",
+      "sha256": "33fa393b869e544a4742f0a945bd30ba1582a0ba41d5739ecc5ed4f5140052da",
       "authority": "evidence",
       "audience": "internal"
     }

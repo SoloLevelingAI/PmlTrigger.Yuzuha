@@ -1,0 +1,276 @@
+工具“docfx”(版本“2.81.0”)已还原。可用的命令: docfx
+
+还原成功。
+  正在确定要还原的项目…
+  所有项目均是最新的，无法还原。
+  YuzuhaToolkit.Builtins -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Builtins\bin\Release\net10.0\YuzuhaToolkit.Builtins.dll
+  PlantHost.Rpc.Net10 -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\PlantHost.Rpc.Net10\bin\Release\net10.0\PlantHost.Rpc.Net10.dll
+  PmlTwin.Phayton -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\PmlTwin.Phayton\bin\Release\net10.0\PmlTwin.Phayton.dll
+  YuzuhaToolkit.Communication.Contracts -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Communication.Contracts\bin\Release\net10.0\YuzuhaToolkit.Communication.Contracts.dll
+  YuzuhaToolkit.Workspace -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Workspace\bin\Release\net10.0\YuzuhaToolkit.Workspace.dll
+  YuzuhaToolkit.Plugins.Contracts -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Plugins.Contracts\bin\Release\net10.0\YuzuhaToolkit.Plugins.Contracts.dll
+  YuzuhaToolkit.Knowledge.Core -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Knowledge.Core\bin\Release\net10.0\YuzuhaToolkit.Knowledge.Core.dll
+  YuzuhaToolkit.Mcp.Core -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Mcp.Core\bin\Release\net10.0\YuzuhaToolkit.Mcp.Core.dll
+  YuzuhaToolkit.Manager.Core -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Manager.Core\bin\Release\net10.0\YuzuhaToolkit.Manager.Core.dll
+  YuzuhaToolkit.DevHost -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.DevHost\bin\Release\net10.0\YuzuhaToolkit.DevHost.dll
+
+已成功生成。
+    0 个警告
+    0 个错误
+
+已用时间 00:00:04.23
+  正在确定要还原的项目…
+  所有项目均是最新的，无法还原。
+  YuzuhaToolkit.Builtins -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Builtins\bin\Release\net10.0\YuzuhaToolkit.Builtins.dll
+  YuzuhaToolkit.Workspace -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Workspace\bin\Release\net10.0\YuzuhaToolkit.Workspace.dll
+  PmlTwin.Phayton -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\PmlTwin.Phayton\bin\Release\net10.0\PmlTwin.Phayton.dll
+  YuzuhaToolkit.Communication.Contracts -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Communication.Contracts\bin\Release\net10.0\YuzuhaToolkit.Communication.Contracts.dll
+  YuzuhaToolkit.Plugins.Contracts -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Plugins.Contracts\bin\Release\net10.0\YuzuhaToolkit.Plugins.Contracts.dll
+  YuzuhaToolkit.Knowledge.Core -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Knowledge.Core\bin\Release\net10.0\YuzuhaToolkit.Knowledge.Core.dll
+  YuzuhaToolkit.Manager.Core -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Manager.Core\bin\Release\net10.0\YuzuhaToolkit.Manager.Core.dll
+  YuzuhaToolkit.Manager.Cli -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Manager.Cli\bin\Release\net10.0\Yuzuha.Manager.Cli.dll
+
+已成功生成。
+    0 个警告
+    0 个错误
+
+已用时间 00:00:01.66
+{"mode":"check","stages":8,"operations":89,"files":5}
+{"stages":8,"operations":21,"mode":"check"}
+{"palettes":6,"mode":"check"}
+Architecture projection matches the approved dependency graph.
+
+> architecture:validate
+> likec4 validate docs/architecture
+
+17:33:40.275 INF likec4·lang layout wasm
+17:33:40.280 INF likec4·lang workspace: F:\OneDrive\Documents\ChatGPT\PmlTwin\docs\architecture
+17:33:40.507 INF likec4·lang workspace: found 2 source files
+17:33:40.676 INF likec4·c4:validate ✓ Valid (2 files)
+17:33:40.676 INF likec4·c4:validate validate 402ms
+
+> architecture:build
+> likec4 build docs/architecture -o artifacts/architecture --base ./ --use-hash-history
+
+17:33:41.858 INF likec4·lang layout wasm
+17:33:41.867 INF likec4·lang workspace: F:\OneDrive\Documents\ChatGPT\PmlTwin\docs\architecture
+17:33:42.096 INF likec4·lang workspace: found 2 source files
+17:33:42.097 INF likec4·c4:build likec4 app root node_modules\likec4\__app__
+17:33:42.097 INF likec4·c4:build outDir artifacts\architecture
+17:33:42.097 INF likec4·c4:build app base url ./
+17:33:42.283 INF likec4·c4:build workspace: ✓ all views layouted
+17:33:42.284 INF likec4·vite·webcomponent outDir <TEMP>\.likec4-public-7lXoly
+17:33:42.315 INF likec4·vite·webcomponent vite v8.3.4 building client environment for production...
+transforming...
+17:33:42.343 INF likec4·vite generating likec4:react-default-project
+17:33:42.344 INF likec4·vite generating likec4:app-config
+17:33:42.345 INF likec4·vite generating likec4:react/default
+17:33:42.346 INF likec4·vite generating likec4:model/default
+17:33:42.356 INF likec4·vite generating likec4:icons/default
+✓ 56 modules transformed.
+rendering chunks...
+computing gzip size...
+17:33:42.965 INF likec4·vite·webcomponent C:/Users/HUANGY~1/AppData/Local/Temp/.likec4-public-7lXoly/likec4-views.js  2,708.25 kB │ gzip: 779.16 kB
+
+17:33:42.965 INF likec4·vite·webcomponent ✓ built in 649ms
+17:33:42.972 INF likec4·c4:build vite v8.3.4 building client environment for production...
+transforming...
+17:33:43.064 INF likec4·vite generating likec4:app-config
+17:33:43.065 INF likec4·vite generating likec4:projects
+17:33:43.065 INF likec4·vite generating likec4:icons
+17:33:43.066 INF likec4·vite generating likec4:rpc
+17:33:43.066 INF likec4·vite generating likec4:d2
+17:33:43.067 INF likec4·vite generating likec4:puml
+17:33:43.067 INF likec4·vite generating likec4:mmd
+17:33:43.067 INF likec4·vite generating likec4:dot
+17:33:43.067 INF likec4·vite generating likec4:model
+17:33:43.067 INF likec4·vite generating likec4:drawio
+17:33:43.069 INF likec4·vite generating likec4:icons/default
+17:33:43.070 INF likec4·vite generating likec4:d2/default
+17:33:43.075 INF likec4·vite generating likec4:puml/default
+17:33:43.078 INF likec4·vite generating likec4:mmd/default
+17:33:43.080 INF likec4·vite generating likec4:dot/default
+17:33:43.115 INF likec4·vite generating likec4:model/default
+17:33:43.122 INF likec4·vite generating likec4:drawio/default
+✓ 90 modules transformed.
+rendering chunks...
+computing gzip size...
+17:33:43.557 INF likec4·c4:build artifacts/architecture/assets/favicon-CeB0sGK2.svg              0.59 kB │ gzip:   0.31 kB
+artifacts/architecture/index.html                               0.82 kB │ gzip:   0.42 kB
+artifacts/architecture/assets/fonts-sNclyEVF.css              218.20 kB │ gzip: 163.93 kB
+artifacts/architecture/assets/style-XRhYWeC8.css              434.48 kB │ gzip:  69.95 kB
+artifacts/architecture/assets/drawio-D7bKbyC4.js                0.35 kB │ gzip:   0.27 kB
+artifacts/architecture/assets/index-DPmA0r-U.js                 0.75 kB │ gzip:   0.42 kB
+artifacts/architecture/assets/ProjectsOverview-DHH0xvsb.js     11.76 kB │ gzip:   4.84 kB
+artifacts/architecture/assets/es-71UuVJ_1.js                   12.18 kB │ gzip:   4.88 kB
+artifacts/architecture/assets/d2-DRkIpNx0.js                   14.10 kB │ gzip:   3.04 kB
+artifacts/architecture/assets/mmd-Cnk7e70X.js                  16.92 kB │ gzip:   3.41 kB
+artifacts/architecture/assets/drawio-CJGuqY9q.js               29.99 kB │ gzip:  21.49 kB
+artifacts/architecture/assets/puml-bAIANSV_.js                 32.33 kB │ gzip:   4.17 kB
+artifacts/architecture/assets/AIChat-C7rcpgWH.js               68.96 kB │ gzip:  20.96 kB
+artifacts/architecture/assets/model-BJ0zh6oc.js                86.08 kB │ gzip:  16.49 kB
+artifacts/architecture/assets/dot-EOnfjeS_.js                 199.28 kB │ gzip:  28.51 kB
+artifacts/architecture/assets/internal-DHDn_pvm.js            484.70 kB │ gzip: 158.93 kB
+artifacts/architecture/assets/hooks-D7mLUp3u.js               722.52 kB │ gzip: 217.08 kB
+artifacts/architecture/assets/main-CiBKA9op.js              1,237.07 kB │ gzip: 393.44 kB
+
+17:33:43.558 INF likec4·c4:build ✓ built in 585ms
+{"projects":26,"typeDeclarations":582,"missingComments":0,"syntaxErrors":0}
+Indexed 436 xUnit method declarations (Theory rows counted at runtime).
+  正在确定要还原的项目…
+  所有项目均是最新的，无法还原。
+  YuzuhaToolkit.Builtins -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Builtins\bin\Release\net10.0\YuzuhaToolkit.Builtins.dll
+  YuzuhaToolkit.Workspace -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Workspace\bin\Release\net10.0\YuzuhaToolkit.Workspace.dll
+  PmlTwin.Phayton -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\PmlTwin.Phayton\bin\Release\net10.0\PmlTwin.Phayton.dll
+  YuzuhaToolkit.Communication.Contracts -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Communication.Contracts\bin\Release\net10.0\YuzuhaToolkit.Communication.Contracts.dll
+  YuzuhaToolkit.Knowledge.Core -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Knowledge.Core\bin\Release\net10.0\YuzuhaToolkit.Knowledge.Core.dll
+  YuzuhaToolkit.Plugins.Contracts -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Plugins.Contracts\bin\Release\net10.0\YuzuhaToolkit.Plugins.Contracts.dll
+  PlantHost.Rpc.Net10 -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\PlantHost.Rpc.Net10\bin\Release\net10.0\PlantHost.Rpc.Net10.dll
+  YuzuhaToolkit.Manager.Core -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Manager.Core\bin\Release\net10.0\YuzuhaToolkit.Manager.Core.dll
+  YuzuhaToolkit.Mcp.Core -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Mcp.Core\bin\Release\net10.0\YuzuhaToolkit.Mcp.Core.dll
+  YuzuhaToolkit.Desktop -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Desktop\bin\Release\net10.0-windows\YuzuhaToolkit.Desktop.dll
+
+已成功生成。
+    0 个警告
+    0 个错误
+
+已用时间 00:00:03.16
+UI static trace: 361 XAML entries, 64529 relationships, 805 explicit boundaries.
+Loading project F:/OneDrive/Documents/ChatGPT/PmlTwin/src/PmlTwin.Database.Contracts/PmlTwin.Database.Contracts.csproj
+  正在确定要还原的项目…
+  所有项目均是最新的，无法还原。
+Processing PmlTwin.Database.Contracts
+Creating output...
+Loading project F:/OneDrive/Documents/ChatGPT/PmlTwin/src/PmlTwin.Database/PmlTwin.Database.csproj
+  正在确定要还原的项目…
+  所有项目均是最新的，无法还原。
+Processing PmlTwin.Database
+Creating output...
+Loading project F:/OneDrive/Documents/ChatGPT/PmlTwin/src/YuzuhaToolkit.Manager.Core/YuzuhaToolkit.Manager.Core.csproj
+  正在确定要还原的项目…
+  所有项目均是最新的，无法还原。
+Processing YuzuhaToolkit.Manager.Core
+Creating output...
+Loading project F:/OneDrive/Documents/ChatGPT/PmlTwin/src/YuzuhaToolkit.Workspace/YuzuhaToolkit.Workspace.csproj
+  正在确定要还原的项目…
+  所有项目均是最新的，无法还原。
+Processing YuzuhaToolkit.Workspace
+Creating output...
+Loading project F:/OneDrive/Documents/ChatGPT/PmlTwin/src/YuzuhaToolkit.CommandLine/YuzuhaToolkit.CommandLine.csproj
+  正在确定要还原的项目…
+  所有项目均是最新的，无法还原。
+Processing YuzuhaToolkit.CommandLine
+Creating output...
+Loading project F:/OneDrive/Documents/ChatGPT/PmlTwin/src/PlantHost.Rpc.Net10/PlantHost.Rpc.Net10.csproj
+  正在确定要还原的项目…
+  所有项目均是最新的，无法还原。
+Processing PlantHost.Rpc.Net10
+Creating output...
+Loading project F:/OneDrive/Documents/ChatGPT/PmlTwin/src/YuzuhaToolkit.Mcp.Core/YuzuhaToolkit.Mcp.Core.csproj
+  正在确定要还原的项目…
+  所有项目均是最新的，无法还原。
+Processing YuzuhaToolkit.Mcp.Core
+Creating output...
+Loading project F:/OneDrive/Documents/ChatGPT/PmlTwin/src/YuzuhaToolkit.Knowledge.Core/YuzuhaToolkit.Knowledge.Core.csproj
+  正在确定要还原的项目…
+  所有项目均是最新的，无法还原。
+Processing YuzuhaToolkit.Knowledge.Core
+Creating output...
+Loading project F:/OneDrive/Documents/ChatGPT/PmlTwin/src/YuzuhaToolkit.DevHost/YuzuhaToolkit.DevHost.csproj
+  正在确定要还原的项目…
+  所有项目均是最新的，无法还原。
+Processing YuzuhaToolkit.DevHost
+Creating output...
+Loading project F:/OneDrive/Documents/ChatGPT/PmlTwin/src/YuzuhaToolkit.WebApps/YuzuhaToolkit.WebApps.csproj
+  正在确定要还原的项目…
+  所有项目均是最新的，无法还原。
+Processing YuzuhaToolkit.WebApps
+Creating output...
+
+
+Build succeeded.
+
+    0 warning(s)
+    0 error(s)
+
+{"documentation":{"projects":26,"modules":17,"types":554,"interfaces":21,"implementationEdges":19},"guides":43,"pmlFiles":39,"missingComments":0,"repositoryLinkGaps":0}
+{"status":"Passed","requirements":24,"bindings":28,"tests":15,"selectedNodes":201,"selectedEdges":454,"byteReduction":0.6540282331871634}
+TAP version 13
+# Subtest: compact metadata preserves every value
+ok 1 - compact metadata preserves every value
+  ---
+  duration_ms: 2.2797
+  type: 'test'
+  ...
+# Subtest: invalid dictionary and shape references are rejected
+ok 2 - invalid dictionary and shape references are rejected
+  ---
+  duration_ms: 0.9812
+  type: 'test'
+  ...
+# Subtest: specification ids operations and fallback states remain closed
+ok 3 - specification ids operations and fallback states remain closed
+  ---
+  duration_ms: 2.3362
+  type: 'test'
+  ...
+# Subtest: FigCraft contains editable states and executable conditional interactions
+ok 4 - FigCraft contains editable states and executable conditional interactions
+  ---
+  duration_ms: 102.4366
+  type: 'test'
+  ...
+# Subtest: task routes include conflict restore denial and unknown outcomes
+ok 5 - task routes include conflict restore denial and unknown outcomes
+  ---
+  duration_ms: 0.1917
+  type: 'test'
+  ...
+# Subtest: Roslyn binding refuses missing declarations and stale source evidence
+ok 6 - Roslyn binding refuses missing declarations and stale source evidence
+  ---
+  duration_ms: 246.6495
+  type: 'test'
+  ...
+# Subtest: published compact handoff meets the budget and matches fresh Roslyn projection
+ok 7 - published compact handoff meets the budget and matches fresh Roslyn projection
+  ---
+  duration_ms: 305.709
+  type: 'test'
+  ...
+# Subtest: downloaded codec decodes the exact published payload
+ok 8 - downloaded codec decodes the exact published payload
+  ---
+  duration_ms: 3.4087
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 843.0347
+Saved: artifacts\handoff-validation\2026-11-01T17-35-33-078Z-70b69625\result.json
+Searching built-in plugins in directory C:\Users\huang y t\.nuget\packages\docfx\2.81.0\tools\net10.0\any\...
+Post processor ExtractSearchIndex loaded.
+7 plug-in(s) loaded.
+ExtractSearchIndex: UseMetadata = False, UseMetadataTitle = True
+Building 66 file(s) in ResourceDocumentProcessor(ValidateResourceMetadata)...
+Building 14 file(s) in TocDocumentProcessor(BuildTocDocument)...
+Building 4250 file(s) in ConceptualDocumentProcessor(BuildConceptualDocument=>ValidateConceptualDocumentMetadata)...
+Building 345 file(s) in ManagedReferenceDocumentProcessor(BuildManagedReferenceDocument=>SplitClassPageToMemberLevel=>ValidateManagedReferenceDocumentMetadata=>ApplyOverwriteDocumentForMref=>FillReferenceInformation=>FillMetadata)...
+Applying templates to 4675 model(s)...
+XRef map exported.
+Extracting index data from 4595 html files
+
+
+Build succeeded.
+
+    0 warning(s)
+    0 error(s)
+
+{"htmlPages":4611,"checkedLocalLinks":125595,"projects":26,"modules":17,"types":554,"errors":[],"retiredContentAbsent":true,"tests":459,"catalog":{"features":13,"scripts":62,"candidates":199},"uiTrace":{"entries":361,"unresolved":146,"sampleEdges":11,"pages":27,"containers":5,"shared":5,"sourceMembers":2697},"passed":true}
+Documentation: artifacts/docfx/site/index.html

@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "observedAt": "2026-11-02",
-  "recordedAtUtc": "2026-11-01T16:49:27.295Z",
+  "recordedAtUtc": "2026-11-01T17:38:13.288Z",
   "sourceBaseline": "e01ea16444956a4dcd78c1d1478d7ee212f5c92a",
   "dirtySourceCapture": true,
-  "status": "source-and-isolated-checks-passed-final-docs-package-ci-pending",
+  "status": "offline-validation-complete-package-and-private-preview-recorded-externally",
   "scope": "追加作品集视觉层级、完整partial源码定位及显式Skill接管。真实WPF已打开；本记录未执行产品安装、当前Codex Skill写入或生产EVARS变更。",
   "visualRules": {
     "primary": "功能、当前目标、结果与错误",
@@ -15,17 +15,18 @@
   "checks": {
     "development": {
       "status": "passed",
-      "xunitPassed": 576,
+      "xunitPassed": 577,
       "xunitFailed": 0,
       "xunitSkipped": 2,
       "skipReason": "可选7zr工具未选定",
       "documentationNodePassed": 55,
       "scenarioFormats": 2,
-      "scenarioStepsEach": 15
+      "scenarioStepsEach": 15,
+      "followup": "Final full .NET regression after worker-boundary fix; documentation Node/scenario checks above retain their earlier independent execution."
     },
     "wpf": {
       "status": "passed",
-      "relatedTests": 23,
+      "relatedTests": 24,
       "newScreenshots": 31,
       "legacyScreenshots": 118,
       "bindingErrors": 0,
@@ -34,7 +35,11 @@
       "metadataFontSize": 11,
       "palettesWithReadableSupportingText": 8,
       "reviewBuildSha256": "eaca0dfebb704cef7a83930826704d9920e7c572221e6246b7ccda7c3212eba6",
-      "scope": "实际独立发布程序；合成界面回执，非AVEVA实机或人工认可"
+      "scope": "实际独立发布程序；合成界面回执，非AVEVA实机或人工认可",
+      "validatedBuildSha256": "693f94badb03962efdc2e0d1d63bd97ce56d714dafc6b0a114e440ac2ea088e5",
+      "dispatcherResponsive": true,
+      "closeRetainedWhileBusy": true,
+      "finalPublishedScope": "5d892b8 exact final package input; 31/118 native isolated captures. Prior reviewBuildSha256 identifies the separately opened earlier visible preview."
     },
     "visibleWpf": {
       "opened": true,
@@ -178,7 +183,38 @@
       "scope": "静态源码/编译语义导航，不计执行覆盖率"
     },
     "docfx": {
-      "status": "pending-final-build"
+      "status": "passed",
+      "htmlPages": 4611,
+      "checkedLocalLinks": 125595,
+      "projects": 26,
+      "modules": 17,
+      "types": 554,
+      "errors": [],
+      "retiredContentAbsent": true,
+      "tests": 459,
+      "catalog": {
+        "features": 13,
+        "scripts": 62,
+        "candidates": 199
+      },
+      "uiTrace": {
+        "entries": 361,
+        "unresolved": 146,
+        "sampleEdges": 11,
+        "pages": 27,
+        "containers": 5,
+        "shared": 5,
+        "sourceMembers": 2697
+      },
+      "warningCount": 0,
+      "errorCount": 0,
+      "scope": "Full committed-source build at 5d892b8 including compiler trace; final receipt-only documentation refresh and package hashes are recorded outside the payload.",
+      "sourceCommit": "5d892b8a26f113ce466d31128c1485b6381f991e",
+      "traceCaptureDirty": false,
+      "omittedProjects": [
+        "YuzuhaToolkit.PmlHost.Net35 : no local AVEVA SDK configured; not analyzed",
+        "YuzuhaToolkit.PmlHost.Net48 : no local AVEVA SDK configured; not analyzed"
+      ]
     },
     "contractNode": {
       "status": "passed",
@@ -282,6 +318,52 @@
       "localSource": "artifacts/ion-visual-hierarchy/results.json",
       "localSourceSha256": "0c91def414874a215fd0e3afda073e301a060c55068944a13ba3f217f5a1bd27",
       "projection": "UTF-8/LF; temporary-user path prefix redacted; outcomes unchanged"
+    },
+    {
+      "path": "docs/validation/visual-priority-skill-adoption-2026-11-02.evidence/final-dotnet.log",
+      "sha256": "5d0a048645e8c430a6fc9f5bc208b40e3e34a6ee2306d2862867f40cea1716e1",
+      "localSource": "artifacts/visual-priority-dotnet-final.log",
+      "localSourceSha256": "4f4a4f05768e2b46673e40e9d000d91ba81f6549c639bec96715eb287037761f",
+      "projection": "UTF-8/LF; temporary-user path prefix redacted; outcomes unchanged"
+    },
+    {
+      "path": "docs/validation/visual-priority-skill-adoption-2026-11-02.evidence/preparation-model.log",
+      "sha256": "05983a3358784ef9c0e91cf73daf7e509c9f10fcd083968bcab0584052b78198",
+      "localSource": "artifacts/preparation-model-tests.log",
+      "localSourceSha256": "ea0dd70fa951a1fb519aecdbbea4d1d86ef86c8913a71c81fa9173f322c599ab",
+      "projection": "UTF-8/LF; temporary-user path prefix redacted; outcomes unchanged"
+    },
+    {
+      "path": "docs/validation/visual-priority-skill-adoption-2026-11-02.evidence/final-native-preparation.json",
+      "sha256": "0857f9355fa972465ccbb6995d18ef637b3a7af734ddd5887b3631a1eb3d112a",
+      "localSource": "artifacts/final-desktop-native/preparation-smoke.json",
+      "localSourceSha256": "3b4eac4a9ec695def4cae7df7ca4cb49d9d5d409200b0b1db7e91d728f85389f",
+      "projection": "UTF-8/LF; temporary-user path prefix redacted; outcomes unchanged"
+    },
+    {
+      "path": "docs/validation/visual-priority-skill-adoption-2026-11-02.evidence/final-legacy-desktop.json",
+      "sha256": "fdacb0dbdb65c45928b0f0b217df9e245098577ef78c8d05d541d7b4b7273688",
+      "localSource": "artifacts/final-desktop-legacy/desktop-smoke.json",
+      "localSourceSha256": "fdacb0dbdb65c45928b0f0b217df9e245098577ef78c8d05d541d7b4b7273688",
+      "projection": "UTF-8/LF; temporary-user path prefix redacted; outcomes unchanged"
+    },
+    {
+      "path": "docs/validation/visual-priority-skill-adoption-2026-11-02.evidence/docfx-source-build.log",
+      "sha256": "10913aa83eec033073b4e4df986cbb111773e59f5e41c7b5cb2df9dea0cca701",
+      "localSource": "artifacts/visual-priority-docfx-final.log",
+      "localSourceSha256": "6d47ce7c4fde7e787897baf46595afb2400d31b88d80ec95b1b740cb5c60bf4e",
+      "projection": "UTF-8/LF; temporary-user path prefix redacted; outcomes unchanged"
     }
-  ]
+  ],
+  "validatedImplementationCommit": "5d892b8a26f113ce466d31128c1485b6381f991e",
+  "responsivenessFollowup": {
+    "sourceCommit": "5d892b8a26f113ce466d31128c1485b6381f991e",
+    "sameExecutor": true,
+    "businessCancellationTokenPreserved": true,
+    "dispatcherResponsive": true,
+    "closeRetainedWhileBusy": true,
+    "waitingDoesNotClaimPreviousSuccess": true,
+    "noAutomaticCancelOrReplay": true,
+    "independentReview": "No additional P1/P2 or blocker found; read-only review."
+  }
 }

@@ -1,7 +1,7 @@
 {
   "schema": "contract-atlas-render/1",
   "schemaVersion": 1,
-  "metadataDigest": "7aad65b03e21bab503aaefa35bc017ea3552bcced59b2a7a81a63e32b90d57bc",
+  "metadataDigest": "4722b7300360a192c992baba3f3df0643c59bf6423ef6733d89aac1a54c6d354",
   "audience": "public",
   "snapshotDate": "2026-11-01",
   "project": {
@@ -23955,7 +23955,7 @@
     {
       "id": "source:openspec-tasks",
       "title": "平台候选tasks",
-      "sha256": "db9becb97a1147607d7b123b71a05f45db776c19f1fbc5f111a0710593a0be3e",
+      "sha256": "664b9b675fbcdc92145b7fbc26d31653a46b26ca25364a36cb1d6218ed859632",
       "authority": "proposal",
       "audience": "public"
     },

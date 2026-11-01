@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "observedAt": "2026-11-02",
-  "recordedAtUtc": "2026-11-01T18:07:00.079Z",
+  "recordedAtUtc": "2026-11-01T23:54:46.549Z",
   "scope": "Public package and OpenSpec completion audit, outside the immutable payload. Real current-machine requests, originals, conflict file hashes and private paths are excluded.",
-  "status": "implementation-design-docs-package-verified-real-upgrade-preview-blocked",
+  "status": "implementation-design-docs-package-verified-real-upgrade-preview-ready-awaiting-approval",
   "source": {
     "componentCodeCommit": "5d892b8a26f113ce466d31128c1485b6381f991e",
     "documentationSnapshotCommit": "4477472178d4246192747822234a90ed28579e5d",
@@ -106,27 +106,52 @@
     "boundary": "Exact validated implementation/documentation snapshot; later OpenSpec-only audit has its own PR checks."
   },
   "currentMachinePreview": {
-    "status": "blocked",
-    "exitCode": 1,
-    "planGenerated": false,
-    "markdownPlanGenerated": false,
-    "planHash": null,
+    "status": "ready-awaiting-specific-installation-approval",
+    "exitCode": 0,
+    "planGenerated": true,
+    "markdownPlanGenerated": true,
+    "planDigestAndShaFileMatch": true,
+    "planHashPublished": false,
+    "privatePlanLocation": "Local C SetupReview only; full plan, originals, exact account paths and approval digest are excluded from this public audit.",
     "requestedIntegrationMode": "manager",
     "requestedEnvironmentTargets": 0,
     "requestedSkillUpdate": "current Codex",
     "requestedAdoptSkill": true,
     "mcpChangesRequested": false,
-    "reason": "Installer refuses untracked local files that differ from the new payload.",
-    "untrackedCollisions": 7,
-    "ownedAfterDrift": 0,
-    "currentConflictBytes": 57519,
-    "conflictDirectory": "runtime/documentation/reference/ui-trace/",
-    "conflictType": "HTML",
-    "productionTargetsUnchanged": true,
+    "payloadActions": {
+      "update": 2634,
+      "unchanged": 970,
+      "create": 3417
+    },
+    "changesByKind": {
+      "pml-index": 1,
+      "skill": 14
+    },
+    "changesByAction": {
+      "unchanged": 13,
+      "update": 2
+    },
+    "skillActions": {
+      "unchanged": 12,
+      "update": 2
+    },
+    "skillOwnershipActions": {
+      "adopt": 14
+    },
+    "changedSkillRelativePaths": [
+      "references/lifecycle.md",
+      "references/lifecycle.zh-CN.md"
+    ],
+    "pmlIndexAction": "unchanged",
     "existingOwnedEnvironmentCount": 1,
     "existingOwnershipTransferred": false,
-    "scope": "Refusal is a real machine result, not a successful installation preview or Skill adoption. Complete conflict inventory and preservation decisions remain private to the local machine.",
-    "otherPayloadScanBlockers": 0
+    "currentSkillWritten": false,
+    "productionEnvironmentWrites": 0,
+    "setupExecuted": false,
+    "readOnlyFrozenMetadataAndHashChecksPassed": true,
+    "installerVerifyPlanExecuted": false,
+    "installerVerifyPlanDeferredUntilSpecificSetupApproval": true,
+    "scope": "New helper plan generated after the explicitly approved archive; previous refusal preserved above. Read-only frozen metadata/hash checks do not mean installation, installer pre-write verification, or live AVEVA acceptance."
   },
   "warnings": [
     "Warning: The [Setup] section directive \"PrivilegesRequired\" is set to \"admin\" but per-user areas (localappdata) are used by the script. Regardless of the version of Windows, if the installation is running in administrative install mode then you should be careful about making any per-user area changes: such changes may not achieve what you are intending. See the \"UsedUserAreasWarning\" topic in help file for more information."
@@ -139,10 +164,61 @@
     "Live AVEVA/Host/business acceptance"
   ],
   "remaining": [
-    "User decision about preserving the seven untracked local documentation pages before creating a fresh install preview.",
-    "Actual installation and current Codex Skill adoption require a generated concrete plan and approval.",
-    "Legacy environment ownership transfer and production EVARS application/restoration require their own explicit Manager previews.",
+    "User approval of the exact newly generated private installation plan before Setup and current Codex Skill adoption.",
+    "Installer pre-write verification is deferred until approved Setup execution; changed inputs require a fresh preview.",
+    "Legacy environment ownership transfer and production EVARS application/restoration require separate explicit Manager previews.",
     "Live AVEVA acceptance and user visual approval remain separate.",
     "Original 27 platform business tasks are not bulk-completed; strict local OpenSpec CLI validation was unavailable."
-  ]
+  ],
+  "firstRecordedAtUtc": "2026-11-01T18:07:00.079Z",
+  "previewHistory": [
+    {
+      "recordedAtUtc": "2026-11-01T18:07:00.079Z",
+      "status": "blocked",
+      "exitCode": 1,
+      "planGenerated": false,
+      "markdownPlanGenerated": false,
+      "planHash": null,
+      "requestedIntegrationMode": "manager",
+      "requestedEnvironmentTargets": 0,
+      "requestedSkillUpdate": "current Codex",
+      "requestedAdoptSkill": true,
+      "mcpChangesRequested": false,
+      "reason": "Installer refuses untracked local files that differ from the new payload.",
+      "untrackedCollisions": 7,
+      "ownedAfterDrift": 0,
+      "currentConflictBytes": 57519,
+      "conflictDirectory": "runtime/documentation/reference/ui-trace/",
+      "conflictType": "HTML",
+      "productionTargetsUnchanged": true,
+      "existingOwnedEnvironmentCount": 1,
+      "existingOwnershipTransferred": false,
+      "scope": "Refusal is a real machine result, not a successful installation preview or Skill adoption. Complete conflict inventory and preservation decisions remain private to the local machine.",
+      "otherPayloadScanBlockers": 0
+    }
+  ],
+  "approvedArchive": {
+    "userApproved": true,
+    "approvalScope": "Only archive the seven untracked HTML pages and create a fresh upgrade preview; no installation approval.",
+    "files": 7,
+    "bytes": 57519,
+    "sourceAndArchivedHashesMatch": true,
+    "preservedCopiesUnchanged": true,
+    "markerManifestEnvironmentAndSkillUnchanged": true,
+    "oldPagesTemporarilyAbsent": 7,
+    "privateExecutionReceiptSha256": "a1f50224446e00f1d726ac1f3e629a12003e8f8f5a2103adcb79223a8f70dca4",
+    "sourceFollowupSha256": "4bacd123b4374d7c1899e2063d2183fad3365728e244cee813408330369af22c",
+    "privateOriginalsPublished": false
+  },
+  "validatedPriorAuditCi": {
+    "commit": "df6a69aee8db1e892b68c03d9efb8056ebcdec8f",
+    "allThreeWorkflows": "success",
+    "allSixChecks": "success",
+    "runs": [
+      "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/actions/runs/41335081352",
+      "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/actions/runs/41335081375",
+      "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/actions/runs/41335081319"
+    ],
+    "boundary": "Prior audit snapshot; the new archive/fresh-preview audit and its derived metadata have separate PR checks."
+  }
 }

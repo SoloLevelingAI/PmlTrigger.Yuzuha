@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-    [Parameter(Mandatory)][ValidateSet('native-cli','native-builtin','rpc-net35','rpc-net48','formrecord-net35','formrecord-net48','documentation-contracts','desktop-flows','workbench-lifecycle')][string]$Runner,
+    [Parameter(Mandatory)][ValidateSet('native-cli','native-builtin','rpc-net35','rpc-net48','formrecord-net35','formrecord-net48','documentation-contracts','desktop-flows','desktop-preparation','workbench-lifecycle')][string]$Runner,
     [Parameter(Mandatory)][string]$ReportDirectory
 )
 $ErrorActionPreference = 'Stop'
@@ -52,6 +52,9 @@ try {
     } elseif ($Runner -eq 'desktop-flows') {
         & "$PSScriptRoot/Test-Desktop.ps1" -OutputDirectory (Join-Path $ReportDirectory 'desktop')
         Check-Exit 'WPF synthetic flows'
+    } elseif ($Runner -eq 'desktop-preparation') {
+        & "$PSScriptRoot/Test-PreparationDesktop.ps1" -OutputDirectory (Join-Path $ReportDirectory 'desktop')
+        Check-Exit 'WPF installation journey and ION palettes'
     } elseif ($Runner -eq 'documentation-contracts') {
         & dotnet build tools/Documentation -c Release
         Check-Exit 'Inventory build'

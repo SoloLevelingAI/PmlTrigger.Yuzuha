@@ -23,7 +23,7 @@
     "contracts:serve": "node scripts/serve-contract-atlas.mjs",
     "contracts:watch": "node scripts/serve-contract-atlas.mjs --watch --edit",
     "contracts:design": "node scripts/build-contract-atlas-design.mjs",
-    "contracts:test": "node --test tests/contract-atlas-metadata.test.mjs tests/contract-atlas-authoring.test.mjs tests/contract-atlas-render-model.test.mjs tests/contract-atlas-pipeline.test.mjs tests/contract-atlas-design.test.mjs tests/contract-atlas-design-tokens.test.mjs tests/contract-atlas-methods.test.mjs tests/contract-atlas-bindings.test.mjs tests/contract-atlas-disclosure.test.mjs tests/contract-evidence.test.mjs tests/contract-style-methods.test.mjs tests/contract-browser-helper.test.mjs",
+    "contracts:test": "node --test tests/contract-atlas-metadata.test.mjs tests/contract-atlas-authoring.test.mjs tests/contract-atlas-render-model.test.mjs tests/contract-atlas-pipeline.test.mjs tests/contract-atlas-design.test.mjs tests/contract-atlas-design-tokens.test.mjs tests/contract-atlas-methods.test.mjs tests/contract-atlas-bindings.test.mjs tests/contract-atlas-disclosure.test.mjs tests/contract-evidence.test.mjs tests/contract-style-methods.test.mjs tests/contract-browser-helper.test.mjs tests/manager-contract-export.test.mjs tests/ion-wpf-themes.test.mjs",
     "contracts:ci:browser": "node scripts/test-contract-browsers.mjs",
     "contracts:browsers:install": "playwright install chromium",
     "contracts:browser": "node tests/contract-atlas-browser.mjs",
@@ -46,11 +46,16 @@
     "contracts:document:live": "node tests/contract-atlas-document-live-browser.mjs",
     "contracts:methods:capture": "pwsh -NoProfile -File scripts/Capture-ContractMethods.ps1",
     "contracts:methods:browser": "node tests/contract-atlas-method-browser.mjs",
-    "contracts:methods:live": "node tests/contract-atlas-method-live-browser.mjs"
+    "contracts:methods:live": "node tests/contract-atlas-method-live-browser.mjs",
+    "manager:contracts:build": "node scripts/export-manager-contracts.mjs && node scripts/build-install-journey-docs.mjs",
+    "manager:contracts:check": "node scripts/export-manager-contracts.mjs --check && node scripts/build-install-journey-docs.mjs --check",
+    "manager:themes:check": "node scripts/build-ion-wpf-themes.mjs --check",
+    "manager:types:check": "tsc --strict --noEmit --target es2022 --module nodenext --moduleResolution nodenext tests/manager-client.types.ts"
   },
   "devDependencies": {
     "likec4": "1.60.0",
     "playwright": "1.64.1",
+    "typescript": "5.7.2",
     "yaml": "2.8.3"
   }
 }

@@ -1,0 +1,2925 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "PMLTWIN manager contract metadata (read only)",
+    "version": "1",
+    "description": "Only these GET catalog routes are HTTP APIs. Listed manager operations execute through the explicit CLI; no mutation HTTP endpoint is promised."
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:5276"
+    }
+  ],
+  "paths": {
+    "/api/manager/contracts": {
+      "get": {
+        "operationId": "GetManagerContracts",
+        "description": "Complete seven-field journey and actual registry.",
+        "responses": {
+          "200": {
+            "description": "Read-only metadata; OperationResult.data for CLI invocation remains unknown JSON.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ManagerContractExport"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/manager/operations": {
+      "get": {
+        "operationId": "GetManagerOperations",
+        "description": "Actual input schemas and explicit grant requirements.",
+        "responses": {
+          "200": {
+            "description": "Read-only metadata; OperationResult.data for CLI invocation remains unknown JSON.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OperationDescriptor"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/manager/operations/{id}": {
+      "get": {
+        "operationId": "GetManagerOperation",
+        "description": "One actual registered operation; unknown IDs return 404.",
+        "responses": {
+          "200": {
+            "description": "Read-only metadata; OperationResult.data for CLI invocation remains unknown JSON.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperationDescriptor"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Unknown operation."
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "connection.capabilities",
+                "connection.select",
+                "connection.sessions",
+                "connection.status",
+                "connection.test",
+                "copy.apply",
+                "copy.formats",
+                "copy.preview",
+                "copy.restore",
+                "data.migration.apply",
+                "data.migration.preview",
+                "deployment.apply",
+                "deployment.preview",
+                "deployment.restore",
+                "environment.discover",
+                "environment.resolve",
+                "evars.apply",
+                "evars.preview",
+                "evars.restore",
+                "feature.list",
+                "installation.discover",
+                "installation.projects",
+                "knowledge.import.apply",
+                "knowledge.import.preview",
+                "knowledge.inspect",
+                "knowledge.libraries.list",
+                "knowledge.library.chunk",
+                "knowledge.library.search",
+                "launch.execute",
+                "launch.modules.list",
+                "launch.observe",
+                "launch.plan",
+                "launch.profile.default",
+                "launch.profile.delete",
+                "launch.profile.duplicate",
+                "launch.profile.favorite",
+                "launch.profile.history",
+                "launch.profile.list",
+                "launch.profile.preview",
+                "launch.profile.read",
+                "launch.profile.restore",
+                "launch.profile.restore.preview",
+                "launch.profile.save",
+                "launch.profile.start",
+                "launch.profile.update",
+                "launch.profile.validate",
+                "launch.workspace.read",
+                "launchdesk.import.apply",
+                "launchdesk.import.preview",
+                "launchdesk.import.read",
+                "manager.contracts",
+                "manager.status",
+                "migration.preview",
+                "plugin.describe",
+                "plugin.enable",
+                "plugin.install.apply",
+                "plugin.install.preview",
+                "plugin.invoke",
+                "plugin.list",
+                "plugin.unregister",
+                "pml.function.invoke",
+                "pml.function.permission",
+                "pml.function.register",
+                "pml.functions.list",
+                "ribbon.deployment.file-apply",
+                "ribbon.deployment.file-preview",
+                "ribbon.deployment.modules",
+                "ribbon.deployment.registration-apply",
+                "ribbon.deployment.registration-preview",
+                "ribbon.management.adopt",
+                "ribbon.management.list",
+                "ribbon.management.toggle",
+                "ribbon.projects.normalize",
+                "ribbon.projects.validate",
+                "ribbon.uic.export",
+                "ribbon.uic.import",
+                "ribbon.v2.deployment.file-apply",
+                "ribbon.v2.deployment.file-preview",
+                "ribbon.v2.deployment.registration-apply",
+                "ribbon.v2.deployment.registration-preview",
+                "ribbon.workspace.context",
+                "ribbon.workspace.open",
+                "ribbon.workspace.original",
+                "ribbon.workspace.restore",
+                "ribbon.workspace.save",
+                "ribbon.workspace.versions",
+                "setup.handoff.inspect",
+                "setup.legacy.preview",
+                "setup.legacy.transfer"
+              ]
+            }
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ManagerContractScript": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "typeName": {
+            "type": "string"
+          },
+          "member": {
+            "type": "string"
+          },
+          "explanation": {
+            "type": "string"
+          },
+          "docFxPath": {
+            "type": "string"
+          },
+          "docFxUid": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "path",
+          "typeName",
+          "member",
+          "explanation",
+          "docFxPath",
+          "docFxUid"
+        ]
+      },
+      "ManagerContractStage": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "input": {
+            "type": "string"
+          },
+          "precondition": {
+            "type": "string"
+          },
+          "method": {
+            "type": "string"
+          },
+          "effect": {
+            "type": "string"
+          },
+          "validation": {
+            "type": "string"
+          },
+          "receipt": {
+            "type": "string"
+          },
+          "recovery": {
+            "type": "string"
+          },
+          "evidenceBoundary": {
+            "type": "string"
+          },
+          "operationIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "scripts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ManagerContractScript"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "input",
+          "precondition",
+          "method",
+          "effect",
+          "validation",
+          "receipt",
+          "recovery",
+          "evidenceBoundary",
+          "operationIds",
+          "scripts"
+        ]
+      },
+      "ManagerJourneyContract": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "schema": {
+            "type": "string",
+            "const": "pmltwin.manager-journey/1"
+          },
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "stages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ManagerContractStage"
+            }
+          }
+        },
+        "required": [
+          "schema",
+          "id",
+          "title",
+          "summary",
+          "stages"
+        ]
+      },
+      "OperationDescriptor": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "contractVersion": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "description": {
+            "type": "string"
+          },
+          "inputSchema": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "requiresPid": {
+            "type": "boolean"
+          },
+          "requiresExecution": {
+            "type": "boolean"
+          },
+          "requiresWrite": {
+            "type": "boolean"
+          },
+          "requiresLaunch": {
+            "type": "boolean"
+          },
+          "legacyTools": {
+            "anyOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "contractVersion",
+          "description",
+          "inputSchema",
+          "requiresPid",
+          "requiresExecution",
+          "requiresWrite",
+          "requiresLaunch",
+          "legacyTools"
+        ]
+      },
+      "ManagerContractExport": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "journey": {
+            "$ref": "#/components/schemas/ManagerJourneyContract"
+          },
+          "operations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OperationDescriptor"
+            }
+          },
+          "outputBoundary": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "journey",
+          "operations",
+          "outputBoundary"
+        ]
+      },
+      "OperationResult": {
+        "type": "object",
+        "description": "CLI envelope only. It is not an HTTP invocation route; data is arbitrary JSON and Int64 values must be preserved from raw CLI text.",
+        "properties": {
+          "operationId": {
+            "type": "string"
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "exitCode": {
+            "type": "integer"
+          },
+          "schemaVersion": {
+            "type": "integer"
+          },
+          "data": true,
+          "error": {
+            "anyOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "code": {
+                    "type": "string"
+                  },
+                  "message": {
+                    "type": "string"
+                  },
+                  "mayHaveExecuted": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "code",
+                  "message",
+                  "mayHaveExecuted"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "operationId",
+          "success",
+          "exitCode",
+          "schemaVersion"
+        ]
+      }
+    }
+  },
+  "x-cli-input-schemas": {
+    "connection.capabilities": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": false
+    },
+    "connection.select": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "profile": {
+          "type": "string",
+          "enum": [
+            "AM",
+            "PDMS",
+            "E3D2.1",
+            "E3D3.1.6"
+          ]
+        },
+        "runtimeRoot": {
+          "type": "string",
+          "minLength": 1
+        },
+        "environmentFile": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "connection.sessions": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": false
+    },
+    "connection.status": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "profile": {
+          "type": "string",
+          "enum": [
+            "AM",
+            "PDMS",
+            "E3D2.1",
+            "E3D3.1.6"
+          ]
+        },
+        "runtimeRoot": {
+          "type": "string",
+          "minLength": 1
+        },
+        "environmentFile": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "connection.test": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "profile": {
+          "type": "string",
+          "enum": [
+            "AM",
+            "PDMS",
+            "E3D2.1",
+            "E3D3.1.6"
+          ]
+        },
+        "runtimeRoot": {
+          "type": "string",
+          "minLength": 1
+        },
+        "environmentFile": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "copy.apply": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "planId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "planId",
+        "sha256"
+      ]
+    },
+    "copy.formats": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {},
+      "required": []
+    },
+    "copy.preview": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "type": "string",
+          "minLength": 1
+        },
+        "registeredRoot": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sevenZipTool": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "source",
+        "registeredRoot",
+        "name"
+      ]
+    },
+    "copy.restore": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "planId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "planId",
+        "sha256"
+      ]
+    },
+    "data.migration.apply": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "planId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "planId",
+        "sha256"
+      ]
+    },
+    "data.migration.preview": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "root": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "root"
+      ]
+    },
+    "deployment.apply": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "planId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "planId",
+        "sha256"
+      ]
+    },
+    "deployment.preview": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "packageRoot": {
+          "type": "string",
+          "minLength": 1
+        },
+        "runtimeRoot": {
+          "type": "string",
+          "minLength": 1
+        },
+        "installationRoot": {
+          "type": "string",
+          "minLength": 1
+        },
+        "product": {
+          "type": "string",
+          "minLength": 1
+        },
+        "profile": {
+          "type": "string",
+          "minLength": 1
+        },
+        "framework": {
+          "type": "string",
+          "minLength": 1
+        },
+        "environmentFile": {
+          "type": "string",
+          "minLength": 1
+        },
+        "installationExecutable": {
+          "type": "string",
+          "minLength": 1
+        },
+        "expectedInstallationId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "mode": {
+          "type": "string",
+          "enum": [
+            "copy",
+            "reference"
+          ]
+        },
+        "codePage": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 65001
+        }
+      },
+      "required": [
+        "packageRoot",
+        "runtimeRoot",
+        "installationRoot",
+        "product",
+        "profile",
+        "framework",
+        "mode"
+      ]
+    },
+    "deployment.restore": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "planId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "planId",
+        "sha256"
+      ]
+    },
+    "environment.discover": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "roots": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 32,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "product": {
+          "type": "string",
+          "enum": [
+            "E3D",
+            "AM",
+            "PDMS"
+          ]
+        },
+        "version": {
+          "type": "string"
+        },
+        "maximumDepth": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 8
+        },
+        "maximumFiles": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 300000
+        },
+        "timeoutSeconds": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 120
+        },
+        "candidateId": {
+          "type": "string"
+        },
+        "preferredExecutable": {
+          "type": "string"
+        },
+        "overrides": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "project": {
+              "type": "string"
+            },
+            "module": {
+              "type": "string"
+            },
+            "user": {
+              "type": "string"
+            },
+            "mdb": {
+              "type": "string"
+            },
+            "workingDirectory": {
+              "type": "string"
+            },
+            "initialization": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "environment.resolve": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "roots": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 32,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "product": {
+          "type": "string",
+          "enum": [
+            "E3D",
+            "AM",
+            "PDMS"
+          ]
+        },
+        "version": {
+          "type": "string"
+        },
+        "maximumDepth": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 8
+        },
+        "maximumFiles": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 300000
+        },
+        "timeoutSeconds": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 120
+        },
+        "candidateId": {
+          "type": "string"
+        },
+        "preferredExecutable": {
+          "type": "string"
+        },
+        "overrides": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "project": {
+              "type": "string"
+            },
+            "module": {
+              "type": "string"
+            },
+            "user": {
+              "type": "string"
+            },
+            "mdb": {
+              "type": "string"
+            },
+            "workingDirectory": {
+              "type": "string"
+            },
+            "initialization": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "evars.apply": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "planId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "planId",
+        "sha256"
+      ]
+    },
+    "evars.preview": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "installationRoot": {
+          "type": "string",
+          "minLength": 1
+        },
+        "packageRoot": {
+          "type": "string",
+          "minLength": 1
+        },
+        "product": {
+          "type": "string",
+          "enum": [
+            "E3D",
+            "AM",
+            "PDMS"
+          ]
+        },
+        "environmentFile": {
+          "type": "string",
+          "minLength": 1
+        },
+        "runtimeRoot": {
+          "type": "string",
+          "minLength": 1
+        },
+        "profile": {
+          "type": "string",
+          "minLength": 1
+        },
+        "framework": {
+          "type": "string",
+          "enum": [
+            "net35",
+            "net48"
+          ]
+        },
+        "codePage": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 65001
+        }
+      },
+      "required": [
+        "installationRoot",
+        "product",
+        "runtimeRoot",
+        "profile",
+        "framework"
+      ]
+    },
+    "evars.restore": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "planId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "planId",
+        "sha256"
+      ]
+    },
+    "feature.list": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": false
+    },
+    "installation.discover": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "roots": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 32,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "maximumDepth": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 8
+        },
+        "maximumFiles": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 300000
+        },
+        "timeoutSeconds": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 120
+        }
+      },
+      "required": [
+        "roots"
+      ]
+    },
+    "installation.projects": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "installationRoot": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "installationRoot"
+      ]
+    },
+    "knowledge.import.apply": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "planId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "planId",
+        "sha256"
+      ]
+    },
+    "knowledge.import.preview": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "product": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "official",
+            "custom"
+          ]
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "database": {
+          "type": "string",
+          "minLength": 1
+        },
+        "manifest": {
+          "type": "string",
+          "minLength": 1
+        },
+        "pmlLib": {
+          "type": "string",
+          "minLength": 1
+        },
+        "pmlUi": {
+          "type": "string",
+          "minLength": 1
+        },
+        "webHelp": {
+          "type": "string",
+          "minLength": 1
+        },
+        "mappings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "recordedRoot": {
+                "type": "string",
+                "minLength": 1
+              },
+              "localRoot": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "recordedRoot",
+              "localRoot"
+            ]
+          }
+        }
+      },
+      "required": [
+        "product",
+        "version",
+        "role",
+        "name"
+      ]
+    },
+    "knowledge.inspect": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "database": {
+          "type": "string",
+          "minLength": 1
+        },
+        "manifest": {
+          "type": "string",
+          "minLength": 1
+        },
+        "mappings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "recordedRoot": {
+                "type": "string",
+                "minLength": 1
+              },
+              "localRoot": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "recordedRoot",
+              "localRoot"
+            ]
+          }
+        }
+      },
+      "required": [
+        "database"
+      ]
+    },
+    "knowledge.libraries.list": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "product": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": []
+    },
+    "knowledge.library.chunk": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "product": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "chunkId": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "product",
+        "version",
+        "name",
+        "chunkId"
+      ]
+    },
+    "knowledge.library.search": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "product": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "query": {
+          "type": "string",
+          "minLength": 1
+        },
+        "topK": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 50
+        },
+        "checkSources": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "product",
+        "version",
+        "name",
+        "query"
+      ]
+    },
+    "launch.execute": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "plan": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "operationId": {
+              "type": "string",
+              "minLength": 1
+            },
+            "profileId": {
+              "type": "string",
+              "minLength": 1
+            },
+            "expectedRevision": {
+              "type": "string",
+              "minLength": 1
+            },
+            "files": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "path": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "sha256": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "path",
+                  "sha256"
+                ]
+              }
+            },
+            "expiresAt": {
+              "type": "string",
+              "minLength": 1
+            },
+            "planDigest": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "operationId",
+            "profileId",
+            "expectedRevision",
+            "files",
+            "expiresAt",
+            "planDigest"
+          ]
+        },
+        "password": {
+          "type": "string"
+        },
+        "requestId": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "plan",
+        "password"
+      ]
+    },
+    "launch.modules.list": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "product": {
+          "type": "string",
+          "minLength": 1
+        },
+        "executable": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "product"
+      ]
+    },
+    "launch.observe": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "operationId": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "operationId"
+      ]
+    },
+    "launch.plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "operationId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "profileId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "expectedRevision": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "operationId",
+        "profileId",
+        "expectedRevision"
+      ]
+    },
+    "launch.profile.default": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "profileId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "expectedRevision": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "profileId",
+        "expectedRevision"
+      ]
+    },
+    "launch.profile.delete": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "profileId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "expectedRevision": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "profileId",
+        "expectedRevision"
+      ]
+    },
+    "launch.profile.duplicate": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "profileId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "expectedRevision": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "profileId",
+        "expectedRevision"
+      ]
+    },
+    "launch.profile.favorite": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "profileId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "expectedRevision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "favorite": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "profileId",
+        "expectedRevision",
+        "favorite"
+      ]
+    },
+    "launch.profile.history": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "profileId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 500
+        }
+      },
+      "required": []
+    },
+    "launch.profile.list": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "query": {
+          "type": "string"
+        },
+        "product": {
+          "type": "string"
+        },
+        "scope": {
+          "type": "string",
+          "enum": [
+            "all",
+            "favorites",
+            "recent"
+          ]
+        }
+      },
+      "required": []
+    },
+    "launch.profile.preview": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "profile": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "kind": {
+              "type": "string"
+            },
+            "executable": {
+              "type": "string"
+            },
+            "initialization": {
+              "type": "string"
+            },
+            "product": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            },
+            "workingDirectory": {
+              "type": "string"
+            },
+            "project": {
+              "type": "string"
+            },
+            "user": {
+              "type": "string"
+            },
+            "mdb": {
+              "type": "string"
+            },
+            "module": {
+              "type": "string"
+            },
+            "license": {
+              "type": "string"
+            },
+            "credentialKey": {
+              "type": "string"
+            },
+            "rememberPassword": {
+              "type": "boolean"
+            },
+            "isFavorite": {
+              "type": "boolean"
+            },
+            "isDefault": {
+              "type": "boolean"
+            },
+            "environment": {
+              "type": "object",
+              "properties": {},
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "licensePrecheck": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "mode": {
+                  "type": "string",
+                  "enum": [
+                    "off",
+                    "required"
+                  ]
+                },
+                "host": {
+                  "type": "string"
+                },
+                "rmsPort": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 65535
+                },
+                "rulesPort": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 65535
+                },
+                "serviceName": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "timeoutMilliseconds": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 10000
+                },
+                "requireCheckout": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        },
+        "expectedRevision": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "profile",
+        "expectedRevision"
+      ]
+    },
+    "launch.profile.read": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "profileId": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "profileId"
+      ]
+    },
+    "launch.profile.restore": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "profileId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "expectedRevision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "revision": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "profileId",
+        "expectedRevision",
+        "revision"
+      ]
+    },
+    "launch.profile.restore.preview": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "profileId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "expectedRevision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "revision": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "profileId",
+        "expectedRevision",
+        "revision"
+      ]
+    },
+    "launch.profile.save": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "profile": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "kind": {
+              "type": "string"
+            },
+            "executable": {
+              "type": "string"
+            },
+            "initialization": {
+              "type": "string"
+            },
+            "product": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            },
+            "workingDirectory": {
+              "type": "string"
+            },
+            "project": {
+              "type": "string"
+            },
+            "user": {
+              "type": "string"
+            },
+            "mdb": {
+              "type": "string"
+            },
+            "module": {
+              "type": "string"
+            },
+            "license": {
+              "type": "string"
+            },
+            "credentialKey": {
+              "type": "string"
+            },
+            "rememberPassword": {
+              "type": "boolean"
+            },
+            "isFavorite": {
+              "type": "boolean"
+            },
+            "isDefault": {
+              "type": "boolean"
+            },
+            "environment": {
+              "type": "object",
+              "properties": {},
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "licensePrecheck": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "mode": {
+                  "type": "string",
+                  "enum": [
+                    "off",
+                    "required"
+                  ]
+                },
+                "host": {
+                  "type": "string"
+                },
+                "rmsPort": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 65535
+                },
+                "rulesPort": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 65535
+                },
+                "serviceName": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "timeoutMilliseconds": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 10000
+                },
+                "requireCheckout": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        },
+        "expectedRevision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "profile",
+        "expectedRevision"
+      ]
+    },
+    "launch.profile.start": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "profileId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "expectedRevision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "profileId",
+        "expectedRevision",
+        "password"
+      ]
+    },
+    "launch.profile.update": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "profileId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "expectedRevision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "changes": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "kind": {
+              "type": "string"
+            },
+            "executable": {
+              "type": "string"
+            },
+            "initialization": {
+              "type": "string"
+            },
+            "product": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            },
+            "workingDirectory": {
+              "type": "string"
+            },
+            "project": {
+              "type": "string"
+            },
+            "user": {
+              "type": "string"
+            },
+            "mdb": {
+              "type": "string"
+            },
+            "module": {
+              "type": "string"
+            },
+            "license": {
+              "type": "string"
+            },
+            "credentialKey": {
+              "type": "string"
+            },
+            "rememberPassword": {
+              "type": "boolean"
+            },
+            "isFavorite": {
+              "type": "boolean"
+            },
+            "isDefault": {
+              "type": "boolean"
+            },
+            "environment": {
+              "type": "object",
+              "properties": {},
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "licensePrecheck": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "mode": {
+                  "type": "string",
+                  "enum": [
+                    "off",
+                    "required"
+                  ]
+                },
+                "host": {
+                  "type": "string"
+                },
+                "rmsPort": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 65535
+                },
+                "rulesPort": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 65535
+                },
+                "serviceName": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "timeoutMilliseconds": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 10000
+                },
+                "requireCheckout": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      },
+      "required": [
+        "profileId",
+        "expectedRevision",
+        "changes"
+      ]
+    },
+    "launch.profile.validate": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "profile": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "kind": {
+              "type": "string"
+            },
+            "executable": {
+              "type": "string"
+            },
+            "initialization": {
+              "type": "string"
+            },
+            "product": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            },
+            "workingDirectory": {
+              "type": "string"
+            },
+            "project": {
+              "type": "string"
+            },
+            "user": {
+              "type": "string"
+            },
+            "mdb": {
+              "type": "string"
+            },
+            "module": {
+              "type": "string"
+            },
+            "license": {
+              "type": "string"
+            },
+            "credentialKey": {
+              "type": "string"
+            },
+            "rememberPassword": {
+              "type": "boolean"
+            },
+            "isFavorite": {
+              "type": "boolean"
+            },
+            "isDefault": {
+              "type": "boolean"
+            },
+            "environment": {
+              "type": "object",
+              "properties": {},
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "licensePrecheck": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "mode": {
+                  "type": "string",
+                  "enum": [
+                    "off",
+                    "required"
+                  ]
+                },
+                "host": {
+                  "type": "string"
+                },
+                "rmsPort": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 65535
+                },
+                "rulesPort": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 65535
+                },
+                "serviceName": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "timeoutMilliseconds": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 10000
+                },
+                "requireCheckout": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      },
+      "required": [
+        "profile"
+      ]
+    },
+    "launch.workspace.read": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {},
+      "required": []
+    },
+    "launchdesk.import.apply": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "planId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "planId",
+        "sha256"
+      ]
+    },
+    "launchdesk.import.preview": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "source"
+      ]
+    },
+    "launchdesk.import.read": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "id"
+      ]
+    },
+    "manager.contracts": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": false
+    },
+    "manager.status": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": false
+    },
+    "migration.preview": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "format": {
+          "type": "string",
+          "enum": [
+            "rewrite",
+            "next",
+            "ribbon"
+          ]
+        },
+        "source": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "format",
+        "source"
+      ]
+    },
+    "plugin.describe": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "id"
+      ]
+    },
+    "plugin.enable": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "expectedRevision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "enabled": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "expectedRevision",
+        "enabled"
+      ]
+    },
+    "plugin.install.apply": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "planId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "planId",
+        "sha256"
+      ]
+    },
+    "plugin.install.preview": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "type": "string",
+          "minLength": 1
+        },
+        "enabled": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "source"
+      ]
+    },
+    "plugin.invoke": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "pluginId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "operation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "workerTimeoutSeconds": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 3600
+        },
+        "input": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "pluginId",
+        "operation",
+        "input"
+      ]
+    },
+    "plugin.list": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {},
+      "required": []
+    },
+    "plugin.unregister": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "expectedRevision": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "id",
+        "expectedRevision"
+      ]
+    },
+    "pml.function.invoke": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "functionName": {
+          "type": "string",
+          "minLength": 1
+        },
+        "parameters": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "string",
+                  "str",
+                  "bool",
+                  "boolean",
+                  "double",
+                  "real",
+                  "number"
+                ]
+              },
+              "value": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "type",
+              "value"
+            ]
+          }
+        }
+      },
+      "required": [
+        "functionName",
+        "parameters"
+      ]
+    },
+    "pml.function.permission": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "functionName": {
+          "type": "string",
+          "minLength": 1
+        },
+        "allowInvoke": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "functionName",
+        "allowInvoke"
+      ]
+    },
+    "pml.function.register": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "sourceFile": {
+          "type": "string",
+          "minLength": 1
+        },
+        "functionName": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "sourceFile",
+        "functionName"
+      ]
+    },
+    "pml.functions.list": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {},
+      "required": []
+    },
+    "ribbon.deployment.file-apply": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": true
+    },
+    "ribbon.deployment.file-preview": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": true
+    },
+    "ribbon.deployment.modules": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": true
+    },
+    "ribbon.deployment.registration-apply": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": true
+    },
+    "ribbon.deployment.registration-preview": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": true
+    },
+    "ribbon.management.adopt": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": true
+    },
+    "ribbon.management.list": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": true
+    },
+    "ribbon.management.toggle": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": true
+    },
+    "ribbon.projects.normalize": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": true
+    },
+    "ribbon.projects.validate": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": true
+    },
+    "ribbon.uic.export": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": true
+    },
+    "ribbon.uic.import": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": true
+    },
+    "ribbon.v2.deployment.file-apply": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "planId",
+        "planDigest"
+      ],
+      "properties": {
+        "planId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "planDigest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "ribbon.v2.deployment.file-preview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "project"
+      ],
+      "properties": {
+        "project": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "schemaVersion": {
+              "type": "integer",
+              "enum": [
+                1
+              ]
+            },
+            "namespace": {
+              "type": "string"
+            },
+            "documentId": {
+              "type": "string",
+              "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+            },
+            "origin": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "fileName": {
+                  "type": "string"
+                },
+                "xml": {
+                  "type": "string"
+                },
+                "sourcePath": {
+                  "type": "string"
+                },
+                "sourceHash": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "fileName",
+                "xml",
+                "sourceHash"
+              ]
+            },
+            "preferredBinding": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "monPath": {
+                  "type": "string"
+                },
+                "manifestName": {
+                  "type": "string"
+                },
+                "entryName": {
+                  "type": "string"
+                },
+                "registrationPath": {
+                  "type": "string"
+                },
+                "filePath": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "monPath",
+                "manifestName",
+                "entryName"
+              ]
+            },
+            "buttons": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "sourceId": {
+                    "type": "string"
+                  },
+                  "id": {
+                    "type": "string"
+                  },
+                  "caption": {
+                    "type": "string"
+                  },
+                  "macro": {
+                    "type": "string"
+                  },
+                  "commandKey": {
+                    "type": "string"
+                  },
+                  "tooltipText": {
+                    "type": "string"
+                  },
+                  "tooltipTitle": {
+                    "type": "string"
+                  },
+                  "image": {
+                    "anyOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "mediaType": {
+                            "type": "string",
+                            "enum": [
+                              "image/png",
+                              "image/jpeg"
+                            ]
+                          },
+                          "base64": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "mediaType",
+                          "base64"
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "required": [
+                  "id",
+                  "caption",
+                  "macro",
+                  "commandKey",
+                  "tooltipText",
+                  "tooltipTitle"
+                ]
+              }
+            },
+            "tabs": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "sourceId": {
+                    "type": "string"
+                  },
+                  "id": {
+                    "type": "string"
+                  },
+                  "caption": {
+                    "type": "string"
+                  },
+                  "groups": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "sourceId": {
+                          "type": "string"
+                        },
+                        "id": {
+                          "type": "string"
+                        },
+                        "caption": {
+                          "type": "string"
+                        },
+                        "items": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "buttonId": {
+                                "type": "string"
+                              },
+                              "size": {
+                                "type": "string",
+                                "enum": [
+                                  "large",
+                                  "small"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "buttonId",
+                              "size"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "caption",
+                        "items"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "id",
+                  "caption",
+                  "groups"
+                ]
+              }
+            }
+          },
+          "required": [
+            "schemaVersion",
+            "namespace",
+            "documentId",
+            "buttons",
+            "tabs"
+          ]
+        }
+      }
+    },
+    "ribbon.v2.deployment.registration-apply": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "planId",
+        "planDigest"
+      ],
+      "properties": {
+        "planId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "planDigest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "ribbon.v2.deployment.registration-preview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "project",
+        "monPath",
+        "manifestName",
+        "entryName"
+      ],
+      "properties": {
+        "project": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "schemaVersion": {
+              "type": "integer",
+              "enum": [
+                1
+              ]
+            },
+            "namespace": {
+              "type": "string"
+            },
+            "documentId": {
+              "type": "string",
+              "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+            },
+            "origin": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "fileName": {
+                  "type": "string"
+                },
+                "xml": {
+                  "type": "string"
+                },
+                "sourcePath": {
+                  "type": "string"
+                },
+                "sourceHash": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "fileName",
+                "xml",
+                "sourceHash"
+              ]
+            },
+            "preferredBinding": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "monPath": {
+                  "type": "string"
+                },
+                "manifestName": {
+                  "type": "string"
+                },
+                "entryName": {
+                  "type": "string"
+                },
+                "registrationPath": {
+                  "type": "string"
+                },
+                "filePath": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "monPath",
+                "manifestName",
+                "entryName"
+              ]
+            },
+            "buttons": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "sourceId": {
+                    "type": "string"
+                  },
+                  "id": {
+                    "type": "string"
+                  },
+                  "caption": {
+                    "type": "string"
+                  },
+                  "macro": {
+                    "type": "string"
+                  },
+                  "commandKey": {
+                    "type": "string"
+                  },
+                  "tooltipText": {
+                    "type": "string"
+                  },
+                  "tooltipTitle": {
+                    "type": "string"
+                  },
+                  "image": {
+                    "anyOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "mediaType": {
+                            "type": "string",
+                            "enum": [
+                              "image/png",
+                              "image/jpeg"
+                            ]
+                          },
+                          "base64": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "mediaType",
+                          "base64"
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "required": [
+                  "id",
+                  "caption",
+                  "macro",
+                  "commandKey",
+                  "tooltipText",
+                  "tooltipTitle"
+                ]
+              }
+            },
+            "tabs": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "sourceId": {
+                    "type": "string"
+                  },
+                  "id": {
+                    "type": "string"
+                  },
+                  "caption": {
+                    "type": "string"
+                  },
+                  "groups": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "sourceId": {
+                          "type": "string"
+                        },
+                        "id": {
+                          "type": "string"
+                        },
+                        "caption": {
+                          "type": "string"
+                        },
+                        "items": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "buttonId": {
+                                "type": "string"
+                              },
+                              "size": {
+                                "type": "string",
+                                "enum": [
+                                  "large",
+                                  "small"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "buttonId",
+                              "size"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "caption",
+                        "items"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "id",
+                  "caption",
+                  "groups"
+                ]
+              }
+            }
+          },
+          "required": [
+            "schemaVersion",
+            "namespace",
+            "documentId",
+            "buttons",
+            "tabs"
+          ]
+        },
+        "monPath": {
+          "type": "string",
+          "minLength": 1
+        },
+        "manifestName": {
+          "type": "string",
+          "minLength": 1
+        },
+        "entryName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        }
+      }
+    },
+    "ribbon.workspace.context": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": true
+    },
+    "ribbon.workspace.open": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": true
+    },
+    "ribbon.workspace.original": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": true
+    },
+    "ribbon.workspace.restore": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": true
+    },
+    "ribbon.workspace.save": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": true
+    },
+    "ribbon.workspace.versions": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": true
+    },
+    "setup.handoff.inspect": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "packageRoot": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "packageRoot"
+      ]
+    },
+    "setup.legacy.preview": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "packageRoot": {
+          "type": "string",
+          "minLength": 1
+        },
+        "environmentFile": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "packageRoot",
+        "environmentFile"
+      ]
+    },
+    "setup.legacy.transfer": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "planId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-fA-F0-9]{64}$"
+        }
+      },
+      "required": [
+        "planId",
+        "sha256"
+      ]
+    }
+  }
+}

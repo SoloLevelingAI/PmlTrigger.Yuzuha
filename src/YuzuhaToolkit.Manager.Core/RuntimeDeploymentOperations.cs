@@ -6,7 +6,17 @@ namespace YuzuhaToolkit.Manager;
 /// <summary>可审阅的运行部署摘要，包含实际目标、引导适配和文件差异。</summary>
 public sealed record RuntimeDeploymentSummary(string Mode, string RuntimeRoot, string EnvironmentFile,
     string Profile, string Framework, string BootstrapToken, int FileCount, int ChangedFiles, string[] TransformedFiles,
-    ManagerInstallationIdentity Installation);
+    ManagerInstallationIdentity Installation)
+{
+    /// <summary>冻结环境文件修改前的完整内容摘要。</summary>
+    public string? BeforeHash { get; init; }
+    /// <summary>冻结环境文件修改后的完整内容摘要。</summary>
+    public string? AfterHash { get; init; }
+    /// <summary>计划写入的固定受管变量赋值。</summary>
+    public string[]? ManagedSettings { get; init; }
+    /// <summary>当前固定受管变量赋值，不含其他环境正文。</summary>
+    public string[]? BeforeManagedSettings { get; init; }
+}
 
 /// <summary>GUI/CLI 共用的运行部署操作。</summary>
 public static class RuntimeDeploymentOperations
@@ -60,6 +70,11 @@ public static class RuntimeDeploymentOperations
                         }
                         return Task.FromResult(OperationResult.Ok(operation, JsonSerializer.SerializeToElement(reference, ManagerJsonContext.Default.ManagerPlanReference)));
                     }
+                    catch (SetupEnvironmentOwnershipException error)
+                    { return Task.FromResult(OperationResult.Fail(operation, 7, error.Code, error.Message)); }
+                    catch (RuntimeDeploymentException error) when (error.InnerException is SetupEnvironmentOwnershipException && error.Diagnostic.RecoveryErrors.Length == 0)
+                    { return Task.FromResult(OperationResult.Fail(operation, 7, ((SetupEnvironmentOwnershipException)error.InnerException).Code, error.Message,
+                        JsonSerializer.SerializeToElement(error.Diagnostic, ManagerJsonContext.Default.RuntimeDeploymentDiagnostic))); }
                     catch (RuntimeDeploymentException error)
                     { return Task.FromResult(OperationResult.Fail(operation, 7, error.Diagnostic.RecoveryErrors.Length == 0 ? "DEPLOYMENT_FAILED_RESTORED" : "RECOVERY_REQUIRED", error.Message,
                         JsonSerializer.SerializeToElement(error.Diagnostic, ManagerJsonContext.Default.RuntimeDeploymentDiagnostic))); }
@@ -73,7 +88,8 @@ public static class RuntimeDeploymentOperations
     private static JsonElement Summary(RuntimeDeploymentPlan plan) => JsonSerializer.SerializeToElement(new RuntimeDeploymentSummary(
         plan.Request.Mode, plan.Request.RuntimeRoot, plan.Environment.File, plan.Request.Profile, plan.Request.Framework,
         plan.BootstrapToken, plan.Copy?.Files.Length ?? 0, plan.Copy?.Files.Count(f => f.TargetHash != f.DesiredHash) ?? 0,
-        plan.Copy?.Files.Where(f => f.ReplacementBase64 is not null).Select(f => f.RelativePath).ToArray() ?? [], plan.Installation),
+        plan.Copy?.Files.Where(f => f.ReplacementBase64 is not null).Select(f => f.RelativePath).ToArray() ?? [], plan.Installation)
+        { BeforeHash = plan.Environment.BeforeHash, AfterHash = plan.Environment.AfterHash, ManagedSettings = EvarsOperations.ManagedSettings(plan.Environment), BeforeManagedSettings = EvarsOperations.BeforeManagedSettings(plan.Environment) },
         ManagerJsonContext.Default.RuntimeDeploymentSummary);
     private static string S(JsonElement input, string key) => input.GetProperty(key).GetString()!;
 }

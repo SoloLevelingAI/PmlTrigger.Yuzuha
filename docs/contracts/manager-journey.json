@@ -1,0 +1,3682 @@
+{
+  "journey": {
+    "schema": "pmltwin.manager-journey/1",
+    "id": "install-to-operation",
+    "title": "从安装到工程操作",
+    "summary": "安装应用后，由管理器明确选择环境、接手旧所有权、冻结部署与EVARS、核对回执，再启动与严格核验。阅读位置不代表执行进度。",
+    "stages": [
+      {
+        "id": "install",
+        "title": "安装交接",
+        "input": "应用工具包根与安装交接标记。",
+        "precondition": "Inno已交付应用、清单与管理器入口；没有据此接入AVEVA。",
+        "method": "读取交接身份、包清单及旧所有权状态。",
+        "effect": "只读；不修改厂商EVARS或启动工程。",
+        "validation": "校验标记格式、应用根、载荷身份和路径边界。",
+        "receipt": "工具包/安装所有权快照；文件就绪不表示Host已加载。",
+        "recovery": "缺失或不支持格式显式说明，返回安装入口核对，不猜接入成功。",
+        "operationIds": [
+          "setup.handoff.inspect"
+        ],
+        "scripts": [
+          {
+            "path": "src/YuzuhaToolkit.Manager.Core/SetupHandoffService.cs",
+            "typeName": "YuzuhaToolkit.Manager.SetupHandoffService",
+            "member": "Inspect",
+            "explanation": "解释安装交接和载荷身份；不接管运行环境。",
+            "docFxPath": "api/manager/YuzuhaToolkit.Manager.SetupHandoffService.html",
+            "docFxUid": "YuzuhaToolkit.Manager.SetupHandoffService"
+          }
+        ],
+        "evidenceBoundary": "本阶段说明实现契约与读取路径；不代称本轮实机通过。历史实机仅按原报告的E3D2.1/DESIGN范围，跨产品、真实安装/移交、Database切换及用户视觉认可分别验收。"
+      },
+      {
+        "id": "environment",
+        "title": "选择产品环境",
+        "input": "明确扫描根、预算及产品/版本候选。",
+        "precondition": "有可访问的产品目录；多候选需用户选择。",
+        "method": "汇聚目录/注册表/初始化候选并解释来源；复用模块和启动规则。",
+        "effect": "只读发现；不执行厂商BAT、不登录或默认授权。",
+        "validation": "预算、候选来源、产品/模块组合和人工覆盖有效性。",
+        "receipt": "发现及解释结果；安装可见与登录成功分开。",
+        "recovery": "缺失、超时、歧义明确展示，保留人工输入。",
+        "operationIds": [
+          "installation.discover",
+          "installation.projects",
+          "environment.discover",
+          "environment.resolve"
+        ],
+        "scripts": [
+          {
+            "path": "src/YuzuhaToolkit.Manager.Core/InstallationDiscovery.cs",
+            "typeName": "YuzuhaToolkit.Manager.ManagerInstallationDiscovery",
+            "member": "Scan",
+            "explanation": "有预算地定位真实安装。",
+            "docFxPath": "api/manager/YuzuhaToolkit.Manager.ManagerInstallationDiscovery.html",
+            "docFxUid": "YuzuhaToolkit.Manager.ManagerInstallationDiscovery"
+          },
+          {
+            "path": "src/YuzuhaToolkit.Manager.Core/LaunchDiscovery.cs",
+            "typeName": "YuzuhaToolkit.Manager.LaunchDiscoveryService",
+            "member": "Discover",
+            "explanation": "候选与来源解释，不把静态发现当登录。",
+            "docFxPath": "api/manager/YuzuhaToolkit.Manager.LaunchDiscoveryService.html",
+            "docFxUid": "YuzuhaToolkit.Manager.LaunchDiscoveryService"
+          }
+        ],
+        "evidenceBoundary": "本阶段说明实现契约与读取路径；不代称本轮实机通过。历史实机仅按原报告的E3D2.1/DESIGN范围，跨产品、真实安装/移交、Database切换及用户视觉认可分别验收。"
+      },
+      {
+        "id": "ownership",
+        "title": "核对来源与旧所有权",
+        "input": "所选工具包、EVARS目标及旧安装记录；可选旧项目来源。",
+        "precondition": "目标明确，旧所有权格式和实际摘要可核对。",
+        "method": "只读核对旧安装所有者和迁移来源；显式授权后移交旧卸载记录。",
+        "effect": "移交只修改受支持的旧所有权记录；migration.preview不激活或切换Database。",
+        "validation": "格式、所有者、当前摘要、冻结引用和写入授权；拒绝外部漂移。",
+        "receipt": "迁移预览或移交回执、原记录备份；不表示数据库已切换。",
+        "recovery": "不支持格式或漂移保持原样；依据备份和回执核对，不删除标记伪造接管。",
+        "operationIds": [
+          "setup.legacy.preview",
+          "setup.legacy.transfer",
+          "migration.preview"
+        ],
+        "scripts": [
+          {
+            "path": "src/YuzuhaToolkit.Manager.Core/SetupHandoffService.cs",
+            "typeName": "YuzuhaToolkit.Manager.SetupHandoffService",
+            "member": "PreviewLegacy",
+            "explanation": "区分旧安装器所有权和管理器部署所有权。",
+            "docFxPath": "api/manager/YuzuhaToolkit.Manager.SetupHandoffService.html",
+            "docFxUid": "YuzuhaToolkit.Manager.SetupHandoffService"
+          },
+          {
+            "path": "src/YuzuhaToolkit.Manager.Core/MigrationPreview.cs",
+            "typeName": "YuzuhaToolkit.Manager.MigrationPreview",
+            "member": "Preview",
+            "explanation": "解释旧来源的只读映射与敏感字段剔除。",
+            "docFxPath": "api/manager/YuzuhaToolkit.Manager.MigrationPreview.html",
+            "docFxUid": "YuzuhaToolkit.Manager.MigrationPreview"
+          }
+        ],
+        "evidenceBoundary": "本阶段说明实现契约与读取路径；不代称本轮实机通过。历史实机仅按原报告的E3D2.1/DESIGN范围，跨产品、真实安装/移交、Database切换及用户视觉认可分别验收。"
+      },
+      {
+        "id": "preview",
+        "title": "预览部署与EVARS",
+        "input": "工具包、所选安装/INIT或BAT、profile/framework、独立运行根和copy/reference模式。",
+        "precondition": "来源身份可核对；旧Inno环境所有权已明确移交；copy目标不能覆盖Inno应用根。",
+        "method": "RuntimeDeploymentService与EvarsEditor生成同源冻结预览，保存非秘密计划缓存。",
+        "effect": "不写业务目标；展示受管行、前后摘要、文件差异和恢复方式。",
+        "validation": "来源/目标范围、包清单、安装身份、产品与Host映射、旧环境所有者、编码、摘要及bootstrap适配。",
+        "receipt": "planId/sha256和明确变化摘要；预览不是部署完成。",
+        "recovery": "输入改变清除可执行预览并保留草稿；拒绝无效或过期计划。",
+        "operationIds": [
+          "deployment.preview",
+          "evars.preview"
+        ],
+        "scripts": [
+          {
+            "path": "src/YuzuhaToolkit.Manager.Core/RuntimeDeploymentService.cs",
+            "typeName": "YuzuhaToolkit.Manager.RuntimeDeploymentService",
+            "member": "Preview",
+            "explanation": "冻结载荷、运行根与环境文件的变化。",
+            "docFxPath": "api/manager/YuzuhaToolkit.Manager.RuntimeDeploymentService.html",
+            "docFxUid": "YuzuhaToolkit.Manager.RuntimeDeploymentService"
+          },
+          {
+            "path": "src/YuzuhaToolkit.Manager.Core/EvarsEditor.cs",
+            "typeName": "YuzuhaToolkit.Manager.EvarsEditor",
+            "member": "Preview",
+            "explanation": "保留原编码和非受管行，解释将写入的受管段。",
+            "docFxPath": "api/manager/YuzuhaToolkit.Manager.EvarsEditor.html",
+            "docFxUid": "YuzuhaToolkit.Manager.EvarsEditor"
+          },
+          {
+            "path": "src/YuzuhaToolkit.Manager.Core/ManagerHostProfiles.cs",
+            "typeName": "YuzuhaToolkit.Manager.ManagerHostProfiles",
+            "member": "Framework",
+            "explanation": "用同一精确映射拒绝产品与Host配置错配。",
+            "docFxPath": "api/manager/YuzuhaToolkit.Manager.ManagerHostProfiles.html",
+            "docFxUid": "YuzuhaToolkit.Manager.ManagerHostProfiles"
+          },
+          {
+            "path": "src/YuzuhaToolkit.Manager.Core/SetupEnvironmentOwnershipGuard.cs",
+            "typeName": "YuzuhaToolkit.Manager.SetupEnvironmentOwnershipGuard",
+            "member": "EnsureAvailable",
+            "explanation": "依据明确来源与已登记安装的当前记录阻止绕过旧环境所有权；未登记且未提供的旧根不声称已全机排除。",
+            "docFxPath": "api/manager/YuzuhaToolkit.Manager.SetupEnvironmentOwnershipGuard.html",
+            "docFxUid": "YuzuhaToolkit.Manager.SetupEnvironmentOwnershipGuard"
+          }
+        ],
+        "evidenceBoundary": "本阶段说明实现契约与读取路径；不代称本轮实机通过。历史实机仅按原报告的E3D2.1/DESIGN范围，跨产品、真实安装/移交、Database切换及用户视觉认可分别验收。"
+      },
+      {
+        "id": "apply",
+        "title": "明确应用",
+        "input": "已审阅planId/sha256及本次明确写入授权。",
+        "precondition": "冻结计划、源文件、目标和安装身份仍一致。",
+        "method": "唯一Manager后端复验计划并写入，分别记录逐文件变化、备份及EVARS结果。",
+        "effect": "仅实施当前冻结范围；不启动AVEVA、不推断运行时加载成功。",
+        "validation": "写入授权先于处理；再次核验摘要、所有权和实际文件。",
+        "receipt": "部署或EVARS回执、备份/恢复引用；部分恢复或unknown仍可定位。",
+        "recovery": "错误显示在当前动作附近；未知结果不自动重放，按原回执核对。",
+        "operationIds": [
+          "deployment.apply",
+          "evars.apply"
+        ],
+        "scripts": [
+          {
+            "path": "src/YuzuhaToolkit.Manager.Core/RuntimeDeploymentService.cs",
+            "typeName": "YuzuhaToolkit.Manager.RuntimeDeploymentService",
+            "member": "Apply",
+            "explanation": "执行当前计划并保留跨文件失败诊断。",
+            "docFxPath": "api/manager/YuzuhaToolkit.Manager.RuntimeDeploymentService.html",
+            "docFxUid": "YuzuhaToolkit.Manager.RuntimeDeploymentService"
+          },
+          {
+            "path": "src/YuzuhaToolkit.Manager.Core/EvarsEditor.cs",
+            "typeName": "YuzuhaToolkit.Manager.EvarsEditor",
+            "member": "Apply",
+            "explanation": "仅写入冻结的环境修改并保留原件。",
+            "docFxPath": "api/manager/YuzuhaToolkit.Manager.EvarsEditor.html",
+            "docFxUid": "YuzuhaToolkit.Manager.EvarsEditor"
+          }
+        ],
+        "evidenceBoundary": "本阶段说明实现契约与读取路径；不代称本轮实机通过。历史实机仅按原报告的E3D2.1/DESIGN范围，跨产品、真实安装/移交、Database切换及用户视觉认可分别验收。"
+      },
+      {
+        "id": "recover",
+        "title": "核对回执与恢复",
+        "input": "原操作回执及恢复引用。",
+        "precondition": "只恢复本次拥有的变化；目标等于本次写入结果时恢复，已等于原始指纹时只确认。",
+        "method": "比较当前摘要与受管记录，按条件恢复文件和环境段。",
+        "effect": "不覆盖外部后续修改；应用卸载与运行部署恢复分别处理。",
+        "validation": "当前目标、备份完整性、摘要和恢复授权；冲突逐项保留。",
+        "receipt": "恢复结果、未恢复项及原因；不能把部分恢复称为全部成功。",
+        "recovery": "保留备份与冲突证据，人工解决冲突后按同回执续行；丢回包先核对，不无条件回滚或清理。",
+        "operationIds": [
+          "deployment.restore",
+          "evars.restore"
+        ],
+        "scripts": [
+          {
+            "path": "src/YuzuhaToolkit.Manager.Core/RuntimeDeploymentService.cs",
+            "typeName": "YuzuhaToolkit.Manager.RuntimeDeploymentService",
+            "member": "Restore",
+            "explanation": "逐项核对受管文件，保留冲突并允许按原回执继续未完成恢复。",
+            "docFxPath": "api/manager/YuzuhaToolkit.Manager.RuntimeDeploymentService.html",
+            "docFxUid": "YuzuhaToolkit.Manager.RuntimeDeploymentService"
+          },
+          {
+            "path": "src/YuzuhaToolkit.Manager.Core/EvarsEditor.cs",
+            "typeName": "YuzuhaToolkit.Manager.EvarsEditor",
+            "member": "Restore",
+            "explanation": "只恢复已应用内容；原始指纹已恢复时确认，不重写文件。",
+            "docFxPath": "api/manager/YuzuhaToolkit.Manager.EvarsEditor.html",
+            "docFxUid": "YuzuhaToolkit.Manager.EvarsEditor"
+          }
+        ],
+        "evidenceBoundary": "本阶段说明实现契约与读取路径；不代称本轮实机通过。历史实机仅按原报告的E3D2.1/DESIGN范围，跨产品、真实安装/移交、Database切换及用户视觉认可分别验收。"
+      },
+      {
+        "id": "launch",
+        "title": "配置与启动",
+        "input": "产品入口、配置修订、明确工程/模块及本次内存凭据。",
+        "precondition": "环境准备范围已核对；密码经stdin/本机文件传入，不能放argv。",
+        "method": "冻结launch.plan；先持久受理，再经唯一启动边界执行，按原编号观察。",
+        "effect": "创建入口进程；进程创建与登录、Host身份分别判断。",
+        "validation": "修订/EVARS/入口摘要、计划有效期、显式启动授权和唯一尝试。",
+        "receipt": "operationId/attemptId与入口/交接观察；密码不入计划、日志或文档。",
+        "recovery": "unknown不重放；取消等待不声称撤销已启动工程，使用launch.observe。",
+        "operationIds": [
+          "launch.plan",
+          "launch.execute",
+          "launch.observe"
+        ],
+        "scripts": [
+          {
+            "path": "src/YuzuhaToolkit.Manager.Core/LaunchWorkflow.cs",
+            "typeName": "YuzuhaToolkit.Manager.LaunchWorkflowService",
+            "member": "Plan",
+            "explanation": "冻结当前配置与实际入口文件。",
+            "docFxPath": "api/manager/YuzuhaToolkit.Manager.LaunchWorkflowService.html",
+            "docFxUid": "YuzuhaToolkit.Manager.LaunchWorkflowService"
+          },
+          {
+            "path": "src/YuzuhaToolkit.Manager.Core/LaunchWorkflow.cs",
+            "typeName": "YuzuhaToolkit.Manager.LaunchWorkflowService",
+            "member": "ExecuteAsync",
+            "explanation": "先受理、唯一启动与未知结果边界。",
+            "docFxPath": "api/manager/YuzuhaToolkit.Manager.LaunchWorkflowService.html",
+            "docFxUid": "YuzuhaToolkit.Manager.LaunchWorkflowService"
+          },
+          {
+            "path": "src/YuzuhaToolkit.Manager.Core/LaunchWorkflow.cs",
+            "typeName": "YuzuhaToolkit.Manager.LaunchWorkflowService",
+            "member": "Observe",
+            "explanation": "按原编号读取持久事实和进程身份。",
+            "docFxPath": "api/manager/YuzuhaToolkit.Manager.LaunchWorkflowService.html",
+            "docFxUid": "YuzuhaToolkit.Manager.LaunchWorkflowService"
+          }
+        ],
+        "evidenceBoundary": "本阶段说明实现契约与读取路径；不代称本轮实机通过。历史实机仅按原报告的E3D2.1/DESIGN范围，跨产品、真实安装/移交、Database切换及用户视觉认可分别验收。"
+      },
+      {
+        "id": "verify",
+        "title": "严格会话核验",
+        "input": "显式选定PID、十进制字符串启动ticks、模块、管道及关联配置。",
+        "precondition": "发现候选后明确选择操作目标；可用灯态不自动选目标。",
+        "method": "经独立通信CLI核对目标身份和协议；不执行PML业务命令。",
+        "effect": "只读核验；不授予执行权限，也不证明所有业务通过。",
+        "validation": "PID、完整64位启动身份、模块、管道、协议和回执新鲜度。",
+        "receipt": "严格连接证据或明确失败；与历史验收日期、产品范围分开。",
+        "recovery": "失联/身份变化清旧结果，重新发现和明确核验；不能沿用旧绿灯。",
+        "operationIds": [
+          "connection.sessions",
+          "connection.select",
+          "connection.status",
+          "connection.test"
+        ],
+        "scripts": [
+          {
+            "path": "src/YuzuhaToolkit.Manager.Core/CommunicationCliClient.cs",
+            "typeName": "YuzuhaToolkit.Manager.CommunicationCliClient",
+            "member": "InvokeAsync",
+            "explanation": "保持独立进程边界，不拼造进程内RPC调用轨迹。",
+            "docFxPath": "api/manager/YuzuhaToolkit.Manager.CommunicationCliClient.html",
+            "docFxUid": "YuzuhaToolkit.Manager.CommunicationCliClient"
+          }
+        ],
+        "evidenceBoundary": "本阶段说明实现契约与读取路径；不代称本轮实机通过。历史实机仅按原报告的E3D2.1/DESIGN范围，跨产品、真实安装/移交、Database切换及用户视觉认可分别验收。"
+      }
+    ]
+  },
+  "operations": [
+    {
+      "id": "connection.capabilities",
+      "contractVersion": 1,
+      "description": "Call the independent communication CLI; no PML is executed.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "connection.select",
+      "contractVersion": 1,
+      "description": "Call the independent communication CLI; no PML is executed.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "profile": {
+            "type": "string",
+            "enum": [
+              "AM",
+              "PDMS",
+              "E3D2.1",
+              "E3D3.1.6"
+            ]
+          },
+          "runtimeRoot": {
+            "type": "string",
+            "minLength": 1
+          },
+          "environmentFile": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "requiresPid": true,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "connection.sessions",
+      "contractVersion": 1,
+      "description": "Call the independent communication CLI; no PML is executed.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "connection.status",
+      "contractVersion": 1,
+      "description": "Call the independent communication CLI; no PML is executed.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "profile": {
+            "type": "string",
+            "enum": [
+              "AM",
+              "PDMS",
+              "E3D2.1",
+              "E3D3.1.6"
+            ]
+          },
+          "runtimeRoot": {
+            "type": "string",
+            "minLength": 1
+          },
+          "environmentFile": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "requiresPid": true,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "connection.test",
+      "contractVersion": 1,
+      "description": "Call the independent communication CLI; no PML is executed.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "profile": {
+            "type": "string",
+            "enum": [
+              "AM",
+              "PDMS",
+              "E3D2.1",
+              "E3D3.1.6"
+            ]
+          },
+          "runtimeRoot": {
+            "type": "string",
+            "minLength": 1
+          },
+          "environmentFile": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "requiresPid": true,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "copy.apply",
+      "contractVersion": 1,
+      "description": "Preview, apply or conditionally restore the shared file/folder/ZIP copy transaction.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "planId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "planId",
+          "sha256"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": true,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "copy.formats",
+      "contractVersion": 1,
+      "description": "Preview, apply or conditionally restore the shared file/folder/ZIP copy transaction.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {},
+        "required": []
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "copy.preview",
+      "contractVersion": 1,
+      "description": "Preview, apply or conditionally restore the shared file/folder/ZIP copy transaction.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "source": {
+            "type": "string",
+            "minLength": 1
+          },
+          "registeredRoot": {
+            "type": "string",
+            "minLength": 1
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sevenZipTool": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "source",
+          "registeredRoot",
+          "name"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "copy.restore",
+      "contractVersion": 1,
+      "description": "Preview, apply or conditionally restore the shared file/folder/ZIP copy transaction.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "planId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "planId",
+          "sha256"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": true,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "data.migration.apply",
+      "contractVersion": 1,
+      "description": "Preview or apply the shared user data migration without deleting source data.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "planId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "planId",
+          "sha256"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": true,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "data.migration.preview",
+      "contractVersion": 1,
+      "description": "Preview or apply the shared user data migration without deleting source data.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "root": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "root"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "deployment.apply",
+      "contractVersion": 1,
+      "description": "Apply the exact reviewed runtime/environment plan; retain backups and recovery evidence.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "planId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "planId",
+          "sha256"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": true,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "deployment.preview",
+      "contractVersion": 1,
+      "description": "Preview runtime copy or in-place reference and its selected AVEVA environment.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "packageRoot": {
+            "type": "string",
+            "minLength": 1
+          },
+          "runtimeRoot": {
+            "type": "string",
+            "minLength": 1
+          },
+          "installationRoot": {
+            "type": "string",
+            "minLength": 1
+          },
+          "product": {
+            "type": "string",
+            "minLength": 1
+          },
+          "profile": {
+            "type": "string",
+            "minLength": 1
+          },
+          "framework": {
+            "type": "string",
+            "minLength": 1
+          },
+          "environmentFile": {
+            "type": "string",
+            "minLength": 1
+          },
+          "installationExecutable": {
+            "type": "string",
+            "minLength": 1
+          },
+          "expectedInstallationId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "copy",
+              "reference"
+            ]
+          },
+          "codePage": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 65001
+          }
+        },
+        "required": [
+          "packageRoot",
+          "runtimeRoot",
+          "installationRoot",
+          "product",
+          "profile",
+          "framework",
+          "mode"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "deployment.restore",
+      "contractVersion": 1,
+      "description": "Conditionally restore the recorded runtime and environment transaction.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "planId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "planId",
+          "sha256"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": true,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "environment.discover",
+      "contractVersion": 1,
+      "description": "Read-only bounded environment discovery and explicit override resolution; returns needsInput without prompting or launching.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "roots": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 32,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "product": {
+            "type": "string",
+            "enum": [
+              "E3D",
+              "AM",
+              "PDMS"
+            ]
+          },
+          "version": {
+            "type": "string"
+          },
+          "maximumDepth": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 8
+          },
+          "maximumFiles": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 300000
+          },
+          "timeoutSeconds": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 120
+          },
+          "candidateId": {
+            "type": "string"
+          },
+          "preferredExecutable": {
+            "type": "string"
+          },
+          "overrides": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "project": {
+                "type": "string"
+              },
+              "module": {
+                "type": "string"
+              },
+              "user": {
+                "type": "string"
+              },
+              "mdb": {
+                "type": "string"
+              },
+              "workingDirectory": {
+                "type": "string"
+              },
+              "initialization": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "environment.resolve",
+      "contractVersion": 1,
+      "description": "Read-only bounded environment discovery and explicit override resolution; returns needsInput without prompting or launching.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "roots": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 32,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "product": {
+            "type": "string",
+            "enum": [
+              "E3D",
+              "AM",
+              "PDMS"
+            ]
+          },
+          "version": {
+            "type": "string"
+          },
+          "maximumDepth": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 8
+          },
+          "maximumFiles": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 300000
+          },
+          "timeoutSeconds": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 120
+          },
+          "candidateId": {
+            "type": "string"
+          },
+          "preferredExecutable": {
+            "type": "string"
+          },
+          "overrides": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "project": {
+                "type": "string"
+              },
+              "module": {
+                "type": "string"
+              },
+              "user": {
+                "type": "string"
+              },
+              "mdb": {
+                "type": "string"
+              },
+              "workingDirectory": {
+                "type": "string"
+              },
+              "initialization": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "evars.apply",
+      "contractVersion": 1,
+      "description": "Apply a frozen environment plan after checking its fingerprint; retain the original backup.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "planId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "planId",
+          "sha256"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": true,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "evars.preview",
+      "contractVersion": 1,
+      "description": "Preview the selected installation's effective INIT/BAT and retain a local frozen plan.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "installationRoot": {
+            "type": "string",
+            "minLength": 1
+          },
+          "packageRoot": {
+            "type": "string",
+            "minLength": 1
+          },
+          "product": {
+            "type": "string",
+            "enum": [
+              "E3D",
+              "AM",
+              "PDMS"
+            ]
+          },
+          "environmentFile": {
+            "type": "string",
+            "minLength": 1
+          },
+          "runtimeRoot": {
+            "type": "string",
+            "minLength": 1
+          },
+          "profile": {
+            "type": "string",
+            "minLength": 1
+          },
+          "framework": {
+            "type": "string",
+            "enum": [
+              "net35",
+              "net48"
+            ]
+          },
+          "codePage": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 65001
+          }
+        },
+        "required": [
+          "installationRoot",
+          "product",
+          "runtimeRoot",
+          "profile",
+          "framework"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "evars.restore",
+      "contractVersion": 1,
+      "description": "Restore a recorded environment change only if the target still equals the applied content.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "planId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "planId",
+          "sha256"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": true,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "feature.list",
+      "contractVersion": 1,
+      "description": "列出唯一 Feature 身份、所有者、操作、启用与实现状态。",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "installation.discover",
+      "contractVersion": 1,
+      "description": "Read-only bounded installation and static project/module discovery ported from LaunchDesk.Next.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "roots": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 32,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "maximumDepth": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 8
+          },
+          "maximumFiles": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 300000
+          },
+          "timeoutSeconds": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 120
+          }
+        },
+        "required": [
+          "roots"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "installation.projects",
+      "contractVersion": 1,
+      "description": "Read-only bounded installation and static project/module discovery ported from LaunchDesk.Next.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "installationRoot": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "installationRoot"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "knowledge.import.apply",
+      "contractVersion": 1,
+      "description": "Build or consistently snapshot a frozen import, validate, and atomically publish without replacing another library.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "planId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "planId",
+          "sha256"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": true,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "knowledge.import.preview",
+      "contractVersion": 1,
+      "description": "Freeze selected source content or inspect an existing SQLite before version-isolated import.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "product": {
+            "type": "string",
+            "minLength": 1
+          },
+          "version": {
+            "type": "string",
+            "minLength": 1
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "official",
+              "custom"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "database": {
+            "type": "string",
+            "minLength": 1
+          },
+          "manifest": {
+            "type": "string",
+            "minLength": 1
+          },
+          "pmlLib": {
+            "type": "string",
+            "minLength": 1
+          },
+          "pmlUi": {
+            "type": "string",
+            "minLength": 1
+          },
+          "webHelp": {
+            "type": "string",
+            "minLength": 1
+          },
+          "mappings": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "recordedRoot": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "localRoot": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "recordedRoot",
+                "localRoot"
+              ]
+            }
+          }
+        },
+        "required": [
+          "product",
+          "version",
+          "role",
+          "name"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "knowledge.inspect",
+      "contractVersion": 1,
+      "description": "Read-only original database check using a private SQLite snapshot; returns separate structural, FTS and source evidence.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "database": {
+            "type": "string",
+            "minLength": 1
+          },
+          "manifest": {
+            "type": "string",
+            "minLength": 1
+          },
+          "mappings": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "recordedRoot": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "localRoot": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "recordedRoot",
+                "localRoot"
+              ]
+            }
+          }
+        },
+        "required": [
+          "database"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "knowledge.libraries.list",
+      "contractVersion": 1,
+      "description": "List already published product/version libraries without rebuilding or importing.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "product": {
+            "type": "string",
+            "minLength": 1
+          },
+          "version": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": []
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "knowledge.library.chunk",
+      "contractVersion": 1,
+      "description": "Read a chunk with its database identity, historical source and explicit local mapping.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "product": {
+            "type": "string",
+            "minLength": 1
+          },
+          "version": {
+            "type": "string",
+            "minLength": 1
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "chunkId": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "required": [
+          "product",
+          "version",
+          "name",
+          "chunkId"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "knowledge.library.search",
+      "contractVersion": 1,
+      "description": "Search one explicitly identified product/version library; results carry library identity and chunk IDs.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "product": {
+            "type": "string",
+            "minLength": 1
+          },
+          "version": {
+            "type": "string",
+            "minLength": 1
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "query": {
+            "type": "string",
+            "minLength": 1
+          },
+          "topK": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 50
+          },
+          "checkSources": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "product",
+          "version",
+          "name",
+          "query"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "launch.execute",
+      "contractVersion": 1,
+      "description": "先持久受理再启动；重复操作返回已有事实，未知结果禁止重放。",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "plan": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "operationId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "profileId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "expectedRevision": {
+                "type": "string",
+                "minLength": 1
+              },
+              "files": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "path": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "sha256": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "path",
+                    "sha256"
+                  ]
+                }
+              },
+              "expiresAt": {
+                "type": "string",
+                "minLength": 1
+              },
+              "planDigest": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "operationId",
+              "profileId",
+              "expectedRevision",
+              "files",
+              "expiresAt",
+              "planDigest"
+            ]
+          },
+          "password": {
+            "type": "string"
+          },
+          "requestId": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "plan",
+          "password"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": true,
+      "legacyTools": null
+    },
+    {
+      "id": "launch.modules.list",
+      "contractVersion": 1,
+      "description": "Get product/version-specific module options with source and verification state.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "product": {
+            "type": "string",
+            "minLength": 1
+          },
+          "executable": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "product"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "launch.observe",
+      "contractVersion": 1,
+      "description": "观察持久启动回执；入口进程存在不代表已登录。",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "operationId"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "launch.plan",
+      "contractVersion": 1,
+      "description": "只读目标并缓存非秘密冻结计划，不改变启动配置或厂商文件。",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "profileId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "expectedRevision": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "operationId",
+          "profileId",
+          "expectedRevision"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "launch.profile.default",
+      "contractVersion": 1,
+      "description": "Set the sole default profile without starting it.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "profileId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "expectedRevision": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "profileId",
+          "expectedRevision"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": true,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "launch.profile.delete",
+      "contractVersion": 1,
+      "description": "Delete only the saved profile; preserve independent credentials and running processes.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "profileId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "expectedRevision": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "profileId",
+          "expectedRevision"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": true,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "launch.profile.duplicate",
+      "contractVersion": 1,
+      "description": "Save a distinct copy without copying credentials, default state or launch time.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "profileId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "expectedRevision": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "profileId",
+          "expectedRevision"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": true,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "launch.profile.favorite",
+      "contractVersion": 1,
+      "description": "Change favorite state with the same versioned configuration service.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "profileId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "expectedRevision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "favorite": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "profileId",
+          "expectedRevision",
+          "favorite"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": true,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "launch.profile.history",
+      "contractVersion": 1,
+      "description": "Read bounded configuration history, optionally for one profile.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "profileId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 500
+          }
+        },
+        "required": []
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "launch.profile.list",
+      "contractVersion": 1,
+      "description": "Search saved profiles with product and favorite/recent filters.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "query": {
+            "type": "string"
+          },
+          "product": {
+            "type": "string"
+          },
+          "scope": {
+            "type": "string",
+            "enum": [
+              "all",
+              "favorites",
+              "recent"
+            ]
+          }
+        },
+        "required": []
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "launch.profile.preview",
+      "contractVersion": 1,
+      "description": "Preview field changes and validation against an expected document revision.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "profile": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "kind": {
+                "type": "string"
+              },
+              "executable": {
+                "type": "string"
+              },
+              "initialization": {
+                "type": "string"
+              },
+              "product": {
+                "type": "string"
+              },
+              "version": {
+                "type": "string"
+              },
+              "workingDirectory": {
+                "type": "string"
+              },
+              "project": {
+                "type": "string"
+              },
+              "user": {
+                "type": "string"
+              },
+              "mdb": {
+                "type": "string"
+              },
+              "module": {
+                "type": "string"
+              },
+              "license": {
+                "type": "string"
+              },
+              "credentialKey": {
+                "type": "string"
+              },
+              "rememberPassword": {
+                "type": "boolean"
+              },
+              "isFavorite": {
+                "type": "boolean"
+              },
+              "isDefault": {
+                "type": "boolean"
+              },
+              "environment": {
+                "type": "object",
+                "properties": {},
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "licensePrecheck": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "mode": {
+                    "type": "string",
+                    "enum": [
+                      "off",
+                      "required"
+                    ]
+                  },
+                  "host": {
+                    "type": "string"
+                  },
+                  "rmsPort": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 65535
+                  },
+                  "rulesPort": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 65535
+                  },
+                  "serviceName": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "timeoutMilliseconds": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 10000
+                  },
+                  "requireCheckout": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          },
+          "expectedRevision": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "profile",
+          "expectedRevision"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "launch.profile.read",
+      "contractVersion": 1,
+      "description": "Read one saved profile with revision and effect information.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "profileId": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "profileId"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "launch.profile.restore",
+      "contractVersion": 1,
+      "description": "Restore one historical profile as a new revision without launching or restoring passwords.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "profileId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "expectedRevision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "revision": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "profileId",
+          "expectedRevision",
+          "revision"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": true,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "launch.profile.restore.preview",
+      "contractVersion": 1,
+      "description": "Preview restoring one historical profile under current validation rules.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "profileId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "expectedRevision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "revision": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "profileId",
+          "expectedRevision",
+          "revision"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "launch.profile.save",
+      "contractVersion": 1,
+      "description": "Create or update one complete profile and persist a recoverable revision.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "profile": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "kind": {
+                "type": "string"
+              },
+              "executable": {
+                "type": "string"
+              },
+              "initialization": {
+                "type": "string"
+              },
+              "product": {
+                "type": "string"
+              },
+              "version": {
+                "type": "string"
+              },
+              "workingDirectory": {
+                "type": "string"
+              },
+              "project": {
+                "type": "string"
+              },
+              "user": {
+                "type": "string"
+              },
+              "mdb": {
+                "type": "string"
+              },
+              "module": {
+                "type": "string"
+              },
+              "license": {
+                "type": "string"
+              },
+              "credentialKey": {
+                "type": "string"
+              },
+              "rememberPassword": {
+                "type": "boolean"
+              },
+              "isFavorite": {
+                "type": "boolean"
+              },
+              "isDefault": {
+                "type": "boolean"
+              },
+              "environment": {
+                "type": "object",
+                "properties": {},
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "licensePrecheck": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "mode": {
+                    "type": "string",
+                    "enum": [
+                      "off",
+                      "required"
+                    ]
+                  },
+                  "host": {
+                    "type": "string"
+                  },
+                  "rmsPort": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 65535
+                  },
+                  "rulesPort": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 65535
+                  },
+                  "serviceName": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "timeoutMilliseconds": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 10000
+                  },
+                  "requireCheckout": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          },
+          "expectedRevision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "profile",
+          "expectedRevision"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": true,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "launch.profile.start",
+      "contractVersion": 1,
+      "description": "Validate the saved revision and create its entry process; does not claim login or Host verification.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "profileId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "expectedRevision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "profileId",
+          "expectedRevision",
+          "password"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": true,
+      "legacyTools": null
+    },
+    {
+      "id": "launch.profile.update",
+      "contractVersion": 1,
+      "description": "Apply known-field changes to one profile with optimistic revision checking.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "profileId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "expectedRevision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "changes": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "kind": {
+                "type": "string"
+              },
+              "executable": {
+                "type": "string"
+              },
+              "initialization": {
+                "type": "string"
+              },
+              "product": {
+                "type": "string"
+              },
+              "version": {
+                "type": "string"
+              },
+              "workingDirectory": {
+                "type": "string"
+              },
+              "project": {
+                "type": "string"
+              },
+              "user": {
+                "type": "string"
+              },
+              "mdb": {
+                "type": "string"
+              },
+              "module": {
+                "type": "string"
+              },
+              "license": {
+                "type": "string"
+              },
+              "credentialKey": {
+                "type": "string"
+              },
+              "rememberPassword": {
+                "type": "boolean"
+              },
+              "isFavorite": {
+                "type": "boolean"
+              },
+              "isDefault": {
+                "type": "boolean"
+              },
+              "environment": {
+                "type": "object",
+                "properties": {},
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "licensePrecheck": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "mode": {
+                    "type": "string",
+                    "enum": [
+                      "off",
+                      "required"
+                    ]
+                  },
+                  "host": {
+                    "type": "string"
+                  },
+                  "rmsPort": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 65535
+                  },
+                  "rulesPort": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 65535
+                  },
+                  "serviceName": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "timeoutMilliseconds": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 10000
+                  },
+                  "requireCheckout": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "profileId",
+          "expectedRevision",
+          "changes"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": true,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "launch.profile.validate",
+      "contractVersion": 1,
+      "description": "Validate the same profile rules used by the desktop without writing or launching.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "profile": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "kind": {
+                "type": "string"
+              },
+              "executable": {
+                "type": "string"
+              },
+              "initialization": {
+                "type": "string"
+              },
+              "product": {
+                "type": "string"
+              },
+              "version": {
+                "type": "string"
+              },
+              "workingDirectory": {
+                "type": "string"
+              },
+              "project": {
+                "type": "string"
+              },
+              "user": {
+                "type": "string"
+              },
+              "mdb": {
+                "type": "string"
+              },
+              "module": {
+                "type": "string"
+              },
+              "license": {
+                "type": "string"
+              },
+              "credentialKey": {
+                "type": "string"
+              },
+              "rememberPassword": {
+                "type": "boolean"
+              },
+              "isFavorite": {
+                "type": "boolean"
+              },
+              "isDefault": {
+                "type": "boolean"
+              },
+              "environment": {
+                "type": "object",
+                "properties": {},
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "licensePrecheck": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "mode": {
+                    "type": "string",
+                    "enum": [
+                      "off",
+                      "required"
+                    ]
+                  },
+                  "host": {
+                    "type": "string"
+                  },
+                  "rmsPort": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 65535
+                  },
+                  "rulesPort": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 65535
+                  },
+                  "serviceName": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "timeoutMilliseconds": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 10000
+                  },
+                  "requireCheckout": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "profile"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "launch.workspace.read",
+      "contractVersion": 1,
+      "description": "Read an independent workspace snapshot and current revision.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {},
+        "required": []
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "launchdesk.import.apply",
+      "contractVersion": 1,
+      "description": "Read explicitly selected prototype data and retain sanitized drafts/history without importing credentials.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "planId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "planId",
+          "sha256"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": true,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "launchdesk.import.preview",
+      "contractVersion": 1,
+      "description": "Read explicitly selected prototype data and retain sanitized drafts/history without importing credentials.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "source": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "source"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "launchdesk.import.read",
+      "contractVersion": 1,
+      "description": "Read explicitly selected prototype data and retain sanitized drafts/history without importing credentials.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "manager.contracts",
+      "contractVersion": 1,
+      "description": "Read the complete installation-to-operation journey and actual registered operation schemas; no discovery or mutation.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "manager.status",
+      "contractVersion": 1,
+      "description": "Read the shared manager directories without creating data or starting a GUI.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "migration.preview",
+      "contractVersion": 1,
+      "description": "Read bounded source material without activation or storage switching.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "format": {
+            "type": "string",
+            "enum": [
+              "rewrite",
+              "next",
+              "ribbon"
+            ]
+          },
+          "source": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "format",
+          "source"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "plugin.describe",
+      "contractVersion": 1,
+      "description": "Manage explicit optional plugin packages or invoke one declared worker operation; unavailable plugins never block base operations.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "plugin.enable",
+      "contractVersion": 1,
+      "description": "Manage explicit optional plugin packages or invoke one declared worker operation; unavailable plugins never block base operations.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "expectedRevision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "enabled": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "expectedRevision",
+          "enabled"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": true,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "plugin.install.apply",
+      "contractVersion": 1,
+      "description": "Manage explicit optional plugin packages or invoke one declared worker operation; unavailable plugins never block base operations.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "planId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "planId",
+          "sha256"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": true,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "plugin.install.preview",
+      "contractVersion": 1,
+      "description": "Manage explicit optional plugin packages or invoke one declared worker operation; unavailable plugins never block base operations.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "source": {
+            "type": "string",
+            "minLength": 1
+          },
+          "enabled": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "source"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "plugin.invoke",
+      "contractVersion": 1,
+      "description": "Manage explicit optional plugin packages or invoke one declared worker operation; unavailable plugins never block base operations.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "pluginId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "operation": {
+            "type": "string",
+            "minLength": 1
+          },
+          "workerTimeoutSeconds": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 3600
+          },
+          "input": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": true
+          }
+        },
+        "required": [
+          "pluginId",
+          "operation",
+          "input"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "plugin.list",
+      "contractVersion": 1,
+      "description": "Manage explicit optional plugin packages or invoke one declared worker operation; unavailable plugins never block base operations.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {},
+        "required": []
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "plugin.unregister",
+      "contractVersion": 1,
+      "description": "Manage explicit optional plugin packages or invoke one declared worker operation; unavailable plugins never block base operations.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "expectedRevision": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "id",
+          "expectedRevision"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": true,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "pml.function.invoke",
+      "contractVersion": 1,
+      "description": "复用通信 CLI 的函数登记、列表、独立权限与单次调用；本机登记不表示 Host 已加载。",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "functionName": {
+            "type": "string",
+            "minLength": 1
+          },
+          "parameters": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "string",
+                    "str",
+                    "bool",
+                    "boolean",
+                    "double",
+                    "real",
+                    "number"
+                  ]
+                },
+                "value": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "boolean"
+                    },
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "type",
+                "value"
+              ]
+            }
+          }
+        },
+        "required": [
+          "functionName",
+          "parameters"
+        ]
+      },
+      "requiresPid": true,
+      "requiresExecution": true,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": [
+        "invoke_pml_function"
+      ]
+    },
+    {
+      "id": "pml.function.permission",
+      "contractVersion": 1,
+      "description": "复用通信 CLI 的函数登记、列表、独立权限与单次调用；本机登记不表示 Host 已加载。",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "functionName": {
+            "type": "string",
+            "minLength": 1
+          },
+          "allowInvoke": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "functionName",
+          "allowInvoke"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": true,
+      "requiresLaunch": false,
+      "legacyTools": [
+        "set_pml_function_permission"
+      ]
+    },
+    {
+      "id": "pml.function.register",
+      "contractVersion": 1,
+      "description": "复用通信 CLI 的函数登记、列表、独立权限与单次调用；本机登记不表示 Host 已加载。",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "sourceFile": {
+            "type": "string",
+            "minLength": 1
+          },
+          "functionName": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "sourceFile",
+          "functionName"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": true,
+      "requiresLaunch": false,
+      "legacyTools": [
+        "register_pml_function"
+      ]
+    },
+    {
+      "id": "pml.functions.list",
+      "contractVersion": 1,
+      "description": "复用通信 CLI 的函数登记、列表、独立权限与单次调用；本机登记不表示 Host 已加载。",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {},
+        "required": []
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": [
+        "list_registered_pml_functions"
+      ]
+    },
+    {
+      "id": "ribbon.deployment.file-apply",
+      "contractVersion": 1,
+      "description": "Ribbon HTTP v1 兼容适配；原后端校验、历史与部署语义保持。",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": true
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": true,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "ribbon.deployment.file-preview",
+      "contractVersion": 1,
+      "description": "Ribbon HTTP v1 兼容适配；原后端校验、历史与部署语义保持。",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": true
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "ribbon.deployment.modules",
+      "contractVersion": 1,
+      "description": "Ribbon HTTP v1 兼容适配；原后端校验、历史与部署语义保持。",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": true
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "ribbon.deployment.registration-apply",
+      "contractVersion": 1,
+      "description": "Ribbon HTTP v1 兼容适配；原后端校验、历史与部署语义保持。",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": true
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": true,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "ribbon.deployment.registration-preview",
+      "contractVersion": 1,
+      "description": "Ribbon HTTP v1 兼容适配；原后端校验、历史与部署语义保持。",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": true
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "ribbon.management.adopt",
+      "contractVersion": 1,
+      "description": "Ribbon HTTP v1 兼容适配；原后端校验、历史与部署语义保持。",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": true
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": true,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "ribbon.management.list",
+      "contractVersion": 1,
+      "description": "Ribbon HTTP v1 兼容适配；原后端校验、历史与部署语义保持。",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": true
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "ribbon.management.toggle",
+      "contractVersion": 1,
+      "description": "Ribbon HTTP v1 兼容适配；原后端校验、历史与部署语义保持。",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": true
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": true,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "ribbon.projects.normalize",
+      "contractVersion": 1,
+      "description": "Ribbon HTTP v1 兼容适配；原后端校验、历史与部署语义保持。",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": true
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "ribbon.projects.validate",
+      "contractVersion": 1,
+      "description": "Ribbon HTTP v1 兼容适配；原后端校验、历史与部署语义保持。",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": true
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "ribbon.uic.export",
+      "contractVersion": 1,
+      "description": "Ribbon HTTP v1 兼容适配；原后端校验、历史与部署语义保持。",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": true
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "ribbon.uic.import",
+      "contractVersion": 1,
+      "description": "Ribbon HTTP v1 兼容适配；原后端校验、历史与部署语义保持。",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": true
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": true,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "ribbon.v2.deployment.file-apply",
+      "contractVersion": 2,
+      "description": "Ribbon HTTP v2 冻结计划；部署只代表磁盘写入，实际加载未核验。",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "planId",
+          "planDigest"
+        ],
+        "properties": {
+          "planId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "planDigest": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        }
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": true,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "ribbon.v2.deployment.file-preview",
+      "contractVersion": 2,
+      "description": "Ribbon HTTP v2 冻结计划；部署只代表磁盘写入，实际加载未核验。",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "project"
+        ],
+        "properties": {
+          "project": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "schemaVersion": {
+                "type": "integer",
+                "enum": [
+                  1
+                ]
+              },
+              "namespace": {
+                "type": "string"
+              },
+              "documentId": {
+                "type": "string",
+                "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+              },
+              "origin": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "fileName": {
+                    "type": "string"
+                  },
+                  "xml": {
+                    "type": "string"
+                  },
+                  "sourcePath": {
+                    "type": "string"
+                  },
+                  "sourceHash": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "fileName",
+                  "xml",
+                  "sourceHash"
+                ]
+              },
+              "preferredBinding": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "monPath": {
+                    "type": "string"
+                  },
+                  "manifestName": {
+                    "type": "string"
+                  },
+                  "entryName": {
+                    "type": "string"
+                  },
+                  "registrationPath": {
+                    "type": "string"
+                  },
+                  "filePath": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "monPath",
+                  "manifestName",
+                  "entryName"
+                ]
+              },
+              "buttons": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "sourceId": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "caption": {
+                      "type": "string"
+                    },
+                    "macro": {
+                      "type": "string"
+                    },
+                    "commandKey": {
+                      "type": "string"
+                    },
+                    "tooltipText": {
+                      "type": "string"
+                    },
+                    "tooltipTitle": {
+                      "type": "string"
+                    },
+                    "image": {
+                      "anyOf": [
+                        {
+                          "type": "null"
+                        },
+                        {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "mediaType": {
+                              "type": "string",
+                              "enum": [
+                                "image/png",
+                                "image/jpeg"
+                              ]
+                            },
+                            "base64": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "mediaType",
+                            "base64"
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "caption",
+                    "macro",
+                    "commandKey",
+                    "tooltipText",
+                    "tooltipTitle"
+                  ]
+                }
+              },
+              "tabs": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "sourceId": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "caption": {
+                      "type": "string"
+                    },
+                    "groups": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "sourceId": {
+                            "type": "string"
+                          },
+                          "id": {
+                            "type": "string"
+                          },
+                          "caption": {
+                            "type": "string"
+                          },
+                          "items": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "buttonId": {
+                                  "type": "string"
+                                },
+                                "size": {
+                                  "type": "string",
+                                  "enum": [
+                                    "large",
+                                    "small"
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "buttonId",
+                                "size"
+                              ]
+                            }
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "caption",
+                          "items"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "caption",
+                    "groups"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "schemaVersion",
+              "namespace",
+              "documentId",
+              "buttons",
+              "tabs"
+            ]
+          }
+        }
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "ribbon.v2.deployment.registration-apply",
+      "contractVersion": 2,
+      "description": "Ribbon HTTP v2 冻结计划；部署只代表磁盘写入，实际加载未核验。",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "planId",
+          "planDigest"
+        ],
+        "properties": {
+          "planId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "planDigest": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        }
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": true,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "ribbon.v2.deployment.registration-preview",
+      "contractVersion": 2,
+      "description": "Ribbon HTTP v2 冻结计划；部署只代表磁盘写入，实际加载未核验。",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "project",
+          "monPath",
+          "manifestName",
+          "entryName"
+        ],
+        "properties": {
+          "project": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "schemaVersion": {
+                "type": "integer",
+                "enum": [
+                  1
+                ]
+              },
+              "namespace": {
+                "type": "string"
+              },
+              "documentId": {
+                "type": "string",
+                "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+              },
+              "origin": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "fileName": {
+                    "type": "string"
+                  },
+                  "xml": {
+                    "type": "string"
+                  },
+                  "sourcePath": {
+                    "type": "string"
+                  },
+                  "sourceHash": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "fileName",
+                  "xml",
+                  "sourceHash"
+                ]
+              },
+              "preferredBinding": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "monPath": {
+                    "type": "string"
+                  },
+                  "manifestName": {
+                    "type": "string"
+                  },
+                  "entryName": {
+                    "type": "string"
+                  },
+                  "registrationPath": {
+                    "type": "string"
+                  },
+                  "filePath": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "monPath",
+                  "manifestName",
+                  "entryName"
+                ]
+              },
+              "buttons": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "sourceId": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "caption": {
+                      "type": "string"
+                    },
+                    "macro": {
+                      "type": "string"
+                    },
+                    "commandKey": {
+                      "type": "string"
+                    },
+                    "tooltipText": {
+                      "type": "string"
+                    },
+                    "tooltipTitle": {
+                      "type": "string"
+                    },
+                    "image": {
+                      "anyOf": [
+                        {
+                          "type": "null"
+                        },
+                        {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "mediaType": {
+                              "type": "string",
+                              "enum": [
+                                "image/png",
+                                "image/jpeg"
+                              ]
+                            },
+                            "base64": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "mediaType",
+                            "base64"
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "caption",
+                    "macro",
+                    "commandKey",
+                    "tooltipText",
+                    "tooltipTitle"
+                  ]
+                }
+              },
+              "tabs": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "sourceId": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "caption": {
+                      "type": "string"
+                    },
+                    "groups": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "sourceId": {
+                            "type": "string"
+                          },
+                          "id": {
+                            "type": "string"
+                          },
+                          "caption": {
+                            "type": "string"
+                          },
+                          "items": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "buttonId": {
+                                  "type": "string"
+                                },
+                                "size": {
+                                  "type": "string",
+                                  "enum": [
+                                    "large",
+                                    "small"
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "buttonId",
+                                "size"
+                              ]
+                            }
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "caption",
+                          "items"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "caption",
+                    "groups"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "schemaVersion",
+              "namespace",
+              "documentId",
+              "buttons",
+              "tabs"
+            ]
+          },
+          "monPath": {
+            "type": "string",
+            "minLength": 1
+          },
+          "manifestName": {
+            "type": "string",
+            "minLength": 1
+          },
+          "entryName": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          }
+        }
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "ribbon.workspace.context",
+      "contractVersion": 1,
+      "description": "Ribbon HTTP v1 兼容适配；原后端校验、历史与部署语义保持。",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": true
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "ribbon.workspace.open",
+      "contractVersion": 1,
+      "description": "Ribbon HTTP v1 兼容适配；原后端校验、历史与部署语义保持。",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": true
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "ribbon.workspace.original",
+      "contractVersion": 1,
+      "description": "Ribbon HTTP v1 兼容适配；原后端校验、历史与部署语义保持。",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": true
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "ribbon.workspace.restore",
+      "contractVersion": 1,
+      "description": "Ribbon HTTP v1 兼容适配；原后端校验、历史与部署语义保持。",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": true
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": true,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "ribbon.workspace.save",
+      "contractVersion": 1,
+      "description": "Ribbon HTTP v1 兼容适配；原后端校验、历史与部署语义保持。",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": true
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": true,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "ribbon.workspace.versions",
+      "contractVersion": 1,
+      "description": "Ribbon HTTP v1 兼容适配；原后端校验、历史与部署语义保持。",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": true
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "setup.handoff.inspect",
+      "contractVersion": 1,
+      "description": "Read-only installed package/ownership verification; does not connect AVEVA.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "packageRoot": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "packageRoot"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "setup.legacy.preview",
+      "contractVersion": 1,
+      "description": "Freeze one legacy v2 environment ownership transfer without changing EVARS or the installer marker.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "packageRoot": {
+            "type": "string",
+            "minLength": 1
+          },
+          "environmentFile": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "packageRoot",
+          "environmentFile"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": false,
+      "requiresLaunch": false,
+      "legacyTools": null
+    },
+    {
+      "id": "setup.legacy.transfer",
+      "contractVersion": 1,
+      "description": "Explicitly transfer frozen legacy ownership; retain old record/receipt and never edit EVARS.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "planId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-fA-F0-9]{64}$"
+          }
+        },
+        "required": [
+          "planId",
+          "sha256"
+        ]
+      },
+      "requiresPid": false,
+      "requiresExecution": false,
+      "requiresWrite": true,
+      "requiresLaunch": false,
+      "legacyTools": null
+    }
+  ],
+  "outputBoundary": "OperationResult.data remains unknown JSON; no dedicated output schema is promised. CLI process start ticks are decimal strings; do not round through JavaScript numbers. Static script links are not execution evidence."
+}

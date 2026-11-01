@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using YuzuhaToolkit.Knowledge.Search;
 using YuzuhaToolkit.Mcp;
 using YuzuhaToolkit.Pml;
+using PmlTwin.Phayton;
+using YuzuhaToolkit.Manager;
 
 namespace YuzuhaToolkit.DevHost;
 
@@ -15,6 +17,18 @@ public static partial class DevelopmentEndpoints
     /// <summary>读取开发宿主状态。</summary>
     /// <returns>宿主名称与当前 API 版本；不表示 AVEVA 已连接。</returns>
     public static HealthResponse Health() => new("YuzuhaToolkit.DevHost", "v1");
+
+    /// <summary>读取安装到工程操作的完整契约及实际注册目录，不调用业务处理器。</summary>
+    public static ManagerContractExport ManagerContracts() => ManagerContractCatalog.Export(ManagerOperationCatalog.Create().Registry);
+
+    /// <summary>读取管理器真实操作的输入schema和授权要求，不发现或修改环境。</summary>
+    public static OperationDescriptor[] ManagerOperations() => ManagerOperationCatalog.Create().Registry.Descriptors.ToArray();
+
+    /// <summary>按稳定ID读取一个已注册操作；未知ID返回404，不提供HTTP执行入口。</summary>
+    public static Results<Ok<OperationDescriptor>, NotFound<ApiError>> ManagerOperation(string id) =>
+        ManagerOperationCatalog.Create().Registry.TryGet(id, out var entry)
+            ? TypedResults.Ok(entry!.Descriptor)
+            : TypedResults.NotFound(new ApiError("unknown_operation", "操作未注册；请从真实目录选择ID。"));
 
     /// <summary>读取随 MCP 版本嵌入的完整使用指南。</summary>
     /// <param name="query">主题 ID、别名或任务描述；省略时返回全部指南。</param>

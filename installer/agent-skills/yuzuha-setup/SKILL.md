@@ -14,9 +14,10 @@ root as two levels above this skill directory; it contains `setup`, `skill`,
    executing the helper or EXE. Reject absolute/traversal paths. A bundled
    hash detects corruption, not publisher authenticity; use the user's trusted
    download and separately supplied archive hash when available.
-2. Read `VALIDATION.md`. Run the helper on the Windows machine that has AVEVA
-   (inside the VM if AVEVA is there). Use `plan-auto` below to let the program
-   discover environments and construct the proposed plan, not model-guessed paths.
+2. Read `VALIDATION.md`. Application-only Manager handoff uses `plan` as below.
+   Legacy direct AVEVA integration runs the helper on the Windows machine that
+   has AVEVA (inside the VM if AVEVA is there); use `plan-auto` to let the program
+   discover environments and construct its proposal, not model-guessed paths.
    `discover <new-json>` is available for diagnosis; read the output JSON after
    execution, because discovery writes a file rather than printing candidates.
    `locate <new-json>` locates existing Yuzuha installations, not AVEVA.
@@ -31,8 +32,12 @@ root as two levels above this skill directory; it contains `setup`, `skill`,
    modify existing MCP entries. Never re-enable a disabled MCP as an installation
    side effect. Include selected AVEVA and Skill changes in the same preview.
 4. Create a new request using `request.example.json` as a schema example,
-   not as real paths. Keep `integrationMode: "aveva"` and initially empty
-   environments; invoke `plan-auto` as documented, using the bundle's
+   not as real paths. New installations default to explicit `integrationMode:
+   "manager"` and empty environments; invoke `plan` to install the application
+   and defer EVARS/deployment to the Manager preparation task. This is distinct
+   from none and reports `manager-preparation-required`, not AVEVA connected.
+   Only when the user explicitly chooses legacy direct AVEVA integration, use
+   `integrationMode: "aveva"` and invoke `plan-auto` as documented, using the bundle's
    `.setup-payload.json` and **runtime `skill` directory**, not this setup skill.
    Present the generated Markdown preview, changed paths and before/after
    lines. Wait for user approval before running the EXE. Automatic candidates

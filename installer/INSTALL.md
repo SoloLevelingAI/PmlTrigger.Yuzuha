@@ -4,6 +4,18 @@
 
 本文件是安装说明，不是自动执行授权。人工和 AI 使用同一个计划引擎与安装 EXE。任何配置写入前必须让用户检查预览并确认；不能把发现注册表条目视为修改授权。
 
+## 当前默认：安装应用，由管理器准备环境
+
+新交互安装默认使用明确的`integrationMode: "manager"`。它与`none`不同：安装器交付应用、管理CLI、清单、快捷方式和安装所有权，结果为`manager-preparation-required`；不发现后自动修改EVARS，不声称AVEVA已接入。使用示例请求的manager模式时，调用`plan`生成安装预览，环境列表必须为空；`plan-auto`只服务于下文保留的旧显式aveva模式。
+
+安装完成页可勾选以原交互用户打开管理器，参数为`--prepare-installation --handoff "<安装根>"`。静默安装不自动启动管理器，也不后台启动CLI宿主。管理器核验安装清单和所有权后，再选择产品环境、预览EVARS/运行部署、明确应用及查看回执。应用根归Inno所有；独立复制部署须使用另一个管理器拥有的运行目录，不能覆盖应用根。
+
+旧v2安装器已有EVARS所有权时，先用管理器只读预览，再明确移交。受支持的移交保留旧标记备份和回执，只从当前安装标记的`managed`及请求环境列表中移除指定目标，EVARS原字节不变；旧卸载随后不再恢复该目标，其他托管条目保留。来源漂移、未知旧格式或正在运行的Setup/helper/卸载程序会拒绝。旧程序不遵守新的管理器租约，因此该操作不承诺跨旧进程的全局事务；交接后复验不符时报告unknown并人工核对，不自动重放。真实安装或真实所有权移交仍需先批准具体预览。
+
+部署与直接EVARS操作在预览及应用时都核对明确的包/运行根和HKCU已登记安装的当前标记；仍由v2安装器拥有的目标返回`SETUP_OWNERSHIP_TRANSFER_REQUIRED`，不能绕过移交直接改写。损坏、未知或无法读取的已知记录返回`SETUP_OWNERSHIP_UNRESOLVED`并停止。直接EVARS入口可选`packageRoot`保留到冻结计划；本轮前缺少该包装的旧冻结编辑计划须重新预览，旧恢复回执仍兼容。未登记、且未作为包/运行根提供的任意旧目录不在自动发现范围；不会执行脚本或全盘搜索来推测所有权，这些来源须先人工定位核对。
+
+以下旧式EVARS直接接入说明仅适用于用户明确选择的兼容`aveva`计划；`none`继续表示明确仅文件/客户端，不得用它伪装manager准备完成。旧显式计划、备份及卸载语义继续保留。
+
 ## 人工安装
 
 新增接入行按维护者约定使用不带双引号的 `set 名称=值`。原文件中的引号不变；安装路径的批处理特殊字符检查仍保留。
@@ -15,7 +27,7 @@
 YuzuhaFramework 是可选的 NET35/NET48 覆盖值；标准 Profile 从 Yuzuha 推断，不额外新增。原文件已有此变量时在末尾块补入匹配框架的覆盖值，并列入预览。
 
 1. 运行 `Phayton-0.3.4.2-Windows-Setup.exe`，先批准管理员权限，再选择简体中文或 English。所有页面均为 Inno 原生向导，不再弹出 WinForms 配置窗口。若使用其他管理员账户提权，默认用户目录及 HKCU 属于该账户，请核对目标目录。
-2. 选择名称包含 `PmlTrigger` 的本机安装目录。旧 PS1/preview1 安装不能直接覆盖迁移。随后在“安装目标”页选择“安装并接入 AVEVA”或“仅安装文件 / AI 客户端，不修改 AVEVA”；前者必须选择环境，后者跳过环境页，但仍可选择客户端接入。
+2. 选择名称包含 `PmlTrigger` 的本机安装目录。旧 PS1/preview1 安装不能直接覆盖迁移。随后默认“安装应用，随后由管理器准备环境与部署”；只有明确选择“旧版兼容：安装并接入AVEVA”才进入环境页；“仅安装文件/客户端”也继续保留。
 3. 在“选择 AVEVA 环境”向导页查看发现的产品；点击一行可查看或编辑文件、Host、编码和来源。所有环境默认不勾选；可手动添加注册表未登记的 INIT/BAT。
 4. 勾选产品。安装器自动推荐已支持的 Host 和环境文件：E3D 仅 INIT，PDMS/AM 优先 INIT、没有时推荐 BAT。未知版本、多个候选或扫描不完整时才需要人工选择/确认。推荐不表示已经启动 AVEVA 验证。
 5. 点击“下一步”进入“可选：CLI 使用 Skill”。CLI 随软件安装；如需为 AI 提供使用说明，填写客户端实际读取的完整 yuzuha-toolkit 目录，否则留空。先核对客户端、Windows 账户和真实目录。该页没有 MCP 注册选项；安装器不会修改已存在的 MCP 服务配置。
@@ -30,7 +42,7 @@ YuzuhaFramework 是可选的 NET35/NET48 覆盖值；标准 Profile 从 Yuzuha �
 
 把选定的 AVEVA 和 Skill 修改纳入同一份预览，确认后执行。结束时分别汇报软件/CLI 文件、AVEVA 配置、Skill 文件及实际加载验证。`mcpJson` 必须留空；安装器不会重新启用已禁用的 MCP，也不会改动其他客户端服务。
 
-### 自动查找并生成接入计划（默认入口）
+### 自动查找并生成接入计划（旧显式aveva兼容入口）
 
 在安装 AVEVA 的 Windows 内执行（AVEVA 在 VM 就必须在 VM 内执行）。
 填写 request.example.json 副本的安装目录、可选客户端目标，保留
@@ -126,7 +138,11 @@ This CLI-only distribution installs `runtime/cli/PmlTwin.Phayton.Cli.exe` and do
 
 Before planning, resolve the user's Skill choice if not already stated. Confirm the client, Windows account and supported Skill directory; include selected AVEVA and Skill changes in the same review. Report file installation, configuration writes and actual loading verification separately.
 
-The native Installation scope page offers AVEVA integration or files/client-only.
+The default native scope is explicit `manager`: install application/Manager CLI,
+then open the preparation task as the original interactive user. It never writes
+EVARS or claims a connected Host. Use `plan` with empty environments; the result
+is `manager-preparation-required`. Silent Setup never opens Manager automatically.
+Legacy AVEVA integration and explicit files/client-only modes remain available.
 For AVEVA, use `integrationMode: "aveva"` and `plan-auto` with the same arguments
 as `plan`; the program discovers environments and produces a preview only.
 Run it inside the Windows system containing AVEVA. Missing, ambiguous, unsupported
@@ -158,7 +174,7 @@ Actual reports and backups are retained in LocalAppData/YuzuhaToolkit/SetupRepor
 
 0.3.4.1 安装包将 HTML 宿主也改为自包含发布，无需另装 ASP.NET Core 10。桌面、完整 DocFX、中文视频与只读文档宿主一并交付；上述历史版本依赖说明保留用于识别旧包。
 
-构建时将桌面与 DevHost 自包含发布到独立目录，再用 `installer/build.py --version 0.3.4.2 --cli <原生CLI发布目录> --desktop <桌面发布目录> --documentation <已校验DocFX站点> --documentation-host <DevHost发布目录> --iscc <ISCC.exe> --output <新目录>` 纳入包，避免覆盖正在运行的开发版。这些选项只改变待打包来源，不执行安装，所有发布文件仍进入同一散列清单。
+构建时将桌面、Manager CLI与DevHost发布到独立目录，再用 `installer/build.py --version 0.3.4.2 --runtime <含四profile和webapps的独立runtime目录> --cli <原生CLI发布目录> --manager <Manager CLI发布目录> --desktop <桌面发布目录> --documentation <已校验DocFX站点> --documentation-host <DevHost发布目录> --iscc <ISCC.exe> --output <新目录>` 纳入包。`--runtime`省略时兼容旧的仓库runtime来源；独立输入避免覆盖开发或已安装运行目录。构建缺少四个Host、`Yuzuha.Manager.Cli.exe`或桌面入口时拒绝，不发布无效manager入口；所有发布文件进入同一散列清单。这些操作不执行安装。
 
 
 ## 用户数据与升级保护（TRACE32）

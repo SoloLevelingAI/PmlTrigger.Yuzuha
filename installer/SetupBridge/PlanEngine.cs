@@ -155,6 +155,7 @@ internal static partial class Program
             if (FileDigest((string)old["path"]) != (string)old["afterSha256"])
                 throw Bad("先检查上次安装后修改的托管文件 / Managed file changed since last install: " + old["path"]);
         var manifest = ReadObject(manifestPath);
+        if(IntegrationMode(request)=="manager") ValidateManagerManifest(manifest);
         foreach (JObject selected in request["environments"] as JArray ?? new JArray()) changes.Add(EvarChange(root,selected));
         if (prior != null && HasStartupPolicy((JArray)manifest["files"]))
         {
@@ -201,8 +202,9 @@ internal static partial class Program
     internal static string Preview(JObject plan)
     {
         var b=new StringBuilder("# Yuzuha 安装预览 / Installation preview\r\n\r\n");
-        b.AppendLine("AVEVA: "+(IntegrationMode((JObject)plan["request"])=="aveva"?
-            "接入配置 / configure selected environments":"未请求接入（仅文件/客户端） / NOT requested (files/client only)"));
+        string mode=IntegrationMode((JObject)plan["request"]);
+        b.AppendLine("AVEVA: "+(mode=="aveva"?"接入配置 / configure selected environments":mode=="manager"?
+            "交由管理器准备；安装器不修改EVARS / Manager preparation required; Setup does not modify EVARS":"未请求接入（仅文件/客户端） / NOT requested (files/client only)"));
         b.AppendLine("Environment targets: "+(((JObject)plan["request"])["environments"] as JArray)?.Count);
         b.AppendLine("目录 / Root: "+plan["root"]); b.AppendLine("计划 ID / Plan ID: "+plan["id"]);
         b.AppendLine("注册表 / Registry (HKCU, 64-bit): "+plan["registryKey"]);
@@ -250,6 +252,7 @@ internal static partial class Program
         var plan=ReadObject(planFile); if((int?)plan["schema"]!=2 || (string)plan["manifestSha256"]!=FileDigest(manifestPath)) throw Bad("Package/plan mismatch.");
         RequireCliOnlyClient((JObject)plan["request"]);
         IntegrationMode((JObject)plan["request"]);
+        if(IntegrationMode((JObject)plan["request"])=="manager") ValidateManagerManifest(ReadObject(manifestPath));
         string root=Absolute((string)plan["root"]); CheckPath(root);
         Guid planId;
         if(!Guid.TryParseExact((string)plan["id"],"N",out planId)) throw Bad("Invalid plan ID.");
@@ -374,7 +377,7 @@ internal static partial class Program
                 actual.Add(new JObject{["path"]=path,["kind"]=c["kind"],["status"]=c["action"],["beforeSha256"]=c["beforeSha256"],["afterSha256"]=FileDigest(path),["backup"]=backup});
             }
             finalize(state,actual);
-            WriteResult(report,"success",actual,null);
+            WriteResultWithMode(report,"success",actual,null,IntegrationMode((JObject)plan["request"]));
         }
         catch(Exception ex)
         {
@@ -394,12 +397,14 @@ internal static partial class Program
         }
     }
     static void WriteResult(string report,string status,JArray actual,string error)
+    { WriteResultWithMode(report,status,actual,error,null); }
+    static void WriteResultWithMode(string report,string status,JArray actual,string error,string mode)
     {
         int environments=actual.OfType<JObject>().Count(x=>(string)x["kind"]=="environment");
-        string integration=status!="success"?"not-confirmed":environments>0?"configured-not-launch-tested":"not-requested";
+        string integration=status!="success"?"not-confirmed":environments>0?"configured-not-launch-tested":mode=="manager"?"manager-preparation-required":"not-requested";
         string summary="AVEVA: "+integration+"; environment files: "+environments;
         File.WriteAllText(Path.Combine(report,"result.json"),new JObject{["status"]=status,["utc"]=DateTime.UtcNow.ToString("o"),
-            ["avevaIntegration"]=integration,["environmentCount"]=environments,["actual"]=actual,["error"]=error}.ToString(Formatting.Indented),Utf8);
+            ["avevaIntegration"]=integration,["environmentCount"]=environments,["managerPreparationRequired"]=status=="success"&&mode=="manager",["actual"]=actual,["error"]=error}.ToString(Formatting.Indented),Utf8);
         File.WriteAllText(Path.Combine(report,"result.md"),"# 实际安装结果 / Actual result\r\n\r\n"+status+"\r\n"+error+"\r\n"+
             summary+"\r\n"+
             string.Join("\r\n",actual.OfType<JObject>().Select(x=>x["status"]+" | "+x["path"]+" | SHA256 "+x["afterSha256"]+" | backup "+x["backup"])),Utf8);

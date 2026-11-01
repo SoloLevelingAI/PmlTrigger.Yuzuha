@@ -44,7 +44,8 @@ test('fourteen reviewed Script contracts have exactly seven fields and public ru
 
 test('launch and session evidence reaches report identities without upgrading historical failures, scope or dates', () => {
   const required = new Map([
-    ['feature:launch', ['verification:launch-offline', 'verification:launch-entry-runtime', 'verification:launch-cli-runtime', 'verification:sessions-dashboard-runtime']],
+    ['feature:launch', ['verification:launch-offline', 'verification:launch-entry-runtime', 'verification:launch-cli-runtime', 'verification:sessions-dashboard-runtime', 'verification:install-journey-offline', 'verification:install-journey-ui']],
+    ['feature:deployment', ['verification:install-journey-offline', 'verification:install-journey-ui']],
     ['feature:sessions', ['verification:sessions-initial-host', 'verification:sessions-bootstrap-runtime', 'verification:sessions-host-v1-runtime', 'verification:sessions-dashboard-offline', 'verification:sessions-dashboard-runtime']]
   ]);
   const model = ContractAtlasRender.build(publicData);
@@ -74,6 +75,14 @@ test('launch and session evidence reaches report identities without upgrading hi
   assert.match(proof('verification:sessions-dashboard-runtime').exclusions.join(' '), /真实断线未强制测试/);
   assert.match(proof('verification:sessions-dashboard-runtime').exclusions.join(' '), /27项平台业务任务保留未完成/);
   assert.deepEqual(proof('verification:sessions-dashboard-runtime').environment, { product: 'E3D', version: '2.1', module: 'DESIGN' });
+  assert.equal(proof('verification:install-journey-offline').scope, 'offline');
+  assert.equal(proof('verification:install-journey-ui').scope, 'ui');
+  assert.deepEqual(proof('verification:install-journey-ui').environment, { product: 'synthetic' });
+  assert.match(proof('verification:install-journey-ui').exclusions.join(' '), /不是生产安装或AVEVA实机/);
+  assert.match(proof('verification:install-journey-offline').claim, /2项可选7zr跳过/);
+  const journeyReport = JSON.parse(fs.readFileSync(path.join(repositoryRoot, 'docs/validation/install-to-operation-2026-11-01.json'), 'utf8'));
+  assert.equal(journeyReport.checks.development.xunitSkipped, 2);
+  assert.match(journeyReport.scope, /未执行产品安装/);
 });
 
 test('reviewed verification ownership and evidence cannot silently disappear from the feature projection', () => {

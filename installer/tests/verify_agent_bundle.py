@@ -46,4 +46,13 @@ with tempfile.TemporaryDirectory(prefix='YuzuhaAgentBundle-') as temporary:
     assert not target.exists(), 'Planning unexpectedly created installation target'
     before = hashlib.sha256(plan.read_bytes()).hexdigest()
     assert before in Path(str(plan)+'.sha256').read_text()
-print('PASS: archive paths/inventory/hashes, same EXE, Skill entry/reference, plan + preview generation without installation.')
+    request.write_text(json.dumps({'integrationMode':'manager','root':str(target),'mcpJson':'','skillTarget':'','environments':[]}),encoding='utf-8')
+    manager_plan = root / 'manager-plan.json'
+    subprocess.run([str(bundle/'setup/Yuzuha.SetupBridge.exe'),'plan',str(request),
+                    str(bundle/'.setup-payload.json'),str(bundle/'skill'),str(manager_plan)],check=True)
+    frozen = json.loads(manager_plan.read_text(encoding='utf-8-sig'))
+    assert frozen['request']['integrationMode'] == 'manager'
+    assert not any(item.get('kind') == 'environment' for item in frozen['changes'])
+    assert 'Manager preparation required' in Path(str(manager_plan)+'.md').read_text(encoding='utf-8-sig')
+    assert not target.exists(), 'Manager planning unexpectedly created installation target'
+print('PASS: archive paths/inventory/hashes, same EXE, Skill entry/reference, legacy none and manager frozen previews without installation or EVARS writes.')

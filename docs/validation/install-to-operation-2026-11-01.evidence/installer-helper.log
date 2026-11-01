@@ -1,0 +1,11 @@
+PASS: upgrades allow unchanged package files, retain local edits, refuse user folders/databases and marked user-directory targets.
+PASS: manager mode is distinct, has real required payload, does not plan/write EVARS, refuses selected environments/auto-connect, and reports preparation required.
+PASS: empty environment refusal, explicit none mode, automatic two-environment plan, ambiguity/unknown/incomplete/empty refusal and truthful result summary.
+PASS: native discovery protocol and no WinForms assembly dependency.
+PASS: product profiles, INIT preference, unknown version refusal, UTF8/GBK/UTF16 original byte preservation and idempotence.
+PASS: EVARS discovery, x86 and unrelated IF preservation, focused three-line edits, ambiguous target refusal.
+PASS: controlled CMD normalization, final search lists, original derived directory and Yuzuha profile.
+PASS: CLI-only plan and legacy entry reject MCP registration, retain other-client bytes, preserve Skill preview, reject old or forged MCP plans, and keep atomic file writes.
+PASS: generated index absent/UTF8/GBK/UTF16LE/UTF16BE, BOM and original byte preservation, Bootstrap insertion, case-insensitive idempotence and ambiguous index refusal.
+PASS: real temporary-file index plan/hash freeze, tampered delta refusal, same transaction backup+commit+rollback, concurrent edit preservation, no persistent index ownership and no index creation on fresh install.
+Artifacts: C:\Users\huang y t\AppData\Local\Temp\YuzuhaSetupTests-ebc31c03861240e4aaa55ae5921e1e77

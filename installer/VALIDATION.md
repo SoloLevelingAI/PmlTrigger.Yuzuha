@@ -1,4 +1,35 @@
-# Windows Setup v0.3.3 validation — 2026-09-20
+# Windows Setup validation
+
+## Manager handoff source validation — 2026-11-01
+
+New interactive installation defaults to explicit `manager` mode. Its frozen plan
+does not select or modify AVEVA environment files. The completion page opens the
+installed Desktop preparation entry as the original interactive user; silent
+installation does not open it. This is application installation readiness, not
+proof of AVEVA integration or a working Host.
+
+Executed in isolated fixtures: NET48 SetupBridge regressions, Python package
+builder tests, and Manager handoff/environment/deployment tests. They cover
+required Desktop/Manager CLI payloads and SHA256 inventory, distinct manager/
+aveva/none plans, unchanged EVARS in manager mode, actual old v2 managed block
+compatibility, retained marker backup and receipt, legacy uninstall ownership,
+drift refusal, write authorization, and partial-result recovery semantics.
+Environment/deployment previews and applies also refuse targets still owned by
+known v2 installations until explicit transfer; registry-root, unknown-marker,
+preview-to-apply and late-ownership-change fixtures cover that guard. Product,
+profile and framework share one strict map for all four supported profiles.
+Inno Setup 6.7.3 also compiled the script against synthetic payloads; the existing
+admin/per-user-directory warning remains visible. That synthetic EXE is not a
+usable application and was not executed.
+
+The source-level evidence does not include a new product installation, production
+EVARS edits, real legacy ownership transfer, uninstall, or AVEVA launch. Those
+need a concrete reviewed preview and the user's final approval. Unknown legacy
+formats require separate migration. Old installers do not share the Manager
+lease, so bounded process/drift checks do not promise global cross-process
+atomicity. No global marker is deleted and Inno retains ownership of the app root.
+
+## Windows Setup v0.3.3 validation — 2026-09-20
 
 The maintainer reported successful installation testing of preview11 and
 requested publication. v0.3.3 retains that installation logic, updating release

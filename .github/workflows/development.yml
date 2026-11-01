@@ -17,6 +17,19 @@ jobs:
         run: npm run contracts:check
       - name: Six ION palettes
         run: npm run contracts:styles:themes
+      - name: Native palettes and installation journey projections
+        shell: pwsh
+        run: |
+          node scripts/build-ion-wpf-themes.mjs --check
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          node scripts/export-manager-contracts.mjs --from docs/contracts/manager-journey.json --check
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          node scripts/build-install-journey-docs.mjs --check
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          node scripts/build-install-journey-design.mjs --check
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          npm run manager:types:check
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Contract, evidence, publication and method bridge tests
         shell: pwsh
         run: |
@@ -54,12 +67,25 @@ jobs:
       - name: xUnit and ArchUnitNET
         shell: pwsh
         run: ./scripts/Test-Development.ps1
+      - name: Installer manager handoff and packaging fixtures
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force artifacts/tests/installer | Out-Null
+          dotnet build installer/tests/SetupTests.csproj -c Release
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          & ./installer/tests/bin/Release/net48/SetupTests.exe 2>&1 | Tee-Object artifacts/tests/installer/net48.log
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -X utf8 installer/tests/build_cli_test.py 2>&1 | Tee-Object artifacts/tests/installer/packaging.log
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: OpenAPI, LikeC4 and DocFX
         shell: pwsh
         run: ./scripts/Build-Documentation.ps1
       - name: WPF isolated flows and viewport checks
         shell: pwsh
         run: ./scripts/run-documented-test.ps1 -TestId 'smoke:desktop-flows'
+      - name: WPF installation journey, palettes and recovery
+        shell: pwsh
+        run: ./scripts/run-documented-test.ps1 -TestId 'smoke:desktop-preparation'
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -67,6 +93,7 @@ jobs:
           path: |
             artifacts/tests/*.trx
             artifacts/tests/run-metadata.json
+            artifacts/tests/installer/**
             artifacts/handoff-validation/**/*.json
             artifacts/handoff-validation/**/*.tap
             artifacts/tests/launch-scenarios/**/*.json
@@ -74,6 +101,7 @@ jobs:
             artifacts/tests/launch-scenarios/**/*.html
             artifacts/tests/launch-scenarios/**/*.log
             artifacts/dt/**/desktop-smoke.json
+            artifacts/dt/**/preparation-smoke.json
             artifacts/dt/**/run-metadata.json
             artifacts/dt/**/documented-run.json
             artifacts/dt/**/smoke-result.json

@@ -48,9 +48,10 @@ public partial class MainWindow : Window
         WarnFilesBox.Text = _settings.WarnFiles.ToString(); WarnSizeBox.Text = (_settings.WarnBytes / 1048576).ToString();
         ReloadProfiles(); if (_settings.Profiles.Count > 0) ProfilesBox.SelectedItem = _settings.Profiles.FirstOrDefault(profile => profile.IsDefault) ?? _settings.Profiles[0];
         InitializeLaunchLifecycle();
+        InitializePreparation();
         Tabs.SelectedIndex = 4; SetPage("总览");
         var isolatedLaunchSmoke = Environment.GetCommandLineArgs().Contains("--launch-lifecycle-smoke-output");
-        var isolatedDesktopSmoke = isolatedLaunchSmoke || Environment.GetCommandLineArgs().Contains("--smoke-output");
+        var isolatedDesktopSmoke = isolatedLaunchSmoke || Environment.GetCommandLineArgs().Contains("--smoke-output") || Environment.GetCommandLineArgs().Contains("--preparation-smoke-output");
         InitializeDashboardMonitoring(isolatedDesktopSmoke);
         _timer.Tick += async (_, _) => await RefreshRuntimeAsync();
         if (!isolatedDesktopSmoke)
@@ -105,6 +106,7 @@ public partial class MainWindow : Window
         HeaderActionButton.IsEnabled = title != "启动工程" || LaunchButton.IsEnabled;
         HeaderActionIcon.Data = (Geometry)FindResource(title is "工程会话" or "原生 Form / Gadget" or "AI 运行" ? "Icon.refresh" : title is "能力与函数" or "Web 应用" or "启动配置" ? "Icon.plus" : "Icon.play");
         UpdateR2Navigation(title);
+        if (title == "安装与环境准备") { HeaderActionButton.Visibility = Visibility.Collapsed; PageSubtitleText.Text = "安装交接 → 环境 → 冻结预览 → 明确应用 → 启动与核验"; }
         if (title == "会话任务") { HeaderActionButton.Visibility = Visibility.Collapsed; PageSubtitleText.Text = "先明确目标，再进入任务；选择入口不执行查询或授权"; }
         if (title is "对象查询" or "读取已有数组") { HeaderActionText.Text = "返回任务入口"; PageSubtitleText.Text = "明确操作 → 本次结果；保留原输入与回执，不自动重发"; }
         if (Tabs.SelectedIndex == 4) UpdateDashboardPrimaryAction();
@@ -118,6 +120,8 @@ public partial class MainWindow : Window
     }
     private void UpdateThemeButtons()
     {
+        if (ThemePalettePicker is not null) ThemePalettePicker.SelectedValue = DesktopTheme.Current;
+        PreparationView?.RefreshPalette();
         foreach (var button in new[] { LightThemeButton, DarkThemeButton })
         {
             var selected = Equals(button.Tag, DesktopTheme.Current); button.SetResourceReference(BackgroundProperty, selected ? "Surface.Card" : "Surface.Track");

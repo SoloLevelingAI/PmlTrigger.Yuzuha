@@ -66,15 +66,22 @@ Name: "{group}\Uninstall Phayton"; Filename: "{uninstallexe}"; Check: not Wizard
 [UninstallDelete]
 Type: files; Name: "{app}\.yuzuha-inno.json"
 
+[Run]
+Filename: "{app}\runtime\desktop\YuzuhaToolkit.Desktop.exe"; Parameters: "--prepare-installation --handoff ""{app}"""; Description: "{cm:OpenManagerPreparation}"; Flags: nowait postinstall skipifsilent runasoriginaluser; Check: CanOpenManager
+
+[CustomMessages]
+english.OpenManagerPreparation=Open Manager to prepare environments and deployment
+chinesesimp.OpenManagerPreparation=打开管理器，准备环境与部署
+
 [Messages]
 english.WelcomeLabel1=Welcome to Phayton
-english.WelcomeLabel2=CONNECT / UNDERSTAND / RECORD%n%nOne Windows installer for people and AI.%n%nSelect environments and client integration, inspect every proposed change, then approve installation.%n%nNothing is connected or indexed without selection.
+english.WelcomeLabel2=CONNECT / UNDERSTAND / RECORD%n%nInstall the application, then continue environment preparation and deployment in Manager.%n%nReview every proposed file change before installation. AVEVA integration remains a separate task.
 english.FinishedHeadingLabel=Your Phayton installation is ready
-english.FinishedLabel=The approved plan has been executed.%n%nReports and backups: LocalAppData\YuzuhaToolkit\SetupReports.%n%nRestart the AI client and any AVEVA environment you configured. The installed INSTALL.md explains later AI integration.
+english.FinishedLabel=The approved application plan has been executed.%n%nReports and backups: LocalAppData\YuzuhaToolkit\SetupReports.%n%nContinue in Manager to inspect installation ownership, preview EVARS and deployment, and explicitly apply changes. Application installation does not prove AVEVA is connected.
 chinesesimp.WelcomeLabel1=欢迎使用 Phayton
-chinesesimp.WelcomeLabel2=连接 / 理解 / 记录%n%n为人工与 AI 提供同一个 Windows 安装入口。%n%n选择工程环境与客户端接入，检查每一项变化，确认后再执行。%n%n未勾选的环境不会修改，也不会自动建立知识库。
+chinesesimp.WelcomeLabel2=连接 / 理解 / 记录%n%n先安装应用，再由管理器准备环境与部署。%n%n检查安装计划中的每一项文件变化，确认后执行；AVEVA 接入是后续独立任务。
 chinesesimp.FinishedHeadingLabel=Phayton 已准备就绪
-chinesesimp.FinishedLabel=已执行批准的安装计划。%n%n实际结果与备份保存在 LocalAppData\YuzuhaToolkit\SetupReports。%n%n请重启 AI 客户端和已配置的 AVEVA 环境。安装目录的 INSTALL.md 提供后续 AI 接入说明。
+chinesesimp.FinishedLabel=已执行批准的应用安装计划。%n%n实际结果与备份保存在 LocalAppData\YuzuhaToolkit\SetupReports。%n%n继续在管理器核对安装所有权、预览 EVARS 与部署并明确应用；应用安装完成不表示 AVEVA 已接入。
 
 [Code]
 var
@@ -92,6 +99,11 @@ end;
 function Q(Value: String): String;
 begin
   Result := '"' + Value + '"';
+end;
+
+function CanOpenManager: Boolean;
+begin
+  Result := Applied and FileExists(ExpandConstant('{app}\runtime\desktop\YuzuhaToolkit.Desktop.exe'));
 end;
 
 procedure ExtractSupport;

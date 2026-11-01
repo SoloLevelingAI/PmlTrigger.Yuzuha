@@ -1,0 +1,43 @@
+{
+  "passed": true,
+  "scope": "Real editable FigCraft reference with six ION modes; not native WPF or live AVEVA acceptance",
+  "journeyHash": "524791789bf9a0a257b179fcf84994dbccfc02c0d1612b1ec9834d4431e85fa6",
+  "themeHash": "10d4c99d74b8dc28076018bbbf876ea0f617fe182dd6d5d6611f9408baf59753",
+  "nativeHash": "87e6ffaa71520adc5930f6c95a3ba21ffba104fff12a3bca54b772bd3e9d14ef",
+  "boards": [
+    {
+      "id": 2,
+      "name": "Journey-lime",
+      "palette": "lime"
+    },
+    {
+      "id": 49,
+      "name": "Journey-cyan",
+      "palette": "cyan"
+    },
+    {
+      "id": 56,
+      "name": "Journey-violet",
+      "palette": "violet"
+    },
+    {
+      "id": 63,
+      "name": "Journey-orange",
+      "palette": "orange"
+    },
+    {
+      "id": 70,
+      "name": "Journey-rose",
+      "palette": "rose"
+    },
+    {
+      "id": 77,
+      "name": "Journey-graphite",
+      "palette": "graphite"
+    }
+  ],
+  "components": 8,
+  "instances": 40,
+  "variables": 22,
+  "editableTexts": 222
+}

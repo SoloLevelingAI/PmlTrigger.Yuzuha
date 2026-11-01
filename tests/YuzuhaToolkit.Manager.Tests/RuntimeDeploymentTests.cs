@@ -152,5 +152,25 @@ public sealed class RuntimeDeploymentTests : IDisposable
         Assert.Contains("恢复待处理", failed.Message);
     }
 
+    [Fact]
+    public void PartialRestoreResumesAfterEnvironmentWasAlreadyRestoredAndConfirmsLostReply()
+    {
+        var before = File.ReadAllBytes(EnvironmentFile);var service = Service();var receipt = service.Apply(service.Preview(Request()));
+        var file = Path.Combine(Target, Bootstrap);var deployed = File.ReadAllBytes(file);
+        File.WriteAllText(file, "external edit must be retained");
+        var partial = service.Restore(receipt);Assert.NotEmpty(partial.RecoveryErrors);
+        Assert.Equal(before, File.ReadAllBytes(EnvironmentFile));Assert.Equal("external edit must be retained", File.ReadAllText(file));
+        Assert.True(File.Exists(Path.Combine(Target, ".yuzuha-runtime.json")));
+        // The operator explicitly resolves the conflict back to the known applied
+        // bytes, then uses the original receipt. This does not force an overwrite.
+        File.WriteAllBytes(file, deployed);
+        Assert.Empty(service.Restore(receipt).RecoveryErrors);Assert.Equal(before, File.ReadAllBytes(EnvironmentFile));
+        Assert.False(File.Exists(file));Assert.False(File.Exists(Path.Combine(Target, ".yuzuha-runtime.json")));
+        Assert.Empty(service.Restore(receipt).RecoveryErrors);Assert.Equal(before, File.ReadAllBytes(EnvironmentFile));
+        File.WriteAllText(EnvironmentFile, "later unrelated environment edit");
+        Assert.Contains(service.Restore(receipt).RecoveryErrors, error => error.StartsWith("environment:", StringComparison.Ordinal));
+        Assert.Equal("later unrelated environment edit", File.ReadAllText(EnvironmentFile));
+    }
+
     public void Dispose() { if (Directory.Exists(root)) Directory.Delete(root, true); }
 }

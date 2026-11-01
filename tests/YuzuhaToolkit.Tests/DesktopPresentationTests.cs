@@ -66,6 +66,26 @@ public sealed class DesktopPresentationTests
         }
     }
 
+    /// <summary>验证六套ION原生资源覆盖所有键，正文、按钮、选中导航和状态均有足够对比度。</summary>
+    [Fact]
+    public void SixIonPalettesCoverAllNativeBrushesAndKeepTextButtonsNavigationAndStatusReadable()
+    {
+        Assert.Equal(6, DesktopPalettes.All.Length);
+        using var source = JsonDocument.Parse(File.ReadAllText(Path.Combine(Root(), "docs/presentation/contract-style-lab/ion/themes.json")));
+        foreach (var theme in source.RootElement.GetProperty("themes").EnumerateArray())
+        {
+            var id = theme.GetProperty("id").GetString()!;var p = Palette("Ion-" + id);var basis = Palette(theme.GetProperty("scheme").GetString() == "dark" ? "Dark" : "Light");
+            Assert.Contains(DesktopPalettes.All, item => item.Id == "ion-" + id);
+            foreach (var key in basis.Keys) Assert.Contains(key, p.Keys);
+            foreach (var key in basis.Keys.Where(key => new[] { "Success", "Warning", "Danger", "Amber" }.Any(role => key.Contains(role, StringComparison.Ordinal)))) Assert.Equal(basis[key], p[key]);
+            foreach (var (text, surface) in new[] { ("Text.Primary", "Surface.Card"), ("Text.Secondary", "Surface.Card"), ("Text.Tertiary", "Surface.Card"), ("Text.OnAccent", "Accent.Brand"), ("Text.Warning", "Surface.TintWarning"), ("Text.Danger", "Surface.TintDanger"), ("Text.Success", "Surface.TintSuccess"), ("Brand.NavSelectedText", "Brand.NavSelected"), ("Brand.NavText", "Brand.Sidebar") })
+                Assert.True(Contrast(p[text], p[surface]) >= 4.5, id + ": " + text + " on " + surface);
+            var tokens = theme.GetProperty("palette");var glass = tokens.GetProperty("glass").GetString()!;
+            Assert.Equal("#" + glass[7..] + glass[1..7], p["Ion.Glass"]);
+            Assert.Equal(tokens.GetProperty("acid").GetString(), p["Ion.Acid"]);Assert.Equal(tokens.GetProperty("ink").GetString(), p["Text.Primary"]);
+        }
+    }
+
     [Fact]
     public void ThemePreferenceDoesNotSaveLaunchDraftsOrFunctionPermissions()
     {
@@ -74,9 +94,10 @@ public sealed class DesktopPresentationTests
         try
         {
             var workspace = Path.Combine(root, "workspace.json"); File.WriteAllText(workspace, "untouched launch settings");
-            Assert.Equal("Light", DesktopDisplaySettings.ReadTheme(root));
+            Assert.Equal("ion-lime", DesktopDisplaySettings.ReadTheme(root));
             DesktopDisplaySettings.SaveTheme(root, "Dark");
             Assert.Equal("Dark", DesktopDisplaySettings.ReadTheme(root));
+            foreach (var palette in DesktopPalettes.All) { DesktopDisplaySettings.SaveTheme(root, palette.Id);Assert.Equal(palette.Id, DesktopDisplaySettings.ReadTheme(root)); }
             Assert.Equal("untouched launch settings", File.ReadAllText(workspace));
             Assert.Throws<ArgumentException>(() => DesktopDisplaySettings.SaveTheme(root, "unknown"));
             Assert.Equal(2, Directory.GetFiles(root).Length);

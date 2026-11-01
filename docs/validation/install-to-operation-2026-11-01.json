@@ -1,0 +1,385 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-11-01",
+  "status": "offline-and-native-verification-passed",
+  "sourceBaseline": "96504c660f51881e5b7d89dddb1d8d662b72542b",
+  "dirtyWorkspace": true,
+  "scope": "本轮源码、临时合成目录、原生WPF与真实SDK静态编译；未执行产品安装、真实旧所有权移交或生产EVARS修改。",
+  "contract": {
+    "source": "src/YuzuhaToolkit.Manager.Core/ManagerContractCatalog.cs",
+    "export": "docs/contracts/manager-journey.json",
+    "stages": 8,
+    "registeredOperations": 89,
+    "mappedJourneyOperations": 21,
+    "canonicalChanged": false
+  },
+  "checks": {
+    "development": {
+      "status": "passed",
+      "xunitPassed": 575,
+      "xunitFailed": 0,
+      "xunitSkipped": 2,
+      "skipReason": "可选独立7zr工具未选定；非AVEVA功能通过。",
+      "documentationNodePassed": 54,
+      "scenarioFormats": 2,
+      "scenarioStepsEach": 15,
+      "scenarioParserTests": 8,
+      "pmlWorkflowOfflineCases": 6,
+      "finalTrxCounters": [
+        {
+          "file": "journey-final_net10.0_20261101231919.trx",
+          "total": 14,
+          "executed": 14,
+          "passed": 14,
+          "failed": 0,
+          "error": 0,
+          "timeout": 0,
+          "aborted": 0,
+          "inconclusive": 0,
+          "passedButRunAborted": 0,
+          "notRunnable": 0,
+          "notExecuted": 0,
+          "disconnected": 0,
+          "warning": 0,
+          "completed": 0,
+          "inProgress": 0,
+          "pending": 0
+        },
+        {
+          "file": "journey-final_net10.0_20261101231931.trx",
+          "total": 253,
+          "executed": 251,
+          "passed": 251,
+          "failed": 0,
+          "error": 0,
+          "timeout": 0,
+          "aborted": 0,
+          "inconclusive": 0,
+          "passedButRunAborted": 0,
+          "notRunnable": 0,
+          "notExecuted": 0,
+          "disconnected": 0,
+          "warning": 0,
+          "completed": 0,
+          "inProgress": 0,
+          "pending": 0
+        },
+        {
+          "file": "journey-final_net10.0_20261101231938.trx",
+          "total": 21,
+          "executed": 21,
+          "passed": 21,
+          "failed": 0,
+          "error": 0,
+          "timeout": 0,
+          "aborted": 0,
+          "inconclusive": 0,
+          "passedButRunAborted": 0,
+          "notRunnable": 0,
+          "notExecuted": 0,
+          "disconnected": 0,
+          "warning": 0,
+          "completed": 0,
+          "inProgress": 0,
+          "pending": 0
+        },
+        {
+          "file": "journey-final_net10.0_20261101231947.trx",
+          "total": 289,
+          "executed": 289,
+          "passed": 289,
+          "failed": 0,
+          "error": 0,
+          "timeout": 0,
+          "aborted": 0,
+          "inconclusive": 0,
+          "passedButRunAborted": 0,
+          "notRunnable": 0,
+          "notExecuted": 0,
+          "disconnected": 0,
+          "warning": 0,
+          "completed": 0,
+          "inProgress": 0,
+          "pending": 0
+        }
+      ]
+    },
+    "managerSafety": {
+      "status": "passed",
+      "targetedPassed": 35,
+      "failed": 0,
+      "skipped": 0
+    },
+    "recovery": {
+      "status": "passed",
+      "targetedPassed": 23,
+      "failed": 0,
+      "skipped": 0
+    },
+    "sdkProfiles": {
+      "status": "passed",
+      "profiles": [
+        "AM/net35",
+        "PDMS/net35",
+        "E3D2.1/net48",
+        "E3D3.1.6/net48"
+      ],
+      "realVendorReferenceDlls": 8,
+      "signatures": "Valid AVEVA publisher; Private=false",
+      "vendorDllsPackaged": 0,
+      "liveAcceptance": false
+    },
+    "typescript": {
+      "status": "passed",
+      "compiler": "Microsoft TypeScript 5.7.2",
+      "mode": "strict / noEmit / ES2022 / NodeNext",
+      "inputSchemas": "actual registered inputs",
+      "outputData": "unknown",
+      "processStartTicks": "decimal string; raw CLI JSON retained",
+      "http": "three read-only metadata GET routes; installed docs-only host excludes them"
+    },
+    "docfx": {
+      "status": "passed",
+      "htmlPages": 4579,
+      "checkedLocalLinks": 124121,
+      "projects": 26,
+      "modules": 17,
+      "types": 554,
+      "errors": [],
+      "retiredContentAbsent": true,
+      "tests": 456,
+      "catalog": {
+        "features": 13,
+        "scripts": 61,
+        "candidates": 200
+      },
+      "uiTrace": {
+        "entries": 361,
+        "unresolved": 146,
+        "sampleEdges": 11,
+        "pages": 27,
+        "containers": 5,
+        "shared": 5,
+        "sourceMembers": 2679
+      },
+      "passed": true,
+      "sourceDeclarations": 581,
+      "missingComments": 0,
+      "syntaxErrors": 0
+    },
+    "installer": {
+      "status": "helper-and-packaging-fixtures-passed",
+      "helper": "NET48 synthetic regressions passed",
+      "packagingFixtures": 5,
+      "innoCompiler": "6.7.3 verified official portable compiler; product EXE not executed",
+      "deliveryBoundary": "Full EXE/Agent bundle identities and completeness checks are recorded in an external delivery receipt; not self-referential hashes embedded in the package."
+    },
+    "nativeWpf": {
+      "status": "passed-final-published-executable",
+      "newScreenshots": 31,
+      "legacyScreenshots": 118,
+      "palettes": 6,
+      "hostDpiScale": 1.5,
+      "viewports": [
+        "1440x900",
+        "1280x720",
+        "1024x768"
+      ],
+      "scope": "实际WPF控件与合成回执；临时真实后端测试另行记录",
+      "publishedExecutableSha256": "c701777801316d3b0e6e90b92ec90e5e2b3da4569a8bcabe84273f2aaee9ceb7"
+    },
+    "figcraft": {
+      "passed": true,
+      "scope": "Real editable FigCraft reference with six ION modes; not native WPF or live AVEVA acceptance",
+      "journeyHash": "524791789bf9a0a257b179fcf84994dbccfc02c0d1612b1ec9834d4431e85fa6",
+      "themeHash": "10d4c99d74b8dc28076018bbbf876ea0f617fe182dd6d5d6611f9408baf59753",
+      "nativeHash": "87e6ffaa71520adc5930f6c95a3ba21ffba104fff12a3bca54b772bd3e9d14ef",
+      "boards": [
+        {
+          "id": 2,
+          "name": "Journey-lime",
+          "palette": "lime"
+        },
+        {
+          "id": 49,
+          "name": "Journey-cyan",
+          "palette": "cyan"
+        },
+        {
+          "id": 56,
+          "name": "Journey-violet",
+          "palette": "violet"
+        },
+        {
+          "id": 63,
+          "name": "Journey-orange",
+          "palette": "orange"
+        },
+        {
+          "id": 70,
+          "name": "Journey-rose",
+          "palette": "rose"
+        },
+        {
+          "id": 77,
+          "name": "Journey-graphite",
+          "palette": "graphite"
+        }
+      ],
+      "components": 8,
+      "instances": 40,
+      "variables": 22,
+      "editableTexts": 222
+    }
+  },
+  "stageEvidence": [
+    {
+      "stage": "install",
+      "tests": [
+        "SetupHandoffTests.InspectAndPreviewVerifyActualPayloadWithoutWritingMarkerOrEnvironment"
+      ],
+      "scripts": [
+        "installer/Yuzuha.iss",
+        "installer/NativePages.iss",
+        "installer/build.py"
+      ]
+    },
+    {
+      "stage": "environment",
+      "tests": [
+        "PreparationWorkbenchTests.DiscoveryAndReadingDoNotChooseAnInstallationOrGrantWrite",
+        "PreparationWorkbenchTests.IncompatibleProductAndHostProfileNeverReachEvarsPreview"
+      ]
+    },
+    {
+      "stage": "ownership",
+      "tests": [
+        "SetupHandoffTests.OwnedEnvironmentBlocksBothPreviewsUntilExplicitTransferThenAllowsApplyAndRestore",
+        "SetupHandoffTests.OwnershipReclaimedAfterPreviewBlocksBothApplyWithoutEnvironmentWrites",
+        "SetupHandoffTests.RegisteredOwnershipAndUnknownRecordsCannotBeBypassedByOmittingPackageRoot"
+      ]
+    },
+    {
+      "stage": "preview",
+      "tests": [
+        "EvarsOperationTests.WrongProductProfileIsRejectedWithoutWritingOrFreezingPlan",
+        "PreparationWorkbenchTests.FrozenPreviewBindsActualInstallationAndInputChangesInvalidateOnlyExecutablePlan"
+      ]
+    },
+    {
+      "stage": "apply",
+      "tests": [
+        "PreparationWorkbenchTests.RealManagerDiscoveryDeploymentAndEvarsShareSupportedProfileAndConditionRestore",
+        "EvarsOperationTests.PartialApplyFailureReturnsUnknownWithFrozenRecoveryReferenceAndExplicitRestore"
+      ]
+    },
+    {
+      "stage": "recover",
+      "tests": [
+        "RuntimeDeploymentTests.PartialRestoreResumesAfterEnvironmentWasAlreadyRestoredAndConfirmsLostReply",
+        "EvarsEditorTests.AlreadyRestoredFingerprintConfirmsLostReplyWithoutReplayingAndStillRejectsLaterEdits",
+        "PreparationWorkbenchTests.HistoricalReceiptCannotClearLaterUnknownWithoutRecoveryIdentity",
+        "PreparationWorkbenchTests.RecoveryRequiredRestoreKeepsExactReceiptUntilSuccessfulRetry"
+      ]
+    },
+    {
+      "stage": "launch",
+      "tests": [
+        "smoke:workbench-launch-lifecycle"
+      ],
+      "boundary": "本轮离线15步JSON/TOML生命周期；真实启动不在本轮执行。"
+    },
+    {
+      "stage": "verify",
+      "tests": [
+        "DevelopmentApiTests.ManagerContractHttpOnlyDescribesActualOperationsAndKeepsUnknownOutputBoundary"
+      ],
+      "boundary": "目录/授权与既有离线通信回归；新Host未实机加载核验，历史E3D2.1/DESIGN证据不转记为本轮。"
+    }
+  ],
+  "review": {
+    "confirmedP1": 0,
+    "confirmedP2Found": 4,
+    "resolutions": [
+      "恢复待处理结果与原回执精确绑定，历史A不能清未知B。",
+      "产品/profile/framework共用严格映射。",
+      "预览与应用后端核对已知旧环境所有权，先移交再写。",
+      "按原始指纹确认已恢复的EVARS和marker，允许同回执继续部分恢复。"
+    ],
+    "visual": "agent-reviewed / human-not-reviewed"
+  },
+  "knownBoundaries": [
+    "未运行产品安装/升级/卸载；需要具体预览批准和占用核对。",
+    "未执行真实旧环境所有权移交或生产EVARS应用/恢复。",
+    "本轮新编译Host未加载到AVEVA；四SDK编译不代表跨产品/模块实机通过，3.1.6 SDK快照与现有3.1安装版本不同。",
+    "所有权核对限明确包/运行根及HKCU64登记的安装；未提供且未登记的旧根不能声称全机排除。",
+    "旧安装器不参与新lease；前后摘要与进程核验不构成全机跨进程事务，unknown须人工核对。",
+    "原27项平台业务未批量勾选；Database实际切换、广泛管理界面及其他跨产品验收逐项保留。",
+    "OpenSpec沿用现有change手工维护；本机CLI不可用，未记为严格CLI校验通过。",
+    "用户视觉认可待完成；合成截图与可编辑FigCraft参考板分别标注。"
+  ],
+  "evidence": [
+    {
+      "path": "docs/validation/install-to-operation-2026-11-01.evidence/development.log",
+      "sha256": "94ba9bcd959b69bec3ee92fe775724b5a8f6e1c11650f2e89309471aed8d7f94",
+      "localSource": "artifacts/install-journey-development.log",
+      "localSourceSha256": "e782a68aa88d24e50448488f810eec0b331894dbfca6a72a1acab058e38b6d7b",
+      "projection": "UTF-8 text with LF line endings; test outcomes unchanged"
+    },
+    {
+      "path": "docs/validation/install-to-operation-2026-11-01.evidence/dotnet-final.log",
+      "sha256": "d4350b18b35cd846e7cc4b6a7df6ec46ea05d40848901fbec5619f9bbf77c5dd",
+      "localSource": "artifacts/install-journey-dotnet-final.log",
+      "localSourceSha256": "4d7297e8507e1e30e55397b98efd6f82749098b75795dcb35e4c52aa3b37a3aa",
+      "projection": "UTF-8 text with LF line endings; test outcomes unchanged"
+    },
+    {
+      "path": "docs/validation/install-to-operation-2026-11-01.evidence/docfx.log",
+      "sha256": "96b298a53c385bee2abff9c256aca5b95b5c2998e5741391357c19baeb72b648",
+      "localSource": "artifacts/install-journey-docfx.log",
+      "localSourceSha256": "4638dba86be2d9a40ab1ad869d8299c1e615179247d3f3dee25fdbb8ff36d8cd",
+      "projection": "UTF-8 text with LF line endings; test outcomes unchanged"
+    },
+    {
+      "path": "docs/validation/install-to-operation-2026-11-01.evidence/recovery.log",
+      "sha256": "00da0d30260a3f5e91a1cd399713034acaa2282657b25b4c08e9900391e76b86",
+      "localSource": "artifacts/install-journey-recovery.log",
+      "localSourceSha256": "b8692248b5808b6c18b8b1248f87c3c21a78c9ddf78fb84bff86a5e2c00f7068",
+      "projection": "UTF-8 text with LF line endings; test outcomes unchanged"
+    },
+    {
+      "path": "docs/validation/install-to-operation-2026-11-01.evidence/independent-review.md",
+      "sha256": "aecb80f9d8f90a9b62b9bceef9aa5f2314efaf6fc519e8f34c014b1ef9a2ce12",
+      "localSource": "artifacts/install-journey-independent-review.md",
+      "localSourceSha256": "aecb80f9d8f90a9b62b9bceef9aa5f2314efaf6fc519e8f34c014b1ef9a2ce12",
+      "projection": "UTF-8 text with LF line endings; test outcomes unchanged"
+    },
+    {
+      "path": "docs/validation/install-to-operation-2026-11-01.evidence/preparation-smoke.json",
+      "sha256": "5c80e0920c7e70a512f790f4c1cf05d5725e645815b9821ff24bbf62aed3bd7e",
+      "localSource": "artifacts/preparation-native/preparation-smoke.json",
+      "localSourceSha256": "1dd7b1bcaeee4c953f746d6ce44c86669e2c51157b533c8727c23d6cf9db2255",
+      "projection": "UTF-8 text with LF line endings; test outcomes unchanged"
+    },
+    {
+      "path": "docs/validation/install-to-operation-2026-11-01.evidence/legacy-desktop-smoke.json",
+      "sha256": "ec23387c50c38ae1fc6262d1ba3b3c21a15fe4e4d92947fb38692477816983e9",
+      "localSource": "artifacts/preparation-legacy-regression/desktop-smoke.json",
+      "localSourceSha256": "ec23387c50c38ae1fc6262d1ba3b3c21a15fe4e4d92947fb38692477816983e9",
+      "projection": "UTF-8 text with LF line endings; test outcomes unchanged"
+    },
+    {
+      "path": "docs/validation/install-to-operation-2026-11-01.evidence/installer-helper.log",
+      "sha256": "812bb1e79d01be0128e13545f9eda716647ee6f6aa7dd7e31ad96e1713f7aadf",
+      "localSource": "artifacts/setup-net48-final-tests.log",
+      "localSourceSha256": "2945f9a64bbe7296abd408c3d1a6627bd1be21c3c15feb8049064c1c3d7dc18d",
+      "projection": "UTF-8 text with LF line endings; test outcomes unchanged"
+    }
+  ],
+  "updatedAtUtc": "2026-11-01T15:25:18.594Z",
+  "ci": {
+    "status": "See current PR head checks",
+    "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/pull/13",
+    "boundary": "This source report captures local validation and its dirty baseline. CI is recorded against immutable pushed commits; it is not inferred from local PASS."
+  }
+}

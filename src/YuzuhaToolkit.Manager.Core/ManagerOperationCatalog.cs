@@ -75,6 +75,7 @@ public static class ManagerOperationCatalog
         registrations.AddRange(CopyOperations.Registrations());
         registrations.AddRange(LaunchDeskImportOperations.Registrations());
         registrations.AddRange(MigrationPreviewOperations.Registrations());
+        registrations.AddRange(SetupHandoffOperations.Registrations());
         registrations.AddRange(PluginOperations.Registrations());
         registrations.AddRange(FunctionManagementOperations.Registrations(communication));
         registrations.AddRange(RibbonHttpAdapter.Registrations());
@@ -129,8 +130,11 @@ public static class ManagerOperationCatalog
                 })));
         }
         FeatureRegistry? features = null;
+        OperationRegistry? registry = null;
+        registrations.Add(ManagerContractCatalog.Registration(() => registry!));
         registrations.Add(FeatureOperations.List(() => features!));
         features = FeatureRegistry.FromOperations(registrations, featuresOptions);
-        return new(new OperationRegistry(features.Compose()));
+        registry = new OperationRegistry(features.Compose());
+        return new(registry);
     }
 }

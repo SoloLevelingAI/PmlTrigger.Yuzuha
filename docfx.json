@@ -94,6 +94,7 @@
           "documentation.md",
           "contract-method-preview.zh-CN.md",
           "pr13-review-remediation.zh-CN.md",
+          "install-to-operation.zh-CN.md",
           "features/planned-tools.md",
           "form-gadget-query.md",
           "formuse-audit.md",
@@ -127,6 +128,11 @@
         "src": "docs/reference"
       },
       {
+        "files": ["install-to-operation/README.md"],
+        "src": "docs/design",
+        "dest": "design"
+      },
+      {
         "files": [
           "**/*.yml"
         ],
@@ -147,6 +153,7 @@
         "files": [
           "2026-10-24-launch-cli.summary.json",
           "pr13-review-remediation-2026-11-01.json",
+          "install-to-operation-2026-11-01.json",
           "ribbon-restart-2026-10-31.md"
         ],
         "src": "docs/validation",
@@ -155,10 +162,16 @@
       {
         "files": [
           "ribbon-v2-continuation.md",
-          "ribbon-ui-continuation.md"
+          "ribbon-ui-continuation.md",
+          "install-to-operation-journey.md"
         ],
         "src": "openspec/changes/integrate-pmltwin-product-platform/features",
         "dest": "source-evidence"
+      },
+      {
+        "files": ["manager-journey*.json", "manager-journey-client.ts", "manager-journey-client.mjs", "manager-journey-client.d.mts"],
+        "src": "docs/contracts",
+        "dest": "contracts"
       },
       {
         "files": [
@@ -201,7 +214,8 @@
         "files": [
           "*.figcraft",
           "*.png",
-          "interaction-map.json"
+          "interaction-map.json",
+          "install-to-operation/*.figcraft", "install-to-operation/*.png", "install-to-operation/*.json"
         ],
         "src": "docs/design",
         "dest": "design"

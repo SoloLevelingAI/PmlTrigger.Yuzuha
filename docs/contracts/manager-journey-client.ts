@@ -1,0 +1,101 @@
+// Generated from the actual registered input schemas. Do not edit.
+import {invokeCli as transport} from "./manager-journey-client.mjs";
+export type JsonValue = null | boolean | number | string | JsonValue[] | { [key: string]: JsonValue };
+export interface OperationResult { operationId: string; success: boolean; exitCode: number; data?: unknown; error?: { code: string; message: string; mayHaveExecuted?: boolean }; schemaVersion: number }
+export interface CliContext { processId?: number; expectedModel?: string; expectedProcessStartTimeUtcTicks?: string; allowWrite?: boolean; allowLaunch?: boolean; allowExecution?: boolean }
+export interface CliOptions { executable: string; prefixArgs?: string[]; context?: CliContext; timeoutMs?: number; maximumOutputBytes?: number }
+export interface CliReply { exitCode: number | null; signal: string | null; rawJson: string; stderr: string; mayHaveExecuted: boolean }
+export interface ManagerInputs {
+  "connection.capabilities": {  };
+  "connection.select": { "profile"?: "AM" | "PDMS" | "E3D2.1" | "E3D3.1.6"; "runtimeRoot"?: string; "environmentFile"?: string };
+  "connection.sessions": {  };
+  "connection.status": { "profile"?: "AM" | "PDMS" | "E3D2.1" | "E3D3.1.6"; "runtimeRoot"?: string; "environmentFile"?: string };
+  "connection.test": { "profile"?: "AM" | "PDMS" | "E3D2.1" | "E3D3.1.6"; "runtimeRoot"?: string; "environmentFile"?: string };
+  "copy.apply": { "planId": string; "sha256": string };
+  "copy.formats": {  };
+  "copy.preview": { "source": string; "registeredRoot": string; "name": string; "sevenZipTool"?: string };
+  "copy.restore": { "planId": string; "sha256": string };
+  "data.migration.apply": { "planId": string; "sha256": string };
+  "data.migration.preview": { "root": string };
+  "deployment.apply": { "planId": string; "sha256": string };
+  "deployment.preview": { "packageRoot": string; "runtimeRoot": string; "installationRoot": string; "product": string; "profile": string; "framework": string; "environmentFile"?: string; "installationExecutable"?: string; "expectedInstallationId"?: string; "mode": "copy" | "reference"; "codePage"?: number };
+  "deployment.restore": { "planId": string; "sha256": string };
+  "environment.discover": { "roots"?: (string)[]; "product"?: "E3D" | "AM" | "PDMS"; "version"?: string; "maximumDepth"?: number; "maximumFiles"?: number; "timeoutSeconds"?: number; "candidateId"?: string; "preferredExecutable"?: string; "overrides"?: { "project"?: string; "module"?: string; "user"?: string; "mdb"?: string; "workingDirectory"?: string; "initialization"?: string } };
+  "environment.resolve": { "roots"?: (string)[]; "product"?: "E3D" | "AM" | "PDMS"; "version"?: string; "maximumDepth"?: number; "maximumFiles"?: number; "timeoutSeconds"?: number; "candidateId"?: string; "preferredExecutable"?: string; "overrides"?: { "project"?: string; "module"?: string; "user"?: string; "mdb"?: string; "workingDirectory"?: string; "initialization"?: string } };
+  "evars.apply": { "planId": string; "sha256": string };
+  "evars.preview": { "installationRoot": string; "packageRoot"?: string; "product": "E3D" | "AM" | "PDMS"; "environmentFile"?: string; "runtimeRoot": string; "profile": string; "framework": "net35" | "net48"; "codePage"?: number };
+  "evars.restore": { "planId": string; "sha256": string };
+  "feature.list": {  };
+  "installation.discover": { "roots": (string)[]; "maximumDepth"?: number; "maximumFiles"?: number; "timeoutSeconds"?: number };
+  "installation.projects": { "installationRoot": string };
+  "knowledge.import.apply": { "planId": string; "sha256": string };
+  "knowledge.import.preview": { "product": string; "version": string; "role": "official" | "custom"; "name": string; "database"?: string; "manifest"?: string; "pmlLib"?: string; "pmlUi"?: string; "webHelp"?: string; "mappings"?: ({ "recordedRoot": string; "localRoot": string })[] };
+  "knowledge.inspect": { "database": string; "manifest"?: string; "mappings"?: ({ "recordedRoot": string; "localRoot": string })[] };
+  "knowledge.libraries.list": { "product"?: string; "version"?: string };
+  "knowledge.library.chunk": { "product": string; "version": string; "name": string; "chunkId": number };
+  "knowledge.library.search": { "product": string; "version": string; "name": string; "query": string; "topK"?: number; "checkSources"?: boolean };
+  "launch.execute": { "plan": { "operationId": string; "profileId": string; "expectedRevision": string; "files": ({ "path": string; "sha256": string })[]; "expiresAt": string; "planDigest": string }; "password": string; "requestId"?: string };
+  "launch.modules.list": { "product": string; "executable"?: string; "version"?: string; "kind"?: string };
+  "launch.observe": { "operationId": string };
+  "launch.plan": { "operationId": string; "profileId": string; "expectedRevision": string };
+  "launch.profile.default": { "profileId": string; "expectedRevision": string };
+  "launch.profile.delete": { "profileId": string; "expectedRevision": string };
+  "launch.profile.duplicate": { "profileId": string; "expectedRevision": string };
+  "launch.profile.favorite": { "profileId": string; "expectedRevision": string; "favorite": boolean };
+  "launch.profile.history": { "profileId"?: string; "limit"?: number };
+  "launch.profile.list": { "query"?: string; "product"?: string; "scope"?: "all" | "favorites" | "recent" };
+  "launch.profile.preview": { "profile": { "id"?: string; "name"?: string; "kind"?: string; "executable"?: string; "initialization"?: string; "product"?: string; "version"?: string; "workingDirectory"?: string; "project"?: string; "user"?: string; "mdb"?: string; "module"?: string; "license"?: string; "credentialKey"?: string; "rememberPassword"?: boolean; "isFavorite"?: boolean; "isDefault"?: boolean; "environment"?: Record<string, string>; "licensePrecheck"?: { "mode"?: "off" | "required"; "host"?: string; "rmsPort"?: number; "rulesPort"?: number; "serviceName"?: string; "timeoutMilliseconds"?: number; "requireCheckout"?: boolean } }; "expectedRevision": string };
+  "launch.profile.read": { "profileId": string };
+  "launch.profile.restore": { "profileId": string; "expectedRevision": string; "revision": string };
+  "launch.profile.restore.preview": { "profileId": string; "expectedRevision": string; "revision": string };
+  "launch.profile.save": { "profile": { "id"?: string; "name"?: string; "kind"?: string; "executable"?: string; "initialization"?: string; "product"?: string; "version"?: string; "workingDirectory"?: string; "project"?: string; "user"?: string; "mdb"?: string; "module"?: string; "license"?: string; "credentialKey"?: string; "rememberPassword"?: boolean; "isFavorite"?: boolean; "isDefault"?: boolean; "environment"?: Record<string, string>; "licensePrecheck"?: { "mode"?: "off" | "required"; "host"?: string; "rmsPort"?: number; "rulesPort"?: number; "serviceName"?: string; "timeoutMilliseconds"?: number; "requireCheckout"?: boolean } }; "expectedRevision": string; "reason"?: string };
+  "launch.profile.start": { "profileId": string; "expectedRevision": string; "password": string };
+  "launch.profile.update": { "profileId": string; "expectedRevision": string; "changes": { "id"?: string; "name"?: string; "kind"?: string; "executable"?: string; "initialization"?: string; "product"?: string; "version"?: string; "workingDirectory"?: string; "project"?: string; "user"?: string; "mdb"?: string; "module"?: string; "license"?: string; "credentialKey"?: string; "rememberPassword"?: boolean; "isFavorite"?: boolean; "isDefault"?: boolean; "environment"?: Record<string, string>; "licensePrecheck"?: { "mode"?: "off" | "required"; "host"?: string; "rmsPort"?: number; "rulesPort"?: number; "serviceName"?: string; "timeoutMilliseconds"?: number; "requireCheckout"?: boolean } } };
+  "launch.profile.validate": { "profile": { "id"?: string; "name"?: string; "kind"?: string; "executable"?: string; "initialization"?: string; "product"?: string; "version"?: string; "workingDirectory"?: string; "project"?: string; "user"?: string; "mdb"?: string; "module"?: string; "license"?: string; "credentialKey"?: string; "rememberPassword"?: boolean; "isFavorite"?: boolean; "isDefault"?: boolean; "environment"?: Record<string, string>; "licensePrecheck"?: { "mode"?: "off" | "required"; "host"?: string; "rmsPort"?: number; "rulesPort"?: number; "serviceName"?: string; "timeoutMilliseconds"?: number; "requireCheckout"?: boolean } } };
+  "launch.workspace.read": {  };
+  "launchdesk.import.apply": { "planId": string; "sha256": string };
+  "launchdesk.import.preview": { "source": string };
+  "launchdesk.import.read": { "id": string };
+  "manager.contracts": {  };
+  "manager.status": {  };
+  "migration.preview": { "format": "rewrite" | "next" | "ribbon"; "source": string };
+  "plugin.describe": { "id": string };
+  "plugin.enable": { "id": string; "expectedRevision": string; "enabled": boolean };
+  "plugin.install.apply": { "planId": string; "sha256": string };
+  "plugin.install.preview": { "source": string; "enabled"?: boolean };
+  "plugin.invoke": { "pluginId": string; "operation": string; "workerTimeoutSeconds"?: number; "input": Record<string, JsonValue> };
+  "plugin.list": {  };
+  "plugin.unregister": { "id": string; "expectedRevision": string };
+  "pml.function.invoke": { "functionName": string; "parameters": ({ "type": "string" | "str" | "bool" | "boolean" | "double" | "real" | "number"; "value": string | boolean | number | null })[] };
+  "pml.function.permission": { "functionName": string; "allowInvoke": boolean };
+  "pml.function.register": { "sourceFile": string; "functionName": string };
+  "pml.functions.list": {  };
+  "ribbon.deployment.file-apply": Record<string, JsonValue>;
+  "ribbon.deployment.file-preview": Record<string, JsonValue>;
+  "ribbon.deployment.modules": Record<string, JsonValue>;
+  "ribbon.deployment.registration-apply": Record<string, JsonValue>;
+  "ribbon.deployment.registration-preview": Record<string, JsonValue>;
+  "ribbon.management.adopt": Record<string, JsonValue>;
+  "ribbon.management.list": Record<string, JsonValue>;
+  "ribbon.management.toggle": Record<string, JsonValue>;
+  "ribbon.projects.normalize": Record<string, JsonValue>;
+  "ribbon.projects.validate": Record<string, JsonValue>;
+  "ribbon.uic.export": Record<string, JsonValue>;
+  "ribbon.uic.import": Record<string, JsonValue>;
+  "ribbon.v2.deployment.file-apply": { "planId": string; "planDigest": string };
+  "ribbon.v2.deployment.file-preview": { "project": { "schemaVersion": 1; "namespace": string; "documentId": string; "origin"?: { "fileName": string; "xml": string; "sourcePath"?: string; "sourceHash": string }; "preferredBinding"?: { "monPath": string; "manifestName": string; "entryName": string; "registrationPath"?: string; "filePath"?: string }; "buttons": ({ "sourceId"?: string; "id": string; "caption": string; "macro": string; "commandKey": string; "tooltipText": string; "tooltipTitle": string; "image"?: null | { "mediaType": "image/png" | "image/jpeg"; "base64": string } })[]; "tabs": ({ "sourceId"?: string; "id": string; "caption": string; "groups": ({ "sourceId"?: string; "id": string; "caption": string; "items": ({ "buttonId": string; "size": "large" | "small" })[] })[] })[] } };
+  "ribbon.v2.deployment.registration-apply": { "planId": string; "planDigest": string };
+  "ribbon.v2.deployment.registration-preview": { "project": { "schemaVersion": 1; "namespace": string; "documentId": string; "origin"?: { "fileName": string; "xml": string; "sourcePath"?: string; "sourceHash": string }; "preferredBinding"?: { "monPath": string; "manifestName": string; "entryName": string; "registrationPath"?: string; "filePath"?: string }; "buttons": ({ "sourceId"?: string; "id": string; "caption": string; "macro": string; "commandKey": string; "tooltipText": string; "tooltipTitle": string; "image"?: null | { "mediaType": "image/png" | "image/jpeg"; "base64": string } })[]; "tabs": ({ "sourceId"?: string; "id": string; "caption": string; "groups": ({ "sourceId"?: string; "id": string; "caption": string; "items": ({ "buttonId": string; "size": "large" | "small" })[] })[] })[] }; "monPath": string; "manifestName": string; "entryName": string };
+  "ribbon.workspace.context": Record<string, JsonValue>;
+  "ribbon.workspace.open": Record<string, JsonValue>;
+  "ribbon.workspace.original": Record<string, JsonValue>;
+  "ribbon.workspace.restore": Record<string, JsonValue>;
+  "ribbon.workspace.save": Record<string, JsonValue>;
+  "ribbon.workspace.versions": Record<string, JsonValue>;
+  "setup.handoff.inspect": { "packageRoot": string };
+  "setup.legacy.preview": { "packageRoot": string; "environmentFile": string };
+  "setup.legacy.transfer": { "planId": string; "sha256": string };
+}
+export type ManagerOperationId = keyof ManagerInputs;
+/** Pass credentials via stdin. Keep Int64 ticks as decimal strings; rawJson is deliberately not parsed or retried. */
+export function invokeCli<Id extends ManagerOperationId>(operation: Id, input: ManagerInputs[Id], options: CliOptions): Promise<CliReply> { return transport(operation,input,options); }

@@ -13,18 +13,27 @@ internal static partial class Program
         string mode=(string)request["integrationMode"]??"aveva";
         var rows=request["environments"] as JArray;
         if(request["environments"]!=null && rows==null) throw Bad("environments must be an array.");
-        if(mode!="aveva" && mode!="none") throw Bad("integrationMode must be aveva or none.");
+        if(mode!="aveva" && mode!="none" && mode!="manager") throw Bad("integrationMode must be manager, aveva or none.");
         if(mode=="aveva" && (rows==null || rows.Count==0))
-            throw Bad("AVEVA 尚未接入：环境列表为空。运行 plan-auto 自动发现并生成预览；仅安装文件/客户端时必须明确 integrationMode=none。 / No AVEVA environments selected.");
-        if(mode=="none" && rows!=null && rows.Count>0) throw Bad("integrationMode=none conflicts with selected AVEVA environments.");
+            throw Bad("AVEVA 尚未接入：环境列表为空。运行 plan-auto 自动发现并生成预览；交给管理器准备时明确 integrationMode=manager，仅安装文件/客户端时明确 integrationMode=none。 / No AVEVA environments selected.");
+        if(mode!="aveva" && rows!=null && rows.Count>0) throw Bad("integrationMode="+mode+" conflicts with selected AVEVA environments.");
         return mode;
     }
+    /// <summary>新管理器交接计划必须包含可安装的桌面和管理 CLI 入口，旧显式模式不受此新增清单要求影响。</summary>
+    internal static void ValidateManagerManifest(JObject manifest)
+    {
+        var files=manifest["files"] as JArray;
+        foreach(string path in new[]{"runtime/desktop/YuzuhaToolkit.Desktop.exe","runtime/manager/Yuzuha.Manager.Cli.exe"})
+            if(files==null || files.OfType<JObject>().Count(x=>(string)x["path"]==path && RegexHash((string)x["sha256"]))!=1)
+                throw Bad("Manager preparation requires Desktop and Manager CLI payload: "+path);
+    }
+    static bool RegexHash(string value) { return value!=null && value.Length==64 && value.All(c=>Uri.IsHexDigit(c)); }
     /// <summary>依据发现结果和显式选择生成可审阅安装请求，不执行变更。</summary>
     /// <param name="input">需要规范化的调用方输入或安装请求对象。</param>
     /// <param name="discovery">用于重新核验候选的发现器或本机发现结果。</param>
     internal static JObject AutoRequest(JObject input,JObject discovery)
     {
-        if((string)input["integrationMode"]=="none") throw Bad("plan-auto requires AVEVA integration; use plan for explicit none mode.");
+        if((string)input["integrationMode"]=="none" || (string)input["integrationMode"]=="manager") throw Bad("plan-auto requires AVEVA integration; use plan for explicit manager/none mode.");
         if((input["environments"] as JArray)?.Count>0) throw Bad("Explicit environments supplied; use plan instead of plan-auto.");
         var request=(JObject)input.DeepClone(); var rows=new JArray(); var problems=new JArray();
         foreach(JObject candidate in (JArray)discovery["candidates"])

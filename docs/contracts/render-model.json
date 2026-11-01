@@ -1,7 +1,7 @@
 {
   "schema": "contract-atlas-render/1",
   "schemaVersion": 1,
-  "metadataDigest": "803392bdf43f6981155bede17a59563502ec03717a3ed27dd13ac41beefed40e",
+  "metadataDigest": "efd005e523d13233f5d3eec6eadb5ca0a7eabed37f5ca3ce35738e296599a1b6",
   "audience": "public",
   "snapshotDate": "2026-11-01",
   "project": {
@@ -560,6 +560,46 @@
             "evidence:dashboard-session-health"
           ],
           "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:install-journey-offline",
+          "scope": "offline",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。",
+          "exclusions": [
+            "未执行产品安装/升级/卸载或生产EVARS修改。",
+            "未加载本轮新Host到AVEVA；不沿用历史实机通过。",
+            "未登记且未提供的旧根不能声称已全机排除。",
+            "原平台业务未完成项和用户视觉认可保留。"
+          ],
+          "evidenceIds": [
+            "evidence:install-journey"
+          ],
+          "environmentText": "产品：synthetic"
+        },
+        {
+          "id": "verification:install-journey-ui",
+          "scope": "ui",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。",
+          "exclusions": [
+            "界面后端回执为明确合成数据；真实临时后端文件验收单列。",
+            "不是生产安装或AVEVA实机全流程。",
+            "代理已目检，用户视觉认可未完成。",
+            "FigCraft为独立可编辑静态参考板，不代称WPF执行。"
+          ],
+          "evidenceIds": [
+            "evidence:install-journey"
+          ],
+          "environmentText": "产品：synthetic"
         }
       ],
       "limitations": [
@@ -586,17 +626,18 @@
         "source:evidence-launch-workflow",
         "source:evidence-host-bootstrap",
         "source:evidence-cli-host-compatibility",
-        "source:evidence-dashboard-session-health"
+        "source:evidence-dashboard-session-health",
+        "source:evidence-install-journey"
       ],
       "props": {},
       "text": {
-        "body": "项目任务：让发现、配置、受控执行和证据围绕同一任务协作。\n判断边界：规范状态、实现范围、证据分别判断；展示关系不是运行轨迹。\n规范：R01 planned · R02 verified · R03 verified · R04 verified · R05 verified · R06 verified · R07 planned · R08 partial · R09 partial · R10 partial · R11 partial · R12 planned · R13 verified · R14 verified · R15 verified · R16 verified · R17 verified · R18 verified · R19 partial · R20 planned · R21 verified · R22 verified · R23 verified · R24 verified\n证据：offline / passed · 2026-10-31 · 产品：synthetic\n三格式只读预览与敏感剔除专测14项通过。\n未涵盖：没有执行数据库切换\n\nui / passed · 2026-10-31 · 产品：synthetic\n离线53项通过，Web DOM完整apply；原生WPF仅预览，Apply由HTTP客户端验证。\n未涵盖：不是UI全程实机验收；首次新建仍为v1兼容\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n限定产品正常重启后实际页签、分组、32/16图标与Tooltip通过。\n未涵盖：未点击宏；直接HTTP部署，不是UI全程；不外推其他产品与模块\n\noffline / passed · 2026-10-31 · 产品：synthetic\n独立修订存储及冲突、回滚、格式门禁有隔离测试。\n未涵盖：未整体切换活动存储\n\nstatic / passed · 2026-10-31 · 产品：CAF\n真实SDK接口编译与生命周期隔离核查。\n未涵盖：未真实注册宿主；未界面挂载\n\noffline / passed · 2026-10-31 · 产品：synthetic\n启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。\n未涵盖：历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。\n未涵盖：仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本\n\nruntime / failed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n首次启动后严格expectedModel核验因Host报Unknown而拒绝；保留E3D_TARGET_MODEL_MISMATCH失败，不以窗口或管道可见替代身份成功。\n未涵盖：这是后续修复前的历史失败，不表示后续两次严格验收也失败；未放宽模块核验，未在该次失败会话执行PML；不将失败历史覆盖为后来成功\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n定向更新启动PML后严格DESIGN身份TargetVerified通过；两次内置有界读取返回OK，原始身份回执保留。\n未涵盖：该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过；未核验进程实际加载程序集的文件摘要，未执行回退演练；历史限定会话，不证明当前环境在线或其他产品可用\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。\n未涵盖：仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n定向更新Host后严格身份及两项查询V1协议通过；限定数组续页、Form/Gadget分页、预算拒绝和无回调副作用断言通过。\n未涵盖：历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过；不外推AM、PDMS、其他E3D版本或模块；未执行回退演练；前四次失败和旧协议0历史分别保留\n\noffline / passed · 2026-11-01 · 产品：synthetic\nDashboard会话模型与监测38项隔离测试通过，0失败0跳过；覆盖失联、超时、过期、身份变化及旧结果清理。\n未涵盖：历史隔离测试，不代表本轮新执行或真实断线验证；未强制断开正在使用的真实E3D会话；不证明部署、许可、业务查询或执行授权通过\n\nruntime / passed · 2026-11-01 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。\n未涵盖：仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成",
+        "body": "项目任务：让发现、配置、受控执行和证据围绕同一任务协作。\n判断边界：规范状态、实现范围、证据分别判断；展示关系不是运行轨迹。\n规范：R01 planned · R02 verified · R03 verified · R04 verified · R05 verified · R06 verified · R07 planned · R08 partial · R09 partial · R10 partial · R11 partial · R12 planned · R13 verified · R14 verified · R15 verified · R16 verified · R17 verified · R18 verified · R19 partial · R20 planned · R21 verified · R22 verified · R23 verified · R24 verified\n证据：offline / passed · 2026-10-31 · 产品：synthetic\n三格式只读预览与敏感剔除专测14项通过。\n未涵盖：没有执行数据库切换\n\nui / passed · 2026-10-31 · 产品：synthetic\n离线53项通过，Web DOM完整apply；原生WPF仅预览，Apply由HTTP客户端验证。\n未涵盖：不是UI全程实机验收；首次新建仍为v1兼容\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n限定产品正常重启后实际页签、分组、32/16图标与Tooltip通过。\n未涵盖：未点击宏；直接HTTP部署，不是UI全程；不外推其他产品与模块\n\noffline / passed · 2026-10-31 · 产品：synthetic\n独立修订存储及冲突、回滚、格式门禁有隔离测试。\n未涵盖：未整体切换活动存储\n\nstatic / passed · 2026-10-31 · 产品：CAF\n真实SDK接口编译与生命周期隔离核查。\n未涵盖：未真实注册宿主；未界面挂载\n\noffline / passed · 2026-10-31 · 产品：synthetic\n启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。\n未涵盖：历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。\n未涵盖：仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本\n\nruntime / failed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n首次启动后严格expectedModel核验因Host报Unknown而拒绝；保留E3D_TARGET_MODEL_MISMATCH失败，不以窗口或管道可见替代身份成功。\n未涵盖：这是后续修复前的历史失败，不表示后续两次严格验收也失败；未放宽模块核验，未在该次失败会话执行PML；不将失败历史覆盖为后来成功\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n定向更新启动PML后严格DESIGN身份TargetVerified通过；两次内置有界读取返回OK，原始身份回执保留。\n未涵盖：该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过；未核验进程实际加载程序集的文件摘要，未执行回退演练；历史限定会话，不证明当前环境在线或其他产品可用\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。\n未涵盖：仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n定向更新Host后严格身份及两项查询V1协议通过；限定数组续页、Form/Gadget分页、预算拒绝和无回调副作用断言通过。\n未涵盖：历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过；不外推AM、PDMS、其他E3D版本或模块；未执行回退演练；前四次失败和旧协议0历史分别保留\n\noffline / passed · 2026-11-01 · 产品：synthetic\nDashboard会话模型与监测38项隔离测试通过，0失败0跳过；覆盖失联、超时、过期、身份变化及旧结果清理。\n未涵盖：历史隔离测试，不代表本轮新执行或真实断线验证；未强制断开正在使用的真实E3D会话；不证明部署、许可、业务查询或执行授权通过\n\nruntime / passed · 2026-11-01 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。\n未涵盖：仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成\n\noffline / passed · 2026-11-01 · 产品：synthetic\n安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。\n未涵盖：未执行产品安装/升级/卸载或生产EVARS修改。；未加载本轮新Host到AVEVA；不沿用历史实机通过。；未登记且未提供的旧根不能声称已全机排除。；原平台业务未完成项和用户视觉认可保留。\n\nui / passed · 2026-11-01 · 产品：synthetic\n最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。\n未涵盖：界面后端回执为明确合成数据；真实临时后端文件验收单列。；不是生产安装或AVEVA实机全流程。；代理已目检，用户视觉认可未完成。；FigCraft为独立可编辑静态参考板，不代称WPF执行。",
         "status": "规范 / 实现 / 证据三轴独立",
-        "limit": "本图谱不执行登录、部署或宏，不是第二份生效规范；没有执行数据库切换；不是UI全程实机验收；首次新建仍为v1兼容；未点击宏；直接HTTP部署，不是UI全程；不外推其他产品与模块；未整体切换活动存储；未真实注册宿主；未界面挂载；历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收；仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本；这是后续修复前的历史失败，不表示后续两次严格验收也失败；未放宽模块核验，未在该次失败会话执行PML；不将失败历史覆盖为后来成功；该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过；未核验进程实际加载程序集的文件摘要，未执行回退演练；历史限定会话，不证明当前环境在线或其他产品可用；仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收；历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过；不外推AM、PDMS、其他E3D版本或模块；未执行回退演练；前四次失败和旧协议0历史分别保留；历史隔离测试，不代表本轮新执行或真实断线验证；未强制断开正在使用的真实E3D会话；不证明部署、许可、业务查询或执行授权通过；仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成"
+        "limit": "本图谱不执行登录、部署或宏，不是第二份生效规范；没有执行数据库切换；不是UI全程实机验收；首次新建仍为v1兼容；未点击宏；直接HTTP部署，不是UI全程；不外推其他产品与模块；未整体切换活动存储；未真实注册宿主；未界面挂载；历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收；仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本；这是后续修复前的历史失败，不表示后续两次严格验收也失败；未放宽模块核验，未在该次失败会话执行PML；不将失败历史覆盖为后来成功；该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过；未核验进程实际加载程序集的文件摘要，未执行回退演练；历史限定会话，不证明当前环境在线或其他产品可用；仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收；历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过；不外推AM、PDMS、其他E3D版本或模块；未执行回退演练；前四次失败和旧协议0历史分别保留；历史隔离测试，不代表本轮新执行或真实断线验证；未强制断开正在使用的真实E3D会话；不证明部署、许可、业务查询或执行授权通过；仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成；未执行产品安装/升级/卸载或生产EVARS修改。；未加载本轮新Host到AVEVA；不沿用历史实机通过。；未登记且未提供的旧根不能声称已全机排除。；原平台业务未完成项和用户视觉认可保留。；界面后端回执为明确合成数据；真实临时后端文件验收单列。；不是生产安装或AVEVA实机全流程。；代理已目检，用户视觉认可未完成。；FigCraft为独立可编辑静态参考板，不代称WPF执行。"
       },
-      "body": "项目任务：让发现、配置、受控执行和证据围绕同一任务协作。\n判断边界：规范状态、实现范围、证据分别判断；展示关系不是运行轨迹。\n规范：R01 planned · R02 verified · R03 verified · R04 verified · R05 verified · R06 verified · R07 planned · R08 partial · R09 partial · R10 partial · R11 partial · R12 planned · R13 verified · R14 verified · R15 verified · R16 verified · R17 verified · R18 verified · R19 partial · R20 planned · R21 verified · R22 verified · R23 verified · R24 verified\n证据：offline / passed · 2026-10-31 · 产品：synthetic\n三格式只读预览与敏感剔除专测14项通过。\n未涵盖：没有执行数据库切换\n\nui / passed · 2026-10-31 · 产品：synthetic\n离线53项通过，Web DOM完整apply；原生WPF仅预览，Apply由HTTP客户端验证。\n未涵盖：不是UI全程实机验收；首次新建仍为v1兼容\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n限定产品正常重启后实际页签、分组、32/16图标与Tooltip通过。\n未涵盖：未点击宏；直接HTTP部署，不是UI全程；不外推其他产品与模块\n\noffline / passed · 2026-10-31 · 产品：synthetic\n独立修订存储及冲突、回滚、格式门禁有隔离测试。\n未涵盖：未整体切换活动存储\n\nstatic / passed · 2026-10-31 · 产品：CAF\n真实SDK接口编译与生命周期隔离核查。\n未涵盖：未真实注册宿主；未界面挂载\n\noffline / passed · 2026-10-31 · 产品：synthetic\n启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。\n未涵盖：历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。\n未涵盖：仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本\n\nruntime / failed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n首次启动后严格expectedModel核验因Host报Unknown而拒绝；保留E3D_TARGET_MODEL_MISMATCH失败，不以窗口或管道可见替代身份成功。\n未涵盖：这是后续修复前的历史失败，不表示后续两次严格验收也失败；未放宽模块核验，未在该次失败会话执行PML；不将失败历史覆盖为后来成功\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n定向更新启动PML后严格DESIGN身份TargetVerified通过；两次内置有界读取返回OK，原始身份回执保留。\n未涵盖：该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过；未核验进程实际加载程序集的文件摘要，未执行回退演练；历史限定会话，不证明当前环境在线或其他产品可用\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。\n未涵盖：仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n定向更新Host后严格身份及两项查询V1协议通过；限定数组续页、Form/Gadget分页、预算拒绝和无回调副作用断言通过。\n未涵盖：历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过；不外推AM、PDMS、其他E3D版本或模块；未执行回退演练；前四次失败和旧协议0历史分别保留\n\noffline / passed · 2026-11-01 · 产品：synthetic\nDashboard会话模型与监测38项隔离测试通过，0失败0跳过；覆盖失联、超时、过期、身份变化及旧结果清理。\n未涵盖：历史隔离测试，不代表本轮新执行或真实断线验证；未强制断开正在使用的真实E3D会话；不证明部署、许可、业务查询或执行授权通过\n\nruntime / passed · 2026-11-01 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。\n未涵盖：仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成",
+      "body": "项目任务：让发现、配置、受控执行和证据围绕同一任务协作。\n判断边界：规范状态、实现范围、证据分别判断；展示关系不是运行轨迹。\n规范：R01 planned · R02 verified · R03 verified · R04 verified · R05 verified · R06 verified · R07 planned · R08 partial · R09 partial · R10 partial · R11 partial · R12 planned · R13 verified · R14 verified · R15 verified · R16 verified · R17 verified · R18 verified · R19 partial · R20 planned · R21 verified · R22 verified · R23 verified · R24 verified\n证据：offline / passed · 2026-10-31 · 产品：synthetic\n三格式只读预览与敏感剔除专测14项通过。\n未涵盖：没有执行数据库切换\n\nui / passed · 2026-10-31 · 产品：synthetic\n离线53项通过，Web DOM完整apply；原生WPF仅预览，Apply由HTTP客户端验证。\n未涵盖：不是UI全程实机验收；首次新建仍为v1兼容\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n限定产品正常重启后实际页签、分组、32/16图标与Tooltip通过。\n未涵盖：未点击宏；直接HTTP部署，不是UI全程；不外推其他产品与模块\n\noffline / passed · 2026-10-31 · 产品：synthetic\n独立修订存储及冲突、回滚、格式门禁有隔离测试。\n未涵盖：未整体切换活动存储\n\nstatic / passed · 2026-10-31 · 产品：CAF\n真实SDK接口编译与生命周期隔离核查。\n未涵盖：未真实注册宿主；未界面挂载\n\noffline / passed · 2026-10-31 · 产品：synthetic\n启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。\n未涵盖：历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。\n未涵盖：仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本\n\nruntime / failed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n首次启动后严格expectedModel核验因Host报Unknown而拒绝；保留E3D_TARGET_MODEL_MISMATCH失败，不以窗口或管道可见替代身份成功。\n未涵盖：这是后续修复前的历史失败，不表示后续两次严格验收也失败；未放宽模块核验，未在该次失败会话执行PML；不将失败历史覆盖为后来成功\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n定向更新启动PML后严格DESIGN身份TargetVerified通过；两次内置有界读取返回OK，原始身份回执保留。\n未涵盖：该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过；未核验进程实际加载程序集的文件摘要，未执行回退演练；历史限定会话，不证明当前环境在线或其他产品可用\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。\n未涵盖：仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n定向更新Host后严格身份及两项查询V1协议通过；限定数组续页、Form/Gadget分页、预算拒绝和无回调副作用断言通过。\n未涵盖：历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过；不外推AM、PDMS、其他E3D版本或模块；未执行回退演练；前四次失败和旧协议0历史分别保留\n\noffline / passed · 2026-11-01 · 产品：synthetic\nDashboard会话模型与监测38项隔离测试通过，0失败0跳过；覆盖失联、超时、过期、身份变化及旧结果清理。\n未涵盖：历史隔离测试，不代表本轮新执行或真实断线验证；未强制断开正在使用的真实E3D会话；不证明部署、许可、业务查询或执行授权通过\n\nruntime / passed · 2026-11-01 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。\n未涵盖：仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成\n\noffline / passed · 2026-11-01 · 产品：synthetic\n安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。\n未涵盖：未执行产品安装/升级/卸载或生产EVARS修改。；未加载本轮新Host到AVEVA；不沿用历史实机通过。；未登记且未提供的旧根不能声称已全机排除。；原平台业务未完成项和用户视觉认可保留。\n\nui / passed · 2026-11-01 · 产品：synthetic\n最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。\n未涵盖：界面后端回执为明确合成数据；真实临时后端文件验收单列。；不是生产安装或AVEVA实机全流程。；代理已目检，用户视觉认可未完成。；FigCraft为独立可编辑静态参考板，不代称WPF执行。",
       "status": "规范 / 实现 / 证据三轴独立",
-      "limit": "本图谱不执行登录、部署或宏，不是第二份生效规范；没有执行数据库切换；不是UI全程实机验收；首次新建仍为v1兼容；未点击宏；直接HTTP部署，不是UI全程；不外推其他产品与模块；未整体切换活动存储；未真实注册宿主；未界面挂载；历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收；仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本；这是后续修复前的历史失败，不表示后续两次严格验收也失败；未放宽模块核验，未在该次失败会话执行PML；不将失败历史覆盖为后来成功；该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过；未核验进程实际加载程序集的文件摘要，未执行回退演练；历史限定会话，不证明当前环境在线或其他产品可用；仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收；历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过；不外推AM、PDMS、其他E3D版本或模块；未执行回退演练；前四次失败和旧协议0历史分别保留；历史隔离测试，不代表本轮新执行或真实断线验证；未强制断开正在使用的真实E3D会话；不证明部署、许可、业务查询或执行授权通过；仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成",
+      "limit": "本图谱不执行登录、部署或宏，不是第二份生效规范；没有执行数据库切换；不是UI全程实机验收；首次新建仍为v1兼容；未点击宏；直接HTTP部署，不是UI全程；不外推其他产品与模块；未整体切换活动存储；未真实注册宿主；未界面挂载；历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收；仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本；这是后续修复前的历史失败，不表示后续两次严格验收也失败；未放宽模块核验，未在该次失败会话执行PML；不将失败历史覆盖为后来成功；该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过；未核验进程实际加载程序集的文件摘要，未执行回退演练；历史限定会话，不证明当前环境在线或其他产品可用；仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收；历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过；不外推AM、PDMS、其他E3D版本或模块；未执行回退演练；前四次失败和旧协议0历史分别保留；历史隔离测试，不代表本轮新执行或真实断线验证；未强制断开正在使用的真实E3D会话；不证明部署、许可、业务查询或执行授权通过；仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成；未执行产品安装/升级/卸载或生产EVARS修改。；未加载本轮新Host到AVEVA；不沿用历史实机通过。；未登记且未提供的旧根不能声称已全机排除。；原平台业务未完成项和用户视觉认可保留。；界面后端回执为明确合成数据；真实临时后端文件验收单列。；不是生产安装或AVEVA实机全流程。；代理已目检，用户视觉认可未完成。；FigCraft为独立可编辑静态参考板，不代称WPF执行。",
       "evidence": [
         {
           "id": "verification:migration-offline",
@@ -853,6 +894,46 @@
             "evidence:dashboard-session-health"
           ],
           "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:install-journey-offline",
+          "scope": "offline",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。",
+          "exclusions": [
+            "未执行产品安装/升级/卸载或生产EVARS修改。",
+            "未加载本轮新Host到AVEVA；不沿用历史实机通过。",
+            "未登记且未提供的旧根不能声称已全机排除。",
+            "原平台业务未完成项和用户视觉认可保留。"
+          ],
+          "evidenceIds": [
+            "evidence:install-journey"
+          ],
+          "environmentText": "产品：synthetic"
+        },
+        {
+          "id": "verification:install-journey-ui",
+          "scope": "ui",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。",
+          "exclusions": [
+            "界面后端回执为明确合成数据；真实临时后端文件验收单列。",
+            "不是生产安装或AVEVA实机全流程。",
+            "代理已目检，用户视觉认可未完成。",
+            "FigCraft为独立可编辑静态参考板，不代称WPF执行。"
+          ],
+          "evidenceIds": [
+            "evidence:install-journey"
+          ],
+          "environmentText": "产品：synthetic"
         }
       ]
     },
@@ -1106,6 +1187,46 @@
             "evidence:dashboard-session-health"
           ],
           "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:install-journey-offline",
+          "scope": "offline",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。",
+          "exclusions": [
+            "未执行产品安装/升级/卸载或生产EVARS修改。",
+            "未加载本轮新Host到AVEVA；不沿用历史实机通过。",
+            "未登记且未提供的旧根不能声称已全机排除。",
+            "原平台业务未完成项和用户视觉认可保留。"
+          ],
+          "evidenceIds": [
+            "evidence:install-journey"
+          ],
+          "environmentText": "产品：synthetic"
+        },
+        {
+          "id": "verification:install-journey-ui",
+          "scope": "ui",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。",
+          "exclusions": [
+            "界面后端回执为明确合成数据；真实临时后端文件验收单列。",
+            "不是生产安装或AVEVA实机全流程。",
+            "代理已目检，用户视觉认可未完成。",
+            "FigCraft为独立可编辑静态参考板，不代称WPF执行。"
+          ],
+          "evidenceIds": [
+            "evidence:install-journey"
+          ],
+          "environmentText": "产品：synthetic"
         }
       ],
       "limitations": [
@@ -1117,13 +1238,13 @@
       ],
       "props": {},
       "text": {
-        "body": "职责：冻结一次启动，保存修订并观察原编号。\n输入：配置修订；明确产品与模块\n输出：候选来源；启动计划与关联回执\n副作用：授权后创建入口进程\n失败与恢复：歧义、冲突与unknown\n规范：R02 verified · R03 verified · R04 verified · R05 verified · R06 verified · R13 verified · R14 verified · R15 verified · R16 verified · R23 verified\n证据：offline / passed · 2026-10-31 · 产品：synthetic\n启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。\n未涵盖：历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。\n未涵盖：仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。\n未涵盖：仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收\n\nruntime / passed · 2026-11-01 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。\n未涵盖：仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成",
+        "body": "职责：冻结一次启动，保存修订并观察原编号。\n输入：配置修订；明确产品与模块\n输出：候选来源；启动计划与关联回执\n副作用：授权后创建入口进程\n失败与恢复：歧义、冲突与unknown\n规范：R02 verified · R03 verified · R04 verified · R05 verified · R06 verified · R13 verified · R14 verified · R15 verified · R16 verified · R23 verified\n证据：offline / passed · 2026-10-31 · 产品：synthetic\n启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。\n未涵盖：历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。\n未涵盖：仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。\n未涵盖：仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收\n\nruntime / passed · 2026-11-01 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。\n未涵盖：仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成\n\noffline / passed · 2026-11-01 · 产品：synthetic\n安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。\n未涵盖：未执行产品安装/升级/卸载或生产EVARS修改。；未加载本轮新Host到AVEVA；不沿用历史实机通过。；未登记且未提供的旧根不能声称已全机排除。；原平台业务未完成项和用户视觉认可保留。\n\nui / passed · 2026-11-01 · 产品：synthetic\n最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。\n未涵盖：界面后端回执为明确合成数据；真实临时后端文件验收单列。；不是生产安装或AVEVA实机全流程。；代理已目检，用户视觉认可未完成。；FigCraft为独立可编辑静态参考板，不代称WPF执行。",
         "status": "实现：implemented · 既有目录登记状态；完整平台范围见限制与独立证据",
-        "limit": "入口创建不等于登录或Host已核验；历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收；仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本；仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收；仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成"
+        "limit": "入口创建不等于登录或Host已核验；历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收；仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本；仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收；仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成；未执行产品安装/升级/卸载或生产EVARS修改。；未加载本轮新Host到AVEVA；不沿用历史实机通过。；未登记且未提供的旧根不能声称已全机排除。；原平台业务未完成项和用户视觉认可保留。；界面后端回执为明确合成数据；真实临时后端文件验收单列。；不是生产安装或AVEVA实机全流程。；代理已目检，用户视觉认可未完成。；FigCraft为独立可编辑静态参考板，不代称WPF执行。"
       },
-      "body": "职责：冻结一次启动，保存修订并观察原编号。\n输入：配置修订；明确产品与模块\n输出：候选来源；启动计划与关联回执\n副作用：授权后创建入口进程\n失败与恢复：歧义、冲突与unknown\n规范：R02 verified · R03 verified · R04 verified · R05 verified · R06 verified · R13 verified · R14 verified · R15 verified · R16 verified · R23 verified\n证据：offline / passed · 2026-10-31 · 产品：synthetic\n启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。\n未涵盖：历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。\n未涵盖：仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。\n未涵盖：仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收\n\nruntime / passed · 2026-11-01 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。\n未涵盖：仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成",
+      "body": "职责：冻结一次启动，保存修订并观察原编号。\n输入：配置修订；明确产品与模块\n输出：候选来源；启动计划与关联回执\n副作用：授权后创建入口进程\n失败与恢复：歧义、冲突与unknown\n规范：R02 verified · R03 verified · R04 verified · R05 verified · R06 verified · R13 verified · R14 verified · R15 verified · R16 verified · R23 verified\n证据：offline / passed · 2026-10-31 · 产品：synthetic\n启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。\n未涵盖：历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。\n未涵盖：仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。\n未涵盖：仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收\n\nruntime / passed · 2026-11-01 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。\n未涵盖：仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成\n\noffline / passed · 2026-11-01 · 产品：synthetic\n安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。\n未涵盖：未执行产品安装/升级/卸载或生产EVARS修改。；未加载本轮新Host到AVEVA；不沿用历史实机通过。；未登记且未提供的旧根不能声称已全机排除。；原平台业务未完成项和用户视觉认可保留。\n\nui / passed · 2026-11-01 · 产品：synthetic\n最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。\n未涵盖：界面后端回执为明确合成数据；真实临时后端文件验收单列。；不是生产安装或AVEVA实机全流程。；代理已目检，用户视觉认可未完成。；FigCraft为独立可编辑静态参考板，不代称WPF执行。",
       "status": "实现：implemented · 既有目录登记状态；完整平台范围见限制与独立证据",
-      "limit": "入口创建不等于登录或Host已核验；历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收；仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本；仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收；仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成",
+      "limit": "入口创建不等于登录或Host已核验；历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收；仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本；仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收；仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成；未执行产品安装/升级/卸载或生产EVARS修改。；未加载本轮新Host到AVEVA；不沿用历史实机通过。；未登记且未提供的旧根不能声称已全机排除。；原平台业务未完成项和用户视觉认可保留。；界面后端回执为明确合成数据；真实临时后端文件验收单列。；不是生产安装或AVEVA实机全流程。；代理已目检，用户视觉认可未完成。；FigCraft为独立可编辑静态参考板，不代称WPF执行。",
       "evidence": [
         {
           "id": "verification:launch-offline",
@@ -1207,6 +1328,46 @@
             "evidence:dashboard-session-health"
           ],
           "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:install-journey-offline",
+          "scope": "offline",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。",
+          "exclusions": [
+            "未执行产品安装/升级/卸载或生产EVARS修改。",
+            "未加载本轮新Host到AVEVA；不沿用历史实机通过。",
+            "未登记且未提供的旧根不能声称已全机排除。",
+            "原平台业务未完成项和用户视觉认可保留。"
+          ],
+          "evidenceIds": [
+            "evidence:install-journey"
+          ],
+          "environmentText": "产品：synthetic"
+        },
+        {
+          "id": "verification:install-journey-ui",
+          "scope": "ui",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。",
+          "exclusions": [
+            "界面后端回执为明确合成数据；真实临时后端文件验收单列。",
+            "不是生产安装或AVEVA实机全流程。",
+            "代理已目检，用户视觉认可未完成。",
+            "FigCraft为独立可编辑静态参考板，不代称WPF执行。"
+          ],
+          "evidenceIds": [
+            "evidence:install-journey"
+          ],
+          "environmentText": "产品：synthetic"
         }
       ]
     },
@@ -1297,7 +1458,48 @@
           "source:capabilities"
         ]
       },
-      "verifications": [],
+      "verifications": [
+        {
+          "id": "verification:install-journey-offline",
+          "scope": "offline",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。",
+          "exclusions": [
+            "未执行产品安装/升级/卸载或生产EVARS修改。",
+            "未加载本轮新Host到AVEVA；不沿用历史实机通过。",
+            "未登记且未提供的旧根不能声称已全机排除。",
+            "原平台业务未完成项和用户视觉认可保留。"
+          ],
+          "evidenceIds": [
+            "evidence:install-journey"
+          ],
+          "environmentText": "产品：synthetic"
+        },
+        {
+          "id": "verification:install-journey-ui",
+          "scope": "ui",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。",
+          "exclusions": [
+            "界面后端回执为明确合成数据；真实临时后端文件验收单列。",
+            "不是生产安装或AVEVA实机全流程。",
+            "代理已目检，用户视觉认可未完成。",
+            "FigCraft为独立可编辑静态参考板，不代称WPF执行。"
+          ],
+          "evidenceIds": [
+            "evidence:install-journey"
+          ],
+          "environmentText": "产品：synthetic"
+        }
+      ],
       "limitations": [
         "复制成功不等于运行时已加载"
       ],
@@ -1307,14 +1509,55 @@
       ],
       "props": {},
       "text": {
-        "body": "职责：冻结文件差异，备份并有条件恢复。\n输入：源与专用目标；冻结计划\n输出：逐文件差异；备份及恢复回执\n副作用：写目标文件与托管环境段\n失败与恢复：源或目标变化拒绝；部分恢复明确报告\n规范：R10 partial · R19 partial\n证据：未登记独立证据；不能推定通过",
+        "body": "职责：冻结文件差异，备份并有条件恢复。\n输入：源与专用目标；冻结计划\n输出：逐文件差异；备份及恢复回执\n副作用：写目标文件与托管环境段\n失败与恢复：源或目标变化拒绝；部分恢复明确报告\n规范：R10 partial · R19 partial\n证据：offline / passed · 2026-11-01 · 产品：synthetic\n安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。\n未涵盖：未执行产品安装/升级/卸载或生产EVARS修改。；未加载本轮新Host到AVEVA；不沿用历史实机通过。；未登记且未提供的旧根不能声称已全机排除。；原平台业务未完成项和用户视觉认可保留。\n\nui / passed · 2026-11-01 · 产品：synthetic\n最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。\n未涵盖：界面后端回执为明确合成数据；真实临时后端文件验收单列。；不是生产安装或AVEVA实机全流程。；代理已目检，用户视觉认可未完成。；FigCraft为独立可编辑静态参考板，不代称WPF执行。",
         "status": "实现：partial · 既有目录登记状态；完整平台范围见限制与独立证据",
-        "limit": "复制成功不等于运行时已加载"
+        "limit": "复制成功不等于运行时已加载；未执行产品安装/升级/卸载或生产EVARS修改。；未加载本轮新Host到AVEVA；不沿用历史实机通过。；未登记且未提供的旧根不能声称已全机排除。；原平台业务未完成项和用户视觉认可保留。；界面后端回执为明确合成数据；真实临时后端文件验收单列。；不是生产安装或AVEVA实机全流程。；代理已目检，用户视觉认可未完成。；FigCraft为独立可编辑静态参考板，不代称WPF执行。"
       },
-      "body": "职责：冻结文件差异，备份并有条件恢复。\n输入：源与专用目标；冻结计划\n输出：逐文件差异；备份及恢复回执\n副作用：写目标文件与托管环境段\n失败与恢复：源或目标变化拒绝；部分恢复明确报告\n规范：R10 partial · R19 partial\n证据：未登记独立证据；不能推定通过",
+      "body": "职责：冻结文件差异，备份并有条件恢复。\n输入：源与专用目标；冻结计划\n输出：逐文件差异；备份及恢复回执\n副作用：写目标文件与托管环境段\n失败与恢复：源或目标变化拒绝；部分恢复明确报告\n规范：R10 partial · R19 partial\n证据：offline / passed · 2026-11-01 · 产品：synthetic\n安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。\n未涵盖：未执行产品安装/升级/卸载或生产EVARS修改。；未加载本轮新Host到AVEVA；不沿用历史实机通过。；未登记且未提供的旧根不能声称已全机排除。；原平台业务未完成项和用户视觉认可保留。\n\nui / passed · 2026-11-01 · 产品：synthetic\n最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。\n未涵盖：界面后端回执为明确合成数据；真实临时后端文件验收单列。；不是生产安装或AVEVA实机全流程。；代理已目检，用户视觉认可未完成。；FigCraft为独立可编辑静态参考板，不代称WPF执行。",
       "status": "实现：partial · 既有目录登记状态；完整平台范围见限制与独立证据",
-      "limit": "复制成功不等于运行时已加载",
-      "evidence": []
+      "limit": "复制成功不等于运行时已加载；未执行产品安装/升级/卸载或生产EVARS修改。；未加载本轮新Host到AVEVA；不沿用历史实机通过。；未登记且未提供的旧根不能声称已全机排除。；原平台业务未完成项和用户视觉认可保留。；界面后端回执为明确合成数据；真实临时后端文件验收单列。；不是生产安装或AVEVA实机全流程。；代理已目检，用户视觉认可未完成。；FigCraft为独立可编辑静态参考板，不代称WPF执行。",
+      "evidence": [
+        {
+          "id": "verification:install-journey-offline",
+          "scope": "offline",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。",
+          "exclusions": [
+            "未执行产品安装/升级/卸载或生产EVARS修改。",
+            "未加载本轮新Host到AVEVA；不沿用历史实机通过。",
+            "未登记且未提供的旧根不能声称已全机排除。",
+            "原平台业务未完成项和用户视觉认可保留。"
+          ],
+          "evidenceIds": [
+            "evidence:install-journey"
+          ],
+          "environmentText": "产品：synthetic"
+        },
+        {
+          "id": "verification:install-journey-ui",
+          "scope": "ui",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。",
+          "exclusions": [
+            "界面后端回执为明确合成数据；真实临时后端文件验收单列。",
+            "不是生产安装或AVEVA实机全流程。",
+            "代理已目检，用户视觉认可未完成。",
+            "FigCraft为独立可编辑静态参考板，不代称WPF执行。"
+          ],
+          "evidenceIds": [
+            "evidence:install-journey"
+          ],
+          "environmentText": "产品：synthetic"
+        }
+      ]
     },
     {
       "id": "feature:sessions",
@@ -3587,6 +3830,46 @@
             "evidence:dashboard-session-health"
           ],
           "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:install-journey-offline",
+          "scope": "offline",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。",
+          "exclusions": [
+            "未执行产品安装/升级/卸载或生产EVARS修改。",
+            "未加载本轮新Host到AVEVA；不沿用历史实机通过。",
+            "未登记且未提供的旧根不能声称已全机排除。",
+            "原平台业务未完成项和用户视觉认可保留。"
+          ],
+          "evidenceIds": [
+            "evidence:install-journey"
+          ],
+          "environmentText": "产品：synthetic"
+        },
+        {
+          "id": "verification:install-journey-ui",
+          "scope": "ui",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。",
+          "exclusions": [
+            "界面后端回执为明确合成数据；真实临时后端文件验收单列。",
+            "不是生产安装或AVEVA实机全流程。",
+            "代理已目检，用户视觉认可未完成。",
+            "FigCraft为独立可编辑静态参考板，不代称WPF执行。"
+          ],
+          "evidenceIds": [
+            "evidence:install-journey"
+          ],
+          "environmentText": "产品：synthetic"
         }
       ],
       "limitations": [
@@ -3597,13 +3880,13 @@
       ],
       "props": {},
       "text": {
-        "body": "输入：NoBrowser/NoBuild、端口、构建配置；整合入口另接 Ribbon 数据目录与端口。\n前置条件：匹配仓库 SDK；所需 CLI/Ribbon 后端存在或允许本次构建；本机端口可用。\n算法 / 手段：增量构建 → 启动本机 Ribbon（整合入口）→ 健康核对 → 调用 Manager workbench；不复制发现/启动算法。\n副作用：可构建、启动本机服务/浏览器、创建应用工作目录；此入口本身不登录或启动 AVEVA。\n校验：构建退出码、文件存在、health 实现/版本/状态与自有进程仍存活。\n回执：前台退出码、本机端点及下游操作回执；服务ready不是产品已连接。\n失败 / 恢复：失败不继续启动下游；finally 停自有服务并还原本进程环境。停止服务不撤销已经明确受理的产品动作。\n规范：R02 verified · R03 verified · R04 verified · R05 verified · R06 verified · R13 verified · R14 verified · R15 verified · R16 verified · R23 verified\n证据：offline / passed · 2026-10-31 · 产品：synthetic\n启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。\n未涵盖：历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。\n未涵盖：仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。\n未涵盖：仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收\n\nruntime / passed · 2026-11-01 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。\n未涵盖：仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成",
+        "body": "输入：NoBrowser/NoBuild、端口、构建配置；整合入口另接 Ribbon 数据目录与端口。\n前置条件：匹配仓库 SDK；所需 CLI/Ribbon 后端存在或允许本次构建；本机端口可用。\n算法 / 手段：增量构建 → 启动本机 Ribbon（整合入口）→ 健康核对 → 调用 Manager workbench；不复制发现/启动算法。\n副作用：可构建、启动本机服务/浏览器、创建应用工作目录；此入口本身不登录或启动 AVEVA。\n校验：构建退出码、文件存在、health 实现/版本/状态与自有进程仍存活。\n回执：前台退出码、本机端点及下游操作回执；服务ready不是产品已连接。\n失败 / 恢复：失败不继续启动下游；finally 停自有服务并还原本进程环境。停止服务不撤销已经明确受理的产品动作。\n规范：R02 verified · R03 verified · R04 verified · R05 verified · R06 verified · R13 verified · R14 verified · R15 verified · R16 verified · R23 verified\n证据：offline / passed · 2026-10-31 · 产品：synthetic\n启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。\n未涵盖：历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。\n未涵盖：仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。\n未涵盖：仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收\n\nruntime / passed · 2026-11-01 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。\n未涵盖：仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成\n\noffline / passed · 2026-11-01 · 产品：synthetic\n安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。\n未涵盖：未执行产品安装/升级/卸载或生产EVARS修改。；未加载本轮新Host到AVEVA；不沿用历史实机通过。；未登记且未提供的旧根不能声称已全机排除。；原平台业务未完成项和用户视觉认可保留。\n\nui / passed · 2026-11-01 · 产品：synthetic\n最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。\n未涵盖：界面后端回执为明确合成数据；真实临时后端文件验收单列。；不是生产安装或AVEVA实机全流程。；代理已目检，用户视觉认可未完成。；FigCraft为独立可编辑静态参考板，不代称WPF执行。",
         "status": "powershell · workflow",
-        "limit": "入口创建不等于登录或Host已核验；历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收；仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本；仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收；仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成"
+        "limit": "入口创建不等于登录或Host已核验；历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收；仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本；仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收；仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成；未执行产品安装/升级/卸载或生产EVARS修改。；未加载本轮新Host到AVEVA；不沿用历史实机通过。；未登记且未提供的旧根不能声称已全机排除。；原平台业务未完成项和用户视觉认可保留。；界面后端回执为明确合成数据；真实临时后端文件验收单列。；不是生产安装或AVEVA实机全流程。；代理已目检，用户视觉认可未完成。；FigCraft为独立可编辑静态参考板，不代称WPF执行。"
       },
-      "body": "输入：NoBrowser/NoBuild、端口、构建配置；整合入口另接 Ribbon 数据目录与端口。\n前置条件：匹配仓库 SDK；所需 CLI/Ribbon 后端存在或允许本次构建；本机端口可用。\n算法 / 手段：增量构建 → 启动本机 Ribbon（整合入口）→ 健康核对 → 调用 Manager workbench；不复制发现/启动算法。\n副作用：可构建、启动本机服务/浏览器、创建应用工作目录；此入口本身不登录或启动 AVEVA。\n校验：构建退出码、文件存在、health 实现/版本/状态与自有进程仍存活。\n回执：前台退出码、本机端点及下游操作回执；服务ready不是产品已连接。\n失败 / 恢复：失败不继续启动下游；finally 停自有服务并还原本进程环境。停止服务不撤销已经明确受理的产品动作。\n规范：R02 verified · R03 verified · R04 verified · R05 verified · R06 verified · R13 verified · R14 verified · R15 verified · R16 verified · R23 verified\n证据：offline / passed · 2026-10-31 · 产品：synthetic\n启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。\n未涵盖：历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。\n未涵盖：仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。\n未涵盖：仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收\n\nruntime / passed · 2026-11-01 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。\n未涵盖：仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成",
+      "body": "输入：NoBrowser/NoBuild、端口、构建配置；整合入口另接 Ribbon 数据目录与端口。\n前置条件：匹配仓库 SDK；所需 CLI/Ribbon 后端存在或允许本次构建；本机端口可用。\n算法 / 手段：增量构建 → 启动本机 Ribbon（整合入口）→ 健康核对 → 调用 Manager workbench；不复制发现/启动算法。\n副作用：可构建、启动本机服务/浏览器、创建应用工作目录；此入口本身不登录或启动 AVEVA。\n校验：构建退出码、文件存在、health 实现/版本/状态与自有进程仍存活。\n回执：前台退出码、本机端点及下游操作回执；服务ready不是产品已连接。\n失败 / 恢复：失败不继续启动下游；finally 停自有服务并还原本进程环境。停止服务不撤销已经明确受理的产品动作。\n规范：R02 verified · R03 verified · R04 verified · R05 verified · R06 verified · R13 verified · R14 verified · R15 verified · R16 verified · R23 verified\n证据：offline / passed · 2026-10-31 · 产品：synthetic\n启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。\n未涵盖：历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。\n未涵盖：仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。\n未涵盖：仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收\n\nruntime / passed · 2026-11-01 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。\n未涵盖：仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成\n\noffline / passed · 2026-11-01 · 产品：synthetic\n安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。\n未涵盖：未执行产品安装/升级/卸载或生产EVARS修改。；未加载本轮新Host到AVEVA；不沿用历史实机通过。；未登记且未提供的旧根不能声称已全机排除。；原平台业务未完成项和用户视觉认可保留。\n\nui / passed · 2026-11-01 · 产品：synthetic\n最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。\n未涵盖：界面后端回执为明确合成数据；真实临时后端文件验收单列。；不是生产安装或AVEVA实机全流程。；代理已目检，用户视觉认可未完成。；FigCraft为独立可编辑静态参考板，不代称WPF执行。",
       "status": "powershell · workflow",
-      "limit": "入口创建不等于登录或Host已核验；历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收；仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本；仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收；仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成",
+      "limit": "入口创建不等于登录或Host已核验；历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收；仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本；仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收；仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成；未执行产品安装/升级/卸载或生产EVARS修改。；未加载本轮新Host到AVEVA；不沿用历史实机通过。；未登记且未提供的旧根不能声称已全机排除。；原平台业务未完成项和用户视觉认可保留。；界面后端回执为明确合成数据；真实临时后端文件验收单列。；不是生产安装或AVEVA实机全流程。；代理已目检，用户视觉认可未完成。；FigCraft为独立可编辑静态参考板，不代称WPF执行。",
       "evidence": [
         {
           "id": "verification:launch-offline",
@@ -3687,6 +3970,46 @@
             "evidence:dashboard-session-health"
           ],
           "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:install-journey-offline",
+          "scope": "offline",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。",
+          "exclusions": [
+            "未执行产品安装/升级/卸载或生产EVARS修改。",
+            "未加载本轮新Host到AVEVA；不沿用历史实机通过。",
+            "未登记且未提供的旧根不能声称已全机排除。",
+            "原平台业务未完成项和用户视觉认可保留。"
+          ],
+          "evidenceIds": [
+            "evidence:install-journey"
+          ],
+          "environmentText": "产品：synthetic"
+        },
+        {
+          "id": "verification:install-journey-ui",
+          "scope": "ui",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。",
+          "exclusions": [
+            "界面后端回执为明确合成数据；真实临时后端文件验收单列。",
+            "不是生产安装或AVEVA实机全流程。",
+            "代理已目检，用户视觉认可未完成。",
+            "FigCraft为独立可编辑静态参考板，不代称WPF执行。"
+          ],
+          "evidenceIds": [
+            "evidence:install-journey"
+          ],
+          "environmentText": "产品：synthetic"
         }
       ]
     },
@@ -3952,6 +4275,46 @@
             "evidence:dashboard-session-health"
           ],
           "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:install-journey-offline",
+          "scope": "offline",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。",
+          "exclusions": [
+            "未执行产品安装/升级/卸载或生产EVARS修改。",
+            "未加载本轮新Host到AVEVA；不沿用历史实机通过。",
+            "未登记且未提供的旧根不能声称已全机排除。",
+            "原平台业务未完成项和用户视觉认可保留。"
+          ],
+          "evidenceIds": [
+            "evidence:install-journey"
+          ],
+          "environmentText": "产品：synthetic"
+        },
+        {
+          "id": "verification:install-journey-ui",
+          "scope": "ui",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。",
+          "exclusions": [
+            "界面后端回执为明确合成数据；真实临时后端文件验收单列。",
+            "不是生产安装或AVEVA实机全流程。",
+            "代理已目检，用户视觉认可未完成。",
+            "FigCraft为独立可编辑静态参考板，不代称WPF执行。"
+          ],
+          "evidenceIds": [
+            "evidence:install-journey"
+          ],
+          "environmentText": "产品：synthetic"
         }
       ],
       "limitations": [
@@ -3962,13 +4325,13 @@
       ],
       "props": {},
       "text": {
-        "body": "输入：profileId、expectedRevision、operationId；execute 接冻结计划、本次内存密码、requestId和启动授权。\n前置条件：配置有效、文件/修订/计划期限匹配；有权限；原编号没有冲突事实。\n算法 / 手段：Plan 冻结入口/INIT/EVARS → 缓存摘要 → 跨进程操作租约 → 同编号去重 → accepted持久化 → 唯一LaunchService.Start → 持久回执。\n副作用：计划写非秘密缓存；执行创建入口进程；观察读取/更新观察事实，不再次启动。\n校验：同编号同摘要复用，异摘要冲突；受理持久失败不调用启动；退出入口保留交接候选，不能推定工程关闭。\n回执：operationId/attemptId/requestId、state/phase/code/message、入口身份、观察与Host未核验。\n失败 / 恢复：中断accepted变unknown；写后回执失败保留不确定性；按原编号Observe，不能自动重放。\n规范：R02 verified · R03 verified · R04 verified · R05 verified · R06 verified · R13 verified · R14 verified · R15 verified · R16 verified · R23 verified\n证据：offline / passed · 2026-10-31 · 产品：synthetic\n启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。\n未涵盖：历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。\n未涵盖：仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。\n未涵盖：仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收\n\nruntime / passed · 2026-11-01 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。\n未涵盖：仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成",
+        "body": "输入：profileId、expectedRevision、operationId；execute 接冻结计划、本次内存密码、requestId和启动授权。\n前置条件：配置有效、文件/修订/计划期限匹配；有权限；原编号没有冲突事实。\n算法 / 手段：Plan 冻结入口/INIT/EVARS → 缓存摘要 → 跨进程操作租约 → 同编号去重 → accepted持久化 → 唯一LaunchService.Start → 持久回执。\n副作用：计划写非秘密缓存；执行创建入口进程；观察读取/更新观察事实，不再次启动。\n校验：同编号同摘要复用，异摘要冲突；受理持久失败不调用启动；退出入口保留交接候选，不能推定工程关闭。\n回执：operationId/attemptId/requestId、state/phase/code/message、入口身份、观察与Host未核验。\n失败 / 恢复：中断accepted变unknown；写后回执失败保留不确定性；按原编号Observe，不能自动重放。\n规范：R02 verified · R03 verified · R04 verified · R05 verified · R06 verified · R13 verified · R14 verified · R15 verified · R16 verified · R23 verified\n证据：offline / passed · 2026-10-31 · 产品：synthetic\n启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。\n未涵盖：历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。\n未涵盖：仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。\n未涵盖：仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收\n\nruntime / passed · 2026-11-01 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。\n未涵盖：仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成\n\noffline / passed · 2026-11-01 · 产品：synthetic\n安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。\n未涵盖：未执行产品安装/升级/卸载或生产EVARS修改。；未加载本轮新Host到AVEVA；不沿用历史实机通过。；未登记且未提供的旧根不能声称已全机排除。；原平台业务未完成项和用户视觉认可保留。\n\nui / passed · 2026-11-01 · 产品：synthetic\n最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。\n未涵盖：界面后端回执为明确合成数据；真实临时后端文件验收单列。；不是生产安装或AVEVA实机全流程。；代理已目检，用户视觉认可未完成。；FigCraft为独立可编辑静态参考板，不代称WPF执行。",
         "status": "csharp · workflow",
-        "limit": "入口创建不等于登录或Host已核验；历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收；仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本；仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收；仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成"
+        "limit": "入口创建不等于登录或Host已核验；历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收；仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本；仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收；仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成；未执行产品安装/升级/卸载或生产EVARS修改。；未加载本轮新Host到AVEVA；不沿用历史实机通过。；未登记且未提供的旧根不能声称已全机排除。；原平台业务未完成项和用户视觉认可保留。；界面后端回执为明确合成数据；真实临时后端文件验收单列。；不是生产安装或AVEVA实机全流程。；代理已目检，用户视觉认可未完成。；FigCraft为独立可编辑静态参考板，不代称WPF执行。"
       },
-      "body": "输入：profileId、expectedRevision、operationId；execute 接冻结计划、本次内存密码、requestId和启动授权。\n前置条件：配置有效、文件/修订/计划期限匹配；有权限；原编号没有冲突事实。\n算法 / 手段：Plan 冻结入口/INIT/EVARS → 缓存摘要 → 跨进程操作租约 → 同编号去重 → accepted持久化 → 唯一LaunchService.Start → 持久回执。\n副作用：计划写非秘密缓存；执行创建入口进程；观察读取/更新观察事实，不再次启动。\n校验：同编号同摘要复用，异摘要冲突；受理持久失败不调用启动；退出入口保留交接候选，不能推定工程关闭。\n回执：operationId/attemptId/requestId、state/phase/code/message、入口身份、观察与Host未核验。\n失败 / 恢复：中断accepted变unknown；写后回执失败保留不确定性；按原编号Observe，不能自动重放。\n规范：R02 verified · R03 verified · R04 verified · R05 verified · R06 verified · R13 verified · R14 verified · R15 verified · R16 verified · R23 verified\n证据：offline / passed · 2026-10-31 · 产品：synthetic\n启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。\n未涵盖：历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。\n未涵盖：仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。\n未涵盖：仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收\n\nruntime / passed · 2026-11-01 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。\n未涵盖：仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成",
+      "body": "输入：profileId、expectedRevision、operationId；execute 接冻结计划、本次内存密码、requestId和启动授权。\n前置条件：配置有效、文件/修订/计划期限匹配；有权限；原编号没有冲突事实。\n算法 / 手段：Plan 冻结入口/INIT/EVARS → 缓存摘要 → 跨进程操作租约 → 同编号去重 → accepted持久化 → 唯一LaunchService.Start → 持久回执。\n副作用：计划写非秘密缓存；执行创建入口进程；观察读取/更新观察事实，不再次启动。\n校验：同编号同摘要复用，异摘要冲突；受理持久失败不调用启动；退出入口保留交接候选，不能推定工程关闭。\n回执：operationId/attemptId/requestId、state/phase/code/message、入口身份、观察与Host未核验。\n失败 / 恢复：中断accepted变unknown；写后回执失败保留不确定性；按原编号Observe，不能自动重放。\n规范：R02 verified · R03 verified · R04 verified · R05 verified · R06 verified · R13 verified · R14 verified · R15 verified · R16 verified · R23 verified\n证据：offline / passed · 2026-10-31 · 产品：synthetic\n启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。\n未涵盖：历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。\n未涵盖：仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。\n未涵盖：仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收\n\nruntime / passed · 2026-11-01 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。\n未涵盖：仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成\n\noffline / passed · 2026-11-01 · 产品：synthetic\n安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。\n未涵盖：未执行产品安装/升级/卸载或生产EVARS修改。；未加载本轮新Host到AVEVA；不沿用历史实机通过。；未登记且未提供的旧根不能声称已全机排除。；原平台业务未完成项和用户视觉认可保留。\n\nui / passed · 2026-11-01 · 产品：synthetic\n最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。\n未涵盖：界面后端回执为明确合成数据；真实临时后端文件验收单列。；不是生产安装或AVEVA实机全流程。；代理已目检，用户视觉认可未完成。；FigCraft为独立可编辑静态参考板，不代称WPF执行。",
       "status": "csharp · workflow",
-      "limit": "入口创建不等于登录或Host已核验；历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收；仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本；仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收；仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成",
+      "limit": "入口创建不等于登录或Host已核验；历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收；仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本；仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收；仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成；未执行产品安装/升级/卸载或生产EVARS修改。；未加载本轮新Host到AVEVA；不沿用历史实机通过。；未登记且未提供的旧根不能声称已全机排除。；原平台业务未完成项和用户视觉认可保留。；界面后端回执为明确合成数据；真实临时后端文件验收单列。；不是生产安装或AVEVA实机全流程。；代理已目检，用户视觉认可未完成。；FigCraft为独立可编辑静态参考板，不代称WPF执行。",
       "evidence": [
         {
           "id": "verification:launch-offline",
@@ -4052,6 +4415,46 @@
             "evidence:dashboard-session-health"
           ],
           "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:install-journey-offline",
+          "scope": "offline",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。",
+          "exclusions": [
+            "未执行产品安装/升级/卸载或生产EVARS修改。",
+            "未加载本轮新Host到AVEVA；不沿用历史实机通过。",
+            "未登记且未提供的旧根不能声称已全机排除。",
+            "原平台业务未完成项和用户视觉认可保留。"
+          ],
+          "evidenceIds": [
+            "evidence:install-journey"
+          ],
+          "environmentText": "产品：synthetic"
+        },
+        {
+          "id": "verification:install-journey-ui",
+          "scope": "ui",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。",
+          "exclusions": [
+            "界面后端回执为明确合成数据；真实临时后端文件验收单列。",
+            "不是生产安装或AVEVA实机全流程。",
+            "代理已目检，用户视觉认可未完成。",
+            "FigCraft为独立可编辑静态参考板，不代称WPF执行。"
+          ],
+          "evidenceIds": [
+            "evidence:install-journey"
+          ],
+          "environmentText": "产品：synthetic"
         }
       ]
     },
@@ -4527,7 +4930,48 @@
         }
       ],
       "implementation": null,
-      "verifications": [],
+      "verifications": [
+        {
+          "id": "verification:install-journey-offline",
+          "scope": "offline",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。",
+          "exclusions": [
+            "未执行产品安装/升级/卸载或生产EVARS修改。",
+            "未加载本轮新Host到AVEVA；不沿用历史实机通过。",
+            "未登记且未提供的旧根不能声称已全机排除。",
+            "原平台业务未完成项和用户视觉认可保留。"
+          ],
+          "evidenceIds": [
+            "evidence:install-journey"
+          ],
+          "environmentText": "产品：synthetic"
+        },
+        {
+          "id": "verification:install-journey-ui",
+          "scope": "ui",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。",
+          "exclusions": [
+            "界面后端回执为明确合成数据；真实临时后端文件验收单列。",
+            "不是生产安装或AVEVA实机全流程。",
+            "代理已目检，用户视觉认可未完成。",
+            "FigCraft为独立可编辑静态参考板，不代称WPF执行。"
+          ],
+          "evidenceIds": [
+            "evidence:install-journey"
+          ],
+          "environmentText": "产品：synthetic"
+        }
+      ],
       "limitations": [
         "复制成功不等于运行时已加载"
       ],
@@ -4536,14 +4980,55 @@
       ],
       "props": {},
       "text": {
-        "body": "输入：源、插件专用注册目标、冻结文件计划和摘要；恢复接原回执。\n前置条件：路径边界、无链接、不互含、格式及大小预算满足；授权明确。\n算法 / 手段：枚举冻结 → 全部写前复验 → 备份/暂存/写入 → 结果回读；不另建第二复制引擎。\n副作用：写目标和本操作备份；不自动删除无关文件、不加载Host。\n校验：源/目标变化拒绝；检查实际复制与恢复未解决项。\n回执：DeploymentReceipt、应用异常中的部分结果、DeploymentRestoreReceipt。\n失败 / 恢复：仅恢复本次所有权内文件；外部改动不覆盖，RecoveryErrors/Unresolved单列，不承诺无条件回滚。\n规范：R10 partial · R19 partial\n证据：未登记独立证据；不能推定通过",
+        "body": "输入：源、插件专用注册目标、冻结文件计划和摘要；恢复接原回执。\n前置条件：路径边界、无链接、不互含、格式及大小预算满足；授权明确。\n算法 / 手段：枚举冻结 → 全部写前复验 → 备份/暂存/写入 → 结果回读；不另建第二复制引擎。\n副作用：写目标和本操作备份；不自动删除无关文件、不加载Host。\n校验：源/目标变化拒绝；检查实际复制与恢复未解决项。\n回执：DeploymentReceipt、应用异常中的部分结果、DeploymentRestoreReceipt。\n失败 / 恢复：仅恢复本次所有权内文件；外部改动不覆盖，RecoveryErrors/Unresolved单列，不承诺无条件回滚。\n规范：R10 partial · R19 partial\n证据：offline / passed · 2026-11-01 · 产品：synthetic\n安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。\n未涵盖：未执行产品安装/升级/卸载或生产EVARS修改。；未加载本轮新Host到AVEVA；不沿用历史实机通过。；未登记且未提供的旧根不能声称已全机排除。；原平台业务未完成项和用户视觉认可保留。\n\nui / passed · 2026-11-01 · 产品：synthetic\n最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。\n未涵盖：界面后端回执为明确合成数据；真实临时后端文件验收单列。；不是生产安装或AVEVA实机全流程。；代理已目检，用户视觉认可未完成。；FigCraft为独立可编辑静态参考板，不代称WPF执行。",
         "status": "csharp · algorithm",
-        "limit": "复制成功不等于运行时已加载"
+        "limit": "复制成功不等于运行时已加载；未执行产品安装/升级/卸载或生产EVARS修改。；未加载本轮新Host到AVEVA；不沿用历史实机通过。；未登记且未提供的旧根不能声称已全机排除。；原平台业务未完成项和用户视觉认可保留。；界面后端回执为明确合成数据；真实临时后端文件验收单列。；不是生产安装或AVEVA实机全流程。；代理已目检，用户视觉认可未完成。；FigCraft为独立可编辑静态参考板，不代称WPF执行。"
       },
-      "body": "输入：源、插件专用注册目标、冻结文件计划和摘要；恢复接原回执。\n前置条件：路径边界、无链接、不互含、格式及大小预算满足；授权明确。\n算法 / 手段：枚举冻结 → 全部写前复验 → 备份/暂存/写入 → 结果回读；不另建第二复制引擎。\n副作用：写目标和本操作备份；不自动删除无关文件、不加载Host。\n校验：源/目标变化拒绝；检查实际复制与恢复未解决项。\n回执：DeploymentReceipt、应用异常中的部分结果、DeploymentRestoreReceipt。\n失败 / 恢复：仅恢复本次所有权内文件；外部改动不覆盖，RecoveryErrors/Unresolved单列，不承诺无条件回滚。\n规范：R10 partial · R19 partial\n证据：未登记独立证据；不能推定通过",
+      "body": "输入：源、插件专用注册目标、冻结文件计划和摘要；恢复接原回执。\n前置条件：路径边界、无链接、不互含、格式及大小预算满足；授权明确。\n算法 / 手段：枚举冻结 → 全部写前复验 → 备份/暂存/写入 → 结果回读；不另建第二复制引擎。\n副作用：写目标和本操作备份；不自动删除无关文件、不加载Host。\n校验：源/目标变化拒绝；检查实际复制与恢复未解决项。\n回执：DeploymentReceipt、应用异常中的部分结果、DeploymentRestoreReceipt。\n失败 / 恢复：仅恢复本次所有权内文件；外部改动不覆盖，RecoveryErrors/Unresolved单列，不承诺无条件回滚。\n规范：R10 partial · R19 partial\n证据：offline / passed · 2026-11-01 · 产品：synthetic\n安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。\n未涵盖：未执行产品安装/升级/卸载或生产EVARS修改。；未加载本轮新Host到AVEVA；不沿用历史实机通过。；未登记且未提供的旧根不能声称已全机排除。；原平台业务未完成项和用户视觉认可保留。\n\nui / passed · 2026-11-01 · 产品：synthetic\n最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。\n未涵盖：界面后端回执为明确合成数据；真实临时后端文件验收单列。；不是生产安装或AVEVA实机全流程。；代理已目检，用户视觉认可未完成。；FigCraft为独立可编辑静态参考板，不代称WPF执行。",
       "status": "csharp · algorithm",
-      "limit": "复制成功不等于运行时已加载",
-      "evidence": []
+      "limit": "复制成功不等于运行时已加载；未执行产品安装/升级/卸载或生产EVARS修改。；未加载本轮新Host到AVEVA；不沿用历史实机通过。；未登记且未提供的旧根不能声称已全机排除。；原平台业务未完成项和用户视觉认可保留。；界面后端回执为明确合成数据；真实临时后端文件验收单列。；不是生产安装或AVEVA实机全流程。；代理已目检，用户视觉认可未完成。；FigCraft为独立可编辑静态参考板，不代称WPF执行。",
+      "evidence": [
+        {
+          "id": "verification:install-journey-offline",
+          "scope": "offline",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。",
+          "exclusions": [
+            "未执行产品安装/升级/卸载或生产EVARS修改。",
+            "未加载本轮新Host到AVEVA；不沿用历史实机通过。",
+            "未登记且未提供的旧根不能声称已全机排除。",
+            "原平台业务未完成项和用户视觉认可保留。"
+          ],
+          "evidenceIds": [
+            "evidence:install-journey"
+          ],
+          "environmentText": "产品：synthetic"
+        },
+        {
+          "id": "verification:install-journey-ui",
+          "scope": "ui",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。",
+          "exclusions": [
+            "界面后端回执为明确合成数据；真实临时后端文件验收单列。",
+            "不是生产安装或AVEVA实机全流程。",
+            "代理已目检，用户视觉认可未完成。",
+            "FigCraft为独立可编辑静态参考板，不代称WPF执行。"
+          ],
+          "evidenceIds": [
+            "evidence:install-journey"
+          ],
+          "environmentText": "产品：synthetic"
+        }
+      ]
     },
     {
       "id": "script:pml-development",
@@ -4706,7 +5191,48 @@
         }
       ],
       "implementation": null,
-      "verifications": [],
+      "verifications": [
+        {
+          "id": "verification:install-journey-offline",
+          "scope": "offline",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。",
+          "exclusions": [
+            "未执行产品安装/升级/卸载或生产EVARS修改。",
+            "未加载本轮新Host到AVEVA；不沿用历史实机通过。",
+            "未登记且未提供的旧根不能声称已全机排除。",
+            "原平台业务未完成项和用户视觉认可保留。"
+          ],
+          "evidenceIds": [
+            "evidence:install-journey"
+          ],
+          "environmentText": "产品：synthetic"
+        },
+        {
+          "id": "verification:install-journey-ui",
+          "scope": "ui",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。",
+          "exclusions": [
+            "界面后端回执为明确合成数据；真实临时后端文件验收单列。",
+            "不是生产安装或AVEVA实机全流程。",
+            "代理已目检，用户视觉认可未完成。",
+            "FigCraft为独立可编辑静态参考板，不代称WPF执行。"
+          ],
+          "evidenceIds": [
+            "evidence:install-journey"
+          ],
+          "environmentText": "产品：synthetic"
+        }
+      ],
       "limitations": [
         "复制成功不等于运行时已加载",
         "注册不表示Host已加载",
@@ -4717,14 +5243,55 @@
       ],
       "props": {},
       "text": {
-        "body": "输入：CLI、源目录、注册PMLLIB、schema1清单、PID/ExpectedModel、独立证据目录与AllowExecution。\n前置条件：明确获准的部署/加载/验证任务；清单字段和期望字符串有效；不复用任意旧证据目录充当新结果。\n算法 / 手段：固定发现身份 → 冻结复制 → REHASH ALL → Object/Form重载 → 验证宏 → 读取结果全局数组 → 精确比对expected。\n副作用：写部署文件与run.json/rpc.json；重载、宏和窗口可能改变宿主运行态。\n校验：复制后对冻结源哈希回读；结果项数、UnparsedCount与每个键/字符串精确一致。该包装器不具有启动协调器的operationId持久去重；清单不是每步重新哈希冻结，不能补造此保证。\n回执：每步执行前保存状态、原始调用与响应；失败或unknown停止，最后写rpc证据。\n失败 / 恢复：不自动重发/重跑全流程；先检查已复制文件、原始调用、加载状态及原备份，再明确选择下一动作。\n规范：R10 partial · R19 partial · R08 partial · R11 partial · R16 verified · R17 verified · R09 partial · R18 verified\n证据：未登记独立证据；不能推定通过",
+        "body": "输入：CLI、源目录、注册PMLLIB、schema1清单、PID/ExpectedModel、独立证据目录与AllowExecution。\n前置条件：明确获准的部署/加载/验证任务；清单字段和期望字符串有效；不复用任意旧证据目录充当新结果。\n算法 / 手段：固定发现身份 → 冻结复制 → REHASH ALL → Object/Form重载 → 验证宏 → 读取结果全局数组 → 精确比对expected。\n副作用：写部署文件与run.json/rpc.json；重载、宏和窗口可能改变宿主运行态。\n校验：复制后对冻结源哈希回读；结果项数、UnparsedCount与每个键/字符串精确一致。该包装器不具有启动协调器的operationId持久去重；清单不是每步重新哈希冻结，不能补造此保证。\n回执：每步执行前保存状态、原始调用与响应；失败或unknown停止，最后写rpc证据。\n失败 / 恢复：不自动重发/重跑全流程；先检查已复制文件、原始调用、加载状态及原备份，再明确选择下一动作。\n规范：R10 partial · R19 partial · R08 partial · R11 partial · R16 verified · R17 verified · R09 partial · R18 verified\n证据：offline / passed · 2026-11-01 · 产品：synthetic\n安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。\n未涵盖：未执行产品安装/升级/卸载或生产EVARS修改。；未加载本轮新Host到AVEVA；不沿用历史实机通过。；未登记且未提供的旧根不能声称已全机排除。；原平台业务未完成项和用户视觉认可保留。\n\nui / passed · 2026-11-01 · 产品：synthetic\n最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。\n未涵盖：界面后端回执为明确合成数据；真实临时后端文件验收单列。；不是生产安装或AVEVA实机全流程。；代理已目检，用户视觉认可未完成。；FigCraft为独立可编辑静态参考板，不代称WPF执行。",
         "status": "powershell · workflow",
-        "limit": "复制成功不等于运行时已加载；注册不表示Host已加载；不执行业务回调"
+        "limit": "复制成功不等于运行时已加载；注册不表示Host已加载；不执行业务回调；未执行产品安装/升级/卸载或生产EVARS修改。；未加载本轮新Host到AVEVA；不沿用历史实机通过。；未登记且未提供的旧根不能声称已全机排除。；原平台业务未完成项和用户视觉认可保留。；界面后端回执为明确合成数据；真实临时后端文件验收单列。；不是生产安装或AVEVA实机全流程。；代理已目检，用户视觉认可未完成。；FigCraft为独立可编辑静态参考板，不代称WPF执行。"
       },
-      "body": "输入：CLI、源目录、注册PMLLIB、schema1清单、PID/ExpectedModel、独立证据目录与AllowExecution。\n前置条件：明确获准的部署/加载/验证任务；清单字段和期望字符串有效；不复用任意旧证据目录充当新结果。\n算法 / 手段：固定发现身份 → 冻结复制 → REHASH ALL → Object/Form重载 → 验证宏 → 读取结果全局数组 → 精确比对expected。\n副作用：写部署文件与run.json/rpc.json；重载、宏和窗口可能改变宿主运行态。\n校验：复制后对冻结源哈希回读；结果项数、UnparsedCount与每个键/字符串精确一致。该包装器不具有启动协调器的operationId持久去重；清单不是每步重新哈希冻结，不能补造此保证。\n回执：每步执行前保存状态、原始调用与响应；失败或unknown停止，最后写rpc证据。\n失败 / 恢复：不自动重发/重跑全流程；先检查已复制文件、原始调用、加载状态及原备份，再明确选择下一动作。\n规范：R10 partial · R19 partial · R08 partial · R11 partial · R16 verified · R17 verified · R09 partial · R18 verified\n证据：未登记独立证据；不能推定通过",
+      "body": "输入：CLI、源目录、注册PMLLIB、schema1清单、PID/ExpectedModel、独立证据目录与AllowExecution。\n前置条件：明确获准的部署/加载/验证任务；清单字段和期望字符串有效；不复用任意旧证据目录充当新结果。\n算法 / 手段：固定发现身份 → 冻结复制 → REHASH ALL → Object/Form重载 → 验证宏 → 读取结果全局数组 → 精确比对expected。\n副作用：写部署文件与run.json/rpc.json；重载、宏和窗口可能改变宿主运行态。\n校验：复制后对冻结源哈希回读；结果项数、UnparsedCount与每个键/字符串精确一致。该包装器不具有启动协调器的operationId持久去重；清单不是每步重新哈希冻结，不能补造此保证。\n回执：每步执行前保存状态、原始调用与响应；失败或unknown停止，最后写rpc证据。\n失败 / 恢复：不自动重发/重跑全流程；先检查已复制文件、原始调用、加载状态及原备份，再明确选择下一动作。\n规范：R10 partial · R19 partial · R08 partial · R11 partial · R16 verified · R17 verified · R09 partial · R18 verified\n证据：offline / passed · 2026-11-01 · 产品：synthetic\n安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。\n未涵盖：未执行产品安装/升级/卸载或生产EVARS修改。；未加载本轮新Host到AVEVA；不沿用历史实机通过。；未登记且未提供的旧根不能声称已全机排除。；原平台业务未完成项和用户视觉认可保留。\n\nui / passed · 2026-11-01 · 产品：synthetic\n最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。\n未涵盖：界面后端回执为明确合成数据；真实临时后端文件验收单列。；不是生产安装或AVEVA实机全流程。；代理已目检，用户视觉认可未完成。；FigCraft为独立可编辑静态参考板，不代称WPF执行。",
       "status": "powershell · workflow",
-      "limit": "复制成功不等于运行时已加载；注册不表示Host已加载；不执行业务回调",
-      "evidence": []
+      "limit": "复制成功不等于运行时已加载；注册不表示Host已加载；不执行业务回调；未执行产品安装/升级/卸载或生产EVARS修改。；未加载本轮新Host到AVEVA；不沿用历史实机通过。；未登记且未提供的旧根不能声称已全机排除。；原平台业务未完成项和用户视觉认可保留。；界面后端回执为明确合成数据；真实临时后端文件验收单列。；不是生产安装或AVEVA实机全流程。；代理已目检，用户视觉认可未完成。；FigCraft为独立可编辑静态参考板，不代称WPF执行。",
+      "evidence": [
+        {
+          "id": "verification:install-journey-offline",
+          "scope": "offline",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。",
+          "exclusions": [
+            "未执行产品安装/升级/卸载或生产EVARS修改。",
+            "未加载本轮新Host到AVEVA；不沿用历史实机通过。",
+            "未登记且未提供的旧根不能声称已全机排除。",
+            "原平台业务未完成项和用户视觉认可保留。"
+          ],
+          "evidenceIds": [
+            "evidence:install-journey"
+          ],
+          "environmentText": "产品：synthetic"
+        },
+        {
+          "id": "verification:install-journey-ui",
+          "scope": "ui",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。",
+          "exclusions": [
+            "界面后端回执为明确合成数据；真实临时后端文件验收单列。",
+            "不是生产安装或AVEVA实机全流程。",
+            "代理已目检，用户视觉认可未完成。",
+            "FigCraft为独立可编辑静态参考板，不代称WPF执行。"
+          ],
+          "evidenceIds": [
+            "evidence:install-journey"
+          ],
+          "environmentText": "产品：synthetic"
+        }
+      ]
     },
     {
       "id": "script:array-window",
@@ -5235,6 +5802,46 @@
           "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
         },
         {
+          "id": "verification:install-journey-offline",
+          "scope": "offline",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。",
+          "exclusions": [
+            "未执行产品安装/升级/卸载或生产EVARS修改。",
+            "未加载本轮新Host到AVEVA；不沿用历史实机通过。",
+            "未登记且未提供的旧根不能声称已全机排除。",
+            "原平台业务未完成项和用户视觉认可保留。"
+          ],
+          "evidenceIds": [
+            "evidence:install-journey"
+          ],
+          "environmentText": "产品：synthetic"
+        },
+        {
+          "id": "verification:install-journey-ui",
+          "scope": "ui",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。",
+          "exclusions": [
+            "界面后端回执为明确合成数据；真实临时后端文件验收单列。",
+            "不是生产安装或AVEVA实机全流程。",
+            "代理已目检，用户视觉认可未完成。",
+            "FigCraft为独立可编辑静态参考板，不代称WPF执行。"
+          ],
+          "evidenceIds": [
+            "evidence:install-journey"
+          ],
+          "environmentText": "产品：synthetic"
+        },
+        {
           "id": "verification:sessions-initial-host",
           "scope": "runtime",
           "result": "failed",
@@ -5326,13 +5933,13 @@
       ],
       "props": {},
       "text": {
-        "body": "输入：Current Session/BANNER、PMLUI根、进程环境中的启动策略及可选override。\n前置条件：对应profile的Host文件实际存在；安装目录token与安装预览一致。\n算法 / 手段：E3D2.1→net48/2.1、E3D3.1系列→net48/3.1.6、AM/PDMS→net35；策略仅none/空或rehash-all，未知值不当作PML执行。\n副作用：更新会话描述与解析结果；显式rehash-all可执行REHASH，默认关闭。\n校验：不支持映射或缺DLL不得设为成功；策略执行前写开始日志，一旦开始即消耗会话防重试守卫。\n回执：产品/版本/模块/profile/framework信息及策略报告；路径存在不是Host握手成功。\n失败 / 恢复：不自动降级加载错误运行时；改策略环境值通常由新进程读取，失败后不能借重试重复执行当前会话动作。\n规范：R02 verified · R03 verified · R04 verified · R05 verified · R06 verified · R13 verified · R14 verified · R15 verified · R16 verified · R23 verified · R17 verified\n证据：offline / passed · 2026-10-31 · 产品：synthetic\n启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。\n未涵盖：历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。\n未涵盖：仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。\n未涵盖：仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收\n\nruntime / passed · 2026-11-01 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。\n未涵盖：仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成\n\nruntime / failed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n首次启动后严格expectedModel核验因Host报Unknown而拒绝；保留E3D_TARGET_MODEL_MISMATCH失败，不以窗口或管道可见替代身份成功。\n未涵盖：这是后续修复前的历史失败，不表示后续两次严格验收也失败；未放宽模块核验，未在该次失败会话执行PML；不将失败历史覆盖为后来成功\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n定向更新启动PML后严格DESIGN身份TargetVerified通过；两次内置有界读取返回OK，原始身份回执保留。\n未涵盖：该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过；未核验进程实际加载程序集的文件摘要，未执行回退演练；历史限定会话，不证明当前环境在线或其他产品可用\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n定向更新Host后严格身份及两项查询V1协议通过；限定数组续页、Form/Gadget分页、预算拒绝和无回调副作用断言通过。\n未涵盖：历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过；不外推AM、PDMS、其他E3D版本或模块；未执行回退演练；前四次失败和旧协议0历史分别保留\n\noffline / passed · 2026-11-01 · 产品：synthetic\nDashboard会话模型与监测38项隔离测试通过，0失败0跳过；覆盖失联、超时、过期、身份变化及旧结果清理。\n未涵盖：历史隔离测试，不代表本轮新执行或真实断线验证；未强制断开正在使用的真实E3D会话；不证明部署、许可、业务查询或执行授权通过",
+        "body": "输入：Current Session/BANNER、PMLUI根、进程环境中的启动策略及可选override。\n前置条件：对应profile的Host文件实际存在；安装目录token与安装预览一致。\n算法 / 手段：E3D2.1→net48/2.1、E3D3.1系列→net48/3.1.6、AM/PDMS→net35；策略仅none/空或rehash-all，未知值不当作PML执行。\n副作用：更新会话描述与解析结果；显式rehash-all可执行REHASH，默认关闭。\n校验：不支持映射或缺DLL不得设为成功；策略执行前写开始日志，一旦开始即消耗会话防重试守卫。\n回执：产品/版本/模块/profile/framework信息及策略报告；路径存在不是Host握手成功。\n失败 / 恢复：不自动降级加载错误运行时；改策略环境值通常由新进程读取，失败后不能借重试重复执行当前会话动作。\n规范：R02 verified · R03 verified · R04 verified · R05 verified · R06 verified · R13 verified · R14 verified · R15 verified · R16 verified · R23 verified · R17 verified\n证据：offline / passed · 2026-10-31 · 产品：synthetic\n启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。\n未涵盖：历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。\n未涵盖：仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。\n未涵盖：仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收\n\nruntime / passed · 2026-11-01 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。\n未涵盖：仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成\n\noffline / passed · 2026-11-01 · 产品：synthetic\n安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。\n未涵盖：未执行产品安装/升级/卸载或生产EVARS修改。；未加载本轮新Host到AVEVA；不沿用历史实机通过。；未登记且未提供的旧根不能声称已全机排除。；原平台业务未完成项和用户视觉认可保留。\n\nui / passed · 2026-11-01 · 产品：synthetic\n最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。\n未涵盖：界面后端回执为明确合成数据；真实临时后端文件验收单列。；不是生产安装或AVEVA实机全流程。；代理已目检，用户视觉认可未完成。；FigCraft为独立可编辑静态参考板，不代称WPF执行。\n\nruntime / failed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n首次启动后严格expectedModel核验因Host报Unknown而拒绝；保留E3D_TARGET_MODEL_MISMATCH失败，不以窗口或管道可见替代身份成功。\n未涵盖：这是后续修复前的历史失败，不表示后续两次严格验收也失败；未放宽模块核验，未在该次失败会话执行PML；不将失败历史覆盖为后来成功\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n定向更新启动PML后严格DESIGN身份TargetVerified通过；两次内置有界读取返回OK，原始身份回执保留。\n未涵盖：该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过；未核验进程实际加载程序集的文件摘要，未执行回退演练；历史限定会话，不证明当前环境在线或其他产品可用\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n定向更新Host后严格身份及两项查询V1协议通过；限定数组续页、Form/Gadget分页、预算拒绝和无回调副作用断言通过。\n未涵盖：历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过；不外推AM、PDMS、其他E3D版本或模块；未执行回退演练；前四次失败和旧协议0历史分别保留\n\noffline / passed · 2026-11-01 · 产品：synthetic\nDashboard会话模型与监测38项隔离测试通过，0失败0跳过；覆盖失联、超时、过期、身份变化及旧结果清理。\n未涵盖：历史隔离测试，不代表本轮新执行或真实断线验证；未强制断开正在使用的真实E3D会话；不证明部署、许可、业务查询或执行授权通过",
         "status": "pml · runtime",
-        "limit": "入口创建不等于登录或Host已核验；发现不等于登录；历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收；仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本；仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收；仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成；这是后续修复前的历史失败，不表示后续两次严格验收也失败；未放宽模块核验，未在该次失败会话执行PML；不将失败历史覆盖为后来成功；该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过；未核验进程实际加载程序集的文件摘要，未执行回退演练；历史限定会话，不证明当前环境在线或其他产品可用；历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过；不外推AM、PDMS、其他E3D版本或模块；未执行回退演练；前四次失败和旧协议0历史分别保留；历史隔离测试，不代表本轮新执行或真实断线验证；未强制断开正在使用的真实E3D会话；不证明部署、许可、业务查询或执行授权通过"
+        "limit": "入口创建不等于登录或Host已核验；发现不等于登录；历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收；仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本；仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收；仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成；未执行产品安装/升级/卸载或生产EVARS修改。；未加载本轮新Host到AVEVA；不沿用历史实机通过。；未登记且未提供的旧根不能声称已全机排除。；原平台业务未完成项和用户视觉认可保留。；界面后端回执为明确合成数据；真实临时后端文件验收单列。；不是生产安装或AVEVA实机全流程。；代理已目检，用户视觉认可未完成。；FigCraft为独立可编辑静态参考板，不代称WPF执行。；这是后续修复前的历史失败，不表示后续两次严格验收也失败；未放宽模块核验，未在该次失败会话执行PML；不将失败历史覆盖为后来成功；该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过；未核验进程实际加载程序集的文件摘要，未执行回退演练；历史限定会话，不证明当前环境在线或其他产品可用；历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过；不外推AM、PDMS、其他E3D版本或模块；未执行回退演练；前四次失败和旧协议0历史分别保留；历史隔离测试，不代表本轮新执行或真实断线验证；未强制断开正在使用的真实E3D会话；不证明部署、许可、业务查询或执行授权通过"
       },
-      "body": "输入：Current Session/BANNER、PMLUI根、进程环境中的启动策略及可选override。\n前置条件：对应profile的Host文件实际存在；安装目录token与安装预览一致。\n算法 / 手段：E3D2.1→net48/2.1、E3D3.1系列→net48/3.1.6、AM/PDMS→net35；策略仅none/空或rehash-all，未知值不当作PML执行。\n副作用：更新会话描述与解析结果；显式rehash-all可执行REHASH，默认关闭。\n校验：不支持映射或缺DLL不得设为成功；策略执行前写开始日志，一旦开始即消耗会话防重试守卫。\n回执：产品/版本/模块/profile/framework信息及策略报告；路径存在不是Host握手成功。\n失败 / 恢复：不自动降级加载错误运行时；改策略环境值通常由新进程读取，失败后不能借重试重复执行当前会话动作。\n规范：R02 verified · R03 verified · R04 verified · R05 verified · R06 verified · R13 verified · R14 verified · R15 verified · R16 verified · R23 verified · R17 verified\n证据：offline / passed · 2026-10-31 · 产品：synthetic\n启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。\n未涵盖：历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。\n未涵盖：仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。\n未涵盖：仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收\n\nruntime / passed · 2026-11-01 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。\n未涵盖：仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成\n\nruntime / failed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n首次启动后严格expectedModel核验因Host报Unknown而拒绝；保留E3D_TARGET_MODEL_MISMATCH失败，不以窗口或管道可见替代身份成功。\n未涵盖：这是后续修复前的历史失败，不表示后续两次严格验收也失败；未放宽模块核验，未在该次失败会话执行PML；不将失败历史覆盖为后来成功\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n定向更新启动PML后严格DESIGN身份TargetVerified通过；两次内置有界读取返回OK，原始身份回执保留。\n未涵盖：该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过；未核验进程实际加载程序集的文件摘要，未执行回退演练；历史限定会话，不证明当前环境在线或其他产品可用\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n定向更新Host后严格身份及两项查询V1协议通过；限定数组续页、Form/Gadget分页、预算拒绝和无回调副作用断言通过。\n未涵盖：历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过；不外推AM、PDMS、其他E3D版本或模块；未执行回退演练；前四次失败和旧协议0历史分别保留\n\noffline / passed · 2026-11-01 · 产品：synthetic\nDashboard会话模型与监测38项隔离测试通过，0失败0跳过；覆盖失联、超时、过期、身份变化及旧结果清理。\n未涵盖：历史隔离测试，不代表本轮新执行或真实断线验证；未强制断开正在使用的真实E3D会话；不证明部署、许可、业务查询或执行授权通过",
+      "body": "输入：Current Session/BANNER、PMLUI根、进程环境中的启动策略及可选override。\n前置条件：对应profile的Host文件实际存在；安装目录token与安装预览一致。\n算法 / 手段：E3D2.1→net48/2.1、E3D3.1系列→net48/3.1.6、AM/PDMS→net35；策略仅none/空或rehash-all，未知值不当作PML执行。\n副作用：更新会话描述与解析结果；显式rehash-all可执行REHASH，默认关闭。\n校验：不支持映射或缺DLL不得设为成功；策略执行前写开始日志，一旦开始即消耗会话防重试守卫。\n回执：产品/版本/模块/profile/framework信息及策略报告；路径存在不是Host握手成功。\n失败 / 恢复：不自动降级加载错误运行时；改策略环境值通常由新进程读取，失败后不能借重试重复执行当前会话动作。\n规范：R02 verified · R03 verified · R04 verified · R05 verified · R06 verified · R13 verified · R14 verified · R15 verified · R16 verified · R23 verified · R17 verified\n证据：offline / passed · 2026-10-31 · 产品：synthetic\n启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。\n未涵盖：历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。\n未涵盖：仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。\n未涵盖：仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收\n\nruntime / passed · 2026-11-01 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。\n未涵盖：仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成\n\noffline / passed · 2026-11-01 · 产品：synthetic\n安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。\n未涵盖：未执行产品安装/升级/卸载或生产EVARS修改。；未加载本轮新Host到AVEVA；不沿用历史实机通过。；未登记且未提供的旧根不能声称已全机排除。；原平台业务未完成项和用户视觉认可保留。\n\nui / passed · 2026-11-01 · 产品：synthetic\n最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。\n未涵盖：界面后端回执为明确合成数据；真实临时后端文件验收单列。；不是生产安装或AVEVA实机全流程。；代理已目检，用户视觉认可未完成。；FigCraft为独立可编辑静态参考板，不代称WPF执行。\n\nruntime / failed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n首次启动后严格expectedModel核验因Host报Unknown而拒绝；保留E3D_TARGET_MODEL_MISMATCH失败，不以窗口或管道可见替代身份成功。\n未涵盖：这是后续修复前的历史失败，不表示后续两次严格验收也失败；未放宽模块核验，未在该次失败会话执行PML；不将失败历史覆盖为后来成功\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n定向更新启动PML后严格DESIGN身份TargetVerified通过；两次内置有界读取返回OK，原始身份回执保留。\n未涵盖：该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过；未核验进程实际加载程序集的文件摘要，未执行回退演练；历史限定会话，不证明当前环境在线或其他产品可用\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n定向更新Host后严格身份及两项查询V1协议通过；限定数组续页、Form/Gadget分页、预算拒绝和无回调副作用断言通过。\n未涵盖：历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过；不外推AM、PDMS、其他E3D版本或模块；未执行回退演练；前四次失败和旧协议0历史分别保留\n\noffline / passed · 2026-11-01 · 产品：synthetic\nDashboard会话模型与监测38项隔离测试通过，0失败0跳过；覆盖失联、超时、过期、身份变化及旧结果清理。\n未涵盖：历史隔离测试，不代表本轮新执行或真实断线验证；未强制断开正在使用的真实E3D会话；不证明部署、许可、业务查询或执行授权通过",
       "status": "pml · runtime",
-      "limit": "入口创建不等于登录或Host已核验；发现不等于登录；历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收；仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本；仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收；仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成；这是后续修复前的历史失败，不表示后续两次严格验收也失败；未放宽模块核验，未在该次失败会话执行PML；不将失败历史覆盖为后来成功；该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过；未核验进程实际加载程序集的文件摘要，未执行回退演练；历史限定会话，不证明当前环境在线或其他产品可用；历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过；不外推AM、PDMS、其他E3D版本或模块；未执行回退演练；前四次失败和旧协议0历史分别保留；历史隔离测试，不代表本轮新执行或真实断线验证；未强制断开正在使用的真实E3D会话；不证明部署、许可、业务查询或执行授权通过",
+      "limit": "入口创建不等于登录或Host已核验；发现不等于登录；历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收；仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本；仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收；仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成；未执行产品安装/升级/卸载或生产EVARS修改。；未加载本轮新Host到AVEVA；不沿用历史实机通过。；未登记且未提供的旧根不能声称已全机排除。；原平台业务未完成项和用户视觉认可保留。；界面后端回执为明确合成数据；真实临时后端文件验收单列。；不是生产安装或AVEVA实机全流程。；代理已目检，用户视觉认可未完成。；FigCraft为独立可编辑静态参考板，不代称WPF执行。；这是后续修复前的历史失败，不表示后续两次严格验收也失败；未放宽模块核验，未在该次失败会话执行PML；不将失败历史覆盖为后来成功；该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过；未核验进程实际加载程序集的文件摘要，未执行回退演练；历史限定会话，不证明当前环境在线或其他产品可用；历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过；不外推AM、PDMS、其他E3D版本或模块；未执行回退演练；前四次失败和旧协议0历史分别保留；历史隔离测试，不代表本轮新执行或真实断线验证；未强制断开正在使用的真实E3D会话；不证明部署、许可、业务查询或执行授权通过",
       "evidence": [
         {
           "id": "verification:launch-offline",
@@ -5416,6 +6023,46 @@
             "evidence:dashboard-session-health"
           ],
           "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:install-journey-offline",
+          "scope": "offline",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。",
+          "exclusions": [
+            "未执行产品安装/升级/卸载或生产EVARS修改。",
+            "未加载本轮新Host到AVEVA；不沿用历史实机通过。",
+            "未登记且未提供的旧根不能声称已全机排除。",
+            "原平台业务未完成项和用户视觉认可保留。"
+          ],
+          "evidenceIds": [
+            "evidence:install-journey"
+          ],
+          "environmentText": "产品：synthetic"
+        },
+        {
+          "id": "verification:install-journey-ui",
+          "scope": "ui",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。",
+          "exclusions": [
+            "界面后端回执为明确合成数据；真实临时后端文件验收单列。",
+            "不是生产安装或AVEVA实机全流程。",
+            "代理已目检，用户视觉认可未完成。",
+            "FigCraft为独立可编辑静态参考板，不代称WPF执行。"
+          ],
+          "evidenceIds": [
+            "evidence:install-journey"
+          ],
+          "environmentText": "产品：synthetic"
         },
         {
           "id": "verification:sessions-initial-host",
@@ -7828,6 +8475,188 @@
             "evidence:dashboard-session-health"
           ],
           "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        }
+      ]
+    },
+    {
+      "id": "verification:install-journey-offline",
+      "entityId": "verification:install-journey-offline",
+      "component": "EvidenceBadge",
+      "title": "offline / passed",
+      "summary": "安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。",
+      "sections": [
+        {
+          "id": "verification:install-journey-offline/claim",
+          "key": "claim",
+          "title": "证据结论",
+          "text": "安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。",
+          "sourceRefs": [
+            "source:evidence-install-journey"
+          ]
+        },
+        {
+          "id": "verification:install-journey-offline/environment",
+          "key": "environment",
+          "title": "适用环境",
+          "text": "产品：synthetic",
+          "sourceRefs": [
+            "source:evidence-install-journey"
+          ]
+        }
+      ],
+      "requirements": [],
+      "implementation": null,
+      "verifications": [
+        {
+          "id": "verification:install-journey-offline",
+          "scope": "offline",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。",
+          "exclusions": [
+            "未执行产品安装/升级/卸载或生产EVARS修改。",
+            "未加载本轮新Host到AVEVA；不沿用历史实机通过。",
+            "未登记且未提供的旧根不能声称已全机排除。",
+            "原平台业务未完成项和用户视觉认可保留。"
+          ],
+          "evidenceIds": [
+            "evidence:install-journey"
+          ],
+          "environmentText": "产品：synthetic"
+        }
+      ],
+      "limitations": [
+        "未执行产品安装/升级/卸载或生产EVARS修改。",
+        "未加载本轮新Host到AVEVA；不沿用历史实机通过。",
+        "未登记且未提供的旧根不能声称已全机排除。",
+        "原平台业务未完成项和用户视觉认可保留。"
+      ],
+      "sourceRefs": [
+        "source:evidence-install-journey"
+      ],
+      "props": {},
+      "text": {
+        "body": "证据结论：安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。\n适用环境：产品：synthetic\n规范：未单独关联规范条目\n证据：offline / passed · 2026-11-01 · 产品：synthetic\n安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。\n未涵盖：未执行产品安装/升级/卸载或生产EVARS修改。；未加载本轮新Host到AVEVA；不沿用历史实机通过。；未登记且未提供的旧根不能声称已全机排除。；原平台业务未完成项和用户视觉认可保留。",
+        "status": "offline / passed · 2026-11-01 · 产品：synthetic",
+        "limit": "未执行产品安装/升级/卸载或生产EVARS修改。；未加载本轮新Host到AVEVA；不沿用历史实机通过。；未登记且未提供的旧根不能声称已全机排除。；原平台业务未完成项和用户视觉认可保留。"
+      },
+      "body": "证据结论：安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。\n适用环境：产品：synthetic\n规范：未单独关联规范条目\n证据：offline / passed · 2026-11-01 · 产品：synthetic\n安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。\n未涵盖：未执行产品安装/升级/卸载或生产EVARS修改。；未加载本轮新Host到AVEVA；不沿用历史实机通过。；未登记且未提供的旧根不能声称已全机排除。；原平台业务未完成项和用户视觉认可保留。",
+      "status": "offline / passed · 2026-11-01 · 产品：synthetic",
+      "limit": "未执行产品安装/升级/卸载或生产EVARS修改。；未加载本轮新Host到AVEVA；不沿用历史实机通过。；未登记且未提供的旧根不能声称已全机排除。；原平台业务未完成项和用户视觉认可保留。",
+      "evidence": [
+        {
+          "id": "verification:install-journey-offline",
+          "scope": "offline",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。",
+          "exclusions": [
+            "未执行产品安装/升级/卸载或生产EVARS修改。",
+            "未加载本轮新Host到AVEVA；不沿用历史实机通过。",
+            "未登记且未提供的旧根不能声称已全机排除。",
+            "原平台业务未完成项和用户视觉认可保留。"
+          ],
+          "evidenceIds": [
+            "evidence:install-journey"
+          ],
+          "environmentText": "产品：synthetic"
+        }
+      ]
+    },
+    {
+      "id": "verification:install-journey-ui",
+      "entityId": "verification:install-journey-ui",
+      "component": "EvidenceBadge",
+      "title": "ui / passed",
+      "summary": "最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。",
+      "sections": [
+        {
+          "id": "verification:install-journey-ui/claim",
+          "key": "claim",
+          "title": "证据结论",
+          "text": "最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。",
+          "sourceRefs": [
+            "source:evidence-install-journey"
+          ]
+        },
+        {
+          "id": "verification:install-journey-ui/environment",
+          "key": "environment",
+          "title": "适用环境",
+          "text": "产品：synthetic",
+          "sourceRefs": [
+            "source:evidence-install-journey"
+          ]
+        }
+      ],
+      "requirements": [],
+      "implementation": null,
+      "verifications": [
+        {
+          "id": "verification:install-journey-ui",
+          "scope": "ui",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。",
+          "exclusions": [
+            "界面后端回执为明确合成数据；真实临时后端文件验收单列。",
+            "不是生产安装或AVEVA实机全流程。",
+            "代理已目检，用户视觉认可未完成。",
+            "FigCraft为独立可编辑静态参考板，不代称WPF执行。"
+          ],
+          "evidenceIds": [
+            "evidence:install-journey"
+          ],
+          "environmentText": "产品：synthetic"
+        }
+      ],
+      "limitations": [
+        "界面后端回执为明确合成数据；真实临时后端文件验收单列。",
+        "不是生产安装或AVEVA实机全流程。",
+        "代理已目检，用户视觉认可未完成。",
+        "FigCraft为独立可编辑静态参考板，不代称WPF执行。"
+      ],
+      "sourceRefs": [
+        "source:evidence-install-journey"
+      ],
+      "props": {},
+      "text": {
+        "body": "证据结论：最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。\n适用环境：产品：synthetic\n规范：未单独关联规范条目\n证据：ui / passed · 2026-11-01 · 产品：synthetic\n最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。\n未涵盖：界面后端回执为明确合成数据；真实临时后端文件验收单列。；不是生产安装或AVEVA实机全流程。；代理已目检，用户视觉认可未完成。；FigCraft为独立可编辑静态参考板，不代称WPF执行。",
+        "status": "ui / passed · 2026-11-01 · 产品：synthetic",
+        "limit": "界面后端回执为明确合成数据；真实临时后端文件验收单列。；不是生产安装或AVEVA实机全流程。；代理已目检，用户视觉认可未完成。；FigCraft为独立可编辑静态参考板，不代称WPF执行。"
+      },
+      "body": "证据结论：最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。\n适用环境：产品：synthetic\n规范：未单独关联规范条目\n证据：ui / passed · 2026-11-01 · 产品：synthetic\n最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。\n未涵盖：界面后端回执为明确合成数据；真实临时后端文件验收单列。；不是生产安装或AVEVA实机全流程。；代理已目检，用户视觉认可未完成。；FigCraft为独立可编辑静态参考板，不代称WPF执行。",
+      "status": "ui / passed · 2026-11-01 · 产品：synthetic",
+      "limit": "界面后端回执为明确合成数据；真实临时后端文件验收单列。；不是生产安装或AVEVA实机全流程。；代理已目检，用户视觉认可未完成。；FigCraft为独立可编辑静态参考板，不代称WPF执行。",
+      "evidence": [
+        {
+          "id": "verification:install-journey-ui",
+          "scope": "ui",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。",
+          "exclusions": [
+            "界面后端回执为明确合成数据；真实临时后端文件验收单列。",
+            "不是生产安装或AVEVA实机全流程。",
+            "代理已目检，用户视觉认可未完成。",
+            "FigCraft为独立可编辑静态参考板，不代称WPF执行。"
+          ],
+          "evidenceIds": [
+            "evidence:install-journey"
+          ],
+          "environmentText": "产品：synthetic"
         }
       ]
     }
@@ -11388,7 +12217,15 @@
           "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
           "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
           "真实断线未强制测试；未调用PML执行工具或写工程模型",
-          "其余27项平台业务任务保留未完成"
+          "其余27项平台业务任务保留未完成",
+          "未执行产品安装/升级/卸载或生产EVARS修改。",
+          "未加载本轮新Host到AVEVA；不沿用历史实机通过。",
+          "未登记且未提供的旧根不能声称已全机排除。",
+          "原平台业务未完成项和用户视觉认可保留。",
+          "界面后端回执为明确合成数据；真实临时后端文件验收单列。",
+          "不是生产安装或AVEVA实机全流程。",
+          "代理已目检，用户视觉认可未完成。",
+          "FigCraft为独立可编辑静态参考板，不代称WPF执行。"
         ],
         "sourceRefs": [
           "source:canonical",
@@ -11411,7 +12248,8 @@
           "source:evidence-launch-workflow",
           "source:evidence-host-bootstrap",
           "source:evidence-cli-host-compatibility",
-          "source:evidence-dashboard-session-health"
+          "source:evidence-dashboard-session-health",
+          "source:evidence-install-journey"
         ],
         "requirementIds": [
           "canonical:R01",
@@ -11574,7 +12412,9 @@
           "verification:launch-cli-runtime",
           "verification:sessions-host-v1-runtime",
           "verification:sessions-dashboard-offline",
-          "verification:sessions-dashboard-runtime"
+          "verification:sessions-dashboard-runtime",
+          "verification:install-journey-offline",
+          "verification:install-journey-ui"
         ],
         "verificationStates": [
           {
@@ -11832,6 +12672,46 @@
               "evidence:dashboard-session-health"
             ],
             "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          },
+          {
+            "id": "verification:install-journey-offline",
+            "scope": "offline",
+            "result": "passed",
+            "observedAt": "2026-11-01",
+            "environment": {
+              "product": "synthetic"
+            },
+            "claim": "安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。",
+            "exclusions": [
+              "未执行产品安装/升级/卸载或生产EVARS修改。",
+              "未加载本轮新Host到AVEVA；不沿用历史实机通过。",
+              "未登记且未提供的旧根不能声称已全机排除。",
+              "原平台业务未完成项和用户视觉认可保留。"
+            ],
+            "evidenceIds": [
+              "evidence:install-journey"
+            ],
+            "environmentText": "产品：synthetic"
+          },
+          {
+            "id": "verification:install-journey-ui",
+            "scope": "ui",
+            "result": "passed",
+            "observedAt": "2026-11-01",
+            "environment": {
+              "product": "synthetic"
+            },
+            "claim": "最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。",
+            "exclusions": [
+              "界面后端回执为明确合成数据；真实临时后端文件验收单列。",
+              "不是生产安装或AVEVA实机全流程。",
+              "代理已目检，用户视觉认可未完成。",
+              "FigCraft为独立可编辑静态参考板，不代称WPF执行。"
+            ],
+            "evidenceIds": [
+              "evidence:install-journey"
+            ],
+            "environmentText": "产品：synthetic"
           }
         ],
         "implementation": null,
@@ -12047,7 +12927,15 @@
           "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
           "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
           "真实断线未强制测试；未调用PML执行工具或写工程模型",
-          "其余27项平台业务任务保留未完成"
+          "其余27项平台业务任务保留未完成",
+          "未执行产品安装/升级/卸载或生产EVARS修改。",
+          "未加载本轮新Host到AVEVA；不沿用历史实机通过。",
+          "未登记且未提供的旧根不能声称已全机排除。",
+          "原平台业务未完成项和用户视觉认可保留。",
+          "界面后端回执为明确合成数据；真实临时后端文件验收单列。",
+          "不是生产安装或AVEVA实机全流程。",
+          "代理已目检，用户视觉认可未完成。",
+          "FigCraft为独立可编辑静态参考板，不代称WPF执行。"
         ],
         "sourceRefs": [
           "source:capabilities",
@@ -12122,7 +13010,9 @@
           "verification:launch-offline",
           "verification:launch-entry-runtime",
           "verification:launch-cli-runtime",
-          "verification:sessions-dashboard-runtime"
+          "verification:sessions-dashboard-runtime",
+          "verification:install-journey-offline",
+          "verification:install-journey-ui"
         ],
         "verificationStates": [
           {
@@ -12207,6 +13097,46 @@
               "evidence:dashboard-session-health"
             ],
             "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          },
+          {
+            "id": "verification:install-journey-offline",
+            "scope": "offline",
+            "result": "passed",
+            "observedAt": "2026-11-01",
+            "environment": {
+              "product": "synthetic"
+            },
+            "claim": "安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。",
+            "exclusions": [
+              "未执行产品安装/升级/卸载或生产EVARS修改。",
+              "未加载本轮新Host到AVEVA；不沿用历史实机通过。",
+              "未登记且未提供的旧根不能声称已全机排除。",
+              "原平台业务未完成项和用户视觉认可保留。"
+            ],
+            "evidenceIds": [
+              "evidence:install-journey"
+            ],
+            "environmentText": "产品：synthetic"
+          },
+          {
+            "id": "verification:install-journey-ui",
+            "scope": "ui",
+            "result": "passed",
+            "observedAt": "2026-11-01",
+            "environment": {
+              "product": "synthetic"
+            },
+            "claim": "最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。",
+            "exclusions": [
+              "界面后端回执为明确合成数据；真实临时后端文件验收单列。",
+              "不是生产安装或AVEVA实机全流程。",
+              "代理已目检，用户视觉认可未完成。",
+              "FigCraft为独立可编辑静态参考板，不代称WPF执行。"
+            ],
+            "evidenceIds": [
+              "evidence:install-journey"
+            ],
+            "environmentText": "产品：synthetic"
           }
         ],
         "implementation": {
@@ -12659,7 +13589,15 @@
         ],
         "deliverableScope": "entity-contract",
         "limitations": [
-          "复制成功不等于运行时已加载"
+          "复制成功不等于运行时已加载",
+          "未执行产品安装/升级/卸载或生产EVARS修改。",
+          "未加载本轮新Host到AVEVA；不沿用历史实机通过。",
+          "未登记且未提供的旧根不能声称已全机排除。",
+          "原平台业务未完成项和用户视觉认可保留。",
+          "界面后端回执为明确合成数据；真实临时后端文件验收单列。",
+          "不是生产安装或AVEVA实机全流程。",
+          "代理已目检，用户视觉认可未完成。",
+          "FigCraft为独立可编辑静态参考板，不代称WPF执行。"
         ],
         "sourceRefs": [
           "source:capabilities",
@@ -12682,8 +13620,52 @@
             "status": "partial"
           }
         ],
-        "verificationIds": [],
-        "verificationStates": [],
+        "verificationIds": [
+          "verification:install-journey-offline",
+          "verification:install-journey-ui"
+        ],
+        "verificationStates": [
+          {
+            "id": "verification:install-journey-offline",
+            "scope": "offline",
+            "result": "passed",
+            "observedAt": "2026-11-01",
+            "environment": {
+              "product": "synthetic"
+            },
+            "claim": "安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。",
+            "exclusions": [
+              "未执行产品安装/升级/卸载或生产EVARS修改。",
+              "未加载本轮新Host到AVEVA；不沿用历史实机通过。",
+              "未登记且未提供的旧根不能声称已全机排除。",
+              "原平台业务未完成项和用户视觉认可保留。"
+            ],
+            "evidenceIds": [
+              "evidence:install-journey"
+            ],
+            "environmentText": "产品：synthetic"
+          },
+          {
+            "id": "verification:install-journey-ui",
+            "scope": "ui",
+            "result": "passed",
+            "observedAt": "2026-11-01",
+            "environment": {
+              "product": "synthetic"
+            },
+            "claim": "最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。",
+            "exclusions": [
+              "界面后端回执为明确合成数据；真实临时后端文件验收单列。",
+              "不是生产安装或AVEVA实机全流程。",
+              "代理已目检，用户视觉认可未完成。",
+              "FigCraft为独立可编辑静态参考板，不代称WPF执行。"
+            ],
+            "evidenceIds": [
+              "evidence:install-journey"
+            ],
+            "environmentText": "产品：synthetic"
+          }
+        ],
         "implementation": {
           "status": "partial",
           "scope": "既有目录登记状态；完整平台范围见限制与独立证据",
@@ -15037,7 +16019,15 @@
           "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
           "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
           "真实断线未强制测试；未调用PML执行工具或写工程模型",
-          "其余27项平台业务任务保留未完成"
+          "其余27项平台业务任务保留未完成",
+          "未执行产品安装/升级/卸载或生产EVARS修改。",
+          "未加载本轮新Host到AVEVA；不沿用历史实机通过。",
+          "未登记且未提供的旧根不能声称已全机排除。",
+          "原平台业务未完成项和用户视觉认可保留。",
+          "界面后端回执为明确合成数据；真实临时后端文件验收单列。",
+          "不是生产安装或AVEVA实机全流程。",
+          "代理已目检，用户视觉认可未完成。",
+          "FigCraft为独立可编辑静态参考板，不代称WPF执行。"
         ],
         "sourceRefs": [
           "source:overview"
@@ -15110,7 +16100,9 @@
           "verification:launch-offline",
           "verification:launch-entry-runtime",
           "verification:launch-cli-runtime",
-          "verification:sessions-dashboard-runtime"
+          "verification:sessions-dashboard-runtime",
+          "verification:install-journey-offline",
+          "verification:install-journey-ui"
         ],
         "verificationStates": [
           {
@@ -15195,6 +16187,46 @@
               "evidence:dashboard-session-health"
             ],
             "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          },
+          {
+            "id": "verification:install-journey-offline",
+            "scope": "offline",
+            "result": "passed",
+            "observedAt": "2026-11-01",
+            "environment": {
+              "product": "synthetic"
+            },
+            "claim": "安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。",
+            "exclusions": [
+              "未执行产品安装/升级/卸载或生产EVARS修改。",
+              "未加载本轮新Host到AVEVA；不沿用历史实机通过。",
+              "未登记且未提供的旧根不能声称已全机排除。",
+              "原平台业务未完成项和用户视觉认可保留。"
+            ],
+            "evidenceIds": [
+              "evidence:install-journey"
+            ],
+            "environmentText": "产品：synthetic"
+          },
+          {
+            "id": "verification:install-journey-ui",
+            "scope": "ui",
+            "result": "passed",
+            "observedAt": "2026-11-01",
+            "environment": {
+              "product": "synthetic"
+            },
+            "claim": "最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。",
+            "exclusions": [
+              "界面后端回执为明确合成数据；真实临时后端文件验收单列。",
+              "不是生产安装或AVEVA实机全流程。",
+              "代理已目检，用户视觉认可未完成。",
+              "FigCraft为独立可编辑静态参考板，不代称WPF执行。"
+            ],
+            "evidenceIds": [
+              "evidence:install-journey"
+            ],
+            "environmentText": "产品：synthetic"
           }
         ],
         "implementation": null,
@@ -15304,7 +16336,15 @@
           "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
           "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
           "真实断线未强制测试；未调用PML执行工具或写工程模型",
-          "其余27项平台业务任务保留未完成"
+          "其余27项平台业务任务保留未完成",
+          "未执行产品安装/升级/卸载或生产EVARS修改。",
+          "未加载本轮新Host到AVEVA；不沿用历史实机通过。",
+          "未登记且未提供的旧根不能声称已全机排除。",
+          "原平台业务未完成项和用户视觉认可保留。",
+          "界面后端回执为明确合成数据；真实临时后端文件验收单列。",
+          "不是生产安装或AVEVA实机全流程。",
+          "代理已目检，用户视觉认可未完成。",
+          "FigCraft为独立可编辑静态参考板，不代称WPF执行。"
         ],
         "sourceRefs": [
           "source:overview"
@@ -15377,7 +16417,9 @@
           "verification:launch-offline",
           "verification:launch-entry-runtime",
           "verification:launch-cli-runtime",
-          "verification:sessions-dashboard-runtime"
+          "verification:sessions-dashboard-runtime",
+          "verification:install-journey-offline",
+          "verification:install-journey-ui"
         ],
         "verificationStates": [
           {
@@ -15462,6 +16504,46 @@
               "evidence:dashboard-session-health"
             ],
             "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          },
+          {
+            "id": "verification:install-journey-offline",
+            "scope": "offline",
+            "result": "passed",
+            "observedAt": "2026-11-01",
+            "environment": {
+              "product": "synthetic"
+            },
+            "claim": "安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。",
+            "exclusions": [
+              "未执行产品安装/升级/卸载或生产EVARS修改。",
+              "未加载本轮新Host到AVEVA；不沿用历史实机通过。",
+              "未登记且未提供的旧根不能声称已全机排除。",
+              "原平台业务未完成项和用户视觉认可保留。"
+            ],
+            "evidenceIds": [
+              "evidence:install-journey"
+            ],
+            "environmentText": "产品：synthetic"
+          },
+          {
+            "id": "verification:install-journey-ui",
+            "scope": "ui",
+            "result": "passed",
+            "observedAt": "2026-11-01",
+            "environment": {
+              "product": "synthetic"
+            },
+            "claim": "最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。",
+            "exclusions": [
+              "界面后端回执为明确合成数据；真实临时后端文件验收单列。",
+              "不是生产安装或AVEVA实机全流程。",
+              "代理已目检，用户视觉认可未完成。",
+              "FigCraft为独立可编辑静态参考板，不代称WPF执行。"
+            ],
+            "evidenceIds": [
+              "evidence:install-journey"
+            ],
+            "environmentText": "产品：synthetic"
           }
         ],
         "implementation": null,
@@ -15831,7 +16913,15 @@
         ],
         "deliverableScope": "entity-contract",
         "limitations": [
-          "复制成功不等于运行时已加载"
+          "复制成功不等于运行时已加载",
+          "未执行产品安装/升级/卸载或生产EVARS修改。",
+          "未加载本轮新Host到AVEVA；不沿用历史实机通过。",
+          "未登记且未提供的旧根不能声称已全机排除。",
+          "原平台业务未完成项和用户视觉认可保留。",
+          "界面后端回执为明确合成数据；真实临时后端文件验收单列。",
+          "不是生产安装或AVEVA实机全流程。",
+          "代理已目检，用户视觉认可未完成。",
+          "FigCraft为独立可编辑静态参考板，不代称WPF执行。"
         ],
         "sourceRefs": [
           "source:overview"
@@ -15852,8 +16942,52 @@
             "status": "partial"
           }
         ],
-        "verificationIds": [],
-        "verificationStates": [],
+        "verificationIds": [
+          "verification:install-journey-offline",
+          "verification:install-journey-ui"
+        ],
+        "verificationStates": [
+          {
+            "id": "verification:install-journey-offline",
+            "scope": "offline",
+            "result": "passed",
+            "observedAt": "2026-11-01",
+            "environment": {
+              "product": "synthetic"
+            },
+            "claim": "安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。",
+            "exclusions": [
+              "未执行产品安装/升级/卸载或生产EVARS修改。",
+              "未加载本轮新Host到AVEVA；不沿用历史实机通过。",
+              "未登记且未提供的旧根不能声称已全机排除。",
+              "原平台业务未完成项和用户视觉认可保留。"
+            ],
+            "evidenceIds": [
+              "evidence:install-journey"
+            ],
+            "environmentText": "产品：synthetic"
+          },
+          {
+            "id": "verification:install-journey-ui",
+            "scope": "ui",
+            "result": "passed",
+            "observedAt": "2026-11-01",
+            "environment": {
+              "product": "synthetic"
+            },
+            "claim": "最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。",
+            "exclusions": [
+              "界面后端回执为明确合成数据；真实临时后端文件验收单列。",
+              "不是生产安装或AVEVA实机全流程。",
+              "代理已目检，用户视觉认可未完成。",
+              "FigCraft为独立可编辑静态参考板，不代称WPF执行。"
+            ],
+            "evidenceIds": [
+              "evidence:install-journey"
+            ],
+            "environmentText": "产品：synthetic"
+          }
+        ],
         "implementation": null,
         "flowIds": [],
         "noFlowReason": "此范围尚未登记独立流程步骤；归属和文档顺序不能当作执行顺序。",
@@ -15950,7 +17084,15 @@
         "limitations": [
           "复制成功不等于运行时已加载",
           "注册不表示Host已加载",
-          "不执行业务回调"
+          "不执行业务回调",
+          "未执行产品安装/升级/卸载或生产EVARS修改。",
+          "未加载本轮新Host到AVEVA；不沿用历史实机通过。",
+          "未登记且未提供的旧根不能声称已全机排除。",
+          "原平台业务未完成项和用户视觉认可保留。",
+          "界面后端回执为明确合成数据；真实临时后端文件验收单列。",
+          "不是生产安装或AVEVA实机全流程。",
+          "代理已目检，用户视觉认可未完成。",
+          "FigCraft为独立可编辑静态参考板，不代称WPF执行。"
         ],
         "sourceRefs": [
           "source:overview"
@@ -16007,8 +17149,52 @@
             "status": "verified"
           }
         ],
-        "verificationIds": [],
-        "verificationStates": [],
+        "verificationIds": [
+          "verification:install-journey-offline",
+          "verification:install-journey-ui"
+        ],
+        "verificationStates": [
+          {
+            "id": "verification:install-journey-offline",
+            "scope": "offline",
+            "result": "passed",
+            "observedAt": "2026-11-01",
+            "environment": {
+              "product": "synthetic"
+            },
+            "claim": "安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。",
+            "exclusions": [
+              "未执行产品安装/升级/卸载或生产EVARS修改。",
+              "未加载本轮新Host到AVEVA；不沿用历史实机通过。",
+              "未登记且未提供的旧根不能声称已全机排除。",
+              "原平台业务未完成项和用户视觉认可保留。"
+            ],
+            "evidenceIds": [
+              "evidence:install-journey"
+            ],
+            "environmentText": "产品：synthetic"
+          },
+          {
+            "id": "verification:install-journey-ui",
+            "scope": "ui",
+            "result": "passed",
+            "observedAt": "2026-11-01",
+            "environment": {
+              "product": "synthetic"
+            },
+            "claim": "最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。",
+            "exclusions": [
+              "界面后端回执为明确合成数据；真实临时后端文件验收单列。",
+              "不是生产安装或AVEVA实机全流程。",
+              "代理已目检，用户视觉认可未完成。",
+              "FigCraft为独立可编辑静态参考板，不代称WPF执行。"
+            ],
+            "evidenceIds": [
+              "evidence:install-journey"
+            ],
+            "environmentText": "产品：synthetic"
+          }
+        ],
         "implementation": null,
         "flowIds": [],
         "noFlowReason": "此范围尚未登记独立流程步骤；归属和文档顺序不能当作执行顺序。",
@@ -16352,6 +17538,14 @@
           "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
           "真实断线未强制测试；未调用PML执行工具或写工程模型",
           "其余27项平台业务任务保留未完成",
+          "未执行产品安装/升级/卸载或生产EVARS修改。",
+          "未加载本轮新Host到AVEVA；不沿用历史实机通过。",
+          "未登记且未提供的旧根不能声称已全机排除。",
+          "原平台业务未完成项和用户视觉认可保留。",
+          "界面后端回执为明确合成数据；真实临时后端文件验收单列。",
+          "不是生产安装或AVEVA实机全流程。",
+          "代理已目检，用户视觉认可未完成。",
+          "FigCraft为独立可编辑静态参考板，不代称WPF执行。",
           "这是后续修复前的历史失败，不表示后续两次严格验收也失败",
           "未放宽模块核验，未在该次失败会话执行PML",
           "不将失败历史覆盖为后来成功",
@@ -16443,6 +17637,8 @@
           "verification:launch-entry-runtime",
           "verification:launch-cli-runtime",
           "verification:sessions-dashboard-runtime",
+          "verification:install-journey-offline",
+          "verification:install-journey-ui",
           "verification:sessions-initial-host",
           "verification:sessions-bootstrap-runtime",
           "verification:sessions-host-v1-runtime",
@@ -16531,6 +17727,46 @@
               "evidence:dashboard-session-health"
             ],
             "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          },
+          {
+            "id": "verification:install-journey-offline",
+            "scope": "offline",
+            "result": "passed",
+            "observedAt": "2026-11-01",
+            "environment": {
+              "product": "synthetic"
+            },
+            "claim": "安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。",
+            "exclusions": [
+              "未执行产品安装/升级/卸载或生产EVARS修改。",
+              "未加载本轮新Host到AVEVA；不沿用历史实机通过。",
+              "未登记且未提供的旧根不能声称已全机排除。",
+              "原平台业务未完成项和用户视觉认可保留。"
+            ],
+            "evidenceIds": [
+              "evidence:install-journey"
+            ],
+            "environmentText": "产品：synthetic"
+          },
+          {
+            "id": "verification:install-journey-ui",
+            "scope": "ui",
+            "result": "passed",
+            "observedAt": "2026-11-01",
+            "environment": {
+              "product": "synthetic"
+            },
+            "claim": "最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。",
+            "exclusions": [
+              "界面后端回执为明确合成数据；真实临时后端文件验收单列。",
+              "不是生产安装或AVEVA实机全流程。",
+              "代理已目检，用户视觉认可未完成。",
+              "FigCraft为独立可编辑静态参考板，不代称WPF执行。"
+            ],
+            "evidenceIds": [
+              "evidence:install-journey"
+            ],
+            "environmentText": "产品：synthetic"
           },
           {
             "id": "verification:sessions-initial-host",
@@ -17708,7 +18944,15 @@
           "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
           "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
           "真实断线未强制测试；未调用PML执行工具或写工程模型",
-          "其余27项平台业务任务保留未完成"
+          "其余27项平台业务任务保留未完成",
+          "未执行产品安装/升级/卸载或生产EVARS修改。",
+          "未加载本轮新Host到AVEVA；不沿用历史实机通过。",
+          "未登记且未提供的旧根不能声称已全机排除。",
+          "原平台业务未完成项和用户视觉认可保留。",
+          "界面后端回执为明确合成数据；真实临时后端文件验收单列。",
+          "不是生产安装或AVEVA实机全流程。",
+          "代理已目检，用户视觉认可未完成。",
+          "FigCraft为独立可编辑静态参考板，不代称WPF执行。"
         ],
         "sourceRefs": [
           "source:capabilities",
@@ -17783,7 +19027,9 @@
           "verification:launch-offline",
           "verification:launch-entry-runtime",
           "verification:launch-cli-runtime",
-          "verification:sessions-dashboard-runtime"
+          "verification:sessions-dashboard-runtime",
+          "verification:install-journey-offline",
+          "verification:install-journey-ui"
         ],
         "verificationStates": [
           {
@@ -17868,6 +19114,46 @@
               "evidence:dashboard-session-health"
             ],
             "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          },
+          {
+            "id": "verification:install-journey-offline",
+            "scope": "offline",
+            "result": "passed",
+            "observedAt": "2026-11-01",
+            "environment": {
+              "product": "synthetic"
+            },
+            "claim": "安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。",
+            "exclusions": [
+              "未执行产品安装/升级/卸载或生产EVARS修改。",
+              "未加载本轮新Host到AVEVA；不沿用历史实机通过。",
+              "未登记且未提供的旧根不能声称已全机排除。",
+              "原平台业务未完成项和用户视觉认可保留。"
+            ],
+            "evidenceIds": [
+              "evidence:install-journey"
+            ],
+            "environmentText": "产品：synthetic"
+          },
+          {
+            "id": "verification:install-journey-ui",
+            "scope": "ui",
+            "result": "passed",
+            "observedAt": "2026-11-01",
+            "environment": {
+              "product": "synthetic"
+            },
+            "claim": "最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。",
+            "exclusions": [
+              "界面后端回执为明确合成数据；真实临时后端文件验收单列。",
+              "不是生产安装或AVEVA实机全流程。",
+              "代理已目检，用户视觉认可未完成。",
+              "FigCraft为独立可编辑静态参考板，不代称WPF执行。"
+            ],
+            "evidenceIds": [
+              "evidence:install-journey"
+            ],
+            "environmentText": "产品：synthetic"
           }
         ],
         "implementation": {
@@ -17985,7 +19271,15 @@
           "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
           "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
           "真实断线未强制测试；未调用PML执行工具或写工程模型",
-          "其余27项平台业务任务保留未完成"
+          "其余27项平台业务任务保留未完成",
+          "未执行产品安装/升级/卸载或生产EVARS修改。",
+          "未加载本轮新Host到AVEVA；不沿用历史实机通过。",
+          "未登记且未提供的旧根不能声称已全机排除。",
+          "原平台业务未完成项和用户视觉认可保留。",
+          "界面后端回执为明确合成数据；真实临时后端文件验收单列。",
+          "不是生产安装或AVEVA实机全流程。",
+          "代理已目检，用户视觉认可未完成。",
+          "FigCraft为独立可编辑静态参考板，不代称WPF执行。"
         ],
         "sourceRefs": [
           "source:overview",
@@ -18059,7 +19353,9 @@
           "verification:launch-offline",
           "verification:launch-entry-runtime",
           "verification:launch-cli-runtime",
-          "verification:sessions-dashboard-runtime"
+          "verification:sessions-dashboard-runtime",
+          "verification:install-journey-offline",
+          "verification:install-journey-ui"
         ],
         "verificationStates": [
           {
@@ -18144,6 +19440,46 @@
               "evidence:dashboard-session-health"
             ],
             "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          },
+          {
+            "id": "verification:install-journey-offline",
+            "scope": "offline",
+            "result": "passed",
+            "observedAt": "2026-11-01",
+            "environment": {
+              "product": "synthetic"
+            },
+            "claim": "安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。",
+            "exclusions": [
+              "未执行产品安装/升级/卸载或生产EVARS修改。",
+              "未加载本轮新Host到AVEVA；不沿用历史实机通过。",
+              "未登记且未提供的旧根不能声称已全机排除。",
+              "原平台业务未完成项和用户视觉认可保留。"
+            ],
+            "evidenceIds": [
+              "evidence:install-journey"
+            ],
+            "environmentText": "产品：synthetic"
+          },
+          {
+            "id": "verification:install-journey-ui",
+            "scope": "ui",
+            "result": "passed",
+            "observedAt": "2026-11-01",
+            "environment": {
+              "product": "synthetic"
+            },
+            "claim": "最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。",
+            "exclusions": [
+              "界面后端回执为明确合成数据；真实临时后端文件验收单列。",
+              "不是生产安装或AVEVA实机全流程。",
+              "代理已目检，用户视觉认可未完成。",
+              "FigCraft为独立可编辑静态参考板，不代称WPF执行。"
+            ],
+            "evidenceIds": [
+              "evidence:install-journey"
+            ],
+            "environmentText": "产品：synthetic"
           }
         ],
         "implementation": null,
@@ -18255,7 +19591,15 @@
           "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
           "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
           "真实断线未强制测试；未调用PML执行工具或写工程模型",
-          "其余27项平台业务任务保留未完成"
+          "其余27项平台业务任务保留未完成",
+          "未执行产品安装/升级/卸载或生产EVARS修改。",
+          "未加载本轮新Host到AVEVA；不沿用历史实机通过。",
+          "未登记且未提供的旧根不能声称已全机排除。",
+          "原平台业务未完成项和用户视觉认可保留。",
+          "界面后端回执为明确合成数据；真实临时后端文件验收单列。",
+          "不是生产安装或AVEVA实机全流程。",
+          "代理已目检，用户视觉认可未完成。",
+          "FigCraft为独立可编辑静态参考板，不代称WPF执行。"
         ],
         "sourceRefs": [
           "source:overview",
@@ -18329,7 +19673,9 @@
           "verification:launch-offline",
           "verification:launch-entry-runtime",
           "verification:launch-cli-runtime",
-          "verification:sessions-dashboard-runtime"
+          "verification:sessions-dashboard-runtime",
+          "verification:install-journey-offline",
+          "verification:install-journey-ui"
         ],
         "verificationStates": [
           {
@@ -18414,6 +19760,46 @@
               "evidence:dashboard-session-health"
             ],
             "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          },
+          {
+            "id": "verification:install-journey-offline",
+            "scope": "offline",
+            "result": "passed",
+            "observedAt": "2026-11-01",
+            "environment": {
+              "product": "synthetic"
+            },
+            "claim": "安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。",
+            "exclusions": [
+              "未执行产品安装/升级/卸载或生产EVARS修改。",
+              "未加载本轮新Host到AVEVA；不沿用历史实机通过。",
+              "未登记且未提供的旧根不能声称已全机排除。",
+              "原平台业务未完成项和用户视觉认可保留。"
+            ],
+            "evidenceIds": [
+              "evidence:install-journey"
+            ],
+            "environmentText": "产品：synthetic"
+          },
+          {
+            "id": "verification:install-journey-ui",
+            "scope": "ui",
+            "result": "passed",
+            "observedAt": "2026-11-01",
+            "environment": {
+              "product": "synthetic"
+            },
+            "claim": "最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。",
+            "exclusions": [
+              "界面后端回执为明确合成数据；真实临时后端文件验收单列。",
+              "不是生产安装或AVEVA实机全流程。",
+              "代理已目检，用户视觉认可未完成。",
+              "FigCraft为独立可编辑静态参考板，不代称WPF执行。"
+            ],
+            "evidenceIds": [
+              "evidence:install-journey"
+            ],
+            "environmentText": "产品：synthetic"
           }
         ],
         "implementation": null,
@@ -18525,7 +19911,15 @@
           "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
           "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
           "真实断线未强制测试；未调用PML执行工具或写工程模型",
-          "其余27项平台业务任务保留未完成"
+          "其余27项平台业务任务保留未完成",
+          "未执行产品安装/升级/卸载或生产EVARS修改。",
+          "未加载本轮新Host到AVEVA；不沿用历史实机通过。",
+          "未登记且未提供的旧根不能声称已全机排除。",
+          "原平台业务未完成项和用户视觉认可保留。",
+          "界面后端回执为明确合成数据；真实临时后端文件验收单列。",
+          "不是生产安装或AVEVA实机全流程。",
+          "代理已目检，用户视觉认可未完成。",
+          "FigCraft为独立可编辑静态参考板，不代称WPF执行。"
         ],
         "sourceRefs": [
           "source:overview",
@@ -18599,7 +19993,9 @@
           "verification:launch-offline",
           "verification:launch-entry-runtime",
           "verification:launch-cli-runtime",
-          "verification:sessions-dashboard-runtime"
+          "verification:sessions-dashboard-runtime",
+          "verification:install-journey-offline",
+          "verification:install-journey-ui"
         ],
         "verificationStates": [
           {
@@ -18684,6 +20080,46 @@
               "evidence:dashboard-session-health"
             ],
             "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          },
+          {
+            "id": "verification:install-journey-offline",
+            "scope": "offline",
+            "result": "passed",
+            "observedAt": "2026-11-01",
+            "environment": {
+              "product": "synthetic"
+            },
+            "claim": "安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。",
+            "exclusions": [
+              "未执行产品安装/升级/卸载或生产EVARS修改。",
+              "未加载本轮新Host到AVEVA；不沿用历史实机通过。",
+              "未登记且未提供的旧根不能声称已全机排除。",
+              "原平台业务未完成项和用户视觉认可保留。"
+            ],
+            "evidenceIds": [
+              "evidence:install-journey"
+            ],
+            "environmentText": "产品：synthetic"
+          },
+          {
+            "id": "verification:install-journey-ui",
+            "scope": "ui",
+            "result": "passed",
+            "observedAt": "2026-11-01",
+            "environment": {
+              "product": "synthetic"
+            },
+            "claim": "最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。",
+            "exclusions": [
+              "界面后端回执为明确合成数据；真实临时后端文件验收单列。",
+              "不是生产安装或AVEVA实机全流程。",
+              "代理已目检，用户视觉认可未完成。",
+              "FigCraft为独立可编辑静态参考板，不代称WPF执行。"
+            ],
+            "evidenceIds": [
+              "evidence:install-journey"
+            ],
+            "environmentText": "产品：synthetic"
           }
         ],
         "implementation": null,
@@ -21280,6 +22716,46 @@
         "evidence:dashboard-session-health"
       ],
       "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+    },
+    {
+      "id": "verification:install-journey-offline",
+      "scope": "offline",
+      "result": "passed",
+      "observedAt": "2026-11-01",
+      "environment": {
+        "product": "synthetic"
+      },
+      "claim": "安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。",
+      "exclusions": [
+        "未执行产品安装/升级/卸载或生产EVARS修改。",
+        "未加载本轮新Host到AVEVA；不沿用历史实机通过。",
+        "未登记且未提供的旧根不能声称已全机排除。",
+        "原平台业务未完成项和用户视觉认可保留。"
+      ],
+      "evidenceIds": [
+        "evidence:install-journey"
+      ],
+      "environmentText": "产品：synthetic"
+    },
+    {
+      "id": "verification:install-journey-ui",
+      "scope": "ui",
+      "result": "passed",
+      "observedAt": "2026-11-01",
+      "environment": {
+        "product": "synthetic"
+      },
+      "claim": "最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。",
+      "exclusions": [
+        "界面后端回执为明确合成数据；真实临时后端文件验收单列。",
+        "不是生产安装或AVEVA实机全流程。",
+        "代理已目检，用户视觉认可未完成。",
+        "FigCraft为独立可编辑静态参考板，不代称WPF执行。"
+      ],
+      "evidenceIds": [
+        "evidence:install-journey"
+      ],
+      "environmentText": "产品：synthetic"
     }
   ],
   "evidence": [
@@ -21354,6 +22830,14 @@
       "sourceRef": "source:evidence-dashboard-session-health",
       "audience": "public",
       "publication": "approved"
+    },
+    {
+      "id": "evidence:install-journey",
+      "kind": "report",
+      "title": "安装到工程操作：本轮离线、原生UI与SDK静态编译验收",
+      "sourceRef": "source:evidence-install-journey",
+      "audience": "public",
+      "publication": "approved"
     }
   ],
   "sources": [
@@ -21367,7 +22851,7 @@
     {
       "id": "source:capabilities",
       "title": "既有Feature与Script目录",
-      "sha256": "5438cb4a844055893561efd99a8ee6263d2dfea486f8626c2779cc5197e56cf9",
+      "sha256": "2c23ed852d098a9429ae3b5269de3c643ccacdfa1fad3014669d6405d78f5e5e",
       "authority": "catalog",
       "audience": "public"
     },
@@ -21388,7 +22872,7 @@
     {
       "id": "source:evidence",
       "title": "独立人工审阅的只读证据账本",
-      "sha256": "37017dd0bb1c81f70d2cfcf6ef8adf239c267adc41c0405e19fca9d31975b5cb",
+      "sha256": "23526c42fc80c23a758078e59b895d2e059f62e26b92c2c17df99e7ece01439c",
       "authority": "evidence",
       "audience": "public"
     },
@@ -21423,7 +22907,7 @@
     {
       "id": "source:openspec-tasks",
       "title": "平台候选tasks",
-      "sha256": "9f94abd3c3efb278713ca1574c381873082b8f730680ad1b7ca21f9109998c4b",
+      "sha256": "3a72c3e0ceaec7ee408178f8241c62fc56893dd13b7c7fec6da0c9290fa783e5",
       "authority": "proposal",
       "audience": "public"
     },
@@ -21501,6 +22985,13 @@
       "id": "source:evidence-dashboard-session-health",
       "title": "Dashboard只读会话灯态与限定实机验收（历史）",
       "sha256": "e8ee106662801a92febcbbd7f9a788fd484d83733ab05a3e53304191348c448a",
+      "authority": "evidence",
+      "audience": "public"
+    },
+    {
+      "id": "source:evidence-install-journey",
+      "title": "安装到工程操作：本轮离线、原生UI与SDK静态编译验收",
+      "sha256": "e81eff4ce33dc2700ff7483c83a4507f3097a8e4ea3c2738e580663050320ae6",
       "authority": "evidence",
       "audience": "public"
     }

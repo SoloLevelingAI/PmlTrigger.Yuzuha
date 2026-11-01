@@ -46,6 +46,7 @@ public sealed class RuntimeDeploymentService(string? stateDirectory = null, stri
     public RuntimeDeploymentPlan Preview(RuntimeDeploymentRequest request)
     {
         var installation = ManagerInstallationDiscovery.Select(request.InstallationRoot, request.Product, request.InstallationExecutable, request.EnvironmentFile);
+        new SetupEnvironmentOwnershipGuard().EnsureAvailable(installation.EnvironmentFile!, request.PackageRoot, request.RuntimeRoot);
         if (request.ExpectedInstallationId is { } expectedId && expectedId != installation.Id)
             throw new IOException("产品安装身份与所选发现结果不一致，请重新发现并预览。");
         var source = Path.TrimEndingDirectorySeparator(Path.GetFullPath(request.PackageRoot));
@@ -56,10 +57,8 @@ public sealed class RuntimeDeploymentService(string? stateDirectory = null, stri
         if (request.Mode is not ("copy" or "reference")) throw new ArgumentException("部署模式必须是 copy 或 reference。");
         if (request.Mode == "reference" && !source.Equals(target, StringComparison.OrdinalIgnoreCase))
             throw new ArgumentException("引用模式的运行根必须是所选包自身目录。");
-        var framework = request.Profile is "AM" or "PDMS" ? "net35" :
-            request.Profile is "E3D2.1" or "E3D3.1.6" ? "net48" : throw new ArgumentException("所选包没有已支持的 Host profile 映射。");
-        if (request.Framework != framework || ((request.Product == "E3D") != (framework == "net48")) ||
-            (request.Product != "E3D" && request.Product != request.Profile)) throw new ArgumentException("产品、profile 与框架不匹配。");
+        var framework = ManagerHostProfiles.Framework(request.Product, request.Profile);
+        if (request.Framework != framework) throw new ArgumentException("产品、profile 与框架不匹配。");
         var manifestFile = Path.Combine(source, ".setup-payload.json"); PathRules.NoLinks(manifestFile);
         if (new FileInfo(manifestFile).Length > 16 * 1024 * 1024) throw new IOException("包清单超过预算。");
         var manifestBytes = File.ReadAllBytes(manifestFile);
@@ -157,6 +156,7 @@ public sealed class RuntimeDeploymentService(string? stateDirectory = null, stri
             phase = "copy"; onPhase?.Invoke(phase);
             if (plan.Copy is not null) copied = PluginDeployment.Apply(plan.Copy, state);
             phase = "environment"; onPhase?.Invoke(phase);
+            new SetupEnvironmentOwnershipGuard().EnsureAvailable(plan.Environment.File, plan.Request.PackageRoot, plan.Request.RuntimeRoot);
             try { edited = EvarsEditor.Apply(plan.Environment); }
             catch (EvarsApplyException error) { edited = error.Receipt; throw; }
             phase = "ownership"; onPhase?.Invoke(phase);
@@ -210,10 +210,17 @@ public sealed class RuntimeDeploymentService(string? stateDirectory = null, stri
             try
             {
                 var marker = Path.Combine(plan.Request.RuntimeRoot, Marker);
-                if (Hash(marker) != Digest(Convert.FromBase64String(plan.MarkerAfterBase64!))) throw new IOException("运行所有权标记已变化。");
-                if (failures.Count != 0) throw new IOException("载荷尚有未恢复项，保留当前标记等待处理。");
-                if (plan.MarkerBeforeBase64 is null) File.Delete(marker);
-                else WriteAtomic(marker, Convert.FromBase64String(plan.MarkerBeforeBase64));
+                var current = Hash(marker);
+                // Already-restored ownership is a fingerprint confirmation, not
+                // permission to overwrite a marker created by another operation.
+                if (current != plan.MarkerBeforeHash)
+                {
+                    if (current != Digest(Convert.FromBase64String(plan.MarkerAfterBase64!))) throw new IOException("运行所有权标记已变化。");
+                    if (failures.Count != 0) throw new IOException("载荷尚有未恢复项，保留当前标记等待处理。");
+                    if (plan.MarkerBeforeBase64 is null) File.Delete(marker);
+                    else WriteAtomic(marker, Convert.FromBase64String(plan.MarkerBeforeBase64));
+                    if (Hash(marker) != plan.MarkerBeforeHash) throw new IOException("恢复后的所有权标记不匹配原始指纹。");
+                }
             }
             catch (Exception error) when (error is IOException or UnauthorizedAccessException) { failures.Add("ownership: " + error.Message); }
         }

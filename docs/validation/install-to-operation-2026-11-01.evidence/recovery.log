@@ -1,0 +1,16 @@
+  YuzuhaToolkit.Workspace -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Workspace\bin\Release\net10.0\YuzuhaToolkit.Workspace.dll
+  YuzuhaToolkit.Builtins -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Builtins\bin\Release\net10.0\YuzuhaToolkit.Builtins.dll
+  PmlTwin.Phayton -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\PmlTwin.Phayton\bin\Release\net10.0\PmlTwin.Phayton.dll
+  YuzuhaToolkit.Communication.Contracts -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Communication.Contracts\bin\Release\net10.0\YuzuhaToolkit.Communication.Contracts.dll
+  YuzuhaToolkit.Knowledge.Core -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Knowledge.Core\bin\Release\net10.0\YuzuhaToolkit.Knowledge.Core.dll
+  YuzuhaToolkit.Plugins.Contracts -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Plugins.Contracts\bin\Release\net10.0\YuzuhaToolkit.Plugins.Contracts.dll
+  YuzuhaToolkit.Plugin.License -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Plugin.License\bin\Release\net10.0\Yuzuha.Manager.Plugin.License.dll
+  YuzuhaToolkit.Plugin.Vm -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Plugin.Vm\bin\Release\net10.0\Yuzuha.Manager.Plugin.Vm.dll
+  YuzuhaToolkit.Manager.Core -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Manager.Core\bin\Release\net10.0\YuzuhaToolkit.Manager.Core.dll
+  YuzuhaToolkit.Manager.ProcessFixture -> F:\OneDrive\Documents\ChatGPT\PmlTwin\tests\YuzuhaToolkit.Manager.ProcessFixture\bin\Release\net10.0\YuzuhaToolkit.Manager.ProcessFixture.dll
+  YuzuhaToolkit.Manager.Tests -> F:\OneDrive\Documents\ChatGPT\PmlTwin\tests\YuzuhaToolkit.Manager.Tests\bin\Release\net10.0\YuzuhaToolkit.Manager.Tests.dll
+F:\OneDrive\Documents\ChatGPT\PmlTwin\tests\YuzuhaToolkit.Manager.Tests\bin\Release\net10.0\YuzuhaToolkit.Manager.Tests.dll (.NETCoreApp,Version=v10.0)的测试运行
+总共 1 个测试文件与指定模式相匹配。
+结果文件: F:\OneDrive\Documents\ChatGPT\PmlTwin\artifacts\install-journey-recovery\restore-recovery.trx
+
+已通过! - 失败:     0，通过:    23，已跳过:     0，总计:    23，持续时间: 2 s - YuzuhaToolkit.Manager.Tests.dll (net10.0)

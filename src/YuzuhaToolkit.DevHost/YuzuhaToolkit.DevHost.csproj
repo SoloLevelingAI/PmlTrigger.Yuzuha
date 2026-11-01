@@ -11,6 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="../YuzuhaToolkit.Mcp.Core/YuzuhaToolkit.Mcp.Core.csproj" />
     <ProjectReference Include="../YuzuhaToolkit.Knowledge.Core/YuzuhaToolkit.Knowledge.Core.csproj" />
+    <ProjectReference Include="../YuzuhaToolkit.Manager.Core/YuzuhaToolkit.Manager.Core.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.9" />
     <!-- Keep the OpenAPI 2.x dependency above the GHSA-v5pm-xwqc-g5wc patched floor. -->
     <PackageReference Include="Microsoft.OpenApi" Version="2.7.5" />

@@ -87,5 +87,19 @@ public sealed class EvarsEditorTests : IDisposable
         Assert.Contains("set YUZUHA_STARTUP_ACTIONS=rehash-all", File.ReadAllText(file));
     }
 
+    [Fact]
+    public void AlreadyRestoredFingerprintConfirmsLostReplyWithoutReplayingAndStillRejectsLaterEdits()
+    {
+        var original = Encoding.ASCII.GetBytes("set pmllib=vendor\r\n");var file = FileAt("evars.init", original);
+        var receipt = EvarsEditor.Apply(EvarsEditor.Preview(file, root, "E3D2.1", "net48"));
+        EvarsEditor.Restore(receipt);File.Delete(receipt.BackupFile!);
+        EvarsEditor.Restore(receipt);Assert.Equal(original, File.ReadAllBytes(file));
+        File.AppendAllText(file, "rem later unrelated edit\r\n");
+        Assert.Throws<IOException>(() => EvarsEditor.Restore(receipt));Assert.Contains("later unrelated edit", File.ReadAllText(file));
+        var unchanged = EvarsEditor.Apply(EvarsEditor.Preview(file, root, "E3D2.1", "net48"));
+        var noChange = EvarsEditor.Apply(EvarsEditor.Preview(file, root, "E3D2.1", "net48"));Assert.Equal(noChange.BeforeHash, noChange.AfterHash);
+        File.AppendAllText(file, "rem changed after unchanged receipt\r\n");Assert.Throws<IOException>(() => EvarsEditor.Restore(noChange));
+    }
+
     public void Dispose() => Directory.Delete(root, true);
 }

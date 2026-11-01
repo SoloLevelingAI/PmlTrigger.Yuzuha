@@ -16,11 +16,14 @@ def main():
     parser.add_argument('--iscc', required=True, type=pathlib.Path)
     parser.add_argument('--output', required=True, type=pathlib.Path)
     parser.add_argument('--desktop', type=pathlib.Path, help='Use a separately published desktop directory without overwriting a running development build.')
+    parser.add_argument('--runtime', type=pathlib.Path, help='Separately prepared runtime inputs (profiles and optional webapps); defaults to repository runtime for compatibility.')
+    parser.add_argument('--manager', required=True, type=pathlib.Path, help='Published Manager CLI; copied to runtime/manager for the preparation workflow and language adapters.')
     parser.add_argument('--cli', required=True, type=pathlib.Path, help='Separately published Native AOT CLI directory; copied to runtime/cli. Legacy MCP binaries are excluded.')
     parser.add_argument('--version', default='0.3.4.2', help='Four-part numeric package, manifest and executable filename version.')
     parser.add_argument('--documentation', required=True, type=pathlib.Path, help='Verified generated DocFX site.')
     parser.add_argument('--documentation-host', required=True, type=pathlib.Path, help='Published read-only DevHost.')
     args = parser.parse_args()
+    runtime = (args.runtime or ROOT/'runtime').resolve()
     if not re.fullmatch(r'[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+', args.version) or any(int(part)>65535 for part in args.version.split('.')):
         raise SystemExit('Version must contain four numeric components between 0 and 65535.')
     if not (args.cli / 'PmlTwin.Phayton.Cli.exe').is_file() or not (args.cli / 'e_sqlite3.dll').is_file():
@@ -29,13 +32,17 @@ def main():
         raise SystemExit('Complete documentation site and host are required.')
     if args.desktop and not (args.desktop / 'YuzuhaToolkit.Desktop.exe').is_file():
         raise SystemExit('Missing explicitly selected desktop publish output.')
+    if not (args.manager / 'Yuzuha.Manager.Cli.exe').is_file():
+        raise SystemExit('Complete Manager CLI publish output (Yuzuha.Manager.Cli.exe) is required for manager handoff.')
+    if not args.desktop and not (runtime / 'desktop/YuzuhaToolkit.Desktop.exe').is_file():
+        raise SystemExit('Manager handoff requires a desktop publish; supply --desktop.')
     out = args.output.resolve()
     out.mkdir(parents=True, exist_ok=True)
     stage = out / 'payload'
     if stage.exists():
         raise SystemExit('Use a fresh output directory; existing payload will not be overwritten.')
     for profile, framework in [('AM','35'),('PDMS','35'),('E3D2.1','48'),('E3D3.1.6','48')]:
-        if not (ROOT / f'runtime/profiles/{profile}/net{framework}/YuzuhaToolkit.PmlHost.Net{framework}.dll').is_file():
+        if not (runtime / f'profiles/{profile}/net{framework}/YuzuhaToolkit.PmlHost.Net{framework}.dll').is_file():
             raise SystemExit('Missing Host: ' + profile)
     subprocess.run([sys.executable,str(ROOT/'installer/build_icon.py')],check=True)
     subprocess.run(['dotnet', 'build', str(ROOT / 'installer/SetupBridge/SetupBridge.csproj'),
@@ -46,11 +53,12 @@ def main():
         if name == 'runtime' and args.desktop:
             ignored.append('desktop')
         if name == 'runtime':
-            ignored.extend(['net10', 'cli', 'E3D3.1.0'])
-        shutil.copytree(ROOT / name, stage / name, ignore=shutil.ignore_patterns(*ignored))
+            ignored.extend(['net10', 'cli', 'manager', 'E3D3.1.0'])
+        shutil.copytree(runtime if name == 'runtime' else ROOT/name, stage / name, ignore=shutil.ignore_patterns(*ignored))
     if args.desktop:
         shutil.copytree(args.desktop.resolve(), stage / 'runtime/desktop', ignore=shutil.ignore_patterns('*.pdb','*.ps1','__pycache__'))
     shutil.copytree(args.cli.resolve(), stage / 'runtime/cli', ignore=shutil.ignore_patterns('*.pdb','*.ps1','__pycache__'))
+    shutil.copytree(args.manager.resolve(), stage / 'runtime/manager', ignore=shutil.ignore_patterns('*.pdb','*.ps1','__pycache__'))
     shutil.copytree(ROOT/'src/YuzuhaToolkit.WebApps/wwwroot', stage/'runtime/webapps/wwwroot', dirs_exist_ok=True)
     shutil.copytree(args.documentation.resolve(), stage/'runtime/documentation')
     shutil.copytree(args.documentation_host.resolve(), stage/'runtime/documentation-host', ignore=shutil.ignore_patterns('*.pdb'))
@@ -88,7 +96,9 @@ def main():
         for p in sorted(files)), encoding='utf-8')
     inventory=[{'path':p.relative_to(stage).as_posix(),'sha256':hashlib.sha256(p.read_bytes()).hexdigest()}
                for p in sorted(stage.rglob('*')) if p.is_file()]
-    (stage/'.setup-payload.json').write_text(json.dumps({'version':args.version,'entryPoint':'runtime/cli/PmlTwin.Phayton.Cli.exe','transport':'cli','files':inventory},indent=2),encoding='utf-8')
+    (stage/'.setup-payload.json').write_text(json.dumps({'version':args.version,'entryPoint':'runtime/cli/PmlTwin.Phayton.Cli.exe',
+        'managerEntryPoint':'runtime/manager/Yuzuha.Manager.Cli.exe','preparationEntryPoint':'runtime/desktop/YuzuhaToolkit.Desktop.exe',
+        'defaultIntegrationMode':'manager','transport':'cli','files':inventory},indent=2),encoding='utf-8')
     subprocess.run([str(args.iscc.resolve()), '/DPayloadDir=' + str(stage),
                     '/DOutputDir=' + str(out), '/DAppVersion=' + args.version, str(ROOT / 'installer/Yuzuha.iss')], check=True)
     exe = out / ('Phayton-' + args.version + '-Windows-Setup.exe')

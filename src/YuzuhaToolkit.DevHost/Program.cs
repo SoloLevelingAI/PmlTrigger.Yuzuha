@@ -41,6 +41,9 @@ app.MapGet("/health", DevelopmentEndpoints.Health).WithName("GetDevelopmentHealt
 app.MapGet("/api/guides", DevelopmentEndpoints.Guides).WithName("GetBuiltinGuides").WithTags("内置指南");
 app.MapPost("/api/pml/preview", DevelopmentEndpoints.PreviewPml).WithName("PreviewPmlCall").WithTags("PML 预览");
 app.MapGet("/api/knowledge/query-plan", DevelopmentEndpoints.PlanQuery).WithName("PlanKnowledgeQuery").WithTags("检索预览");
+app.MapGet("/api/manager/contracts", DevelopmentEndpoints.ManagerContracts).WithName("GetManagerContracts").WithTags("管理契约（只读）");
+app.MapGet("/api/manager/operations", DevelopmentEndpoints.ManagerOperations).WithName("GetManagerOperations").WithTags("管理契约（只读）");
+app.MapGet("/api/manager/operations/{id}", DevelopmentEndpoints.ManagerOperation).WithName("GetManagerOperation").WithTags("管理契约（只读）");
 app.MapOpenApi();
 app.MapScalarApiReference(options => options.WithTitle("Yuzuha · HTTP API").DisableDefaultFonts().DisableAgent());
 

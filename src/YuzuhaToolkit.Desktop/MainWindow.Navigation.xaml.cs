@@ -12,11 +12,11 @@ public partial class MainWindow
     /// <param name="Page">已有主页面名称。</param>
     /// <param name="Section">子页面序号，负数表示不改变当前子页面。</param>
     private sealed record NavigationItem(string Label, string Page, int Section = -1);
-    private static readonly string[] PageNames = ["启动工程", "启动配置", "总览", "工程会话", "能力与函数", "原生 Form / Gadget", "Web 应用", "插件部署", "知识库", "AI 运行", "工具日志", "设置"];
+    private static readonly string[] PageNames = ["安装与环境准备", "启动工程", "启动配置", "总览", "工程会话", "能力与函数", "原生 Form / Gadget", "Web 应用", "插件部署", "知识库", "AI 运行", "工具日志", "设置"];
 
     private static string NavigationGroup(string title) => title switch
     {
-        "启动配置" or "工程会话" or "能力与函数" or "原生 Form / Gadget" or "会话任务" or "读取已有数组" or "对象查询" => "启动工程",
+        "安装与环境准备" or "启动配置" or "工程会话" or "能力与函数" or "原生 Form / Gadget" or "会话任务" or "读取已有数组" or "对象查询" => "启动工程",
         "插件部署" => "Web 应用",
         "工具日志" or "AI 运行" => "总览",
         _ => title
@@ -28,7 +28,7 @@ public partial class MainWindow
         var group = NavigationGroup(title);
         NavigationItem[] entries = group switch
         {
-            "启动工程" => [new("选择任务", "会话任务"), new("连接与核验", "工程会话"), new("启动工程", "启动工程"), new("全部配置", "启动配置"), new("能力与函数", "能力与函数"), new("原生 Form / Gadget", "原生 Form / Gadget")],
+            "启动工程" => [new("安装与环境准备", "安装与环境准备"), new("启动工程", "启动工程"), new("连接与核验", "工程会话"), new("选择任务", "会话任务"), new("全部配置", "启动配置"), new("能力与函数", "能力与函数"), new("原生 Form / Gadget", "原生 Form / Gadget")],
             "总览" => [new("Dashboard", "总览"), new("AI 运行", "AI 运行"), new("工具日志", "工具日志")],
             "Web 应用" => [new("HTML 应用管理器", "Web 应用"), new("PML 部署与验证", "插件部署")],
             "知识库" => [new("检索资料", "知识库", 0), new("个人笔记", "知识库", 1), new("资料源与回收站", "知识库", 2), new("目录与检索记录", "知识库", 3)],
@@ -40,7 +40,7 @@ public partial class MainWindow
         {
             ContextTitle.Text = group switch { "启动工程" => "工程", "Web 应用" => "应用与开发", _ => group };
             ContextDescription.Text = group switch { "启动工程" => "从一个工程开始", "知识库" => "让经验成为下次的起点", "设置" => "把工作空间调成你的习惯", "工程会话" => "连接、核验、读取与调用", "Web 应用" => "从界面到 PML", _ => "了解本机的运行状态" };
-            RecentProjectsPanel.Visibility = group == "启动工程" ? Visibility.Visible : Visibility.Collapsed;
+            RecentProjectsPanel.Visibility = group == "启动工程" && title != "安装与环境准备" ? Visibility.Visible : Visibility.Collapsed;
             ContextNav.Children.Clear();
             NavigationItem? selected = null;
             foreach (var item in entries)
@@ -76,7 +76,8 @@ public partial class MainWindow
 
     private void OpenNavigation(NavigationItem item)
     {
-        if (item.Page == "会话任务") { Tabs.SelectedIndex = 3; SessionView.OpenTaskHub(); }
+        if (item.Page == "安装与环境准备") { OpenPreparation(); }
+        else if (item.Page == "会话任务") { Tabs.SelectedIndex = 3; SessionView.OpenTaskHub(); }
         else if (item.Page == "能力与函数") OpenFunctionsPage(this, new());
         else if (item.Page == "原生 Form / Gadget") OpenQueriesPage(this, new());
         else if (item.Page == "启动配置") OpenProfileLibrary(this, new());

@@ -1,0 +1,171 @@
+Architecture projection matches the approved dependency graph.
+  正在确定要还原的项目…
+  所有项目均是最新的，无法还原。
+  Documentation -> F:\OneDrive\Documents\ChatGPT\PmlTwin\tools\Documentation\bin\Release\net10.0\Documentation.dll
+
+已成功生成。
+    0 个警告
+    0 个错误
+
+已用时间 00:00:00.85
+✔ 功能与语言组合只返回同时满足的条目 (1.0101ms)
+✔ 语言筛选排除其它语言 (0.1213ms)
+✔ 默认不返回历史文件，勾选后才返回 (0.7455ms)
+✔ 未归属筛选只返回没有功能归属的条目，且默认仍隐藏历史文件 (0.1674ms)
+✔ 搜索命中功能名称而不只是脚本名称 (0.2453ms)
+✔ 没有匹配时返回空数组而不是全部条目 (0.1549ms)
+✔ 待定功能不进入可用功能目录 (0.1685ms)
+✔ documented project aliases match actual DocFX metadata destinations after a library split (2.0721ms)
+✔ Native AOT compatibility fixture still compiles real linked production sources (1.0447ms)
+✔ catalog discovers native scripts, resolves curated C# from Roslyn, and keeps unknown ownership and historical files explicit (74.1391ms)
+✔ manual add, edit and remove only changes catalog metadata; native source remains discoverable and C# returns to candidates (62.3919ms)
+✔ duplicate identity, stale selector, unknown feature, missing guide and escaping paths fail with diagnostics (115.6414ms)
+✔ Roslyn discovers Fact/Theory/aliases, nested names and source coordinates; ignores comments and build output (332.2133ms)
+✔ PML XML renders contracts, escapes examples and leaves legacy files alone (1039.404ms)
+✔ malformed XML, wrong parameters, missing returns and orphan comments stop publication (3520.4829ms)
+✔ the new walker publishes all 36 contracts from repository source (541.3108ms)
+✔ manual IDs with a shared prefix resolve only their exact heading (0.6087ms)
+✔ catalog preserves LaunchDesk IDs, exact source and bidirectional method associations (0.8416ms)
+✔ unknown, duplicate and ambiguous associations fail the build (1.0511ms)
+✔ unmapped xUnit methods remain discoverable without claiming reviewed functional coverage (0.1601ms)
+✔ reviewed purposes can describe real tests without inventing API coverage (1.5253ms)
+✔ native PML functions link by actual file and declaration, never by guessed class names (0.4156ms)
+✔ evidence distinguishes absent, failed, skipped, dirty and historical runs (0.2472ms)
+✔ hierarchy expands one level per call site and preserves the full path, conditions, and terminal reasons (9.4108ms)
+✔ finding a downstream function exposes its ancestor calls without merging shared branches (0.4667ms)
+✔ all pages and reachable methods are browsable; method/type test associations stay distinct (0.2838ms)
+✔ diagram preserves candidate edges, cycles, unresolved entry and explicit budget boundaries (0.8069ms)
+✔ missing page/symbol and duplicate entry fail instead of publishing a partial success (0.8987ms)
+✔ a shared downstream node in a diamond is not mislabeled as a recursive cycle (0.2437ms)
+✔ desktop smoke receipt and screenshot contracts cover every current screen (0.7237ms)
+✔ UI samples stop at the evidenced CLI process boundary for both query buttons (0.6799ms)
+✔ missing CLI path, missing candidate dispatch, duplicate entry and fabricated RPC splice fail (1.2589ms)
+✔ configured Host samples remain separate and require route evidence (0.6653ms)
+✔ call sites retain arguments and lexical branches; callbacks keep their wrapper and separate bodies (686.8726ms)
+✔ source getters and local calculations remain inspectable, automatic properties are not invented bodies (542.2439ms)
+✔ RPC correspondence requires constant route, contract attributes and a matching registration; names alone never connect (2601.5589ms)
+✔ XAML event resolves exact overload and source coordinates; dynamic call stays unresolved (520.7442ms)
+✔ Command follows explicit runtime DataContext and delegate registration, separating CanExecute (537.7924ms)
+✔ property write follows actual generated setter to OnChanged; callbacks are not guessed by name (536.0303ms)
+✔ interface implementations remain candidates, including explicit implementation (489.3607ms)
+✔ unknown/template DataContext, ElementName binding and missing generator output are explicit boundaries (959.9318ms)
+✔ explicit TwoWay binding starts at the actual setter; virtual dispatch is not a definite implementation (547.9725ms)
+✔ event raise and named subscription connect to OnChanged without treating unsubscribe as execution (566.6046ms)
+✔ XAML assembly qualification never binds to a same-name type in another assembly (490.3664ms)
+✔ page discovery keeps nested tabs, shared handlers and initially disabled unwired actions (464.63ms)
+✔ object construction is a real edge and view constructors remain shared lifecycle entries (530.7598ms)
+✔ discarded construction retains its enclosing method or callback and constructor body (536.0593ms)
+✔ method preview preserves overload identities, generic signature, partial implementation and plain XML docs (528.3173ms)
+✔ partial implementation encountered first still uses definition documentation and both declarations (487.7604ms)
+✔ unimplemented partial declaration retains partial identity without inventing a body implementation (468.7913ms)
+✔ IPC rows retain their path, type, empty and Unicode values (0.6426ms)
+✔ workflow reports expose exact expected values and failed state without declaring a pass (0.8505ms)
+✔ embedded data cannot break out of the JSON script; cells use textContent (0.432ms)
+✔ the same filtering and CSV functions embedded in the page handle quotes, newlines and formula-like text (0.432ms)
+ℹ tests 54
+ℹ suites 0
+ℹ pass 54
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 11825.8346
+PASS: exact TRX identity, positive execution, all passed, no skipped rows.
+  正在确定要还原的项目…
+  已还原 F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Builtins\YuzuhaToolkit.Builtins.csproj (用时 142 毫秒)。
+  已还原 F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Workspace\YuzuhaToolkit.Workspace.csproj (用时 247 毫秒)。
+  已还原 F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Plugins.Contracts\YuzuhaToolkit.Plugins.Contracts.csproj (用时 247 毫秒)。
+  已还原 F:\OneDrive\Documents\ChatGPT\PmlTwin\src\PlantHost.Rpc.Net10\PlantHost.Rpc.Net10.csproj (用时 247 毫秒)。
+  已还原 F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Communication.Contracts\YuzuhaToolkit.Communication.Contracts.csproj (用时 247 毫秒)。
+  已还原 F:\OneDrive\Documents\ChatGPT\PmlTwin\src\PmlTwin.Phayton\PmlTwin.Phayton.csproj (用时 247 毫秒)。
+  已还原 F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.DevHost\YuzuhaToolkit.DevHost.csproj (用时 257 毫秒)。
+  已还原 F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Manager.Cli\YuzuhaToolkit.Manager.Cli.csproj (用时 207 毫秒)。
+  已还原 F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Knowledge.Core\YuzuhaToolkit.Knowledge.Core.csproj (用时 259 毫秒)。
+  已还原 F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Manager.Core\YuzuhaToolkit.Manager.Core.csproj (用时 260 毫秒)。
+  已还原 F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Mcp.Core\YuzuhaToolkit.Mcp.Core.csproj (用时 265 毫秒)。
+  已还原 F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Desktop\YuzuhaToolkit.Desktop.csproj (用时 275 毫秒)。
+  已还原 F:\OneDrive\Documents\ChatGPT\PmlTwin\tests\YuzuhaToolkit.Tests\YuzuhaToolkit.Tests.csproj (用时 282 毫秒)。
+  已还原 F:\OneDrive\Documents\ChatGPT\PmlTwin\tests\YuzuhaToolkit.Architecture.Tests\YuzuhaToolkit.Architecture.Tests.csproj (用时 227 毫秒)。
+  14 个项目(共 28 个)是最新的，无法还原。
+  PmlTwin.Database.Contracts -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\PmlTwin.Database.Contracts\bin\Release\net10.0\PmlTwin.Database.Contracts.dll
+  YuzuhaToolkit.Workspace -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Workspace\bin\Release\net10.0\YuzuhaToolkit.Workspace.dll
+  PmlTwin.Phayton -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\PmlTwin.Phayton\bin\Release\net10.0\PmlTwin.Phayton.dll
+  PlantHost.Rpc.Net10 -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\PlantHost.Rpc.Net10\bin\Release\net10.0\PlantHost.Rpc.Net10.dll
+  YuzuhaToolkit.Builtins -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Builtins\bin\Release\net10.0\YuzuhaToolkit.Builtins.dll
+  YuzuhaToolkit.Communication.Contracts -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Communication.Contracts\bin\Release\net10.0\YuzuhaToolkit.Communication.Contracts.dll
+  PmlTwin.Database -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\PmlTwin.Database\bin\Release\net10.0\PmlTwin.Database.dll
+  YuzuhaToolkit.Plugins.Contracts -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Plugins.Contracts\bin\Release\net10.0\YuzuhaToolkit.Plugins.Contracts.dll
+  YuzuhaToolkit.CommandLine -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.CommandLine\bin\Release\net10.0\YuzuhaToolkit.CommandLine.dll
+  YuzuhaToolkit.Knowledge.Core -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Knowledge.Core\bin\Release\net10.0\YuzuhaToolkit.Knowledge.Core.dll
+  YuzuhaToolkit.Plugin.License -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Plugin.License\bin\Release\net10.0\Yuzuha.Manager.Plugin.License.dll
+  YuzuhaToolkit.Plugin.Vm -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Plugin.Vm\bin\Release\net10.0\Yuzuha.Manager.Plugin.Vm.dll
+  YuzuhaToolkit.Mcp.Core -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Mcp.Core\bin\Release\net10.0\YuzuhaToolkit.Mcp.Core.dll
+  PmlTwin.Database.ProcessFixture -> F:\OneDrive\Documents\ChatGPT\PmlTwin\tests\PmlTwin.Database.ProcessFixture\bin\Release\net10.0\PmlTwin.Database.ProcessFixture.dll
+  PmlTwin.Database.Tests -> F:\OneDrive\Documents\ChatGPT\PmlTwin\tests\PmlTwin.Database.Tests\bin\Release\net10.0\PmlTwin.Database.Tests.dll
+F:\OneDrive\Documents\ChatGPT\PmlTwin\tests\PmlTwin.Database.Tests\bin\Release\net10.0\PmlTwin.Database.Tests.dll (.NETCoreApp,Version=v10.0)的测试运行
+  YuzuhaToolkit.WebApps -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.WebApps\bin\Release\net10.0\YuzuhaToolkit.WebApps.dll
+总共 1 个测试文件与指定模式相匹配。
+  YuzuhaToolkit.Manager.Core -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Manager.Core\bin\Release\net10.0\YuzuhaToolkit.Manager.Core.dll
+  YuzuhaToolkit.Manager.ProcessFixture -> F:\OneDrive\Documents\ChatGPT\PmlTwin\tests\YuzuhaToolkit.Manager.ProcessFixture\bin\Release\net10.0\YuzuhaToolkit.Manager.ProcessFixture.dll
+  YuzuhaToolkit.Cli.Compatibility -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Cli.Compatibility\bin\Release\net10.0\YuzuhaToolkit.Cli.Compatibility.dll
+  YuzuhaToolkit.Manager.Tests -> F:\OneDrive\Documents\ChatGPT\PmlTwin\tests\YuzuhaToolkit.Manager.Tests\bin\Release\net10.0\YuzuhaToolkit.Manager.Tests.dll
+F:\OneDrive\Documents\ChatGPT\PmlTwin\tests\YuzuhaToolkit.Manager.Tests\bin\Release\net10.0\YuzuhaToolkit.Manager.Tests.dll (.NETCoreApp,Version=v10.0)的测试运行
+  YuzuhaToolkit.Knowledge -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Knowledge\bin\Release\net10.0\win-x64\YuzuhaToolkit.Knowledge.dll
+  YuzuhaToolkit.Mcp -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Mcp\bin\Release\net10.0\win-x64\YuzuhaToolkit.Mcp.dll
+总共 1 个测试文件与指定模式相匹配。
+  YuzuhaToolkit.DevHost -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.DevHost\bin\Release\net10.0\YuzuhaToolkit.DevHost.dll
+  YuzuhaToolkit.Architecture.Tests -> F:\OneDrive\Documents\ChatGPT\PmlTwin\tests\YuzuhaToolkit.Architecture.Tests\bin\Release\net10.0\YuzuhaToolkit.Architecture.Tests.dll
+F:\OneDrive\Documents\ChatGPT\PmlTwin\tests\YuzuhaToolkit.Architecture.Tests\bin\Release\net10.0\YuzuhaToolkit.Architecture.Tests.dll (.NETCoreApp,Version=v10.0)的测试运行
+[xUnit.net 00:00:01.04]     YuzuhaToolkit.Manager.Tests.SevenZipCopyTests.FormatAndFrozenSevenZipPlanAreAvailableThroughManagerOperations [SKIP]
+[xUnit.net 00:00:01.04]     YuzuhaToolkit.Manager.Tests.SevenZipCopyTests.ActualStandaloneToolValidatesCopiesAndRestoresSyntheticPayloadAndRejectsChangedPackageOrTool [SKIP]
+  已跳过 YuzuhaToolkit.Manager.Tests.SevenZipCopyTests.FormatAndFrozenSevenZipPlanAreAvailableThroughManagerOperations [1 ms]
+  已跳过 YuzuhaToolkit.Manager.Tests.SevenZipCopyTests.ActualStandaloneToolValidatesCopiesAndRestoresSyntheticPayloadAndRejectsChangedPackageOrTool [1 ms]
+总共 1 个测试文件与指定模式相匹配。
+结果文件: F:\OneDrive\Documents\ChatGPT\PmlTwin\artifacts\tests\development_net10.0_20261101231043.trx
+
+已通过! - 失败:     0，通过:    14，已跳过:     0，总计:    14，持续时间: 2 s - PmlTwin.Database.Tests.dll (net10.0)
+结果文件: F:\OneDrive\Documents\ChatGPT\PmlTwin\artifacts\tests\development_net10.0_20261101231049.trx
+
+已通过! - 失败:     0，通过:    21，已跳过:     0，总计:    21，持续时间: 5 s - YuzuhaToolkit.Architecture.Tests.dll (net10.0)
+结果文件: F:\OneDrive\Documents\ChatGPT\PmlTwin\artifacts\tests\development_net10.0_20261101231055.trx
+
+已通过! - 失败:     0，通过:   250，已跳过:     2，总计:   252，持续时间: 13 s - YuzuhaToolkit.Manager.Tests.dll (net10.0)
+  PmlTwin.Phayton.Cli -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\PmlTwin.Phayton.Cli\bin\Release\net10.0\PmlTwin.Phayton.Cli.dll
+  YuzuhaToolkit.Tests -> F:\OneDrive\Documents\ChatGPT\PmlTwin\tests\YuzuhaToolkit.Tests\bin\Release\net10.0\YuzuhaToolkit.Tests.dll
+F:\OneDrive\Documents\ChatGPT\PmlTwin\tests\YuzuhaToolkit.Tests\bin\Release\net10.0\YuzuhaToolkit.Tests.dll (.NETCoreApp,Version=v10.0)的测试运行
+总共 1 个测试文件与指定模式相匹配。
+结果文件: F:\OneDrive\Documents\ChatGPT\PmlTwin\artifacts\tests\development_net10.0_20261101231105.trx
+
+已通过! - 失败:     0，通过:   289，已跳过:     0，总计:   289，持续时间: 8 s - YuzuhaToolkit.Tests.dll (net10.0)
+  正在确定要还原的项目…
+  所有项目均是最新的，无法还原。
+  PlantHost.Rpc.Net10 -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\PlantHost.Rpc.Net10\bin\Release\net10.0\PlantHost.Rpc.Net10.dll
+  PmlTwin.Phayton -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\PmlTwin.Phayton\bin\Release\net10.0\PmlTwin.Phayton.dll
+  YuzuhaToolkit.Communication.Contracts -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Communication.Contracts\bin\Release\net10.0\YuzuhaToolkit.Communication.Contracts.dll
+  YuzuhaToolkit.Builtins -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Builtins\bin\Release\net10.0\YuzuhaToolkit.Builtins.dll
+  YuzuhaToolkit.Plugins.Contracts -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Plugins.Contracts\bin\Release\net10.0\YuzuhaToolkit.Plugins.Contracts.dll
+  YuzuhaToolkit.Workspace -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Workspace\bin\Release\net10.0\YuzuhaToolkit.Workspace.dll
+  YuzuhaToolkit.Knowledge.Core -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Knowledge.Core\bin\Release\net10.0\YuzuhaToolkit.Knowledge.Core.dll
+  YuzuhaToolkit.Mcp.Core -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Mcp.Core\bin\Release\net10.0\YuzuhaToolkit.Mcp.Core.dll
+  YuzuhaToolkit.Manager.Core -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Manager.Core\bin\Release\net10.0\YuzuhaToolkit.Manager.Core.dll
+  YuzuhaToolkit.Cli.Compatibility -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\YuzuhaToolkit.Cli.Compatibility\bin\Release\net10.0\YuzuhaToolkit.Cli.Compatibility.dll
+  PmlTwin.Phayton.Cli -> F:\OneDrive\Documents\ChatGPT\PmlTwin\src\PmlTwin.Phayton.Cli\bin\Release\net10.0\PmlTwin.Phayton.Cli.dll
+
+已成功生成。
+    0 个警告
+    0 个错误
+
+已用时间 00:00:02.65
+........
+----------------------------------------------------------------------
+Ran 8 tests in 0.108s
+
+OK
+{"caseId": "launch.profile.complete-lifecycle", "status": "Passed", "executed": 15, "error": null, "report": "F:\\OneDrive\\Documents\\ChatGPT\\PmlTwin\\artifacts\\tests\\launch-scenarios\\ee4598547bea43b4892818e8cd61c7f9\\toml\\run.json"}
+{"caseId": "launch.profile.complete-lifecycle", "status": "Passed", "executed": 15, "error": null, "report": "F:\\OneDrive\\Documents\\ChatGPT\\PmlTwin\\artifacts\\tests\\launch-scenarios\\ee4598547bea43b4892818e8cd61c7f9\\json\\run.json"}
+PASS pass
+PASS unauthorized
+PASS wrong-library
+PASS rehash-failure
+PASS stale-version
+PASS identity-change

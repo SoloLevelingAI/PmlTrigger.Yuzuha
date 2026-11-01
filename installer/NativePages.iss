@@ -123,7 +123,8 @@ begin
   Evidence := TStringList.Create; NoInit := TStringList.Create; Multiple := TStringList.Create;
   ModePage := CreateInputOptionPage(wpSelectDir,T('安装目标','Installation scope'),
     T('是否接入 AVEVA？','Connect AVEVA?'),T('文件安装完成不等于 AVEVA 已接入。','Installing files alone does not connect AVEVA.'),True,False);
-  ModePage.Add(T('安装并接入 AVEVA（必须选择环境）','Install and connect AVEVA (environment selection required)'));
+  ModePage.Add(T('安装应用，随后由管理器准备环境与部署（推荐）','Install application, then prepare environments and deployment in Manager (recommended)'));
+  ModePage.Add(T('旧版兼容：安装并接入 AVEVA（必须选择环境）','Legacy compatibility: install and connect AVEVA (environment selection required)'));
   ModePage.Add(T('仅安装文件 / AI 客户端，不修改 AVEVA','Files / AI client only; do not modify AVEVA'));
   ModePage.SelectedValueIndex := 0;
   ProductPage := CreateCustomPage(ModePage.ID,T('选择 AVEVA 环境','Select AVEVA environments'),
@@ -162,7 +163,8 @@ function NativeRequest: String;
 var I: Integer; Environments, Path, Mode: String; InitAbsent: Boolean;
 begin
   Result := ''; Environments := '';
-  Mode := 'aveva'; if ModePage.SelectedValueIndex = 1 then Mode := 'none';
+  Mode := 'manager'; if ModePage.SelectedValueIndex = 1 then Mode := 'aveva';
+  if ModePage.SelectedValueIndex = 2 then Mode := 'none';
   for I := 0 to Products.Items.Count-1 do if Products.Checked[I] and (Mode = 'aveva') then begin
     Path := Paths[I];
     if (Path = '') or (Profiles[I] = '') then begin
@@ -191,7 +193,7 @@ function ShouldSkipPage(PageID: Integer): Boolean;
 begin
   Result := ((ExpandConstant('{param:PLAN|}') <> '') or WizardSilent) and
     ((PageID = ModePage.ID) or (PageID = ProductPage.ID) or (PageID = AIPage.ID));
-  if (PageID = ProductPage.ID) and (ModePage.SelectedValueIndex = 1) then Result := True;
+  if (PageID = ProductPage.ID) and (ModePage.SelectedValueIndex <> 1) then Result := True;
 end;
 
 procedure CurPageChanged(CurPageID: Integer);

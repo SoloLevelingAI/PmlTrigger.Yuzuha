@@ -2,7 +2,7 @@
 
 0.3.4.2 构建入口交付原生 CLI、正式启动配置工作台、DocFX 与本地只读文档宿主。CLI 直接调用已有底层库及 Host，不经过独立 MCP 进程；新包排除旧 runtime/net10 MCP 可执行文件。NET35/NET48 Host 继续按产品单独交付。Inno Setup + NET48 helper 负责安装，程序不分发安装 PS1。
 
-人工和 AI 均先选择 AVEVA 环境与可选 CLI 使用 Skill，再生成具体预览并确认。向导不提供 MCP 注册；计划引擎拒绝非空 mcpJson 和旧 MCP 修改计划，保留现有客户端配置。源码构建与安装实机验证分别记录。
+人工和 AI 默认先安装应用，随后由管理器准备环境、EVARS和部署；`integrationMode: manager`与明确仅文件的none分开。旧显式aveva计划继续兼容。安装和后续管理写入分别预览批准；向导不提供MCP注册。源码构建与安装实机验证分别记录。
 
 完整流程见 [INSTALL.md](INSTALL.md)，实际测试见 [VALIDATION.md](VALIDATION.md)。
 
@@ -21,7 +21,7 @@
 Use a fresh output directory, .NET SDK/net48 and Inno Setup 6.7.3:
 
 ```text
-python installer/build.py --iscc "C:/Tools/Inno Setup 6/ISCC.exe" --output "C:/Builds/PhaytonSetup" --version 0.3.4.2 --cli "C:/Builds/NativeCliPublish" --desktop "C:/Builds/DesktopPublish" --documentation "artifacts/docfx/site" --documentation-host "C:/Builds/DocHostPublish"
+python installer/build.py --iscc "C:/Tools/Inno Setup 6/ISCC.exe" --output "C:/Builds/PhaytonSetup" --version 0.3.4.2 --runtime "C:/Builds/RuntimeInputs" --cli "C:/Builds/NativeCliPublish" --manager "C:/Builds/ManagerCliPublish" --desktop "C:/Builds/DesktopPublish" --documentation "artifacts/docfx/site" --documentation-host "C:/Builds/DocHostPublish"
 dotnet run --project installer/tests/SetupTests.csproj -c Release
 python installer/tests/build_cli_test.py
 python installer/tests/verify_delivery.py "C:/Builds/PhaytonSetup"
@@ -29,6 +29,13 @@ python installer/tests/verify_agent_bundle.py "C:/Builds/PhaytonSetup/Phayton-0.
 ```
 
 Builder hashes every supplied payload file and excludes legacy MCP servers, PS1, proprietary references and local databases. Supply an independently validated Native AOT CLI publish directory; --version controls manifest, Inno metadata, EXE and Agent ZIP filenames. VM ZIP includes the EXE, helper, Skill, request template and instructions.
+
+`--runtime` selects independent profile/webapp inputs so packaging does not overwrite
+a development or installed runtime. It requires all four compiled profile outputs;
+when omitted, the historical repository `runtime` directory remains the source.
+Reused binaries need verified provenance; their prior execution does not validate
+the rebuilt package. Manager CLI, Desktop and documentation host inputs are
+published separately for the current source.
 
 Authored by OpenAI Codex at the maintainer's request. The previous 0.3.4.1 desktop and media evidence is recorded in docs/validation/2026-10-24-window-portfolio.md; it is not proof that a new 0.3.4.2 installer has been executed. Historical installer evidence remains in VALIDATION.md and docs/validation/2026-10-23-phayton-r2-production.md. Installation smoke scripts change machine registration and must only run in an approved disposable environment.
 

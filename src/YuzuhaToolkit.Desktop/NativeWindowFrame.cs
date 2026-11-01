@@ -47,7 +47,7 @@ internal static class NativeWindowFrame
         // WindowChrome keeps a nonzero glass margin and no custom HRGN. Both are
         // important: a region-based rounded WPF window prevents native DWM rounding.
         Set(handle, 33, 2); // DWMWA_WINDOW_CORNER_PREFERENCE / DWMWCP_ROUND
-        Set(handle, 20, DesktopTheme.Current == "Dark" ? 1 : 0); // immersive dark frame
+        Set(handle, 20, DesktopTheme.IsDark ? 1 : 0); // immersive dark frame
         Set(handle, 34, unchecked((int)0xFFFFFFFE)); // DWMWA_BORDER_COLOR / COLOR_NONE: shadow defines the edge
     }
 

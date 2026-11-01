@@ -95,7 +95,8 @@
       "title": "开发 HTTP API · OpenAPI / Scalar",
       "references": [
         "YuzuhaToolkit.Mcp.Core",
-        "YuzuhaToolkit.Knowledge.Core"
+        "YuzuhaToolkit.Knowledge.Core",
+        "YuzuhaToolkit.Manager.Core"
       ]
     },
     "SetupBridge": {

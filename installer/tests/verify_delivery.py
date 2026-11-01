@@ -37,6 +37,11 @@ assert (payload / 'runtime/documentation-host/YuzuhaToolkit.DevHost.exe').is_fil
 assert manifest['transport'] == 'cli'
 assert manifest['entryPoint'] == 'runtime/cli/PmlTwin.Phayton.Cli.exe'
 assert (payload / manifest['entryPoint']).is_file()
+assert manifest['defaultIntegrationMode'] == 'manager'
+assert manifest['managerEntryPoint'] == 'runtime/manager/Yuzuha.Manager.Cli.exe'
+assert manifest['preparationEntryPoint'] == 'runtime/desktop/YuzuhaToolkit.Desktop.exe'
+assert (payload / manifest['managerEntryPoint']).is_file()
+assert (payload / manifest['preparationEntryPoint']).is_file()
 assert not (payload / 'runtime/net10').exists(), 'Legacy standalone MCP runtimes must not be shipped'
 assert not (payload / 'runtime/profiles/E3D3.1.0').exists(), 'All E3D 3.1 installations use the maintained 3.1.6 Host'
 bootstrap = (payload / 'PMLLIB/Bootstrap/YuzuhaResolveRuntimePath.pmlfnc').read_text(encoding='utf-8-sig')

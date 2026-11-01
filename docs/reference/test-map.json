@@ -1633,7 +1633,7 @@
       "runner": "desktop-flows",
       "purpose": "验证 GUI 保存并复用本机凭据、知识检索完整正文、对象结果，以及明暗主题下 14 页、三种视口与同画布。不是 AVEVA 实机或人工视觉验收。",
       "environment": "Windows x64 / NET10 SDK 与 WPF；无需 AVEVA",
-      "expected": "本次回执记录 savedCredentials/guiKnowledge/objectQueries 均为 true；116 张截图和绑定错误零。主题保留输入、查询、目标与许可。"
+      "expected": "本次回执记录 savedCredentials/guiKnowledge/objectQueries 均为 true；118 张截图和绑定错误零。主题保留输入、查询、目标与许可。"
     },
     {
       "id": "manual:desktop-aveva-m1",
@@ -1655,6 +1655,17 @@
       "purpose": "Execute equivalent TOML and JSON launch lifecycle scenarios using fresh CLI processes and real isolated configuration files; retain input/output, revisions and HTML reports.",
       "environment": "Windows / .NET 10 SDK / Python 3.11+; isolated files, no AVEVA launch",
       "expected": "Both formats execute all 15 steps successfully; parser rejection tests pass; zero execution fails."
+    },
+    {
+      "id": "smoke:desktop-preparation",
+      "kind": "smoke",
+      "category": "wpf-offline-ui",
+      "file": "scripts/Test-PreparationDesktop.ps1",
+      "entryPoint": "$process = Start-Process",
+      "runner": "desktop-preparation",
+      "purpose": "通过真实WPF控件验证安装交接、旧所有权移交与部署的CTA顺序、六主题三视口、草稿保持和unknown回执恢复；后端回执为合成，不是产品安装或AVEVA实机。",
+      "environment": "Windows x64 / NET10 SDK与WPF；隔离状态和合成回执，无AVEVA调用",
+      "expected": "31张原生截图及PNG/视口尺寸一致；六主题与八阶段可达；核心动作/反馈在首屏，导航不执行写入，unknown按本次回执恢复，绑定错误零。"
     }
   ],
   "bindings": [
@@ -2803,6 +2814,408 @@
       "targets": [
         {
           "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.DesktopActivityFilter"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.EvarsOperationTests.PartialApplyFailureReturnsUnknownWithFrozenRecoveryReferenceAndExplicitRestore",
+      "purpose": "EVARS真实临时文件写入后注入回包失败，保留unknown、精确恢复引用及原始字节条件恢复。",
+      "environment": "Windows x64 / NET10；临时合成文件、显式注入反例；未执行产品安装或AVEVA实机。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Manager.Core::YuzuhaToolkit.Manager.EvarsOperations"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.EvarsOperationTests.FailedReceiptPersistenceAndFailedCompensationKeepManualLocatorAndMayHaveExecuted",
+      "purpose": "回执持久化与补偿同时失败时保留mayHaveExecuted及备份定位，不伪造可执行回执。",
+      "environment": "Windows x64 / NET10；临时合成文件、显式注入反例；未执行产品安装或AVEVA实机。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Manager.Core::YuzuhaToolkit.Manager.EvarsOperations"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.EvarsOperationTests.RestoreOutcomeFailureRetainsOriginalRecoveryReferenceAndUnknownState",
+      "purpose": "恢复实际完成后回包失败仍为unknown，并保留原恢复引用供核查。",
+      "environment": "Windows x64 / NET10；临时合成文件、显式注入反例；未执行产品安装或AVEVA实机。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Manager.Core::YuzuhaToolkit.Manager.EvarsOperations"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.ManagerContractCatalogTests.CompleteJourneyReferencesOnlyActualReadOnlyExportAndPreservesExplicitGrants",
+      "purpose": "八阶段七字段关联实际注册操作；导出副本不可修改全局契约，授权和未知输出边界保持。",
+      "environment": "Windows x64 / NET10；临时合成文件、显式注入反例；未执行产品安装或AVEVA实机。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Manager.Core::YuzuhaToolkit.Manager.ManagerContractCatalog"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.ManagerContractCatalogTests.ContractCliUsesTheExistingProtocolWithoutLaunchOrWriteAuthorization",
+      "purpose": "经真实CLI协议从stdin读取契约目录，无写入、启动或执行授权。",
+      "environment": "Windows x64 / NET10；临时合成文件、显式注入反例；未执行产品安装或AVEVA实机。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Manager.Core::YuzuhaToolkit.Manager.ManagerContractCatalog"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.SetupHandoffTests.InspectAndPreviewVerifyActualPayloadWithoutWritingMarkerOrEnvironment",
+      "purpose": "核对临时安装清单与内容SHA，发现载荷漂移时拒绝；交接预览不写安装记录或EVARS。",
+      "environment": "Windows x64 / NET10；临时合成文件、显式注入反例；未执行产品安装或AVEVA实机。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Manager.Core::YuzuhaToolkit.Manager.SetupHandoffService"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.SetupHandoffTests.TransferRetainsOriginalAndOtherEntriesAndLegacyUninstallAlgorithmNoLongerRestoresTarget",
+      "purpose": "移交仅移除选定旧环境所有权，备份原记录、保留扩展及其他项，并按旧卸载循环验证选定环境不再恢复。",
+      "environment": "Windows x64 / NET10；临时合成文件、显式注入反例；未执行产品安装或AVEVA实机。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Manager.Core::YuzuhaToolkit.Manager.SetupHandoffService"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.SetupHandoffTests.UnknownFormatDriftDuplicateOwnershipAndInterveningChangesRejectWithoutEnvironmentWrites",
+      "purpose": "旧记录格式、重复所有权、目标及预览后变化均拒绝，保留外部修改。",
+      "environment": "Windows x64 / NET10；临时合成文件、显式注入反例；未执行产品安装或AVEVA实机。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Manager.Core::YuzuhaToolkit.Manager.SetupHandoffService"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.SetupHandoffTests.InstallerManagedBlockTransfersThenManagerReplacesOneBlockWithoutPublishingUnrelatedVariables",
+      "purpose": "真实旧管理块格式移交后只替换一个EVARS块；保留厂商原文、CRLF和启动策略，摘要剔除无关秘密变量。",
+      "environment": "Windows x64 / NET10；临时合成文件、显式注入反例；未执行产品安装或AVEVA实机。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Manager.Core::YuzuhaToolkit.Manager.SetupHandoffService"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.SetupHandoffTests.UnrecognizedLegacyBlockCannotTransferEvenWithMatchingRecordedHash",
+      "purpose": "即使文件SHA匹配记录，也拒绝不认识的旧管理块格式。",
+      "environment": "Windows x64 / NET10；临时合成文件、显式注入反例；未执行产品安装或AVEVA实机。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Manager.Core::YuzuhaToolkit.Manager.SetupHandoffService"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.SetupHandoffTests.GuardedTransferRefusesActiveSetupAndBeforeWriteDriftAndReportsUnknownAfterReplacement",
+      "purpose": "活动安装器及临写前漂移阻止移交；替换后注入失败保留unknown与原记录备份。",
+      "environment": "Windows x64 / NET10；临时合成文件、显式注入反例；未执行产品安装或AVEVA实机。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Manager.Core::YuzuhaToolkit.Manager.SetupHandoffService"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.SetupHandoffTests.OperationsRequireWriteAuthorizationAndFreezeExactPlanWithoutPublishingOriginalBytes",
+      "purpose": "旧所有权移交通过统一授权门槛，冻结planId/SHA，公开摘要不泄露原始EVARS或marker字节。",
+      "environment": "Windows x64 / NET10；临时合成文件、显式注入反例；未执行产品安装或AVEVA实机。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Manager.Core::YuzuhaToolkit.Manager.SetupHandoffOperations"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.SetupHandoffTests.TransferOperationPreservesMayHaveExecutedAndUnknownReceiptAfterMarkerReplacement",
+      "purpose": "移交记录替换后丢回包时统一操作仍返回unknown和mayHaveExecuted，环境字节保持。",
+      "environment": "Windows x64 / NET10；临时合成文件、显式注入反例；未执行产品安装或AVEVA实机。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Manager.Core::YuzuhaToolkit.Manager.SetupHandoffOperations"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DevelopmentApiTests.ManagerContractHttpOnlyDescribesActualOperationsAndKeepsUnknownOutputBoundary",
+      "purpose": "真实HTTP只读目录引用实际操作；未知ID、POST和虚构invoke路由拒绝，OpenAPI只描述GET。",
+      "environment": "Windows x64 / NET10；临时合成文件、显式注入反例；未执行产品安装或AVEVA实机。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.DevHost::YuzuhaToolkit.DevHost.DevelopmentEndpoints"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DevelopmentApiTests.InstalledDocsOnlyModeDoesNotRegisterManagerCatalogOrOpenApiRoutes",
+      "purpose": "安装后docs-only宿主不注册Manager目录或OpenAPI开发入口。",
+      "environment": "Windows x64 / NET10；临时合成文件、显式注入反例；未执行产品安装或AVEVA实机。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.DevHost::YuzuhaToolkit.DevHost.DevelopmentEndpoints"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PreparationWorkbenchTests.DiscoveryAndReadingDoNotChooseAnInstallationOrGrantWrite",
+      "purpose": "发现全部候选不自动选择第一项；阅读、导航和人工选择不赋予写入授权。",
+      "environment": "Windows x64 / NET10；临时合成文件、显式注入反例；未执行产品安装或AVEVA实机。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.PreparationWorkbench"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PreparationWorkbenchTests.FrozenPreviewBindsActualInstallationAndInputChangesInvalidateOnlyExecutablePlan",
+      "purpose": "冻结实际安装身份与部署输入；阅读保持计划，实际输入变化撤销执行资格。",
+      "environment": "Windows x64 / NET10；临时合成文件、显式注入反例；未执行产品安装或AVEVA实机。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.PreparationWorkbench"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PreparationWorkbenchTests.RealManagerDiscoveryDeploymentAndEvarsShareSupportedProfileAndConditionRestore",
+      "purpose": "调用真实Manager后端在临时合成包上完成发现、部署和EVARS预览/应用/恢复，恢复原始字节；不启动AVEVA。",
+      "environment": "Windows x64 / NET10；临时合成文件、显式注入反例；未执行产品安装或AVEVA实机。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.PreparationWorkbench"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PreparationWorkbenchTests.ActualEvarsWriteWithLostReplyRetainsRecoveryReferenceAndRestoresBeforeAllowingNewPlan",
+      "purpose": "真实临时EVARS写入后丢回包，WPF模型保留本次恢复引用，阻止重发并明确恢复后解除unknown。",
+      "environment": "Windows x64 / NET10；临时合成文件、显式注入反例；未执行产品安装或AVEVA实机。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.PreparationWorkbench"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PreparationWorkbenchTests.ExplicitApplyConsumesFrozenPlanAndKeepsConditionRestoreReceiptAcrossDraftChanges",
+      "purpose": "明确授权消费一次冻结计划；草稿变化保留原恢复定位，恢复使用原回执。",
+      "environment": "Windows x64 / NET10；临时合成文件、显式注入反例；未执行产品安装或AVEVA实机。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.PreparationWorkbench"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PreparationWorkbenchTests.UnknownWriteNeverAutomaticallyReplaysAndBlocksNewExecutablePreview",
+      "purpose": "写入丢回包不自动重发，unknown阻止新执行计划与再次应用。",
+      "environment": "Windows x64 / NET10；临时合成文件、显式注入反例；未执行产品安装或AVEVA实机。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.PreparationWorkbench"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PreparationWorkbenchTests.PendingCallKeepsDraftAndPreventsDuplicateInvocationWhileReadingCanChange",
+      "purpose": "等待同一次调用时禁止改输入及重复发送，同时允许阅读阶段与栏目切换。",
+      "environment": "Windows x64 / NET10；临时合成文件、显式注入反例；未执行产品安装或AVEVA实机。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.PreparationWorkbench"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PreparationWorkbenchTests.MigrationPreviewAndOwnershipTransferKeepDistinctEffectsAndFrozenIdentities",
+      "purpose": "只读来源迁移预览与旧所有权写入分开，移交仅接受冻结引用且不伪造恢复操作。",
+      "environment": "Windows x64 / NET10；临时合成文件、显式注入反例；未执行产品安装或AVEVA实机。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.PreparationWorkbench"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PreparationWorkbenchTests.ExactInstalledDocumentationRejectsExternalEncodedAndEscapingTargets",
+      "purpose": "安装文档入口只接受存在的受限HTML页/锚点，拒绝外部URL、编码逃逸、查询串与目录穿越。",
+      "environment": "Windows x64 / NET10；临时合成文件、显式注入反例；未执行产品安装或AVEVA实机。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.DesktopDocumentationTarget"
+        }
+      ]
+    },
+    {
+      "test": "smoke:desktop-preparation",
+      "purpose": "原生安装到操作阶段、阅读和明确动作由同一准备模型保持，合成unknown具有可核对恢复出口。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.PreparationWorkbenchView"
+        },
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.PreparationWorkbench"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PreparationWorkbenchTests.HistoricalReceiptCannotClearLaterUnknownWithoutRecoveryIdentity",
+      "purpose": "第一次成功回执A不能清除后来无本次恢复引用的未知写入B，即使恢复A成功也保留B未知。",
+      "environment": "Windows x64 / NET10；临时合成文件、显式注入反例；未执行产品安装或AVEVA实机。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.PreparationWorkbench"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PreparationWorkbenchTests.NewUnknownReceiptCanBeRestoredWithoutConfusingHistoricalReceipt",
+      "purpose": "未知写入B返回自身planId/SHA时，恢复B可以清除该未知，不混用历史A身份。",
+      "environment": "Windows x64 / NET10；临时合成文件、显式注入反例；未执行产品安装或AVEVA实机。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.PreparationWorkbench"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PreparationWorkbenchTests.UnknownRestoreKeepsExactReceiptUntilItsSuccessfulConditionRestore",
+      "purpose": "恢复丢回包后保留同一回执身份；仅该回执的条件恢复成功解除未知。",
+      "environment": "Windows x64 / NET10；临时合成文件、显式注入反例；未执行产品安装或AVEVA实机。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.PreparationWorkbench"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopPresentationTests.SixIonPalettesCoverAllNativeBrushesAndKeepTextButtonsNavigationAndStatusReadable",
+      "purpose": "六套ION覆盖原生brush键，正文、按钮、选中导航与状态对比度至少4.5，RGBA到ARGB与同源JSON一致。",
+      "environment": "Windows x64 / NET10；临时合成文件、显式注入反例；未执行产品安装或AVEVA实机。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.DesktopPalettes"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.EvarsEditorTests.AlreadyRestoredFingerprintConfirmsLostReplyWithoutReplayingAndStillRejectsLaterEdits",
+      "purpose": "恢复丢回包时以原始内容指纹确认已恢复，不再次写入；后续编辑及无变更回执后的漂移仍拒绝。",
+      "environment": "Windows x64 / NET10；临时合成文件、显式注入反例；未执行产品安装或AVEVA实机。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Manager.Core::YuzuhaToolkit.Manager.EvarsEditor"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.EvarsOperationTests.WrongProductProfileIsRejectedWithoutWritingOrFreezingPlan",
+      "purpose": "服务端拒绝跨产品Host profile及错误框架；目标原字节不变且不生成冻结计划。",
+      "environment": "Windows x64 / NET10；临时合成文件、显式注入反例；未执行产品安装或AVEVA实机。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Manager.Core::YuzuhaToolkit.Manager.EvarsOperations"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.EvarsOperationTests.SupportedProductProfileCanPreviewApplyAndRestore",
+      "purpose": "四个真实支持profile使用同一映射，在临时环境预览、明确应用及逐字节恢复。",
+      "environment": "Windows x64 / NET10；临时合成文件、显式注入反例；未执行产品安装或AVEVA实机。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Manager.Core::YuzuhaToolkit.Manager.EvarsOperations"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.EvarsOperationTests.LegacyFrozenEditWithoutOwnershipContextRequiresNewPreview",
+      "purpose": "旧冻结编辑缺少新所有权上下文时拒绝应用并要求重新预览，保留原文件。",
+      "environment": "Windows x64 / NET10；临时合成文件、显式注入反例；未执行产品安装或AVEVA实机。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Manager.Core::YuzuhaToolkit.Manager.EvarsOperations"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.RuntimeDeploymentTests.PartialRestoreResumesAfterEnvironmentWasAlreadyRestoredAndConfirmsLostReply",
+      "purpose": "EVARS已恢复而载荷有外部冲突时保留现场，人工解决后同回执续行；重复确认原始文件及marker指纹，后续新编辑仍拒绝。",
+      "environment": "Windows x64 / NET10；临时合成文件、显式注入反例；未执行产品安装或AVEVA实机。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Manager.Core::YuzuhaToolkit.Manager.RuntimeDeploymentService"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.SetupHandoffTests.OwnedEnvironmentBlocksBothPreviewsUntilExplicitTransferThenAllowsApplyAndRestore",
+      "purpose": "部署与直接EVARS预览均拒绝旧Inno环境所有权；明确移交后才能应用并恢复，源环境原字节保持。",
+      "environment": "Windows x64 / NET10；临时合成文件、显式注入反例；未执行产品安装或AVEVA实机。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Manager.Core::YuzuhaToolkit.Manager.SetupEnvironmentOwnershipGuard"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.SetupHandoffTests.OwnershipReclaimedAfterPreviewBlocksBothApplyWithoutEnvironmentWrites",
+      "purpose": "预览后旧记录重新获得环境所有权时，两类apply重新核对并拒绝，原环境及运行根不变。",
+      "environment": "Windows x64 / NET10；临时合成文件、显式注入反例；未执行产品安装或AVEVA实机。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Manager.Core::YuzuhaToolkit.Manager.SetupEnvironmentOwnershipGuard"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.SetupHandoffTests.RegisteredOwnershipAndUnknownRecordsCannotBeBypassedByOmittingPackageRoot",
+      "purpose": "已登记根仍参与精确目标核对；省略来源不能绕过旧所有者，未知和缺失记录明确拒绝。",
+      "environment": "Windows x64 / NET10；临时合成文件、显式注入反例；未执行产品安装或AVEVA实机。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Manager.Core::YuzuhaToolkit.Manager.SetupEnvironmentOwnershipGuard"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PreparationWorkbenchTests.IncompatibleProductAndHostProfileNeverReachEvarsPreview",
+      "purpose": "原生模型共用权威产品/profile映射，四种错配在调用EVARS预览前就近拒绝。",
+      "environment": "Windows x64 / NET10；临时合成文件、显式注入反例；未执行产品安装或AVEVA实机。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.PreparationWorkbench"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PreparationWorkbenchTests.HistoricalRecoveryRequiredAndSuccessfulRestoreCannotClearLaterUnreferencedUnknown",
+      "purpose": "历史回执的部分恢复及随后成功不能清除后来无本次恢复引用的未知写入。",
+      "environment": "Windows x64 / NET10；临时合成文件、显式注入反例；未执行产品安装或AVEVA实机。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.PreparationWorkbench"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PreparationWorkbenchTests.RecoveryRequiredRestoreKeepsExactReceiptUntilSuccessfulRetry",
+      "purpose": "恢复返回RECOVERY_REQUIRED但mayHaveExecuted为false时仍绑定本次恢复身份，后续同回执成功解除门禁。",
+      "environment": "Windows x64 / NET10；临时合成文件、显式注入反例；未执行产品安装或AVEVA实机。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.PreparationWorkbench"
         }
       ]
     }

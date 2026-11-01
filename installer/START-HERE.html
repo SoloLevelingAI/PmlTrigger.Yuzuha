@@ -2,9 +2,10 @@
 <html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Phayton · Windows Setup</title>
 <style>body{font:17px/1.8 "Segoe UI","Microsoft YaHei",sans-serif;background:#f5f4ef;color:#202d30;margin:0}main{max-width:820px;margin:64px auto;padding:0 28px}h1{font-size:40px}a{color:#326956}</style>
-<main><small>PHAYTON / WINDOWS SETUP 0.3.4</small><h1>先预览，再连接。</h1>
-<p>部署原生 CLI、NET35/NET48 Host 与 PML，不启动 AVEVA、不执行 PML、不保存模型。</p>
-<h2>查看实际结果</h2><p>只有明确选择的环境与 Skill 才会接入。报告与备份位于 %LOCALAPPDATA%/YuzuhaToolkit/SetupReports。检查 result.md 后再重启客户端与 AVEVA。</p>
-<h2>让 AI 稍后接入</h2><p>阅读 <a href="INSTALL.md">INSTALL.md</a>，通过注册表定位目录，生成计划并展示前后预览，获准后执行 attach。Codex TOML 不作为 JSON 自动改写。</p>
-<h2>更新与卸载</h2><p>更新仍先预览。旧 PS1/preview1 目录不能直接覆盖。卸载检查外部修改，恢复原配置并保留非分发数据；复杂 INIT/BAT 需要人工审查。</p>
+<main><small>PHAYTON / WINDOWS SETUP 0.3.4.2</small><h1>安装应用，继续准备。</h1>
+<p>默认安装管理器、原生 CLI、NET35/NET48 Host 与 PML，再由管理器准备环境与部署。安装器不自动修改 EVARS、启动 AVEVA、执行 PML 或保存模型。</p>
+<h2>下一步：打开管理器</h2><p>完成页可用原交互用户打开环境准备任务。核对安装所有权，选择产品环境，审阅受管变量和部署路径，明确应用后查看回执；安装成功不表示 AVEVA 已接入。</p>
+<h2>查看实际结果</h2><p>安装报告与备份位于 %LOCALAPPDATA%/YuzuhaToolkit/SetupReports。manager 模式结果为 manager-preparation-required，旧显式 aveva 与 none 模式分别保留；真实启动和 Host 核验单独记录。</p>
+<h2>AI 与后续维护</h2><p>先阅读 <a href="INSTALL.md">INSTALL.md</a>，使用随包管理 CLI 的实际操作目录。所有写入按具体预览批准。可选 Skill 通过安装计划管理；本包不注册 MCP，也不自动改写 Codex TOML。</p>
+<h2>更新与卸载</h2><p>应用根归 Inno 所有，独立部署不能覆盖它。旧 EVARS 所有权先预览再明确移交；原记录和备份保留。更新仍先预览，未知格式、外部漂移或复杂 INIT/BAT 需要人工审查。</p>
 <p>English: read INSTALL.md for the shared human/AI plan-and-approve workflow. Reports and backups are retained. Unsigned Windows release; see VALIDATION.md for test scope.</p></main></html>

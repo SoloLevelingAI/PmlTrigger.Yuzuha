@@ -25,6 +25,14 @@ try {
     if ($LASTEXITCODE -ne 0) { throw 'DocFX tool restore failed.' }
     dotnet build src/YuzuhaToolkit.DevHost/YuzuhaToolkit.DevHost.csproj -c Release
     if ($LASTEXITCODE -ne 0) { throw 'DevHost build failed.' }
+    dotnet build src/YuzuhaToolkit.Manager.Cli/YuzuhaToolkit.Manager.Cli.csproj -c Release
+    if ($LASTEXITCODE -ne 0) { throw 'Manager CLI build failed.' }
+    node scripts/export-manager-contracts.mjs --check
+    if ($LASTEXITCODE -ne 0) { throw 'Actual manager contract export is stale.' }
+    node scripts/build-install-journey-docs.mjs --check
+    if ($LASTEXITCODE -ne 0) { throw 'Installation journey documentation is stale.' }
+    node scripts/build-ion-wpf-themes.mjs --check
+    if ($LASTEXITCODE -ne 0) { throw 'Native ION palettes are stale.' }
     node scripts/architecture.mjs check
     if ($LASTEXITCODE -ne 0) { throw 'Architecture projection is stale.' }
     npm run architecture:validate

@@ -84,7 +84,9 @@
         "verification:launch-offline",
         "verification:launch-entry-runtime",
         "verification:launch-cli-runtime",
-        "verification:sessions-dashboard-runtime"
+        "verification:sessions-dashboard-runtime",
+        "verification:install-journey-offline",
+        "verification:install-journey-ui"
       ],
       "audience": "internal"
     },
@@ -126,7 +128,10 @@
           "source:capabilities"
         ]
       },
-      "verificationIds": [],
+      "verificationIds": [
+        "verification:install-journey-offline",
+        "verification:install-journey-ui"
+      ],
       "audience": "internal"
     },
     {
@@ -8654,6 +8659,26 @@
       ]
     },
     {
+      "id": "edge:launch-verified-install-journey-offline",
+      "from": "feature:launch",
+      "to": "verification:install-journey-offline",
+      "relation": "verifiedBy",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:evidence"
+      ]
+    },
+    {
+      "id": "edge:launch-verified-install-journey-ui",
+      "from": "feature:launch",
+      "to": "verification:install-journey-ui",
+      "relation": "verifiedBy",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:evidence"
+      ]
+    },
+    {
       "id": "edge:project-deployment",
       "from": "project:pmltwin",
       "to": "feature:deployment",
@@ -8703,6 +8728,26 @@
       "basis": "explicit",
       "sourceRefs": [
         "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:deployment-verified-install-journey-offline",
+      "from": "feature:deployment",
+      "to": "verification:install-journey-offline",
+      "relation": "verifiedBy",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:evidence"
+      ]
+    },
+    {
+      "id": "edge:deployment-verified-install-journey-ui",
+      "from": "feature:deployment",
+      "to": "verification:install-journey-ui",
+      "relation": "verifiedBy",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:evidence"
       ]
     },
     {
@@ -9636,6 +9681,44 @@
       "evidenceIds": [
         "evidence:dashboard-session-health"
       ]
+    },
+    {
+      "id": "verification:install-journey-offline",
+      "scope": "offline",
+      "result": "passed",
+      "observedAt": "2026-11-01",
+      "environment": {
+        "product": "synthetic"
+      },
+      "claim": "安装交接、旧所有权、EVARS/部署与恢复专项35项通过；计入全仓575通过、2项可选7zr跳过，不相加。四profile真实SDK静态编译无vendor DLL。",
+      "exclusions": [
+        "未执行产品安装/升级/卸载或生产EVARS修改。",
+        "未加载本轮新Host到AVEVA；不沿用历史实机通过。",
+        "未登记且未提供的旧根不能声称已全机排除。",
+        "原平台业务未完成项和用户视觉认可保留。"
+      ],
+      "evidenceIds": [
+        "evidence:install-journey"
+      ]
+    },
+    {
+      "id": "verification:install-journey-ui",
+      "scope": "ui",
+      "result": "passed",
+      "observedAt": "2026-11-01",
+      "environment": {
+        "product": "synthetic"
+      },
+      "claim": "最终原生WPF发布程序31张工作流/六主题/三视口截图与旧工作区118张回归通过，150%主机DPI，绑定错误零；实际按钮核对交接、旧所有权与预览顺序，unknown按精确回执恢复。",
+      "exclusions": [
+        "界面后端回执为明确合成数据；真实临时后端文件验收单列。",
+        "不是生产安装或AVEVA实机全流程。",
+        "代理已目检，用户视觉认可未完成。",
+        "FigCraft为独立可编辑静态参考板，不代称WPF执行。"
+      ],
+      "evidenceIds": [
+        "evidence:install-journey"
+      ]
     }
   ],
   "evidence": [
@@ -9710,6 +9793,14 @@
       "sourceRef": "source:evidence-dashboard-session-health",
       "audience": "internal",
       "publication": "approved"
+    },
+    {
+      "id": "evidence:install-journey",
+      "kind": "report",
+      "title": "安装到工程操作：本轮离线、原生UI与SDK静态编译验收",
+      "sourceRef": "source:evidence-install-journey",
+      "audience": "internal",
+      "publication": "approved"
     }
   ],
   "sources": [
@@ -9725,7 +9816,7 @@
       "id": "source:capabilities",
       "title": "既有Feature与Script目录",
       "path": "docs/reference/capabilities.json",
-      "sha256": "5438cb4a844055893561efd99a8ee6263d2dfea486f8626c2779cc5197e56cf9",
+      "sha256": "2c23ed852d098a9429ae3b5269de3c643ccacdfa1fad3014669d6405d78f5e5e",
       "authority": "catalog",
       "audience": "internal"
     },
@@ -9749,7 +9840,7 @@
       "id": "source:evidence",
       "title": "独立人工审阅的只读证据账本",
       "path": "docs/contracts/evidence.json",
-      "sha256": "37017dd0bb1c81f70d2cfcf6ef8adf239c267adc41c0405e19fca9d31975b5cb",
+      "sha256": "23526c42fc80c23a758078e59b895d2e059f62e26b92c2c17df99e7ece01439c",
       "authority": "evidence",
       "audience": "internal"
     },
@@ -9789,7 +9880,7 @@
       "id": "source:openspec-tasks",
       "title": "平台候选tasks",
       "path": "openspec/changes/integrate-pmltwin-product-platform/tasks.md",
-      "sha256": "9f94abd3c3efb278713ca1574c381873082b8f730680ad1b7ca21f9109998c4b",
+      "sha256": "3a72c3e0ceaec7ee408178f8241c62fc56893dd13b7c7fec6da0c9290fa783e5",
       "authority": "proposal",
       "audience": "internal"
     },
@@ -9878,6 +9969,14 @@
       "title": "Dashboard只读会话灯态与限定实机验收（历史）",
       "path": "docs/validation/dashboard-session-health-2026-11-01.json",
       "sha256": "e8ee106662801a92febcbbd7f9a788fd484d83733ab05a3e53304191348c448a",
+      "authority": "evidence",
+      "audience": "internal"
+    },
+    {
+      "id": "source:evidence-install-journey",
+      "title": "安装到工程操作：本轮离线、原生UI与SDK静态编译验收",
+      "path": "docs/validation/install-to-operation-2026-11-01.json",
+      "sha256": "e81eff4ce33dc2700ff7483c83a4507f3097a8e4ea3c2738e580663050320ae6",
       "authority": "evidence",
       "audience": "internal"
     }

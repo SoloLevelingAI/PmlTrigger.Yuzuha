@@ -125,20 +125,25 @@ public static class EvarsEditor
         finally { if (System.IO.File.Exists(temporary)) System.IO.File.Delete(temporary); }
     }
 
-    /// <summary>只恢复仍等于本次写入内容的文件；外部修改和备份损坏拒绝覆盖。</summary>
+    /// <summary>仅恢复本次写入内容；原始指纹已恢复时确认成功，其他外部修改和备份损坏拒绝覆盖。</summary>
     public static void Restore(EvarsEditReceipt receipt)
     {
-        if (receipt.BeforeHash == receipt.AfterHash) return;
         PathRules.NoLinks(receipt.File);
+        var current = Hash(System.IO.File.ReadAllBytes(receipt.File));
+        // A lost reply or partial multi-file recovery can leave this file already
+        // restored. Confirm the exact original bytes without replaying a write.
+        if (current == receipt.BeforeHash) return;
         if (receipt.BackupFile is null) throw new IOException("缺少原文件备份。");
         PathRules.NoLinks(receipt.BackupFile);
-        if (Hash(System.IO.File.ReadAllBytes(receipt.File)) != receipt.AfterHash ||
+        if (current != receipt.AfterHash ||
             Hash(System.IO.File.ReadAllBytes(receipt.BackupFile)) != receipt.BeforeHash)
             throw new IOException("环境文件或备份已变化，保留现场并拒绝恢复覆盖。");
         var temporary = receipt.File + ".restore-" + Guid.NewGuid().ToString("N") + ".tmp";
         try
         {
             System.IO.File.Copy(receipt.BackupFile, temporary, false);
+            if (Hash(System.IO.File.ReadAllBytes(temporary)) != receipt.BeforeHash)
+                throw new IOException("备份在读取期间变化，未覆盖环境文件。");
             if (Hash(System.IO.File.ReadAllBytes(receipt.File)) != receipt.AfterHash)
                 throw new IOException("恢复前环境文件已变化。");
             System.IO.File.Replace(temporary, receipt.File, null);

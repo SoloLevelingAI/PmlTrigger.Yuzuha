@@ -13,7 +13,9 @@ public partial class App : Application
         base.OnStartup(e);
         var option = Array.IndexOf(e.Args, "--smoke-output");
         var launchOnly = Array.IndexOf(e.Args, "--launch-lifecycle-smoke-output");
+        var preparationOnly = Array.IndexOf(e.Args, "--preparation-smoke-output");
         if (launchOnly >= 0) option = launchOnly;
+        if (preparationOnly >= 0) option = preparationOnly;
         TextWriterTraceListener? bindingTrace = null;
         try
         {
@@ -28,9 +30,17 @@ public partial class App : Application
                 PresentationTraceSources.DataBindingSource.Listeners.Add(bindingTrace);
             }
             var window = new MainWindow(); MainWindow = window; window.Show();
+            if (e.Args.Contains("--prepare-installation"))
+            {
+                var handoff = Array.IndexOf(e.Args, "--handoff");
+                if (handoff >= 0 && handoff + 1 >= e.Args.Length) throw new ArgumentException("--handoff需要已安装工具包根目录。");
+                var root = handoff >= 0 ? e.Args[handoff + 1] : YuzuhaToolkit.Workspace.HtmlAppLauncher.FindRoot();
+                window.OpenPreparation(root);
+            }
             if (option >= 0)
             {
-                if (launchOnly >= 0) await window.RunLaunchLifecycleSmokeAsync(e.Args[option + 1]);
+                if (preparationOnly >= 0) await window.RunPreparationSmokeAsync(e.Args[option + 1]);
+                else if (launchOnly >= 0) await window.RunLaunchLifecycleSmokeAsync(e.Args[option + 1]);
                 else await window.RunSmokeAsync(e.Args[option + 1]);
                 bindingTrace!.Flush(); bindingTrace.Dispose(); PresentationTraceSources.DataBindingSource.Listeners.Remove(bindingTrace);
                 if (new System.IO.FileInfo(System.IO.Path.Combine(e.Args[option + 1], "binding-errors.log")).Length > 0) throw new InvalidOperationException("WPF 数据绑定产生错误，请检查 binding-errors.log。");

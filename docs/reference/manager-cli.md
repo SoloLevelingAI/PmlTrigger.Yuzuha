@@ -1,6 +1,8 @@
 # Yuzuha 管理器 CLI
 
-管理器 CLI 已提供启动配置、目录状态、通信入口、EVARS 预览/恢复、运行目录部署、数据迁移、版本隔离知识库及可选插件入口。实时 AVEVA 通信经过独立 `PmlTwin.Phayton.Cli` 子进程。既有 WPF 会话/开发流程已转接该边界；新的管理页面、设计和实机验收仍见 OpenSpec 未勾选项，不能据 CLI 已有接口推断 GUI 已交付。
+管理器 CLI 已提供启动配置、目录状态、通信入口、EVARS 预览/恢复、运行目录部署、数据迁移、版本隔离知识库及可选插件入口。实时 AVEVA 通信经过独立 `PmlTwin.Phayton.Cli` 子进程。WPF“安装与环境准备”已复用同一执行器；[完整八阶段契约](install-to-operation.zh-CN.md)关联脚本、DocFX、原生页面和验收边界。更广的管理页面与跨产品实机验收仍按OpenSpec逐项登记。
+
+安装包管理入口为 `runtime/manager/Yuzuha.Manager.Cli.exe`；`op invoke manager.contracts --input-stdin` 可读取实际契约和操作目录。只读HTTP元数据、OpenAPI及TS/JS适配的生成来源和授权边界见完整契约；安装后docs-only文档宿主不开放开发API。
 
 ## 开发运行
 
@@ -58,6 +60,8 @@ EVARS 输入示例保存为 JSON 文件，用 `op invoke evars.preview --input-f
 ```
 
 `evars.apply` 返回另一份回执引用，供 `evars.restore` 条件恢复。`deployment.preview` 输入还需 `packageRoot` 和 `mode`（`copy` 或 `reference`）；copy 按包清单复制 PMLLIB/PMLUI/runtime，reference 要求 runtimeRoot 等于 packageRoot。两者均检查 bootstrap 的根目录识别、产品 profile/framework，并修改生效的环境文件。恢复使用 `deployment.restore` 的回执引用，外部新改动会列为未恢复，不会被强行覆盖。
+
+`setup.handoff.inspect` 只读核对安装清单及所有权。`setup.legacy.preview` 冻结所选旧v2环境记录，`setup.legacy.transfer` 经写入授权仅移交该环境的旧卸载所有权；保留原记录备份，不写EVARS，不支持格式或漂移时拒绝。写入或恢复丢回包保留 `mayHaveExecuted`；有回执时按本次引用核查恢复，无回执时保留人工备份定位，不自动重试。
 
 安装根中的有效 INIT 优先于 BAT；不猜测多候选文件，无法读取不会当作不存在。编辑保留 BOM、代码页和换行；无 BOM 的非 ASCII 路径须指定代码页。部署不会打包活动库、个人资料或未登记的文件。实际安装另需具体预览和占用核对，合成示例不会修改本机 AVEVA。
 

@@ -3,6 +3,8 @@
 - name: 使用
   href: workspace.md
   items:
+  - name: 从安装到工程操作（完整契约）
+    href: install-to-operation.zh-CN.md
   - name: 工作台
     href: workspace.md
   - name: 安装与更新

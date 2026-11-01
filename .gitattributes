@@ -12,6 +12,9 @@
 *.ps1 text eol=lf
 *.psm1 text eol=lf
 *.mjs text eol=lf
+*.ts text eol=lf
+*.mts text eol=lf
+src/YuzuhaToolkit.Desktop/Themes/Ion-*.xaml text eol=lf
 *.json text eol=lf
 *.js text eol=lf
 *.cjs text eol=lf

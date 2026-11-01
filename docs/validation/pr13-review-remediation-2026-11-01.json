@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-11-01",
+  "baseline": "578c1e0c86133fc50c6288dba023ad72bf4cf117",
+  "scope": "PR13 CI repair, historical launch/session evidence linkage and read-only ION UI; no new AVEVA live action",
+  "local": {
+    "sdk": "10.0.302",
+    "commentGate": {
+      "missing": 0,
+      "types": 552,
+      "syntaxErrors": 0,
+      "projects": 26
+    },
+    "development": {
+      "parser": 8,
+      "tomlLifecycle": 15,
+      "offlinePml": 6,
+      "documentationNodePassed": 54,
+      "skipReason": "Optional external 7zr tool absent",
+      "skipped": 2,
+      "jsonLifecycle": 15,
+      "passed": 530
+    },
+    "contracts": {
+      "failed": 0,
+      "browser": "explicit msedge",
+      "compactGroups": 5,
+      "isolatedMethodFixture": true,
+      "skipped": 0,
+      "readerGroups": 9,
+      "publicLayouts": 37,
+      "passed": 65,
+      "realMethodReading": {
+        "methods": 393,
+        "edges": 1485,
+        "inlineChecks": 8,
+        "themeCaptures": 12,
+        "scope": "Actual static Roslyn/DocFX and isolated publication; not runtime AVEVA"
+      }
+    },
+    "wpf": {
+      "passed": true,
+      "avevaLive": false,
+      "screenshots": 118,
+      "pages": 12,
+      "errorStates": 4,
+      "bindingErrors": 0,
+      "themes": 2
+    },
+    "documentation": {
+      "status": "passed",
+      "warnings": 0,
+      "errors": 0,
+      "htmlPages": 3256,
+      "checkedLocalLinks": 80514,
+      "missingTestPurposesFixed": 34,
+      "uiBoundary": "All controls retained with exact resolved handler identity"
+    },
+    "workingTreeDirty": true
+  },
+  "evidence": {
+    "sources": 9,
+    "featureTotal": 18,
+    "historical": true,
+    "launch": 4,
+    "notRegisteredFeatures": 12,
+    "verifications": 13,
+    "coveredFeatures": 6,
+    "sessions": 5
+  },
+  "remaining": {
+    "platformBusinessTasks": 27,
+    "scriptIndependentAcceptance": "not registered",
+    "rollbackExercise": "not run",
+    "crossProductLive": "not run",
+    "openSpecCli": "not run: unavailable; temporary remote npm execution rejected by automatic approval",
+    "trueDisconnect": "not run",
+    "humanVisualReview": "not reviewed"
+  },
+  "cloud": {
+    "status": "pending push"
+  },
+  "logs": [
+    {
+      "path": "artifacts/pr13-review-comment-check.log",
+      "sha256": "e98037a442adcca55475f905edc66fc8ed27c4d3479edc6977ebd4a8bd5e1b1f"
+    },
+    {
+      "path": "artifacts/pr13-review-development.log",
+      "sha256": "ef4a534f532d59fbf89471fe38b23792b1a80f42fe737d35f5ddde2c6c7f6eaf"
+    },
+    {
+      "path": "artifacts/pr13-review-documentation.log",
+      "sha256": "033bd2e58f1f77b20975790f1eb2f50f0411e23e61821711288d45497614093b"
+    },
+    {
+      "path": "artifacts/pr13-review-wpf.log",
+      "sha256": "d8fd1c543cd9ca69b574bc440d9e753d0133593f98b156097ff7cae1ed0c805e"
+    },
+    {
+      "path": "artifacts/pr13-review-browser.log",
+      "sha256": "8b2080887b14afdb30987a553abdb90d49283f3a3f4d4456eff973a03f2d4fb8"
+    }
+  ],
+  "finishedLocalUtc": "2026-11-01T13:31:13.7752541Z"
+}

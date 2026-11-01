@@ -4,27 +4,41 @@ using YuzuhaToolkit.Mcp;
 
 namespace YuzuhaToolkit.Desktop;
 
+/// <summary>只读会话监测状态；发现、身份可用、失败与证据过期分别表示。</summary>
 internal enum DashboardSessionState { None, Checking, Detected, Available, Failed, Expired }
+/// <summary>按 PID 与启动时间标识的会话证据，保留管道、模块、协议及核验时点。</summary>
 internal sealed record DashboardSessionHealth(int ProcessId, long StartTicks, string Product, string Project,
     string PipeName, string? Module, DashboardSessionState State, string Reason, DateTimeOffset ObservedAt,
     DateTimeOffset? VerifiedAt, bool Discovered, int FormQueryVersion = 0, int BoundedArrayReadVersion = 0)
 {
+    /// <summary>当前证据是否仍处于已核验可用状态，不代表已选为操作目标。</summary>
     public bool IsAvailable => State == DashboardSessionState.Available;
+    /// <summary>供界面显示的监测状态说明。</summary>
     public string StateText => State switch { DashboardSessionState.Available => "Host 可用 · 身份已核验", DashboardSessionState.Checking => "正在只读核验", DashboardSessionState.Detected => "发现会话 · Host 未就绪", DashboardSessionState.Expired => "核验已过期", DashboardSessionState.Failed => "Host 不可用", _ => "尚未核验" };
+    /// <summary>按本地时间显示本次观察时刻。</summary>
     public string ObservedText => ObservedAt.ToLocalTime().ToString("HH:mm:ss");
 }
+/// <summary>一次监测代次的会话集合及发现错误，与工作台的显式目标选择独立。</summary>
 internal sealed record DashboardHealthSnapshot(long Generation, DateTimeOffset ObservedAt,
     DashboardSessionHealth[] Sessions, string? Error = null, bool IsRefreshing = false)
 {
+    /// <summary>当前集合中具有可用身份与协议证据的会话数量。</summary>
     public int AvailableCount => Sessions.Count(row => row.IsAvailable);
+    /// <summary>按可用、失败、已发现和无会话优先级汇总灯态。</summary>
     public DashboardSessionState State => AvailableCount > 0 ? DashboardSessionState.Available : Sessions.Any(row => row.State is DashboardSessionState.Failed or DashboardSessionState.Expired) ? DashboardSessionState.Failed : Error is not null || Sessions.Length > 0 ? DashboardSessionState.Detected : DashboardSessionState.None;
+    /// <summary>汇总可用数量、发现错误或当前无可用 Host 的说明。</summary>
     public string Summary => AvailableCount > 0 ? $"{AvailableCount} 个 Host 可用 · 身份已核验" : Error ?? (Sessions.Length == 0 ? "未发现运行中的工程会话" : "已发现会话，尚无可用 Host");
+    /// <summary>尚未执行监测时使用的空快照。</summary>
     public static DashboardHealthSnapshot Empty { get; } = new(0, DateTimeOffset.MinValue, []);
 }
+/// <summary>独立通信 CLI 返回的协议版本及目标身份核验结果。</summary>
 internal sealed record DashboardProbeReply(int ProtocolVersion, YuzuhaConnectionStatus Status);
+/// <summary>提供只读会话发现与身份探测，不持有工作台的操作目标。</summary>
 internal interface IDashboardSessionProbe
 {
+    /// <summary>在取消预算内列出当前会话候选，不选择操作目标。</summary>
     Task<AvevaSessionListResponse> DiscoverAsync(CancellationToken token);
+    /// <summary>核对候选的 PID、启动时间及预期模块并返回原始身份回执。</summary>
     Task<DashboardProbeReply> ProbeAsync(AvevaSessionCandidate candidate, string? expectedModule, CancellationToken token);
 }
 
@@ -40,8 +54,11 @@ internal sealed class DashboardSessionMonitor(IDashboardSessionProbe probe, Func
     private DashboardHealthSnapshot current = DashboardHealthSnapshot.Empty;
     private int busy, disposed;
     private long generation;
+    /// <summary>发布当前代次的快照；订阅方负责切回界面线程。</summary>
     internal event Action<DashboardHealthSnapshot>? Updated;
+    /// <summary>是否已有一次发现及探测正在进行，防止重叠轮询。</summary>
     internal bool IsPolling => Volatile.Read(ref busy) != 0;
+    /// <summary>读取当前快照并按新鲜期撤销过期的可用状态。</summary>
     internal DashboardHealthSnapshot Snapshot => Fresh(Volatile.Read(ref current));
     private static string Key(int pid, long ticks) => pid + ":" + ticks;
     private DashboardHealthSnapshot Fresh(DashboardHealthSnapshot snapshot)
@@ -55,6 +72,7 @@ internal sealed class DashboardSessionMonitor(IDashboardSessionProbe probe, Func
         if (Volatile.Read(ref disposed) != 0 || snapshot.Generation != Volatile.Read(ref generation)) return;
         Volatile.Write(ref current, snapshot); Updated?.Invoke(Fresh(snapshot));
     }
+    /// <summary>在数量、并发和超时预算内完成一轮只读监测；失败撤销旧绿灯，不执行 PML。</summary>
     internal async Task<bool> PollAsync(CancellationToken token = default)
     {
         if (Volatile.Read(ref disposed) != 0 || Interlocked.CompareExchange(ref busy, 1, 0) != 0) return false;
@@ -123,5 +141,6 @@ internal sealed class DashboardSessionMonitor(IDashboardSessionProbe probe, Func
         }
         catch (Exception error) { return Row(candidate, pin.Module is null ? DashboardSessionState.Detected : DashboardSessionState.Failed, error is OperationCanceledException or TimeoutException ? "Host 只读核验超时/取消，未保持旧绿。" : "Host 只读核验失败：" + error.Message, pin.Module); }
     }
+    /// <summary>取消监测并使在途代次失效，阻止关闭后的回执继续发布。</summary>
     public void Dispose() { if (Interlocked.Exchange(ref disposed, 1) != 0) return; Interlocked.Increment(ref generation); lifetime.Cancel(); }
 }

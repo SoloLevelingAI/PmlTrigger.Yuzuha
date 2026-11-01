@@ -1,7 +1,7 @@
 globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
   "schema": "contract-atlas-render/1",
   "schemaVersion": 1,
-  "metadataDigest": "b20eca32303344af00679aab7857c1b96a2011962a97ba12c43403535fb8783f",
+  "metadataDigest": "d558b57d3cb18de948bd54803948383e4c3e92320da35040ae220288cf1becd6",
   "audience": "public",
   "snapshotDate": "2026-11-01",
   "project": {
@@ -395,6 +395,171 @@ globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
             "evidence:caf"
           ],
           "environmentText": "产品：CAF"
+        },
+        {
+          "id": "verification:launch-offline",
+          "scope": "offline",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。",
+          "exclusions": [
+            "历史报告，不代表本轮重新执行或当前源码全部通过",
+            "可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加",
+            "不包含安装升级、回退、断电与完整跨产品任务验收"
+          ],
+          "evidenceIds": [
+            "evidence:launch-workflow"
+          ],
+          "environmentText": "产品：synthetic"
+        },
+        {
+          "id": "verification:launch-entry-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。",
+          "exclusions": [
+            "仅启动入口及观察边界通过，首次严格Host核验失败另列",
+            "原启动回执hostVerification=unverified，后续外部核验不追写旧回执",
+            "历史实机记录，不证明当前环境在线，不外推其他产品或版本"
+          ],
+          "evidenceIds": [
+            "evidence:launch-workflow"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:sessions-initial-host",
+          "scope": "runtime",
+          "result": "failed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "首次启动后严格expectedModel核验因Host报Unknown而拒绝；保留E3D_TARGET_MODEL_MISMATCH失败，不以窗口或管道可见替代身份成功。",
+          "exclusions": [
+            "这是后续修复前的历史失败，不表示后续两次严格验收也失败",
+            "未放宽模块核验，未在该次失败会话执行PML",
+            "不将失败历史覆盖为后来成功"
+          ],
+          "evidenceIds": [
+            "evidence:launch-workflow"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:sessions-bootstrap-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "定向更新启动PML后严格DESIGN身份TargetVerified通过；两次内置有界读取返回OK，原始身份回执保留。",
+          "exclusions": [
+            "该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过",
+            "未核验进程实际加载程序集的文件摘要，未执行回退演练",
+            "历史限定会话，不证明当前环境在线或其他产品可用"
+          ],
+          "evidenceIds": [
+            "evidence:host-bootstrap"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:launch-cli-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。",
+          "exclusions": [
+            "仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式",
+            "启动回执与独立Host验收分别判定，不补写旧启动回执",
+            "定向开发修复不代表正式安装包升级或回退验收"
+          ],
+          "evidenceIds": [
+            "evidence:cli-host-compatibility"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:sessions-host-v1-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "定向更新Host后严格身份及两项查询V1协议通过；限定数组续页、Form/Gadget分页、预算拒绝和无回调副作用断言通过。",
+          "exclusions": [
+            "历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过",
+            "不外推AM、PDMS、其他E3D版本或模块",
+            "未执行回退演练；前四次失败和旧协议0历史分别保留"
+          ],
+          "evidenceIds": [
+            "evidence:cli-host-compatibility"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:sessions-dashboard-offline",
+          "scope": "offline",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "Dashboard会话模型与监测38项隔离测试通过，0失败0跳过；覆盖失联、超时、过期、身份变化及旧结果清理。",
+          "exclusions": [
+            "历史隔离测试，不代表本轮新执行或真实断线验证",
+            "未强制断开正在使用的真实E3D会话",
+            "不证明部署、许可、业务查询或执行授权通过"
+          ],
+          "evidenceIds": [
+            "evidence:dashboard-session-health"
+          ],
+          "environmentText": "产品：synthetic"
+        },
+        {
+          "id": "verification:sessions-dashboard-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。",
+          "exclusions": [
+            "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
+            "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
+            "真实断线未强制测试；未调用PML执行工具或写工程模型",
+            "其余27项平台业务任务保留未完成"
+          ],
+          "evidenceIds": [
+            "evidence:dashboard-session-health"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
         }
       ],
       "limitations": [
@@ -417,17 +582,21 @@ globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
         "source:evidence-ribbon-ui",
         "source:evidence-ribbon-runtime",
         "source:evidence-database",
-        "source:evidence-caf"
+        "source:evidence-caf",
+        "source:evidence-launch-workflow",
+        "source:evidence-host-bootstrap",
+        "source:evidence-cli-host-compatibility",
+        "source:evidence-dashboard-session-health"
       ],
       "props": {},
       "text": {
-        "body": "项目任务：让发现、配置、受控执行和证据围绕同一任务协作。\n判断边界：规范状态、实现范围、证据分别判断；展示关系不是运行轨迹。\n规范：R01 planned · R02 verified · R03 verified · R04 verified · R05 verified · R06 verified · R07 planned · R08 partial · R09 partial · R10 partial · R11 partial · R12 planned · R13 verified · R14 verified · R15 verified · R16 verified · R17 verified · R18 verified · R19 partial · R20 planned · R21 verified · R22 verified · R23 verified · R24 verified\n证据：offline / passed · 2026-10-31 · 产品：synthetic\n三格式只读预览与敏感剔除专测14项通过。\n未涵盖：没有执行数据库切换\n\nui / passed · 2026-10-31 · 产品：synthetic\n离线53项通过，Web DOM完整apply；原生WPF仅预览，Apply由HTTP客户端验证。\n未涵盖：不是UI全程实机验收；首次新建仍为v1兼容\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n限定产品正常重启后实际页签、分组、32/16图标与Tooltip通过。\n未涵盖：未点击宏；直接HTTP部署，不是UI全程；不外推其他产品与模块\n\noffline / passed · 2026-10-31 · 产品：synthetic\n独立修订存储及冲突、回滚、格式门禁有隔离测试。\n未涵盖：未整体切换活动存储\n\nstatic / passed · 2026-10-31 · 产品：CAF\n真实SDK接口编译与生命周期隔离核查。\n未涵盖：未真实注册宿主；未界面挂载",
+        "body": "项目任务：让发现、配置、受控执行和证据围绕同一任务协作。\n判断边界：规范状态、实现范围、证据分别判断；展示关系不是运行轨迹。\n规范：R01 planned · R02 verified · R03 verified · R04 verified · R05 verified · R06 verified · R07 planned · R08 partial · R09 partial · R10 partial · R11 partial · R12 planned · R13 verified · R14 verified · R15 verified · R16 verified · R17 verified · R18 verified · R19 partial · R20 planned · R21 verified · R22 verified · R23 verified · R24 verified\n证据：offline / passed · 2026-10-31 · 产品：synthetic\n三格式只读预览与敏感剔除专测14项通过。\n未涵盖：没有执行数据库切换\n\nui / passed · 2026-10-31 · 产品：synthetic\n离线53项通过，Web DOM完整apply；原生WPF仅预览，Apply由HTTP客户端验证。\n未涵盖：不是UI全程实机验收；首次新建仍为v1兼容\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n限定产品正常重启后实际页签、分组、32/16图标与Tooltip通过。\n未涵盖：未点击宏；直接HTTP部署，不是UI全程；不外推其他产品与模块\n\noffline / passed · 2026-10-31 · 产品：synthetic\n独立修订存储及冲突、回滚、格式门禁有隔离测试。\n未涵盖：未整体切换活动存储\n\nstatic / passed · 2026-10-31 · 产品：CAF\n真实SDK接口编译与生命周期隔离核查。\n未涵盖：未真实注册宿主；未界面挂载\n\noffline / passed · 2026-10-31 · 产品：synthetic\n启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。\n未涵盖：历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。\n未涵盖：仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本\n\nruntime / failed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n首次启动后严格expectedModel核验因Host报Unknown而拒绝；保留E3D_TARGET_MODEL_MISMATCH失败，不以窗口或管道可见替代身份成功。\n未涵盖：这是后续修复前的历史失败，不表示后续两次严格验收也失败；未放宽模块核验，未在该次失败会话执行PML；不将失败历史覆盖为后来成功\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n定向更新启动PML后严格DESIGN身份TargetVerified通过；两次内置有界读取返回OK，原始身份回执保留。\n未涵盖：该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过；未核验进程实际加载程序集的文件摘要，未执行回退演练；历史限定会话，不证明当前环境在线或其他产品可用\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。\n未涵盖：仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n定向更新Host后严格身份及两项查询V1协议通过；限定数组续页、Form/Gadget分页、预算拒绝和无回调副作用断言通过。\n未涵盖：历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过；不外推AM、PDMS、其他E3D版本或模块；未执行回退演练；前四次失败和旧协议0历史分别保留\n\noffline / passed · 2026-11-01 · 产品：synthetic\nDashboard会话模型与监测38项隔离测试通过，0失败0跳过；覆盖失联、超时、过期、身份变化及旧结果清理。\n未涵盖：历史隔离测试，不代表本轮新执行或真实断线验证；未强制断开正在使用的真实E3D会话；不证明部署、许可、业务查询或执行授权通过\n\nruntime / passed · 2026-11-01 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。\n未涵盖：仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成",
         "status": "规范 / 实现 / 证据三轴独立",
-        "limit": "本图谱不执行登录、部署或宏，不是第二份生效规范；没有执行数据库切换；不是UI全程实机验收；首次新建仍为v1兼容；未点击宏；直接HTTP部署，不是UI全程；不外推其他产品与模块；未整体切换活动存储；未真实注册宿主；未界面挂载"
+        "limit": "本图谱不执行登录、部署或宏，不是第二份生效规范；没有执行数据库切换；不是UI全程实机验收；首次新建仍为v1兼容；未点击宏；直接HTTP部署，不是UI全程；不外推其他产品与模块；未整体切换活动存储；未真实注册宿主；未界面挂载；历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收；仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本；这是后续修复前的历史失败，不表示后续两次严格验收也失败；未放宽模块核验，未在该次失败会话执行PML；不将失败历史覆盖为后来成功；该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过；未核验进程实际加载程序集的文件摘要，未执行回退演练；历史限定会话，不证明当前环境在线或其他产品可用；仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收；历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过；不外推AM、PDMS、其他E3D版本或模块；未执行回退演练；前四次失败和旧协议0历史分别保留；历史隔离测试，不代表本轮新执行或真实断线验证；未强制断开正在使用的真实E3D会话；不证明部署、许可、业务查询或执行授权通过；仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成"
       },
-      "body": "项目任务：让发现、配置、受控执行和证据围绕同一任务协作。\n判断边界：规范状态、实现范围、证据分别判断；展示关系不是运行轨迹。\n规范：R01 planned · R02 verified · R03 verified · R04 verified · R05 verified · R06 verified · R07 planned · R08 partial · R09 partial · R10 partial · R11 partial · R12 planned · R13 verified · R14 verified · R15 verified · R16 verified · R17 verified · R18 verified · R19 partial · R20 planned · R21 verified · R22 verified · R23 verified · R24 verified\n证据：offline / passed · 2026-10-31 · 产品：synthetic\n三格式只读预览与敏感剔除专测14项通过。\n未涵盖：没有执行数据库切换\n\nui / passed · 2026-10-31 · 产品：synthetic\n离线53项通过，Web DOM完整apply；原生WPF仅预览，Apply由HTTP客户端验证。\n未涵盖：不是UI全程实机验收；首次新建仍为v1兼容\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n限定产品正常重启后实际页签、分组、32/16图标与Tooltip通过。\n未涵盖：未点击宏；直接HTTP部署，不是UI全程；不外推其他产品与模块\n\noffline / passed · 2026-10-31 · 产品：synthetic\n独立修订存储及冲突、回滚、格式门禁有隔离测试。\n未涵盖：未整体切换活动存储\n\nstatic / passed · 2026-10-31 · 产品：CAF\n真实SDK接口编译与生命周期隔离核查。\n未涵盖：未真实注册宿主；未界面挂载",
+      "body": "项目任务：让发现、配置、受控执行和证据围绕同一任务协作。\n判断边界：规范状态、实现范围、证据分别判断；展示关系不是运行轨迹。\n规范：R01 planned · R02 verified · R03 verified · R04 verified · R05 verified · R06 verified · R07 planned · R08 partial · R09 partial · R10 partial · R11 partial · R12 planned · R13 verified · R14 verified · R15 verified · R16 verified · R17 verified · R18 verified · R19 partial · R20 planned · R21 verified · R22 verified · R23 verified · R24 verified\n证据：offline / passed · 2026-10-31 · 产品：synthetic\n三格式只读预览与敏感剔除专测14项通过。\n未涵盖：没有执行数据库切换\n\nui / passed · 2026-10-31 · 产品：synthetic\n离线53项通过，Web DOM完整apply；原生WPF仅预览，Apply由HTTP客户端验证。\n未涵盖：不是UI全程实机验收；首次新建仍为v1兼容\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n限定产品正常重启后实际页签、分组、32/16图标与Tooltip通过。\n未涵盖：未点击宏；直接HTTP部署，不是UI全程；不外推其他产品与模块\n\noffline / passed · 2026-10-31 · 产品：synthetic\n独立修订存储及冲突、回滚、格式门禁有隔离测试。\n未涵盖：未整体切换活动存储\n\nstatic / passed · 2026-10-31 · 产品：CAF\n真实SDK接口编译与生命周期隔离核查。\n未涵盖：未真实注册宿主；未界面挂载\n\noffline / passed · 2026-10-31 · 产品：synthetic\n启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。\n未涵盖：历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。\n未涵盖：仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本\n\nruntime / failed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n首次启动后严格expectedModel核验因Host报Unknown而拒绝；保留E3D_TARGET_MODEL_MISMATCH失败，不以窗口或管道可见替代身份成功。\n未涵盖：这是后续修复前的历史失败，不表示后续两次严格验收也失败；未放宽模块核验，未在该次失败会话执行PML；不将失败历史覆盖为后来成功\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n定向更新启动PML后严格DESIGN身份TargetVerified通过；两次内置有界读取返回OK，原始身份回执保留。\n未涵盖：该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过；未核验进程实际加载程序集的文件摘要，未执行回退演练；历史限定会话，不证明当前环境在线或其他产品可用\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。\n未涵盖：仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n定向更新Host后严格身份及两项查询V1协议通过；限定数组续页、Form/Gadget分页、预算拒绝和无回调副作用断言通过。\n未涵盖：历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过；不外推AM、PDMS、其他E3D版本或模块；未执行回退演练；前四次失败和旧协议0历史分别保留\n\noffline / passed · 2026-11-01 · 产品：synthetic\nDashboard会话模型与监测38项隔离测试通过，0失败0跳过；覆盖失联、超时、过期、身份变化及旧结果清理。\n未涵盖：历史隔离测试，不代表本轮新执行或真实断线验证；未强制断开正在使用的真实E3D会话；不证明部署、许可、业务查询或执行授权通过\n\nruntime / passed · 2026-11-01 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。\n未涵盖：仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成",
       "status": "规范 / 实现 / 证据三轴独立",
-      "limit": "本图谱不执行登录、部署或宏，不是第二份生效规范；没有执行数据库切换；不是UI全程实机验收；首次新建仍为v1兼容；未点击宏；直接HTTP部署，不是UI全程；不外推其他产品与模块；未整体切换活动存储；未真实注册宿主；未界面挂载",
+      "limit": "本图谱不执行登录、部署或宏，不是第二份生效规范；没有执行数据库切换；不是UI全程实机验收；首次新建仍为v1兼容；未点击宏；直接HTTP部署，不是UI全程；不外推其他产品与模块；未整体切换活动存储；未真实注册宿主；未界面挂载；历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收；仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本；这是后续修复前的历史失败，不表示后续两次严格验收也失败；未放宽模块核验，未在该次失败会话执行PML；不将失败历史覆盖为后来成功；该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过；未核验进程实际加载程序集的文件摘要，未执行回退演练；历史限定会话，不证明当前环境在线或其他产品可用；仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收；历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过；不外推AM、PDMS、其他E3D版本或模块；未执行回退演练；前四次失败和旧协议0历史分别保留；历史隔离测试，不代表本轮新执行或真实断线验证；未强制断开正在使用的真实E3D会话；不证明部署、许可、业务查询或执行授权通过；仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成",
       "evidence": [
         {
           "id": "verification:migration-offline",
@@ -519,6 +688,171 @@ globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
             "evidence:caf"
           ],
           "environmentText": "产品：CAF"
+        },
+        {
+          "id": "verification:launch-offline",
+          "scope": "offline",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。",
+          "exclusions": [
+            "历史报告，不代表本轮重新执行或当前源码全部通过",
+            "可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加",
+            "不包含安装升级、回退、断电与完整跨产品任务验收"
+          ],
+          "evidenceIds": [
+            "evidence:launch-workflow"
+          ],
+          "environmentText": "产品：synthetic"
+        },
+        {
+          "id": "verification:launch-entry-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。",
+          "exclusions": [
+            "仅启动入口及观察边界通过，首次严格Host核验失败另列",
+            "原启动回执hostVerification=unverified，后续外部核验不追写旧回执",
+            "历史实机记录，不证明当前环境在线，不外推其他产品或版本"
+          ],
+          "evidenceIds": [
+            "evidence:launch-workflow"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:sessions-initial-host",
+          "scope": "runtime",
+          "result": "failed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "首次启动后严格expectedModel核验因Host报Unknown而拒绝；保留E3D_TARGET_MODEL_MISMATCH失败，不以窗口或管道可见替代身份成功。",
+          "exclusions": [
+            "这是后续修复前的历史失败，不表示后续两次严格验收也失败",
+            "未放宽模块核验，未在该次失败会话执行PML",
+            "不将失败历史覆盖为后来成功"
+          ],
+          "evidenceIds": [
+            "evidence:launch-workflow"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:sessions-bootstrap-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "定向更新启动PML后严格DESIGN身份TargetVerified通过；两次内置有界读取返回OK，原始身份回执保留。",
+          "exclusions": [
+            "该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过",
+            "未核验进程实际加载程序集的文件摘要，未执行回退演练",
+            "历史限定会话，不证明当前环境在线或其他产品可用"
+          ],
+          "evidenceIds": [
+            "evidence:host-bootstrap"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:launch-cli-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。",
+          "exclusions": [
+            "仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式",
+            "启动回执与独立Host验收分别判定，不补写旧启动回执",
+            "定向开发修复不代表正式安装包升级或回退验收"
+          ],
+          "evidenceIds": [
+            "evidence:cli-host-compatibility"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:sessions-host-v1-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "定向更新Host后严格身份及两项查询V1协议通过；限定数组续页、Form/Gadget分页、预算拒绝和无回调副作用断言通过。",
+          "exclusions": [
+            "历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过",
+            "不外推AM、PDMS、其他E3D版本或模块",
+            "未执行回退演练；前四次失败和旧协议0历史分别保留"
+          ],
+          "evidenceIds": [
+            "evidence:cli-host-compatibility"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:sessions-dashboard-offline",
+          "scope": "offline",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "Dashboard会话模型与监测38项隔离测试通过，0失败0跳过；覆盖失联、超时、过期、身份变化及旧结果清理。",
+          "exclusions": [
+            "历史隔离测试，不代表本轮新执行或真实断线验证",
+            "未强制断开正在使用的真实E3D会话",
+            "不证明部署、许可、业务查询或执行授权通过"
+          ],
+          "evidenceIds": [
+            "evidence:dashboard-session-health"
+          ],
+          "environmentText": "产品：synthetic"
+        },
+        {
+          "id": "verification:sessions-dashboard-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。",
+          "exclusions": [
+            "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
+            "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
+            "真实断线未强制测试；未调用PML执行工具或写工程模型",
+            "其余27项平台业务任务保留未完成"
+          ],
+          "evidenceIds": [
+            "evidence:dashboard-session-health"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
         }
       ]
     },
@@ -689,7 +1023,91 @@ globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
           "source:capabilities"
         ]
       },
-      "verifications": [],
+      "verifications": [
+        {
+          "id": "verification:launch-offline",
+          "scope": "offline",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。",
+          "exclusions": [
+            "历史报告，不代表本轮重新执行或当前源码全部通过",
+            "可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加",
+            "不包含安装升级、回退、断电与完整跨产品任务验收"
+          ],
+          "evidenceIds": [
+            "evidence:launch-workflow"
+          ],
+          "environmentText": "产品：synthetic"
+        },
+        {
+          "id": "verification:launch-entry-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。",
+          "exclusions": [
+            "仅启动入口及观察边界通过，首次严格Host核验失败另列",
+            "原启动回执hostVerification=unverified，后续外部核验不追写旧回执",
+            "历史实机记录，不证明当前环境在线，不外推其他产品或版本"
+          ],
+          "evidenceIds": [
+            "evidence:launch-workflow"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:launch-cli-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。",
+          "exclusions": [
+            "仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式",
+            "启动回执与独立Host验收分别判定，不补写旧启动回执",
+            "定向开发修复不代表正式安装包升级或回退验收"
+          ],
+          "evidenceIds": [
+            "evidence:cli-host-compatibility"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:sessions-dashboard-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。",
+          "exclusions": [
+            "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
+            "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
+            "真实断线未强制测试；未调用PML执行工具或写工程模型",
+            "其余27项平台业务任务保留未完成"
+          ],
+          "evidenceIds": [
+            "evidence:dashboard-session-health"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        }
+      ],
       "limitations": [
         "入口创建不等于登录或Host已核验"
       ],
@@ -699,14 +1117,98 @@ globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
       ],
       "props": {},
       "text": {
-        "body": "职责：冻结一次启动，保存修订并观察原编号。\n输入：配置修订；明确产品与模块\n输出：候选来源；启动计划与关联回执\n副作用：授权后创建入口进程\n失败与恢复：歧义、冲突与unknown\n规范：R02 verified · R03 verified · R04 verified · R05 verified · R06 verified · R13 verified · R14 verified · R15 verified · R16 verified · R23 verified\n证据：未登记独立证据；不能推定通过",
+        "body": "职责：冻结一次启动，保存修订并观察原编号。\n输入：配置修订；明确产品与模块\n输出：候选来源；启动计划与关联回执\n副作用：授权后创建入口进程\n失败与恢复：歧义、冲突与unknown\n规范：R02 verified · R03 verified · R04 verified · R05 verified · R06 verified · R13 verified · R14 verified · R15 verified · R16 verified · R23 verified\n证据：offline / passed · 2026-10-31 · 产品：synthetic\n启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。\n未涵盖：历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。\n未涵盖：仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。\n未涵盖：仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收\n\nruntime / passed · 2026-11-01 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。\n未涵盖：仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成",
         "status": "实现：implemented · 既有目录登记状态；完整平台范围见限制与独立证据",
-        "limit": "入口创建不等于登录或Host已核验"
+        "limit": "入口创建不等于登录或Host已核验；历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收；仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本；仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收；仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成"
       },
-      "body": "职责：冻结一次启动，保存修订并观察原编号。\n输入：配置修订；明确产品与模块\n输出：候选来源；启动计划与关联回执\n副作用：授权后创建入口进程\n失败与恢复：歧义、冲突与unknown\n规范：R02 verified · R03 verified · R04 verified · R05 verified · R06 verified · R13 verified · R14 verified · R15 verified · R16 verified · R23 verified\n证据：未登记独立证据；不能推定通过",
+      "body": "职责：冻结一次启动，保存修订并观察原编号。\n输入：配置修订；明确产品与模块\n输出：候选来源；启动计划与关联回执\n副作用：授权后创建入口进程\n失败与恢复：歧义、冲突与unknown\n规范：R02 verified · R03 verified · R04 verified · R05 verified · R06 verified · R13 verified · R14 verified · R15 verified · R16 verified · R23 verified\n证据：offline / passed · 2026-10-31 · 产品：synthetic\n启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。\n未涵盖：历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。\n未涵盖：仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。\n未涵盖：仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收\n\nruntime / passed · 2026-11-01 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。\n未涵盖：仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成",
       "status": "实现：implemented · 既有目录登记状态；完整平台范围见限制与独立证据",
-      "limit": "入口创建不等于登录或Host已核验",
-      "evidence": []
+      "limit": "入口创建不等于登录或Host已核验；历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收；仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本；仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收；仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成",
+      "evidence": [
+        {
+          "id": "verification:launch-offline",
+          "scope": "offline",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。",
+          "exclusions": [
+            "历史报告，不代表本轮重新执行或当前源码全部通过",
+            "可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加",
+            "不包含安装升级、回退、断电与完整跨产品任务验收"
+          ],
+          "evidenceIds": [
+            "evidence:launch-workflow"
+          ],
+          "environmentText": "产品：synthetic"
+        },
+        {
+          "id": "verification:launch-entry-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。",
+          "exclusions": [
+            "仅启动入口及观察边界通过，首次严格Host核验失败另列",
+            "原启动回执hostVerification=unverified，后续外部核验不追写旧回执",
+            "历史实机记录，不证明当前环境在线，不外推其他产品或版本"
+          ],
+          "evidenceIds": [
+            "evidence:launch-workflow"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:launch-cli-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。",
+          "exclusions": [
+            "仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式",
+            "启动回执与独立Host验收分别判定，不补写旧启动回执",
+            "定向开发修复不代表正式安装包升级或回退验收"
+          ],
+          "evidenceIds": [
+            "evidence:cli-host-compatibility"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:sessions-dashboard-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。",
+          "exclusions": [
+            "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
+            "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
+            "真实断线未强制测试；未调用PML执行工具或写工程模型",
+            "其余27项平台业务任务保留未完成"
+          ],
+          "evidenceIds": [
+            "evidence:dashboard-session-health"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        }
+      ]
     },
     {
       "id": "feature:deployment",
@@ -891,7 +1393,112 @@ globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
           "source:capabilities"
         ]
       },
-      "verifications": [],
+      "verifications": [
+        {
+          "id": "verification:sessions-initial-host",
+          "scope": "runtime",
+          "result": "failed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "首次启动后严格expectedModel核验因Host报Unknown而拒绝；保留E3D_TARGET_MODEL_MISMATCH失败，不以窗口或管道可见替代身份成功。",
+          "exclusions": [
+            "这是后续修复前的历史失败，不表示后续两次严格验收也失败",
+            "未放宽模块核验，未在该次失败会话执行PML",
+            "不将失败历史覆盖为后来成功"
+          ],
+          "evidenceIds": [
+            "evidence:launch-workflow"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:sessions-bootstrap-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "定向更新启动PML后严格DESIGN身份TargetVerified通过；两次内置有界读取返回OK，原始身份回执保留。",
+          "exclusions": [
+            "该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过",
+            "未核验进程实际加载程序集的文件摘要，未执行回退演练",
+            "历史限定会话，不证明当前环境在线或其他产品可用"
+          ],
+          "evidenceIds": [
+            "evidence:host-bootstrap"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:sessions-host-v1-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "定向更新Host后严格身份及两项查询V1协议通过；限定数组续页、Form/Gadget分页、预算拒绝和无回调副作用断言通过。",
+          "exclusions": [
+            "历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过",
+            "不外推AM、PDMS、其他E3D版本或模块",
+            "未执行回退演练；前四次失败和旧协议0历史分别保留"
+          ],
+          "evidenceIds": [
+            "evidence:cli-host-compatibility"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:sessions-dashboard-offline",
+          "scope": "offline",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "Dashboard会话模型与监测38项隔离测试通过，0失败0跳过；覆盖失联、超时、过期、身份变化及旧结果清理。",
+          "exclusions": [
+            "历史隔离测试，不代表本轮新执行或真实断线验证",
+            "未强制断开正在使用的真实E3D会话",
+            "不证明部署、许可、业务查询或执行授权通过"
+          ],
+          "evidenceIds": [
+            "evidence:dashboard-session-health"
+          ],
+          "environmentText": "产品：synthetic"
+        },
+        {
+          "id": "verification:sessions-dashboard-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。",
+          "exclusions": [
+            "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
+            "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
+            "真实断线未强制测试；未调用PML执行工具或写工程模型",
+            "其余27项平台业务任务保留未完成"
+          ],
+          "evidenceIds": [
+            "evidence:dashboard-session-health"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        }
+      ],
       "limitations": [
         "发现不等于登录"
       ],
@@ -901,14 +1508,119 @@ globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
       ],
       "props": {},
       "text": {
-        "body": "职责：每次调用绑定明确目标身份。\n输入：选定会话；模块与启动身份\n输出：身份与协议证据\n副作用：创建通信子进程\n失败与恢复：身份变化或协议不足拒绝\n规范：R17 verified\n证据：未登记独立证据；不能推定通过",
+        "body": "职责：每次调用绑定明确目标身份。\n输入：选定会话；模块与启动身份\n输出：身份与协议证据\n副作用：创建通信子进程\n失败与恢复：身份变化或协议不足拒绝\n规范：R17 verified\n证据：runtime / failed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n首次启动后严格expectedModel核验因Host报Unknown而拒绝；保留E3D_TARGET_MODEL_MISMATCH失败，不以窗口或管道可见替代身份成功。\n未涵盖：这是后续修复前的历史失败，不表示后续两次严格验收也失败；未放宽模块核验，未在该次失败会话执行PML；不将失败历史覆盖为后来成功\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n定向更新启动PML后严格DESIGN身份TargetVerified通过；两次内置有界读取返回OK，原始身份回执保留。\n未涵盖：该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过；未核验进程实际加载程序集的文件摘要，未执行回退演练；历史限定会话，不证明当前环境在线或其他产品可用\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n定向更新Host后严格身份及两项查询V1协议通过；限定数组续页、Form/Gadget分页、预算拒绝和无回调副作用断言通过。\n未涵盖：历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过；不外推AM、PDMS、其他E3D版本或模块；未执行回退演练；前四次失败和旧协议0历史分别保留\n\noffline / passed · 2026-11-01 · 产品：synthetic\nDashboard会话模型与监测38项隔离测试通过，0失败0跳过；覆盖失联、超时、过期、身份变化及旧结果清理。\n未涵盖：历史隔离测试，不代表本轮新执行或真实断线验证；未强制断开正在使用的真实E3D会话；不证明部署、许可、业务查询或执行授权通过\n\nruntime / passed · 2026-11-01 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。\n未涵盖：仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成",
         "status": "实现：implemented · 既有目录登记状态；完整平台范围见限制与独立证据",
-        "limit": "发现不等于登录"
+        "limit": "发现不等于登录；这是后续修复前的历史失败，不表示后续两次严格验收也失败；未放宽模块核验，未在该次失败会话执行PML；不将失败历史覆盖为后来成功；该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过；未核验进程实际加载程序集的文件摘要，未执行回退演练；历史限定会话，不证明当前环境在线或其他产品可用；历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过；不外推AM、PDMS、其他E3D版本或模块；未执行回退演练；前四次失败和旧协议0历史分别保留；历史隔离测试，不代表本轮新执行或真实断线验证；未强制断开正在使用的真实E3D会话；不证明部署、许可、业务查询或执行授权通过；仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成"
       },
-      "body": "职责：每次调用绑定明确目标身份。\n输入：选定会话；模块与启动身份\n输出：身份与协议证据\n副作用：创建通信子进程\n失败与恢复：身份变化或协议不足拒绝\n规范：R17 verified\n证据：未登记独立证据；不能推定通过",
+      "body": "职责：每次调用绑定明确目标身份。\n输入：选定会话；模块与启动身份\n输出：身份与协议证据\n副作用：创建通信子进程\n失败与恢复：身份变化或协议不足拒绝\n规范：R17 verified\n证据：runtime / failed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n首次启动后严格expectedModel核验因Host报Unknown而拒绝；保留E3D_TARGET_MODEL_MISMATCH失败，不以窗口或管道可见替代身份成功。\n未涵盖：这是后续修复前的历史失败，不表示后续两次严格验收也失败；未放宽模块核验，未在该次失败会话执行PML；不将失败历史覆盖为后来成功\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n定向更新启动PML后严格DESIGN身份TargetVerified通过；两次内置有界读取返回OK，原始身份回执保留。\n未涵盖：该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过；未核验进程实际加载程序集的文件摘要，未执行回退演练；历史限定会话，不证明当前环境在线或其他产品可用\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n定向更新Host后严格身份及两项查询V1协议通过；限定数组续页、Form/Gadget分页、预算拒绝和无回调副作用断言通过。\n未涵盖：历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过；不外推AM、PDMS、其他E3D版本或模块；未执行回退演练；前四次失败和旧协议0历史分别保留\n\noffline / passed · 2026-11-01 · 产品：synthetic\nDashboard会话模型与监测38项隔离测试通过，0失败0跳过；覆盖失联、超时、过期、身份变化及旧结果清理。\n未涵盖：历史隔离测试，不代表本轮新执行或真实断线验证；未强制断开正在使用的真实E3D会话；不证明部署、许可、业务查询或执行授权通过\n\nruntime / passed · 2026-11-01 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。\n未涵盖：仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成",
       "status": "实现：implemented · 既有目录登记状态；完整平台范围见限制与独立证据",
-      "limit": "发现不等于登录",
-      "evidence": []
+      "limit": "发现不等于登录；这是后续修复前的历史失败，不表示后续两次严格验收也失败；未放宽模块核验，未在该次失败会话执行PML；不将失败历史覆盖为后来成功；该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过；未核验进程实际加载程序集的文件摘要，未执行回退演练；历史限定会话，不证明当前环境在线或其他产品可用；历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过；不外推AM、PDMS、其他E3D版本或模块；未执行回退演练；前四次失败和旧协议0历史分别保留；历史隔离测试，不代表本轮新执行或真实断线验证；未强制断开正在使用的真实E3D会话；不证明部署、许可、业务查询或执行授权通过；仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成",
+      "evidence": [
+        {
+          "id": "verification:sessions-initial-host",
+          "scope": "runtime",
+          "result": "failed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "首次启动后严格expectedModel核验因Host报Unknown而拒绝；保留E3D_TARGET_MODEL_MISMATCH失败，不以窗口或管道可见替代身份成功。",
+          "exclusions": [
+            "这是后续修复前的历史失败，不表示后续两次严格验收也失败",
+            "未放宽模块核验，未在该次失败会话执行PML",
+            "不将失败历史覆盖为后来成功"
+          ],
+          "evidenceIds": [
+            "evidence:launch-workflow"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:sessions-bootstrap-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "定向更新启动PML后严格DESIGN身份TargetVerified通过；两次内置有界读取返回OK，原始身份回执保留。",
+          "exclusions": [
+            "该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过",
+            "未核验进程实际加载程序集的文件摘要，未执行回退演练",
+            "历史限定会话，不证明当前环境在线或其他产品可用"
+          ],
+          "evidenceIds": [
+            "evidence:host-bootstrap"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:sessions-host-v1-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "定向更新Host后严格身份及两项查询V1协议通过；限定数组续页、Form/Gadget分页、预算拒绝和无回调副作用断言通过。",
+          "exclusions": [
+            "历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过",
+            "不外推AM、PDMS、其他E3D版本或模块",
+            "未执行回退演练；前四次失败和旧协议0历史分别保留"
+          ],
+          "evidenceIds": [
+            "evidence:cli-host-compatibility"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:sessions-dashboard-offline",
+          "scope": "offline",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "Dashboard会话模型与监测38项隔离测试通过，0失败0跳过；覆盖失联、超时、过期、身份变化及旧结果清理。",
+          "exclusions": [
+            "历史隔离测试，不代表本轮新执行或真实断线验证",
+            "未强制断开正在使用的真实E3D会话",
+            "不证明部署、许可、业务查询或执行授权通过"
+          ],
+          "evidenceIds": [
+            "evidence:dashboard-session-health"
+          ],
+          "environmentText": "产品：synthetic"
+        },
+        {
+          "id": "verification:sessions-dashboard-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。",
+          "exclusions": [
+            "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
+            "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
+            "真实断线未强制测试；未调用PML执行工具或写工程模型",
+            "其余27项平台业务任务保留未完成"
+          ],
+          "evidenceIds": [
+            "evidence:dashboard-session-health"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        }
+      ]
     },
     {
       "id": "feature:objects",
@@ -2792,7 +3504,91 @@ globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
         }
       ],
       "implementation": null,
-      "verifications": [],
+      "verifications": [
+        {
+          "id": "verification:launch-offline",
+          "scope": "offline",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。",
+          "exclusions": [
+            "历史报告，不代表本轮重新执行或当前源码全部通过",
+            "可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加",
+            "不包含安装升级、回退、断电与完整跨产品任务验收"
+          ],
+          "evidenceIds": [
+            "evidence:launch-workflow"
+          ],
+          "environmentText": "产品：synthetic"
+        },
+        {
+          "id": "verification:launch-entry-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。",
+          "exclusions": [
+            "仅启动入口及观察边界通过，首次严格Host核验失败另列",
+            "原启动回执hostVerification=unverified，后续外部核验不追写旧回执",
+            "历史实机记录，不证明当前环境在线，不外推其他产品或版本"
+          ],
+          "evidenceIds": [
+            "evidence:launch-workflow"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:launch-cli-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。",
+          "exclusions": [
+            "仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式",
+            "启动回执与独立Host验收分别判定，不补写旧启动回执",
+            "定向开发修复不代表正式安装包升级或回退验收"
+          ],
+          "evidenceIds": [
+            "evidence:cli-host-compatibility"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:sessions-dashboard-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。",
+          "exclusions": [
+            "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
+            "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
+            "真实断线未强制测试；未调用PML执行工具或写工程模型",
+            "其余27项平台业务任务保留未完成"
+          ],
+          "evidenceIds": [
+            "evidence:dashboard-session-health"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        }
+      ],
       "limitations": [
         "入口创建不等于登录或Host已核验"
       ],
@@ -2801,14 +3597,98 @@ globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
       ],
       "props": {},
       "text": {
-        "body": "输入：NoBrowser/NoBuild、端口、构建配置；整合入口另接 Ribbon 数据目录与端口。\n前置条件：匹配仓库 SDK；所需 CLI/Ribbon 后端存在或允许本次构建；本机端口可用。\n算法 / 手段：增量构建 → 启动本机 Ribbon（整合入口）→ 健康核对 → 调用 Manager workbench；不复制发现/启动算法。\n副作用：可构建、启动本机服务/浏览器、创建应用工作目录；此入口本身不登录或启动 AVEVA。\n校验：构建退出码、文件存在、health 实现/版本/状态与自有进程仍存活。\n回执：前台退出码、本机端点及下游操作回执；服务ready不是产品已连接。\n失败 / 恢复：失败不继续启动下游；finally 停自有服务并还原本进程环境。停止服务不撤销已经明确受理的产品动作。\n规范：R02 verified · R03 verified · R04 verified · R05 verified · R06 verified · R13 verified · R14 verified · R15 verified · R16 verified · R23 verified\n证据：未登记独立证据；不能推定通过",
+        "body": "输入：NoBrowser/NoBuild、端口、构建配置；整合入口另接 Ribbon 数据目录与端口。\n前置条件：匹配仓库 SDK；所需 CLI/Ribbon 后端存在或允许本次构建；本机端口可用。\n算法 / 手段：增量构建 → 启动本机 Ribbon（整合入口）→ 健康核对 → 调用 Manager workbench；不复制发现/启动算法。\n副作用：可构建、启动本机服务/浏览器、创建应用工作目录；此入口本身不登录或启动 AVEVA。\n校验：构建退出码、文件存在、health 实现/版本/状态与自有进程仍存活。\n回执：前台退出码、本机端点及下游操作回执；服务ready不是产品已连接。\n失败 / 恢复：失败不继续启动下游；finally 停自有服务并还原本进程环境。停止服务不撤销已经明确受理的产品动作。\n规范：R02 verified · R03 verified · R04 verified · R05 verified · R06 verified · R13 verified · R14 verified · R15 verified · R16 verified · R23 verified\n证据：offline / passed · 2026-10-31 · 产品：synthetic\n启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。\n未涵盖：历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。\n未涵盖：仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。\n未涵盖：仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收\n\nruntime / passed · 2026-11-01 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。\n未涵盖：仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成",
         "status": "powershell · workflow",
-        "limit": "入口创建不等于登录或Host已核验"
+        "limit": "入口创建不等于登录或Host已核验；历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收；仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本；仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收；仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成"
       },
-      "body": "输入：NoBrowser/NoBuild、端口、构建配置；整合入口另接 Ribbon 数据目录与端口。\n前置条件：匹配仓库 SDK；所需 CLI/Ribbon 后端存在或允许本次构建；本机端口可用。\n算法 / 手段：增量构建 → 启动本机 Ribbon（整合入口）→ 健康核对 → 调用 Manager workbench；不复制发现/启动算法。\n副作用：可构建、启动本机服务/浏览器、创建应用工作目录；此入口本身不登录或启动 AVEVA。\n校验：构建退出码、文件存在、health 实现/版本/状态与自有进程仍存活。\n回执：前台退出码、本机端点及下游操作回执；服务ready不是产品已连接。\n失败 / 恢复：失败不继续启动下游；finally 停自有服务并还原本进程环境。停止服务不撤销已经明确受理的产品动作。\n规范：R02 verified · R03 verified · R04 verified · R05 verified · R06 verified · R13 verified · R14 verified · R15 verified · R16 verified · R23 verified\n证据：未登记独立证据；不能推定通过",
+      "body": "输入：NoBrowser/NoBuild、端口、构建配置；整合入口另接 Ribbon 数据目录与端口。\n前置条件：匹配仓库 SDK；所需 CLI/Ribbon 后端存在或允许本次构建；本机端口可用。\n算法 / 手段：增量构建 → 启动本机 Ribbon（整合入口）→ 健康核对 → 调用 Manager workbench；不复制发现/启动算法。\n副作用：可构建、启动本机服务/浏览器、创建应用工作目录；此入口本身不登录或启动 AVEVA。\n校验：构建退出码、文件存在、health 实现/版本/状态与自有进程仍存活。\n回执：前台退出码、本机端点及下游操作回执；服务ready不是产品已连接。\n失败 / 恢复：失败不继续启动下游；finally 停自有服务并还原本进程环境。停止服务不撤销已经明确受理的产品动作。\n规范：R02 verified · R03 verified · R04 verified · R05 verified · R06 verified · R13 verified · R14 verified · R15 verified · R16 verified · R23 verified\n证据：offline / passed · 2026-10-31 · 产品：synthetic\n启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。\n未涵盖：历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。\n未涵盖：仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。\n未涵盖：仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收\n\nruntime / passed · 2026-11-01 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。\n未涵盖：仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成",
       "status": "powershell · workflow",
-      "limit": "入口创建不等于登录或Host已核验",
-      "evidence": []
+      "limit": "入口创建不等于登录或Host已核验；历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收；仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本；仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收；仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成",
+      "evidence": [
+        {
+          "id": "verification:launch-offline",
+          "scope": "offline",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。",
+          "exclusions": [
+            "历史报告，不代表本轮重新执行或当前源码全部通过",
+            "可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加",
+            "不包含安装升级、回退、断电与完整跨产品任务验收"
+          ],
+          "evidenceIds": [
+            "evidence:launch-workflow"
+          ],
+          "environmentText": "产品：synthetic"
+        },
+        {
+          "id": "verification:launch-entry-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。",
+          "exclusions": [
+            "仅启动入口及观察边界通过，首次严格Host核验失败另列",
+            "原启动回执hostVerification=unverified，后续外部核验不追写旧回执",
+            "历史实机记录，不证明当前环境在线，不外推其他产品或版本"
+          ],
+          "evidenceIds": [
+            "evidence:launch-workflow"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:launch-cli-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。",
+          "exclusions": [
+            "仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式",
+            "启动回执与独立Host验收分别判定，不补写旧启动回执",
+            "定向开发修复不代表正式安装包升级或回退验收"
+          ],
+          "evidenceIds": [
+            "evidence:cli-host-compatibility"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:sessions-dashboard-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。",
+          "exclusions": [
+            "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
+            "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
+            "真实断线未强制测试；未调用PML执行工具或写工程模型",
+            "其余27项平台业务任务保留未完成"
+          ],
+          "evidenceIds": [
+            "evidence:dashboard-session-health"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        }
+      ]
     },
     {
       "id": "script:launch-workflow",
@@ -2989,7 +3869,91 @@ globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
         }
       ],
       "implementation": null,
-      "verifications": [],
+      "verifications": [
+        {
+          "id": "verification:launch-offline",
+          "scope": "offline",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。",
+          "exclusions": [
+            "历史报告，不代表本轮重新执行或当前源码全部通过",
+            "可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加",
+            "不包含安装升级、回退、断电与完整跨产品任务验收"
+          ],
+          "evidenceIds": [
+            "evidence:launch-workflow"
+          ],
+          "environmentText": "产品：synthetic"
+        },
+        {
+          "id": "verification:launch-entry-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。",
+          "exclusions": [
+            "仅启动入口及观察边界通过，首次严格Host核验失败另列",
+            "原启动回执hostVerification=unverified，后续外部核验不追写旧回执",
+            "历史实机记录，不证明当前环境在线，不外推其他产品或版本"
+          ],
+          "evidenceIds": [
+            "evidence:launch-workflow"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:launch-cli-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。",
+          "exclusions": [
+            "仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式",
+            "启动回执与独立Host验收分别判定，不补写旧启动回执",
+            "定向开发修复不代表正式安装包升级或回退验收"
+          ],
+          "evidenceIds": [
+            "evidence:cli-host-compatibility"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:sessions-dashboard-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。",
+          "exclusions": [
+            "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
+            "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
+            "真实断线未强制测试；未调用PML执行工具或写工程模型",
+            "其余27项平台业务任务保留未完成"
+          ],
+          "evidenceIds": [
+            "evidence:dashboard-session-health"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        }
+      ],
       "limitations": [
         "入口创建不等于登录或Host已核验"
       ],
@@ -2998,14 +3962,98 @@ globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
       ],
       "props": {},
       "text": {
-        "body": "输入：profileId、expectedRevision、operationId；execute 接冻结计划、本次内存密码、requestId和启动授权。\n前置条件：配置有效、文件/修订/计划期限匹配；有权限；原编号没有冲突事实。\n算法 / 手段：Plan 冻结入口/INIT/EVARS → 缓存摘要 → 跨进程操作租约 → 同编号去重 → accepted持久化 → 唯一LaunchService.Start → 持久回执。\n副作用：计划写非秘密缓存；执行创建入口进程；观察读取/更新观察事实，不再次启动。\n校验：同编号同摘要复用，异摘要冲突；受理持久失败不调用启动；退出入口保留交接候选，不能推定工程关闭。\n回执：operationId/attemptId/requestId、state/phase/code/message、入口身份、观察与Host未核验。\n失败 / 恢复：中断accepted变unknown；写后回执失败保留不确定性；按原编号Observe，不能自动重放。\n规范：R02 verified · R03 verified · R04 verified · R05 verified · R06 verified · R13 verified · R14 verified · R15 verified · R16 verified · R23 verified\n证据：未登记独立证据；不能推定通过",
+        "body": "输入：profileId、expectedRevision、operationId；execute 接冻结计划、本次内存密码、requestId和启动授权。\n前置条件：配置有效、文件/修订/计划期限匹配；有权限；原编号没有冲突事实。\n算法 / 手段：Plan 冻结入口/INIT/EVARS → 缓存摘要 → 跨进程操作租约 → 同编号去重 → accepted持久化 → 唯一LaunchService.Start → 持久回执。\n副作用：计划写非秘密缓存；执行创建入口进程；观察读取/更新观察事实，不再次启动。\n校验：同编号同摘要复用，异摘要冲突；受理持久失败不调用启动；退出入口保留交接候选，不能推定工程关闭。\n回执：operationId/attemptId/requestId、state/phase/code/message、入口身份、观察与Host未核验。\n失败 / 恢复：中断accepted变unknown；写后回执失败保留不确定性；按原编号Observe，不能自动重放。\n规范：R02 verified · R03 verified · R04 verified · R05 verified · R06 verified · R13 verified · R14 verified · R15 verified · R16 verified · R23 verified\n证据：offline / passed · 2026-10-31 · 产品：synthetic\n启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。\n未涵盖：历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。\n未涵盖：仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。\n未涵盖：仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收\n\nruntime / passed · 2026-11-01 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。\n未涵盖：仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成",
         "status": "csharp · workflow",
-        "limit": "入口创建不等于登录或Host已核验"
+        "limit": "入口创建不等于登录或Host已核验；历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收；仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本；仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收；仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成"
       },
-      "body": "输入：profileId、expectedRevision、operationId；execute 接冻结计划、本次内存密码、requestId和启动授权。\n前置条件：配置有效、文件/修订/计划期限匹配；有权限；原编号没有冲突事实。\n算法 / 手段：Plan 冻结入口/INIT/EVARS → 缓存摘要 → 跨进程操作租约 → 同编号去重 → accepted持久化 → 唯一LaunchService.Start → 持久回执。\n副作用：计划写非秘密缓存；执行创建入口进程；观察读取/更新观察事实，不再次启动。\n校验：同编号同摘要复用，异摘要冲突；受理持久失败不调用启动；退出入口保留交接候选，不能推定工程关闭。\n回执：operationId/attemptId/requestId、state/phase/code/message、入口身份、观察与Host未核验。\n失败 / 恢复：中断accepted变unknown；写后回执失败保留不确定性；按原编号Observe，不能自动重放。\n规范：R02 verified · R03 verified · R04 verified · R05 verified · R06 verified · R13 verified · R14 verified · R15 verified · R16 verified · R23 verified\n证据：未登记独立证据；不能推定通过",
+      "body": "输入：profileId、expectedRevision、operationId；execute 接冻结计划、本次内存密码、requestId和启动授权。\n前置条件：配置有效、文件/修订/计划期限匹配；有权限；原编号没有冲突事实。\n算法 / 手段：Plan 冻结入口/INIT/EVARS → 缓存摘要 → 跨进程操作租约 → 同编号去重 → accepted持久化 → 唯一LaunchService.Start → 持久回执。\n副作用：计划写非秘密缓存；执行创建入口进程；观察读取/更新观察事实，不再次启动。\n校验：同编号同摘要复用，异摘要冲突；受理持久失败不调用启动；退出入口保留交接候选，不能推定工程关闭。\n回执：operationId/attemptId/requestId、state/phase/code/message、入口身份、观察与Host未核验。\n失败 / 恢复：中断accepted变unknown；写后回执失败保留不确定性；按原编号Observe，不能自动重放。\n规范：R02 verified · R03 verified · R04 verified · R05 verified · R06 verified · R13 verified · R14 verified · R15 verified · R16 verified · R23 verified\n证据：offline / passed · 2026-10-31 · 产品：synthetic\n启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。\n未涵盖：历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。\n未涵盖：仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。\n未涵盖：仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收\n\nruntime / passed · 2026-11-01 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。\n未涵盖：仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成",
       "status": "csharp · workflow",
-      "limit": "入口创建不等于登录或Host已核验",
-      "evidence": []
+      "limit": "入口创建不等于登录或Host已核验；历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收；仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本；仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收；仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成",
+      "evidence": [
+        {
+          "id": "verification:launch-offline",
+          "scope": "offline",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。",
+          "exclusions": [
+            "历史报告，不代表本轮重新执行或当前源码全部通过",
+            "可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加",
+            "不包含安装升级、回退、断电与完整跨产品任务验收"
+          ],
+          "evidenceIds": [
+            "evidence:launch-workflow"
+          ],
+          "environmentText": "产品：synthetic"
+        },
+        {
+          "id": "verification:launch-entry-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。",
+          "exclusions": [
+            "仅启动入口及观察边界通过，首次严格Host核验失败另列",
+            "原启动回执hostVerification=unverified，后续外部核验不追写旧回执",
+            "历史实机记录，不证明当前环境在线，不外推其他产品或版本"
+          ],
+          "evidenceIds": [
+            "evidence:launch-workflow"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:launch-cli-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。",
+          "exclusions": [
+            "仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式",
+            "启动回执与独立Host验收分别判定，不补写旧启动回执",
+            "定向开发修复不代表正式安装包升级或回退验收"
+          ],
+          "evidenceIds": [
+            "evidence:cli-host-compatibility"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:sessions-dashboard-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。",
+          "exclusions": [
+            "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
+            "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
+            "真实断线未强制测试；未调用PML执行工具或写工程模型",
+            "其余27项平台业务任务保留未完成"
+          ],
+          "evidenceIds": [
+            "evidence:dashboard-session-health"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        }
+      ]
     },
     {
       "id": "script:communication-client",
@@ -3149,7 +4197,112 @@ globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
         }
       ],
       "implementation": null,
-      "verifications": [],
+      "verifications": [
+        {
+          "id": "verification:sessions-initial-host",
+          "scope": "runtime",
+          "result": "failed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "首次启动后严格expectedModel核验因Host报Unknown而拒绝；保留E3D_TARGET_MODEL_MISMATCH失败，不以窗口或管道可见替代身份成功。",
+          "exclusions": [
+            "这是后续修复前的历史失败，不表示后续两次严格验收也失败",
+            "未放宽模块核验，未在该次失败会话执行PML",
+            "不将失败历史覆盖为后来成功"
+          ],
+          "evidenceIds": [
+            "evidence:launch-workflow"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:sessions-bootstrap-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "定向更新启动PML后严格DESIGN身份TargetVerified通过；两次内置有界读取返回OK，原始身份回执保留。",
+          "exclusions": [
+            "该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过",
+            "未核验进程实际加载程序集的文件摘要，未执行回退演练",
+            "历史限定会话，不证明当前环境在线或其他产品可用"
+          ],
+          "evidenceIds": [
+            "evidence:host-bootstrap"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:sessions-host-v1-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "定向更新Host后严格身份及两项查询V1协议通过；限定数组续页、Form/Gadget分页、预算拒绝和无回调副作用断言通过。",
+          "exclusions": [
+            "历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过",
+            "不外推AM、PDMS、其他E3D版本或模块",
+            "未执行回退演练；前四次失败和旧协议0历史分别保留"
+          ],
+          "evidenceIds": [
+            "evidence:cli-host-compatibility"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:sessions-dashboard-offline",
+          "scope": "offline",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "Dashboard会话模型与监测38项隔离测试通过，0失败0跳过；覆盖失联、超时、过期、身份变化及旧结果清理。",
+          "exclusions": [
+            "历史隔离测试，不代表本轮新执行或真实断线验证",
+            "未强制断开正在使用的真实E3D会话",
+            "不证明部署、许可、业务查询或执行授权通过"
+          ],
+          "evidenceIds": [
+            "evidence:dashboard-session-health"
+          ],
+          "environmentText": "产品：synthetic"
+        },
+        {
+          "id": "verification:sessions-dashboard-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。",
+          "exclusions": [
+            "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
+            "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
+            "真实断线未强制测试；未调用PML执行工具或写工程模型",
+            "其余27项平台业务任务保留未完成"
+          ],
+          "evidenceIds": [
+            "evidence:dashboard-session-health"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        }
+      ],
       "limitations": [
         "发现不等于登录",
         "对象身份不能跨工程永久复用",
@@ -3161,14 +4314,119 @@ globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
       ],
       "props": {},
       "text": {
-        "body": "输入：已注册通信操作、JSON stdin、requestId；目标操作含PID、启动时间、模块及明确授权。\n前置条件：明确通信程序路径/身份、兼容协议；管理操作不能借此绕回通信边界。\n算法 / 手段：ArgumentList → 单份stdin JSON → 并行读取stdout/stderr → 时间/体积预算 → 核对关联回执。\n副作用：创建本次自有通信进程；下游操作可查询或改变宿主，必须按operation判断。\n校验：程序指纹、版本、JSON、requestId、退出码与输出预算；PID身份校验不因GUI已选过而省略。\n回执：原通信结果、分层evidence及mayHaveExecuted；stderr不是可替代业务结果的stdout。\n失败 / 恢复：终止/回收自有子进程不等于取消宿主动作；发出后无确定回执为unknown，不重发。\n规范：R17 verified · R09 partial · R18 verified · R08 partial · R11 partial · R16 verified\n证据：未登记独立证据；不能推定通过",
+        "body": "输入：已注册通信操作、JSON stdin、requestId；目标操作含PID、启动时间、模块及明确授权。\n前置条件：明确通信程序路径/身份、兼容协议；管理操作不能借此绕回通信边界。\n算法 / 手段：ArgumentList → 单份stdin JSON → 并行读取stdout/stderr → 时间/体积预算 → 核对关联回执。\n副作用：创建本次自有通信进程；下游操作可查询或改变宿主，必须按operation判断。\n校验：程序指纹、版本、JSON、requestId、退出码与输出预算；PID身份校验不因GUI已选过而省略。\n回执：原通信结果、分层evidence及mayHaveExecuted；stderr不是可替代业务结果的stdout。\n失败 / 恢复：终止/回收自有子进程不等于取消宿主动作；发出后无确定回执为unknown，不重发。\n规范：R17 verified · R09 partial · R18 verified · R08 partial · R11 partial · R16 verified\n证据：runtime / failed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n首次启动后严格expectedModel核验因Host报Unknown而拒绝；保留E3D_TARGET_MODEL_MISMATCH失败，不以窗口或管道可见替代身份成功。\n未涵盖：这是后续修复前的历史失败，不表示后续两次严格验收也失败；未放宽模块核验，未在该次失败会话执行PML；不将失败历史覆盖为后来成功\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n定向更新启动PML后严格DESIGN身份TargetVerified通过；两次内置有界读取返回OK，原始身份回执保留。\n未涵盖：该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过；未核验进程实际加载程序集的文件摘要，未执行回退演练；历史限定会话，不证明当前环境在线或其他产品可用\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n定向更新Host后严格身份及两项查询V1协议通过；限定数组续页、Form/Gadget分页、预算拒绝和无回调副作用断言通过。\n未涵盖：历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过；不外推AM、PDMS、其他E3D版本或模块；未执行回退演练；前四次失败和旧协议0历史分别保留\n\noffline / passed · 2026-11-01 · 产品：synthetic\nDashboard会话模型与监测38项隔离测试通过，0失败0跳过；覆盖失联、超时、过期、身份变化及旧结果清理。\n未涵盖：历史隔离测试，不代表本轮新执行或真实断线验证；未强制断开正在使用的真实E3D会话；不证明部署、许可、业务查询或执行授权通过\n\nruntime / passed · 2026-11-01 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。\n未涵盖：仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成",
         "status": "csharp · transport",
-        "limit": "发现不等于登录；对象身份不能跨工程永久复用；注册不表示Host已加载；不执行业务回调"
+        "limit": "发现不等于登录；对象身份不能跨工程永久复用；注册不表示Host已加载；不执行业务回调；这是后续修复前的历史失败，不表示后续两次严格验收也失败；未放宽模块核验，未在该次失败会话执行PML；不将失败历史覆盖为后来成功；该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过；未核验进程实际加载程序集的文件摘要，未执行回退演练；历史限定会话，不证明当前环境在线或其他产品可用；历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过；不外推AM、PDMS、其他E3D版本或模块；未执行回退演练；前四次失败和旧协议0历史分别保留；历史隔离测试，不代表本轮新执行或真实断线验证；未强制断开正在使用的真实E3D会话；不证明部署、许可、业务查询或执行授权通过；仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成"
       },
-      "body": "输入：已注册通信操作、JSON stdin、requestId；目标操作含PID、启动时间、模块及明确授权。\n前置条件：明确通信程序路径/身份、兼容协议；管理操作不能借此绕回通信边界。\n算法 / 手段：ArgumentList → 单份stdin JSON → 并行读取stdout/stderr → 时间/体积预算 → 核对关联回执。\n副作用：创建本次自有通信进程；下游操作可查询或改变宿主，必须按operation判断。\n校验：程序指纹、版本、JSON、requestId、退出码与输出预算；PID身份校验不因GUI已选过而省略。\n回执：原通信结果、分层evidence及mayHaveExecuted；stderr不是可替代业务结果的stdout。\n失败 / 恢复：终止/回收自有子进程不等于取消宿主动作；发出后无确定回执为unknown，不重发。\n规范：R17 verified · R09 partial · R18 verified · R08 partial · R11 partial · R16 verified\n证据：未登记独立证据；不能推定通过",
+      "body": "输入：已注册通信操作、JSON stdin、requestId；目标操作含PID、启动时间、模块及明确授权。\n前置条件：明确通信程序路径/身份、兼容协议；管理操作不能借此绕回通信边界。\n算法 / 手段：ArgumentList → 单份stdin JSON → 并行读取stdout/stderr → 时间/体积预算 → 核对关联回执。\n副作用：创建本次自有通信进程；下游操作可查询或改变宿主，必须按operation判断。\n校验：程序指纹、版本、JSON、requestId、退出码与输出预算；PID身份校验不因GUI已选过而省略。\n回执：原通信结果、分层evidence及mayHaveExecuted；stderr不是可替代业务结果的stdout。\n失败 / 恢复：终止/回收自有子进程不等于取消宿主动作；发出后无确定回执为unknown，不重发。\n规范：R17 verified · R09 partial · R18 verified · R08 partial · R11 partial · R16 verified\n证据：runtime / failed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n首次启动后严格expectedModel核验因Host报Unknown而拒绝；保留E3D_TARGET_MODEL_MISMATCH失败，不以窗口或管道可见替代身份成功。\n未涵盖：这是后续修复前的历史失败，不表示后续两次严格验收也失败；未放宽模块核验，未在该次失败会话执行PML；不将失败历史覆盖为后来成功\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n定向更新启动PML后严格DESIGN身份TargetVerified通过；两次内置有界读取返回OK，原始身份回执保留。\n未涵盖：该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过；未核验进程实际加载程序集的文件摘要，未执行回退演练；历史限定会话，不证明当前环境在线或其他产品可用\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n定向更新Host后严格身份及两项查询V1协议通过；限定数组续页、Form/Gadget分页、预算拒绝和无回调副作用断言通过。\n未涵盖：历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过；不外推AM、PDMS、其他E3D版本或模块；未执行回退演练；前四次失败和旧协议0历史分别保留\n\noffline / passed · 2026-11-01 · 产品：synthetic\nDashboard会话模型与监测38项隔离测试通过，0失败0跳过；覆盖失联、超时、过期、身份变化及旧结果清理。\n未涵盖：历史隔离测试，不代表本轮新执行或真实断线验证；未强制断开正在使用的真实E3D会话；不证明部署、许可、业务查询或执行授权通过\n\nruntime / passed · 2026-11-01 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。\n未涵盖：仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成",
       "status": "csharp · transport",
-      "limit": "发现不等于登录；对象身份不能跨工程永久复用；注册不表示Host已加载；不执行业务回调",
-      "evidence": []
+      "limit": "发现不等于登录；对象身份不能跨工程永久复用；注册不表示Host已加载；不执行业务回调；这是后续修复前的历史失败，不表示后续两次严格验收也失败；未放宽模块核验，未在该次失败会话执行PML；不将失败历史覆盖为后来成功；该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过；未核验进程实际加载程序集的文件摘要，未执行回退演练；历史限定会话，不证明当前环境在线或其他产品可用；历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过；不外推AM、PDMS、其他E3D版本或模块；未执行回退演练；前四次失败和旧协议0历史分别保留；历史隔离测试，不代表本轮新执行或真实断线验证；未强制断开正在使用的真实E3D会话；不证明部署、许可、业务查询或执行授权通过；仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成",
+      "evidence": [
+        {
+          "id": "verification:sessions-initial-host",
+          "scope": "runtime",
+          "result": "failed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "首次启动后严格expectedModel核验因Host报Unknown而拒绝；保留E3D_TARGET_MODEL_MISMATCH失败，不以窗口或管道可见替代身份成功。",
+          "exclusions": [
+            "这是后续修复前的历史失败，不表示后续两次严格验收也失败",
+            "未放宽模块核验，未在该次失败会话执行PML",
+            "不将失败历史覆盖为后来成功"
+          ],
+          "evidenceIds": [
+            "evidence:launch-workflow"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:sessions-bootstrap-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "定向更新启动PML后严格DESIGN身份TargetVerified通过；两次内置有界读取返回OK，原始身份回执保留。",
+          "exclusions": [
+            "该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过",
+            "未核验进程实际加载程序集的文件摘要，未执行回退演练",
+            "历史限定会话，不证明当前环境在线或其他产品可用"
+          ],
+          "evidenceIds": [
+            "evidence:host-bootstrap"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:sessions-host-v1-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "定向更新Host后严格身份及两项查询V1协议通过；限定数组续页、Form/Gadget分页、预算拒绝和无回调副作用断言通过。",
+          "exclusions": [
+            "历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过",
+            "不外推AM、PDMS、其他E3D版本或模块",
+            "未执行回退演练；前四次失败和旧协议0历史分别保留"
+          ],
+          "evidenceIds": [
+            "evidence:cli-host-compatibility"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:sessions-dashboard-offline",
+          "scope": "offline",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "Dashboard会话模型与监测38项隔离测试通过，0失败0跳过；覆盖失联、超时、过期、身份变化及旧结果清理。",
+          "exclusions": [
+            "历史隔离测试，不代表本轮新执行或真实断线验证",
+            "未强制断开正在使用的真实E3D会话",
+            "不证明部署、许可、业务查询或执行授权通过"
+          ],
+          "evidenceIds": [
+            "evidence:dashboard-session-health"
+          ],
+          "environmentText": "产品：synthetic"
+        },
+        {
+          "id": "verification:sessions-dashboard-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。",
+          "exclusions": [
+            "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
+            "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
+            "真实断线未强制测试；未调用PML执行工具或写工程模型",
+            "其余27项平台业务任务保留未完成"
+          ],
+          "evidenceIds": [
+            "evidence:dashboard-session-health"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        }
+      ]
     },
     {
       "id": "script:frozen-copy",
@@ -3892,7 +5150,173 @@ globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
         }
       ],
       "implementation": null,
-      "verifications": [],
+      "verifications": [
+        {
+          "id": "verification:launch-offline",
+          "scope": "offline",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。",
+          "exclusions": [
+            "历史报告，不代表本轮重新执行或当前源码全部通过",
+            "可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加",
+            "不包含安装升级、回退、断电与完整跨产品任务验收"
+          ],
+          "evidenceIds": [
+            "evidence:launch-workflow"
+          ],
+          "environmentText": "产品：synthetic"
+        },
+        {
+          "id": "verification:launch-entry-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。",
+          "exclusions": [
+            "仅启动入口及观察边界通过，首次严格Host核验失败另列",
+            "原启动回执hostVerification=unverified，后续外部核验不追写旧回执",
+            "历史实机记录，不证明当前环境在线，不外推其他产品或版本"
+          ],
+          "evidenceIds": [
+            "evidence:launch-workflow"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:launch-cli-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。",
+          "exclusions": [
+            "仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式",
+            "启动回执与独立Host验收分别判定，不补写旧启动回执",
+            "定向开发修复不代表正式安装包升级或回退验收"
+          ],
+          "evidenceIds": [
+            "evidence:cli-host-compatibility"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:sessions-dashboard-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。",
+          "exclusions": [
+            "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
+            "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
+            "真实断线未强制测试；未调用PML执行工具或写工程模型",
+            "其余27项平台业务任务保留未完成"
+          ],
+          "evidenceIds": [
+            "evidence:dashboard-session-health"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:sessions-initial-host",
+          "scope": "runtime",
+          "result": "failed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "首次启动后严格expectedModel核验因Host报Unknown而拒绝；保留E3D_TARGET_MODEL_MISMATCH失败，不以窗口或管道可见替代身份成功。",
+          "exclusions": [
+            "这是后续修复前的历史失败，不表示后续两次严格验收也失败",
+            "未放宽模块核验，未在该次失败会话执行PML",
+            "不将失败历史覆盖为后来成功"
+          ],
+          "evidenceIds": [
+            "evidence:launch-workflow"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:sessions-bootstrap-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "定向更新启动PML后严格DESIGN身份TargetVerified通过；两次内置有界读取返回OK，原始身份回执保留。",
+          "exclusions": [
+            "该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过",
+            "未核验进程实际加载程序集的文件摘要，未执行回退演练",
+            "历史限定会话，不证明当前环境在线或其他产品可用"
+          ],
+          "evidenceIds": [
+            "evidence:host-bootstrap"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:sessions-host-v1-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "定向更新Host后严格身份及两项查询V1协议通过；限定数组续页、Form/Gadget分页、预算拒绝和无回调副作用断言通过。",
+          "exclusions": [
+            "历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过",
+            "不外推AM、PDMS、其他E3D版本或模块",
+            "未执行回退演练；前四次失败和旧协议0历史分别保留"
+          ],
+          "evidenceIds": [
+            "evidence:cli-host-compatibility"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:sessions-dashboard-offline",
+          "scope": "offline",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "Dashboard会话模型与监测38项隔离测试通过，0失败0跳过；覆盖失联、超时、过期、身份变化及旧结果清理。",
+          "exclusions": [
+            "历史隔离测试，不代表本轮新执行或真实断线验证",
+            "未强制断开正在使用的真实E3D会话",
+            "不证明部署、许可、业务查询或执行授权通过"
+          ],
+          "evidenceIds": [
+            "evidence:dashboard-session-health"
+          ],
+          "environmentText": "产品：synthetic"
+        }
+      ],
       "limitations": [
         "入口创建不等于登录或Host已核验",
         "发现不等于登录"
@@ -3902,14 +5326,180 @@ globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
       ],
       "props": {},
       "text": {
-        "body": "输入：Current Session/BANNER、PMLUI根、进程环境中的启动策略及可选override。\n前置条件：对应profile的Host文件实际存在；安装目录token与安装预览一致。\n算法 / 手段：E3D2.1→net48/2.1、E3D3.1系列→net48/3.1.6、AM/PDMS→net35；策略仅none/空或rehash-all，未知值不当作PML执行。\n副作用：更新会话描述与解析结果；显式rehash-all可执行REHASH，默认关闭。\n校验：不支持映射或缺DLL不得设为成功；策略执行前写开始日志，一旦开始即消耗会话防重试守卫。\n回执：产品/版本/模块/profile/framework信息及策略报告；路径存在不是Host握手成功。\n失败 / 恢复：不自动降级加载错误运行时；改策略环境值通常由新进程读取，失败后不能借重试重复执行当前会话动作。\n规范：R02 verified · R03 verified · R04 verified · R05 verified · R06 verified · R13 verified · R14 verified · R15 verified · R16 verified · R23 verified · R17 verified\n证据：未登记独立证据；不能推定通过",
+        "body": "输入：Current Session/BANNER、PMLUI根、进程环境中的启动策略及可选override。\n前置条件：对应profile的Host文件实际存在；安装目录token与安装预览一致。\n算法 / 手段：E3D2.1→net48/2.1、E3D3.1系列→net48/3.1.6、AM/PDMS→net35；策略仅none/空或rehash-all，未知值不当作PML执行。\n副作用：更新会话描述与解析结果；显式rehash-all可执行REHASH，默认关闭。\n校验：不支持映射或缺DLL不得设为成功；策略执行前写开始日志，一旦开始即消耗会话防重试守卫。\n回执：产品/版本/模块/profile/framework信息及策略报告；路径存在不是Host握手成功。\n失败 / 恢复：不自动降级加载错误运行时；改策略环境值通常由新进程读取，失败后不能借重试重复执行当前会话动作。\n规范：R02 verified · R03 verified · R04 verified · R05 verified · R06 verified · R13 verified · R14 verified · R15 verified · R16 verified · R23 verified · R17 verified\n证据：offline / passed · 2026-10-31 · 产品：synthetic\n启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。\n未涵盖：历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。\n未涵盖：仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。\n未涵盖：仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收\n\nruntime / passed · 2026-11-01 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。\n未涵盖：仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成\n\nruntime / failed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n首次启动后严格expectedModel核验因Host报Unknown而拒绝；保留E3D_TARGET_MODEL_MISMATCH失败，不以窗口或管道可见替代身份成功。\n未涵盖：这是后续修复前的历史失败，不表示后续两次严格验收也失败；未放宽模块核验，未在该次失败会话执行PML；不将失败历史覆盖为后来成功\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n定向更新启动PML后严格DESIGN身份TargetVerified通过；两次内置有界读取返回OK，原始身份回执保留。\n未涵盖：该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过；未核验进程实际加载程序集的文件摘要，未执行回退演练；历史限定会话，不证明当前环境在线或其他产品可用\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n定向更新Host后严格身份及两项查询V1协议通过；限定数组续页、Form/Gadget分页、预算拒绝和无回调副作用断言通过。\n未涵盖：历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过；不外推AM、PDMS、其他E3D版本或模块；未执行回退演练；前四次失败和旧协议0历史分别保留\n\noffline / passed · 2026-11-01 · 产品：synthetic\nDashboard会话模型与监测38项隔离测试通过，0失败0跳过；覆盖失联、超时、过期、身份变化及旧结果清理。\n未涵盖：历史隔离测试，不代表本轮新执行或真实断线验证；未强制断开正在使用的真实E3D会话；不证明部署、许可、业务查询或执行授权通过",
         "status": "pml · runtime",
-        "limit": "入口创建不等于登录或Host已核验；发现不等于登录"
+        "limit": "入口创建不等于登录或Host已核验；发现不等于登录；历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收；仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本；仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收；仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成；这是后续修复前的历史失败，不表示后续两次严格验收也失败；未放宽模块核验，未在该次失败会话执行PML；不将失败历史覆盖为后来成功；该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过；未核验进程实际加载程序集的文件摘要，未执行回退演练；历史限定会话，不证明当前环境在线或其他产品可用；历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过；不外推AM、PDMS、其他E3D版本或模块；未执行回退演练；前四次失败和旧协议0历史分别保留；历史隔离测试，不代表本轮新执行或真实断线验证；未强制断开正在使用的真实E3D会话；不证明部署、许可、业务查询或执行授权通过"
       },
-      "body": "输入：Current Session/BANNER、PMLUI根、进程环境中的启动策略及可选override。\n前置条件：对应profile的Host文件实际存在；安装目录token与安装预览一致。\n算法 / 手段：E3D2.1→net48/2.1、E3D3.1系列→net48/3.1.6、AM/PDMS→net35；策略仅none/空或rehash-all，未知值不当作PML执行。\n副作用：更新会话描述与解析结果；显式rehash-all可执行REHASH，默认关闭。\n校验：不支持映射或缺DLL不得设为成功；策略执行前写开始日志，一旦开始即消耗会话防重试守卫。\n回执：产品/版本/模块/profile/framework信息及策略报告；路径存在不是Host握手成功。\n失败 / 恢复：不自动降级加载错误运行时；改策略环境值通常由新进程读取，失败后不能借重试重复执行当前会话动作。\n规范：R02 verified · R03 verified · R04 verified · R05 verified · R06 verified · R13 verified · R14 verified · R15 verified · R16 verified · R23 verified · R17 verified\n证据：未登记独立证据；不能推定通过",
+      "body": "输入：Current Session/BANNER、PMLUI根、进程环境中的启动策略及可选override。\n前置条件：对应profile的Host文件实际存在；安装目录token与安装预览一致。\n算法 / 手段：E3D2.1→net48/2.1、E3D3.1系列→net48/3.1.6、AM/PDMS→net35；策略仅none/空或rehash-all，未知值不当作PML执行。\n副作用：更新会话描述与解析结果；显式rehash-all可执行REHASH，默认关闭。\n校验：不支持映射或缺DLL不得设为成功；策略执行前写开始日志，一旦开始即消耗会话防重试守卫。\n回执：产品/版本/模块/profile/framework信息及策略报告；路径存在不是Host握手成功。\n失败 / 恢复：不自动降级加载错误运行时；改策略环境值通常由新进程读取，失败后不能借重试重复执行当前会话动作。\n规范：R02 verified · R03 verified · R04 verified · R05 verified · R06 verified · R13 verified · R14 verified · R15 verified · R16 verified · R23 verified · R17 verified\n证据：offline / passed · 2026-10-31 · 产品：synthetic\n启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。\n未涵盖：历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。\n未涵盖：仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。\n未涵盖：仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收\n\nruntime / passed · 2026-11-01 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。\n未涵盖：仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成\n\nruntime / failed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n首次启动后严格expectedModel核验因Host报Unknown而拒绝；保留E3D_TARGET_MODEL_MISMATCH失败，不以窗口或管道可见替代身份成功。\n未涵盖：这是后续修复前的历史失败，不表示后续两次严格验收也失败；未放宽模块核验，未在该次失败会话执行PML；不将失败历史覆盖为后来成功\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n定向更新启动PML后严格DESIGN身份TargetVerified通过；两次内置有界读取返回OK，原始身份回执保留。\n未涵盖：该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过；未核验进程实际加载程序集的文件摘要，未执行回退演练；历史限定会话，不证明当前环境在线或其他产品可用\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n定向更新Host后严格身份及两项查询V1协议通过；限定数组续页、Form/Gadget分页、预算拒绝和无回调副作用断言通过。\n未涵盖：历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过；不外推AM、PDMS、其他E3D版本或模块；未执行回退演练；前四次失败和旧协议0历史分别保留\n\noffline / passed · 2026-11-01 · 产品：synthetic\nDashboard会话模型与监测38项隔离测试通过，0失败0跳过；覆盖失联、超时、过期、身份变化及旧结果清理。\n未涵盖：历史隔离测试，不代表本轮新执行或真实断线验证；未强制断开正在使用的真实E3D会话；不证明部署、许可、业务查询或执行授权通过",
       "status": "pml · runtime",
-      "limit": "入口创建不等于登录或Host已核验；发现不等于登录",
-      "evidence": []
+      "limit": "入口创建不等于登录或Host已核验；发现不等于登录；历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收；仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本；仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收；仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成；这是后续修复前的历史失败，不表示后续两次严格验收也失败；未放宽模块核验，未在该次失败会话执行PML；不将失败历史覆盖为后来成功；该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过；未核验进程实际加载程序集的文件摘要，未执行回退演练；历史限定会话，不证明当前环境在线或其他产品可用；历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过；不外推AM、PDMS、其他E3D版本或模块；未执行回退演练；前四次失败和旧协议0历史分别保留；历史隔离测试，不代表本轮新执行或真实断线验证；未强制断开正在使用的真实E3D会话；不证明部署、许可、业务查询或执行授权通过",
+      "evidence": [
+        {
+          "id": "verification:launch-offline",
+          "scope": "offline",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。",
+          "exclusions": [
+            "历史报告，不代表本轮重新执行或当前源码全部通过",
+            "可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加",
+            "不包含安装升级、回退、断电与完整跨产品任务验收"
+          ],
+          "evidenceIds": [
+            "evidence:launch-workflow"
+          ],
+          "environmentText": "产品：synthetic"
+        },
+        {
+          "id": "verification:launch-entry-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。",
+          "exclusions": [
+            "仅启动入口及观察边界通过，首次严格Host核验失败另列",
+            "原启动回执hostVerification=unverified，后续外部核验不追写旧回执",
+            "历史实机记录，不证明当前环境在线，不外推其他产品或版本"
+          ],
+          "evidenceIds": [
+            "evidence:launch-workflow"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:launch-cli-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。",
+          "exclusions": [
+            "仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式",
+            "启动回执与独立Host验收分别判定，不补写旧启动回执",
+            "定向开发修复不代表正式安装包升级或回退验收"
+          ],
+          "evidenceIds": [
+            "evidence:cli-host-compatibility"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:sessions-dashboard-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。",
+          "exclusions": [
+            "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
+            "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
+            "真实断线未强制测试；未调用PML执行工具或写工程模型",
+            "其余27项平台业务任务保留未完成"
+          ],
+          "evidenceIds": [
+            "evidence:dashboard-session-health"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:sessions-initial-host",
+          "scope": "runtime",
+          "result": "failed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "首次启动后严格expectedModel核验因Host报Unknown而拒绝；保留E3D_TARGET_MODEL_MISMATCH失败，不以窗口或管道可见替代身份成功。",
+          "exclusions": [
+            "这是后续修复前的历史失败，不表示后续两次严格验收也失败",
+            "未放宽模块核验，未在该次失败会话执行PML",
+            "不将失败历史覆盖为后来成功"
+          ],
+          "evidenceIds": [
+            "evidence:launch-workflow"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:sessions-bootstrap-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "定向更新启动PML后严格DESIGN身份TargetVerified通过；两次内置有界读取返回OK，原始身份回执保留。",
+          "exclusions": [
+            "该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过",
+            "未核验进程实际加载程序集的文件摘要，未执行回退演练",
+            "历史限定会话，不证明当前环境在线或其他产品可用"
+          ],
+          "evidenceIds": [
+            "evidence:host-bootstrap"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:sessions-host-v1-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "定向更新Host后严格身份及两项查询V1协议通过；限定数组续页、Form/Gadget分页、预算拒绝和无回调副作用断言通过。",
+          "exclusions": [
+            "历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过",
+            "不外推AM、PDMS、其他E3D版本或模块",
+            "未执行回退演练；前四次失败和旧协议0历史分别保留"
+          ],
+          "evidenceIds": [
+            "evidence:cli-host-compatibility"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:sessions-dashboard-offline",
+          "scope": "offline",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "Dashboard会话模型与监测38项隔离测试通过，0失败0跳过；覆盖失联、超时、过期、身份变化及旧结果清理。",
+          "exclusions": [
+            "历史隔离测试，不代表本轮新执行或真实断线验证",
+            "未强制断开正在使用的真实E3D会话",
+            "不证明部署、许可、业务查询或执行授权通过"
+          ],
+          "evidenceIds": [
+            "evidence:dashboard-session-health"
+          ],
+          "environmentText": "产品：synthetic"
+        }
+      ]
     },
     {
       "id": "script:ribbon-frozen-deployment",
@@ -4777,6 +6367,110 @@ globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
       "implementation": null,
       "verifications": [
         {
+          "id": "verification:sessions-initial-host",
+          "scope": "runtime",
+          "result": "failed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "首次启动后严格expectedModel核验因Host报Unknown而拒绝；保留E3D_TARGET_MODEL_MISMATCH失败，不以窗口或管道可见替代身份成功。",
+          "exclusions": [
+            "这是后续修复前的历史失败，不表示后续两次严格验收也失败",
+            "未放宽模块核验，未在该次失败会话执行PML",
+            "不将失败历史覆盖为后来成功"
+          ],
+          "evidenceIds": [
+            "evidence:launch-workflow"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:sessions-bootstrap-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "定向更新启动PML后严格DESIGN身份TargetVerified通过；两次内置有界读取返回OK，原始身份回执保留。",
+          "exclusions": [
+            "该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过",
+            "未核验进程实际加载程序集的文件摘要，未执行回退演练",
+            "历史限定会话，不证明当前环境在线或其他产品可用"
+          ],
+          "evidenceIds": [
+            "evidence:host-bootstrap"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:sessions-host-v1-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "定向更新Host后严格身份及两项查询V1协议通过；限定数组续页、Form/Gadget分页、预算拒绝和无回调副作用断言通过。",
+          "exclusions": [
+            "历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过",
+            "不外推AM、PDMS、其他E3D版本或模块",
+            "未执行回退演练；前四次失败和旧协议0历史分别保留"
+          ],
+          "evidenceIds": [
+            "evidence:cli-host-compatibility"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:sessions-dashboard-offline",
+          "scope": "offline",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "Dashboard会话模型与监测38项隔离测试通过，0失败0跳过；覆盖失联、超时、过期、身份变化及旧结果清理。",
+          "exclusions": [
+            "历史隔离测试，不代表本轮新执行或真实断线验证",
+            "未强制断开正在使用的真实E3D会话",
+            "不证明部署、许可、业务查询或执行授权通过"
+          ],
+          "evidenceIds": [
+            "evidence:dashboard-session-health"
+          ],
+          "environmentText": "产品：synthetic"
+        },
+        {
+          "id": "verification:sessions-dashboard-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。",
+          "exclusions": [
+            "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
+            "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
+            "真实断线未强制测试；未调用PML执行工具或写工程模型",
+            "其余27项平台业务任务保留未完成"
+          ],
+          "evidenceIds": [
+            "evidence:dashboard-session-health"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
           "id": "verification:ribbon-ui",
           "scope": "ui",
           "result": "passed",
@@ -4827,14 +6521,118 @@ globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
       ],
       "props": {},
       "text": {
-        "body": "输入：明确授权的独立测试界面文件、单模块登记、目标产品与冻结备份。\n前置条件：启动、文件写入与重启分别获准；新会话重新严格核验。\n算法 / 手段：直接HTTP冻结部署后正常重启，独立核验身份与实际界面，再有条件恢复。\n副作用：改变独立测试文件与指定登记并启动、退出真实产品；未点击宏。\n校验：新旧会话分别核对；实际页签、分组、大小图标与Tooltip限定外观证据。\n回执：部署时仍为磁盘成功、运行时未核验；后续外观通过作为独立事实追加。\n失败 / 恢复：正常退出后按冻结摘要恢复唯一测试登记；保留备份，其他产品不外推。\n规范：R17 verified\n证据：ui / passed · 2026-10-31 · 产品：synthetic\n离线53项通过，Web DOM完整apply；原生WPF仅预览，Apply由HTTP客户端验证。\n未涵盖：不是UI全程实机验收；首次新建仍为v1兼容\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n限定产品正常重启后实际页签、分组、32/16图标与Tooltip通过。\n未涵盖：未点击宏；直接HTTP部署，不是UI全程；不外推其他产品与模块",
+        "body": "输入：明确授权的独立测试界面文件、单模块登记、目标产品与冻结备份。\n前置条件：启动、文件写入与重启分别获准；新会话重新严格核验。\n算法 / 手段：直接HTTP冻结部署后正常重启，独立核验身份与实际界面，再有条件恢复。\n副作用：改变独立测试文件与指定登记并启动、退出真实产品；未点击宏。\n校验：新旧会话分别核对；实际页签、分组、大小图标与Tooltip限定外观证据。\n回执：部署时仍为磁盘成功、运行时未核验；后续外观通过作为独立事实追加。\n失败 / 恢复：正常退出后按冻结摘要恢复唯一测试登记；保留备份，其他产品不外推。\n规范：R17 verified\n证据：runtime / failed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n首次启动后严格expectedModel核验因Host报Unknown而拒绝；保留E3D_TARGET_MODEL_MISMATCH失败，不以窗口或管道可见替代身份成功。\n未涵盖：这是后续修复前的历史失败，不表示后续两次严格验收也失败；未放宽模块核验，未在该次失败会话执行PML；不将失败历史覆盖为后来成功\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n定向更新启动PML后严格DESIGN身份TargetVerified通过；两次内置有界读取返回OK，原始身份回执保留。\n未涵盖：该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过；未核验进程实际加载程序集的文件摘要，未执行回退演练；历史限定会话，不证明当前环境在线或其他产品可用\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n定向更新Host后严格身份及两项查询V1协议通过；限定数组续页、Form/Gadget分页、预算拒绝和无回调副作用断言通过。\n未涵盖：历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过；不外推AM、PDMS、其他E3D版本或模块；未执行回退演练；前四次失败和旧协议0历史分别保留\n\noffline / passed · 2026-11-01 · 产品：synthetic\nDashboard会话模型与监测38项隔离测试通过，0失败0跳过；覆盖失联、超时、过期、身份变化及旧结果清理。\n未涵盖：历史隔离测试，不代表本轮新执行或真实断线验证；未强制断开正在使用的真实E3D会话；不证明部署、许可、业务查询或执行授权通过\n\nruntime / passed · 2026-11-01 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。\n未涵盖：仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成\n\nui / passed · 2026-10-31 · 产品：synthetic\n离线53项通过，Web DOM完整apply；原生WPF仅预览，Apply由HTTP客户端验证。\n未涵盖：不是UI全程实机验收；首次新建仍为v1兼容\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n限定产品正常重启后实际页签、分组、32/16图标与Tooltip通过。\n未涵盖：未点击宏；直接HTTP部署，不是UI全程；不外推其他产品与模块",
         "status": "procedure · acceptance",
-        "limit": "发现不等于登录；首次新文件为v1兼容；限定运行时外观通过，未点击宏；不是UI全程实机验收；首次新建仍为v1兼容；未点击宏；直接HTTP部署，不是UI全程；不外推其他产品与模块"
+        "limit": "发现不等于登录；首次新文件为v1兼容；限定运行时外观通过，未点击宏；这是后续修复前的历史失败，不表示后续两次严格验收也失败；未放宽模块核验，未在该次失败会话执行PML；不将失败历史覆盖为后来成功；该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过；未核验进程实际加载程序集的文件摘要，未执行回退演练；历史限定会话，不证明当前环境在线或其他产品可用；历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过；不外推AM、PDMS、其他E3D版本或模块；未执行回退演练；前四次失败和旧协议0历史分别保留；历史隔离测试，不代表本轮新执行或真实断线验证；未强制断开正在使用的真实E3D会话；不证明部署、许可、业务查询或执行授权通过；仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成；不是UI全程实机验收；首次新建仍为v1兼容；未点击宏；直接HTTP部署，不是UI全程；不外推其他产品与模块"
       },
-      "body": "输入：明确授权的独立测试界面文件、单模块登记、目标产品与冻结备份。\n前置条件：启动、文件写入与重启分别获准；新会话重新严格核验。\n算法 / 手段：直接HTTP冻结部署后正常重启，独立核验身份与实际界面，再有条件恢复。\n副作用：改变独立测试文件与指定登记并启动、退出真实产品；未点击宏。\n校验：新旧会话分别核对；实际页签、分组、大小图标与Tooltip限定外观证据。\n回执：部署时仍为磁盘成功、运行时未核验；后续外观通过作为独立事实追加。\n失败 / 恢复：正常退出后按冻结摘要恢复唯一测试登记；保留备份，其他产品不外推。\n规范：R17 verified\n证据：ui / passed · 2026-10-31 · 产品：synthetic\n离线53项通过，Web DOM完整apply；原生WPF仅预览，Apply由HTTP客户端验证。\n未涵盖：不是UI全程实机验收；首次新建仍为v1兼容\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n限定产品正常重启后实际页签、分组、32/16图标与Tooltip通过。\n未涵盖：未点击宏；直接HTTP部署，不是UI全程；不外推其他产品与模块",
+      "body": "输入：明确授权的独立测试界面文件、单模块登记、目标产品与冻结备份。\n前置条件：启动、文件写入与重启分别获准；新会话重新严格核验。\n算法 / 手段：直接HTTP冻结部署后正常重启，独立核验身份与实际界面，再有条件恢复。\n副作用：改变独立测试文件与指定登记并启动、退出真实产品；未点击宏。\n校验：新旧会话分别核对；实际页签、分组、大小图标与Tooltip限定外观证据。\n回执：部署时仍为磁盘成功、运行时未核验；后续外观通过作为独立事实追加。\n失败 / 恢复：正常退出后按冻结摘要恢复唯一测试登记；保留备份，其他产品不外推。\n规范：R17 verified\n证据：runtime / failed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n首次启动后严格expectedModel核验因Host报Unknown而拒绝；保留E3D_TARGET_MODEL_MISMATCH失败，不以窗口或管道可见替代身份成功。\n未涵盖：这是后续修复前的历史失败，不表示后续两次严格验收也失败；未放宽模块核验，未在该次失败会话执行PML；不将失败历史覆盖为后来成功\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n定向更新启动PML后严格DESIGN身份TargetVerified通过；两次内置有界读取返回OK，原始身份回执保留。\n未涵盖：该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过；未核验进程实际加载程序集的文件摘要，未执行回退演练；历史限定会话，不证明当前环境在线或其他产品可用\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n定向更新Host后严格身份及两项查询V1协议通过；限定数组续页、Form/Gadget分页、预算拒绝和无回调副作用断言通过。\n未涵盖：历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过；不外推AM、PDMS、其他E3D版本或模块；未执行回退演练；前四次失败和旧协议0历史分别保留\n\noffline / passed · 2026-11-01 · 产品：synthetic\nDashboard会话模型与监测38项隔离测试通过，0失败0跳过；覆盖失联、超时、过期、身份变化及旧结果清理。\n未涵盖：历史隔离测试，不代表本轮新执行或真实断线验证；未强制断开正在使用的真实E3D会话；不证明部署、许可、业务查询或执行授权通过\n\nruntime / passed · 2026-11-01 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。\n未涵盖：仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成\n\nui / passed · 2026-10-31 · 产品：synthetic\n离线53项通过，Web DOM完整apply；原生WPF仅预览，Apply由HTTP客户端验证。\n未涵盖：不是UI全程实机验收；首次新建仍为v1兼容\n\nruntime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n限定产品正常重启后实际页签、分组、32/16图标与Tooltip通过。\n未涵盖：未点击宏；直接HTTP部署，不是UI全程；不外推其他产品与模块",
       "status": "procedure · acceptance",
-      "limit": "发现不等于登录；首次新文件为v1兼容；限定运行时外观通过，未点击宏；不是UI全程实机验收；首次新建仍为v1兼容；未点击宏；直接HTTP部署，不是UI全程；不外推其他产品与模块",
+      "limit": "发现不等于登录；首次新文件为v1兼容；限定运行时外观通过，未点击宏；这是后续修复前的历史失败，不表示后续两次严格验收也失败；未放宽模块核验，未在该次失败会话执行PML；不将失败历史覆盖为后来成功；该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过；未核验进程实际加载程序集的文件摘要，未执行回退演练；历史限定会话，不证明当前环境在线或其他产品可用；历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过；不外推AM、PDMS、其他E3D版本或模块；未执行回退演练；前四次失败和旧协议0历史分别保留；历史隔离测试，不代表本轮新执行或真实断线验证；未强制断开正在使用的真实E3D会话；不证明部署、许可、业务查询或执行授权通过；仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成；不是UI全程实机验收；首次新建仍为v1兼容；未点击宏；直接HTTP部署，不是UI全程；不外推其他产品与模块",
       "evidence": [
+        {
+          "id": "verification:sessions-initial-host",
+          "scope": "runtime",
+          "result": "failed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "首次启动后严格expectedModel核验因Host报Unknown而拒绝；保留E3D_TARGET_MODEL_MISMATCH失败，不以窗口或管道可见替代身份成功。",
+          "exclusions": [
+            "这是后续修复前的历史失败，不表示后续两次严格验收也失败",
+            "未放宽模块核验，未在该次失败会话执行PML",
+            "不将失败历史覆盖为后来成功"
+          ],
+          "evidenceIds": [
+            "evidence:launch-workflow"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:sessions-bootstrap-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "定向更新启动PML后严格DESIGN身份TargetVerified通过；两次内置有界读取返回OK，原始身份回执保留。",
+          "exclusions": [
+            "该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过",
+            "未核验进程实际加载程序集的文件摘要，未执行回退演练",
+            "历史限定会话，不证明当前环境在线或其他产品可用"
+          ],
+          "evidenceIds": [
+            "evidence:host-bootstrap"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:sessions-host-v1-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "定向更新Host后严格身份及两项查询V1协议通过；限定数组续页、Form/Gadget分页、预算拒绝和无回调副作用断言通过。",
+          "exclusions": [
+            "历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过",
+            "不外推AM、PDMS、其他E3D版本或模块",
+            "未执行回退演练；前四次失败和旧协议0历史分别保留"
+          ],
+          "evidenceIds": [
+            "evidence:cli-host-compatibility"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
+        {
+          "id": "verification:sessions-dashboard-offline",
+          "scope": "offline",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "Dashboard会话模型与监测38项隔离测试通过，0失败0跳过；覆盖失联、超时、过期、身份变化及旧结果清理。",
+          "exclusions": [
+            "历史隔离测试，不代表本轮新执行或真实断线验证",
+            "未强制断开正在使用的真实E3D会话",
+            "不证明部署、许可、业务查询或执行授权通过"
+          ],
+          "evidenceIds": [
+            "evidence:dashboard-session-health"
+          ],
+          "environmentText": "产品：synthetic"
+        },
+        {
+          "id": "verification:sessions-dashboard-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。",
+          "exclusions": [
+            "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
+            "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
+            "真实断线未强制测试；未调用PML执行工具或写工程模型",
+            "其余27项平台业务任务保留未完成"
+          ],
+          "evidenceIds": [
+            "evidence:dashboard-session-health"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        },
         {
           "id": "verification:ribbon-ui",
           "scope": "ui",
@@ -5299,6 +7097,737 @@ globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
             "evidence:caf"
           ],
           "environmentText": "产品：CAF"
+        }
+      ]
+    },
+    {
+      "id": "verification:launch-offline",
+      "entityId": "verification:launch-offline",
+      "component": "EvidenceBadge",
+      "title": "offline / passed",
+      "summary": "启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。",
+      "sections": [
+        {
+          "id": "verification:launch-offline/claim",
+          "key": "claim",
+          "title": "证据结论",
+          "text": "启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。",
+          "sourceRefs": [
+            "source:evidence-launch-workflow"
+          ]
+        },
+        {
+          "id": "verification:launch-offline/environment",
+          "key": "environment",
+          "title": "适用环境",
+          "text": "产品：synthetic",
+          "sourceRefs": [
+            "source:evidence-launch-workflow"
+          ]
+        }
+      ],
+      "requirements": [],
+      "implementation": null,
+      "verifications": [
+        {
+          "id": "verification:launch-offline",
+          "scope": "offline",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。",
+          "exclusions": [
+            "历史报告，不代表本轮重新执行或当前源码全部通过",
+            "可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加",
+            "不包含安装升级、回退、断电与完整跨产品任务验收"
+          ],
+          "evidenceIds": [
+            "evidence:launch-workflow"
+          ],
+          "environmentText": "产品：synthetic"
+        }
+      ],
+      "limitations": [
+        "历史报告，不代表本轮重新执行或当前源码全部通过",
+        "可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加",
+        "不包含安装升级、回退、断电与完整跨产品任务验收"
+      ],
+      "sourceRefs": [
+        "source:evidence-launch-workflow"
+      ],
+      "props": {},
+      "text": {
+        "body": "证据结论：启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。\n适用环境：产品：synthetic\n规范：未单独关联规范条目\n证据：offline / passed · 2026-10-31 · 产品：synthetic\n启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。\n未涵盖：历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收",
+        "status": "offline / passed · 2026-10-31 · 产品：synthetic",
+        "limit": "历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收"
+      },
+      "body": "证据结论：启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。\n适用环境：产品：synthetic\n规范：未单独关联规范条目\n证据：offline / passed · 2026-10-31 · 产品：synthetic\n启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。\n未涵盖：历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收",
+      "status": "offline / passed · 2026-10-31 · 产品：synthetic",
+      "limit": "历史报告，不代表本轮重新执行或当前源码全部通过；可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加；不包含安装升级、回退、断电与完整跨产品任务验收",
+      "evidence": [
+        {
+          "id": "verification:launch-offline",
+          "scope": "offline",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。",
+          "exclusions": [
+            "历史报告，不代表本轮重新执行或当前源码全部通过",
+            "可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加",
+            "不包含安装升级、回退、断电与完整跨产品任务验收"
+          ],
+          "evidenceIds": [
+            "evidence:launch-workflow"
+          ],
+          "environmentText": "产品：synthetic"
+        }
+      ]
+    },
+    {
+      "id": "verification:launch-entry-runtime",
+      "entityId": "verification:launch-entry-runtime",
+      "component": "EvidenceBadge",
+      "title": "runtime / passed",
+      "summary": "限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。",
+      "sections": [
+        {
+          "id": "verification:launch-entry-runtime/claim",
+          "key": "claim",
+          "title": "证据结论",
+          "text": "限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。",
+          "sourceRefs": [
+            "source:evidence-launch-workflow"
+          ]
+        },
+        {
+          "id": "verification:launch-entry-runtime/environment",
+          "key": "environment",
+          "title": "适用环境",
+          "text": "产品：E3D · 版本：2.1 · 模块：DESIGN",
+          "sourceRefs": [
+            "source:evidence-launch-workflow"
+          ]
+        }
+      ],
+      "requirements": [],
+      "implementation": null,
+      "verifications": [
+        {
+          "id": "verification:launch-entry-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。",
+          "exclusions": [
+            "仅启动入口及观察边界通过，首次严格Host核验失败另列",
+            "原启动回执hostVerification=unverified，后续外部核验不追写旧回执",
+            "历史实机记录，不证明当前环境在线，不外推其他产品或版本"
+          ],
+          "evidenceIds": [
+            "evidence:launch-workflow"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        }
+      ],
+      "limitations": [
+        "仅启动入口及观察边界通过，首次严格Host核验失败另列",
+        "原启动回执hostVerification=unverified，后续外部核验不追写旧回执",
+        "历史实机记录，不证明当前环境在线，不外推其他产品或版本"
+      ],
+      "sourceRefs": [
+        "source:evidence-launch-workflow"
+      ],
+      "props": {},
+      "text": {
+        "body": "证据结论：限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。\n适用环境：产品：E3D · 版本：2.1 · 模块：DESIGN\n规范：未单独关联规范条目\n证据：runtime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。\n未涵盖：仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本",
+        "status": "runtime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN",
+        "limit": "仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本"
+      },
+      "body": "证据结论：限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。\n适用环境：产品：E3D · 版本：2.1 · 模块：DESIGN\n规范：未单独关联规范条目\n证据：runtime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。\n未涵盖：仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本",
+      "status": "runtime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN",
+      "limit": "仅启动入口及观察边界通过，首次严格Host核验失败另列；原启动回执hostVerification=unverified，后续外部核验不追写旧回执；历史实机记录，不证明当前环境在线，不外推其他产品或版本",
+      "evidence": [
+        {
+          "id": "verification:launch-entry-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。",
+          "exclusions": [
+            "仅启动入口及观察边界通过，首次严格Host核验失败另列",
+            "原启动回执hostVerification=unverified，后续外部核验不追写旧回执",
+            "历史实机记录，不证明当前环境在线，不外推其他产品或版本"
+          ],
+          "evidenceIds": [
+            "evidence:launch-workflow"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        }
+      ]
+    },
+    {
+      "id": "verification:sessions-initial-host",
+      "entityId": "verification:sessions-initial-host",
+      "component": "EvidenceBadge",
+      "title": "runtime / failed",
+      "summary": "首次启动后严格expectedModel核验因Host报Unknown而拒绝；保留E3D_TARGET_MODEL_MISMATCH失败，不以窗口或管道可见替代身份成功。",
+      "sections": [
+        {
+          "id": "verification:sessions-initial-host/claim",
+          "key": "claim",
+          "title": "证据结论",
+          "text": "首次启动后严格expectedModel核验因Host报Unknown而拒绝；保留E3D_TARGET_MODEL_MISMATCH失败，不以窗口或管道可见替代身份成功。",
+          "sourceRefs": [
+            "source:evidence-launch-workflow"
+          ]
+        },
+        {
+          "id": "verification:sessions-initial-host/environment",
+          "key": "environment",
+          "title": "适用环境",
+          "text": "产品：E3D · 版本：2.1 · 模块：DESIGN",
+          "sourceRefs": [
+            "source:evidence-launch-workflow"
+          ]
+        }
+      ],
+      "requirements": [],
+      "implementation": null,
+      "verifications": [
+        {
+          "id": "verification:sessions-initial-host",
+          "scope": "runtime",
+          "result": "failed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "首次启动后严格expectedModel核验因Host报Unknown而拒绝；保留E3D_TARGET_MODEL_MISMATCH失败，不以窗口或管道可见替代身份成功。",
+          "exclusions": [
+            "这是后续修复前的历史失败，不表示后续两次严格验收也失败",
+            "未放宽模块核验，未在该次失败会话执行PML",
+            "不将失败历史覆盖为后来成功"
+          ],
+          "evidenceIds": [
+            "evidence:launch-workflow"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        }
+      ],
+      "limitations": [
+        "这是后续修复前的历史失败，不表示后续两次严格验收也失败",
+        "未放宽模块核验，未在该次失败会话执行PML",
+        "不将失败历史覆盖为后来成功"
+      ],
+      "sourceRefs": [
+        "source:evidence-launch-workflow"
+      ],
+      "props": {},
+      "text": {
+        "body": "证据结论：首次启动后严格expectedModel核验因Host报Unknown而拒绝；保留E3D_TARGET_MODEL_MISMATCH失败，不以窗口或管道可见替代身份成功。\n适用环境：产品：E3D · 版本：2.1 · 模块：DESIGN\n规范：未单独关联规范条目\n证据：runtime / failed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n首次启动后严格expectedModel核验因Host报Unknown而拒绝；保留E3D_TARGET_MODEL_MISMATCH失败，不以窗口或管道可见替代身份成功。\n未涵盖：这是后续修复前的历史失败，不表示后续两次严格验收也失败；未放宽模块核验，未在该次失败会话执行PML；不将失败历史覆盖为后来成功",
+        "status": "runtime / failed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN",
+        "limit": "这是后续修复前的历史失败，不表示后续两次严格验收也失败；未放宽模块核验，未在该次失败会话执行PML；不将失败历史覆盖为后来成功"
+      },
+      "body": "证据结论：首次启动后严格expectedModel核验因Host报Unknown而拒绝；保留E3D_TARGET_MODEL_MISMATCH失败，不以窗口或管道可见替代身份成功。\n适用环境：产品：E3D · 版本：2.1 · 模块：DESIGN\n规范：未单独关联规范条目\n证据：runtime / failed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n首次启动后严格expectedModel核验因Host报Unknown而拒绝；保留E3D_TARGET_MODEL_MISMATCH失败，不以窗口或管道可见替代身份成功。\n未涵盖：这是后续修复前的历史失败，不表示后续两次严格验收也失败；未放宽模块核验，未在该次失败会话执行PML；不将失败历史覆盖为后来成功",
+      "status": "runtime / failed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN",
+      "limit": "这是后续修复前的历史失败，不表示后续两次严格验收也失败；未放宽模块核验，未在该次失败会话执行PML；不将失败历史覆盖为后来成功",
+      "evidence": [
+        {
+          "id": "verification:sessions-initial-host",
+          "scope": "runtime",
+          "result": "failed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "首次启动后严格expectedModel核验因Host报Unknown而拒绝；保留E3D_TARGET_MODEL_MISMATCH失败，不以窗口或管道可见替代身份成功。",
+          "exclusions": [
+            "这是后续修复前的历史失败，不表示后续两次严格验收也失败",
+            "未放宽模块核验，未在该次失败会话执行PML",
+            "不将失败历史覆盖为后来成功"
+          ],
+          "evidenceIds": [
+            "evidence:launch-workflow"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        }
+      ]
+    },
+    {
+      "id": "verification:sessions-bootstrap-runtime",
+      "entityId": "verification:sessions-bootstrap-runtime",
+      "component": "EvidenceBadge",
+      "title": "runtime / passed",
+      "summary": "定向更新启动PML后严格DESIGN身份TargetVerified通过；两次内置有界读取返回OK，原始身份回执保留。",
+      "sections": [
+        {
+          "id": "verification:sessions-bootstrap-runtime/claim",
+          "key": "claim",
+          "title": "证据结论",
+          "text": "定向更新启动PML后严格DESIGN身份TargetVerified通过；两次内置有界读取返回OK，原始身份回执保留。",
+          "sourceRefs": [
+            "source:evidence-host-bootstrap"
+          ]
+        },
+        {
+          "id": "verification:sessions-bootstrap-runtime/environment",
+          "key": "environment",
+          "title": "适用环境",
+          "text": "产品：E3D · 版本：2.1 · 模块：DESIGN",
+          "sourceRefs": [
+            "source:evidence-host-bootstrap"
+          ]
+        }
+      ],
+      "requirements": [],
+      "implementation": null,
+      "verifications": [
+        {
+          "id": "verification:sessions-bootstrap-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "定向更新启动PML后严格DESIGN身份TargetVerified通过；两次内置有界读取返回OK，原始身份回执保留。",
+          "exclusions": [
+            "该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过",
+            "未核验进程实际加载程序集的文件摘要，未执行回退演练",
+            "历史限定会话，不证明当前环境在线或其他产品可用"
+          ],
+          "evidenceIds": [
+            "evidence:host-bootstrap"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        }
+      ],
+      "limitations": [
+        "该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过",
+        "未核验进程实际加载程序集的文件摘要，未执行回退演练",
+        "历史限定会话，不证明当前环境在线或其他产品可用"
+      ],
+      "sourceRefs": [
+        "source:evidence-host-bootstrap"
+      ],
+      "props": {},
+      "text": {
+        "body": "证据结论：定向更新启动PML后严格DESIGN身份TargetVerified通过；两次内置有界读取返回OK，原始身份回执保留。\n适用环境：产品：E3D · 版本：2.1 · 模块：DESIGN\n规范：未单独关联规范条目\n证据：runtime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n定向更新启动PML后严格DESIGN身份TargetVerified通过；两次内置有界读取返回OK，原始身份回执保留。\n未涵盖：该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过；未核验进程实际加载程序集的文件摘要，未执行回退演练；历史限定会话，不证明当前环境在线或其他产品可用",
+        "status": "runtime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN",
+        "limit": "该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过；未核验进程实际加载程序集的文件摘要，未执行回退演练；历史限定会话，不证明当前环境在线或其他产品可用"
+      },
+      "body": "证据结论：定向更新启动PML后严格DESIGN身份TargetVerified通过；两次内置有界读取返回OK，原始身份回执保留。\n适用环境：产品：E3D · 版本：2.1 · 模块：DESIGN\n规范：未单独关联规范条目\n证据：runtime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n定向更新启动PML后严格DESIGN身份TargetVerified通过；两次内置有界读取返回OK，原始身份回执保留。\n未涵盖：该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过；未核验进程实际加载程序集的文件摘要，未执行回退演练；历史限定会话，不证明当前环境在线或其他产品可用",
+      "status": "runtime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN",
+      "limit": "该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过；未核验进程实际加载程序集的文件摘要，未执行回退演练；历史限定会话，不证明当前环境在线或其他产品可用",
+      "evidence": [
+        {
+          "id": "verification:sessions-bootstrap-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "定向更新启动PML后严格DESIGN身份TargetVerified通过；两次内置有界读取返回OK，原始身份回执保留。",
+          "exclusions": [
+            "该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过",
+            "未核验进程实际加载程序集的文件摘要，未执行回退演练",
+            "历史限定会话，不证明当前环境在线或其他产品可用"
+          ],
+          "evidenceIds": [
+            "evidence:host-bootstrap"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        }
+      ]
+    },
+    {
+      "id": "verification:launch-cli-runtime",
+      "entityId": "verification:launch-cli-runtime",
+      "component": "EvidenceBadge",
+      "title": "runtime / passed",
+      "summary": "修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。",
+      "sections": [
+        {
+          "id": "verification:launch-cli-runtime/claim",
+          "key": "claim",
+          "title": "证据结论",
+          "text": "修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。",
+          "sourceRefs": [
+            "source:evidence-cli-host-compatibility"
+          ]
+        },
+        {
+          "id": "verification:launch-cli-runtime/environment",
+          "key": "environment",
+          "title": "适用环境",
+          "text": "产品：E3D · 版本：2.1 · 模块：DESIGN",
+          "sourceRefs": [
+            "source:evidence-cli-host-compatibility"
+          ]
+        }
+      ],
+      "requirements": [],
+      "implementation": null,
+      "verifications": [
+        {
+          "id": "verification:launch-cli-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。",
+          "exclusions": [
+            "仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式",
+            "启动回执与独立Host验收分别判定，不补写旧启动回执",
+            "定向开发修复不代表正式安装包升级或回退验收"
+          ],
+          "evidenceIds": [
+            "evidence:cli-host-compatibility"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        }
+      ],
+      "limitations": [
+        "仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式",
+        "启动回执与独立Host验收分别判定，不补写旧启动回执",
+        "定向开发修复不代表正式安装包升级或回退验收"
+      ],
+      "sourceRefs": [
+        "source:evidence-cli-host-compatibility"
+      ],
+      "props": {},
+      "text": {
+        "body": "证据结论：修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。\n适用环境：产品：E3D · 版本：2.1 · 模块：DESIGN\n规范：未单独关联规范条目\n证据：runtime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。\n未涵盖：仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收",
+        "status": "runtime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN",
+        "limit": "仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收"
+      },
+      "body": "证据结论：修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。\n适用环境：产品：E3D · 版本：2.1 · 模块：DESIGN\n规范：未单独关联规范条目\n证据：runtime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。\n未涵盖：仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收",
+      "status": "runtime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN",
+      "limit": "仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式；启动回执与独立Host验收分别判定，不补写旧启动回执；定向开发修复不代表正式安装包升级或回退验收",
+      "evidence": [
+        {
+          "id": "verification:launch-cli-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。",
+          "exclusions": [
+            "仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式",
+            "启动回执与独立Host验收分别判定，不补写旧启动回执",
+            "定向开发修复不代表正式安装包升级或回退验收"
+          ],
+          "evidenceIds": [
+            "evidence:cli-host-compatibility"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        }
+      ]
+    },
+    {
+      "id": "verification:sessions-host-v1-runtime",
+      "entityId": "verification:sessions-host-v1-runtime",
+      "component": "EvidenceBadge",
+      "title": "runtime / passed",
+      "summary": "定向更新Host后严格身份及两项查询V1协议通过；限定数组续页、Form/Gadget分页、预算拒绝和无回调副作用断言通过。",
+      "sections": [
+        {
+          "id": "verification:sessions-host-v1-runtime/claim",
+          "key": "claim",
+          "title": "证据结论",
+          "text": "定向更新Host后严格身份及两项查询V1协议通过；限定数组续页、Form/Gadget分页、预算拒绝和无回调副作用断言通过。",
+          "sourceRefs": [
+            "source:evidence-cli-host-compatibility"
+          ]
+        },
+        {
+          "id": "verification:sessions-host-v1-runtime/environment",
+          "key": "environment",
+          "title": "适用环境",
+          "text": "产品：E3D · 版本：2.1 · 模块：DESIGN",
+          "sourceRefs": [
+            "source:evidence-cli-host-compatibility"
+          ]
+        }
+      ],
+      "requirements": [],
+      "implementation": null,
+      "verifications": [
+        {
+          "id": "verification:sessions-host-v1-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "定向更新Host后严格身份及两项查询V1协议通过；限定数组续页、Form/Gadget分页、预算拒绝和无回调副作用断言通过。",
+          "exclusions": [
+            "历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过",
+            "不外推AM、PDMS、其他E3D版本或模块",
+            "未执行回退演练；前四次失败和旧协议0历史分别保留"
+          ],
+          "evidenceIds": [
+            "evidence:cli-host-compatibility"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        }
+      ],
+      "limitations": [
+        "历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过",
+        "不外推AM、PDMS、其他E3D版本或模块",
+        "未执行回退演练；前四次失败和旧协议0历史分别保留"
+      ],
+      "sourceRefs": [
+        "source:evidence-cli-host-compatibility"
+      ],
+      "props": {},
+      "text": {
+        "body": "证据结论：定向更新Host后严格身份及两项查询V1协议通过；限定数组续页、Form/Gadget分页、预算拒绝和无回调副作用断言通过。\n适用环境：产品：E3D · 版本：2.1 · 模块：DESIGN\n规范：未单独关联规范条目\n证据：runtime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n定向更新Host后严格身份及两项查询V1协议通过；限定数组续页、Form/Gadget分页、预算拒绝和无回调副作用断言通过。\n未涵盖：历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过；不外推AM、PDMS、其他E3D版本或模块；未执行回退演练；前四次失败和旧协议0历史分别保留",
+        "status": "runtime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN",
+        "limit": "历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过；不外推AM、PDMS、其他E3D版本或模块；未执行回退演练；前四次失败和旧协议0历史分别保留"
+      },
+      "body": "证据结论：定向更新Host后严格身份及两项查询V1协议通过；限定数组续页、Form/Gadget分页、预算拒绝和无回调副作用断言通过。\n适用环境：产品：E3D · 版本：2.1 · 模块：DESIGN\n规范：未单独关联规范条目\n证据：runtime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n定向更新Host后严格身份及两项查询V1协议通过；限定数组续页、Form/Gadget分页、预算拒绝和无回调副作用断言通过。\n未涵盖：历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过；不外推AM、PDMS、其他E3D版本或模块；未执行回退演练；前四次失败和旧协议0历史分别保留",
+      "status": "runtime / passed · 2026-10-31 · 产品：E3D · 版本：2.1 · 模块：DESIGN",
+      "limit": "历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过；不外推AM、PDMS、其他E3D版本或模块；未执行回退演练；前四次失败和旧协议0历史分别保留",
+      "evidence": [
+        {
+          "id": "verification:sessions-host-v1-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-10-31",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "定向更新Host后严格身份及两项查询V1协议通过；限定数组续页、Form/Gadget分页、预算拒绝和无回调副作用断言通过。",
+          "exclusions": [
+            "历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过",
+            "不外推AM、PDMS、其他E3D版本或模块",
+            "未执行回退演练；前四次失败和旧协议0历史分别保留"
+          ],
+          "evidenceIds": [
+            "evidence:cli-host-compatibility"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        }
+      ]
+    },
+    {
+      "id": "verification:sessions-dashboard-offline",
+      "entityId": "verification:sessions-dashboard-offline",
+      "component": "EvidenceBadge",
+      "title": "offline / passed",
+      "summary": "Dashboard会话模型与监测38项隔离测试通过，0失败0跳过；覆盖失联、超时、过期、身份变化及旧结果清理。",
+      "sections": [
+        {
+          "id": "verification:sessions-dashboard-offline/claim",
+          "key": "claim",
+          "title": "证据结论",
+          "text": "Dashboard会话模型与监测38项隔离测试通过，0失败0跳过；覆盖失联、超时、过期、身份变化及旧结果清理。",
+          "sourceRefs": [
+            "source:evidence-dashboard-session-health"
+          ]
+        },
+        {
+          "id": "verification:sessions-dashboard-offline/environment",
+          "key": "environment",
+          "title": "适用环境",
+          "text": "产品：synthetic",
+          "sourceRefs": [
+            "source:evidence-dashboard-session-health"
+          ]
+        }
+      ],
+      "requirements": [],
+      "implementation": null,
+      "verifications": [
+        {
+          "id": "verification:sessions-dashboard-offline",
+          "scope": "offline",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "Dashboard会话模型与监测38项隔离测试通过，0失败0跳过；覆盖失联、超时、过期、身份变化及旧结果清理。",
+          "exclusions": [
+            "历史隔离测试，不代表本轮新执行或真实断线验证",
+            "未强制断开正在使用的真实E3D会话",
+            "不证明部署、许可、业务查询或执行授权通过"
+          ],
+          "evidenceIds": [
+            "evidence:dashboard-session-health"
+          ],
+          "environmentText": "产品：synthetic"
+        }
+      ],
+      "limitations": [
+        "历史隔离测试，不代表本轮新执行或真实断线验证",
+        "未强制断开正在使用的真实E3D会话",
+        "不证明部署、许可、业务查询或执行授权通过"
+      ],
+      "sourceRefs": [
+        "source:evidence-dashboard-session-health"
+      ],
+      "props": {},
+      "text": {
+        "body": "证据结论：Dashboard会话模型与监测38项隔离测试通过，0失败0跳过；覆盖失联、超时、过期、身份变化及旧结果清理。\n适用环境：产品：synthetic\n规范：未单独关联规范条目\n证据：offline / passed · 2026-11-01 · 产品：synthetic\nDashboard会话模型与监测38项隔离测试通过，0失败0跳过；覆盖失联、超时、过期、身份变化及旧结果清理。\n未涵盖：历史隔离测试，不代表本轮新执行或真实断线验证；未强制断开正在使用的真实E3D会话；不证明部署、许可、业务查询或执行授权通过",
+        "status": "offline / passed · 2026-11-01 · 产品：synthetic",
+        "limit": "历史隔离测试，不代表本轮新执行或真实断线验证；未强制断开正在使用的真实E3D会话；不证明部署、许可、业务查询或执行授权通过"
+      },
+      "body": "证据结论：Dashboard会话模型与监测38项隔离测试通过，0失败0跳过；覆盖失联、超时、过期、身份变化及旧结果清理。\n适用环境：产品：synthetic\n规范：未单独关联规范条目\n证据：offline / passed · 2026-11-01 · 产品：synthetic\nDashboard会话模型与监测38项隔离测试通过，0失败0跳过；覆盖失联、超时、过期、身份变化及旧结果清理。\n未涵盖：历史隔离测试，不代表本轮新执行或真实断线验证；未强制断开正在使用的真实E3D会话；不证明部署、许可、业务查询或执行授权通过",
+      "status": "offline / passed · 2026-11-01 · 产品：synthetic",
+      "limit": "历史隔离测试，不代表本轮新执行或真实断线验证；未强制断开正在使用的真实E3D会话；不证明部署、许可、业务查询或执行授权通过",
+      "evidence": [
+        {
+          "id": "verification:sessions-dashboard-offline",
+          "scope": "offline",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "synthetic"
+          },
+          "claim": "Dashboard会话模型与监测38项隔离测试通过，0失败0跳过；覆盖失联、超时、过期、身份变化及旧结果清理。",
+          "exclusions": [
+            "历史隔离测试，不代表本轮新执行或真实断线验证",
+            "未强制断开正在使用的真实E3D会话",
+            "不证明部署、许可、业务查询或执行授权通过"
+          ],
+          "evidenceIds": [
+            "evidence:dashboard-session-health"
+          ],
+          "environmentText": "产品：synthetic"
+        }
+      ]
+    },
+    {
+      "id": "verification:sessions-dashboard-runtime",
+      "entityId": "verification:sessions-dashboard-runtime",
+      "component": "EvidenceBadge",
+      "title": "runtime / passed",
+      "summary": "历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。",
+      "sections": [
+        {
+          "id": "verification:sessions-dashboard-runtime/claim",
+          "key": "claim",
+          "title": "证据结论",
+          "text": "历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。",
+          "sourceRefs": [
+            "source:evidence-dashboard-session-health"
+          ]
+        },
+        {
+          "id": "verification:sessions-dashboard-runtime/environment",
+          "key": "environment",
+          "title": "适用环境",
+          "text": "产品：E3D · 版本：2.1 · 模块：DESIGN",
+          "sourceRefs": [
+            "source:evidence-dashboard-session-health"
+          ]
+        }
+      ],
+      "requirements": [],
+      "implementation": null,
+      "verifications": [
+        {
+          "id": "verification:sessions-dashboard-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。",
+          "exclusions": [
+            "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
+            "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
+            "真实断线未强制测试；未调用PML执行工具或写工程模型",
+            "其余27项平台业务任务保留未完成"
+          ],
+          "evidenceIds": [
+            "evidence:dashboard-session-health"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+        }
+      ],
+      "limitations": [
+        "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
+        "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
+        "真实断线未强制测试；未调用PML执行工具或写工程模型",
+        "其余27项平台业务任务保留未完成"
+      ],
+      "sourceRefs": [
+        "source:evidence-dashboard-session-health"
+      ],
+      "props": {},
+      "text": {
+        "body": "证据结论：历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。\n适用环境：产品：E3D · 版本：2.1 · 模块：DESIGN\n规范：未单独关联规范条目\n证据：runtime / passed · 2026-11-01 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。\n未涵盖：仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成",
+        "status": "runtime / passed · 2026-11-01 · 产品：E3D · 版本：2.1 · 模块：DESIGN",
+        "limit": "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成"
+      },
+      "body": "证据结论：历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。\n适用环境：产品：E3D · 版本：2.1 · 模块：DESIGN\n规范：未单独关联规范条目\n证据：runtime / passed · 2026-11-01 · 产品：E3D · 版本：2.1 · 模块：DESIGN\n历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。\n未涵盖：仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成",
+      "status": "runtime / passed · 2026-11-01 · 产品：E3D · 版本：2.1 · 模块：DESIGN",
+      "limit": "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级；可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过；真实断线未强制测试；未调用PML执行工具或写工程模型；其余27项平台业务任务保留未完成",
+      "evidence": [
+        {
+          "id": "verification:sessions-dashboard-runtime",
+          "scope": "runtime",
+          "result": "passed",
+          "observedAt": "2026-11-01",
+          "environment": {
+            "product": "E3D",
+            "version": "2.1",
+            "module": "DESIGN"
+          },
+          "claim": "历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。",
+          "exclusions": [
+            "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
+            "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
+            "真实断线未强制测试；未调用PML执行工具或写工程模型",
+            "其余27项平台业务任务保留未完成"
+          ],
+          "evidenceIds": [
+            "evidence:dashboard-session-health"
+          ],
+          "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
         }
       ]
     }
@@ -8834,7 +11363,32 @@ globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
           "不外推其他产品与模块",
           "未整体切换活动存储",
           "未真实注册宿主",
-          "未界面挂载"
+          "未界面挂载",
+          "历史报告，不代表本轮重新执行或当前源码全部通过",
+          "可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加",
+          "不包含安装升级、回退、断电与完整跨产品任务验收",
+          "仅启动入口及观察边界通过，首次严格Host核验失败另列",
+          "原启动回执hostVerification=unverified，后续外部核验不追写旧回执",
+          "历史实机记录，不证明当前环境在线，不外推其他产品或版本",
+          "这是后续修复前的历史失败，不表示后续两次严格验收也失败",
+          "未放宽模块核验，未在该次失败会话执行PML",
+          "不将失败历史覆盖为后来成功",
+          "该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过",
+          "未核验进程实际加载程序集的文件摘要，未执行回退演练",
+          "历史限定会话，不证明当前环境在线或其他产品可用",
+          "仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式",
+          "启动回执与独立Host验收分别判定，不补写旧启动回执",
+          "定向开发修复不代表正式安装包升级或回退验收",
+          "历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过",
+          "不外推AM、PDMS、其他E3D版本或模块",
+          "未执行回退演练；前四次失败和旧协议0历史分别保留",
+          "历史隔离测试，不代表本轮新执行或真实断线验证",
+          "未强制断开正在使用的真实E3D会话",
+          "不证明部署、许可、业务查询或执行授权通过",
+          "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
+          "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
+          "真实断线未强制测试；未调用PML执行工具或写工程模型",
+          "其余27项平台业务任务保留未完成"
         ],
         "sourceRefs": [
           "source:canonical",
@@ -8853,7 +11407,11 @@ globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
           "source:evidence-ribbon-ui",
           "source:evidence-ribbon-runtime",
           "source:evidence-database",
-          "source:evidence-caf"
+          "source:evidence-caf",
+          "source:evidence-launch-workflow",
+          "source:evidence-host-bootstrap",
+          "source:evidence-cli-host-compatibility",
+          "source:evidence-dashboard-session-health"
         ],
         "requirementIds": [
           "canonical:R01",
@@ -9008,7 +11566,15 @@ globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
           "verification:ribbon-ui",
           "verification:ribbon-runtime",
           "verification:database-offline",
-          "verification:caf-static"
+          "verification:caf-static",
+          "verification:launch-offline",
+          "verification:launch-entry-runtime",
+          "verification:sessions-initial-host",
+          "verification:sessions-bootstrap-runtime",
+          "verification:launch-cli-runtime",
+          "verification:sessions-host-v1-runtime",
+          "verification:sessions-dashboard-offline",
+          "verification:sessions-dashboard-runtime"
         ],
         "verificationStates": [
           {
@@ -9101,6 +11667,171 @@ globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
               "evidence:caf"
             ],
             "environmentText": "产品：CAF"
+          },
+          {
+            "id": "verification:launch-offline",
+            "scope": "offline",
+            "result": "passed",
+            "observedAt": "2026-10-31",
+            "environment": {
+              "product": "synthetic"
+            },
+            "claim": "启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。",
+            "exclusions": [
+              "历史报告，不代表本轮重新执行或当前源码全部通过",
+              "可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加",
+              "不包含安装升级、回退、断电与完整跨产品任务验收"
+            ],
+            "evidenceIds": [
+              "evidence:launch-workflow"
+            ],
+            "environmentText": "产品：synthetic"
+          },
+          {
+            "id": "verification:launch-entry-runtime",
+            "scope": "runtime",
+            "result": "passed",
+            "observedAt": "2026-10-31",
+            "environment": {
+              "product": "E3D",
+              "version": "2.1",
+              "module": "DESIGN"
+            },
+            "claim": "限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。",
+            "exclusions": [
+              "仅启动入口及观察边界通过，首次严格Host核验失败另列",
+              "原启动回执hostVerification=unverified，后续外部核验不追写旧回执",
+              "历史实机记录，不证明当前环境在线，不外推其他产品或版本"
+            ],
+            "evidenceIds": [
+              "evidence:launch-workflow"
+            ],
+            "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          },
+          {
+            "id": "verification:sessions-initial-host",
+            "scope": "runtime",
+            "result": "failed",
+            "observedAt": "2026-10-31",
+            "environment": {
+              "product": "E3D",
+              "version": "2.1",
+              "module": "DESIGN"
+            },
+            "claim": "首次启动后严格expectedModel核验因Host报Unknown而拒绝；保留E3D_TARGET_MODEL_MISMATCH失败，不以窗口或管道可见替代身份成功。",
+            "exclusions": [
+              "这是后续修复前的历史失败，不表示后续两次严格验收也失败",
+              "未放宽模块核验，未在该次失败会话执行PML",
+              "不将失败历史覆盖为后来成功"
+            ],
+            "evidenceIds": [
+              "evidence:launch-workflow"
+            ],
+            "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          },
+          {
+            "id": "verification:sessions-bootstrap-runtime",
+            "scope": "runtime",
+            "result": "passed",
+            "observedAt": "2026-10-31",
+            "environment": {
+              "product": "E3D",
+              "version": "2.1",
+              "module": "DESIGN"
+            },
+            "claim": "定向更新启动PML后严格DESIGN身份TargetVerified通过；两次内置有界读取返回OK，原始身份回执保留。",
+            "exclusions": [
+              "该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过",
+              "未核验进程实际加载程序集的文件摘要，未执行回退演练",
+              "历史限定会话，不证明当前环境在线或其他产品可用"
+            ],
+            "evidenceIds": [
+              "evidence:host-bootstrap"
+            ],
+            "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          },
+          {
+            "id": "verification:launch-cli-runtime",
+            "scope": "runtime",
+            "result": "passed",
+            "observedAt": "2026-10-31",
+            "environment": {
+              "product": "E3D",
+              "version": "2.1",
+              "module": "DESIGN"
+            },
+            "claim": "修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。",
+            "exclusions": [
+              "仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式",
+              "启动回执与独立Host验收分别判定，不补写旧启动回执",
+              "定向开发修复不代表正式安装包升级或回退验收"
+            ],
+            "evidenceIds": [
+              "evidence:cli-host-compatibility"
+            ],
+            "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          },
+          {
+            "id": "verification:sessions-host-v1-runtime",
+            "scope": "runtime",
+            "result": "passed",
+            "observedAt": "2026-10-31",
+            "environment": {
+              "product": "E3D",
+              "version": "2.1",
+              "module": "DESIGN"
+            },
+            "claim": "定向更新Host后严格身份及两项查询V1协议通过；限定数组续页、Form/Gadget分页、预算拒绝和无回调副作用断言通过。",
+            "exclusions": [
+              "历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过",
+              "不外推AM、PDMS、其他E3D版本或模块",
+              "未执行回退演练；前四次失败和旧协议0历史分别保留"
+            ],
+            "evidenceIds": [
+              "evidence:cli-host-compatibility"
+            ],
+            "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          },
+          {
+            "id": "verification:sessions-dashboard-offline",
+            "scope": "offline",
+            "result": "passed",
+            "observedAt": "2026-11-01",
+            "environment": {
+              "product": "synthetic"
+            },
+            "claim": "Dashboard会话模型与监测38项隔离测试通过，0失败0跳过；覆盖失联、超时、过期、身份变化及旧结果清理。",
+            "exclusions": [
+              "历史隔离测试，不代表本轮新执行或真实断线验证",
+              "未强制断开正在使用的真实E3D会话",
+              "不证明部署、许可、业务查询或执行授权通过"
+            ],
+            "evidenceIds": [
+              "evidence:dashboard-session-health"
+            ],
+            "environmentText": "产品：synthetic"
+          },
+          {
+            "id": "verification:sessions-dashboard-runtime",
+            "scope": "runtime",
+            "result": "passed",
+            "observedAt": "2026-11-01",
+            "environment": {
+              "product": "E3D",
+              "version": "2.1",
+              "module": "DESIGN"
+            },
+            "claim": "历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。",
+            "exclusions": [
+              "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
+              "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
+              "真实断线未强制测试；未调用PML执行工具或写工程模型",
+              "其余27项平台业务任务保留未完成"
+            ],
+            "evidenceIds": [
+              "evidence:dashboard-session-health"
+            ],
+            "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
           }
         ],
         "implementation": null,
@@ -9303,7 +12034,20 @@ globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
         ],
         "deliverableScope": "entity-contract",
         "limitations": [
-          "入口创建不等于登录或Host已核验"
+          "入口创建不等于登录或Host已核验",
+          "历史报告，不代表本轮重新执行或当前源码全部通过",
+          "可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加",
+          "不包含安装升级、回退、断电与完整跨产品任务验收",
+          "仅启动入口及观察边界通过，首次严格Host核验失败另列",
+          "原启动回执hostVerification=unverified，后续外部核验不追写旧回执",
+          "历史实机记录，不证明当前环境在线，不外推其他产品或版本",
+          "仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式",
+          "启动回执与独立Host验收分别判定，不补写旧启动回执",
+          "定向开发修复不代表正式安装包升级或回退验收",
+          "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
+          "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
+          "真实断线未强制测试；未调用PML执行工具或写工程模型",
+          "其余27项平台业务任务保留未完成"
         ],
         "sourceRefs": [
           "source:capabilities",
@@ -9374,8 +12118,97 @@ globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
             "status": "verified"
           }
         ],
-        "verificationIds": [],
-        "verificationStates": [],
+        "verificationIds": [
+          "verification:launch-offline",
+          "verification:launch-entry-runtime",
+          "verification:launch-cli-runtime",
+          "verification:sessions-dashboard-runtime"
+        ],
+        "verificationStates": [
+          {
+            "id": "verification:launch-offline",
+            "scope": "offline",
+            "result": "passed",
+            "observedAt": "2026-10-31",
+            "environment": {
+              "product": "synthetic"
+            },
+            "claim": "启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。",
+            "exclusions": [
+              "历史报告，不代表本轮重新执行或当前源码全部通过",
+              "可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加",
+              "不包含安装升级、回退、断电与完整跨产品任务验收"
+            ],
+            "evidenceIds": [
+              "evidence:launch-workflow"
+            ],
+            "environmentText": "产品：synthetic"
+          },
+          {
+            "id": "verification:launch-entry-runtime",
+            "scope": "runtime",
+            "result": "passed",
+            "observedAt": "2026-10-31",
+            "environment": {
+              "product": "E3D",
+              "version": "2.1",
+              "module": "DESIGN"
+            },
+            "claim": "限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。",
+            "exclusions": [
+              "仅启动入口及观察边界通过，首次严格Host核验失败另列",
+              "原启动回执hostVerification=unverified，后续外部核验不追写旧回执",
+              "历史实机记录，不证明当前环境在线，不外推其他产品或版本"
+            ],
+            "evidenceIds": [
+              "evidence:launch-workflow"
+            ],
+            "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          },
+          {
+            "id": "verification:launch-cli-runtime",
+            "scope": "runtime",
+            "result": "passed",
+            "observedAt": "2026-10-31",
+            "environment": {
+              "product": "E3D",
+              "version": "2.1",
+              "module": "DESIGN"
+            },
+            "claim": "修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。",
+            "exclusions": [
+              "仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式",
+              "启动回执与独立Host验收分别判定，不补写旧启动回执",
+              "定向开发修复不代表正式安装包升级或回退验收"
+            ],
+            "evidenceIds": [
+              "evidence:cli-host-compatibility"
+            ],
+            "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          },
+          {
+            "id": "verification:sessions-dashboard-runtime",
+            "scope": "runtime",
+            "result": "passed",
+            "observedAt": "2026-11-01",
+            "environment": {
+              "product": "E3D",
+              "version": "2.1",
+              "module": "DESIGN"
+            },
+            "claim": "历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。",
+            "exclusions": [
+              "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
+              "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
+              "真实断线未强制测试；未调用PML执行工具或写工程模型",
+              "其余27项平台业务任务保留未完成"
+            ],
+            "evidenceIds": [
+              "evidence:dashboard-session-health"
+            ],
+            "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          }
+        ],
         "implementation": {
           "status": "implemented",
           "scope": "既有目录登记状态；完整平台范围见限制与独立证据",
@@ -9478,7 +12311,23 @@ globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
         ],
         "deliverableScope": "entity-contract",
         "limitations": [
-          "发现不等于登录"
+          "发现不等于登录",
+          "这是后续修复前的历史失败，不表示后续两次严格验收也失败",
+          "未放宽模块核验，未在该次失败会话执行PML",
+          "不将失败历史覆盖为后来成功",
+          "该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过",
+          "未核验进程实际加载程序集的文件摘要，未执行回退演练",
+          "历史限定会话，不证明当前环境在线或其他产品可用",
+          "历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过",
+          "不外推AM、PDMS、其他E3D版本或模块",
+          "未执行回退演练；前四次失败和旧协议0历史分别保留",
+          "历史隔离测试，不代表本轮新执行或真实断线验证",
+          "未强制断开正在使用的真实E3D会话",
+          "不证明部署、许可、业务查询或执行授权通过",
+          "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
+          "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
+          "真实断线未强制测试；未调用PML执行工具或写工程模型",
+          "其余27项平台业务任务保留未完成"
         ],
         "sourceRefs": [
           "source:capabilities",
@@ -9495,8 +12344,119 @@ globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
             "status": "verified"
           }
         ],
-        "verificationIds": [],
-        "verificationStates": [],
+        "verificationIds": [
+          "verification:sessions-initial-host",
+          "verification:sessions-bootstrap-runtime",
+          "verification:sessions-host-v1-runtime",
+          "verification:sessions-dashboard-offline",
+          "verification:sessions-dashboard-runtime"
+        ],
+        "verificationStates": [
+          {
+            "id": "verification:sessions-initial-host",
+            "scope": "runtime",
+            "result": "failed",
+            "observedAt": "2026-10-31",
+            "environment": {
+              "product": "E3D",
+              "version": "2.1",
+              "module": "DESIGN"
+            },
+            "claim": "首次启动后严格expectedModel核验因Host报Unknown而拒绝；保留E3D_TARGET_MODEL_MISMATCH失败，不以窗口或管道可见替代身份成功。",
+            "exclusions": [
+              "这是后续修复前的历史失败，不表示后续两次严格验收也失败",
+              "未放宽模块核验，未在该次失败会话执行PML",
+              "不将失败历史覆盖为后来成功"
+            ],
+            "evidenceIds": [
+              "evidence:launch-workflow"
+            ],
+            "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          },
+          {
+            "id": "verification:sessions-bootstrap-runtime",
+            "scope": "runtime",
+            "result": "passed",
+            "observedAt": "2026-10-31",
+            "environment": {
+              "product": "E3D",
+              "version": "2.1",
+              "module": "DESIGN"
+            },
+            "claim": "定向更新启动PML后严格DESIGN身份TargetVerified通过；两次内置有界读取返回OK，原始身份回执保留。",
+            "exclusions": [
+              "该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过",
+              "未核验进程实际加载程序集的文件摘要，未执行回退演练",
+              "历史限定会话，不证明当前环境在线或其他产品可用"
+            ],
+            "evidenceIds": [
+              "evidence:host-bootstrap"
+            ],
+            "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          },
+          {
+            "id": "verification:sessions-host-v1-runtime",
+            "scope": "runtime",
+            "result": "passed",
+            "observedAt": "2026-10-31",
+            "environment": {
+              "product": "E3D",
+              "version": "2.1",
+              "module": "DESIGN"
+            },
+            "claim": "定向更新Host后严格身份及两项查询V1协议通过；限定数组续页、Form/Gadget分页、预算拒绝和无回调副作用断言通过。",
+            "exclusions": [
+              "历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过",
+              "不外推AM、PDMS、其他E3D版本或模块",
+              "未执行回退演练；前四次失败和旧协议0历史分别保留"
+            ],
+            "evidenceIds": [
+              "evidence:cli-host-compatibility"
+            ],
+            "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          },
+          {
+            "id": "verification:sessions-dashboard-offline",
+            "scope": "offline",
+            "result": "passed",
+            "observedAt": "2026-11-01",
+            "environment": {
+              "product": "synthetic"
+            },
+            "claim": "Dashboard会话模型与监测38项隔离测试通过，0失败0跳过；覆盖失联、超时、过期、身份变化及旧结果清理。",
+            "exclusions": [
+              "历史隔离测试，不代表本轮新执行或真实断线验证",
+              "未强制断开正在使用的真实E3D会话",
+              "不证明部署、许可、业务查询或执行授权通过"
+            ],
+            "evidenceIds": [
+              "evidence:dashboard-session-health"
+            ],
+            "environmentText": "产品：synthetic"
+          },
+          {
+            "id": "verification:sessions-dashboard-runtime",
+            "scope": "runtime",
+            "result": "passed",
+            "observedAt": "2026-11-01",
+            "environment": {
+              "product": "E3D",
+              "version": "2.1",
+              "module": "DESIGN"
+            },
+            "claim": "历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。",
+            "exclusions": [
+              "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
+              "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
+              "真实断线未强制测试；未调用PML执行工具或写工程模型",
+              "其余27项平台业务任务保留未完成"
+            ],
+            "evidenceIds": [
+              "evidence:dashboard-session-health"
+            ],
+            "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          }
+        ],
         "implementation": {
           "status": "implemented",
           "scope": "既有目录登记状态；完整平台范围见限制与独立证据",
@@ -12064,7 +15024,20 @@ globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
         ],
         "deliverableScope": "entity-contract",
         "limitations": [
-          "入口创建不等于登录或Host已核验"
+          "入口创建不等于登录或Host已核验",
+          "历史报告，不代表本轮重新执行或当前源码全部通过",
+          "可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加",
+          "不包含安装升级、回退、断电与完整跨产品任务验收",
+          "仅启动入口及观察边界通过，首次严格Host核验失败另列",
+          "原启动回执hostVerification=unverified，后续外部核验不追写旧回执",
+          "历史实机记录，不证明当前环境在线，不外推其他产品或版本",
+          "仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式",
+          "启动回执与独立Host验收分别判定，不补写旧启动回执",
+          "定向开发修复不代表正式安装包升级或回退验收",
+          "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
+          "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
+          "真实断线未强制测试；未调用PML执行工具或写工程模型",
+          "其余27项平台业务任务保留未完成"
         ],
         "sourceRefs": [
           "source:overview"
@@ -12133,8 +15106,97 @@ globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
             "status": "verified"
           }
         ],
-        "verificationIds": [],
-        "verificationStates": [],
+        "verificationIds": [
+          "verification:launch-offline",
+          "verification:launch-entry-runtime",
+          "verification:launch-cli-runtime",
+          "verification:sessions-dashboard-runtime"
+        ],
+        "verificationStates": [
+          {
+            "id": "verification:launch-offline",
+            "scope": "offline",
+            "result": "passed",
+            "observedAt": "2026-10-31",
+            "environment": {
+              "product": "synthetic"
+            },
+            "claim": "启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。",
+            "exclusions": [
+              "历史报告，不代表本轮重新执行或当前源码全部通过",
+              "可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加",
+              "不包含安装升级、回退、断电与完整跨产品任务验收"
+            ],
+            "evidenceIds": [
+              "evidence:launch-workflow"
+            ],
+            "environmentText": "产品：synthetic"
+          },
+          {
+            "id": "verification:launch-entry-runtime",
+            "scope": "runtime",
+            "result": "passed",
+            "observedAt": "2026-10-31",
+            "environment": {
+              "product": "E3D",
+              "version": "2.1",
+              "module": "DESIGN"
+            },
+            "claim": "限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。",
+            "exclusions": [
+              "仅启动入口及观察边界通过，首次严格Host核验失败另列",
+              "原启动回执hostVerification=unverified，后续外部核验不追写旧回执",
+              "历史实机记录，不证明当前环境在线，不外推其他产品或版本"
+            ],
+            "evidenceIds": [
+              "evidence:launch-workflow"
+            ],
+            "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          },
+          {
+            "id": "verification:launch-cli-runtime",
+            "scope": "runtime",
+            "result": "passed",
+            "observedAt": "2026-10-31",
+            "environment": {
+              "product": "E3D",
+              "version": "2.1",
+              "module": "DESIGN"
+            },
+            "claim": "修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。",
+            "exclusions": [
+              "仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式",
+              "启动回执与独立Host验收分别判定，不补写旧启动回执",
+              "定向开发修复不代表正式安装包升级或回退验收"
+            ],
+            "evidenceIds": [
+              "evidence:cli-host-compatibility"
+            ],
+            "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          },
+          {
+            "id": "verification:sessions-dashboard-runtime",
+            "scope": "runtime",
+            "result": "passed",
+            "observedAt": "2026-11-01",
+            "environment": {
+              "product": "E3D",
+              "version": "2.1",
+              "module": "DESIGN"
+            },
+            "claim": "历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。",
+            "exclusions": [
+              "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
+              "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
+              "真实断线未强制测试；未调用PML执行工具或写工程模型",
+              "其余27项平台业务任务保留未完成"
+            ],
+            "evidenceIds": [
+              "evidence:dashboard-session-health"
+            ],
+            "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          }
+        ],
         "implementation": null,
         "flowIds": [],
         "noFlowReason": "此范围尚未登记独立流程步骤；归属和文档顺序不能当作执行顺序。",
@@ -12229,7 +15291,20 @@ globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
         ],
         "deliverableScope": "entity-contract",
         "limitations": [
-          "入口创建不等于登录或Host已核验"
+          "入口创建不等于登录或Host已核验",
+          "历史报告，不代表本轮重新执行或当前源码全部通过",
+          "可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加",
+          "不包含安装升级、回退、断电与完整跨产品任务验收",
+          "仅启动入口及观察边界通过，首次严格Host核验失败另列",
+          "原启动回执hostVerification=unverified，后续外部核验不追写旧回执",
+          "历史实机记录，不证明当前环境在线，不外推其他产品或版本",
+          "仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式",
+          "启动回执与独立Host验收分别判定，不补写旧启动回执",
+          "定向开发修复不代表正式安装包升级或回退验收",
+          "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
+          "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
+          "真实断线未强制测试；未调用PML执行工具或写工程模型",
+          "其余27项平台业务任务保留未完成"
         ],
         "sourceRefs": [
           "source:overview"
@@ -12298,8 +15373,97 @@ globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
             "status": "verified"
           }
         ],
-        "verificationIds": [],
-        "verificationStates": [],
+        "verificationIds": [
+          "verification:launch-offline",
+          "verification:launch-entry-runtime",
+          "verification:launch-cli-runtime",
+          "verification:sessions-dashboard-runtime"
+        ],
+        "verificationStates": [
+          {
+            "id": "verification:launch-offline",
+            "scope": "offline",
+            "result": "passed",
+            "observedAt": "2026-10-31",
+            "environment": {
+              "product": "synthetic"
+            },
+            "claim": "启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。",
+            "exclusions": [
+              "历史报告，不代表本轮重新执行或当前源码全部通过",
+              "可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加",
+              "不包含安装升级、回退、断电与完整跨产品任务验收"
+            ],
+            "evidenceIds": [
+              "evidence:launch-workflow"
+            ],
+            "environmentText": "产品：synthetic"
+          },
+          {
+            "id": "verification:launch-entry-runtime",
+            "scope": "runtime",
+            "result": "passed",
+            "observedAt": "2026-10-31",
+            "environment": {
+              "product": "E3D",
+              "version": "2.1",
+              "module": "DESIGN"
+            },
+            "claim": "限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。",
+            "exclusions": [
+              "仅启动入口及观察边界通过，首次严格Host核验失败另列",
+              "原启动回执hostVerification=unverified，后续外部核验不追写旧回执",
+              "历史实机记录，不证明当前环境在线，不外推其他产品或版本"
+            ],
+            "evidenceIds": [
+              "evidence:launch-workflow"
+            ],
+            "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          },
+          {
+            "id": "verification:launch-cli-runtime",
+            "scope": "runtime",
+            "result": "passed",
+            "observedAt": "2026-10-31",
+            "environment": {
+              "product": "E3D",
+              "version": "2.1",
+              "module": "DESIGN"
+            },
+            "claim": "修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。",
+            "exclusions": [
+              "仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式",
+              "启动回执与独立Host验收分别判定，不补写旧启动回执",
+              "定向开发修复不代表正式安装包升级或回退验收"
+            ],
+            "evidenceIds": [
+              "evidence:cli-host-compatibility"
+            ],
+            "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          },
+          {
+            "id": "verification:sessions-dashboard-runtime",
+            "scope": "runtime",
+            "result": "passed",
+            "observedAt": "2026-11-01",
+            "environment": {
+              "product": "E3D",
+              "version": "2.1",
+              "module": "DESIGN"
+            },
+            "claim": "历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。",
+            "exclusions": [
+              "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
+              "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
+              "真实断线未强制测试；未调用PML执行工具或写工程模型",
+              "其余27项平台业务任务保留未完成"
+            ],
+            "evidenceIds": [
+              "evidence:dashboard-session-health"
+            ],
+            "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          }
+        ],
         "implementation": null,
         "flowIds": [
           "flow:launch"
@@ -12399,7 +15563,23 @@ globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
           "发现不等于登录",
           "对象身份不能跨工程永久复用",
           "注册不表示Host已加载",
-          "不执行业务回调"
+          "不执行业务回调",
+          "这是后续修复前的历史失败，不表示后续两次严格验收也失败",
+          "未放宽模块核验，未在该次失败会话执行PML",
+          "不将失败历史覆盖为后来成功",
+          "该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过",
+          "未核验进程实际加载程序集的文件摘要，未执行回退演练",
+          "历史限定会话，不证明当前环境在线或其他产品可用",
+          "历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过",
+          "不外推AM、PDMS、其他E3D版本或模块",
+          "未执行回退演练；前四次失败和旧协议0历史分别保留",
+          "历史隔离测试，不代表本轮新执行或真实断线验证",
+          "未强制断开正在使用的真实E3D会话",
+          "不证明部署、许可、业务查询或执行授权通过",
+          "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
+          "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
+          "真实断线未强制测试；未调用PML执行工具或写工程模型",
+          "其余27项平台业务任务保留未完成"
         ],
         "sourceRefs": [
           "source:overview"
@@ -12444,8 +15624,119 @@ globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
             "status": "verified"
           }
         ],
-        "verificationIds": [],
-        "verificationStates": [],
+        "verificationIds": [
+          "verification:sessions-initial-host",
+          "verification:sessions-bootstrap-runtime",
+          "verification:sessions-host-v1-runtime",
+          "verification:sessions-dashboard-offline",
+          "verification:sessions-dashboard-runtime"
+        ],
+        "verificationStates": [
+          {
+            "id": "verification:sessions-initial-host",
+            "scope": "runtime",
+            "result": "failed",
+            "observedAt": "2026-10-31",
+            "environment": {
+              "product": "E3D",
+              "version": "2.1",
+              "module": "DESIGN"
+            },
+            "claim": "首次启动后严格expectedModel核验因Host报Unknown而拒绝；保留E3D_TARGET_MODEL_MISMATCH失败，不以窗口或管道可见替代身份成功。",
+            "exclusions": [
+              "这是后续修复前的历史失败，不表示后续两次严格验收也失败",
+              "未放宽模块核验，未在该次失败会话执行PML",
+              "不将失败历史覆盖为后来成功"
+            ],
+            "evidenceIds": [
+              "evidence:launch-workflow"
+            ],
+            "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          },
+          {
+            "id": "verification:sessions-bootstrap-runtime",
+            "scope": "runtime",
+            "result": "passed",
+            "observedAt": "2026-10-31",
+            "environment": {
+              "product": "E3D",
+              "version": "2.1",
+              "module": "DESIGN"
+            },
+            "claim": "定向更新启动PML后严格DESIGN身份TargetVerified通过；两次内置有界读取返回OK，原始身份回执保留。",
+            "exclusions": [
+              "该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过",
+              "未核验进程实际加载程序集的文件摘要，未执行回退演练",
+              "历史限定会话，不证明当前环境在线或其他产品可用"
+            ],
+            "evidenceIds": [
+              "evidence:host-bootstrap"
+            ],
+            "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          },
+          {
+            "id": "verification:sessions-host-v1-runtime",
+            "scope": "runtime",
+            "result": "passed",
+            "observedAt": "2026-10-31",
+            "environment": {
+              "product": "E3D",
+              "version": "2.1",
+              "module": "DESIGN"
+            },
+            "claim": "定向更新Host后严格身份及两项查询V1协议通过；限定数组续页、Form/Gadget分页、预算拒绝和无回调副作用断言通过。",
+            "exclusions": [
+              "历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过",
+              "不外推AM、PDMS、其他E3D版本或模块",
+              "未执行回退演练；前四次失败和旧协议0历史分别保留"
+            ],
+            "evidenceIds": [
+              "evidence:cli-host-compatibility"
+            ],
+            "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          },
+          {
+            "id": "verification:sessions-dashboard-offline",
+            "scope": "offline",
+            "result": "passed",
+            "observedAt": "2026-11-01",
+            "environment": {
+              "product": "synthetic"
+            },
+            "claim": "Dashboard会话模型与监测38项隔离测试通过，0失败0跳过；覆盖失联、超时、过期、身份变化及旧结果清理。",
+            "exclusions": [
+              "历史隔离测试，不代表本轮新执行或真实断线验证",
+              "未强制断开正在使用的真实E3D会话",
+              "不证明部署、许可、业务查询或执行授权通过"
+            ],
+            "evidenceIds": [
+              "evidence:dashboard-session-health"
+            ],
+            "environmentText": "产品：synthetic"
+          },
+          {
+            "id": "verification:sessions-dashboard-runtime",
+            "scope": "runtime",
+            "result": "passed",
+            "observedAt": "2026-11-01",
+            "environment": {
+              "product": "E3D",
+              "version": "2.1",
+              "module": "DESIGN"
+            },
+            "claim": "历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。",
+            "exclusions": [
+              "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
+              "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
+              "真实断线未强制测试；未调用PML执行工具或写工程模型",
+              "其余27项平台业务任务保留未完成"
+            ],
+            "evidenceIds": [
+              "evidence:dashboard-session-health"
+            ],
+            "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          }
+        ],
         "implementation": null,
         "flowIds": [],
         "noFlowReason": "此范围尚未登记独立流程步骤；归属和文档顺序不能当作执行顺序。",
@@ -13047,7 +16338,32 @@ globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
         "deliverableScope": "entity-contract",
         "limitations": [
           "入口创建不等于登录或Host已核验",
-          "发现不等于登录"
+          "发现不等于登录",
+          "历史报告，不代表本轮重新执行或当前源码全部通过",
+          "可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加",
+          "不包含安装升级、回退、断电与完整跨产品任务验收",
+          "仅启动入口及观察边界通过，首次严格Host核验失败另列",
+          "原启动回执hostVerification=unverified，后续外部核验不追写旧回执",
+          "历史实机记录，不证明当前环境在线，不外推其他产品或版本",
+          "仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式",
+          "启动回执与独立Host验收分别判定，不补写旧启动回执",
+          "定向开发修复不代表正式安装包升级或回退验收",
+          "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
+          "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
+          "真实断线未强制测试；未调用PML执行工具或写工程模型",
+          "其余27项平台业务任务保留未完成",
+          "这是后续修复前的历史失败，不表示后续两次严格验收也失败",
+          "未放宽模块核验，未在该次失败会话执行PML",
+          "不将失败历史覆盖为后来成功",
+          "该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过",
+          "未核验进程实际加载程序集的文件摘要，未执行回退演练",
+          "历史限定会话，不证明当前环境在线或其他产品可用",
+          "历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过",
+          "不外推AM、PDMS、其他E3D版本或模块",
+          "未执行回退演练；前四次失败和旧协议0历史分别保留",
+          "历史隔离测试，不代表本轮新执行或真实断线验证",
+          "未强制断开正在使用的真实E3D会话",
+          "不证明部署、许可、业务查询或执行授权通过"
         ],
         "sourceRefs": [
           "source:overview"
@@ -13122,8 +16438,183 @@ globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
             "status": "verified"
           }
         ],
-        "verificationIds": [],
-        "verificationStates": [],
+        "verificationIds": [
+          "verification:launch-offline",
+          "verification:launch-entry-runtime",
+          "verification:launch-cli-runtime",
+          "verification:sessions-dashboard-runtime",
+          "verification:sessions-initial-host",
+          "verification:sessions-bootstrap-runtime",
+          "verification:sessions-host-v1-runtime",
+          "verification:sessions-dashboard-offline"
+        ],
+        "verificationStates": [
+          {
+            "id": "verification:launch-offline",
+            "scope": "offline",
+            "result": "passed",
+            "observedAt": "2026-10-31",
+            "environment": {
+              "product": "synthetic"
+            },
+            "claim": "启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。",
+            "exclusions": [
+              "历史报告，不代表本轮重新执行或当前源码全部通过",
+              "可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加",
+              "不包含安装升级、回退、断电与完整跨产品任务验收"
+            ],
+            "evidenceIds": [
+              "evidence:launch-workflow"
+            ],
+            "environmentText": "产品：synthetic"
+          },
+          {
+            "id": "verification:launch-entry-runtime",
+            "scope": "runtime",
+            "result": "passed",
+            "observedAt": "2026-10-31",
+            "environment": {
+              "product": "E3D",
+              "version": "2.1",
+              "module": "DESIGN"
+            },
+            "claim": "限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。",
+            "exclusions": [
+              "仅启动入口及观察边界通过，首次严格Host核验失败另列",
+              "原启动回执hostVerification=unverified，后续外部核验不追写旧回执",
+              "历史实机记录，不证明当前环境在线，不外推其他产品或版本"
+            ],
+            "evidenceIds": [
+              "evidence:launch-workflow"
+            ],
+            "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          },
+          {
+            "id": "verification:launch-cli-runtime",
+            "scope": "runtime",
+            "result": "passed",
+            "observedAt": "2026-10-31",
+            "environment": {
+              "product": "E3D",
+              "version": "2.1",
+              "module": "DESIGN"
+            },
+            "claim": "修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。",
+            "exclusions": [
+              "仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式",
+              "启动回执与独立Host验收分别判定，不补写旧启动回执",
+              "定向开发修复不代表正式安装包升级或回退验收"
+            ],
+            "evidenceIds": [
+              "evidence:cli-host-compatibility"
+            ],
+            "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          },
+          {
+            "id": "verification:sessions-dashboard-runtime",
+            "scope": "runtime",
+            "result": "passed",
+            "observedAt": "2026-11-01",
+            "environment": {
+              "product": "E3D",
+              "version": "2.1",
+              "module": "DESIGN"
+            },
+            "claim": "历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。",
+            "exclusions": [
+              "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
+              "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
+              "真实断线未强制测试；未调用PML执行工具或写工程模型",
+              "其余27项平台业务任务保留未完成"
+            ],
+            "evidenceIds": [
+              "evidence:dashboard-session-health"
+            ],
+            "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          },
+          {
+            "id": "verification:sessions-initial-host",
+            "scope": "runtime",
+            "result": "failed",
+            "observedAt": "2026-10-31",
+            "environment": {
+              "product": "E3D",
+              "version": "2.1",
+              "module": "DESIGN"
+            },
+            "claim": "首次启动后严格expectedModel核验因Host报Unknown而拒绝；保留E3D_TARGET_MODEL_MISMATCH失败，不以窗口或管道可见替代身份成功。",
+            "exclusions": [
+              "这是后续修复前的历史失败，不表示后续两次严格验收也失败",
+              "未放宽模块核验，未在该次失败会话执行PML",
+              "不将失败历史覆盖为后来成功"
+            ],
+            "evidenceIds": [
+              "evidence:launch-workflow"
+            ],
+            "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          },
+          {
+            "id": "verification:sessions-bootstrap-runtime",
+            "scope": "runtime",
+            "result": "passed",
+            "observedAt": "2026-10-31",
+            "environment": {
+              "product": "E3D",
+              "version": "2.1",
+              "module": "DESIGN"
+            },
+            "claim": "定向更新启动PML后严格DESIGN身份TargetVerified通过；两次内置有界读取返回OK，原始身份回执保留。",
+            "exclusions": [
+              "该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过",
+              "未核验进程实际加载程序集的文件摘要，未执行回退演练",
+              "历史限定会话，不证明当前环境在线或其他产品可用"
+            ],
+            "evidenceIds": [
+              "evidence:host-bootstrap"
+            ],
+            "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          },
+          {
+            "id": "verification:sessions-host-v1-runtime",
+            "scope": "runtime",
+            "result": "passed",
+            "observedAt": "2026-10-31",
+            "environment": {
+              "product": "E3D",
+              "version": "2.1",
+              "module": "DESIGN"
+            },
+            "claim": "定向更新Host后严格身份及两项查询V1协议通过；限定数组续页、Form/Gadget分页、预算拒绝和无回调副作用断言通过。",
+            "exclusions": [
+              "历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过",
+              "不外推AM、PDMS、其他E3D版本或模块",
+              "未执行回退演练；前四次失败和旧协议0历史分别保留"
+            ],
+            "evidenceIds": [
+              "evidence:cli-host-compatibility"
+            ],
+            "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          },
+          {
+            "id": "verification:sessions-dashboard-offline",
+            "scope": "offline",
+            "result": "passed",
+            "observedAt": "2026-11-01",
+            "environment": {
+              "product": "synthetic"
+            },
+            "claim": "Dashboard会话模型与监测38项隔离测试通过，0失败0跳过；覆盖失联、超时、过期、身份变化及旧结果清理。",
+            "exclusions": [
+              "历史隔离测试，不代表本轮新执行或真实断线验证",
+              "未强制断开正在使用的真实E3D会话",
+              "不证明部署、许可、业务查询或执行授权通过"
+            ],
+            "evidenceIds": [
+              "evidence:dashboard-session-health"
+            ],
+            "environmentText": "产品：synthetic"
+          }
+        ],
         "implementation": null,
         "flowIds": [],
         "noFlowReason": "此范围尚未登记独立流程步骤；归属和文档顺序不能当作执行顺序。",
@@ -13917,6 +17408,22 @@ globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
           "发现不等于登录",
           "首次新文件为v1兼容",
           "限定运行时外观通过，未点击宏",
+          "这是后续修复前的历史失败，不表示后续两次严格验收也失败",
+          "未放宽模块核验，未在该次失败会话执行PML",
+          "不将失败历史覆盖为后来成功",
+          "该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过",
+          "未核验进程实际加载程序集的文件摘要，未执行回退演练",
+          "历史限定会话，不证明当前环境在线或其他产品可用",
+          "历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过",
+          "不外推AM、PDMS、其他E3D版本或模块",
+          "未执行回退演练；前四次失败和旧协议0历史分别保留",
+          "历史隔离测试，不代表本轮新执行或真实断线验证",
+          "未强制断开正在使用的真实E3D会话",
+          "不证明部署、许可、业务查询或执行授权通过",
+          "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
+          "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
+          "真实断线未强制测试；未调用PML执行工具或写工程模型",
+          "其余27项平台业务任务保留未完成",
           "不是UI全程实机验收",
           "首次新建仍为v1兼容",
           "未点击宏",
@@ -13938,10 +17445,119 @@ globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
           }
         ],
         "verificationIds": [
+          "verification:sessions-initial-host",
+          "verification:sessions-bootstrap-runtime",
+          "verification:sessions-host-v1-runtime",
+          "verification:sessions-dashboard-offline",
+          "verification:sessions-dashboard-runtime",
           "verification:ribbon-ui",
           "verification:ribbon-runtime"
         ],
         "verificationStates": [
+          {
+            "id": "verification:sessions-initial-host",
+            "scope": "runtime",
+            "result": "failed",
+            "observedAt": "2026-10-31",
+            "environment": {
+              "product": "E3D",
+              "version": "2.1",
+              "module": "DESIGN"
+            },
+            "claim": "首次启动后严格expectedModel核验因Host报Unknown而拒绝；保留E3D_TARGET_MODEL_MISMATCH失败，不以窗口或管道可见替代身份成功。",
+            "exclusions": [
+              "这是后续修复前的历史失败，不表示后续两次严格验收也失败",
+              "未放宽模块核验，未在该次失败会话执行PML",
+              "不将失败历史覆盖为后来成功"
+            ],
+            "evidenceIds": [
+              "evidence:launch-workflow"
+            ],
+            "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          },
+          {
+            "id": "verification:sessions-bootstrap-runtime",
+            "scope": "runtime",
+            "result": "passed",
+            "observedAt": "2026-10-31",
+            "environment": {
+              "product": "E3D",
+              "version": "2.1",
+              "module": "DESIGN"
+            },
+            "claim": "定向更新启动PML后严格DESIGN身份TargetVerified通过；两次内置有界读取返回OK，原始身份回执保留。",
+            "exclusions": [
+              "该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过",
+              "未核验进程实际加载程序集的文件摘要，未执行回退演练",
+              "历史限定会话，不证明当前环境在线或其他产品可用"
+            ],
+            "evidenceIds": [
+              "evidence:host-bootstrap"
+            ],
+            "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          },
+          {
+            "id": "verification:sessions-host-v1-runtime",
+            "scope": "runtime",
+            "result": "passed",
+            "observedAt": "2026-10-31",
+            "environment": {
+              "product": "E3D",
+              "version": "2.1",
+              "module": "DESIGN"
+            },
+            "claim": "定向更新Host后严格身份及两项查询V1协议通过；限定数组续页、Form/Gadget分页、预算拒绝和无回调副作用断言通过。",
+            "exclusions": [
+              "历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过",
+              "不外推AM、PDMS、其他E3D版本或模块",
+              "未执行回退演练；前四次失败和旧协议0历史分别保留"
+            ],
+            "evidenceIds": [
+              "evidence:cli-host-compatibility"
+            ],
+            "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          },
+          {
+            "id": "verification:sessions-dashboard-offline",
+            "scope": "offline",
+            "result": "passed",
+            "observedAt": "2026-11-01",
+            "environment": {
+              "product": "synthetic"
+            },
+            "claim": "Dashboard会话模型与监测38项隔离测试通过，0失败0跳过；覆盖失联、超时、过期、身份变化及旧结果清理。",
+            "exclusions": [
+              "历史隔离测试，不代表本轮新执行或真实断线验证",
+              "未强制断开正在使用的真实E3D会话",
+              "不证明部署、许可、业务查询或执行授权通过"
+            ],
+            "evidenceIds": [
+              "evidence:dashboard-session-health"
+            ],
+            "environmentText": "产品：synthetic"
+          },
+          {
+            "id": "verification:sessions-dashboard-runtime",
+            "scope": "runtime",
+            "result": "passed",
+            "observedAt": "2026-11-01",
+            "environment": {
+              "product": "E3D",
+              "version": "2.1",
+              "module": "DESIGN"
+            },
+            "claim": "历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。",
+            "exclusions": [
+              "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
+              "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
+              "真实断线未强制测试；未调用PML执行工具或写工程模型",
+              "其余27项平台业务任务保留未完成"
+            ],
+            "evidenceIds": [
+              "evidence:dashboard-session-health"
+            ],
+            "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          },
           {
             "id": "verification:ribbon-ui",
             "scope": "ui",
@@ -14079,7 +17695,20 @@ globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
         ],
         "deliverableScope": "associated-contract",
         "limitations": [
-          "入口创建不等于登录或Host已核验"
+          "入口创建不等于登录或Host已核验",
+          "历史报告，不代表本轮重新执行或当前源码全部通过",
+          "可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加",
+          "不包含安装升级、回退、断电与完整跨产品任务验收",
+          "仅启动入口及观察边界通过，首次严格Host核验失败另列",
+          "原启动回执hostVerification=unverified，后续外部核验不追写旧回执",
+          "历史实机记录，不证明当前环境在线，不外推其他产品或版本",
+          "仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式",
+          "启动回执与独立Host验收分别判定，不补写旧启动回执",
+          "定向开发修复不代表正式安装包升级或回退验收",
+          "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
+          "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
+          "真实断线未强制测试；未调用PML执行工具或写工程模型",
+          "其余27项平台业务任务保留未完成"
         ],
         "sourceRefs": [
           "source:capabilities",
@@ -14150,8 +17779,97 @@ globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
             "status": "verified"
           }
         ],
-        "verificationIds": [],
-        "verificationStates": [],
+        "verificationIds": [
+          "verification:launch-offline",
+          "verification:launch-entry-runtime",
+          "verification:launch-cli-runtime",
+          "verification:sessions-dashboard-runtime"
+        ],
+        "verificationStates": [
+          {
+            "id": "verification:launch-offline",
+            "scope": "offline",
+            "result": "passed",
+            "observedAt": "2026-10-31",
+            "environment": {
+              "product": "synthetic"
+            },
+            "claim": "启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。",
+            "exclusions": [
+              "历史报告，不代表本轮重新执行或当前源码全部通过",
+              "可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加",
+              "不包含安装升级、回退、断电与完整跨产品任务验收"
+            ],
+            "evidenceIds": [
+              "evidence:launch-workflow"
+            ],
+            "environmentText": "产品：synthetic"
+          },
+          {
+            "id": "verification:launch-entry-runtime",
+            "scope": "runtime",
+            "result": "passed",
+            "observedAt": "2026-10-31",
+            "environment": {
+              "product": "E3D",
+              "version": "2.1",
+              "module": "DESIGN"
+            },
+            "claim": "限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。",
+            "exclusions": [
+              "仅启动入口及观察边界通过，首次严格Host核验失败另列",
+              "原启动回执hostVerification=unverified，后续外部核验不追写旧回执",
+              "历史实机记录，不证明当前环境在线，不外推其他产品或版本"
+            ],
+            "evidenceIds": [
+              "evidence:launch-workflow"
+            ],
+            "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          },
+          {
+            "id": "verification:launch-cli-runtime",
+            "scope": "runtime",
+            "result": "passed",
+            "observedAt": "2026-10-31",
+            "environment": {
+              "product": "E3D",
+              "version": "2.1",
+              "module": "DESIGN"
+            },
+            "claim": "修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。",
+            "exclusions": [
+              "仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式",
+              "启动回执与独立Host验收分别判定，不补写旧启动回执",
+              "定向开发修复不代表正式安装包升级或回退验收"
+            ],
+            "evidenceIds": [
+              "evidence:cli-host-compatibility"
+            ],
+            "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          },
+          {
+            "id": "verification:sessions-dashboard-runtime",
+            "scope": "runtime",
+            "result": "passed",
+            "observedAt": "2026-11-01",
+            "environment": {
+              "product": "E3D",
+              "version": "2.1",
+              "module": "DESIGN"
+            },
+            "claim": "历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。",
+            "exclusions": [
+              "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
+              "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
+              "真实断线未强制测试；未调用PML执行工具或写工程模型",
+              "其余27项平台业务任务保留未完成"
+            ],
+            "evidenceIds": [
+              "evidence:dashboard-session-health"
+            ],
+            "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          }
+        ],
         "implementation": {
           "status": "implemented",
           "scope": "既有目录登记状态；完整平台范围见限制与独立证据",
@@ -14254,7 +17972,20 @@ globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
         ],
         "deliverableScope": "associated-contract",
         "limitations": [
-          "入口创建不等于登录或Host已核验"
+          "入口创建不等于登录或Host已核验",
+          "历史报告，不代表本轮重新执行或当前源码全部通过",
+          "可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加",
+          "不包含安装升级、回退、断电与完整跨产品任务验收",
+          "仅启动入口及观察边界通过，首次严格Host核验失败另列",
+          "原启动回执hostVerification=unverified，后续外部核验不追写旧回执",
+          "历史实机记录，不证明当前环境在线，不外推其他产品或版本",
+          "仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式",
+          "启动回执与独立Host验收分别判定，不补写旧启动回执",
+          "定向开发修复不代表正式安装包升级或回退验收",
+          "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
+          "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
+          "真实断线未强制测试；未调用PML执行工具或写工程模型",
+          "其余27项平台业务任务保留未完成"
         ],
         "sourceRefs": [
           "source:overview",
@@ -14324,8 +18055,97 @@ globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
             "status": "verified"
           }
         ],
-        "verificationIds": [],
-        "verificationStates": [],
+        "verificationIds": [
+          "verification:launch-offline",
+          "verification:launch-entry-runtime",
+          "verification:launch-cli-runtime",
+          "verification:sessions-dashboard-runtime"
+        ],
+        "verificationStates": [
+          {
+            "id": "verification:launch-offline",
+            "scope": "offline",
+            "result": "passed",
+            "observedAt": "2026-10-31",
+            "environment": {
+              "product": "synthetic"
+            },
+            "claim": "启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。",
+            "exclusions": [
+              "历史报告，不代表本轮重新执行或当前源码全部通过",
+              "可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加",
+              "不包含安装升级、回退、断电与完整跨产品任务验收"
+            ],
+            "evidenceIds": [
+              "evidence:launch-workflow"
+            ],
+            "environmentText": "产品：synthetic"
+          },
+          {
+            "id": "verification:launch-entry-runtime",
+            "scope": "runtime",
+            "result": "passed",
+            "observedAt": "2026-10-31",
+            "environment": {
+              "product": "E3D",
+              "version": "2.1",
+              "module": "DESIGN"
+            },
+            "claim": "限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。",
+            "exclusions": [
+              "仅启动入口及观察边界通过，首次严格Host核验失败另列",
+              "原启动回执hostVerification=unverified，后续外部核验不追写旧回执",
+              "历史实机记录，不证明当前环境在线，不外推其他产品或版本"
+            ],
+            "evidenceIds": [
+              "evidence:launch-workflow"
+            ],
+            "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          },
+          {
+            "id": "verification:launch-cli-runtime",
+            "scope": "runtime",
+            "result": "passed",
+            "observedAt": "2026-10-31",
+            "environment": {
+              "product": "E3D",
+              "version": "2.1",
+              "module": "DESIGN"
+            },
+            "claim": "修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。",
+            "exclusions": [
+              "仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式",
+              "启动回执与独立Host验收分别判定，不补写旧启动回执",
+              "定向开发修复不代表正式安装包升级或回退验收"
+            ],
+            "evidenceIds": [
+              "evidence:cli-host-compatibility"
+            ],
+            "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          },
+          {
+            "id": "verification:sessions-dashboard-runtime",
+            "scope": "runtime",
+            "result": "passed",
+            "observedAt": "2026-11-01",
+            "environment": {
+              "product": "E3D",
+              "version": "2.1",
+              "module": "DESIGN"
+            },
+            "claim": "历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。",
+            "exclusions": [
+              "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
+              "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
+              "真实断线未强制测试；未调用PML执行工具或写工程模型",
+              "其余27项平台业务任务保留未完成"
+            ],
+            "evidenceIds": [
+              "evidence:dashboard-session-health"
+            ],
+            "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          }
+        ],
         "implementation": null,
         "flowIds": [
           "flow:launch"
@@ -14422,7 +18242,20 @@ globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
         ],
         "deliverableScope": "associated-contract",
         "limitations": [
-          "入口创建不等于登录或Host已核验"
+          "入口创建不等于登录或Host已核验",
+          "历史报告，不代表本轮重新执行或当前源码全部通过",
+          "可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加",
+          "不包含安装升级、回退、断电与完整跨产品任务验收",
+          "仅启动入口及观察边界通过，首次严格Host核验失败另列",
+          "原启动回执hostVerification=unverified，后续外部核验不追写旧回执",
+          "历史实机记录，不证明当前环境在线，不外推其他产品或版本",
+          "仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式",
+          "启动回执与独立Host验收分别判定，不补写旧启动回执",
+          "定向开发修复不代表正式安装包升级或回退验收",
+          "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
+          "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
+          "真实断线未强制测试；未调用PML执行工具或写工程模型",
+          "其余27项平台业务任务保留未完成"
         ],
         "sourceRefs": [
           "source:overview",
@@ -14492,8 +18325,97 @@ globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
             "status": "verified"
           }
         ],
-        "verificationIds": [],
-        "verificationStates": [],
+        "verificationIds": [
+          "verification:launch-offline",
+          "verification:launch-entry-runtime",
+          "verification:launch-cli-runtime",
+          "verification:sessions-dashboard-runtime"
+        ],
+        "verificationStates": [
+          {
+            "id": "verification:launch-offline",
+            "scope": "offline",
+            "result": "passed",
+            "observedAt": "2026-10-31",
+            "environment": {
+              "product": "synthetic"
+            },
+            "claim": "启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。",
+            "exclusions": [
+              "历史报告，不代表本轮重新执行或当前源码全部通过",
+              "可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加",
+              "不包含安装升级、回退、断电与完整跨产品任务验收"
+            ],
+            "evidenceIds": [
+              "evidence:launch-workflow"
+            ],
+            "environmentText": "产品：synthetic"
+          },
+          {
+            "id": "verification:launch-entry-runtime",
+            "scope": "runtime",
+            "result": "passed",
+            "observedAt": "2026-10-31",
+            "environment": {
+              "product": "E3D",
+              "version": "2.1",
+              "module": "DESIGN"
+            },
+            "claim": "限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。",
+            "exclusions": [
+              "仅启动入口及观察边界通过，首次严格Host核验失败另列",
+              "原启动回执hostVerification=unverified，后续外部核验不追写旧回执",
+              "历史实机记录，不证明当前环境在线，不外推其他产品或版本"
+            ],
+            "evidenceIds": [
+              "evidence:launch-workflow"
+            ],
+            "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          },
+          {
+            "id": "verification:launch-cli-runtime",
+            "scope": "runtime",
+            "result": "passed",
+            "observedAt": "2026-10-31",
+            "environment": {
+              "product": "E3D",
+              "version": "2.1",
+              "module": "DESIGN"
+            },
+            "claim": "修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。",
+            "exclusions": [
+              "仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式",
+              "启动回执与独立Host验收分别判定，不补写旧启动回执",
+              "定向开发修复不代表正式安装包升级或回退验收"
+            ],
+            "evidenceIds": [
+              "evidence:cli-host-compatibility"
+            ],
+            "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          },
+          {
+            "id": "verification:sessions-dashboard-runtime",
+            "scope": "runtime",
+            "result": "passed",
+            "observedAt": "2026-11-01",
+            "environment": {
+              "product": "E3D",
+              "version": "2.1",
+              "module": "DESIGN"
+            },
+            "claim": "历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。",
+            "exclusions": [
+              "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
+              "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
+              "真实断线未强制测试；未调用PML执行工具或写工程模型",
+              "其余27项平台业务任务保留未完成"
+            ],
+            "evidenceIds": [
+              "evidence:dashboard-session-health"
+            ],
+            "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          }
+        ],
         "implementation": null,
         "flowIds": [
           "flow:launch"
@@ -14590,7 +18512,20 @@ globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
         ],
         "deliverableScope": "associated-contract",
         "limitations": [
-          "入口创建不等于登录或Host已核验"
+          "入口创建不等于登录或Host已核验",
+          "历史报告，不代表本轮重新执行或当前源码全部通过",
+          "可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加",
+          "不包含安装升级、回退、断电与完整跨产品任务验收",
+          "仅启动入口及观察边界通过，首次严格Host核验失败另列",
+          "原启动回执hostVerification=unverified，后续外部核验不追写旧回执",
+          "历史实机记录，不证明当前环境在线，不外推其他产品或版本",
+          "仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式",
+          "启动回执与独立Host验收分别判定，不补写旧启动回执",
+          "定向开发修复不代表正式安装包升级或回退验收",
+          "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
+          "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
+          "真实断线未强制测试；未调用PML执行工具或写工程模型",
+          "其余27项平台业务任务保留未完成"
         ],
         "sourceRefs": [
           "source:overview",
@@ -14660,8 +18595,97 @@ globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
             "status": "verified"
           }
         ],
-        "verificationIds": [],
-        "verificationStates": [],
+        "verificationIds": [
+          "verification:launch-offline",
+          "verification:launch-entry-runtime",
+          "verification:launch-cli-runtime",
+          "verification:sessions-dashboard-runtime"
+        ],
+        "verificationStates": [
+          {
+            "id": "verification:launch-offline",
+            "scope": "offline",
+            "result": "passed",
+            "observedAt": "2026-10-31",
+            "environment": {
+              "product": "synthetic"
+            },
+            "claim": "启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。",
+            "exclusions": [
+              "历史报告，不代表本轮重新执行或当前源码全部通过",
+              "可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加",
+              "不包含安装升级、回退、断电与完整跨产品任务验收"
+            ],
+            "evidenceIds": [
+              "evidence:launch-workflow"
+            ],
+            "environmentText": "产品：synthetic"
+          },
+          {
+            "id": "verification:launch-entry-runtime",
+            "scope": "runtime",
+            "result": "passed",
+            "observedAt": "2026-10-31",
+            "environment": {
+              "product": "E3D",
+              "version": "2.1",
+              "module": "DESIGN"
+            },
+            "claim": "限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。",
+            "exclusions": [
+              "仅启动入口及观察边界通过，首次严格Host核验失败另列",
+              "原启动回执hostVerification=unverified，后续外部核验不追写旧回执",
+              "历史实机记录，不证明当前环境在线，不外推其他产品或版本"
+            ],
+            "evidenceIds": [
+              "evidence:launch-workflow"
+            ],
+            "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          },
+          {
+            "id": "verification:launch-cli-runtime",
+            "scope": "runtime",
+            "result": "passed",
+            "observedAt": "2026-10-31",
+            "environment": {
+              "product": "E3D",
+              "version": "2.1",
+              "module": "DESIGN"
+            },
+            "claim": "修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。",
+            "exclusions": [
+              "仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式",
+              "启动回执与独立Host验收分别判定，不补写旧启动回执",
+              "定向开发修复不代表正式安装包升级或回退验收"
+            ],
+            "evidenceIds": [
+              "evidence:cli-host-compatibility"
+            ],
+            "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          },
+          {
+            "id": "verification:sessions-dashboard-runtime",
+            "scope": "runtime",
+            "result": "passed",
+            "observedAt": "2026-11-01",
+            "environment": {
+              "product": "E3D",
+              "version": "2.1",
+              "module": "DESIGN"
+            },
+            "claim": "历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。",
+            "exclusions": [
+              "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
+              "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
+              "真实断线未强制测试；未调用PML执行工具或写工程模型",
+              "其余27项平台业务任务保留未完成"
+            ],
+            "evidenceIds": [
+              "evidence:dashboard-session-health"
+            ],
+            "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          }
+        ],
         "implementation": null,
         "flowIds": [
           "flow:launch"
@@ -15381,6 +19405,22 @@ globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
           "发现不等于登录",
           "首次新文件为v1兼容",
           "限定运行时外观通过，未点击宏",
+          "这是后续修复前的历史失败，不表示后续两次严格验收也失败",
+          "未放宽模块核验，未在该次失败会话执行PML",
+          "不将失败历史覆盖为后来成功",
+          "该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过",
+          "未核验进程实际加载程序集的文件摘要，未执行回退演练",
+          "历史限定会话，不证明当前环境在线或其他产品可用",
+          "历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过",
+          "不外推AM、PDMS、其他E3D版本或模块",
+          "未执行回退演练；前四次失败和旧协议0历史分别保留",
+          "历史隔离测试，不代表本轮新执行或真实断线验证",
+          "未强制断开正在使用的真实E3D会话",
+          "不证明部署、许可、业务查询或执行授权通过",
+          "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
+          "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
+          "真实断线未强制测试；未调用PML执行工具或写工程模型",
+          "其余27项平台业务任务保留未完成",
           "不是UI全程实机验收",
           "首次新建仍为v1兼容",
           "未点击宏",
@@ -15402,10 +19442,119 @@ globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
           }
         ],
         "verificationIds": [
+          "verification:sessions-initial-host",
+          "verification:sessions-bootstrap-runtime",
+          "verification:sessions-host-v1-runtime",
+          "verification:sessions-dashboard-offline",
+          "verification:sessions-dashboard-runtime",
           "verification:ribbon-ui",
           "verification:ribbon-runtime"
         ],
         "verificationStates": [
+          {
+            "id": "verification:sessions-initial-host",
+            "scope": "runtime",
+            "result": "failed",
+            "observedAt": "2026-10-31",
+            "environment": {
+              "product": "E3D",
+              "version": "2.1",
+              "module": "DESIGN"
+            },
+            "claim": "首次启动后严格expectedModel核验因Host报Unknown而拒绝；保留E3D_TARGET_MODEL_MISMATCH失败，不以窗口或管道可见替代身份成功。",
+            "exclusions": [
+              "这是后续修复前的历史失败，不表示后续两次严格验收也失败",
+              "未放宽模块核验，未在该次失败会话执行PML",
+              "不将失败历史覆盖为后来成功"
+            ],
+            "evidenceIds": [
+              "evidence:launch-workflow"
+            ],
+            "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          },
+          {
+            "id": "verification:sessions-bootstrap-runtime",
+            "scope": "runtime",
+            "result": "passed",
+            "observedAt": "2026-10-31",
+            "environment": {
+              "product": "E3D",
+              "version": "2.1",
+              "module": "DESIGN"
+            },
+            "claim": "定向更新启动PML后严格DESIGN身份TargetVerified通过；两次内置有界读取返回OK，原始身份回执保留。",
+            "exclusions": [
+              "该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过",
+              "未核验进程实际加载程序集的文件摘要，未执行回退演练",
+              "历史限定会话，不证明当前环境在线或其他产品可用"
+            ],
+            "evidenceIds": [
+              "evidence:host-bootstrap"
+            ],
+            "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          },
+          {
+            "id": "verification:sessions-host-v1-runtime",
+            "scope": "runtime",
+            "result": "passed",
+            "observedAt": "2026-10-31",
+            "environment": {
+              "product": "E3D",
+              "version": "2.1",
+              "module": "DESIGN"
+            },
+            "claim": "定向更新Host后严格身份及两项查询V1协议通过；限定数组续页、Form/Gadget分页、预算拒绝和无回调副作用断言通过。",
+            "exclusions": [
+              "历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过",
+              "不外推AM、PDMS、其他E3D版本或模块",
+              "未执行回退演练；前四次失败和旧协议0历史分别保留"
+            ],
+            "evidenceIds": [
+              "evidence:cli-host-compatibility"
+            ],
+            "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          },
+          {
+            "id": "verification:sessions-dashboard-offline",
+            "scope": "offline",
+            "result": "passed",
+            "observedAt": "2026-11-01",
+            "environment": {
+              "product": "synthetic"
+            },
+            "claim": "Dashboard会话模型与监测38项隔离测试通过，0失败0跳过；覆盖失联、超时、过期、身份变化及旧结果清理。",
+            "exclusions": [
+              "历史隔离测试，不代表本轮新执行或真实断线验证",
+              "未强制断开正在使用的真实E3D会话",
+              "不证明部署、许可、业务查询或执行授权通过"
+            ],
+            "evidenceIds": [
+              "evidence:dashboard-session-health"
+            ],
+            "environmentText": "产品：synthetic"
+          },
+          {
+            "id": "verification:sessions-dashboard-runtime",
+            "scope": "runtime",
+            "result": "passed",
+            "observedAt": "2026-11-01",
+            "environment": {
+              "product": "E3D",
+              "version": "2.1",
+              "module": "DESIGN"
+            },
+            "claim": "历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。",
+            "exclusions": [
+              "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
+              "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
+              "真实断线未强制测试；未调用PML执行工具或写工程模型",
+              "其余27项平台业务任务保留未完成"
+            ],
+            "evidenceIds": [
+              "evidence:dashboard-session-health"
+            ],
+            "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+          },
           {
             "id": "verification:ribbon-ui",
             "scope": "ui",
@@ -16966,6 +21115,171 @@ globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
         "evidence:caf"
       ],
       "environmentText": "产品：CAF"
+    },
+    {
+      "id": "verification:launch-offline",
+      "scope": "offline",
+      "result": "passed",
+      "observedAt": "2026-10-31",
+      "environment": {
+        "product": "synthetic"
+      },
+      "claim": "启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。",
+      "exclusions": [
+        "历史报告，不代表本轮重新执行或当前源码全部通过",
+        "可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加",
+        "不包含安装升级、回退、断电与完整跨产品任务验收"
+      ],
+      "evidenceIds": [
+        "evidence:launch-workflow"
+      ],
+      "environmentText": "产品：synthetic"
+    },
+    {
+      "id": "verification:launch-entry-runtime",
+      "scope": "runtime",
+      "result": "passed",
+      "observedAt": "2026-10-31",
+      "environment": {
+        "product": "E3D",
+        "version": "2.1",
+        "module": "DESIGN"
+      },
+      "claim": "限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。",
+      "exclusions": [
+        "仅启动入口及观察边界通过，首次严格Host核验失败另列",
+        "原启动回执hostVerification=unverified，后续外部核验不追写旧回执",
+        "历史实机记录，不证明当前环境在线，不外推其他产品或版本"
+      ],
+      "evidenceIds": [
+        "evidence:launch-workflow"
+      ],
+      "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+    },
+    {
+      "id": "verification:sessions-initial-host",
+      "scope": "runtime",
+      "result": "failed",
+      "observedAt": "2026-10-31",
+      "environment": {
+        "product": "E3D",
+        "version": "2.1",
+        "module": "DESIGN"
+      },
+      "claim": "首次启动后严格expectedModel核验因Host报Unknown而拒绝；保留E3D_TARGET_MODEL_MISMATCH失败，不以窗口或管道可见替代身份成功。",
+      "exclusions": [
+        "这是后续修复前的历史失败，不表示后续两次严格验收也失败",
+        "未放宽模块核验，未在该次失败会话执行PML",
+        "不将失败历史覆盖为后来成功"
+      ],
+      "evidenceIds": [
+        "evidence:launch-workflow"
+      ],
+      "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+    },
+    {
+      "id": "verification:sessions-bootstrap-runtime",
+      "scope": "runtime",
+      "result": "passed",
+      "observedAt": "2026-10-31",
+      "environment": {
+        "product": "E3D",
+        "version": "2.1",
+        "module": "DESIGN"
+      },
+      "claim": "定向更新启动PML后严格DESIGN身份TargetVerified通过；两次内置有界读取返回OK，原始身份回执保留。",
+      "exclusions": [
+        "该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过",
+        "未核验进程实际加载程序集的文件摘要，未执行回退演练",
+        "历史限定会话，不证明当前环境在线或其他产品可用"
+      ],
+      "evidenceIds": [
+        "evidence:host-bootstrap"
+      ],
+      "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+    },
+    {
+      "id": "verification:launch-cli-runtime",
+      "scope": "runtime",
+      "result": "passed",
+      "observedAt": "2026-10-31",
+      "environment": {
+        "product": "E3D",
+        "version": "2.1",
+        "module": "DESIGN"
+      },
+      "claim": "修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。",
+      "exclusions": [
+        "仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式",
+        "启动回执与独立Host验收分别判定，不补写旧启动回执",
+        "定向开发修复不代表正式安装包升级或回退验收"
+      ],
+      "evidenceIds": [
+        "evidence:cli-host-compatibility"
+      ],
+      "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+    },
+    {
+      "id": "verification:sessions-host-v1-runtime",
+      "scope": "runtime",
+      "result": "passed",
+      "observedAt": "2026-10-31",
+      "environment": {
+        "product": "E3D",
+        "version": "2.1",
+        "module": "DESIGN"
+      },
+      "claim": "定向更新Host后严格身份及两项查询V1协议通过；限定数组续页、Form/Gadget分页、预算拒绝和无回调副作用断言通过。",
+      "exclusions": [
+        "历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过",
+        "不外推AM、PDMS、其他E3D版本或模块",
+        "未执行回退演练；前四次失败和旧协议0历史分别保留"
+      ],
+      "evidenceIds": [
+        "evidence:cli-host-compatibility"
+      ],
+      "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
+    },
+    {
+      "id": "verification:sessions-dashboard-offline",
+      "scope": "offline",
+      "result": "passed",
+      "observedAt": "2026-11-01",
+      "environment": {
+        "product": "synthetic"
+      },
+      "claim": "Dashboard会话模型与监测38项隔离测试通过，0失败0跳过；覆盖失联、超时、过期、身份变化及旧结果清理。",
+      "exclusions": [
+        "历史隔离测试，不代表本轮新执行或真实断线验证",
+        "未强制断开正在使用的真实E3D会话",
+        "不证明部署、许可、业务查询或执行授权通过"
+      ],
+      "evidenceIds": [
+        "evidence:dashboard-session-health"
+      ],
+      "environmentText": "产品：synthetic"
+    },
+    {
+      "id": "verification:sessions-dashboard-runtime",
+      "scope": "runtime",
+      "result": "passed",
+      "observedAt": "2026-11-01",
+      "environment": {
+        "product": "E3D",
+        "version": "2.1",
+        "module": "DESIGN"
+      },
+      "claim": "历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。",
+      "exclusions": [
+        "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
+        "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
+        "真实断线未强制测试；未调用PML执行工具或写工程模型",
+        "其余27项平台业务任务保留未完成"
+      ],
+      "evidenceIds": [
+        "evidence:dashboard-session-health"
+      ],
+      "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
     }
   ],
   "evidence": [
@@ -17008,6 +21322,38 @@ globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
       "sourceRef": "source:evidence-caf",
       "audience": "public",
       "publication": "approved"
+    },
+    {
+      "id": "evidence:launch-workflow",
+      "kind": "report",
+      "title": "启动冻结、受理与原编号观察验收（历史）",
+      "sourceRef": "source:evidence-launch-workflow",
+      "audience": "public",
+      "publication": "approved"
+    },
+    {
+      "id": "evidence:host-bootstrap",
+      "kind": "report",
+      "title": "Host严格身份与内置读取验收（历史协议0）",
+      "sourceRef": "source:evidence-host-bootstrap",
+      "audience": "public",
+      "publication": "approved"
+    },
+    {
+      "id": "evidence:cli-host-compatibility",
+      "kind": "report",
+      "title": "CLI启动返回与Host查询V1验收（历史）",
+      "sourceRef": "source:evidence-cli-host-compatibility",
+      "audience": "public",
+      "publication": "approved"
+    },
+    {
+      "id": "evidence:dashboard-session-health",
+      "kind": "report",
+      "title": "Dashboard只读会话灯态与限定实机验收（历史）",
+      "sourceRef": "source:evidence-dashboard-session-health",
+      "audience": "public",
+      "publication": "approved"
     }
   ],
   "sources": [
@@ -17042,7 +21388,7 @@ globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
     {
       "id": "source:evidence",
       "title": "独立人工审阅的只读证据账本",
-      "sha256": "40323c99e3b189b631ee51f58b30aa9263e0e9140d38c1e088e3954c5df91132",
+      "sha256": "37017dd0bb1c81f70d2cfcf6ef8adf239c267adc41c0405e19fca9d31975b5cb",
       "authority": "evidence",
       "audience": "public"
     },
@@ -17070,14 +21416,14 @@ globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
     {
       "id": "source:openspec-design",
       "title": "平台候选design",
-      "sha256": "ba94e6769cb06b9c9fdca6a69377fd80ccde10ed57872fe22078e74156cccbf0",
+      "sha256": "3154c0178318130e684dfc5a2f78ff3b4b6e643ba722790eedec96bbfdfedec2",
       "authority": "proposal",
       "audience": "public"
     },
     {
       "id": "source:openspec-tasks",
       "title": "平台候选tasks",
-      "sha256": "6cb436ea3b27295c87b5c006c7884b2bc05ae7dc42f46a3b54dc86f8a127b5e1",
+      "sha256": "3a3781d2633611f5a3a9b236b837216b4451e3f510d9363f5138a972b8937b2f",
       "authority": "proposal",
       "audience": "public"
     },
@@ -17127,6 +21473,34 @@ globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
       "id": "source:evidence-caf",
       "title": "CAF接口隔离验证",
       "sha256": "504b9ef46c610669bf1c4e4113b15950abfbd22c7b08f77fa89c7f9088c9814d",
+      "authority": "evidence",
+      "audience": "public"
+    },
+    {
+      "id": "source:evidence-launch-workflow",
+      "title": "启动冻结、受理与原编号观察验收（历史）",
+      "sha256": "c1a993c63ad0886c18006d385b61d94f36cde1a473af03e45d915d35beb9d2f8",
+      "authority": "evidence",
+      "audience": "public"
+    },
+    {
+      "id": "source:evidence-host-bootstrap",
+      "title": "Host严格身份与内置读取验收（历史协议0）",
+      "sha256": "7476387e9d5be70ec187bf0369c471c22b6fa55b5e0a9357d3cabcbd417cbd01",
+      "authority": "evidence",
+      "audience": "public"
+    },
+    {
+      "id": "source:evidence-cli-host-compatibility",
+      "title": "CLI启动返回与Host查询V1验收（历史）",
+      "sha256": "4c43197b02ba428cc479c8675fabbec9ad839f582656c2f5b115b116a2e1cbf2",
+      "authority": "evidence",
+      "audience": "public"
+    },
+    {
+      "id": "source:evidence-dashboard-session-health",
+      "title": "Dashboard只读会话灯态与限定实机验收（历史）",
+      "sha256": "e8ee106662801a92febcbbd7f9a788fd484d83733ab05a3e53304191348c448a",
       "authority": "evidence",
       "audience": "public"
     }

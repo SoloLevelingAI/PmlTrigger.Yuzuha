@@ -375,6 +375,7 @@ public partial class SessionWorkbenchView : UserControl, IDisposable
         public string Display => Candidate.Product + " · " + Candidate.Project;
         /// <summary>辅助技术读取精确候选身份，不隐式选择第一项。</summary>
         public string Label => $"{Candidate.Product} · PID {Candidate.ProcessId} · {module ?? "模块待核验"} · 启动 {Candidate.ProcessStartTimeUtcTicks} ({Started}) · {Candidate.Project}";
+        /// <summary>将精确候选标签提供给默认文本及辅助技术，不改变选择状态。</summary>
         public override string ToString() => Label;
         /// <summary>候选进程启动时间，转换为本机显示。</summary>
         public string Started => new DateTime(Candidate.ProcessStartTimeUtcTicks, DateTimeKind.Utc).ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss");

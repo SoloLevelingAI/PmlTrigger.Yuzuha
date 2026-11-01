@@ -77,6 +77,14 @@ export function generate(root = repositoryRoot, options = {}) {
       verificationIds: verificationRows.filter(v => v.featureIds.includes(feature.id)).map(v => v.id), audience: 'internal' };
   });
   for (const feature of capabilities.features) if (!features.some(f => f.sourceId === feature.id)) throw new Error('Original Feature omitted: ' + feature.id);
+  const declaredFeatures = new Set(features.map(feature => feature.id));
+  const declaredEvidence = new Set(evidenceLedger.evidence.map(evidence => evidence.id));
+  for (const verification of evidenceLedger.verifications) {
+    if (!Array.isArray(verification.featureIds) || !verification.featureIds.length || verification.featureIds.some(id => !declaredFeatures.has(id)))
+      throw new Error('Verification requires known Feature ownership: ' + verification.id);
+    if (!Array.isArray(verification.evidenceIds) || !verification.evidenceIds.length || verification.evidenceIds.some(id => !declaredEvidence.has(id)))
+      throw new Error('Verification requires registered evidence: ' + verification.id);
+  }
   const evidence = evidenceLedger.evidence.map(e => {
     const sourceRef = 'source:evidence-' + e.id.split(':')[1]; addSource(sourceRef, e.title, e.path, 'evidence');
     return { id: e.id, kind: e.kind, title: e.title, sourceRef, audience: 'internal', publication: e.publication };

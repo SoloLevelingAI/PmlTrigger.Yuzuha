@@ -14,7 +14,8 @@
   }
   function project(){
     const map=D.model.taskMap,groups=map.groups;if(!groups.some(group=>group.id===activeGroup))activeGroup=groups[0]?.id;
-    const hero=el('section',null,{class:'hero','data-region':'A1'}),copy=el('div');copy.append(el('span','01 / ION NAVIGATION',{class:'signal'}));
+    const compact=innerWidth<=650;
+    const hero=el('section',null,{class:'hero'+(compact?' hero-compact':''),'data-region':'A1'}),copy=el('div');copy.append(el('span','01 / ION NAVIGATION',{class:'signal'}));
     const heading=el('h1',null,{'data-main-heading':''});heading.append(document.createTextNode('把目标，'),el('br'),el('em','接入轨道。'));copy.append(heading,el('p',D.model.project.summary,{class:'hero-copy'}));
     const foot=el('div',null,{class:'hero-foot'});foot.append(el('span','READ → TRACE',{class:'stamp'}),el('p','从任务分支进入。完整契约、静态方法与证据，沿同一份内容展开。'));copy.append(foot);hero.append(copy);
     const orbit=el('div',null,{class:'orbit','data-region':'A2','aria-label':'五类项目目标导航'});
@@ -23,10 +24,12 @@
     orbit.append(svg);const disk=el('div',null,{class:'metal-disk'});disk.append(el('strong',String(map.coverage.features)),el('span','FEATURES / PUBLIC MAP'));orbit.append(disk);
     const points=[[57,9],[84,32],[78,68],[29,79],[13,35]];
     groups.forEach((group,index)=>{const point=points[index%points.length],node=button(group.title,()=>{activeGroup=group.id;render();if(innerWidth<=650){const title=document.querySelector('.section-rule h2');title.tabIndex=-1;title.focus({preventScroll:true});title.scrollIntoView({block:'start'});}else document.querySelector(`[data-group="${CSS.escape(group.id)}"]`)?.focus({preventScroll:true});},{'data-group':group.id,'aria-pressed':String(activeGroup===group.id)});node.style.setProperty('--x',point[0]+'%');node.style.setProperty('--y',point[1]+'%');orbit.append(node);});
-    orbit.append(el('div',`${groups.length} 类任务目标 / ${map.flows.length} 条登记路径\n轨道表示阅读关系，不是运行轨迹。`,{class:'orbital-note'}));hero.append(orbit);main.append(hero);
+    orbit.append(el('div',`${groups.length} 类任务目标 / ${map.flows.length} 条登记路径\n轨道表示阅读关系，不是运行轨迹。`,{class:'orbital-note'}));if(!compact)hero.append(orbit);main.append(hero);
+    if(compact){const choices=el('nav',null,{class:'mobile-goal-nav','aria-label':'选择任务目标'});for(const group of groups)choices.append(button(group.title,()=>{activeGroup=group.id;render();const title=document.querySelector('.section-rule h2');title.tabIndex=-1;title.focus({preventScroll:true});},{'data-mobile-group':group.id,'aria-pressed':String(activeGroup===group.id)}));main.append(choices);}
     const group=groupBy(activeGroup),rule=el('div',null,{class:'section-rule'});rule.append(el('h2',group?.title||'选择任务'),el('p','PROJECT → GOAL → FEATURE'));main.append(rule);
     const ledger=el('section',null,{class:'feature-ledger','data-region':'A3','aria-label':'当前目标下的任务'});
     (group?.featureIds||[]).forEach((id,index)=>{const node=nodeBy(id);if(!node)return;const item=button(null,()=>D.select(node.entityId),{class:'feature-link','data-entity':node.entityId});const text=el('div');text.append(el('h3',node.title),el('p',node.summary));item.append(el('span',String(index+1).padStart(2,'0'),{class:'ordinal'}),text,el('span','↗',{class:'round-arrow','aria-hidden':'true'}));ledger.append(item);});main.append(ledger);
+    if(compact)main.append(orbit);
     const bottom=el('div',null,{class:'project-bottom'});bottom.append(el('span',`${map.coverage.features} Feature / ${map.coverage.scripts} Script。目录数量不表示测试覆盖或业务完成度。`),button('打开全部契约目录 ↗',()=>D.openCatalog(),{class:'text-button'}));main.append(bottom);
   }
   function task(){
@@ -57,6 +60,6 @@
   D.ready.then(async()=>{
     await Promise.all([import('./workbench.js'),new Promise((resolve,reject)=>{const link=el('link',null,{rel:'stylesheet',href:'workbench.css'});link.onload=resolve;link.onerror=()=>reject(Error('桌面工作区样式未能载入'));document.head.append(link);})]);
     document.querySelector('#catalog').onclick=()=>D.openCatalog();document.querySelector('#references').onclick=()=>D.open(D.metadata.project.id,'references');document.querySelector('#rules').onclick=async()=>{try{rules||=await fetch('rules.json').then(response=>{if(!response.ok)throw Error('规则读取失败');return response.json();});D.openRules(rules);}catch(error){D.toast(error.message);}};
-    D.onChange(()=>{const state=D.state(),signature=JSON.stringify([state.entity,state.flow,state.step,state.feature,D.model.metadataDigest]);if(signature!==lastSignature)render();else syncLinks();});addEventListener('contract-style-reader-change',syncLinks);let desktopWidth=innerWidth>=1024;addEventListener('resize',()=>{const next=innerWidth>=1024;if(next!==desktopWidth){desktopWidth=next;render();}});render();
+    D.onChange(()=>{const state=D.state(),signature=JSON.stringify([state.entity,state.flow,state.step,state.feature,D.model.metadataDigest]);if(signature!==lastSignature)render();else syncLinks();});addEventListener('contract-style-reader-change',syncLinks);let layoutWidth=innerWidth>=1024?'desktop':innerWidth<=650?'mobile':'tablet';addEventListener('resize',()=>{const next=innerWidth>=1024?'desktop':innerWidth<=650?'mobile':'tablet';if(next!==layoutWidth){layoutWidth=next;render();}});render();
   }).catch(error=>{main.querySelector('.loading')?.remove();if(!main.querySelector('.reader-failure')){const box=el('section',null,{class:'load-error',role:'alert'});box.append(el('span','CONTENT UNAVAILABLE',{class:'signal'}),el('h1','项目内容暂不可用'),el('p',error.message),button('重新读取',()=>location.reload(),{class:'action primary'}));main.append(box);}});
 })();

@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import vm from 'node:vm';
-import { generate, build, validate, schema, repositoryRoot, projectPublic, extractScriptContracts } from '../scripts/lib/contract-atlas-metadata.mjs';
+import { generate, build, validate, schema, repositoryRoot, projectPublic, extractScriptContracts, sha256 } from '../scripts/lib/contract-atlas-metadata.mjs';
 
 const { internal, publicData } = generate();
 const copy = value => structuredClone(value);
@@ -40,6 +40,53 @@ test('fourteen reviewed Script contracts have exactly seven fields and public ru
   assert.deepEqual(publicData.scripts.find(s => s.id === id).contract.validation.sourceRefs, ['source:presentation', 'source:overview']);
   rejected(d => { delete d.scripts[0].contract.recovery; }, 'missing recovery');
   assert.throws(() => extractScriptContracts('### 3.1 broken\n- **输入：** only\n', [{ id: 'script:test', section: 1 }]), /missing\/duplicate/);
+});
+
+test('launch and session evidence reaches report identities without upgrading historical failures, scope or dates', () => {
+  const required = new Map([
+    ['feature:launch', ['verification:launch-offline', 'verification:launch-entry-runtime', 'verification:launch-cli-runtime', 'verification:sessions-dashboard-runtime']],
+    ['feature:sessions', ['verification:sessions-initial-host', 'verification:sessions-bootstrap-runtime', 'verification:sessions-host-v1-runtime', 'verification:sessions-dashboard-offline', 'verification:sessions-dashboard-runtime']]
+  ]);
+  const model = ContractAtlasRender.build(publicData);
+  for (const [id, verificationIds] of required) {
+    const feature = publicData.features.find(f => f.id === id), card = model.cards.find(c => c.entityId === id);
+    assert.deepEqual(feature.verificationIds, verificationIds);
+    assert.deepEqual(card.verifications.map(v => v.id), verificationIds);
+    for (const verificationId of verificationIds) {
+      const proof = publicData.verifications.find(v => v.id === verificationId);
+      assert.ok(proof.exclusions.length > 1, 'scoped acceptance must retain explicit limitations');
+      for (const evidenceId of proof.evidenceIds) {
+        const evidence = internal.evidence.find(e => e.id === evidenceId), source = internal.sources.find(s => s.id === evidence.sourceRef);
+        assert.equal(source.sha256, sha256(fs.readFileSync(path.join(repositoryRoot, source.path))), 'report raw-byte identity');
+        assert.equal(publicData.sources.find(s => s.id === source.id).sha256, source.sha256);
+        assert.ok(publicData.edges.some(edge => edge.from === id && edge.to === verificationId && edge.relation === 'verifiedBy'));
+      }
+    }
+  }
+  const proof = id => publicData.verifications.find(v => v.id === id);
+  assert.equal(proof('verification:sessions-initial-host').result, 'failed');
+  assert.equal(proof('verification:sessions-initial-host').observedAt, '2026-10-31');
+  assert.match(proof('verification:sessions-initial-host').claim, /E3D_TARGET_MODEL_MISMATCH/);
+  assert.match(proof('verification:sessions-bootstrap-runtime').exclusions.join(' '), /仍为0/);
+  assert.match(proof('verification:launch-entry-runtime').exclusions.join(' '), /hostVerification=unverified/);
+  assert.equal(proof('verification:sessions-dashboard-offline').scope, 'offline');
+  assert.equal(proof('verification:sessions-dashboard-runtime').scope, 'runtime');
+  assert.match(proof('verification:sessions-dashboard-runtime').exclusions.join(' '), /真实断线未强制测试/);
+  assert.match(proof('verification:sessions-dashboard-runtime').exclusions.join(' '), /27项平台业务任务保留未完成/);
+  assert.deepEqual(proof('verification:sessions-dashboard-runtime').environment, { product: 'E3D', version: '2.1', module: 'DESIGN' });
+});
+
+test('reviewed verification ownership and evidence cannot silently disappear from the feature projection', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'contract-evidence-owner-'));
+  try {
+    for (const source of internal.sources) { const target = path.join(root, source.path); fs.mkdirSync(path.dirname(target), { recursive: true }); fs.copyFileSync(path.join(repositoryRoot, source.path), target); }
+    const ledger = JSON.parse(fs.readFileSync(path.join(root, 'docs/contracts/evidence.json')));
+    for (const [key, value, message] of [['featureIds', [], /Feature ownership/], ['featureIds', ['feature:missing'], /Feature ownership/], ['evidenceIds', [], /registered evidence/], ['evidenceIds', ['evidence:missing'], /registered evidence/]]) {
+      const candidate = copy(ledger); candidate.verifications[0][key] = value;
+      fs.writeFileSync(path.join(root, 'docs/contracts/evidence.json'), JSON.stringify(candidate));
+      assert.throws(() => generate(root), message);
+    }
+  } finally { fs.rmSync(root, { recursive: true, force: true }); }
 });
 
 test('stable build/check includes raw byte source fingerprints and rejects even nonsemantic source drift', () => {

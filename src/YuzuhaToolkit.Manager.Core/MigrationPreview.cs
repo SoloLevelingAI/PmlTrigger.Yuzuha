@@ -234,5 +234,6 @@ public static class MigrationPreview
     };
 }
 
+/// <summary>只读迁移预览使用的 JSON 数组源生成元数据，不负责写入或切换存储。</summary>
 [JsonSerializable(typeof(JsonArray))]
 internal partial class MigrationPreviewNodeContext : JsonSerializerContext;

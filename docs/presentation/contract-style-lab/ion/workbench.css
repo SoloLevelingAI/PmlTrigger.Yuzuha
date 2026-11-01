@@ -39,3 +39,17 @@ body.ion-developer-view{overflow:hidden}body.ion-developer-view main{max-width:n
 .iw-picker-empty{font-size:13px;line-height:1.8;padding:20px 16px;margin:0;overflow-wrap:anywhere}
 .iw-picker-popover button:focus-visible,.iw-picker-popover input:focus-visible{outline:2px solid var(--pink);outline-offset:-2px}
 @media(min-width:1024px) and (max-width:1199px){.iw-crumb-group{max-width:36%}.iw-breadcrumb{column-gap:4px;row-gap:0}.iw-breadcrumb .iw-crumb-name{font-size:11px}}
+/* Keep complete fields and identities available while shortening repeated metadata rows. */
+.iw-head-scope{display:flex;flex-wrap:wrap;align-items:center;gap:4px 16px;margin-top:8px;font-size:12px;color:var(--muted)}
+.iw-head-scope button{min-height:32px;padding:3px 0;background:transparent;border:0;text-decoration:underline;text-underline-offset:3px;font-size:12px;text-align:left}
+.iw-panel{padding-top:18px;padding-bottom:18px}
+.iw-section{margin-bottom:14px;padding-bottom:12px}
+.iw-panel .iw-section h3{margin-bottom:5px}
+.iw-panel .iw-section>p{margin:5px 0;line-height:1.7}
+.iw-panel .iw-sources{margin:4px 0 0}
+.iw-panel .iw-sources>summary{display:list-item;list-style:disclosure-closed inside;min-height:28px;padding:4px 0;font-size:12px;color:var(--muted)}
+.iw-panel .iw-sources[open]>summary{list-style-type:disclosure-open}
+.iw-panel .iw-sources p{margin:4px 0}
+.iw-panel .iw-sources small{display:block;line-height:1.6}
+.iw-proof-scope{margin-bottom:20px}
+.iw-proof-scope>h3{margin-bottom:12px}

@@ -100,10 +100,11 @@ test('desktop smoke receipt and screenshot contracts cover every current screen'
 function cliBoundaryFixture() {
   const client='YuzuhaToolkit.Manager.Core::M:YuzuhaToolkit.Manager.CommunicationCliClient.InvokeAsync(System.String,System.Text.Json.JsonElement,PmlTwin.Phayton.OperationContext,System.Threading.CancellationToken)';
   const process='System.Diagnostics.Process::M:System.Diagnostics.Process.Start';
+  const handler=expression=>'YuzuhaToolkit.Desktop::M:YuzuhaToolkit.Desktop.SessionWorkbenchView.'+expression+'(System.Object,System.Windows.RoutedEventArgs)';
   return {kind:'static-source-trace',projects:[],pages:[{id:'query',name:'Queries',kind:'page'}],boundaries:[],
-    entries:['ReadObject','ReadForms'].map(expression=>({id:expression,pageId:'query',view:'YuzuhaToolkit.Desktop.SessionWorkbenchView',member:'Click',expression,target:expression})),
-    nodes:['ReadObject','ReadForms','IHost.Query','Host.Query',client,process].map(id=>({id,name:id,file:id===process?null:'Source.cs',line:1})),
-    edges:[...['ReadObject','ReadForms'].map(from=>({from,to:'IHost.Query',kind:'interface-call'})),
+    entries:['ReadObject','ReadForms'].map(expression=>({id:expression,pageId:'query',view:'YuzuhaToolkit.Desktop.SessionWorkbenchView',member:'Click',expression,target:handler(expression),resolution:'resolved'})),
+    nodes:[...['ReadObject','ReadForms'].map(handler),'IHost.Query','Host.Query',client,process].map(id=>({id,name:id,file:id===process?null:'Source.cs',line:1})),
+    edges:[...['ReadObject','ReadForms'].map(expression=>({from:handler(expression),to:'IHost.Query',kind:'interface-call'})),
       {from:'IHost.Query',to:'Host.Query',kind:'possible-implementation'},
       {from:'Host.Query',to:client,kind:'call'},{from:client,to:process,kind:'call'}]};
 }
@@ -117,13 +118,29 @@ test('UI samples stop at the evidenced CLI process boundary for both query butto
     assert.equal(sample.boundary.kind,'child-process');
     for(let i=1;i<sample.chain.length;i++)assert.equal(sample.chain[i].from,sample.chain[i-1].to);
   }
+  graph.pages.push({id:'task-query',name:'Task queries',kind:'page'});
+  graph.entries.push({...graph.entries[0],id:'task-ReadObject',pageId:'task-query',line:437});
+  const shared=buildUiBoundarySamples(graph).samples;
+  assert.equal(shared.length,3,'both real controls sharing the exact handler retain a boundary sample');
+  assert.deepEqual(shared.filter(s=>s.entry.expression==='ReadObject').map(s=>[s.entry.id,s.entry.pageId]),[['ReadObject','query'],['task-ReadObject','task-query']]);
+  assert.equal(shared[0].entry.target,shared[1].entry.target);
 });
 
 test('missing CLI path, missing candidate dispatch, duplicate entry and fabricated RPC splice fail', () => {
+  const retarget=(graph,change)=>{
+    const entry=graph.entries[0],original=entry.target,replacement=change(original);
+    graph.nodes.push({...graph.nodes.find(node=>node.id===original),id:replacement});
+    graph.edges.push({...graph.edges.find(edge=>edge.from===original),from:replacement});
+    entry.target=replacement;
+    assert.doesNotThrow(()=>buildUiTraceCatalog(graph),'same-name wrong handler remains a valid graph before exact sample validation');
+  };
   for(const mutate of [
     g=>g.edges.pop(),
     g=>g.edges[2].kind='call',
     g=>g.entries.push({...g.entries[0]}),
+    g=>g.entries[0].resolution='unresolved',
+    g=>retarget(g,id=>id.replace('YuzuhaToolkit.Desktop::','Other.Assembly::')),
+    g=>retarget(g,id=>id.replace('System.Object','System.String')),
     g=>g.edges[3].kind='rpc-route'
   ]){const graph=cliBoundaryFixture();mutate(graph);assert.throws(()=>buildUiBoundarySamples(graph));}
 });

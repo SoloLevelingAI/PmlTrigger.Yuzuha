@@ -4,10 +4,13 @@ using System.Windows.Controls;
 
 namespace YuzuhaToolkit.Desktop;
 
+/// <summary>会话工作台的目标选择、任务导航及就近结果展示，不以导航触发查询。</summary>
 public partial class SessionWorkbenchView
 {
     private int? resultTargetPid;
+    /// <summary>人工选定目标已通过身份核验且仍满足当前 Dashboard 可用性证据。</summary>
     internal bool HasFreshTarget => model.Status.TargetVerified && model.Status.Host is { } hostIdentity && DashboardAllows(hostIdentity);
+    /// <summary>在没有待决操作时打开连接页并刷新候选，不自动选择或执行业务动作。</summary>
     internal async Task OpenSelectionAsync()
     {
         if (pending is not null || model.IsBusy && discoveryTask is null) { FeedbackText.Text = "当前操作尚未结束，请等待回执。"; return; }
@@ -15,6 +18,7 @@ public partial class SessionWorkbenchView
         await DiscoverTaskAsync();
         if (!disposed) { SessionsGrid.BringIntoView(); SessionsGrid.Focus(); }
     }
+    /// <summary>在没有待决操作时返回任务中心，保留输入及已有回执。</summary>
     internal void OpenTaskHub()
     {
         if (pending is not null || model.IsBusy) { FeedbackText.Text = "当前操作尚未结束，请等待结果。"; return; }

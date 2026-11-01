@@ -3,6 +3,39 @@ on: [workflow_dispatch, push, pull_request]
 permissions:
   contents: read
 jobs:
+  contract-workbench:
+    runs-on: windows-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Generated contract metadata and shared tokens
+        run: npm run contracts:check
+      - name: Six ION palettes
+        run: npm run contracts:styles:themes
+      - name: Contract, evidence, publication and method bridge tests
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force artifacts/contract-ci | Out-Null
+          npm run contracts:test 2>&1 | Tee-Object artifacts/contract-ci/unit.log
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Install locked Playwright Chromium
+        run: npm run contracts:browsers:install
+      - name: Contract UI and isolated method browser checks
+        run: npm run contracts:ci:browser
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: contract-workbench-${{ github.sha }}-${{ runner.os }}
+          path: |
+            artifacts/contract-ci/**
+            artifacts/contract-style-compact/**
+            artifacts/contract-style-lab/review/**
+            artifacts/contract-style-methods/**
   documentation-and-tests:
     runs-on: windows-latest
     steps:

@@ -93,6 +93,7 @@
           "cli.md",
           "documentation.md",
           "contract-method-preview.zh-CN.md",
+          "pr13-review-remediation.zh-CN.md",
           "features/planned-tools.md",
           "form-gadget-query.md",
           "formuse-audit.md",
@@ -144,10 +145,20 @@
     "resource": [
       {
         "files": [
-          "2026-10-24-launch-cli.summary.json"
+          "2026-10-24-launch-cli.summary.json",
+          "pr13-review-remediation-2026-11-01.json",
+          "ribbon-restart-2026-10-31.md"
         ],
         "src": "docs/validation",
         "dest": "validation"
+      },
+      {
+        "files": [
+          "ribbon-v2-continuation.md",
+          "ribbon-ui-continuation.md"
+        ],
+        "src": "openspec/changes/integrate-pmltwin-product-platform/features",
+        "dest": "source-evidence"
       },
       {
         "files": [

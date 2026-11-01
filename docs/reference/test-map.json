@@ -1298,6 +1298,142 @@
     {
       "test": "xunit:YuzuhaToolkit.Tests.NativeCliCapabilityTests.FunctionAuthorizationAndSourceValidationPrecedeDiscoveryAndConnection",
       "purpose": "使用已有发现与连接测试替身计数，验证函数许可及执行授权拒绝发生在发现/连接之前；允许时仅派发一次命令，源文件变更后不再发现、连接或执行。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.MigrationPreviewTests.RewriteGenerationPreservesIdentityUnknownFieldsAndHistoryWithoutCredentials",
+      "purpose": "使用隔离 rewrite generation 文件核对工作区身份、未知字段与历史保留，凭据和环境秘密剔除，源字节不变且不写入或激活活动存储。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.MigrationPreviewTests.NextReadsOnlyKnownLevelsRetainsDirectAndHistoryWhileRemovingSecrets",
+      "purpose": "仅读取 Next 已知目录层级的配置、草稿、快照和日志，保留 Direct 原值及历史未知字段并单列不支持诊断，剔除秘密；不启动工程。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.MigrationPreviewTests.RibbonPreservesVersionSequenceAndProjectWithoutFollowingArtifactPaths",
+      "purpose": "读取隔离 Ribbon 文档与版本记录，保留版本序号、项目及未知 XML，且不跟随记录中的产物路径读取；不部署或切换工作区。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.MigrationPreviewTests.RejectedSourceHasNoExportedBody",
+      "purpose": "对未来版本、非法 generation 指针、损坏 JSON 和重复字段核对稳定拒绝码，拒绝报告不得导出正文；不写入迁移目标。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.MigrationPreviewTests.LegacyV2AndFutureNextAreDistinct",
+      "purpose": "确认支持的 rewrite v2 可只读预览，未来 Next schema 被拒绝且不输出材料；不把格式识别当迁移切换成功。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.MigrationPreviewTests.ByteAndFileBudgetsRejectWithoutWritingOrActivating",
+      "purpose": "用超过字节上限和文件数量上限的隔离材料核对预算诊断、complete=false 与 activate=false，防止无限读取；不验证真实数据库切换。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.MigrationPreviewTests.RelativeNetworkAndUnknownFormatAreRejected",
+      "purpose": "拒绝相对源、网络源和未知格式名称，防止预览通过猜测路径或格式读取资料；不启动或写入外部应用。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.MigrationPreviewTests.RewritePointerReadsOnlyBoundGenerationAndRejectsChangedBytes",
+      "purpose": "核对 rewrite 指针只读取绑定 generation 和摘要，保留历史且剔除秘密；generation 字节改变后必须以摘要不符拒绝并清空导出材料。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.MigrationPreviewTests.InvalidUtf8ReturnsStableDiagnostic",
+      "purpose": "用非法 UTF-8 源字节核对 UTF8_INVALID 诊断、complete=false 及无导出材料，不以替换字符伪造可迁移正文。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.MigrationPreviewTests.RegisteredPreviewRequiresNoWriteAndRejectsUnknownInputAndIncompleteMaterial",
+      "purpose": "通过实际管理操作目录验证只读 migration.preview 无需写授权、拒绝 activate 等未知字段，并将损坏输入映射为不完整预览和非零退出码；不切换存储。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.MigrationPreviewTests.LinkedSourceDirectoryIsRejectedBeforeReading",
+      "purpose": "使用隔离 junction 或符号链接证明迁移预览在读取前拒绝链接源目录，目标文件保持存在；不代表真实数据迁移通过。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.RibbonHttpAdapterTests.V2ReceiptMustMatchReferenceAndActivationContract",
+      "purpose": "用隔离 HTTP 回执逐项篡改计划编号、摘要、契约版本、部署状态和激活字段，确认不匹配写回执为 unknown 且 mayHaveExecuted；不执行真实部署。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.RibbonHttpAdapterTests.V2UnconfirmedWritesAreUnknown",
+      "purpose": "对写操作返回 unknown、空 JSON 或非 JSON 正文时保留可能已执行的 unknown 结果，且 HTTP 调用只发生一次；不重放写操作。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.RibbonHttpAdapterTests.V2WriteGrantIsCheckedBeforeClientConstruction",
+      "purpose": "用禁止构建的 HTTP 客户端工厂证明 Ribbon v2 写授权先于客户端创建，未授权返回 WRITE_NOT_AUTHORIZED；不访问真实后端。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.RibbonHttpAdapterTests.V2DescriptorsHaveExactReferenceSchemasAndV1RemainsRegistered",
+      "purpose": "核对 Ribbon v2 注册项的契约版本、严格输入和 apply 仅接受 planId/planDigest，并保留 v1 注册入口；不代表所有 v1 行为或运行时已验收。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.RibbonHttpAdapterTests.V2PreviewAcceptsDocumentSchemaThroughExecutorAndKeepsEnvelopeVersionOne",
+      "purpose": "经真实操作执行器向隔离 HTTP 处理器发送合法 Ribbon 项目预览，核对 v2 路由可达且外层回执 schema 仍为1；不部署或加载 UIC。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DashboardSessionMonitorTests.EmptyAndNoHostStayNonGreenAndNeverProbeAnAbsentPipe",
+      "purpose": "以隔离探测器验证空候选为无会话、无 Host 管道仅为已发现且不发起身份探测，不能显示可用绿灯；不连接真实 Host。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DashboardSessionMonitorTests.GreenRequiresEveryIdentityAndProtocolField",
+      "purpose": "逐项改变 PID、启动时间、管道、模块、预期身份、通信版本及 Form/Array 协议，证明任一不符均不能显示可用绿灯；不代表宿主业务通过。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DashboardSessionMonitorTests.ModuleAndPipeArePinnedWhileRecoveryStillRequiresFreshMatchingEvidence",
+      "purpose": "证明同一启动身份固定模块和管道，模块改变撤销可用、管道改变写前拒绝探测，只有新鲜且匹配回执才恢复绿灯；使用隔离 Host 替身。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DashboardSessionMonitorTests.DisappearancePidReuseAndTransportFailureCannotReuseOldGreen",
+      "purpose": "模拟进程消失、PID 启动身份变化和通信失败，确认旧绿灯被撤销并保留缺失身份说明；不强制关闭真实产品。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DashboardSessionMonitorTests.ExpiryAndClockRollbackDowngradeEvenWithoutAnotherPoll",
+      "purpose": "用可控时钟证明超过新鲜期或时间回退时，即使没有新轮询也撤销可用证据；不把历史核验当持续有效。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DashboardSessionMonitorTests.SingleFlightTimeoutAndLateCompletionDoNotOverwriteNewGeneration",
+      "purpose": "用受控延迟回执验证单次轮询互斥、超时撤销可用，以及旧探测延迟完成不能覆盖较新代次；不执行 PML。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DashboardSessionMonitorTests.MultipleCandidatesAreIndependentlyVerifiedAndDisposeRejectsLateEvidence",
+      "purpose": "用多个隔离候选验证独立身份核验，并在 Dispose 后拒绝新轮询和延迟证据发布；不自动选择操作目标或验证真实多产品。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopLaunchWorkflowTests.WpfRoutesExecutionAndRecoveryThroughSingleCoordinator",
+      "purpose": "检查真实 WPF 源码和 XAML 将启动与原编号观察接入唯一 LaunchWorkflowService，不直接调用进程启动或另开日志协调链；这是静态接线检查，不是界面实机操作。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopLaunchWorkflowTests.SameOperationReturnsSameAttemptAndNeverPersistsPassword",
+      "purpose": "通过隔离启动边界证明相同操作编号跨服务实例返回同一 attempt、只启动一次且持久材料无口令，Host 状态仍为 unverified；不启动 AVEVA。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopLaunchWorkflowTests.UnknownAfterRestartCanOnlyBeObservedWithoutReplayingBoundary",
+      "purpose": "模拟启动边界异常及服务重建，确认 unknown 按原编号观察、attempt 不变、不重放且异常口令不入回执；不代表真实异常恢复演练。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopLaunchWorkflowTests.FrozenFileOrRevisionChangeRejectsBeforeStarting",
+      "purpose": "在隔离冻结计划后改变配置修订或入口文件，证明执行分别冲突拒绝且从未触达启动边界；不运行真实工程。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopSessionWorkflowTests.StatusFailureClearsVerifiedTargetAndAllPreviousResultsAndRequiresExplicitReselection",
+      "purpose": "在已有结果后模拟状态读取 IO、超时、取消和其他异常，确认核验身份与旧结果全部清理，并要求显式重选后才能再核验；不执行新的宿主业务动作。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopSessionWorkflowTests.FailedReadOnlySelectionCannotKeepPreviousDataOrLeaveNewTargetImplicitlyBound",
+      "purpose": "模拟只读选择失败，确认不保留前一目标数据或隐式绑定新目标，后续核验在明确重选前被拒绝；使用隔离 Host 替身。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopSessionWorkflowTests.BackgroundInvalidationCannotRefillResultsOrTurnAnInFlightRequestIntoSuccess",
+      "purpose": "在查询等待中撤销目标，模拟延迟成功或丢失回执，证明旧结果不能回填、结果保持 unknown 且不重发已分派请求；不等同于真实断线测试。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopTaskNavigationTests.NoProcessOffersStartEvenAfterOldProcessDisappeared",
+      "purpose": "检查无运行候选时主入口指向启动工程，旧进程消失后的失败记录不阻止导航；只验证决策，不创建进程。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopTaskNavigationTests.ProcessWithoutUsableHostOffersDiagnosisNotImplicitExecution",
+      "purpose": "对发现、核验中、失败和过期候选验证主入口统一指向连接诊断，不隐式启动或执行业务；只验证导航决策。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopTaskNavigationTests.DiscoveryFailureDoesNotPretendNoProcessOrOfferNewLaunch",
+      "purpose": "发现失败时必须进入诊断，不能伪装无进程并建议新启动；不访问真实发现服务。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopTaskNavigationTests.AvailableHostStillRequiresExplicitTargetAndNeverSelectsFirstCandidate",
+      "purpose": "多个 Host 可用时仍要求人工明确目标，只有新鲜显式目标才进入任务；不以列表顺序自动选择或执行业务。"
     }
   ],
   "cases": [

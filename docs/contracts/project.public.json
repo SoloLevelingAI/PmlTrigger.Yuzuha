@@ -80,7 +80,12 @@
           "source:capabilities"
         ]
       },
-      "verificationIds": [],
+      "verificationIds": [
+        "verification:launch-offline",
+        "verification:launch-entry-runtime",
+        "verification:launch-cli-runtime",
+        "verification:sessions-dashboard-runtime"
+      ],
       "audience": "public"
     },
     {
@@ -160,7 +165,13 @@
           "source:capabilities"
         ]
       },
-      "verificationIds": [],
+      "verificationIds": [
+        "verification:sessions-initial-host",
+        "verification:sessions-bootstrap-runtime",
+        "verification:sessions-host-v1-runtime",
+        "verification:sessions-dashboard-offline",
+        "verification:sessions-dashboard-runtime"
+      ],
       "audience": "public"
     },
     {
@@ -5228,6 +5239,46 @@
       ]
     },
     {
+      "id": "edge:launch-verified-launch-offline",
+      "from": "feature:launch",
+      "to": "verification:launch-offline",
+      "relation": "verifiedBy",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:evidence"
+      ]
+    },
+    {
+      "id": "edge:launch-verified-launch-entry-runtime",
+      "from": "feature:launch",
+      "to": "verification:launch-entry-runtime",
+      "relation": "verifiedBy",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:evidence"
+      ]
+    },
+    {
+      "id": "edge:launch-verified-launch-cli-runtime",
+      "from": "feature:launch",
+      "to": "verification:launch-cli-runtime",
+      "relation": "verifiedBy",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:evidence"
+      ]
+    },
+    {
+      "id": "edge:launch-verified-sessions-dashboard-runtime",
+      "from": "feature:launch",
+      "to": "verification:sessions-dashboard-runtime",
+      "relation": "verifiedBy",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:evidence"
+      ]
+    },
+    {
       "id": "edge:project-deployment",
       "from": "project:pmltwin",
       "to": "feature:deployment",
@@ -5330,6 +5381,56 @@
       "basis": "explicit",
       "sourceRefs": [
         "source:presentation"
+      ]
+    },
+    {
+      "id": "edge:sessions-verified-sessions-initial-host",
+      "from": "feature:sessions",
+      "to": "verification:sessions-initial-host",
+      "relation": "verifiedBy",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:evidence"
+      ]
+    },
+    {
+      "id": "edge:sessions-verified-sessions-bootstrap-runtime",
+      "from": "feature:sessions",
+      "to": "verification:sessions-bootstrap-runtime",
+      "relation": "verifiedBy",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:evidence"
+      ]
+    },
+    {
+      "id": "edge:sessions-verified-sessions-host-v1-runtime",
+      "from": "feature:sessions",
+      "to": "verification:sessions-host-v1-runtime",
+      "relation": "verifiedBy",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:evidence"
+      ]
+    },
+    {
+      "id": "edge:sessions-verified-sessions-dashboard-offline",
+      "from": "feature:sessions",
+      "to": "verification:sessions-dashboard-offline",
+      "relation": "verifiedBy",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:evidence"
+      ]
+    },
+    {
+      "id": "edge:sessions-verified-sessions-dashboard-runtime",
+      "from": "feature:sessions",
+      "to": "verification:sessions-dashboard-runtime",
+      "relation": "verifiedBy",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:evidence"
       ]
     },
     {
@@ -6003,6 +6104,163 @@
       "evidenceIds": [
         "evidence:caf"
       ]
+    },
+    {
+      "id": "verification:launch-offline",
+      "scope": "offline",
+      "result": "passed",
+      "observedAt": "2026-10-31",
+      "environment": {
+        "product": "synthetic"
+      },
+      "claim": "启动报告记录计划目标变化、受理写失败、unknown不重放及原编号恢复的隔离检查通过；HTML和管理CLI共用执行器。",
+      "exclusions": [
+        "历史报告，不代表本轮重新执行或当前源码全部通过",
+        "可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加",
+        "不包含安装升级、回退、断电与完整跨产品任务验收"
+      ],
+      "evidenceIds": [
+        "evidence:launch-workflow"
+      ]
+    },
+    {
+      "id": "verification:launch-entry-runtime",
+      "scope": "runtime",
+      "result": "passed",
+      "observedAt": "2026-10-31",
+      "environment": {
+        "product": "E3D",
+        "version": "2.1",
+        "module": "DESIGN"
+      },
+      "claim": "限定工程实际单次启动完成Monitor到Design交接；服务重启及页面刷新后按原编号观察同一尝试，没有重复启动。",
+      "exclusions": [
+        "仅启动入口及观察边界通过，首次严格Host核验失败另列",
+        "原启动回执hostVerification=unverified，后续外部核验不追写旧回执",
+        "历史实机记录，不证明当前环境在线，不外推其他产品或版本"
+      ],
+      "evidenceIds": [
+        "evidence:launch-workflow"
+      ]
+    },
+    {
+      "id": "verification:sessions-initial-host",
+      "scope": "runtime",
+      "result": "failed",
+      "observedAt": "2026-10-31",
+      "environment": {
+        "product": "E3D",
+        "version": "2.1",
+        "module": "DESIGN"
+      },
+      "claim": "首次启动后严格expectedModel核验因Host报Unknown而拒绝；保留E3D_TARGET_MODEL_MISMATCH失败，不以窗口或管道可见替代身份成功。",
+      "exclusions": [
+        "这是后续修复前的历史失败，不表示后续两次严格验收也失败",
+        "未放宽模块核验，未在该次失败会话执行PML",
+        "不将失败历史覆盖为后来成功"
+      ],
+      "evidenceIds": [
+        "evidence:launch-workflow"
+      ]
+    },
+    {
+      "id": "verification:sessions-bootstrap-runtime",
+      "scope": "runtime",
+      "result": "passed",
+      "observedAt": "2026-10-31",
+      "environment": {
+        "product": "E3D",
+        "version": "2.1",
+        "module": "DESIGN"
+      },
+      "claim": "定向更新启动PML后严格DESIGN身份TargetVerified通过；两次内置有界读取返回OK，原始身份回执保留。",
+      "exclusions": [
+        "该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过",
+        "未核验进程实际加载程序集的文件摘要，未执行回退演练",
+        "历史限定会话，不证明当前环境在线或其他产品可用"
+      ],
+      "evidenceIds": [
+        "evidence:host-bootstrap"
+      ]
+    },
+    {
+      "id": "verification:launch-cli-runtime",
+      "scope": "runtime",
+      "result": "passed",
+      "observedAt": "2026-10-31",
+      "environment": {
+        "product": "E3D",
+        "version": "2.1",
+        "module": "DESIGN"
+      },
+      "claim": "修复后限定工程第五次启动，CLI在374ms返回完整JSON且退出码零；父终端退出后独立严格查询仍通过。前四次失败回执保留。",
+      "exclusions": [
+        "仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式",
+        "启动回执与独立Host验收分别判定，不补写旧启动回执",
+        "定向开发修复不代表正式安装包升级或回退验收"
+      ],
+      "evidenceIds": [
+        "evidence:cli-host-compatibility"
+      ]
+    },
+    {
+      "id": "verification:sessions-host-v1-runtime",
+      "scope": "runtime",
+      "result": "passed",
+      "observedAt": "2026-10-31",
+      "environment": {
+        "product": "E3D",
+        "version": "2.1",
+        "module": "DESIGN"
+      },
+      "claim": "定向更新Host后严格身份及两项查询V1协议通过；限定数组续页、Form/Gadget分页、预算拒绝和无回调副作用断言通过。",
+      "exclusions": [
+        "历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过",
+        "不外推AM、PDMS、其他E3D版本或模块",
+        "未执行回退演练；前四次失败和旧协议0历史分别保留"
+      ],
+      "evidenceIds": [
+        "evidence:cli-host-compatibility"
+      ]
+    },
+    {
+      "id": "verification:sessions-dashboard-offline",
+      "scope": "offline",
+      "result": "passed",
+      "observedAt": "2026-11-01",
+      "environment": {
+        "product": "synthetic"
+      },
+      "claim": "Dashboard会话模型与监测38项隔离测试通过，0失败0跳过；覆盖失联、超时、过期、身份变化及旧结果清理。",
+      "exclusions": [
+        "历史隔离测试，不代表本轮新执行或真实断线验证",
+        "未强制断开正在使用的真实E3D会话",
+        "不证明部署、许可、业务查询或执行授权通过"
+      ],
+      "evidenceIds": [
+        "evidence:dashboard-session-health"
+      ]
+    },
+    {
+      "id": "verification:sessions-dashboard-runtime",
+      "scope": "runtime",
+      "result": "passed",
+      "observedAt": "2026-11-01",
+      "environment": {
+        "product": "E3D",
+        "version": "2.1",
+        "module": "DESIGN"
+      },
+      "claim": "历史真实WPF默认Dashboard：无会话灰灯，显式单次启动后严格Host身份及两项V1协议核验为绿灯；操作目标仍未选择。",
+      "exclusions": [
+        "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
+        "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
+        "真实断线未强制测试；未调用PML执行工具或写工程模型",
+        "其余27项平台业务任务保留未完成"
+      ],
+      "evidenceIds": [
+        "evidence:dashboard-session-health"
+      ]
     }
   ],
   "evidence": [
@@ -6045,6 +6303,38 @@
       "sourceRef": "source:evidence-caf",
       "audience": "public",
       "publication": "approved"
+    },
+    {
+      "id": "evidence:launch-workflow",
+      "kind": "report",
+      "title": "启动冻结、受理与原编号观察验收（历史）",
+      "sourceRef": "source:evidence-launch-workflow",
+      "audience": "public",
+      "publication": "approved"
+    },
+    {
+      "id": "evidence:host-bootstrap",
+      "kind": "report",
+      "title": "Host严格身份与内置读取验收（历史协议0）",
+      "sourceRef": "source:evidence-host-bootstrap",
+      "audience": "public",
+      "publication": "approved"
+    },
+    {
+      "id": "evidence:cli-host-compatibility",
+      "kind": "report",
+      "title": "CLI启动返回与Host查询V1验收（历史）",
+      "sourceRef": "source:evidence-cli-host-compatibility",
+      "audience": "public",
+      "publication": "approved"
+    },
+    {
+      "id": "evidence:dashboard-session-health",
+      "kind": "report",
+      "title": "Dashboard只读会话灯态与限定实机验收（历史）",
+      "sourceRef": "source:evidence-dashboard-session-health",
+      "audience": "public",
+      "publication": "approved"
     }
   ],
   "sources": [
@@ -6079,7 +6369,7 @@
     {
       "id": "source:evidence",
       "title": "独立人工审阅的只读证据账本",
-      "sha256": "40323c99e3b189b631ee51f58b30aa9263e0e9140d38c1e088e3954c5df91132",
+      "sha256": "37017dd0bb1c81f70d2cfcf6ef8adf239c267adc41c0405e19fca9d31975b5cb",
       "authority": "evidence",
       "audience": "public"
     },
@@ -6107,14 +6397,14 @@
     {
       "id": "source:openspec-design",
       "title": "平台候选design",
-      "sha256": "ba94e6769cb06b9c9fdca6a69377fd80ccde10ed57872fe22078e74156cccbf0",
+      "sha256": "3154c0178318130e684dfc5a2f78ff3b4b6e643ba722790eedec96bbfdfedec2",
       "authority": "proposal",
       "audience": "public"
     },
     {
       "id": "source:openspec-tasks",
       "title": "平台候选tasks",
-      "sha256": "6cb436ea3b27295c87b5c006c7884b2bc05ae7dc42f46a3b54dc86f8a127b5e1",
+      "sha256": "3a3781d2633611f5a3a9b236b837216b4451e3f510d9363f5138a972b8937b2f",
       "authority": "proposal",
       "audience": "public"
     },
@@ -6164,6 +6454,34 @@
       "id": "source:evidence-caf",
       "title": "CAF接口隔离验证",
       "sha256": "504b9ef46c610669bf1c4e4113b15950abfbd22c7b08f77fa89c7f9088c9814d",
+      "authority": "evidence",
+      "audience": "public"
+    },
+    {
+      "id": "source:evidence-launch-workflow",
+      "title": "启动冻结、受理与原编号观察验收（历史）",
+      "sha256": "c1a993c63ad0886c18006d385b61d94f36cde1a473af03e45d915d35beb9d2f8",
+      "authority": "evidence",
+      "audience": "public"
+    },
+    {
+      "id": "source:evidence-host-bootstrap",
+      "title": "Host严格身份与内置读取验收（历史协议0）",
+      "sha256": "7476387e9d5be70ec187bf0369c471c22b6fa55b5e0a9357d3cabcbd417cbd01",
+      "authority": "evidence",
+      "audience": "public"
+    },
+    {
+      "id": "source:evidence-cli-host-compatibility",
+      "title": "CLI启动返回与Host查询V1验收（历史）",
+      "sha256": "4c43197b02ba428cc479c8675fabbec9ad839f582656c2f5b115b116a2e1cbf2",
+      "authority": "evidence",
+      "audience": "public"
+    },
+    {
+      "id": "source:evidence-dashboard-session-health",
+      "title": "Dashboard只读会话灯态与限定实机验收（历史）",
+      "sha256": "e8ee106662801a92febcbbd7f9a788fd484d83733ab05a3e53304191348c448a",
       "authority": "evidence",
       "audience": "public"
     }

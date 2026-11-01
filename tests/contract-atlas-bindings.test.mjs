@@ -17,7 +17,7 @@ test('every Feature and Script has one explicit binding or an honest scoped abse
 });
 
 const graphPath=path.join(repositoryRoot,config.analysis.graph);
-test('reviewed bindings resolve exact captured symbols and remain inside the direct method catalog budgets',{skip:!fs.existsSync(graphPath)},()=>{
+test('reviewed bindings resolve exact captured symbols and remain inside the direct method catalog budgets',{skip:fs.existsSync(graphPath)?false:'Local Roslyn capture is absent; run contracts:methods:capture. Exact production bindings are not verified by this run.'},()=>{
  const graph=JSON.parse(fs.readFileSync(graphPath,'utf8'));const nodes=new Set(graph.nodes.map(n=>n.id));const roots=new Set(config.bindings.flatMap(b=>b.symbolIds));
  for(const id of roots)assert.ok(nodes.has(id),'Missing exact symbol '+id);
  const selected=new Set(roots);for(const e of graph.edges)if(roots.has(e.from)||roots.has(e.to)){selected.add(e.from);selected.add(e.to);}

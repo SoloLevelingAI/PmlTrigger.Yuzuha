@@ -50,15 +50,22 @@ export function buildUiBoundarySamples(graph,catalog=buildUiTraceCatalog(graph))
   const findPath=(edges,start,predicate)=>{const outgoing=adjacency(edges),pending=[{id:start,steps:[]}],visited=new Set();for(let i=0;i<pending.length;i++){const item=pending[i];if(visited.has(item.id))continue;visited.add(item.id);if(predicate(item.id))return item.steps;for(const edge of outgoing.get(item.id)??[])pending.push({id:edge.to,steps:[...item.steps,edge]});}return null;};
   const client='YuzuhaToolkit.Manager.Core::M:YuzuhaToolkit.Manager.CommunicationCliClient.InvokeAsync(System.String,System.Text.Json.JsonElement,PmlTwin.Phayton.OperationContext,System.Threading.CancellationToken)';
   const process='System.Diagnostics.Process::M:System.Diagnostics.Process.Start';
-  const samples=['ReadObject','ReadForms'].map(expression=>{
+  const samples=['ReadObject','ReadForms'].flatMap(expression=>{
     const entries=graph.entries.filter(e=>e.view==='YuzuhaToolkit.Desktop.SessionWorkbenchView'&&e.member==='Click'&&e.expression===expression);
-    assert.equal(entries.length,1,expression+' entry must resolve uniquely');const entry=entries[0];assert.ok(entry.target);
-    const toClient=findPath(catalog.edges,entry.target,id=>id===client),toProcess=findPath(catalog.edges,client,id=>id===process);
-    assert.ok(toClient?.length&&toProcess?.length,'No UI → communication CLI process path: '+expression);
-    const chain=[...toClient,...toProcess];
-    assert.ok(chain.some(e=>e.kind==='possible-implementation'),'Candidate implementations must remain explicit');
-    assert.ok(!chain.some(e=>e.kind==='rpc-route'),'Do not infer an in-process path across the CLI boundary');
-    return {entry,chain,boundary:{kind:'child-process',target:process,reason:'源码仅证明到独立 CLI 进程创建边界；未证明子进程启动、协议接收或 RPC/Host 执行。'}};
+    assert.ok(entries.length>0,expression+' entry must exist');
+    const target='YuzuhaToolkit.Desktop::M:YuzuhaToolkit.Desktop.SessionWorkbenchView.'+expression+'(System.Object,System.Windows.RoutedEventArgs)';
+    // Several real controls may share one exact handler. Retain every control's
+    // page/source identity instead of selecting the first or merging by its name.
+    return entries.map(entry=>{
+      assert.equal(entry.resolution,'resolved',expression+' entry must have an exact resolved handler');
+      assert.equal(entry.target,target,expression+' handler assembly and signature must match');
+      const toClient=findPath(catalog.edges,entry.target,id=>id===client),toProcess=findPath(catalog.edges,client,id=>id===process);
+      assert.ok(toClient?.length&&toProcess?.length,'No UI → communication CLI process path: '+entry.id);
+      const chain=[...toClient,...toProcess];
+      assert.ok(chain.some(e=>e.kind==='possible-implementation'),'Candidate implementations must remain explicit');
+      assert.ok(!chain.some(e=>e.kind==='rpc-route'),'Do not infer an in-process path across the CLI boundary');
+      return {entry,chain,boundary:{kind:'child-process',target:process,reason:'源码仅证明到独立 CLI 进程创建边界；未证明子进程启动、协议接收或 RPC/Host 执行。'}};
+    });
   });
   // Host routes are independent backend samples; never splice them onto a UI path.
   const backendSamples=[];

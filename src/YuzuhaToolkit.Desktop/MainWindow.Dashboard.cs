@@ -4,6 +4,7 @@ using System.Windows.Threading;
 
 namespace YuzuhaToolkit.Desktop;
 
+/// <summary>主窗口的只读会话监测、可用性摘要及 Dashboard 呈现。</summary>
 public partial class MainWindow
 {
     private DashboardSessionMonitor? dashboardMonitor;
@@ -12,6 +13,7 @@ public partial class MainWindow
     private DateTimeOffset dashboardNextPoll;
     /// <summary>当前只读可用性快照，与人工选择的操作目标独立。</summary>
     internal DashboardHealthSnapshot DashboardSnapshot => dashboardMonitor?.Snapshot ?? DashboardHealthSnapshot.Empty;
+    /// <summary>界面应用当前监测快照后通知订阅方，不改变显式操作目标。</summary>
     internal event Action<DashboardHealthSnapshot>? DashboardUpdated;
     private void InitializeDashboardMonitoring(bool isolated)
     {

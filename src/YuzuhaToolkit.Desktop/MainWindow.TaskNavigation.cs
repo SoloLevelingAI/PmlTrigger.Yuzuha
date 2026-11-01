@@ -2,6 +2,7 @@ using System.Windows;
 
 namespace YuzuhaToolkit.Desktop;
 
+/// <summary>主窗口根据会话状态导航至启动、连接诊断、明确目标或任务中心。</summary>
 public partial class MainWindow
 {
     private void UpdateDashboardPrimaryAction()

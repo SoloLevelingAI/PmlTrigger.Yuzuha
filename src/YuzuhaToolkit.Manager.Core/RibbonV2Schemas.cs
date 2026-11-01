@@ -5,6 +5,7 @@ namespace YuzuhaToolkit.Manager;
 /// <summary>冻结部署输入；apply 只接受服务端计划引用，不能替换项目或目标。</summary>
 internal static class RibbonV2Schemas
 {
+    /// <summary>按预览或应用路由提供冻结部署输入 schema；应用仅接受计划编号和摘要。</summary>
     internal static JsonElement Input(string route)
     {
         const string reference = """

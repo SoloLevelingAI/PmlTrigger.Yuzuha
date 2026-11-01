@@ -41,6 +41,8 @@
 - name: 验证与维护
   href: testing.md
   items:
+  - name: PR审查修复与契约验收证据
+    href: pr13-review-remediation.zh-CN.md
   - name: 测试
     href: testing.md
   - name: 文档维护

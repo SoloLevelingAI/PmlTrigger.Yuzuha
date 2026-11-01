@@ -4,6 +4,7 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {generate,repositoryRoot,sha256} from './lib/contract-atlas-metadata.mjs';
 import {createMethodBridge} from './lib/contract-style-methods.mjs';
+import {readEvidence} from './lib/contract-evidence.mjs';
 
 const staticRoot=path.join(repositoryRoot,'docs/presentation/contract-style-lab');
 const types={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.json':'application/json; charset=utf-8','.png':'image/png','.svg':'image/svg+xml','.webp':'image/webp'};
@@ -28,6 +29,12 @@ export async function createStyleLabServer({port=19440,pollMs=2000,root=reposito
    const url=new URL(req.url,'http://'+req.headers.host),pathname=decodeURIComponent(url.pathname);
    if(pathname.includes('\\')||pathname.includes('\0')||pathname.split('/').includes('..')){send(403,{error:'INVALID_PATH'});return;}
    if(pathname==='/api/content'){res.setHeader('X-Design-Data-State',sourceError?'lastgood':'current');res.writeHead(200,{'Content-Type':types['.json'],'Content-Length':bytes.length});res.end(req.method==='HEAD'?undefined:bytes);return;}
+   if(pathname.startsWith('/api/evidence/')){
+    let report=null;try{report=await readEvidence(root,contentReader().metadata,pathname.slice('/api/evidence/'.length),url.searchParams.get('sha256'));}catch{}
+    if(!report){send(404,{error:'VERIFIED_EVIDENCE_UNAVAILABLE'});return;}
+    res.setHeader('Content-Security-Policy',"sandbox; default-src 'none'; base-uri 'none'; form-action 'none'");
+    res.writeHead(200,{'Content-Type':'text/plain; charset=utf-8','Content-Length':report.length});res.end(req.method==='HEAD'?undefined:report);return;
+   }
    if(pathname==='/api/methods'){
     let current;try{current=contentReader();}catch{send(200,{schema:'contract-style-method-preview/1',status:'stale',metadataDigest:content.metadataDigest,renderModelDigest:content.renderModelDigest,revisionId:null,catalog:null,docfxUrls:{},reason:'Current public sources cannot be validated.'});return;}
     send(200,await methods.preview(current,{metadataDigest:url.searchParams.get('metadataDigest'),renderModelDigest:url.searchParams.get('renderModelDigest')}));return;

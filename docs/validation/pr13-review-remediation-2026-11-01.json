@@ -35,7 +35,8 @@
         "edges": 1485,
         "inlineChecks": 8,
         "themeCaptures": 12,
-        "scope": "Actual static Roslyn/DocFX and isolated publication; not runtime AVEVA"
+        "scope": "Actual static Roslyn/DocFX and isolated publication; not runtime AVEVA",
+        "breadcrumbChecks": 8
       }
     },
     "wpf": {
@@ -78,7 +79,52 @@
     "humanVisualReview": "not reviewed"
   },
   "cloud": {
-    "status": "pending push"
+    "status": "passed",
+    "verifiedCommit": "8f2b0cba03c5811691f63ad3a4a4aec29d590fbd",
+    "workflows": [
+      {
+        "conclusion": "success",
+        "databaseId": 41312063860,
+        "status": "completed",
+        "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/actions/runs/41312063860",
+        "workflowName": "Phayton command regression"
+      },
+      {
+        "conclusion": "success",
+        "databaseId": 41312063862,
+        "status": "completed",
+        "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/actions/runs/41312063862",
+        "workflowName": "build"
+      },
+      {
+        "conclusion": "success",
+        "databaseId": 41312063871,
+        "status": "completed",
+        "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/actions/runs/41312063871",
+        "workflowName": "development-quality"
+      }
+    ],
+    "contractTests": {
+      "skipReasons": [
+        "FigCraft CLI absent on runner",
+        "Local Roslyn production capture absent on runner"
+      ],
+      "skipped": 2,
+      "passed": 63,
+      "total": 65
+    },
+    "jobs": {
+      "documentationAndWpf": "success",
+      "contractWorkbench": "success"
+    },
+    "earlierFailure": {
+      "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/actions/runs/41311743497",
+      "commit": "40db5627fea9dbf37af3d590995c3c1278ac98c3",
+      "reason": "Compact test matched loading placeholder before async workspace render",
+      "resolution": "Wait for actual data-main-heading and exercise delayed module import; layout assertions retained"
+    },
+    "verifiedAtUtc": "2026-11-01T13:46:14.2200298Z",
+    "handoff": "This record follows the verified code/test commit; subsequent documentation head checks are linked from PR13"
   },
   "logs": [
     {

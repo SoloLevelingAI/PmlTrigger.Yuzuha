@@ -86,7 +86,8 @@ globalThis.CONTRACT_ATLAS_DATA = {
         "verification:launch-cli-runtime",
         "verification:sessions-dashboard-runtime",
         "verification:install-journey-offline",
-        "verification:install-journey-ui"
+        "verification:install-journey-ui",
+        "verification:visual-priority-ui"
       ],
       "audience": "public"
     },
@@ -130,7 +131,9 @@ globalThis.CONTRACT_ATLAS_DATA = {
       },
       "verificationIds": [
         "verification:install-journey-offline",
-        "verification:install-journey-ui"
+        "verification:install-journey-ui",
+        "verification:visual-priority-ui",
+        "verification:skill-adoption-offline"
       ],
       "audience": "public"
     },
@@ -5304,6 +5307,16 @@ globalThis.CONTRACT_ATLAS_DATA = {
       ]
     },
     {
+      "id": "edge:launch-verified-visual-priority-ui",
+      "from": "feature:launch",
+      "to": "verification:visual-priority-ui",
+      "relation": "verifiedBy",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:evidence"
+      ]
+    },
+    {
       "id": "edge:project-deployment",
       "from": "project:pmltwin",
       "to": "feature:deployment",
@@ -5369,6 +5382,26 @@ globalThis.CONTRACT_ATLAS_DATA = {
       "id": "edge:deployment-verified-install-journey-ui",
       "from": "feature:deployment",
       "to": "verification:install-journey-ui",
+      "relation": "verifiedBy",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:evidence"
+      ]
+    },
+    {
+      "id": "edge:deployment-verified-visual-priority-ui",
+      "from": "feature:deployment",
+      "to": "verification:visual-priority-ui",
+      "relation": "verifiedBy",
+      "basis": "explicit",
+      "sourceRefs": [
+        "source:evidence"
+      ]
+    },
+    {
+      "id": "edge:deployment-verified-skill-adoption-offline",
+      "from": "feature:deployment",
+      "to": "verification:skill-adoption-offline",
       "relation": "verifiedBy",
       "basis": "explicit",
       "sourceRefs": [
@@ -6344,6 +6377,42 @@ globalThis.CONTRACT_ATLAS_DATA = {
       "evidenceIds": [
         "evidence:install-journey"
       ]
+    },
+    {
+      "id": "verification:visual-priority-ui",
+      "scope": "ui",
+      "result": "passed",
+      "observedAt": "2026-11-02",
+      "environment": {
+        "product": "synthetic"
+      },
+      "claim": "WPF统计与元信息降为辅助层级，23关联测试及独立发布程序31/118截图通过；Web六主题16截图、完整字段/可读辅助字与装饰隐藏通过，FigCraft318个可编辑文字。实际打开WPF供用户查看。",
+      "exclusions": [
+        "界面回执为明确合成数据，不代称AVEVA实机。",
+        "打开窗口不表示安装、Skill更新或用户视觉认可。",
+        "只有重复装饰编号淡显，唯一计数/完整身份仍可达。"
+      ],
+      "evidenceIds": [
+        "evidence:visual-priority-skill"
+      ]
+    },
+    {
+      "id": "verification:skill-adoption-offline",
+      "scope": "offline",
+      "result": "passed",
+      "observedAt": "2026-11-02",
+      "environment": {
+        "product": "synthetic"
+      },
+      "claim": "NET48真实临时文件验证默认拒绝/显式Skill接管、完整清单、marker/priorState、首次原文、反伪造、回滚与卸载；真实junction拒绝且目标保留，包装夹具5/5通过。",
+      "exclusions": [
+        "当前Codex Skill、已安装应用和生产EVARS未修改。",
+        "尚需新不可变安装包的具体预览和批准。",
+        "多文件写入不宣称断电或全机全局事务。"
+      ],
+      "evidenceIds": [
+        "evidence:visual-priority-skill"
+      ]
     }
   ],
   "evidence": [
@@ -6426,6 +6495,14 @@ globalThis.CONTRACT_ATLAS_DATA = {
       "sourceRef": "source:evidence-install-journey",
       "audience": "public",
       "publication": "approved"
+    },
+    {
+      "id": "evidence:visual-priority-skill",
+      "kind": "report",
+      "title": "作品集视觉层级、完整源码及Skill接管追加验收",
+      "sourceRef": "source:evidence-visual-priority-skill",
+      "audience": "public",
+      "publication": "approved"
     }
   ],
   "sources": [
@@ -6439,7 +6516,7 @@ globalThis.CONTRACT_ATLAS_DATA = {
     {
       "id": "source:capabilities",
       "title": "既有Feature与Script目录",
-      "sha256": "2c23ed852d098a9429ae3b5269de3c643ccacdfa1fad3014669d6405d78f5e5e",
+      "sha256": "eec0c0ff3c61bc2ec12b5987212bf8ddf522a58b4cf4c3541458f3be42f3c2b8",
       "authority": "catalog",
       "audience": "public"
     },
@@ -6460,7 +6537,7 @@ globalThis.CONTRACT_ATLAS_DATA = {
     {
       "id": "source:evidence",
       "title": "独立人工审阅的只读证据账本",
-      "sha256": "23526c42fc80c23a758078e59b895d2e059f62e26b92c2c17df99e7ece01439c",
+      "sha256": "43ecf205380c6f67d7da091f457e4c0ca47a80b619cabc9553ac185307eece8e",
       "authority": "evidence",
       "audience": "public"
     },
@@ -6495,7 +6572,7 @@ globalThis.CONTRACT_ATLAS_DATA = {
     {
       "id": "source:openspec-tasks",
       "title": "平台候选tasks",
-      "sha256": "3a72c3e0ceaec7ee408178f8241c62fc56893dd13b7c7fec6da0c9290fa783e5",
+      "sha256": "d7aa8edd7de13a8b063ecce34932fb04900bc4e5e57122a8ffe79af3748f9246",
       "authority": "proposal",
       "audience": "public"
     },
@@ -6579,7 +6656,14 @@ globalThis.CONTRACT_ATLAS_DATA = {
     {
       "id": "source:evidence-install-journey",
       "title": "安装到工程操作：本轮离线、原生UI与SDK静态编译验收",
-      "sha256": "e81eff4ce33dc2700ff7483c83a4507f3097a8e4ea3c2738e580663050320ae6",
+      "sha256": "b3dc73b1cd673a06993bee52ee54ebb2efc2503979a47b3dd77ce5ac4c1c0fc1",
+      "authority": "evidence",
+      "audience": "public"
+    },
+    {
+      "id": "source:evidence-visual-priority-skill",
+      "title": "作品集视觉层级、完整源码及Skill接管追加验收",
+      "sha256": "8847589e1f8488c1c205c30f75bc4a2661933e52029129bc5571f56b0308e112",
       "authority": "evidence",
       "audience": "public"
     }

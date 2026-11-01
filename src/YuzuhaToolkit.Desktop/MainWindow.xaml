@@ -317,10 +317,7 @@
                   <StackPanel>
                     <TextBlock Text="调用结果" Style="{StaticResource SectionTitle}"/>
                     <TextBlock Text="工具完成状态 · 不代表业务验收" Style="{StaticResource Caption}"/>
-                    <Grid Width="100" Height="100" Margin="0,22,0,14">
-                      <Ellipse Stroke="{DynamicResource Surface.Track}" StrokeThickness="8"/>
-                      <TextBlock x:Name="RuntimeSuccessText" Text="—" FontSize="23" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Grid>
+                    <Border Style="{StaticResource MetadataBadge}" HorizontalAlignment="Center" Margin="0,22,0,14"><TextBlock x:Name="RuntimeSuccessText" Text="—" Style="{StaticResource MetricValue}"/></Border>
                     <TextBlock x:Name="RuntimeMetricText" Text="当前没有完成项" Style="{StaticResource Caption}" TextAlignment="Center"/>
                     <Button Content="查看调用记录  →" Click="OpenLogsPage" Style="{StaticResource Link}" HorizontalAlignment="Right" Margin="0,18,0,0"/>
                   </StackPanel>
@@ -453,7 +450,7 @@
                     <DockPanel>
                       <TextBlock Text="发现会话" Style="{StaticResource Caption}"/>
                     </DockPanel>
-                    <TextBlock x:Name="OverviewServices" Text="—" FontSize="26" FontWeight="SemiBold" Margin="0,4,0,2"/>
+                    <Border Style="{StaticResource MetadataBadge}" Margin="0,6,0,6"><TextBlock x:Name="OverviewServices" Text="—" Style="{StaticResource MetricValue}"/></Border>
                     <TextBlock Text="窗口候选 · 选择后核验" Style="{StaticResource Caption}"/>
                   </StackPanel>
                 </Border>
@@ -462,7 +459,7 @@
                     <DockPanel>
                       <TextBlock Text="工具调用" Style="{StaticResource Caption}"/>
                     </DockPanel>
-                    <TextBlock x:Name="OverviewCalls" Text="—" FontSize="26" FontWeight="SemiBold" Margin="0,4,0,2"/>
+                    <Border Style="{StaticResource MetadataBadge}" Margin="0,6,0,6"><TextBlock x:Name="OverviewCalls" Text="—" Style="{StaticResource MetricValue}"/></Border>
                     <TextBlock Text="已保留记录中的完成项" Style="{StaticResource Caption}"/>
                   </StackPanel>
                 </Border>
@@ -471,7 +468,7 @@
                     <DockPanel>
                       <TextBlock Text="平均响应" Style="{StaticResource Caption}"/>
                     </DockPanel>
-                    <TextBlock x:Name="OverviewLatency" Text="—" FontSize="26" FontWeight="SemiBold" Margin="0,4,0,2"/>
+                    <Border Style="{StaticResource MetadataBadge}" Margin="0,6,0,6"><TextBlock x:Name="OverviewLatency" Text="—" Style="{StaticResource MetricValue}"/></Border>
                     <TextBlock Text="已保留完成项 · ms" Style="{StaticResource Caption}"/>
                   </StackPanel>
                 </Border>
@@ -480,7 +477,7 @@
                     <DockPanel>
                       <TextBlock Text="执行成功率" Style="{StaticResource Caption}"/>
                     </DockPanel>
-                    <TextBlock x:Name="OverviewSuccess" Text="—" FontSize="26" FontWeight="SemiBold" Margin="0,4,0,2"/>
+                    <Border Style="{StaticResource MetadataBadge}" Margin="0,6,0,6"><TextBlock x:Name="OverviewSuccess" Text="—" Style="{StaticResource MetricValue}"/></Border>
                     <TextBlock Text="成功完成项 / 完成项" Style="{StaticResource Caption}"/>
                   </StackPanel>
                 </Border>
@@ -512,7 +509,7 @@
                       <Border DockPanel.Dock="Right" Style="{StaticResource Pill}" VerticalAlignment="Center">
                         <TextBlock Text="非全量统计" Foreground="{DynamicResource Text.Brand}" FontSize="11"/>
                       </Border>
-                      <TextBlock x:Name="OverviewRecentText" Text="0" FontSize="27" FontWeight="SemiBold"/>
+                      <Border Style="{StaticResource MetadataBadge}"><TextBlock x:Name="OverviewRecentText" Text="0" Style="{StaticResource MetricValue}"/></Border>
                     </DockPanel>
                     <Grid Height="134">
                       <Grid.RowDefinitions>
@@ -989,7 +986,7 @@
               <StackPanel><TextBlock x:Name="MaintainerText" Text="本机用户" FontWeight="SemiBold" Foreground="{DynamicResource Text.Primary}"/><TextBlock Text="本机维护者" Style="{StaticResource Caption}" Margin="0,3,0,0"/></StackPanel>
             </StackPanel>
           </Button>
-          <TextBlock x:Name="SidebarFooter" Text="Phayton" Foreground="{DynamicResource Text.Tertiary}" FontSize="11" FontFamily="Consolas" Margin="8,0,0,0"/>
+          <Border x:Name="SidebarVersionBadge" Style="{StaticResource MetadataBadge}"><TextBlock x:Name="SidebarFooter" Text="Phayton" Style="{StaticResource Metadata}" FontFamily="Consolas"/></Border>
         </StackPanel><ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"><StackPanel><StackPanel x:Name="ContextNav"/><StackPanel x:Name="RecentProjectsPanel" Margin="0,26,0,0"><TextBlock Text="已保存的工程" Style="{StaticResource Caption}" Margin="10,0,0,12"/><ListBox x:Name="ProfilesBox" SelectionChanged="ProfileSelected" Margin="0" Height="240" BorderThickness="0" Background="Transparent"><ListBox.ItemTemplate><DataTemplate><StackPanel Margin="4,9"><TextBlock Text="{Binding Name}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/><TextBlock Text="{Binding Project}" Foreground="{DynamicResource Text.Tertiary}" FontSize="11" Margin="0,5,0,0"/></StackPanel></DataTemplate></ListBox.ItemTemplate></ListBox>
                     </StackPanel></StackPanel></ScrollViewer></DockPanel></Border></local:WorkspaceSurface>
 </Window>

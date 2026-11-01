@@ -8,7 +8,7 @@ const receipt={schemaVersion:1,commit:execFileSync('git',['rev-parse','HEAD'],{e
 let app;
 try{
  app=await createStyleLabServer({port:0});
- for(const file of ['tests/contract-style-methods-browser.cjs','tests/contract-style-lab-browser.mjs','tests/contract-style-compact-browser.mjs']){
+ for(const file of ['tests/contract-style-methods-browser.cjs','tests/contract-style-lab-browser.mjs','tests/contract-style-compact-browser.mjs','tests/ion-visual-hierarchy-browser.mjs']){
   const chunks=[];
   let timedOut=false;
   const code=await new Promise((resolve,reject)=>{

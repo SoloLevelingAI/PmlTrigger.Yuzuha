@@ -1,0 +1,287 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-11-02",
+  "recordedAtUtc": "2026-11-01T16:49:27.295Z",
+  "sourceBaseline": "e01ea16444956a4dcd78c1d1478d7ee212f5c92a",
+  "dirtySourceCapture": true,
+  "status": "source-and-isolated-checks-passed-final-docs-package-ci-pending",
+  "scope": "追加作品集视觉层级、完整partial源码定位及显式Skill接管。真实WPF已打开；本记录未执行产品安装、当前Codex Skill写入或生产EVARS变更。",
+  "visualRules": {
+    "primary": "功能、当前目标、结果与错误",
+    "supporting": "真实计数、版本、完整可复制身份；小徽标/辅助块/折叠内容，正文对比度不低于4.5",
+    "ambient": "只用于重复的装饰编号；Web aria-hidden，不承载唯一信息",
+    "fabricatedNumbers": false
+  },
+  "checks": {
+    "development": {
+      "status": "passed",
+      "xunitPassed": 576,
+      "xunitFailed": 0,
+      "xunitSkipped": 2,
+      "skipReason": "可选7zr工具未选定",
+      "documentationNodePassed": 55,
+      "scenarioFormats": 2,
+      "scenarioStepsEach": 15
+    },
+    "wpf": {
+      "status": "passed",
+      "relatedTests": 23,
+      "newScreenshots": 31,
+      "legacyScreenshots": 118,
+      "bindingErrors": 0,
+      "hostDpi": 1.5,
+      "metricsFontSize": 18,
+      "metadataFontSize": 11,
+      "palettesWithReadableSupportingText": 8,
+      "reviewBuildSha256": "eaca0dfebb704cef7a83930826704d9920e7c572221e6246b7ccda7c3212eba6",
+      "scope": "实际独立发布程序；合成界面回执，非AVEVA实机或人工认可"
+    },
+    "visibleWpf": {
+      "opened": true,
+      "responding": true,
+      "title": "Phayton · 工程工作空间",
+      "openedAtUtc": "2026-11-01T16:01:50.9870719Z",
+      "reviewBuildSha256": "eaca0dfebb704cef7a83930826704d9920e7c572221e6246b7ccda7c3212eba6",
+      "installed": false,
+      "humanVisualApproval": "not-received"
+    },
+    "web": {
+      "passed": true,
+      "scope": "Actual read-only ION Chromium presentation; semantic counts and exact contract text retained. No business execution or human visual approval.",
+      "checks": [
+        {
+          "theme": "lime",
+          "semanticTextContrastAtLeast": 4.5,
+          "exactFields": 5,
+          "decorativeCountHidden": true,
+          "readableCountsRetained": true
+        },
+        {
+          "theme": "cyan",
+          "semanticTextContrastAtLeast": 4.5,
+          "exactFields": 5,
+          "decorativeCountHidden": true,
+          "readableCountsRetained": true
+        },
+        {
+          "theme": "violet",
+          "semanticTextContrastAtLeast": 4.5,
+          "exactFields": 5,
+          "decorativeCountHidden": true,
+          "readableCountsRetained": true
+        },
+        {
+          "theme": "orange",
+          "semanticTextContrastAtLeast": 4.5,
+          "exactFields": 5,
+          "decorativeCountHidden": true,
+          "readableCountsRetained": true
+        },
+        {
+          "theme": "rose",
+          "semanticTextContrastAtLeast": 4.5,
+          "exactFields": 5,
+          "decorativeCountHidden": true,
+          "readableCountsRetained": true
+        },
+        {
+          "theme": "graphite",
+          "semanticTextContrastAtLeast": 4.5,
+          "exactFields": 5,
+          "decorativeCountHidden": true,
+          "readableCountsRetained": true
+        }
+      ],
+      "scriptExactFields": 7,
+      "mobile": [
+        "lime",
+        "graphite"
+      ],
+      "screenshots": 16,
+      "updatedGalleryPreviews": 4,
+      "errors": [],
+      "writes": []
+    },
+    "figcraft": {
+      "passed": true,
+      "scope": "Real editable FigCraft reference with six ION modes; not native WPF or live AVEVA acceptance",
+      "journeyHash": "524791789bf9a0a257b179fcf84994dbccfc02c0d1612b1ec9834d4431e85fa6",
+      "themeHash": "10d4c99d74b8dc28076018bbbf876ea0f617fe182dd6d5d6611f9408baf59753",
+      "generatorHash": "3e1e4d86f9f9f3136a239e879c56ae7292e9f62d7d6e490dce5cdbabad1e5977",
+      "nativeHash": "db181191dd5ed5da2738d70a76dc8dd107a015bd236fcd2fd706582a72eeb9fb",
+      "boards": [
+        {
+          "id": 2,
+          "name": "Journey-lime",
+          "palette": "lime"
+        },
+        {
+          "id": 82,
+          "name": "Journey-cyan",
+          "palette": "cyan"
+        },
+        {
+          "id": 90,
+          "name": "Journey-violet",
+          "palette": "violet"
+        },
+        {
+          "id": 98,
+          "name": "Journey-orange",
+          "palette": "orange"
+        },
+        {
+          "id": 106,
+          "name": "Journey-rose",
+          "palette": "rose"
+        },
+        {
+          "id": 114,
+          "name": "Journey-graphite",
+          "palette": "graphite"
+        }
+      ],
+      "components": 8,
+      "instances": 40,
+      "variables": 22,
+      "editableTexts": 318,
+      "visualHierarchy": {
+        "primary": "Functional titles and contract input/method; full readable ink.",
+        "supporting": "Ordinal badges and complete script identities; muted ink on soft surface, never faded.",
+        "ambient": "Repeated stage numerals only; decorative and never the sole information carrier."
+      }
+    },
+    "installerContracts": {
+      "status": "passed",
+      "entryPoint": "smoke:installer-contracts",
+      "realWindowsJunction": true,
+      "net48Console": "all assertions passed; no skipped link fixture",
+      "packagingFixturesPassed": 5,
+      "guardCoverage": [
+        "default unmanaged refusal",
+        "strict explicit adoptSkill",
+        "bounded complete file/directory/hash inventory",
+        "all-plan markerBeforeSha256 and complete priorState identity",
+        "explicit original null versus missing/corrupt original",
+        "normal and adoption preview text/ownership labels match bytes",
+        "partial failure rollback and first-original uninstall restoration",
+        "unowned extras preserved"
+      ],
+      "productionWrites": false
+    },
+    "partialSources": {
+      "status": "passed",
+      "fixture": "two partial files, cross-file entry, same-line wrong-file trace rejection, exact source bytes and SHA",
+      "realInstallerSourceParts": 9,
+      "realInstallerMethods": 75,
+      "realPreparationTraceEntries": 25,
+      "scope": "静态源码/编译语义导航，不计执行覆盖率"
+    },
+    "docfx": {
+      "status": "pending-final-build"
+    },
+    "contractNode": {
+      "status": "passed",
+      "passed": 74,
+      "failed": 0,
+      "skipped": 0
+    },
+    "finalPackage": {
+      "status": "external-receipt",
+      "boundary": "最终包身份记录在包外，避免自指哈希；先前3acd91bf…候选仅作首轮审计。"
+    },
+    "webPipeline": {
+      "status": "passed",
+      "originalLayouts": 37,
+      "originalReaderChecks": 9,
+      "compactDisclosureChecks": 5,
+      "newHierarchyScreenshots": 16,
+      "methodComponent": "passed"
+    }
+  },
+  "firstCi": {
+    "commit": "e01ea16444956a4dcd78c1d1478d7ee212f5c92a",
+    "allSixChecks": "success",
+    "runs": [
+      "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/actions/runs/41322013889",
+      "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/actions/runs/41322013916",
+      "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/actions/runs/41322014178"
+    ],
+    "boundary": "首轮结果，不代称追加变更的最终提交通过。"
+  },
+  "skillPreference": {
+    "client": "current Codex",
+    "updateRequested": true,
+    "currentDirectoryOwnedByInno": false,
+    "initialComparison": {
+      "same": 12,
+      "changed": 2,
+      "missing": 0,
+      "extra": 0,
+      "changedFiles": [
+        "references/lifecycle.md",
+        "references/lifecycle.zh-CN.md"
+      ]
+    },
+    "initialPreview": {
+      "result": "default refusal",
+      "planGenerated": false,
+      "planHash": null,
+      "productionFilesUnchanged": true
+    },
+    "finalPreview": "must regenerate against the new immutable package with explicit adoption; concrete approval required"
+  },
+  "remaining": [
+    "真实安装/升级/卸载未执行。",
+    "具体Skill接管、旧环境所有权移交及生产EVARS应用/恢复仍须批准当前具体预览。",
+    "四profile SDK静态编译不等于新Host实机验收，跨产品/模块不外推。",
+    "用户视觉认可未收到；实际打开窗口与界面检查分别记录。",
+    "多文件写入、旧安装器并发与断电恢复不宣称全局事务。",
+    "OpenSpec沿用既有change手工维护，未执行本机严格CLI验证，不sync/archive。",
+    "原27项平台业务未批量勾选。"
+  ],
+  "evidence": [
+    {
+      "path": "docs/validation/visual-priority-skill-adoption-2026-11-02.evidence/development.log",
+      "sha256": "ebab8be3a1d054276aa73ddeca646b985ee60654b30ceac2c583e10a84300dc1",
+      "localSource": "artifacts/visual-priority-development.log",
+      "localSourceSha256": "af7db002c452911ff05a042f72ab46721bf815e8f127b0e1fb6d9f9e9e07062b",
+      "projection": "UTF-8/LF; temporary-user path prefix redacted; outcomes unchanged"
+    },
+    {
+      "path": "docs/validation/visual-priority-skill-adoption-2026-11-02.evidence/installer-contracts.log",
+      "sha256": "0e11a1be6d44e7c8ffa671a084d57e0813a72f60871ce3f7b1912201b8bbc59b",
+      "localSource": "artifacts/installer-contract-smoke.log",
+      "localSourceSha256": "5331aab21c63511d98482a44a4a522ed0bd99c56f88e20c36c22c6ee8d757476",
+      "projection": "UTF-8/LF; temporary-user path prefix redacted; outcomes unchanged"
+    },
+    {
+      "path": "docs/validation/visual-priority-skill-adoption-2026-11-02.evidence/skill-adoption-review.md",
+      "sha256": "13403c85e0e5db7c0d48eb928678c34968f4433fdfffea6f1de5fa9ed1b227f7",
+      "localSource": "artifacts/skill-adoption-independent-review.md",
+      "localSourceSha256": "13403c85e0e5db7c0d48eb928678c34968f4433fdfffea6f1de5fa9ed1b227f7",
+      "projection": "UTF-8/LF; temporary-user path prefix redacted; outcomes unchanged"
+    },
+    {
+      "path": "docs/validation/visual-priority-skill-adoption-2026-11-02.evidence/native-preparation.json",
+      "sha256": "f7dbdffde34eaf8c6c4e605045d5180c8965202a0c0f719ef71c62dde34385fc",
+      "localSource": "artifacts/visual-preview-native/preparation-smoke.json",
+      "localSourceSha256": "710dca3c79aba1eb990c21244d5ecaf87ebfabe1f6121efc4c38781f6d97df34",
+      "projection": "UTF-8/LF; temporary-user path prefix redacted; outcomes unchanged"
+    },
+    {
+      "path": "docs/validation/visual-priority-skill-adoption-2026-11-02.evidence/legacy-desktop.json",
+      "sha256": "1fb523a101bc0a64c29ca4e6909964904e79e05f34742cf1c8d9059b2797be32",
+      "localSource": "artifacts/visual-preview-legacy/desktop-smoke.json",
+      "localSourceSha256": "1fb523a101bc0a64c29ca4e6909964904e79e05f34742cf1c8d9059b2797be32",
+      "projection": "UTF-8/LF; temporary-user path prefix redacted; outcomes unchanged"
+    },
+    {
+      "path": "docs/validation/visual-priority-skill-adoption-2026-11-02.evidence/web-hierarchy.json",
+      "sha256": "0c91def414874a215fd0e3afda073e301a060c55068944a13ba3f217f5a1bd27",
+      "localSource": "artifacts/ion-visual-hierarchy/results.json",
+      "localSourceSha256": "0c91def414874a215fd0e3afda073e301a060c55068944a13ba3f217f5a1bd27",
+      "projection": "UTF-8/LF; temporary-user path prefix redacted; outcomes unchanged"
+    }
+  ]
+}

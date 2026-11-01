@@ -70,6 +70,13 @@
       "path": "docs/validation/install-to-operation-2026-11-01.json",
       "kind": "report",
       "publication": "approved"
+    },
+    {
+      "id": "evidence:visual-priority-skill",
+      "title": "作品集视觉层级、完整源码及Skill接管追加验收",
+      "path": "docs/validation/visual-priority-skill-adoption-2026-11-02.json",
+      "kind": "report",
+      "publication": "approved"
     }
   ],
   "verifications": [
@@ -399,6 +406,49 @@
       ],
       "featureIds": [
         "feature:launch",
+        "feature:deployment"
+      ]
+    },
+    {
+      "id": "verification:visual-priority-ui",
+      "scope": "ui",
+      "result": "passed",
+      "observedAt": "2026-11-02",
+      "environment": {
+        "product": "synthetic"
+      },
+      "claim": "WPF统计与元信息降为辅助层级，23关联测试及独立发布程序31/118截图通过；Web六主题16截图、完整字段/可读辅助字与装饰隐藏通过，FigCraft318个可编辑文字。实际打开WPF供用户查看。",
+      "exclusions": [
+        "界面回执为明确合成数据，不代称AVEVA实机。",
+        "打开窗口不表示安装、Skill更新或用户视觉认可。",
+        "只有重复装饰编号淡显，唯一计数/完整身份仍可达。"
+      ],
+      "evidenceIds": [
+        "evidence:visual-priority-skill"
+      ],
+      "featureIds": [
+        "feature:launch",
+        "feature:deployment"
+      ]
+    },
+    {
+      "id": "verification:skill-adoption-offline",
+      "scope": "offline",
+      "result": "passed",
+      "observedAt": "2026-11-02",
+      "environment": {
+        "product": "synthetic"
+      },
+      "claim": "NET48真实临时文件验证默认拒绝/显式Skill接管、完整清单、marker/priorState、首次原文、反伪造、回滚与卸载；真实junction拒绝且目标保留，包装夹具5/5通过。",
+      "exclusions": [
+        "当前Codex Skill、已安装应用和生产EVARS未修改。",
+        "尚需新不可变安装包的具体预览和批准。",
+        "多文件写入不宣称断电或全机全局事务。"
+      ],
+      "evidenceIds": [
+        "evidence:visual-priority-skill"
+      ],
+      "featureIds": [
         "feature:deployment"
       ]
     }

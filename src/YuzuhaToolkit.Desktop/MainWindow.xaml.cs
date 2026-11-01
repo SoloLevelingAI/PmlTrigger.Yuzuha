@@ -78,7 +78,7 @@ public partial class MainWindow : Window
             var compact = viewportHeight < 760;
             SidebarEnvironmentButton.Visibility = compact ? Visibility.Collapsed : Visibility.Visible;
             SidebarAccountButton.Visibility = compact ? Visibility.Collapsed : Visibility.Visible;
-            SidebarFooter.Visibility = compact ? Visibility.Collapsed : Visibility.Visible;
+            SidebarVersionBadge.Visibility = compact ? Visibility.Collapsed : Visibility.Visible;
         }
         if (ContextSidebar is not null) { var compactNavigation = viewportWidth < 1100; ContextSidebar.Visibility = compactNavigation ? Visibility.Collapsed : Visibility.Visible; ContextColumn.Width = new GridLength(compactNavigation ? 0 : 244); CompactNavigation.Visibility = compactNavigation ? Visibility.Visible : Visibility.Collapsed; }
         if (HeartbeatText is not null) HeartbeatText.Visibility = viewportWidth < 1100 ? Visibility.Collapsed : Visibility.Visible;
@@ -511,6 +511,8 @@ public partial class MainWindow : Window
                         UpdateLayout();
                         if (!OverviewColumns2.IsVisible || !OverviewColumns3.IsVisible)
                             throw new InvalidOperationException("首页明细无法展开。");
+                        if (new[] { OverviewServices, OverviewCalls, OverviewLatency, OverviewSuccess, OverviewRecentText }.Any(value => value.FontSize >= DashboardStateText.FontSize || string.IsNullOrWhiteSpace(value.Text)))
+                            throw new InvalidOperationException("辅助统计抢占当前状态层级，或实际统计值丢失。");
                         await CaptureSmokeAsync(Path.Combine(themeDirectory, "overview-expanded-1280.png"));
                         OverviewActivityExpander.IsExpanded = false; OverviewSessionExpander.IsExpanded = false; OverviewMaintenanceExpander.IsExpanded = false;
                     }
@@ -520,7 +522,9 @@ public partial class MainWindow : Window
             foreach (var screen in screens)
             {
                 SelectSmokeScreen(screen.Tab, screen.Flow, screen.Planned);
+                if (screen.Name == "overview") { OverviewMaintenanceExpander.IsExpanded = true;OverviewActivityExpander.IsExpanded = true;UpdateLayout(); }
                 await CaptureSmokeAsync(Path.Combine(themeDirectory, $"design-{screen.Name}.png"));
+                if (screen.Name == "overview") { OverviewActivityExpander.IsExpanded = false;OverviewMaintenanceExpander.IsExpanded = false; }
             }
             SelectSmokeScreen(5, 0, 1); OpenPersonalNotes(this, new());
             await CaptureSmokeAsync(Path.Combine(themeDirectory, "knowledge-editor.png"));

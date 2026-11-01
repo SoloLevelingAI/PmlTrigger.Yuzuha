@@ -1666,6 +1666,17 @@
       "purpose": "通过真实WPF控件验证安装交接、旧所有权移交与部署的CTA顺序、六主题三视口、草稿保持和unknown回执恢复；后端回执为合成，不是产品安装或AVEVA实机。",
       "environment": "Windows x64 / NET10 SDK与WPF；隔离状态和合成回执，无AVEVA调用",
       "expected": "31张原生截图及PNG/视口尺寸一致；六主题与八阶段可达；核心动作/反馈在首屏，导航不执行写入，unknown按本次回执恢复，绑定错误零。"
+    },
+    {
+      "id": "smoke:installer-contracts",
+      "kind": "smoke",
+      "category": "installer-offline",
+      "file": "installer/tests/Program.cs",
+      "entryPoint": "static int Main(string[] args)",
+      "runner": "installer-contracts",
+      "purpose": "运行真实NET48安装计划/所有权/Skill显式接管/条件恢复及包装夹具，拒绝伪造、漂移和真实junction；不执行产品安装器或改当前Skill。",
+      "environment": "Windows x64、NET10 SDK、NET48运行时、Python3；事务使用既有临时根，真实链接负例在受控工件根。",
+      "expected": "所有隔离console断言和5项Python打包夹具通过；真实ReparsePoint拒绝、目标保留、无跳过；一次离线套件不计为实机通过。"
     }
   ],
   "bindings": [
@@ -3216,6 +3227,25 @@
       "targets": [
         {
           "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.PreparationWorkbench"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DesktopPresentationTests.SupportingMetricsAndMetadataRemainReadableOnNeutralSurfacesAcrossAllEightPalettes",
+      "purpose": "八套原生主题中，统计/元信息在卡片、徽标和页面中性背景上的正文对比度至少4.5，视觉降级不靠不可读透明文字。",
+      "environment": "Windows/NET10；读取真实主题资源，无AVEVA",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.DesktopPalettes"
+        }
+      ]
+    },
+    {
+      "test": "smoke:installer-contracts",
+      "purpose": "以同一安装计划和恢复实现验证默认拒绝、明确接管、完整快照与原始内容；记录真实链接夹具身份，不修改生产环境。",
+      "targets": [
+        {
+          "uid": "SetupBridge::Program"
         }
       ]
     }

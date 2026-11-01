@@ -1,0 +1,33 @@
+  正在确定要还原的项目…
+  所有项目均是最新的，无法还原。
+  SetupTests -> F:\OneDrive\Documents\ChatGPT\PmlTwin\installer\tests\bin\Release\net48\SetupTests.exe
+
+已成功生成。
+    0 个警告
+    0 个错误
+
+已用时间 00:00:00.99
+PASS: upgrades allow unchanged package files, retain local edits, refuse user folders/databases and marked user-directory targets.
+PASS: manager mode is distinct, has real required payload, does not plan/write EVARS, refuses selected environments/auto-connect, and reports preparation required.
+PASS: empty environment refusal, explicit none mode, automatic two-environment plan, ambiguity/unknown/incomplete/empty refusal and truthful result summary.
+PASS: native discovery protocol and no WinForms assembly dependency.
+PASS: product profiles, INIT preference, unknown version refusal, UTF8/GBK/UTF16 original byte preservation and idempotence.
+PASS: EVARS discovery, x86 and unrelated IF preservation, focused three-line edits, ambiguous target refusal.
+PASS: controlled CMD normalization, final search lists, original derived directory and Yuzuha profile.
+PASS: CLI-only plan and legacy entry reject MCP registration, retain other-client bytes, preserve Skill preview, reject old or forged MCP plans, and keep atomic file writes.
+PASS: generated index absent/UTF8/GBK/UTF16LE/UTF16BE, BOM and original byte preservation, Bootstrap insertion, case-insensitive idempotence and ambiguous index refusal.
+PASS: real temporary-file index plan/hash freeze, tampered delta refusal, same transaction backup+commit+rollback, concurrent edit preservation, no persistent index ownership and no index creation on fresh install.
+PASS: Skill adoption is explicit strict-bool, complete inventory/hash frozen, no preview writes or console text leaks; addition/edit/deletion/directory/link/ownership drift, forged scope/text/content and byte-budget violations are refused.
+PASS: every plan/commit binds raw marker hash and complete priorState even with adopt=false or no Skill target; missing/forged ownership/original/context and normal preview text/label tampering fail before external writes.
+PASS: real temporary-file adoption reuses backups/rollback/managed.original and the real uninstall loop; unchanged targets retain originals, ordinary managed upgrades remain supported, first bytes survive updates, and extras/directories remain untouched.
+Artifacts: <TEMP>\YuzuhaSetupTests-364c075dda6f417eb06023103a8eac26
+test_cli_payload_version_and_hashes_are_consistent (__main__.CliPackageTests.test_cli_payload_version_and_hashes_are_consistent) ... ok
+test_invalid_version_is_rejected_before_staging (__main__.CliPackageTests.test_invalid_version_is_rejected_before_staging) ... ok
+test_missing_cli_dependency_is_rejected (__main__.CliPackageTests.test_missing_cli_dependency_is_rejected) ... ok
+test_missing_manager_handoff_entry_is_rejected_before_staging (__main__.CliPackageTests.test_missing_manager_handoff_entry_is_rejected_before_staging) ... ok
+test_missing_selected_runtime_host_is_rejected_before_copying_payload (__main__.CliPackageTests.test_missing_selected_runtime_host_is_rejected_before_copying_payload) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.478s
+
+OK

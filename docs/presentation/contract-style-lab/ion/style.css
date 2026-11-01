@@ -13,5 +13,24 @@ body{background-color:var(--paper);background-image:radial-gradient(var(--grain)
 .brief-plate{background:var(--glass);border-color:var(--glass-border);box-shadow:0 8px 20px var(--shadow)}.step-track{background:var(--soft)}.step-track button{background:linear-gradient(var(--surface),var(--soft));box-shadow:inset 0 1px var(--glass-border)}.step-track button[aria-current=step]{color:var(--acid-ink)}.step-track button[aria-current=step] .index{color:var(--acid-ink)}.action{color:var(--paper);box-shadow:0 3px 0 var(--line)}.action.primary{color:var(--acid-ink)}.action.secondary{background:var(--surface)}.big-index{color:var(--chrome)}.reading-exits button,.reading-exits a{background:var(--glass)}
 .reader-dialog{background:var(--detail-bg);color:var(--detail-ink);box-shadow:12px 12px 0 var(--shadow)}.reader-dialog::backdrop{background:var(--shadow)}.reader-dialog .reader-close,.reader-dialog .reader-actions button[aria-pressed=true]{color:var(--acid-ink)}.reader-dialog .reader-notice{background:var(--soft)}
 @supports not (backdrop-filter:blur(1px)){.brief-plate,.orbital-note,.orbit button{background:var(--surface)}}
+
+/* Three visual roles: function/action first, readable supporting metadata second,
+   repeated atmosphere last. Only aria-hidden, non-interactive duplicates fade. */
+.ion-supporting,.edition,.data-caption,.section-rule>p{color:var(--muted)}
+.ion-number-badge{display:inline-flex;align-items:center;justify-content:center;flex:none;min-width:25px;padding:3px 6px;border-radius:4px;background:var(--soft);color:var(--muted);font:11px/1.35 Consolas,monospace;font-variant-numeric:tabular-nums;letter-spacing:0;vertical-align:middle}
+.ion-technical-id{color:var(--muted);font:11px/1.65 Consolas,monospace;overflow-wrap:anywhere}
+.colophon .ion-footer-edition{color:var(--muted);font:11px/1.5 Consolas,monospace;letter-spacing:0;vertical-align:middle}
+.feature-link .ordinal{margin-top:3px;min-width:25px;color:var(--muted)}
+.signal .ion-number-badge{margin-right:4px}.ion-counts .ion-number-badge{margin-right:3px}
+.ion-ambient[aria-hidden=true]{pointer-events:none;user-select:none;opacity:.12}
+.metal-disk .ion-ambient{position:absolute;inset:18px 0 auto;font-size:112px;line-height:1;letter-spacing:-8px;color:var(--metal-ink)}
+.metal-disk>span{margin-top:76px;font-size:9px;letter-spacing:1.3px;color:var(--metal-ink)}
+.step-track .index{display:inline-flex;margin-bottom:12px;color:var(--muted)}
+.step-track button[aria-current=step] .index{background:var(--acid);color:var(--acid-ink)}
+.step-body{position:relative;isolation:isolate;grid-template-columns:minmax(0,1fr) minmax(240px,.7fr)}
+.step-body .big-index{position:absolute;top:12px;right:8px;z-index:-1;font-size:120px;color:var(--ink)}
+.step-body>aside{grid-column:auto}
+@media(max-width:1100px){.metal-disk .ion-ambient{font-size:90px;inset:16px 0 auto}.metal-disk>span{margin-top:60px}.step-body{grid-template-columns:minmax(0,1fr) minmax(220px,.7fr)}}
+@media(max-width:650px){.metal-disk .ion-ambient{font-size:82px;inset:14px 0 auto}.metal-disk>span{font-size:8px;margin-top:54px}.step-body{grid-template-columns:minmax(0,1fr)}.step-body>aside{grid-column:1}.step-body .big-index{font-size:96px;top:8px}.feature-link{grid-template-columns:25px minmax(0,1fr) 44px}}
 @media(max-width:1100px){.topline{gap:14px}.topline nav{gap:10px}.next-version{padding-left:14px}.ion-theme-control{gap:5px}.ion-theme-control label{display:none}}
 @media(max-width:650px){.ion-theme-control{margin-left:auto}.next-version{display:none}.topline nav{margin-left:0}.topline{gap:12px}}

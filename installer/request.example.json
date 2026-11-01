@@ -3,5 +3,6 @@
   "root": "C:\\Users\\YOUR-USER\\AppData\\Local\\YuzuhaToolkit\\PmlTrigger.Yuzuha",
   "mcpJson": "",
   "skillTarget": "",
+  "adoptSkill": false,
   "environments": []
 }

@@ -1,0 +1,57 @@
+{
+  "passed": true,
+  "scope": "Actual read-only ION Chromium presentation; semantic counts and exact contract text retained. No business execution or human visual approval.",
+  "checks": [
+    {
+      "theme": "lime",
+      "semanticTextContrastAtLeast": 4.5,
+      "exactFields": 5,
+      "decorativeCountHidden": true,
+      "readableCountsRetained": true
+    },
+    {
+      "theme": "cyan",
+      "semanticTextContrastAtLeast": 4.5,
+      "exactFields": 5,
+      "decorativeCountHidden": true,
+      "readableCountsRetained": true
+    },
+    {
+      "theme": "violet",
+      "semanticTextContrastAtLeast": 4.5,
+      "exactFields": 5,
+      "decorativeCountHidden": true,
+      "readableCountsRetained": true
+    },
+    {
+      "theme": "orange",
+      "semanticTextContrastAtLeast": 4.5,
+      "exactFields": 5,
+      "decorativeCountHidden": true,
+      "readableCountsRetained": true
+    },
+    {
+      "theme": "rose",
+      "semanticTextContrastAtLeast": 4.5,
+      "exactFields": 5,
+      "decorativeCountHidden": true,
+      "readableCountsRetained": true
+    },
+    {
+      "theme": "graphite",
+      "semanticTextContrastAtLeast": 4.5,
+      "exactFields": 5,
+      "decorativeCountHidden": true,
+      "readableCountsRetained": true
+    }
+  ],
+  "scriptExactFields": 7,
+  "mobile": [
+    "lime",
+    "graphite"
+  ],
+  "screenshots": 16,
+  "updatedGalleryPreviews": 4,
+  "errors": [],
+  "writes": []
+}

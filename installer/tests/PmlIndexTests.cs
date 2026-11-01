@@ -44,6 +44,7 @@ internal static partial class SetupTests
         string sourceFile = Path.Combine(root, sourceRelative.Replace('/', Path.DirectorySeparatorChar));
         Directory.CreateDirectory(Path.GetDirectoryName(sourceFile)); File.WriteAllText(sourceFile, "synthetic source fixture; never execute");
         File.WriteAllText(marker, new JObject { ["owner"] = "Yuzuha.Inno.Plan.v2", ["root"] = root, ["managed"] = new JArray() }.ToString());
+        byte[] markerBefore=File.ReadAllBytes(marker);
         File.WriteAllText(manifest, new JObject { ["version"] = "0.3.4.2", ["files"] = new JArray(new JObject { ["path"] = sourceRelative, ["sha256"] = Program.FileDigest(sourceFile) }) }.ToString());
         byte[] environmentBefore = Encoding.ASCII.GetBytes("set pmllib=vendor\r\nset pmlui=vendor-ui\r\n"); File.WriteAllBytes(environment, environmentBefore);
         var request = new JObject { ["integrationMode"] = "aveva", ["root"] = root, ["mcpJson"] = "", ["environments"] = new JArray(new JObject {
@@ -79,7 +80,7 @@ internal static partial class SetupTests
         var afterRehash = Program.CreatePlan(request, manifest, area);
         Check(((JArray)afterRehash["changes"]).OfType<JObject>().Single(c => (string)c["kind"] == "pml-index")["action"].ToString() == "unchanged", "Legal future index regeneration blocked an upgrade");
 
-        File.WriteAllBytes(index, baseline); File.WriteAllBytes(environment, environmentBefore);
+        File.WriteAllBytes(index, baseline); File.WriteAllBytes(environment, environmentBefore);File.WriteAllBytes(marker,markerBefore);
         string failure = Path.Combine(area, "commit-rollback"); Directory.CreateDirectory(failure);
         Reject(() => Invoke("CommitConfigurationChanges", plan, failure, new Action<JObject, JArray>((state, actual) => { throw new IOException("Synthetic finalization failure"); })));
         Check(File.ReadAllBytes(index).SequenceEqual(baseline) && File.ReadAllBytes(environment).SequenceEqual(environmentBefore), "Failed transaction did not restore both environment and index bytes");

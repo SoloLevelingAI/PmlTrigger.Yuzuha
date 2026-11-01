@@ -172,7 +172,10 @@ public partial class PreparationWorkbenchView : UserControl
             foreach (var field in new[] { ("输入", stage.Input), ("前置", stage.Precondition), ("算法与调用", stage.Method), ("作用", stage.Effect), ("校验", stage.Validation), ("回执", stage.Receipt), ("恢复", stage.Recovery) }) AddText(ContractFields, field.Item1, field.Item2);
             foreach (var script in stage.Scripts)
             {
-                AddText(ScriptFields, script.TypeName + " · " + script.Member, script.Explanation + "\n" + script.Path);
+                ScriptFields.Children.Add(new TextBlock { Text = script.Explanation, TextWrapping = TextWrapping.Wrap, Margin = new(0, 0, 0, 8) });
+                var identity = new TextBox { Text = script.TypeName + " · " + script.Member + "\n" + script.Path, Style = (Style)FindResource("MetadataValue") };
+                System.Windows.Automation.AutomationProperties.SetName(identity, "完整脚本类型、成员和源码路径");
+                ScriptFields.Children.Add(new Border { Child = identity, Style = (Style)FindResource("MetadataBadge"), HorizontalAlignment = HorizontalAlignment.Stretch, Margin = new(0, 0, 0, 8) });
                 var link = new Button { Content = "打开精确DocFX类型 / 方法 ↗", HorizontalAlignment = HorizontalAlignment.Left, Margin = new(0, 0, 0, 16) };
                 var page = script.DocFxPath;link.Click += (_, _) => DocumentationRequested?.Invoke(page);ScriptFields.Children.Add(link);
             }
@@ -192,13 +195,20 @@ public partial class PreparationWorkbenchView : UserControl
         RestoreButton.IsEnabled = !work.Busy && work.Receipt is not null;
         PlanSummary.Text = work.Plan is null ? "尚无当前冻结计划；输入变化后必须重新预览。" : Friendly(work.Plan.Summary);
         PlanIdentity.Text = work.Plan is null ? "" : work.Plan.Kind + " · " + work.Plan.PlanId + "\nSHA256 " + work.Plan.Sha256;
-        RecoverySummary.Text = work.Receipt is null ? work.Unresolved ? "本次没有可执行恢复引用。请展开完整诊断，按备份及原操作身份人工核查；不会自动重放。" : "尚无可恢复回执。旧所有权移交不会被当作可自动撤销的EVARS写入。" : PlanText(work.Receipt);
+        RecoverySummary.Text = work.Receipt is null ? work.Unresolved ? "本次没有可执行恢复引用。请展开完整诊断，按备份及原操作身份人工核查；不会自动重放。" : "尚无可恢复回执。旧所有权移交不会被当作可自动撤销的EVARS写入。" : Friendly(work.Receipt.Summary);
+        RecoveryIdentity.Text = work.Receipt is null ? "" : work.Receipt.Kind + " · " + work.Receipt.PlanId + "\nSHA256 " + work.Receipt.Sha256;
+        RecoveryIdentityExpander.Visibility = work.Receipt is null ? Visibility.Collapsed : Visibility.Visible;
         StageStatus.Text = work.Unresolved ? "上次结果待核查；未自动重试。" : work.Plan is not null ? "已取得冻结计划，需人工核对并进入明确应用。" : work.Result is not null ? (work.Result.Success ? "最近一次调用成功；不推定其他阶段完成。" : "最近一次调用被拒绝或失败；原因见动作旁回执。") : "当前是阅读位置；尚未执行此阶段。";
+        StageStatus.SetResourceReference(TextBlock.ForegroundProperty, work.Unresolved ? "Text.Warning" : "Text.Secondary");StageStatus.FontWeight = work.Unresolved ? FontWeights.SemiBold : FontWeights.Normal;
         if (work.Result is { } result)
         {
-            InlineResult.Text = result.OperationId + " · " + (result.Success ? "成功" : result.Error?.Code + " · " + result.Error?.Message);
+            InlineResult.Text = result.Success ? "本次调用成功；完成范围以回执为准。" : result.Error?.Message ?? "本次调用失败，请核对完整诊断。";
+            InlineOperation.Text = result.OperationId + (result.Error is { } error ? " · " + error.Code : "");
             ResultBody.Text = JsonSerializer.Serialize(new { current = result, unresolved = work.UnresolvedResults }, new JsonSerializerOptions(JsonSerializerDefaults.Web) { WriteIndented = true });
-            EvidenceResult.Text = InlineResult.Text + "\n" + (result.Data is { } data ? Friendly(data) : "无成功数据；保留错误，不推定未产生效果。");
+            EvidenceOutcome.Text = InlineResult.Text;
+            EvidenceOperation.Text = InlineOperation.Text + (result.Data is { ValueKind: JsonValueKind.Object } metadata && metadata.TryGetProperty("kind", out var kind) ? " · " + kind.GetString() : "");
+            EvidenceResult.Text = result.Data is { } data ? ResultSummary(data) : "无成功数据；保留错误，不推定未产生效果。";
+            foreach (var text in new[] { InlineResult, EvidenceOutcome }) { text.SetResourceReference(TextBlock.ForegroundProperty, result.Success ? "Text.Primary" : result.Error?.MayHaveExecuted == true || work.Unresolved ? "Text.Warning" : "Text.Danger");text.FontWeight = result.Success ? FontWeights.Normal : FontWeights.SemiBold; }
         }
         if (notice is not null) InlineResult.Text = notice;
         if (work.Stage == "install" && CanContinueFromInstall()) ActionEffect.Text = "只进入环境选择；不会自动扫描或写入产品环境。";
@@ -221,6 +231,8 @@ public partial class PreparationWorkbenchView : UserControl
     }
     /// <summary>格式化明确确认和恢复时需要核对的计划身份。</summary>
     private static string PlanText(ManagerPlanReference plan) => plan.Kind + " · " + plan.PlanId + "\n" + Friendly(plan.Summary) + "\nSHA256 " + plan.Sha256;
+    /// <summary>计划回执先呈现业务摘要，操作类型与编号在可复制辅助区完整保留。</summary>
+    private static string ResultSummary(JsonElement data) => data.ValueKind == JsonValueKind.Object && data.TryGetProperty("summary", out var summary) && data.TryGetProperty("planId", out _) ? Friendly(summary) : Friendly(data);
     /// <summary>将摘要投影为可读业务字段，技术身份留在折叠诊断中。</summary>
     private static string Friendly(JsonElement element)
     {

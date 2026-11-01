@@ -29,6 +29,24 @@ formats require separate migration. Old installers do not share the Manager
 lease, so bounded process/drift checks do not promise global cross-process
 atomicity. No global marker is deleted and Inno retains ownership of the app root.
 
+## Explicit existing-Skill adoption source validation — 2026-11-02
+
+NET48 temporary-file regressions exercise strict default-off `adoptSkill`, whole
+file/directory inventories, unchanged-file adoption, exact original bytes across
+updates, shared rollback and the actual shared uninstall file loop, and retained
+extras/directories. Real ReparsePoint fixtures are required, alongside add/edit/
+delete/empty-directory drift, forged inventory/scope/review-text/ownership labels,
+byte budgets, missing/corrupt original records, and prior-marker/state forgery
+with adoption disabled or no Skill target. Original content is retained only in
+the private local plan/preview; console output does not publish it.
+
+All plans now freeze the raw marker hash and complete prior state. Missing old
+plan context requires a fresh preview. Explicit null remains the created-file
+restore identity; a missing original field never means permission to delete.
+These are source and isolated fixture results, not a production Skill adoption
+or installation result. The current Codex Skill and installed application have
+not been changed by this implementation or its tests.
+
 ## Windows Setup v0.3.3 validation — 2026-09-20
 
 The maintainer reported successful installation testing of preview11 and

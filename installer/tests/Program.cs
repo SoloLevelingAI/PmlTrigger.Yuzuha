@@ -20,7 +20,8 @@ internal static partial class SetupTests
     }
     static int Main(string[] args)
     {
-        string temp = Path.Combine(Path.GetTempPath(), "YuzuhaSetupTests-" + Guid.NewGuid().ToString("N"));
+        string fixtureRoot=Environment.GetEnvironmentVariable("YUZUHA_SETUP_TEST_ROOT")??Path.GetTempPath();
+        string temp = Path.Combine(Path.GetFullPath(fixtureRoot), "YuzuhaSetupTests-" + Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(temp);
         try
         {
@@ -237,6 +238,7 @@ internal static partial class SetupTests
             Check(File.ReadAllText(atomic) == "after", "Atomic file replacement failed");
             Console.WriteLine("PASS: CLI-only plan and legacy entry reject MCP registration, retain other-client bytes, preserve Skill preview, reject old or forged MCP plans, and keep atomic file writes.");
             VerifyPmlIndexLifecycle(temp);
+            VerifySkillAdoptionLifecycle(temp);
             Console.WriteLine("Artifacts: " + temp); return 0;
         }
         catch (Exception ex) { Console.Error.WriteLine(ex); return 1; }

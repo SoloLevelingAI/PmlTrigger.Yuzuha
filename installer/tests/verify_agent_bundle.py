@@ -3,6 +3,7 @@ import hashlib
 import json
 from pathlib import Path, PurePosixPath
 import subprocess
+import shutil
 import sys
 import tempfile
 import zipfile
@@ -55,4 +56,21 @@ with tempfile.TemporaryDirectory(prefix='YuzuhaAgentBundle-') as temporary:
     assert not any(item.get('kind') == 'environment' for item in frozen['changes'])
     assert 'Manager preparation required' in Path(str(manager_plan)+'.md').read_text(encoding='utf-8-sig')
     assert not target.exists(), 'Manager planning unexpectedly created installation target'
-print('PASS: archive paths/inventory/hashes, same EXE, Skill entry/reference, legacy none and manager frozen previews without installation or EVARS writes.')
+    skill_target = root/'client/yuzuha-toolkit'
+    shutil.copytree(bundle/'skill', skill_target)
+    skill_before = {p.relative_to(skill_target).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest() for p in skill_target.rglob('*') if p.is_file()}
+    request.write_text(json.dumps({'integrationMode':'manager','root':str(target),'mcpJson':'','skillTarget':str(skill_target),'adoptSkill':False,'environments':[]}),encoding='utf-8')
+    adopted_plan = root/'adopted-plan.json'
+    rejected = subprocess.run([str(bundle/'setup/Yuzuha.SetupBridge.exe'),'plan',str(request),
+                    str(bundle/'.setup-payload.json'),str(bundle/'skill'),str(adopted_plan)],capture_output=True)
+    assert rejected.returncode != 0 and not adopted_plan.exists(), 'Unowned Skill overwrite was accepted without explicit adoption'
+    request.write_text(json.dumps({'integrationMode':'manager','root':str(target),'mcpJson':'','skillTarget':str(skill_target),'adoptSkill':True,'environments':[]}),encoding='utf-8')
+    subprocess.run([str(bundle/'setup/Yuzuha.SetupBridge.exe'),'plan',str(request),
+                    str(bundle/'.setup-payload.json'),str(bundle/'skill'),str(adopted_plan)],check=True)
+    adopted = json.loads(adopted_plan.read_text(encoding='utf-8-sig'))
+    assert adopted['markerBeforeSha256'] is None and adopted['skillAdoption']['entries']
+    assert len(adopted['changes']) == len(skill_before)
+    assert all(item['kind'] == 'skill' and item['action'] == 'unchanged' and item['ownershipAction'] == 'adopt' and item['before'] for item in adopted['changes'])
+    assert {p.relative_to(skill_target).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest() for p in skill_target.rglob('*') if p.is_file()} == skill_before
+    assert not target.exists(), 'Adoption planning unexpectedly created installation target'
+print('PASS: archive paths/inventory/hashes, same EXE, Skill entry/reference, legacy none/manager/adoption frozen previews, default unowned refusal, and unchanged temporary Skill without installation or EVARS writes.')

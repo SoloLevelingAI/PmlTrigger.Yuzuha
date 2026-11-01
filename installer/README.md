@@ -10,6 +10,7 @@
 
 - 保留原赋值、派生目录、短路径转换和自定义调用；在末尾追加三项配置，更新受管块不重复添加。未知目标写入、提前退出或不明确跳转要求审查，不执行环境文件。
 - CLI-only：不合并 mcpServers JSON，不改写 Codex TOML；Skill 可单独安装。
+- 已有未托管Skill默认拒绝；高级`adoptSkill:true`明确接管包内目标，冻结完整有界目录和安装所有权，保留首次原文与额外文件，具体预览批准后才执行。
 - 升级中的生成索引只补 `/Bootstrap/YuzuhaStartupPolicy.pmlobj` 缺失项，列入预览、备份和同一事务；不分发或重建 `pml.index`，不将它纳入长期所有权校验。
 - 旧 PS1/preview1 或非受管目录不能直接覆盖迁移；请用 VM 新目录。
 - 保留原编码及搜索路径；报告与备份位于 LocalAppData/YuzuhaToolkit/SetupReports。
@@ -36,6 +37,14 @@ when omitted, the historical repository `runtime` directory remains the source.
 Reused binaries need verified provenance; their prior execution does not validate
 the rebuilt package. Manager CLI, Desktop and documentation host inputs are
 published separately for the current source.
+
+NET48 fixtures keep transactions in the ordinary temporary directory. Optional
+`YUZUHA_SETUP_TEST_ROOT` selects another isolated transaction root. If a Windows
+sandbox blocks junction creation from a NET48 child, prepare a real junction in
+an isolated workspace root, set `YUZUHA_SETUP_LINK_TEST_ROOT` and
+`YUZUHA_SETUP_LINK_JUNCTION` to it, and verify its ReparsePoint attribute first.
+The mandatory link test moves only that fixture entry into its fresh Skill,
+checks preview/execution refusal, and moves it back; it never skips link checks.
 
 Authored by OpenAI Codex at the maintainer's request. The previous 0.3.4.1 desktop and media evidence is recorded in docs/validation/2026-10-24-window-portfolio.md; it is not proof that a new 0.3.4.2 installer has been executed. Historical installer evidence remains in VALIDATION.md and docs/validation/2026-10-23-phayton-r2-production.md. Installation smoke scripts change machine registration and must only run in an approved disposable environment.
 

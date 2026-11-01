@@ -52,14 +52,65 @@ internal static partial class Program
         var state = ReadObject(Marker(root));
         if ((string)state["owner"] != Owner2 || !Same((string)state["root"], root))
             throw Bad("管理标记不匹配 / Ownership mismatch (including preview1 installations).");
+        ValidateManagedEntries(state["managed"] as JArray);
         return state;
+    }
+    /// <summary>完整验证首次原文身份，缺失或损坏记录绝不推导为允许删除。</summary>
+    static void ValidateManagedEntries(JArray managed)
+    {
+        if(managed==null)throw Bad("Managed ownership inventory is missing or malformed.");
+        var paths=new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        foreach(var token in managed)
+        {
+            var entry=token as JObject;
+            if(entry==null || entry["path"]?.Type!=JTokenType.String || !paths.Add(Absolute((string)entry["path"])) ||
+                entry["kind"]?.Type!=JTokenType.String || string.IsNullOrWhiteSpace((string)entry["kind"]) ||
+                entry["afterSha256"]?.Type!=JTokenType.String || !RegexHash((string)entry["afterSha256"]))throw Bad("Managed ownership entry is malformed or duplicated.");
+            var original=entry.Property("original");
+            if(original==null || (original.Value.Type!=JTokenType.Null && original.Value.Type!=JTokenType.String))throw Bad("Managed original must be an explicit null or base64 string; missing is not permission to delete.");
+            if(original.Value.Type==JTokenType.String)
+            {
+                string encoded=(string)original.Value;
+                if(encoded==null)throw Bad("Managed original string cannot be null.");
+                try { Convert.FromBase64String(encoded); } catch(FormatException) { throw Bad("Managed original base64 is corrupt; preserve files and review ownership."); }
+            }
+        }
+    }
+    static string ManagedMarkerHash(string root)
+    {
+        string path=Absolute(Marker(root));
+        try { if((File.GetAttributes(path)&FileAttributes.Directory)!=0)throw Bad("Installation marker is not a file."); }
+        catch(FileNotFoundException) { return null; }
+        catch(DirectoryNotFoundException) { return null; }
+        return Digest(File.ReadAllBytes(path));
+    }
+    /// <summary>所有计划绑定当前标记原始摘要和完整首次原文状态，缺少冻结上下文必须重新预览。</summary>
+    static void VerifyPriorState(JObject plan)
+    {
+        var markerField=plan.Property("markerBeforeSha256");var priorField=plan.Property("priorState");
+        if(markerField==null || priorField==null || (markerField.Value.Type!=JTokenType.Null && (markerField.Value.Type!=JTokenType.String || !RegexHash((string)markerField.Value))))
+            throw Bad("Frozen installation ownership context is missing or malformed; create a new preview.");
+        string expected=(string)markerField.Value,root=Absolute((string)plan["root"]);
+        if(ManagedMarkerHash(root)!=expected)throw Bad("Installation ownership changed; create a new preview.");
+        if(expected==null)
+        {
+            if(priorField.Value.Type!=JTokenType.Null)throw Bad("Unexpected prior ownership for a new installation.");
+        }
+        else
+        {
+            var prior=priorField.Value as JObject;
+            if(prior==null)throw Bad("Prior ownership was omitted from the frozen plan.");
+            ValidateManagedEntries(prior["managed"] as JArray);
+            if(!JToken.DeepEquals(prior,ExistingState(root)))throw Bad("Frozen prior ownership differs from the current marker.");
+        }
+        if(ManagedMarkerHash(root)!=expected)throw Bad("Installation ownership changed during verification.");
     }
     static JObject Change(string path, byte[] after, string kind, string beforeText = null, string afterText = null)
     {
-        byte[] before = File.Exists(path) ? File.ReadAllBytes(path) : null;
+        byte[] before = File.Exists(path) ? kind=="skill"?SkillBytes(path):File.ReadAllBytes(path) : null;
         return new JObject { ["path"] = path, ["kind"] = kind,
             ["beforeSha256"] = before == null ? null : Digest(before), ["afterSha256"] = Digest(after),
-            ["before"] = before == null ? null : Convert.ToBase64String(before), ["after"] = Convert.ToBase64String(after),
+            ["before"] = before == null ? JValue.CreateNull() : new JValue(Convert.ToBase64String(before)), ["after"] = Convert.ToBase64String(after),
             ["beforeText"] = beforeText, ["afterText"] = afterText,
             ["action"] = before == null ? "create" : Digest(before) == Digest(after) ? "unchanged" : "update" };
     }
@@ -149,8 +200,9 @@ internal static partial class Program
     {
         RequireCliOnlyClient(request);
         IntegrationMode(request);
+        AdoptSkill(request);
         string root = Absolute((string)request["root"]); CheckPath(root);
-        var prior = ExistingState(root); var changes = new JArray(); var managed = prior?["managed"] as JArray ?? new JArray();
+        var prior = ExistingState(root);string markerBefore=ManagedMarkerHash(root);var changes = new JArray(); var managed = prior?["managed"] as JArray ?? new JArray();
         foreach (JObject old in managed)
             if (FileDigest((string)old["path"]) != (string)old["afterSha256"])
                 throw Bad("先检查上次安装后修改的托管文件 / Managed file changed since last install: " + old["path"]);
@@ -162,23 +214,7 @@ internal static partial class Program
             var index = PmlIndexChange(root);
             if (index != null) changes.Add(index);
         }
-        string skill = (string)request["skillTarget"] ?? "";
-        if (skill.Length > 0)
-        {
-            skill = Absolute(skill);
-            if (!Same(Path.GetFileName(skill),"yuzuha-toolkit") || skill.StartsWith(root+"\\",StringComparison.OrdinalIgnoreCase) ||
-                root.StartsWith(skill+"\\",StringComparison.OrdinalIgnoreCase)) throw Bad("Skill target must be a separate yuzuha-toolkit directory.");
-            var priorPaths = new HashSet<string>(managed.OfType<JObject>().Select(x=>(string)x["path"]),StringComparer.OrdinalIgnoreCase);
-            if (Directory.Exists(skill) && Directory.EnumerateFiles(skill,"*",SearchOption.AllDirectories).Any(x=>!priorPaths.Contains(x)))
-                throw Bad("Existing Skill is not managed by this installation; no overwrite.");
-            foreach (JObject item in (JArray)manifest["files"])
-            {
-                string rel=(string)item["path"]; if (!rel.StartsWith("skill/",StringComparison.Ordinal)) continue;
-                string source=Inside(Absolute(skillSource),rel.Substring(6));
-                if(FileDigest(source)!=(string)item["sha256"]) throw Bad("Bundled Skill checksum mismatch.");
-                changes.Add(Change(Inside(skill,rel.Substring(6)),File.ReadAllBytes(source),"skill"));
-            }
-        }
+        var adoption=AddSkillChanges(request,root,managed,manifest,skillSource,changes);
         var payload = new JArray();
         foreach (JObject item in (JArray)manifest["files"])
         {
@@ -193,9 +229,11 @@ internal static partial class Program
             if(!seen.Add((string)c["path"])) throw Bad("Multiple changes target the same file.");
             if(((string)c["path"]).StartsWith(root+"\\",StringComparison.OrdinalIgnoreCase) && (string)c["kind"] != "pml-index") throw Bad("External configuration cannot overlap payload.");
         }
-        return new JObject { ["schema"]=2,["id"]=Guid.NewGuid().ToString("N"),["createdUtc"]=DateTime.UtcNow.ToString("o"),
+        var plan=new JObject { ["schema"]=2,["id"]=Guid.NewGuid().ToString("N"),["createdUtc"]=DateTime.UtcNow.ToString("o"),
             ["request"]=request.DeepClone(),["root"]=root,["manifestSha256"]=FileDigest(manifestPath),["payload"]=payload,
-            ["changes"]=changes,["priorState"]=prior,["registryKey"]=RegPath+"\\"+Digest(Utf8.GetBytes(root.ToUpperInvariant())).Substring(0,16) };
+            ["changes"]=changes,["skillAdoption"]=adoption,["priorState"]=prior==null?JValue.CreateNull():(JToken)prior,
+            ["markerBeforeSha256"]=markerBefore==null?JValue.CreateNull():new JValue(markerBefore),["registryKey"]=RegPath+"\\"+Digest(Utf8.GetBytes(root.ToUpperInvariant())).Substring(0,16) };
+        VerifyPriorState(plan);return plan;
     }
     /// <summary>将安装计划格式化为供用户审阅的变更摘要。</summary>
     /// <param name="plan">已经构造的安装计划或查询计划数据。</param>
@@ -208,11 +246,22 @@ internal static partial class Program
         b.AppendLine("Environment targets: "+(((JObject)plan["request"])["environments"] as JArray)?.Count);
         b.AppendLine("目录 / Root: "+plan["root"]); b.AppendLine("计划 ID / Plan ID: "+plan["id"]);
         b.AppendLine("注册表 / Registry (HKCU, 64-bit): "+plan["registryKey"]);
+        if(AdoptSkill((JObject)plan["request"]))
+        {
+            var adoption=(JObject)plan["skillAdoption"];
+            b.AppendLine("\r\n## 显式接管既有 Skill / Explicit adoption of existing Skill");
+            b.AppendLine("目标 / Target: "+adoption["target"]);
+            b.AppendLine("冻结整个目录成员、文件SHA和安装所有权；额外文件保留且不归安装器所有。 / Complete inventory and ownership are frozen; extra files are retained and remain unowned.");
+            b.AppendLine("仅包内目标进入managed；首次原始字节保留，卸载只按哈希恢复这些目标，不删除整个Skill目录。 / Only packaged targets become managed; first original bytes are retained for conditional restore, never directory deletion.");
+            b.AppendLine("完整原文只留本机预览/计划，勿上传。 / Original content is local-only; do not publish this preview.");
+            foreach(JObject entry in (JArray)adoption["entries"]) b.AppendLine(entry["kind"]+" "+entry["relative"]+" | "+entry["sha256"]);
+        }
         int backupIndex=0;
         foreach(JObject c in (JArray)plan["changes"])
         {
             b.AppendLine("\r\n## "+c["kind"]+" / "+c["action"]+" : "+c["path"]);
             b.AppendLine("SHA256: "+c["beforeSha256"]+" -> "+c["afterSha256"]);
+            if(c["ownershipAction"]!=null)b.AppendLine("所有权 / Ownership: "+c["ownershipAction"]);
             if ((string)c["action"] != "unchanged")
             {
                 if (c["before"]?.Type == JTokenType.String) b.AppendLine("备份 / Backup: " + Path.Combine(RunDirectory(plan), "external-" + backupIndex + ".bak"));
@@ -254,12 +303,15 @@ internal static partial class Program
         IntegrationMode((JObject)plan["request"]);
         if(IntegrationMode((JObject)plan["request"])=="manager") ValidateManagerManifest(ReadObject(manifestPath));
         string root=Absolute((string)plan["root"]); CheckPath(root);
+        VerifyPriorState(plan);
         Guid planId;
         if(!Guid.TryParseExact((string)plan["id"],"N",out planId)) throw Bad("Invalid plan ID.");
         if(!Same(root,Absolute((string)plan["request"]["root"]))) throw Bad("Request root differs from plan.");
         string expectedRegistry=RegPath+"\\"+Digest(Utf8.GetBytes(root.ToUpperInvariant())).Substring(0,16);
         if((string)plan["registryKey"]!=expectedRegistry) throw Bad("Invalid registry target.");
         var expectedFiles=(JArray)ReadObject(manifestPath)["files"];
+        if(plan["priorState"] is JObject)ValidateManagedEntries(plan["priorState"]["managed"] as JArray);
+        VerifySkillScope(plan,expectedFiles);
         bool indexExpected=plan["priorState"] is JObject && HasStartupPolicy(expectedFiles) && File.Exists(GeneratedIndexPath(root));
         if (((JArray)plan["changes"]).OfType<JObject>().Count(c=>(string)c["kind"]=="pml-index") != (indexExpected?1:0))
             throw Bad("Generated index scope changed or was omitted; create a new preview.");
@@ -334,6 +386,7 @@ internal static partial class Program
         var plan=VerifyPlan(planFile,hash,manifest,false); string report=RunDirectory(plan),root=(string)plan["root"];
         CommitConfigurationChanges(plan,report,(state,actual) =>
         {
+            VerifyPriorState(plan);
             AtomicBytes(Marker(root),Utf8.GetBytes(state.ToString(Formatting.Indented)));
             using(var baseKey=RegistryKey.OpenBaseKey(RegistryHive.CurrentUser,RegistryView.Registry64))
             using(var key=baseKey.CreateSubKey((string)plan["registryKey"]))
@@ -352,6 +405,9 @@ internal static partial class Program
             ["managed"]=(plan["priorState"] as JObject)?["managed"]?.DeepClone()??new JArray(),["lastReport"]=report,["registryKey"]=plan["registryKey"]};
         try
         {
+            VerifyPriorState(plan);
+            ValidateManagedEntries(state["managed"] as JArray);
+            VerifySkillAdoptionSnapshot(plan,false);
             foreach(JObject c in (JArray)plan["changes"])
             {
                 string path=(string)c["path"],backup=null;
@@ -371,11 +427,13 @@ internal static partial class Program
                     var managed=(JArray)state["managed"]; var old=managed.OfType<JObject>().FirstOrDefault(x=>Same((string)x["path"],path));
                     string original=old==null?(string)c["before"]:(string)old["original"];
                     if(old!=null) old.Remove();
-                    managed.Add(new JObject{["path"]=path,["kind"]=c["kind"],["original"]=original,["afterSha256"]=c["afterSha256"]});
+                    managed.Add(new JObject{["path"]=path,["kind"]=c["kind"],["original"]=original==null?JValue.CreateNull():new JValue(original),["afterSha256"]=c["afterSha256"]});
                 }
                 if(FileDigest(path)!=(string)c["afterSha256"]) throw Bad("Written configuration checksum mismatch: "+path);
                 actual.Add(new JObject{["path"]=path,["kind"]=c["kind"],["status"]=c["action"],["beforeSha256"]=c["beforeSha256"],["afterSha256"]=FileDigest(path),["backup"]=backup});
             }
+            VerifySkillAdoptionSnapshot(plan,true);
+            VerifyPriorState(plan);
             finalize(state,actual);
             WriteResultWithMode(report,"success",actual,null,IntegrationMode((JObject)plan["request"]));
         }
@@ -388,7 +446,7 @@ internal static partial class Program
                 try
                 {
                     if(FileDigest(path)!=(string)c["afterSha256"]) throw Bad("Concurrent change; backup retained");
-                    if(c["before"].Type==JTokenType.Null) File.Delete(path); else AtomicBytes(path,Convert.FromBase64String((string)c["before"]));
+                    if((string)c["before"]==null) File.Delete(path); else AtomicBytes(path,Convert.FromBase64String((string)c["before"]));
                     recovery.Add(path+": rolled back");
                 }
                 catch(Exception r){ recovery.Add(path+": "+r.Message); }
@@ -442,15 +500,7 @@ internal static partial class Program
             if(FileDigest((string)c["path"])!=(string)c["afterSha256"]) throw Bad("卸载前需处理外部配置变更 / External file changed; review before uninstall: "+c["path"]);
         if(checkOnly) return;
         string report=Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"YuzuhaToolkit","SetupReports","uninstall-"+Guid.NewGuid().ToString("N"));
-        Directory.CreateDirectory(report); var actual=new JArray();
-        foreach(JObject c in (JArray)state["managed"])
-        {
-            string path=(string)c["path"], backup=Path.Combine(report,actual.Count+".bak");
-            if(FileDigest(path)!=(string)c["afterSha256"]) throw Bad("Concurrent external change during uninstall.");
-            File.Copy(path,backup,false);
-            if(c["original"].Type==JTokenType.Null) File.Delete(path);else AtomicBytes(path,Convert.FromBase64String((string)c["original"]));
-            actual.Add(new JObject{["path"]=path,["status"]="restored",["afterSha256"]=FileDigest(path),["backup"]=backup});
-        }
+        Directory.CreateDirectory(report); var actual=RestoreManagedFiles((JArray)state["managed"],report);
         using(var baseKey=RegistryKey.OpenBaseKey(RegistryHive.CurrentUser,RegistryView.Registry64))
         {
             using(var key=baseKey.OpenSubKey((string)state["registryKey"]))
@@ -458,6 +508,21 @@ internal static partial class Program
             baseKey.DeleteSubKey((string)state["registryKey"],false);
         }
         WriteResult(report,"uninstalled-external-config",actual,null);
+    }
+    /// <summary>共用卸载的逐文件备份和条件恢复，仅处理明确 managed 目标并保留其余文件与目录。</summary>
+    static JArray RestoreManagedFiles(JArray managed,string report)
+    {
+        ValidateManagedEntries(managed);
+        var actual=new JArray();
+        foreach(JObject c in managed)
+        {
+            string path=(string)c["path"], backup=Path.Combine(report,actual.Count+".bak");
+            if(FileDigest(path)!=(string)c["afterSha256"]) throw Bad("Concurrent external change during uninstall.");
+            File.Copy(path,backup,false);
+            if(c["original"].Type==JTokenType.Null) File.Delete(path);else AtomicBytes(path,Convert.FromBase64String((string)c["original"]));
+            actual.Add(new JObject{["path"]=path,["status"]="restored",["afterSha256"]=FileDigest(path),["backup"]=backup});
+        }
+        return actual;
     }
     static bool NewCommand(string[] args)
     {

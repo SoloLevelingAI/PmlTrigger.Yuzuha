@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-    [Parameter(Mandatory)][ValidateSet('native-cli','native-builtin','rpc-net35','rpc-net48','formrecord-net35','formrecord-net48','documentation-contracts','desktop-flows','desktop-preparation','workbench-lifecycle')][string]$Runner,
+    [Parameter(Mandatory)][ValidateSet('native-cli','native-builtin','rpc-net35','rpc-net48','formrecord-net35','formrecord-net48','documentation-contracts','desktop-flows','desktop-preparation','installer-contracts','workbench-lifecycle')][string]$Runner,
     [Parameter(Mandatory)][string]$ReportDirectory
 )
 $ErrorActionPreference = 'Stop'
@@ -9,7 +9,7 @@ function Check-Exit([string]$Step) { if ($LASTEXITCODE -ne 0) { throw "$Step fai
 Push-Location $root
 try {
     $pythonVersion = $null
-    if ($Runner.StartsWith('native-') -or $Runner.StartsWith('rpc-') -or $Runner -eq 'workbench-lifecycle') {
+    if ($Runner.StartsWith('native-') -or $Runner.StartsWith('rpc-') -or $Runner -in @('workbench-lifecycle','installer-contracts')) {
         $python = if ($env:YUZUHA_TEST_PYTHON) { $env:YUZUHA_TEST_PYTHON } else { 'python' }
         $pythonVersion = & $python --version 2>&1
         Check-Exit 'Python prerequisite (install Python 3 or set YUZUHA_TEST_PYTHON)'
@@ -55,6 +55,43 @@ try {
     } elseif ($Runner -eq 'desktop-preparation') {
         & "$PSScriptRoot/Test-PreparationDesktop.ps1" -OutputDirectory (Join-Path $ReportDirectory 'desktop')
         Check-Exit 'WPF installation journey and ION palettes'
+    } elseif ($Runner -eq 'installer-contracts') {
+        $previousLinkRoot = $env:YUZUHA_SETUP_LINK_TEST_ROOT
+        $previousJunction = $env:YUZUHA_SETUP_LINK_JUNCTION
+        $ownedLinkArea = $null
+        try {
+            if (-not $previousJunction) {
+                $reportPath = [IO.Path]::GetFullPath($ReportDirectory)
+                $ownedLinkArea = Join-Path $reportPath ('links-' + [guid]::NewGuid().ToString('N'))
+                $target = Join-Path $ownedLinkArea 'target'
+                $junction = Join-Path $ownedLinkArea 'junction'
+                New-Item -ItemType Directory -Path $target -Force | Out-Null
+                [IO.File]::WriteAllText((Join-Path $target 'fixture.txt'), 'owned isolated link fixture')
+                New-Item -ItemType Junction -Path $junction -Value $target | Out-Null
+                if (-not ((Get-Item -LiteralPath $junction -Force).Attributes -band [IO.FileAttributes]::ReparsePoint)) { throw 'Real junction fixture was not created.' }
+                $env:YUZUHA_SETUP_LINK_TEST_ROOT = $ownedLinkArea
+                $env:YUZUHA_SETUP_LINK_JUNCTION = $junction
+            }
+            & dotnet build installer/tests/SetupTests.csproj -c Release
+            Check-Exit 'Installer NET48 test build'
+            & (Join-Path $root 'installer/tests/bin/Release/net48/SetupTests.exe')
+            Check-Exit 'Installer isolated ownership and transaction contracts'
+            if ($ownedLinkArea) {
+                if (-not ((Get-Item -LiteralPath $junction -Force).Attributes -band [IO.FileAttributes]::ReparsePoint) -or [IO.File]::ReadAllText((Join-Path $target 'fixture.txt')) -cne 'owned isolated link fixture') { throw 'Link fixture was not retained after rejection.' }
+                @{ realReparsePoint=$true; targetRetained=$true; scope='Isolated link rejection only; transaction fixtures retain their existing temporary root.' } | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $ReportDirectory 'junction-fixture.json') -Encoding utf8
+            }
+            & $python -X utf8 installer/tests/build_cli_test.py
+            Check-Exit 'Installer packaging fixtures'
+        } finally {
+            $env:YUZUHA_SETUP_LINK_TEST_ROOT = $previousLinkRoot
+            $env:YUZUHA_SETUP_LINK_JUNCTION = $previousJunction
+            if ($ownedLinkArea) {
+                $resolvedArea = [IO.Path]::GetFullPath($ownedLinkArea)
+                if (-not $resolvedArea.StartsWith([IO.Path]::GetFullPath($ReportDirectory) + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase)) { throw 'Unsafe link fixture cleanup.' }
+                if (Test-Path -LiteralPath $junction) { Remove-Item -LiteralPath $junction -Force }
+                Remove-Item -LiteralPath $resolvedArea -Recurse -Force
+            }
+        }
     } elseif ($Runner -eq 'documentation-contracts') {
         & dotnet build tools/Documentation -c Release
         Check-Exit 'Inventory build'

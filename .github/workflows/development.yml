@@ -49,6 +49,7 @@ jobs:
             artifacts/contract-style-compact/**
             artifacts/contract-style-lab/review/**
             artifacts/contract-style-methods/**
+            artifacts/ion-visual-hierarchy/**
   documentation-and-tests:
     runs-on: windows-latest
     steps:
@@ -69,14 +70,7 @@ jobs:
         run: ./scripts/Test-Development.ps1
       - name: Installer manager handoff and packaging fixtures
         shell: pwsh
-        run: |
-          New-Item -ItemType Directory -Force artifacts/tests/installer | Out-Null
-          dotnet build installer/tests/SetupTests.csproj -c Release
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          & ./installer/tests/bin/Release/net48/SetupTests.exe 2>&1 | Tee-Object artifacts/tests/installer/net48.log
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          python -X utf8 installer/tests/build_cli_test.py 2>&1 | Tee-Object artifacts/tests/installer/packaging.log
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+        run: ./scripts/run-documented-test.ps1 -TestId 'smoke:installer-contracts'
       - name: OpenAPI, LikeC4 and DocFX
         shell: pwsh
         run: ./scripts/Build-Documentation.ps1
@@ -102,6 +96,7 @@ jobs:
             artifacts/tests/launch-scenarios/**/*.log
             artifacts/dt/**/desktop-smoke.json
             artifacts/dt/**/preparation-smoke.json
+            artifacts/dt/**/junction-fixture.json
             artifacts/dt/**/run-metadata.json
             artifacts/dt/**/documented-run.json
             artifacts/dt/**/smoke-result.json

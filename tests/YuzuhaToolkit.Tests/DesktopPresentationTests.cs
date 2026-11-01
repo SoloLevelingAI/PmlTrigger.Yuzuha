@@ -86,6 +86,19 @@ public sealed class DesktopPresentationTests
         }
     }
 
+    /// <summary>验证辅助数字与可复制身份在中性徽标、正文及背景上仍可读，不依赖降低透明度。</summary>
+    [Fact]
+    public void SupportingMetricsAndMetadataRemainReadableOnNeutralSurfacesAcrossAllEightPalettes()
+    {
+        foreach (var mode in new[] { "Light", "Dark", "Ion-lime", "Ion-cyan", "Ion-violet", "Ion-orange", "Ion-rose", "Ion-graphite" })
+        {
+            var p = Palette(mode);
+            foreach (var text in new[] { "Text.Secondary", "Text.Tertiary" })
+            foreach (var surface in new[] { "Surface.Card", "Surface.Subtle", "Surface.Page" })
+                Assert.True(Contrast(p[text], p[surface]) >= 4.5, mode + ": supporting " + text + " on " + surface);
+        }
+    }
+
     [Fact]
     public void ThemePreferenceDoesNotSaveLaunchDraftsOrFunctionPermissions()
     {

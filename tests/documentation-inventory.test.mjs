@@ -4,7 +4,8 @@ import {mkdtempSync,mkdirSync,writeFileSync,readFileSync,rmSync,existsSync} from
 import {tmpdir} from 'node:os';
 import {join,resolve,dirname} from 'node:path';
 import {execFileSync} from 'node:child_process';
-import {buildScriptCatalog, selectCatalogItems} from '../scripts/documentation-catalog.mjs';
+import {createHash} from 'node:crypto';
+import {buildScriptCatalog, publishScriptCatalog, selectCatalogItems} from '../scripts/documentation-catalog.mjs';
 
 test('documented project aliases match actual DocFX metadata destinations after a library split',()=>{
   const config=JSON.parse(readFileSync('docs/reference/modules.json','utf8'));
@@ -64,6 +65,43 @@ test('catalog discovers native scripts, resolves curated C# from Roslyn, and kee
     f.configuration.scripts[0].entry='Read';
     assert.deepEqual(buildScriptCatalog(f).scripts.find(s=>s.id==='csharp:core').traceEntries.map(t=>t.id),['read']);
   } finally {rmSync(f.root,{recursive:true,force:true});}
+});
+
+test('partial C# types publish every source and locate cross-file entries and UI traces by the actual member file',()=>{
+  const f=catalogFixture();try {
+    const first='src/Core.cs',second='src/Core.Actions.cs';
+    writeFileSync(join(f.root,first),'partial class Core {\n  public int Read(int count) => count;\n}\n');
+    writeFileSync(join(f.root,second),'partial class Core {\n  // Entry belongs to this partial declaration.\n  public void Write() { }\n}\n');
+    f.source.types.push({project:'P',uid:'Demo.Core',name:'Core',file:second,line:1,summary:'Actions partial',members:[{name:'Write',kind:'MethodDeclaration',signature:'void Write()',summary:'Write an action',line:3}]});
+    f.tests.push({id:'manual:actions',name:'Actions',url:'reference/tests/actions.html',targets:[{file:second}]});
+    f.trace={nodes:[{id:'read',typeId:'P::Demo.Core',name:'Demo.Core.Read(int)',file:first,line:2},{id:'write',typeId:'P::Demo.Core',name:'Demo.Core.Write()',file:second,line:3},{id:'wrong-file',typeId:'P::Demo.Core',name:'Demo.Core.Write()',file:first,line:3}]};
+    const digest=file=>createHash('sha256').update(readFileSync(join(f.root,file))).digest('hex');
+    const full=buildScriptCatalog(f).scripts.find(s=>s.id==='csharp:core');
+    assert.equal(full.file,first,'whole-type primary file stays compatible');assert.equal(full.line,1);
+    assert.deepEqual(full.files,[first,second]);assert.deepEqual(full.signatures,['int Read(int count)','void Write()']);
+    assert.deepEqual(full.members.map(m=>[m.file,m.line]),[[first,2],[second,3]]);
+    assert.deepEqual(full.traceEntries.map(t=>t.id),['read','write'],'a matching line in another partial is not the method');
+    for(const entry of full.traceEntries){assert.equal(entry.sourceSha256,digest(entry.file));assert(entry.sourceUrl.endsWith('#L'+entry.line));}
+    assert(full.tests.some(t=>t.id==='manual:actions'),'file-scoped tests in a secondary partial remain associated with the type');
+    for(const member of full.members){assert.equal(member.sourceSha256,digest(member.file));assert(member.sourceUrl.endsWith('#L'+member.line));}
+    const output=join(f.root,'generated');mkdirSync(join(f.root,'docs/reference'),{recursive:true});
+    writeFileSync(join(f.root,'docs/reference/capabilities.json'),JSON.stringify(f.configuration));
+    const published=publishScriptCatalog({...f,output}).scripts.find(s=>s.id==='csharp:core');
+    const scriptPage=readFileSync(join(output,published.url.replace(/^reference\//,'').replace('.html','.md')),'utf8');
+    for(const origin of published.sourceFiles){
+      assert.equal(origin.sourceSha256,digest(origin.file));assert(scriptPage.includes(origin.file));assert(scriptPage.includes(origin.sourceSha256));
+      const page=join(output,origin.sourceUrl.split('#')[0].replace(/^reference\//,'').replace('.html','.md'));
+      assert(existsSync(page),'complete source page missing: '+origin.file);
+      const snapshot=readFileSync(page,'utf8');assert(snapshot.includes('id="L3"'));assert(snapshot.includes(origin.file));assert(snapshot.includes(origin.sourceSha256));
+    }
+    f.configuration.scripts[0].entry='Write';writeFileSync(join(f.root,'docs/reference/capabilities.json'),JSON.stringify(f.configuration));
+    const entry=publishScriptCatalog({...f,output}).scripts.find(s=>s.id==='csharp:core');
+    assert.equal(entry.id,full.id);assert.equal(entry.url,full.url);assert.equal(entry.file,second);assert.equal(entry.line,3);
+    assert.equal(entry.sourceSha256,digest(second));assert(entry.sourceUrl.endsWith('#L3'));assert.deepEqual(entry.files,[first,second]);
+    assert.deepEqual(entry.signatures,['void Write()']);assert.deepEqual(entry.traceEntries.map(t=>t.id),['write']);
+    const entryPage=readFileSync(join(output,entry.url.replace(/^reference\//,'').replace('.html','.md')),'utf8');
+    assert(entryPage.includes(second+':3'));assert(entryPage.includes(digest(second)));assert(entryPage.includes(first),'entry still explains its complete partial type sources');
+  }finally{rmSync(f.root,{recursive:true,force:true});}
 });
 
 test('manual add, edit and remove only changes catalog metadata; native source remains discoverable and C# returns to candidates',()=>{

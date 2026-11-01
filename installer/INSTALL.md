@@ -42,6 +42,22 @@ YuzuhaFramework 是可选的 NET35/NET48 覆盖值；标准 Profile 从 Yuzuha �
 
 把选定的 AVEVA 和 Skill 修改纳入同一份预览，确认后执行。结束时分别汇报软件/CLI 文件、AVEVA 配置、Skill 文件及实际加载验证。`mcpJson` 必须留空；安装器不会重新启用已禁用的 MCP，也不会改动其他客户端服务。
 
+### 高级选项：显式接管已有的 CLI Skill
+
+默认`adoptSkill`为`false`（省略也相同），已有未托管Skill仍拒绝直接覆盖。用户明确要更新这个现有Skill时，可在全新请求中设置严格布尔值`"adoptSkill": true`，同时给出完整的现有`skillTarget`。向导对应复选框默认不勾选。没有目标、非布尔类型、链接/逃逸、损坏文本或损坏所有权记录均拒绝，不能用它绕过具体预览批准。
+
+接管预览冻结整个Skill的文件与目录成员、SHA256和长度，并绑定当前安装标记的原始SHA与完整`priorState`。边界为最多2048个成员、单文件4MiB、总文件16MiB；包内文本须能按UTF-8或带BOM的UTF-16审阅。预览后新增、编辑、删除、空目录或链接变化都需要重新生成。执行前、配置提交前和标记替换前复验来源；这不是对不遵守约定的旧程序承诺全局跨进程原子性。
+
+只有包内Skill目标进入`managed`。内容相同的包文件也明确记录接管，并保存首次原始字节；有改动的文件使用同一既有备份/条件替换/回滚引擎。更新保留首次原文，不把上次安装内容冒充原文。包外额外文件只记录库存指纹，保留且不归安装器所有；卸载只按受管文件的摘要恢复首次原文或删除本安装创建的目标，不删除整个Skill目录。额外未托管文件仍存在时，后续更新继续需要明确接管选项和新快照。
+
+`managed.original`必须明确存在，且只能是有效base64字符串或显式`null`；缺失、错误类型和坏base64均停止操作，不能把“缺失”推导为允许删除。所有新安装计划都冻结`markerBeforeSha256`与`priorState`，旧计划缺少这些上下文时须重新预览，旧合法安装标记及首次原文恢复语义保留。
+
+接管的完整before/after、首次原文和备份信息只留在本机计划/Markdown预览中，不上传、提交或放进公开日志。安装器仍不自动声明客户端已重新加载Skill。示例仅展示选项，路径须采用已核验的当前客户端目录：
+
+```json
+{"integrationMode":"manager","root":"C:\\Review\\PmlTrigger.Yuzuha","mcpJson":"","skillTarget":"C:\\Users\\YOUR-USER\\.codex\\skills\\yuzuha-toolkit","adoptSkill":true,"environments":[]}
+```
+
 ### 自动查找并生成接入计划（旧显式aveva兼容入口）
 
 在安装 AVEVA 的 Windows 内执行（AVEVA 在 VM 就必须在 VM 内执行）。
@@ -162,6 +178,8 @@ review explicit target paths. The headless C# helper handles discovery and plans
 Choose products, review automatically recommended supported Host profiles and files, then preview and approve. E3D requires INIT; legacy profiles prefer INIT, then BAT if none is found. Ambiguity requires manual review; discovery is not live launch verification. AI integration is on the next native wizard page; encoding is editable below the selected environment. Auto encoding preserves BOM and original bytes; non-ASCII installation paths with no-BOM files require an explicit encoding. Original scalar assignments, derived directories, verified short-path conversions and returning custom-config calls are preserved. Three integration assignments are added at the end, not before normalization. The managed block is replaced on update. Unknown target writes, early exits and unresolved jumps require review. Supplied scripts and external calls are never executed by Setup. Standard profiles infer the framework from Yuzuha.
 
 Optional Skill copying uses a user-selected directory; no MCP JSON merging is available, and Codex TOML is not modified. Generate a plan, review before/after content and hashes, obtain user approval, then run Setup with `/PLAN`, `/PLANHASH` and matching `/DIR`. Silent installs without a plan are rejected. An installed toolkit can later be found through the documented HKCU registry key; read this guide and use the same `plan`/`attach` engine to add client integration without reinstalling binaries. `attach` requires unchanged payload files.
+
+Existing unowned Skill files are refused by default. Advanced explicit `adoptSkill: true` requires the exact existing `skillTarget`, freezes the complete bounded directory inventory and current installation ownership, and presents full local before/after content. Only packaged targets become managed; unchanged matching files also retain their first original bytes. Extra files remain unowned and are preserved. Missing/invalid original records, inventory drift or links stop verification. All plans bind the raw prior marker hash and complete prior state independently of this option; old frozen plans without that context require a new preview. Keep raw previews local, and obtain approval of the concrete plan before execution.
 
 Actual reports and backups are retained in LocalAppData/YuzuhaToolkit/SetupReports. Concurrent changes cause refusal or explicit recovery errors. Power-loss recovery and every Windows/AVEVA variation are not guaranteed. The installer is unsigned. Product-specific NET35/NET48 Hosts remain separate from the Native AOT CLI. Neither installation nor detection opens or saves AVEVA models.
 ## 可选的每次启动动作

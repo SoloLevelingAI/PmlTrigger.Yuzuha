@@ -53,3 +53,7 @@ body.ion-developer-view{overflow:hidden}body.ion-developer-view main{max-width:n
 .iw-panel .iw-sources small{display:block;line-height:1.6}
 .iw-proof-scope{margin-bottom:20px}
 .iw-proof-scope>h3{margin-bottom:12px}
+/* Readable ordinal badges and source identities support task titles; no semantic text fades. */
+.iw-steps button .ion-number-badge{font:11px/1.35 Consolas,monospace;color:var(--muted);min-width:27px}
+.iw-related summary .ion-number-badge,.iw-panel summary .ion-number-badge{margin-left:7px}
+.iw-panel .ion-technical-id{font-size:11px;color:var(--muted)}

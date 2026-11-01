@@ -154,6 +154,7 @@
           "2026-10-24-launch-cli.summary.json",
           "pr13-review-remediation-2026-11-01.json",
           "install-to-operation-2026-11-01.json",
+          "visual-priority-skill-adoption-2026-11-02.json",
           "ribbon-restart-2026-10-31.md"
         ],
         "src": "docs/validation",
@@ -172,6 +173,11 @@
         "files": ["manager-journey*.json", "manager-journey-client.ts", "manager-journey-client.mjs", "manager-journey-client.d.mts"],
         "src": "docs/contracts",
         "dest": "contracts"
+      },
+      {
+        "files": ["SkillAdoptionTests.cs"],
+        "src": "installer/tests",
+        "dest": "source-evidence/tests"
       },
       {
         "files": [

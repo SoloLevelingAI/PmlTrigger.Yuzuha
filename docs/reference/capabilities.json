@@ -59,6 +59,7 @@
     {"id":"SCR-ION-NATIVE","file":"scripts/build-ion-wpf-themes.mjs","role":"build","purpose":"同一ION主题JSON生成六套原生资源并校验漂移。","features":["launch","deployment"],"guide":"docs/reference/install-to-operation.zh-CN.md"},
     {"id":"SCR-JOURNEY-DESIGN","file":"scripts/build-install-journey-design.mjs","role":"build","purpose":"实际FigCraft原生可编辑八阶段组件、六模式变量与独立导出验证。","features":["launch","deployment"],"guide":"docs/reference/install-to-operation.zh-CN.md"},
     {"id":"SCR-JOURNEY-MANAGERHOSTPROFILES","type":"YuzuhaToolkit.Manager.Core::YuzuhaToolkit.Manager.ManagerHostProfiles","features":["launch","deployment"],"role":"runtime","purpose":"用同一精确映射拒绝产品与Host配置错配。","guide":"docs/reference/install-to-operation.zh-CN.md","change":"安装到工程操作的共享契约及原生准备任务；离线、实机与用户视觉认可分别记录。"},
-    {"id":"SCR-JOURNEY-SETUPENVIRONMENTOWNERSHIPGUARD","type":"YuzuhaToolkit.Manager.Core::YuzuhaToolkit.Manager.SetupEnvironmentOwnershipGuard","features":["launch","deployment"],"role":"runtime","purpose":"依据明确来源与已登记安装的当前记录阻止绕过旧环境所有权；未登记且未提供的旧根不声称已全机排除。","guide":"docs/reference/install-to-operation.zh-CN.md","change":"安装到工程操作的共享契约及原生准备任务；离线、实机与用户视觉认可分别记录。"}
+    {"id":"SCR-JOURNEY-SETUPENVIRONMENTOWNERSHIPGUARD","type":"YuzuhaToolkit.Manager.Core::YuzuhaToolkit.Manager.SetupEnvironmentOwnershipGuard","features":["launch","deployment"],"role":"runtime","purpose":"依据明确来源与已登记安装的当前记录阻止绕过旧环境所有权；未登记且未提供的旧根不声称已全机排除。","guide":"docs/reference/install-to-operation.zh-CN.md","change":"安装到工程操作的共享契约及原生准备任务；离线、实机与用户视觉认可分别记录。"},
+    {"id":"SCR-SETUP-PLAN","type":"SetupBridge::Program","features":["launch","deployment"],"role":"runtime","purpose":"沿用同一Inno计划事务核对包、当前所有权与完整Skill快照，默认拒绝未托管覆盖，显式接管保留首次原文并条件恢复。","guide":"docs/reference/install-to-operation.zh-CN.md"}
   ]
 }

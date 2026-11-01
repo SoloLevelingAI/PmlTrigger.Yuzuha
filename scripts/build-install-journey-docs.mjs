@@ -17,6 +17,12 @@ for(const [file,explanation]of [
  ['installer/NativePages.iss','原生安装页面默认选择manager接手模式；旧显式aveva/none计划保持其声明范围。'],
  ['installer/build.py','要求新Manager与Desktop入口，生成逐文件载荷清单；文档、通信CLI、四Host与管理CLI分别交付。']
 ]){fs.readFileSync(path.join(root,file));text+=`- [${file}](~/artifacts/docfx/navigation/scripts/sources/${createHash('sha256').update(file).digest('hex').slice(0,16)}.md)：${explanation}\n`;}
+text+='\n可选CLI Skill已有手工安装时，默认仍拒绝直接覆盖。只有明确选择adoptSkill并批准同一计划后，才接管完整冻结范围；文件/目录成员及SHA、当前安装标记和首次原文均复验，额外本地文件保留。安装应用和Skill更新不等于接入AVEVA。\n\n';
+for(const [file,explanation]of [
+ ['installer/SetupBridge/PlanEngine.cs','同一安装事务绑定包清单、全局marker/priorState、批准哈希、备份与恢复，不从缺失原文推断允许删除。'],
+ ['installer/SetupBridge/SkillAdoption.cs','冻结明确Skill目标的完整有界快照，复验链接/成员/内容变化；审阅文字与实际字节一致，正常升级及显式接管共用原文恢复规则。']
+]){fs.readFileSync(path.join(root,file));text+=`- [${file}](~/artifacts/docfx/navigation/scripts/sources/${createHash('sha256').update(file).digest('hex').slice(0,16)}.md)：${explanation}\n`;}
+text+='\n[显式接管正反例的完整测试源码](~/installer/tests/SkillAdoptionTests.cs)。复刻离线安装契约：`./scripts/run-documented-test.ps1 -TestId smoke:installer-contracts`；使用真实临时文件和ReparsePoint夹具，不执行产品安装器或修改当前Skill。\n';
 for(const [index,stage]of journey.stages.entries()){
  if(!/^[a-z][a-z0-9-]*$/.test(stage.id)||new Set(journey.stages.map(s=>s.id)).size!==journey.stages.length)throw Error('Invalid/duplicate stage identity');
  text+=`\n<a id="${stage.id}"></a>\n\n## ${index+1}. ${stage.title}\n\n| 契约字段 | 约定 |\n|---|---|\n`;
@@ -33,7 +39,7 @@ for(const [index,stage]of journey.stages.entries()){
  }
  text+=`\n**验收范围：** ${stage.evidenceBoundary}\n`;
 }
-text+='\n## CLI、OpenAPI和TypeScript\n\n```powershell\nYuzuha.Manager.Cli.exe op invoke manager.contracts --input-stdin\n# stdin: {}\nYuzuha.Manager.Cli.exe op describe deployment.preview\n```\n\nCLI复用同一注册目录和stdin/文件输入，写入、启动、执行分别显式授权。配置保存、冻结计划、写入与Host核验是不同动作。进程启动ticks经十进制字符串传递，禁止经过JavaScript number舍入；失败或unknown不自动重试。\n\n[契约JSON](../contracts/manager-journey.json) · [只读OpenAPI](../contracts/manager-journey.openapi.json) · [TS客户端](../contracts/manager-journey-client.ts) · [可执行JS客户端](../contracts/manager-journey-client.mjs)。OpenAPI只描述实际只读HTTP目录；业务调用由CLI执行，不据此宣称存在HTTP写入路由。\n\n'+input.outputBoundary+'\n\n## 验收与接手\n\n安装与EVARS/部署移交使用可审查计划、备份和恢复回执；真实安装、旧所有权移交和厂商文件修改按具体预览取得批准。临时目录测试、WPF合成截图、历史E3D2.1/DESIGN报告、当前实机及人工视觉认可分别记录。\n\n[本轮验证与排除项](../validation/install-to-operation-2026-11-01.json) · [本轮实施契约](~/openspec/changes/integrate-pmltwin-product-platform/features/install-to-operation-journey.md) · [准备界面与共享设计](../design/install-to-operation/README.md) · [开发与维护](documentation.md)。\n';
+text+='\n## CLI、OpenAPI和TypeScript\n\n```powershell\nYuzuha.Manager.Cli.exe op invoke manager.contracts --input-stdin\n# stdin: {}\nYuzuha.Manager.Cli.exe op describe deployment.preview\n```\n\nCLI复用同一注册目录和stdin/文件输入，写入、启动、执行分别显式授权。配置保存、冻结计划、写入与Host核验是不同动作。进程启动ticks经十进制字符串传递，禁止经过JavaScript number舍入；失败或unknown不自动重试。\n\n[契约JSON](../contracts/manager-journey.json) · [只读OpenAPI](../contracts/manager-journey.openapi.json) · [TS客户端](../contracts/manager-journey-client.ts) · [可执行JS客户端](../contracts/manager-journey-client.mjs)。OpenAPI只描述实际只读HTTP目录；业务调用由CLI执行，不据此宣称存在HTTP写入路由。\n\n'+input.outputBoundary+'\n\n## 验收与接手\n\n安装与EVARS/部署移交使用可审查计划、备份和恢复回执；真实安装、旧所有权移交和厂商文件修改按具体预览取得批准。临时目录测试、WPF合成截图、历史E3D2.1/DESIGN报告、当前实机及人工视觉认可分别记录。\n\n[首轮验证与排除项](../validation/install-to-operation-2026-11-01.json) · [视觉与Skill追加验证](../validation/visual-priority-skill-adoption-2026-11-02.json) · [本轮实施契约](~/openspec/changes/integrate-pmltwin-product-platform/features/install-to-operation-journey.md) · [准备界面与共享设计](../design/install-to-operation/README.md) · [开发与维护](documentation.md)。\n';
 const output=path.join(root,'docs/reference/install-to-operation.zh-CN.md');
 if(process.argv.includes('--check')){if(fs.readFileSync(output,'utf8')!==text)throw Error('Journey documentation drift; regenerate from current Manager catalog');}
 else fs.writeFileSync(output,text);

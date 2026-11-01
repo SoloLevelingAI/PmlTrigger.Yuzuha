@@ -44,8 +44,8 @@ test('fourteen reviewed Script contracts have exactly seven fields and public ru
 
 test('launch and session evidence reaches report identities without upgrading historical failures, scope or dates', () => {
   const required = new Map([
-    ['feature:launch', ['verification:launch-offline', 'verification:launch-entry-runtime', 'verification:launch-cli-runtime', 'verification:sessions-dashboard-runtime', 'verification:install-journey-offline', 'verification:install-journey-ui']],
-    ['feature:deployment', ['verification:install-journey-offline', 'verification:install-journey-ui']],
+    ['feature:launch', ['verification:launch-offline', 'verification:launch-entry-runtime', 'verification:launch-cli-runtime', 'verification:sessions-dashboard-runtime', 'verification:install-journey-offline', 'verification:install-journey-ui', 'verification:visual-priority-ui']],
+    ['feature:deployment', ['verification:install-journey-offline', 'verification:install-journey-ui', 'verification:visual-priority-ui', 'verification:skill-adoption-offline']],
     ['feature:sessions', ['verification:sessions-initial-host', 'verification:sessions-bootstrap-runtime', 'verification:sessions-host-v1-runtime', 'verification:sessions-dashboard-offline', 'verification:sessions-dashboard-runtime']]
   ]);
   const model = ContractAtlasRender.build(publicData);
@@ -83,6 +83,9 @@ test('launch and session evidence reaches report identities without upgrading hi
   const journeyReport = JSON.parse(fs.readFileSync(path.join(repositoryRoot, 'docs/validation/install-to-operation-2026-11-01.json'), 'utf8'));
   assert.equal(journeyReport.checks.development.xunitSkipped, 2);
   assert.match(journeyReport.scope, /未执行产品安装/);
+  assert.equal(proof('verification:visual-priority-ui').observedAt, '2026-11-02');
+  assert.equal(proof('verification:skill-adoption-offline').scope, 'offline');
+  assert.match(proof('verification:skill-adoption-offline').exclusions.join(' '), /当前Codex Skill.*未修改/);
 });
 
 test('reviewed verification ownership and evidence cannot silently disappear from the feature projection', () => {

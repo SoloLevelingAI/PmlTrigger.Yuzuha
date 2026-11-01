@@ -3,7 +3,8 @@
   "scope": "Real editable FigCraft reference with six ION modes; not native WPF or live AVEVA acceptance",
   "journeyHash": "524791789bf9a0a257b179fcf84994dbccfc02c0d1612b1ec9834d4431e85fa6",
   "themeHash": "10d4c99d74b8dc28076018bbbf876ea0f617fe182dd6d5d6611f9408baf59753",
-  "nativeHash": "87e6ffaa71520adc5930f6c95a3ba21ffba104fff12a3bca54b772bd3e9d14ef",
+  "generatorHash": "3e1e4d86f9f9f3136a239e879c56ae7292e9f62d7d6e490dce5cdbabad1e5977",
+  "nativeHash": "db181191dd5ed5da2738d70a76dc8dd107a015bd236fcd2fd706582a72eeb9fb",
   "boards": [
     {
       "id": 2,
@@ -11,27 +12,27 @@
       "palette": "lime"
     },
     {
-      "id": 49,
+      "id": 82,
       "name": "Journey-cyan",
       "palette": "cyan"
     },
     {
-      "id": 56,
+      "id": 90,
       "name": "Journey-violet",
       "palette": "violet"
     },
     {
-      "id": 63,
+      "id": 98,
       "name": "Journey-orange",
       "palette": "orange"
     },
     {
-      "id": 70,
+      "id": 106,
       "name": "Journey-rose",
       "palette": "rose"
     },
     {
-      "id": 77,
+      "id": 114,
       "name": "Journey-graphite",
       "palette": "graphite"
     }
@@ -39,5 +40,10 @@
   "components": 8,
   "instances": 40,
   "variables": 22,
-  "editableTexts": 222
+  "editableTexts": 318,
+  "visualHierarchy": {
+    "primary": "Functional titles and contract input/method; full readable ink.",
+    "supporting": "Ordinal badges and complete script identities; muted ink on soft surface, never faded.",
+    "ambient": "Repeated stage numerals only; decorative and never the sole information carrier."
+  }
 }

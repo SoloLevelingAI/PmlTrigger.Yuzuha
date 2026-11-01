@@ -381,5 +381,8 @@
     "status": "See current PR head checks",
     "url": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/pull/13",
     "boundary": "This source report captures local validation and its dirty baseline. CI is recorded against immutable pushed commits; it is not inferred from local PASS."
-  }
+  },
+  "validatedImplementationCommit": "e01ea16444956a4dcd78c1d1478d7ee212f5c92a",
+  "visualFollowup": "docs/validation/visual-priority-skill-adoption-2026-11-02.json",
+  "annotation": "This is the first implementation capture and its exact review-build identities; later visual/Skill/source-navigation checks are separate and do not rewrite its outcomes."
 }

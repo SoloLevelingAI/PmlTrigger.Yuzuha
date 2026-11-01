@@ -31,6 +31,12 @@ root as two levels above this skill directory; it contains `setup`, `skill`,
    This CLI-only distribution rejects any nonempty mcpJson request and does not
    modify existing MCP entries. Never re-enable a disabled MCP as an installation
    side effect. Include selected AVEVA and Skill changes in the same preview.
+   Existing unowned Skill targets remain refused by default. When the user has
+   explicitly chosen to update this existing Skill, `adoptSkill: true` may be
+   included in a new preview with its exact target; never enable it merely to
+   obtain a successful exit. It freezes all directory members/hashes, retains
+   first original bytes for packaged targets, and leaves extras unowned. Review
+   adoption and complete local before/after content before execution approval.
 4. Create a new request using `request.example.json` as a schema example,
    not as real paths. New installations default to explicit `integrationMode:
    "manager"` and empty environments; invoke `plan` to install the application
@@ -47,6 +53,11 @@ root as two levels above this skill directory; it contains `setup`, `skill`,
    Never silently drop a product or change to `integrationMode: "none"` merely
    to get a successful exit. None mode requires the user's files/client-only
    intent. An empty default AVEVA request is rejected by the program.
+   Every plan requires frozen prior-marker hash/state; adoption additionally
+   requires a complete directory inventory. Do not repair missing context by
+   editing JSON; regenerate it. Missing or corrupt original-byte
+   ownership records stop planning/restoration. Keep raw previews and original
+   bytes local; do not upload them in reports or commit them to the repository.
 5. Execute the same EXE with the approved `/PLAN`, `/PLANHASH`, and matching
    `/DIR`. Use the documented silent flags only after approval. UAC cannot be
    bypassed: an unelevated agent must request elevation through its supported

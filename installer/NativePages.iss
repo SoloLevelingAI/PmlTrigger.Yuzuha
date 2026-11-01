@@ -11,6 +11,7 @@ var
   Paths, Profiles, Encodings, Evidence, NoInit, Multiple: TStringList;
   CurrentProduct: Integer;
   LoadingProduct, Discovered: Boolean;
+  SkillAdoptionCheck: TNewCheckBox;
 
 function JsonString(Value: String): String;
 var I: Integer; C: String;
@@ -157,10 +158,14 @@ begin
     T('AI 直接调用 runtime/cli/PmlTwin.Phayton.Cli.exe。本版本不注册 MCP 服务。技能目标填写完整的 yuzuha-toolkit 目录，留空则不复制。','AI invokes runtime/cli/PmlTwin.Phayton.Cli.exe directly. This version does not register MCP servers. Enter the full yuzuha-toolkit directory, or leave blank to skip Skill copying.'));
   AIPage.Add(T('技能安装目标（完整目录）','Skill target (full directory)'),False);
   NativeButton(AIPage,0,160,210,T('选择 skills 父目录…','Choose skills parent…'),@BrowseSkill);
+  SkillAdoptionCheck := TNewCheckBox.Create(AIPage); SkillAdoptionCheck.Parent := AIPage.Surface;
+  SkillAdoptionCheck.SetBounds(0,ScaleY(200),AIPage.SurfaceWidth,ScaleY(30));
+  SkillAdoptionCheck.Caption := T('明确接管这个既有 Skill（保留首次原文与额外文件，先预览）','Explicitly adopt this existing Skill (retain originals and extra files; preview first)');
+  SkillAdoptionCheck.Checked := False;
 end;
 
 function NativeRequest: String;
-var I: Integer; Environments, Path, Mode: String; InitAbsent: Boolean;
+var I: Integer; Environments, Path, Mode, Adopt: String; InitAbsent: Boolean;
 begin
   Result := ''; Environments := '';
   Mode := 'manager'; if ModePage.SelectedValueIndex = 1 then Mode := 'aveva';
@@ -185,8 +190,15 @@ begin
   if (Mode = 'aveva') and (Environments = '') then begin
     MsgBox(T('尚未选择 AVEVA 环境。请返回选择，或明确改为仅安装文件。','No AVEVA environment selected. Go back to select one or explicitly choose files-only mode.'),mbError,MB_OK); Exit;
   end;
+  Adopt := 'false';
+  if SkillAdoptionCheck.Checked then begin
+    if Trim(AIPage.Values[0]) = '' then begin
+      MsgBox(T('接管必须指定现有 Skill 的完整目标目录。','Adoption requires the explicit existing Skill directory.'),mbError,MB_OK); Exit;
+    end;
+    Adopt := 'true';
+  end;
   Result := '{"integrationMode":'+JsonString(Mode)+',"root":'+JsonString(ExpandConstant('{app}'))+',"mcpJson":""'+
-    ',"skillTarget":'+JsonString(Trim(AIPage.Values[0]))+',"environments":['+Environments+']}';
+    ',"skillTarget":'+JsonString(Trim(AIPage.Values[0]))+',"adoptSkill":'+Adopt+',"environments":['+Environments+']}';
 end;
 
 function ShouldSkipPage(PageID: Integer): Boolean;

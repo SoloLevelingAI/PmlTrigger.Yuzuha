@@ -27,6 +27,13 @@ Inno新交互默认将环境准备交给管理器；安装应用不自动写EVAR
 - [installer/NativePages.iss](~/artifacts/docfx/navigation/scripts/sources/5e7478040d7f9a06.md)：原生安装页面默认选择manager接手模式；旧显式aveva/none计划保持其声明范围。
 - [installer/build.py](~/artifacts/docfx/navigation/scripts/sources/63a876a5dec01c36.md)：要求新Manager与Desktop入口，生成逐文件载荷清单；文档、通信CLI、四Host与管理CLI分别交付。
 
+可选CLI Skill已有手工安装时，默认仍拒绝直接覆盖。只有明确选择adoptSkill并批准同一计划后，才接管完整冻结范围；文件/目录成员及SHA、当前安装标记和首次原文均复验，额外本地文件保留。安装应用和Skill更新不等于接入AVEVA。
+
+- [installer/SetupBridge/PlanEngine.cs](~/artifacts/docfx/navigation/scripts/sources/1912c15edd2fbf0c.md)：同一安装事务绑定包清单、全局marker/priorState、批准哈希、备份与恢复，不从缺失原文推断允许删除。
+- [installer/SetupBridge/SkillAdoption.cs](~/artifacts/docfx/navigation/scripts/sources/c201b9d80c2cc158.md)：冻结明确Skill目标的完整有界快照，复验链接/成员/内容变化；审阅文字与实际字节一致，正常升级及显式接管共用原文恢复规则。
+
+[显式接管正反例的完整测试源码](~/installer/tests/SkillAdoptionTests.cs)。复刻离线安装契约：`./scripts/run-documented-test.ps1 -TestId smoke:installer-contracts`；使用真实临时文件和ReparsePoint夹具，不执行产品安装器或修改当前Skill。
+
 <a id="install"></a>
 
 ## 1. 安装交接
@@ -260,4 +267,4 @@ OperationResult.data remains unknown JSON; no dedicated output schema is promise
 
 安装与EVARS/部署移交使用可审查计划、备份和恢复回执；真实安装、旧所有权移交和厂商文件修改按具体预览取得批准。临时目录测试、WPF合成截图、历史E3D2.1/DESIGN报告、当前实机及人工视觉认可分别记录。
 
-[本轮验证与排除项](../validation/install-to-operation-2026-11-01.json) · [本轮实施契约](~/openspec/changes/integrate-pmltwin-product-platform/features/install-to-operation-journey.md) · [准备界面与共享设计](../design/install-to-operation/README.md) · [开发与维护](documentation.md)。
+[首轮验证与排除项](../validation/install-to-operation-2026-11-01.json) · [视觉与Skill追加验证](../validation/visual-priority-skill-adoption-2026-11-02.json) · [本轮实施契约](~/openspec/changes/integrate-pmltwin-product-platform/features/install-to-operation-journey.md) · [准备界面与共享设计](../design/install-to-operation/README.md) · [开发与维护](documentation.md)。

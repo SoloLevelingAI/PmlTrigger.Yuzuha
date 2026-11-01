@@ -312,6 +312,33 @@
         <Setter Property="Foreground" Value="{DynamicResource Text.Tertiary}" />
         <Setter Property="TextWrapping" Value="Wrap" />
       </Style>
+      <!-- Supporting information remains readable; size and neutral surfaces separate it from primary actions. -->
+      <Style x:Key="Metadata" TargetType="TextBlock" BasedOn="{StaticResource Caption}">
+        <Setter Property="FontSize" Value="11" />
+        <Setter Property="FontWeight" Value="Normal" />
+      </Style>
+      <Style x:Key="MetadataValue" TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+        <Setter Property="IsReadOnly" Value="True" />
+        <Setter Property="FontSize" Value="11" />
+        <Setter Property="FontFamily" Value="Consolas" />
+        <Setter Property="Foreground" Value="{DynamicResource Text.Tertiary}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+      </Style>
+      <Style x:Key="MetadataBadge" TargetType="Border">
+        <Setter Property="Background" Value="{DynamicResource Surface.Subtle}" />
+        <Setter Property="CornerRadius" Value="5" />
+        <Setter Property="Padding" Value="8,5" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+      </Style>
+      <Style x:Key="MetricValue" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="{DynamicResource Text.Secondary}" />
+      </Style>
       <Style x:Key="Pill" TargetType="Border">
         <Setter Property="Background" Value="{DynamicResource Surface.TintBrand}" />
         <Setter Property="CornerRadius" Value="7" />

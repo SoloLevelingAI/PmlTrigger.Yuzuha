@@ -41,6 +41,7 @@ public partial class PreparationWorkbenchView
         await Run(() => work.PreviewAsync());if (!work.CanApply || work.ApplyOperation != "deployment.apply") throw new InvalidOperationException("原生预览没有冻结实际Manager操作引用。");
         var before = CaptureState();work.Reader = "scripts";work.SelectStage("ownership");Render();work.Reader = "summary";work.SelectStage("preview");Render();
         if (CaptureState() != before) throw new InvalidOperationException("阅读导航改变了草稿或冻结身份。");
+        await AssertSmokeMetadataAsync();
     }
     /// <summary>仅改变合成截图的阅读位置，不重新发送操作。</summary>
     internal void SelectSmokeStage(string stage, string reader = "summary") { work.SelectStage(stage);work.Reader = reader;Render(); }
@@ -48,6 +49,7 @@ public partial class PreparationWorkbenchView
     internal async Task ApplyUnknownSmokeAsync()
     {
         await Run(() => work.ApplyAsync(true));if (!work.Unresolved || work.Receipt is null || work.CanApply) throw new InvalidOperationException("未知写入的恢复引用或执行门禁未保留。");SelectSmokeStage("recover");
+        if (RecoveryIdentityExpander.IsExpanded || !RecoveryIdentity.Text.Contains(work.Receipt.PlanId, StringComparison.Ordinal) || !RecoveryIdentity.Text.Contains(work.Receipt.Sha256, StringComparison.Ordinal) || RecoverySummary.Text.Contains(work.Receipt.PlanId, StringComparison.Ordinal)) throw new InvalidOperationException("恢复身份未保留在辅助区，或技术编号抢占了业务摘要。");
     }
     /// <summary>只按同一合成回执明确恢复，验证未知提示随真实模型结果解除。</summary>
     internal async Task RestoreUnknownSmokeAsync()
@@ -61,6 +63,20 @@ public partial class PreparationWorkbenchView
         if (Math.Abs(SummaryScroll.VerticalOffset - SummaryScroll.ScrollableHeight) > 1) throw new InvalidOperationException("小视口无法滚到摘要底部。");
         SummaryScroll.ScrollToTop();await Dispatcher.InvokeAsync(() => { }, DispatcherPriority.ApplicationIdle);UpdateLayout();
         if (SummaryScroll.VerticalOffset > 1) throw new InvalidOperationException("摘要无法回到实际输入。");
+    }
+    /// <summary>验证辅助身份可完整选择，证据仍保留真实数值，展开与选字不会改变执行身份。</summary>
+    internal async Task AssertSmokeMetadataAsync()
+    {
+        var before = CaptureState();var plan = work.Plan ?? throw new InvalidOperationException("缺少计划夹具。");
+        PlanIdentityExpander.IsExpanded = true;await Dispatcher.InvokeAsync(() => { }, DispatcherPriority.ApplicationIdle);PlanIdentity.SelectAll();
+        if (PlanIdentity.SelectedText != PlanIdentity.Text || !PlanIdentity.Text.Contains(plan.PlanId, StringComparison.Ordinal) || !PlanIdentity.Text.Contains(plan.Sha256, StringComparison.Ordinal)) throw new InvalidOperationException("计划完整身份不可选择或已被截断。");
+        PlanIdentity.Select(0, 0);PlanIdentityExpander.IsExpanded = false;
+        SelectSmokeStage("preview", "scripts");var identities = ScriptFields.Children.OfType<Border>().Select(b => b.Child).OfType<TextBox>().ToArray();
+        if (identities.Length != stages.First(s => s.Id == "preview").Scripts.Length || identities.Any(t => !t.IsReadOnly || t.FontSize >= StageTitle.FontSize)) throw new InvalidOperationException("脚本身份没有保留为可复制辅助信息。");
+        foreach (var identity in identities) { identity.SelectAll();if (identity.SelectedText != identity.Text) throw new InvalidOperationException("脚本完整类型/成员/路径不能选择。");identity.Select(0, 0); }
+        SelectSmokeStage("preview", "evidence");
+        if (EvidenceOperation.Text != "deployment.preview · runtime.plan" || !EvidenceResult.Text.Contains("文件数：4", StringComparison.Ordinal) || EvidenceResult.Text.Contains("runtime.plan", StringComparison.Ordinal)) throw new InvalidOperationException("证据业务统计或原始操作身份丢失，或层级混合。");
+        SelectSmokeStage("preview");if (CaptureState() != before) throw new InvalidOperationException("辅助信息阅读改变了业务执行身份。");
     }
     /// <summary>核对主要输入、动作和就近结果位于显式客户区内，细节可在独立阅读区滚动。</summary>
     internal void AssertSmokeGeometry(FrameworkElement surface, double height)

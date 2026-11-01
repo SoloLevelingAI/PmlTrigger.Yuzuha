@@ -6397,14 +6397,14 @@ globalThis.CONTRACT_ATLAS_DATA = {
     {
       "id": "source:openspec-design",
       "title": "平台候选design",
-      "sha256": "3154c0178318130e684dfc5a2f78ff3b4b6e643ba722790eedec96bbfdfedec2",
+      "sha256": "aca76dabc60019f9fdd17ccef9f413f2c48eadffb355a07aa92a4b22417dab9b",
       "authority": "proposal",
       "audience": "public"
     },
     {
       "id": "source:openspec-tasks",
       "title": "平台候选tasks",
-      "sha256": "9399cdcb9bebacc27f62794d9f890130bd710c5a0c164bd147d3108a29814b6c",
+      "sha256": "9f94abd3c3efb278713ca1574c381873082b8f730680ad1b7ca21f9109998c4b",
       "authority": "proposal",
       "audience": "public"
     },

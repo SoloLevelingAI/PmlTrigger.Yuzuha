@@ -29,7 +29,7 @@
       "skipped": 0,
       "readerGroups": 9,
       "publicLayouts": 37,
-      "passed": 65,
+      "passed": 69,
       "realMethodReading": {
         "methods": 393,
         "edges": 1485,
@@ -37,7 +37,8 @@
         "themeCaptures": 12,
         "scope": "Actual static Roslyn/DocFX and isolated publication; not runtime AVEVA",
         "breadcrumbChecks": 8
-      }
+      },
+      "atomicGuardTests": 4
     },
     "wpf": {
       "passed": true,
@@ -79,7 +80,7 @@
     "humanVisualReview": "not reviewed"
   },
   "cloud": {
-    "status": "passed",
+    "status": "verified baseline; later atomic-lock fix head tracked in PR13",
     "verifiedCommit": "8f2b0cba03c5811691f63ad3a4a4aec29d590fbd",
     "workflows": [
       {
@@ -148,5 +149,17 @@
       "sha256": "8b2080887b14afdb30987a553abdb90d49283f3a3f4d4456eff973a03f2d4fb8"
     }
   ],
-  "finishedLocalUtc": "2026-11-01T13:31:13.7752541Z"
+  "finishedLocalUtc": "2026-11-01T13:31:13.7752541Z",
+  "atomicLockFollowUp": {
+    "discoveredCommit": "4e6abfb3aa0b4c4c98cccb5fdb2019498ed626d3",
+    "run": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/actions/runs/41312920480",
+    "error": "EPERM replacing presentation.json",
+    "maxAttempts": 6,
+    "totalBackoffMs": 775,
+    "scope": "Same-temp rename only; CAS/publication guards before each attempt; no target unlink or business replay",
+    "pipelineTestsPassed": 15,
+    "allContractTestsPassed": 69,
+    "browserEntryPointsPassed": 3,
+    "cloudAtHandoff": "Pending subsequent push; see current PR head checks"
+  }
 }

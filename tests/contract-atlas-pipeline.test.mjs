@@ -31,6 +31,67 @@ test('shared publication, unchanged-input deduplication, authoring CAS and durab
     const current=await c.readManifest();assert.notEqual(current.revisionId,first.revisionId);
   }finally{await c.close();}
 });
+
+test('transient atomic replacement locks retry one admitted save with the same temp file',async()=>{
+  const f=await fixture(),temps=new Set(),receiptPhases=[];let attempts=0;
+  const c=await new ContractGeneration({...f,edit:true,pollMs:60000,debounceMs:10,nativeBuilder:mockBuilder({}),renameFile:async(from,to)=>{
+    if(to===f.source){temps.add(from);attempts++;if(attempts<=3){assert.notEqual((await f.read()).project.summary,'saved after transient locks');throw Object.assign(Error('synthetic sharing violation'),{code:['EPERM','EACCES','EBUSY'][attempts-1]});}}
+    if(to.includes(path.sep+'receipts'+path.sep))receiptPhases.push(JSON.parse(await fs.readFile(from,'utf8')).phase);
+    return fs.rename(from,to);
+  }}).start();
+  try{
+    await waitFor(c,s=>s.generation.phase==='ready');const author=await c.authoring();
+    const request={requestId:crypto.randomUUID(),expectedSourceRevision:author.sourceRevision,changes:[{entityType:'project',entityId:'project:pmltwin',field:'summary',value:'saved after transient locks'}]};
+    const result=await c.save(request);assert.equal(result.state,'accepted');assert.equal(attempts,4);assert.equal(temps.size,1);assert.deepEqual(receiptPhases,['accepted','saved']);
+    assert.equal((await f.read()).project.summary,'saved after transient locks');assert.deepEqual(await c.save(request),result);assert.equal(attempts,4);
+    assert(!(await fs.readdir(path.dirname(f.source))).some(name=>name.endsWith('.tmp')));
+  }finally{await c.close();}
+});
+
+test('atomic replacement exhaustion keeps source and lastgood intact and never replays admission',async()=>{
+  const f=await fixture();let attempts=0;
+  const c=await new ContractGeneration({...f,edit:true,pollMs:60000,debounceMs:10,nativeBuilder:mockBuilder({}),renameFile:async(from,to)=>{
+    if(to===f.source){attempts++;throw Object.assign(Error('persistent synthetic lock'),{code:'EPERM'});}return fs.rename(from,to);
+  }}).start();
+  try{
+    const first=(await waitFor(c,s=>s.generation.phase==='ready')).current,original=await fs.readFile(f.source),pointer=await fs.readFile(path.join(c.outputRoot,'current.json')),author=await c.authoring();
+    const request={requestId:crypto.randomUUID(),expectedSourceRevision:author.sourceRevision,changes:[{entityType:'project',entityId:'project:pmltwin',field:'summary',value:'must not replace original'}]};
+    await assert.rejects(c.save(request),e=>e.code==='EPERM');assert.equal(attempts,6);assert.deepEqual(await fs.readFile(f.source),original);
+    assert.deepEqual(c.current,first);assert.deepEqual(await fs.readFile(path.join(c.outputRoot,'current.json')),pointer);await c.readManifest();
+    const receipt=JSON.parse(await fs.readFile(path.join(c.outputRoot,'receipts',request.requestId+'.json'),'utf8'));assert.equal(receipt.phase,'accepted');
+    await assert.rejects(c.save(request),e=>e.code==='SAVE_UNKNOWN');assert.equal(attempts,6);assert(!(await fs.readdir(path.dirname(f.source))).some(name=>name.endsWith('.tmp')));
+    let permanentCalls=0;c.renameFile=async()=>{permanentCalls++;throw Object.assign(Error('non-transient IO failure'),{code:'EIO'});};
+    await assert.rejects(c.atomic(f.source,'must not write'),e=>e.code==='EIO');assert.equal(permanentCalls,1);assert.deepEqual(await fs.readFile(f.source),original);
+  }finally{await c.close();}
+});
+
+test('atomic save rechecks source CAS after a lock instead of overwriting an intervening edit',async()=>{
+  const f=await fixture();let attempts=0;const external=await f.read();external.project.summary='external edit during rename wait';
+  const c=await new ContractGeneration({...f,edit:true,pollMs:60000,debounceMs:10,nativeBuilder:mockBuilder({}),renameFile:async(from,to)=>{
+    if(to===f.source){attempts++;await f.write(external);throw Object.assign(Error('synthetic lock after external edit'),{code:'EBUSY'});}return fs.rename(from,to);
+  }}).start();
+  try{
+    await waitFor(c,s=>s.generation.phase==='ready');const author=await c.authoring();
+    const request={requestId:crypto.randomUUID(),expectedSourceRevision:author.sourceRevision,changes:[{entityType:'project',entityId:'project:pmltwin',field:'summary',value:'must not overwrite intervening edit'}]};
+    await assert.rejects(c.save(request),e=>e.code==='SOURCE_CONFLICT');assert.equal(attempts,1);assert.equal((await f.read()).project.summary,external.project.summary);
+    await assert.rejects(c.save(request),e=>e.code==='SAVE_UNKNOWN');assert(!(await fs.readdir(path.dirname(f.source))).some(name=>name.endsWith('.tmp')));
+  }finally{await c.close();}
+});
+
+test('atomic publication rechecks inputs after a lock and never exposes a superseded revision',async()=>{
+  const f=await fixture(),control={},published=[];let locked=false;
+  const c=await new ContractGeneration({...f,pollMs:60000,debounceMs:10,nativeBuilder:mockBuilder(control),renameFile:async(from,to)=>{
+    if(path.basename(to)==='current.json'&&control.calls===2&&!locked){locked=true;const source=await f.read();source.project.summary='latest input during pointer wait';await f.write(source);throw Object.assign(Error('synthetic pointer lock'),{code:'EPERM'});}return fs.rename(from,to);
+  }}).start();
+  try{
+    const first=(await waitFor(c,s=>s.generation.phase==='ready')).current;
+    c.on('state',s=>{if(s.generation.phase==='ready')published.push(s.current.revisionId);});
+    const source=await f.read();source.project.summary='obsolete before pointer retry';await f.write(source);await c.requestBuild();
+    await waitFor(c,s=>s.generation.phase==='ready'&&s.current.revisionId!==first.revisionId&&control.calls===3);
+    assert(locked);assert.deepEqual([...new Set(published)],[c.current.revisionId]);
+    const metadata=JSON.parse(await fs.readFile(path.join(c.outputRoot,'revisions',c.current.revisionId,'metadata.json'),'utf8'));assert.equal(metadata.project.summary,'latest input during pointer wait');
+  }finally{await c.close();}
+});
 test('invalid source and native failure retain lastgood, corrected metadata publishes automatically',async()=>{
   const f=await fixture(),control={},c=await new ContractGeneration({...f,pollMs:40,debounceMs:15,nativeBuilder:mockBuilder(control)}).start();
   try{
@@ -107,7 +168,7 @@ test('shutdown retains the writer lease until an accepted save settles and rejec
   try {
     await waitFor(c,s=>s.generation.phase==='ready');const author=await c.authoring(),atomic=c.atomic.bind(c);let entered,release;
     const enteredGate=new Promise(resolve=>{entered=resolve;}),writeGate=new Promise(resolve=>{release=resolve;});
-    c.atomic=async(file,content)=>{if(file===f.source){entered();await writeGate;}return atomic(file,content);};
+    c.atomic=async(file,content,...guards)=>{if(file===f.source){entered();await writeGate;}return atomic(file,content,...guards);};
     const request={requestId:crypto.randomUUID(),expectedSourceRevision:author.sourceRevision,changes:[{entityType:'project',entityId:'project:pmltwin',field:'summary',value:'accepted before shutdown'}]};
     const saving=c.save(request);await enteredGate;const closing=c.close();
     await assert.rejects(c.save({...request,requestId:crypto.randomUUID()}),e=>e.code==='COORDINATOR_CLOSED');

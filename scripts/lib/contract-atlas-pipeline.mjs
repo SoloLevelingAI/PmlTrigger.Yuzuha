@@ -51,6 +51,7 @@ export class ContractGeneration extends EventEmitter {
     super(); this.root = path.resolve(options.root || repositoryRoot); this.assetRoot = path.resolve(options.assetRoot || repositoryRoot);
     this.outputRoot = path.resolve(options.outputRoot || path.join(repositoryRoot,'artifacts/contract-atlas-live'));
     this.nativeBuilder = options.nativeBuilder || buildDesign; this.figcraftCli = options.figcraftCli;
+    this.renameFile = options.renameFile || fs.rename;
     this.editEnabled = options.edit === true; this.pollMs = options.pollMs ?? 750; this.debounceMs = options.debounceMs ?? 200;
     this.token = crypto.randomBytes(32).toString('hex'); this.instanceId = crypto.randomUUID(); this.sequence = 0; this.current = null;
     this.generation = { phase:'idle' }; this.sourceRevision = null; this.closed = false; this.saveResults = new Map(); this.saveTail = Promise.resolve();
@@ -161,7 +162,7 @@ export class ContractGeneration extends EventEmitter {
       await this.readManifest(next);
       // Full artifact validation can take time. Both fresh and cached revisions need these final guards.
       await this.checkInputs(input);
-      await this.atomic(path.join(this.outputRoot,'current.json'),pretty(next)); this.current=next;
+      await this.atomic(path.join(this.outputRoot,'current.json'),pretty(next),()=>this.checkInputs(input)); this.current=next;
       this.generation={phase:'ready',message:'Web and FigCraft share the published revision'}; this.changed();
     } catch (e) {
       const superseded=e.code==='SUPERSEDED'; this.generation={phase:superseded?'superseded':e.code==='RENDERER_CHANGED'?'restart-required':'failed',code:e.code||'GENERATION_FAILED',message:String(e.message).slice(0,1000)};
@@ -174,10 +175,23 @@ export class ContractGeneration extends EventEmitter {
     if (!equal(input.hashes,(await this.inputHashes(input.files)).hashes)) throw error('SUPERSEDED','Input changed before publication');
     if (!equal(this.initialCodeHashes,await hashes(this.assetRoot,codeFiles))) throw error('RENDERER_CHANGED','Renderer changed before publication');
   }
-  async atomic(file,content) {
+  async atomic(file,content,beforeRename=async()=>{}) {
     const temp=file+'.'+crypto.randomUUID()+'.tmp';
-    const handle=await fs.open(temp,'wx'); try { await handle.writeFile(content); await handle.sync(); } finally { await handle.close(); }
-    await fs.rename(temp,file);
+    try {
+      const handle=await fs.open(temp,'wx'); try { await handle.writeFile(content); await handle.sync(); } finally { await handle.close(); }
+      // Windows scanners/readers may briefly deny replacement. Retry only the
+      // same atomic rename, retaining the target and rechecking CAS/publication
+      // inputs before every attempt; never replay save admission or a build.
+      const delays=[25,50,100,200,400];
+      for(let attempt=0;;attempt++) {
+        await beforeRename();
+        try { await this.renameFile(temp,file); return; }
+        catch(e) {
+          if(!['EPERM','EACCES','EBUSY'].includes(e.code)||attempt===delays.length)throw e;
+          await new Promise(resolve=>setTimeout(resolve,delays[attempt]));
+        }
+      }
+    } finally { await fs.unlink(temp).catch(()=>{}); }
   }
   async readManifest(pointer=this.current) {
     if (!pointer || !/^[a-f0-9]{64}$/.test(pointer.revisionId)) throw error('REVISION_NOT_FOUND','No published revision',404);
@@ -241,7 +255,9 @@ export class ContractGeneration extends EventEmitter {
     try {
       await fs.writeFile(path.join(this.outputRoot,'receipts',input.requestId+'.before.json'),original,{flag:'wx'});
       if(sha256(await bounded(this.root,sourcePath))!==candidate.sourceRevision) throw error('SOURCE_CONFLICT','Source changed before write; no overwrite performed',409);
-      await this.atomic(path.join(this.root,sourcePath),candidate.bytes);
+      await this.atomic(path.join(this.root,sourcePath),candidate.bytes,async()=>{
+        if(sha256(await bounded(this.root,sourcePath))!==candidate.sourceRevision)throw error('SOURCE_CONFLICT','Source changed before write; no overwrite performed',409);
+      });
       if(sha256(await bounded(this.root,sourcePath))!==candidate.candidateSourceRevision) throw error('SAVE_UNKNOWN','Source changed after write; inspect before retrying',409);
       const result={sourceRevision:candidate.candidateSourceRevision,requestId:input.requestId,state:'accepted'};
       await this.atomic(file,pretty({requestId:input.requestId,digest,phase:'saved',result})); this.sourceRevision=result.sourceRevision;

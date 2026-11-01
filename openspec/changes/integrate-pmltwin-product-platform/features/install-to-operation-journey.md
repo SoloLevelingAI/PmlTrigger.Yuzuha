@@ -60,3 +60,5 @@ CLI SHALL以既有stdin/文件及授权机制提供契约读取/操作描述；�
 本轮完整离线575通过、2项可选7zr跳过，专项35和恢复23均计入全仓结果、不重复相加；四profile使用真实签名SDK静态编译，无厂商DLL交付。DocFX4579页/124121本地链接无错误。详见`docs/validation/install-to-operation-2026-11-01.json`及其证据目录；实际包身份见外部交付回执，避免包内自指哈希。本机OpenSpec CLI不可用，沿用既有change手工维护，不记为严格CLI校验通过，不sync/archive。原27项业务未批量勾选，真实安装/移交/环境应用、跨产品实机和用户认可分别保留。
 
 2026-11-02追加层级及Skill接管验证独立记录在`docs/validation/visual-priority-skill-adoption-2026-11-02.json`：源码5d892b8的完整.NET回归577通过/2项可选工具跳过；24项准备模型测试及精确发布程序31/118张隔离截图通过，真实Dispatcher等待可阅读、普通关窗保护及绑定零错误均已核对。DocFX完整源码构建4611页/125595本地链接零警告/错误；其编译语义快照未配置旧Host项目，这两项不记作语义分析通过，四profile签名SDK静态编译另有独立回执。Web六主题16张层级截图与原浏览器流程通过，FigCraft318个可编辑文字，完整信息仍可达。当前Codex Skill选择已保留，实际接管预览、包哈希及后续批准在包外记录，不把静态或隔离验收外推为真实安装及生产环境操作。
+
+最终交付审计见`evidence/install-journey-delivery-2026-11-02.json`，独立于不可变载荷：7021项全SHA、源码文档976项/DocFX4989项逐成员一致，实际包内Manager八阶段/89操作及十项投影、Agent ZIP与三类临时helper预览通过。源码与文档快照4477472三工作流六检查全部成功；后续OpenSpec审计提交单独跟踪PR checks。最终693f94ba…WPF已从候选载荷真实打开并确认响应。真实本机升级预览明确拒绝7个未纳入旧清单的DocFX HTML，共57519字节，均在`runtime/documentation/reference/ui-trace/`；没有已受管文件漂移或其他核验阻断。原件及旧marker/manifest、环境与Skill均未变，计划与planHash未生成。完整冲突清单和原件仅留私密本机目录，先由用户决定保留方式，不能通过删所有权、忽略校验或静默换模式宣称升级可执行。

@@ -1,0 +1,148 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-11-02",
+  "recordedAtUtc": "2026-11-01T18:07:00.079Z",
+  "scope": "Public package and OpenSpec completion audit, outside the immutable payload. Real current-machine requests, originals, conflict file hashes and private paths are excluded.",
+  "status": "implementation-design-docs-package-verified-real-upgrade-preview-blocked",
+  "source": {
+    "componentCodeCommit": "5d892b8a26f113ce466d31128c1485b6381f991e",
+    "documentationSnapshotCommit": "4477472178d4246192747822234a90ed28579e5d",
+    "hostBuildCommit": "9add46ac936dd14ddbe8d06364ecb465cc9b9c76",
+    "hostInputSubsetMatchingCodeCommit": 28,
+    "reusedNativeAndWebappFiles": {
+      "runtime/cli/": 8,
+      "runtime/webapps/": 362
+    },
+    "boundary": "Communication Native AOT CLI and webapps reuse manifest-verified installed files; Manager, Desktop and documentation host are newly published. Host input subset is verified separately. The package embeds frozen documentation snapshot 4477472. This later audit and its regenerated metadata update the checkout, while the package remains immutable at that recorded snapshot."
+  },
+  "package": {
+    "directory": "artifacts\\install-journey-delivery-20261102",
+    "version": "0.3.4.2",
+    "manifestSha256": "730212b563f96ca8285f2dcdbc18fc76380147fc0b8986c2d9a8a1fa441415c1",
+    "filesVerified": 7021,
+    "defaultIntegrationMode": "manager",
+    "payloadPdbCount": 0,
+    "vendorDllCount": 0,
+    "deliverables": [
+      {
+        "file": "Phayton-0.3.4.2-Windows-Setup.exe",
+        "bytes": 202356615,
+        "sha256": "23d266390dc2351be2241a796d82db0115790a9eb9424605bfd1d5aff710fe8d"
+      },
+      {
+        "file": "Phayton-0.3.4.2-Windows-Agent.zip",
+        "bytes": 202599021,
+        "sha256": "647f6cf5c2a077f8f30c9bc527cf0dda3fa0623b22d133be5a5e17bb40123bdb"
+      },
+      {
+        "file": "Phayton-Windows-Setup-Sources.zip",
+        "bytes": 204907,
+        "sha256": "2bace8afb587b2e0156e6c16bdcc7c6fa03df644aa3ad2b21eb5d18c409d038f"
+      }
+    ],
+    "signature": {
+      "status": "NotSigned",
+      "checkOnly": "Read-only signature verification; Setup was not run"
+    }
+  },
+  "verification": {
+    "payloadAllSha256Passed": true,
+    "payloadFiles": 7021,
+    "sourceAndDocFxMembers": [
+      {
+        "name": "sourceDocs",
+        "sourceFiles": 976,
+        "stagedFiles": 976,
+        "passed": true
+      },
+      {
+        "name": "docFxSite",
+        "sourceFiles": 4989,
+        "stagedFiles": 4989,
+        "passed": true
+      }
+    ],
+    "packagedManager": {
+      "success": true,
+      "operation": "manager.contracts",
+      "stages": 8,
+      "operations": 89,
+      "projectionsChecked": 10,
+      "executableSha256": "0c26de635bec4f3f71f6bcc8229834b99efe63be1b024d5ca381c0b39596a5c5"
+    },
+    "agentBundle": "Full inventory/SHA/EXE+guide identity passed; legacy-none, manager and explicit adoption plans generated only in temporary fixtures, with default unowned refusal and unchanged fixture Skill.",
+    "docfx": {
+      "htmlPages": 4611,
+      "checkedLocalLinks": 125595,
+      "warnings": 0,
+      "errors": 0
+    },
+    "native": {
+      "newScreenshots": 31,
+      "legacyScreenshots": 118,
+      "bindingErrors": 0,
+      "dispatcherResponsive": true,
+      "closeRetainedWhileBusy": true
+    }
+  },
+  "visibleWpf": {
+    "opened": true,
+    "openedAtUtc": "2026-11-01T17:47:00.8077563Z",
+    "title": "Phayton · 工程工作空间",
+    "responding": true,
+    "sha256": "693f94badb03962efdc2e0d1d63bd97ce56d714dafc6b0a114e440ac2ea088e5",
+    "installed": false,
+    "humanVisualApproval": "not-received"
+  },
+  "validatedSnapshotCi": {
+    "commit": "4477472178d4246192747822234a90ed28579e5d",
+    "allThreeWorkflows": "success",
+    "allSixChecks": "success",
+    "runs": [
+      "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/actions/runs/41332589044",
+      "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/actions/runs/41332589025",
+      "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/actions/runs/41332589007"
+    ],
+    "boundary": "Exact validated implementation/documentation snapshot; later OpenSpec-only audit has its own PR checks."
+  },
+  "currentMachinePreview": {
+    "status": "blocked",
+    "exitCode": 1,
+    "planGenerated": false,
+    "markdownPlanGenerated": false,
+    "planHash": null,
+    "requestedIntegrationMode": "manager",
+    "requestedEnvironmentTargets": 0,
+    "requestedSkillUpdate": "current Codex",
+    "requestedAdoptSkill": true,
+    "mcpChangesRequested": false,
+    "reason": "Installer refuses untracked local files that differ from the new payload.",
+    "untrackedCollisions": 7,
+    "ownedAfterDrift": 0,
+    "currentConflictBytes": 57519,
+    "conflictDirectory": "runtime/documentation/reference/ui-trace/",
+    "conflictType": "HTML",
+    "productionTargetsUnchanged": true,
+    "existingOwnedEnvironmentCount": 1,
+    "existingOwnershipTransferred": false,
+    "scope": "Refusal is a real machine result, not a successful installation preview or Skill adoption. Complete conflict inventory and preservation decisions remain private to the local machine.",
+    "otherPayloadScanBlockers": 0
+  },
+  "warnings": [
+    "Warning: The [Setup] section directive \"PrivilegesRequired\" is set to \"admin\" but per-user areas (localappdata) are used by the script. Regardless of the version of Windows, if the installation is running in administrative install mode then you should be careful about making any per-user area changes: such changes may not achieve what you are intending. See the \"UsedUserAreasWarning\" topic in help file for more information."
+  ],
+  "notExecuted": [
+    "Product Setup/update/uninstall",
+    "Production Skill adoption/writes",
+    "Production EVARS modification",
+    "Real legacy environment ownership transfer",
+    "Live AVEVA/Host/business acceptance"
+  ],
+  "remaining": [
+    "User decision about preserving the seven untracked local documentation pages before creating a fresh install preview.",
+    "Actual installation and current Codex Skill adoption require a generated concrete plan and approval.",
+    "Legacy environment ownership transfer and production EVARS application/restoration require their own explicit Manager previews.",
+    "Live AVEVA acceptance and user visual approval remain separate.",
+    "Original 27 platform business tasks are not bulk-completed; strict local OpenSpec CLI validation was unavailable."
+  ]
+}

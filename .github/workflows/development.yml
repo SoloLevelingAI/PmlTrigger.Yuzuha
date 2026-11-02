@@ -26,7 +26,10 @@ jobs:
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           node scripts/build-install-journey-docs.mjs --check
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          # These checks verify committed editable FigCraft snapshots and source hashes; CI does not run FigCraft.
           node scripts/build-install-journey-design.mjs --check
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          node scripts/build-compact-preparation-design.mjs --check
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           npm run manager:types:check
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }

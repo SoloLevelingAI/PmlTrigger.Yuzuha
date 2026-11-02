@@ -184,3 +184,14 @@ Web与Desktop SHALL 先给出当前情况、任务入口、当前位置和下一
 #### Scenario: Continue from an available engineering session
 - **WHEN** Desktop检测到可用Host而用户未选择操作目标
 - **THEN** 主入口引导明确选择并核验，成功后提供任务选择，不自动执行查询、授权、部署或PML；结果和恢复入口就近可见。
+
+### Requirement: Compact preparation workspace
+准备页 SHALL 先以真实FigCraft重排，再实现紧凑WPF工作屏；在1280×720与1440×900逻辑尺寸首屏呈现当前任务输入、冻结计划或结果及常驻主操作。MUST 保留全局功能导航，避免重复工程侧栏、竖向阶段栏和重复大标题挤压任务区域；完整七字段、脚本、证据、回执和原始身份必须可通过详情入口到达。
+
+#### Scenario: Compare inputs and planned changes without full-page scrolling
+- **WHEN** 用户进入部署预览阶段并查看reference或copy模式
+- **THEN** 输入和冻结计划/结果同屏，目标与profile明确、主CTA和状态常驻；长原文在有界详情面中滚动，打开关闭详情保留阶段、输入和焦点，不能靠裁剪结果或缩小正文满足首屏。
+
+#### Scenario: Reject a visually long but functional preparation page
+- **WHEN** 用户对真实已安装页面明确反馈过长并要求FigCraft调整
+- **THEN** 视觉状态保留为未认可，新增可编辑FigCraft工作屏与真实WPF视口证据；不能引用旧代理目检或窗口已打开冒称用户接受，Manager动作和写入授权保持原边界。

@@ -1,7 +1,7 @@
 {
   "schema": "phayton.documentation-split-evidence/1",
   "recordedUtc": "2026-11-02T13:39:07.921128+00:00",
-  "status": "ACTUAL_UPGRADE_VERIFIED_PENDING_ENVIRONMENT_ACCEPTANCE",
+  "status": "ACTUAL_UPGRADE_VERIFIED_COMPACT_UI_AND_VISUAL_PENDING",
   "componentSourceCommit": "04a3c9473cb0d7d5e38b98fca9042914d4663f48",
   "auditCommitBoundary": "This later evidence/task update does not rebuild or relabel the immutable component publications.",
   "userGuide": {
@@ -165,7 +165,7 @@
     }
   ],
   "pending": {
-    "27.10": "Specific legacy transfer preview prepared but not executed; deployment preview/approval/apply, selected AVEVA verification and user visual acceptance remain open."
+    "27.10": "Legacy transfer, approved ENV deployment and live Host verification are complete; project target confirmed by the user. Compact WPF publication/installation and user visual acceptance remain open."
   },
   "privacy": {
     "rawPlanAndOriginalsInRepository": false,
@@ -288,7 +288,24 @@
     "environmentCount": 0,
     "actualClientSkillReloadVerified": false
   },
-  "legacyTransferPreview": {
+  "installedDesktop": {
+    "schema": "phayton.installed-desktop-opened/1",
+    "sourceCommit": "04a3c9473cb0d7d5e38b98fca9042914d4663f48",
+    "installedEntrySha256": "7beb4783ea1f54f79c58e7c12d7f7658b226c323e2553af25be5619c2e29c23c",
+    "openedUtc": "2026-11-02T13:56:07.8721794+00:00",
+    "processId": 241512,
+    "mainWindowHandle": 920868,
+    "title": "Phayton · 工程工作空间",
+    "responding": true,
+    "entry": "Installed Desktop preparation with read-only handoff inspection",
+    "humanVisualAccepted": false,
+    "environmentWrites": 0,
+    "avevaLaunched": false,
+    "humanVisualState": "needs-adjustment",
+    "humanVisualFeedback": "太长了，减少滚动的机会，需要用FigCraft调整页面内容"
+  },
+  "scope": "Ordinary approved installation and documentation split. Subsequent Manager ownership/ENV writes and live acceptance are recorded separately in environment-preparation-2026-11-02.json.",
+  "legacyTransferPreviewAtCreation": {
     "schema": "phayton.legacy-transfer-preview/1",
     "status": "PREVIEW_ONLY",
     "createdUtc": "2026-11-02T13:54:31.013430+00:00",
@@ -315,18 +332,5 @@
       "sha256": "2746ff24f3a3533ef8ab530460a03a375246176bd5433e3cbe986555ee7ab825"
     }
   },
-  "installedDesktop": {
-    "schema": "phayton.installed-desktop-opened/1",
-    "sourceCommit": "04a3c9473cb0d7d5e38b98fca9042914d4663f48",
-    "installedEntrySha256": "7beb4783ea1f54f79c58e7c12d7f7658b226c323e2553af25be5619c2e29c23c",
-    "openedUtc": "2026-11-02T13:56:07.8721794+00:00",
-    "processId": 241512,
-    "mainWindowHandle": 920868,
-    "title": "Phayton · 工程工作空间",
-    "responding": true,
-    "entry": "Installed Desktop preparation with read-only handoff inspection",
-    "humanVisualAccepted": false,
-    "environmentWrites": 0,
-    "avevaLaunched": false
-  }
+  "subsequentEnvironmentEvidence": "environment-preparation-2026-11-02.json"
 }

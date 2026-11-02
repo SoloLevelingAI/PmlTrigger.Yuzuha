@@ -6,6 +6,9 @@ Push-Location $root
 try {
     node scripts/architecture.mjs check
     if ($LASTEXITCODE -ne 0) { throw 'Architecture projection is stale.' }
+    # Verify committed native design snapshots; this does not execute FigCraft or accept the WPF UI.
+    npm run manager:preparation:design:check
+    if ($LASTEXITCODE -ne 0) { throw 'Preparation design snapshots are stale.' }
     dotnet build tools/Documentation -c Release
     if ($LASTEXITCODE -ne 0) { throw 'Documentation test inventory build failed.' }
     $taskDocumentationReports = Join-Path $root 'artifacts/tests/documentation-bundles'

@@ -18,7 +18,9 @@ public partial class MainWindow
             if (PreparationView.IsRunning != expectedBusy || closing.Cancel != expectedBusy) throw new InvalidOperationException("准备工作区的普通关窗保护未跟随本次回执状态。");
         });
         MessageText.Text = messageBeforeClosingProbe;await PreparationView.PrepareSmokeAsync();
+        await AssertPreparationNavigationLayoutAsync();
         var initial = PreparationView.CaptureState();
+        var geometry = new List<object>();
         foreach (var palette in DesktopPalettes.All)
         {
             DesktopTheme.Apply(palette.Id);UpdateThemeButtons();
@@ -26,7 +28,7 @@ public partial class MainWindow
             foreach (var size in new[] { (Width: 1440d, Height: 900d), (Width: 1280d, Height: 720d), (Width: 1024d, Height: 768d) })
             {
                 SetSmokeViewport(size.Width, size.Height);PreparationView.SelectSmokeStage("preview");UpdateLayout();await Dispatcher.InvokeAsync(() => { }, DispatcherPriority.ApplicationIdle);
-                PreparationView.AssertSmokeGeometry(WindowSurface, size.Height);await CaptureSmokeAsync(Path.Combine(outputDirectory, palette.Id + "-" + size.Width + ".png"));
+                PreparationView.AssertSmokeGeometry(WindowSurface, size.Height);geometry.Add(new { palette = palette.Id, size.Width, size.Height, actual = PreparationView.CaptureSmokeGeometry(WindowSurface) });await CaptureSmokeAsync(Path.Combine(outputDirectory, palette.Id + "-" + size.Width + ".png"));
             }
         }
         DesktopTheme.Apply("ion-lime");UpdateThemeButtons();SetSmokeViewport(1440, 900);
@@ -36,6 +38,21 @@ public partial class MainWindow
         { PreparationView.SelectSmokeStage("preview", reader);UpdateLayout();await CaptureSmokeAsync(Path.Combine(outputDirectory, "reader-" + reader + ".png")); }
         SetSmokeViewport(1280, 720);await PreparationView.AssertSmokeScrollAsync();await PreparationView.ApplyUnknownSmokeAsync();UpdateLayout();PreparationView.AssertSmokeGeometry(WindowSurface, 720);await CaptureSmokeAsync(Path.Combine(outputDirectory, "state-unknown-recovery.png"));
         await PreparationView.RestoreUnknownSmokeAsync();UpdateLayout();PreparationView.AssertSmokeGeometry(WindowSurface, 720);await CaptureSmokeAsync(Path.Combine(outputDirectory, "state-restored.png"));
-        File.WriteAllText(Path.Combine(outputDirectory, "preparation-smoke.json"), JsonSerializer.Serialize(new { passed = true, scope = "Native WPF controls, synthetic manager receipts and layout; actual backend temp-file scenarios tested independently; no AVEVA live or human visual approval", palettes = DesktopPalettes.All.Select(p => p.Id).ToArray(), stages = 8, readers = 4, screenshots = _smokeCaptures.Count, viewportEvidence = _smokeCaptures, dispatcherResponsive = true, closeRetainedWhileBusy = true, themePreservesDraft = true, navigationTransitions = true, unknownRecovery = true, explicitPlanIdentity = true, installedDocfxEntry = true, finishedUtc = DateTime.UtcNow }, new JsonSerializerOptions { WriteIndented = true }));
+        File.WriteAllText(Path.Combine(outputDirectory, "preparation-smoke.json"), JsonSerializer.Serialize(new { passed = true, scope = "Native WPF controls, synthetic manager receipts and layout; actual backend temp-file scenarios tested independently; no AVEVA live or human visual approval", palettes = DesktopPalettes.All.Select(p => p.Id).ToArray(), stages = 8, readers = 5, screenshots = _smokeCaptures.Count, viewportEvidence = _smokeCaptures, geometryEvidence = geometry, dispatcherResponsive = true, closeRetainedWhileBusy = true, themePreservesDraft = true, navigationTransitions = true, preparationSidebarRestoredCorrectly = true, previewRegeneratesOnly = true, corePreviewWithoutScroll = true, unknownRecovery = true, explicitPlanIdentity = true, installedDocfxEntry = true, finishedUtc = DateTime.UtcNow }, new JsonSerializerOptions { WriteIndented = true }));
+    }
+    /// <summary>切换准备与其他页面并跨过窄屏阈值，证明侧栏只按当前页面和视口恢复，且不改变冻结输入。</summary>
+    private async Task AssertPreparationNavigationLayoutAsync()
+    {
+        var before = PreparationView.CaptureState();
+        foreach (var size in new[] { (Width: 1280d, Height: 720d), (Width: 1024d, Height: 768d), (Width: 1440d, Height: 900d) })
+        {
+            SetSmokeViewport(size.Width, size.Height);OpenPreparation();UpdateLayout();await Dispatcher.InvokeAsync(() => { }, DispatcherPriority.ApplicationIdle);
+            if (ContextSidebar.Visibility != System.Windows.Visibility.Collapsed || ContextColumn.ActualWidth > 1 || CompactNavigation.Visibility != System.Windows.Visibility.Collapsed || WorkspaceHeader.Visibility != System.Windows.Visibility.Collapsed || !ReferenceEquals(PreparationView.GlobalToolsHost.Content, WorkspaceHeaderTools) || !WorkspaceHeaderTools.IsVisible) throw new InvalidOperationException("准备页切换或resize恢复了重复头/工程栏，或全局工具丢失。");
+            Tabs.SelectedIndex = 6;SetPage("设置");SetSmokeViewport(size.Width == 1024 ? 1280 : 1024, size.Height);UpdateLayout();
+            var narrow = WindowSurface.ActualWidth < 1100;
+            if ((ContextSidebar.Visibility == System.Windows.Visibility.Visible) == narrow || (CompactNavigation.Visibility == System.Windows.Visibility.Visible) != narrow || WorkspaceHeader.Visibility != System.Windows.Visibility.Visible || !ReferenceEquals(WorkspaceHeaderTools.Parent, WorkspaceHeader) || PreparationView.GlobalToolsHost.Content is not null) throw new InvalidOperationException("离开准备页后标题/全局工具/侧栏没有按视口恢复。");
+            OpenPreparation();SetSmokeViewport(size.Width, size.Height);UpdateLayout();await Dispatcher.InvokeAsync(() => { }, DispatcherPriority.ApplicationIdle);
+            if (ContextSidebar.Visibility != System.Windows.Visibility.Collapsed || ContextColumn.ActualWidth > 1 || CompactNavigation.Visibility != System.Windows.Visibility.Collapsed || WorkspaceHeader.Visibility != System.Windows.Visibility.Collapsed || !ReferenceEquals(PreparationView.GlobalToolsHost.Content, WorkspaceHeaderTools) || PreparationView.CaptureState() != before) throw new InvalidOperationException("返回准备页后标题/侧栏恢复、全局工具丢失，或导航改变了冻结计划。");
+        }
     }
 }

@@ -1,0 +1,152 @@
+{
+  "schema": "phayton.compact-preparation-implementation/1",
+  "recordedUtc": "2026-11-02T15:13:32.492359+00:00",
+  "status": "IMPLEMENTED_AND_LOCALLY_VERIFIED_PENDING_FROZEN_PUBLICATION",
+  "baseCommitAtLocalValidation": "19477d96ccd182b2e524783c8f58414738e13b0f",
+  "sourceFingerprint": [
+    {
+      "path": "src/YuzuhaToolkit.Desktop/MainWindow.xaml",
+      "workingTreeRawSha256": "ecceb9816ccaea3833412285e56facf49124a6b7b300aecf90e46a3ad71083e4",
+      "sha256LfNormalized": "9b7fffcf61797eb914c83361e085afad6baa17dcccc5b303cff892332fe56551"
+    },
+    {
+      "path": "src/YuzuhaToolkit.Desktop/MainWindow.xaml.cs",
+      "workingTreeRawSha256": "fa1b0d1371a6a5c5765f6d7b605f27c35f419d725c9285a4e259954797ec0532",
+      "sha256LfNormalized": "fa1b0d1371a6a5c5765f6d7b605f27c35f419d725c9285a4e259954797ec0532"
+    },
+    {
+      "path": "src/YuzuhaToolkit.Desktop/MainWindow.PreparationSmoke.cs",
+      "workingTreeRawSha256": "7e3ef7617c72352aad0cb4bca5f670abc374580e7edebf3913068c27a0e7a231",
+      "sha256LfNormalized": "7e3ef7617c72352aad0cb4bca5f670abc374580e7edebf3913068c27a0e7a231"
+    },
+    {
+      "path": "src/YuzuhaToolkit.Desktop/PreparationWorkbenchView.xaml",
+      "workingTreeRawSha256": "c2b0e5ff3f6a55d3d740e9f6dbb381904c02a9a428db7a823f75a41f962326ab",
+      "sha256LfNormalized": "3a1b7a6d714c7419b84fa2ed4f719038f72ffef44b883d1eb79d84e61cefa058"
+    },
+    {
+      "path": "src/YuzuhaToolkit.Desktop/PreparationWorkbenchView.xaml.cs",
+      "workingTreeRawSha256": "a8e3836b31664095114c2e662c2b8f22dd5ce303de1df00e26cf6f643fcd0749",
+      "sha256LfNormalized": "a8e3836b31664095114c2e662c2b8f22dd5ce303de1df00e26cf6f643fcd0749"
+    },
+    {
+      "path": "src/YuzuhaToolkit.Desktop/PreparationWorkbenchView.Smoke.cs",
+      "workingTreeRawSha256": "27e5900c1aa2abfb049b7708a0ee05a78343dce82da1c4bd4f6d9e204c294257",
+      "sha256LfNormalized": "f16bb1a8ffad01ec0d9ef7bd5c1fd8a27aa472dce3511ee98bab7501f3fbed67"
+    }
+  ],
+  "userRequest": "太长了，减少滚动的机会，需要用FigCraft调整页面内容",
+  "layout": {
+    "duplicateWorkspaceHeaderVisible": false,
+    "preparationContextSidebarVisible": false,
+    "globalFunctionNavigationRetained": true,
+    "globalSearchLogHelpRetained": true,
+    "horizontalStages": 8,
+    "inputsAndPlanSideBySide": true,
+    "primaryActionAlwaysVisible": true,
+    "detailsReplaceCurrentRegion": true,
+    "fullPlanConfirmationRetained": true,
+    "unknownResultReplayBlocked": true,
+    "modelChanged": false
+  },
+  "figcraft": {
+    "nativeFile": "docs/design/install-to-operation/compact-preparation.figcraft",
+    "nativeSha256": "67d50f8124a389016c5e0113f189bf1679ca19060555d56c1d091425899099e3",
+    "receipt": "docs/design/install-to-operation/compact-preparation.receipt.json",
+    "editableNodes": 1287,
+    "imageLayers": 0,
+    "components": 4,
+    "instances": 27,
+    "variables": 22,
+    "modes": 6,
+    "prototypeLinks": 101,
+    "exportedStates": 4,
+    "scope": "Editable design examples; no live deployment or human acceptance claim."
+  },
+  "verification": {
+    "fullSolution": {
+      "passed": 623,
+      "optionalSkipped": 2,
+      "failed": 0,
+      "assemblies": {
+        "Database": 14,
+        "Architecture": 21,
+        "Manager": 254,
+        "Toolkit": 334
+      },
+      "report": {
+        "file": "full-solution-validation.json",
+        "sha256": "3f35c6f5fcc96288d69ebe6a2662d8fcfeb93bc3e458e3cec9e5acc30dd1ffc5"
+      },
+      "counting": "Unique final test results only; prior retries are not added."
+    },
+    "finalNativeWpf": {
+      "passed": true,
+      "screenshots": 31,
+      "sizes": [
+        [
+          1280,
+          720
+        ],
+        [
+          1440,
+          900
+        ],
+        [
+          1024,
+          768
+        ]
+      ],
+      "columnScrollableHeight": 0,
+      "managedRowsInPreview": 5,
+      "longPathsCovered": true,
+      "referenceDeployedFiles": 0,
+      "bindingErrorsBytes": 0,
+      "unknownOriginalReceiptAndFullShaVisible": true,
+      "navigationAndResizeRestorationPassed": true,
+      "receipt": {
+        "file": "preparation-smoke.json",
+        "sha256": "30b82381b80d74c37bc9cea6e87c7acdc36bd7a30562cd32725c2f5c494dbebc"
+      },
+      "sourceBinding": {
+        "file": "final-native-smoke-binding.json",
+        "sha256": "996771e16a41f06990b6363de3131ca150eff85e69a0ff11f28c6b0c124f2b40"
+      },
+      "scope": "Actual WPF controls with synthetic inputs; not real AVEVA or user visual acceptance."
+    },
+    "sourceComments": {
+      "projects": 26,
+      "typeDeclarations": 599,
+      "missing": 0,
+      "syntaxErrors": 0
+    },
+    "catalog": {
+      "scripts": 68,
+      "features": 13,
+      "candidates": 206,
+      "fullCliPassed": true
+    },
+    "node": {
+      "contracts": 79,
+      "documentation": 61,
+      "failed": 0,
+      "skipped": 0
+    },
+    "postFullRegressionChange": "Only synthetic Smoke fixture reference count corrected from 4 to 0; copy fixture remains 4. Incremental compile and final 31 native images rerun; full regression snapshot and earlier failures retained separately."
+  },
+  "retainedInfrastructureFailures": [
+    "Default PATH did not find cached SDK; later explicit cached-SDK full source/comments checks passed.",
+    "Long C fixture paths caused native SQLite/extended-path failures; unchanged frozen source and binaries were copied to a shorter isolated tree and all four assemblies rerun.",
+    "Frozen tracked-source snapshot missed the newly registered untracked design generator; explicit SHA copy addendum and full catalog CLI rerun passed."
+  ],
+  "pending": [
+    "Frozen source publication and candidate runtime checks.",
+    "New specific upgrade preview and approval if installing this UI revision.",
+    "User visual acceptance of the compact actual workbench."
+  ],
+  "privacy": {
+    "actualCredentialsOrRawPlansIncluded": false,
+    "syntheticScreensClearlyMarked": true,
+    "realEngineeringScreensPublished": false
+  }
+}

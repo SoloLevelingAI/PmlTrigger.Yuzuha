@@ -80,7 +80,7 @@ public partial class MainWindow : Window
             SidebarAccountButton.Visibility = compact ? Visibility.Collapsed : Visibility.Visible;
             SidebarVersionBadge.Visibility = compact ? Visibility.Collapsed : Visibility.Visible;
         }
-        if (ContextSidebar is not null) { var compactNavigation = viewportWidth < 1100; ContextSidebar.Visibility = compactNavigation ? Visibility.Collapsed : Visibility.Visible; ContextColumn.Width = new GridLength(compactNavigation ? 0 : 244); CompactNavigation.Visibility = compactNavigation ? Visibility.Visible : Visibility.Collapsed; }
+        UpdatePreparationNavigation(viewportWidth);
         if (HeartbeatText is not null) HeartbeatText.Visibility = viewportWidth < 1100 ? Visibility.Collapsed : Visibility.Visible;
         if (SearchPanel is not null) SearchPanel.Visibility = viewportWidth < 1250 ? Visibility.Collapsed : Visibility.Visible;
         if (OverviewKpis is not null)
@@ -96,6 +96,25 @@ public partial class MainWindow : Window
             }
         }
     }
+    /// <summary>准备页独占工作宽度；切页和调整窗口共同更新侧栏，避免尺寸事件恢复已隐藏的工程栏。</summary>
+    private void UpdatePreparationNavigation(double viewportWidth)
+    {
+        if (ContextSidebar is null || Tabs is null) return;
+        var preparation = Tabs.SelectedIndex == 9;var compactNavigation = viewportWidth < 1100;
+        ContextSidebar.Visibility = preparation || compactNavigation ? Visibility.Collapsed : Visibility.Visible;
+        ContextColumn.Width = new GridLength(preparation || compactNavigation ? 0 : 244);
+        CompactNavigation.Visibility = !preparation && compactNavigation ? Visibility.Visible : Visibility.Collapsed;
+        if (WorkspaceHeader is not null && WorkspaceHeaderTools is not null && PreparationView is not null)
+        {
+            var slot = PreparationView.GlobalToolsHost;
+            if (preparation && !ReferenceEquals(slot.Content, WorkspaceHeaderTools))
+            { WorkspaceHeader.Children.Remove(WorkspaceHeaderTools);slot.Content = WorkspaceHeaderTools; }
+            else if (!preparation && ReferenceEquals(slot.Content, WorkspaceHeaderTools))
+            { slot.Content = null;WorkspaceHeader.Children.Add(WorkspaceHeaderTools); }
+            WorkspaceHeaderTools.Margin = new Thickness(preparation ? 8 : 18, 0, 0, 0);
+            WorkspaceHeader.Visibility = preparation ? Visibility.Collapsed : Visibility.Visible;
+        }
+    }
     private void SetPage(string? title)
     {
         title = title?.Trim() ?? "总览"; PageTitleText.Text = title;
@@ -106,6 +125,7 @@ public partial class MainWindow : Window
         HeaderActionButton.IsEnabled = title != "启动工程" || LaunchButton.IsEnabled;
         HeaderActionIcon.Data = (Geometry)FindResource(title is "工程会话" or "原生 Form / Gadget" or "AI 运行" ? "Icon.refresh" : title is "能力与函数" or "Web 应用" or "启动配置" ? "Icon.plus" : "Icon.play");
         UpdateR2Navigation(title);
+        UpdatePreparationNavigation(WindowSurface?.ActualWidth ?? ActualWidth);
         if (title == "安装与环境准备") { HeaderActionButton.Visibility = Visibility.Collapsed; PageSubtitleText.Text = "安装交接 → 环境 → 冻结预览 → 明确应用 → 启动与核验"; }
         if (title == "会话任务") { HeaderActionButton.Visibility = Visibility.Collapsed; PageSubtitleText.Text = "先明确目标，再进入任务；选择入口不执行查询或授权"; }
         if (title is "对象查询" or "读取已有数组") { HeaderActionText.Text = "返回任务入口"; PageSubtitleText.Text = "明确操作 → 本次结果；保留原输入与回执，不自动重发"; }

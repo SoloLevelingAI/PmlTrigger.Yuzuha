@@ -1,0 +1,708 @@
+{
+  "schema": "phayton.compact-preparation-design/1",
+  "passed": true,
+  "scope": "Real editable FigCraft design examples only; no real ENV result, WPF implementation, business execution or human visual approval",
+  "journeyHash": "733d900b0a94daebd039a62c6f67d0781b29590fa0525f2f4c25ddfd2004add5",
+  "themeHash": "10d4c99d74b8dc28076018bbbf876ea0f617fe182dd6d5d6611f9408baf59753",
+  "generatorHash": "3a0026434943488e1b4cd7addc6f5df562a35f22ddbabd81d168d9956b59a4dc",
+  "nativeHash": "67d50f8124a389016c5e0113f189bf1679ca19060555d56c1d091425899099e3",
+  "toolVersion": "figcraft-cli 0.6.0",
+  "nativeImages": 0,
+  "nativeNodes": 1287,
+  "nativeComponents": 4,
+  "nativeInstances": 27,
+  "sharedVariables": 22,
+  "sharedModes": 6,
+  "contractFields": 7,
+  "prototypeLinks": 101,
+  "exportedScreens": 4,
+  "exports": [
+    {
+      "file": "compact-preview-1280.png",
+      "sha256": "72ffa0280fbb5b9b56b16b9274fb9835a0232b384a5f58dc6c4eb0f852c0292e",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "file": "compact-preview-1440.png",
+      "sha256": "9625b824b3e2ebb6fc44fde8f264883ef0d9812e0e12de50ec0dc3042e1a2a80",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "compact-details-1280.png",
+      "sha256": "8037e0cae8fdf14f0abfa9927cd4aaed7223cccb23c8bb4deee89dc535ed89af",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "file": "compact-unknown-1280.png",
+      "sha256": "606991c76b59961c1bef4cf1040ca2d22a417750b9fe3e8cb71e7b5443bf667d",
+      "width": 1280,
+      "height": 720
+    }
+  ],
+  "firstViewportBounds": [
+    {
+      "screen": "预览 / 1280×720",
+      "node": "应用目录",
+      "x": 124,
+      "y": 282,
+      "width": 440,
+      "height": 36
+    },
+    {
+      "screen": "预览 / 1280×720",
+      "node": "部署方式",
+      "x": 124,
+      "y": 354,
+      "width": 260,
+      "height": 36
+    },
+    {
+      "screen": "预览 / 1280×720",
+      "node": "Host profile",
+      "x": 396,
+      "y": 354,
+      "width": 168,
+      "height": 36
+    },
+    {
+      "screen": "预览 / 1280×720",
+      "node": "环境文件",
+      "x": 124,
+      "y": 426,
+      "width": 440,
+      "height": 36
+    },
+    {
+      "screen": "预览 / 1280×720",
+      "node": "受管行对照",
+      "x": 620,
+      "y": 359,
+      "width": 616,
+      "height": 190
+    },
+    {
+      "screen": "预览 / 1440×900",
+      "node": "应用目录",
+      "x": 124,
+      "y": 282,
+      "width": 496,
+      "height": 36
+    },
+    {
+      "screen": "预览 / 1440×900",
+      "node": "部署方式",
+      "x": 124,
+      "y": 354,
+      "width": 316,
+      "height": 36
+    },
+    {
+      "screen": "预览 / 1440×900",
+      "node": "Host profile",
+      "x": 452,
+      "y": 354,
+      "width": 168,
+      "height": 36
+    },
+    {
+      "screen": "预览 / 1440×900",
+      "node": "环境文件",
+      "x": 124,
+      "y": 426,
+      "width": 496,
+      "height": 36
+    },
+    {
+      "screen": "预览 / 1440×900",
+      "node": "受管行对照",
+      "x": 676,
+      "y": 359,
+      "width": 720,
+      "height": 190
+    },
+    {
+      "screen": "详情 / 输入 / 1280×720",
+      "node": "应用目录",
+      "x": 124,
+      "y": 282,
+      "width": 440,
+      "height": 36
+    },
+    {
+      "screen": "详情 / 输入 / 1280×720",
+      "node": "部署方式",
+      "x": 124,
+      "y": 354,
+      "width": 260,
+      "height": 36
+    },
+    {
+      "screen": "详情 / 输入 / 1280×720",
+      "node": "Host profile",
+      "x": 396,
+      "y": 354,
+      "width": 168,
+      "height": 36
+    },
+    {
+      "screen": "详情 / 输入 / 1280×720",
+      "node": "环境文件",
+      "x": 124,
+      "y": 426,
+      "width": 440,
+      "height": 36
+    },
+    {
+      "screen": "详情 / 前置 / 1280×720",
+      "node": "应用目录",
+      "x": 124,
+      "y": 282,
+      "width": 440,
+      "height": 36
+    },
+    {
+      "screen": "详情 / 前置 / 1280×720",
+      "node": "部署方式",
+      "x": 124,
+      "y": 354,
+      "width": 260,
+      "height": 36
+    },
+    {
+      "screen": "详情 / 前置 / 1280×720",
+      "node": "Host profile",
+      "x": 396,
+      "y": 354,
+      "width": 168,
+      "height": 36
+    },
+    {
+      "screen": "详情 / 前置 / 1280×720",
+      "node": "环境文件",
+      "x": 124,
+      "y": 426,
+      "width": 440,
+      "height": 36
+    },
+    {
+      "screen": "详情 / 算法与调用 / 1280×720",
+      "node": "应用目录",
+      "x": 124,
+      "y": 282,
+      "width": 440,
+      "height": 36
+    },
+    {
+      "screen": "详情 / 算法与调用 / 1280×720",
+      "node": "部署方式",
+      "x": 124,
+      "y": 354,
+      "width": 260,
+      "height": 36
+    },
+    {
+      "screen": "详情 / 算法与调用 / 1280×720",
+      "node": "Host profile",
+      "x": 396,
+      "y": 354,
+      "width": 168,
+      "height": 36
+    },
+    {
+      "screen": "详情 / 算法与调用 / 1280×720",
+      "node": "环境文件",
+      "x": 124,
+      "y": 426,
+      "width": 440,
+      "height": 36
+    },
+    {
+      "screen": "详情 / 作用 / 1280×720",
+      "node": "应用目录",
+      "x": 124,
+      "y": 282,
+      "width": 440,
+      "height": 36
+    },
+    {
+      "screen": "详情 / 作用 / 1280×720",
+      "node": "部署方式",
+      "x": 124,
+      "y": 354,
+      "width": 260,
+      "height": 36
+    },
+    {
+      "screen": "详情 / 作用 / 1280×720",
+      "node": "Host profile",
+      "x": 396,
+      "y": 354,
+      "width": 168,
+      "height": 36
+    },
+    {
+      "screen": "详情 / 作用 / 1280×720",
+      "node": "环境文件",
+      "x": 124,
+      "y": 426,
+      "width": 440,
+      "height": 36
+    },
+    {
+      "screen": "详情 / 校验 / 1280×720",
+      "node": "应用目录",
+      "x": 124,
+      "y": 282,
+      "width": 440,
+      "height": 36
+    },
+    {
+      "screen": "详情 / 校验 / 1280×720",
+      "node": "部署方式",
+      "x": 124,
+      "y": 354,
+      "width": 260,
+      "height": 36
+    },
+    {
+      "screen": "详情 / 校验 / 1280×720",
+      "node": "Host profile",
+      "x": 396,
+      "y": 354,
+      "width": 168,
+      "height": 36
+    },
+    {
+      "screen": "详情 / 校验 / 1280×720",
+      "node": "环境文件",
+      "x": 124,
+      "y": 426,
+      "width": 440,
+      "height": 36
+    },
+    {
+      "screen": "详情 / 回执 / 1280×720",
+      "node": "应用目录",
+      "x": 124,
+      "y": 282,
+      "width": 440,
+      "height": 36
+    },
+    {
+      "screen": "详情 / 回执 / 1280×720",
+      "node": "部署方式",
+      "x": 124,
+      "y": 354,
+      "width": 260,
+      "height": 36
+    },
+    {
+      "screen": "详情 / 回执 / 1280×720",
+      "node": "Host profile",
+      "x": 396,
+      "y": 354,
+      "width": 168,
+      "height": 36
+    },
+    {
+      "screen": "详情 / 回执 / 1280×720",
+      "node": "环境文件",
+      "x": 124,
+      "y": 426,
+      "width": 440,
+      "height": 36
+    },
+    {
+      "screen": "详情 / 恢复 / 1280×720",
+      "node": "应用目录",
+      "x": 124,
+      "y": 282,
+      "width": 440,
+      "height": 36
+    },
+    {
+      "screen": "详情 / 恢复 / 1280×720",
+      "node": "部署方式",
+      "x": 124,
+      "y": 354,
+      "width": 260,
+      "height": 36
+    },
+    {
+      "screen": "详情 / 恢复 / 1280×720",
+      "node": "Host profile",
+      "x": 396,
+      "y": 354,
+      "width": 168,
+      "height": 36
+    },
+    {
+      "screen": "详情 / 恢复 / 1280×720",
+      "node": "环境文件",
+      "x": 124,
+      "y": 426,
+      "width": 440,
+      "height": 36
+    },
+    {
+      "screen": "详情 / scripts / 1280×720",
+      "node": "应用目录",
+      "x": 124,
+      "y": 282,
+      "width": 440,
+      "height": 36
+    },
+    {
+      "screen": "详情 / scripts / 1280×720",
+      "node": "部署方式",
+      "x": 124,
+      "y": 354,
+      "width": 260,
+      "height": 36
+    },
+    {
+      "screen": "详情 / scripts / 1280×720",
+      "node": "Host profile",
+      "x": 396,
+      "y": 354,
+      "width": 168,
+      "height": 36
+    },
+    {
+      "screen": "详情 / scripts / 1280×720",
+      "node": "环境文件",
+      "x": 124,
+      "y": 426,
+      "width": 440,
+      "height": 36
+    },
+    {
+      "screen": "详情 / evidence / 1280×720",
+      "node": "应用目录",
+      "x": 124,
+      "y": 282,
+      "width": 440,
+      "height": 36
+    },
+    {
+      "screen": "详情 / evidence / 1280×720",
+      "node": "部署方式",
+      "x": 124,
+      "y": 354,
+      "width": 260,
+      "height": 36
+    },
+    {
+      "screen": "详情 / evidence / 1280×720",
+      "node": "Host profile",
+      "x": 396,
+      "y": 354,
+      "width": 168,
+      "height": 36
+    },
+    {
+      "screen": "详情 / evidence / 1280×720",
+      "node": "环境文件",
+      "x": 124,
+      "y": 426,
+      "width": 440,
+      "height": 36
+    },
+    {
+      "screen": "详情 / history / 1280×720",
+      "node": "应用目录",
+      "x": 124,
+      "y": 282,
+      "width": 440,
+      "height": 36
+    },
+    {
+      "screen": "详情 / history / 1280×720",
+      "node": "部署方式",
+      "x": 124,
+      "y": 354,
+      "width": 260,
+      "height": 36
+    },
+    {
+      "screen": "详情 / history / 1280×720",
+      "node": "Host profile",
+      "x": 396,
+      "y": 354,
+      "width": 168,
+      "height": 36
+    },
+    {
+      "screen": "详情 / history / 1280×720",
+      "node": "环境文件",
+      "x": 124,
+      "y": 426,
+      "width": 440,
+      "height": 36
+    },
+    {
+      "screen": "未知与恢复 / 1280×720",
+      "node": "应用目录",
+      "x": 124,
+      "y": 282,
+      "width": 440,
+      "height": 36
+    },
+    {
+      "screen": "未知与恢复 / 1280×720",
+      "node": "部署方式",
+      "x": 124,
+      "y": 354,
+      "width": 260,
+      "height": 36
+    },
+    {
+      "screen": "未知与恢复 / 1280×720",
+      "node": "Host profile",
+      "x": 396,
+      "y": 354,
+      "width": 168,
+      "height": 36
+    },
+    {
+      "screen": "未知与恢复 / 1280×720",
+      "node": "环境文件",
+      "x": 124,
+      "y": 426,
+      "width": 440,
+      "height": 36
+    },
+    {
+      "screen": "未知与恢复 / 1280×720",
+      "node": "原回执输入与查看",
+      "x": 620,
+      "y": 426,
+      "width": 616,
+      "height": 58
+    },
+    {
+      "screen": "预览 / 1280×720",
+      "node": "预览 / 1280×720/primary",
+      "x": 1076,
+      "y": 661,
+      "width": 180,
+      "height": 40
+    },
+    {
+      "screen": "预览 / 1440×900",
+      "node": "预览 / 1440×900/primary",
+      "x": 1236,
+      "y": 841,
+      "width": 180,
+      "height": 40
+    },
+    {
+      "screen": "详情 / 输入 / 1280×720",
+      "node": "详情 / 输入 / 1280×720/primary",
+      "x": 1076,
+      "y": 661,
+      "width": 180,
+      "height": 40
+    },
+    {
+      "screen": "详情 / 前置 / 1280×720",
+      "node": "详情 / 前置 / 1280×720/primary",
+      "x": 1076,
+      "y": 661,
+      "width": 180,
+      "height": 40
+    },
+    {
+      "screen": "详情 / 算法与调用 / 1280×720",
+      "node": "详情 / 算法与调用 / 1280×720/primary",
+      "x": 1076,
+      "y": 661,
+      "width": 180,
+      "height": 40
+    },
+    {
+      "screen": "详情 / 作用 / 1280×720",
+      "node": "详情 / 作用 / 1280×720/primary",
+      "x": 1076,
+      "y": 661,
+      "width": 180,
+      "height": 40
+    },
+    {
+      "screen": "详情 / 校验 / 1280×720",
+      "node": "详情 / 校验 / 1280×720/primary",
+      "x": 1076,
+      "y": 661,
+      "width": 180,
+      "height": 40
+    },
+    {
+      "screen": "详情 / 回执 / 1280×720",
+      "node": "详情 / 回执 / 1280×720/primary",
+      "x": 1076,
+      "y": 661,
+      "width": 180,
+      "height": 40
+    },
+    {
+      "screen": "详情 / 恢复 / 1280×720",
+      "node": "详情 / 恢复 / 1280×720/primary",
+      "x": 1076,
+      "y": 661,
+      "width": 180,
+      "height": 40
+    },
+    {
+      "screen": "详情 / scripts / 1280×720",
+      "node": "详情 / scripts / 1280×720/primary",
+      "x": 1076,
+      "y": 661,
+      "width": 180,
+      "height": 40
+    },
+    {
+      "screen": "详情 / evidence / 1280×720",
+      "node": "详情 / evidence / 1280×720/primary",
+      "x": 1076,
+      "y": 661,
+      "width": 180,
+      "height": 40
+    },
+    {
+      "screen": "详情 / history / 1280×720",
+      "node": "详情 / history / 1280×720/primary",
+      "x": 1076,
+      "y": 661,
+      "width": 180,
+      "height": 40
+    },
+    {
+      "screen": "未知与恢复 / 1280×720",
+      "node": "未知与恢复 / 1280×720/primary",
+      "x": 1076,
+      "y": 661,
+      "width": 180,
+      "height": 40
+    }
+  ],
+  "boards": [
+    {
+      "id": 11,
+      "name": "预览 / 1280×720",
+      "width": 1280,
+      "height": 720,
+      "state": "preview",
+      "detail": "effect"
+    },
+    {
+      "id": 101,
+      "name": "预览 / 1440×900",
+      "width": 1440,
+      "height": 900,
+      "state": "preview",
+      "detail": "effect"
+    },
+    {
+      "id": 191,
+      "name": "详情 / 输入 / 1280×720",
+      "width": 1280,
+      "height": 720,
+      "state": "details",
+      "detail": "input"
+    },
+    {
+      "id": 291,
+      "name": "详情 / 前置 / 1280×720",
+      "width": 1280,
+      "height": 720,
+      "state": "details",
+      "detail": "precondition"
+    },
+    {
+      "id": 391,
+      "name": "详情 / 算法与调用 / 1280×720",
+      "width": 1280,
+      "height": 720,
+      "state": "details",
+      "detail": "method"
+    },
+    {
+      "id": 491,
+      "name": "详情 / 作用 / 1280×720",
+      "width": 1280,
+      "height": 720,
+      "state": "details",
+      "detail": "effect"
+    },
+    {
+      "id": 591,
+      "name": "详情 / 校验 / 1280×720",
+      "width": 1280,
+      "height": 720,
+      "state": "details",
+      "detail": "validation"
+    },
+    {
+      "id": 691,
+      "name": "详情 / 回执 / 1280×720",
+      "width": 1280,
+      "height": 720,
+      "state": "details",
+      "detail": "receipt"
+    },
+    {
+      "id": 791,
+      "name": "详情 / 恢复 / 1280×720",
+      "width": 1280,
+      "height": 720,
+      "state": "details",
+      "detail": "recovery"
+    },
+    {
+      "id": 891,
+      "name": "详情 / scripts / 1280×720",
+      "width": 1280,
+      "height": 720,
+      "state": "details",
+      "detail": "scripts"
+    },
+    {
+      "id": 982,
+      "name": "详情 / evidence / 1280×720",
+      "width": 1280,
+      "height": 720,
+      "state": "details",
+      "detail": "evidence"
+    },
+    {
+      "id": 1068,
+      "name": "详情 / history / 1280×720",
+      "width": 1280,
+      "height": 720,
+      "state": "details",
+      "detail": "history"
+    },
+    {
+      "id": 1153,
+      "name": "未知与恢复 / 1280×720",
+      "width": 1280,
+      "height": 720,
+      "state": "unknown",
+      "detail": "effect"
+    }
+  ],
+  "boundaries": {
+    "globalRail": 80,
+    "titleBar": 46,
+    "workHeaderMaximum": 64,
+    "operationCatalogChanged": false,
+    "automaticApply": false,
+    "automaticRestore": false,
+    "automaticLaunch": false,
+    "unknownReplay": false
+  },
+  "humanVisualApproval": "not-approved"
+}

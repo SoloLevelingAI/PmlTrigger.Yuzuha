@@ -55,6 +55,7 @@
     "manager:contracts:build": "node scripts/export-manager-contracts.mjs && node scripts/build-install-journey-docs.mjs",
     "manager:contracts:check": "node scripts/export-manager-contracts.mjs --check && node scripts/build-install-journey-docs.mjs --check",
     "manager:themes:check": "node scripts/build-ion-wpf-themes.mjs --check",
+    "manager:preparation:design:check": "node scripts/build-install-journey-design.mjs --check && node scripts/build-compact-preparation-design.mjs --check",
     "manager:types:check": "tsc --strict --noEmit --target es2022 --module nodenext --moduleResolution nodenext tests/manager-client.types.ts"
   },
   "devDependencies": {

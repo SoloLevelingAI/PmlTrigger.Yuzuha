@@ -169,6 +169,36 @@ flowchart LR
 | 生产 EVARS / 部署 | 同一环境，另做一份预览 | 人批准后 apply。unknown 不重放，按原回执核对 |
 | 视觉认可 | 已安装 WPF 准备页 | 人写下是否接受。文件安装成功不算这一步 |
 
+## 9. 作品集面包屑与阅读视图
+
+主人打开 `docs/presentation/contract-atlas/index.html`（file://，1440×900）后指出面包屑和作品集不对。深链 `#entity=feature:launch&branch=contract` 只显示「总体」，因为当前 Feature 只有在 hash 另带 `feature=` 时才进入路径。任务地图的目标类别和步骤也不在路径里。作品集首页和「契约与实现」共用同一句标题，目标没有先于核对路径出现。
+
+| 环节 | 落点 |
+|---|---|
+| 设计意图 | [图集 README](../presentation/contract-atlas/README.md) 的「总体 → 目标类别 → Feature → 步骤 → Script」；[文档导航](../reference/contract-document-navigation.zh-CN.md) 要求作品集先给目标与交付 |
+| 契约条目 | 面包屑除当前项外都可返回；当前项 `aria-current=page`。作品集先读目标，契约视图先读核对路径。状态、证据和「不是实机 / 不是人工认可」仍可见 |
+| 实现位置 | [app.js 的 renderBreadcrumbs](../../docs/presentation/contract-atlas/app.js) 与两种视图的标题、说明 |
+| 测试证据 | `npm run contracts:tasks` 通过，含深链、步骤、窄屏当前项，以及两种首页文案不同 |
+| 剩余缺口 | 人工视觉认可仍由主人决定。本页截图只是代理记录 |
+
+修改前，选中「工程发现与启动」时面包屑仍只有「总体」。
+
+![修改前面包屑](contract-atlas-reading-2026-11-02/before-feature-portfolio-1440.png)
+
+修改后，路径是「总体 / 工程与连接 / 工程发现与启动」，当前项可被读屏识别。窄屏仍保留当前项。
+
+![修改后 Feature 作品集 1440](contract-atlas-reading-2026-11-02/after-feature-portfolio-1440.png)
+
+![修改后 Feature 作品集 390](contract-atlas-reading-2026-11-02/after-feature-portfolio-390.png)
+
+作品集首页先写项目目标，并写明状态与证据不代表实机通过或人工认可。「契约与实现」首页改为「按目录逐层核对」。
+
+![作品集首页](contract-atlas-reading-2026-11-02/after-landing-portfolio-1440.png)
+
+![契约与实现首页](contract-atlas-reading-2026-11-02/after-landing-help-1440.png)
+
+同目录还有 Script 与 1440 宽度的对照图：`before-*.png`、`after-*-1440.png`、`after-*-390.png`。
+
 ### 27.16 还要做的四步
 
 | 步骤 | 在哪里 | 怎样算做完 |

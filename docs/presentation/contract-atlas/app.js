@@ -39,7 +39,10 @@
     parentFeatureId = data.features.find(x => x.id === hash.get('feature'))?.id || null;
     selectedFlowId = data.flows.find(flow => flow.id === hash.get('flow'))?.id || '';
     branch=sectionKey?branchForSection(sectionKey):hash.has('branch')?branchName(hash.get('branch')):methodId?'implementation':'task';selectedStepId=(hash.get('step')||'').slice(0,256);
-    if (kindOf(entity(selectedId)) === 'script' && !data.features.some(f => f.id === parentFeatureId && f.scriptIds.includes(selectedId))) parentFeatureId = data.features.find(f => f.scriptIds.includes(selectedId))?.id || null;
+    const selectedKind = kindOf(entity(selectedId));
+    if (selectedKind === 'feature') parentFeatureId = selectedId;
+    else if (selectedKind === 'script' && !data.features.some(f => f.id === parentFeatureId && f.scriptIds.includes(selectedId))) parentFeatureId = data.features.find(f => f.scriptIds.includes(selectedId))?.id || null;
+    else if (selectedKind === 'project') parentFeatureId = null;
     query = (hash.get('q') || '').slice(0, 120); status = ['all', ...data.features.map(x => x.implementation.status)].includes(hash.get('status')) ? hash.get('status') : 'all';
     normalizeTaskContext();
   }
@@ -113,6 +116,29 @@
     if(!matchesAll.length)list.append(create('p','没有匹配项。清空筛选可恢复完整目录。',{class:'feedback'}));
     $('#result-count').textContent=`${matchesAll.length} 项${query||status!=='all'?'匹配 · 搜索全部契约':' · 完整项目目录'}`;
     $('#nav-overview').setAttribute('aria-current',selectedId===data.project.id?'page':'false');
+  }
+  function owningFeatureId() {
+    const item = entity(selectedId), kind = kindOf(item);
+    if (kind === 'feature') return item.id;
+    if (kind === 'script') return parentFeatureId || data.features.find(feature => feature.scriptIds.includes(item.id))?.id || null;
+    return null;
+  }
+  function renderBreadcrumbs() {
+    const item = entity(selectedId), kind = kindOf(item), featureId = owningFeatureId();
+    const group = featureId ? renderModel.taskMap?.groups.find(entry => entry.featureIds.includes(featureId)) : null;
+    const flow = currentFlow(), step = flow && selectedStepId ? flow.steps.find(entry => entry.id === selectedStepId) : null;
+    const crumbs = [{ label: '总体', go: () => select(data.project.id) }];
+    if (group) crumbs.push({ label: group.title, go: () => { components.task.groupId = group.id; select(data.project.id); } });
+    if (featureId) crumbs.push({ label: entity(featureId).title, go: () => { selectedStepId = ''; select(featureId); } });
+    if (step) crumbs.push({ label: step.title, go: () => taskNavigate({ action: 'step', entityId: step.entityId, flowId: flow.id, stepId: step.id }) });
+    if (kind === 'script' && (!step || step.entityId !== item.id)) crumbs.push({ label: item.title, go: () => select(item.id) });
+    const breadcrumbs = $('#breadcrumbs'); breadcrumbs.replaceChildren();
+    crumbs.forEach((crumb, index) => {
+      if (index) breadcrumbs.append(create('span', '/', { 'aria-hidden': 'true' }));
+      const current = index === crumbs.length - 1, button = create('button', crumb.label, { type: 'button' });
+      if (current) button.setAttribute('aria-current', 'page'); else button.onclick = crumb.go;
+      breadcrumbs.append(button);
+    });
   }
   function renderPortfolioContext(kind,item){
     const box=$('#portfolio-context');box.replaceChildren();box.hidden=kind==='project';if(box.hidden)return;
@@ -196,16 +222,20 @@
     document.querySelectorAll('[data-view]').forEach(button => { if (button.tagName === 'BUTTON') button.setAttribute('aria-pressed', String(button.dataset.view === mode)); });
     $('#project-title').textContent = mode === 'portfolio' ? `${renderModel.project.title} · PML 开发与工程辅助` : `${renderModel.project.title} · 契约与实现`;
     $('#project-summary').textContent = renderModel.project.summary; $('#snapshot').textContent = renderModel.snapshotDate;
-    const breadcrumbs = $('#breadcrumbs'); breadcrumbs.replaceChildren();
-    const crumbs = [[data.project.id, '总体']]; if (kind !== 'project' && parentFeatureId) crumbs.push([parentFeatureId, entity(parentFeatureId)?.title || 'Feature']); if (kind === 'script') crumbs.push([item.id, item.title]);
-    for (const [index, [id, title]] of crumbs.entries()) { if (index) breadcrumbs.append(create('span', '/', { 'aria-hidden': 'true' })); const button = create('button', title, { type: 'button' }); if (id === selectedId) button.setAttribute('aria-current', 'page'); button.onclick = () => select(id); breadcrumbs.append(button); }
+    renderBreadcrumbs();
     $('#atlas-search').value = query; const filter = $('#status-filter'); filter.replaceChildren(create('option', '全部状态', { value: 'all' })); for (const value of [...new Set(data.features.map(f => f.implementation.status))]) filter.append(create('option', `${labels[value] || value} · ${value}`, { value })); filter.value = status;
     renderNavigation();
     const items = currentItems(), visible = items;
     const selectedStep=renderModel.taskMap?.nodes.find(node=>node.kind==='step'&&node.flowId===currentFlow()?.id&&node.stepId===selectedStepId);
-    $('#section-kicker').textContent = branch==='task'?'TASK MAP / 只读任务通路':({contract:'完整契约',implementation:'静态实现方法',evidence:'证据与来源',catalog:'完整目录'})[branch];
-    $('#section-title').textContent = branch==='task'&&selectedStep?selectedStep.title:kind === 'project' ? '从你要完成的任务开始' : card(item.id).title;
-    $('#section-description').textContent = branch==='task'?(kind==='project'?'选择一个目标，再沿已登记的步骤阅读。此处不执行软件操作。':'查看所属路径、交付和下一步；地图位置不表示任务已执行。'):'这是任务的一条资料分支。可以随时返回原步骤，阅读位置不会变成执行授权。';
+    const projectHome = kind === 'project' && branch === 'task';
+    $('#section-kicker').textContent = branch==='task' ? (mode === 'portfolio' ? '作品集 / 只读任务通路' : '契约与实现 / 只读核对入口') : ({contract:'完整契约',implementation:'静态实现方法',evidence:'证据与来源',catalog:'完整目录'})[branch];
+    $('#section-title').textContent = branch==='task'&&selectedStep?selectedStep.title:projectHome ? (mode === 'portfolio' ? data.project.summary : '按目录逐层核对') : card(item.id).title;
+    $('#section-description').textContent = branch==='task'
+      ? (kind==='project'
+        ? (mode === 'portfolio' ? '选择一个目标，再沿已登记的步骤阅读。此处不执行软件操作。状态、证据与排除项随各任务分开，不代表实机通过或人工视觉认可。' : '按原需求、Feature 字段、Script 七项契约、实现方法与证据逐层核对。阅读位置不会变成执行授权。')
+        : (mode === 'portfolio' ? '查看所属路径、交付和下一步。可以随时返回原步骤。地图位置不表示任务已执行。' : '查看所属路径与核对入口。阅读位置不会变成执行授权。'))
+      : (mode === 'portfolio' ? '这是任务的一条资料分支。可以随时返回原步骤。目标与交付在标题下，字段核对在后。' : '按字段、方法与证据逐层核对。阅读位置不会变成执行授权。');
+    $('#section-description').dataset.role = projectHome ? (mode === 'portfolio' ? 'portfolio-goal' : 'help-path') : mode;
     renderPortfolioContext(kind,item);
     $('#section-index').textContent = kind === 'project' ? '01—03' : kind === 'feature' ? '02—03' : '03—03';
     $('#contract-section-title').textContent=kind==='script'?'七项技术契约':kind==='feature'?'功能契约':'总体契约';

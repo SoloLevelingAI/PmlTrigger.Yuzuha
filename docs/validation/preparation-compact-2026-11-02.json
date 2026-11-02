@@ -148,5 +148,25 @@
     "actualCredentialsOrRawPlansIncluded": false,
     "syntheticScreensClearlyMarked": true,
     "realEngineeringScreensPublished": false
-  }
+  },
+  "officialPreparationWrapper": {
+    "script": "scripts/Test-PreparationDesktop.ps1",
+    "scriptSha256": "11f5636893d9ca6f982529026d08b2f528fefe62b2009ef19f015507c93d6fe0",
+    "passed": true,
+    "readers": 5,
+    "screenshots": 31,
+    "receiptSha256": "4c22f305401a70efc78a0c367f8a6d2527be8f228ea33af7317d168b0734a493",
+    "testedPublishedComponentSourceCommit": "a266cc3e1c2938c8e8417d755bb9575c8519f10d",
+    "scope": "Actual unmodified published Desktop EXE with explicit isolated toolkit/state/user paths; original wrapper, NoBuild and explicit ExecutablePath. Four compact behavior flags plus existing six-palette/viewport gates enforced."
+  },
+  "retainedValidationFailures": [
+    {
+      "sourceCommit": "d4cd034ff5ae4e30d523342e4e9a1489a5670538",
+      "cause": "New README generator link targeted unpublished source; fixed by linking the registered generated source page."
+    },
+    {
+      "sourceCommit": "a266cc3e1c2938c8e8417d755bb9575c8519f10d",
+      "cause": "Outer preparation wrapper expected four readers after History increased the actual receipt to five; corrected expectation and strengthened compact-behavior checks. Product executable source was unchanged."
+    }
+  ]
 }

@@ -12,7 +12,7 @@ const sha=value=>crypto.createHash('sha256').update(typeof value==='string'?valu
 const browser=await launchBrowser({headless:true});
 const errors=[],requests=[],matrix=[],readerChecks=[],rulesResults=[],styles=[];
 const page=await browser.newPage({viewport:{width:1440,height:900},reducedMotion:'reduce'});page.on('pageerror',error=>errors.push(error.message));page.on('request',request=>{if(!['GET','HEAD'].includes(request.method()))requests.push({method:request.method(),url:request.url()});});
-async function ready(){await page.waitForFunction(()=>globalThis.ContractDesign?.bundle?.model?.taskMap&&document.querySelector('main h1,h1'));await page.evaluate(()=>document.fonts.ready);}
+async function ready(){await page.waitForFunction(()=>globalThis.ContractDesign?.bundle?.model?.taskMap&&document.querySelector('main h1,h1')&&!document.querySelector('main .loading'));await page.evaluate(()=>document.fonts.ready);}
 async function geometry(label){const value=await page.evaluate(()=>({width:innerWidth,scrollWidth:document.documentElement.scrollWidth,height:innerHeight,state:ContractDesign.state(),heading:document.querySelector('main h1,h1')?.textContent}));assert(value.scrollWidth<=value.width+1,label+' has horizontal page overflow');matrix.push({label,...value});}
 async function shot(id,sample,width){const target=path.join(output,`${id}-${sample}-${width}.png`);await page.screenshot({path:target,fullPage:false});if(width===1440)await fs.copyFile(target,path.join(previews,`${id}-${sample}.png`));}
 function rgb(color){const values=color.match(/[\d.]+/g)?.map(Number);assert(values?.length>=3,'known color: '+color);return values;}

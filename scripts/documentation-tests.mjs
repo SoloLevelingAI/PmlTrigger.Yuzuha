@@ -10,6 +10,7 @@ const hash=value=>createHash('sha256').update(value).digest('hex').slice(0,16);
 const quote=value=>"'"+value.replaceAll("'","''")+"'";
 const md=value=>String(value).replace(/[\\[\]<>|]/g,c=>'\\'+c).replaceAll('\n',' ');
 const html=value=>String(value).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
+const fenced=(language,text)=>{const ticks='`'.repeat(Math.max(4,...String(text).split('\n').map(line=>(line.match(/^`*/)||[''])[0].length+1)));return ticks+language+'\n'+text+'\n'+ticks;};
 
 export function caseSourceLine(content,entry) {
   const matches=content.split(/\r?\n/).map((text,index)=>(entry.kind==='manual'?text.trim()===entry.entryPoint:text.includes(entry.entryPoint))?index+1:0).filter(Boolean);
@@ -109,7 +110,7 @@ export function buildTestDocumentation({root,navigation,types,modules,metadata,p
       '每次独立运行保存在 `'+test.evidenceDirectory+'<运行编号>/`，包含 `documented-run.json`、`console.log` 和 TRX（xUnit）。JSON 记录提交、工作区是否修改、源码 SHA256、环境、时间、执行数量和证据相对路径；以执行器打印的实际目录定位。',
       'CI 工件使用提交 SHA 和操作系统命名；仅上传本任务生成的离线报告，不上传用户工程、AVEVA 截图、活动日志或知识库。',
       '## 源码与步骤','页内片段来自仓库相对路径 `'+test.file+'` 第 '+test.line+'–'+test.endLine+' 行。阅读这一页不需要打开 GitHub。',
-      '```'+(test.kind==='xunit'?'csharp':'text')+'\n'+(String(test.snippet).split(/\r?\n/).length>48?String(test.snippet).split(/\r?\n/).slice(Math.max(0,test.line-1),test.line+39).join('\n'):test.snippet)+'\n```',
+      fenced(test.kind==='xunit'?'csharp':'text', String(test.snippet).split(/\r?\n/).length>48?String(test.snippet).split(/\r?\n/).slice(Math.max(0,test.line-1),test.line+39).join('\n'):test.snippet),
       '可选对照：['+md(test.file)+':'+test.line+']('+test.sourceUrl+')。','[返回测试目录](index.md)'];
     writeFileSync(join(directory,posix.basename(test.url).replace('.html','.md')),parts.filter(Boolean).join('\n\n')+'\n');
   }

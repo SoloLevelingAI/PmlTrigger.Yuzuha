@@ -94,6 +94,10 @@
       "purpose": "使用临时 docs-only 站点确认发布的 C# 证据按原始 UTF-8 BOM/CRLF 字节返回 text/plain; charset=utf-8 和 nosniff；未知扩展仍 404，开发 GET 仍 404，写请求仍 403。不执行产品安装、修改当前 Skill 或连接 AVEVA。"
     },
     {
+      "test": "xunit:YuzuhaToolkit.Tests.DevelopmentApiTests.InstalledDocsOnlyModeServesTypeScriptSourcesAsPlainText",
+      "purpose": "使用隔离 docs-only 站点核对 .ts、.mts、.d.mts 三类已发布源码的 GET/HEAD：原始 UTF-8 BOM/CRLF 字节、text/plain; charset=utf-8、nosniff、HEAD 空正文与准确长度；未知扩展 404、开发 GET 404、写请求 403。不执行产品安装、不修改当前 Skill 或连接 AVEVA。"
+    },
+    {
       "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.NativeCliListsBothExecutionAndKnowledgeOperations",
       "purpose": "Run the native CLI process and verify all execution, knowledge and launch operations are discoverable."
     },

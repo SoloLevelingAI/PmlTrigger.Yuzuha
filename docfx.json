@@ -155,7 +155,8 @@
           "pr13-review-remediation-2026-11-01.json",
           "install-to-operation-2026-11-01.json",
           "visual-priority-skill-adoption-2026-11-02.json",
-          "ribbon-restart-2026-10-31.md"
+          "ribbon-restart-2026-10-31.md",
+          "design-contract-script-trace-2026-11-02.zh-CN.md"
         ],
         "src": "docs/validation",
         "dest": "validation"

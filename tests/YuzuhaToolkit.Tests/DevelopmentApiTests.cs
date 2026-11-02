@@ -146,6 +146,14 @@ public sealed class DevelopmentApiTests : IClassFixture<WebApplicationFactory<Pr
     public Task InstalledDocsOnlyModeServesTypeScriptSourcesAsPlainText(string name) =>
         AssertPublishedSourceIsReadOnlyPlainText(name);
 
+    /// <summary>生成站点登记的 Markdown/YAML 文本按原始字节提供，避免 xrefmap 被清单接受却返回 404。</summary>
+    [Theory]
+    [InlineData("guide.md")]
+    [InlineData("xrefmap.yml")]
+    [InlineData("metadata.yaml")]
+    public Task InstalledDocsOnlyModeServesTextMetadataAsPlainText(string name) =>
+        AssertPublishedSourceIsReadOnlyPlainText(name);
+
     private static async Task AssertPublishedSourceIsReadOnlyPlainText(string name)
     {
         var directory = Path.Combine(Path.GetTempPath(), "manager-docs-source-" + Guid.NewGuid().ToString("N"));
@@ -195,6 +203,16 @@ public sealed class DevelopmentApiTests : IClassFixture<WebApplicationFactory<Pr
         Assert.Equal(HttpStatusCode.OK, (await client.GetAsync("/docs/index.html")).StatusCode);
         Assert.Equal(HttpStatusCode.OK, (await client.GetAsync("/docs/developer-reference.html")).StatusCode);
         Assert.Equal(await File.ReadAllBytesAsync(fixture.UserManifest), await client.GetByteArrayAsync("/docs/documentation-profile.json"));
+        using var metadata = await client.GetAsync("/docs/xrefmap.yml");
+        Assert.Equal(HttpStatusCode.OK, metadata.StatusCode);
+        Assert.Equal(await File.ReadAllBytesAsync(Path.Combine(fixture.UserRoot, "xrefmap.yml")), await metadata.Content.ReadAsByteArrayAsync());
+        Assert.Equal("text/plain; charset=utf-8", metadata.Content.Headers.ContentType!.ToString());
+        Assert.Equal("nosniff", Assert.Single(metadata.Headers.GetValues("X-Content-Type-Options")));
+        using var metadataRequest = new HttpRequestMessage(HttpMethod.Head, "/docs/xrefmap.yml");
+        using var metadataHead = await client.SendAsync(metadataRequest);
+        Assert.Equal(HttpStatusCode.OK, metadataHead.StatusCode);
+        Assert.Equal(metadata.Content.Headers.ContentLength, metadataHead.Content.Headers.ContentLength);
+        Assert.Empty(await metadataHead.Content.ReadAsByteArrayAsync());
         foreach (var route in new[] { "/docs/api/Old.html", "/docs/reference/ui-trace/old.html", "/docs/missing.html" })
             Assert.Equal(HttpStatusCode.NotFound, (await client.GetAsync(route)).StatusCode);
         Assert.Equal(HttpStatusCode.NotFound, (await client.GetAsync("/reference/index.html")).StatusCode);
@@ -211,7 +229,7 @@ public sealed class DevelopmentApiTests : IClassFixture<WebApplicationFactory<Pr
         using var client = new HttpClient(handler) { BaseAddress = new Uri("http://127.0.0.1") };
         Assert.Contains("Developer reference", await client.GetStringAsync("/reference/index.html"));
         Assert.Contains("Type API", await client.GetStringAsync("/reference/api/Type.html"));
-        foreach (var name in new[] { "source.cs", "client.ts", "module.mts", "module.d.mts" })
+        foreach (var name in new[] { "source.cs", "client.ts", "module.mts", "module.d.mts", "guide.md", "xrefmap.yml", "metadata.yaml" })
         {
             using var response = await client.GetAsync("/reference/" + name);
             var expected = await File.ReadAllBytesAsync(Path.Combine(fixture.ReferenceRoot, "site", name));
@@ -227,6 +245,19 @@ public sealed class DevelopmentApiTests : IClassFixture<WebApplicationFactory<Pr
             Assert.Equal("text/plain; charset=utf-8", head.Content.Headers.ContentType!.ToString());
             Assert.Equal(HttpStatusCode.Forbidden, (await client.PostAsJsonAsync("/reference/" + name, new { })).StatusCode);
         }
+        var designBytes = await File.ReadAllBytesAsync(Path.Combine(fixture.ReferenceRoot, "site", "design.figcraft"));
+        foreach (var method in new[] { HttpMethod.Get, HttpMethod.Head })
+        {
+            using var request = new HttpRequestMessage(method, "/reference/design.figcraft");
+            using var response = await client.SendAsync(request);
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal("application/octet-stream", response.Content.Headers.ContentType!.ToString());
+            Assert.Equal("attachment", response.Content.Headers.ContentDisposition!.DispositionType);
+            Assert.Equal(designBytes.Length, response.Content.Headers.ContentLength);
+            Assert.Equal("nosniff", Assert.Single(response.Headers.GetValues("X-Content-Type-Options")));
+            Assert.Equal(method == HttpMethod.Get ? designBytes : [], await response.Content.ReadAsByteArrayAsync());
+        }
+        Assert.Equal(HttpStatusCode.Forbidden, (await client.PostAsJsonAsync("/reference/design.figcraft", new { })).StatusCode);
         foreach (var route in new[] { "/reference/source-docs/README.md", "/reference/../source-docs/README.md", "/reference/source.yuzuha-unknown", "/reference/developer-reference.json", "/api/manager/contracts" })
             Assert.Equal(HttpStatusCode.NotFound, (await client.GetAsync(route)).StatusCode);
     }

@@ -98,6 +98,10 @@
       "purpose": "使用隔离 docs-only 站点核对 .ts、.mts、.d.mts 三类已发布源码的 GET/HEAD：原始 UTF-8 BOM/CRLF 字节、text/plain; charset=utf-8、nosniff、HEAD 空正文与准确长度；未知扩展 404、开发 GET 404、写请求 403。不执行产品安装、不修改当前 Skill 或连接 AVEVA。"
     },
     {
+      "test": "xunit:YuzuhaToolkit.Tests.DevelopmentApiTests.InstalledDocsOnlyModeServesTextMetadataAsPlainText",
+      "purpose": "隔离 docs-only 站点核对 Markdown、YML、YAML 的 GET/HEAD 原始字节、纯文本类型及 nosniff，保留未知扩展 404、开发路由 404 和写请求 403；另由清单挂载回归验证已登记 xrefmap.yml，避免生成站点有效但真实 HTTP 缺页。不安装或连接 AVEVA。"
+    },
+    {
       "test": "xunit:YuzuhaToolkit.Tests.DocumentationPackageTests.UserGuideOnlyRegistersDeclaredFilesAndReferenceIdentity",
       "purpose": "隔离用户站只登记清单文件和配套开发参考身份；旧安装残留不加入当前帮助白名单。"
     },
@@ -139,7 +143,7 @@
     },
     {
       "test": "xunit:YuzuhaToolkit.Tests.DevelopmentApiTests.ExplicitReferenceMountServesOnlyItsDeclaredSiteAndPlainSources",
-      "purpose": "匹配独立开发包显式挂载到 /reference，仅提供 site 白名单；source-docs不暴露，CS/TS/MTS的GET/HEAD保留原字节、纯文本与nosniff，写请求403。"
+      "purpose": "匹配独立开发包显式挂载到 /reference，仅提供 site 白名单；source-docs不暴露，CS/TS/MTS/Markdown/YAML的GET/HEAD保留原字节、纯文本与nosniff；登记的FigCraft设计文件按二进制附件下载，未知扩展404，写请求403。"
     },
     {
       "test": "xunit:YuzuhaToolkit.Tests.DevelopmentApiTests.InvalidReferenceKeepsUserGuideAvailableWithoutFallback",

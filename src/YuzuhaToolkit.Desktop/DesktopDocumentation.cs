@@ -94,7 +94,9 @@ public partial class MainWindow
             var prefix = collection == DocumentationCollection.Developer ? "reference/" : "docs/";
             var address = new Uri(new Uri(documentationAddress!), prefix + target.RelativeUrl).AbsoluteUri;
             var ready = false;
-            for (var attempt = 0; attempt < 40; attempt++)
+            var readyDeadline = DateTime.UtcNow.AddMinutes(2);
+            Say(collection == DocumentationCollection.Developer ? "正在打开开发参考，请稍候；可以继续使用工作台。" : "正在打开使用指南，请稍候。");
+            while (DateTime.UtcNow < readyDeadline)
             {
                 if (_closed) { StopDocumentation();return; }
                 if (ownedProcess.HasExited) throw new IOException("文档服务已退出，请检查安装文件。");
@@ -104,7 +106,7 @@ public partial class MainWindow
                     if (!expected.AsSpan().SequenceEqual(SHA256.HashData(bytes))) throw new IOException("本地端口返回了其他版本的文档，未打开页面。");
                     ready = true; break;
                 }
-                catch (HttpRequestException) { await Task.Delay(200); }
+                catch (Exception error) when (error is HttpRequestException or TaskCanceledException) { await Task.Delay(200); }
             }
             if (!ready) throw new IOException("文档服务未就绪，请稍后重新打开。");
             if (_closed) { StopDocumentation();return; }

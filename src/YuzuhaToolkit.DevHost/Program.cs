@@ -36,13 +36,17 @@ if (builder.Configuration["docs-only"] == "true")
     if (userGuide is not null) userFiles!.Add(userGuide.ProfileFile.Path, userGuide.ProfileFile);
     IFileProvider docs = userGuide is null ? new PhysicalFileProvider(site) : new DocumentationManifestFileProvider(userGuide.Root, userFiles!);
     if (docs is IDisposable disposableDocs) app.Lifetime.ApplicationStopped.Register(disposableDocs.Dispose);
-    // 已发布的 C#/TypeScript 源码仅按纯文本提供；未知扩展仍不公开。
+    // 已发布的源码和 Markdown/YAML 元数据仅按纯文本提供；未知扩展仍不公开。
     var contentTypes = new FileExtensionContentTypeProvider();
-    foreach (var extension in new[] { ".cs", ".ts", ".mts" })
+    foreach (var extension in new[] { ".cs", ".ts", ".mts", ".md", ".yml", ".yaml" })
         contentTypes.Mappings[extension] = "text/plain; charset=utf-8";
+    contentTypes.Mappings[".figcraft"] = "application/octet-stream";
     app.UseStaticFiles(new StaticFileOptions { FileProvider = docs, RequestPath = "/docs",
         ContentTypeProvider = contentTypes, ServeUnknownFileTypes = false,
-        OnPrepareResponse = context => context.Context.Response.Headers.CacheControl = "no-cache" });
+        OnPrepareResponse = context => {
+            context.Context.Response.Headers.CacheControl = "no-cache";
+            if (context.File.Name.EndsWith(".figcraft", StringComparison.OrdinalIgnoreCase)) context.Context.Response.Headers.ContentDisposition = "attachment";
+        } });
     ValidatedDocumentationReference? reference = null;
     if (builder.Configuration["reference-root"] is { Length: > 0 } referenceRoot && userGuide is not null)
     {
@@ -55,7 +59,10 @@ if (builder.Configuration["docs-only"] == "true")
         app.UseStaticFiles(new StaticFileOptions {
             FileProvider = new DocumentationManifestFileProvider(reference.SiteRoot, reference.Files), RequestPath = "/reference",
             ContentTypeProvider = contentTypes, ServeUnknownFileTypes = false,
-            OnPrepareResponse = context => context.Context.Response.Headers.CacheControl = "no-cache" });
+            OnPrepareResponse = context => {
+                context.Context.Response.Headers.CacheControl = "no-cache";
+                if (context.File.Name.EndsWith(".figcraft", StringComparison.OrdinalIgnoreCase)) context.Context.Response.Headers.ContentDisposition = "attachment";
+            } });
         app.MapGet("/reference", () => Results.Redirect("/reference/index.html"));
     }
     app.Use(async (context, next) =>

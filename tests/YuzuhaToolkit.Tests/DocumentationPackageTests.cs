@@ -18,7 +18,7 @@ public sealed class DocumentationPackageTests
         using var fixture = new DocumentationPackageFixture();
         var user = DocumentationPackage.ValidateUserGuide(fixture.UserRoot);
         Assert.Equal(DocumentationPackageFixture.Commit, user.SourceCommit);
-        Assert.Equal(3, user.Files.Count);
+        Assert.Equal(4, user.Files.Count);
         Assert.Contains("developer-reference.html", user.Files.Keys);
         Assert.DoesNotContain("api/Old.html", user.Files.Keys);
         Assert.DoesNotContain("documentation-profile.json", user.Files.Keys);
@@ -178,12 +178,14 @@ internal sealed class DocumentationPackageFixture : IDisposable
         File.WriteAllText(Path.Combine(UserRoot, "index.html"), "<!doctype html><h1>User guide</h1>");
         File.WriteAllText(Path.Combine(UserRoot, "developer-reference.html"), "<!doctype html><h1>Choose independent reference</h1>");
         File.WriteAllText(Path.Combine(UserRoot, "theme.css"), "body { color: black; }");
+        File.WriteAllText(Path.Combine(UserRoot, "xrefmap.yml"), "### YamlMime:XRefMap\nreferences: []\n");
         File.WriteAllText(Path.Combine(UserRoot, "api", "Old.html"), "old API must not be served");
         File.WriteAllText(Path.Combine(UserRoot, "reference", "ui-trace", "old.html"), "old UI trace must not be served");
         File.WriteAllText(Path.Combine(ReferenceRoot, "site", "index.html"), "<!doctype html><h1>Developer reference</h1>");
         File.WriteAllText(Path.Combine(ReferenceRoot, "site", "api", "Type.html"), "<!doctype html><h1>Type API</h1>");
         byte[] source = [0xef, 0xbb, 0xbf, .. Encoding.UTF8.GetBytes("// 原始源码\r\nexport declare const value: string;\r\n")];
-        foreach (var name in new[] { "source.cs", "client.ts", "module.mts", "module.d.mts", "source.yuzuha-unknown" }) File.WriteAllBytes(Path.Combine(ReferenceRoot, "site", name), source);
+        foreach (var name in new[] { "source.cs", "client.ts", "module.mts", "module.d.mts", "guide.md", "xrefmap.yml", "metadata.yaml", "source.yuzuha-unknown" }) File.WriteAllBytes(Path.Combine(ReferenceRoot, "site", name), source);
+        File.WriteAllBytes(Path.Combine(ReferenceRoot, "site", "design.figcraft"), [0x50, 0x4b, 0x03, 0x04, 0, 1, 2, 3]);
         File.WriteAllText(Path.Combine(ReferenceRoot, "source-docs", "README.md"), "# Original development source\n");
         WriteReferenceManifest(); BindUserGuide();
     }
@@ -195,7 +197,7 @@ internal sealed class DocumentationPackageFixture : IDisposable
     }
     internal void BindUserGuide(string? manifestHash = null)
     {
-        var files = new[] { "index.html", "developer-reference.html", "theme.css" }.Select(path => Entry(UserRoot, Path.Combine(UserRoot, path))).ToArray();
+        var files = new[] { "index.html", "developer-reference.html", "theme.css", "xrefmap.yml" }.Select(path => Entry(UserRoot, Path.Combine(UserRoot, path))).ToArray();
         File.WriteAllText(UserManifest, JsonSerializer.Serialize(new { schema = "phayton.user-guide/1", sourceCommit = Commit, version = "0.3.4.2",
             developerReference = new { fileName = "Phayton-0.3.4.2-Developer-Reference.zip", sha256 = new string('b', 64), manifestSha256 = manifestHash ?? ManifestHash, sourceCommit = Commit }, files }));
     }

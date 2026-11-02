@@ -5,6 +5,8 @@ using System.Linq;
 using Microsoft.Win32;
 using Newtonsoft.Json.Linq;
 
+namespace Yuzuha.SetupBridge;
+
 /// <summary>安装桥接程序：发现环境、生成可审阅计划并按显式入口执行安装事务。</summary>
 internal static partial class Program
 {

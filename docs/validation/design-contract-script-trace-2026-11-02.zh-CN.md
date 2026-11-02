@@ -245,6 +245,41 @@ Script 详情在页内给出相对路径和源码片段，不打开 GitHub。
 
 同一次提交的 push 文档作业里，隔离 WPF 烟测在 60 秒整被掐断；同一提交的 pull_request 作业通过了同一检查。等待上限改为 120 秒，回执断言没有放宽。挂起的进程仍会失败。
 
+## 10. 契约到 Roslyn API 文档再到源码
+
+可以。DocFX metadata 就是 Roslyn 在编译这些项目时抽出的 API。图集不再把契约方法指到裸 `.cs`。C# 成员页标题旁有「查看源码」，地址是 GitHub 上该次检出的文件和行。file:// 打开图集时不放 DocFX 站点链接，避免指向还没生成的 HTML。
+
+| 环节 | 落点 |
+|---|---|
+| 设计意图 | 契约操作能打开 Roslyn 生成的 API 页，再从该页跳到源码行。没有 Roslyn 的文件仍用行号片段 |
+| 契约条目 | [manager-journey.json](../contracts/manager-journey.json) 的 `typeName` + `member`；图集 [snippets.js](../../docs/presentation/contract-atlas/snippets.js) 的 `api.typeUid` |
+| 实现位置 | [docfx.json](../../docfx.json) 增加 Desktop 与 SetupBridge。[check-contract-api-uids.mjs](../../scripts/check-contract-api-uids.mjs) 在文档构建后核对 uid。图集在 http 下链到 `artifacts/docfx/site/api/...`，file:// 只显示 uid 文字，另给 GitHub 次链接 |
+| 测试证据 | `node scripts/check-contract-api-uids.mjs` 在本机 metadata 上通过（8156 个 uid，25 个 C# 片段）。`tests/contract-snippets.test.mjs` 核对类型 uid 与相对 API 路径 |
+| 剩余缺口 | Host 的 net35/net48 项目引用 AVEVA 程序集，CI 上没有这些 DLL，不能靠改 TargetFramework 假装已经解析。`.iss` 与 PML 不是 C#。partial class 的类型级「查看源码」只指向 DocFX 选中的那一个文件。人工视觉认可仍未做 |
+
+```mermaid
+flowchart LR
+  catalog["ManagerContractCatalog"] --> journey["manager-journey.json"]
+  journey --> atlas["图集 snippets.js"]
+  catalog --> roslyn["docfx metadata / Roslyn"]
+  roslyn --> api["artifacts/docfx/api uid"]
+  api --> page["成员页"]
+  page --> github["查看源码"]
+  text["Yuzuha.iss / PML"] --> fragment["行号片段"]
+```
+
+这次新收进 metadata 的项目是 `YuzuhaToolkit.Desktop` 和 `SetupBridge`。Desktop 是 `net10.0-windows`，工程里打开 `EnableWindowsTargeting`，Linux 上的文档还原才能过。SetupBridge 仍是 net48，只引用仓库里的 Newtonsoft.Json。`Program` 原来在全局命名空间，DocFX 不输出它；现已改为 `Yuzuha.SetupBridge`，并用 `includePrivateMembers` 收进 API，因为这些类型是 internal。
+
+已经在 metadata 里、这条契约会用到的还有 `YuzuhaToolkit.Manager.Core`（目录、输出摘要、退出码、Host profile）、`YuzuhaToolkit.Mcp.Core`（`PmlArrayWindow`）和 `YuzuhaToolkit.Knowledge.Core`。
+
+没有收进 metadata 的是 `YuzuhaToolkit.PmlHost.Net35` 和 `YuzuhaToolkit.PmlHost.Net48`。它们引用 AVEVA 的 PMLNet 等程序集。把 TargetFramework 改成 net10 不能消掉这些引用，CI 上会在还原或编译时失败。数组窗口的 API 页来自 Mcp.Core，不依赖这两个 Host 工程。
+
+`Yuzuha.iss` 和 PML 由符号定位截成片段，带相对路径和行号，并有 GitHub 次链接。它们不会出现在 API uid 里。
+
+下面是本机用同一套模板生成的 `Yuzuha.SetupBridge.Program` 页。右上角「查看源码」指向 GitHub 对应行。
+
+![SetupBridge 成员页](contract-atlas-reading-2026-11-02/docfx-member-setupbridge-1440.png)
+
 ### 27.16 还要做的四步
 
 | 步骤 | 在哪里 | 怎样算做完 |

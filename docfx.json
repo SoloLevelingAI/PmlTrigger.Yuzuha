@@ -13,6 +13,18 @@
       "dest": "artifacts/docfx/api/manager"
     },
     {
+      "src": [{ "files": ["src/YuzuhaToolkit.Desktop/YuzuhaToolkit.Desktop.csproj"] }],
+      "dest": "artifacts/docfx/api/desktop",
+      "includePrivateMembers": true,
+      "properties": { "NoWarn": "1591" }
+    },
+    {
+      "src": [{ "files": ["installer/SetupBridge/SetupBridge.csproj"] }],
+      "dest": "artifacts/docfx/api/setup-bridge",
+      "includePrivateMembers": true,
+      "properties": { "NoWarn": "1591" }
+    },
+    {
       "src": [
         {
           "files": [

@@ -5,6 +5,7 @@ import {fileURLToPath} from 'node:url';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const output = path.join(root, 'docs/presentation/contract-atlas/snippets.js');
 const windowLines = 32;
+const githubRepo = 'https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha';
 
 /** Reviewed symbol bindings. Line numbers are derived, never authored. */
 const atlasBindings = [
@@ -69,6 +70,7 @@ export function collectBindings() {
         entityIds: ['feature:launch', 'feature:deployment'],
         path: script.path,
         symbol: script.member,
+        typeName: script.typeName,
         kind: 'member',
         language: languageOf(script.path)
       });
@@ -82,6 +84,45 @@ export function collectBindings() {
   });
 }
 
+function namespaceBefore(lines, line) {
+  let ns = '';
+  for (let index = 0; index < line; index++) {
+    const match = lines[index].match(/^namespace\s+([A-Za-z0-9_.]+)\s*;?/);
+    if (match) ns = match[1];
+  }
+  return ns;
+}
+function enclosingType(lines, line) {
+  for (let index = line - 1; index >= 0; index--) {
+    const match = lines[index].match(/\b(?:class|record|struct|interface)\s+([A-Za-z_][A-Za-z0-9_]*)/);
+    if (match) return match[1];
+  }
+  return '';
+}
+export function apiTarget(binding, source, startLine) {
+  if (binding.language !== 'csharp') return null;
+  const lines = source.split(/\r?\n/);
+  const ns = namespaceBefore(lines, startLine);
+  const type = binding.kind === 'type' ? binding.symbol : (binding.typeName ? binding.typeName.split('.').at(-1) : enclosingType(lines, startLine));
+  const typeUid = binding.typeName || (ns ? ns + '.' + type : type);
+  if (!typeUid) return null;
+  const project = binding.path.startsWith('src/YuzuhaToolkit.Manager.Core/') ? 'manager'
+    : binding.path.includes('PmlArrayWindow.cs') || binding.path.startsWith('src/YuzuhaToolkit.Mcp.Core/') ? 'mcp'
+    : binding.path.startsWith('src/YuzuhaToolkit.Knowledge.Core/') ? 'knowledge'
+    : binding.path.startsWith('src/YuzuhaToolkit.Desktop/') ? 'desktop'
+    : binding.path.startsWith('installer/SetupBridge/') ? 'setup-bridge'
+    : binding.path.startsWith('src/YuzuhaToolkit.Workspace/') ? 'workspace'
+    : binding.path.startsWith('src/YuzuhaToolkit.WebApps/') ? 'webapps'
+    : binding.path.startsWith('src/YuzuhaToolkit.DevHost/') ? 'devhost'
+    : null;
+  if (!project) throw new Error('No DocFX project for ' + binding.path);
+  return {
+    project,
+    typeUid,
+    member: binding.kind === 'member' ? binding.symbol : null,
+    href: '../../../artifacts/docfx/site/api/' + project + '/' + typeUid + '.html'
+  };
+}
 export function buildSnippets() {
   const items = collectBindings().map(binding => {
     const absolute = owned(binding.path);
@@ -89,7 +130,9 @@ export function buildSnippets() {
     const startLine = locateSymbol(source, binding.symbol, binding.kind);
     const fragment = sliceFragment(source, startLine);
     if (!fragment.text.includes(binding.kind === 'literal' ? binding.symbol : binding.symbol)) throw new Error('Fragment lost its symbol: ' + binding.id);
-    return { ...binding, ...fragment };
+    const api = apiTarget(binding, source, startLine);
+    const githubHref = githubRepo + '/blob/main/' + binding.path + '#L' + fragment.startLine + '-L' + fragment.endLine;
+    return { ...binding, ...fragment, api, githubHref };
   });
   return { schema: 'contract-atlas-snippets/1', windowLines, items };
 }

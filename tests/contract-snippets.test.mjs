@@ -22,7 +22,14 @@ test('snippets are relocated by symbol and match the current source bytes', () =
     assert.ok(item.text.includes(item.kind === 'literal' ? item.symbol : item.symbol));
     assert.ok(item.entityIds.length);
   }
-  assert.ok(catalog.items.some(item => item.language === 'pascal' && item.path.endsWith('.iss')));
-  assert.ok(catalog.items.some(item => item.language === 'pml'));
-  assert.ok(catalog.items.some(item => item.id === 'script:launch-workflow'));
+  assert.ok(catalog.items.some(item => item.language === 'pascal' && item.path.endsWith('.iss') && item.api === null && item.githubHref.includes('#L')));
+  assert.ok(catalog.items.some(item => item.language === 'pml' && item.api === null));
+  const launch = catalog.items.find(item => item.id === 'script:launch-workflow');
+  assert.equal(launch.api.project, 'manager');
+  assert.match(launch.api.typeUid, /LaunchWorkflowService$/);
+  assert.match(launch.api.href, /api\/manager\/YuzuhaToolkit\.Manager\.LaunchWorkflowService\.html$/);
+  assert.match(launch.githubHref, /github\.com\/.+#L\d+-L\d+$/);
+  const desktop = catalog.items.find(item => item.id === 'script:workbench-entry');
+  assert.equal(desktop.api.project, 'desktop');
+  assert.equal(desktop.api.typeUid, 'YuzuhaToolkit.Desktop.PreparationWorkbench');
 });

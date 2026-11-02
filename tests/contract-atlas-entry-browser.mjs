@@ -62,6 +62,9 @@ try {
   for (const title of ['目的', '输入/输出契约', '源码片段', '验证证据', '边界与不承诺事项']) assert.ok(detail.titles.includes(title), title);
   assert.ok(detail.path.endsWith('.cs') && detail.text.includes('LaunchWorkflowService'));
   assert.equal(detail.visible, true, 'source fragment is visible from file:// without a network');
+  assert.equal(await page.locator('contract-detail a[href*="artifacts/docfx"]').count(), 0, 'file:// does not link at an unbuilt DocFX page');
+  assert.ok(await page.locator('contract-detail [data-docfx-uid]').count() >= 1);
+  assert.match(await page.locator('contract-detail a[data-github-source]').first().getAttribute('href'), /^https:\/\/github\.com\//);
   assert.equal(await page.evaluate(() => performance.getEntriesByType('resource').some(item => item.name.startsWith('http'))), false);
   assert.deepEqual(errors, []);
   console.log(JSON.stringify({ passed: true, faces: faces.length }));

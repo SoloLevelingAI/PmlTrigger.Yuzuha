@@ -6572,7 +6572,7 @@
     {
       "id": "source:openspec-tasks",
       "title": "平台候选tasks",
-      "sha256": "33d7cc3301925d808f38ce74fdc1538698e2fb24d832c9f7747fe4a29f00d9ff",
+      "sha256": "575586e4e8d1d301fd18ba2160b28c358a9192d8912a180437aba7a3a759c192",
       "authority": "proposal",
       "audience": "public"
     },

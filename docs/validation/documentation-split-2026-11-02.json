@@ -1,0 +1,212 @@
+{
+  "schema": "phayton.documentation-split-evidence/1",
+  "recordedUtc": "2026-11-02T13:39:07.921128+00:00",
+  "status": "CANDIDATE_AND_PREVIEW_READY_NOT_INSTALLED",
+  "componentSourceCommit": "04a3c9473cb0d7d5e38b98fca9042914d4663f48",
+  "auditCommitBoundary": "This later evidence/task update does not rebuild or relabel the immutable component publications.",
+  "userGuide": {
+    "htmlPages": 11,
+    "indexedBytes": 10947686,
+    "filesIncludingProfile": 166,
+    "bytesIncludingProfile": 10975840,
+    "checkedLocalLinks": 91,
+    "profileSha256": "a7e7862b1785d302603c51cf0a3695dc38fec456ff5bdabb882b1a23101112a2",
+    "apiSourceTestsTraceAndMapsIncluded": false
+  },
+  "developerReference": {
+    "fileName": "Phayton-0.3.4.2-Developer-Reference.zip",
+    "sha256": "84022d7ac9a5c8f88b07dfc78955c99ac4174e6e52fa13609369dc0811cfd0a4",
+    "manifestSha256": "69e71c1a8808571b23a3b06bdd62155ca60490dbb0d222af807ba1b404c29b06",
+    "sourceCommit": "04a3c9473cb0d7d5e38b98fca9042914d4663f48",
+    "members": 6212,
+    "uncompressedBytes": 256762577,
+    "htmlPages": 4807,
+    "checkedLocalLinks": 130543,
+    "testDocumentationItems": 479,
+    "archiveInPayloadOrAgent": false,
+    "rawSourceDocsIncluded": true
+  },
+  "delivery": {
+    "manifestSha256": "4d73e07bc2dc33adacbdb28a794a8c042178a6fdffdc991299b530a50fbcace9",
+    "manifestMembers": 1224,
+    "physicalPayloadFiles": 1225,
+    "payloadBytes": 500276161,
+    "rootDocsIncluded": false,
+    "deliverables": [
+      {
+        "file": "Phayton-0.3.4.2-Windows-Setup.exe",
+        "sha256": "a2392ec8761a669d3848eb2aa41dc158b553702a459a18eb1e7b6c85527ec374",
+        "bytes": 154223329
+      },
+      {
+        "file": "Phayton-0.3.4.2-Windows-Agent.zip",
+        "sha256": "d2cb3d2c9567004e383cfe1122cb5db90f90e4cdd6b65731290da7738fd6e8d1",
+        "bytes": 154194125
+      },
+      {
+        "file": "Phayton-Windows-Setup-Sources.zip",
+        "sha256": "48c3a9a3bbc6361556156b6ce4fbcd903338386e5c70c6495b155fd3bf456f8d",
+        "bytes": 215840
+      },
+      {
+        "file": "Phayton-0.3.4.2-Developer-Reference.zip",
+        "sha256": "84022d7ac9a5c8f88b07dfc78955c99ac4174e6e52fa13609369dc0811cfd0a4",
+        "bytes": 81363524
+      }
+    ],
+    "inventoryEvidence": {
+      "path": "artifacts/doc-split-closeout-20261102-v2/audit/payload-inventory-04a3c94.json",
+      "sha256": "772cf3384e37bcc3f3483397bc73eeb729d965da1cf1461ad9b1abeafb861bb8"
+    }
+  },
+  "footprint": {
+    "beforePayloadFiles": 7180,
+    "beforePayloadBytes": 746298537,
+    "afterPayloadFiles": 1225,
+    "afterPayloadBytes": 500276161,
+    "savedPayloadBytes": 246022376,
+    "oldInstalledFilesDeleted": false,
+    "evidence": {
+      "path": "artifacts/doc-split-closeout-20261102-v2/audit/payload-footprint-comparison-04a3c94.json",
+      "sha256": "526c129ce36107b0eeb42ed96e19303ed624fe75f99a7177704996875bfbae64"
+    }
+  },
+  "verification": {
+    "applicationTests": {
+      "passed": 334,
+      "failed": 0,
+      "skipped": 0,
+      "scope": "Full YuzuhaToolkit.Tests project after the final MIME/startup fix; test execution precedes the immutable publication."
+    },
+    "contractsTests": {
+      "passed": 79,
+      "scope": "Documentation split source before the final narrow MIME fix; exact final source also passed cloud checks."
+    },
+    "bundleTests": {
+      "python": 23,
+      "node": 6
+    },
+    "nativeCliRealProcesses": 64,
+    "managerPublishedContract": {
+      "stages": 8,
+      "operations": 89,
+      "journeyOperations": 21
+    },
+    "rootDocsAbsentRuntime": {
+      "builtinUsagePassed": true,
+      "managerHomeStatus": 200,
+      "managerGuideStatus": 200,
+      "exactPackagedMarkdown": true,
+      "evidence": {
+        "path": "artifacts/doc-split-closeout-20261102-v2/audit/installer-runtime-no-root-docs.json",
+        "sha256": "641288cc4e4ce57515c91e69b27d45d0408b2a1bc29356d3819206771e6a6648"
+      }
+    },
+    "actualPublishedHttp": {
+      "requests": 338,
+      "passed": true,
+      "all165DefaultMembersVerified": true,
+      "developerReadyMilliseconds": 23638,
+      "knownTextMimePassed": true,
+      "bothFigcraftDownloadsPassed": true,
+      "legacyLeftoversNotServed": true,
+      "wrongReferenceTamperingTraversalAndRealJunctionRejected": true,
+      "ownedHostsStopped": 5,
+      "otherProcessesStopped": 0,
+      "evidence": {
+        "path": "artifacts/doc-split-closeout-20261102-v2/audit/published-documentation-7deeb6af59c94aa2b593d21ae80d4319.json",
+        "sha256": "92e147c73f1e9a8f4ddf0d9547c198a1cac7a0b46070c4536d8ffddfd7f31cff"
+      }
+    },
+    "ci": {
+      "headSha": "04a3c9473cb0d7d5e38b98fca9042914d4663f48",
+      "allSixChecks": "success",
+      "runs": [
+        "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/actions/runs/41452382900",
+        "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/actions/runs/41452382915",
+        "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/actions/runs/41452382891"
+      ]
+    }
+  },
+  "preview": {
+    "schema": "pmltwin.mainline-upgrade-preview/1",
+    "status": "PREVIEW_ONLY",
+    "createdUtc": "2026-11-02T13:36:56.310859+00:00",
+    "sourceCommit": "04a3c9473cb0d7d5e38b98fca9042914d4663f48",
+    "manifestSha256": "4d73e07bc2dc33adacbdb28a794a8c042178a6fdffdc991299b530a50fbcace9",
+    "planId": "43aa7d36e2bf4a98a38316453587f92b",
+    "planSha256": "3d71b34f9de8769c8b9becb646a36a49c9b6b1bf36c93c41a27bb666ff69d587",
+    "payloadActions": {
+      "update": 392,
+      "unchanged": 816,
+      "create": 16
+    },
+    "changeActions": {
+      "unchanged": 13,
+      "update": 2
+    },
+    "changeKinds": {
+      "pml-index": 1,
+      "skill": 14
+    },
+    "priorManagedCount": 15,
+    "adoptSkill": false,
+    "environmentWrites": 0,
+    "originalMarkerUnchanged": true,
+    "setupExecuted": false,
+    "privateDetailsSuppressed": true
+  },
+  "installedBeforePreview": {
+    "schema": "phayton.installed-prepreview/1",
+    "status": "PASS",
+    "checkedUtc": "2026-11-02T13:24:09.260391+00:00",
+    "installedPayloadMembers": 7021,
+    "installedManifestSha256": "730212b563f96ca8285f2dcdbc18fc76380147fc0b8986c2d9a8a1fa441415c1",
+    "installedMarkerSha256": "5efd301d183cdc7d755ecd7afe5930ec1ca1d6d3c083e49fdff9e0eba531dc5e",
+    "managedExternalFiles": 15,
+    "managedKinds": {
+      "environment": 1,
+      "skill": 14
+    },
+    "allInstalledAndManagedHashesMatched": true,
+    "allOriginalFieldsPresent": true,
+    "originalsDecodedOrPrinted": false,
+    "originalsNonNull": 15,
+    "legacyEnvironmentSha256": "0ecde32d7449483f31ddc022b7a657d98ef3ef04f8b6c6c08311cc20e0ca3f95",
+    "installedRootChanged": false,
+    "scope": "Read only; no plan, Setup, ENV write, credential access or AVEVA execution."
+  },
+  "retainedFailures": [
+    {
+      "sourceCommit": "1770fa0f5650d8b0b757e21ec864c5017a8a627d",
+      "status": "WITHDRAWN_NOT_FOR_INSTALLATION",
+      "reason": "Actual Host returned 404 for registered YAML and linked FigCraft; full reference startup exceeded the former desktop wait. Corrected in 04a3c94.",
+      "runtimeEvidence": {
+        "path": "artifacts/doc-split-closeout-20261102/audit/published-documentation-49570f0dd6524721b8b2fc3ca5e9ce97.json",
+        "sha256": "129bd603a9e661f695ad431abdefa1c2eec9eb00f4b8bd8d312943ab779458f4"
+      }
+    },
+    {
+      "sourceCommit": "04a3c9473cb0d7d5e38b98fca9042914d4663f48",
+      "status": "FAILED_OUTPUT_RETAINED",
+      "reason": "F drive ran out of space before Inno started. Retried in the second explicitly writable workspace root; failed output and receipt were retained."
+    }
+  ],
+  "pending": {
+    "27.16": "Specific new plan approval, normal Setup execution and installed-byte/HTTP verification.",
+    "27.10": "Fresh legacy ENV ownership preview/approval/transfer, deployment preview/approval/apply, selected AVEVA verification and user visual acceptance.",
+    "28.5": "Candidate and new preview are ready; actual upgrade/acceptance remains open."
+  },
+  "privacy": {
+    "rawPlanAndOriginalsInRepository": false,
+    "credentialsReadOrPrinted": false,
+    "privatePathsSuppressed": true,
+    "avevaExecuted": false,
+    "environmentWrites": 0
+  },
+  "previewIndependentReview": {
+    "passed": true,
+    "path": "artifacts/doc-split-closeout-20261102-v2/audit/upgrade-preview-independent-safe-review.json",
+    "sha256": "d02caf8f7bd67f64626a04237589768ec98a4d9b6b759d73bd73d1edb93ffbb9"
+  }
+}

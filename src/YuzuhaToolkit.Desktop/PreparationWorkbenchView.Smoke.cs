@@ -34,9 +34,13 @@ public partial class PreparationWorkbenchView
                 if (Volatile.Read(ref watchdogTriggered) != 0 || release.IsSet || pending.IsCompleted || !work.Busy || backendThread == uiThread || !Dispatcher.CheckAccess()) throw new InvalidOperationException("同步处理器尚未释放时，原生Dispatcher没有保持可响应。");
                 Stages.SelectedItem = stages.First(s => s.Id == "recover");Readers.SelectedIndex = 3;UpdateLayout();
                 if (work.Stage != "recover" || work.Reader != "evidence" || PackagePanel.IsEnabled || PrimaryAction.IsEnabled || !EvidenceOutcome.IsVisible) throw new InvalidOperationException($"等待期间阅读未响应，或输入/主写入动作仍可用：{work.Stage}/{work.Reader}/input={PackagePanel.IsEnabled}/action={PrimaryAction.IsEnabled}/evidence={EvidenceOutcome.IsVisible}。");
-                if (!InlineResult.Text.StartsWith("正在等待", StringComparison.Ordinal) || !EvidenceOutcome.Text.Contains("当前正在等待", StringComparison.Ordinal) || !EvidenceOutcome.Text.Contains("上一次已收到", StringComparison.Ordinal) || !EvidenceOperation.Text.StartsWith("上一次回执 · setup.handoff.inspect", StringComparison.Ordinal) || !ReferenceEquals(previousResult, work.Result) || !EvidenceResult.Text.Contains("先前已收到的合成回执", StringComparison.Ordinal)) throw new InvalidOperationException("等待状态混入上次成功，或清除了上次已收到的回执。");
+                var waiting = PreparationCopy.T("正在等待本次回执；不会自动重发。", "Waiting for this receipt. It will not be sent again.");
+                var waitingOutcome = PreparationCopy.T("当前正在等待；下方保留上一次已收到的回执。", "Waiting now. The previous received receipt is kept below.");
+                var previousReceipt = PreparationCopy.T("上一次回执 · ", "Previous receipt · ");
+                if (!InlineResult.Text.StartsWith(waiting, StringComparison.Ordinal) || EvidenceOutcome.Text != waitingOutcome || !EvidenceOperation.Text.StartsWith(previousReceipt + "setup.handoff.inspect", StringComparison.Ordinal) || !ReferenceEquals(previousResult, work.Result) || !EvidenceResult.Text.Contains("先前已收到的合成回执", StringComparison.Ordinal)) throw new InvalidOperationException("等待状态混入上次成功，或清除了上次已收到的回执。");
                 checkClosing(true);
-                if (!IsRunning || !InlineResult.Text.Contains("等待本次准备回执", StringComparison.Ordinal) || !ReferenceEquals(previousResult, work.Result)) throw new InvalidOperationException("等待时关窗没有就近提示，或破坏了当前调用和回执。");
+                var closeNotice = PreparationCopy.T("请等待本次准备回执后再关闭窗口；不会自动取消或重发。", "Wait for this preparation receipt before closing. It will not be cancelled or sent again.");
+                if (!IsRunning || InlineResult.Text != closeNotice || !ReferenceEquals(previousResult, work.Result)) throw new InvalidOperationException("等待时关窗没有就近提示，或破坏了当前调用和回执。");
                 var rejected = false;try { work.Change(work.Draft with { PackageRoot = "changed" }); } catch (InvalidOperationException) { rejected = true; }
                 if (!rejected) throw new InvalidOperationException("等待期间允许改写执行输入。");
                 foreach (var duplicate in new[] { work.InspectAsync(), work.ApplyAsync(true) })

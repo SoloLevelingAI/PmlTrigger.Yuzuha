@@ -6,6 +6,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
 using Newtonsoft.Json.Linq;
+using Yuzuha.SetupBridge;
 
 internal static partial class SetupTests
 {

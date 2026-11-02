@@ -13,7 +13,18 @@ export function schemaType(schema){
 export function artifacts(catalog){
  if(catalog?.journey?.schema!=='pmltwin.manager-journey/1'||!Array.isArray(catalog.operations))throw Error('Unsupported runtime contract export.');
  const ids=new Set(catalog.operations.map(op=>op.id));if(ids.size!==catalog.operations.length)throw Error('Duplicate registered operations.');
- for(const stage of catalog.journey.stages)for(const id of stage.operationIds)if(!ids.has(id))throw Error('Unregistered stage operation: '+id);
+ const journeyIds=catalog.journey.stages.flatMap(stage=>stage.operationIds);
+ for(const id of journeyIds)if(!ids.has(id))throw Error('Unregistered stage operation: '+id);
+ if(Array.isArray(catalog.outputProjections)){
+  const projected=catalog.outputProjections.map(item=>item.operationId);
+  if(new Set(projected).size!==projected.length)throw Error('Duplicate output projection.');
+  if(projected.join('\n')!==journeyIds.join('\n'))throw Error('Output projections drifted from the journey operations.');
+  for(const item of catalog.outputProjections){
+   if(item.coverage==='passthrough'&&item.schema!==true)throw Error('Passthrough projection must keep data unknown: '+item.operationId);
+   if(item.coverage==='summary'&&item.schema?.additionalProperties!==true)throw Error('Summary projection must allow unknown fields: '+item.operationId);
+  }
+ }
+ if(Array.isArray(catalog.exitTaxonomy)&&catalog.exitTaxonomy.some(row=>row.autoRetry!==false))throw Error('Exit taxonomy must refuse automatic retry.');
  const openapi={openapi:'3.1.0',info:{title:'PMLTWIN manager contract metadata (read only)',version:'1',description:'Only these GET catalog routes are HTTP APIs. Listed manager operations execute through the explicit CLI; no mutation HTTP endpoint is promised.'},servers:[{url:'http://127.0.0.1:5276'}],paths:{}};
  const text={type:'string'},strings={type:'array',items:text},reference=name=>({$ref:'#/components/schemas/'+name});
  const object=properties=>({type:'object',additionalProperties:false,properties,required:Object.keys(properties)});
@@ -22,8 +33,10 @@ export function artifacts(catalog){
   ManagerContractStage:object({...Object.fromEntries(['id','title','input','precondition','method','effect','validation','receipt','recovery','evidenceBoundary'].map(key=>[key,text])),operationIds:strings,scripts:{type:'array',items:reference('ManagerContractScript')}}),
   ManagerJourneyContract:object({schema:{type:'string',const:'pmltwin.manager-journey/1'},id:text,title:text,summary:text,stages:{type:'array',items:reference('ManagerContractStage')}}),
   OperationDescriptor:object({id:text,contractVersion:{type:'integer',minimum:1},description:text,inputSchema:{type:'object',additionalProperties:true},requiresPid:{type:'boolean'},requiresExecution:{type:'boolean'},requiresWrite:{type:'boolean'},requiresLaunch:{type:'boolean'},legacyTools:{anyOf:[strings,{type:'null'}]}}),
-  ManagerContractExport:object({journey:reference('ManagerJourneyContract'),operations:{type:'array',items:reference('OperationDescriptor')},outputBoundary:text}),
-  OperationResult:{type:'object',description:'CLI envelope only. It is not an HTTP invocation route; data is arbitrary JSON and Int64 values must be preserved from raw CLI text.',properties:{operationId:text,success:{type:'boolean'},exitCode:{type:'integer'},schemaVersion:{type:'integer'},data:true,error:{anyOf:[object({code:text,message:text,mayHaveExecuted:{type:'boolean'}}),{type:'null'}]}},required:['operationId','success','exitCode','schemaVersion']}
+  ManagerOutputProjection:object({operationId:text,coverage:{type:'string',enum:['summary','passthrough']},sourceType:text,schema:{}}),
+  InstallExitRow:object({id:text,process:text,exitCode:{type:'integer'},errorCode:text,meaning:text,autoRetry:{type:'boolean',const:false}}),
+  ManagerContractExport:object({journey:reference('ManagerJourneyContract'),operations:{type:'array',items:reference('OperationDescriptor')},outputBoundary:text,outputProjections:{type:'array',items:reference('ManagerOutputProjection')},exitTaxonomy:{type:'array',items:reference('InstallExitRow')}}),
+  OperationResult:{type:'object',description:'CLI envelope only. It is not an HTTP invocation route. data remains unknown JSON. Journey success payloads also publish outputProjections, which allow additional fields. Int64 values must be preserved from raw CLI text.',properties:{operationId:text,success:{type:'boolean'},exitCode:{type:'integer'},schemaVersion:{type:'integer'},data:true,error:{anyOf:[object({code:text,message:text,mayHaveExecuted:{type:'boolean'}}),{type:'null'}]}},required:['operationId','success','exitCode','schemaVersion']}
  }};
  for(const [route,id,description]of [['/api/manager/contracts','GetManagerContracts','Complete seven-field journey and actual registry.'],['/api/manager/operations','GetManagerOperations','Actual input schemas and explicit grant requirements.'],['/api/manager/operations/{id}','GetManagerOperation','One actual registered operation; unknown IDs return 404.']]){
   const response=route.endsWith('/contracts')?reference('ManagerContractExport'):route.endsWith('/operations')?{type:'array',items:reference('OperationDescriptor')}:reference('OperationDescriptor');
@@ -32,9 +45,12 @@ export function artifacts(catalog){
   openapi.paths[route]={get};
  }
  openapi['x-cli-input-schemas']=Object.fromEntries(catalog.operations.map(operation=>[operation.id,operation.inputSchema]));
+ if(Array.isArray(catalog.outputProjections))openapi['x-journey-output-summaries']=Object.fromEntries(catalog.outputProjections.map(item=>[item.operationId,{coverage:item.coverage,sourceType:item.sourceType,schema:item.schema}]));
+ if(Array.isArray(catalog.exitTaxonomy))openapi['x-install-exit-taxonomy']=catalog.exitTaxonomy;
  const types='// Generated from the actual registered input schemas. Do not edit.\n'+
   'import {invokeCli as transport} from "./manager-journey-client.mjs";\n'+
   'export type JsonValue = null | boolean | number | string | JsonValue[] | { [key: string]: JsonValue };\n'+
+  '/** data stays unknown. Public journey summaries are outputProjections in manager-journey.json and OpenAPI x-journey-output-summaries. */\n'+
   'export interface OperationResult { operationId: string; success: boolean; exitCode: number; data?: unknown; error?: { code: string; message: string; mayHaveExecuted?: boolean }; schemaVersion: number }\n'+
   'export interface CliContext { processId?: number; expectedModel?: string; expectedProcessStartTimeUtcTicks?: string; allowWrite?: boolean; allowLaunch?: boolean; allowExecution?: boolean }\n'+
   'export interface CliOptions { executable: string; prefixArgs?: string[]; context?: CliContext; timeoutMs?: number; maximumOutputBytes?: number }\n'+

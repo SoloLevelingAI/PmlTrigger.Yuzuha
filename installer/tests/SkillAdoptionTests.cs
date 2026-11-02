@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Newtonsoft.Json.Linq;
+using Yuzuha.SetupBridge;
 
 /// <summary>只在隔离临时文件验证 Skill 显式接管、快照拒绝和原字节恢复，不运行产品安装器。</summary>
 internal static partial class SetupTests

@@ -6516,7 +6516,7 @@
     {
       "id": "source:capabilities",
       "title": "既有Feature与Script目录",
-      "sha256": "eec0c0ff3c61bc2ec12b5987212bf8ddf522a58b4cf4c3541458f3be42f3c2b8",
+      "sha256": "66031a1ab71aef23c66de84ca2930a3d9208d491e16b6e60ec4d788831cfb83a",
       "authority": "catalog",
       "audience": "public"
     },
@@ -6551,14 +6551,14 @@
     {
       "id": "source:openspec-proposal",
       "title": "平台候选proposal",
-      "sha256": "8cc7005d53bdcc99ab18ef42f432736bfbb1b6c7a7db4ffa63c8983c069f8848",
+      "sha256": "a816c1afcc37e3774c78105fea28acf74006c37840c461728b66608c61b7e5c1",
       "authority": "proposal",
       "audience": "public"
     },
     {
       "id": "source:openspec-contracts",
       "title": "平台候选contracts",
-      "sha256": "23f45ae6ebacd16f52c4d83b3b39915156a5fd841315d207059e04028f9e4fd7",
+      "sha256": "11182f2295aaeb1cc60704eda084e3cb9d6c99564b9595b97705c04662102184",
       "authority": "proposal",
       "audience": "public"
     },
@@ -6572,7 +6572,7 @@
     {
       "id": "source:openspec-tasks",
       "title": "平台候选tasks",
-      "sha256": "5d564ea063f4da4e55342f0ca0619177ed1b69ce90ba472c68fbcd506a8b75ed",
+      "sha256": "d335e242898f72546b9b78f9c5848416fbd0a3c0d58eda7610cd3d99f151a2d1",
       "authority": "proposal",
       "audience": "public"
     },
@@ -6586,7 +6586,7 @@
     {
       "id": "source:render-model",
       "title": "共同组件事实投影",
-      "sha256": "692ad8fa220552a79c55a5e5ff50261c3e851101943cabab08ebc7b996e5fbdc",
+      "sha256": "34670390fd6d10e9b61066e50eaa67fe123f4c3f5598757bc6f1d38f1315c97f",
       "authority": "presentation",
       "audience": "public"
     },

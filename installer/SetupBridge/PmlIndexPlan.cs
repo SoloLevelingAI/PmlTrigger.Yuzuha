@@ -5,6 +5,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json.Linq;
 
+namespace Yuzuha.SetupBridge;
+
 /// <summary>为既有安装索引补入此次新增的启动策略对象，不扫描或重建其他 PML 索引。</summary>
 internal static partial class Program
 {

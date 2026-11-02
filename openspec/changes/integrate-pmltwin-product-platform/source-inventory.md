@@ -6,7 +6,7 @@
 
 | 来源 | 分支 / HEAD | 当前证据边界 |
 |---|---|---|
-| PmlTrigger.Yuzuha（PMLTWIN） | codex/openspec-contract-review-20261027 / 57e6e8d51a0271b2fae5f2a60363af51a5a32da3 | 大量已有未提交实现；原 contract.json 生效；管理器 change 35/48 为此前状态 |
+| PmlTrigger.Yuzuha（PMLTWIN） | 2026-10-31 取证起点 codex/openspec-contract-review-20261027 / 57e6e8d51a0271b2fae5f2a60363af51a5a32da3；2026-11-02 审查基线 bb52df4116eba3552df79db8fdd7a538bdfe520c | 57e6e8d 行保留为历史起点。当前已提交审查头是 bb52df4。contract.json 仍是生效规范 |
 | LaunchDesk.Archon | codex/rewrite-semantic-compression / 9c9c8d8fe0bde8ba15cc04ba67e237b5d55c5dc5 | 原仓限定只读实查；一个未跟踪规格草稿不作为已提交证据；无 OpenSpec 根 |
 | LaunchDesk.Next | codex/remote-portable-design-review / 78b8dc48b4b1746d67e5cc40b1012fecd38bef41 | 含既有工作区文档修改，状态按来源页分别读取 |
 | UicRibbonDesigner | master，无可解析 HEAD | 本机工作区源码证据，不虚构提交 ID；README 顶部0.7与后续状态不同步 |

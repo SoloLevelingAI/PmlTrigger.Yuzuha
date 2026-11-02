@@ -32,7 +32,7 @@ public partial class PreparationWorkbenchView : UserControl
     internal void ShowPendingCloseNotice()
     {
         if (!IsRunning) return;
-        InlineResult.Text = "请等待本次准备回执后再关闭窗口；不会自动取消或重发。";
+        InlineResult.Text = PreparationCopy.T("请等待本次准备回执后再关闭窗口；不会自动取消或重发。", "Wait for this preparation receipt before closing. It will not be cancelled or sent again.");
         InlineResult.SetResourceReference(TextBlock.ForegroundProperty, "Text.Primary");InlineResult.FontWeight = FontWeights.SemiBold;
     }
 
@@ -41,9 +41,16 @@ public partial class PreparationWorkbenchView : UserControl
     {
         InitializeComponent();
         PalettePicker.ItemsSource = DesktopPalettes.All;
+        ProfileBox.ItemsSource = ManagerHostProfiles.All;
         Stages.ItemsSource = stages; Stages.SelectedIndex = 0;
         ScanBox.Text = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "AVEVA");
         rendering = false;Render();
+    }
+    /// <summary>只读核验当前草稿根。不授予写入、启动或执行。</summary>
+    internal void BeginReadOnlyHandoffInspection()
+    {
+        if (work.Busy || string.IsNullOrWhiteSpace(work.Draft.PackageRoot)) return;
+        _ = Run(() => work.InspectAsync());
     }
     /// <summary>接收安装器的根目录作为非秘密草稿；仍由用户明确核对载荷。</summary>
     public void PrepareInstallation(string packageRoot)
@@ -149,7 +156,7 @@ public partial class PreparationWorkbenchView : UserControl
         if (work.Busy) return;
         notice = null;
         PackagePanel.IsEnabled = DiscoveryPanel.IsEnabled = DeploymentPanel.IsEnabled = OwnershipPanel.IsEnabled = false;PrimaryAction.IsEnabled = RestoreButton.IsEnabled = false;
-        InlineResult.Text = "正在等待本次回执；不会自动重发。";
+            InlineResult.Text = PreparationCopy.T("正在等待本次回执；不会自动重发。", "Waiting for this receipt. It will not be sent again.");
         try { var pending = action();RenderStatus();await pending; }
         catch (Exception error) when (error is ArgumentException or InvalidOperationException or UnauthorizedAccessException or IOException) { notice = error.Message; }
         finally { Render(); }
@@ -162,12 +169,12 @@ public partial class PreparationWorkbenchView : UserControl
         {
             var stage = stages.First(s => s.Id == work.Stage);
             Stages.SelectedItem = stage;StageTitle.Text = stage.Title;
-            TargetSummary.Text = work.Installation is { } target ? target.Product + " " + target.ProductVersion + " · " + target.Root : "先核对应用交接，再明确选择一个本机产品环境。";
+            TargetSummary.Text = work.Installation is { } target ? target.Product + " " + target.ProductVersion + " · " + target.Root : PreparationCopy.T("先核对应用交接，再明确选择一个本机产品环境。", "Inspect the application handoff, then choose one local product environment.");
             PackageBox.Text = work.Draft.PackageRoot;RuntimeBox.Text = work.Draft.RuntimeRoot;EnvironmentBox.Text = LegacyEnvironmentBox.Text = work.Draft.EnvironmentFile;MigrationBox.Text = work.Draft.MigrationSource;
             ProfileBox.SelectedValue = work.Draft.Profile;
             ModeBox.SelectedIndex = work.Draft.Mode == "copy" ? 1 : 0;RuntimePanel.Visibility = work.Draft.Mode == "copy" ? Visibility.Visible : Visibility.Collapsed;
             Installations.ItemsSource = work.Candidates.Select(c => new CandidateRow(c.Identity.Product + " " + c.Identity.ProductVersion + " · " + c.Identity.Root, c)).ToArray();
-            InstallationSummary.Text = work.Installation is { } item ? item.Product + " " + item.ProductVersion + " · " + item.Executable : "尚未选择；先进入“选择环境”。";
+            InstallationSummary.Text = work.Installation is { } item ? item.Product + " " + item.ProductVersion + " · " + item.Executable : PreparationCopy.T("尚未选择；先进入“选择环境”。", "Nothing selected yet. Open Choose environment first.");
             PackagePanel.Visibility = work.Stage is "install" or "preview" ? Visibility.Visible : Visibility.Collapsed;
             ReinspectButton.Visibility = work.Stage == "install" ? Visibility.Visible : Visibility.Collapsed;
             DiscoveryPanel.Visibility = work.Stage == "environment" ? Visibility.Visible : Visibility.Collapsed;
@@ -199,20 +206,20 @@ public partial class PreparationWorkbenchView : UserControl
     private void RenderStatus()
     {
         PackagePanel.IsEnabled = DiscoveryPanel.IsEnabled = DeploymentPanel.IsEnabled = OwnershipPanel.IsEnabled = !work.Busy;
-        PrimaryAction.Content = work.Stage switch { "install" => CanContinueFromInstall() ? "选择产品环境 →" : "核对安装交接", "environment" => "只读发现环境", "ownership" => work.CanApply && work.ApplyOperation == "setup.legacy.transfer" ? "核对并移交 →" : "预览旧所有权", "preview" => work.CanApply ? "核对计划并继续 →" : "生成冻结预览", "apply" => work.Unresolved ? "查看回执与恢复 →" : LastTransferSucceeded() ? "继续部署预览 →" : LastApplySucceeded() ? "继续配置与启动 →" : "应用已核对计划…", "recover" => "核对恢复回执…", "launch" => "前往启动工程 →", _ => "前往连接核验 →" };
-        if (NeedsOwnershipTransfer() && work.Stage is "preview" or "apply") PrimaryAction.Content = "先核对旧所有权 →";
+        PrimaryAction.Content = work.Stage switch { "install" => CanContinueFromInstall() ? PreparationCopy.T("选择产品环境 →", "Choose a product environment →") : PreparationCopy.T("核对安装交接", "Inspect installation handoff"), "environment" => PreparationCopy.T("只读发现环境", "Discover environments (read-only)"), "ownership" => work.CanApply && work.ApplyOperation == "setup.legacy.transfer" ? PreparationCopy.T("核对并移交 →", "Review and transfer →") : PreparationCopy.T("预览旧所有权", "Preview legacy ownership"), "preview" => work.CanApply ? PreparationCopy.T("核对计划并继续 →", "Review the plan and continue →") : PreparationCopy.T("生成冻结预览", "Create a frozen preview"), "apply" => work.Unresolved ? PreparationCopy.T("查看回执与恢复 →", "View the receipt and recovery →") : LastTransferSucceeded() ? PreparationCopy.T("继续部署预览 →", "Continue to deployment preview →") : LastApplySucceeded() ? PreparationCopy.T("继续配置与启动 →", "Continue to configure and launch →") : PreparationCopy.T("应用已核对计划…", "Apply the reviewed plan…"), "recover" => PreparationCopy.T("核对恢复回执…", "Review the recovery receipt…"), "launch" => PreparationCopy.T("前往启动工程 →", "Go to launch →"), _ => PreparationCopy.T("前往连接核验 →", "Go to connection and verification →") };
+        if (NeedsOwnershipTransfer() && work.Stage is "preview" or "apply") PrimaryAction.Content = PreparationCopy.T("先核对旧所有权 →", "Check legacy ownership first →");
         PrimaryAction.IsEnabled = !work.Busy && (work.Stage != "apply" || work.CanApply || work.Unresolved || LastApplySucceeded() || NeedsOwnershipTransfer()) && (work.Stage != "recover" || work.Receipt is not null);
         RestoreButton.IsEnabled = !work.Busy && work.Receipt is not null;
-        PlanSummary.Text = work.Plan is null ? "尚无当前冻结计划；输入变化后必须重新预览。" : Friendly(work.Plan.Summary);
+        PlanSummary.Text = work.Plan is null ? PreparationCopy.T("尚无当前冻结计划；输入变化后必须重新预览。", "No current frozen plan. Changed input must be previewed again.") : Friendly(work.Plan.Summary);
         PlanIdentity.Text = work.Plan is null ? "" : work.Plan.Kind + " · " + work.Plan.PlanId + "\nSHA256 " + work.Plan.Sha256;
-        RecoverySummary.Text = work.Receipt is null ? work.Unresolved ? "本次没有可执行恢复引用。请展开完整诊断，按备份及原操作身份人工核查；不会自动重放。" : "尚无可恢复回执。旧所有权移交不会被当作可自动撤销的EVARS写入。" : Friendly(work.Receipt.Summary);
+        RecoverySummary.Text = work.Receipt is null ? work.Unresolved ? PreparationCopy.T("本次没有可执行恢复引用。请展开完整诊断，按备份及原操作身份人工核查；不会自动重放。", "This attempt has no executable recovery reference. Open the diagnostics and check the backup and original operation by hand. It will not be replayed.") : PreparationCopy.T("尚无可恢复回执。旧所有权移交不会被当作可自动撤销的EVARS写入。", "No restorable receipt yet. A legacy ownership transfer is not an automatically reversible EVARS write.") : Friendly(work.Receipt.Summary);
         RecoveryIdentity.Text = work.Receipt is null ? "" : work.Receipt.Kind + " · " + work.Receipt.PlanId + "\nSHA256 " + work.Receipt.Sha256;
         RecoveryIdentityExpander.Visibility = work.Receipt is null ? Visibility.Collapsed : Visibility.Visible;
-        StageStatus.Text = work.Busy ? "正在等待本次回执；可继续阅读，输入已锁定。" : work.Unresolved ? "上次结果待核查；未自动重试。" : work.Plan is not null ? "已取得冻结计划，需人工核对并进入明确应用。" : work.Result is not null ? (work.Result.Success ? "最近一次调用成功；不推定其他阶段完成。" : "最近一次调用被拒绝或失败；原因见动作旁回执。") : "当前是阅读位置；尚未执行此阶段。";
+        StageStatus.Text = work.Busy ? PreparationCopy.T("正在等待本次回执；可继续阅读，输入已锁定。", "Waiting for this receipt. You can keep reading. Input is locked.") : work.Unresolved ? PreparationCopy.T("上次结果待核查；未自动重试。", "The last result needs review. It was not retried.") : work.Plan is not null ? PreparationCopy.T("已取得冻结计划，需人工核对并进入明确应用。", "A frozen plan is ready. Review it, then apply it explicitly.") : work.Result is not null ? (work.Result.Success ? PreparationCopy.T("最近一次调用成功；不推定其他阶段完成。", "The latest call succeeded. Other stages are not implied.") : PreparationCopy.T("最近一次调用被拒绝或失败；原因见动作旁回执。", "The latest call was rejected or failed. The reason is next to the action.")) : PreparationCopy.T("当前是阅读位置；尚未执行此阶段。", "This is the reading position. This stage has not run.");
         StageStatus.SetResourceReference(TextBlock.ForegroundProperty, work.Unresolved ? "Text.Warning" : "Text.Secondary");StageStatus.FontWeight = work.Unresolved ? FontWeights.SemiBold : FontWeights.Normal;
         if (work.Result is { } result)
         {
-            InlineResult.Text = result.Success ? "本次调用成功；完成范围以回执为准。" : result.Error?.Message ?? "本次调用失败，请核对完整诊断。";
+            InlineResult.Text = result.Success ? PreparationCopy.T("本次调用成功；完成范围以回执为准。", "This call succeeded. The receipt defines what finished.") : result.Error?.Message ?? PreparationCopy.T("本次调用失败，请核对完整诊断。", "This call failed. Review the full diagnostics.");
             InlineOperation.Text = result.OperationId + (result.Error is { } error ? " · " + error.Code : "");
             ResultBody.Text = JsonSerializer.Serialize(new { current = result, unresolved = work.UnresolvedResults }, new JsonSerializerOptions(JsonSerializerDefaults.Web) { WriteIndented = true });
             EvidenceOutcome.Text = InlineResult.Text;
@@ -220,20 +227,22 @@ public partial class PreparationWorkbenchView : UserControl
             EvidenceResult.Text = result.Data is { } data ? ResultSummary(data) : "无成功数据；保留错误，不推定未产生效果。";
             foreach (var text in new[] { InlineResult, EvidenceOutcome }) { text.SetResourceReference(TextBlock.ForegroundProperty, result.Success ? "Text.Primary" : result.Error?.MayHaveExecuted == true || work.Unresolved ? "Text.Warning" : "Text.Danger");text.FontWeight = result.Success ? FontWeights.Normal : FontWeights.SemiBold; }
         }
-        else { InlineOperation.Text = EvidenceOperation.Text = EvidenceResult.Text = "";EvidenceOutcome.Text = "尚未执行；阅读阶段不是验收通过。"; }
+        else { InlineOperation.Text = EvidenceOperation.Text = EvidenceResult.Text = "";EvidenceOutcome.Text = PreparationCopy.T("尚未执行；阅读阶段不是验收通过。", "Not run. Reading a stage is not acceptance."); }
         if (work.Busy)
         {
-            InlineResult.Text = "正在等待本次回执；不会自动重发。";
-            InlineOperation.Text = work.Result is { } prior ? "上一次回执 · " + prior.OperationId + (prior.Error is { } priorError ? " · " + priorError.Code : "") : "本次调用尚未返回。";
-            EvidenceOutcome.Text = work.Result is null ? "当前正在等待；尚无已收到的回执。" : "当前正在等待；下方保留上一次已收到的回执。";
-            EvidenceOperation.Text = work.Result is null ? "" : "上一次回执 · " + EvidenceOperation.Text;
-            if (work.Result is { } received) EvidenceResult.Text = (received.Success ? "上一次结果：成功。" : "上一次结果：" + received.Error?.Message) + "\n" + EvidenceResult.Text;
+            InlineResult.Text = PreparationCopy.T("正在等待本次回执；不会自动重发。", "Waiting for this receipt. It will not be sent again.");
+            InlineOperation.Text = work.Result is { } prior ? PreparationCopy.T("上一次回执 · ", "Previous receipt · ") + prior.OperationId + (prior.Error is { } priorError ? " · " + priorError.Code : "") : PreparationCopy.T("本次调用尚未返回。", "This call has not returned.");
+            EvidenceOutcome.Text = work.Result is null ? PreparationCopy.T("当前正在等待；尚无已收到的回执。", "Waiting now. No receipt has arrived.") : PreparationCopy.T("当前正在等待；下方保留上一次已收到的回执。", "Waiting now. The previous received receipt is kept below.");
+            EvidenceOperation.Text = work.Result is null ? "" : PreparationCopy.T("上一次回执 · ", "Previous receipt · ") + EvidenceOperation.Text;
+            if (work.Result is { } received) EvidenceResult.Text = (received.Success ? PreparationCopy.T("上一次结果：成功。", "Previous result: succeeded.") : PreparationCopy.T("上一次结果：", "Previous result: ") + received.Error?.Message) + "\n" + EvidenceResult.Text;
             foreach (var text in new[] { InlineResult, EvidenceOutcome }) { text.SetResourceReference(TextBlock.ForegroundProperty, "Text.Primary");text.FontWeight = FontWeights.SemiBold; }
         }
         if (notice is not null) InlineResult.Text = notice;
-        if (work.Stage == "install" && CanContinueFromInstall()) ActionEffect.Text = "只进入环境选择；不会自动扫描或写入产品环境。";
-        if (work.Stage == "apply") ActionEffect.Text = work.Unresolved ? "本次只查看回执和恢复出口，不再次写入。" : LastTransferSucceeded() ? "只进入部署与EVARS预览；所有权移交不等于部署完成。" : LastApplySucceeded() ? "只前往启动配置；不会自动创建工程进程。" : work.ApplyOperation switch { "setup.legacy.transfer" => "仅转移所选旧环境的所有权记录；本次不写EVARS。", "evars.apply" => "仅按冻结计划修改EVARS受管行并保留原始备份。", _ => "按冻结范围部署运行文件与EVARS；不启动AVEVA。" };
-        if (NeedsOwnershipTransfer() && work.Stage is "preview" or "apply") ActionEffect.Text = "只进入旧所有权核对，保留当前环境与输入；不会自动移交或写入EVARS。";
+        if (work.Stage == "install" && CanContinueFromInstall()) ActionEffect.Text = PreparationCopy.T("只进入环境选择；不会自动扫描或写入产品环境。", "Continue to environment selection only. This does not scan or write the product environment.");
+        if (work.Stage == "apply") ActionEffect.Text = work.Unresolved ? PreparationCopy.T("本次只查看回执和恢复出口，不再次写入。", "This only opens the receipt and recovery. It does not write again.") : LastTransferSucceeded() ? PreparationCopy.T("只进入部署与EVARS预览；所有权移交不等于部署完成。", "Continue to deployment and EVARS preview only. Ownership transfer is not a finished deployment.") : LastApplySucceeded() ? PreparationCopy.T("只前往启动配置；不会自动创建工程进程。", "Continue to launch configuration only. No project process is created.") : work.ApplyOperation switch { "setup.legacy.transfer" => PreparationCopy.T("仅转移所选旧环境的所有权记录；本次不写EVARS。", "Transfer only the selected legacy ownership record. This does not write EVARS."), "evars.apply" => PreparationCopy.T("仅按冻结计划修改EVARS受管行并保留原始备份。", "Change only the frozen managed EVARS rows and keep the original backup."), _ => PreparationCopy.T("按冻结范围部署运行文件与EVARS；不启动AVEVA。", "Deploy runtime files and EVARS for the frozen scope only. AVEVA is not started.") };
+        if (NeedsOwnershipTransfer() && work.Stage is "preview" or "apply") ActionEffect.Text = PreparationCopy.T("只进入旧所有权核对，保留当前环境与输入；不会自动移交或写入EVARS。", "Open the legacy ownership check only. The current environment and input stay. Nothing is transferred or written.");
+        if (work.Stage == "launch") ActionEffect.Text = PreparationCopy.T("只前往已有启动页；不调用 launch.plan、launch.execute 或 launch.observe，也不创建进程。", "Open the existing launch page only. This page does not call launch.plan, launch.execute, or launch.observe, and it does not create a process.");
+        if (work.Stage == "verify") ActionEffect.Text = PreparationCopy.T("只前往已有会话页；不调用 connection.sessions、connection.select、connection.status 或 connection.test，不授予执行或写入。", "Open the existing session page only. This page does not call connection.sessions, connection.select, connection.status, or connection.test, and it does not grant execution or writes.");
     }
     /// <summary>仅把后端明确确认的旧所有权冲突转为核对入口；未知所有权仍要求人工核查。</summary>
     private bool NeedsOwnershipTransfer() => work.Result?.Error?.Code == "SETUP_OWNERSHIP_TRANSFER_REQUIRED";

@@ -4,7 +4,7 @@
 
 PMLTWIN 的目标是让用户更方便地开发 PML、使用三维系统并持续维护工具，而不是增加一组需要分别配置的程序。LaunchDesk 的发现与启动、Yuzuha 的部署与通信、Ribbon/UIC 的界面编排，以及设计、开发实验、文档和作品集需要围绕同一任务、同一环境证据和同一后端契约协作。
 
-取证日期：2026-10-31（Asia/Shanghai）。PMLTWIN 当前源码仓库为 PmlTrigger.Yuzuha，分支 `codex/openspec-contract-review-20261027`，HEAD `57e6e8d51a0271b2fae5f2a60363af51a5a32da3`，包含已有未提交实现；HEAD 不是工作区全部内容的版本。相邻仓库来源与状态见 [source-inventory.md](source-inventory.md)。
+取证日期：2026-10-31（Asia/Shanghai）。当时 PMLTWIN 源码仓库为 PmlTrigger.Yuzuha，分支 `codex/openspec-contract-review-20261027`，取证起点 HEAD `57e6e8d51a0271b2fae5f2a60363af51a5a32da3`，工作区另有未提交实现。2026-11-02 审查基线是 PR #13 头 `bb52df4116eba3552df79db8fdd7a538bdfe520c`。相邻仓库来源见 [source-inventory.md](source-inventory.md)。契约追踪见 [设计、契约与脚本](../../../docs/validation/design-contract-script-trace-2026-11-02.zh-CN.md)。
 
 ## What Changes
 

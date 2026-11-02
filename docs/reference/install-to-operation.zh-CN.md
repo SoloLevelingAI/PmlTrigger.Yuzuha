@@ -23,7 +23,7 @@ Inno新交互默认将环境准备交给管理器；安装应用不自动写EVAR
 
 ## 安装器如何兑现契约
 
-- [installer/Yuzuha.iss](~/artifacts/docfx/navigation/scripts/sources/15be6c2cf13e5845.md)：Inno入口在应用安装成功后，以原交互用户打开准备工作区；静默模式不自动打开。启动参数只携带待核对的载荷根。
+- [installer/Yuzuha.iss](~/artifacts/docfx/navigation/scripts/sources/15be6c2cf13e5845.md)：Inno入口在应用安装成功后，以原交互用户打开准备工作区；静默模式不自动打开。启动参数携带载荷根，并可带只读 --inspect-handoff。该标志只调用 setup.handoff.inspect，不授予写入或启动。
 - [installer/NativePages.iss](~/artifacts/docfx/navigation/scripts/sources/5e7478040d7f9a06.md)：原生安装页面默认选择manager接手模式；旧显式aveva/none计划保持其声明范围。
 - [installer/build.py](~/artifacts/docfx/navigation/scripts/sources/63a876a5dec01c36.md)：要求新Manager与Desktop入口，生成逐文件载荷清单；文档、通信CLI、四Host与管理CLI分别交付。
 
@@ -50,12 +50,12 @@ Inno新交互默认将环境准备交给管理器；安装应用不自动写EVAR
 
 ### 操作与脚本解释
 
-- `setup.handoff.inspect`：Read-only installed package/ownership verification; does not connect AVEVA.；授权：无业务写入授权。
+- `setup.handoff.inspect`：Read-only installed package/ownership verification; does not connect AVEVA.；授权：无业务写入授权。公开摘要（summary）：packageRoot、version、integrationMode、manifestHash、markerHash、filesVerified、legacyEnvironmentCount、nextAction。
 
 - **YuzuhaToolkit.Manager.SetupHandoffService.Inspect**：解释安装交接和载荷身份；不接管运行环境。
   [DocFX类型与成员](xref:YuzuhaToolkit.Manager.SetupHandoffService) · [完整脚本与行号](~/artifacts/docfx/navigation/scripts/sources/984d7e67dee08a47.md) · 源文件：`src/YuzuhaToolkit.Manager.Core/SetupHandoffService.cs`。
 
-**验收范围：** 本阶段说明实现契约与读取路径；不代称本轮实机通过。历史实机仅按原报告的E3D2.1/DESIGN范围，跨产品、真实安装/移交、Database切换及用户视觉认可分别验收。
+**验收范围：** 本阶段说明实现契约与读取路径；不代称本轮实机通过。历史实机仅按原报告的E3D2.1/DESIGN范围，跨产品、真实安装/移交、Database切换及用户视觉认可分别验收。可选 --inspect-handoff 只调用 setup.handoff.inspect，不授予写入、启动或执行。未带该参数时交接只填入工具包根。
 
 <a id="environment"></a>
 
@@ -73,10 +73,10 @@ Inno新交互默认将环境准备交给管理器；安装应用不自动写EVAR
 
 ### 操作与脚本解释
 
-- `installation.discover`：Read-only bounded installation and static project/module discovery ported from LaunchDesk.Next.；授权：无业务写入授权。
-- `installation.projects`：Read-only bounded installation and static project/module discovery ported from LaunchDesk.Next.；授权：无业务写入授权。
-- `environment.discover`：Read-only bounded environment discovery and explicit override resolution; returns needsInput without prompting or launching.；授权：无业务写入授权。
-- `environment.resolve`：Read-only bounded environment discovery and explicit override resolution; returns needsInput without prompting or launching.；授权：无业务写入授权。
+- `installation.discover`：Read-only bounded installation and static project/module discovery ported from LaunchDesk.Next.；授权：无业务写入授权。公开摘要（summary）：complete、filesSeen、candidates、diagnostics。
+- `installation.projects`：Read-only bounded installation and static project/module discovery ported from LaunchDesk.Next.；授权：无业务写入授权。公开摘要（summary）：projects、modules、projectRoots、filesRead、diagnostics。
+- `environment.discover`：Read-only bounded environment discovery and explicit override resolution; returns needsInput without prompting or launching.；授权：无业务写入授权。公开摘要（summary）：state、observedAt、expiresAt、evidenceKind、coverage、candidates、fields、needsInput、diagnostics。
+- `environment.resolve`：Read-only bounded environment discovery and explicit override resolution; returns needsInput without prompting or launching.；授权：无业务写入授权。公开摘要（summary）：state、observedAt、expiresAt、evidenceKind、coverage、candidates、fields、needsInput、diagnostics。
 
 - **YuzuhaToolkit.Manager.ManagerInstallationDiscovery.Scan**：有预算地定位真实安装。
   [DocFX类型与成员](xref:YuzuhaToolkit.Manager.ManagerInstallationDiscovery) · [完整脚本与行号](~/artifacts/docfx/navigation/scripts/sources/0c6c9d21708afaca.md) · 源文件：`src/YuzuhaToolkit.Manager.Core/InstallationDiscovery.cs`。
@@ -101,9 +101,9 @@ Inno新交互默认将环境准备交给管理器；安装应用不自动写EVAR
 
 ### 操作与脚本解释
 
-- `setup.legacy.preview`：Freeze one legacy v2 environment ownership transfer without changing EVARS or the installer marker.；授权：无业务写入授权。
-- `setup.legacy.transfer`：Explicitly transfer frozen legacy ownership; retain old record/receipt and never edit EVARS.；授权：写入 。
-- `migration.preview`：Read bounded source material without activation or storage switching.；授权：无业务写入授权。
+- `setup.legacy.preview`：Freeze one legacy v2 environment ownership transfer without changing EVARS or the installer marker.；授权：无业务写入授权。公开摘要（summary）：planId、kind、sha256、summary。
+- `setup.legacy.transfer`：Explicitly transfer frozen legacy ownership; retain old record/receipt and never edit EVARS.；授权：写入 。公开摘要（summary）：id、state、packageRoot、environmentFile、environmentHash、markerBeforeHash、markerAfterHash、backupFile、receiptFile。
+- `migration.preview`：Read bounded source material without activation or storage switching.；授权：无业务写入授权。公开摘要（summary）：schemaVersion、format、activate、complete、materials、diagnostics。
 
 - **YuzuhaToolkit.Manager.SetupHandoffService.PreviewLegacy**：区分旧安装器所有权和管理器部署所有权。
   [DocFX类型与成员](xref:YuzuhaToolkit.Manager.SetupHandoffService) · [完整脚本与行号](~/artifacts/docfx/navigation/scripts/sources/984d7e67dee08a47.md) · 源文件：`src/YuzuhaToolkit.Manager.Core/SetupHandoffService.cs`。
@@ -128,8 +128,8 @@ Inno新交互默认将环境准备交给管理器；安装应用不自动写EVAR
 
 ### 操作与脚本解释
 
-- `deployment.preview`：Preview runtime copy or in-place reference and its selected AVEVA environment.；授权：无业务写入授权。
-- `evars.preview`：Preview the selected installation's effective INIT/BAT and retain a local frozen plan.；授权：无业务写入授权。
+- `deployment.preview`：Preview runtime copy or in-place reference and its selected AVEVA environment.；授权：无业务写入授权。公开摘要（summary）：planId、kind、sha256、summary。
+- `evars.preview`：Preview the selected installation's effective INIT/BAT and retain a local frozen plan.；授权：无业务写入授权。公开摘要（summary）：planId、kind、sha256、summary。
 
 - **YuzuhaToolkit.Manager.RuntimeDeploymentService.Preview**：冻结载荷、运行根与环境文件的变化。
   [DocFX类型与成员](xref:YuzuhaToolkit.Manager.RuntimeDeploymentService) · [完整脚本与行号](~/artifacts/docfx/navigation/scripts/sources/58e57c6993990aec.md) · 源文件：`src/YuzuhaToolkit.Manager.Core/RuntimeDeploymentService.cs`。
@@ -158,8 +158,8 @@ Inno新交互默认将环境准备交给管理器；安装应用不自动写EVAR
 
 ### 操作与脚本解释
 
-- `deployment.apply`：Apply the exact reviewed runtime/environment plan; retain backups and recovery evidence.；授权：写入 。
-- `evars.apply`：Apply a frozen environment plan after checking its fingerprint; retain the original backup.；授权：写入 。
+- `deployment.apply`：Apply the exact reviewed runtime/environment plan; retain backups and recovery evidence.；授权：写入 。公开摘要（summary）：planId、kind、sha256、summary。
+- `evars.apply`：Apply a frozen environment plan after checking its fingerprint; retain the original backup.；授权：写入 。公开摘要（summary）：planId、kind、sha256、summary。
 
 - **YuzuhaToolkit.Manager.RuntimeDeploymentService.Apply**：执行当前计划并保留跨文件失败诊断。
   [DocFX类型与成员](xref:YuzuhaToolkit.Manager.RuntimeDeploymentService) · [完整脚本与行号](~/artifacts/docfx/navigation/scripts/sources/58e57c6993990aec.md) · 源文件：`src/YuzuhaToolkit.Manager.Core/RuntimeDeploymentService.cs`。
@@ -184,8 +184,8 @@ Inno新交互默认将环境准备交给管理器；安装应用不自动写EVAR
 
 ### 操作与脚本解释
 
-- `deployment.restore`：Conditionally restore the recorded runtime and environment transaction.；授权：写入 。
-- `evars.restore`：Restore a recorded environment change only if the target still equals the applied content.；授权：写入 。
+- `deployment.restore`：Conditionally restore the recorded runtime and environment transaction.；授权：写入 。公开摘要（summary）：phase、transactionDirectory、recoveryErrors。
+- `evars.restore`：Restore a recorded environment change only if the target still equals the applied content.；授权：写入 。公开摘要（summary）：file、beforeHash、afterHash。
 
 - **YuzuhaToolkit.Manager.RuntimeDeploymentService.Restore**：逐项核对受管文件，保留冲突并允许按原回执继续未完成恢复。
   [DocFX类型与成员](xref:YuzuhaToolkit.Manager.RuntimeDeploymentService) · [完整脚本与行号](~/artifacts/docfx/navigation/scripts/sources/58e57c6993990aec.md) · 源文件：`src/YuzuhaToolkit.Manager.Core/RuntimeDeploymentService.cs`。
@@ -210,9 +210,9 @@ Inno新交互默认将环境准备交给管理器；安装应用不自动写EVAR
 
 ### 操作与脚本解释
 
-- `launch.plan`：只读目标并缓存非秘密冻结计划，不改变启动配置或厂商文件。；授权：无业务写入授权。
-- `launch.execute`：先持久受理再启动；重复操作返回已有事实，未知结果禁止重放。；授权：启动 。
-- `launch.observe`：观察持久启动回执；入口进程存在不代表已登录。；授权：无业务写入授权。
+- `launch.plan`：只读目标并缓存非秘密冻结计划，不改变启动配置或厂商文件。；授权：无业务写入授权。公开摘要（summary）：operationId、profileId、expectedRevision、files、expiresAt、planDigest。
+- `launch.execute`：先持久受理再启动；重复操作返回已有事实，未知结果禁止重放。；授权：启动 。公开摘要（summary）：operationId、planDigest、attemptId、state、phase、code、message、updatedAt。
+- `launch.observe`：观察持久启动回执；入口进程存在不代表已登录。；授权：无业务写入授权。公开摘要（summary）：operationId、planDigest、attemptId、state、phase、code、message、updatedAt。
 
 - **YuzuhaToolkit.Manager.LaunchWorkflowService.Plan**：冻结当前配置与实际入口文件。
   [DocFX类型与成员](xref:YuzuhaToolkit.Manager.LaunchWorkflowService) · [完整脚本与行号](~/artifacts/docfx/navigation/scripts/sources/8c52649c1ad69d59.md) · 源文件：`src/YuzuhaToolkit.Manager.Core/LaunchWorkflow.cs`。
@@ -221,7 +221,7 @@ Inno新交互默认将环境准备交给管理器；安装应用不自动写EVAR
 - **YuzuhaToolkit.Manager.LaunchWorkflowService.Observe**：按原编号读取持久事实和进程身份。
   [DocFX类型与成员](xref:YuzuhaToolkit.Manager.LaunchWorkflowService) · [完整脚本与行号](~/artifacts/docfx/navigation/scripts/sources/8c52649c1ad69d59.md) · 源文件：`src/YuzuhaToolkit.Manager.Core/LaunchWorkflow.cs`。
 
-**验收范围：** 本阶段说明实现契约与读取路径；不代称本轮实机通过。历史实机仅按原报告的E3D2.1/DESIGN范围，跨产品、真实安装/移交、Database切换及用户视觉认可分别验收。
+**验收范围：** 本阶段说明实现契约与读取路径；不代称本轮实机通过。历史实机仅按原报告的E3D2.1/DESIGN范围，跨产品、真实安装/移交、Database切换及用户视觉认可分别验收。准备工作区的本阶段只导航到既有启动页，不调用 launch.plan、launch.execute 或 launch.observe，也不授予启动。
 
 <a id="verify"></a>
 
@@ -239,15 +239,15 @@ Inno新交互默认将环境准备交给管理器；安装应用不自动写EVAR
 
 ### 操作与脚本解释
 
-- `connection.sessions`：Call the independent communication CLI; no PML is executed.；授权：无业务写入授权。
-- `connection.select`：Call the independent communication CLI; no PML is executed.；授权：明确目标身份 。
-- `connection.status`：Call the independent communication CLI; no PML is executed.；授权：明确目标身份 。
-- `connection.test`：Call the independent communication CLI; no PML is executed.；授权：明确目标身份 。
+- `connection.sessions`：Call the independent communication CLI; no PML is executed.；授权：无业务写入授权。公开摘要（passthrough）：无稳定公开字段，data 保持 unknown。
+- `connection.select`：Call the independent communication CLI; no PML is executed.；授权：明确目标身份 。公开摘要（summary）：evidence、communication。
+- `connection.status`：Call the independent communication CLI; no PML is executed.；授权：明确目标身份 。公开摘要（summary）：evidence、communication。
+- `connection.test`：Call the independent communication CLI; no PML is executed.；授权：明确目标身份 。公开摘要（summary）：evidence、communication。
 
 - **YuzuhaToolkit.Manager.CommunicationCliClient.InvokeAsync**：保持独立进程边界，不拼造进程内RPC调用轨迹。
   [DocFX类型与成员](xref:YuzuhaToolkit.Manager.CommunicationCliClient) · [完整脚本与行号](~/artifacts/docfx/navigation/scripts/sources/ce32ac38a9088010.md) · 源文件：`src/YuzuhaToolkit.Manager.Core/CommunicationCliClient.cs`。
 
-**验收范围：** 本阶段说明实现契约与读取路径；不代称本轮实机通过。历史实机仅按原报告的E3D2.1/DESIGN范围，跨产品、真实安装/移交、Database切换及用户视觉认可分别验收。
+**验收范围：** 本阶段说明实现契约与读取路径；不代称本轮实机通过。历史实机仅按原报告的E3D2.1/DESIGN范围，跨产品、真实安装/移交、Database切换及用户视觉认可分别验收。准备工作区的本阶段只导航到既有会话页，不调用 connection.sessions、connection.select、connection.status 或 connection.test，不授予执行或写入。
 
 ## CLI、OpenAPI和TypeScript
 
@@ -261,10 +261,28 @@ CLI复用同一注册目录和stdin/文件输入，写入、启动、执行分�
 
 [契约JSON](../contracts/manager-journey.json) · [只读OpenAPI](../contracts/manager-journey.openapi.json) · [TS客户端](../contracts/manager-journey-client.ts) · [可执行JS客户端](../contracts/manager-journey-client.mjs)。OpenAPI只描述实际只读HTTP目录；业务调用由CLI执行，不据此宣称存在HTTP写入路由。
 
-OperationResult.data remains unknown JSON; no dedicated output schema is promised. CLI process start ticks are decimal strings; do not round through JavaScript numbers. Static script links are not execution evidence.
+OperationResult.data remains unknown JSON and may contain fields beyond the public summary. outputProjections publish that summary: summary schemas require only the listed fields and allow additional properties; passthrough operations keep data unknown. CLI process start ticks are decimal strings; do not round through JavaScript numbers. Static script links are not execution evidence. Installer exit 10 and Manager exit 7 are different processes; see exitTaxonomy. No row authorizes automatic retry.
+
+## 退出码对照
+
+安装器进程与管理器进程的相同数字不是同一种失败。下表来自 `InstallExitTaxonomy`，每一行都拒绝自动重试。
+
+| 分类 | 进程 | 退出码 | error.Code | 含义 |
+|---|---|---:|---|---|
+| INSTALL_APPLY_FAILED | Inno Setup | 10 | INSTALL_APPLY_FAILED | apply-plan 失败。安装器进程退出码，不是管理器操作结果。 |
+| INVALID_INPUT | Manager | 2 | INVALID_INPUT | 输入不符合已注册 schema。 |
+| UNKNOWN_OPERATION | Manager | 3 | UNKNOWN_OPERATION | 操作 ID 未注册。 |
+| EXECUTION_DENIED | Manager | 4 | EXECUTION_NOT_AUTHORIZED | 缺少显式执行、写入或启动授权。未发送业务动作。 |
+| TARGET_FAILED | Manager | 5 | PID_REQUIRED | 缺少明确目标身份。 |
+| HOST_FAILED | Manager | 6 | HOST_FAILED | Host 能力或握手失败。 |
+| MANAGER_HANDLER_FAILURE | Manager | 7 | error.Code | 处理器拒绝或传输失败。数值 7 与 TransportFailed 相同；稳定原因是 error.Code，不是安装器 10。 |
+| CANCELLED | Manager | 8 | CANCELLED | 已取消。不自动重放。 |
+| INTERNAL_ERROR | Manager | 9 | INTERNAL_ERROR | 未分类的处理器异常。 |
+| CONFIGURATION_CONFLICT | Manager | 10 | CONFIGURATION_CONFLICT | 配置修订冲突。管理器进程退出码 10，不得读成安装器 INSTALL_APPLY_FAILED。 |
+| UNKNOWN_NO_RETRY | Manager | 7 | *_UNKNOWN | 结果未知。mayHaveExecuted 时按原回执核对，禁止自动重放。 |
 
 ## 验收与接手
 
 安装与EVARS/部署移交使用可审查计划、备份和恢复回执；真实安装、旧所有权移交和厂商文件修改按具体预览取得批准。临时目录测试、WPF合成截图、历史E3D2.1/DESIGN报告、当前实机及人工视觉认可分别记录。
 
-[首轮验证与排除项](../validation/install-to-operation-2026-11-01.json) · [视觉与Skill追加验证](../validation/visual-priority-skill-adoption-2026-11-02.json) · [本轮实施契约](~/openspec/changes/integrate-pmltwin-product-platform/features/install-to-operation-journey.md) · [准备界面与共享设计](../design/install-to-operation/README.md) · [开发与维护](documentation.md)。
+[首轮验证与排除项](../validation/install-to-operation-2026-11-01.json) · [视觉与Skill追加验证](../validation/visual-priority-skill-adoption-2026-11-02.json) · [设计、契约与脚本追踪](../validation/design-contract-script-trace-2026-11-02.zh-CN.md) · [本轮实施契约](~/openspec/changes/integrate-pmltwin-product-platform/features/install-to-operation-journey.md) · [准备界面与共享设计](../design/install-to-operation/README.md) · [开发与维护](documentation.md)。

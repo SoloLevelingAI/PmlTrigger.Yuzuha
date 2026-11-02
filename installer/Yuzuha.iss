@@ -67,7 +67,7 @@ Name: "{group}\Uninstall Phayton"; Filename: "{uninstallexe}"; Check: not Wizard
 Type: files; Name: "{app}\.yuzuha-inno.json"
 
 [Run]
-Filename: "{app}\runtime\desktop\YuzuhaToolkit.Desktop.exe"; Parameters: "--prepare-installation --handoff ""{app}"""; Description: "{cm:OpenManagerPreparation}"; Flags: nowait postinstall skipifsilent runasoriginaluser; Check: CanOpenManager
+Filename: "{app}\runtime\desktop\YuzuhaToolkit.Desktop.exe"; Parameters: "--prepare-installation --handoff ""{app}"" --inspect-handoff"; Description: "{cm:OpenManagerPreparation}"; Flags: nowait postinstall skipifsilent runasoriginaluser; Check: CanOpenManager
 
 [CustomMessages]
 english.OpenManagerPreparation=Open Manager to prepare environments and deployment
@@ -213,6 +213,7 @@ begin
     Error := Bridge(ExpandConstant('{tmp}\Yuzuha.SetupBridge.exe'),'apply-plan',
       Q(PlanPath) + ' ' + Q(PlanHash) + ' ' + Q(ManifestPath), SW_HIDE);
     if Error <> '' then begin
+      { INSTALL_APPLY_FAILED. Inno process exit 10. See InstallExitTaxonomy. Not Manager exit 7 or CONFIGURATION_CONFLICT. }
       FailureCode := 10;
       WizardForm.FinishedHeadingLabel.Caption := T('安装未完成','Installation incomplete');
       WizardForm.FinishedLabel.Caption := Error;

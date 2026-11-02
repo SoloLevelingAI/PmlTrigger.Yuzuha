@@ -126,7 +126,7 @@ public static class ManagerOperationCatalog
                         return response.Result with { OperationId = operation };
                     }
                     catch (Exception error) when (error is IOException or ArgumentException or UnauthorizedAccessException)
-                    { return OperationResult.Fail(operation, 7, "COMMUNICATION_CLI_UNAVAILABLE", string.IsNullOrWhiteSpace(error.Message) ? error.GetType().Name : error.Message); }
+                    { return OperationResult.Fail(operation, InstallExitTaxonomy.ManagerHandlerExit, "COMMUNICATION_CLI_UNAVAILABLE", string.IsNullOrWhiteSpace(error.Message) ? error.GetType().Name : error.Message); }
                 })));
         }
         FeatureRegistry? features = null;

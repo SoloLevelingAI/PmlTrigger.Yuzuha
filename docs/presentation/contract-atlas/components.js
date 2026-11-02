@@ -1,7 +1,7 @@
 (() => {
   'use strict';
   const create = (tag, text, attrs = {}) => { const item = document.createElement(tag); if (text !== undefined && text !== null) item.textContent = String(text); for (const [key, value] of Object.entries(attrs)) item.setAttribute(key, String(value)); return item; };
-  const common = `details{border:1px solid var(--atlas-border);border-radius:8px;padding:0 12px;margin:12px 0}summary{cursor:pointer;min-height:44px;display:list-item;align-content:center;padding:10px 0;color:var(--atlas-accent)}details>.field{padding:12px 0;border-top:1px solid var(--atlas-border)}details p{font-size:12px;line-height:1.9}.field h4{color:var(--atlas-accent);margin:12px 0 8px}.field-content{min-width:0}.boundary,.exclusions{color:var(--atlas-warning)!important;font-size:12px;line-height:1.9;margin:10px 0}.evidence-boundary{border-left:2px solid var(--atlas-warning);padding-left:10px;margin:10px 0}.evidence-boundary p{font-size:11px;color:var(--atlas-muted)}.requirement{padding:12px 0;border-top:1px solid var(--atlas-border)}.ledger-row{padding:12px 0;overflow-wrap:anywhere}.ledger-row code{font:10px/1.8 var(--atlas-mono)}:host{display:block;min-width:0;color:var(--atlas-text);font-family:var(--atlas-font);font-size:14px;line-height:1.7}*{box-sizing:border-box}button,a,summary{font:inherit}button{color:inherit;cursor:pointer}button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid var(--atlas-accent);outline-offset:4px}p,h2,h3,h4,dl,dd,ul{margin:0}button{border:0;background:transparent}h3{font-size:20px;font-weight:500;line-height:1.5}h4{font-size:13px;font-weight:600}p{overflow-wrap:anywhere}.muted{color:var(--atlas-muted)}.label{font:10px var(--atlas-mono);letter-spacing:1px;color:var(--atlas-muted)}.badge{font:10px var(--atlas-mono);padding:3px 7px;display:inline-block;border:1px solid var(--atlas-border);border-radius:5px;color:var(--atlas-muted)}.badge.partial,.badge.planned{color:var(--atlas-warning)}.badge.implemented,.badge.verified{color:var(--atlas-accent)}.sources{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}.source{font:10px/1.7 var(--atlas-mono);border:1px solid var(--atlas-border);border-radius:4px;padding:3px 6px;color:var(--atlas-muted);overflow-wrap:anywhere}ul{padding-left:19px}.empty{padding:25px 0;color:var(--atlas-muted);font-size:13px}a{color:var(--atlas-accent);text-underline-offset:3px}@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}`;
+  const common = `details{border:1px solid var(--atlas-border);border-radius:8px;padding:0 12px;margin:12px 0}summary{cursor:pointer;min-height:44px;display:list-item;align-content:center;padding:10px 0;color:var(--atlas-accent)}details>.field{padding:12px 0;border-top:1px solid var(--atlas-border)}details p{font-size:12px;line-height:1.9}.field h4{color:var(--atlas-accent);margin:12px 0 8px}.field-content{min-width:0}.boundary,.exclusions{color:var(--atlas-warning)!important;font-size:12px;line-height:1.9;margin:10px 0}.evidence-boundary{border-left:2px solid var(--atlas-warning);padding-left:10px;margin:10px 0}.evidence-boundary p{font-size:11px;color:var(--atlas-muted)}.requirement{padding:12px 0;border-top:1px solid var(--atlas-border)}.ledger-row{padding:12px 0;overflow-wrap:anywhere}.ledger-row code{font:10px/1.8 var(--atlas-mono)}:host{display:block;min-width:0;color:var(--atlas-text);font-family:var(--atlas-font);font-size:14px;line-height:1.7}*{box-sizing:border-box}button,a,summary{font:inherit}button{color:inherit;cursor:pointer}button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid var(--atlas-accent);outline-offset:4px}p,h2,h3,h4,dl,dd,ul{margin:0}button{border:0;background:transparent}h3{font-size:20px;font-weight:500;line-height:1.5}h4{font-size:13px;font-weight:600}p{overflow-wrap:anywhere}.muted{color:var(--atlas-muted)}.label{font:10px var(--atlas-mono);letter-spacing:1px;color:var(--atlas-muted)}.badge{font:10px var(--atlas-mono);padding:3px 7px;display:inline-block;border:1px solid var(--atlas-border);border-radius:5px;color:var(--atlas-muted)}.badge.partial,.badge.planned{color:var(--atlas-warning)}.badge.implemented,.badge.verified{color:var(--atlas-accent)}.sources{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}.source{font:10px/1.7 var(--atlas-mono);border:1px solid var(--atlas-border);border-radius:4px;padding:3px 6px;color:var(--atlas-muted);overflow-wrap:anywhere}ul{padding-left:19px}.empty{padding:25px 0;color:var(--atlas-muted);font-size:13px}a{color:var(--atlas-accent);text-underline-offset:3px}.card-purpose{color:var(--atlas-text);font-size:14px;line-height:1.6;margin:8px 0}.language-tag{font:12px var(--atlas-mono);color:var(--atlas-muted)}.boundary-note{color:var(--atlas-text);font-size:14px;line-height:1.7;margin:6px 0}.boundary-warning{color:var(--atlas-warning);font-size:14px;line-height:1.7}.boundary-theme{display:inline-block;margin-right:8px;color:var(--atlas-muted);font-size:12px}.boundary-list{margin:8px 0 0;padding-left:18px}.reading-heading{font-size:18px;font-weight:650;line-height:1.45;margin:18px 0 8px;color:var(--atlas-text)}.io-table{width:100%;border-collapse:collapse;font-size:14px;line-height:1.6}.io-table th,.io-table td{border:1px solid var(--atlas-border);padding:8px 10px;text-align:left;vertical-align:top}.io-table th{width:8rem;background:var(--atlas-soft);font-weight:650}h3,.reading-heading{scroll-margin-top:var(--document-anchor,140px)}.snippet-links{display:flex;flex-wrap:wrap;gap:8px 14px;margin:8px 0;font-size:13px;line-height:1.6}.snippet-frame{max-height:11rem;overflow:auto;border:1px solid var(--atlas-border);border-radius:8px;background:var(--atlas-soft)}.source-snippet{margin:0;padding:10px 12px;font:12px/1.6 var(--atlas-mono);white-space:pre-wrap}.source-snippet .kw{color:var(--atlas-accent)}.source-snippet .cm{color:var(--atlas-muted)}@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}`;
   const statuses = { implemented: '已实现', partial: '部分实现', planned: '拟议', verified: '规范已验证', unavailable: '不可用', passed: '通过', failed: '失败', unverified: '未核验' };
   function formatEnvironment(environment) { return globalThis.ContractAtlasRender.formatEnvironment(environment); }
   function applyProps(host, props, mode) { const resolved = globalThis.ContractAtlasRender.resolveProps(props || {}, { variant: mode }); host.dataset.variant = resolved.variant; host.dataset.density = resolved.density; host.dataset.orientation = resolved.orientation; return resolved; }
@@ -26,6 +26,85 @@
     return requirements;
   }
   function evidenceBoundary(proof) { const box = create('div', null, { class: 'evidence-boundary' }); box.append(create('p', `${proof.scope} / ${proof.result} · ${proof.observedAt || '时间未登记'} · ${proof.environmentText}`)); return box; }
+  function highlight(code, language) {
+    let html = String(code).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
+    html = html.replace(/(\/\/.*|#.*)$/gm, '<span class="cm">$1</span>');
+    const words = { csharp: 'class|record|public|private|internal|static|return|if|else|var|new|void|string', pml: 'define|function|method|if|then|else|endif', pascal: 'procedure|function|begin|end|var', powershell: 'param|function|if|else|foreach|try|catch', python: 'def|class|return|if|else' }[language] || 'class|return|if|else';
+    return html.replace(new RegExp('\\b(' + words + ')\\b', 'g'), '<span class="kw">$1</span>');
+  }
+  function boundaryItem(item) {
+    const li = create('li', null, { 'data-boundary-item': item.theme, 'data-warning': String(!!item.warning), class: item.warning ? 'boundary-warning status-note' : 'boundary-note' });
+    li.append(create('span', item.themeTitle, { class: 'boundary-theme' }), document.createTextNode(' ' + item.text));
+    return li;
+  }
+  function boundaryList(host, card, items, key) {
+    const ranked = [...items].sort((a, b) => Number(b.warning) - Number(a.warning) || a.theme.localeCompare(b.theme));
+    const wrap = create('div', null, { class: 'boundary-groups' });
+    if (!ranked.length) return wrap;
+    const list = create('ul', null, { class: 'boundary-list' });
+    for (const item of ranked.slice(0, 3)) list.append(boundaryItem(item));
+    wrap.append(list);
+    const rest = ranked.slice(3);
+    if (rest.length) {
+      const more = disclosure(host, card.entityId + '|' + key, `其余边界 · ${rest.length} 条`);
+      const extra = create('ul', null, { class: 'boundary-list' });
+      for (const item of rest) extra.append(boundaryItem(item));
+      more.append(extra); wrap.append(more);
+    }
+    return wrap;
+  }
+  function snippetBlock(card) {
+    const section = create('section', null, { 'data-reading-part': 'source', class: 'reading-block' });
+    section.append(create('h3', '源码片段', { class: 'reading-heading' }));
+    const items = (globalThis.CONTRACT_ATLAS_SNIPPETS?.items || []).filter(item => item.entityIds?.includes(card.entityId));
+    if (!items.length) { section.append(create('p', '此范围没有按符号定位到单独源码。不改用外站链接代替页内片段。', { class: 'identity-note' })); return section; }
+    items.forEach((item, index) => {
+      const block = index === 0 ? create('section', null, { class: 'snippet snippet-open' }) : create('details', null, { class: 'snippet' });
+      block.append(index === 0 ? create('p', `${item.path} · ${item.symbol} · ${item.startLine}–${item.endLine}`, { class: 'snippet-caption' }) : create('summary', `${item.path} · ${item.symbol} · ${item.startLine}–${item.endLine}`));
+      const links = create('p', null, { class: 'snippet-links' });
+      if (item.api?.typeUid) {
+        const label = item.api.member ? `${item.api.typeUid}.${item.api.member}` : item.api.typeUid;
+        if (location.protocol === 'file:') links.append(create('span', `DocFX 成员页 ${label}。构建文档后位于 api/${item.api.project}。此 file:// 页面不跳转，避免指向尚未生成的站点。`, { class: 'snippet-note', 'data-docfx-uid': item.api.typeUid, 'data-docfx-member': item.api.member || '' }));
+        else links.append(create('a', 'DocFX API', { href: item.api.href, 'data-docfx-link': item.api.typeUid }));
+      } else links.append(create('span', 'Roslyn 不解析此文件。下面的片段和行号就是源码位置。', { class: 'snippet-note', 'data-source-text': item.path }));
+      if (item.githubHref) links.append(create('a', 'GitHub 源码', { href: item.githubHref, 'data-github-source': item.path }));
+      const pre = create('pre', null, { class: 'source-snippet', 'data-snippet': item.id, 'data-path': item.path, 'data-start': String(item.startLine), 'data-end': String(item.endLine) });
+      pre.innerHTML = highlight(item.text, item.language);
+      const frame = create('div', null, { class: 'snippet-frame' }); frame.append(pre); block.append(links, frame); section.append(block);
+    });
+    return section;
+  }
+  function boundarySection(host, card) {
+    const view = card.boundaryView || { own: [], shared: [], liftedCount: 0 };
+    const section = create('div', null, { class: 'boundary-section' });
+    section.append(create('h4', '边界与不承诺事项', { class: 'reading-heading' }));
+    if (view.liftedCount) section.append(create('p', `与其他 Script 重复的 ${view.liftedCount} 条边界已归入上层共同边界，这里不再逐条重复。`, { class: 'boundary-lifted' }));
+    if (view.shared.length) section.append(create('h4', '共同边界'), boundaryList(host, card, view.shared, 'shared-boundaries'));
+    if (view.own.length) section.append(boundaryList(host, card, view.own, 'own-boundaries'));
+    if (!view.liftedCount && !view.shared.length && !view.own.length) section.append(create('p', '未单列额外边界。不从状态推断完整产品通过。', { class: 'identity-note' }));
+    return section;
+  }
+  function readingBlocks(host, card, kind) {
+    const box = create('div', null, { class: 'reading-blocks' });
+    const purpose = create('section', null, { 'data-reading-part': 'purpose', class: 'reading-block' });
+    purpose.append(create('h3', '目的', { class: 'reading-heading' }), create('p', card.summary, { class: 'description' }));
+    const io = create('section', null, { 'data-reading-part': 'io', class: 'reading-block' });
+    io.append(create('h3', '输入/输出契约', { class: 'reading-heading' }));
+    const table = create('table', null, { class: 'io-table' });
+    const head = create('tr'); head.append(create('th', '项'), create('th', '约定'));
+    const thead = create('thead'); thead.append(head); table.append(thead);
+    const tbody = create('tbody');
+    const preferred = kind === 'script' ? ['input', 'effect', 'receipt'] : ['inputs', 'outputs', 'responsibility'];
+    const rows = card.sections.filter(section => preferred.includes(section.key));
+    for (const section of (rows.length ? rows : card.sections.slice(0, 2))) { const tr = create('tr'); tr.append(create('th', section.title), create('td', section.text)); tbody.append(tr); }
+    table.append(tbody); io.append(table);
+    const evidence = create('section', null, { 'data-reading-part': 'evidence', class: 'reading-block' });
+    evidence.append(create('h3', '验证证据', { class: 'reading-heading' }));
+    if (!(card.verifications || []).length) evidence.append(create('p', '未登记独立验证。不能从实现状态推断已通过。', { class: 'identity-note' }));
+    else for (const proof of card.verifications) evidence.append(evidenceBoundary(proof));
+    box.append(purpose, io, snippetBlock(card), evidence);
+    return box;
+  }
   const brief = value => { const text = Array.from(value || ''); return text.length > 90 ? text.slice(0, 90).join('') + '…（展开全文）' : text.join(''); };
   function textList(values) { const list = create('ul'); for (const value of values || []) list.append(create('li', typeof value === 'string' ? value : value.text || JSON.stringify(value))); if (!list.children.length) return create('p', '未登记', { class: 'muted' }); return list; }
   function selected(host, id) { host.dispatchEvent(new CustomEvent('atlas-select', { detail: { id }, bubbles: true, composed: true })); }
@@ -45,14 +124,16 @@
       const x = this.model, root = this.frame(`:host{padding:18px;background:var(--section-surface,var(--atlas-section-contract-surface,var(--atlas-surface)));border:1px solid var(--atlas-border);border-radius:12px}:host([data-selected=true]){border-color:var(--atlas-boundary)}button{width:100%;padding:18px 17px;text-align:left;border-radius:9px;display:grid;grid-template-columns:27px minmax(0,1fr);gap:12px;border:1px solid transparent;min-height:44px}button.navigate{display:block;padding:10px 0;min-height:44px;color:var(--atlas-accent)}button:hover{background:var(--atlas-soft)}button[aria-current=true]{background:var(--atlas-soft);border-color:var(--atlas-boundary,var(--atlas-accent))}.number{font:11px var(--atlas-mono);color:var(--atlas-accent);padding-top:5px}.top{display:flex;gap:10px;align-items:baseline;justify-content:space-between}h3{font-size:15px;line-height:1.55}p{font-size:12px;color:var(--atlas-muted);margin:9px 0 11px}.meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.id{font:9px var(--atlas-mono);color:var(--atlas-muted)}@media(max-width:600px){button{padding:15px 7px;min-height:0;grid-template-columns:22px minmax(0,1fr)}h3{font-size:14px}.top{display:block}.id{font-size:9px}}`);
       this.dataset.selected = String(!!x.selected);
       const title = create('h3', x.title), meta = create('div', null, { class: 'meta' });
-      if (x.status) meta.append(badge(x.status)); meta.append(create('span', x.id, { class: 'id' }));
-      root.append(title, meta, create('p', brief(x.summary || '查看此项契约。')));
+      const reading = x.readingStatus || { id: 'registered', label: '已登记' };
+      meta.append(create('span', reading.label, { class: `badge ${reading.id}` }));
+      if (x.language) meta.append(create('span', x.language, { class: 'language-tag' }));
+      meta.append(create('span', x.id, { class: 'id' }));
+      root.append(title, meta, create('p', brief(x.summary || '查看此项契约。'), { class: 'card-purpose' }));
       const cardData = x.data || { sources: [], evidence: [] }, fields = x.sections || [], proofs = x.verifications || [];
       root.append(create('p', `${fields.length} 项契约字段 · ${(x.requirements || []).length} 项原需求 · ${proofs.length} 项验证范围`, { class: 'label' }));
-      if (x.text) root.append(create('p', x.text.status, { class: 'boundary' }), create('p', x.text.limit, { class: 'boundary' }));
-      for (const proof of proofs) root.append(evidenceBoundary(proof));
       const complete = disclosure(this, x.entityId + '|card-details', `展开完整契约 · ${fields.length} 项字段`);
       for (const field of fields) complete.append(sectionField(field, cardData));
+      for (const proof of proofs) complete.append(evidenceBoundary(proof));
       if (x.requirements) complete.append(requirementDetails(this, x, cardData, 'card'));
       complete.append(sourceLedger(this, x.entityId, 'card-sources', [...(x.sourceRefs || []), ...fields.flatMap(field => field.sourceRefs), ...(x.requirements || []).flatMap(requirement => requirement.sourceRefs)], cardData));
       for (const proof of proofs) { const proofDetails = disclosure(this, x.entityId + '|card-proof-' + proof.id, `验证说明 · ${proof.scope} / ${proof.result}`); proofDetails.append(create('p', proof.claim)); if (proof.exclusions?.length) proofDetails.append(create('p', '未涵盖：' + proof.exclusions.join('；'), { class: 'exclusions' })); for (const evidenceId of proof.evidenceIds || []) { const evidence = cardData.evidence?.find(item => item.id === evidenceId); if (evidence) proofDetails.append(create('p', evidence.title), sources([evidence.sourceRef], cardData)); } complete.append(proofDetails); }
@@ -112,9 +193,9 @@
           const method = card.sections.find(section => section.key === 'method');
           if (method) implementation.append(create('p', brief(method.text), { class: 'method-summary' }), sources(method.sourceRefs, data));
         } else implementation.append(create('p', card.text.status, { class: card.implementation ? 'status-note' : 'identity-note' }));
-        root.append(implementation, group('boundaries', '适用边界', create('p', card.text.limit, { class: 'status-note' })), heading);
+        root.append(implementation, heading, readingBlocks(this, card, kind), group('boundaries', '适用边界', boundarySection(this, card)));
       } else {
-        root.append(heading, create('p', card.summary, { class: 'description' }), create('p', card.text.status, { class: 'status-note' }), create('p', card.text.limit, { class: 'status-note' }));
+        root.append(heading, create('p', card.summary, { class: 'description' }), readingBlocks(this, card, kind), boundarySection(this, card));
       }
       const fields = create('div', null, { class: kind === 'script' ? 'seven' : 'fields' }); for (const section of card.sections) fields.append(sectionField(section, data));
       const contract = disclosure(this, card.entityId + '|contract', documentLayout ? `详细细约 · ${card.sections.length} 项` : `${kind === 'script' ? '完整七项技术契约' : '完整契约'} · ${card.sections.length} 项字段`, fields); contract.className = kind === 'script' ? 'technical' : 'contract'; if(documentLayout)contract.querySelector('summary').dataset.summaryPart='details'; root.append(contract);

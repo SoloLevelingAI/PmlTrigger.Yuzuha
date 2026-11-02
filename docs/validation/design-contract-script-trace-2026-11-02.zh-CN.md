@@ -233,9 +233,15 @@ Script 卡片墙原先把边界拼成橙色长段。
 
 ![修改后卡片墙](contract-atlas-reading-2026-11-02/cards-after-wall-1440.png)
 
-Script 详情在页内给出相对路径和源码片段，不打开 GitHub。
+Script 详情在页内给出相对路径和源码片段，不打开 GitHub。上一张截图停在证据区，代码不在画面里。现已把第一段源码直接展开，本页目录有「源码片段」，并滚到代码块再拍。
 
 ![源码片段](contract-atlas-reading-2026-11-02/script-detail-snippet-1440.png)
+
+面包屑按主内容列的内边距对齐，不再贴着视口左缘。折叠控件留在正文里，不再做第二条吸顶栏，避免盖住卡片标题。
+
+![滚动后卡片标题露出](contract-atlas-reading-2026-11-02/entry-scrolled-cards-1440.png)
+
+![窄屏面包屑与内容对齐](contract-atlas-reading-2026-11-02/entry-crumbs-390.png)
 
 作品集与契约视图仍用同一数据。作品集把目标放在大卡片里；契约视图把核对路径和字段表放在前面。
 

@@ -8,12 +8,12 @@
   const components = { task: $('task-map'), flow: $('contract-flow'), map: $('feature-map'), detail: $('contract-detail'), evidence: $('evidence-strip'), methods: $('method-panel'), reference: $('contract-reference') };
   const disclosure = new globalThis.ContractAtlasDisclosure.Controller({ onChange: change => {
     updateDisclosureControls();if(change.type!=='all')return;const saved=retainUI();
-    if(change.mode==='summary'&&sectionKey){sectionKey=sectionKey.split(':')[0];if(!['overview','contract','methods','flow','catalog','evidence','reference'].includes(sectionKey))sectionKey='overview';sectionStates.set(sectionScope(),sectionKey);saved.reading={key:sectionKey,top:$('.masthead').getBoundingClientRect().height+$('.reading-bar').getBoundingClientRect().height+18,focus:false};}
+    if(change.mode==='summary'&&sectionKey){sectionKey=sectionKey.split(':')[0];if(!['overview','contract','methods','flow','catalog','evidence','reference'].includes(sectionKey))sectionKey='overview';sectionStates.set(sectionScope(),sectionKey);saved.reading={key:sectionKey,top:$('.masthead').getBoundingClientRect().height+16,focus:false};}
     route();render();restoreUI(saved);
   } });
   const outline = new globalThis.ContractAtlasOutline.Controller({
     content:$('.canvas'),nav:$('#page-outline-list'),
-    getOffset:()=>$('.masthead').getBoundingClientRect().height+$('.reading-bar').getBoundingClientRect().height+18,
+    getOffset:()=>$('.masthead').getBoundingClientRect().height+16,
     onOpen:keys=>{for(const key of keys)disclosure.record(key,true);render();},
     onNavigate:(key,options={})=>{sectionKey=key;sectionStates.set(sectionScope(),key);route(options.history!==false);},
     onFallback:message=>{sectionKey='';sectionStates.set(sectionScope(),'');route();$('#section-title').focus({preventScroll:true});$('#section-title').scrollIntoView({block:'start'});feedback(message,true);}
@@ -144,7 +144,7 @@
       breadcrumbs.append(button);
     });
   }
-  function syncChrome(){const bar=$('.masthead');if(!bar)return;const height=Math.ceil(bar.getBoundingClientRect().height);document.documentElement.style.setProperty('--document-header',height+'px');document.documentElement.style.setProperty('--document-anchor',(height+28)+'px');}
+  function syncChrome(){const bar=$('.masthead'),path=$('.masthead-path'),canvas=$('.canvas');if(!bar)return;const height=Math.ceil(bar.getBoundingClientRect().height);document.documentElement.style.setProperty('--document-header',height+'px');document.documentElement.style.setProperty('--document-anchor',(height+16)+'px');if(path&&canvas){const box=canvas.getBoundingClientRect(),pad=parseFloat(getComputedStyle(canvas).paddingLeft)||0,rightPad=parseFloat(getComputedStyle(canvas).paddingRight)||0;path.style.paddingLeft=Math.max(0,Math.round(box.left+pad))+'px';path.style.paddingRight=Math.max(0,Math.round(innerWidth-box.right+rightPad))+'px';}}
   function renderHome(){const lead=$('#home-lead'),grid=$('#entry-grid');if(!lead||!grid)return;lead.textContent=mode==='portfolio'?'这是 PmlTrigger.Yuzuha 的作品集：设计意图 → 契约 → Script / Feature。从一张入口卡进去。状态和证据随各任务分开，不代表实机通过或人工视觉认可。':'同一套资料的核对入口：设计意图 → 契约字段 → Script / Feature。阅读位置不会变成执行授权。';grid.replaceChildren();const entries=[['intent','从设计意图开始浏览','打开「工程发现与启动」，先读任务目标与交付。',()=>{mode='portfolio';select('feature:launch');setBranch('contract');}],['features','按 Feature 浏览','进入任务地图，按目标类别选择一个 Feature。',()=>{nextSurface='tasks';select(data.project.id);}],['tasks','任务地图','打开「工程发现与启动」已登记的步骤。位置只表示阅读进度。',()=>{mode='portfolio';select('feature:launch');}],['contract','契约与实现对照','切换到契约视图，按字段、方法与证据核对「工程发现与启动」。',()=>{mode='help';select('feature:launch');setBranch('contract');}]];for(const [id,title,text,go] of entries){const button=create('button',null,{type:'button',class:'entry-card','data-entry':id});button.append(create('strong',title),create('span',text));button.onclick=go;grid.append(button);}}
   function renderPortfolioContext(kind,item){
     const box=$('#portfolio-context');box.replaceChildren();box.hidden=kind==='project';if(box.hidden)return;
@@ -162,6 +162,7 @@
     for(const field of detail.querySelectorAll('[data-section-id]'))mark(field.querySelector('h4'),'contract:field:'+field.dataset.sectionId,4);
     mark(detail.querySelector('details[data-disclosure-key$="|contract-requirements"]>summary'),'contract:requirements',3,'关联原需求');
     mark(detail.querySelector('details[data-disclosure-key$="|contract-sources"]>summary'),'contract:sources',3,'来源核对');
+    mark(detail.querySelector('[data-reading-part="source"] .reading-heading'),'contract:source',3,'源码片段');
     const flow=components.flow.shadowRoot;mark(flow.querySelector('h3'),'flow:current',3);
     for(const step of flow.querySelectorAll('[data-step-id]'))mark(step.parentElement.querySelector('details>summary'),'flow:step:'+step.dataset.stepId,4,step.querySelector('strong')?.textContent);
     const methods=components.methods.shadowRoot;mark(methods.querySelector('details[data-disclosure-key$="|analysis"]>summary'),'methods:analysis',3,'分析范围与输入');

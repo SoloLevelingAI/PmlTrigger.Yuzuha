@@ -122,7 +122,7 @@ flowchart LR
 
 第一次 Windows `contract-workbench` 失败，原因是提案、`contracts.md` 和 `tasks.md` 的原始字节变了，图集里的 `sha256` 还是旧值。已用 `node scripts/contract-atlas-metadata.mjs build` 重算。变化只有这三份来源的指纹和 `metadataDigest`，没有改规范事实。随后 `contracts:check` 与 45 项契约单测通过。
 
-`898a9db` 上 `documentation-and-tests` 在文档索引处失败：新 xUnit 方法已发布，但 `test-map.json` 没有审阅目的。已为四项新测试补上目的和 API 关联。随后 DocFX 把指向本报告的链接判为无效，因为 `docs/validation` 只发布登记过的文件。本报告已加入 `docfx.json` 的发布清单。检查仍是 `--warningsAsErrors`，没有放宽。
+`898a9db` 上 `documentation-and-tests` 在文档索引处失败：新 xUnit 方法已发布，但 `test-map.json` 没有审阅目的。已为四项新测试补上目的和 API 关联。随后 DocFX 把指向本报告的链接判为无效，因为 `docs/validation` 只发布登记过的文件。本报告已加入 `docfx.json` 的发布清单。检查仍是 `--warningsAsErrors`，没有放宽。准备页烟测在英语系统上改读了英文句子；这条已审阅的截图验收固定为 zh-CN，断言跟随当前界面语言。
 
 </details>
 

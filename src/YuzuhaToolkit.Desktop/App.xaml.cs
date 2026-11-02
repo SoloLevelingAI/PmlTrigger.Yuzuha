@@ -15,7 +15,13 @@ public partial class App : Application
         var launchOnly = Array.IndexOf(e.Args, "--launch-lifecycle-smoke-output");
         var preparationOnly = Array.IndexOf(e.Args, "--preparation-smoke-output");
         if (launchOnly >= 0) option = launchOnly;
-        if (preparationOnly >= 0) option = preparationOnly;
+        if (preparationOnly >= 0)
+        {
+            option = preparationOnly;
+            var chinese = System.Globalization.CultureInfo.GetCultureInfo("zh-CN");
+            System.Globalization.CultureInfo.CurrentUICulture = chinese;
+            System.Globalization.CultureInfo.DefaultThreadCurrentUICulture = chinese;
+        }
         TextWriterTraceListener? bindingTrace = null;
         try
         {

@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "observedAt": "2026-11-02",
-  "recordedAtUtc": "2026-11-02T00:24:23.406Z",
+  "recordedAtUtc": "2026-11-02T00:46:42.465Z",
   "scope": "Public package and OpenSpec completion audit, outside the immutable payload. Real current-machine requests, originals, conflict file hashes and private paths are excluded.",
-  "status": "application-installed-skill-adopted-docfx-source-http-repair-pending",
+  "status": "application-installed-docfx-repair-candidate-and-fresh-preview-ready",
   "source": {
     "componentCodeCommit": "5d892b8a26f113ce466d31128c1485b6381f991e",
     "documentationSnapshotCommit": "4477472178d4246192747822234a90ed28579e5d",
@@ -111,55 +111,42 @@
     "boundary": "Exact validated implementation/documentation snapshot; later OpenSpec-only audit has its own PR checks."
   },
   "currentMachinePreview": {
-    "status": "executed-after-specific-user-approval",
-    "exitCode": 0,
+    "status": "ready-awaiting-doc-source-fix-update-approval",
     "planGenerated": true,
     "markdownPlanGenerated": true,
     "planDigestAndShaFileMatch": true,
     "planHashPublished": false,
-    "privatePlanLocation": "Local C SetupReview only; full plan, originals, exact account paths and approval digest are excluded from this public audit.",
     "requestedIntegrationMode": "manager",
+    "requestedAdoptSkill": false,
     "requestedEnvironmentTargets": 0,
-    "requestedSkillUpdate": "current Codex",
-    "requestedAdoptSkill": true,
     "mcpChangesRequested": false,
     "payloadActions": {
-      "update": 2634,
-      "unchanged": 970,
-      "create": 3417
+      "unchanged": 6526,
+      "update": 489,
+      "create": 7
     },
     "changesByKind": {
       "pml-index": 1,
       "skill": 14
     },
     "changesByAction": {
-      "unchanged": 13,
-      "update": 2
+      "unchanged": 15
     },
     "skillActions": {
-      "unchanged": 12,
-      "update": 2
+      "unchanged": 14
     },
     "skillOwnershipActions": {
-      "adopt": 14
+      "retained": 14
     },
-    "changedSkillRelativePaths": [
-      "references/lifecycle.md",
-      "references/lifecycle.zh-CN.md"
-    ],
-    "pmlIndexAction": "unchanged",
-    "existingOwnedEnvironmentCount": 1,
-    "existingOwnershipTransferred": false,
-    "currentSkillWritten": true,
-    "productionEnvironmentWrites": 0,
-    "setupExecuted": true,
-    "readOnlyFrozenMetadataAndHashChecksPassed": true,
-    "installerVerifyPlanExecuted": true,
-    "installerVerifyPlanDeferredUntilSpecificSetupApproval": false,
-    "scope": "The exact previously approved plan was executed successfully; it cannot be reused against the resulting new state. Production ENV content and old ENV ownership were retained. Installed HTTP acceptance is recorded separately.",
-    "installationApproved": true,
-    "consumedByApprovedSetup": true,
-    "validForNewExecution": false
+    "historicalOriginalRecordsRetained": 15,
+    "oldEnvironmentOwnershipRetained": 1,
+    "environmentWrites": 0,
+    "setupExecuted": false,
+    "installedRootProcessObserved": 1,
+    "processPathUnavailable": 230,
+    "plannedPayloadDeletes": 0,
+    "formerHashedDocumentationAssetsRetainedOnUpgrade": 6,
+    "scope": "Fresh ordinary owned upgrade plan after first installation. All Skill and PML index entries are unchanged; current installed WPF occupies the application root. No automatic closure or new Setup execution. Private originals, digest, exact paths and Markdown remain local C only."
   },
   "warnings": [
     "Warning: The [Setup] section directive \"PrivilegesRequired\" is set to \"admin\" but per-user areas (localappdata) are used by the script. Regardless of the version of Windows, if the installation is running in administrative install mode then you should be careful about making any per-user area changes: such changes may not achieve what you are intending. See the \"UsedUserAreasWarning\" topic in help file for more information."
@@ -172,9 +159,9 @@
     "Current client Skill reload acceptance"
   ],
   "remaining": [
-    "Build a new immutable candidate and fresh current-machine preview for the source HTTP fix; changed package requires its own approval before updating current installation.",
-    "Keep the first installed HTTP failure until the repaired installed host is actually verified.",
-    "Legacy environment ownership transfer and production EVARS application/restoration require separate explicit Manager previews.",
+    "Approve the exact fresh repair-candidate update plan and safely close occupied installed WPF before updating; original approval was consumed.",
+    "Verify repaired actual C installed HTTP after that update; keep first installed HTTP failure as history.",
+    "Legacy environment ownership transfer and production EVARS application/restoration still need separate explicit Manager previews.",
     "Live AVEVA acceptance, current-client Skill reload and user visual approval remain separate.",
     "Original 27 platform business tasks are not bulk-completed; strict local OpenSpec CLI validation was unavailable."
   ],
@@ -252,6 +239,58 @@
       "installerVerifyPlanExecuted": false,
       "installerVerifyPlanDeferredUntilSpecificSetupApproval": true,
       "scope": "New helper plan generated after the explicitly approved archive; previous refusal preserved above. Read-only frozen metadata/hash checks do not mean installation, installer pre-write verification, or live AVEVA acceptance."
+    },
+    {
+      "recordedAtUtc": "2026-11-02T00:24:23.406Z",
+      "status": "executed-after-specific-user-approval",
+      "exitCode": 0,
+      "planGenerated": true,
+      "markdownPlanGenerated": true,
+      "planDigestAndShaFileMatch": true,
+      "planHashPublished": false,
+      "privatePlanLocation": "Local C SetupReview only; full plan, originals, exact account paths and approval digest are excluded from this public audit.",
+      "requestedIntegrationMode": "manager",
+      "requestedEnvironmentTargets": 0,
+      "requestedSkillUpdate": "current Codex",
+      "requestedAdoptSkill": true,
+      "mcpChangesRequested": false,
+      "payloadActions": {
+        "update": 2634,
+        "unchanged": 970,
+        "create": 3417
+      },
+      "changesByKind": {
+        "pml-index": 1,
+        "skill": 14
+      },
+      "changesByAction": {
+        "unchanged": 13,
+        "update": 2
+      },
+      "skillActions": {
+        "unchanged": 12,
+        "update": 2
+      },
+      "skillOwnershipActions": {
+        "adopt": 14
+      },
+      "changedSkillRelativePaths": [
+        "references/lifecycle.md",
+        "references/lifecycle.zh-CN.md"
+      ],
+      "pmlIndexAction": "unchanged",
+      "existingOwnedEnvironmentCount": 1,
+      "existingOwnershipTransferred": false,
+      "currentSkillWritten": true,
+      "productionEnvironmentWrites": 0,
+      "setupExecuted": true,
+      "readOnlyFrozenMetadataAndHashChecksPassed": true,
+      "installerVerifyPlanExecuted": true,
+      "installerVerifyPlanDeferredUntilSpecificSetupApproval": false,
+      "scope": "The exact previously approved plan was executed successfully; it cannot be reused against the resulting new state. Production ENV content and old ENV ownership were retained. Installed HTTP acceptance is recorded separately.",
+      "installationApproved": true,
+      "consumedByApprovedSetup": true,
+      "validForNewExecution": false
     }
   ],
   "approvedArchive": {
@@ -340,7 +379,7 @@
     "scope": "Current installed CLI and most DocFX routes pass; one published C# evidence resource returns HTTP404. This failure is preserved, not upgraded by a source-only fix."
   },
   "documentationSourceHttpRepair": {
-    "status": "source-fixed-and-validated-new-package-and-preview-pending",
+    "status": "candidate-and-fresh-owned-preview-verified-awaiting-specific-update-approval",
     "relativePath": "source-evidence/tests/SkillAdoptionTests.cs",
     "cause": "Default static-file provider does not serve .cs.",
     "change": "Only docs-only explicitly maps .cs to text/plain; charset=utf-8; ServeUnknownFileTypes remains false.",
@@ -373,7 +412,8 @@
       "nosniff": true
     },
     "installedFixDeployed": false,
-    "scope": "Source-only regression and real temporary loopback; current installed binary and prior immutable package remain unchanged."
+    "scope": "Source-only regression and real temporary loopback; current installed binary and prior immutable package remain unchanged.",
+    "newCandidateVerified": true
   },
   "installationAndSourceRepairEvidence": [
     {
@@ -411,5 +451,138 @@
       "localSourceSha256": "798fe5777d2f4ca7ac150b8bfeac2d47be90b06684be212461dd671570410307",
       "projection": "UTF-8/LF; structured sanitized source; outcomes and scope preserved"
     }
-  ]
+  ],
+  "repairCandidate": {
+    "package": {
+      "version": "0.3.4.2",
+      "directory": "artifacts/install-journey-delivery-doc-source-fix-20261102",
+      "manifestSha256": "58f92c4578bd7db72cf114b72a6d9d799b47d2d6d4c6fe0096074c810ad451f1",
+      "manifestMembers": 7022,
+      "payloadEveryMemberSha256Matched": true,
+      "payloadPdbCount": 0,
+      "vendorDllCount": 0,
+      "helperSha256": "c2437e38ccdb4da15154827d743aa18f7b469a305e453d7437d5d9a5562290fe",
+      "deliverables": [
+        {
+          "file": "Phayton-0.3.4.2-Windows-Setup.exe",
+          "bytes": 202342980,
+          "sha256": "cb1511eacc472986e6921bad0853113a735462094a0193710de1485be55e40ba"
+        },
+        {
+          "file": "Phayton-0.3.4.2-Windows-Agent.zip",
+          "bytes": 202585774,
+          "sha256": "10e4bdbd854f9edfb54933ac419377436162b97e18bff597ff18271dad53d4ba"
+        },
+        {
+          "file": "Phayton-Windows-Setup-Sources.zip",
+          "bytes": 204907,
+          "sha256": "a7cf0bc81f9ab34b2a3fcdd3c5eb202ad68e1dc4baf029fda6a4a7ed3ead51a4"
+        }
+      ],
+      "signature": {
+        "status": "NotSigned",
+        "isOsBinary": false,
+        "signerPresent": false,
+        "exeSha256": "cb1511eacc472986e6921bad0853113a735462094a0193710de1485be55e40ba"
+      }
+    },
+    "source": {
+      "fixedDocHostAndInstallerSourceCommit": "c1f44a92e511ece825c07ad201ff1ae35cd4f709",
+      "documentationSnapshotCommit": "c1f44a92e511ece825c07ad201ff1ae35cd4f709",
+      "reusedComponentOrigins": {
+        "desktop": {
+          "codeCommit": "5d892b8a26f113ce466d31128c1485b6381f991e",
+          "exeSha256": "693f94badb03962efdc2e0d1d63bd97ce56d714dafc6b0a114e440ac2ea088e5"
+        },
+        "manager": {
+          "codeCommit": "5d892b8a26f113ce466d31128c1485b6381f991e",
+          "exeSha256": "0c26de635bec4f3f71f6bcc8229834b99efe63be1b024d5ca381c0b39596a5c5"
+        },
+        "cli": {
+          "origin": "Existing manifest-verified Native AOT distribution copied read-only before prior upgrade",
+          "manifestSha256": "080373ecac9aa926813ae74bea272877b5f5d14071dd1d36acc9fbc291c42dc3"
+        },
+        "webapps": {
+          "origin": "Existing manifest-verified Webapps distribution copied read-only before prior upgrade",
+          "manifestSha256": "080373ecac9aa926813ae74bea272877b5f5d14071dd1d36acc9fbc291c42dc3"
+        },
+        "profiles": {
+          "codeCommit": "9add46ac936dd14ddbe8d06364ecb465cc9b9c76",
+          "currentSourceSubset28Matches": true,
+          "pdbExcluded": 4
+        }
+      },
+      "reusedComponentReceipt": "artifacts\\install-journey-package-inputs-c1f44a9\\reused-components.json",
+      "reusedComponentReceiptSha256": "4e0ade7c21c2abcce32632543aa6206fd4d1fca537f3c410814dabd914b81a94",
+      "newDocHostPublicationReceiptSha256": "e2b5d8cee13e913acb6ac2023deca0ae2fc7c08ab8fbcb6ab0e915cda44d76a1",
+      "newDocHostPublication": {
+        "sourceCommit": "c1f44a92e511ece825c07ad201ff1ae35cd4f709",
+        "sdk": "10.0.302",
+        "configuration": "Release",
+        "runtime": "win-x64",
+        "selfContained": true,
+        "exeSha256": "157275c29ec39aa7c12bf7bae62bea8515b9bd8a6c656b4adc523de4aa1f4f89",
+        "fileCount": 373,
+        "packagedFilesExcludingPdb": 363,
+        "pdbExcluded": 10,
+        "warnings": 0,
+        "errors": 0
+      }
+    },
+    "docfx": {
+      "htmlPages": 4612,
+      "checkedLocalLinks": 125609,
+      "tests": 460,
+      "warnings": 0,
+      "errors": 0
+    },
+    "actualRuntime": {
+      "passed": true,
+      "managerStages": 8,
+      "managerOperations": 89,
+      "projectionFilesChecked": 10,
+      "csharpEvidence": {
+        "bytes": 19175,
+        "getStatus": 200,
+        "headStatus": 200,
+        "rawBytesSha256": "e6bdb3fa8c15d6f13bc59250de8e3be831734a7cddea557aaad2f9597e60054a",
+        "path": "source-evidence/tests/SkillAdoptionTests.cs",
+        "rawBytesMatch": true,
+        "headBodyBytes": 0,
+        "headContentLength": 19175,
+        "nosniff": true,
+        "contentType": "text/plain; charset=utf-8"
+      },
+      "pages": 24,
+      "localLinks": 739,
+      "localAnchors": 171,
+      "uniqueLinkedResponses": 194,
+      "linkedHttpFailures": [],
+      "disabledRouteCount": 13,
+      "unknownExtensionStatus": 404,
+      "ownHostStopped": true
+    },
+    "runtimeEvidence": {
+      "path": "openspec/changes/integrate-pmltwin-product-platform/evidence/docs-source-mime-candidate-runtime-2026-11-02.json",
+      "sha256": "efbb32b5aed695c7435a7f450042521e66977912e1baa18c05754818c7f051f7",
+      "localSource": "artifacts/doc-source-fix-candidate-runtime-verification.json",
+      "localSourceSha256": "8d19c2094a21987633de77c596a69561907f3d26a0414f90bb2b105b1394bc93",
+      "projection": "UTF-8/LF; original installed FAIL remains unchanged"
+    },
+    "agentBundleVerified": true,
+    "ordinaryOwnedSkillPreviewFixturePassed": true,
+    "installed": false,
+    "boundary": "New immutable candidate frozen at c1f44a9 and independently executed from candidate payload. The currently installed first package is unchanged and its original HTTP failure remains preserved."
+  },
+  "sourceFixCi": {
+    "commit": "c1f44a92e511ece825c07ad201ff1ae35cd4f709",
+    "allThreeWorkflows": "success",
+    "allSixChecks": "success",
+    "runs": [
+      "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/actions/runs/41367095255",
+      "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/actions/runs/41367095280",
+      "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/actions/runs/41367095320"
+    ],
+    "scope": "Source fix snapshot, not current installed HTTP repair acceptance; later audit has its own checks."
+  }
 }

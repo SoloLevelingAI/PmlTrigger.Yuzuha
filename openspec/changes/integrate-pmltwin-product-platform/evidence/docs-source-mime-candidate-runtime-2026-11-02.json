@@ -1,0 +1,267 @@
+{
+  "schema": "pmltwin.doc-source-fix-candidate-runtime/1",
+  "createdUtc": "2026-11-02T00:36:14.3837524+00:00",
+  "passed": true,
+  "scope": "Actual new candidate Manager contracts and isolated read-only docs-only host; no Setup, installed C application execution, AVEVA, Manager mutations, user-settings changes or WPF launch.",
+  "privateDetailsSuppressed": true,
+  "candidateRoot": "artifacts/install-journey-delivery-doc-source-fix-20261102/payload",
+  "oldInstalledFailure": {
+    "preserved": true,
+    "status": "FAIL",
+    "sha256": "e262159f07ce526fd119ae25845cebec02f04867eda2ed2866764e07ae714d2d",
+    "receipt": "artifacts/final-installed-runtime-verification.json"
+  },
+  "manifestSha256": "58f92c4578bd7db72cf114b72a6d9d799b47d2d6d4c6fe0096074c810ad451f1",
+  "priorCandidateVerification": {
+    "payloadFilesVerified": 7022,
+    "receiptSha256": "f320d1c55ec0658b47af0ce8f684f709994550b5e74f3b8c2f61cd4802a14550",
+    "fullInventoryRehashedByThisCheck": false,
+    "completeRootBoundInventoryPassed": true
+  },
+  "manager": {
+    "success": true,
+    "grants": [],
+    "generatorSha256": "ed3773c90c135633f9c5bf6103133a8ae5d1f705191126c4e90768b50e63c11d",
+    "projectionChecks": [
+      {
+        "files": 5,
+        "passed": true,
+        "directory": "docs/contracts"
+      },
+      {
+        "files": 5,
+        "passed": true,
+        "directory": "runtime/documentation/contracts"
+      }
+    ],
+    "operations": 89,
+    "stages": 8,
+    "coreAssemblySha256": "b45a1ac38019f90a90a05a87b6c1cee2759728792b69d1255ddc608f44300d92",
+    "inputSource": "stdin",
+    "operation": "manager.contracts",
+    "contractProjectionSha256": "524791789bf9a0a257b179fcf84994dbccfc02c0d1612b1ec9834d4431e85fa6",
+    "executableSha256": "0c26de635bec4f3f71f6bcc8229834b99efe63be1b024d5ca381c0b39596a5c5"
+  },
+  "csharpEvidence": {
+    "bytes": 19175,
+    "getStatus": 200,
+    "headStatus": 200,
+    "rawBytesSha256": "e6bdb3fa8c15d6f13bc59250de8e3be831734a7cddea557aaad2f9597e60054a",
+    "path": "source-evidence/tests/SkillAdoptionTests.cs",
+    "rawBytesMatch": true,
+    "headBodyBytes": 0,
+    "headContentLength": 19175,
+    "nosniff": true,
+    "contentType": "text/plain; charset=utf-8"
+  },
+  "unknownExtensionStatus": 404,
+  "existingUnknownExtensionFixture": "Verified separately by source integration test and source loopback; candidate kept immutable.",
+  "documentationHost": {
+    "pages": [
+      {
+        "status": 200,
+        "responseSha256": "22a29d71f24036c9314d8edc2a5a74b40e16964fa1d00ddd50c0ee739171c812",
+        "path": "index.html"
+      },
+      {
+        "status": 200,
+        "responseSha256": "719214d749925acb0ee135fe3585dce19cfc7ff11d1c85d8d1d6d27e808e74e5",
+        "path": "install-to-operation.zh-CN.html"
+      },
+      {
+        "status": 200,
+        "responseSha256": "6902ec4fac48bd92369d741283e0ed0e0cf9f6935a0d7afaf2532cb0e107d3f8",
+        "path": "api/manager/YuzuhaToolkit.Manager.ManagerContractCatalog.html"
+      },
+      {
+        "status": 200,
+        "responseSha256": "aaba79ccb95da081e98cb1cfb8f8567ec0b0dab5dac1cef6581f62174b551f2f",
+        "path": "reference/scripts/sources/1912c15edd2fbf0c.html"
+      },
+      {
+        "status": 200,
+        "responseSha256": "20ddd966e77fd6501ee724f5b14ae691a6172dc269ced98266a7be8821ec9bc0",
+        "path": "reference/scripts/sources/c201b9d80c2cc158.html"
+      },
+      {
+        "status": 200,
+        "responseSha256": "696b7ea22317fddc202420daf7d3abd03eb6c6485d32de6fbc3fd42176d60def",
+        "path": "api/manager/YuzuhaToolkit.Manager.SetupHandoffService.html"
+      },
+      {
+        "status": 200,
+        "responseSha256": "f3e5191d90d195d92a7ef245202264e97d037369cf143ce038da58cf5cd469fe",
+        "path": "api/manager/YuzuhaToolkit.Manager.ManagerInstallationDiscovery.html"
+      },
+      {
+        "status": 200,
+        "responseSha256": "87f1688de4881222ef477d7ee79060854d8b423e74fdb20af42714f5aa091c99",
+        "path": "api/manager/YuzuhaToolkit.Manager.LaunchDiscoveryService.html"
+      },
+      {
+        "status": 200,
+        "responseSha256": "0e1a54809a4b6ff2ebe79db4d82f6e078280b6e3d80873cac4d73459fd85ee0e",
+        "path": "api/manager/YuzuhaToolkit.Manager.MigrationPreview.html"
+      },
+      {
+        "status": 200,
+        "responseSha256": "fbe6b51fe138b7440dc42fcdb49171d233245d2cba8d0c9df0cc15a4211b9bda",
+        "path": "api/manager/YuzuhaToolkit.Manager.RuntimeDeploymentService.html"
+      },
+      {
+        "status": 200,
+        "responseSha256": "cb422c862af45395186d0790d4abb40042f96e409276aa86aadbf1201942e1a3",
+        "path": "api/manager/YuzuhaToolkit.Manager.EvarsEditor.html"
+      },
+      {
+        "status": 200,
+        "responseSha256": "46e0279344425364ee767f1b17dd015a36e178ac9acc27c67f3b52633fa7b886",
+        "path": "api/manager/YuzuhaToolkit.Manager.ManagerHostProfiles.html"
+      },
+      {
+        "status": 200,
+        "responseSha256": "ee8c121b106228b0ce6894ae4f5de90a3eac6cd9eebdeeb6065ee8321a7719a9",
+        "path": "api/manager/YuzuhaToolkit.Manager.SetupEnvironmentOwnershipGuard.html"
+      },
+      {
+        "status": 200,
+        "responseSha256": "8420b5189cd369eaed20e3c31b54c1e35c5f5ee6e53de7463782c59d5aa2471e",
+        "path": "api/manager/YuzuhaToolkit.Manager.LaunchWorkflowService.html"
+      },
+      {
+        "status": 200,
+        "responseSha256": "e169534b399a216cf5e3a23ce5946ed7848f8d5f0bfe198bc47cff6b1b748f81",
+        "path": "api/manager/YuzuhaToolkit.Manager.CommunicationCliClient.html"
+      },
+      {
+        "status": 200,
+        "responseSha256": "5e7ac8249661c96c067c15a98c39de021a09d9eb9a251dad66ad34341593c4b0",
+        "path": "reference/scripts/script-cdf0c7442111ad23.html"
+      },
+      {
+        "status": 200,
+        "responseSha256": "dad50f04504be35695589d4ade4077f02fa8840b0f827cdff146fe8d6bdc3804",
+        "path": "reference/scripts/sources/5abf799996dafaf5.html"
+      },
+      {
+        "status": 200,
+        "responseSha256": "aef6a003d3a149f20df46ebc2bd41d2d84e445c80fe4fc0e4ca50be61a031d2a",
+        "path": "reference/scripts/script-fff578b581d575a3.html"
+      },
+      {
+        "status": 200,
+        "responseSha256": "c6fee7270d9b05eff1ff3c5ae0ea285ca2eb565c9aef3a06db2276cdb86b2852",
+        "path": "reference/scripts/sources/455074db60099ab7.html"
+      },
+      {
+        "status": 200,
+        "responseSha256": "30959211cc6ef2daa8cd970660387d37290823bafb1dde0b4d9190a85a07542b",
+        "path": "reference/scripts/script-17376cbc6d023c68.html"
+      },
+      {
+        "status": 200,
+        "responseSha256": "d71560f7d769db56720da069eb13e3d13849eee9b4faa7d8ba26208a985ae5fb",
+        "path": "reference/scripts/sources/38ca6b2f11a1298b.html"
+      },
+      {
+        "status": 200,
+        "responseSha256": "1a7da382fb210f2b2b6928f22ee955433ec19d98c27cb466a89f42206975cf82",
+        "path": "reference/source/SetupBridge/Program.html"
+      },
+      {
+        "status": 200,
+        "responseSha256": "5d70b3a2e6b3a83c1312cfd6cdedc1d4aacaf615a24fe28247b99d4f4217d8a0",
+        "path": "reference/source/YuzuhaToolkit.Desktop/YuzuhaToolkit.Desktop.PreparationWorkbenchView.html"
+      },
+      {
+        "status": 200,
+        "responseSha256": "00195158d64f72a88ec7f3efe23d2cd43ac1d30be6b4c61e0648b87d2585f9be",
+        "path": "reference/tests/test-8b0054cc187fdd58.html"
+      }
+    ],
+    "linkedHttpFailures": [],
+    "checkedLocalLinkAnchors": 171,
+    "executableSha256": "157275c29ec39aa7c12bf7bae62bea8515b9bd8a6c656b4adc523de4aa1f4f89",
+    "ownProcessAndExclusiveLoopbackListenerConfirmed": true,
+    "ephemeralPort": 6594,
+    "uniqueLinkedResponsesChecked": 194,
+    "mode": "docs-only",
+    "disabledRoutes": [
+      {
+        "method": "GET",
+        "status": 404,
+        "route": "/health"
+      },
+      {
+        "method": "GET",
+        "status": 404,
+        "route": "/api/guides"
+      },
+      {
+        "method": "GET",
+        "status": 404,
+        "route": "/api/manager/contracts"
+      },
+      {
+        "method": "GET",
+        "status": 404,
+        "route": "/api/manager/operations"
+      },
+      {
+        "method": "GET",
+        "status": 404,
+        "route": "/api/manager/operations/evars.apply"
+      },
+      {
+        "method": "GET",
+        "status": 404,
+        "route": "/api/knowledge/query-plan?query=test"
+      },
+      {
+        "method": "GET",
+        "status": 404,
+        "route": "/api/pml/preview"
+      },
+      {
+        "method": "GET",
+        "status": 404,
+        "route": "/openapi/v1.json"
+      },
+      {
+        "method": "GET",
+        "status": 404,
+        "route": "/scalar/v1"
+      },
+      {
+        "method": "POST",
+        "status": 403,
+        "route": "/api/pml/preview"
+      },
+      {
+        "method": "POST",
+        "status": 403,
+        "route": "/api/manager/operations/evars.apply"
+      },
+      {
+        "method": "POST",
+        "status": 403,
+        "route": "/docs/index.html"
+      },
+      {
+        "method": "POST",
+        "status": 403,
+        "route": "/docs/source-evidence/tests/SkillAdoptionTests.cs"
+      }
+    ],
+    "service": "YuzuhaToolkit.DevHost",
+    "nonCanonicalHostStatus": 403,
+    "successfulLinkedResponseBytesMatchManifest": true,
+    "checkedLocalLinks": 739,
+    "healthIdentity": "No /health route in docs-only; own PID/listener and manifest-identical HTTP bytes verified."
+  },
+  "candidateManifestAndOldInstalledFailureUnchanged": true,
+  "ownedDocumentationHostStopped": true,
+  "otherProcessesStopped": 0,
+  "completedUtc": "2026-11-02T00:36:19.7589751+00:00",
+  "privateLogs": "Current-user local C RuntimeReview only; no raw output or account path copied to workspace."
+}

@@ -1,7 +1,7 @@
 globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
   "schema": "contract-atlas-render/1",
   "schemaVersion": 1,
-  "metadataDigest": "34475e72f334defcee16c535f6772dd10ae086cd267758b2460d50d802d280b2",
+  "metadataDigest": "3671e693d8f95b6a2bde050e9976c1856e670b71b112e7069394d15fd4f478a2",
   "audience": "public",
   "snapshotDate": "2026-11-01",
   "project": {
@@ -24871,7 +24871,7 @@ globalThis.CONTRACT_ATLAS_RENDER_MODEL = {
     {
       "id": "source:openspec-tasks",
       "title": "平台候选tasks",
-      "sha256": "575586e4e8d1d301fd18ba2160b28c358a9192d8912a180437aba7a3a759c192",
+      "sha256": "157667506c1c80e6aa7715a84f5aa2748eb27f99c2623ac6352938799d30e22b",
       "authority": "proposal",
       "audience": "public"
     },

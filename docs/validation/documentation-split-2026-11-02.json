@@ -1,7 +1,7 @@
 {
   "schema": "phayton.documentation-split-evidence/1",
   "recordedUtc": "2026-11-02T13:39:07.921128+00:00",
-  "status": "CANDIDATE_AND_PREVIEW_READY_NOT_INSTALLED",
+  "status": "ACTUAL_UPGRADE_VERIFIED_PENDING_ENVIRONMENT_ACCEPTANCE",
   "componentSourceCommit": "04a3c9473cb0d7d5e38b98fca9042914d4663f48",
   "auditCommitBoundary": "This later evidence/task update does not rebuild or relabel the immutable component publications.",
   "userGuide": {
@@ -128,34 +128,6 @@
       ]
     }
   },
-  "preview": {
-    "schema": "pmltwin.mainline-upgrade-preview/1",
-    "status": "PREVIEW_ONLY",
-    "createdUtc": "2026-11-02T13:36:56.310859+00:00",
-    "sourceCommit": "04a3c9473cb0d7d5e38b98fca9042914d4663f48",
-    "manifestSha256": "4d73e07bc2dc33adacbdb28a794a8c042178a6fdffdc991299b530a50fbcace9",
-    "planId": "43aa7d36e2bf4a98a38316453587f92b",
-    "planSha256": "3d71b34f9de8769c8b9becb646a36a49c9b6b1bf36c93c41a27bb666ff69d587",
-    "payloadActions": {
-      "update": 392,
-      "unchanged": 816,
-      "create": 16
-    },
-    "changeActions": {
-      "unchanged": 13,
-      "update": 2
-    },
-    "changeKinds": {
-      "pml-index": 1,
-      "skill": 14
-    },
-    "priorManagedCount": 15,
-    "adoptSkill": false,
-    "environmentWrites": 0,
-    "originalMarkerUnchanged": true,
-    "setupExecuted": false,
-    "privateDetailsSuppressed": true
-  },
   "installedBeforePreview": {
     "schema": "phayton.installed-prepreview/1",
     "status": "PASS",
@@ -193,9 +165,7 @@
     }
   ],
   "pending": {
-    "27.16": "Specific new plan approval, normal Setup execution and installed-byte/HTTP verification.",
-    "27.10": "Fresh legacy ENV ownership preview/approval/transfer, deployment preview/approval/apply, selected AVEVA verification and user visual acceptance.",
-    "28.5": "Candidate and new preview are ready; actual upgrade/acceptance remains open."
+    "27.10": "Specific legacy transfer preview prepared but not executed; deployment preview/approval/apply, selected AVEVA verification and user visual acceptance remain open."
   },
   "privacy": {
     "rawPlanAndOriginalsInRepository": false,
@@ -208,5 +178,155 @@
     "passed": true,
     "path": "artifacts/doc-split-closeout-20261102-v2/audit/upgrade-preview-independent-safe-review.json",
     "sha256": "d02caf8f7bd67f64626a04237589768ec98a4d9b6b759d73bd73d1edb93ffbb9"
+  },
+  "updatedUtc": "2026-11-02T13:59:43.883823+00:00",
+  "previewAtCreation": {
+    "schema": "pmltwin.mainline-upgrade-preview/1",
+    "status": "PREVIEW_ONLY",
+    "createdUtc": "2026-11-02T13:36:56.310859+00:00",
+    "sourceCommit": "04a3c9473cb0d7d5e38b98fca9042914d4663f48",
+    "manifestSha256": "4d73e07bc2dc33adacbdb28a794a8c042178a6fdffdc991299b530a50fbcace9",
+    "planId": "43aa7d36e2bf4a98a38316453587f92b",
+    "planSha256": "3d71b34f9de8769c8b9becb646a36a49c9b6b1bf36c93c41a27bb666ff69d587",
+    "payloadActions": {
+      "update": 392,
+      "unchanged": 816,
+      "create": 16
+    },
+    "changeActions": {
+      "unchanged": 13,
+      "update": 2
+    },
+    "changeKinds": {
+      "pml-index": 1,
+      "skill": 14
+    },
+    "priorManagedCount": 15,
+    "adoptSkill": false,
+    "environmentWrites": 0,
+    "originalMarkerUnchanged": true,
+    "setupExecuted": false,
+    "privateDetailsSuppressed": true
+  },
+  "installation": {
+    "authorization": "User explicitly approved plan 43aa7d36e2bf4a98a38316453587f92b with SHA 3d71b34f9de8769c8b9becb646a36a49c9b6b1bf36c93c41a27bb666ff69d587 in the active chat.",
+    "execution": {
+      "schema": "phayton.approved-upgrade-execution/1",
+      "sourceCommit": "04a3c9473cb0d7d5e38b98fca9042914d4663f48",
+      "planId": "43aa7d36e2bf4a98a38316453587f92b",
+      "planSha256": "3d71b34f9de8769c8b9becb646a36a49c9b6b1bf36c93c41a27bb666ff69d587",
+      "setupSha256": "a2392ec8761a669d3848eb2aa41dc158b553702a459a18eb1e7b6c85527ec374",
+      "authorization": "User explicitly approved this exact preview and installation in the active chat.",
+      "startedUtc": "2026-11-02T13:48:55.0598702+00:00",
+      "launch": "Normal Windows RunAs UAC; no bypass",
+      "status": "EXITED_AWAITING_INSTALLED_VERIFICATION",
+      "setupExitCode": 0,
+      "environmentWritesApproved": 0,
+      "deletionsApproved": 0,
+      "privateLogsSuppressed": true,
+      "processId": 240220,
+      "completedUtc": "2026-11-02T13:49:50.4021160+00:00"
+    },
+    "installedByteVerification": {
+      "schema": "phayton.installed-post-approved-upgrade/1",
+      "status": "PASS",
+      "planId": "43aa7d36e2bf4a98a38316453587f92b",
+      "planSha256": "3d71b34f9de8769c8b9becb646a36a49c9b6b1bf36c93c41a27bb666ff69d587",
+      "sourceCommit": "04a3c9473cb0d7d5e38b98fca9042914d4663f48",
+      "inventorySha256": "772cf3384e37bcc3f3483397bc73eeb729d965da1cf1461ad9b1abeafb861bb8",
+      "installedManifestSha256": "4d73e07bc2dc33adacbdb28a794a8c042178a6fdffdc991299b530a50fbcace9",
+      "installedMarkerSha256": "d803fd059430f61532a72cfc1edead3d439dd50a623f44a03d40e0d98a20664c",
+      "reportPlanSha256": "3d71b34f9de8769c8b9becb646a36a49c9b6b1bf36c93c41a27bb666ff69d587",
+      "resultSha256": "079b1f5eb310c6d58c37dd1e4822f178d3a32c92a70638822ea5c2a8b3dc1a51",
+      "markerLastReportPlanIdMatched": true,
+      "reportSuccess": true,
+      "installedPayloadMembersVerified": 1224,
+      "managedExternalFilesVerified": 15,
+      "firstOriginalFieldsPresent": true,
+      "firstOriginalValuesDeepEqualApprovedPriorState": true,
+      "managedKinds": {
+        "environment": 1,
+        "skill": 14
+      },
+      "legacyEnvironmentSha256": "0ecde32d7449483f31ddc022b7a657d98ef3ef04f8b6c6c08311cc20e0ca3f95",
+      "legacyEnvironmentUnchanged": true,
+      "resultActionsVerified": 1239,
+      "environmentWrites": 0,
+      "deleteActions": 0,
+      "automaticDeveloperArchiveInstall": false,
+      "actualRootFileCount": 12344,
+      "actualRootFileBytes": 917389808,
+      "historicalRootDocsFilesPresent": 1014,
+      "strictDirectoryMembershipRequired": false,
+      "originalsDecoded": false,
+      "originalsPrinted": false,
+      "auditExecutedInstallerOrHelper": false,
+      "auditModifiedInstalledRoot": false,
+      "auditWroteEnvironment": false
+    },
+    "installedByteEvidence": {
+      "path": "artifacts/doc-split-closeout-20261102-v2/audit/installed-after-approved-upgrade-safe.json",
+      "sha256": "d421f760416b32d38bcd81a3748d067fa881bb09ce26ceb0ce20d09982990a12"
+    },
+    "actualInstalledHttp": {
+      "passed": true,
+      "requests": 209,
+      "registeredFiles": 165,
+      "htmlPages": 11,
+      "checkedLocalLinks": 91,
+      "physicalLegacyFilesRejected": 4,
+      "developerReferenceMounted": false,
+      "ownedHostStopped": true,
+      "evidence": {
+        "path": "artifacts/doc-split-closeout-20261102-v2/audit/installed-user-documentation-3519f22654f84c8ca1633781f5b8ac11.json",
+        "sha256": "3f64b917d41f3a1b1acb3c064e8c018735514dcc7561e044ea2474add797b4fa"
+      }
+    },
+    "installedManagerHandoffFilesVerified": 1224,
+    "installedCliBuiltinPassed": true,
+    "avevaIntegration": "manager-preparation-required",
+    "environmentCount": 0,
+    "actualClientSkillReloadVerified": false
+  },
+  "legacyTransferPreview": {
+    "schema": "phayton.legacy-transfer-preview/1",
+    "status": "PREVIEW_ONLY",
+    "createdUtc": "2026-11-02T13:54:31.013430+00:00",
+    "sourceCommit": "04a3c9473cb0d7d5e38b98fca9042914d4663f48",
+    "planId": "7d38bccec6864598b498fd4331761172",
+    "kind": "setup.legacy.transfer",
+    "planSha256": "882dd46f5f8755e9b8641ac9f2a8a6b86292e31d0a68a12c7a17bcc6591ace26",
+    "environmentSha256": "0ecde32d7449483f31ddc022b7a657d98ef3ef04f8b6c6c08311cc20e0ca3f95",
+    "markerBeforeSha256": "d803fd059430f61532a72cfc1edead3d439dd50a623f44a03d40e0d98a20664c",
+    "originalAvailable": true,
+    "legacyEnvironmentBefore": 1,
+    "legacyEnvironmentAfter": 0,
+    "skillBefore": 14,
+    "skillAfter": 14,
+    "environmentWrites": 0,
+    "payloadWrites": 0,
+    "transferExecuted": false,
+    "installedMarkerUnchanged": true,
+    "installedManagerHandoffFilesVerified": 1224,
+    "installedCliBuiltinPassed": true,
+    "privatePathsSuppressed": true,
+    "independentReview": {
+      "path": "artifacts/doc-split-closeout-20261102-v2/audit/legacy-transfer-independent-safe-review.json",
+      "sha256": "2746ff24f3a3533ef8ab530460a03a375246176bd5433e3cbe986555ee7ab825"
+    }
+  },
+  "installedDesktop": {
+    "schema": "phayton.installed-desktop-opened/1",
+    "sourceCommit": "04a3c9473cb0d7d5e38b98fca9042914d4663f48",
+    "installedEntrySha256": "7beb4783ea1f54f79c58e7c12d7f7658b226c323e2553af25be5619c2e29c23c",
+    "openedUtc": "2026-11-02T13:56:07.8721794+00:00",
+    "processId": 241512,
+    "mainWindowHandle": 920868,
+    "title": "Phayton · 工程工作空间",
+    "responding": true,
+    "entry": "Installed Desktop preparation with read-only handoff inspection",
+    "humanVisualAccepted": false,
+    "environmentWrites": 0,
+    "avevaLaunched": false
   }
 }

@@ -50,4 +50,4 @@ WPF 和管理 CLI 复用 Manager 用例；通信经过独立 CLI、PID 专用 RP
 | `node tests/contract-atlas-entry-browser.mjs` | 明确选择本机 Edge，8 个页面场景通过；不代替用户视觉认可 |
 | `npm run contracts:check`、`npm run architecture:check`、`npm run architecture:validate` | 生成数据一致，LikeC4 两个文件有效 |
 
-完整文档构建仍受本机缺少仓库固定的 .NET SDK 10.0.302 限制，未记为本轮整站通过；DocFX 路由回归使用明确标注的隔离 HTML 和源码。没有据此升级 canonical 状态或勾选 27.10、27.16，也没有执行真实 AVEVA、生产环境写入或安装升级。本机 `openspec` 命令不可用，未声称 strict 校验、sync 或 archive 通过。其他测试入口见[测试说明](testing.md)。
+首轮 PATH 检查未找到 SDK 10.0.302 和 OpenSpec，因此上表未包含整站构建或 OpenSpec strict。续作已在本机仓库缓存找到并实际核验 SDK 10.0.302、OpenSpec 1.15.0 和 Inno 6.7.3，无需安装或修改机器配置；27.16 现在以已提交源码重建完整候选。DocFX 路由回归本身仍使用明确标注的隔离 HTML 和源码。环境、升级及人工验收继续按平台任务分别留证，不从缓存工具可用推定任务完成；canonical 状态保持，不执行 sync 或 archive。其他测试入口见[测试说明](testing.md)。

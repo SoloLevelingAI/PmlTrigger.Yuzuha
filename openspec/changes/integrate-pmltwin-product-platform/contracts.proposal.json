@@ -1,0 +1,93 @@
+{
+  "schema": "pmltwin.platform-proposal/0.2",
+  "status": "proposal",
+  "notARuntimeCatalog": true,
+  "runtimeSource": "YuzuhaToolkit.Manager.ManagerContractCatalog",
+  "runtimeSchema": "pmltwin.manager-journey/1",
+  "note": "逻辑名称不是已注册 operation ID。运行时 ID、输入 schema、公开摘要和退出码以 ManagerContractCatalog 导出为准。",
+  "types": [
+    {
+      "name": "FeatureDescriptor",
+      "implementationStatus": "runtime-type",
+      "registeredOperationId": null,
+      "returnedBy": "feature.list",
+      "schema": null
+    },
+    {
+      "name": "OperationDescriptor",
+      "implementationStatus": "runtime-type",
+      "registeredOperationId": null,
+      "returnedBy": "manager.contracts",
+      "schema": null
+    },
+    {
+      "name": "OperationPlan",
+      "implementationStatus": "proposal",
+      "registeredOperationId": null,
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": { "type": "string" },
+          "featureId": { "type": "string" },
+          "targetIdentity": { "type": "string" },
+          "expectedRevision": { "type": "string" },
+          "inputDigest": { "type": "string" },
+          "expiresAt": { "type": "string" }
+        },
+        "required": ["operationId", "featureId", "targetIdentity", "expectedRevision", "inputDigest", "expiresAt"]
+      }
+    },
+    {
+      "name": "DatabaseSession",
+      "implementationStatus": "proposal",
+      "registeredOperationId": null,
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "scope": { "type": "string" },
+          "schemaVersion": { "type": "integer" },
+          "readOnly": { "type": "boolean" },
+          "expectedRevision": { "type": "string" }
+        },
+        "required": ["scope", "schemaVersion", "readOnly", "expectedRevision"]
+      }
+    },
+    {
+      "name": "DesignHandoff",
+      "implementationStatus": "proposal",
+      "registeredOperationId": null,
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "featureId": { "type": "string" },
+          "nativeFile": { "type": "string" },
+          "operations": { "type": "array" },
+          "status": { "type": "string" }
+        },
+        "required": ["featureId", "nativeFile", "operations", "status"]
+      }
+    }
+  ],
+  "families": [
+    { "logicalName": "feature.describe", "status": "proposal-only", "operationIds": [] },
+    { "logicalName": "feature.list", "status": "registered", "operationIds": ["feature.list"] },
+    { "logicalName": "environment.check", "status": "proposal-only", "operationIds": [] },
+    { "logicalName": "environment.discover", "status": "registered", "operationIds": ["environment.discover", "environment.resolve"] },
+    { "logicalName": "launch.plan", "status": "registered", "operationIds": ["launch.plan", "launch.execute", "launch.observe"] },
+    { "logicalName": "setup.handoff.inspect", "status": "registered", "operationIds": ["setup.handoff.inspect"] },
+    { "logicalName": "health.inspect", "status": "proposal-only", "operationIds": [] },
+    { "logicalName": "uic.preview", "status": "proposal-only", "operationIds": [] },
+    { "logicalName": "DatabaseSession", "status": "proposal-only", "operationIds": [] },
+    { "logicalName": "DesignHandoff", "status": "proposal-only", "operationIds": [] }
+  ],
+  "compatibilitySamples": [
+    { "name": "cli-handoff-inspect", "surface": "cli", "operationId": "setup.handoff.inspect", "expectRegistered": true, "allowsWrite": false },
+    { "name": "cli-and-http-contract-read", "surface": "http", "method": "GET", "path": "/api/manager/contracts", "operationId": "manager.contracts", "expectRegistered": true, "allowsWrite": false },
+    { "name": "feature-list-not-feature-describe", "surface": "cli", "operationId": "feature.list", "expectRegistered": true, "allowsWrite": false },
+    { "name": "proposal-logical-name", "surface": "proposal", "operationId": "feature.describe", "expectRegistered": false },
+    { "name": "proposal-environment-check", "surface": "proposal", "operationId": "environment.check", "expectRegistered": false }
+  ]
+}

@@ -1,6 +1,7 @@
 // Generated from the actual registered input schemas. Do not edit.
 import {invokeCli as transport} from "./manager-journey-client.mjs";
 export type JsonValue = null | boolean | number | string | JsonValue[] | { [key: string]: JsonValue };
+/** data stays unknown. Public journey summaries are outputProjections in manager-journey.json and OpenAPI x-journey-output-summaries. */
 export interface OperationResult { operationId: string; success: boolean; exitCode: number; data?: unknown; error?: { code: string; message: string; mayHaveExecuted?: boolean }; schemaVersion: number }
 export interface CliContext { processId?: number; expectedModel?: string; expectedProcessStartTimeUtcTicks?: string; allowWrite?: boolean; allowLaunch?: boolean; allowExecution?: boolean }
 export interface CliOptions { executable: string; prefixArgs?: string[]; context?: CliContext; timeoutMs?: number; maximumOutputBytes?: number }

@@ -15,8 +15,9 @@ public sealed record ManagerContractStage(string Id, string Title, string Input,
 /// <summary>多个入口共享的完整任务契约；读取此对象不扫描机器、不读用户数据、不执行操作。</summary>
 public sealed record ManagerJourneyContract(string Schema, string Id, string Title, string Summary, ManagerContractStage[] Stages);
 
-/// <summary>真实注册目录与完整任务契约的只读快照；操作结果Data仍是未知JSON，不承诺未登记输出schema。</summary>
-public sealed record ManagerContractExport(ManagerJourneyContract Journey, OperationDescriptor[] Operations, string OutputBoundary);
+/// <summary>真实注册目录与完整任务契约的只读快照。操作结果 data 仍是未知 JSON；旅程操作另附允许额外字段的公开摘要。</summary>
+public sealed record ManagerContractExport(ManagerJourneyContract Journey, OperationDescriptor[] Operations, string OutputBoundary,
+    ManagerOutputProjection[] OutputProjections, InstallExitRow[] ExitTaxonomy);
 
 /// <summary>安装、环境准备、部署与工程使用的共享契约目录；不成为第二份canonical要求。</summary>
 public static class ManagerContractCatalog
@@ -28,7 +29,8 @@ public static class ManagerContractCatalog
             Stage("install", "安装交接", "应用工具包根与安装交接标记。", "Inno已交付应用、清单与管理器入口；没有据此接入AVEVA。",
                 "读取交接身份、包清单及旧所有权状态。", "只读；不修改厂商EVARS或启动工程。", "校验标记格式、应用根、载荷身份和路径边界。",
                 "工具包/安装所有权快照；文件就绪不表示Host已加载。", "缺失或不支持格式显式说明，返回安装入口核对，不猜接入成功。",
-                ["setup.handoff.inspect"], [Script("SetupHandoffService", "Inspect", "解释安装交接和载荷身份；不接管运行环境。")]),
+                ["setup.handoff.inspect"], [Script("SetupHandoffService", "Inspect", "解释安装交接和载荷身份；不接管运行环境。")],
+                "可选 --inspect-handoff 只调用 setup.handoff.inspect，不授予写入、启动或执行。未带该参数时交接只填入工具包根。"),
             Stage("environment", "选择产品环境", "明确扫描根、预算及产品/版本候选。", "有可访问的产品目录；多候选需用户选择。",
                 "汇聚目录/注册表/初始化候选并解释来源；复用模块和启动规则。", "只读发现；不执行厂商BAT、不登录或默认授权。",
                 "预算、候选来源、产品/模块组合和人工覆盖有效性。", "发现及解释结果；安装可见与登录成功分开。", "缺失、超时、歧义明确展示，保留人工输入。",
@@ -60,12 +62,14 @@ public static class ManagerContractCatalog
                 "冻结launch.plan；先持久受理，再经唯一启动边界执行，按原编号观察。", "创建入口进程；进程创建与登录、Host身份分别判断。",
                 "修订/EVARS/入口摘要、计划有效期、显式启动授权和唯一尝试。", "operationId/attemptId与入口/交接观察；密码不入计划、日志或文档。",
                 "unknown不重放；取消等待不声称撤销已启动工程，使用launch.observe。",
-                ["launch.plan", "launch.execute", "launch.observe"], [Script("LaunchWorkflowService", "Plan", "冻结当前配置与实际入口文件。"), Script("LaunchWorkflowService", "ExecuteAsync", "先受理、唯一启动与未知结果边界。"), Script("LaunchWorkflowService", "Observe", "按原编号读取持久事实和进程身份。")]),
+                ["launch.plan", "launch.execute", "launch.observe"], [Script("LaunchWorkflowService", "Plan", "冻结当前配置与实际入口文件。"), Script("LaunchWorkflowService", "ExecuteAsync", "先受理、唯一启动与未知结果边界。"), Script("LaunchWorkflowService", "Observe", "按原编号读取持久事实和进程身份。")],
+                "准备工作区的本阶段只导航到既有启动页，不调用 launch.plan、launch.execute 或 launch.observe，也不授予启动。"),
             Stage("verify", "严格会话核验", "显式选定PID、十进制字符串启动ticks、模块、管道及关联配置。", "发现候选后明确选择操作目标；可用灯态不自动选目标。",
                 "经独立通信CLI核对目标身份和协议；不执行PML业务命令。", "只读核验；不授予执行权限，也不证明所有业务通过。",
                 "PID、完整64位启动身份、模块、管道、协议和回执新鲜度。", "严格连接证据或明确失败；与历史验收日期、产品范围分开。",
                 "失联/身份变化清旧结果，重新发现和明确核验；不能沿用旧绿灯。",
-                ["connection.sessions", "connection.select", "connection.status", "connection.test"], [Script("CommunicationCliClient", "InvokeAsync", "保持独立进程边界，不拼造进程内RPC调用轨迹。")])
+                ["connection.sessions", "connection.select", "connection.status", "connection.test"], [Script("CommunicationCliClient", "InvokeAsync", "保持独立进程边界，不拼造进程内RPC调用轨迹。")],
+                "准备工作区的本阶段只导航到既有会话页，不调用 connection.sessions、connection.select、connection.status 或 connection.test，不授予执行或写入。")
         ]);
 
     /// <summary>以实际注册目录导出契约并拒绝悬空操作；不调用任何处理器。</summary>
@@ -74,7 +78,10 @@ public static class ManagerContractCatalog
         var journey = Describe();
         foreach (var id in journey.Stages.SelectMany(stage => stage.OperationIds))
             if (!registry.TryGet(id, out _)) throw new InvalidOperationException("Journey operation is not registered: " + id);
-        return new(journey, registry.Descriptors.ToArray(), "OperationResult.data remains unknown JSON; no dedicated output schema is promised. CLI process start ticks are decimal strings; do not round through JavaScript numbers. Static script links are not execution evidence.");
+        var operationIds = journey.Stages.SelectMany(stage => stage.OperationIds).ToArray();
+        return new(journey, registry.Descriptors.ToArray(),
+            "OperationResult.data remains unknown JSON and may contain fields beyond the public summary. outputProjections publish that summary: summary schemas require only the listed fields and allow additional properties; passthrough operations keep data unknown. CLI process start ticks are decimal strings; do not round through JavaScript numbers. Static script links are not execution evidence. Installer exit 10 and Manager exit 7 are different processes; see exitTaxonomy. No row authorizes automatic retry.",
+            JourneyOutputProjections.For(operationIds), InstallExitTaxonomy.Rows.ToArray());
     }
 
     /// <summary>注册无写入、无启动、无执行权限要求的目录读取；处理器只返回当前注册描述。</summary>
@@ -90,9 +97,9 @@ public static class ManagerContractCatalog
     }
 
     private static ManagerContractStage Stage(string id, string title, string input, string precondition, string method,
-        string effect, string validation, string receipt, string recovery, string[] operations, ManagerContractScript[] scripts) =>
+        string effect, string validation, string receipt, string recovery, string[] operations, ManagerContractScript[] scripts, string? boundaryNote = null) =>
         new(id, title, input, precondition, method, effect, validation, receipt, recovery, operations, scripts,
-            "本阶段说明实现契约与读取路径；不代称本轮实机通过。历史实机仅按原报告的E3D2.1/DESIGN范围，跨产品、真实安装/移交、Database切换及用户视觉认可分别验收。");
+            "本阶段说明实现契约与读取路径；不代称本轮实机通过。历史实机仅按原报告的E3D2.1/DESIGN范围，跨产品、真实安装/移交、Database切换及用户视觉认可分别验收。" + (boundaryNote is null ? "" : boundaryNote));
 
     private static ManagerContractScript Script(string type, string member, string explanation) =>
         new("src/YuzuhaToolkit.Manager.Core/" + (type switch { "ManagerInstallationDiscovery" => "InstallationDiscovery", "LaunchDiscoveryService" => "LaunchDiscovery", "LaunchWorkflowService" => "LaunchWorkflow", _ => type }) + ".cs", "YuzuhaToolkit.Manager." + type, member, explanation,
@@ -103,4 +110,8 @@ public static class ManagerContractCatalog
 [JsonSourceGenerationOptions(PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase, WriteIndented = true)]
 [JsonSerializable(typeof(ManagerContractExport))]
 [JsonSerializable(typeof(ManagerJourneyContract))]
+[JsonSerializable(typeof(ManagerOutputProjection))]
+[JsonSerializable(typeof(ManagerOutputProjection[]))]
+[JsonSerializable(typeof(InstallExitRow))]
+[JsonSerializable(typeof(InstallExitRow[]))]
 public partial class ManagerContractJsonContext : JsonSerializerContext;

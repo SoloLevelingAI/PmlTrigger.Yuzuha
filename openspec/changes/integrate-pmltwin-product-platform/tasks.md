@@ -6,7 +6,7 @@
 
 - [x] 1.1 固定原 Archon/rewrite、Next、Ribbon 和 PMLTWIN 的文件级来源清单，保留工作区修改；以哈希清单及差异审阅验证，不能从副本覆盖原仓。证据见 baseline-handoff.md 与 baseline/source-manifest.json。
 - [x] 1.2 将 Archon catalog 原条目与 Next 需求 ID、Yuzuha R/B/T/S 逐条映射到 Feature，交付无重复所有者、无静默丢项的映射检查报告。191个原ID逐条保留，见 baseline/id-feature-map.json。
-- [ ] 1.3 将 contracts.md 细化为版本化 schema 与兼容样例，验证旧 CLI/HTTP 样例可映射，新逻辑名称不冒充已注册操作。
+- [x] 1.3 将 contracts.md 细化为版本化 schema 与兼容样例，验证旧 CLI/HTTP 样例可映射，新逻辑名称不冒充已注册操作。v0.2 见 contracts.md 与 contracts.proposal.json；`PlatformProposalContractTests` 对照实际目录。运行时 ID 仍只在 ManagerContractCatalog。提案类型 OperationPlan、DatabaseSession、DesignHandoff 未注册。
 - [ ] 1.4 记录并评审独立 Database、操作协调者与 CAF adapter 决策；以评审记录和依赖图确认责任，无跨运行时直载假设。
 
 ## 2. Feature 与操作生命周期
@@ -283,10 +283,10 @@
 - [x] 27.7 运行契约目录、CLI读取、只读HTTP/OpenAPI与TS适配，验证真实ID、输出边界、stdin授权及64位身份精度。
 - [x] 27.8 完成全面契约、算法/脚本解释和DocFX导航，核对源码、测试、CLI及文档链接，不以静态图代称执行通过。
 - [x] 27.9 完成本机离线/安装器构建/原生视觉及现有回归，修复审阅问题，更新交接、PR并推送复核精确云端提交。首轮e01ea16444956a4dcd78c1d1478d7ee212f5c92a三工作流六检查全部成功；后续用户追加视觉及现有Skill接管按27.11–27.13独立跟踪，不升级首轮验证范围。
-- [ ] 27.10 在具体安装/迁移预览经用户批准后执行真实安装与选定环境验收，分别记录实机与人工视觉认可；未批准/未执行如实保留。应用安装与当前Codex Skill接管已按具体批准完成，ENV写入0、旧1项环境所有权保留；实际环境移交/部署及AVEVA实机、用户视觉认可尚未完成，不把文件安装成功等同整条环境验收。
+- [ ] 27.10 在具体安装/迁移预览经用户批准后执行真实安装与选定环境验收，分别记录实机与人工视觉认可；未批准/未执行如实保留。应用安装与当前Codex Skill接管已按具体批准完成，ENV写入0、旧1项环境所有权保留；实际环境移交/部署及AVEVA实机、用户视觉认可尚未完成，不把文件安装成功等同整条环境验收。剩余证据必须在实机上按顺序留下，不能用源码测试勾选：1）为旧 ENV 所有权移交单独生成新预览，人批准后再执行，保留原记录与回执，禁止删标记假装移交；2）为选定环境的生产 EVARS/部署单独生成新预览，人批准后再 apply，unknown 不重放；3）人眼看已安装 WPF 准备页并单独写下视觉认可。这三步都还没有做。
 - [x] 27.11 按用户追加的作品集层级收紧WPF/Web/FigCraft：主要功能与结果优先，计数/版本/技术身份降为辅助徽标或折叠信息；完整信息可达，正文对比度、真实数据、原文及操作状态保持，复验实际界面并重建候选。2026-11-02最终新包7021个载荷文件全SHA通过，源码文档976项和DocFX4989项逐成员一致；实际Manager导出、Agent ZIP及none/manager/adopt临时预览通过。包外审计见evidence/install-journey-delivery-2026-11-02.json。
 - [x] 27.12 完成最终验证后打开发布的WPF供用户查看，记录真实启动入口；打开界面不等同安装或AVEVA实机验收。2026-11-02先以独立发布构建eaca0dfe…打开“Phayton · 工程工作空间”，再从最终候选payload打开精确693f94ba…程序，窗口可见且响应，进入准备页并使用配套文档；旧窗口保留。未执行安装，用户视觉认可仍待反馈。
 - [x] 27.13 在用户已选择更新当前Codex Skill、预览发现现有目录未托管后，支持默认拒绝之外的显式接管预览：冻结现有清单/原始内容，保留额外文件，绑定完整计划及写前复验，原件可恢复；完成隔离正反例和新包本机具体预览，实际写入仍归27.10批准后执行。实现、真实junction及隔离正反例均通过；首次manager/adoptSkill预览因7个未登记DocFX HTML碰撞拒绝，共57519字节，该次未生成计划。随后用户明确批准仅归档7页并重建预览，归档逐SHA与保全副本一致，marker/manifest/ENV/Skill未变。全新计划与Markdown已生成并核对SHA：载荷create3417/update2634/unchanged970；Skill14项显式接管、12项内容相同、2项生命周期说明更新；PML索引unchanged，ENV变更0，旧1项环境所有权保留。原拒绝证据仍保留；原始计划/原件仅留C私密目录。只读冻结元数据/哈希核对不代称实际安装前VerifyPlan，该阶段留待具体Setup批准后执行；27.10保持未完成。
 - [x] 27.14 按用户随后批准的具体计划，经正常UAC执行同一EXE并核对实际安装：exit0/无重启，7021项SHA全部一致，Skill14项纳管且14份首次原文保留，ENV与PML索引字节不变，旧ENV1保留、MCP动作0。实际C安装WPF已以原交互用户打开；CLI八阶段/89操作及十项投影通过。真实DocFX HTTP验收发现唯一C#证据404，整体失败记录保留，不计为HTTP全通过。见evidence/approved-installation-2026-11-02.json及installed-runtime-initial-http-failure-2026-11-02.json。
 - [x] 27.15 修复docs-only发布C#验收证据的明确MIME映射，未知扩展继续404、写请求403、开发路由404。真实红测1项复现404；修复后HTTP集成17/17、文档库存14/14及新source真实loopback通过，原始字节/BOM/CRLF、text/plain/UTF-8与nosniff已核对。此处仅为源码验收，未修改当前安装或旧不可变包。
-- [ ] 27.16 从已提交源码重建DocFX和独立修复候选，核对包内真实宿主HTTP及完整载荷，生成当前已纳管Skill的全新升级预览，经具体批准后更新安装并复验C实际HTTP；旧计划已消费，不能复用或静默替换当前二进制。c1f44a9完整DocFX4612页/125609链接零警告错误；新候选7022项SHA、AgentZIP及普通owned夹具通过，包内实际CLI/24页/739链接/194响应和原.cs GET/HEAD全部通过。全新C私密普通升级计划已生成并独立核对：update489/create7/unchanged6526，15配置项均unchanged，Skill14 retained/首次原文15份保留，ENV写0、旧ENV1保留；当前C WPF占用尚未关闭。修复包尚未批准或执行，当前C的初次HTTP失败证据保留。
+- [ ] 27.16 从已提交源码重建DocFX和独立修复候选，核对包内真实宿主HTTP及完整载荷，生成当前已纳管Skill的全新升级预览，经具体批准后更新安装并复验C实际HTTP；旧计划已消费，不能复用或静默替换当前二进制。c1f44a9完整DocFX4612页/125609链接零警告错误；新候选7022项SHA、AgentZIP及普通owned夹具通过，包内实际CLI/24页/739链接/194响应和原.cs GET/HEAD全部通过。全新C私密普通升级计划已生成并独立核对：update489/create7/unchanged6526，15配置项均unchanged、Skill14 retained/首次原文15份保留，ENV写0、旧ENV1保留；当前C WPF占用尚未关闭。修复包尚未批准或执行，当前C的初次HTTP失败证据保留。剩余证据：1）由操作者关闭占用中的 C WPF；2）人批准这份尚未执行的升级计划，不复用已消费的安装计划，也不静默替换二进制；3）执行 Setup 后核对载荷 SHA、Skill 与 ENV；4）在 C 上重测 docs-only HTTP，包括此前 404 的 .cs。候选包通过不能代替这四步。

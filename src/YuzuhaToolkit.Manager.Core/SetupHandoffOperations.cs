@@ -35,9 +35,9 @@ public static class SetupHandoffOperations
                     var frozen = store.Read("setup.legacy.transfer", S(input, "planId"), S(input, "sha256"), SetupHandoffJsonContext.Default.SetupLegacyTransferPlan);
                     return Task.FromResult(OperationResult.Ok(operation, JsonSerializer.SerializeToElement(handoff.Transfer(frozen), SetupHandoffJsonContext.Default.SetupLegacyTransferReceipt)));
                 }
-                catch (SetupTransferUnknownException error) { return Task.FromResult(OperationResult.Fail(operation, 7, "SETUP_TRANSFER_UNKNOWN", error.Message, JsonSerializer.SerializeToElement(error.Receipt, SetupHandoffJsonContext.Default.SetupLegacyTransferReceipt), mayHaveExecuted: true)); }
+                catch (SetupTransferUnknownException error) { return Task.FromResult(OperationResult.Fail(operation, InstallExitTaxonomy.ManagerHandlerExit, "SETUP_TRANSFER_UNKNOWN", error.Message, JsonSerializer.SerializeToElement(error.Receipt, SetupHandoffJsonContext.Default.SetupLegacyTransferReceipt), mayHaveExecuted: true)); }
                 catch (Exception error) when (error is IOException or UnauthorizedAccessException or ArgumentException or JsonException or InvalidOperationException or FormatException)
-                { return Task.FromResult(OperationResult.Fail(operation, 7, "SETUP_HANDOFF_REJECTED", error.Message)); }
+                { return Task.FromResult(OperationResult.Fail(operation, InstallExitTaxonomy.ManagerHandlerExit, "SETUP_HANDOFF_REJECTED", error.Message)); }
             }));
         }
     }

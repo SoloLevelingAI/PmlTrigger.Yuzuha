@@ -76,7 +76,7 @@ internal sealed class PreparationWorkbench
         if (Busy) throw new InvalidOperationException("操作尚未结束。");
         if (!Candidates.Any(c => c.Identity == candidate.Identity)) throw new ArgumentException("候选不属于本次发现。");
         Installation = candidate.Identity;
-        var profile = candidate.Identity.Product switch { "AM" => "AM", "PDMS" => "PDMS", "E3D" when candidate.Identity.ProductVersion.StartsWith("2.1", StringComparison.Ordinal) => "E3D2.1", "E3D" when candidate.Identity.ProductVersion.StartsWith("3.1", StringComparison.Ordinal) => "E3D3.1.6", _ => "" };
+        var profile = ManagerHostProfiles.ProfileFor(candidate.Identity.Product, candidate.Identity.ProductVersion);
         Draft = Draft with { EnvironmentFile = candidate.Identity.EnvironmentFile ?? "", Profile = profile };
         ClearPlan();
     }
@@ -165,10 +165,49 @@ internal sealed class PreparationWorkbench
         catch (Exception error) when (error is IOException or OperationCanceledException or InvalidOperationException)
         {
             if (write) { if (!Unresolved) unresolvedRecovery = null;Unresolved = true; }
-            Result = OperationResult.Fail(operation, 7, write ? "PREPARATION_OUTCOME_UNKNOWN" : "PREPARATION_READ_FAILED", error.Message, mayHaveExecuted: write);
+            Result = OperationResult.Fail(operation, InstallExitTaxonomy.ManagerHandlerExit, write ? "PREPARATION_OUTCOME_UNKNOWN" : "PREPARATION_READ_FAILED", error.Message, mayHaveExecuted: write);
             if (write) unresolvedResults.Add(Result);
             return Result;
         }
         finally { Busy = false; }
     }
+}
+
+/// <summary>安装完成页交给管理器的启动参数。只读核验是显式选项，不是写入授权。</summary>
+/// <param name="OpenPreparation">是否打开准备工作区。</param>
+/// <param name="PackageRoot">--handoff 给出的工具包根；没有该参数时由调用方解析默认根。</param>
+/// <param name="InspectHandoff">为 true 时只调用 setup.handoff.inspect。</param>
+internal readonly record struct PreparationStartup(bool OpenPreparation, string? PackageRoot, bool InspectHandoff);
+
+/// <summary>解析准备入口参数。--inspect-handoff 不能单独出现，也不能代替 --allow-write。</summary>
+internal static class PreparationStartupParser
+{
+    /// <summary>读取准备入口。未知参数留给其他启动路径。</summary>
+    internal static PreparationStartup Parse(string[] args)
+    {
+        var open = args.Contains("--prepare-installation");
+        var handoff = Array.IndexOf(args, "--handoff");
+        string? root = null;
+        if (handoff >= 0)
+        {
+            if (handoff + 1 >= args.Length || args[handoff + 1].StartsWith('-'))
+                throw new ArgumentException("--handoff需要已安装工具包根目录。");
+            root = args[handoff + 1];
+            open = true;
+        }
+        var inspect = args.Contains("--inspect-handoff");
+        if (inspect && !open) throw new ArgumentException("--inspect-handoff只能跟随准备工作区入口，且不会授予写入或启动。");
+        return new(open, root, inspect);
+    }
+}
+
+/// <summary>准备工作区的中英文字符。默认中文，与安装器的语言切换同一方向。</summary>
+internal static class PreparationCopy
+{
+    /// <summary>按当前 UI 语言选择句子。</summary>
+    internal static string T(string zh, string en) => Pick(zh, en, System.Globalization.CultureInfo.CurrentUICulture);
+
+    /// <summary>供测试固定文化，不改进程语言。</summary>
+    internal static string Pick(string zh, string en, System.Globalization.CultureInfo culture) =>
+        culture.Name.StartsWith("en", StringComparison.OrdinalIgnoreCase) ? en : zh;
 }

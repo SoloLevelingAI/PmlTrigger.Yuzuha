@@ -30,12 +30,11 @@ public partial class App : Application
                 PresentationTraceSources.DataBindingSource.Listeners.Add(bindingTrace);
             }
             var window = new MainWindow(); MainWindow = window; window.Show();
-            if (e.Args.Contains("--prepare-installation"))
+            var preparation = PreparationStartupParser.Parse(e.Args);
+            if (preparation.OpenPreparation)
             {
-                var handoff = Array.IndexOf(e.Args, "--handoff");
-                if (handoff >= 0 && handoff + 1 >= e.Args.Length) throw new ArgumentException("--handoff需要已安装工具包根目录。");
-                var root = handoff >= 0 ? e.Args[handoff + 1] : YuzuhaToolkit.Workspace.HtmlAppLauncher.FindRoot();
-                window.OpenPreparation(root);
+                var root = preparation.PackageRoot ?? YuzuhaToolkit.Workspace.HtmlAppLauncher.FindRoot();
+                window.OpenPreparation(root, preparation.InspectHandoff);
             }
             if (option >= 0)
             {

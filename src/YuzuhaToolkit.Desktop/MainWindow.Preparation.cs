@@ -19,11 +19,12 @@ public partial class MainWindow
         PreparationView.PrepareInstallation(HtmlAppLauncher.FindRoot());
         UpdateThemeButtons();
     }
-    /// <summary>从安装器入口进入准备工作区；参数仅填入草稿，不是写入授权。</summary>
-    public void OpenPreparation(string? packageRoot = null)
+    /// <summary>从安装器入口进入准备工作区。根路径只填入草稿；只有显式只读标志才核验交接，不是写入授权。</summary>
+    public void OpenPreparation(string? packageRoot = null, bool inspectHandoff = false)
     {
         if (!string.IsNullOrWhiteSpace(packageRoot)) PreparationView.PrepareInstallation(packageRoot);
         Tabs.SelectedIndex = 9;SetPage("安装与环境准备");
+        if (inspectHandoff) PreparationView.BeginReadOnlyHandoffInspection();
     }
     /// <summary>响应Dashboard的准备入口。</summary>
     private void OpenPreparationClick(object sender, RoutedEventArgs e) => OpenPreparation();

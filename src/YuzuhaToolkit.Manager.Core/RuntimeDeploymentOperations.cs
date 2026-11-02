@@ -50,7 +50,7 @@ public static class RuntimeDeploymentOperations
                             var restored = Service().Restore(receipt);
                             var data = JsonSerializer.SerializeToElement(restored, ManagerJsonContext.Default.RuntimeDeploymentDiagnostic);
                             return Task.FromResult(restored.RecoveryErrors.Length == 0 ? OperationResult.Ok(operation, data) :
-                                OperationResult.Fail(operation, 7, "RECOVERY_REQUIRED", "存在外部修改或未恢复项，请检查记录。", data));
+                                OperationResult.Fail(operation, InstallExitTaxonomy.ManagerHandlerExit, "RECOVERY_REQUIRED", "存在外部修改或未恢复项，请检查记录。", data));
                         }
                         if (operation == "deployment.preview")
                         {
@@ -71,15 +71,15 @@ public static class RuntimeDeploymentOperations
                         return Task.FromResult(OperationResult.Ok(operation, JsonSerializer.SerializeToElement(reference, ManagerJsonContext.Default.ManagerPlanReference)));
                     }
                     catch (SetupEnvironmentOwnershipException error)
-                    { return Task.FromResult(OperationResult.Fail(operation, 7, error.Code, error.Message)); }
+                    { return Task.FromResult(OperationResult.Fail(operation, InstallExitTaxonomy.ManagerHandlerExit, error.Code, error.Message)); }
                     catch (RuntimeDeploymentException error) when (error.InnerException is SetupEnvironmentOwnershipException && error.Diagnostic.RecoveryErrors.Length == 0)
-                    { return Task.FromResult(OperationResult.Fail(operation, 7, ((SetupEnvironmentOwnershipException)error.InnerException).Code, error.Message,
+                    { return Task.FromResult(OperationResult.Fail(operation, InstallExitTaxonomy.ManagerHandlerExit, ((SetupEnvironmentOwnershipException)error.InnerException).Code, error.Message,
                         JsonSerializer.SerializeToElement(error.Diagnostic, ManagerJsonContext.Default.RuntimeDeploymentDiagnostic))); }
                     catch (RuntimeDeploymentException error)
-                    { return Task.FromResult(OperationResult.Fail(operation, 7, error.Diagnostic.RecoveryErrors.Length == 0 ? "DEPLOYMENT_FAILED_RESTORED" : "RECOVERY_REQUIRED", error.Message,
+                    { return Task.FromResult(OperationResult.Fail(operation, InstallExitTaxonomy.ManagerHandlerExit, error.Diagnostic.RecoveryErrors.Length == 0 ? "DEPLOYMENT_FAILED_RESTORED" : "RECOVERY_REQUIRED", error.Message,
                         JsonSerializer.SerializeToElement(error.Diagnostic, ManagerJsonContext.Default.RuntimeDeploymentDiagnostic))); }
                     catch (Exception error) when (error is IOException or InvalidDataException or UnauthorizedAccessException or ArgumentException or JsonException)
-                    { return Task.FromResult(OperationResult.Fail(operation, error is ArgumentException or InvalidDataException or JsonException ? 2 : 7,
+                    { return Task.FromResult(OperationResult.Fail(operation, error is ArgumentException or InvalidDataException or JsonException ? 2 : InstallExitTaxonomy.ManagerHandlerExit,
                         "DEPLOYMENT_REJECTED", string.IsNullOrWhiteSpace(error.Message) ? error.GetType().Name : error.Message)); }
                 }));
         }

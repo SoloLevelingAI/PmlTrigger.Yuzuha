@@ -4,7 +4,7 @@
 
 Yuzuha 目前把 AVEVA 通信、启动配置、目录部署和知识管理集中在工作台及原生 CLI 的依赖链中。用户要求独立的管理器 GUI/CLI，吸收 LaunchDesk 的启动与复制能力，再由管理器调用专用通信 CLI；许可检测和虚拟机模拟按需附加。
 
-取证日期：2026-10-29（Asia/Shanghai）。Yuzuha 分支 `codex/openspec-contract-review-20261027`，提交 `57e6e8d51a0271b2fae5f2a60363af51a5a32da3`；LaunchDesk.Next 分支 `codex/remote-portable-design-review`，提交 `78b8dc48b4b1746d67e5cc40b1012fecd38bef41`。LaunchDesk.Next 有既有文档未提交修改，本提案不修改该仓库。
+取证日期：2026-10-29（Asia/Shanghai）。Yuzuha 分支 `codex/openspec-contract-review-20261027`，当时提交 `57e6e8d51a0271b2fae5f2a60363af51a5a32da3`。这是该日的取证起点，不是 2026-11-02 的审查头 `bb52df4116eba3552df79db8fdd7a538bdfe520c`。LaunchDesk.Next 分支 `codex/remote-portable-design-review`，提交 `78b8dc48b4b1746d67e5cc40b1012fecd38bef41`。LaunchDesk.Next 有既有文档未提交修改，本提案不修改该仓库。
 
 ## What Changes
 

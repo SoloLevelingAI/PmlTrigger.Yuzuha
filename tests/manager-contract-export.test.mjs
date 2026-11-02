@@ -12,6 +12,8 @@ test('export only promises read-only HTTP metadata and exact registered CLI inpu
  assert.deepEqual(Object.keys(openapi.paths),['/api/manager/contracts','/api/manager/operations','/api/manager/operations/{id}']);assert(Object.values(openapi.paths).every(route=>Object.keys(route).join()==='get'));
  assert.equal(openapi.paths['/api/manager/contracts'].get.responses['200'].content['application/json'].schema.$ref,'#/components/schemas/ManagerContractExport');assert.equal(openapi.components.schemas.OperationResult.properties.data,true);assert.deepEqual(openapi['x-cli-input-schemas']['evars.apply'],catalog.operations[0].inputSchema);
  assert.match(output.get('manager-journey-client.ts'),/"evars.apply": \{ "planId": string; "mode"\?: "copy" \| "reference" \}/);assert.match(output.get('manager-journey-client.ts'),/data\?: unknown/);assert.match(output.get('manager-journey-client.mjs'),/rawJson/);
+ const drifted={...catalog,outputProjections:[{operationId:'other.op',coverage:'summary',schema:{type:'object',additionalProperties:true}}]};
+ assert.throws(()=>artifacts(drifted),/Output projections drifted/);
  catalog.journey.stages[0].operationIds.push('not.registered');assert.throws(()=>artifacts(catalog),/Unregistered/);
  assert.equal(schemaType({anyOf:[{type:'null'},{type:'integer'}]}),'null | number');
  assert.equal(schemaType({type:'object',additionalProperties:{type:'string'}}),'Record<string, string>');

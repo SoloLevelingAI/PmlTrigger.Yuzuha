@@ -1,5 +1,7 @@
 - name: 交接台
   href: specs/
+- name: 项目主线与续作
+  href: project-mainline.zh-CN.md
 - name: 使用
   href: workspace.md
   items:

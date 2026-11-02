@@ -2,6 +2,8 @@
 
 **让 AI 在 AVEVA 内部协助开发和三维核查。**
 
+项目主线：**准备环境 → 启动并核验目标会话 → 完成一次 PML 开发或只读核查 → 回读结果与恢复**。[主线与续作顺序](docs/reference/project-mainline.zh-CN.md)汇总 PR #13、#14 和 11 月 2 日下午 OpenSpec 提交的关系、当前缺口与本轮修改。
+
 rewrite、Next 与 Ribbon/UIC 的源码、契约、测试、设计和作品集现已纳入 `integrations/`。换电脑请先读[单仓接手](docs/reference/portable-development.md)，运行 `./scripts/Test-IntegratedWorkspace.ps1`；作品集总入口为 `node scripts/Serve-IntegratedPortfolio.mjs`。不需要另行取得本机相邻项目。
 
 [契约图谱与流程组件](docs/presentation/contract-atlas/index.html)从元数据呈现总体→Feature→Script，支持项目帮助与作品集视图；打开本地HTML即可使用。[复用说明](docs/presentation/contract-atlas/README.md)介绍重新提取、JSON填充、SVG导出及FigCraft/Figma组件入口，规范与实机证据范围随图保留。
@@ -18,7 +20,7 @@ rewrite、Next 与 Ribbon/UIC 的源码、契约、测试、设计和作品集�
 
 [安装发行版](https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/releases) · [使用](docs/reference/workspace.md) · [规格与交接](docs/reference/specs/index.md) · [PRD / FigCraft](docs/reference/specs/PRD.md) · [CLI](docs/reference/cli.md)
 
-管理器重构的当前审阅入口：[独立管理 CLI](docs/reference/manager-cli.md) · [按 Feature 拆分的 FigCraft 草稿](docs/design/yuzuha-manager-features/README.md) · [并行作品集验收与剩余门槛](docs/validation/portfolio-review-2026-10-30/README.md)。这组候选交付不代表新管理界面、完整安装包或产品实机验收已完成。
+管理器重构的当前审阅入口：[独立管理 CLI](docs/reference/manager-cli.md) · [安装与环境准备](docs/reference/install-to-operation.zh-CN.md) · [按 Feature 拆分的 FigCraft 草稿](docs/design/yuzuha-manager-features/README.md)。原生准备工作区与应用安装已有实现及一次真实安装回执；环境所有权移交、生产 EVARS 部署、修复候选的实际升级和跨产品验收仍分别保留，详见[平台任务](openspec/changes/integrate-pmltwin-product-platform/tasks.md)。
 
 ![正式 WPF 工作台：运行记录与组合筛选](docs/design/current-workbench.png)
 

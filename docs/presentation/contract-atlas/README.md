@@ -16,6 +16,10 @@ node scripts/serve-contract-atlas.mjs --watch --edit --port 19439
 
 打开终端给出的 loopback URL。`--watch` 监视明确的元数据依赖，串行构建、验证 Web 与真实 FigCraft 共同修订；只读 watch 可以显式“重新生成”，不会因此获得编辑作者源的权限。`file://` 或没有 `--watch` 的静态服务仍是快照，状态栏会明确说明，不假装实时连接。
 
+HTTP 下的 DocFX API 链接需要先用 `npm run docs:build` 构建文档。静态服务与 watch 修订均把 `/artifacts/docfx/site/` 映射到本仓库已生成站点的只读根，缺失页面返回 404；不会因此发布仓库源码目录。实时修订同时冻结页面引用的 `snippets.js`。GitHub 源码次链接绑定每个文件的真实提交和 LF 规范化内容摘要，未提交的源码只显示本地片段。
+
+相同内容保留已冻结的来源，包括“暂无 GitHub 来源”，避免提交源码后检查结果自行变化。源码已提交后，可显式运行 `node scripts/extract-contract-snippets.mjs --refresh-source-links` 更新链接，再审阅提交生成结果；普通生成与 `--check` 不自动提升该状态。
+
 状态栏显示数据来源、构建阶段、revision 与 metadata/render-model 双摘要。共同发布后 SSE 自动通知，浏览器读取 immutable manifest 和两份 JSON，复验同源路径、字节数/SHA256、作者源摘要、原生 generated/validated/success 严格布尔及共享模型，再一次更新。构建失败、坏产物或断线保留 lastgood；服务重启由 instanceId 重置序列门禁并通过 GET 补漏。FigCraft 链接只指向当前已应用共同修订；生成新文件不表示已打开的原生编辑器画布自动刷新。
 
 自动更新保留实体/父级、阅读与主题、筛选、固定流程、可恢复的折叠、焦点及滚动。原实体被删除时回到仍存在的父级或总体。独立 JSON 导入和未保存作者草稿暂停实时覆盖；“返回最新共同版本”是显式动作，不会覆盖正在编辑的草稿。

@@ -14,6 +14,47 @@ function mockBuilder(control={}) {
     await fs.writeFile(path.join(args.outputDir,'contract-atlas.figcraft'),bytes);
     return {metadataDigest:args.metadataDigest,renderModelDigest:sha256(pretty(args.renderModel)),native:{generated:true,validated:true,success:true,testDouble:true},artifacts:[{path:'contract-atlas.figcraft',sha256:sha256(bytes),bytes:bytes.length,role:'figcraft'}]};};
 }
+
+test('static and watched atlas resolve API links inside the published documentation root',async()=>{
+  const f=await fixture(),site=path.join(f.root,'artifacts/docfx/site');
+  const catalog=await import('../docs/presentation/contract-atlas/snippets.js').then(()=>globalThis.CONTRACT_ATLAS_SNIPPETS);
+  const item=catalog.items.find(row=>row.api),relative=`api/${item.api.project}/${item.api.typeUid}.html`;
+  await fs.mkdir(path.dirname(path.join(site,relative)),{recursive:true});
+  const html=Buffer.from('<!doctype html><title>Isolated contract API fixture</title>');
+  await fs.writeFile(path.join(site,relative),html);
+  const sourceFiles=['source.cs','manager-journey-client.ts','manager-journey-client.d.mts'];
+  for(const file of sourceFiles)await fs.writeFile(path.join(site,file),'// Published source fixture\r\n');
+  await fs.writeFile(path.join(site,'private.secret'),'not a published media type');
+  await fs.writeFile(path.join(f.root,'artifacts/docfx/outside.html'),'outside documentation root');
+  for(const watch of [false,true]) {
+    const app=await createAtlasServer({...f,watch,pollMs:50,debounceMs:10,nativeBuilder:mockBuilder({})}),url=await app.listen();
+    try {
+      if(watch)await waitFor(app.coordinator,s=>s.generation.phase==='ready');
+      const entry=await fetch(url),target=new URL(item.api.href,entry.url);
+      const response=await fetch(target);assert.equal(response.status,200,`DocFX link resolves with watch=${watch}`);
+      assert.deepEqual(Buffer.from(await response.arrayBuffer()),html);
+      assert.match(response.headers.get('content-type'),/^text\/html/);assert.equal(response.headers.get('x-content-type-options'),'nosniff');
+      const head=await fetch(target,{method:'HEAD'});assert.equal(head.status,200);assert.equal(head.headers.get('content-length'),String(html.length));assert.equal(await head.text(),'');
+      for(const file of sourceFiles){const source=await fetch(new URL('/artifacts/docfx/site/'+file,url));assert.equal(source.status,200);assert.match(source.headers.get('content-type'),/^text\/plain/);assert.equal(source.headers.get('x-content-type-options'),'nosniff');assert.equal(await source.text(),'// Published source fixture\r\n');}
+      assert.equal((await fetch(target,{method:'POST'})).status,405);
+      assert.equal((await fetch(new URL('/artifacts/docfx/site/private.secret',url))).status,404);
+      const traversal=await fetch(new URL('/artifacts/docfx/site/%2e%2e%2foutside.html',url));assert.equal(traversal.status,422);assert.equal((await traversal.json()).code,'PATH_REJECTED');
+      assert.equal((await fetch(new URL('/artifacts/docfx/outside.html',url))).status,404);
+      const missing=await fetch(new URL('/artifacts/docfx/site/api/missing.html',url));assert.equal(missing.status,404);
+    }finally{await app.close();}
+  }
+});
+
+test('watched atlas publishes the source snippets referenced by its entry page',async()=>{
+  const f=await fixture(),app=await createAtlasServer({...f,watch:true,pollMs:50,debounceMs:10,nativeBuilder:mockBuilder({})}),url=await app.listen();
+  try {
+    await waitFor(app.coordinator,s=>s.generation.phase==='ready');
+    const entry=await fetch(url);assert.match(await entry.text(),/src="snippets\.js"/);
+    const response=await fetch(new URL('snippets.js',entry.url));assert.equal(response.status,200);
+    assert.deepEqual(Buffer.from(await response.arrayBuffer()),await fs.readFile(path.join(f.assetRoot,'docs/presentation/contract-atlas/snippets.js')));
+    const manifest=await app.coordinator.readManifest();assert(manifest.artifacts.some(item=>item.path==='web/snippets.js'&&item.role==='web'));
+  }finally{await app.close();}
+});
 test('shared publication, unchanged-input deduplication, authoring CAS and durable request reuse',async()=>{
   const f=await fixture(),control={},c=await new ContractGeneration({...f,edit:true,pollMs:50,debounceMs:15,nativeBuilder:mockBuilder(control)}).start();
   try{

@@ -6,8 +6,10 @@ import { ContractGeneration, insideFile } from './lib/contract-atlas-pipeline.mj
 import { sha256, repositoryRoot } from './lib/contract-atlas-metadata.mjs';
 
 const types={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.mjs':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.json':'application/json; charset=utf-8','.yml':'text/plain; charset=utf-8','.svg':'image/svg+xml','.png':'image/png','.jpg':'image/jpeg','.webp':'image/webp','.ico':'image/x-icon','.woff':'font/woff','.woff2':'font/woff2','.ttf':'font/ttf','.figcraft':'application/octet-stream'};
+const documentationTextTypes=new Set(['.cs','.md','.txt','.ts','.mts']);
 export async function createAtlasServer(options={}) {
   const staticRoot=path.join(options.assetRoot||repositoryRoot,'docs/presentation/contract-atlas');
+  const documentationRoot=path.join(options.root||repositoryRoot,'artifacts/docfx/site');
   const coordinator=options.watch?await new ContractGeneration(options).start():null;
   const clients=new Set();
   function stateEvent(state){for(const response of clients)response.write(`event: state\ndata: ${JSON.stringify(state)}\n\n`);}
@@ -48,7 +50,12 @@ export async function createAtlasServer(options={}) {
       if(!['GET','HEAD'].includes(request.method)){send(405,{code:'METHOD_REJECTED'});return;}
       if(coordinator?.current&&name==='/') {response.writeHead(302,{Location:`/revisions/${coordinator.current.revisionId}/web/index.html`});response.end();return;}
       let root=staticRoot,relative=name==='/'?'index.html':name.slice(1),expected;
-      if(name.startsWith('/revisions/')){
+      if(name.startsWith('/artifacts/docfx/site/')){
+        root=documentationRoot;relative=name.slice('/artifacts/docfx/site/'.length);
+        // Expose generated documentation only; source and unknown file types stay outside this route.
+        const extension=path.extname(relative).toLowerCase();
+        if(!types[extension]&&!documentationTextTypes.has(extension))throw Object.assign(new Error('Documentation media type is not published'),{status:404});
+      } else if(name.startsWith('/revisions/')){
         if(!coordinator)throw Object.assign(new Error('No live revisions'),{status:404});
         const match=name.match(/^\/revisions\/([a-f0-9]{64})\/(.+)$/);if(!match)throw Object.assign(new Error('Invalid revision path'),{status:404});
         root=path.join(coordinator.outputRoot,'revisions',match[1]);relative=match[2];
@@ -59,7 +66,8 @@ export async function createAtlasServer(options={}) {
       if(relative==='manifest.json'&&!name.startsWith('/revisions/'))throw Object.assign(new Error('Not found'),{status:404});
       const actual=await insideFile(root,relative),bytes=await fs.readFile(actual);
       if(expected&&(bytes.length!==expected.bytes||sha256(bytes)!==expected.sha256))throw Object.assign(new Error('Published artifact hash mismatch'),{status:409,code:'ARTIFACT_CHANGED'});
-      response.writeHead(200,{'Content-Type':types[path.extname(actual)]||'application/octet-stream','Content-Length':bytes.length});response.end(request.method==='HEAD'?undefined:bytes);
+      const extension=path.extname(actual).toLowerCase();
+      response.writeHead(200,{'Content-Type':types[extension]||(documentationTextTypes.has(extension)?'text/plain; charset=utf-8':'application/octet-stream'),'Content-Length':bytes.length});response.end(request.method==='HEAD'?undefined:bytes);
     } catch(e) {if(!response.headersSent)send(e.status||(/ENOENT|ENOTDIR/.test(e.code||'')?404:422),{code:e.code||'REQUEST_REJECTED',message:String(e.message).slice(0,1000)});else response.end();}
   });
   server.requestTimeout=30000;server.headersTimeout=15000;

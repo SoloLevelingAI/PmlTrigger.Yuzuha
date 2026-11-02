@@ -21,7 +21,9 @@ globalThis.CONTRACT_ATLAS_SNIPPETS = {
         "member": null,
         "href": "../../../artifacts/docfx/site/api/desktop/YuzuhaToolkit.Desktop.PreparationWorkbench.html"
       },
-      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/main/src/YuzuhaToolkit.Desktop/PreparationWorkbench.cs#L20-L51"
+      "sourceCommit": "32783a87a3899eb04d7be61415b162980b5c14e2",
+      "sourceSha256": "8f5ed872e68905a6018f6a4794e9c10e3c8667cd44bd94e6defc706625d3bd39",
+      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/32783a87a3899eb04d7be61415b162980b5c14e2/src/YuzuhaToolkit.Desktop/PreparationWorkbench.cs#L20-L51"
     },
     {
       "id": "script:launch-workflow",
@@ -41,7 +43,9 @@ globalThis.CONTRACT_ATLAS_SNIPPETS = {
         "member": null,
         "href": "../../../artifacts/docfx/site/api/manager/YuzuhaToolkit.Manager.LaunchWorkflowService.html"
       },
-      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/main/src/YuzuhaToolkit.Manager.Core/LaunchWorkflow.cs#L27-L58"
+      "sourceCommit": "3b528fcfceeaaf0dff458abd1915d7425c6f0387",
+      "sourceSha256": "44d075ea468f8f01d82346d718af41ffddb13ce9d66113dcd619c0a875eabba4",
+      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/3b528fcfceeaaf0dff458abd1915d7425c6f0387/src/YuzuhaToolkit.Manager.Core/LaunchWorkflow.cs#L27-L58"
     },
     {
       "id": "script:communication-client",
@@ -61,7 +65,9 @@ globalThis.CONTRACT_ATLAS_SNIPPETS = {
         "member": null,
         "href": "../../../artifacts/docfx/site/api/manager/YuzuhaToolkit.Manager.CommunicationCliClient.html"
       },
-      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/main/src/YuzuhaToolkit.Manager.Core/CommunicationCliClient.cs#L15-L46"
+      "sourceCommit": "f89f2fa6c10b1b9835ce6f655dea5873b5d6e5f2",
+      "sourceSha256": "c0f6a9ab601e914975aa30a6d9fa64f46a85748960c180f188d6c5b557781e1f",
+      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/f89f2fa6c10b1b9835ce6f655dea5873b5d6e5f2/src/YuzuhaToolkit.Manager.Core/CommunicationCliClient.cs#L15-L46"
     },
     {
       "id": "script:frozen-copy",
@@ -81,7 +87,9 @@ globalThis.CONTRACT_ATLAS_SNIPPETS = {
         "member": null,
         "href": "../../../artifacts/docfx/site/api/manager/YuzuhaToolkit.Manager.RuntimeDeploymentService.html"
       },
-      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/main/src/YuzuhaToolkit.Manager.Core/RuntimeDeploymentService.cs#L37-L68"
+      "sourceCommit": "812bcf28af016e9aa6a372796ceb7f2d24efc813",
+      "sourceSha256": "d99711d9519cd9b02efa894018c90ab3e1a8533f4493c8108483045456d1f63d",
+      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/812bcf28af016e9aa6a372796ceb7f2d24efc813/src/YuzuhaToolkit.Manager.Core/RuntimeDeploymentService.cs#L37-L68"
     },
     {
       "id": "script:pml-development",
@@ -94,9 +102,11 @@ globalThis.CONTRACT_ATLAS_SNIPPETS = {
       "language": "powershell",
       "startLine": 1,
       "endLine": 32,
-      "text": "[CmdletBinding()]\nparam(\n    [Parameter(Mandatory)][string]$CliExecutable,\n    [Parameter(Mandatory)][string]$SourceDirectory,\n    [Parameter(Mandatory)][string]$RegisteredPmlLib,\n    [Parameter(Mandatory)][string]$Manifest,\n    [Parameter(Mandatory)][int]$ProcessId,\n    [Parameter(Mandatory)][string]$ExpectedModel,\n    [Parameter(Mandatory)][string]$EvidenceDirectory,\n    [string]$WorkspaceAssembly = (Join-Path $PSScriptRoot '../src/YuzuhaToolkit.Workspace/bin/Release/net10.0/YuzuhaToolkit.Workspace.dll'),\n    [switch]$AllowExecution\n)\n$ErrorActionPreference = 'Stop'\nif (!$AllowExecution) { throw 'Add -AllowExecution only for an authorized deployment/load/test task.' }\n$CliExecutable = (Get-Item -LiteralPath $CliExecutable).FullName\n$WorkspaceAssembly = (Get-Item -LiteralPath $WorkspaceAssembly).FullName\nAdd-Type -Path $WorkspaceAssembly\nImport-Module (Join-Path $PSScriptRoot 'PmlDevelopment.psm1') -Force\n$calls = [Collections.Generic.List[object]]::new()\n$transport = {\n    param([string]$Operation,[hashtable]$Payload)\n    $json = ConvertTo-Json -InputObject $Payload -Depth 15 -Compress\n    $arguments = @('op','invoke',$Operation,'--input',$json)\n    if ($Operation -ne 'aveva.sessions.list') { $arguments += @('--pid', $ProcessId.ToString(), '--expected-model', $ExpectedModel) }\n    if ($Operation -in @('pml.command.execute','pml.array.read')) { $arguments += '--allow-execution' }\n    $raw = & $CliExecutable @arguments\n    $code = $LASTEXITCODE\n    $response = $raw | ConvertFrom-Json\n    $calls.Add(@{operation=$Operation;input=$Payload;exitCode=$code;response=$response})\n    if ($code -ne 0 -and $response.success) { throw 'CLI exited unsuccessfully despite a success response.' }\n    return $response\n}.GetNewClosure()",
+      "text": "[CmdletBinding()]\nparam(\n    [Parameter(Mandatory)][string]$CliExecutable,\n    [Parameter(Mandatory)][string]$SourceDirectory,\n    [Parameter(Mandatory)][string]$RegisteredPmlLib,\n    [Parameter(Mandatory)][string]$Manifest,\n    [Parameter(Mandatory)][int]$ProcessId,\n    [Parameter(Mandatory)][string]$ExpectedModel,\n    [Parameter(Mandatory)][string]$EvidenceDirectory,\n    [string]$WorkspaceAssembly = (Join-Path $PSScriptRoot '../src/YuzuhaToolkit.Workspace/bin/Release/net10.0/YuzuhaToolkit.Workspace.dll'),\n    [switch]$AllowExecution\n)\n$ErrorActionPreference = 'Stop'\nif (!$AllowExecution) { throw 'Add -AllowExecution only for an authorized deployment/load/test task.' }\n$CliExecutable = (Get-Item -LiteralPath $CliExecutable).FullName\n$WorkspaceAssembly = (Get-Item -LiteralPath $WorkspaceAssembly).FullName\nAdd-Type -Path $WorkspaceAssembly\nImport-Module (Join-Path $PSScriptRoot 'PmlDevelopment.psm1') -Force\n$calls = [Collections.Generic.List[object]]::new()\n$transport = {\n    param([string]$Operation,[hashtable]$Payload,[hashtable]$TargetContext)\n    $json = ConvertTo-Json -InputObject $Payload -Depth 15 -Compress\n    $arguments = @('op','invoke',$Operation,'--input',$json)\n    if ($Operation -ne 'aveva.sessions.list') {\n        if (!$TargetContext -or !$TargetContext.expectedProcessStartTimeUtcTicks -or $TargetContext.processId -ne $ProcessId) { throw 'Target call is missing its frozen discovery identity.' }\n        $arguments += @('--pid', $ProcessId.ToString(), '--expected-model', $ExpectedModel,\n            '--expected-start-time-utc-ticks', $TargetContext.expectedProcessStartTimeUtcTicks)\n    }\n    if ($Operation -in @('pml.command.execute','pml.array.read')) { $arguments += '--allow-execution' }\n    $raw = & $CliExecutable @arguments\n    $code = $LASTEXITCODE\n    $response = $raw | ConvertFrom-Json",
       "api": null,
-      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/main/scripts/Invoke-PmlDevelopment.ps1#L1-L32"
+      "sourceCommit": null,
+      "sourceSha256": "0c87eca3f554b5b1f3071888dbd19865f822dcc5bc10ac3b5d8bbe883a62bf85",
+      "githubHref": null
     },
     {
       "id": "script:array-window",
@@ -116,7 +126,9 @@ globalThis.CONTRACT_ATLAS_SNIPPETS = {
         "member": null,
         "href": "../../../artifacts/docfx/site/api/mcp/YuzuhaToolkit.Pml.PmlArrayWindow.html"
       },
-      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/main/src/Shared/PmlArrayWindow.cs#L24-L55"
+      "sourceCommit": "c9c3360421d97ae2b08cc3ecb3a80219a84483d5",
+      "sourceSha256": "c2d08cf8933da613376b0f0b0f99837476079d66dc4f56f655b1a448523f9495",
+      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/c9c3360421d97ae2b08cc3ecb3a80219a84483d5/src/Shared/PmlArrayWindow.cs#L24-L55"
     },
     {
       "id": "script:dbref-reader",
@@ -131,7 +143,9 @@ globalThis.CONTRACT_ATLAS_SNIPPETS = {
       "endLine": 36,
       "text": "-- File:            YuzuhaReadDbref.pmlfnc\n--   Type:          Function\n--  \n--\n--    \n--   Module:        design\n--   Replaces:\n--\n-- Author:          HuangYuanTai\n-- Created:         29/08/2026 13:21:42\n--\n--\n-- Description:\n-- Read the object graph of a named DBREF (short name, /full path or\n-- =dbref). Temporarily switches CE to the target and restores the\n-- original CE afterwards. Returns a flattened array.\n--\n------------------------------------------------------------------------\n--\n-- Functions defined:\n--\n--  Method call                                                           Return          Description\n--  ===========                                                           ======          ===========\n--  !!YuzuhaReadDbref(REAL,REAL,STRING,STRING)                            ARRAY           Reads a named DBREF graph, restoring the original CE.\n--\ndefine function !!YuzuhaReadDbref(!size is real,!depth is real,!startStr is string,!name is string) is array\n  !arr = object array()\n  !originalCe = ce\n  !namestr = !name\n  if !name.matchwild('=*').not() and !name.matchwild('/*').not() then\n    !namestr = '/' + !namestr\n  endif",
       "api": null,
-      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/main/PMLLIB/Traversal/YuzuhaReadDbref.pmlfnc#L5-L36"
+      "sourceCommit": "6761c483910e9e5b86ad485d5fb142b856cee3d3",
+      "sourceSha256": "aa0fa72f440254bd5e22f076ea2871036214260757e71a80874ba9a7ab9cf028",
+      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/6761c483910e9e5b86ad485d5fb142b856cee3d3/PMLLIB/Traversal/YuzuhaReadDbref.pmlfnc#L5-L36"
     },
     {
       "id": "script:host-bootstrap",
@@ -146,7 +160,9 @@ globalThis.CONTRACT_ATLAS_SNIPPETS = {
       "endLine": 240,
       "text": "procedure CurStepChanged(CurStep: TSetupStep);\nvar Error: String;\nbegin\n  if CurStep = ssPostInstall then begin\n    Error := Bridge(ExpandConstant('{tmp}\\Yuzuha.SetupBridge.exe'),'apply-plan',\n      Q(PlanPath) + ' ' + Q(PlanHash) + ' ' + Q(ManifestPath), SW_HIDE);\n    if Error <> '' then begin\n      { INSTALL_APPLY_FAILED. Inno process exit 10. See InstallExitTaxonomy. Not Manager exit 7 or CONFIGURATION_CONFLICT. }\n      FailureCode := 10;\n      WizardForm.FinishedHeadingLabel.Caption := T('安装未完成','Installation incomplete');\n      WizardForm.FinishedLabel.Caption := Error;\n      RaiseException(Error);\n    end;\n    Applied := True;\n  end;\nend;\n\nfunction GetCustomSetupExitCode: Integer;\nbegin\n  Result := FailureCode;\nend;\n\nprocedure DeinitializeSetup;\nvar Error: String;\nbegin\n  if Prepared and not Applied then begin\n    Error := Bridge(ExpandConstant('{tmp}\\Yuzuha.SetupBridge.exe'),'abort-plan',Q(PlanPath),SW_HIDE);\n    if Error <> '' then Log(Error);\n  end;\nend;\n\nfunction InitializeUninstall: Boolean;",
       "api": null,
-      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/main/installer/Yuzuha.iss#L209-L240"
+      "sourceCommit": "32783a87a3899eb04d7be61415b162980b5c14e2",
+      "sourceSha256": "5152f5834564f18fbb28778149857c830bd97949094ca293eb5b7d7fdcb57bb0",
+      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/32783a87a3899eb04d7be61415b162980b5c14e2/installer/Yuzuha.iss#L209-L240"
     },
     {
       "id": "script:ribbon-frozen-deployment",
@@ -166,7 +182,9 @@ globalThis.CONTRACT_ATLAS_SNIPPETS = {
         "member": null,
         "href": "../../../artifacts/docfx/site/api/manager/YuzuhaToolkit.Manager.RibbonHttpAdapter.html"
       },
-      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/main/src/YuzuhaToolkit.Manager.Core/RibbonHttpAdapter.cs#L9-L40"
+      "sourceCommit": "578c1e0c86133fc50c6288dba023ad72bf4cf117",
+      "sourceSha256": "eef495bc061f6a581def26f0831e6a264587052dcbc479a9686644867ef82783",
+      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/578c1e0c86133fc50c6288dba023ad72bf4cf117/src/YuzuhaToolkit.Manager.Core/RibbonHttpAdapter.cs#L9-L40"
     },
     {
       "id": "script:migration-preview",
@@ -186,7 +204,9 @@ globalThis.CONTRACT_ATLAS_SNIPPETS = {
         "member": null,
         "href": "../../../artifacts/docfx/site/api/manager/YuzuhaToolkit.Manager.MigrationPreview.html"
       },
-      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/main/src/YuzuhaToolkit.Manager.Core/MigrationPreview.cs#L24-L55"
+      "sourceCommit": "40db5627fea9dbf37af3d590995c3c1278ac98c3",
+      "sourceSha256": "a08a6d142263565b10eecd2c8b982b1454e6017de4f673896fdfb01e6c79b794",
+      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/40db5627fea9dbf37af3d590995c3c1278ac98c3/src/YuzuhaToolkit.Manager.Core/MigrationPreview.cs#L24-L55"
     },
     {
       "id": "script:knowledge-import",
@@ -206,7 +226,9 @@ globalThis.CONTRACT_ATLAS_SNIPPETS = {
         "member": null,
         "href": "../../../artifacts/docfx/site/api/knowledge/YuzuhaToolkit.Knowledge.KnowledgeRepository.html"
       },
-      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/main/src/YuzuhaToolkit.Knowledge.Core/KnowledgeRepository.cs#L18-L49"
+      "sourceCommit": "3b528fcfceeaaf0dff458abd1915d7425c6f0387",
+      "sourceSha256": "16dca70fc87b30f76f50ff5b646e5be05e8e0deb18918222ba77017eaa2ac9c5",
+      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/3b528fcfceeaaf0dff458abd1915d7425c6f0387/src/YuzuhaToolkit.Knowledge.Core/KnowledgeRepository.cs#L18-L49"
     },
     {
       "id": "script:sdk-acceptance",
@@ -221,7 +243,9 @@ globalThis.CONTRACT_ATLAS_SNIPPETS = {
       "endLine": 36,
       "text": ". \"$PSScriptRoot/DocumentedTestResults.ps1\"\n$repository = [IO.Path]::GetFullPath((Split-Path $PSScriptRoot -Parent))\n$idHash = [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([Text.Encoding]::UTF8.GetBytes($TestId))).Substring(0,16).ToLowerInvariant()\n$reportRoot = Join-Path $repository ('artifacts/dt/' + $idHash + '/' + [guid]::NewGuid().ToString('N'))\nNew-Item -ItemType Directory -Path $reportRoot -Force | Out-Null\n$summary = [ordered]@{schemaVersion=1;testId=$TestId;status='NotRun';startedUtc=[DateTime]::UtcNow.ToString('o');executed=0;evidence=@('console.log')}\nPush-Location $repository\nStart-Transcript -LiteralPath (Join-Path $reportRoot 'console.log') | Out-Null\ntry {\n    $summary.commit = (& git rev-parse HEAD).Trim()\n    if ($LASTEXITCODE -ne 0) { throw 'Cannot resolve source commit.' }\n    $summary.dirty = [bool](& git status --porcelain --untracked-files=normal)\n    $summary.environment = [Runtime.InteropServices.RuntimeInformation]::OSDescription + ' / ' + [Runtime.InteropServices.RuntimeInformation]::OSArchitecture\n    $summary.dotnet = (& dotnet --version).Trim()\n    if ($LASTEXITCODE -ne 0) { throw '.NET SDK is required.' }\n    $summary.powershell = $PSVersionTable.PSVersion.ToString()\n    $summary.ciRun = if ($env:GITHUB_ACTIONS -eq 'true') { $env:GITHUB_SERVER_URL + '/' + $env:GITHUB_REPOSITORY + '/actions/runs/' + $env:GITHUB_RUN_ID } else { $null }\n    $entry = $null\n    if ($TestId.StartsWith('xunit:', [StringComparison]::Ordinal)) {\n        $inventory = Join-Path $reportRoot 'inventory.json'\n        & dotnet run --project tools/Documentation -c Release -- --tests $repository $inventory\n        if ($LASTEXITCODE -ne 0) { throw 'Cannot validate test identity against C# sources.' }\n        $method = $TestId.Substring(6)\n        $matching = @((Get-Content -LiteralPath $inventory -Raw | ConvertFrom-Json) | Where-Object { $_.kind -ceq 'xunit' -and $_.method -ceq $method })\n        if ($matching.Count -ne 1) { throw 'Unknown or ambiguous xUnit test ID.' }\n        $entry = $matching[0]\n    } else {\n        $map = Get-Content -LiteralPath docs/reference/test-map.json -Raw | ConvertFrom-Json\n        $matching = @($map.cases | Where-Object { $_.id -ceq $TestId })\n        if ($matching.Count -ne 1) { throw 'Unknown or ambiguous documented case ID.' }\n        $entry = $matching[0]\n    }",
       "api": null,
-      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/main/scripts/run-documented-test.ps1#L5-L36"
+      "sourceCommit": "c9c3360421d97ae2b08cc3ecb3a80219a84483d5",
+      "sourceSha256": "444b30d8d328ab3540d6281b8f28f81616f261f3a7fab7a90a40fc93b3ce17c3",
+      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/c9c3360421d97ae2b08cc3ecb3a80219a84483d5/scripts/run-documented-test.ps1#L5-L36"
     },
     {
       "id": "member:YuzuhaToolkit.Manager.SetupHandoffService.Inspect",
@@ -243,7 +267,9 @@ globalThis.CONTRACT_ATLAS_SNIPPETS = {
         "member": "Inspect",
         "href": "../../../artifacts/docfx/site/api/manager/YuzuhaToolkit.Manager.SetupHandoffService.html"
       },
-      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/main/src/YuzuhaToolkit.Manager.Core/SetupHandoffService.cs#L36-L67"
+      "sourceCommit": "812bcf28af016e9aa6a372796ceb7f2d24efc813",
+      "sourceSha256": "a24afee5236bb33f48a1eb6750580d7ef1317b0ee91ddde917747fa22135ff5e",
+      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/812bcf28af016e9aa6a372796ceb7f2d24efc813/src/YuzuhaToolkit.Manager.Core/SetupHandoffService.cs#L36-L67"
     },
     {
       "id": "member:YuzuhaToolkit.Manager.ManagerInstallationDiscovery.Scan",
@@ -265,7 +291,9 @@ globalThis.CONTRACT_ATLAS_SNIPPETS = {
         "member": "Scan",
         "href": "../../../artifacts/docfx/site/api/manager/YuzuhaToolkit.Manager.ManagerInstallationDiscovery.html"
       },
-      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/main/src/YuzuhaToolkit.Manager.Core/InstallationDiscovery.cs#L21-L52"
+      "sourceCommit": "3b528fcfceeaaf0dff458abd1915d7425c6f0387",
+      "sourceSha256": "f8fac430b111e8ba51950787e3962848ad1b5aa7316628a0b2178fad39965cc9",
+      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/3b528fcfceeaaf0dff458abd1915d7425c6f0387/src/YuzuhaToolkit.Manager.Core/InstallationDiscovery.cs#L21-L52"
     },
     {
       "id": "member:YuzuhaToolkit.Manager.LaunchDiscoveryService.Discover",
@@ -287,7 +315,9 @@ globalThis.CONTRACT_ATLAS_SNIPPETS = {
         "member": "Discover",
         "href": "../../../artifacts/docfx/site/api/manager/YuzuhaToolkit.Manager.LaunchDiscoveryService.html"
       },
-      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/main/src/YuzuhaToolkit.Manager.Core/LaunchDiscovery.cs#L54-L85"
+      "sourceCommit": "3b528fcfceeaaf0dff458abd1915d7425c6f0387",
+      "sourceSha256": "0bf76e1edc2eeb24796403dbb214351201b4accd6b352f69df5d3bb7f2c608a4",
+      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/3b528fcfceeaaf0dff458abd1915d7425c6f0387/src/YuzuhaToolkit.Manager.Core/LaunchDiscovery.cs#L54-L85"
     },
     {
       "id": "member:YuzuhaToolkit.Manager.SetupHandoffService.PreviewLegacy",
@@ -309,7 +339,9 @@ globalThis.CONTRACT_ATLAS_SNIPPETS = {
         "member": "PreviewLegacy",
         "href": "../../../artifacts/docfx/site/api/manager/YuzuhaToolkit.Manager.SetupHandoffService.html"
       },
-      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/main/src/YuzuhaToolkit.Manager.Core/SetupHandoffService.cs#L60-L91"
+      "sourceCommit": "812bcf28af016e9aa6a372796ceb7f2d24efc813",
+      "sourceSha256": "a24afee5236bb33f48a1eb6750580d7ef1317b0ee91ddde917747fa22135ff5e",
+      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/812bcf28af016e9aa6a372796ceb7f2d24efc813/src/YuzuhaToolkit.Manager.Core/SetupHandoffService.cs#L60-L91"
     },
     {
       "id": "member:YuzuhaToolkit.Manager.MigrationPreview.Preview",
@@ -331,7 +363,9 @@ globalThis.CONTRACT_ATLAS_SNIPPETS = {
         "member": "Preview",
         "href": "../../../artifacts/docfx/site/api/manager/YuzuhaToolkit.Manager.MigrationPreview.html"
       },
-      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/main/src/YuzuhaToolkit.Manager.Core/MigrationPreview.cs#L29-L60"
+      "sourceCommit": "40db5627fea9dbf37af3d590995c3c1278ac98c3",
+      "sourceSha256": "a08a6d142263565b10eecd2c8b982b1454e6017de4f673896fdfb01e6c79b794",
+      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/40db5627fea9dbf37af3d590995c3c1278ac98c3/src/YuzuhaToolkit.Manager.Core/MigrationPreview.cs#L29-L60"
     },
     {
       "id": "member:YuzuhaToolkit.Manager.RuntimeDeploymentService.Preview",
@@ -353,7 +387,9 @@ globalThis.CONTRACT_ATLAS_SNIPPETS = {
         "member": "Preview",
         "href": "../../../artifacts/docfx/site/api/manager/YuzuhaToolkit.Manager.RuntimeDeploymentService.html"
       },
-      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/main/src/YuzuhaToolkit.Manager.Core/RuntimeDeploymentService.cs#L46-L77"
+      "sourceCommit": "812bcf28af016e9aa6a372796ceb7f2d24efc813",
+      "sourceSha256": "d99711d9519cd9b02efa894018c90ab3e1a8533f4493c8108483045456d1f63d",
+      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/812bcf28af016e9aa6a372796ceb7f2d24efc813/src/YuzuhaToolkit.Manager.Core/RuntimeDeploymentService.cs#L46-L77"
     },
     {
       "id": "member:YuzuhaToolkit.Manager.EvarsEditor.Preview",
@@ -375,7 +411,9 @@ globalThis.CONTRACT_ATLAS_SNIPPETS = {
         "member": "Preview",
         "href": "../../../artifacts/docfx/site/api/manager/YuzuhaToolkit.Manager.EvarsEditor.html"
       },
-      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/main/src/YuzuhaToolkit.Manager.Core/EvarsEditor.cs#L58-L89"
+      "sourceCommit": "812bcf28af016e9aa6a372796ceb7f2d24efc813",
+      "sourceSha256": "8fad8436f210aea0d02f0aa7f5fcec29317a521bb7b8a05325c339cf06ec66fd",
+      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/812bcf28af016e9aa6a372796ceb7f2d24efc813/src/YuzuhaToolkit.Manager.Core/EvarsEditor.cs#L58-L89"
     },
     {
       "id": "member:YuzuhaToolkit.Manager.ManagerHostProfiles.Framework",
@@ -397,7 +435,9 @@ globalThis.CONTRACT_ATLAS_SNIPPETS = {
         "member": "Framework",
         "href": "../../../artifacts/docfx/site/api/manager/YuzuhaToolkit.Manager.ManagerHostProfiles.html"
       },
-      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/main/src/YuzuhaToolkit.Manager.Core/ManagerHostProfiles.cs#L26-L40"
+      "sourceCommit": "32783a87a3899eb04d7be61415b162980b5c14e2",
+      "sourceSha256": "b5d954a006d441a782acd7a7ff0ccccbf6a38084f072f87b2a98523a63d0e1b9",
+      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/32783a87a3899eb04d7be61415b162980b5c14e2/src/YuzuhaToolkit.Manager.Core/ManagerHostProfiles.cs#L26-L40"
     },
     {
       "id": "member:YuzuhaToolkit.Manager.SetupEnvironmentOwnershipGuard.EnsureAvailable",
@@ -419,7 +459,9 @@ globalThis.CONTRACT_ATLAS_SNIPPETS = {
         "member": "EnsureAvailable",
         "href": "../../../artifacts/docfx/site/api/manager/YuzuhaToolkit.Manager.SetupEnvironmentOwnershipGuard.html"
       },
-      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/main/src/YuzuhaToolkit.Manager.Core/SetupEnvironmentOwnershipGuard.cs#L20-L51"
+      "sourceCommit": "812bcf28af016e9aa6a372796ceb7f2d24efc813",
+      "sourceSha256": "5de310ef2f7683ee925cfffa2bd9d4183a5e0993074bfec1be448e42a2164474",
+      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/812bcf28af016e9aa6a372796ceb7f2d24efc813/src/YuzuhaToolkit.Manager.Core/SetupEnvironmentOwnershipGuard.cs#L20-L51"
     },
     {
       "id": "member:YuzuhaToolkit.Manager.RuntimeDeploymentService.Apply",
@@ -441,7 +483,9 @@ globalThis.CONTRACT_ATLAS_SNIPPETS = {
         "member": "Apply",
         "href": "../../../artifacts/docfx/site/api/manager/YuzuhaToolkit.Manager.RuntimeDeploymentService.html"
       },
-      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/main/src/YuzuhaToolkit.Manager.Core/RuntimeDeploymentService.cs#L145-L176"
+      "sourceCommit": "812bcf28af016e9aa6a372796ceb7f2d24efc813",
+      "sourceSha256": "d99711d9519cd9b02efa894018c90ab3e1a8533f4493c8108483045456d1f63d",
+      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/812bcf28af016e9aa6a372796ceb7f2d24efc813/src/YuzuhaToolkit.Manager.Core/RuntimeDeploymentService.cs#L145-L176"
     },
     {
       "id": "member:YuzuhaToolkit.Manager.EvarsEditor.Apply",
@@ -463,7 +507,9 @@ globalThis.CONTRACT_ATLAS_SNIPPETS = {
         "member": "Apply",
         "href": "../../../artifacts/docfx/site/api/manager/YuzuhaToolkit.Manager.EvarsEditor.html"
       },
-      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/main/src/YuzuhaToolkit.Manager.Core/EvarsEditor.cs#L102-L133"
+      "sourceCommit": "812bcf28af016e9aa6a372796ceb7f2d24efc813",
+      "sourceSha256": "8fad8436f210aea0d02f0aa7f5fcec29317a521bb7b8a05325c339cf06ec66fd",
+      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/812bcf28af016e9aa6a372796ceb7f2d24efc813/src/YuzuhaToolkit.Manager.Core/EvarsEditor.cs#L102-L133"
     },
     {
       "id": "member:YuzuhaToolkit.Manager.RuntimeDeploymentService.Restore",
@@ -485,7 +531,9 @@ globalThis.CONTRACT_ATLAS_SNIPPETS = {
         "member": "Restore",
         "href": "../../../artifacts/docfx/site/api/manager/YuzuhaToolkit.Manager.RuntimeDeploymentService.html"
       },
-      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/main/src/YuzuhaToolkit.Manager.Core/RuntimeDeploymentService.cs#L189-L220"
+      "sourceCommit": "812bcf28af016e9aa6a372796ceb7f2d24efc813",
+      "sourceSha256": "d99711d9519cd9b02efa894018c90ab3e1a8533f4493c8108483045456d1f63d",
+      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/812bcf28af016e9aa6a372796ceb7f2d24efc813/src/YuzuhaToolkit.Manager.Core/RuntimeDeploymentService.cs#L189-L220"
     },
     {
       "id": "member:YuzuhaToolkit.Manager.EvarsEditor.Restore",
@@ -507,7 +555,9 @@ globalThis.CONTRACT_ATLAS_SNIPPETS = {
         "member": "Restore",
         "href": "../../../artifacts/docfx/site/api/manager/YuzuhaToolkit.Manager.EvarsEditor.html"
       },
-      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/main/src/YuzuhaToolkit.Manager.Core/EvarsEditor.cs#L129-L157"
+      "sourceCommit": "812bcf28af016e9aa6a372796ceb7f2d24efc813",
+      "sourceSha256": "8fad8436f210aea0d02f0aa7f5fcec29317a521bb7b8a05325c339cf06ec66fd",
+      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/812bcf28af016e9aa6a372796ceb7f2d24efc813/src/YuzuhaToolkit.Manager.Core/EvarsEditor.cs#L129-L157"
     },
     {
       "id": "member:YuzuhaToolkit.Manager.LaunchWorkflowService.Plan",
@@ -529,7 +579,9 @@ globalThis.CONTRACT_ATLAS_SNIPPETS = {
         "member": "Plan",
         "href": "../../../artifacts/docfx/site/api/manager/YuzuhaToolkit.Manager.LaunchWorkflowService.html"
       },
-      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/main/src/YuzuhaToolkit.Manager.Core/LaunchWorkflow.cs#L54-L85"
+      "sourceCommit": "3b528fcfceeaaf0dff458abd1915d7425c6f0387",
+      "sourceSha256": "44d075ea468f8f01d82346d718af41ffddb13ce9d66113dcd619c0a875eabba4",
+      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/3b528fcfceeaaf0dff458abd1915d7425c6f0387/src/YuzuhaToolkit.Manager.Core/LaunchWorkflow.cs#L54-L85"
     },
     {
       "id": "member:YuzuhaToolkit.Manager.LaunchWorkflowService.ExecuteAsync",
@@ -551,7 +603,9 @@ globalThis.CONTRACT_ATLAS_SNIPPETS = {
         "member": "ExecuteAsync",
         "href": "../../../artifacts/docfx/site/api/manager/YuzuhaToolkit.Manager.LaunchWorkflowService.html"
       },
-      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/main/src/YuzuhaToolkit.Manager.Core/LaunchWorkflow.cs#L79-L110"
+      "sourceCommit": "3b528fcfceeaaf0dff458abd1915d7425c6f0387",
+      "sourceSha256": "44d075ea468f8f01d82346d718af41ffddb13ce9d66113dcd619c0a875eabba4",
+      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/3b528fcfceeaaf0dff458abd1915d7425c6f0387/src/YuzuhaToolkit.Manager.Core/LaunchWorkflow.cs#L79-L110"
     },
     {
       "id": "member:YuzuhaToolkit.Manager.LaunchWorkflowService.Observe",
@@ -573,7 +627,9 @@ globalThis.CONTRACT_ATLAS_SNIPPETS = {
         "member": "Observe",
         "href": "../../../artifacts/docfx/site/api/manager/YuzuhaToolkit.Manager.LaunchWorkflowService.html"
       },
-      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/main/src/YuzuhaToolkit.Manager.Core/LaunchWorkflow.cs#L137-L168"
+      "sourceCommit": "3b528fcfceeaaf0dff458abd1915d7425c6f0387",
+      "sourceSha256": "44d075ea468f8f01d82346d718af41ffddb13ce9d66113dcd619c0a875eabba4",
+      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/3b528fcfceeaaf0dff458abd1915d7425c6f0387/src/YuzuhaToolkit.Manager.Core/LaunchWorkflow.cs#L137-L168"
     },
     {
       "id": "member:YuzuhaToolkit.Manager.CommunicationCliClient.InvokeAsync",
@@ -595,7 +651,9 @@ globalThis.CONTRACT_ATLAS_SNIPPETS = {
         "member": "InvokeAsync",
         "href": "../../../artifacts/docfx/site/api/manager/YuzuhaToolkit.Manager.CommunicationCliClient.html"
       },
-      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/main/src/YuzuhaToolkit.Manager.Core/CommunicationCliClient.cs#L57-L88"
+      "sourceCommit": "f89f2fa6c10b1b9835ce6f655dea5873b5d6e5f2",
+      "sourceSha256": "c0f6a9ab601e914975aa30a6d9fa64f46a85748960c180f188d6c5b557781e1f",
+      "githubHref": "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/blob/f89f2fa6c10b1b9835ce6f655dea5873b5d6e5f2/src/YuzuhaToolkit.Manager.Core/CommunicationCliClient.cs#L57-L88"
     }
   ]
 };

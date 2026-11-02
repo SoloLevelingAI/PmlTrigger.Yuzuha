@@ -17,7 +17,7 @@ const dataFiles = ['docs/specification/contract.json','docs/reference/capabiliti
   'openspec/changes/integrate-pmltwin-product-platform/baseline/id-feature-map.json',
   ...['proposal','contracts','design','tasks'].map(name => `openspec/changes/integrate-pmltwin-product-platform/${name}.md`),
   'docs/presentation/contract-atlas/metadata-validator.js','docs/presentation/contract-atlas/tokens.json'];
-const assetNames = ['index.html','style.css','document-layout.css','task-map.css','live.css','methods.css','disclosure.js','page-outline.js','components.js','task-map.js','app.js','theme.js','metadata-validator.js','render-model.js','method-validator.js','method-panel.js','reference-index.js','live-client.js','editor.js'];
+const assetNames = ['index.html','style.css','document-layout.css','task-map.css','live.css','methods.css','disclosure.js','page-outline.js','components.js','task-map.js','app.js','theme.js','metadata-validator.js','render-model.js','method-validator.js','method-panel.js','reference-index.js','live-client.js','editor.js','snippets.js'];
 const codeFiles = ['scripts/lib/contract-atlas-pipeline.mjs','scripts/lib/contract-atlas-metadata.mjs','scripts/lib/contract-atlas-authoring.mjs','scripts/lib/contract-atlas-methods.mjs',
   'scripts/build-contract-atlas-design.mjs','scripts/build-contract-atlas-theme.mjs','scripts/serve-contract-atlas.mjs',
   ...assetNames.map(name => 'docs/presentation/contract-atlas/' + name),

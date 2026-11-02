@@ -11,7 +11,7 @@ function Invoke-PmlDevelopmentWorkflow {
     .SYNOPSIS
     Reuse PluginDeployment and the existing Phayton IPC operations to copy, rehash, reload and verify PML.
     .DESCRIPTION
-    Transport receives an operation ID and input hashtable and returns the unchanged OperationResult.
+    Transport receives an operation ID, input hashtable and frozen target context, and returns the unchanged OperationResult.
     Every step is persisted before dispatch. Failed or unknown outcomes stop the workflow without retry.
     #>
     [CmdletBinding()]
@@ -20,6 +20,7 @@ function Invoke-PmlDevelopmentWorkflow {
         [Parameter(Mandatory)][string]$RegisteredPmlLib,
         [Parameter(Mandatory)][string]$Manifest,
         [Parameter(Mandatory)][int]$ProcessId,
+        [string]$ExpectedModel,
         [Parameter(Mandatory)][string]$EvidenceDirectory,
         [Parameter(Mandatory)][scriptblock]$Transport,
         [switch]$AllowExecution
@@ -48,8 +49,9 @@ function Invoke-PmlDevelopmentWorkflow {
         if (@($plan.Files | Where-Object { $_.RelativePath -ieq $file }).Count -ne 1) { throw "Reload/validation file is missing from the payload root: $file" }
     }
     [IO.Directory]::CreateDirectory($evidence) | Out-Null
+    $targetContext = @{processId=$ProcessId;expectedProcessStartTimeUtcTicks=$null;expectedModel=$ExpectedModel}
     $record = [ordered]@{ schemaVersion=1; status='Running'; processId=$ProcessId; startedUtc=[DateTime]::UtcNow.ToString('o'); completedUtc=$null;
-        source=$source; target=$plan.Target; manifest=$config; plan=$plan; identity=$null; steps=[Collections.Generic.List[object]]::new(); error=$null; lastFailure=$null }
+        source=$source; target=$plan.Target; manifest=$config; plan=$plan; identity=$null; targetContext=$targetContext; steps=[Collections.Generic.List[object]]::new(); error=$null; lastFailure=$null }
     $recordFile = Join-Path $evidence 'run.json'
     $writeRecord = { [IO.File]::WriteAllText($recordFile, (ConvertTo-Json -InputObject $record -Depth 40), [Text.UTF8Encoding]::new($false)) }
     $step = {
@@ -62,14 +64,19 @@ function Invoke-PmlDevelopmentWorkflow {
     }
     $request = {
         param([string]$Operation,[hashtable]$Payload)
-        $response = & $Transport $Operation $Payload
+        $context = if ($Operation -eq 'aveva.sessions.list') { $null } else { $targetContext }
+        if ($Operation -ne 'aveva.sessions.list' -and !$context.expectedProcessStartTimeUtcTicks) { throw 'Discover and freeze the process startup identity before target calls.' }
+        $response = & $Transport $Operation $Payload $context
         if (!$response.success) { $record.lastFailure=$response; throw "Operation failed or outcome unknown; inspect raw response, do not retry: $Operation" }
         return $response.data
     }
     $checkIdentity = {
         $identity = & $request 'aveva.session.status' @{}
         if (!$identity.TargetVerified -or $identity.Host.ProcessId -ne $ProcessId) { throw 'AVEVA target identity was not verified.' }
-        if ($record.identity -and $identity.Host.ProcessStartTimeUtcTicks -ne $record.identity.Host.ProcessStartTimeUtcTicks) { throw 'AVEVA process identity changed during the workflow.' }
+        if ([string]$identity.Host.ProcessStartTimeUtcTicks -cne $targetContext.expectedProcessStartTimeUtcTicks) { throw 'AVEVA process identity changed during the workflow.' }
+        if ([string]::IsNullOrWhiteSpace($identity.Host.Model)) { throw 'The verified AVEVA module identity is missing.' }
+        if ($targetContext.expectedModel -and $identity.Host.Model -ine $targetContext.expectedModel) { throw 'AVEVA module identity changed during the workflow.' }
+        if (!$targetContext.expectedModel) { $targetContext.expectedModel = $identity.Host.Model }
         return $identity
     }
     $command = {
@@ -80,7 +87,13 @@ function Invoke-PmlDevelopmentWorkflow {
     try {
         $record.identity = & $step 'verify-session' {
             $sessions = & $request 'aveva.sessions.list' @{}
-            if (@($sessions.Sessions | Where-Object ProcessId -eq $ProcessId).Count -ne 1) { throw 'PID was not returned by current AVEVA discovery.' }
+            $candidates = @($sessions.Sessions | Where-Object ProcessId -eq $ProcessId)
+            if ($candidates.Count -ne 1) { throw 'PID was not returned by current AVEVA discovery.' }
+            $value = $candidates[0].ProcessStartTimeUtcTicks
+            $ticks = [long]0
+            if (($value -isnot [long] -and $value -isnot [int] -and $value -isnot [string]) -or
+                ![long]::TryParse([string]$value, [Globalization.NumberStyles]::None, [Globalization.CultureInfo]::InvariantCulture, [ref]$ticks) -or $ticks -le 0) { throw 'Discovered startup identity must be a positive exact 64-bit integer.' }
+            $targetContext.expectedProcessStartTimeUtcTicks = $ticks.ToString([Globalization.CultureInfo]::InvariantCulture)
             & $checkIdentity
         }
         $pathGlobal = 'YuzuhaDevPath' + [Guid]::NewGuid().ToString('N')
@@ -88,6 +101,7 @@ function Invoke-PmlDevelopmentWorkflow {
         [IO.File]::WriteAllText($pathMacro, ('!!' + $pathGlobal + " = object array()`nvar !path evar PMLLIB`n!!" + $pathGlobal + ".append('[0] PmlLib<STRING> ' + !path)`n"), [Text.UTF8Encoding]::new($false))
         $null = & $step 'query-pmllib' { & $command (Format-PmlMacroCommand $pathMacro) }
         $null = & $step 'verify-pmllib' {
+            $null = & $checkIdentity
             $paths = & $request 'pml.array.read' @{pmlCommand=('!!'+$pathGlobal);globalVar=$pathGlobal;deleteGlobalVar=$true;includeEmpty=$true}
             if ($paths.UnparsedCount -ne 0 -or @($paths.Items).Count -ne 1) { throw 'Could not read the native PMLLIB path.' }
             $roots = @($paths.Items[0].Value.Split(';') | Where-Object { $_.Trim() } | ForEach-Object { [IO.Path]::GetFullPath($_.Trim()).TrimEnd('\','/') })

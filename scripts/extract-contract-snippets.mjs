@@ -1,6 +1,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
+import {execFileSync} from 'node:child_process';
+import {createHash} from 'node:crypto';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const output = path.join(root, 'docs/presentation/contract-atlas/snippets.js');
@@ -123,7 +125,33 @@ export function apiTarget(binding, source, startLine) {
     href: '../../../artifacts/docfx/site/api/' + project + '/' + typeUid + '.html'
   };
 }
-export function buildSnippets() {
+const sourceHash = source => createHash('sha256').update(source.replaceAll('\r\n', '\n')).digest('hex');
+
+/** Preserve frozen identities, including null, across commits; source links refresh only on request. */
+export function sourceCommit(relative, source, repositoryRoot = root, recorded = null, { refreshSourceLinks = false } = {}) {
+  const frozenIdentity = recorded?.sourceCommit === null || /^[a-f0-9]{40}$/.test(recorded?.sourceCommit || '');
+  if (!refreshSourceLinks && recorded?.path === relative && frozenIdentity && recorded.sourceSha256 === sourceHash(source)) return recorded.sourceCommit;
+  const run = args => execFileSync('git', args, { cwd: repositoryRoot, encoding: 'utf8', windowsHide: true, stdio: ['ignore', 'pipe', 'ignore'], maxBuffer: 8 * 1024 * 1024 });
+  try {
+    const commit = run(['log', '-1', '--format=%H', 'HEAD', '--', relative]).trim();
+    if (!/^[a-f0-9]{40}$/.test(commit)) return null;
+    // Snippets use LF just like Git's text view; Windows checkouts can use CRLF.
+    const committed = run(['show', commit + ':' + relative.replaceAll('\\', '/')]);
+    return committed.replaceAll('\r\n', '\n') === source.replaceAll('\r\n', '\n') ? commit : null;
+  } catch {
+    // Source archives and untracked files can still render local fragments.
+    return null;
+  }
+}
+
+export function buildSnippets({ refreshSourceLinks = false } = {}) {
+  const commits = new Map();
+  let recorded = [];
+  try {
+    const prior = fs.readFileSync(output, 'utf8');
+    recorded = JSON.parse(prior.slice(prior.indexOf('{')).replace(/;\s*$/, '')).items || [];
+  } catch { /* First generation has no frozen source identities yet. */ }
+  const identities = new Map(recorded.map(item => [item.path, item]));
   const items = collectBindings().map(binding => {
     const absolute = owned(binding.path);
     const source = fs.readFileSync(absolute, 'utf8');
@@ -131,8 +159,10 @@ export function buildSnippets() {
     const fragment = sliceFragment(source, startLine);
     if (!fragment.text.includes(binding.kind === 'literal' ? binding.symbol : binding.symbol)) throw new Error('Fragment lost its symbol: ' + binding.id);
     const api = apiTarget(binding, source, startLine);
-    const githubHref = githubRepo + '/blob/main/' + binding.path + '#L' + fragment.startLine + '-L' + fragment.endLine;
-    return { ...binding, ...fragment, api, githubHref };
+    if (!commits.has(binding.path)) commits.set(binding.path, sourceCommit(binding.path, source, root, identities.get(binding.path), { refreshSourceLinks }));
+    const commit = commits.get(binding.path);
+    const githubHref = commit ? githubRepo + '/blob/' + commit + '/' + binding.path + '#L' + fragment.startLine + '-L' + fragment.endLine : null;
+    return { ...binding, ...fragment, api, sourceCommit: commit, sourceSha256: sourceHash(source), githubHref };
   });
   return { schema: 'contract-atlas-snippets/1', windowLines, items };
 }
@@ -143,7 +173,9 @@ function emit(catalog) {
 
 const isDirect = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 if (isDirect) {
-  const catalog = buildSnippets();
+  const refreshSourceLinks = process.argv.includes('--refresh-source-links');
+  if (refreshSourceLinks && process.argv.includes('--check')) throw new Error('Source link refresh writes a new artifact; run --refresh-source-links after committing the source, then run --check separately.');
+  const catalog = buildSnippets({ refreshSourceLinks });
   const text = emit(catalog);
   if (process.argv.includes('--check')) {
     const current = fs.existsSync(output) ? fs.readFileSync(output, 'utf8') : '';

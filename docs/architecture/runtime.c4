@@ -10,27 +10,27 @@ model {
   license-service = system "许可端口 / Windows 服务"
   vmware = system "VMware / VIX · 可选实机环境"
 
-  client -> yuzuha.manager-cli "管理器52项 · JSON / stdin / 计划与回执"
+  client -> yuzuha.manager-cli "管理操作 · JSON / stdin / 计划与回执"
   terminal -> yuzuha.manager-cli "独立管理CLI；不要求GUI运行"
   yuzuha.manager-cli -> yuzuha.manager-core "管理操作目录 / 配置修订 / 预览与执行"
   yuzuha.manager-core -> yuzuha.operations "共享契约校验、授权与退出码"
   yuzuha.manager-core -> yuzuha.workspace "启动配置、文件事务与用户目录服务"
   yuzuha.manager-core -> yuzuha.knowledge-core "独立知识导入、验证与检索服务"
-  yuzuha.manager-core -> user-data "冻结计划、部署回执与插件登记"
-  yuzuha.manager-core -> yuzuha.operations-cli "独立子进程 --manager-protocol · 版本化UTF-8 stdin/stdout"
-  yuzuha.operations-cli -> yuzuha.mcp-core "通信模式：只注册通信与诊断；每请求重新核验目标"
+  yuzuha.manager-core -> user-data "冻结计划、持久启动事实、部署回执与插件登记"
+  yuzuha.manager-core -> yuzuha.operations-cli "connection.* / pml.function.* · 独立子进程 --manager-protocol / UTF-8 stdin/stdout"
+  yuzuha.operations-cli -> yuzuha.mcp-core "通信、诊断及本机函数登记；目标调用逐次核验身份与权限"
   yuzuha.mcp-core -> yuzuha.operations "操作契约、显式授权与调度"
   yuzuha.mcp-core -> yuzuha.rpc "显式PID / 启动ticks / 管道 / 模块 / Host能力"
   yuzuha.rpc -> yuzuha.host35 "PID绑定 Named Pipe · AM / PDMS"
   yuzuha.rpc -> yuzuha.host48 "PID绑定 Named Pipe · E3D"
   yuzuha.host35 -> aveva "AVEVA主线程执行PML；回执不证明业务结果"
   yuzuha.host48 -> aveva "AVEVA主线程执行PML；回执不证明业务结果"
-  yuzuha.manager-core -> aveva "显式启动入口；创建进程不等于Host核验成功"
+  yuzuha.manager-core -> aveva "冻结计划、持久受理、单次启动；unknown按原编号观察，进程创建不等于登录或Host核验"
 
   // Compatibility is composition, not a dependency from communication Core to management/storage.
-  client -> yuzuha.operations-cli "旧op入口及函数四操作；Manager尚无函数入口"
-  terminal -> yuzuha.operations-cli "旧op list / describe / invoke / batch · 46项兼容"
-  yuzuha.operations-cli -> yuzuha.cli-compatibility "旧op模式：组合通信、知识及16项启动操作"
+  client -> yuzuha.operations-cli "原生op入口；与管理器函数透传共用通信实现"
+  terminal -> yuzuha.operations-cli "旧op list / describe / invoke / batch兼容入口"
+  yuzuha.operations-cli -> yuzuha.cli-compatibility "旧op模式：组合通信、知识及启动管理"
   yuzuha.cli-compatibility -> yuzuha.mcp-core "保留旧通信ID / schema / 授权语义"
   yuzuha.cli-compatibility -> yuzuha.manager-core "旧启动操作转接同一管理服务"
   yuzuha.cli-compatibility -> yuzuha.knowledge-core "旧知识操作调用原本机服务"
@@ -43,16 +43,18 @@ model {
   yuzuha.mcp-core -> yuzuha.workspace "调用日志与运行状态"
   yuzuha.workspace -> user-data "用户路径、启动配置与调用日志"
 
-  // WPF currently adapts existing flows; it does not expose every new manager operation.
-  developer -> yuzuha.desktop "现有WPF工作台；新管理GUI整合未完成"
-  yuzuha.desktop -> yuzuha.manager-core "通信CLI子进程适配 / 可选许可预检"
-  yuzuha.desktop -> yuzuha.workspace "现有启动、目录检查与复制流程"
-  yuzuha.desktop -> yuzuha.mcp-core "仅本机函数登记、签名与DTO；不持有RPC连接"
+  // WPF shares preparation and launch services with Manager CLI. Not every manager operation has a GUI.
+  terminal -> yuzuha.desktop "安装交接 → 环境准备 → 配置启动 → 严格会话核验"
+  developer -> yuzuha.desktop "会话查询、函数调用与PML开发；各动作单独授权"
+  yuzuha.desktop -> yuzuha.manager-core "准备操作统一执行器 / 持久启动协调 / 严格会话与独立通信适配"
+  yuzuha.desktop -> yuzuha.workspace "配置修订、目录检查、复制与用户目录服务"
+  yuzuha.desktop -> yuzuha.mcp-core "本机函数登记、签名与DTO；不持有RPC连接"
   yuzuha.desktop -> yuzuha.knowledge-core "现有本机知识浏览"
-  yuzuha.desktop -> aveva "旧工作台显式启动入口；不据此宣称已连接"
-  developer -> yuzuha.devhost "OpenAPI / Scalar · 纯计算预览"
-  yuzuha.devhost -> yuzuha.mcp-core "调用文本与内置指南预览；不执行PML"
-  yuzuha.devhost -> yuzuha.knowledge-core "查询规划预览；不打开资料库"
+  yuzuha.desktop -> yuzuha.devhost "安装文档 --docs-only · 仅loopback GET/HEAD，不开放开发API"
+  developer -> yuzuha.devhost "开发模式 OpenAPI / Scalar · 只读元数据与纯计算预览"
+  yuzuha.devhost -> yuzuha.manager-core "仅开发模式读取阶段契约与操作schema；不调用业务处理器"
+  yuzuha.devhost -> yuzuha.mcp-core "仅开发模式生成调用文本与内置指南；不执行PML"
+  yuzuha.devhost -> yuzuha.knowledge-core "仅开发模式查询规划预览；不打开资料库"
 
   // Optional workers are separately launched packages, not Manager.Core project references.
   yuzuha.manager-core -> yuzuha.plugin-license "可选独立worker · --manager-plugin-protocol / 能力握手"
@@ -62,26 +64,26 @@ model {
 }
 views {
   view runtime {
-    title "运行时 · 管理CLI → 独立通信CLI → AVEVA Host"
-    include client, terminal, yuzuha.manager-cli, yuzuha.manager-core, yuzuha.operations-cli, yuzuha.mcp-core, yuzuha.rpc, yuzuha.host35, yuzuha.host48, yuzuha.knowledge-core, yuzuha.builtin-guides, sqlite, aveva
+    title "运行时 · WPF与管理CLI共享服务，经独立通信CLI到AVEVA Host"
+    include client, terminal, yuzuha.desktop, yuzuha.manager-cli, yuzuha.manager-core, yuzuha.operations-cli, yuzuha.mcp-core, yuzuha.rpc, yuzuha.host35, yuzuha.host48, yuzuha.knowledge-core, yuzuha.builtin-guides, sqlite, aveva
     exclude * -> * where kind is build
     autoLayout LeftRight
   }
   view compatibility {
-    title "兼容组合 · 旧46项与管理52项分别保留"
+    title "兼容组合 · 原生op与管理入口，共用通信和管理实现"
     include client, terminal, yuzuha.operations-cli, yuzuha.cli-compatibility, yuzuha.manager-cli, yuzuha.manager-core, yuzuha.mcp-core, yuzuha.knowledge-core, yuzuha.builtin-guides, yuzuha.workspace, sqlite
     exclude * -> * where kind is build
     autoLayout LeftRight
   }
   view development {
-    title "开发文档 · 可选HTTP纯预览宿主"
-    include developer, yuzuha.devhost, yuzuha.mcp-core, yuzuha.knowledge-core, yuzuha.builtin-guides
+    title "开发文档 · 只读元数据与纯预览；安装文档单独使用只读模式"
+    include developer, yuzuha.desktop, yuzuha.devhost, yuzuha.manager-core, yuzuha.mcp-core, yuzuha.knowledge-core, yuzuha.builtin-guides
     exclude * -> * where kind is build
     autoLayout LeftRight
   }
   view workspace {
-    title "WPF后台 · 现有流程经CLI通信，管理GUI仍待整合"
-    include developer, yuzuha.desktop, yuzuha.manager-core, yuzuha.operations-cli, yuzuha.mcp-core, yuzuha.knowledge-core, yuzuha.workspace, user-data, aveva
+    title "WPF后台 · 安装准备与启动复用管理服务，目标调用经独立通信CLI"
+    include terminal, developer, yuzuha.desktop, yuzuha.manager-core, yuzuha.operations-cli, yuzuha.mcp-core, yuzuha.knowledge-core, yuzuha.workspace, user-data, aveva
     exclude * -> * where kind is build
     autoLayout LeftRight
   }

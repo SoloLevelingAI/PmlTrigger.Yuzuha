@@ -101,6 +101,7 @@
         "files": [
           "api/index.md",
           "architecture.md",
+          "project-mainline.zh-CN.md",
           "backend-tracing.md",
           "cli.md",
           "documentation.md",

@@ -18,20 +18,24 @@ Add-Type -Path $WorkspaceAssembly
 Import-Module (Join-Path $PSScriptRoot 'PmlDevelopment.psm1') -Force
 $calls = [Collections.Generic.List[object]]::new()
 $transport = {
-    param([string]$Operation,[hashtable]$Payload)
+    param([string]$Operation,[hashtable]$Payload,[hashtable]$TargetContext)
     $json = ConvertTo-Json -InputObject $Payload -Depth 15 -Compress
     $arguments = @('op','invoke',$Operation,'--input',$json)
-    if ($Operation -ne 'aveva.sessions.list') { $arguments += @('--pid', $ProcessId.ToString(), '--expected-model', $ExpectedModel) }
+    if ($Operation -ne 'aveva.sessions.list') {
+        if (!$TargetContext -or !$TargetContext.expectedProcessStartTimeUtcTicks -or $TargetContext.processId -ne $ProcessId) { throw 'Target call is missing its frozen discovery identity.' }
+        $arguments += @('--pid', $ProcessId.ToString(), '--expected-model', $ExpectedModel,
+            '--expected-start-time-utc-ticks', $TargetContext.expectedProcessStartTimeUtcTicks)
+    }
     if ($Operation -in @('pml.command.execute','pml.array.read')) { $arguments += '--allow-execution' }
     $raw = & $CliExecutable @arguments
     $code = $LASTEXITCODE
     $response = $raw | ConvertFrom-Json
-    $calls.Add(@{operation=$Operation;input=$Payload;exitCode=$code;response=$response})
+    $calls.Add(@{operation=$Operation;input=$Payload;targetContext=$TargetContext;exitCode=$code;response=$response})
     if ($code -ne 0 -and $response.success) { throw 'CLI exited unsuccessfully despite a success response.' }
     return $response
 }.GetNewClosure()
 try {
-    $record = Invoke-PmlDevelopmentWorkflow -SourceDirectory $SourceDirectory -RegisteredPmlLib $RegisteredPmlLib -Manifest $Manifest -ProcessId $ProcessId -EvidenceDirectory $EvidenceDirectory -Transport $transport -AllowExecution
+    $record = Invoke-PmlDevelopmentWorkflow -SourceDirectory $SourceDirectory -RegisteredPmlLib $RegisteredPmlLib -Manifest $Manifest -ProcessId $ProcessId -ExpectedModel $ExpectedModel -EvidenceDirectory $EvidenceDirectory -Transport $transport -AllowExecution
     Write-Output (Join-Path ([IO.Path]::GetFullPath($EvidenceDirectory)) 'run.json')
 } finally {
     if (Test-Path -LiteralPath $EvidenceDirectory) {

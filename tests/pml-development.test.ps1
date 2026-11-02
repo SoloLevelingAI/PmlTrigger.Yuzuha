@@ -14,14 +14,17 @@ function Scenario([string]$Mode) {
     @{schemaVersion=1;pluginName='Probe';objects=@('Probe');forms=@('ProbeForm');validationMacro='validate.pmlmac';resultGlobal='OwnedReport';expected=@{Version='v2';Sum='5'}} | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath $manifest -Encoding utf8
     $state = @{calls=[Collections.Generic.List[object]]::new();statusCount=0}
     $transport = {
-        param([string]$Operation,[hashtable]$Payload)
-        $state.calls.Add(@{operation=$Operation;payload=$Payload})
+        param([string]$Operation,[hashtable]$Payload,[hashtable]$TargetContext)
+        $state.calls.Add(@{operation=$Operation;payload=$Payload;targetContext=$TargetContext})
         switch ($Operation) {
-            'aveva.sessions.list' { return @{success=$true;data=@{Sessions=@(@{ProcessId=701})}} }
+            'aveva.sessions.list' {
+                $discoveredStart = if ($Mode -eq 'invalid-start') { 0 } elseif ($Mode -eq 'rounded-start') { [double]638968451234567891 } else { 42 }
+                return @{success=$true;data=@{Sessions=@(@{ProcessId=701;ProcessStartTimeUtcTicks=$discoveredStart})}}
+            }
             'aveva.session.status' {
                 $state.statusCount++
                 $start = if ($Mode -eq 'identity-change' -and $state.statusCount -gt 3) { 43 } else { 42 }
-                return @{success=$true;data=@{TargetVerified=$true;Host=@{ProcessId=701;ProcessStartTimeUtcTicks=$start}}}
+                return @{success=$true;data=@{TargetVerified=$true;Host=@{ProcessId=701;ProcessStartTimeUtcTicks=$start;Model='Design'}}}
             }
             'pml.command.execute' {
                 if ($Mode -eq 'rehash-failure' -and $Payload.pmlCommand -eq 'PML REHASH ALL') { return @{success=$false;error=@{MayHaveExecuted=$true}} }
@@ -48,6 +51,9 @@ function Scenario([string]$Mode) {
     $failed = $false
     try { $null = Invoke-PmlDevelopmentWorkflow @options -AllowExecution } catch { $failed=$true }
     $record = Get-Content (Join-Path $base 'evidence/run.json') -Raw | ConvertFrom-Json
+    foreach ($call in @($state.calls | Where-Object operation -ne 'aveva.sessions.list')) {
+        Check ($call.targetContext.expectedProcessStartTimeUtcTicks -ceq '42') 'Workflow changed or omitted its frozen startup identity'
+    }
     if ($Mode -eq 'pass') {
         Check (!$failed -and $record.status -eq 'Passed') ("Valid flow did not pass: " + $record.error)
         Check (@($record.steps).Count -eq 10) 'Incomplete chain'
@@ -64,13 +70,19 @@ function Scenario([string]$Mode) {
         }
         if ($Mode -eq 'stale-version') { Check ($record.steps[-1].name -eq 'verify-results') 'Stale version was not caught by result verification' }
         if ($Mode -eq 'identity-change') { Check (@($record.steps | Where-Object name -like 'reload-*').Count -eq 0) 'Flow continued after process identity changed' }
+        if ($Mode -in @('invalid-start','rounded-start')) {
+            Check ($state.calls.Count -eq 1) 'Invalid or rounded startup identity reached a target operation'
+            Check (!(Test-Path (Join-Path $registered 'Probe'))) 'Invalid startup identity copied files'
+        }
     }
 }
 try {
-    foreach ($mode in @('pass','unauthorized','wrong-library','rehash-failure','stale-version','identity-change')) { Scenario $mode; Write-Output "PASS $mode" }
+    foreach ($mode in @('pass','unauthorized','wrong-library','rehash-failure','stale-version','identity-change','invalid-start','rounded-start')) { Scenario $mode; Write-Output "PASS $mode" }
 } finally {
     $resolved = [IO.Path]::GetFullPath($root)
     $temporary = [IO.Path]::GetFullPath([IO.Path]::GetTempPath())
     if (!$resolved.StartsWith($temporary, [StringComparison]::OrdinalIgnoreCase)) { throw 'Test cleanup escaped temporary root.' }
     Remove-Item -LiteralPath $resolved -Recurse -Force
 }
+& pwsh -NoProfile -File (Join-Path $PSScriptRoot 'pml-development-cli.test.ps1')
+if ($LASTEXITCODE -ne 0) { throw 'PML development CLI process regression failed.' }

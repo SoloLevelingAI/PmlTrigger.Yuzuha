@@ -27,10 +27,16 @@
   }
   function evidenceBoundary(proof) { const box = create('div', null, { class: 'evidence-boundary' }); box.append(create('p', `${proof.scope} / ${proof.result} · ${proof.observedAt || '时间未登记'} · ${proof.environmentText}`)); return box; }
   function highlight(code, language) {
-    let html = String(code).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
-    html = html.replace(/(\/\/.*|#.*)$/gm, '<span class="cm">$1</span>');
+    const source = String(code), escape = text => text.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
     const words = { csharp: 'class|record|public|private|internal|static|return|if|else|var|new|void|string', pml: 'define|function|method|if|then|else|endif', pascal: 'procedure|function|begin|end|var', powershell: 'param|function|if|else|foreach|try|catch', python: 'def|class|return|if|else' }[language] || 'class|return|if|else';
-    return html.replace(new RegExp('\\b(' + words + ')\\b', 'g'), '<span class="kw">$1</span>');
+    const tokens = new RegExp('\\/\\/[^\\r\\n]*|#[^\\r\\n]*|\\b(?:' + words + ')\\b', 'g');
+    let html = '', end = 0;
+    for (const match of source.matchAll(tokens)) {
+      html += escape(source.slice(end, match.index));
+      html += '<span class="' + (/^(?:\/\/|#)/.test(match[0]) ? 'cm' : 'kw') + '">' + escape(match[0]) + '</span>';
+      end = match.index + match[0].length;
+    }
+    return html + escape(source.slice(end));
   }
   function boundaryItem(item) {
     const li = create('li', null, { 'data-boundary-item': item.theme, 'data-warning': String(!!item.warning), class: item.warning ? 'boundary-warning status-note' : 'boundary-note' });
@@ -68,6 +74,7 @@
         else links.append(create('a', 'DocFX API', { href: item.api.href, 'data-docfx-link': item.api.typeUid }));
       } else links.append(create('span', 'Roslyn 不解析此文件。下面的片段和行号就是源码位置。', { class: 'snippet-note', 'data-source-text': item.path }));
       if (item.githubHref) links.append(create('a', 'GitHub 源码', { href: item.githubHref, 'data-github-source': item.path }));
+      else links.append(create('span', '当前源码未核对到对应的 Git 提交，仅显示本地片段。', { class: 'snippet-note' }));
       const pre = create('pre', null, { class: 'source-snippet', 'data-snippet': item.id, 'data-path': item.path, 'data-start': String(item.startLine), 'data-end': String(item.endLine) });
       pre.innerHTML = highlight(item.text, item.language);
       const frame = create('div', null, { class: 'snippet-frame' }); frame.append(pre); block.append(links, frame); section.append(block);
@@ -219,5 +226,5 @@
     }
   }
   for (const [name, constructor] of [['contract-card', ContractCard], ['feature-map', FeatureMap], ['contract-flow', ContractFlow], ['contract-detail', ContractDetail], ['evidence-strip', EvidenceStrip]]) if (!customElements.get(name)) customElements.define(name, constructor);
-  globalThis.ContractAtlasComponents = Object.freeze({ create, formatEnvironment, disclosure });
+  globalThis.ContractAtlasComponents = Object.freeze({ create, formatEnvironment, disclosure, highlight });
 })();

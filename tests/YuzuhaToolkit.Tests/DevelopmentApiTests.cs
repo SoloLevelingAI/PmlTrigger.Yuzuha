@@ -132,4 +132,35 @@ public sealed class DevelopmentApiTests : IClassFixture<WebApplicationFactory<Pr
         }
         finally { Directory.Delete(directory, true); }
     }
+
+    /// <summary>已发布的 C# 验收源码以原始字节和纯文本提供，同时继续拒绝未知扩展、开发路由及写请求。</summary>
+    [Fact]
+    public async Task InstalledDocsOnlyModeServesCSharpEvidenceAsPlainTextWithoutOpeningOtherRoutes()
+    {
+        var directory = Path.Combine(Path.GetTempPath(), "manager-docs-source-" + Guid.NewGuid().ToString("N"));
+        var evidence = Path.Combine(directory, "source-evidence", "tests");
+        Directory.CreateDirectory(evidence);
+        await File.WriteAllTextAsync(Path.Combine(directory, "index.html"), "<!doctype html><h1>Offline docs fixture</h1>");
+        byte[] source = [0xef, 0xbb, 0xbf, .. System.Text.Encoding.UTF8.GetBytes("// 契约验收原文\r\n// <script>source only</script>\r\n")];
+        await File.WriteAllBytesAsync(Path.Combine(evidence, "SkillAdoptionTests.cs"), source);
+        await File.WriteAllBytesAsync(Path.Combine(evidence, "evidence.yuzuha-unknown"), source);
+        try
+        {
+            using var only = new WebApplicationFactory<Program>().WithWebHostBuilder(builder => builder.UseSetting("docs-only", "true").UseSetting("docs-root", directory));
+            using var initialized = only.CreateClient();
+            using var handler = only.Server.CreateHandler(context => context.Connection.RemoteIpAddress = IPAddress.Loopback);
+            using var client = new HttpClient(handler) { BaseAddress = new Uri("http://127.0.0.1") };
+            using var response = await client.GetAsync("/docs/source-evidence/tests/SkillAdoptionTests.cs");
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal(source, await response.Content.ReadAsByteArrayAsync());
+            Assert.Equal("text/plain; charset=utf-8", response.Content.Headers.ContentType!.ToString());
+            Assert.Equal("nosniff", Assert.Single(response.Headers.GetValues("X-Content-Type-Options")));
+            Assert.Equal(HttpStatusCode.NotFound, (await client.GetAsync("/docs/source-evidence/tests/evidence.yuzuha-unknown")).StatusCode);
+            foreach (var route in new[] { "/health", "/api/guides", "/api/manager/contracts", "/api/manager/operations", "/openapi/v1.json" })
+                Assert.Equal(HttpStatusCode.NotFound, (await client.GetAsync(route)).StatusCode);
+            Assert.Equal(HttpStatusCode.Forbidden, (await client.PostAsJsonAsync("/api/pml/preview", new { })).StatusCode);
+            Assert.Equal(HttpStatusCode.Forbidden, (await client.PostAsJsonAsync("/docs/source-evidence/tests/SkillAdoptionTests.cs", new { })).StatusCode);
+        }
+        finally { Directory.Delete(directory, true); }
+    }
 }

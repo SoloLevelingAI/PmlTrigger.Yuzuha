@@ -6572,7 +6572,7 @@ globalThis.CONTRACT_ATLAS_DATA = {
     {
       "id": "source:openspec-tasks",
       "title": "平台候选tasks",
-      "sha256": "664b9b675fbcdc92145b7fbc26d31653a46b26ca25364a36cb1d6218ed859632",
+      "sha256": "b3f10aa89a7cf6b6fa4cfad907e567f98eae5918509f0fdb821ca5307493fa7a",
       "authority": "proposal",
       "audience": "public"
     },

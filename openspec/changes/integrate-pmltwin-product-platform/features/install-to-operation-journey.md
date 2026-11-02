@@ -42,6 +42,8 @@ ION六套配色以同一JSON源生成CSS与原生XAML资源；映射现有语义
 
 CLI SHALL以既有stdin/文件及授权机制提供契约读取/操作描述；稳定导出JSON、OpenAPI只读目录、TS输入类型和CLI适配示例。输出缺少专用schema时保留通用OperationResult/unknown data，不伪造强类型承诺。64位进程ticks由十进制字符串经CLI传递，避免JS数值舍入；不隐式重试。DevHost新增端点限只读契约/目录，不开放管理写入或PML执行；docs-only模式保留原限制。
 
+docs-only交付的证据链接SHALL通过实际HTTP验收，不能只证明目标文件存在。已发布的`.cs`源码证据明确按`text/plain; charset=utf-8`提供并保留原始字节与`nosniff`；只增加这一明确映射，未知扩展保持404，开发路由保持404、写请求403。源码临时宿主通过不代称已安装宿主通过；修复包与具体升级计划需独立核对和批准。
+
 ## Acceptance
 
 - 安装器manager模式、旧计划兼容、原交互用户交接；构建及隔离夹具证明不改厂商环境。
@@ -64,3 +66,5 @@ CLI SHALL以既有stdin/文件及授权机制提供契约读取/操作描述；�
 最终交付审计见`evidence/install-journey-delivery-2026-11-02.json`，独立于不可变载荷：7021项全SHA、源码文档976项/DocFX4989项逐成员一致，实际包内Manager八阶段/89操作及十项投影、Agent ZIP与三类临时helper预览通过。源码与文档快照4477472三工作流六检查全部成功；后续OpenSpec审计提交单独跟踪PR checks。最终693f94ba…WPF已从候选载荷真实打开并确认响应。首次真实本机升级预览明确拒绝7个未纳入旧清单的DocFX HTML，共57519字节，均在`runtime/documentation/reference/ui-trace/`；没有已受管文件漂移或其他载荷核验阻断。当时原件及旧marker/manifest、环境与Skill均未变，计划与planHash未生成。完整冲突清单和原件仅留私密本机目录，当时等待用户决定保留方式，不能通过删所有权、忽略校验或静默换模式宣称升级可执行。
 
 用户随后明确批准仅归档这7页并重建升级预览：7份原件已移出旧安装目录，逐SHA核对与保全副本一致，共57519字节；marker/manifest、旧ENV及当前Skill均保持原指纹。相同不可变包在全新C私密目录生成正式计划和Markdown，计划文件SHA与附带sha文件一致。载荷create3417/update2634/unchanged970；14项Skill接管中12项内容相同，2项`references/lifecycle`说明更新；PML索引1项为unchanged，ENV变更0，旧1项环境所有权仍保留。只读冻结元数据/哈希核对通过，安装器的实际写前VerifyPlan尚未执行，留待用户批准具体Setup后自动复验；当前不是已安装或已更新Skill。审计保留首次拒绝历史，原始计划、原文和实际账号路径不进入仓库；27.13具体预览完成，27.10真实安装/环境移交与实机认可继续保留。
+
+之后用户批准了具体安装计划，正常UAC后Setup exit0且无需重启，7021载荷逐SHA通过；14项Skill均已纳管并保留首次原文，只有两份生命周期说明内容更新。ENV/PML索引字节未变，旧ENV1所有权保留；实际C安装WPF已打开。CLI实际运行及十项契约投影通过。实际docs-only检查23页、725局部链接、192个唯一响应时，发现`source-evidence/tests/SkillAdoptionTests.cs`文件完整但HTTP404，其余页面及只读限制通过；整体失败证据保持不变。最小源修复仅显式映射`.cs`纯文本，真实红测与17项HTTP、14项文档及新source loopback通过，当前安装仍是原包，待独立修复候选及新具体升级预览；不静默改当前二进制，不复用已消费的安装计划。详细证据与实际/源码范围见`evidence/install-journey-delivery-2026-11-02.json`。

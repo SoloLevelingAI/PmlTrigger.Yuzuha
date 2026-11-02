@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "observedAt": "2026-11-02",
-  "recordedAtUtc": "2026-11-01T23:54:46.549Z",
+  "recordedAtUtc": "2026-11-02T00:24:23.406Z",
   "scope": "Public package and OpenSpec completion audit, outside the immutable payload. Real current-machine requests, originals, conflict file hashes and private paths are excluded.",
-  "status": "implementation-design-docs-package-verified-real-upgrade-preview-ready-awaiting-approval",
+  "status": "application-installed-skill-adopted-docfx-source-http-repair-pending",
   "source": {
     "componentCodeCommit": "5d892b8a26f113ce466d31128c1485b6381f991e",
     "documentationSnapshotCommit": "4477472178d4246192747822234a90ed28579e5d",
@@ -86,12 +86,17 @@
     }
   },
   "visibleWpf": {
-    "opened": true,
-    "openedAtUtc": "2026-11-01T17:47:00.8077563Z",
+    "observedAt": "2026-11-02",
+    "openedAtUtc": "2026-11-02T00:14:50.7878184Z",
+    "verifiedAtUtc": "2026-11-02T00:14:54.2622548Z",
     "title": "Phayton · 工程工作空间",
-    "responding": true,
     "sha256": "693f94badb03962efdc2e0d1d63bd97ce56d714dafc6b0a114e440ac2ea088e5",
-    "installed": false,
+    "responding": true,
+    "visibleWindowVerified": true,
+    "installed": true,
+    "originalInteractiveUser": true,
+    "sourceCommit": "5d892b8a26f113ce466d31128c1485b6381f991e",
+    "scope": "Newly installed verified WPF opened as original interactive user; no AVEVA launch or Manager write operation invoked.",
     "humanVisualApproval": "not-received"
   },
   "validatedSnapshotCi": {
@@ -106,7 +111,7 @@
     "boundary": "Exact validated implementation/documentation snapshot; later OpenSpec-only audit has its own PR checks."
   },
   "currentMachinePreview": {
-    "status": "ready-awaiting-specific-installation-approval",
+    "status": "executed-after-specific-user-approval",
     "exitCode": 0,
     "planGenerated": true,
     "markdownPlanGenerated": true,
@@ -145,29 +150,32 @@
     "pmlIndexAction": "unchanged",
     "existingOwnedEnvironmentCount": 1,
     "existingOwnershipTransferred": false,
-    "currentSkillWritten": false,
+    "currentSkillWritten": true,
     "productionEnvironmentWrites": 0,
-    "setupExecuted": false,
+    "setupExecuted": true,
     "readOnlyFrozenMetadataAndHashChecksPassed": true,
-    "installerVerifyPlanExecuted": false,
-    "installerVerifyPlanDeferredUntilSpecificSetupApproval": true,
-    "scope": "New helper plan generated after the explicitly approved archive; previous refusal preserved above. Read-only frozen metadata/hash checks do not mean installation, installer pre-write verification, or live AVEVA acceptance."
+    "installerVerifyPlanExecuted": true,
+    "installerVerifyPlanDeferredUntilSpecificSetupApproval": false,
+    "scope": "The exact previously approved plan was executed successfully; it cannot be reused against the resulting new state. Production ENV content and old ENV ownership were retained. Installed HTTP acceptance is recorded separately.",
+    "installationApproved": true,
+    "consumedByApprovedSetup": true,
+    "validForNewExecution": false
   },
   "warnings": [
     "Warning: The [Setup] section directive \"PrivilegesRequired\" is set to \"admin\" but per-user areas (localappdata) are used by the script. Regardless of the version of Windows, if the installation is running in administrative install mode then you should be careful about making any per-user area changes: such changes may not achieve what you are intending. See the \"UsedUserAreasWarning\" topic in help file for more information."
   ],
   "notExecuted": [
-    "Product Setup/update/uninstall",
-    "Production Skill adoption/writes",
+    "Product uninstall",
     "Production EVARS modification",
     "Real legacy environment ownership transfer",
-    "Live AVEVA/Host/business acceptance"
+    "Live AVEVA/Host/business acceptance",
+    "Current client Skill reload acceptance"
   ],
   "remaining": [
-    "User approval of the exact newly generated private installation plan before Setup and current Codex Skill adoption.",
-    "Installer pre-write verification is deferred until approved Setup execution; changed inputs require a fresh preview.",
+    "Build a new immutable candidate and fresh current-machine preview for the source HTTP fix; changed package requires its own approval before updating current installation.",
+    "Keep the first installed HTTP failure until the repaired installed host is actually verified.",
     "Legacy environment ownership transfer and production EVARS application/restoration require separate explicit Manager previews.",
-    "Live AVEVA acceptance and user visual approval remain separate.",
+    "Live AVEVA acceptance, current-client Skill reload and user visual approval remain separate.",
     "Original 27 platform business tasks are not bulk-completed; strict local OpenSpec CLI validation was unavailable."
   ],
   "firstRecordedAtUtc": "2026-11-01T18:07:00.079Z",
@@ -195,6 +203,55 @@
       "existingOwnershipTransferred": false,
       "scope": "Refusal is a real machine result, not a successful installation preview or Skill adoption. Complete conflict inventory and preservation decisions remain private to the local machine.",
       "otherPayloadScanBlockers": 0
+    },
+    {
+      "recordedAtUtc": "2026-11-01T23:54:46.549Z",
+      "status": "ready-awaiting-specific-installation-approval",
+      "exitCode": 0,
+      "planGenerated": true,
+      "markdownPlanGenerated": true,
+      "planDigestAndShaFileMatch": true,
+      "planHashPublished": false,
+      "privatePlanLocation": "Local C SetupReview only; full plan, originals, exact account paths and approval digest are excluded from this public audit.",
+      "requestedIntegrationMode": "manager",
+      "requestedEnvironmentTargets": 0,
+      "requestedSkillUpdate": "current Codex",
+      "requestedAdoptSkill": true,
+      "mcpChangesRequested": false,
+      "payloadActions": {
+        "update": 2634,
+        "unchanged": 970,
+        "create": 3417
+      },
+      "changesByKind": {
+        "pml-index": 1,
+        "skill": 14
+      },
+      "changesByAction": {
+        "unchanged": 13,
+        "update": 2
+      },
+      "skillActions": {
+        "unchanged": 12,
+        "update": 2
+      },
+      "skillOwnershipActions": {
+        "adopt": 14
+      },
+      "changedSkillRelativePaths": [
+        "references/lifecycle.md",
+        "references/lifecycle.zh-CN.md"
+      ],
+      "pmlIndexAction": "unchanged",
+      "existingOwnedEnvironmentCount": 1,
+      "existingOwnershipTransferred": false,
+      "currentSkillWritten": false,
+      "productionEnvironmentWrites": 0,
+      "setupExecuted": false,
+      "readOnlyFrozenMetadataAndHashChecksPassed": true,
+      "installerVerifyPlanExecuted": false,
+      "installerVerifyPlanDeferredUntilSpecificSetupApproval": true,
+      "scope": "New helper plan generated after the explicitly approved archive; previous refusal preserved above. Read-only frozen metadata/hash checks do not mean installation, installer pre-write verification, or live AVEVA acceptance."
     }
   ],
   "approvedArchive": {
@@ -220,5 +277,139 @@
       "https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/actions/runs/41335081319"
     ],
     "boundary": "Prior audit snapshot; the new archive/fresh-preview audit and its derived metadata have separate PR checks."
-  }
+  },
+  "installationExecution": {
+    "userApprovedExactPrivatePlan": true,
+    "status": "success",
+    "setupExitCode": 0,
+    "restartRequired": false,
+    "avevaIntegration": "manager-preparation-required",
+    "environmentWriteCount": 0,
+    "payloadFilesVerified": 7021,
+    "payloadEveryMemberSha256Matched": true,
+    "configurationKindCounts": {
+      "pml-index": 1,
+      "skill": 14
+    },
+    "configurationActionCounts": {
+      "unchanged": 13,
+      "update": 2
+    },
+    "managedKindCounts": {
+      "environment": 1,
+      "skill": 14
+    },
+    "skillFileContentChanged": 2,
+    "skillFirstOriginalBytesRetained": 14,
+    "oldEnvironmentOwnershipRetainedExactly": true,
+    "oldEnvironmentBytesUnchanged": true,
+    "pmlIndexUnchanged": true,
+    "uniqueHkcu64RegistrationMatched": true,
+    "mcpManagedChanges": 0,
+    "mcpVerificationBoundary": "Empty request and zero MCP plan/result/managed entries verified. No pre-install independent hash baseline was captured for unrelated client configuration; unchanged unrelated client bytes are not independently attested.",
+    "clientSkillReloadTested": false,
+    "originalPlanAndReportsPublished": false
+  },
+  "visibleWpfHistory": [
+    {
+      "opened": true,
+      "openedAtUtc": "2026-11-01T17:47:00.8077563Z",
+      "title": "Phayton · 工程工作空间",
+      "responding": true,
+      "sha256": "693f94badb03962efdc2e0d1d63bd97ce56d714dafc6b0a114e440ac2ea088e5",
+      "installed": false,
+      "humanVisualApproval": "not-received"
+    }
+  ],
+  "installedRuntimeVerification": {
+    "passed": false,
+    "actualInstalledManagerContractsPassed": true,
+    "stages": 8,
+    "operations": 89,
+    "projectionFilesChecked": 10,
+    "docfxExactPagesChecked": 23,
+    "docfxLocalLinksChecked": 725,
+    "docfxUniqueResponsesChecked": 192,
+    "docfxFailures": [
+      {
+        "status": 404,
+        "relativePath": "source-evidence/tests/SkillAdoptionTests.cs"
+      }
+    ],
+    "disabledDevelopmentAndWriteRoutesPassed": true,
+    "scope": "Current installed CLI and most DocFX routes pass; one published C# evidence resource returns HTTP404. This failure is preserved, not upgraded by a source-only fix."
+  },
+  "documentationSourceHttpRepair": {
+    "status": "source-fixed-and-validated-new-package-and-preview-pending",
+    "relativePath": "source-evidence/tests/SkillAdoptionTests.cs",
+    "cause": "Default static-file provider does not serve .cs.",
+    "change": "Only docs-only explicitly maps .cs to text/plain; charset=utf-8; ServeUnknownFileTypes remains false.",
+    "validatedSourceFiles": [
+      {
+        "file": "src/YuzuhaToolkit.DevHost/Program.cs",
+        "sha256": "992bf1eb0b99fcc177198beb1c147e8f3ad9bac9b6c218a0240c34440c1da8a6"
+      },
+      {
+        "file": "tests/YuzuhaToolkit.Tests/DevelopmentApiTests.cs",
+        "sha256": "06cb150cec650d062e6a7adf6dad6036ac18a92070cde74ca7594ac398a00d5c"
+      },
+      {
+        "file": "docs/reference/test-map.json",
+        "sha256": "34924e509785d67572ff1ed723857c1eec730fe9cfc096860433051027b7fb58"
+      }
+    ],
+    "red": {
+      "executed": 1,
+      "failed": 1,
+      "expected": "OK",
+      "actual": "NotFound"
+    },
+    "green": {
+      "httpIntegrationPassed": 17,
+      "documentationNodePassed": 14,
+      "actualNewSourceLoopbackPassed": true,
+      "unknownExtensionRemains404": true,
+      "contentType": "text/plain; charset=utf-8",
+      "nosniff": true
+    },
+    "installedFixDeployed": false,
+    "scope": "Source-only regression and real temporary loopback; current installed binary and prior immutable package remain unchanged."
+  },
+  "installationAndSourceRepairEvidence": [
+    {
+      "path": "openspec/changes/integrate-pmltwin-product-platform/evidence/approved-installation-2026-11-02.json",
+      "sha256": "6b6db11e4c0140ea88e9c4399565fba73a92dd0089c55911986db98da80bff47",
+      "localSource": "artifacts/install-journey-installed-20261102.json",
+      "localSourceSha256": "2a544399933a7f0c3d8fd0e7f6aec28e97c56659069e7601c4bcd07716e977fa",
+      "projection": "UTF-8/LF; structured sanitized source; outcomes and scope preserved"
+    },
+    {
+      "path": "openspec/changes/integrate-pmltwin-product-platform/evidence/installed-runtime-initial-http-failure-2026-11-02.json",
+      "sha256": "1be35164920538b7b9d1c69087475c7063e3f6c054ee19986b76e111dbef2ae0",
+      "localSource": "artifacts/final-installed-runtime-verification.json",
+      "localSourceSha256": "e262159f07ce526fd119ae25845cebec02f04867eda2ed2866764e07ae714d2d",
+      "projection": "UTF-8/LF; structured sanitized source; outcomes and scope preserved"
+    },
+    {
+      "path": "openspec/changes/integrate-pmltwin-product-platform/evidence/installed-visible-wpf-2026-11-02.json",
+      "sha256": "3c986c1321c75bd3d6ae1fc257951a129f25a462f3b309740b999c33b15580e8",
+      "localSource": "artifacts/installed-visible-wpf-20261102.json",
+      "localSourceSha256": "18518476faf097e051048ce002f899e8432ddcbda8e2c0951ae9ac4cda5c8bd7",
+      "projection": "UTF-8/LF; structured sanitized source; outcomes and scope preserved"
+    },
+    {
+      "path": "openspec/changes/integrate-pmltwin-product-platform/evidence/docs-source-mime-source-validation-2026-11-02.json",
+      "sha256": "54f41d2d674b74c492cd36c7c8e0786f79d33540cbd6b5767fde192f189734b6",
+      "localSource": "artifacts/docs-source-mime-validation.json",
+      "localSourceSha256": "69dc368d55ac2b13cf0275d06a9c47c6cfa2a779baaa044fa280ddc301584167",
+      "projection": "UTF-8/LF; structured sanitized source; outcomes and scope preserved"
+    },
+    {
+      "path": "openspec/changes/integrate-pmltwin-product-platform/evidence/docs-source-mime-loopback-2026-11-02.json",
+      "sha256": "d380c221f3fd05085f0c0ac34d60e6278c803db6f1ffefed2087cd3b84fb1e06",
+      "localSource": "artifacts/docs-source-mime-loopback.json",
+      "localSourceSha256": "798fe5777d2f4ca7ac150b8bfeac2d47be90b06684be212461dd671570410307",
+      "projection": "UTF-8/LF; structured sanitized source; outcomes and scope preserved"
+    }
+  ]
 }

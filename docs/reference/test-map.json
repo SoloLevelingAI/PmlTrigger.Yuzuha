@@ -90,6 +90,10 @@
       "purpose": "向开发宿主的执行路径发送请求必须返回 404，确认没有暴露真实 PML 执行端点。"
     },
     {
+      "test": "xunit:YuzuhaToolkit.Tests.DevelopmentApiTests.InstalledDocsOnlyModeServesCSharpEvidenceAsPlainTextWithoutOpeningOtherRoutes",
+      "purpose": "使用临时 docs-only 站点确认发布的 C# 证据按原始 UTF-8 BOM/CRLF 字节返回 text/plain; charset=utf-8 和 nosniff；未知扩展仍 404，开发 GET 仍 404，写请求仍 403。不执行产品安装、修改当前 Skill 或连接 AVEVA。"
+    },
+    {
       "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.NativeCliListsBothExecutionAndKnowledgeOperations",
       "purpose": "Run the native CLI process and verify all execution, knowledge and launch operations are discoverable."
     },

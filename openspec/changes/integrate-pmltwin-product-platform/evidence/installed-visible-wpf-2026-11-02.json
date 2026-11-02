@@ -1,0 +1,14 @@
+{
+  "observedAt": "2026-11-02",
+  "openedAtUtc": "2026-11-02T00:14:50.7878184Z",
+  "verifiedAtUtc": "2026-11-02T00:14:54.2622548Z",
+  "title": "Phayton · 工程工作空间",
+  "sha256": "693f94badb03962efdc2e0d1d63bd97ce56d714dafc6b0a114e440ac2ea088e5",
+  "responding": true,
+  "visibleWindowVerified": true,
+  "installed": true,
+  "originalInteractiveUser": true,
+  "sourceCommit": "5d892b8a26f113ce466d31128c1485b6381f991e",
+  "scope": "Newly installed verified WPF opened as original interactive user; no AVEVA launch or Manager write operation invoked.",
+  "humanVisualApproval": "not-received"
+}

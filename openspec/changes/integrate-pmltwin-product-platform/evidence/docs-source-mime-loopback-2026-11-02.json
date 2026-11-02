@@ -1,0 +1,76 @@
+{
+  "schema": "pmltwin.docs-source-mime-loopback/1",
+  "passed": true,
+  "scope": "New source-built framework-dependent DevHost against isolated fixture containing real repository C# evidence. No installed binary or immutable payload modified.",
+  "newSourceBuildDllSha256": "d0a803a0824cc23bc7f3f077349a042d81b8d35049df0a6a028e43c82bbcb527",
+  "originalInstalledFailureReceiptSha256": "e262159f07ce526fd119ae25845cebec02f04867eda2ed2866764e07ae714d2d",
+  "originalInstalledFailurePreserved": true,
+  "sourceFixtureSha256": "e6bdb3fa8c15d6f13bc59250de8e3be831734a7cddea557aaad2f9597e60054a",
+  "sourceFixtureBytes": 19175,
+  "privateDetailsSuppressed": true,
+  "csharp": {
+    "status": 200,
+    "contentType": "text/plain; charset=utf-8",
+    "nosniff": true,
+    "rawBytesMatch": true
+  },
+  "csharpHead": {
+    "bodyBytes": 0,
+    "status": 200,
+    "expectedContentLength": 19175
+  },
+  "existingUnknownExtensionStatus": 404,
+  "nonCanonicalHostStatus": 403,
+  "controls": [
+    {
+      "method": "GET",
+      "status": 404,
+      "route": "/health"
+    },
+    {
+      "method": "GET",
+      "status": 404,
+      "route": "/api/guides"
+    },
+    {
+      "method": "GET",
+      "status": 404,
+      "route": "/api/manager/contracts"
+    },
+    {
+      "method": "GET",
+      "status": 404,
+      "route": "/api/manager/operations"
+    },
+    {
+      "method": "GET",
+      "status": 404,
+      "route": "/openapi/v1.json"
+    },
+    {
+      "method": "GET",
+      "status": 404,
+      "route": "/scalar/v1"
+    },
+    {
+      "method": "POST",
+      "status": 403,
+      "route": "/api/pml/preview"
+    },
+    {
+      "method": "POST",
+      "status": 403,
+      "route": "/api/manager/contracts"
+    },
+    {
+      "method": "POST",
+      "status": 403,
+      "route": "/docs/source-evidence/tests/SkillAdoptionTests.cs"
+    }
+  ],
+  "ownProcessAndLoopbackListenerConfirmed": true,
+  "ownedProcessStopped": true,
+  "otherProcessesStopped": 0,
+  "completedUtc": "2026-11-02T00:20:55.5107668+00:00",
+  "privateLogs": "Current-user C RuntimeReview only; no account path or raw log copied to workspace."
+}

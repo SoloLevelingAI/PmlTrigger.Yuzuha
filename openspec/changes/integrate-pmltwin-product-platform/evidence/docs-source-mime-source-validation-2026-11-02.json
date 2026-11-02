@@ -1,0 +1,69 @@
+{
+  "schema": "pmltwin.docs-source-mime-fix/1",
+  "createdUtc": "2026-11-02T00:21:33.6799848+00:00",
+  "sourceOnly": true,
+  "sourceFiles": [
+    {
+      "file": "src/YuzuhaToolkit.DevHost/Program.cs",
+      "sha256": "992bf1eb0b99fcc177198beb1c147e8f3ad9bac9b6c218a0240c34440c1da8a6"
+    },
+    {
+      "file": "tests/YuzuhaToolkit.Tests/DevelopmentApiTests.cs",
+      "sha256": "06cb150cec650d062e6a7adf6dad6036ac18a92070cde74ca7594ac398a00d5c"
+    },
+    {
+      "file": "docs/reference/test-map.json",
+      "sha256": "34924e509785d67572ff1ed723857c1eec730fe9cfc096860433051027b7fb58"
+    }
+  ],
+  "sourceFrozen": true,
+  "change": "Only docs-only explicitly maps .cs to text/plain; charset=utf-8; ServeUnknownFileTypes remains false.",
+  "red": {
+    "log": "artifacts/docs-source-mime-red.log",
+    "executed": 1,
+    "failed": 1,
+    "failure": "Expected OK / Actual NotFound",
+    "trx": "artifacts/docs-source-mime-red/red.trx"
+  },
+  "green": {
+    "httpIntegrationExecuted": 17,
+    "skipped": 0,
+    "documentationLog": "artifacts/docs-source-mime-documentation-node.log",
+    "releaseBuildIncluded": true,
+    "documentationNodeFailed": 0,
+    "documentationNodePassed": 14,
+    "passed": 17,
+    "trx": "artifacts/docs-source-mime-green/development-api.trx",
+    "log": "artifacts/docs-source-mime-green.log"
+  },
+  "testRegistration": {
+    "roslynDeclarationCount": 437,
+    "reviewedPurposeRegisteredOnce": true,
+    "newFactDiscoveredOnce": true,
+    "declarations": "artifacts/docs-source-mime-test-declarations.json"
+  },
+  "actualLoopback": {
+    "receipt": "artifacts/docs-source-mime-loopback.json",
+    "sourceEvidenceRawBytesMatch": true,
+    "ownProcessStopped": true,
+    "controls": 9,
+    "contentType": "text/plain; charset=utf-8",
+    "passed": true,
+    "unknownExtensionStatus": 404
+  },
+  "oldInstalledFailure": {
+    "status": "FAIL",
+    "sha256": "e262159f07ce526fd119ae25845cebec02f04867eda2ed2866764e07ae714d2d",
+    "preserved": true,
+    "receipt": "artifacts/final-installed-runtime-verification.json",
+    "reason": "Installed immutable prior DocHost still returns 404 for published C# evidence; source fix does not represent installed acceptance."
+  },
+  "notPerformed": [
+    "Changes to current C installation",
+    "Changes to immutable existing package",
+    "Manager mutations",
+    "AVEVA calls",
+    "WPF launch",
+    "Commit or push"
+  ]
+}

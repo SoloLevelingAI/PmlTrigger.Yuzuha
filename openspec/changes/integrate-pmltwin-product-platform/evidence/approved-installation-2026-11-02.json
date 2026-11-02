@@ -1,0 +1,68 @@
+{
+  "schema": "pmltwin.sanitized-approved-install-verification/1",
+  "verifiedAtUtc": "2026-11-02T08:12:06.416869+08:00",
+  "status": "PASS",
+  "packageExeSha256": "23d266390dc2351be2241a796d82db0115790a9eb9424605bfd1d5aff710fe8d",
+  "manifestSha256": "730212b563f96ca8285f2dcdbc18fc76380147fc0b8986c2d9a8a1fa441415c1",
+  "desktopExeSha256": "693f94badb03962efdc2e0d1d63bd97ce56d714dafc6b0a114e440ac2ea088e5",
+  "managerExeSha256": "0c26de635bec4f3f71f6bcc8229834b99efe63be1b024d5ca381c0b39596a5c5",
+  "privateEvidence": "Original plan, approved plan digest, account paths, original bytes and full reports remain solely in local C SetupReview/SetupReports.",
+  "applicationRuntimeTests": "Deferred to separately assigned read-only verification; no CLI, docs host, WPF or AVEVA launched by this verifier.",
+  "setupExitCode": 0,
+  "installerResultStatus": "success",
+  "avevaIntegration": "manager-preparation-required",
+  "managerPreparationRequired": true,
+  "environmentWriteCount": 0,
+  "resultConfigurationCount": 15,
+  "resultTotalActualCount": 7036,
+  "payloadActionCounts": {
+    "update": 2634,
+    "unchanged": 970,
+    "create": 3417
+  },
+  "configurationKindCounts": {
+    "pml-index": 1,
+    "skill": 14
+  },
+  "configurationActionCounts": {
+    "unchanged": 13,
+    "update": 2
+  },
+  "payloadFilesVerified": 7021,
+  "payloadEveryMemberSha256Matched": true,
+  "payloadPdbCount": 0,
+  "installedManifestMatched": true,
+  "desktopAndManagerExactPackageHashesMatched": true,
+  "managedOwnershipCount": 15,
+  "managedKindCounts": {
+    "environment": 1,
+    "skill": 14
+  },
+  "oldEnvironmentOwnershipRetainedExactly": true,
+  "oldEnvironmentBytesUnchanged": true,
+  "oldEnvironmentOriginalBytesRetained": true,
+  "skillFilesDesiredSha256Matched": 14,
+  "skillFilesNewlyAdopted": 14,
+  "skillFileContentChanged": 2,
+  "skillFileContentUnchanged": 12,
+  "skillFirstOriginalBytesRetained": 14,
+  "changedSkillRelativePaths": [
+    "references/lifecycle.md",
+    "references/lifecycle.zh-CN.md"
+  ],
+  "pmlIndexUnchanged": true,
+  "pmlIndexPersistentOwnership": false,
+  "mcpJsonRequested": false,
+  "mcpManagedChanges": 0,
+  "mcpVerificationBoundary": "Empty request and zero MCP plan/result/managed entries verified. No pre-install independent hash baseline was captured for unrelated client configuration; unchanged unrelated client bytes are not independently attested.",
+  "archive": {
+    "files": 7,
+    "bytes": 57519,
+    "archivedOriginalAndPreservedCopyHashesMatch": true
+  },
+  "uniqueHkcu64RegistrationMatched": true,
+  "setupUnsignedKnownAndApproved": true,
+  "existingAdminPerUserWarningRetained": true,
+  "installedWpfOrAvevaStartedByVerifier": false,
+  "completedAtUtc": "2026-11-02T00:13:24.7517809Z"
+}

@@ -1,4 +1,5 @@
 using Microsoft.Extensions.FileProviders;
+using Microsoft.AspNetCore.StaticFiles;
 using Scalar.AspNetCore;
 using YuzuhaToolkit.DevHost;
 
@@ -30,7 +31,11 @@ if (builder.Configuration["docs-only"] == "true")
     });
     var docs = new PhysicalFileProvider(site);
     app.Lifetime.ApplicationStopped.Register(docs.Dispose);
+    // 已发布的 C# 验收证据仅按纯文本提供；未知扩展仍不公开。
+    var contentTypes = new FileExtensionContentTypeProvider();
+    contentTypes.Mappings[".cs"] = "text/plain; charset=utf-8";
     app.UseStaticFiles(new StaticFileOptions { FileProvider = docs, RequestPath = "/docs",
+        ContentTypeProvider = contentTypes, ServeUnknownFileTypes = false,
         OnPrepareResponse = context => context.Context.Response.Headers.CacheControl = "no-cache" });
     app.MapGet("/", () => Results.Redirect("/docs/index.html"));
     app.MapGet("/docs", () => Results.Redirect("/docs/index.html"));

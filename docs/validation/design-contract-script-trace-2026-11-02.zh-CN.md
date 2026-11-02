@@ -120,6 +120,8 @@ flowchart LR
 
 契约检查：`export-manager-contracts.mjs --check`、`build-install-journey-docs.mjs --check`、`build-install-journey-design.mjs --check` 通过。FigCraft 板的标题、输入、方法和脚本身份没有改，只更新了 `receipt.json` 的 `journeyHash`。TypeScript 客户端 `tsc --strict` 通过。
 
+第一次 Windows `contract-workbench` 失败，原因是提案、`contracts.md` 和 `tasks.md` 的原始字节变了，图集里的 `sha256` 还是旧值。已用 `node scripts/contract-atlas-metadata.mjs build` 重算。变化只有这三份来源的指纹和 `metadataDigest`，没有改规范事实。随后 `contracts:check` 与 45 项契约单测通过。
+
 </details>
 
 ## 7. 准备页的中英文和焦点

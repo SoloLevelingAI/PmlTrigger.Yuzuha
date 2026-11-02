@@ -1,7 +1,7 @@
 {
   "schema": "contract-atlas-render/1",
   "schemaVersion": 1,
-  "metadataDigest": "2ec9e7e4a3c86ab77a56ee670fc5b0ddb281c228500ca808da190a192cfa9de8",
+  "metadataDigest": "0a3defb3b6db2c969f00712f140f0f9793ffedb1e66f94070d7ddcb9c22cff96",
   "audience": "public",
   "snapshotDate": "2026-11-01",
   "project": {
@@ -23934,14 +23934,14 @@
     {
       "id": "source:openspec-proposal",
       "title": "平台候选proposal",
-      "sha256": "8cc7005d53bdcc99ab18ef42f432736bfbb1b6c7a7db4ffa63c8983c069f8848",
+      "sha256": "a816c1afcc37e3774c78105fea28acf74006c37840c461728b66608c61b7e5c1",
       "authority": "proposal",
       "audience": "public"
     },
     {
       "id": "source:openspec-contracts",
       "title": "平台候选contracts",
-      "sha256": "23f45ae6ebacd16f52c4d83b3b39915156a5fd841315d207059e04028f9e4fd7",
+      "sha256": "11182f2295aaeb1cc60704eda084e3cb9d6c99564b9595b97705c04662102184",
       "authority": "proposal",
       "audience": "public"
     },
@@ -23955,7 +23955,7 @@
     {
       "id": "source:openspec-tasks",
       "title": "平台候选tasks",
-      "sha256": "5d564ea063f4da4e55342f0ca0619177ed1b69ce90ba472c68fbcd506a8b75ed",
+      "sha256": "d335e242898f72546b9b78f9c5848416fbd0a3c0d58eda7610cd3d99f151a2d1",
       "authority": "proposal",
       "audience": "public"
     },

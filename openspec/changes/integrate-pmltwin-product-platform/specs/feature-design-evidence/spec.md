@@ -4,6 +4,21 @@
 
 ## ADDED Requirements
 
+### Requirement: User documentation and developer reference have separate delivery scopes
+默认用户文档 SHALL 围绕准备环境、启动核验、开发或只读核查、回读恢复组织，最多40个HTML且总文件不超过15MiB；MUST NOT 包含完整API、源码/测试/UI静态追踪树、图谱大JSON或sourcemap。完整开发参考 SHALL 作为独立ZIP保留原站内链接与源码档案，由源码提交及逐文件清单绑定；默认安装与Agent ZIP不得嵌入该包或递归复制仓库docs目录。状态：planned，用户2026-11-02明确选择；契约见features/install-to-operation-journey.md。
+
+#### Scenario: Install the default user guide
+- **WHEN** 构建和预览默认应用安装
+- **THEN** 用户站独立导航与搜索只索引任务帮助，八阶段指南锚点有效，开发内容在独立发行包中；构建器拒绝超预算或完整开发站冒充默认用户站。
+
+#### Scenario: Open an optional developer reference
+- **WHEN** 用户选择明确的已解压开发参考目录或请求具体API页面
+- **THEN** 按用户站预期摘要和源码修订复验目录清单及字节后，用同一只读宿主打开精确目标；缺失、错修订、链接或漂移明确提示，不后台下载、不解压、不写设置，也不把用户首页冒充API页面。
+
+#### Scenario: Upgrade an existing complete documentation install
+- **WHEN** 新默认载荷已精简而旧安装仍留有历史文档
+- **THEN** 新具体预览明确载荷变化，原文件和旧证据保持；不静默删除旧清单以外文件，不声称旧安装空间已回收，实际清理另有具体预览。
+
 ### Requirement: Desktop developer reading takes priority
 开发者候选界面 SHALL 优先设计和验证桌面任务动线，常驻显示当前位置与步骤，并就地切换契约、实现和验证；MUST NOT 为共享手机布局而牺牲电脑端路径与内容组织。手机端可在后续独立设计，仅共用语义配色和契约数据。细化见[桌面阅读动线](../../features/desktop-developer-reading.md)。
 

@@ -6551,7 +6551,7 @@ globalThis.CONTRACT_ATLAS_DATA = {
     {
       "id": "source:openspec-proposal",
       "title": "平台候选proposal",
-      "sha256": "a816c1afcc37e3774c78105fea28acf74006c37840c461728b66608c61b7e5c1",
+      "sha256": "dbf3a540ea9cdff86b056c9493354779c1f684aa7389680041a09393788dfecf",
       "authority": "proposal",
       "audience": "public"
     },
@@ -6565,14 +6565,14 @@ globalThis.CONTRACT_ATLAS_DATA = {
     {
       "id": "source:openspec-design",
       "title": "平台候选design",
-      "sha256": "aca76dabc60019f9fdd17ccef9f413f2c48eadffb355a07aa92a4b22417dab9b",
+      "sha256": "acca01200c4c12b7d6c30eb45f21d71811680e3199361841980df8eb703d8b4e",
       "authority": "proposal",
       "audience": "public"
     },
     {
       "id": "source:openspec-tasks",
       "title": "平台候选tasks",
-      "sha256": "d335e242898f72546b9b78f9c5848416fbd0a3c0d58eda7610cd3d99f151a2d1",
+      "sha256": "33d7cc3301925d808f38ce74fdc1538698e2fb24d832c9f7747fe4a29f00d9ff",
       "authority": "proposal",
       "audience": "public"
     },

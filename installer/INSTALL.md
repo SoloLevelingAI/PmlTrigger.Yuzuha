@@ -4,6 +4,16 @@
 
 本文件是安装说明，不是自动执行授权。人工和 AI 使用同一个计划引擎与安装 EXE。任何配置写入前必须让用户检查预览并确认；不能把发现注册表条目视为修改授权。
 
+## 使用指南与独立开发参考
+
+本轮新候选的默认 `runtime/documentation` 是任务指南：准备环境、启动并核验会话、PML开发或只读核查、回读与恢复。工作台默认“使用指南”打开此站点。安装载荷不再复制整份根 `docs` 源目录，也不默认安装 API、源码、测试及UI追踪站点。
+
+需要开发细节时，另外取得与用户说明身份匹配的 `Phayton-<版本>-Developer-Reference.zip`，核对发行 `SHA256SUMS.txt` 和用户说明 `documentation-profile.json` 中的ZIP摘要，再手工解压到独立目录。不要覆盖应用安装根；在工作台“开发参考”选择含 `developer-reference.json` 的解压包根。包内 `site/` 是完整参考站，`source-docs/` 保留文档源码档案。版本相同仍可能是不同源码修订，工作台会核对完整提交、清单SHA及实际文件；选择只在本窗口内存中保留。
+
+同一只读宿主将用户说明放在 `/docs/`，明确选择并通过核验的开发参考放在 `/reference/`。缺包、错误修订或文件变化会明确说明；不会后台下载、自动解压或把缺失API伪装成用户首页。文档访问不接入AVEVA、不授予执行权限。可选开发ZIP不进入Setup载荷或Agent ZIP；Agent中只附带小型文档身份profile。
+
+此次改变缩小新默认载荷，不主动删除旧安装遗留的文档；已有磁盘占用未必立即缩小。旧完整候选、已消费或尚未消费的具体计划均保留，不能用分层后的新包替换旧计划的载荷身份。新候选仍需重新核对并生成具体升级预览，取得该预览的批准后执行；Skill首次原文、用户资料、EVARS及恢复边界保持原规则。
+
 ## 当前默认：安装应用，由管理器准备环境
 
 新交互安装默认使用明确的`integrationMode: "manager"`。它与`none`不同：安装器交付应用、管理CLI、清单、快捷方式和安装所有权，结果为`manager-preparation-required`；不发现后自动修改EVARS，不声称AVEVA已接入。使用示例请求的manager模式时，调用`plan`生成安装预览，环境列表必须为空；`plan-auto`只服务于下文保留的旧显式aveva模式。
@@ -192,7 +202,7 @@ Actual reports and backups are retained in LocalAppData/YuzuhaToolkit/SetupRepor
 
 0.3.4.1 安装包将 HTML 宿主也改为自包含发布，无需另装 ASP.NET Core 10。桌面、完整 DocFX、中文视频与只读文档宿主一并交付；上述历史版本依赖说明保留用于识别旧包。
 
-构建时将桌面、Manager CLI与DevHost发布到独立目录，再用 `installer/build.py --version 0.3.4.2 --runtime <含四profile和webapps的独立runtime目录> --cli <原生CLI发布目录> --manager <Manager CLI发布目录> --desktop <桌面发布目录> --documentation <已校验DocFX站点> --documentation-host <DevHost发布目录> --iscc <ISCC.exe> --output <新目录>` 纳入包。`--runtime`省略时兼容旧的仓库runtime来源；独立输入避免覆盖开发或已安装运行目录。构建缺少四个Host、`Yuzuha.Manager.Cli.exe`或桌面入口时拒绝，不发布无效manager入口；所有发布文件进入同一散列清单。这些操作不执行安装。
+构建时将桌面、Manager CLI与DevHost发布到独立目录，再用 `installer/build.py --version 0.3.4.2 --runtime <含四profile和webapps的独立runtime目录> --cli <原生CLI发布目录> --manager <Manager CLI发布目录> --desktop <桌面发布目录> --documentation <已校验用户指南站点> --developer-reference <同修订的独立Developer-Reference.zip> --documentation-host <DevHost发布目录> --iscc <ISCC.exe> --output <新目录>` 纳入包。`--documentation`必须有逐文件绑定的`documentation-profile.json`，完整开发站不能冒充默认用户说明；开发ZIP验证后只复制到发行根。`--runtime`省略时兼容旧的仓库runtime来源；独立输入避免覆盖开发或已安装运行目录。构建缺少四个Host、`Yuzuha.Manager.Cli.exe`或桌面入口时拒绝，不发布无效manager入口；所有默认发布文件进入同一散列清单。这些操作不执行安装。
 
 
 ## 用户数据与升级保护（TRACE32）
@@ -210,7 +220,7 @@ TRACE32 的源码批次未安装，后续 TRACE33 已完成经授权的本机更
 
 ## Phayton 0.3.4 / R2
 
-新包展示名为 Phayton，安装身份与 PmlTrigger.Yuzuha 路径保留。旧快捷方式继续使用，新入口位于 Phayton 分组。完整 DocFX 位于 runtime/documentation，工作台的开发文档按钮启动随包自包含只读文档宿主；退出工作台后结束本次宿主。构建时必须提供 --documentation 和 --documentation-host，分别指定已经校验的 DocFX 站点与自包含 DevHost 发布目录。
+新包展示名为 Phayton，安装身份与 PmlTrigger.Yuzuha 路径保留。旧快捷方式继续使用，新入口位于 Phayton 分组。此前完整 DocFX 随应用放在 runtime/documentation；本轮新候选改为该目录只交付用户任务指南，完整开发参考另行ZIP交付。工作台使用同一个随包自包含只读文档宿主；退出工作台后结束本次宿主。构建时必须提供 --documentation、--developer-reference 和 --documentation-host，分别指定已核验用户站、同修订开发ZIP及自包含 DevHost 发布目录。
 
 
 ## CLI 发行版构建与 Host 选择

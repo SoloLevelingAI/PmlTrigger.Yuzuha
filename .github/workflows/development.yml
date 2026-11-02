@@ -52,6 +52,8 @@ jobs:
             artifacts/ion-visual-hierarchy/**
   documentation-and-tests:
     runs-on: windows-latest
+    env:
+      PYTHONUTF8: '1'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v4
@@ -74,6 +76,24 @@ jobs:
       - name: OpenAPI, LikeC4 and DocFX
         shell: pwsh
         run: ./scripts/Build-Documentation.ps1
+      - name: Independent user DocFX and actual output regression
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force artifacts/documentation-checks | Out-Null
+          ./tests/documentation-bundles-user-build.ps1 -OutputRoot artifacts/docfx-user/site 2>&1 | Tee-Object artifacts/documentation-checks/user-build.log
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Same-revision developer archive and user profile
+        shell: pwsh
+        run: |
+          python scripts/build-documentation-bundles.py --full-site artifacts/docfx/site --source-docs docs --user-site artifacts/docfx-user/site --output artifacts/documentation-bundles --source-commit $env:GITHUB_SHA 2>&1 | Tee-Object artifacts/documentation-checks/bundles.log
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Install locked Chromium for generated user-guide checks
+        run: npm run contracts:browsers:install
+      - name: Generated user-guide browser and explicit reference actions
+        shell: pwsh
+        run: |
+          npm run docs:user:browser -- artifacts/docfx-user/site 2>&1 | Tee-Object artifacts/documentation-checks/user-browser.log
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: WPF isolated flows and viewport checks
         shell: pwsh
         run: ./scripts/run-documented-test.ps1 -TestId 'smoke:desktop-flows'
@@ -87,6 +107,9 @@ jobs:
           path: |
             artifacts/tests/*.trx
             artifacts/tests/run-metadata.json
+            artifacts/tests/documentation-bundles/**
+            artifacts/documentation-checks/**
+            artifacts/docfx/integrity.json
             artifacts/tests/installer/**
             artifacts/handoff-validation/**/*.json
             artifacts/handoff-validation/**/*.tap
@@ -108,3 +131,13 @@ jobs:
         with:
           name: yuzuha-documentation-${{ github.sha }}-${{ runner.os }}
           path: artifacts/docfx/site
+      - uses: actions/upload-artifact@v4
+        with:
+          name: phayton-user-guide-${{ github.sha }}-${{ runner.os }}
+          path: artifacts/docfx-user/site
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        with:
+          name: phayton-developer-reference-${{ github.sha }}-${{ runner.os }}
+          path: artifacts/documentation-bundles/Phayton-0.3.4.2-Developer-Reference.zip
+          if-no-files-found: error

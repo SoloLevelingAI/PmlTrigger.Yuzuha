@@ -2,18 +2,34 @@
 import ctypes
 from ctypes import wintypes
 import hashlib
+import importlib.util
 import json
 from pathlib import Path
 import sys
 import xml.etree.ElementTree as ET
+import zipfile
+
+repository = Path(__file__).resolve().parents[2]
+spec = importlib.util.spec_from_file_location('installer_builder', repository / 'installer/build.py')
+builder = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(builder)
 
 folder = Path(sys.argv[1]).resolve()
 payload = folder / 'payload'
 manifest = json.loads((payload / '.setup-payload.json').read_text(encoding='utf-8-sig'))
 for item in manifest['files']:
+    builder.relative_member(item['path'])
     assert hashlib.sha256((payload / item['path']).read_bytes()).hexdigest() == item['sha256'], item['path']
-snapshot = json.loads((payload / 'docs/semantic/pml-sync.json').read_text(encoding='utf-8-sig'))
-source = Path(__file__).resolve().parents[2] / 'PMLLIB'
+assert len({item['path'].casefold() for item in manifest['files']}) == len(manifest['files'])
+assert {path.relative_to(payload).as_posix() for path in payload.rglob('*') if path.is_file()} == {item['path'] for item in manifest['files']} | {'.setup-payload.json'}
+assert not (payload / 'docs').exists(), 'Default payload must not contain the repository docs source tree'
+profile = builder.validate_user_documentation(payload / 'runtime/documentation', manifest['version'])
+reference_zip = folder / profile['developerReference']['fileName']
+builder.validate_documentation_pair(payload / 'runtime/documentation', reference_zip, manifest['version'])
+assert not any(path.name == reference_zip.name for path in payload.rglob('*')), 'Developer archive entered the installer payload'
+with zipfile.ZipFile(reference_zip) as archive:
+    snapshot = json.loads(archive.read('source-docs/semantic/pml-sync.json').decode('utf-8-sig'))
+source = repository / 'PMLLIB'
 historical_changes = []
 for item in snapshot['files']:
     # This historical source inventory includes AVEVA's generated index.
@@ -34,6 +50,14 @@ for relative in sorted(expected_pml):
     assert (payload / 'PMLLIB' / relative).read_bytes() == (source / relative).read_bytes(), relative
 assert (payload / 'runtime/documentation/index.html').is_file()
 assert (payload / 'runtime/documentation-host/YuzuhaToolkit.DevHost.exe').is_file()
+listed_deliverables = {}
+for line in (folder / 'SHA256SUMS.txt').read_text(encoding='ascii').splitlines():
+    digest, name = line.split('  ', 1)
+    builder.relative_member(name)
+    assert '/' not in name and name not in listed_deliverables
+    assert builder.file_sha256(folder / name) == digest, name
+    listed_deliverables[name] = digest
+assert listed_deliverables.get(reference_zip.name) == profile['developerReference']['sha256']
 assert manifest['transport'] == 'cli'
 assert manifest['entryPoint'] == 'runtime/cli/PmlTwin.Phayton.Cli.exe'
 assert (payload / manifest['entryPoint']).is_file()
@@ -79,7 +103,7 @@ finally:
     kernel.FreeLibrary(module)
 script = (Path(__file__).resolve().parents[1] / 'Yuzuha.iss').read_text(encoding='utf-8-sig')
 assert 'PrivilegesRequired=admin' in script and 'PrivilegesRequiredOverridesAllowed=' not in script
-print('PASS: payload SHA256 inventory; all current PML sources; generated index excluded; portable bootstrap retained; source configured PrivilegesRequired=admin.')
+print('PASS: payload SHA256 inventory; bounded default user guide without repository docs; separate identity-matched developer reference; all current PML sources; generated index excluded; portable bootstrap retained; source configured PrivilegesRequired=admin.')
 print('Current-source changes since the historical D-drive snapshot:', historical_changes)
 print('Outer Inno loader manifest:', levels)
 print('This is not a UAC interaction, GUI walkthrough or live AVEVA test.')

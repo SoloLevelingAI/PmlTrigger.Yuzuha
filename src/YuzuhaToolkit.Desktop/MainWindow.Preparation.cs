@@ -13,7 +13,9 @@ public partial class MainWindow
     private void InitializePreparation()
     {
         PreparationView.NavigationRequested += page => OpenNavigation(new(page, page));
-        PreparationView.DocumentationRequested += page => _ = OpenDocumentationAt(page);
+        PreparationView.DocumentationRequested += page => _ = OpenDocumentationAt(page,
+            page.StartsWith("api/", StringComparison.Ordinal) || page.StartsWith("reference/", StringComparison.Ordinal)
+                ? DocumentationCollection.Developer : DocumentationCollection.User);
         PreparationView.PaletteRequested += ApplyPalette;
         ThemePalettePicker.ItemsSource = DesktopPalettes.All;
         PreparationView.PrepareInstallation(HtmlAppLauncher.FindRoot());

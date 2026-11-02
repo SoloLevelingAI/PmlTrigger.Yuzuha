@@ -1,0 +1,20 @@
+- name: 从任务开始
+  href: index.md
+- name: 安装与环境准备
+  href: install-to-operation.zh-CN.md
+- name: 核验工程会话
+  href: connection.md
+- name: 开发与加载 PML
+  href: pml-development.md
+- name: 读取与核查工程
+  href: inspection.md
+- name: 查阅资料
+  href: knowledge.md
+- name: 核对回执与恢复
+  href: recovery.md
+- name: 接入 AI 客户端
+  href: ai-client.md
+- name: 排查常见问题
+  href: troubleshooting.md
+- name: 打开开发参考
+  href: developer-reference.md

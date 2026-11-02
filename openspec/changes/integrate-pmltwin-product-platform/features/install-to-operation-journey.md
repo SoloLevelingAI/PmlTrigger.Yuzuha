@@ -54,6 +54,16 @@ docs-only交付的证据链接SHALL通过实际HTTP验收，不能只证明目�
 
 ## Acceptance
 
+### 文档分层追加契约 · 2026-11-02
+
+用户已明确选择本轮先拆分默认帮助与开发参考，再继续27.16/27.10。默认`runtime/documentation`只包含任务帮助，独立目录/搜索，最多40个HTML与15MiB；保留`install-to-operation.zh-CN.html`八个阶段锚点。API、源码、测试、UI静态追踪及完整开发档案不进入默认载荷，不生成逐类型占位页。
+
+完整开发参考单独交付`Phayton-<版本>-Developer-Reference.zip`，站点在`site/`，源码档案在`source-docs/`；包根`developer-reference.json`使用schema `phayton.developer-reference/1`，含`sourceCommit`完整40位、`version`、`siteRoot`及`files[{path,sha256,bytes}]`，清单自身不自指。用户站`documentation-profile.json`使用schema `phayton.user-guide/1`，含同源`sourceCommit`、`version`、用户文件清单及`developerReference{fileName,sha256,manifestSha256,sourceCommit}`。先构建开发ZIP再写用户profile，避免循环摘要。
+
+工作台提供“使用指南”和“开发参考”两个明确入口。开发参考首次选择已解压目录，选择仅存内存；公共验证器流式复验清单、预算、同修订、路径及实际文件摘要，拒绝逃逸/目录链接/重复身份/坏包，允许正常OneDrive云目录。预算为清单8MiB、12000成员、总512MiB与单文件128MiB。无后台下载/解压或持久设置写入。docs-only宿主复用`--docs-root`并新增显式`--reference-root`，分别只读服务`/docs/`和`/reference/`；保留loopback、GET/HEAD、nosniff、源码纯文本、未知404与写入403。缺包说明集中在一个用户帮助页，不把缺失API重定向成用户首页。
+
+安装构建器核对用户profile及预算，开发ZIP只在发行目录并列SHA，不进入payload/Agent。停止无条件递归复制根docs；验证内置指南和Manager HTML仍能打开。新候选必须重新全量核验并生成新升级计划。旧完整候选及计划保留而不执行；不静默清理旧安装的历史文档，空间节约按实际新载荷分别测量，不冒称旧空间已回收。
+
 - 安装器manager模式、旧计划兼容、原交互用户交接；构建及隔离夹具证明不改厂商环境。
 - 管理器同后端EVARS/部署预览、明确apply、回执及条件恢复；变更/失效/越权/恢复冲突和旧所有权拒绝反例。
 - WPF完整阶段可达，主要输入/CTA/结果首屏可见，三尺寸及150%DPI、主题和导航状态保持，绑定错误为0。

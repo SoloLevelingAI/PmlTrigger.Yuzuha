@@ -182,4 +182,101 @@ public sealed class DevelopmentApiTests : IClassFixture<WebApplicationFactory<Pr
         }
         finally { Directory.Delete(directory, true); }
     }
+
+    /// <summary>默认用户站只提供登记内容及原始身份清单；旧安装遗留 API/UI trace 不可见。</summary>
+    [Fact]
+    public async Task UserGuideManifestHidesOldAndUnlistedDocumentation()
+    {
+        using var fixture = new DocumentationPackageFixture();
+        using var only = DocumentationFactory(fixture);
+        using var initialized = only.CreateClient();
+        using var handler = only.Server.CreateHandler(context => context.Connection.RemoteIpAddress = IPAddress.Loopback);
+        using var client = new HttpClient(handler) { BaseAddress = new Uri("http://127.0.0.1") };
+        Assert.Equal(HttpStatusCode.OK, (await client.GetAsync("/docs/index.html")).StatusCode);
+        Assert.Equal(HttpStatusCode.OK, (await client.GetAsync("/docs/developer-reference.html")).StatusCode);
+        Assert.Equal(await File.ReadAllBytesAsync(fixture.UserManifest), await client.GetByteArrayAsync("/docs/documentation-profile.json"));
+        foreach (var route in new[] { "/docs/api/Old.html", "/docs/reference/ui-trace/old.html", "/docs/missing.html" })
+            Assert.Equal(HttpStatusCode.NotFound, (await client.GetAsync(route)).StatusCode);
+        Assert.Equal(HttpStatusCode.NotFound, (await client.GetAsync("/reference/index.html")).StatusCode);
+    }
+
+    /// <summary>独立参考只有明确选择且身份匹配后挂载，原始源码仍限 GET/HEAD 纯文本。</summary>
+    [Fact]
+    public async Task ExplicitReferenceMountServesOnlyItsDeclaredSiteAndPlainSources()
+    {
+        using var fixture = new DocumentationPackageFixture();
+        using var only = DocumentationFactory(fixture, fixture.ReferenceRoot);
+        using var initialized = only.CreateClient();
+        using var handler = only.Server.CreateHandler(context => context.Connection.RemoteIpAddress = IPAddress.Loopback);
+        using var client = new HttpClient(handler) { BaseAddress = new Uri("http://127.0.0.1") };
+        Assert.Contains("Developer reference", await client.GetStringAsync("/reference/index.html"));
+        Assert.Contains("Type API", await client.GetStringAsync("/reference/api/Type.html"));
+        foreach (var name in new[] { "source.cs", "client.ts", "module.mts", "module.d.mts" })
+        {
+            using var response = await client.GetAsync("/reference/" + name);
+            var expected = await File.ReadAllBytesAsync(Path.Combine(fixture.ReferenceRoot, "site", name));
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal(expected, await response.Content.ReadAsByteArrayAsync());
+            Assert.Equal("text/plain; charset=utf-8", response.Content.Headers.ContentType!.ToString());
+            Assert.Equal("nosniff", Assert.Single(response.Headers.GetValues("X-Content-Type-Options")));
+            using var request = new HttpRequestMessage(HttpMethod.Head, "/reference/" + name);
+            using var head = await client.SendAsync(request);
+            Assert.Equal(HttpStatusCode.OK, head.StatusCode);
+            Assert.Equal(expected.Length, head.Content.Headers.ContentLength);
+            Assert.Empty(await head.Content.ReadAsByteArrayAsync());
+            Assert.Equal("text/plain; charset=utf-8", head.Content.Headers.ContentType!.ToString());
+            Assert.Equal(HttpStatusCode.Forbidden, (await client.PostAsJsonAsync("/reference/" + name, new { })).StatusCode);
+        }
+        foreach (var route in new[] { "/reference/source-docs/README.md", "/reference/../source-docs/README.md", "/reference/source.yuzuha-unknown", "/reference/developer-reference.json", "/api/manager/contracts" })
+            Assert.Equal(HttpStatusCode.NotFound, (await client.GetAsync(route)).StatusCode);
+    }
+
+    /// <summary>缺失或不匹配的独立包返回明确不可用，用户帮助仍可读，不伪装成用户首页。</summary>
+    [Theory]
+    [InlineData("missing")]
+    [InlineData("hash")]
+    [InlineData("revision")]
+    [InlineData("version")]
+    public async Task InvalidReferenceKeepsUserGuideAvailableWithoutFallback(string mode)
+    {
+        using var fixture = new DocumentationPackageFixture();
+        fixture.BreakIdentity(mode);
+        using var only = DocumentationFactory(fixture, fixture.ReferenceRoot);
+        using var initialized = only.CreateClient();
+        using var handler = only.Server.CreateHandler(context => context.Connection.RemoteIpAddress = IPAddress.Loopback);
+        using var client = new HttpClient(handler) { BaseAddress = new Uri("http://127.0.0.1") };
+        Assert.Contains("User guide", await client.GetStringAsync("/docs/index.html"));
+        foreach (var path in new[] { "/reference", "/reference/index.html" })
+        {
+            using var response = await client.GetAsync(path);
+            Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+            Assert.Null(response.Headers.Location);
+            Assert.Contains("开发参考", await response.Content.ReadAsStringAsync());
+        }
+    }
+
+    /// <summary>挂载后内容篡改、未登记新增文件和目录联接替换均不会通过只读站点泄露。</summary>
+    [Fact]
+    public async Task ManifestMountRechecksTamperingAndDirectoryLinksAfterStartup()
+    {
+        using var fixture = new DocumentationPackageFixture();
+        using var only = DocumentationFactory(fixture, fixture.ReferenceRoot);
+        using var initialized = only.CreateClient();
+        using var handler = only.Server.CreateHandler(context => context.Connection.RemoteIpAddress = IPAddress.Loopback);
+        using var client = new HttpClient(handler) { BaseAddress = new Uri("http://127.0.0.1") };
+        Assert.Equal(HttpStatusCode.OK, (await client.GetAsync("/reference/api/Type.html")).StatusCode);
+        File.AppendAllText(Path.Combine(fixture.ReferenceRoot, "site", "client.ts"), "changed");
+        File.WriteAllText(Path.Combine(fixture.ReferenceRoot, "site", "unlisted.html"), "not registered");
+        Assert.Equal(HttpStatusCode.NotFound, (await client.GetAsync("/reference/client.ts")).StatusCode);
+        Assert.Equal(HttpStatusCode.NotFound, (await client.GetAsync("/reference/unlisted.html")).StatusCode);
+        fixture.ReplaceApiWithLink();
+        Assert.Equal(HttpStatusCode.NotFound, (await client.GetAsync("/reference/api/Type.html")).StatusCode);
+    }
+
+    private static WebApplicationFactory<Program> DocumentationFactory(DocumentationPackageFixture fixture, string? referenceRoot = null) =>
+        new WebApplicationFactory<Program>().WithWebHostBuilder(builder =>
+        {
+            builder.UseSetting("docs-only", "true").UseSetting("docs-root", fixture.UserRoot);
+            if (referenceRoot is not null) builder.UseSetting("reference-root", referenceRoot);
+        });
 }

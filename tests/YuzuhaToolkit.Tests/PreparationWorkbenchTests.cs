@@ -259,6 +259,9 @@ public sealed class PreparationWorkbenchTests
         try { var target = DesktopDocumentationTarget.Resolve(root, "api/Type.html#member");Assert.Equal("api/Type.html#member", target.RelativeUrl);Assert.EndsWith("Type.html", target.File);
             foreach (var unsafePath in new[] { "https://example.com/x.html", "../Type.html", "api/../../outside.html", "%2e%2e/Type.html", "api\\Type.html", "/api/Type.html", "api/Type.html?x=1", "api/Type.html#x#y", "api//Type.html" }) Assert.ThrowsAny<ArgumentException>(() => DesktopDocumentationTarget.Resolve(root, unsafePath));
             Assert.Throws<FileNotFoundException>(() => DesktopDocumentationTarget.Resolve(root, "missing.html"));
+            // A previous full installation may leave this file on disk; the new user guide must not open it.
+            Assert.Throws<FileNotFoundException>(() => DesktopDocumentationTarget.Resolve(root, "api/Type.html#member", ["index.html"]));
+            Assert.Equal(target, DesktopDocumentationTarget.Resolve(root, "api/Type.html#member", ["api/Type.html"]));
         } finally { Directory.Delete(root, true); }
     }
 }

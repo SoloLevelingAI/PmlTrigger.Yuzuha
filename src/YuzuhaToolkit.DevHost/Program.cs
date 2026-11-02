@@ -2,6 +2,7 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.StaticFiles;
 using Scalar.AspNetCore;
 using YuzuhaToolkit.DevHost;
+using YuzuhaToolkit.Workspace;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.WebHost.UseUrls(builder.Configuration["urls"] ?? "http://127.0.0.1:5276");
@@ -29,8 +30,12 @@ if (builder.Configuration["docs-only"] == "true")
         context.Response.Headers["X-Content-Type-Options"] = "nosniff";
         await next();
     });
-    var docs = new PhysicalFileProvider(site);
-    app.Lifetime.ApplicationStopped.Register(docs.Dispose);
+    var profileExists = File.Exists(Path.Combine(site, "documentation-profile.json"));
+    var userGuide = profileExists ? DocumentationPackage.ValidateUserGuide(site) : null;
+    var userFiles = userGuide?.Files.ToDictionary(pair => pair.Key, pair => pair.Value, StringComparer.OrdinalIgnoreCase);
+    if (userGuide is not null) userFiles!.Add(userGuide.ProfileFile.Path, userGuide.ProfileFile);
+    IFileProvider docs = userGuide is null ? new PhysicalFileProvider(site) : new DocumentationManifestFileProvider(userGuide.Root, userFiles!);
+    if (docs is IDisposable disposableDocs) app.Lifetime.ApplicationStopped.Register(disposableDocs.Dispose);
     // 已发布的 C#/TypeScript 源码仅按纯文本提供；未知扩展仍不公开。
     var contentTypes = new FileExtensionContentTypeProvider();
     foreach (var extension in new[] { ".cs", ".ts", ".mts" })
@@ -38,6 +43,30 @@ if (builder.Configuration["docs-only"] == "true")
     app.UseStaticFiles(new StaticFileOptions { FileProvider = docs, RequestPath = "/docs",
         ContentTypeProvider = contentTypes, ServeUnknownFileTypes = false,
         OnPrepareResponse = context => context.Context.Response.Headers.CacheControl = "no-cache" });
+    ValidatedDocumentationReference? reference = null;
+    if (builder.Configuration["reference-root"] is { Length: > 0 } referenceRoot && userGuide is not null)
+    {
+        try { reference = DocumentationPackage.ValidateReference(site, referenceRoot); }
+        catch (Exception error) when (error is IOException or InvalidDataException or UnauthorizedAccessException or ArgumentException or System.Text.Json.JsonException)
+        { app.Logger.LogWarning("Developer reference is unavailable: {ErrorType}", error.GetType().Name); }
+    }
+    if (reference is not null)
+    {
+        app.UseStaticFiles(new StaticFileOptions {
+            FileProvider = new DocumentationManifestFileProvider(reference.SiteRoot, reference.Files), RequestPath = "/reference",
+            ContentTypeProvider = contentTypes, ServeUnknownFileTypes = false,
+            OnPrepareResponse = context => context.Context.Response.Headers.CacheControl = "no-cache" });
+        app.MapGet("/reference", () => Results.Redirect("/reference/index.html"));
+    }
+    app.Use(async (context, next) =>
+    {
+        await next();
+        if (context.Request.Path.StartsWithSegments("/reference") && context.Response.StatusCode == 404 && !context.Response.HasStarted)
+        {
+            context.Response.ContentType = "text/plain; charset=utf-8";
+            if (context.Request.Method != "HEAD") await context.Response.WriteAsync("开发参考尚不可用；请在用户说明的开发参考页核对独立包和修订。");
+        }
+    });
     app.MapGet("/", () => Results.Redirect("/docs/index.html"));
     app.MapGet("/docs", () => Results.Redirect("/docs/index.html"));
     await app.RunAsync();

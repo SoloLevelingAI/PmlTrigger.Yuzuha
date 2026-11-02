@@ -1,5 +1,41 @@
 # Windows Setup validation
 
+## User guide / developer reference packaging source validation — 2026-11-02
+
+The current source splits the default task guide from the optional complete
+developer reference. The builder no longer recursively copies repository `docs`
+into the payload. A user-guide profile freezes its complete file inventory,
+source commit, version and the separate ZIP/manifest identity; an index page
+alone is insufficient. User-site limits are 40 HTML pages and 15MiB. API,
+source, test/UItrace trees and source maps are refused in that default site.
+
+The separately supplied `Phayton-<version>-Developer-Reference.zip` is verified
+without extraction, placed beside the EXE/Agent/source deliverables and listed
+in release SHA256SUMS. It is not embedded in the installer payload or Agent ZIP.
+The Agent includes only the small identity profile. Developer manifest/member,
+source/version, size/hash, duplicate/path/link and scope checks retain the same
+8MiB / 12000-member / 512MiB / 128MiB budgets as the runtime verifier. Known
+OneDrive Cloud-family storage tags are accepted; junction/symlink and unknown
+reparse families remain refused.
+
+Isolated Python regressions use synthetic files and a fake compiler that emits
+an EXE explicitly marked NEVER EXECUTE. They cover default-source exclusion,
+separate archive delivery, profile/member integrity and refusal cases. The
+existing NET48 temporary-file lifecycle regressions remain separate. Source
+and fixture verification does not prove a new real installation, runtime
+document attachment or AVEVA acceptance. Packaging does not remove historical
+documents from an existing installation; their bytes remain until a separately
+reviewed cleanup. Original full candidates and their previews are retained.
+
+An additional runtime check copied the already frozen `003` CLI/Manager
+publications into an isolated temporary application with no root `docs`
+directory. All 258 copied members matched SHA256; `builtin.usage` returned the
+embedded connection guide, and the owned Manager HTML server returned its home
+and `/guide` with the exact independently published guide content. Only that
+test-owned server was stopped. This proves those existing runtime assets do not
+need a repository-docs copy; it is not execution of the new split installer or
+acceptance of its optional reference attachment.
+
 ## Manager handoff source validation — 2026-11-01
 
 New interactive installation defaults to explicit `manager` mode. Its frozen plan

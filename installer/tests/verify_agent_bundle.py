@@ -1,5 +1,6 @@
 """Extract and verify the Agent archive, then exercise plan-only in a temp root."""
 import hashlib
+import importlib.util
 import json
 from pathlib import Path, PurePosixPath
 import subprocess
@@ -7,6 +8,11 @@ import shutil
 import sys
 import tempfile
 import zipfile
+
+repository = Path(__file__).resolve().parents[2]
+spec = importlib.util.spec_from_file_location('installer_builder', repository / 'installer/build.py')
+builder = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(builder)
 
 archive_path = Path(sys.argv[1]).resolve()
 standalone = Path(sys.argv[2]).resolve()
@@ -33,6 +39,17 @@ with tempfile.TemporaryDirectory(prefix='YuzuhaAgentBundle-') as temporary:
                  'agent-skills/yuzuha-setup/references/INSTALL.md', 'skill/SKILL.md']:
         assert name in listed, name
     assert (bundle / 'agent-skills/yuzuha-setup/references/INSTALL.md').read_bytes() == (bundle / 'INSTALL.md').read_bytes()
+    manifest = json.loads((bundle / '.setup-payload.json').read_text(encoding='utf-8-sig'))
+    profile_file = bundle / 'documentation-profile.json'
+    profile = json.loads(profile_file.read_text(encoding='utf-8-sig'))
+    assert profile['schema'] == 'phayton.user-guide/1' and profile['version'] == manifest['version']
+    assert profile['sourceCommit'] == profile['developerReference']['sourceCommit']
+    expected_profile = next(item['sha256'] for item in manifest['files'] if item['path'] == 'runtime/documentation/documentation-profile.json')
+    assert builder.file_sha256(profile_file) == expected_profile
+    reference_zip = Path(sys.argv[3]).resolve() if len(sys.argv) > 3 else standalone.parent / profile['developerReference']['fileName']
+    builder.validate_developer_reference(reference_zip, profile['developerReference'], manifest['version'])
+    assert profile['developerReference']['fileName'] not in listed, 'Developer reference must not be nested inside the Agent archive'
+    assert not any(item['path'].startswith('docs/') for item in manifest['files']), 'Default installer still contains the repository docs source tree'
     target = root / 'PmlTrigger.Test'
     request = root / 'request.json'
     request.write_text(json.dumps({'root':str(target),'mcpJson':'','skillTarget':'','environments':[]}),encoding='utf-8')
@@ -73,4 +90,4 @@ with tempfile.TemporaryDirectory(prefix='YuzuhaAgentBundle-') as temporary:
     assert all(item['kind'] == 'skill' and item['action'] == 'unchanged' and item['ownershipAction'] == 'adopt' and item['before'] for item in adopted['changes'])
     assert {p.relative_to(skill_target).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest() for p in skill_target.rglob('*') if p.is_file()} == skill_before
     assert not target.exists(), 'Adoption planning unexpectedly created installation target'
-print('PASS: archive paths/inventory/hashes, same EXE, Skill entry/reference, legacy none/manager/adoption frozen previews, default unowned refusal, and unchanged temporary Skill without installation or EVARS writes.')
+print('PASS: archive paths/inventory/hashes, same EXE, separately delivered developer reference identity, Skill entry/reference, legacy none/manager/adoption frozen previews, default unowned refusal, and unchanged temporary Skill without installation or EVARS writes.')

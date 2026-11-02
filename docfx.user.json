@@ -1,0 +1,23 @@
+{
+  "build": {
+    "content": [
+      { "files": ["*.md", "toc.yml"], "src": "docs/user-guide" }
+    ],
+    "resource": [
+      { "files": ["resources/**"], "src": "docs/user-guide" },
+      { "files": ["logo.svg"], "src": "docs/reference/template/public", "dest": "public" }
+    ],
+    "dest": "artifacts/docfx-user/site",
+    "template": ["default", "modern"],
+    "globalMetadata": {
+      "_appName": "Phayton",
+      "_appTitle": "Phayton 用户指南",
+      "_enableSearch": true,
+      "_disableContribution": true,
+      "_appLogoPath": "public/logo.svg",
+      "_appFaviconPath": "public/logo.svg",
+      "_appFooter": "Phayton · 安装准备、工程核验与 PML 任务",
+      "_lang": "zh-cn"
+    }
+  }
+}

@@ -8,6 +8,11 @@
   "scripts": {
     "test": "pwsh -NoProfile -File scripts/Test-Development.ps1",
     "docs:build": "pwsh -NoProfile -File scripts/Build-Documentation.ps1",
+    "docs:user:build": "pwsh -NoProfile -File scripts/Build-UserDocumentation.ps1",
+    "docs:user:verify-build": "pwsh -NoProfile -File tests/documentation-bundles-user-build.ps1",
+    "docs:user:browser": "node tests/documentation-bundles-browser.mjs",
+    "docs:bundles:build": "python scripts/build-documentation-bundles.py",
+    "docs:bundles:test": "python tests/documentation-bundles.test.py && node --test tests/documentation-bundles-reference.test.mjs",
     "docs:serve": "pwsh -NoProfile -File scripts/Serve-Documentation.ps1",
     "docs:catalog:check": "node scripts/documentation-catalog.mjs check",
     "architecture:generate": "node scripts/architecture.mjs generate",

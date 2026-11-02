@@ -8,8 +8,18 @@ try {
     if ($LASTEXITCODE -ne 0) { throw 'Architecture projection is stale.' }
     dotnet build tools/Documentation -c Release
     if ($LASTEXITCODE -ne 0) { throw 'Documentation test inventory build failed.' }
-    node --test tests/documentation-tests.test.mjs tests/documentation-inventory.test.mjs tests/documentation-ui-trace.test.mjs tests/documentation-ui-pages.test.mjs tests/documentation-pml-xml.test.mjs tests/pml-data-table.test.mjs scripts/catalog-filter.test.mjs
-    if ($LASTEXITCODE -ne 0) { throw 'Documentation association tests failed.' }
+    $taskDocumentationReports = Join-Path $root 'artifacts/tests/documentation-bundles'
+    New-Item -ItemType Directory -Path $taskDocumentationReports -Force | Out-Null
+    node --test tests/documentation-tests.test.mjs tests/documentation-inventory.test.mjs tests/documentation-ui-trace.test.mjs tests/documentation-ui-pages.test.mjs tests/documentation-pml-xml.test.mjs tests/pml-data-table.test.mjs scripts/catalog-filter.test.mjs tests/documentation-bundles-reference.test.mjs 2>&1 | Tee-Object -FilePath (Join-Path $taskDocumentationReports 'node.log')
+    $taskDocumentationNodeExit = $LASTEXITCODE
+    python tests/documentation-bundles.test.py 2>&1 | Tee-Object -FilePath (Join-Path $taskDocumentationReports 'python.log')
+    $taskDocumentationPythonExit = $LASTEXITCODE
+    @{ sourceCommit=(& git rev-parse HEAD).Trim(); dirty=[bool](& git status --porcelain);
+       nodeExitCode=$taskDocumentationNodeExit; pythonExitCode=$taskDocumentationPythonExit;
+       finishedUtc=[DateTime]::UtcNow.ToString('o'); ciRun=$env:GITHUB_RUN_ID;
+       scope='Documentation associations, bundle/installer inventory fixtures and explicit browser-action unit tests; no installed application or AVEVA' } |
+        ConvertTo-Json | Set-Content -LiteralPath (Join-Path $taskDocumentationReports 'unit-report.json') -Encoding utf8
+    if ($taskDocumentationNodeExit -ne 0 -or $taskDocumentationPythonExit -ne 0) { throw 'Documentation association or bundle contract tests failed.' }
     & pwsh -NoProfile -File tests/documentation-runner.test.ps1
     if ($LASTEXITCODE -ne 0) { throw 'Documented runner verification failed.' }
     dotnet test YuzuhaToolkit.Development.slnx -c Release --logger 'trx;LogFilePrefix=development' --results-directory artifacts/tests

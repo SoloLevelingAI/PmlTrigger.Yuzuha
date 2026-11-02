@@ -4,6 +4,8 @@
 
 项目主线：**准备环境 → 启动并核验目标会话 → 完成一次 PML 开发或只读核查 → 回读结果与恢复**。[主线与续作顺序](docs/reference/project-mainline.zh-CN.md)汇总 PR #13、#14 和 11 月 2 日下午 OpenSpec 提交的关系、当前缺口与本轮修改。
 
+本轮候选按用户选择拆分文档：默认安装提供任务指南，完整 API、源码、测试和界面追踪保留为独立开发参考包。工作台分别提供“使用指南”和“开发参考”入口；开发参考需手工解压后明确选择配套目录，不后台下载或写入设置。
+
 rewrite、Next 与 Ribbon/UIC 的源码、契约、测试、设计和作品集现已纳入 `integrations/`。换电脑请先读[单仓接手](docs/reference/portable-development.md)，运行 `./scripts/Test-IntegratedWorkspace.ps1`；作品集总入口为 `node scripts/Serve-IntegratedPortfolio.mjs`。不需要另行取得本机相邻项目。
 
 [契约图谱与流程组件](docs/presentation/contract-atlas/index.html)从元数据呈现总体→Feature→Script，支持项目帮助与作品集视图；打开本地HTML即可使用。[复用说明](docs/presentation/contract-atlas/README.md)介绍重新提取、JSON填充、SVG导出及FigCraft/Figma组件入口，规范与实机证据范围随图保留。

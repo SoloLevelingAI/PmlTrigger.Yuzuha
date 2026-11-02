@@ -98,6 +98,58 @@
       "purpose": "使用隔离 docs-only 站点核对 .ts、.mts、.d.mts 三类已发布源码的 GET/HEAD：原始 UTF-8 BOM/CRLF 字节、text/plain; charset=utf-8、nosniff、HEAD 空正文与准确长度；未知扩展 404、开发 GET 404、写请求 403。不执行产品安装、不修改当前 Skill 或连接 AVEVA。"
     },
     {
+      "test": "xunit:YuzuhaToolkit.Tests.DocumentationPackageTests.UserGuideOnlyRegistersDeclaredFilesAndReferenceIdentity",
+      "purpose": "隔离用户站只登记清单文件和配套开发参考身份；旧安装残留不加入当前帮助白名单。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DocumentationPackageTests.MatchingReferenceValidatesCompleteInventoryAndExposesOnlySite",
+      "purpose": "匹配用户指南修订和清单摘要后核对开发包全部成员及字节，仅返回 site 内文件供只读挂载。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DocumentationPackageTests.UserGuideRejectsDeveloperTreesAndSourceMaps",
+      "purpose": "拒绝将 API、reference、源码档案树或 sourcemap 登记成默认任务帮助，不靠页面预算掩盖交付范围。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DocumentationPackageTests.ReferenceRejectsWrongIdentityOrMissingPackage",
+      "purpose": "开发目录缺失或清单摘要、源码提交、版本不匹配时明确拒绝，不换用其他站点。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DocumentationPackageTests.ReferenceRejectsChangedOrIncompleteFileInventory",
+      "purpose": "拒绝开发参考字节篡改、额外文件和缺失成员，保留精确清单身份。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DocumentationPackageTests.ReferenceRejectsAmbiguousManifestAndUnsafePaths",
+      "purpose": "拒绝重复 JSON 字段、重复文件身份、逃逸路径和设备名，禁止有歧义的开发包。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DocumentationPackageTests.PackageBudgetsRejectOversizedClaimsBeforeOpeningMembers",
+      "purpose": "在打开成员前拒绝超过 128MiB 单文件、512MiB 总量、12000成员或8MiB清单的开发包，以及超过40 HTML/15MiB的默认帮助。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DocumentationPackageTests.UserGuideAcceptsNormalWorkspaceAndCloudAncestors",
+      "purpose": "正常工作目录及本机实际 OneDrive Cloud 祖先可读取；云占位标签不能被误当成 symlink 或 junction。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DocumentationPackageTests.ValidatedFileRechecksContentAndNewDirectoryLinks",
+      "purpose": "首次校验后再次读取仍核对摘要与路径；内容篡改或新建真实 junction 不得暴露替代文件。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DevelopmentApiTests.UserGuideManifestHidesOldAndUnlistedDocumentation",
+      "purpose": "实际 docs-only HTTP 仅提供用户清单与精确身份 profile；旧 API、UItrace和未登记文件保持404。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DevelopmentApiTests.ExplicitReferenceMountServesOnlyItsDeclaredSiteAndPlainSources",
+      "purpose": "匹配独立开发包显式挂载到 /reference，仅提供 site 白名单；source-docs不暴露，CS/TS/MTS的GET/HEAD保留原字节、纯文本与nosniff，写请求403。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DevelopmentApiTests.InvalidReferenceKeepsUserGuideAvailableWithoutFallback",
+      "purpose": "缺包或开发参考hash/修订/版本错误时用户指南继续可读，开发路径404且不冒充或重定向成用户首页。"
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.DevelopmentApiTests.ManifestMountRechecksTamperingAndDirectoryLinksAfterStartup",
+      "purpose": "Host启动后新增未登记文件、篡改成员或替换为junction仍不能通过白名单读取；只使用隔离文件和自有只读宿主。"
+    },
+    {
       "test": "xunit:YuzuhaToolkit.Tests.DualModeCommandLineTests.NativeCliListsBothExecutionAndKnowledgeOperations",
       "purpose": "Run the native CLI process and verify all execution, knowledge and launch operations are discoverable."
     },

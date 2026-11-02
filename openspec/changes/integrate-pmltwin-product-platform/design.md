@@ -10,6 +10,16 @@
 
 动机见 [proposal.md](proposal.md)。这是整体集成的候选设计，不是把所有仓库改名合并。PMLTWIN 生效需求仍为 `docs/specification/contract.json` 的 G1（开发便捷）、G2（三维辅助）、G3（持续接手）；现有管理器 change 已有后端实现，本轮不会重置其完成状态。
 
+## 文档分层交付实施决定 · 2026-11-02
+
+用户在完整候选只读验收后明确选择本轮拆分默认文档与开发参考。`003f7e9` 的完整站点为4727页/181.39MiB，其中UI静态追踪3004页/104.49MiB；另有62MiB文档源档案进入默认载荷。原候选7179项及其私密升级预览保持历史、不执行，27.16改为交付新的分层候选；27.10环境边界不变。
+
+默认用户站保持`runtime/documentation`与八阶段稳定锚点，仅含准备、启动与核验、PML开发、只读核查、结果未知与恢复等任务帮助，预算40个HTML/15MiB。独立导航和搜索只索引用户内容；不收入API、源码/测试/UI追踪树、图谱大JSON或sourcemap，不为被拆走的类型制造占位页。完整DocFX构建与校验不降低，站内路径原样进入独立`Developer-Reference.zip`的`site/`，源档案进入该包的`source-docs/`；两者不进入默认载荷或Agent ZIP。
+
+用户站`documentation-profile.json`绑定完整源码提交、版本和开发ZIP/清单摘要；开发包`developer-reference.json`列出相对路径、长度与SHA。工作台默认入口为“使用指南”，开发入口让用户选择已解压目录，选择仅在本窗口内存中保留。公共验证器检查明确目录的身份、清单、路径与实际字节；缺包、错误修订或漂移明确拒绝，无后台下载、自动解压或设置写入。复用docs-only宿主：`/docs/`为用户指南，显式`--reference-root`验证后挂载`/reference/`，仍只读loopback/GET/HEAD，不新增HTTP写接口。
+
+安装构建器拒绝把完整站点当默认用户站，停止递归复制仓库`docs/`；开发ZIP在发行目录独立列出SHA。升级不主动清理旧清单以外的历史文件，不能把新载荷减少称作旧安装磁盘已缩小。实际安装、Skill内容更新及ENV移交/部署各按新的具体预览和回执验收。原canonical状态及跨产品实机结论保持。
+
 2026-10-31 用户明确“拆单”指 rewrite 项目代码。已定位 Archon/rewrite 的工作副本，包含操作协调、部署恢复、分享迁移、平台与提权 Worker；Next 是更聚焦的登录切片，不能替代 rewrite 全部能力。当前证据及原仓核对情况见 [source-inventory.md](source-inventory.md)。用户指定 APS 为优先实际验证项目；项目可用性须实查，不把“通常存在”当成保证，不将登录秘密写入文档。
 
 ## Goals / Non-Goals

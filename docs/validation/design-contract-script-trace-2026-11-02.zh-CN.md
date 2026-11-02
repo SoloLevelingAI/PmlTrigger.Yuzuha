@@ -199,6 +199,50 @@ flowchart LR
 
 同目录还有 Script 与 1440 宽度的对照图：`before-*.png`、`after-*-1440.png`、`after-*-390.png`。
 
+主人随后在自己的 Windows 上用 file:// 打开同一页，指出面包屑会跟着滚动消失，也找不到明显入口。Script 卡片把边界声明用分号拼成大段橙色文字，多张卡片几乎相同。源码若只给 GitHub 链接，离线打不开。
+
+| 环节 | 落点 |
+|---|---|
+| 设计意图 | 顶栏固定；首页先说明这是设计意图 → 契约 → Script/Feature 的作品集，并给出入口。卡片只留一句话和状态。详情按目的、输入/输出、源码片段、证据、边界分组。共同边界在投影里上收，不在每张卡片重复 |
+| 契约条目 | 面包屑和「作品集 / 契约与实现」滚动时仍在视口内，当前项 `aria-current=page`，「总体」回到首页。卡片脸不含整段 `text.limit`。源码片段按符号从仓库相对路径截取，行号漂移则 `contracts:check` 失败。GitHub 只作为测试页上的可选对照 |
+| 实现位置 | [顶栏与首页](../../docs/presentation/contract-atlas/app.js)、[卡片与详情](../../docs/presentation/contract-atlas/components.js)、[共同边界投影](../../docs/presentation/contract-atlas/render-model.js)、[片段提取](../../scripts/extract-contract-snippets.mjs)。DocFX 测试页先嵌相对路径片段，成员源码页在完整文件前给出符号附近的片段 |
+| 测试证据 | `tests/contract-atlas-entry-browser.mjs` 已进入 `contract-workbench` 的浏览器作业。它检查滚到底后面包屑仍在视口、首屏入口卡可点、「总体」回首页、卡片脸长度、file:// 下源码片段可见。`tests/contract-snippets.test.mjs` 按符号重定位并核对字节 |
+| 剩余缺口 | 人工视觉认可仍由主人决定。`script:ui-pending-gate` 与 `script:runtime-verification` 没有唯一符号，详情写明没有单独片段，不用外链冒充。高亮只标关键字，不是完整语法着色。徽章用「待实机 / 待人工 / 离线已实现」，不用「已验证」，避免把排除项说成已经通过 |
+
+滚动前，面包屑在正文里，滑到底就离开视口。
+
+![滚动前面包屑离开视口](contract-atlas-reading-2026-11-02/sticky-before-scrolled-1440.png)
+
+滚动后，顶栏仍显示「总体 / 工程与连接 / 工程发现与启动」，视图切换还在。
+
+![滚动后顶栏仍在](contract-atlas-reading-2026-11-02/entry-scrolled-1440.png)
+
+![窄屏滚动后仍保留当前项](contract-atlas-reading-2026-11-02/entry-scrolled-390.png)
+
+首页给出四张入口卡。点「总体」或左上角标识回到这里。
+
+![作品集首页入口](contract-atlas-reading-2026-11-02/entry-home-1440.png)
+
+![窄屏首页](contract-atlas-reading-2026-11-02/entry-home-390.png)
+
+Script 卡片墙原先把边界拼成橙色长段。
+
+![修改前卡片墙](contract-atlas-reading-2026-11-02/cards-before-wall-1440.png)
+
+修改后卡片只留标题、一句话、徽章、语言和计数。
+
+![修改后卡片墙](contract-atlas-reading-2026-11-02/cards-after-wall-1440.png)
+
+Script 详情在页内给出相对路径和源码片段，不打开 GitHub。
+
+![源码片段](contract-atlas-reading-2026-11-02/script-detail-snippet-1440.png)
+
+作品集与契约视图仍用同一数据。作品集把目标放在大卡片里；契约视图把核对路径和字段表放在前面。
+
+![Feature 作品集](contract-atlas-reading-2026-11-02/entry-feature-portfolio-1440.png)
+
+![Feature 契约与实现](contract-atlas-reading-2026-11-02/entry-feature-help-1440.png)
+
 同一次提交的 push 文档作业里，隔离 WPF 烟测在 60 秒整被掐断；同一提交的 pull_request 作业通过了同一检查。等待上限改为 120 秒，回执断言没有放宽。挂起的进程仍会失败。
 
 ### 27.16 还要做的四步

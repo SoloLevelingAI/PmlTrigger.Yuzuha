@@ -8,13 +8,15 @@ const browser=await launchBrowser({headless:true});
 const page=await browser.newPage({reducedMotion:'reduce'}),errors=[],matrix=[],pathMatrix=[],checks=[];page.on('pageerror',error=>errors.push(error.message));
 const entry=pathToFileURL(path.join(root,'docs/presentation/contract-atlas/index.html')).href;
 async function ready(hash={}){await page.goto('about:blank');await page.goto(entry+'#'+new URLSearchParams(hash));await page.waitForFunction(()=>globalThis.ContractAtlas&&document.querySelector('task-map')?.model?.map);}
-async function chooseFeature(id){const group=await page.evaluate(id=>CONTRACT_ATLAS_RENDER_MODEL.taskMap.groups.find(group=>group.featureIds.includes(id)).id,id);await page.locator(`task-map [data-task-group="${group}"]`).click();await page.locator(`task-map [data-task-entity="${id}"]`).click();}
+async function chooseFeature(id){if(await page.locator('#atlas-home').isVisible())await page.locator('[data-entry="features"]').click();const group=await page.evaluate(id=>CONTRACT_ATLAS_RENDER_MODEL.taskMap.groups.find(group=>group.featureIds.includes(id)).id,id);await page.locator(`task-map [data-task-group="${group}"]`).click();await page.locator(`task-map [data-task-entity="${id}"]`).click();}
 const state=()=>page.evaluate(()=>ContractAtlas.getState());
 const branch=value=>page.locator(`#branch-navigation [data-branch="${value}"]`).click();
 try{
  for(const width of [1440,1024,390])for(const theme of ['light','dark'])for(const view of ['portfolio','help']){
   await page.setViewportSize({width,height:width===390?844:1000});await ready({view});await page.locator('#theme-select').selectOption(theme);
-  assert.equal((await state()).branch,'task');assert.equal(await page.locator('#detail-region').isVisible(),false);assert.equal(await page.locator('#methods-region').isVisible(),false);assert.equal(await page.locator('#catalog-region').isVisible(),false);assert.equal(await page.locator('#overview-brief').isVisible(),false,'counts do not precede task choice');
+  assert.equal((await state()).branch,'task');assert.equal(await page.locator('#detail-region').isVisible(),false);assert.equal(await page.locator('#methods-region').isVisible(),false);assert.equal(await page.locator('#catalog-region').isVisible(),false);assert.equal(await page.locator('#overview-brief').isVisible(),false,'counts do not precede task choice');assert.equal(await page.locator('#atlas-home').isVisible(),true);assert.ok(await page.locator('[data-entry]').count()>=3);
+  const entryBox=await page.locator('[data-entry="features"]').boundingBox();assert.ok(entryBox&&entryBox.y>=0&&entryBox.y+entryBox.height<=(width===390?844:1000),'portfolio entry card is in the first viewport');
+  await page.locator('[data-entry="features"]').click();
   assert.equal(await page.locator('task-map [data-task-group]').count(),5);const choice=await page.locator('task-map [data-task-entity="feature:launch"]').boundingBox();assert.ok(choice&&choice.y+choice.height<=(width===390?844:1000),'complete real task button is available in first viewport');assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),true);
   matrix.push({width,theme,view,firstTaskTop:choice.y,firstTaskHeight:choice.height});if(view==='portfolio')await page.screenshot({path:path.join(output,`project-${theme}-${width}.png`)});
  }

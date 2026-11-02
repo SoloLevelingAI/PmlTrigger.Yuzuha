@@ -108,9 +108,9 @@ export function buildTestDocumentation({root,navigation,types,modules,metadata,p
       '## 运行证据','**当前状态：未运行 / 未附加本次验证证据。** 静态目录不读取历史 PASS 作为当前结果。',
       '每次独立运行保存在 `'+test.evidenceDirectory+'<运行编号>/`，包含 `documented-run.json`、`console.log` 和 TRX（xUnit）。JSON 记录提交、工作区是否修改、源码 SHA256、环境、时间、执行数量和证据相对路径；以执行器打印的实际目录定位。',
       'CI 工件使用提交 SHA 和操作系统命名；仅上传本任务生成的离线报告，不上传用户工程、AVEVA 截图、活动日志或知识库。',
-      '## 源码与步骤','['+md(test.file)+':'+test.line+']('+test.sourceUrl+') · 文档源码提交 `'+revision+'`。',
-      '<details class="test-source"><summary>展开真实源码 / 人工步骤</summary>',
-      '````'+(test.kind==='xunit'?'csharp':'text')+'\n'+test.snippet+'\n````','</details>','[返回测试目录](index.md)'];
+      '## 源码与步骤','页内片段来自仓库相对路径 `'+test.file+'` 第 '+test.line+'–'+test.endLine+' 行。阅读这一页不需要打开 GitHub。',
+      '```'+(test.kind==='xunit'?'csharp':'text')+'\n'+(String(test.snippet).split(/\r?\n/).length>48?String(test.snippet).split(/\r?\n/).slice(Math.max(0,test.line-1),test.line+39).join('\n'):test.snippet)+'\n```',
+      '可选对照：['+md(test.file)+':'+test.line+']('+test.sourceUrl+')。','[返回测试目录](index.md)'];
     writeFileSync(join(directory,posix.basename(test.url).replace('.html','.md')),parts.filter(Boolean).join('\n\n')+'\n');
   }
   writeFileSync(join(directory,'index.md'),'---\ntitle: 测试目录与复刻\n_disableAffix: true\n---\n# 测试目录与复刻\n\n自动发现 xUnit 方法，明确关联 API 和 PML 函数。关联数不是覆盖率；离线兼容检查不是 AVEVA 实机通过，历史证据不是本次结果。\n\n<div id="test-explorer"></div>\n');

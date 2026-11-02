@@ -6586,7 +6586,7 @@ globalThis.CONTRACT_ATLAS_DATA = {
     {
       "id": "source:render-model",
       "title": "共同组件事实投影",
-      "sha256": "692ad8fa220552a79c55a5e5ff50261c3e851101943cabab08ebc7b996e5fbdc",
+      "sha256": "34670390fd6d10e9b61066e50eaa67fe123f4c3f5598757bc6f1d38f1315c97f",
       "authority": "presentation",
       "audience": "public"
     },

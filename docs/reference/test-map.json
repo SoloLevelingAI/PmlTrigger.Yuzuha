@@ -3249,7 +3249,7 @@
       "purpose": "以同一安装计划和恢复实现验证默认拒绝、明确接管、完整快照与原始内容；记录真实链接夹具身份，不修改生产环境。",
       "targets": [
         {
-          "uid": "SetupBridge::Program"
+          "uid": "SetupBridge::Yuzuha.SetupBridge.Program"
         }
       ]
     },

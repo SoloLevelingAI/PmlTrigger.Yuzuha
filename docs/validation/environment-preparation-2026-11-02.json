@@ -1,9 +1,9 @@
 {
   "schema": "phayton.environment-preparation-evidence/1",
-  "updatedUtc": "2026-11-02T15:13:32.495481+00:00",
-  "installedComponentSourceCommit": "04a3c9473cb0d7d5e38b98fca9042914d4663f48",
-  "status": "DEPLOYMENT_AND_LIVE_HOST_VERIFIED_COMPACT_VISUAL_PENDING",
-  "ordinaryUpgrade": "Completed and recorded separately in documentation-split-2026-11-02.json; installation itself wrote no ENV.",
+  "updatedUtc": "2026-11-03T00:14:49Z",
+  "installedComponentSourceCommit": "e56e25006bdef9b465ecc28828fd5ef43d3a0b07",
+  "status": "SELECTED_E3D_ENVIRONMENT_LIVE_HOST_AND_COMPACT_VISUAL_ACCEPTANCE_COMPLETE",
+  "ordinaryUpgrade": "04a3c94 documentation-split upgrade completed separately; latest compact e56e250 upgrade is recorded below. Both Setup transactions wrote zero ENV bytes.",
   "legacyTransfer": {
     "execution": {
       "schema": "phayton.approved-legacy-transfer/1",
@@ -38,19 +38,24 @@
     "automaticReplay": false
   },
   "visualReview": {
-    "state": "needs-adjustment",
-    "source": "User reply to the installed preparation-page visual acceptance question in the active chat.",
-    "feedback": "太长了，减少滚动的机会，需要用FigCraft调整页面内容",
-    "accepted": false,
+    "state": "accepted",
+    "accepted": true,
+    "feedback": "认可当前布局",
+    "source": "Explicit user reply about the actual e56e250 candidate preparation page before installation.",
+    "acceptanceRecordedUtc": "2026-11-02 23:44:30 UTC",
+    "scope": "Human acceptance of the actual candidate WPF, not synthetic screenshots. Installed EXE was then verified identical and the actual installed preparation page was reopened and observed separately.",
     "compactDesign": "docs/design/install-to-operation/compact-preparation.figcraft",
     "designReceipt": "docs/design/install-to-operation/compact-preparation.receipt.json",
-    "newWpfImplementation": "locally-verified; frozen publication pending",
-    "implementationEvidence": "docs/validation/preparation-compact-2026-11-02.json"
+    "newWpfImplementation": "Published from frozen e56e250, installed through approved 6df48 plan, actual installed view observed.",
+    "implementationEvidence": "docs/validation/preparation-compact-2026-11-02.json",
+    "previousReview": {
+      "state": "needs-adjustment",
+      "accepted": false,
+      "feedback": "太长了，减少滚动的机会，需要用FigCraft调整页面内容",
+      "scope": "Previous installed 04a3c94 preparation page; retained as history."
+    }
   },
-  "pending": [
-    "Publish/install the compact UI through a new specific upgrade plan if installing.",
-    "User visual acceptance of the compact actual workbench."
-  ],
+  "pending": [],
   "privacy": {
     "rawPlansAndBackupsPublished": false,
     "nestedOriginalsDecodedOrPrinted": false,
@@ -173,5 +178,96 @@
     "pmlCalls": 0,
     "modelSaved": false,
     "scope": "Live installed 04a3c94 client with selected Host; GUI project label is separate from project code, whose mapping was confirmed by the user."
+  },
+  "latestCompactUpgrade": {
+    "sourceCommit": "e56e25006bdef9b465ecc28828fd5ef43d3a0b07",
+    "planId": "6df48c7422a248f4a5fd49402d48eab8",
+    "planSha256": "268938874363172c5217271a5dc92c146ea50dcba59917dd66f2483b47c9a092",
+    "setupSha256": "b1cc4f3242c0ac67c76c97abd9063d0193af8c106b3aee1d6c43f57f36d6fbfe",
+    "setupExitCode": 0,
+    "completedUtc": "2026-11-03T00:09:09.5157558+00:00",
+    "launch": "Normal Windows RunAs UAC; no bypass; exact approved plan executed once.",
+    "payloadActions": {
+      "update": 64,
+      "unchanged": 1160,
+      "create": 0,
+      "delete": 0
+    },
+    "installedManifestSha256": "9f8dc6e04afc2970f39840e957a68885939a73ef6b8126377cb5f79f23bba880",
+    "installedMarkerSha256": "772fc38266734d5e0ea1cabe7062a485c0bba6e3a1afaa15b68e418e11a32ad9",
+    "setupResultSha256": "a895249793947d7a85d7e31aec99a00c40f8355349ccd0983a4ba82869e246fb",
+    "installedPayloadMembersVerified": 1224,
+    "resultActionsVerified": 1239,
+    "managedSkillFiles": 14,
+    "firstOriginalValuesDeepEqualApprovedPriorState": true,
+    "skillAndPmlIndexUnchanged": true,
+    "environmentWrites": 0,
+    "environmentOwnershipReintroduced": false,
+    "managerEnvironmentSha256": "468ef6f9cb88a39e322816c7f5fc89cc0f5e08d4af420df759cac5e0b53bf95c",
+    "managerRuntimeReceiptAndBackupPreserved": true,
+    "hostProfilePayloadMembers": 22,
+    "hostProfilePayloadActions": {
+      "unchanged": 22
+    },
+    "liveHostEvidenceScope": "The recorded 04a3c94 APS /ALL launch remains historical actual evidence. This UI upgrade changed none of the 22 delivered Host-profile files; no additional AVEVA launch or PML call was made.",
+    "independentReview": {
+      "localOutputRelativePath": "p4/audit/installed-after-compact-upgrade-independent-safe.json",
+      "sha256": "bc43ae04e3e62196b5efad2ab9d69dd115684157b36c91b13e2c521aba35925c"
+    },
+    "actualDocumentation": {
+      "requests": 209,
+      "listedMembersVerified": 165,
+      "htmlPages": 11,
+      "oldPhysicalLeftoversRefused": 4,
+      "defaultReferenceMounted": false,
+      "readyMilliseconds": 1144,
+      "ownHostStopped": true,
+      "receipt": {
+        "localOutputRelativePath": "p4/audit/installed-user-documentation-8bd4b7abfd27462896ff24d7343e45d7.json",
+        "sha256": "2f41bc0349faed2be18ea3c77f415e14edeccc4df1e5095a2cb81c4e8a1a18a5"
+      }
+    },
+    "actualManagerAndCli": {
+      "handoffFilesVerified": 1224,
+      "legacyEnvironmentCount": 0,
+      "builtinConnectionGuideNonempty": true,
+      "isolatedProcessesPassed": 4,
+      "receipt": {
+        "localOutputRelativePath": "p4/audit/installed-manager-cli-dc8b0d7cc17842299bbc9504c0b147ea.json",
+        "sha256": "bb170954e2f1d3b221868fdf3418cf210683c3c384cd956681bd3ff0f22083dd"
+      }
+    },
+    "actualInstalledWorkbench": {
+      "processId": 605004,
+      "startUtcTicks": "639292615333862885",
+      "mainWindowHandle": 2101974,
+      "responding": true,
+      "entrySha256": "cd7893772d3195289824f27f9d6d870e8352b784aa9ae4dbca7d9d327d668d4f",
+      "sameBinaryAsHumanAcceptedCandidate": true,
+      "receipt": {
+        "localOutputRelativePath": "p4/audit/actual-installed-compact-workbench-visible.json",
+        "sha256": "eda94c330a9a44f6e2870285994149b44346224bc3381de69b71696fe852739f"
+      }
+    },
+    "closeoutHandling": {
+      "avevaAcceptanceSessionNormallyExited": true,
+      "forcedTerminations": 0,
+      "oldLaunchDraftDiscardExplicitlyApproved": true,
+      "launchDraftDiscardClicks": 1,
+      "modelSaveClicks": 0,
+      "closeTimeoutAndUnsavedPromptHistoryRetained": true,
+      "approvedSetupReplayed": false
+    },
+    "historicalFilesCleaned": false,
+    "actualRootFiles": 12344,
+    "actualRootBytes": 917802813,
+    "historicalRootDocsFilesRetained": 1014
+  },
+  "knownFollowUp": {
+    "title": "成功启动后启动草稿可能被元数据误标为未保存",
+    "state": "source-cause-identified; fix not included in frozen approved upgrade",
+    "cause": "LastStartedUtc participates in the draft fingerprint after successful launch without baseline refresh; password-clear handling is a separately noted possibility.",
+    "observedHandling": "The actual prompt was preserved until the user explicitly approved discarding that unsaved launch draft. No claim is made that the actual draft contained only metadata changes.",
+    "notPartOfEnvironmentOrLayoutAcceptance": true
   }
 }

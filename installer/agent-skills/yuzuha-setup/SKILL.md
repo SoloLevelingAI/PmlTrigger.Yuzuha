@@ -1,6 +1,6 @@
 ---
 name: yuzuha-setup
-description: Install or update the extracted Yuzuha Windows Inno Setup distribution, or prepare optional MCP and runtime Skill integration, using a reviewed installation plan. Use for this archive's lifecycle, not live AVEVA operations.
+description: Install or update the extracted Phayton Windows program using a reviewed installation plan.
 ---
 
 # Yuzuha Windows Setup
@@ -14,54 +14,25 @@ root as two levels above this skill directory; it contains `setup`, `skill`,
    executing the helper or EXE. Reject absolute/traversal paths. A bundled
    hash detects corruption, not publisher authenticity; use the user's trusted
    download and separately supplied archive hash when available.
-2. Read `VALIDATION.md`. Run the helper on the Windows machine that has AVEVA
-   (inside the VM if AVEVA is there). Use `plan-auto` below to let the program
-   discover environments and construct the proposed plan, not model-guessed paths.
-   `discover <new-json>` is available for diagnosis; read the output JSON after
-   execution, because discovery writes a file rather than printing candidates.
-   `locate <new-json>` locates existing Yuzuha installations, not AVEVA.
-3. Confirm the install directory and selected environment files/profiles.
-   Keep `PmlTrigger` in the install folder name. Registry discovery is a
-   recommendation, not authorization. Before generating a plan, resolve the
-   client's MCP/Skill choice. If the user has not specified it, ask once:
-   "是否同时为目标 AI 客户端注册 MCP、安装 Skill？可以都安装、仅选其中一项，或暂不接入。"
-   ("Register MCP and install the runtime Skill for your AI client as part of
-   this installation? Choose both, either one, or neither.") Wait for an answer;
-   silence is not a decline. Respect an already explicit choice without asking
-   again, including files-only/no-client requests.
-   For selected integrations, confirm the client, Windows account, exact MCP
-   configuration file and/or runtime Skill directory. Being invoked from
-   Workbuddy does not prove its configuration paths or supported format.
-   Verify existing configuration or client documentation; ask if unresolved.
-   Never treat TOML as JSON. Leave only declined/not-applicable targets blank.
-   Include AVEVA and selected client changes in the same preview. Do not defer
-   this question until installation finishes or register anything automatically.
-4. Create a new request using `request.example.json` as a schema example,
-   not as real paths. Keep `integrationMode: "aveva"` and initially empty
-   environments; invoke `plan-auto` as documented, using the bundle's
-   `.setup-payload.json` and **runtime `skill` directory**, not this setup skill.
-   Present the generated Markdown preview, changed paths and before/after
-   lines. Wait for user approval before running the EXE. Automatic candidates
-   do not authorize execution. If plan-auto refuses, read `<plan>.discovery.json`
-   and its reported reasons; ask the user to resolve ambiguous/missing targets,
-   then generate an explicit selected-environment request with `plan`.
-   Never silently drop a product or change to `integrationMode: "none"` merely
-   to get a successful exit. None mode requires the user's files/client-only
-   intent. An empty default AVEVA request is rejected by the program.
-5. Execute the same EXE with the approved `/PLAN`, `/PLANHASH`, and matching
+2. Read the current version section of `INSTALL.md` and `VALIDATION.md`. Use
+   `locate <new-json>` to find existing Phayton programs. Confirm the Windows
+   account and installation directory. Keep `PmlTrigger` in the folder name.
+3. Create a request with the actual directory, `integrationMode: "none"`,
+   an empty `environments` array, and empty `mcpJson` and `skillTarget`.
+   Run `plan` with `.setup-payload.json` and the supplied `skill` argument.
+   Present the Markdown program preview and wait for approval before execution.
+4. Execute the same EXE with the approved `/PLAN`, `/PLANHASH`, and matching
    `/DIR`. Use the documented silent flags only after approval. UAC cannot be
    bypassed: an unelevated agent must request elevation through its supported
    process launcher or ask the user to launch it. Wait for exit and inspect
-   the matching `result.json`/`result.md`; an exit code alone does not prove
-   AVEVA or the AI client loaded successfully. Check `avevaIntegration`,
-   `environmentCount` and each environment path/hash, not just `status=success`.
+   the matching `result.json`/`result.md` for the program result.
+5. Use PmlTwin to deploy the installed PMLLIB and PMLUI source folders. Review the two deployment destinations
+   and confirm the EVARS switch separately after both resources verify.
 
 On failure, record the error and available reports; do not blindly retry,
 delete ownership markers, overwrite conflicts, or run vendor EVARS scripts.
 Do not launch AVEVA, rehash PML, rebuild runtimes, or index knowledge as an
 installation side effect. Preserve user data and D-drive development files.
 
-Reading this skill guides the current task; it does not register a skill in
-the client. Permanent runtime Skill copying occurs only through the approved
-`skillTarget`. Report separately: files installed, client configuration written,
-Skill files copied, and actual client loading tested or not tested.
+Report the program installation, any separately approved deployments or EVARS
+changes, and the scope of actual client verification.

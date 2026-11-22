@@ -43,31 +43,35 @@ endobject
 --
 ------------------------------------------------------------------------
 define method .YuzuhaAddin()
-  -- Rehash is an explicit maintenance action, never a module startup action.
+  !this.YuzuhaVersion()
+  -- Explicit opt-in startup policy; existing Host/Object calls retain their order.
+  !this.ApplyStartupPolicy()
+  handle any
+    !!YuzuhaStartupReport = object ARRAY()
+    !!YuzuhaStartupReport.append('[0] Trace<STRING> CommandSessionStartup')
+    !!YuzuhaStartupReport.append('[0] Status<STRING> PolicyLoadFailed')
+    !!YuzuhaStartupReport.append('[0] Error<STRING> ' + !!error.text)
+    $p Phayton startup policy failed. Inspect !!YuzuhaStartupReport.
+  endhandle
   !!YuzuhaRpc = object YuzuhaRpc()
   !!YuzuhaExecuter = object YuzuhaExcuter()
-  !this.YuzuhaVersion()
+endmethod
+
+-- <summary>Apply the independent startup policy after native session initialization and before Host setup.</summary>
+-- <remarks><para>The installer adds the Bootstrap object to an existing pml.index transactionally; runtime startup does not rebuild the index merely to discover the policy.</para></remarks>
+define method .ApplyStartupPolicy()
+  !startup = object YuzuhaStartupPolicy()
+  !startup.Apply()
 endmethod
 
 define method .YuzuhaVersion()
-  !!YuzuhaInE3D = TRUE
-  VAR !Model VAR !!FMSYS.FMINFO()[1]
-  if !Model.upcase().matchwild('*DESIGN*').not() and !Model.upcase().matchwild('*OUTFITTING*').not()  then
-    return
-  endif
-  VAR !VERSION VAR !!FMSYS.FMINFO()[0]
-  !namespace = ''
-  if (!VERSION.upcase().matchwild('*EVERY*') ) then
-    !namespace =  'Aveva.Core.Presentation'
-  else
-    !namespace =  'Aveva.Pdms.Presentation'
-    !!YuzuhaInE3D = FALSE
-  endif
+  !!YuzuhaResolveRuntimePath()
   !this.YuzuhaInitTable()
 endmethod
 
 define method .YuzuhaInitTable()
   !this.Headings    = ARRAY()
+  !this.Data        = ARRAY()
   !this.Headings[1] = 'Name'
   !this.Headings[2] = 'DllName'
   !this.YuzuhaSetNameSpaceTable('Presentation', 'Aveva.Core.Presentation', 'Aveva.Pdms.Presentation')

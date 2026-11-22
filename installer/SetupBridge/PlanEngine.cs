@@ -13,7 +13,7 @@ using Newtonsoft.Json.Linq;
 internal static partial class Program
 {
     /// <summary>内置支持的 AVEVA 产品与版本 Profile 名称。</summary>
-    internal static readonly string[] Profiles = { "AM", "PDMS", "E3D2.1", "E3D3.1.0", "E3D3.1.6" };
+    internal static readonly string[] Profiles = { "AM", "PDMS", "E3D2.1", "E3D3.1.6" };
     const string Owner2 = "Yuzuha.Inno.Plan.v2";
     const string RegPath = @"Software\YuzuhaToolkit\Installations";
     /// <summary>计算输入字节的 SHA256 小写十六进制摘要。</summary>
@@ -21,7 +21,13 @@ internal static partial class Program
     internal static string Digest(byte[] bytes) { using (var sha = SHA256.Create()) return BitConverter.ToString(sha.ComputeHash(bytes)).Replace("-", "").ToLowerInvariant(); }
     /// <summary>只读计算现有文件摘要；文件不存在时返回 null。</summary>
     /// <param name="path">当前操作要求的本机文件或目录路径。</param>
-    internal static string FileDigest(string path) { return File.Exists(path) ? Digest(File.ReadAllBytes(path)) : null; }
+    internal static string FileDigest(string path)
+    {
+        if (!File.Exists(path)) return null;
+        using (var file = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete))
+        using (var sha = SHA256.Create())
+            return BitConverter.ToString(sha.ComputeHash(file)).Replace("-", "").ToLowerInvariant();
+    }
     static Exception Bad(string text) { return new Exception("安装计划 / Installation plan: " + text); }
     /// <summary>规范化本机绝对路径并拒绝 UNC、额外冒号和重解析点。</summary>
     /// <param name="path">当前操作要求的本机文件或目录路径。</param>
@@ -114,7 +120,14 @@ internal static partial class Program
             throw Bad("Malformed managed block.");
         if (root.IndexOfAny(new[] {'&','|','<','>','!','^','(',')','%'}) >= 0) throw Bad("Install path contains batch metacharacters.");
         JArray lineEdits;
-        string after=EditEnvironmentLines(body,root,profile,legacy,nl,out lineEdits);
+        string startupActions=(string)selected["startupActions"];
+        // An update that omits this option preserves an earlier explicit managed setting.
+        if(startupActions==null && starts>0) {
+            var oldBlock=Regex.Match(before,"(?ims)^"+Regex.Escape(start)+@"\r?\n.*?^"+Regex.Escape(end)+@"(?:\r?\n|$)").Value;
+            var oldPolicy=Regex.Match(oldBlock,@"(?im)^set YUZUHA_STARTUP_ACTIONS=(none|rehash-all)\r?$");
+            if(oldPolicy.Success)startupActions=oldPolicy.Groups[1].Value.ToLowerInvariant();
+        }
+        string after=EditEnvironmentLines(body,root,profile,legacy,nl,out lineEdits,startupActions);
         if(starts>0) lineEdits.Insert(0,new JObject{["variable"]="previous managed block",["line"]=0,
             ["before"]=before.Substring(before.IndexOf(start,StringComparison.OrdinalIgnoreCase),
                 before.IndexOf(end,StringComparison.OrdinalIgnoreCase)+end.Length-before.IndexOf(start,StringComparison.OrdinalIgnoreCase)),
@@ -134,29 +147,58 @@ internal static partial class Program
         var encodedChange=Change(path, result, "environment", before, after);
         encodedChange["lineEdits"]=lineEdits;return encodedChange;
     }
+    static bool IsProgramFilesOnly(JObject request)
+    {
+        return IntegrationMode(request) == "none" && string.IsNullOrEmpty((string)request["skillTarget"]);
+    }
+
+    static bool IsUnexpectedResourcePath(string path, string version)
+    {
+        string[] parts = path.Replace('\\', '/').Split('/');
+        string top = parts[0], name = parts[parts.Length - 1];
+        if (parts.Any(part => part.Length == 0 || part.EndsWith(".") || part.EndsWith(" ")) ||
+            Same(top, "PMLLIB") || Same(top, "PMLUI") ||
+            Same(name, "PMLLIB.zip") || Same(name, "PMLUI.zip") || Same(name, "pml.index")) return true;
+        if (!Same(top, "deployment")) return false;
+        return parts.Length < 4 || !Same(parts[1], version) || (!Same(parts[2], "PMLLIB") && !Same(parts[2], "PMLUI")) ||
+            new[] { ".pdb", ".ps1", ".bat", ".cmd", ".dll", ".exe", ".zip", ".7z", ".rar" }
+                .Contains(Path.GetExtension(name), StringComparer.OrdinalIgnoreCase);
+    }
+
+    static void RequireProgramScope(JObject manifest, bool programFilesOnly)
+    {
+        if ((string)manifest["scope"] != "program") return;
+        if (!programFilesOnly)
+            throw Bad("请在 PmlTwin 管理器中部署 PML 和切换 EVARS / Use PmlTwin to deploy PML and switch EVARS.");
+        if (((JArray)manifest["files"]).OfType<JObject>()
+            .Any(file => IsUnexpectedResourcePath((string)file["path"], (string)manifest["version"])))
+            throw Bad("安装包只能在版本化 deployment 目录中包含 PML 源文件 / PML sources must be in the versioned deployment directory.");
+    }
+
     /// <summary>根据明确请求构建安装事务计划，检查所有权、冲突和可恢复变更。</summary>
     /// <param name="request">当前操作的请求数据及其显式目标或参数。</param>
     /// <param name="manifestPath">对应数据库的来源清单 JSON 路径。</param>
     /// <param name="skillSource">需要纳入计划的 Agent 使用规范来源路径。</param>
     internal static JObject CreatePlan(JObject request, string manifestPath, string skillSource)
     {
-        IntegrationMode(request);
+        RequireCliOnlyClient(request);
+        bool programFilesOnly = IsProgramFilesOnly(request);
+        var manifest = ReadObject(manifestPath);
+        RequireProgramScope(manifest, programFilesOnly);
         string root = Absolute((string)request["root"]); CheckPath(root);
         var prior = ExistingState(root); var changes = new JArray(); var managed = prior?["managed"] as JArray ?? new JArray();
-        foreach (JObject old in managed)
-            if (FileDigest((string)old["path"]) != (string)old["afterSha256"])
-                throw Bad("先检查上次安装后修改的托管文件 / Managed file changed since last install: " + old["path"]);
-        var manifest = ReadObject(manifestPath);
-        string config = (string)request["mcpJson"] ?? "";
-        if (config.Length > 0)
+        if (!programFilesOnly)
         {
-            config = Absolute(config);
-            if (config.StartsWith(root+"\\",StringComparison.OrdinalIgnoreCase)) throw Bad("MCP config must be outside installation.");
-            var merged = Merge(config,root);
-            changes.Add(Change(config,Utf8.GetBytes(merged.ToString(Formatting.Indented)+Environment.NewLine),"mcp",
-                File.Exists(config)?File.ReadAllText(config):"(new file)",merged.ToString(Formatting.Indented)));
+            foreach (JObject old in managed)
+                if (FileDigest((string)old["path"]) != (string)old["afterSha256"])
+                    throw Bad("先检查上次安装后修改的托管文件 / Managed file changed since last install: " + old["path"]);
         }
         foreach (JObject selected in request["environments"] as JArray ?? new JArray()) changes.Add(EvarChange(root,selected));
+        if (!programFilesOnly && prior != null && HasStartupPolicy((JArray)manifest["files"]))
+        {
+            var index = PmlIndexChange(root);
+            if (index != null) changes.Add(index);
+        }
         string skill = (string)request["skillTarget"] ?? "";
         if (skill.Length > 0)
         {
@@ -177,7 +219,7 @@ internal static partial class Program
         var payload = new JArray();
         foreach (JObject item in (JArray)manifest["files"])
         {
-            string path=Inside(root,(string)item["path"]); string before=FileDigest(path), after=(string)item["sha256"];
+            string path=ProtectUserData(root,(string)item["path"]); string before=FileDigest(path), after=(string)item["sha256"];
             payload.Add(new JObject { ["path"]=path,["relative"]=item["path"],["beforeSha256"]=before,["afterSha256"]=after,
                 ["action"]=before==null?"create":before==after?"unchanged":"update" });
         }
@@ -185,11 +227,12 @@ internal static partial class Program
         foreach(JObject c in changes)
         {
             if(!seen.Add((string)c["path"])) throw Bad("Multiple changes target the same file.");
-            if(((string)c["path"]).StartsWith(root+"\\",StringComparison.OrdinalIgnoreCase)) throw Bad("External configuration cannot overlap payload.");
+            if(((string)c["path"]).StartsWith(root+"\\",StringComparison.OrdinalIgnoreCase) && (string)c["kind"] != "pml-index") throw Bad("External configuration cannot overlap payload.");
         }
         return new JObject { ["schema"]=2,["id"]=Guid.NewGuid().ToString("N"),["createdUtc"]=DateTime.UtcNow.ToString("o"),
             ["request"]=request.DeepClone(),["root"]=root,["manifestSha256"]=FileDigest(manifestPath),["payload"]=payload,
-            ["changes"]=changes,["priorState"]=prior,["registryKey"]=RegPath+"\\"+Digest(Utf8.GetBytes(root.ToUpperInvariant())).Substring(0,16) };
+            ["changes"]=changes,["programFilesOnly"]=programFilesOnly,["priorState"]=prior,
+            ["registryKey"]=RegPath+"\\"+Digest(Utf8.GetBytes(root.ToUpperInvariant())).Substring(0,16) };
     }
     /// <summary>将安装计划格式化为供用户审阅的变更摘要。</summary>
     /// <param name="plan">已经构造的安装计划或查询计划数据。</param>
@@ -201,10 +244,17 @@ internal static partial class Program
         b.AppendLine("Environment targets: "+(((JObject)plan["request"])["environments"] as JArray)?.Count);
         b.AppendLine("目录 / Root: "+plan["root"]); b.AppendLine("计划 ID / Plan ID: "+plan["id"]);
         b.AppendLine("注册表 / Registry (HKCU, 64-bit): "+plan["registryKey"]);
+        int backupIndex=0;
         foreach(JObject c in (JArray)plan["changes"])
         {
             b.AppendLine("\r\n## "+c["kind"]+" / "+c["action"]+" : "+c["path"]);
             b.AppendLine("SHA256: "+c["beforeSha256"]+" -> "+c["afterSha256"]);
+            if ((string)c["action"] != "unchanged")
+            {
+                if (c["before"]?.Type == JTokenType.String) b.AppendLine("备份 / Backup: " + Path.Combine(RunDirectory(plan), "external-" + backupIndex + ".bak"));
+                backupIndex++;
+            }
+            if ((string)c["kind"] == "pml-index") b.AppendLine("本次事务先备份再补索引项；不纳入长期 managed 校验，后续合法 REHASH 不因此阻止升级或卸载。 / Transaction-only generated index, not persistent ownership.");
             if(c["lineEdits"] is JArray) {
                 foreach(JObject edit in (JArray)c["lineEdits"]) {
                     b.AppendLine("\r\n"+edit["variable"]+" | 行 / Line: "+edit["line"]);
@@ -223,6 +273,12 @@ internal static partial class Program
         b.AppendLine("\r\n已有知识库、日志、自定义 Profile 不删除。修改前备份；文件变化后重新预览。\r\nExisting data is retained. Backups precede edits. Changed files require a new preview.");
         return b.ToString();
     }
+    static void WriteProgramReview(JObject plan, string output)
+    {
+        var replacements = ((JArray)plan["payload"]).OfType<JObject>().Where(item => (string)item["action"] == "update")
+            .Select(item => (string)item["relative"]);
+        File.WriteAllLines(output, new[] { RunDirectory(plan) }.Concat(replacements), Utf8);
+    }
     /// <summary>保存完整计划文件，供后续明确批准的执行入口使用。</summary>
     /// <param name="plan">已经构造的安装计划或查询计划数据。</param>
     /// <param name="output">计划或发现结果要保存的本机输出位置。</param>
@@ -236,38 +292,53 @@ internal static partial class Program
     {
         if(!Same(FileDigest(planFile),expectedHash)) throw Bad("计划 SHA256 不匹配 / Plan checksum mismatch.");
         var plan=ReadObject(planFile); if((int?)plan["schema"]!=2 || (string)plan["manifestSha256"]!=FileDigest(manifestPath)) throw Bad("Package/plan mismatch.");
-        IntegrationMode((JObject)plan["request"]);
+        var request=(JObject)plan["request"];
+        RequireCliOnlyClient(request);
+        bool filesOnlyRequest=IsProgramFilesOnly(request);
+        bool programFilesOnly=(bool?)plan["programFilesOnly"]==true;
+        var changes=(JArray)plan["changes"];
+        if(programFilesOnly && (!filesOnlyRequest || changes.Count!=0))
+            throw Bad("纯程序安装计划不能包含接入变更 / Program-only plan cannot include configuration changes.");
         string root=Absolute((string)plan["root"]); CheckPath(root);
         Guid planId;
         if(!Guid.TryParseExact((string)plan["id"],"N",out planId)) throw Bad("Invalid plan ID.");
         if(!Same(root,Absolute((string)plan["request"]["root"]))) throw Bad("Request root differs from plan.");
         string expectedRegistry=RegPath+"\\"+Digest(Utf8.GetBytes(root.ToUpperInvariant())).Substring(0,16);
         if((string)plan["registryKey"]!=expectedRegistry) throw Bad("Invalid registry target.");
-        var expectedFiles=(JArray)ReadObject(manifestPath)["files"];
+        var manifest=ReadObject(manifestPath);
+        RequireProgramScope(manifest, programFilesOnly);
+        var expectedFiles=(JArray)manifest["files"];
+        // Previously approved plans did not declare a file-only scope and can still include index maintenance.
+        bool indexExpected=!programFilesOnly && plan["priorState"] is JObject && HasStartupPolicy(expectedFiles) && File.Exists(GeneratedIndexPath(root));
+        if (changes.OfType<JObject>().Count(c=>(string)c["kind"]=="pml-index") != (indexExpected?1:0))
+            throw Bad("Generated index scope changed or was omitted; create a new preview.");
         if(expectedFiles.Count!=((JArray)plan["payload"]).Count) throw Bad("Payload inventory differs from package.");
         foreach(JObject expected in expectedFiles)
             if(((JArray)plan["payload"]).OfType<JObject>().Count(x=>(string)x["relative"]==(string)expected["path"] &&
                 (string)x["afterSha256"]==(string)expected["sha256"])!=1) throw Bad("Payload manifest mismatch.");
         foreach(JObject item in (JArray)plan["payload"])
         {
-            if(!Same((string)item["path"],Inside(root,(string)item["relative"]))) throw Bad("Invalid payload path.");
+            if(!Same((string)item["path"],ProtectUserData(root,(string)item["relative"]))) throw Bad("Invalid payload path.");
+            string before=(string)item["beforeSha256"], after=(string)item["afterSha256"];
+            string action=before==null?"create":before==after?"unchanged":"update";
+            if((string)item["action"]!=action) throw Bad("Invalid payload action.");
             if(FileDigest((string)item["path"])!=(string)item[beforeInstall?"beforeSha256":"afterSha256"])
                 throw Bad("安装文件与预览不一致 / Payload changed: "+item["path"]);
         }
         var externalPaths=new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-        foreach(JObject item in (JArray)plan["changes"])
+        foreach(JObject item in changes)
         {
             string external=Absolute((string)item["path"]);
-            if(!externalPaths.Add(external) || Same(external,root) || external.StartsWith(root+"\\",StringComparison.OrdinalIgnoreCase))
-                throw Bad("Duplicate or overlapping external path.");
             string kind=(string)item["kind"];
-            var request=(JObject)plan["request"];
-            bool permitted=kind=="mcp" && Same(external,Absolute((string)request["mcpJson"]));
+            if(!externalPaths.Add(external) || Same(external,root) || (external.StartsWith(root+"\\",StringComparison.OrdinalIgnoreCase) && kind!="pml-index"))
+                throw Bad("Duplicate or overlapping external path.");
+            bool permitted=false;
             if(kind=="environment") permitted=(request["environments"] as JArray??new JArray()).OfType<JObject>().Any(x=>Same(external,Absolute((string)x["path"])) && (bool?)x["confirmed"]==true);
             if(kind=="skill") {
                 string target=Absolute((string)request["skillTarget"]);
                 permitted=Same(Path.GetFileName(target),"yuzuha-toolkit") && external.StartsWith(target+"\\",StringComparison.OrdinalIgnoreCase);
             }
+            if(kind=="pml-index") { VerifyPmlIndexChange(plan,item,expectedFiles); permitted=true; }
             if(!permitted) throw Bad("External path not selected in request.");
             string original=(string)item["before"];
             if((original==null?null:Digest(Convert.FromBase64String(original)))!=(string)item["beforeSha256"]) throw Bad("Invalid original content.");
@@ -276,8 +347,8 @@ internal static partial class Program
             string action=(string)item["beforeSha256"]==null?"create":(string)item["beforeSha256"]==(string)item["afterSha256"]?"unchanged":"update";
             if((string)item["action"]!=action) throw Bad("Invalid proposed action.");
         }
-        if(beforeInstall) { ExistingState(root); CheckProcesses(root); }
-        if(beforeInstall) foreach(JObject c in (JArray)plan["changes"])
+        if(beforeInstall) { ExistingState(root); if(!programFilesOnly) CheckProcesses(root); }
+        if(beforeInstall) foreach(JObject c in changes)
             if((string)c["action"]!="unchanged" && File.Exists((string)c["path"]))
                 using(var writable=new FileStream((string)c["path"],FileMode.Open,FileAccess.Write,FileShare.Read)) { }
         return plan;
@@ -292,9 +363,22 @@ internal static partial class Program
         try { if(File.Exists(path)) File.Replace(temp,path,null); else File.Move(temp,path); }
         finally { if(File.Exists(temp)) File.Delete(temp); }
     }
-    static void BeginPlan(string planFile,string hash,string manifest)
+    static JObject VerifyProgramSetup(string planFile, string hash, string manifest, string destination)
     {
-        var plan=VerifyPlan(planFile,hash,manifest,true); string report=RunDirectory(plan); Directory.CreateDirectory(report);
+        if ((string)ReadObject(manifest)["scope"] != "program")
+            throw Bad("缺少程序安装包清单 / Missing program-only package inventory.");
+        var plan = VerifyPlan(planFile, hash, manifest, true);
+        if (!Same((string)plan["root"], Absolute(destination)))
+            throw Bad("安装目录与批准计划不一致 / Install directory differs from plan.");
+        return plan;
+    }
+
+    static void BeginPlan(string planFile,string hash,string manifest, string destination = null)
+    {
+        var plan=destination==null ? VerifyPlan(planFile,hash,manifest,true) : VerifyProgramSetup(planFile,hash,manifest,destination);
+        if ((bool?)plan["programFilesOnly"] == true && (string)ReadObject(manifest)["scope"] == "program")
+            RequireProgramWriteAccess(plan);
+        string report=RunDirectory(plan); Directory.CreateDirectory(report);
         var snapshots=new JArray();
         // Back up every existing file that Setup will overwrite, plus generated state.
         foreach(string path in ((JArray)plan["payload"]).OfType<JObject>().Where(x=>(string)x["action"]!="unchanged").Select(x=>(string)x["path"])
@@ -311,6 +395,21 @@ internal static partial class Program
     static void ApplyPlan(string planFile,string hash,string manifest)
     {
         var plan=VerifyPlan(planFile,hash,manifest,false); string report=RunDirectory(plan),root=(string)plan["root"];
+        CommitConfigurationChanges(plan,report,(state,actual) =>
+        {
+            ReplaceProgramMarker(Marker(root),Utf8.GetBytes(state.ToString(Formatting.Indented)));
+            using(var baseKey=RegistryKey.OpenBaseKey(RegistryHive.CurrentUser,RegistryView.Registry64))
+            using(var key=baseKey.CreateSubKey((string)plan["registryKey"]))
+            {
+                key.SetValue("InstallLocation",root);key.SetValue("InstallGuide",Path.Combine(root,"INSTALL.md"));
+                key.SetValue("Version",(string)ReadObject(manifest)["version"]);key.SetValue("LastReport",report);
+            }
+            foreach(JObject p in (JArray)plan["payload"]) actual.Add(new JObject{["path"]=p["path"],["kind"]="payload",["status"]=p["action"],["afterSha256"]=FileDigest((string)p["path"])});
+        });
+    }
+    static void CommitConfigurationChanges(JObject plan,string report,Action<JObject,JArray> finalize)
+    {
+        string root=(string)plan["root"];
         var actual=new JArray(); var touched=new List<JObject>();
         var state=new JObject{["owner"]=Owner2,["root"]=root,["request"]=plan["request"].DeepClone(),
             ["managed"]=(plan["priorState"] as JObject)?["managed"]?.DeepClone()??new JArray(),["lastReport"]=report,["registryKey"]=plan["registryKey"]};
@@ -322,24 +421,25 @@ internal static partial class Program
                 if(FileDigest(path)!=(string)c["beforeSha256"]) throw Bad("File changed during commit: "+path);
                 if((string)c["action"]!="unchanged")
                 {
-                    if(File.Exists(path)){backup=Path.Combine(report,"external-"+touched.Count+".bak");File.Copy(path,backup,false);}
+                    if(File.Exists(path))
+                    {
+                        backup=Path.Combine(report,"external-"+touched.Count+".bak");File.Copy(path,backup,false);
+                        if(FileDigest(backup)!=(string)c["beforeSha256"] || FileDigest(path)!=(string)c["beforeSha256"])
+                            throw Bad("Configuration changed while backing up; original backup retained: "+path);
+                    }
                     touched.Add(c); AtomicBytes(path,Convert.FromBase64String((string)c["after"]));
                 }
-                var managed=(JArray)state["managed"]; var old=managed.OfType<JObject>().FirstOrDefault(x=>Same((string)x["path"],path));
-                string original=old==null?(string)c["before"]:(string)old["original"];
-                if(old!=null) old.Remove();
-                managed.Add(new JObject{["path"]=path,["kind"]=c["kind"],["original"]=original,["afterSha256"]=c["afterSha256"]});
+                if ((string)c["kind"] != "pml-index")
+                {
+                    var managed=(JArray)state["managed"]; var old=managed.OfType<JObject>().FirstOrDefault(x=>Same((string)x["path"],path));
+                    string original=old==null?(string)c["before"]:(string)old["original"];
+                    if(old!=null) old.Remove();
+                    managed.Add(new JObject{["path"]=path,["kind"]=c["kind"],["original"]=original,["afterSha256"]=c["afterSha256"]});
+                }
                 if(FileDigest(path)!=(string)c["afterSha256"]) throw Bad("Written configuration checksum mismatch: "+path);
                 actual.Add(new JObject{["path"]=path,["kind"]=c["kind"],["status"]=c["action"],["beforeSha256"]=c["beforeSha256"],["afterSha256"]=FileDigest(path),["backup"]=backup});
             }
-            AtomicBytes(Marker(root),Utf8.GetBytes(state.ToString(Formatting.Indented)));
-            using(var baseKey=RegistryKey.OpenBaseKey(RegistryHive.CurrentUser,RegistryView.Registry64))
-            using(var key=baseKey.CreateSubKey((string)plan["registryKey"]))
-            {
-                key.SetValue("InstallLocation",root);key.SetValue("InstallGuide",Path.Combine(root,"INSTALL.md"));
-                key.SetValue("Version","0.3.3");key.SetValue("LastReport",report);
-            }
-            foreach(JObject p in (JArray)plan["payload"]) actual.Add(new JObject{["path"]=p["path"],["kind"]="payload",["status"]=p["action"],["afterSha256"]=FileDigest((string)p["path"])});
+            finalize(state,actual);
             WriteResult(report,"success",actual,null);
         }
         catch(Exception ex)
@@ -387,8 +487,16 @@ internal static partial class Program
                 string current=FileDigest(path);
                 if(p!=null && current!=null && current!=(string)p["afterSha256"] && current!=(string)p["beforeSha256"])
                     throw Bad("Concurrent payload modification; do not overwrite");
-                if(backup!=null) AtomicBytes(path,File.ReadAllBytes(backup));
-                else if(p!=null && File.Exists(path)) File.Delete(path);
+                if(backup==null)
+                {
+                    if(p!=null && File.Exists(path)) File.Delete(path);
+                }
+                else if(current!=FileDigest(backup))
+                {
+                    var original=File.ReadAllBytes(backup);
+                    if(Same(path,Marker((string)plan["root"]))) ReplaceProgramMarker(path,original);
+                    else AtomicBytes(path,original);
+                }
             }
             catch(Exception ex){issues.Add(path+": "+ex.Message);}
         }
@@ -436,7 +544,11 @@ internal static partial class Program
                             ["stateFileExists"]=File.Exists(Marker(location)),["registryKey"]=RegPath+"\\"+name});
                     }
                 File.WriteAllText(args[1],installations.ToString(Formatting.Indented),Utf8);return true;
-            case "plan": SavePlan(CreatePlan(ReadObject(args[1]),args[2],args[3]),args[4]); return true;
+            case "plan":
+                var plan = CreatePlan(ReadObject(args[1]),args[2],args[3]);
+                SavePlan(plan,args[4]);
+                if(args.Length > 5) WriteProgramReview(plan,args[5]);
+                return true;
             case "plan-auto": CreateAutomaticPlan(args[1],args[2],args[3],args[4]); return true;
             case "discover-native": ExportNativeDiscovery(args[1]); return true;
             case "render":
@@ -444,6 +556,11 @@ internal static partial class Program
                 if(!Same((string)rendered["root"],Absolute(args[2]))) throw Bad("安装目录与批准计划不一致 / Install directory differs from plan.");
                 File.WriteAllText(args[3],Preview(rendered),Utf8); return true;
             case "begin-plan": BeginPlan(args[1],args[2],args[3]); return true;
+            case "verify-program-plan":
+                var program = VerifyProgramSetup(args[1],args[2],args[3],args[4]);
+                if(args.Length > 5) WriteProgramReview(program,args[5]);
+                return true;
+            case "begin-program-plan": BeginPlan(args[1],args[2],args[3],args[4]); return true;
             case "apply-plan": ApplyPlan(args[1],args[2],args[3]); return true;
             case "attach":
                 var attach=VerifyPlan(args[1],args[2],args[3],true);
@@ -452,7 +569,25 @@ internal static partial class Program
             case "abort-plan": AbortPlan(args[1]); return true;
             case "check-remove": UninstallPlan(Full(args[1]),true); return true;
             case "remove-plan": UninstallPlan(Full(args[1]),false); return true;
+            case "check-program-remove": CheckProcesses(Absolute(args[1])); return true;
+            case "remove-program-registration": RemoveProgramRegistration(Absolute(args[1])); return true;
             default: return false;
+        }
+    }
+
+    static void RemoveProgramRegistration(string root)
+    {
+        CheckPath(root);
+        string name = RegPath + "\\" + Digest(Utf8.GetBytes(root.ToUpperInvariant())).Substring(0,16);
+        using (var registry = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64))
+        {
+            using (var key = registry.OpenSubKey(name))
+            {
+                if (key == null) return;
+                if (!Same(Convert.ToString(key.GetValue("InstallLocation")), root))
+                    throw Bad("Registry ownership changed.");
+            }
+            registry.DeleteSubKey(name, false);
         }
     }
 }

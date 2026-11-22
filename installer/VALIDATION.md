@@ -1,3 +1,7 @@
+## Phayton 0.3.5.3 installer validation
+
+An isolated Windows upgrade exercised the custom overwrite dialog and completion-page Workspace launch. An ACL denial returned Windows error 5 before file copy. Restoring access allowed the same wizard to continue. The locally edited program file was backed up byte for byte, and the shared PML fixture remained intact. The isolated harness used a distinct installation ID and workbench workspace. Live AVEVA loading was outside this test.
+
 # Windows Setup v0.3.3 validation — 2026-09-20
 
 The maintainer reported successful installation testing of preview11 and
@@ -83,3 +87,11 @@ Local Windows tests are not tests on the user's VM or real AVEVA launch chain. F
 Complex INIT/BAT, Codex TOML auto-registration, and legacy PS1/preview1 migration are unsupported. AI clients do not automatically scan the registry. Recovery is not a power-loss transaction; interrupted updates may leave uninstall metadata/support files to inspect. Multi-file uninstall failure under permission changes is not acceptance-complete. Backups and reports are retained.
 
 No production AVEVA configuration/model or remote GitHub release was changed.
+
+## 2026-10-23 user-data protection
+
+NET48 regression passes: unmodified files owned by the previous package may update; local edits and unowned collisions are refused and retained. Reserved user-data paths, normalized paths such as `nested/../Apps/other.json`, database payloads, and marked user-directory descendants are rejected. Existing merge, atomic update, rollback and concurrency tests also pass. This batch does not run an installed-package upgrade or touch live AVEVA clients; full installation acceptance remains separate. See `docs/validation/2026-10-23-user-data-knowledge.md` in the source repository.
+
+## 2026-10-23 follow-up: actual local upgrade (TRACE33)
+
+The generated local `pml.index` caused the new ownership guard to refuse the initial preview. The builder now excludes that generated file and rejects any residual index in the payload. A new package and frozen plan installed successfully after the installed MCP/Knowledge processes were released. All 352 payload hashes match; 31 static user/configuration files, the generated index and both selected environment files retain their hashes. Installed-desktop isolated smoke passes with zero binding errors. No AVEVA process was launched or tested. The local EXE is unsigned; signing remains on the designated other computer. Full evidence and limitations are in `docs/validation/2026-10-23-installer-ui-preview.md`.

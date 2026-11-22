@@ -1,84 +1,100 @@
-; Windows setup: explicit plan -> preview -> approval -> execution.
+; Windows program setup with PML sources. Activate the deployed copies from PmlTwin.
 #ifndef PayloadDir
   #error PayloadDir must identify a verified staged payload.
+#endif
+#ifndef AppVersion
+  #define AppVersion "0.3.5.3"
 #endif
 #ifndef OutputDir
   #define OutputDir "..\artifacts\installer"
 #endif
 
 [Setup]
+#ifdef ProgramUpgradePreview
+AppId=Core30.Phayton.ProgramUpgradePreview
+AppName=Phayton Upgrade Preview
+PrivilegesRequired=lowest
+CreateUninstallRegKey=no
+Uninstallable=no
+OutputBaseFilename=Phayton-{#AppVersion}-Upgrade-Preview
+#else
 AppId={{6F551950-F3A9-4D2F-B771-145415993095}
-AppName=PmlTrigger.Yuzuha
-AppVersion=0.3.3
-AppVerName=Yuzuha 0.3.3 — Windows Setup
+AppName=Phayton
+PrivilegesRequired=admin
+UninstallLogMode=new
+OutputBaseFilename=Phayton-{#AppVersion}-Windows-Setup
+#endif
+AppVersion={#AppVersion}
+AppVerName=Phayton {#AppVersion} — Windows Setup
+AppComments={cm:PhaytonDesktopManager}
 AppPublisher=SoloLevelingAI
 SetupIconFile=assets\yuzuha.ico
 UninstallDisplayIcon={app}\setup\yuzuha.ico
 AppPublisherURL=https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha
 DefaultDirName={localappdata}\YuzuhaToolkit\PmlTrigger.Yuzuha
-DefaultGroupName=Yuzuha
-; Request UAC before the wizard starts, not after a plan has been approved.
-; Do not allow a command-line downgrade to a non-administrative installation.
-PrivilegesRequired=admin
+DefaultGroupName=Phayton
+UsePreviousGroup=no
 ArchitecturesAllowed=x64compatible
 ArchitecturesInstallIn64BitMode=x64compatible
 MinVersion=10.0
-WizardStyle=modern dynamic
-WizardSizePercent=120,115
 DisableWelcomePage=no
 DisableDirPage=no
 DisableProgramGroupPage=yes
 LicenseFile=..\LICENSE
 OutputDir={#OutputDir}
-OutputBaseFilename=Yuzuha-0.3.3-Windows-Setup
 Compression=lzma2
 SolidCompression=yes
 SetupLogging=yes
 CloseApplications=no
 RestartApplications=no
-UninstallDisplayName=Yuzuha — Windows Setup 0.3.3
+UninstallDisplayName=Phayton — Windows Setup {#AppVersion}
 UninstallFilesDir={app}\uninstall
 UsePreviousAppDir=yes
 UsePreviousTasks=no
-ShowLanguageDialog=yes
+ShowLanguageDialog=no
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "chinesesimp"; MessagesFile: "compiler:Default.isl,ChineseSimplified.isl"
 
+[CustomMessages]
+english.PhaytonDesktopManager=Phayton is the desktop manager for PmlTrigger.
+chinesesimp.PhaytonDesktopManager=Phayton 是 PmlTrigger 的桌面管理器。
+english.OpenWorkspace=Open Phayton Workspace
+chinesesimp.OpenWorkspace=打开 Phayton Workspace 管理器
+
 [Files]
 Source: "{#PayloadDir}\setup\Yuzuha.SetupBridge.exe"; Flags: dontcopy
 Source: "{#PayloadDir}\setup\Newtonsoft.Json.dll"; Flags: dontcopy
 Source: "{#PayloadDir}\.setup-payload.json"; Flags: dontcopy
-Source: "{#PayloadDir}\skill\*"; DestDir: "{tmp}\skill"; Flags: dontcopy recursesubdirs createallsubdirs
-Source: "{#PayloadDir}\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+#ifndef ProgramUpgradePreview
+Source: "{#PayloadDir}\*"; DestDir: "{app}"; Excludes: "\PMLLIB\*,\PMLUI\*,\deployment\*,PMLLIB.zip,PMLUI.zip,pml.index"; Flags: ignoreversion overwritereadonly recursesubdirs createallsubdirs
+Source: "{#PayloadDir}\deployment\{#AppVersion}\*"; DestDir: "{app}\deployment\{#AppVersion}"; Flags: ignoreversion overwritereadonly recursesubdirs nocompression
 
 [Icons]
-Name: "{group}\Yuzuha Workspace"; Filename: "{app}\runtime\desktop\YuzuhaToolkit.Desktop.exe"; IconFilename: "{app}\setup\yuzuha.ico"; Check: not WizardNoIcons and FileExists(ExpandConstant('{app}\runtime\desktop\YuzuhaToolkit.Desktop.exe'))
-Name: "{group}\Yuzuha — INSTALL"; Filename: "{app}\INSTALL.md"; IconFilename: "{app}\setup\yuzuha.ico"; Check: not WizardNoIcons
-Name: "{group}\Yuzuha — Folder"; Filename: "{app}"; IconFilename: "{app}\setup\yuzuha.ico"; Check: not WizardNoIcons
-Name: "{group}\Uninstall Yuzuha"; Filename: "{uninstallexe}"; Check: not WizardNoIcons
+Name: "{group}\Phayton Workspace"; Filename: "{app}\runtime\desktop\PmlTwin.Workbench.exe"; WorkingDir: "{app}\runtime\desktop"; IconFilename: "{app}\setup\yuzuha.ico"; Check: not WizardNoIcons
+Name: "{group}\Phayton — INSTALL"; Filename: "{app}\INSTALL.md"; IconFilename: "{app}\setup\yuzuha.ico"; Check: not WizardNoIcons
+Name: "{group}\Phayton — Folder"; Filename: "{app}"; IconFilename: "{app}\setup\yuzuha.ico"; Check: not WizardNoIcons
+Name: "{group}\Uninstall Phayton"; Filename: "{uninstallexe}"; Check: not WizardNoIcons
 
-[UninstallDelete]
-Type: files; Name: "{app}\.yuzuha-inno.json"
+[Run]
+Filename: "{app}\runtime\desktop\PmlTwin.Workbench.exe"; WorkingDir: "{app}\runtime\desktop"; Description: "{cm:OpenWorkspace}"; Flags: postinstall nowait runasoriginaluser skipifsilent; Check: CanOpenWorkspace
+
+#endif
 
 [Messages]
-english.WelcomeLabel1=Welcome to Yuzuha
-english.WelcomeLabel2=CONNECT / UNDERSTAND / RECORD%n%nOne Windows installer for people and AI.%n%nSelect environments and client integration, inspect every proposed change, then approve installation.%n%nNothing is connected or indexed without selection.
-english.FinishedHeadingLabel=Your Yuzuha installation is ready
-english.FinishedLabel=The approved plan has been executed.%n%nReports and backups: LocalAppData\YuzuhaToolkit\SetupReports.%n%nRestart the AI client and any AVEVA environment you configured. The installed INSTALL.md explains later AI integration.
-chinesesimp.WelcomeLabel1=欢迎使用 Yuzuha
-chinesesimp.WelcomeLabel2=连接 / 理解 / 记录%n%n为人工与 AI 提供同一个 Windows 安装入口。%n%n选择工程环境与客户端接入，检查每一项变化，确认后再执行。%n%n未勾选的环境不会修改，也不会自动建立知识库。
-chinesesimp.FinishedHeadingLabel=Yuzuha 已准备就绪
-chinesesimp.FinishedLabel=已执行批准的安装计划。%n%n实际结果与备份保存在 LocalAppData\YuzuhaToolkit\SetupReports。%n%n请重启 AI 客户端和已配置的 AVEVA 环境。安装目录的 INSTALL.md 提供后续 AI 接入说明。
+english.FinishedHeadingLabel=Your Phayton installation is ready
+english.FinishedLabel=Open File Deployment in PmlTwin to deploy shared PML sources and configure the detected AVEVA installations.%n%nReports and backups: LocalAppData\YuzuhaToolkit\SetupReports.
+chinesesimp.FinishedHeadingLabel=Phayton 已准备就绪
+chinesesimp.FinishedLabel=在 PmlTwin 的文件部署中部署共用 PML 源码，并预览各 AVEVA 版本的 EVARS 接入。%n%n报告与备份位于 LocalAppData\YuzuhaToolkit\SetupReports。
+
+#include "theme\Core30Light.iss"
 
 [Code]
 var
-  PlanPath, PlanHash, ReportFile, ManifestPath: String;
+  PlanPath, PlanHash, ReportFile, ManifestPath, ReviewFile: String;
   Prepared, Applied, Extracted: Boolean;
   FailureCode: Integer;
-  SummaryPage: TWizardPage;
-  Summary: TNewMemo;
 
 function T(ZH, EN: String): String;
 begin
@@ -90,13 +106,27 @@ begin
   Result := '"' + Value + '"';
 end;
 
+function JsonString(Value: String): String;
+var I: Integer; C: String;
+begin
+  Result := '"';
+  for I := 1 to Length(Value) do begin
+    C := Copy(Value, I, 1);
+    if C = '\' then Result := Result + '\\'
+    else if C = '"' then Result := Result + '\"'
+    else if Ord(Value[I]) < 32 then Result := Result + '\u00' +
+      Copy('0123456789abcdef', (Ord(Value[I]) div 16) + 1, 1) + Copy('0123456789abcdef', (Ord(Value[I]) mod 16) + 1, 1)
+    else Result := Result + C;
+  end;
+  Result := Result + '"';
+end;
+
 procedure ExtractSupport;
 begin
   if Extracted then Exit;
   ExtractTemporaryFile('Yuzuha.SetupBridge.exe');
   ExtractTemporaryFile('Newtonsoft.Json.dll');
   ExtractTemporaryFile('.setup-payload.json');
-  ExtractTemporaryFiles('{tmp}\skill\*');
   Extracted := True;
 end;
 
@@ -115,44 +145,60 @@ begin
   if Result <> '' then Log(Result);
 end;
 
-#include "NativePages.iss"
-
 procedure InitializeWizard;
 begin
-  WizardForm.SelectDirLabel.Caption := T(
-    '请选择安装目录。若使用其他管理员账户提权，请核对用户目录及后续 MCP/Skill 目标。',
-    'Choose the installation directory. If elevated as another administrator, review user folders and subsequent MCP/Skill targets.');
+#ifdef ProgramUpgradePreview
+  Core30InitializeLightSkin('Phayton', T('Phayton 只读升级预检', 'Phayton Read-only Upgrade Preview'), '{#AppVersion}',
+    ExpandConstant('{cm:PhaytonDesktopManager}'), True);
+#else
+  Core30InitializeLightSkin('Phayton', T('Phayton 安装程序', 'Phayton Setup'), '{#AppVersion}',
+    ExpandConstant('{cm:PhaytonDesktopManager}'), True);
+#endif
   ReportFile := ExpandConstant('{tmp}\yuzuha-error.txt');
   ManifestPath := ExpandConstant('{tmp}\.setup-payload.json');
+  ReviewFile := ExpandConstant('{tmp}\program-replacements.txt');
   PlanPath := ExpandConstant('{param:PLAN|}');
   PlanHash := ExpandConstant('{param:PLANHASH|}');
-  CreateNativePages;
-  SummaryPage := CreateCustomPage(AIPage.ID, T('安装计划预览','Installation plan preview'),
-    T('查看文件、MCP、Skill 和环境配置的具体变化','Review payload, MCP, Skill and environment changes'));
-  Summary := TNewMemo.Create(SummaryPage);
-  Summary.Parent := SummaryPage.Surface;
-  Summary.SetBounds(0,0,SummaryPage.SurfaceWidth,SummaryPage.SurfaceHeight);
-  Summary.ReadOnly := True;
-  Summary.ScrollBars := ssBoth;
-  Summary.WordWrap := False;
-  Summary.Font.Name := 'Consolas';
-  Summary.Font.Size := 9;
 end;
 
+function ShouldSkipPage(PageID: Integer): Boolean;
+begin
+  Result := (PageID = wpWelcome) or (PageID = wpLicense) or (PageID = wpReady);
+end;
+
+procedure CurPageChanged(CurPageID: Integer);
+begin
+  Core30LightPageChanged(CurPageID);
+  if (CurPageID = wpFinished) and (FailureCode <> 0) then begin
+    WizardForm.FinishedHeadingLabel.Caption := T('安装未完成', 'Installation incomplete');
+    WizardForm.FinishedHeadingLabel.Font.Color := {#Core30Danger};
+    WizardForm.FinishedLabel.Caption := T('请查看错误提示和本次安装日志。', 'See the error message and setup log.');
+  end;
+end;
+
+#ifndef ProgramUpgradePreview
+function CanOpenWorkspace: Boolean;
+begin
+  Result := Applied;
+end;
+
+function BeginProgramInstall: String;
+begin
+  Result := Bridge(ExpandConstant('{tmp}\Yuzuha.SetupBridge.exe'),'begin-program-plan',
+    Q(PlanPath) + ' ' + Q(PlanHash) + ' ' + Q(ManifestPath) + ' ' + Q(ExpandConstant('{app}')), SW_HIDE);
+  Prepared := Result = '';
+end;
+#endif
+
 function NextButtonClick(CurPageID: Integer): Boolean;
-var Error, Rendered, Request, RequestFile: String; Content: AnsiString;
+var Error, Destination, Request, RequestFile: String;
+    Review: AnsiString;
 begin
   Result := True;
-  if ExpandConstant('{param:PLAN|}') <> '' then begin
-    if CurPageID <> wpSelectDir then Exit;
-  end else begin
-    if WizardSilent and (CurPageID = wpSelectDir) then begin
-      SuppressibleMsgBox('Silent installation requires /PLAN and /PLANHASH.',mbError,MB_OK,IDOK);
-      Result := False; Exit;
-    end;
-    if CurPageID <> AIPage.ID then Exit;
-  end;
+  if CurPageID <> wpSelectDir then Exit;
+  if not WizardSilent and (not Core30AcceptedTerms or (Core30FolderError <> '')) then begin Result := False; Exit; end;
   ExtractSupport;
+  Destination := ExpandConstant('{app}');
   if ExpandConstant('{param:PLAN|}') = '' then begin
     if WizardSilent then begin
       SuppressibleMsgBox(T('静默安装必须提供批准计划及 SHA256；先按 INSTALL.md 生成预览。',
@@ -161,35 +207,56 @@ begin
     end;
     PlanPath := ExpandConstant('{tmp}\approved-plan.json');
     DeleteFile(PlanPath);
-    Request := NativeRequest;
-    if Request = '' then begin Result := False; Exit; end;
+    Request := '{"integrationMode":"none","root":'+JsonString(Destination)+
+      ',"mcpJson":"","skillTarget":"","environments":[]}';
     RequestFile := ExpandConstant('{tmp}\native-request.json');
     if not SaveStringToFile(RequestFile,UTF8Encode(Request),False) then begin
       MsgBox('Cannot write installation request.',mbError,MB_OK); Result := False; Exit;
     end;
     Error := Bridge(ExpandConstant('{tmp}\Yuzuha.SetupBridge.exe'),'plan',
-      Q(RequestFile) + ' ' + Q(ManifestPath) + ' ' + Q(ExpandConstant('{tmp}\skill')) + ' ' + Q(PlanPath), SW_HIDE);
-    if Error <> '' then begin SuppressibleMsgBox(Error,mbError,MB_OK,IDOK); Result := False; Exit; end;
+      Q(RequestFile) + ' ' + Q(ManifestPath) + ' ' + Q(ExpandConstant('{tmp}\skill')) + ' ' + Q(PlanPath) +
+      ' ' + Q(ReviewFile), SW_HIDE);
+    if Error <> '' then begin Core30ShowSetupError(Error); Result := False; Exit; end;
     PlanHash := GetSHA256OfFile(PlanPath);
   end;
   if (not FileExists(PlanPath)) or (CompareText(GetSHA256OfFile(PlanPath),PlanHash) <> 0) then begin
     SuppressibleMsgBox(T('计划不存在或 SHA256 不匹配。','Plan missing or SHA256 mismatch.'),mbError,MB_OK,IDOK);
     Result := False; Exit;
   end;
-  Rendered := ExpandConstant('{tmp}\preview.md');
-  Error := Bridge(ExpandConstant('{tmp}\Yuzuha.SetupBridge.exe'),'render',
-    Q(PlanPath) + ' ' + Q(ExpandConstant('{app}')) + ' ' + Q(Rendered), SW_HIDE);
-  if Error <> '' then begin SuppressibleMsgBox(Error,mbError,MB_OK,IDOK); Result := False; Exit; end;
-  if LoadStringFromFile(Rendered,Content) then Summary.Text := UTF8Decode(Content);
+  if not WizardSilent and (ExpandConstant('{param:PLAN|}') <> '') then begin
+    Error := Bridge(ExpandConstant('{tmp}\Yuzuha.SetupBridge.exe'),'verify-program-plan',
+      Q(PlanPath) + ' ' + Q(PlanHash) + ' ' + Q(ManifestPath) + ' ' + Q(Destination) + ' ' + Q(ReviewFile), SW_HIDE);
+    if Error <> '' then begin Core30ShowSetupError(Error); Result := False; Exit; end;
+  end;
+  if not WizardSilent then begin
+    if not LoadStringFromFile(ReviewFile, Review) then begin
+      MsgBox(T('无法读取安装预览。', 'Cannot read the installation preview.'), mbError, MB_OK);
+      Result := False; Exit;
+    end;
+    Result := Core30ConfirmOverwrite(UTF8Decode(Review));
+    if not Result then Exit;
+  end;
+#ifdef ProgramUpgradePreview
+  if Result then MsgBox(T('程序升级预检已通过。此预览只读。','The program upgrade passed preflight. This preview is read-only.'), mbInformation, MB_OK);
+  Result := False;
+#else
+  if not WizardSilent then begin
+    Error := BeginProgramInstall;
+    if Error <> '' then begin Core30ShowSetupError(Error); Result := False; end;
+  end;
+#endif
 end;
 
 function PrepareToInstall(var NeedsRestart: Boolean): String;
 begin
-  Result := Bridge(ExpandConstant('{tmp}\Yuzuha.SetupBridge.exe'),'begin-plan',
-    Q(PlanPath) + ' ' + Q(PlanHash) + ' ' + Q(ManifestPath), SW_HIDE);
-  Prepared := Result = '';
+#ifdef ProgramUpgradePreview
+  Result := 'Read-only program upgrade preview.';
+#else
+  if Prepared then Result := '' else Result := BeginProgramInstall;
+#endif
 end;
 
+#ifndef ProgramUpgradePreview
 procedure CurStepChanged(CurStep: TSetupStep);
 var Error: String;
 begin
@@ -198,9 +265,8 @@ begin
       Q(PlanPath) + ' ' + Q(PlanHash) + ' ' + Q(ManifestPath), SW_HIDE);
     if Error <> '' then begin
       FailureCode := 10;
-      WizardForm.FinishedHeadingLabel.Caption := T('安装未完成','Installation incomplete');
-      WizardForm.FinishedLabel.Caption := Error;
-      RaiseException(Error);
+      if not WizardSilent then Core30ShowSetupError(Error);
+      Exit;
     end;
     Applied := True;
   end;
@@ -224,7 +290,7 @@ function InitializeUninstall: Boolean;
 var Error: String;
 begin
   ReportFile := ExpandConstant('{tmp}\yuzuha-uninstall-error.txt');
-  Error := Bridge(ExpandConstant('{app}\setup\Yuzuha.SetupBridge.exe'),'check-remove',Q(ExpandConstant('{app}')),SW_HIDE);
+  Error := Bridge(ExpandConstant('{app}\setup\Yuzuha.SetupBridge.exe'),'check-program-remove',Q(ExpandConstant('{app}')),SW_HIDE);
   Result := Error = '';
   if not Result then SuppressibleMsgBox(Error,mbError,MB_OK,IDOK);
 end;
@@ -233,7 +299,8 @@ procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
 var Error: String;
 begin
   if CurUninstallStep = usUninstall then begin
-    Error := Bridge(ExpandConstant('{app}\setup\Yuzuha.SetupBridge.exe'),'remove-plan',Q(ExpandConstant('{app}')),SW_HIDE);
+    Error := Bridge(ExpandConstant('{app}\setup\Yuzuha.SetupBridge.exe'),'remove-program-registration',Q(ExpandConstant('{app}')),SW_HIDE);
     if Error <> '' then RaiseException(Error);
   end;
 end;
+#endif

@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "formats": [
+    {
+      "id": "7z",
+      "optional": true,
+      "dependency": "Tools/7zr.exe",
+      "developmentOverride": "YUZUHA_7ZR_PATH",
+      "commands": ["l", "t", "x"],
+      "baseFormatsWithoutDependency": ["file", "directory", "zip"],
+      "redistribution": "Include the verified standalone binary and its matching third-party notice only in a release that explicitly enables this format. No automatic download or copy from other applications."
+    }
+  ]
+}

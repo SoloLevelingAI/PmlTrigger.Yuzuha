@@ -11,10 +11,13 @@ def segment(x,y,a,b):
     return (x-a[0]-t*dx)**2+(y-a[1]-t*dy)**2<=12**2
 
 def pixel(x,y):
-    if (x-186)**2+(y-72)**2<=18**2:return (237,189,98,255)
-    if any(segment(x,y,a,b) for a,b in [((70,72),(128,132)),((128,132),(186,72)),((128,132),(128,194))]):return (219,243,232,255)
-    dx=max(64-x,0,x-192);dy=max(64-y,0,y-192)
-    return (22,60,64,255) if dx*dx+dy*dy<=56**2 else (0,0,0,0)
+    # Repository-owned Phayton P; same geometry as the SVG below.
+    stem=78<=x<=104 and 56<=y<=200
+    bowl=(104<=x<=139 and 56<=y<=150) or ((x-139)**2+(y-103)**2<=47**2 and x>=139)
+    counter=(104<=x<=139 and 82<=y<=124) or ((x-139)**2+(y-103)**2<=21**2 and x>=139)
+    if stem or (bowl and not counter): return (255,255,255,255)
+    dx=max(52-x,0,x-204);dy=max(52-y,0,y-204)
+    return (54,93,230,255) if dx*dx+dy*dy<=44**2 else (0,0,0,0)
 
 def png(size):
     rows=[]

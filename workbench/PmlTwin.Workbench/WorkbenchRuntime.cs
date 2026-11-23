@@ -25,6 +25,7 @@ public partial class MainWindow
     private bool _refreshingSessions;
     private bool _launching;
     private int _pendingSessions;
+    private IReadOnlyList<PmlSessionProcess> _pendingHostProcesses = [];
     private bool _sessionCheckFailed;
     private string _sessionMessage = "正在读取本机 AVEVA 会话。";
     private string _installationMessage = "正在识别本机 AVEVA 安装。";
@@ -39,8 +40,10 @@ public partial class MainWindow
             _sessions.FirstOrDefault(row => InInstallation(row, installation.Directory))
         : null;
 
-    private static bool InInstallation(PmlLiveSession session, string directory) =>
-        session.ExecutablePath.StartsWith(Path.TrimEndingDirectorySeparator(directory) + Path.DirectorySeparatorChar,
+    private static bool InInstallation(PmlLiveSession session, string directory) => InInstallation(session.ExecutablePath, directory);
+
+    private static bool InInstallation(string executable, string directory) =>
+        executable.StartsWith(Path.TrimEndingDirectorySeparator(directory) + Path.DirectorySeparatorChar,
             StringComparison.OrdinalIgnoreCase);
 
     private PmlWorkbenchHost LiveHost() => new(_store.DirectoryPath, receipt =>
@@ -123,6 +126,7 @@ public partial class MainWindow
                 row.Pid == selected.Pid && row.StartTicks == selected.StartTicks && row.Model == selected.Model);
             if (_session is null && _sessions.Count == 1) _session = _sessions[0];
             _pendingSessions = status.PendingHostCount;
+            _pendingHostProcesses = status.Pending;
             _sessionCheckFailed = false;
             _sessionMessage = _sessions.Count != 0 ? $"已连接 {_sessions.Count} 个会话。" :
                 _pendingSessions != 0 ? $"找到 {_pendingSessions} 个 AVEVA 进程，CLI 暂未连接。" : "当前没有正在运行的 AVEVA 会话。";
@@ -132,6 +136,7 @@ public partial class MainWindow
             _sessions = [];
             _session = null;
             _pendingSessions = 0;
+            _pendingHostProcesses = [];
             _sessionCheckFailed = true;
             _sessionMessage = error.Message;
         }

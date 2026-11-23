@@ -18,7 +18,14 @@ public sealed record PmlLiveSession(int Pid, long StartTicks, string Model, stri
         ? $"{Product} · {Model} · PID {Pid}" : $"{Product} · {Project} / {Model} · PID {Pid}";
 }
 
-public sealed record PmlSessionDiscovery(IReadOnlyList<PmlLiveSession> Verified, int PendingHostCount);
+public sealed record PmlSessionProcess(int Pid, long StartTicks, string ExecutablePath);
+
+public sealed record PmlSessionDiscovery(IReadOnlyList<PmlLiveSession> Verified, int PendingHostCount)
+{
+    public IReadOnlyList<PmlSessionProcess> Pending { get; init; } = [];
+}
+
+public sealed record PmlLoginIdentity(string Project, string User, string Mdb, string Module, string Product, string Version);
 
 public sealed record PmlSessionContext(PmlLiveSession Session, string Product, string Version, string Project,
     string Mdb, string Module, IReadOnlyList<string> Libraries)
@@ -75,36 +82,37 @@ public sealed class PmlWorkbenchHost
     {
         var result = Require(Send("aveva.sessions.list", new { }));
         var sessions = new List<PmlLiveSession>();
-        var pending = 0;
+        var pending = new List<PmlSessionProcess>();
         foreach (var row in result.Field("Sessions").Items())
         {
             var pid = row.Integer("ProcessId");
             var ticks = row.Integer("ProcessStartTimeUtcTicks");
             if (pid is <= 0 or > int.MaxValue || ticks <= 0 || ticks > DateTime.MaxValue.Ticks)
                 continue;
-            pending++;
-            if (!row.Boolean("PipeDetected"))
-                continue;
-            var target = new PhaytonTarget((int)pid, ticks, "");
-            var status = Send(StatusOperation, new { }, target, timeout: 4);
-            if (!status.Success || !target.Matches(status.Data))
-                continue;
-            var host = status.Data.Field("Host");
-            var model = host.String("Model");
-            if (!model.Equals("Unknown", StringComparison.OrdinalIgnoreCase))
-            {
-                sessions.Add(new((int)pid, ticks, model, row.String("Product"), row.String("Project"), host.String("HostVersion"))
-                {
-                    EnforcesReadOnly = host.Integer("PmlChannelModeVersion") >= 1,
-                    SupportsReviewedFunctions = host.Integer("PmlChannelModeVersion") >= 2,
-                    ReviewedFunctionLibraryReady = host.Boolean("ReviewedFunctionLibraryReady"),
-                    ExecutablePath = row.String("ExecutablePath"),
-                    LoadedHostDll = ReadLoadedHostDll((int)pid, ticks, host.String("HostFramework"))
-                });
-                pending--;
-            }
+            var process = new PmlSessionProcess((int)pid, ticks, row.String("ExecutablePath"));
+            if (ReadVerifiedSession(row, process) is { } session) sessions.Add(session);
+            else pending.Add(process);
         }
-        return new(sessions, pending);
+        return new(sessions, pending.Count) { Pending = pending };
+    }
+
+    private PmlLiveSession? ReadVerifiedSession(JsonElement row, PmlSessionProcess process)
+    {
+        if (!row.Boolean("PipeDetected")) return null;
+        var target = new PhaytonTarget(process.Pid, process.StartTicks, "");
+        var status = Send(StatusOperation, new { }, target, timeout: 4);
+        if (!status.Success || !target.Matches(status.Data)) return null;
+        var host = status.Data.Field("Host");
+        var model = host.String("Model");
+        if (model.Equals("Unknown", StringComparison.OrdinalIgnoreCase)) return null;
+        return new(process.Pid, process.StartTicks, model, row.String("Product"), row.String("Project"), host.String("HostVersion"))
+        {
+            EnforcesReadOnly = host.Integer("PmlChannelModeVersion") >= 1,
+            SupportsReviewedFunctions = host.Integer("PmlChannelModeVersion") >= 2,
+            ReviewedFunctionLibraryReady = host.Boolean("ReviewedFunctionLibraryReady"),
+            ExecutablePath = process.ExecutablePath,
+            LoadedHostDll = ReadLoadedHostDll(process.Pid, process.StartTicks, host.String("HostFramework"))
+        };
     }
 
     private static string ReadLoadedHostDll(int pid, long startTicks, string framework)
@@ -127,14 +135,28 @@ public sealed class PmlWorkbenchHost
         }
     }
 
+    public PmlLoginIdentity? TryReadLoginIdentity(PmlLiveSession session)
+    {
+        var target = Target(session);
+        var status = Send(StatusOperation, new { }, target, timeout: 4);
+        return status.Success && target.Matches(status.Data) ? ReadLoginIdentity(target, status) : null;
+    }
+
+    private PmlLoginIdentity ReadLoginIdentity(PhaytonTarget target, PhaytonReceipt status)
+    {
+        var identity = new AvevaLoginSession(_client).ReadIdentity(target, status);
+        var fields = identity.Child("session");
+        if (identity.Field("state")?.Value != "observed" || fields is null)
+            throw new PmlHostOperationException(identity.Child("message")?.Value ?? "无法读取实际项目、用户、MDB 和模块。");
+        string Field(string name) => fields.Field(name)?.Value ?? "";
+        return new(Field("project"), Field("user"), Field("mdb"), Field("module"), Field("product"), Field("version"));
+    }
+
     public PmlSessionContext Context(PmlLiveSession session)
     {
         var target = Target(session);
         var status = Verify(target);
-        var identity = new AvevaLoginSession(_client).ReadIdentity(target, status);
-        var fields = identity.Child("session");
-        if (identity.Field("state")?.Value != "observed" || fields is null)
-            throw new PmlHostOperationException(identity.Child("message")?.Value ?? "无法读取实际项目、MDB 和模块。");
+        var identity = ReadLoginIdentity(target, status);
         var rows = ReadMacro(target, """
             var !path evar PMLLIB
             !!RESULT.append('[0] PmlLib<STRING> ' + !path)
@@ -145,9 +167,8 @@ public sealed class PmlWorkbenchHost
             .Select(path => Path.TrimEndingDirectorySeparator(Path.GetFullPath(path)))
             .Distinct(StringComparer.OrdinalIgnoreCase).ToArray();
         if (libraries.Length == 0) throw new InvalidDataException("会话没有返回可用的 PMLLIB 目录。");
-        string Field(string name) => fields.Field(name)?.Value ?? "";
         return new(session with { HostVersion = status.Data.Field("Host").String("HostVersion") },
-            Field("product"), Field("version"), Field("project"), Field("mdb"), Field("module"), libraries);
+            identity.Product, identity.Version, identity.Project, identity.Mdb, identity.Module, libraries);
     }
 
     public IReadOnlyList<string> ShownForms(PmlLiveSession session)

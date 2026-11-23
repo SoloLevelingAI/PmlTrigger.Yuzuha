@@ -1,3 +1,5 @@
+using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -152,7 +154,7 @@ public partial class MainWindow
         ReloadList();
         return Card("快捷登录", Stack(bar, Below(caption, 5), Below(list, 3),
             Below(Actions(Jump(Data.Profiles.Count == 0 ? "新建登录配置" : "管理配置", "Profiles"), launch), 6),
-            Below(Muted(_launchMessage), _launchMessage.Length > 0 ? 6 : 0)), Jump("打开启动器", "Launch"));
+            LaunchFeedback()), Jump("打开启动器", "Launch"));
     }
 
     private void OpenQuickFilter()
@@ -169,6 +171,9 @@ public partial class MainWindow
     {
         if (_launching) return;
         _launching = true;
+        _launchMessage = $"正在准备启动 {profile.Target}。";
+        Render();
+        PmlLog? receipt = null;
         try
         {
             var installation = ProfileInstallation(profile);
@@ -184,7 +189,7 @@ public partial class MainWindow
             var (target, identity) = Credential(profile);
             string? secret;
             try { secret = credentials.Read(target, identity); }
-            catch (System.ComponentModel.Win32Exception) { secret = null; }
+            catch (Win32Exception) { secret = null; }
             if (string.IsNullOrEmpty(secret))
             {
                 var password = Id(new PasswordBox { MaxLength = 1024 }, "LaunchPassword");
@@ -197,12 +202,18 @@ public partial class MainWindow
                     if (typed.Length > 0) return true;
                     notice.Show("请填写 AVEVA 密码。", "warning");
                     return false;
-                }, password)) { password.Clear(); return; }
+                }, password))
+                {
+                    password.Clear();
+                    _launchMessage = $"已取消启动 {profile.Target}。";
+                    return;
+                }
                 secret = password.Password;
                 password.Clear();
             }
             var requestedAt = DateTimeOffset.UtcNow;
             var submitted = await Task.Run(() => workflow.Launch(prepared, () => secret));
+            secret = null;
             var process = submitted.DescendantsAndSelf().FirstOrDefault(row => Value(row, "status") == "Submitted");
             if (!int.TryParse(Value(process, "pid"), out var pid) || pid <= 0)
                 throw new InvalidDataException("启动器没有返回已提交的进程回执。");
@@ -211,46 +222,165 @@ public partial class MainWindow
             Data.Recent.Remove(profile.Id);
             Data.Recent.Insert(0, profile.Id);
             if (Data.Recent.Count > 5) Data.Recent.RemoveAt(5);
-            _launchMessage = $"已提交 {profile.Target} · PID {pid}，正在等待会话。";
-            RecordLog("AVEVA 启动", "已提交", 0, _launchMessage, "");
+            _launchMessage = $"正在启动 {profile.Target}，等待 AVEVA 会话 · 入口 PID {pid}。";
+            receipt = RecordLog("AVEVA 启动", "运行中", null, _launchMessage, "");
             Render();
-            await ObserveLaunch(profile, pid, startTicks, requestedAt);
+            await ObserveLaunch(profile, pid, startTicks, requestedAt, receipt);
         }
         catch (Exception error) when (WorkbenchError(error))
         {
-            _launchMessage = error.Message;
-            RecordLog("AVEVA 启动", "失败", null, "", error.Message);
-            Tell(error.Message);
+            if (receipt is not null)
+                FinishLaunch(receipt, "待核对", $"无法检查 {profile.Target} 的会话。", error.Message);
+            else
+            {
+                _launchMessage = error.Message;
+                RecordLog("AVEVA 启动", "失败", null, "", error.Message);
+                Tell(error.Message);
+            }
         }
         finally { _launching = false; Render(); }
     }
 
-    private async Task ObserveLaunch(LoginProfile profile, int pid, long startTicks, DateTimeOffset requestedAt)
+    private async Task ObserveLaunch(LoginProfile profile, int pid, long startTicks, DateTimeOffset requestedAt, PmlLog receipt)
     {
-        bool MatchesProjectModule(PmlLiveSession row) =>
-            row.Project.Equals(profile.Project, StringComparison.OrdinalIgnoreCase) &&
-            row.Model.Equals(profile.Module, StringComparison.OrdinalIgnoreCase);
+        bool IsNewProcess(long start, string executable) =>
+            start >= requestedAt.UtcTicks && InInstallation(executable, profile.Install);
+        bool IsEntry(PmlLiveSession session) => session.Pid == pid && session.StartTicks == startTicks;
 
-        var deadline = DateTimeOffset.UtcNow.AddSeconds(48);
-        while (IsLoaded && DateTimeOffset.UtcNow < deadline)
+        var identities = new Dictionary<(int Pid, long StartTicks), PmlLoginIdentity?>();
+        var host = new PmlWorkbenchHost(_store.DirectoryPath);
+        var elapsed = Stopwatch.StartNew();
+        string? identityError = null;
+        PmlLiveSession[] candidates = [];
+        var ambiguous = false;
+        var monitorReported = false;
+        var hostReported = false;
+        while (IsLoaded && elapsed.Elapsed < TimeSpan.FromSeconds(48))
         {
             await RefreshSessions(redraw: false);
-            var candidates = _sessions.Where(row => row.StartTicks >= requestedAt.UtcTicks).ToArray();
-            var matching = candidates.Where(row => InInstallation(row, profile.Install) && MatchesProjectModule(row)).ToArray();
-            var session = candidates.FirstOrDefault(row => row.Pid == pid && (startTicks == 0 || row.StartTicks == startTicks))
-                ?? (matching.Length == 1 ? matching[0] : null);
-            if (session is not null)
+            candidates = _sessions.Where(row => IsNewProcess(row.StartTicks, row.ExecutablePath)).ToArray();
+            var possible = candidates.Where(row => IsEntry(row) || SameField(row.Model, profile.Module)).ToArray();
+            if (!hostReported && IsLoaded && possible.Length > 0)
             {
-                _session = session;
-                _launchMessage = MatchesProjectModule(session)
-                    ? $"{profile.Target} 已打开，CLI 已连接 · PID {session.Pid}。"
-                    : $"CLI 已连接 · PID {session.Pid} · {session.Model}，请核对实际工程。";
+                hostReported = true;
+                _launchMessage = $"CLI 已连接，正在核对 {profile.Target} 的工程、用户和 MDB。";
+                Render();
+            }
+            foreach (var session in possible)
+            {
+                var key = (session.Pid, session.StartTicks);
+                if (identities.ContainsKey(key)) continue;
+                try
+                {
+                    // A lost status handshake can recover while the new Host starts.
+                    // Cache actual identity requests, including failures, so PML is never replayed here.
+                    if (await Task.Run(() => host.TryReadLoginIdentity(session)) is { } identity)
+                        identities[key] = identity;
+                }
+                catch (Exception error) when (WorkbenchError(error))
+                {
+                    identities[key] = null;
+                    identityError ??= error.Message;
+                }
+            }
+
+            var matching = possible.Where(session => MatchesLogin(profile, identities.GetValueOrDefault((session.Pid, session.StartTicks)))).ToArray();
+            var confirmed = matching.FirstOrDefault(IsEntry) ?? (matching.Length == 1 ? matching[0] : null);
+            if (confirmed is not null)
+            {
+                _session = confirmed;
+                FinishLaunch(receipt, "成功", $"已登录 {profile.Target} · MDB {profile.Mdb} · CLI 已连接 · PID {confirmed.Pid}。");
                 return;
+            }
+            ambiguous = matching.Length > 1;
+            if (!monitorReported && IsLoaded && candidates.Length == 0 && elapsed.Elapsed.TotalSeconds >= 6 &&
+                VisibleMonitor(profile.Install, requestedAt.UtcTicks) is { } monitorPid)
+            {
+                monitorReported = true;
+                _launchMessage = MonitorMessage(profile, monitorPid);
+                Render();
             }
             await Task.Delay(1600);
         }
-        _launchMessage = $"已提交 {profile.Target} · PID {pid}。可在会话与 CLI 刷新核对。";
+
+        if (!IsLoaded) return;
+        if (_sessionCheckFailed)
+            FinishLaunch(receipt, "待核对", $"无法检查 {profile.Target} 的会话。", _sessionMessage);
+        else if (ambiguous)
+            FinishLaunch(receipt, "待核对", $"有多个匹配 {profile.Target} 的新会话，请在会话与 CLI 中选择。");
+        else if (candidates.Length > 0)
+            FinishLaunch(receipt, "待核对", $"CLI 已连接，但尚未确认 {profile.Target} 的登录身份。", identityError ?? "");
+        else if (_pendingHostProcesses.Any(process => IsNewProcess(process.StartTicks, process.ExecutablePath)))
+            FinishLaunch(receipt, "待核对", $"发现新的 AVEVA 窗口，CLI 尚未连接。可在会话与 CLI 中刷新。");
+        else if (VisibleMonitor(profile.Install, requestedAt.UtcTicks) is { } remainingMonitorPid)
+            FinishLaunch(receipt, "待核对", MonitorMessage(profile, remainingMonitorPid));
+        else if (EntryExited(pid, startTicks))
+            FinishLaunch(receipt, "失败", $"AVEVA 启动进程已退出，未确认 {profile.Target}。请查看 AVEVA 的提示或启动日志。");
+        else
+            FinishLaunch(receipt, "待核对", $"AVEVA 仍在启动，尚未确认 {profile.Target}。请查看 AVEVA 登录窗口。");
     }
+
+    private static bool MatchesLogin(LoginProfile profile, PmlLoginIdentity? identity) => identity is not null &&
+        SameField(identity.Project, profile.Project) && SameField(identity.User, profile.User) &&
+        SameField(identity.Mdb.TrimStart('/'), profile.Mdb.Trim().TrimStart('/')) && SameField(identity.Module, profile.Module);
+
+    private static bool SameField(string actual, string expected) =>
+        actual.Trim().Equals(expected.Trim(), StringComparison.OrdinalIgnoreCase);
+
+    private static string MonitorMessage(LoginProfile profile, int pid) => SameField(profile.Module, "Monitor")
+        ? $"AVEVA Monitor 已打开 · PID {pid}。请在原厂窗口核对工程和用户。"
+        : $"尚未进入 {profile.Target}。AVEVA Monitor 已打开 · PID {pid}，请在原厂窗口核对 MDB 和模块。";
+
+    private static int? VisibleMonitor(string installation, long requestedTicks)
+    {
+        // The CLI intentionally discovers engineering sessions only. Monitor can outlive the entry PID.
+        var executable = Path.Combine(installation, "mon.exe");
+        var processes = Process.GetProcessesByName("mon");
+        try
+        {
+            foreach (var process in processes)
+            {
+                try
+                {
+                    if (process.MainWindowHandle != IntPtr.Zero && process.StartTime.ToUniversalTime().Ticks >= requestedTicks &&
+                        process.MainWindowTitle.Contains("Monitor", StringComparison.OrdinalIgnoreCase) &&
+                        string.Equals(process.MainModule?.FileName, executable, StringComparison.OrdinalIgnoreCase))
+                        return process.Id;
+                }
+                catch (Exception error) when (error is InvalidOperationException or Win32Exception or NotSupportedException) { }
+            }
+            return null;
+        }
+        finally { foreach (var process in processes) process.Dispose(); }
+    }
+
+    private static bool EntryExited(int pid, long startTicks)
+    {
+        try
+        {
+            using var process = Process.GetProcessById(pid);
+            return process.HasExited || (startTicks != 0 && process.StartTime.ToUniversalTime().Ticks != startTicks);
+        }
+        catch (Exception error) when (error is ArgumentException or InvalidOperationException) { return true; }
+        catch (Win32Exception) { return false; }
+    }
+
+    private void FinishLaunch(PmlLog receipt, string state, string message, string error = "")
+    {
+        _launchMessage = message;
+        AcceptExecutionLog(receipt with
+        {
+            Sequence = receipt.Sequence + 1,
+            When = DateTimeOffset.Now,
+            State = state,
+            ExitCode = state == "成功" ? 0 : null,
+            Output = receipt.Output + Environment.NewLine + message,
+            Error = error
+        });
+    }
+
+    private FrameworkElement LaunchFeedback() =>
+        Below(Id(Muted(_launchMessage), "LaunchStatus"), _launchMessage.Length > 0 ? 6 : 0);
 
     private (string Target, string Identity) Credential(LoginProfile profile) => (
         LaunchCredentialKeys.Target(_store.DirectoryPath, profile.Id),
@@ -271,15 +401,22 @@ public partial class MainWindow
                 return;
             }
             _profileId = profile.Id;
-            var actions = manage ? Actions(AsyncBtn("编辑", "EditProfile", () => EditProfile(profile)),
+            FrameworkElement actions;
+            if (manage)
+                actions = Actions(AsyncBtn("编辑", "EditProfile", () => EditProfile(profile)),
                     AsyncBtn("复制", "CopyProfile", () => EditProfile(profile, true)),
-                    AsyncBtn("归档", "ArchiveProfile", () => ArchiveProfile(profile))) :
-                Actions(AsyncBtn("一键登录 " + profile.Module, "LaunchProfile", () => Launch(profile), "Button.Primary"),
-                    Jump("CLI 状态", "Cli"));
+                    AsyncBtn("归档", "ArchiveProfile", () => ArchiveProfile(profile)));
+            else
+            {
+                var login = AsyncBtn(_launching ? "正在登录…" : "一键登录 " + profile.Module, "LaunchProfile",
+                    () => Launch(profile), "Button.Primary");
+                login.IsEnabled = !_launching;
+                actions = Actions(login, Jump("CLI 状态", "Cli"));
+            }
             details.Content = Card("当前配置", Stack(Details([
                 ("名称", profile.Name), ("AVEVA", ProfileInstallation(profile)?.ToString() ?? profile.Install),
                 ("项目／模块", profile.Target), ("用户", profile.User), ("MDB", profile.Mdb)
-            ]), Below(actions, 9), Below(Muted(_launchMessage), _launchMessage.Length > 0 ? 6 : 0)));
+            ]), Below(actions, 9), LaunchFeedback()));
         }
         void Filter()
         {

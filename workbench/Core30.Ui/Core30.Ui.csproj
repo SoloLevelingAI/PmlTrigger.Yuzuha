@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Version>1.1.1</Version>
+    <Description>Native light theme and workbench components for Core30.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <Resource Include="Fonts/*.otf;Fonts/*.ttf" />
+    <None Update="Fonts/*-SIL-OFL.txt" Pack="true" PackagePath="licenses/%(Filename)%(Extension)" />
+    <None Update="Design/Core30-Light.tokens.json" Pack="true" PackagePath="design/Core30-Light.tokens.json" />
+  </ItemGroup>
+</Project>

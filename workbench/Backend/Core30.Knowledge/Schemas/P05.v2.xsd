@@ -1,0 +1,29 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:k="urn:core30:P05:v2" targetNamespace="urn:core30:P05:v2" elementFormDefault="qualified">
+  <xs:simpleType name="limit">
+    <xs:restriction base="xs:int"><xs:minInclusive value="1" /><xs:maxInclusive value="20" /></xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="kind">
+    <xs:restriction base="xs:string"><xs:enumeration value="document" /><xs:enumeration value="note" /></xs:restriction>
+  </xs:simpleType>
+  <xs:element name="request">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element name="search">
+          <xs:complexType>
+            <xs:attribute name="catalog" type="xs:string" use="required" />
+            <xs:attribute name="query" type="xs:string" />
+            <xs:attribute name="kind" type="k:kind" />
+            <xs:attribute name="limit" type="k:limit" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="read">
+          <xs:complexType>
+            <xs:attribute name="catalog" type="xs:string" use="required" />
+            <xs:attribute name="id" type="xs:string" use="required" />
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

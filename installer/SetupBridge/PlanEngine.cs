@@ -276,8 +276,9 @@ internal static partial class Program
     static void WriteProgramReview(JObject plan, string output)
     {
         var replacements = ((JArray)plan["payload"]).OfType<JObject>().Where(item => (string)item["action"] == "update")
-            .Select(item => (string)item["relative"]);
-        File.WriteAllLines(output, new[] { RunDirectory(plan) }.Concat(replacements), Utf8);
+            .Select(item => (string)item["relative"]).ToArray();
+        File.WriteAllLines(output, new[] { RunDirectory(plan), replacements.Length > 0 ? "upgrade" : "fresh" }
+            .Concat(replacements), Utf8);
     }
     /// <summary>保存完整计划文件，供后续明确批准的执行入口使用。</summary>
     /// <param name="plan">已经构造的安装计划或查询计划数据。</param>
@@ -288,7 +289,11 @@ internal static partial class Program
         Directory.CreateDirectory(Path.GetDirectoryName(output)); File.WriteAllText(output,plan.ToString(Formatting.Indented),Utf8);
         File.WriteAllText(output+".md",Preview(plan),Utf8); File.WriteAllText(output+".sha256",FileDigest(output),Utf8);
     }
-    static JObject VerifyPlan(string planFile,string expectedHash,string manifestPath,bool beforeInstall)
+    static JObject VerifyPlan(string planFile,string expectedHash,string manifestPath,bool beforeInstall) =>
+        ReadVerifiedPlan(planFile, expectedHash, manifestPath, beforeInstall);
+
+    static JObject ReadVerifiedPlan(string planFile, string expectedHash, string manifestPath, bool beforeInstall,
+        string destination = null, bool verifyWhileBackingUp = false)
     {
         if(!Same(FileDigest(planFile),expectedHash)) throw Bad("计划 SHA256 不匹配 / Plan checksum mismatch.");
         var plan=ReadObject(planFile); if((int?)plan["schema"]!=2 || (string)plan["manifestSha256"]!=FileDigest(manifestPath)) throw Bad("Package/plan mismatch.");
@@ -300,12 +305,16 @@ internal static partial class Program
         if(programFilesOnly && (!filesOnlyRequest || changes.Count!=0))
             throw Bad("纯程序安装计划不能包含接入变更 / Program-only plan cannot include configuration changes.");
         string root=Absolute((string)plan["root"]); CheckPath(root);
+        if (destination != null && !Same(root, Absolute(destination)))
+            throw Bad("安装目录与批准计划不一致 / Install directory differs from plan.");
         Guid planId;
         if(!Guid.TryParseExact((string)plan["id"],"N",out planId)) throw Bad("Invalid plan ID.");
         if(!Same(root,Absolute((string)plan["request"]["root"]))) throw Bad("Request root differs from plan.");
         string expectedRegistry=RegPath+"\\"+Digest(Utf8.GetBytes(root.ToUpperInvariant())).Substring(0,16);
         if((string)plan["registryKey"]!=expectedRegistry) throw Bad("Invalid registry target.");
         var manifest=ReadObject(manifestPath);
+        if (destination != null && (string)manifest["scope"] != "program")
+            throw Bad("缺少程序安装包清单 / Missing program-only package inventory.");
         RequireProgramScope(manifest, programFilesOnly);
         var expectedFiles=(JArray)manifest["files"];
         // Previously approved plans did not declare a file-only scope and can still include index maintenance.
@@ -313,17 +322,20 @@ internal static partial class Program
         if (changes.OfType<JObject>().Count(c=>(string)c["kind"]=="pml-index") != (indexExpected?1:0))
             throw Bad("Generated index scope changed or was omitted; create a new preview.");
         if(expectedFiles.Count!=((JArray)plan["payload"]).Count) throw Bad("Payload inventory differs from package.");
-        foreach(JObject expected in expectedFiles)
-            if(((JArray)plan["payload"]).OfType<JObject>().Count(x=>(string)x["relative"]==(string)expected["path"] &&
-                (string)x["afterSha256"]==(string)expected["sha256"])!=1) throw Bad("Payload manifest mismatch.");
+        var digests = expectedFiles.OfType<JObject>().ToDictionary(file => (string)file["path"], file => (string)file["sha256"], StringComparer.Ordinal);
         foreach(JObject item in (JArray)plan["payload"])
         {
-            if(!Same((string)item["path"],ProtectUserData(root,(string)item["relative"]))) throw Bad("Invalid payload path.");
+            string relative = (string)item["relative"], path = (string)item["path"], expected;
             string before=(string)item["beforeSha256"], after=(string)item["afterSha256"];
+            if (!digests.TryGetValue(relative, out expected) || after != expected)
+                throw Bad("Payload manifest mismatch.");
+            digests.Remove(relative);
+            if(!Same(path,ProtectUserData(root,relative))) throw Bad("Invalid payload path.");
             string action=before==null?"create":before==after?"unchanged":"update";
             if((string)item["action"]!=action) throw Bad("Invalid payload action.");
-            if(FileDigest((string)item["path"])!=(string)item[beforeInstall?"beforeSha256":"afterSha256"])
-                throw Bad("安装文件与预览不一致 / Payload changed: "+item["path"]);
+            // The upgrade checks replacements while copying the backup. Retained files are checked at commit.
+            if ((!verifyWhileBackingUp || action == "create") && FileDigest(path) != (beforeInstall ? before : after))
+                throw ChangedPayload(path);
         }
         var externalPaths=new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         foreach(JObject item in changes)
@@ -363,34 +375,57 @@ internal static partial class Program
         try { if(File.Exists(path)) File.Replace(temp,path,null); else File.Move(temp,path); }
         finally { if(File.Exists(temp)) File.Delete(temp); }
     }
-    static JObject VerifyProgramSetup(string planFile, string hash, string manifest, string destination)
-    {
-        if ((string)ReadObject(manifest)["scope"] != "program")
-            throw Bad("缺少程序安装包清单 / Missing program-only package inventory.");
-        var plan = VerifyPlan(planFile, hash, manifest, true);
-        if (!Same((string)plan["root"], Absolute(destination)))
-            throw Bad("安装目录与批准计划不一致 / Install directory differs from plan.");
-        return plan;
-    }
+    static Exception ChangedPayload(string path) =>
+        Bad("安装文件与预览不一致 / Payload changed: " + path);
 
-    static void BeginPlan(string planFile,string hash,string manifest, string destination = null)
+    static void BeginPlan(string planFile,string hash,string manifest, string destination = null, string retainedFiles = null)
     {
-        var plan=destination==null ? VerifyPlan(planFile,hash,manifest,true) : VerifyProgramSetup(planFile,hash,manifest,destination);
+        bool retainUnchanged = retainedFiles != null;
+        var plan = ReadVerifiedPlan(planFile, hash, manifest, true, destination, verifyWhileBackingUp: retainUnchanged);
         if ((bool?)plan["programFilesOnly"] == true && (string)ReadObject(manifest)["scope"] == "program")
-            RequireProgramWriteAccess(plan);
+            RequireProgramWriteAccess(plan, retainUnchanged);
         string report=RunDirectory(plan); Directory.CreateDirectory(report);
+        string backupDirectory = Directory.CreateDirectory(Path.Combine(report, "backup-" + Guid.NewGuid().ToString("N"))).FullName;
+        var payload = ((JArray)plan["payload"]).OfType<JObject>().ToArray();
         var snapshots=new JArray();
-        // Back up every existing file that Setup will overwrite, plus generated state.
-        foreach(string path in ((JArray)plan["payload"]).OfType<JObject>().Where(x=>(string)x["action"]!="unchanged").Select(x=>(string)x["path"])
-            .Concat(new[]{Marker((string)plan["root"])}))
+        foreach (JObject file in payload.Where(item => (string)item["action"] != "unchanged"))
         {
-            string backup=null; if(File.Exists(path)){backup=Path.Combine(report,"payload-"+snapshots.Count+".bak");File.Copy(path,backup,false);}
-            snapshots.Add(new JObject{["path"]=path,["backup"]=backup});
+            string path = (string)file["path"], before = (string)file["beforeSha256"], backup = null;
+            if (before != null)
+            {
+                backup = Path.Combine(backupDirectory, "payload-" + snapshots.Count + ".bak");
+                if (retainUnchanged) CopyVerifiedBackup(path, backup, before);
+                else File.Copy(path, backup, false);
+            }
+            snapshots.Add(new JObject { ["path"] = path, ["backup"] = backup });
         }
+        string marker = Marker((string)plan["root"]), markerBackup = null;
+        if (File.Exists(marker))
+        {
+            markerBackup = Path.Combine(backupDirectory, "installation-state.bak");
+            File.Copy(marker, markerBackup, false);
+        }
+        snapshots.Add(new JObject { ["path"] = marker, ["backup"] = markerBackup });
         File.WriteAllText(Path.Combine(report,"payload-backups.json"),snapshots.ToString(),Utf8);
-        File.Copy(planFile,Path.Combine(report,"plan.json"),false);
+        File.Copy(planFile,Path.Combine(report,"plan.json"),true);
         File.WriteAllText(Path.Combine(report,"preview.md"),Preview(plan),Utf8);
         File.WriteAllText(Path.Combine(report,"result.json"),new JObject{["status"]="installing",["utc"]=DateTime.UtcNow.ToString("o")}.ToString(),Utf8);
+        if (retainUnchanged)
+            File.WriteAllLines(retainedFiles, payload.Where(item => (string)item["action"] == "unchanged")
+                .Select(item => (string)item["path"]), Utf8);
+    }
+
+    static void CopyVerifiedBackup(string path, string backup, string expected)
+    {
+        using (var input = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
+        using (var output = new FileStream(backup, FileMode.CreateNew, FileAccess.Write, FileShare.None))
+        using (var hash = SHA256.Create())
+        using (var copy = new CryptoStream(input, hash, CryptoStreamMode.Read))
+        {
+            copy.CopyTo(output);
+            if (!Same(BitConverter.ToString(hash.Hash).Replace("-", ""), expected))
+                throw ChangedPayload(path);
+        }
     }
     static void ApplyPlan(string planFile,string hash,string manifest)
     {
@@ -404,7 +439,7 @@ internal static partial class Program
                 key.SetValue("InstallLocation",root);key.SetValue("InstallGuide",Path.Combine(root,"INSTALL.md"));
                 key.SetValue("Version",(string)ReadObject(manifest)["version"]);key.SetValue("LastReport",report);
             }
-            foreach(JObject p in (JArray)plan["payload"]) actual.Add(new JObject{["path"]=p["path"],["kind"]="payload",["status"]=p["action"],["afterSha256"]=FileDigest((string)p["path"])});
+            foreach(JObject p in (JArray)plan["payload"]) actual.Add(new JObject{["path"]=p["path"],["kind"]="payload",["status"]=p["action"],["afterSha256"]=p["afterSha256"]});
         });
     }
     static void CommitConfigurationChanges(JObject plan,string report,Action<JObject,JArray> finalize)
@@ -557,10 +592,10 @@ internal static partial class Program
                 File.WriteAllText(args[3],Preview(rendered),Utf8); return true;
             case "begin-plan": BeginPlan(args[1],args[2],args[3]); return true;
             case "verify-program-plan":
-                var program = VerifyProgramSetup(args[1],args[2],args[3],args[4]);
+                var program = ReadVerifiedPlan(args[1],args[2],args[3],true,args[4]);
                 if(args.Length > 5) WriteProgramReview(program,args[5]);
                 return true;
-            case "begin-program-plan": BeginPlan(args[1],args[2],args[3],args[4]); return true;
+            case "begin-program-plan": BeginPlan(args[1],args[2],args[3],args[4],args.Length > 5 ? args[5] : null); return true;
             case "apply-plan": ApplyPlan(args[1],args[2],args[3]); return true;
             case "attach":
                 var attach=VerifyPlan(args[1],args[2],args[3],true);

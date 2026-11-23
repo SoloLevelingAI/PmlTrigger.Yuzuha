@@ -1,0 +1,18 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:k="urn:core30:P05:v3"
+           targetNamespace="urn:core30:P05:v3" elementFormDefault="qualified">
+  <xs:simpleType name="path"><xs:restriction base="xs:token"><xs:minLength value="1" /><xs:maxLength value="2048" /></xs:restriction></xs:simpleType>
+  <xs:simpleType name="query"><xs:restriction base="xs:string"><xs:maxLength value="512" /></xs:restriction></xs:simpleType>
+  <xs:simpleType name="limit"><xs:restriction base="xs:int"><xs:minInclusive value="1" /><xs:maxInclusive value="100" /></xs:restriction></xs:simpleType>
+  <xs:element name="request">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="root" minOccurs="0" maxOccurs="32">
+          <xs:complexType><xs:attribute name="path" type="k:path" use="required" /></xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="query" type="k:query" />
+      <xs:attribute name="limit" type="k:limit" />
+      <xs:attribute name="functions" type="k:path" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

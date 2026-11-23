@@ -1,0 +1,41 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:r="urn:core30:R04:v2"
+           targetNamespace="urn:core30:R04:v2" elementFormDefault="qualified">
+  <xs:simpleType name="text"><xs:restriction base="xs:token"><xs:minLength value="1" /><xs:maxLength value="2048" /></xs:restriction></xs:simpleType>
+  <xs:simpleType name="digest"><xs:restriction base="xs:string"><xs:pattern value="[0-9a-fA-F]{64}" /></xs:restriction></xs:simpleType>
+  <xs:attributeGroup name="uic">
+    <xs:attribute name="source" type="r:text" use="required" />
+    <xs:attribute name="name" type="r:text" />
+  </xs:attributeGroup>
+  <xs:element name="request">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element name="list">
+          <xs:complexType>
+            <xs:attribute name="scope" default="personal">
+              <xs:simpleType><xs:restriction base="xs:string"><xs:enumeration value="personal" /><xs:enumeration value="all" /></xs:restriction></xs:simpleType>
+            </xs:attribute>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="open"><xs:complexType><xs:attribute name="name" type="r:text" use="required" /></xs:complexType></xs:element>
+        <xs:element name="preview"><xs:complexType><xs:attributeGroup ref="r:uic" /></xs:complexType></xs:element>
+        <xs:element name="deploy">
+          <xs:complexType>
+            <xs:attributeGroup ref="r:uic" />
+            <xs:attribute name="confirm" type="xs:boolean" use="required" fixed="true" />
+            <xs:attribute name="expectedSha256" type="r:digest" use="required" />
+            <xs:attribute name="sourceSha256" type="r:digest" use="required" />
+            <xs:attribute name="proposedSha256" type="r:digest" use="required" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="rollback">
+          <xs:complexType>
+            <xs:attribute name="confirm" type="xs:boolean" use="required" fixed="true" />
+            <xs:attribute name="expectedSha256" type="r:digest" use="required" />
+            <xs:attribute name="backupSha256" type="r:digest" use="required" />
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+      <xs:attribute name="manifest" type="r:text" use="required" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

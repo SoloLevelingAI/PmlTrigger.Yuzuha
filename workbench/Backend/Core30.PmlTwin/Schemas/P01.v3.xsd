@@ -1,0 +1,74 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:p="urn:core30:P01:v3"
+           targetNamespace="urn:core30:P01:v3" elementFormDefault="qualified">
+  <xs:simpleType name="Product">
+    <xs:restriction base="xs:string"><xs:enumeration value="E3D" /><xs:enumeration value="AM" /></xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="Path">
+    <xs:restriction base="xs:string"><xs:minLength value="1" /><xs:maxLength value="32767" /></xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="Value">
+    <xs:restriction base="xs:token"><xs:minLength value="1" /><xs:maxLength value="300" /></xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="Port">
+    <xs:restriction base="xs:unsignedShort"><xs:minInclusive value="1" /></xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="Revision">
+    <xs:restriction base="xs:string"><xs:pattern value="[0-9a-f]{64}|missing" /></xs:restriction>
+  </xs:simpleType>
+  <xs:attributeGroup name="Installation">
+    <xs:attribute name="scan" type="p:Path" use="required" />
+    <xs:attribute name="product" type="p:Product" use="required" />
+    <xs:attribute name="installation" type="p:Path" use="required" />
+  </xs:attributeGroup>
+  <xs:element name="request">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element name="list">
+          <xs:complexType><xs:attribute name="product" type="p:Product" /></xs:complexType>
+        </xs:element>
+        <xs:element name="prepare">
+          <xs:complexType>
+            <xs:attributeGroup ref="p:Installation" />
+            <xs:attribute name="profile" type="p:Value" />
+            <xs:attribute name="revision" type="p:Revision" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="prepare-default">
+          <xs:complexType>
+            <xs:attribute name="scan" type="p:Path" use="required" />
+            <xs:attribute name="preferredProfile" type="p:Value" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="archive">
+          <xs:complexType>
+            <xs:attribute name="id" type="p:Value" use="required" />
+            <xs:attribute name="revision" type="p:Revision" use="required" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="save">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="launch">
+                <xs:complexType>
+                  <xs:attribute name="workingDirectory" type="p:Path" use="required" />
+                  <xs:attribute name="project" type="p:Value" use="required" />
+                  <xs:attribute name="user" type="p:Value" use="required" />
+                  <xs:attribute name="mdb" type="p:Value" use="required" />
+                  <xs:attribute name="module" type="p:Value" use="required" />
+                  <xs:attribute name="licenseHost" type="p:Value" />
+                  <xs:attribute name="licensePort" type="p:Port" />
+                  <xs:attribute name="uicDirectory" type="p:Value" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attributeGroup ref="p:Installation" />
+            <xs:attribute name="id" type="p:Value" use="required" />
+            <xs:attribute name="name" type="p:Value" use="required" />
+            <xs:attribute name="revision" type="p:Revision" use="required" />
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+      <xs:attribute name="file" type="p:Path" default="workspace.json" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

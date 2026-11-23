@@ -1,0 +1,48 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:p="urn:core30:P03:v5"
+           targetNamespace="urn:core30:P03:v5" elementFormDefault="qualified">
+  <xs:simpleType name="path"><xs:restriction base="xs:token"><xs:minLength value="1" /><xs:maxLength value="2048" /></xs:restriction></xs:simpleType>
+  <xs:simpleType name="digest"><xs:restriction base="xs:string"><xs:pattern value="[0-9a-fA-F]{64}" /></xs:restriction></xs:simpleType>
+  <xs:simpleType name="limit"><xs:restriction base="xs:int"><xs:minInclusive value="1" /><xs:maxInclusive value="12000" /></xs:restriction></xs:simpleType>
+  <xs:attributeGroup name="evars">
+    <xs:attribute name="evars" type="p:path" use="required" />
+    <xs:attribute name="product">
+      <xs:simpleType><xs:restriction base="xs:token">
+        <xs:enumeration value="E3D" /><xs:enumeration value="AM" /><xs:enumeration value="PDMS" />
+      </xs:restriction></xs:simpleType>
+    </xs:attribute>
+  </xs:attributeGroup>
+  <xs:attributeGroup name="change">
+    <xs:attributeGroup ref="p:evars" />
+    <xs:attribute name="library" type="p:path" />
+    <xs:attribute name="uiDirectory" type="p:path" />
+  </xs:attributeGroup>
+  <xs:element name="request">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element name="environment"><xs:complexType><xs:attributeGroup ref="p:evars" /></xs:complexType></xs:element>
+        <xs:element name="functions">
+          <xs:complexType>
+            <xs:attributeGroup ref="p:evars" /><xs:attribute name="query" type="xs:string" />
+            <xs:attribute name="limit" type="p:limit" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="evars-preview"><xs:complexType><xs:attributeGroup ref="p:change" /></xs:complexType></xs:element>
+        <xs:element name="evars-apply">
+          <xs:complexType>
+            <xs:attributeGroup ref="p:change" />
+            <xs:attribute name="confirm" type="xs:boolean" use="required" fixed="true" />
+            <xs:attribute name="expectedSha256" type="p:digest" use="required" />
+            <xs:attribute name="proposedSha256" type="p:digest" use="required" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="authorize">
+          <xs:complexType>
+            <xs:attribute name="name" type="p:path" use="required" />
+            <xs:attribute name="revision" type="p:digest" use="required" />
+            <xs:attribute name="allowInvoke" type="xs:boolean" use="required" />
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

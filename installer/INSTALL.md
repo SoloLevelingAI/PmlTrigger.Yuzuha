@@ -1,9 +1,15 @@
 # Phayton Windows 安装与 CLI 接入 / Installation and CLI integration
 
-## 0.3.5.3 安装与多版本接入
+## 0.3.5.5 更新试用
 
-1. 运行 `Phayton-0.3.5.3-Windows-Setup.exe`，选择程序目录并接受 Apache License 2.0。升级时可预览覆盖的文件及备份目录，包括自己修改过的同名文件。遇到占用或权限问题时，安装器会在复制前指出路径，处理后可以直接重试。
-2. 安装完成时勾选「打开 Phayton Workspace 管理器」，也可从开始菜单打开。进入「会话与 CLI → 文件部署 → 部署并接入所有版本」。随包明文源码位于 `deployment\0.3.5.3`。现有的 `%LOCALAPPDATA%\YuzuhaToolkit\PmlTrigger.Yuzuha\PMLLIB\Bootstrap` 会继续使用其共用根目录。
+试用包沿用现有安装目录和登录配置。进入配置后可从已有记录选择用户和 MDB，也可手填。安装只替换缺失或内容变化的程序文件，有同名文件要覆盖时显示预览并备份。
+
+本次变更覆盖程序更新和试用包配置。目标是让可读取但正在使用的相同文件继续工作，并减少升级等待。验收核对相同文件无重写、覆盖备份保留原字节、更新写入校验通过、可打开工作台，以及试用包可保存登录配置。回退可使用既有 0.3.5.4 包。
+
+## 0.3.5.4 安装与多版本接入
+
+1. 运行 `Phayton-0.3.5.4-Windows-Setup.exe`，选择程序目录并接受 Apache License 2.0。检查和备份期间可以拖动窗口，也可以用「取消准备」返回。升级时可预览覆盖的文件及备份目录，包括自己修改过的同名文件。遇到占用或权限问题时，安装器会在复制前指出路径，处理后可以直接重试。
+2. 安装完成时勾选「打开 Phayton Workspace 管理器」，也可从开始菜单打开。进入「会话与 CLI → 文件部署 → 部署并接入所有版本」。随包明文源码位于 `deployment\0.3.5.4`。现有的 `%LOCALAPPDATA%\YuzuhaToolkit\PmlTrigger.Yuzuha\PMLLIB\Bootstrap` 会继续使用其共用根目录。
 3. 核对共用根下的 `PMLLIB`、`PMLUI`、待更新文件和每个版本的 EVARS。E3D 使用 `PMLUI`，AM/PDMS 使用 `PDMSUI`。每个版本仍选择自己的 Host。需要变更受保护的 EVARS 时，请用有写入权限的 Windows 账户打开工作台。
 4. 确认后复制一份共用资源，备份每个待修改的 EVARS 并写入同一套资源路径。回执记录备份位置。重启相应版本的 AVEVA 后生效，按环境需要刷新 PML 索引。
 

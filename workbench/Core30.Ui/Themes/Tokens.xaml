@@ -1,0 +1,96 @@
+<!-- Generated from Design/Core30-Light.tokens.json by tools/sync-tokens.mjs. -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+  <sys:Double x:Key="space.xs">4</sys:Double>
+  <sys:Double x:Key="space.md">12</sys:Double>
+  <sys:Double x:Key="space.3xl">32</sys:Double>
+  <sys:Double x:Key="space.4xl">40</sys:Double>
+  <sys:Double x:Key="space.2xl">24</sys:Double>
+  <sys:Double x:Key="space.lg">16</sys:Double>
+  <sys:Double x:Key="space.xl">20</sys:Double>
+  <sys:Double x:Key="space.5xl">48</sys:Double>
+  <sys:Double x:Key="space.sm">8</sys:Double>
+  <FontFamily x:Key="font-family.mono">/Core30.Ui;component/Fonts/#Roboto Mono</FontFamily>
+  <FontFamily x:Key="font-family.ui">/Core30.Ui;component/Fonts/#Noto Sans CJK SC</FontFamily>
+  <CornerRadius x:Key="radius.hero">24</CornerRadius>
+  <CornerRadius x:Key="radius.control">10</CornerRadius>
+  <CornerRadius x:Key="radius.pill">999</CornerRadius>
+  <CornerRadius x:Key="radius.card">18</CornerRadius>
+  <CornerRadius x:Key="radius.small">6</CornerRadius>
+  <DropShadowEffect x:Key="shadow.overlay" Color="#142442" Opacity="0.2" BlurRadius="72" Direction="270" ShadowDepth="22" RenderingBias="Quality" />
+  <DropShadowEffect x:Key="shadow.card" Color="#1f3663" Opacity="0.055" BlurRadius="18" Direction="270" ShadowDepth="5" RenderingBias="Quality" />
+  <FontWeight x:Key="font-weight.strong">700</FontWeight>
+  <FontWeight x:Key="font-weight.display">700</FontWeight>
+  <FontWeight x:Key="font-weight.regular">400</FontWeight>
+  <FontWeight x:Key="font-weight.medium">400</FontWeight>
+  <sys:Double x:Key="font-size.subtitle">18</sys:Double>
+  <sys:Double x:Key="font-size.title">30</sys:Double>
+  <sys:Double x:Key="font-size.body">16</sys:Double>
+  <sys:Double x:Key="font-size.meta">12</sys:Double>
+  <sys:Double x:Key="font-size.section">20</sys:Double>
+  <sys:Double x:Key="font-size.label">14</sys:Double>
+  <sys:Double x:Key="font-size.display">42</sys:Double>
+  <Color x:Key="palette.cobalt">#2354D7</Color>
+  <Color x:Key="palette.ink">#18263E</Color>
+  <Color x:Key="palette.white">#FFFFFF</Color>
+  <Color x:Key="palette.mint">#E7F5EE</Color>
+  <Color x:Key="palette.mist">#F3F6FC</Color>
+  <Color x:Key="palette.muted">#586881</Color>
+  <Color x:Key="palette.honey">#FFF4DF</Color>
+  <Color x:Key="palette.frost">#EDF2FF</Color>
+  <Color x:Key="palette.mint-line">#B9DEC9</Color>
+  <Color x:Key="palette.honey-line">#F0D7AB</Color>
+  <Color x:Key="palette.blush">#FDEFF0</Color>
+  <Color x:Key="palette.brick">#993742</Color>
+  <Color x:Key="palette.line">#E0E6F1</Color>
+  <Color x:Key="palette.cobalt-line">#89A5F6</Color>
+  <Color x:Key="palette.snow">#FAFBFE</Color>
+  <Color x:Key="palette.spruce">#176148</Color>
+  <Color x:Key="palette.slate">#45546C</Color>
+  <Color x:Key="palette.ochre">#80460C</Color>
+  <Color x:Key="palette.blush-line">#EDCBD0</Color>
+  <Color x:Key="palette.cobalt-deep">#1743BA</Color>
+  <Color x:Key="palette.ice">#E2EAFF</Color>
+  <Color x:Key="palette.wash">#E8EEFF</Color>
+  <Color x:Key="palette.line-strong">#C1CDE1</Color>
+  <sys:Double x:Key="size.control">42</sys:Double>
+  <sys:Double x:Key="size.control-small">36</sys:Double>
+  <sys:Double x:Key="size.topbar">64</sys:Double>
+  <sys:Double x:Key="size.sidebar">224</sys:Double>
+  <SolidColorBrush x:Key="color.success" Color="#176148" />
+  <SolidColorBrush x:Key="color.danger-border" Color="#EDCBD0" />
+  <SolidColorBrush x:Key="color.on-primary" Color="#FFFFFF" />
+  <SolidColorBrush x:Key="color.selected" Color="#EDF2FF" />
+  <SolidColorBrush x:Key="color.canvas" Color="#F3F6FC" />
+  <SolidColorBrush x:Key="color.hero" Color="#E8EEFF" />
+  <SolidColorBrush x:Key="color.warning" Color="#80460C" />
+  <SolidColorBrush x:Key="color.primary-border" Color="#89A5F6" />
+  <SolidColorBrush x:Key="color.muted" Color="#586881" />
+  <SolidColorBrush x:Key="color.border" Color="#E0E6F1" />
+  <SolidColorBrush x:Key="color.secondary" Color="#45546C" />
+  <SolidColorBrush x:Key="color.sidebar" Color="#FAFBFE" />
+  <SolidColorBrush x:Key="color.danger-bg" Color="#FDEFF0" />
+  <SolidColorBrush x:Key="color.primary-hover" Color="#1743BA" />
+  <SolidColorBrush x:Key="color.success-border" Color="#B9DEC9" />
+  <SolidColorBrush x:Key="color.subtle" Color="#FAFBFE" />
+  <SolidColorBrush x:Key="color.surface" Color="#FFFFFF" />
+  <SolidColorBrush x:Key="color.warning-bg" Color="#FFF4DF" />
+  <SolidColorBrush x:Key="color.hero-edge" Color="#E2EAFF" />
+  <SolidColorBrush x:Key="color.primary" Color="#2354D7" />
+  <SolidColorBrush x:Key="color.text" Color="#18263E" />
+  <SolidColorBrush x:Key="color.danger" Color="#993742" />
+  <SolidColorBrush x:Key="color.border-strong" Color="#C1CDE1" />
+  <SolidColorBrush x:Key="color.success-bg" Color="#E7F5EE" />
+  <SolidColorBrush x:Key="color.warning-border" Color="#F0D7AB" />
+  <CornerRadius x:Key="radius.pill.badge">13</CornerRadius>
+  <CornerRadius x:Key="radius.window-region">36</CornerRadius>
+  <Thickness x:Key="inset.button">12,8,12,8</Thickness>
+  <Thickness x:Key="inset.card">24,20,24,20</Thickness>
+  <Thickness x:Key="inset.compact-card">24,16,24,16</Thickness>
+  <Thickness x:Key="inset.dense-card">24,12,24,12</Thickness>
+  <Thickness x:Key="inset.hero">32,24,32,24</Thickness>
+  <Thickness x:Key="inset.compact-hero">32,12,32,12</Thickness>
+  <Thickness x:Key="inset.content">40,20,40,20</Thickness>
+  <Thickness x:Key="inset.compact-content">32,16,32,12</Thickness>
+</ResourceDictionary>

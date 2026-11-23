@@ -1,0 +1,36 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:f="urn:core30:F02:v2" targetNamespace="urn:core30:F02:v2" elementFormDefault="qualified">
+  <xs:simpleType name="path">
+    <xs:restriction base="xs:token"><xs:minLength value="1" /><xs:maxLength value="2048" /></xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="id">
+    <xs:restriction base="xs:string"><xs:length value="32" /><xs:pattern value="[0-9a-f]{32}" /></xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="digest">
+    <xs:restriction base="xs:string"><xs:length value="64" /><xs:pattern value="[0-9a-fA-F]{64}" /></xs:restriction>
+  </xs:simpleType>
+  <xs:attributeGroup name="review">
+    <xs:attribute name="id" type="f:id" use="required" />
+    <xs:attribute name="planSha256" type="f:digest" use="required" />
+  </xs:attributeGroup>
+  <xs:element name="request">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element name="preview"><xs:complexType>
+          <xs:attribute name="source" type="f:path" use="required" />
+          <xs:attribute name="baseline" type="f:path" use="required" />
+        </xs:complexType></xs:element>
+        <xs:element name="apply"><xs:complexType>
+          <xs:attributeGroup ref="f:review" />
+        </xs:complexType></xs:element>
+        <xs:element name="inspect"><xs:complexType>
+          <xs:attributeGroup ref="f:review" />
+        </xs:complexType></xs:element>
+        <xs:element name="rollback"><xs:complexType>
+          <xs:attributeGroup ref="f:review" />
+          <xs:attribute name="targetSha256" type="f:digest" use="required" />
+        </xs:complexType></xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

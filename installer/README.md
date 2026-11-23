@@ -1,4 +1,4 @@
-# Phayton Windows Setup v0.3.5.3
+# Phayton Windows Setup v0.3.5.4
 
 开始菜单的「Phayton Workspace」打开随安装包装入的 PmlTwin WPF。安装包还包含原生 CLI、按产品选择的 NET35/NET48 Host、DocFX 与本地只读文档宿主。Inno Setup 和 NET48 helper 负责安装。
 
@@ -27,14 +27,16 @@
 Use a fresh output directory, .NET SDK/net48 and Inno Setup 6.7.3:
 
 ```text
-python installer/build.py --iscc "C:/Tools/Inno Setup 6/ISCC.exe" --output "C:/Builds/PhaytonSetup" --version 0.3.5.3 --cli "C:/Builds/NativeCliPublish" --desktop "C:/Builds/PmlTwinWpf" --documentation "artifacts/docfx/site" --documentation-host "C:/Builds/DocHostPublish"
+python installer/build.py --iscc "C:/Tools/Inno Setup 6/ISCC.exe" --output "C:/Builds/PhaytonSetup" --version 0.3.5.4 --cli "C:/Builds/NativeCliPublish" --desktop "C:/Builds/PmlTwinWpf" --documentation "artifacts/docfx/site" --documentation-host "C:/Builds/DocHostPublish"
 dotnet run --project installer/tests/SetupTests.csproj -c Release
 python installer/tests/build_cli_test.py
 python installer/tests/verify_delivery.py "C:/Builds/PhaytonSetup"
-python installer/tests/verify_agent_bundle.py "C:/Builds/PhaytonSetup/Phayton-0.3.5.3-Windows-Agent.zip" "C:/Builds/PhaytonSetup/Phayton-0.3.5.3-Windows-Setup.exe"
+python installer/tests/verify_agent_bundle.py "C:/Builds/PhaytonSetup/Phayton-0.3.5.4-Windows-Agent.zip" "C:/Builds/PhaytonSetup/Phayton-0.3.5.4-Windows-Setup.exe"
 ```
 
 Supply the PmlTwin WPF Windows x64 publish output built with `--self-contained true -p:BundlePhayton=false` and the verified Native AOT CLI. The builder hashes the payload and uses `--version` for the manifest, installer and Agent archive. The Agent archive contains the EXE, helper, Skill, request template and instructions.
+
+Run `installer/tests/Test-SetupResponsive.ps1` on an interactive Windows desktop with WinAppCLI and the staged payload. It holds a test helper open and checks mouse drag and cancellation while the wizard waits.
 
 Authored by OpenAI Codex at the maintainer's request. The previous 0.3.4.1 desktop and media evidence is recorded in docs/validation/2026-10-24-window-portfolio.md; it is not proof that a new 0.3.4.2 installer has been executed. Historical installer evidence remains in VALIDATION.md and docs/validation/2026-10-23-phayton-r2-production.md. Installation smoke scripts change machine registration and must only run in an approved disposable environment.
 

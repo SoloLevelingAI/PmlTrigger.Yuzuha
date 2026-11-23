@@ -7,7 +7,6 @@ using System.Runtime.InteropServices;
 using Microsoft.Win32.SafeHandles;
 using Newtonsoft.Json.Linq;
 
-/// <summary>检查程序文件的 Windows 替换权限并写入安装状态。</summary>
 internal static partial class Program
 {
     const uint DeleteAccess = 0x00010000;
@@ -35,10 +34,11 @@ internal static partial class Program
         }
     }
 
-    static void RequireProgramWriteAccess(JObject plan)
+    static void RequireProgramWriteAccess(JObject plan, bool retainUnchanged)
     {
         string root = (string)plan["root"];
-        var paths = ((JArray)plan["payload"]).OfType<JObject>().Select(item => (string)item["path"])
+        var paths = ((JArray)plan["payload"]).OfType<JObject>()
+            .Where(item => !retainUnchanged || (string)item["action"] != "unchanged").Select(item => (string)item["path"])
             .Concat(new[] { Marker(root), Path.Combine(root, ".setup-payload.json") });
         var checkedDirectories = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         foreach (string path in paths)

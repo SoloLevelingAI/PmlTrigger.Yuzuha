@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<features>
+  <feature handler="listProfiles" id="P01" version="v1" title="工程入口与配置库" />
+  <feature handler="shareProfiles" id="P01" version="v2" title="工程入口与配置库" />
+  <feature handler="manageProfiles" id="P01" version="v3" title="工程入口与配置库" />
+  <feature handler="readProjectCatalog" id="P01" version="v4" title="工程入口与配置库" />
+  <feature handler="readProjectAccess" id="P01" version="v5" title="工程入口与配置库" />
+  <feature handler="inspectSession" id="P02" version="v1" title="会话与本机环境" />
+  <feature handler="scanEnvironment" id="P02" version="v2" title="会话与本机环境" />
+  <feature handler="readHostStatus" id="P02" version="v3" title="会话与本机环境" />
+  <feature handler="readLoginSession" id="P02" version="v4" title="当前 AVEVA 登录会话" />
+  <feature handler="registerFunction" id="P03" version="v1" title="函数登记与 PML 开发" />
+  <feature handler="deployPml" id="P03" version="v2" title="函数登记与 PML 开发" activity="deployment" dispatch="PmlDeployment.Run">
+    <preview handler="PreviewPml" />
+    <apply handler="ApplyPlan" />
+    <rollback handler="RollbackPlan" />
+  </feature>
+  <feature handler="deployPackage" id="P03" version="v3" title="函数登记与 PML 开发" activity="deployment" dispatch="PmlDeployment.RunPackage">
+    <scan handler="ScanPackages" />
+    <status handler="ReadPackageStatus" />
+    <preview handler="PreviewPackage" />
+    <apply handler="ApplyPlan" />
+    <rollback handler="RollbackPlan" />
+  </feature>
+  <feature handler="queryFunctions" id="P03" version="v4" title="函数登记与 PML 开发" />
+  <feature handler="runInstalledTools" id="P03" version="v5" title="函数库与 EVARS" />
+  <feature handler="deployLocalFiles" id="P03" version="v6" title="文件夹与压缩包部署" activity="deployment" dispatch="PmlDeployment.RunLocalFiles">
+    <preview handler="PreviewLocalFiles" />
+    <apply handler="ApplyPlan" />
+    <rollback handler="RollbackPlan" />
+    <inspect handler="InspectPlan" />
+    <history handler="ReadLocalHistory" />
+  </feature>
+  <feature handler="runPhayton" id="P03" version="v7" title="Phayton 函数调用" />
+  <feature handler="verifyLocalFiles" id="P03" version="v8" title="部署文件现场核验" activity="deployment" dispatch="PmlDeployment.RunFileVerification">
+    <verify handler="VerifyPlan" />
+  </feature>
+  <feature handler="readArrayWindow" id="P04" version="v1" title="有界数组查询" />
+  <feature handler="filterActivity" id="P06" version="v1" title="运行记录与筛选" />
+  <feature handler="readActivity" id="P06" version="v2" title="运行记录与筛选" />
+</features>

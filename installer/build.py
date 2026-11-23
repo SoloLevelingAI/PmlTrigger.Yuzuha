@@ -60,13 +60,22 @@ def write_payload_manifest(stage, version):
     (stage/'.setup-payload.json').write_text(json.dumps({'version':version,'entryPoint':'runtime/cli/PmlTwin.Phayton.Cli.exe',
         'transport':'cli','scope':'program','files':inventory}, indent=2), encoding='utf-8')
 
+def write_retained_file_entries(stage, output):
+    manifest = json.loads((stage / '.setup-payload.json').read_text(encoding='utf-8'))
+    entries = []
+    for item in manifest['files']:
+        path = '{app}\\' + item['path'].replace('/', '\\').replace('{', '{{')
+        check_path = path.replace("'", "''")
+        entries.append(f"""Type: files; Name: "{path}"; Check: RetainProgramFile(ExpandConstant('{check_path}'))""")
+    output.write_text('\n'.join(entries) + '\n', encoding='utf-8-sig')
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--iscc', required=True, type=pathlib.Path)
     parser.add_argument('--output', required=True, type=pathlib.Path)
     parser.add_argument('--desktop', required=True, type=pathlib.Path, help='Self-contained Windows x64 PmlTwin WPF publish directory built with BundlePhayton=false.')
     parser.add_argument('--cli', required=True, type=pathlib.Path, help='Separately published Native AOT CLI directory; copied to runtime/cli. Legacy MCP binaries are excluded.')
-    parser.add_argument('--version', default='0.3.5.3', help='Four-part numeric package, manifest and executable filename version.')
+    parser.add_argument('--version', default='0.3.5.4', help='Four-part numeric package, manifest and executable filename version.')
     parser.add_argument('--documentation', required=True, type=pathlib.Path, help='Verified generated DocFX site.')
     parser.add_argument('--documentation-host', required=True, type=pathlib.Path, help='Published read-only DevHost.')
     args = parser.parse_args()
@@ -120,8 +129,11 @@ def main():
     for name in ['Yuzuha.SetupBridge.exe','Newtonsoft.Json.dll']:
         shutil.copy2(helper / name, stage / 'setup' / name)
     write_payload_manifest(stage, args.version)
+    retained = out / 'retained-program-files.iss'
+    write_retained_file_entries(stage, retained)
     subprocess.run([str(args.iscc.resolve()), '/DPayloadDir=' + str(stage),
-                    '/DOutputDir=' + str(out), '/DAppVersion=' + args.version, str(ROOT / 'installer/Yuzuha.iss')], check=True)
+                    '/DOutputDir=' + str(out), '/DAppVersion=' + args.version,
+                    '/DRetainedFileEntries=' + str(retained), str(ROOT / 'installer/Yuzuha.iss')], check=True)
     exe = out / ('Phayton-' + args.version + '-Windows-Setup.exe')
     (out / 'installer.sha256').write_text(hashlib.sha256(exe.read_bytes()).hexdigest() + '  ' + exe.name + '\n', encoding='ascii')
     bundle=out/'AI-install'

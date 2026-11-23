@@ -47,12 +47,11 @@ static LRESULT CALLBACK FrameProc(HWND window, UINT message, WPARAM wParam, LPAR
 {
     FrameStyle *style = (FrameStyle *)data;
     if (message == WM_NCHITTEST) {
-        RECT windowArea;
-        if (GetWindowRect(window, &windowArea)) {
-            const int x = GET_X_LPARAM(lParam);
-            const int y = GET_Y_LPARAM(lParam);
-            if (x >= windowArea.left && x < windowArea.right - style->buttonExclusion &&
-                y >= windowArea.top && y < windowArea.top + style->titleHeight)
+        RECT client;
+        POINT point = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
+        if (IsWindowEnabled(window) && ScreenToClient(window, &point) && GetClientRect(window, &client)) {
+            if (point.x >= 0 && point.x < client.right - style->buttonExclusion &&
+                point.y >= 0 && point.y < style->titleHeight)
                 return HTCAPTION;
         }
     }
@@ -224,4 +223,60 @@ BOOL WINAPI Core30BindButton(HWND window, int role, int diameter, int focusInset
     SetWindowLongW(window, GWL_STYLE, (GetWindowLongW(window, GWL_STYLE) & ~BS_TYPEMASK) | BS_OWNERDRAW);
     InvalidateRect(window, NULL, FALSE);
     return TRUE;
+}
+
+HANDLE WINAPI Core30StartSetupWorker(const WCHAR *exe, const WCHAR *args, DWORD *error)
+{
+    size_t length = lstrlenW(exe) + (size_t)lstrlenW(args) + 4;
+    HANDLE heap = GetProcessHeap();
+    WCHAR *command = HeapAlloc(heap, 0, length * sizeof(WCHAR));
+    if (!command) {
+        *error = ERROR_NOT_ENOUGH_MEMORY;
+        return NULL;
+    }
+    lstrcpyW(command, L"\"");
+    lstrcatW(command, exe);
+    lstrcatW(command, L"\" ");
+    lstrcatW(command, args);
+    STARTUPINFOW startup = { 0 };
+    PROCESS_INFORMATION child;
+    startup.cb = sizeof(startup);
+    startup.dwFlags = STARTF_USESHOWWINDOW;
+    startup.wShowWindow = SW_HIDE;
+    BOOL started = CreateProcessW(exe, command, NULL, NULL, FALSE, CREATE_NO_WINDOW, NULL, NULL, &startup, &child);
+    *error = started ? ERROR_SUCCESS : GetLastError();
+    HeapFree(heap, 0, command);
+    if (!started)
+        return NULL;
+    CloseHandle(child.hThread);
+    return child.hProcess;
+}
+
+BOOL WINAPI Core30WaitSetupWorker(HANDLE process, DWORD *exitCode)
+{
+    // Only post-install uses this wait. The native installing page has no active
+    // navigation actions, but its caption and painting must still work.
+    BOOL quitting = FALSE;
+    BOOL complete = FALSE;
+    int quitCode = 0;
+    for (;;) {
+        DWORD result = MsgWaitForMultipleObjectsEx(1, &process, INFINITE, QS_ALLINPUT, MWMO_INPUTAVAILABLE);
+        if (result != WAIT_OBJECT_0 + 1) {
+            complete = result == WAIT_OBJECT_0;
+            break;
+        }
+        MSG message;
+        while (PeekMessageW(&message, NULL, 0, 0, PM_REMOVE)) {
+            if (message.message == WM_QUIT) {
+                quitting = TRUE;
+                quitCode = (int)message.wParam;
+                continue;
+            }
+            TranslateMessage(&message);
+            DispatchMessageW(&message);
+        }
+    }
+    if (quitting)
+        PostQuitMessage(quitCode);
+    return complete && GetExitCodeProcess(process, exitCode);
 }

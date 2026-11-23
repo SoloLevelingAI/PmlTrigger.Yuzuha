@@ -1,0 +1,19 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:f="urn:core30:F01:v1"
+           targetNamespace="urn:core30:F01:v1" elementFormDefault="qualified">
+  <xs:simpleType name="LaunchToken">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[A-Za-z0-9_-]{1,40}" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="request">
+    <xs:complexType>
+      <xs:attribute name="confirm" type="xs:boolean" use="required" fixed="true" />
+      <xs:attribute name="init" type="xs:string" use="required" />
+      <xs:attribute name="product" type="f:LaunchToken" use="required" />
+      <xs:attribute name="project" type="f:LaunchToken" use="required" />
+      <xs:attribute name="user" type="f:LaunchToken" use="required" />
+      <xs:attribute name="mdb" type="f:LaunchToken" use="required" />
+      <xs:attribute name="module" type="f:LaunchToken" use="required" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

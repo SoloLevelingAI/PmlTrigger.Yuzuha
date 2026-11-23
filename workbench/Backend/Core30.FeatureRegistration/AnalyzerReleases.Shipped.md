@@ -1,0 +1,1 @@
+; Feature registration generator releases

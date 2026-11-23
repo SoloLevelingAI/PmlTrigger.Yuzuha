@@ -1,0 +1,40 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:p="urn:core30:P03:v4"
+           targetNamespace="urn:core30:P03:v4" elementFormDefault="qualified">
+  <xs:simpleType name="revision">
+    <xs:restriction base="xs:string"><xs:length value="64" /><xs:pattern value="[0-9a-f]{64}" /></xs:restriction>
+  </xs:simpleType>
+  <xs:element name="request">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element name="list">
+          <xs:complexType>
+            <xs:attribute name="query" type="xs:string" />
+            <xs:attribute name="limit">
+              <xs:simpleType><xs:restriction base="xs:int"><xs:minInclusive value="1" /><xs:maxInclusive value="200" /></xs:restriction></xs:simpleType>
+            </xs:attribute>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="unregister">
+          <xs:complexType>
+            <xs:attribute name="name" type="xs:string" use="required" />
+            <xs:attribute name="revision" type="p:revision" use="required" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="edit">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="note">
+                <xs:simpleType><xs:restriction base="xs:string"><xs:maxLength value="1000" /></xs:restriction></xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="name" type="xs:string" use="required" />
+            <xs:attribute name="revision" type="p:revision" use="required" />
+            <xs:attribute name="displayName" use="required">
+              <xs:simpleType><xs:restriction base="xs:string"><xs:maxLength value="80" /></xs:restriction></xs:simpleType>
+            </xs:attribute>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -26,6 +26,10 @@ function Core30ShowWindow(Window: HWND; Command: Integer): BOOL;
   external 'ShowWindow@user32.dll stdcall';
 function Core30SendMessage(Window: HWND; Message: UINT; WParam: WPARAM; LParam: LPARAM): LRESULT;
   external 'SendMessageW@user32.dll stdcall';
+function Core30StartSetupWorker(Exe, Arguments: String; var ErrorCode: DWORD): THandle;
+  external 'Core30StartSetupWorker@files:Core30Frame.dll stdcall setuponly delayload';
+function Core30WaitSetupWorker(Process: THandle; var ExitCode: DWORD): BOOL;
+  external 'Core30WaitSetupWorker@files:Core30Frame.dll stdcall setuponly delayload';
 
 procedure Core30AttachFrame(Form: TSetupForm; TitleHeight: Integer);
 var Palette: TCore30Palette; OldBorder: TFormBorderStyle;

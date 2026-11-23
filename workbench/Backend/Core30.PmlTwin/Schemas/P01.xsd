@@ -1,0 +1,18 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:core30:P01:v1">
+  <xs:element name="request">
+    <xs:complexType>
+      <xs:attribute name="file" type="xs:string" use="required" />
+      <xs:attribute name="query" type="xs:string" />
+      <xs:attribute name="product" type="xs:string" />
+      <xs:attribute name="scope">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="all" />
+            <xs:enumeration value="favorites" />
+            <xs:enumeration value="recent" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

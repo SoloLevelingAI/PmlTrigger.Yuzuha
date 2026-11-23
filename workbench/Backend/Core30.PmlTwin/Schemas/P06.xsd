@@ -1,0 +1,26 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:core30:P06:v1">
+  <xs:element name="request">
+    <xs:complexType>
+      <xs:attribute name="file" type="xs:string" use="required" />
+      <xs:attribute name="phase">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="all" />
+            <xs:enumeration value="started" />
+            <xs:enumeration value="succeeded" />
+            <xs:enumeration value="failed" />
+            <xs:enumeration value="unknown" />
+            <xs:enumeration value="cancelled-unknown" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="tool" type="xs:string" />
+      <xs:attribute name="query" type="xs:string" />
+      <xs:attribute name="limit">
+        <xs:simpleType>
+          <xs:restriction base="xs:int"><xs:minInclusive value="1" /><xs:maxInclusive value="200" /></xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

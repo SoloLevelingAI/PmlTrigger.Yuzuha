@@ -1,0 +1,62 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:f="urn:core30:P03:v7" targetNamespace="urn:core30:P03:v7" elementFormDefault="qualified">
+  <xs:simpleType name="functionName">
+    <xs:restriction base="xs:string"><xs:pattern value="[A-Za-z][A-Za-z0-9_]{0,127}" /></xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="module">
+    <xs:restriction base="xs:token"><xs:minLength value="1" /><xs:maxLength value="64" /></xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="sourcePath">
+    <xs:restriction base="xs:string"><xs:minLength value="1" /><xs:maxLength value="2048" /></xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="digest">
+    <xs:restriction base="xs:string"><xs:length value="64" /><xs:pattern value="[A-Fa-f0-9]{64}" /></xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="scalarType">
+    <xs:restriction base="xs:string"><xs:enumeration value="STRING" /><xs:enumeration value="REAL" />
+      <xs:enumeration value="BOOLEAN" /></xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="scalarText">
+    <xs:restriction base="xs:string"><xs:maxLength value="4096" /></xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="parameter">
+    <xs:simpleContent><xs:extension base="f:scalarText">
+      <xs:attribute name="type" type="f:scalarType" use="required" />
+    </xs:extension></xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="call">
+    <xs:sequence><xs:element name="parameter" type="f:parameter" minOccurs="0" maxOccurs="64" /></xs:sequence>
+    <xs:attribute name="name" type="f:functionName" use="required" />
+    <xs:attribute name="pid" type="xs:positiveInteger" use="required" />
+    <xs:attribute name="startTicks" type="xs:positiveInteger" use="required" />
+    <xs:attribute name="model" type="f:module" use="required" />
+  </xs:complexType>
+  <xs:element name="request">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element name="functions"><xs:complexType /></xs:element>
+        <xs:element name="sessions"><xs:complexType /></xs:element>
+        <xs:element name="register">
+          <xs:complexType>
+            <xs:attribute name="name" type="f:functionName" use="required" />
+            <xs:attribute name="sourceFile" type="f:sourcePath" use="required" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="permission">
+          <xs:complexType>
+            <xs:attribute name="name" type="f:functionName" use="required" />
+            <xs:attribute name="allow" type="xs:boolean" use="required" />
+            <xs:attribute name="sha256" type="f:digest" use="required" />
+            <xs:attribute name="reviewedReadOnly" type="xs:boolean" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="preview" type="f:call" />
+        <xs:element name="invoke">
+          <xs:complexType><xs:complexContent><xs:extension base="f:call">
+            <xs:attribute name="plan" type="f:digest" use="required" />
+          </xs:extension></xs:complexContent></xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

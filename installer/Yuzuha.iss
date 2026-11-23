@@ -3,7 +3,7 @@
   #error PayloadDir must identify a verified staged payload.
 #endif
 #ifndef AppVersion
-  #define AppVersion "0.3.5.3"
+  #define AppVersion "0.3.5.4"
 #endif
 #ifndef OutputDir
   #define OutputDir "..\artifacts\installer"
@@ -68,8 +68,13 @@ Source: "{#PayloadDir}\setup\Yuzuha.SetupBridge.exe"; Flags: dontcopy
 Source: "{#PayloadDir}\setup\Newtonsoft.Json.dll"; Flags: dontcopy
 Source: "{#PayloadDir}\.setup-payload.json"; Flags: dontcopy
 #ifndef ProgramUpgradePreview
-Source: "{#PayloadDir}\*"; DestDir: "{app}"; Excludes: "\PMLLIB\*,\PMLUI\*,\deployment\*,PMLLIB.zip,PMLUI.zip,pml.index"; Flags: ignoreversion overwritereadonly recursesubdirs createallsubdirs
-Source: "{#PayloadDir}\deployment\{#AppVersion}\*"; DestDir: "{app}\deployment\{#AppVersion}"; Flags: ignoreversion overwritereadonly recursesubdirs nocompression
+Source: "{#PayloadDir}\*"; DestDir: "{app}"; Excludes: "\PMLLIB\*,\PMLUI\*,\deployment\*,PMLLIB.zip,PMLUI.zip,pml.index"; Flags: ignoreversion overwritereadonly recursesubdirs createallsubdirs; Check: ShouldCopyProgramFile
+Source: "{#PayloadDir}\deployment\{#AppVersion}\*"; DestDir: "{app}\deployment\{#AppVersion}"; Flags: ignoreversion overwritereadonly recursesubdirs nocompression; Check: ShouldCopyProgramFile
+
+#ifdef RetainedFileEntries
+[UninstallDelete]
+#include RetainedFileEntries
+#endif
 
 [Icons]
 Name: "{group}\Phayton Workspace"; Filename: "{app}\runtime\desktop\PmlTwin.Workbench.exe"; WorkingDir: "{app}\runtime\desktop"; IconFilename: "{app}\setup\yuzuha.ico"; Check: not WizardNoIcons
@@ -91,10 +96,33 @@ chinesesimp.FinishedLabel=在 PmlTwin 的文件部署中部署共用 PML 源码�
 #include "theme\Core30Light.iss"
 
 [Code]
+type
+  TPreparation = (prepIdle, prepReview, prepBackup, prepReady);
+
 var
-  PlanPath, PlanHash, ReportFile, ManifestPath, ReviewFile: String;
-  Prepared, Applied, Extracted: Boolean;
+  PlanPath, PlanHash, ReportFile, ManifestPath, ReviewFile, PreparationFolder: String;
+  RetainedProgramFiles: TStringList;
+  Prepared, Applied, Extracted, InstallStarted, StopRequested: Boolean;
   FailureCode: Integer;
+  Preparation: TPreparation;
+  Worker: THandle;
+  WorkerTimer: UINT_PTR;
+  WorkerCallback: NativeInt;
+
+function SetPreparationTimer(Window: HWND; Id: UINT_PTR; Delay: UINT; Callback: NativeInt): UINT_PTR;
+  external 'SetTimer@user32.dll stdcall';
+function KillPreparationTimer(Window: HWND; Id: UINT_PTR): BOOL;
+  external 'KillTimer@user32.dll stdcall';
+function WaitWorker(Process: THandle; Milliseconds: DWORD): DWORD;
+  external 'WaitForSingleObject@kernel32.dll stdcall';
+function WorkerExitCode(Process: THandle; var Code: DWORD): BOOL;
+  external 'GetExitCodeProcess@kernel32.dll stdcall';
+function CloseWorker(Process: THandle): BOOL;
+  external 'CloseHandle@kernel32.dll stdcall';
+function StopWorker(Process: THandle; Code: UINT): BOOL;
+  external 'TerminateProcess@kernel32.dll stdcall';
+function PostInstallClick(Window: HWND; Message: UINT; WParam: WPARAM; LParam: LPARAM): BOOL;
+  external 'PostMessageW@user32.dll stdcall';
 
 function T(ZH, EN: String): String;
 begin
@@ -105,6 +133,51 @@ function Q(Value: String): String;
 begin
   Result := '"' + Value + '"';
 end;
+
+#ifndef ProgramUpgradePreview
+function RetainProgramFile(FileName: String): Boolean;
+begin
+  Result := False;
+  if RetainedProgramFiles = nil then Exit;
+  if Copy(FileName, 1, 4) = '\\?\' then Delete(FileName, 1, 4);
+  Result := RetainedProgramFiles.IndexOf(FileName) >= 0;
+end;
+
+function ShouldCopyProgramFile: Boolean;
+begin
+  if RetainedProgramFiles = nil then begin Result := True; Exit; end;
+  Result := not RetainProgramFile(ExpandConstant(CurrentFilename));
+end;
+
+function RetainedFileName: String;
+begin
+  Result := ExpandConstant('{tmp}\retained-program-files.txt');
+end;
+
+function BeginProgramArguments: String;
+begin
+  Result := Q(PlanPath) + ' ' + Q(PlanHash) + ' ' + Q(ManifestPath) + ' ' + Q(ExpandConstant('{app}'));
+#ifdef RetainedFileEntries
+  DeleteFile(RetainedFileName);
+  Result := Result + ' ' + Q(RetainedFileName);
+#endif
+end;
+
+function LoadRetainedProgramFiles: String;
+var Content: AnsiString;
+begin
+  Result := '';
+#ifdef RetainedFileEntries
+  if not LoadStringFromFile(RetainedFileName, Content) then begin
+    Result := T('无法读取安装文件清单。', 'Cannot read the installation file list.');
+    Exit;
+  end;
+  if RetainedProgramFiles = nil then RetainedProgramFiles := TStringList.Create;
+  RetainedProgramFiles.Text := UTF8Decode(Content);
+  RetainedProgramFiles.Sorted := True;
+#endif
+end;
+#endif
 
 function JsonString(Value: String): String;
 var I: Integer; C: String;
@@ -145,6 +218,131 @@ begin
   if Result <> '' then Log(Result);
 end;
 
+function BridgeError(ExitCode: DWORD): String;
+var Content: AnsiString;
+begin
+  Result := '';
+  if ExitCode = 0 then Exit;
+  if LoadStringFromFile(ReportFile, Content) then Result := UTF8Decode(Content)
+  else Result := T('安装辅助程序退出，错误码 ', 'The installer helper exited with code ') + IntToStr(ExitCode);
+  Log(Result);
+end;
+
+procedure ReleasePreparation;
+begin
+  if WorkerTimer <> 0 then KillPreparationTimer(0, WorkerTimer);
+  WorkerTimer := 0;
+  if Worker <> 0 then begin
+    if WaitWorker(Worker, 0) = 258 then StopWorker(Worker, 1);
+    CloseWorker(Worker);
+  end;
+  Worker := 0;
+end;
+
+procedure CancelPreparation(Sender: TObject);
+begin
+  if Worker = 0 then Exit;
+  StopRequested := True;
+  Core30Preparation(True, False, T('正在结束准备…', 'Stopping preparation…'));
+  StopWorker(Worker, 1);
+end;
+
+procedure PollPreparation(Window: HWND; Message: UINT; Id: UINT_PTR; Tick: DWORD);
+  forward;
+
+procedure StartPreparation(Step: TPreparation; Operation, Arguments, MessageText: String);
+var ErrorCode: DWORD; Error: String;
+begin
+  Error := '';
+  StopRequested := False;
+  Preparation := Step;
+  Core30Preparation(True, True, MessageText);
+  DeleteFile(ReportFile);
+  try
+    Worker := Core30StartSetupWorker(ExpandConstant('{tmp}\Yuzuha.SetupBridge.exe'),
+      Operation + ' ' + Arguments + ' ' + Q('--report=' + ReportFile), ErrorCode);
+    if Worker = 0 then
+      Error := T('无法启动安装辅助程序。', 'Cannot start the installer helper.') + ' ' + SysErrorMessage(ErrorCode)
+    else begin
+      if WorkerCallback = 0 then WorkerCallback := CreateCallback(@PollPreparation);
+      WorkerTimer := SetPreparationTimer(0, 0, 80, WorkerCallback);
+      if WorkerTimer = 0 then Error := T('无法检查准备进度。', 'Cannot monitor preparation.');
+    end;
+  except
+    Error := GetExceptionMessage;
+  end;
+  if Error <> '' then begin
+    ReleasePreparation;
+    Preparation := prepIdle;
+    Core30Preparation(False, False, '');
+    Core30ShowSetupError(Error);
+  end;
+end;
+
+function ConfirmPreparedFiles: Boolean;
+var Content: AnsiString; Lines: TStringList; Existing: Boolean;
+begin
+  Result := False;
+  Lines := TStringList.Create;
+  try
+    if LoadStringFromFile(ReviewFile, Content) then Lines.Text := UTF8Decode(Content);
+    if Lines.Count < 2 then begin
+      Core30ShowSetupError(T('无法读取安装预览。', 'Cannot read the installation preview.'));
+      Exit;
+    end;
+    Existing := Lines[1] = 'upgrade';
+    Lines.Delete(1);
+    Result := Core30ConfirmOverwrite(Lines.Text, Existing);
+  finally
+    Lines.Free;
+  end;
+end;
+
+procedure PollPreparation(Window: HWND; Message: UINT; Id: UINT_PTR; Tick: DWORD);
+var Step: TPreparation; WaitResult, Code: DWORD; Error: String;
+begin
+  if (Worker = 0) or (WorkerTimer <> Id) then Exit;
+  WaitResult := WaitWorker(Worker, 0);
+  if WaitResult = 258 then Exit;
+  Step := Preparation;
+  Preparation := prepIdle;
+  Code := 1;
+  if WaitResult = 0 then WorkerExitCode(Worker, Code);
+  ReleasePreparation;
+  if StopRequested then begin
+    Core30Preparation(False, False, T('已取消准备。', 'Preparation cancelled.'));
+    Exit;
+  end;
+  Error := BridgeError(Code);
+  Core30Preparation(False, False, '');
+  if Error <> '' then begin
+    Core30ShowSetupError(Error);
+    Exit;
+  end;
+  if Step = prepBackup then begin
+#ifndef ProgramUpgradePreview
+    Error := LoadRetainedProgramFiles;
+    if Error <> '' then begin
+      Core30ShowSetupError(Error);
+      Exit;
+    end;
+#endif
+    Prepared := True;
+    Preparation := prepReady;
+    PostInstallClick(WizardForm.NextButton.Handle, $00F5, 0, 0);
+    Exit;
+  end;
+  if ExpandConstant('{param:PLAN|}') = '' then PlanHash := GetSHA256OfFile(PlanPath);
+  if not ConfirmPreparedFiles then Exit;
+#ifdef ProgramUpgradePreview
+  MsgBox(T('程序升级预检已通过。此预览只读。', 'The program upgrade passed preflight. This preview is read-only.'), mbInformation, MB_OK);
+#else
+  StartPreparation(prepBackup, 'begin-program-plan',
+    BeginProgramArguments,
+    T('正在检查访问权限并备份待覆盖文件。', 'Checking write access and backing up files.'));
+#endif
+end;
+
 procedure InitializeWizard;
 begin
 #ifdef ProgramUpgradePreview
@@ -159,6 +357,7 @@ begin
   ReviewFile := ExpandConstant('{tmp}\program-replacements.txt');
   PlanPath := ExpandConstant('{param:PLAN|}');
   PlanHash := ExpandConstant('{param:PLANHASH|}');
+  if not WizardSilent then Core30PrepareCancel.OnClick := @CancelPreparation;
 end;
 
 function ShouldSkipPage(PageID: Integer): Boolean;
@@ -184,67 +383,55 @@ end;
 
 function BeginProgramInstall: String;
 begin
+  ExtractSupport;
   Result := Bridge(ExpandConstant('{tmp}\Yuzuha.SetupBridge.exe'),'begin-program-plan',
-    Q(PlanPath) + ' ' + Q(PlanHash) + ' ' + Q(ManifestPath) + ' ' + Q(ExpandConstant('{app}')), SW_HIDE);
+    BeginProgramArguments, SW_HIDE);
+  if Result = '' then Result := LoadRetainedProgramFiles;
   Prepared := Result = '';
 end;
 #endif
 
 function NextButtonClick(CurPageID: Integer): Boolean;
-var Error, Destination, Request, RequestFile: String;
-    Review: AnsiString;
+var Request, RequestFile: String;
 begin
   Result := True;
   if CurPageID <> wpSelectDir then Exit;
-  if not WizardSilent and (not Core30AcceptedTerms or (Core30FolderError <> '')) then begin Result := False; Exit; end;
-  ExtractSupport;
-  Destination := ExpandConstant('{app}');
-  if ExpandConstant('{param:PLAN|}') = '' then begin
-    if WizardSilent then begin
+  if WizardSilent then begin
+    ExtractSupport;
+    if PlanPath = '' then begin
       SuppressibleMsgBox(T('静默安装必须提供批准计划及 SHA256；先按 INSTALL.md 生成预览。',
         'Silent installation requires an approved plan and SHA256. Generate a preview using INSTALL.md.'),mbError,MB_OK,IDOK);
-      Result := False; Exit;
+      Result := False;
     end;
+    Exit;
+  end;
+  Result := False;
+  if Preparation = prepReady then begin
+    Preparation := prepIdle;
+    if (ExpandConstant('{app}') = PreparationFolder) and Core30AcceptedTerms then begin Result := True; Exit; end;
+    Prepared := False;
+  end;
+  if (Worker <> 0) or not Core30AcceptedTerms or (Core30FolderError <> '') then Exit;
+  ExtractSupport;
+  PreparationFolder := ExpandConstant('{app}');
+  DeleteFile(ReviewFile);
+  if ExpandConstant('{param:PLAN|}') = '' then begin
     PlanPath := ExpandConstant('{tmp}\approved-plan.json');
     DeleteFile(PlanPath);
-    Request := '{"integrationMode":"none","root":'+JsonString(Destination)+
+    Request := '{"integrationMode":"none","root":'+JsonString(PreparationFolder)+
       ',"mcpJson":"","skillTarget":"","environments":[]}';
     RequestFile := ExpandConstant('{tmp}\native-request.json');
     if not SaveStringToFile(RequestFile,UTF8Encode(Request),False) then begin
-      MsgBox('Cannot write installation request.',mbError,MB_OK); Result := False; Exit;
+      Core30ShowSetupError(T('无法写入安装请求。', 'Cannot write installation request.'));
+      Exit;
     end;
-    Error := Bridge(ExpandConstant('{tmp}\Yuzuha.SetupBridge.exe'),'plan',
+    StartPreparation(prepReview, 'plan',
       Q(RequestFile) + ' ' + Q(ManifestPath) + ' ' + Q(ExpandConstant('{tmp}\skill')) + ' ' + Q(PlanPath) +
-      ' ' + Q(ReviewFile), SW_HIDE);
-    if Error <> '' then begin Core30ShowSetupError(Error); Result := False; Exit; end;
-    PlanHash := GetSHA256OfFile(PlanPath);
-  end;
-  if (not FileExists(PlanPath)) or (CompareText(GetSHA256OfFile(PlanPath),PlanHash) <> 0) then begin
-    SuppressibleMsgBox(T('计划不存在或 SHA256 不匹配。','Plan missing or SHA256 mismatch.'),mbError,MB_OK,IDOK);
-    Result := False; Exit;
-  end;
-  if not WizardSilent and (ExpandConstant('{param:PLAN|}') <> '') then begin
-    Error := Bridge(ExpandConstant('{tmp}\Yuzuha.SetupBridge.exe'),'verify-program-plan',
-      Q(PlanPath) + ' ' + Q(PlanHash) + ' ' + Q(ManifestPath) + ' ' + Q(Destination) + ' ' + Q(ReviewFile), SW_HIDE);
-    if Error <> '' then begin Core30ShowSetupError(Error); Result := False; Exit; end;
-  end;
-  if not WizardSilent then begin
-    if not LoadStringFromFile(ReviewFile, Review) then begin
-      MsgBox(T('无法读取安装预览。', 'Cannot read the installation preview.'), mbError, MB_OK);
-      Result := False; Exit;
-    end;
-    Result := Core30ConfirmOverwrite(UTF8Decode(Review));
-    if not Result then Exit;
-  end;
-#ifdef ProgramUpgradePreview
-  if Result then MsgBox(T('程序升级预检已通过。此预览只读。','The program upgrade passed preflight. This preview is read-only.'), mbInformation, MB_OK);
-  Result := False;
-#else
-  if not WizardSilent then begin
-    Error := BeginProgramInstall;
-    if Error <> '' then begin Core30ShowSetupError(Error); Result := False; end;
-  end;
-#endif
+      ' ' + Q(ReviewFile), T('正在检查安装目录和待更新文件。', 'Checking the folder and files to update.'));
+  end else
+    StartPreparation(prepReview, 'verify-program-plan',
+      Q(PlanPath) + ' ' + Q(PlanHash) + ' ' + Q(ManifestPath) + ' ' + Q(PreparationFolder) + ' ' + Q(ReviewFile),
+      T('正在检查安装计划。', 'Checking the installation plan.'));
 end;
 
 function PrepareToInstall(var NeedsRestart: Boolean): String;
@@ -252,17 +439,44 @@ begin
 #ifdef ProgramUpgradePreview
   Result := 'Read-only program upgrade preview.';
 #else
-  if Prepared then Result := '' else Result := BeginProgramInstall;
+  if Prepared then Result := ''
+  else if WizardSilent then Result := BeginProgramInstall
+  else Result := T('请返回安装目录页重新准备。', 'Return to the directory page to prepare again.');
 #endif
 end;
 
 #ifndef ProgramUpgradePreview
+function ApplyProgram: String;
+var Exe, Arguments: String; Process: THandle; Code: DWORD;
+begin
+  Exe := ExpandConstant('{tmp}\Yuzuha.SetupBridge.exe');
+  Arguments := Q(PlanPath) + ' ' + Q(PlanHash) + ' ' + Q(ManifestPath);
+  if WizardSilent then begin
+    Result := Bridge(Exe, 'apply-plan', Arguments, SW_HIDE);
+    Exit;
+  end;
+  WizardForm.StatusLabel.Caption := T('正在校验安装文件并保存安装状态。', 'Verifying installed files and saving setup state.');
+  WizardForm.FilenameLabel.Caption := '';
+  DeleteFile(ReportFile);
+  Process := Core30StartSetupWorker(Exe, 'apply-plan ' + Arguments + ' ' + Q('--report=' + ReportFile), Code);
+  if Process = 0 then begin
+    Result := T('无法启动安装辅助程序。', 'Cannot start the installer helper.') + ' ' + SysErrorMessage(Code);
+    Exit;
+  end;
+  try
+    if Core30WaitSetupWorker(Process, Code) then Result := BridgeError(Code)
+    else Result := T('无法读取安装校验结果。', 'Cannot read the installation verification result.');
+  finally
+    CloseWorker(Process);
+  end;
+end;
+
 procedure CurStepChanged(CurStep: TSetupStep);
 var Error: String;
 begin
+  if CurStep = ssInstall then InstallStarted := True;
   if CurStep = ssPostInstall then begin
-    Error := Bridge(ExpandConstant('{tmp}\Yuzuha.SetupBridge.exe'),'apply-plan',
-      Q(PlanPath) + ' ' + Q(PlanHash) + ' ' + Q(ManifestPath), SW_HIDE);
+    Error := ApplyProgram;
     if Error <> '' then begin
       FailureCode := 10;
       if not WizardSilent then Core30ShowSetupError(Error);
@@ -275,15 +489,6 @@ end;
 function GetCustomSetupExitCode: Integer;
 begin
   Result := FailureCode;
-end;
-
-procedure DeinitializeSetup;
-var Error: String;
-begin
-  if Prepared and not Applied then begin
-    Error := Bridge(ExpandConstant('{tmp}\Yuzuha.SetupBridge.exe'),'abort-plan',Q(PlanPath),SW_HIDE);
-    if Error <> '' then Log(Error);
-  end;
 end;
 
 function InitializeUninstall: Boolean;
@@ -304,3 +509,14 @@ begin
   end;
 end;
 #endif
+
+procedure DeinitializeSetup;
+var Error: String;
+begin
+  ReleasePreparation;
+  if RetainedProgramFiles <> nil then RetainedProgramFiles.Free;
+  if Prepared and InstallStarted and not Applied then begin
+    Error := Bridge(ExpandConstant('{tmp}\Yuzuha.SetupBridge.exe'),'abort-plan',Q(PlanPath),SW_HIDE);
+    if Error <> '' then Log(Error);
+  end;
+end;

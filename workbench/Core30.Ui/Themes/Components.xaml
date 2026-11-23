@@ -1,0 +1,112 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ui="clr-namespace:Core30.Ui">
+  <Style x:Key="Glyph" TargetType="Path">
+    <Setter Property="Width" Value="16" />
+    <Setter Property="Height" Value="16" />
+    <Setter Property="Stretch" Value="Uniform" />
+    <Setter Property="Stroke" Value="{DynamicResource color.primary}" />
+    <Setter Property="StrokeThickness" Value="1.35" />
+    <Setter Property="StrokeStartLineCap" Value="Round" />
+    <Setter Property="StrokeEndLineCap" Value="Round" />
+    <Setter Property="StrokeLineJoin" Value="Round" />
+    <Setter Property="VerticalAlignment" Value="Center" />
+  </Style>
+  <Style TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="{DynamicResource font-family.ui}" />
+  </Style>
+  <Style x:Key="Text.Label" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+    <Setter Property="FontSize" Value="{DynamicResource font-size.label}" />
+  </Style>
+  <Style x:Key="Text.Meta" TargetType="TextBlock" BasedOn="{StaticResource Text.Label}">
+    <Setter Property="FontSize" Value="{DynamicResource font-size.meta}" />
+    <Setter Property="Foreground" Value="{DynamicResource color.muted}" />
+  </Style>
+  <Style x:Key="Text.Section" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+    <Setter Property="FontSize" Value="{DynamicResource font-size.section}" />
+    <Setter Property="FontWeight" Value="{DynamicResource font-weight.strong}" />
+  </Style>
+  <Style x:Key="Card" TargetType="Border">
+    <Setter Property="Background" Value="{DynamicResource color.surface}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource color.border}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="{DynamicResource radius.card}" />
+    <Setter Property="Padding" Value="{DynamicResource inset.card}" />
+    <Setter Property="Effect" Value="{DynamicResource shadow.card}" />
+  </Style>
+
+  <Style x:Key="Button.Base" TargetType="Button">
+    <Setter Property="FontFamily" Value="{DynamicResource font-family.ui}" />
+    <Setter Property="FontSize" Value="{DynamicResource font-size.label}" />
+    <Setter Property="FontWeight" Value="{DynamicResource font-weight.strong}" />
+    <Setter Property="Foreground" Value="{DynamicResource color.secondary}" />
+    <Setter Property="Background" Value="{DynamicResource color.surface}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource color.border-strong}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="MinHeight" Value="{DynamicResource size.control}" />
+    <Setter Property="Padding" Value="{DynamicResource inset.button}" />
+    <Setter Property="Cursor" Value="Hand" />
+    <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="Button">
+          <Grid Background="Transparent">
+            <ui:FeedbackBorder x:Name="Surface" CornerRadius="{DynamicResource radius.control}"
+                               Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                               BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}"
+                               Pressed="{TemplateBinding IsPressed}" Hot="{TemplateBinding IsMouseOver}"
+                               TintBrush="{DynamicResource color.text}">
+              <ContentPresenter RecognizesAccessKey="True" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+            </ui:FeedbackBorder>
+          </Grid>
+          <ControlTemplate.Triggers>
+            <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Surface" Property="BorderBrush" Value="{DynamicResource color.primary-border}" /></Trigger>
+            <Trigger Property="IsEnabled" Value="False"><Setter TargetName="Surface" Property="Opacity" Value="0.44" /></Trigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+  <Style TargetType="Button" BasedOn="{StaticResource Button.Base}" />
+  <Style x:Key="Button.Primary" TargetType="Button" BasedOn="{StaticResource Button.Base}">
+    <Setter Property="Background" Value="{DynamicResource color.primary}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource color.primary}" />
+    <Setter Property="Foreground" Value="{DynamicResource color.on-primary}" />
+  </Style>
+  <Style x:Key="Button.Soft" TargetType="Button" BasedOn="{StaticResource Button.Base}">
+    <Setter Property="Background" Value="{DynamicResource color.selected}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource color.hero-edge}" />
+    <Setter Property="Foreground" Value="{DynamicResource color.primary}" />
+  </Style>
+  <Style x:Key="Button.Danger" TargetType="Button" BasedOn="{StaticResource Button.Base}">
+    <Setter Property="Background" Value="{DynamicResource color.danger-bg}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource color.danger-border}" />
+    <Setter Property="Foreground" Value="{DynamicResource color.danger}" />
+  </Style>
+  <Style x:Key="Button.Quiet" TargetType="Button" BasedOn="{StaticResource Button.Base}">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderBrush" Value="Transparent" />
+    <Setter Property="Foreground" Value="{DynamicResource color.primary}" />
+    <Setter Property="MinHeight" Value="{DynamicResource size.control-small}" />
+  </Style>
+  <Style x:Key="Button.Toolbar" TargetType="Button" BasedOn="{StaticResource Button.Base}">
+    <Setter Property="MinHeight" Value="{DynamicResource size.control-small}" />
+    <Setter Property="Padding" Value="10,5" />
+  </Style>
+  <Style x:Key="Ribbon.Command" TargetType="Button" BasedOn="{StaticResource Button.Quiet}">
+    <Setter Property="MinHeight" Value="0" />
+    <Setter Property="FontWeight" Value="{DynamicResource font-weight.medium}" />
+    <Setter Property="FontSize" Value="{DynamicResource font-size.meta}" />
+    <Setter Property="Foreground" Value="{DynamicResource color.text}" />
+    <Setter Property="Padding" Value="6,2" />
+  </Style>
+  <Style x:Key="Ribbon.GroupCaption" TargetType="Button" BasedOn="{StaticResource Ribbon.Command}">
+    <Setter Property="Height" Value="24" />
+    <Setter Property="Foreground" Value="{DynamicResource color.secondary}" />
+    <Setter Property="FontWeight" Value="{DynamicResource font-weight.strong}" />
+  </Style>
+
+</ResourceDictionary>

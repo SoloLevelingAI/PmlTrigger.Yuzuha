@@ -117,7 +117,7 @@ begin
     Result := True;
     if CurPageID = wpSelectDir then begin
       Result := Core30AcceptedTerms and (Core30FolderError = '');
-      if Result then Result := Core30ConfirmOverwrite('');
+      if Result then Result := Core30ConfirmOverwrite('', Core30HasInstallRecord(Trim(WizardForm.DirEdit.Text)));
       Exit;
     end;
     if CurPageID = SimpleResult.ID then begin

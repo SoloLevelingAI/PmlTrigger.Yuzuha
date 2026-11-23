@@ -1,0 +1,10 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="urn:core30:F02:v1" elementFormDefault="qualified">
+  <xs:element name="request">
+    <xs:complexType>
+      <xs:attribute name="confirm" type="xs:boolean" use="required" fixed="true" />
+      <xs:attribute name="source" type="xs:string" use="required" />
+      <xs:attribute name="baseline" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

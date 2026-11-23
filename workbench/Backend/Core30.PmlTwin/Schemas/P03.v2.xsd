@@ -1,0 +1,43 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:d="urn:core30:P03:v2" targetNamespace="urn:core30:P03:v2" elementFormDefault="qualified">
+  <xs:simpleType name="evarsName">
+    <xs:restriction base="xs:string"><xs:enumeration value="evars.init" /><xs:enumeration value="evars.bat" /></xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="encoding">
+    <xs:restriction base="xs:string"><xs:enumeration value="auto" /><xs:enumeration value="gbk" /></xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="sha256">
+    <xs:restriction base="xs:string"><xs:length value="64" /><xs:pattern value="[0-9a-f]{64}" /></xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="operationId">
+    <xs:restriction base="xs:string"><xs:length value="32" /><xs:pattern value="[0-9a-f]{32}" /></xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="operation">
+    <xs:attribute name="id" type="d:operationId" use="required" />
+    <xs:attribute name="planSha256" type="d:sha256" use="required" />
+  </xs:complexType>
+  <xs:element name="request">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element name="preview">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="pml" minOccurs="1" maxOccurs="16">
+                <xs:complexType>
+                  <xs:attribute name="source" type="xs:string" use="required" />
+                  <xs:attribute name="path" type="xs:string" use="required" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="target" type="xs:string" use="required" />
+            <xs:attribute name="library" type="xs:string" use="required" />
+            <xs:attribute name="evars" type="d:evarsName" use="required" />
+            <xs:attribute name="encoding" type="d:encoding" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="apply" type="d:operation" />
+        <xs:element name="rollback" type="d:operation" />
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

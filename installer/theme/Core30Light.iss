@@ -13,7 +13,7 @@ WizardSmallImageFile=
 DirExistsWarning=no
 
 [Files]
-Source: "{#Core30SkinAssetDir}\Core30Frame.dll"; Flags: dontcopy
+Source: "{#Core30SkinAssetDir}\Core30Frame.dll"; Flags: dontcopy solidbreak
 Source: "{#Core30SkinAssetDir}\core30-setup-art.png"; Flags: dontcopy
 Source: "..\LICENSE"; DestName: "core30-apache-license.txt"; Flags: dontcopy
 
@@ -25,7 +25,9 @@ var
   Core30TitleClose: TNewButton;
   Core30Terms: TNewCheckBox;
   Core30TermsLink: TNewButton;
+  Core30PrepareCancel: TNewButton;
   Core30FolderHint: TNewStaticText;
+  Core30Preparing: Boolean;
   Core30LicenseForm, Core30OverwriteForm: TSetupForm;
   Core30InstallButtonWidth, Core30TitleHeight, Core30PadX, Core30PaneW, Core30PaneH: Integer;
 
@@ -271,13 +273,13 @@ begin
   Core30OverwriteForm.Close;
 end;
 
-function Core30ConfirmOverwrite(Review: String): Boolean;
+function Core30ConfirmOverwrite(Review: String; Existing: Boolean): Boolean;
 var Folder: String; Pad, Width, ButtonsY: Integer; BackButton, Proceed: TNewButton;
     Body: TNewStaticText; PathField: TNewEdit; Files: TNewMemo; Lines: TStringList;
 begin
   Result := True;
   Folder := Trim(WizardForm.DirEdit.Text);
-  if not Core30HasInstallRecord(Folder) then Exit;
+  if not Existing then Exit;
   Core30OverwriteForm := CreateCustomForm(582, 372, False, False);
   Lines := TStringList.Create;
   try
@@ -342,23 +344,6 @@ begin
   end;
 end;
 
-function Core30FolderHasContents(Folder: String): Boolean;
-var Entry: TFindRec;
-begin
-  Result := False;
-  if not DirExists(Folder) or not FindFirst(AddBackslash(Folder) + '*', Entry) then Exit;
-  try
-    repeat
-      if (Entry.Name <> '.') and (Entry.Name <> '..') then begin
-        Result := True;
-        Exit;
-      end;
-    until not FindNext(Entry);
-  finally
-    FindClose(Entry);
-  end;
-end;
-
 function Core30FolderError: String;
 var Folder: String;
 begin
@@ -369,28 +354,41 @@ begin
     Result := Core30LabelText('请选择本机磁盘目录，路径中不能含 % 或引号。', 'Choose a local folder without percent signs or quotes.')
   else if Pos('pmltrigger', Lowercase(ExtractFileName(RemoveBackslashUnlessRoot(Folder)))) = 0 then
     Result := Core30LabelText('安装目录名需包含 PmlTrigger。可点击「选择目录」自动生成。',
-      'The final folder name must contain PmlTrigger. Browse to add it automatically.')
-  else if not Core30HasInstallRecord(Folder) and Core30FolderHasContents(Folder) then
-    Result := Core30LabelText('此目录非空且没有安装记录。请选择空目录。',
-      'This folder contains files and has no install record. Choose an empty folder.');
+      'The final folder name must contain PmlTrigger. Browse to add it automatically.');
 end;
 
 procedure Core30UpdateInstall;
 var FolderError: String;
 begin
+  if Core30Preparing then Exit;
   FolderError := Core30FolderError;
   Core30FolderHint.Font.Color := {#Core30Muted};
   if FolderError <> '' then begin
     Core30FolderHint.Font.Color := {#Core30Danger};
     Core30FolderHint.Caption := FolderError;
-  end else if Core30HasInstallRecord(Trim(WizardForm.DirEdit.Text)) then
-    Core30FolderHint.Caption := Core30LabelText('找到旧安装记录。继续时会询问是否覆盖程序文件。',
-      'Install record found. Setup will ask before replacing program files.')
-  else
-    Core30FolderHint.Caption := Core30LabelText('新装。程序文件将写入此目录。',
-      'New installation. Program files will be placed in this folder.');
+  end else
+    Core30FolderHint.Caption := Core30LabelText('开始后将检查目录和待更新文件。',
+      'Setup checks the folder and files when you continue.');
   if WizardForm.CurPageID = wpSelectDir then
     WizardForm.NextButton.Enabled := Core30AcceptedTerms and (FolderError = '');
+end;
+
+procedure Core30Preparation(Busy, CanCancel: Boolean; MessageText: String);
+begin
+  Core30Preparing := Busy;
+  WizardForm.DirEdit.Enabled := not Busy;
+  WizardForm.DirBrowseButton.Enabled := not Busy;
+  Core30Terms.Visible := not Busy;
+  Core30TermsLink.Visible := not Busy;
+  Core30PrepareCancel.Visible := Busy;
+  Core30PrepareCancel.Enabled := CanCancel;
+  if Busy then begin
+    Core30FolderHint.Caption := MessageText;
+    WizardForm.NextButton.Enabled := False;
+  end else begin
+    Core30UpdateInstall;
+    if MessageText <> '' then Core30FolderHint.Caption := MessageText;
+  end;
 end;
 
 procedure Core30DirectoryChanged(Sender: TObject);
@@ -491,6 +489,9 @@ begin
   Core30Terms.OnClick := @Core30TermsChanged;
   Core30TermsLink := Core30NativeButton(WizardForm, Core30LabelText('查看协议', 'Read license'),
     Core30PadX + ScaleX(250), FooterY + ScaleY(6), ScaleX(91), ScaleY(36), Core30ButtonLink, @Core30TermsDocument);
+  Core30PrepareCancel := Core30NativeButton(WizardForm, Core30LabelText('取消准备', 'Cancel preparation'),
+    Core30PadX, FooterY, ScaleX(139), ScaleY(45), Core30ButtonQuiet, nil);
+  Core30PrepareCancel.Visible := False;
 end;
 
 procedure Core30StyleCompactProgress(Product: String);
@@ -629,8 +630,8 @@ begin
   end else begin
     WizardForm.InnerNotebook.SetBounds(0, 0, Core30PaneW, Core30PaneH);
   end;
-  Core30Terms.Visible := DirectoryPage;
-  Core30TermsLink.Visible := DirectoryPage;
+  Core30Terms.Visible := DirectoryPage and not Core30Preparing;
+  Core30TermsLink.Visible := DirectoryPage and not Core30Preparing;
   WizardForm.BackButton.Visible := False;
   WizardForm.CancelButton.Visible := False;
   if DirectoryPage then begin

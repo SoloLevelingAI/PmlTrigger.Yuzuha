@@ -1,0 +1,28 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:p="urn:core30:P06:v2"
+           targetNamespace="urn:core30:P06:v2" elementFormDefault="qualified">
+  <xs:element name="request">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="activity">
+          <xs:complexType>
+            <xs:attribute name="category">
+              <xs:simpleType><xs:restriction base="xs:string">
+                <xs:enumeration value="runtime" /><xs:enumeration value="deployment" /><xs:enumeration value="unclassified" />
+              </xs:restriction></xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="state">
+              <xs:simpleType><xs:restriction base="xs:string">
+                <xs:enumeration value="running" /><xs:enumeration value="completed" />
+                <xs:enumeration value="failed" /><xs:enumeration value="unknown" />
+              </xs:restriction></xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="query" type="xs:string" />
+            <xs:attribute name="limit">
+              <xs:simpleType><xs:restriction base="xs:int"><xs:minInclusive value="1" /><xs:maxInclusive value="200" /></xs:restriction></xs:simpleType>
+            </xs:attribute>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

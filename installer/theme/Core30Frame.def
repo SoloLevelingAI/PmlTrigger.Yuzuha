@@ -4,3 +4,5 @@ EXPORTS
     Core30BindFrame=_Core30BindFrame@16
     Core30BindCaption=_Core30BindCaption@4
     Core30BindButton=_Core30BindButton@16
+    Core30StartSetupWorker=_Core30StartSetupWorker@12
+    Core30WaitSetupWorker=_Core30WaitSetupWorker@8

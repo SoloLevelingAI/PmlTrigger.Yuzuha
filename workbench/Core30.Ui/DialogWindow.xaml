@@ -1,0 +1,32 @@
+<ui:ChromeWindow x:Class="Core30.Ui.DialogWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ui="clr-namespace:Core30.Ui"
+        Style="{StaticResource Window.Dialog}" WindowStartupLocation="CenterOwner">
+  <Grid x:Name="DialogRoot" KeyboardNavigation.TabNavigation="Cycle" Background="{DynamicResource color.surface}">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <ScrollViewer x:Name="DialogScroll" Focusable="False" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+      <StackPanel Margin="{DynamicResource inset.card}">
+        <Grid x:Name="Intro" Margin="0,0,0,16">
+          <Grid.ColumnDefinitions><ColumnDefinition Width="Auto" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+          <Border x:Name="HeadingBadge" Width="36" Height="36" VerticalAlignment="Top"
+                  Background="{DynamicResource color.selected}" BorderBrush="{DynamicResource color.hero-edge}"
+                  BorderThickness="1" CornerRadius="{DynamicResource radius.control}">
+            <Path x:Name="HeadingIcon" Style="{StaticResource Glyph}" Width="18" Height="18" />
+          </Border>
+          <StackPanel x:Name="HeadingCopy" Grid.Column="1" VerticalAlignment="Center" Margin="12,0,0,0">
+            <TextBlock x:Name="Description" Style="{StaticResource Text.Label}" TextWrapping="Wrap"
+                       Foreground="{DynamicResource color.secondary}" />
+          </StackPanel>
+        </Grid>
+        <StackPanel x:Name="DialogBody" />
+      </StackPanel>
+    </ScrollViewer>
+    <Border Grid.Row="1" Style="{StaticResource Dialog.Footer}">
+      <StackPanel x:Name="DialogActions" Orientation="Horizontal" HorizontalAlignment="Right" />
+    </Border>
+  </Grid>
+</ui:ChromeWindow>

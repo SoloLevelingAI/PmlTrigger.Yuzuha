@@ -1,4 +1,6 @@
 using System.Text.Json;
+using System.Text.Json.Serialization;
+using YuzuhaToolkit.Knowledge.Search;
 
 namespace YuzuhaToolkit.DevHost;
 
@@ -33,3 +35,13 @@ public sealed record PmlPreviewRequest(string MethodName, IReadOnlyList<PmlParam
 /// <summary>生成的调用表达式。</summary>
 /// <param name="Command">PML 调用文本；需要执行时仍通过 MCP 的会话核验流程。</param>
 public sealed record PmlPreviewResponse(string Command);
+
+[JsonSourceGenerationOptions(JsonSerializerDefaults.Web)]
+[JsonSerializable(typeof(HealthResponse))]
+[JsonSerializable(typeof(ApiError))]
+[JsonSerializable(typeof(IReadOnlyList<GuideDocument>))]
+[JsonSerializable(typeof(List<GuideDocument>))]
+[JsonSerializable(typeof(PmlPreviewRequest))]
+[JsonSerializable(typeof(PmlPreviewResponse))]
+[JsonSerializable(typeof(IReadOnlyList<QueryVariant>))]
+internal sealed partial class DevelopmentJsonContext : JsonSerializerContext;

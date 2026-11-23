@@ -156,20 +156,19 @@ define method .InitializeResult()
   !this.CurrentLayerArr     = object array()
   !this.startModify         = false
   !startArr = !this.startStr.split('.')
-  if !startArr[1].length() eq 0 then
+  if !this.startStr.length() eq 0 then
     !this.startNum          = 0
   else
-    !objStr                 = !this.ResolveAttribute('',0,false)
-    !this.ResArray.Append(!objStr)
+    !this.ResArray.Append(!this.ResolveAttribute('',0,false))
     !this.startNum          = !startArr.size() 
     !this.startModify       = true
   endif
   !objStr                   = !this.ResolveAttribute(!this.startStr,!this.startNum,false)
+  !this.ResArray.Append(!objStr)
   if !this.IsSuccess(!objStr).not() then
     return
   endif
   -- !objStr                = !this.GetStrFromArray(!this.InitArray,'[$!num]')
-  !this.ResArray.Append(!objStr)
   !this.startNum            = !this.startNum + 1
   !str = !this.ResolveAttribute(!this.startStr,!this.startNum,TRUE)
   !AttArr = object array()
@@ -251,6 +250,9 @@ define method .CollectChildren(!att is string,!objStr is string,!num is real)
     !this.memberList.clear()
     return
   endif
+  if !this.IsSuccess(!objStr).not() then
+    return
+  endif
   !str    = !this.ResolveAttribute(!att,0,TRUE)
   if !this.IsSuccess(!str).not() then
     return
@@ -291,11 +293,15 @@ define method .ResolveAttribute(!splitStr is string,!num is real,!isReturnAtt is
   !splitArr  = !splitStr.split('.')
   !size = !splitArr.size()
   !str = '!this.InitArray[1]'
-  if !size neq 0 and !splitArr[1].length() neq 0 then
+  if !splitStr.length() gt 0 then
     do !i from 1 to !size
-      !MemberNum = !splitArr[!i].replace('|', '').real()
+      !segment = !splitArr[!i]
+      if !segment.length() eq 0 then
+        return 'failedToGetValue |$!splitStr| |Empty attribute path segment|'
+      endif
+      !MemberNum = !segment.replace('|', '').real()
       handle any
-        !str = !str + '.attribute(|$!splitArr[$!i]|)'
+        !str = !str + '.attribute(|$!segment|)'
         skip
       endhandle
       !str = !str + '[$!MemberNum]'
@@ -327,7 +333,7 @@ endmethod
 ------------------------------------------------------------------------
 define method .IsSuccess(!str is string) is boolean
 -- 判断是否获取失败
-  if !str.match('failedToGetValue') GT 0.5 then
+  if !str.match('failedToGetValue |') eq 1 then
     return false
   endif
   return true

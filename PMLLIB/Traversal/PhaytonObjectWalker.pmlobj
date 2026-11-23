@@ -330,7 +330,7 @@ endmethod
 -- </summary>
 -- <param name="nodeId">RegisterNode 创建的节点编号。</param>
 -- <remarks>
---   <para>数组按下标从父缓存读取；普通属性先用 attribute，DBREF 失败再用 VAR SPLIT。</para>
+--   <para>数组按下标从父缓存读取；DBREF 的 attribute 返回 (2,136) 时才用 VAR SPLIT。</para>
 --   <para>VAR SPLIT 的返回数组直接成为节点值；不重新求值原访问表达式。</para>
 --   <para>NodeErrors 非空表示失败，NodeSources 记录 DIRECT 或 VAR SPLIT。</para>
 -- </remarks>
@@ -371,7 +371,7 @@ define method .ReadNode(!nodeId is real)
       endhandle
     else
       !valueBox.append(!parentBox[1].attribute(!segment))
-      handle any
+      handle (2,136)
         !directError = !!error.text
         if !this.NodeTypes[!parentId] neq 'DBREF' then
           !this.NodeErrors[!nodeId] = !directError
@@ -385,6 +385,9 @@ define method .ReadNode(!nodeId is real)
           return
         endhandle
         !source = 'VAR SPLIT'
+      elsehandle any
+        !this.NodeErrors[!nodeId] = !!error.text
+        return
       endhandle
     endif
   endif

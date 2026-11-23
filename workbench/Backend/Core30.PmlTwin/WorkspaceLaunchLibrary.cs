@@ -103,6 +103,8 @@ public static partial class PmlTwinFeatures
     private static void ValidateSavedLaunch(LaunchProfileFields settings, LaunchInstallation installation)
     {
         ValidateLaunchUsername(settings.User);
+        if (!HasLaunchMdb(settings.Mdb))
+            throw new InvalidDataException("请填写实际 MDB 名称。");
         if (settings.UicDirectory is { } uic)
         {
             if (installation.Product != "E3D")

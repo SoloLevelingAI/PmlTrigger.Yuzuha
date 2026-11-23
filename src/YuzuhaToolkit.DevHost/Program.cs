@@ -4,6 +4,8 @@ using YuzuhaToolkit.DevHost;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.WebHost.UseUrls(builder.Configuration["urls"] ?? "http://127.0.0.1:5276");
+builder.Services.ConfigureHttpJsonOptions(options =>
+    options.SerializerOptions.TypeInfoResolverChain.Insert(0, DevelopmentJsonContext.Default));
 builder.Services.AddOpenApi("v1", options => options.AddDocumentTransformer((document, _, _) =>
 {
     document.Info.Title = "Yuzuha 开发 API";
@@ -14,6 +16,34 @@ builder.Services.AddOpenApi("v1", options => options.AddDocumentTransformer((doc
 }));
 
 var app = builder.Build();
+if (builder.Configuration["docs-only"] == "true")
+{
+    var site = Path.GetFullPath(builder.Configuration["docs-root"] ?? throw new ArgumentException("docs-root is required."));
+    if (!File.Exists(Path.Combine(site, "index.html"))) throw new DirectoryNotFoundException("Documentation index is missing.");
+    app.Use(async (context, next) =>
+    {
+        if (context.Connection.RemoteIpAddress is not { } ip || !System.Net.IPAddress.IsLoopback(ip) ||
+            context.Request.Host.Host != "127.0.0.1" || context.Request.Method is not ("GET" or "HEAD"))
+        {
+            context.Response.StatusCode = 403;
+            return;
+        }
+        context.Response.Headers["X-Content-Type-Options"] = "nosniff";
+        await next();
+    });
+    var docs = new PhysicalFileProvider(site);
+    app.Lifetime.ApplicationStopped.Register(docs.Dispose);
+    app.UseStaticFiles(new StaticFileOptions
+    {
+        FileProvider = docs,
+        RequestPath = "/docs",
+        OnPrepareResponse = context => context.Context.Response.Headers.CacheControl = "no-cache"
+    });
+    app.MapGet("/", () => Results.Redirect("/docs/index.html"));
+    app.MapGet("/docs", () => Results.Redirect("/docs/index.html"));
+    await app.RunAsync();
+    return;
+}
 app.MapGet("/health", DevelopmentEndpoints.Health).WithName("GetDevelopmentHealth").WithTags("开发宿主");
 app.MapGet("/api/guides", DevelopmentEndpoints.Guides).WithName("GetBuiltinGuides").WithTags("内置指南");
 app.MapPost("/api/pml/preview", DevelopmentEndpoints.PreviewPml).WithName("PreviewPmlCall").WithTags("PML 预览");

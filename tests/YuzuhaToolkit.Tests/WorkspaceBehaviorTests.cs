@@ -98,15 +98,18 @@ public sealed class WorkspaceBehaviorTests : IDisposable
         Assert.Throws<InvalidDataException>(() => PluginDeployment.Preview(file, DirectoryPath("registered"), "Plugin")); Assert.False(File.Exists(Path.Combine(_root, "outside.pmlfnc")));
     }
 
-    [Fact]
-    public void NativeLaunchArgumentsPreserveSpacesAndDoNotModifyParentEnvironment()
+    [Theory]
+    [InlineData("E3D")]
+    [InlineData("Everything3D")]
+    public void NativeLaunchArgumentsPreserveSpacesAndDoNotModifyParentEnvironment(string product)
     {
         var executable = Write("program with spaces/mon.exe", "test fixture; never executed"); var initialization = Write("program with spaces/launch.init", "fixture");
-        var profile = new LaunchProfile { Executable = executable, Initialization = initialization, WorkingDirectory = DirectoryPath("working"), Project = "PRJ", User = "USER", Mdb = "ALL", Module = "Design", License = "4545@localhost" };
+        var profile = new LaunchProfile { Executable = executable, Initialization = initialization, WorkingDirectory = DirectoryPath("working"), Product = product, Project = "PRJ", User = "USER", Mdb = "ALL", Module = "Design", License = "4545@localhost" };
         var previous = Environment.GetEnvironmentVariable("AVEVA_LICENSE_SERVER_LIST"); var start = LaunchService.Build(profile, "secret password");
         Assert.Equal(new[] { "PROD", "E3D", "init", initialization, "PRJ", "USER/secret password", "/ALL", "Design" }, start.ArgumentList);
         Assert.Equal("4545@localhost", start.Environment["AVEVA_LICENSE_SERVER_LIST"]); Assert.Equal(previous, Environment.GetEnvironmentVariable("AVEVA_LICENSE_SERVER_LIST"));
         Assert.DoesNotContain("secret password", LaunchService.Preview(profile));
+        Assert.StartsWith("PROD E3D init ", LaunchService.Preview(profile));
     }
 
     [Fact]

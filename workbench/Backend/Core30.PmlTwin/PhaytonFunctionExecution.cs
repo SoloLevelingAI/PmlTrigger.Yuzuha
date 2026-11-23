@@ -62,11 +62,13 @@ public static partial class PmlTwinFeatures
             if (plan.Mode == "array")
             {
                 var window = data.Field("ArrayWindow");
-                var items = window.Field("Items");
-                if (items.ValueKind != JsonValueKind.Array) return Failure(reply, "Host 未返回只读 ARRAY 窗口。");
+                var rows = window.Field("Rows");
+                var truncated = window.Field("Truncated");
+                if (rows.ValueKind != JsonValueKind.Array || truncated.ValueKind is not (JsonValueKind.True or JsonValueKind.False))
+                    return Failure(reply, "Host 未返回有效的只读 ARRAY 窗口。");
                 var value = new CoreData("value", new CoreField("type", "ARRAY"),
-                    new CoreField("count", items.GetArrayLength()), items.GetRawText());
-                return Result(window.Boolean("HasMore") ? "partial" : "ok", plan.Describe(), value);
+                    new CoreField("count", rows.GetArrayLength()), rows.GetRawText());
+                return Result(truncated.GetBoolean() ? "partial" : "ok", plan.Describe(), value);
             }
             return plan.Mode == "scalar"
                 ? Result("ok", plan.Describe(), new CoreData("value", new CoreField("type", plan.Entry.ReturnType), data.String("FunctionResult")))
@@ -91,7 +93,27 @@ public static partial class PmlTwinFeatures
                 return Failure(reply, "Host 未返回可读取的 ARRAY 项。");
             var value = new CoreData("value", new CoreField("type", "ARRAY"), new CoreField("count", data.Integer("Count")),
                 new CoreField("unparsed", unparsed), items.GetRawText());
-            return Result(unparsed == 0 ? "ok" : "partial", plan.Describe(), value);
+            if (unparsed == 0)
+                return Result("ok", plan.Describe(), value);
+
+            var message = FirstAttributeFailure(data.Field("Unparsed")) ?? $"有 {unparsed} 行返回值无法解析，原文见 Host 回执。";
+            return Result("partial", plan.Describe(), value, new CoreData("message", message));
+        }
+
+        private static string? FirstAttributeFailure(JsonElement rows)
+        {
+            const string displayPrefix = "<STRING> '";
+            const string failurePrefix = "failedToGetValue ";
+            foreach (var row in rows.Items())
+            {
+                if (row.ValueKind != JsonValueKind.String || row.GetString() is not { } text)
+                    continue;
+                if (text.StartsWith(displayPrefix, StringComparison.Ordinal) && text.EndsWith('\''))
+                    text = text[displayPrefix.Length..^1];
+                if (text.StartsWith(failurePrefix + "|", StringComparison.Ordinal))
+                    return "属性读取失败 " + text[failurePrefix.Length..];
+            }
+            return null;
         }
 
         /// <summary>Evaluates a scalar once, reads the owned result, then deletes the session variable.</summary>

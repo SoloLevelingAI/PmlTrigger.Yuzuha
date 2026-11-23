@@ -16,6 +16,8 @@ internal sealed class NativeFormFixture : IPmlFormQueryRuntime
     public string ReadString(string variable)
     {
         if (expression == "!!Synthetic.objectType()") return "FORM";
+        if (expression == "!!Synthetic.attributes().join('|')") return "accept";
+        if (expression.EndsWith(".attributes().join('|')", StringComparison.Ordinal)) return "Active|Visible|ToolTip|Callback|Tag";
         if (expression.EndsWith(".objectType()", StringComparison.Ordinal)) return "GADGET";
         if (expression.EndsWith(".type()", StringComparison.Ordinal)) return "BUTTON";
         if (expression.EndsWith(".name()", StringComparison.Ordinal)) return expression.IndexOf("[2]", StringComparison.Ordinal) >= 0 ? "Synthetic2" : "Synthetic1";

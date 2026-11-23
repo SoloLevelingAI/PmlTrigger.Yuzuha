@@ -48,9 +48,15 @@ public static class LaunchService
             throw new ArgumentException("请填写不含空白或控制字符的项目、用户、MDB 与模块。");
         if (profile.Kind == "Monitor")
         {
-            if (!Path.GetExtension(profile.Executable).Equals(".exe", StringComparison.OrdinalIgnoreCase) || string.IsNullOrWhiteSpace(profile.Product) || profile.Product.Any(char.IsWhiteSpace) || string.IsNullOrWhiteSpace(profile.Initialization) || profile.Initialization.Any(c => char.IsControl(c) || c == '"'))
+            var product = profile.Product?.ToUpperInvariant() switch
+            {
+                "3D" or "EVERYTHING3D" or "E3D" => "E3D",
+                "PDMS" => "PDMS",
+                _ => profile.Product
+            };
+            if (!Path.GetExtension(profile.Executable).Equals(".exe", StringComparison.OrdinalIgnoreCase) || string.IsNullOrWhiteSpace(product) || product.Any(char.IsWhiteSpace) || string.IsNullOrWhiteSpace(profile.Initialization) || profile.Initialization.Any(c => char.IsControl(c) || c == '"'))
                 throw new ArgumentException("Monitor 需要 EXE、产品代码和初始化文件。");
-            return ["PROD", profile.Product, "init", profile.Initialization, profile.Project, profile.User + "/" + password, mdb, profile.Module];
+            return ["PROD", product, "init", profile.Initialization, profile.Project, profile.User + "/" + password, mdb, profile.Module];
         }
         if (profile.Kind != "MarineBatch" || !new[] { ".bat", ".cmd" }.Contains(Path.GetExtension(profile.Executable), StringComparer.OrdinalIgnoreCase)) throw new ArgumentException("启动类型或入口扩展名无效。");
         return [profile.Module, "noconsole", profile.Project, profile.User + "/" + password, mdb];

@@ -10,8 +10,6 @@ namespace YuzuhaToolkit.DevHost;
 /// <summary>开发 API：复用内置指南、PML 格式化及查询规划；每个处理器只计算返回值。</summary>
 public static partial class DevelopmentEndpoints
 {
-    private static readonly JsonSerializerOptions GuideJson = new(JsonSerializerDefaults.Web);
-
     /// <summary>读取开发宿主状态。</summary>
     /// <returns>宿主名称与当前 API 版本；不表示 AVEVA 已连接。</returns>
     public static HealthResponse Health() => new("YuzuhaToolkit.DevHost", "v1");
@@ -20,7 +18,7 @@ public static partial class DevelopmentEndpoints
     /// <param name="query">主题 ID、别名或任务描述；省略时返回全部指南。</param>
     /// <returns>包含优先级及替换策略的指南；未知主题返回空数组。</returns>
     public static IReadOnlyList<GuideDocument> Guides(string? query = null) =>
-        JsonSerializer.Deserialize<List<GuideDocument>>(new BuiltinUsageTools().GetBuiltinUsage(query), GuideJson)!;
+        JsonSerializer.Deserialize(new BuiltinUsageTools().GetBuiltinUsage(query), DevelopmentJsonContext.Default.ListGuideDocument)!;
 
     /// <summary>生成 PML 全局方法调用文本。</summary>
     /// <param name="request">方法名及有序的带类型参数。</param>

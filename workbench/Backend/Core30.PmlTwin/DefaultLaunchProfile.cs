@@ -59,8 +59,10 @@ public static partial class PmlTwinFeatures
         && (preferred.Length == 0 || SameInstallationPath(candidate.Directory, preferred));
 
     private static bool HasLaunchSettings(Profile? profile, StoredLaunch settings) =>
-        new[] { profile?.Project, settings.User, settings.Mdb, settings.Module }
+        HasLaunchMdb(settings.Mdb) && new[] { profile?.Project, settings.User, settings.Module }
             .All(value => !string.IsNullOrWhiteSpace(value));
+
+    private static bool HasLaunchMdb(string? mdb) => !string.IsNullOrWhiteSpace(mdb?.Trim().TrimStart('/'));
 
     private sealed record LaunchChoice(LaunchInstallation Installation, Profile? Profile);
 }

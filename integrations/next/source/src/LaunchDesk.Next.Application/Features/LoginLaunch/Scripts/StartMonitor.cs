@@ -25,6 +25,6 @@ public sealed class StartMonitor(IProcessHost processes, IFileSystem files)
 
         return ["PROD", profile.Product, "init", profile.InitializationFile,
             profile.Project, profile.User + "/" + AvevaProcessCommand.SecretSlot,
-            "/" + profile.Mdb.TrimStart('/'), profile.Module];
+            AvevaProcessCommand.MdbArgument(profile.Mdb), profile.Module];
     }
 }

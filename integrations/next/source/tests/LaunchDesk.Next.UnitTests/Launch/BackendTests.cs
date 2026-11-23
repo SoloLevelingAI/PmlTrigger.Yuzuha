@@ -48,6 +48,14 @@ public sealed class BackendTests
     }
     [Test] public void MonitorOrderMatchesVendorProtocol() => Assert.That(StartMonitor.BuildArguments(new LaunchInput { Product = "E3D", InitializationFile = "launch.init", Project = "SAM", User = "SYSTEM", Mdb = "ALL", Module = "DESIGN" }.CreateSnapshot(Guid.NewGuid())), Is.EqualTo(new[] { "PROD", "E3D", "init", "launch.init", "SAM", "SYSTEM/<secret>", "/ALL", "DESIGN" }));
     [Test] public void MarineOrderMatchesVendorProtocol() => Assert.That(StartMarineBatch.BuildArguments(new LaunchInput { Project = "SEA", User = "SYSTEM", Mdb = "/ALL", Module = "Paragon" }.CreateSnapshot(Guid.NewGuid())), Is.EqualTo(new[] { "Paragon", "noconsole", "SEA", "SYSTEM/<secret>", "/ALL" }));
+    [TestCase(EntryProtocol.Monitor, "/")]
+    [TestCase(EntryProtocol.Marine, "//")]
+    public void SlashOnlyMdbIsRejectedBeforeStarting(EntryProtocol protocol, string mdb)
+    {
+        var request = Request() with { Protocol = protocol, Product = "E3D", InitializationFile = "launch.init",
+            Project = "SAM", User = "SYSTEM", Mdb = mdb, Module = "Paragon" };
+        Assert.That(LaunchValidation.Validate(request), Is.EqualTo("MDB must contain a name."));
+    }
     [TestCase("a&b")]
     [TestCase("a b")]
     [TestCase("a%b")]

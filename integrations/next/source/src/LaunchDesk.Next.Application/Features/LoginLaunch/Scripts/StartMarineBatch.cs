@@ -22,6 +22,6 @@ public sealed class StartMarineBatch(IProcessHost processes)
             throw new ArgumentException("Marine fields cannot be passed literally through batch processing.");
 
         return [profile.Module, "noconsole", profile.Project,
-            profile.User + "/" + AvevaProcessCommand.SecretSlot, "/" + profile.Mdb.TrimStart('/')];
+            profile.User + "/" + AvevaProcessCommand.SecretSlot, AvevaProcessCommand.MdbArgument(profile.Mdb)];
     }
 }

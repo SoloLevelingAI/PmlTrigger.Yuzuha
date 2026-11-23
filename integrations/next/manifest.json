@@ -88,8 +88,8 @@
       "path": "source/src/LaunchDesk.Next.Application/Features/LoginLaunch/Scripts/AvevaProcessCommand.cs",
       "sourcePath": "LaunchDesk.Next/src/LaunchDesk.Next.Application/Features/LoginLaunch/Scripts/AvevaProcessCommand.cs",
       "sha256": "0620fd0987382bacc0417a94a8e8cba78a8df1879bf8b6f2864e2b8987508d85",
-      "integratedSha256": "0620fd0987382bacc0417a94a8e8cba78a8df1879bf8b6f2864e2b8987508d85",
-      "bytes": 987
+      "integratedSha256": "709f4f97b084481aa55bac6759c65225490010195ea0ef3b0783ab78cdfb3fc1",
+      "bytes": 1239
     },
     {
       "path": "source/src/LaunchDesk.Next.Application/Features/LoginLaunch/Scripts/CheckAvevaLicence.cs",
@@ -144,15 +144,15 @@
       "path": "source/src/LaunchDesk.Next.Application/Features/LoginLaunch/Scripts/StartMarineBatch.cs",
       "sourcePath": "LaunchDesk.Next/src/LaunchDesk.Next.Application/Features/LoginLaunch/Scripts/StartMarineBatch.cs",
       "sha256": "6473a21625d95ccf136a41c0cbf1276f43a761ae5ebb039d05ae904e5b65b45a",
-      "integratedSha256": "6473a21625d95ccf136a41c0cbf1276f43a761ae5ebb039d05ae904e5b65b45a",
-      "bytes": 1286
+      "integratedSha256": "5ebe0d39bed610d7f8ac49de8444f1497737104f61418e7990cae65dc8eabe82",
+      "bytes": 1298
     },
     {
       "path": "source/src/LaunchDesk.Next.Application/Features/LoginLaunch/Scripts/StartMonitor.cs",
       "sourcePath": "LaunchDesk.Next/src/LaunchDesk.Next.Application/Features/LoginLaunch/Scripts/StartMonitor.cs",
       "sha256": "be902d534e039727ab008b006276634041680a37e04dc1cec89662e2084aa38c",
-      "integratedSha256": "be902d534e039727ab008b006276634041680a37e04dc1cec89662e2084aa38c",
-      "bytes": 1539
+      "integratedSha256": "d315518366a6d1c78c479006098255240d12938eb071e77b087d8b827806e25f",
+      "bytes": 1551
     },
     {
       "path": "source/src/LaunchDesk.Next.Application/Infrastructure/Contracts/ProcessHost.cs",
@@ -522,8 +522,8 @@
       "path": "source/tests/LaunchDesk.Next.UnitTests/Launch/BackendTests.cs",
       "sourcePath": "LaunchDesk.Next/tests/LaunchDesk.Next.UnitTests/Launch/BackendTests.cs",
       "sha256": "4c2ca4edb6951c4ff5d4d62a2182727094d483547f488e4c16b07a9cd2602ea4",
-      "integratedSha256": "4c2ca4edb6951c4ff5d4d62a2182727094d483547f488e4c16b07a9cd2602ea4",
-      "bytes": 10416
+      "integratedSha256": "f89204e960dc54748a85deebffc46fa705ad231384344a44e76059b48b737d38",
+      "bytes": 10901
     },
     {
       "path": "source/tests/LaunchDesk.Next.UnitTests/Launch/FeatureScriptsTests.cs",

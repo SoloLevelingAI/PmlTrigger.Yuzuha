@@ -7,6 +7,14 @@ internal static class AvevaProcessCommand
 {
     internal const string SecretSlot = "<secret>";
 
+    internal static string MdbArgument(string mdb)
+    {
+        var name = mdb.TrimStart('/');
+        if (string.IsNullOrWhiteSpace(name))
+            throw new ArgumentException("MDB must contain a name.");
+        return "/" + name;
+    }
+
     // This feature chooses AVEVA's environment; the process host only applies the command.
     internal static ProcessCommand Create(LaunchRequest profile, string[] arguments,
         ProcessInvocation invocation, ProcessObservation observation)

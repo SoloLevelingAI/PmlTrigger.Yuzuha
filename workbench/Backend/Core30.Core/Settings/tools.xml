@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tools xmlns="urn:core30:tools:v1">
+  <ribbon enabled="true" />
+  <license enabled="true" />
+  <launcher enabled="true" />
+</tools>

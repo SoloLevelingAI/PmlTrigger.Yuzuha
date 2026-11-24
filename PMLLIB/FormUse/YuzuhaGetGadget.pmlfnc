@@ -27,31 +27,24 @@
 --  !!YuzuhaGetGadget(!!spiralctr,|'ELBO','BRAN'|)
 --  !!YuzuhaGetGadget(!!reorderhierarchy,| 'BUTTON','FRAME' |)
 ------------------------------------------------------------------------
-define function !!YuzuhaGetGadget(!form is form,!except is string) is array
-  !gadGetArray  = array()
-  !arr          = array()
-  !attributes   = !form.attributes()
-   do !n indices !attributes
-    !arr.DELETE()
-    !arr[1]     = !form.attribute('$!attributes[$!n]')
-    var !aaa var !arr[1]
-    handle any 
-    endhandle
-    if !aaa.unset() or !aaa.matchwild('*<GADGET> Unset*')  then
+define function !!YuzuhaGetGadget(!form is FORM,!except is STRING) is ARRAY
+  !result = array()
+  !attributes = !form.attributes()
+  do !i indices !attributes
+    !name = !attributes[!i]
+    if !form.attribute(!name).objectType() ne 'GADGET' then
       skip
     endif
-    if !aaa.matchwild('*GADGET*') then
-     
-      !gadGetArray.append('$!attributes[$!n]')
-      !gadget.delete()
-      handle any
-      endhandle
-      !gadget = !form.$!attributes[$!n]
-      !type  = !!YuzuhaGetGadgetType(!gadget)
-      if  !type inset($!except) then
-        !gadGetArray.removelast()
-      endif 
+    !gadget = !form.attribute(!name)
+    if !gadget.unset() then
+      skip
     endif
+    if !except.trim().length() gt 0 then
+      if !gadget.type() inset($!except) then
+        skip
+      endif
+    endif
+    !result.append(!name)
   enddo
-  return !gadGetArray
+  return !result
 endfunction

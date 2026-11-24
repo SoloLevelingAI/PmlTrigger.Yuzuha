@@ -1,0 +1,41 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:k="urn:core30:P05:v4"
+           targetNamespace="urn:core30:P05:v4" elementFormDefault="qualified">
+  <xs:simpleType name="path"><xs:restriction base="xs:token"><xs:minLength value="1" /><xs:maxLength value="2048" /></xs:restriction></xs:simpleType>
+  <xs:simpleType name="digest"><xs:restriction base="xs:string"><xs:pattern value="[0-9a-fA-F]{64}" /></xs:restriction></xs:simpleType>
+  <xs:simpleType name="version"><xs:restriction base="xs:string"><xs:pattern value="[0-9]{1,5}\.[0-9]{1,5}\.[0-9]{1,5}" /></xs:restriction></xs:simpleType>
+  <xs:simpleType name="query"><xs:restriction base="xs:string"><xs:minLength value="1" /><xs:maxLength value="512" /></xs:restriction></xs:simpleType>
+  <xs:simpleType name="limit"><xs:restriction base="xs:int"><xs:minInclusive value="1" /><xs:maxInclusive value="25" /></xs:restriction></xs:simpleType>
+  <xs:element name="request">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element name="status"><xs:complexType /></xs:element>
+        <xs:element name="deploy">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="release" minOccurs="0">
+                <xs:complexType>
+                  <xs:attribute name="version" type="k:version" use="required" />
+                  <xs:attribute name="sha256" type="k:digest" use="required" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="gitee" type="k:path" />
+            <xs:attribute name="preview" type="xs:boolean" default="false" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="index">
+          <xs:complexType><xs:attribute name="root" type="k:path" use="required" /></xs:complexType>
+        </xs:element>
+        <xs:element name="search">
+          <xs:complexType>
+            <xs:attribute name="root" type="k:path" use="required" />
+            <xs:attribute name="query" type="k:query" use="required" />
+            <xs:attribute name="limit" type="k:limit" default="10" />
+            <xs:attribute name="semantic" type="xs:boolean" default="false" />
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+      <xs:attribute name="home" type="k:path" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

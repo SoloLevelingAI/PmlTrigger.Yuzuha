@@ -1,0 +1,50 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:d="urn:core30:P03:v3" targetNamespace="urn:core30:P03:v3" elementFormDefault="qualified">
+  <xs:simpleType name="sha256">
+    <xs:restriction base="xs:string"><xs:length value="64" /><xs:pattern value="[0-9a-f]{64}" /></xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="operationId">
+    <xs:restriction base="xs:string"><xs:length value="32" /><xs:pattern value="[0-9a-f]{32}" /></xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="operation">
+    <xs:attribute name="id" type="d:operationId" use="required" />
+    <xs:attribute name="planSha256" type="d:sha256" use="required" />
+  </xs:complexType>
+  <xs:attributeGroup name="location">
+    <xs:attribute name="package" type="xs:string" use="required" />
+    <xs:attribute name="target" type="xs:string" use="required" />
+    <xs:attribute name="directory" type="xs:string" use="required" />
+  </xs:attributeGroup>
+  <xs:element name="request">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element name="scan">
+          <xs:complexType><xs:attribute name="folder" type="xs:string" use="required" /></xs:complexType>
+        </xs:element>
+        <xs:element name="status">
+          <xs:complexType><xs:attributeGroup ref="d:location" /></xs:complexType>
+        </xs:element>
+        <xs:element name="preview">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="evars" minOccurs="0">
+                <xs:complexType>
+                  <xs:attribute name="file" use="required">
+                    <xs:simpleType><xs:restriction base="xs:string"><xs:enumeration value="evars.init" /><xs:enumeration value="evars.bat" /></xs:restriction></xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="library" type="xs:string" use="required" />
+                  <xs:attribute name="encoding">
+                    <xs:simpleType><xs:restriction base="xs:string"><xs:enumeration value="auto" /><xs:enumeration value="gbk" /></xs:restriction></xs:simpleType>
+                  </xs:attribute>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attributeGroup ref="d:location" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="apply" type="d:operation" />
+        <xs:element name="rollback" type="d:operation" />
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

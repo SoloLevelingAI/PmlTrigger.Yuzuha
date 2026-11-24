@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<requests xmlns:g="urn:core30:request-generator">
+  <contract type="FileDeploymentRequests" schema="P03.v6.xsd" module="pml">
+    <method name="Preview">
+      <param name="source" type="string" />
+      <param name="target" type="string" />
+      <request><preview source="$source" target="$target" /></request>
+    </method>
+    <method name="Apply">
+      <param name="id" type="string" />
+      <param name="planSha256" type="string" />
+      <request><apply id="$id" planSha256="$planSha256" /></request>
+    </method>
+    <method name="Rollback">
+      <param name="id" type="string" />
+      <param name="planSha256" type="string" />
+      <request><rollback id="$id" planSha256="$planSha256" /></request>
+    </method>
+    <method name="Inspect">
+      <param name="id" type="string" />
+      <param name="planSha256" type="string" />
+      <request><inspect id="$id" planSha256="$planSha256" /></request>
+    </method>
+    <method name="History">
+      <request><history /></request>
+    </method>
+  </contract>
+  <contract type="LocalEvarsRequests" schema="P03.v5.xsd" module="pml">
+    <method name="Preview">
+      <param name="evars" type="string" />
+      <param name="product" type="string" />
+      <param name="library" type="string?" />
+      <param name="uiDirectory" type="string?" />
+      <request><evars-preview evars="$evars" product="$product" library="$library" uiDirectory="$uiDirectory" /></request>
+    </method>
+    <method name="Apply">
+      <param name="evars" type="string" />
+      <param name="product" type="string" />
+      <param name="library" type="string?" />
+      <param name="uiDirectory" type="string?" />
+      <param name="expectedSha256" type="string" />
+      <param name="proposedSha256" type="string" />
+      <request><evars-apply evars="$evars" product="$product" library="$library" uiDirectory="$uiDirectory" confirm="true"
+        expectedSha256="$expectedSha256" proposedSha256="$proposedSha256" /></request>
+    </method>
+  </contract>
+  <contract type="DeploymentVerificationRequests" schema="P03.v8.xsd" module="pml">
+    <method name="Verify">
+      <param name="id" type="string" />
+      <param name="planSha256" type="string" />
+      <request><verify id="$id" planSha256="$planSha256" /></request>
+    </method>
+  </contract>
+  <contract type="PackageRequests" schema="P03.v3.xsd" module="pml">
+    <method name="Scan">
+      <param name="folder" type="string" />
+      <request><scan folder="$folder" /></request>
+    </method>
+  </contract>
+  <contract type="PhaytonRequests" schema="P03.v7.xsd" module="pml">
+    <method name="Register">
+      <param name="name" type="string" />
+      <param name="sourceFile" type="string" />
+      <request><register name="$name" sourceFile="$sourceFile" /></request>
+    </method>
+    <method name="Permission">
+      <param name="name" type="string" />
+      <param name="allow" type="bool" />
+      <param name="sha256" type="string" />
+      <request><permission name="$name" allow="$allow" sha256="$sha256" /></request>
+    </method>
+    <method name="PermissionReviewed">
+      <param name="name" type="string" />
+      <param name="allow" type="bool" />
+      <param name="sha256" type="string" />
+      <param name="reviewedReadOnly" type="bool" />
+      <request><permission name="$name" allow="$allow" sha256="$sha256" reviewedReadOnly="$reviewedReadOnly" /></request>
+    </method>
+    <method name="Functions">
+      <request><functions /></request>
+    </method>
+    <method name="Sessions">
+      <request><sessions /></request>
+    </method>
+    <method name="Parameter" fragment="true">
+      <param name="type" type="string" />
+      <param name="value" type="string" />
+      <parameter type="$type">$value</parameter>
+    </method>
+    <method name="Preview">
+      <param name="name" type="string" />
+      <param name="pid" type="string" />
+      <param name="startTicks" type="string" />
+      <param name="model" type="string" />
+      <param name="parameters" type="IEnumerable&lt;CoreData&gt;" />
+      <request>
+        <preview name="$name" pid="$pid" startTicks="$startTicks" model="$model">
+          <g:insert param="parameters" element="parameter" />
+        </preview>
+      </request>
+    </method>
+    <method name="Invoke">
+      <param name="name" type="string" />
+      <param name="pid" type="string" />
+      <param name="startTicks" type="string" />
+      <param name="model" type="string" />
+      <param name="plan" type="string" />
+      <param name="parameters" type="IEnumerable&lt;CoreData&gt;" />
+      <request>
+        <invoke name="$name" pid="$pid" startTicks="$startTicks" model="$model" plan="$plan">
+          <g:insert param="parameters" element="parameter" />
+        </invoke>
+      </request>
+    </method>
+  </contract>
+  <contract type="KnowledgeSearchRequests" schema="P05.v3.xsd" module="knowledge">
+    <method name="Search">
+      <param name="query" type="string" />
+      <param name="limit" type="int" />
+      <param name="path" type="string" />
+      <request query="$query" limit="$limit"><root path="$path" /></request>
+    </method>
+  </contract>
+  <contract type="SagWikiRequests" schema="P05.v4.xsd" module="knowledge">
+    <method name="Status">
+      <request><status /></request>
+    </method>
+    <method name="ReviewRelease">
+      <request><deploy preview="true" /></request>
+    </method>
+    <method name="InstallReviewedRelease">
+      <param name="version" type="string" />
+      <param name="sha256" type="string" />
+      <request><deploy><release version="$version" sha256="$sha256" /></deploy></request>
+    </method>
+    <method name="Index">
+      <param name="root" type="string" />
+      <request><index root="$root" /></request>
+    </method>
+    <method name="Search">
+      <param name="root" type="string" />
+      <param name="query" type="string" />
+      <request><search root="$root" query="$query" limit="20" /></request>
+    </method>
+  </contract>
+  <contract type="LicenseProbeRequests" schema="F03.xsd" module="license">
+    <method name="Probe">
+      <param name="host" type="string" />
+      <param name="port" type="int" />
+      <request>
+        <live host="$host" rounds="1" attempts="1" timeoutMs="1200"><rms port="$port" /></live>
+      </request>
+    </method>
+  </contract>
+  <contract type="NativeRibbonRequests" schema="R01.v2.xsd" module="ribbon">
+    <method name="Read">
+      <param name="source" type="string" />
+      <request source="$source" />
+    </method>
+  </contract>
+  <contract type="RibbonRegistrationRequests" schema="R04.v2.xsd" module="ribbon">
+    <method name="ListAll">
+      <param name="manifest" type="string" />
+      <request manifest="$manifest"><list scope="all" /></request>
+    </method>
+    <method name="Open">
+      <param name="manifest" type="string" />
+      <param name="name" type="string" />
+      <request manifest="$manifest"><open name="$name" /></request>
+    </method>
+    <method name="Preview">
+      <param name="manifest" type="string" />
+      <param name="source" type="string" />
+      <param name="name" type="string?" />
+      <request manifest="$manifest"><preview source="$source" name="$name" /></request>
+    </method>
+    <method name="Deploy">
+      <param name="manifest" type="string" />
+      <param name="source" type="string" />
+      <param name="name" type="string?" />
+      <param name="expectedSha256" type="string" />
+      <param name="sourceSha256" type="string" />
+      <param name="proposedSha256" type="string" />
+      <request manifest="$manifest">
+        <deploy source="$source" name="$name" confirm="true" expectedSha256="$expectedSha256"
+                sourceSha256="$sourceSha256" proposedSha256="$proposedSha256" />
+      </request>
+    </method>
+    <method name="Rollback">
+      <param name="manifest" type="string" />
+      <param name="expectedSha256" type="string" />
+      <param name="backupSha256" type="string" />
+      <request manifest="$manifest"><rollback confirm="true" expectedSha256="$expectedSha256" backupSha256="$backupSha256" /></request>
+    </method>
+  </contract>
+  <contract type="RibbonCopyRequests" schema="R06.xsd" module="ribbon">
+    <method name="Preview">
+      <param name="output" type="string" />
+      <param name="content" type="string" />
+      <request><preview output="$output"><content>$content</content></preview></request>
+    </method>
+    <method name="Write">
+      <param name="output" type="string" />
+      <param name="content" type="string" />
+      <param name="previewSha256" type="string" />
+      <request><write output="$output" previewSha256="$previewSha256" confirm="true"><content>$content</content></write></request>
+    </method>
+    <method name="Rollback">
+      <param name="receipt" type="string" />
+      <request><rollback receipt="$receipt" confirm="true" /></request>
+    </method>
+  </contract>
+</requests>

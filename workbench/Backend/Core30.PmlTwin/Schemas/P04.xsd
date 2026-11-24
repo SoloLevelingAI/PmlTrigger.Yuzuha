@@ -1,0 +1,22 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:core30:P04:v1">
+  <xs:element name="request">
+    <xs:complexType>
+      <xs:attribute name="file" type="xs:string" use="required" />
+      <xs:attribute name="start">
+        <xs:simpleType>
+          <xs:restriction base="xs:int"><xs:minInclusive value="1" /></xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="count">
+        <xs:simpleType>
+          <xs:restriction base="xs:int"><xs:minInclusive value="1" /><xs:maxInclusive value="1000" /></xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="maxCharacters">
+        <xs:simpleType>
+          <xs:restriction base="xs:int"><xs:minInclusive value="1" /><xs:maxInclusive value="262144" /></xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<features>
+  <feature handler="launch" id="F01" version="v1" title="启动器" />
+  <feature handler="launchVendor" id="F01" version="v2" title="启动器 · Monitor / Marine" operationAttribute="mode" operationDefault="preview" />
+  <feature handler="deploy" id="F02" version="v1" title="部署工具" activity="deployment" />
+  <feature handler="runDeployment" id="F02" version="v2" title="部署工具 · 分步部署" activity="deployment" />
+  <feature handler="migrate" id="F04" version="v1" title="通用配置迁移" />
+  <feature handler="runMigration" id="F04" version="v2" title="通用配置迁移 · 分步迁移" />
+</features>

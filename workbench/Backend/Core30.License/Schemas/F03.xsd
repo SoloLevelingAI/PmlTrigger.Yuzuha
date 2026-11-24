@@ -1,0 +1,131 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:f="urn:core30:F03:v1"
+           targetNamespace="urn:core30:F03:v1" elementFormDefault="qualified">
+  <xs:simpleType name="VmState">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="running" />
+      <xs:enumeration value="stopped" />
+      <xs:enumeration value="unknown" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="Nonempty">
+    <xs:restriction base="xs:token"><xs:minLength value="1" /><xs:maxLength value="2048" /></xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="Port">
+    <xs:restriction base="xs:int"><xs:minInclusive value="1" /><xs:maxInclusive value="65535" /></xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="RoundCount">
+    <xs:restriction base="xs:int"><xs:minInclusive value="1" /><xs:maxInclusive value="16" /></xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="AttemptCount">
+    <xs:restriction base="xs:int"><xs:minInclusive value="1" /><xs:maxInclusive value="3" /></xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="TimeoutMs">
+    <xs:restriction base="xs:int"><xs:minInclusive value="50" /><xs:maxInclusive value="10000" /></xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="DelayMs">
+    <xs:restriction base="xs:int"><xs:minInclusive value="0" /><xs:maxInclusive value="5000" /></xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="RmsQueryTimeoutMs">
+    <xs:restriction base="xs:int"><xs:minInclusive value="100" /><xs:maxInclusive value="60000" /></xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="RmsQueryPort">
+    <xs:restriction base="xs:int"><xs:enumeration value="4545" /></xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="TcpEndpoint">
+    <xs:attribute name="port" type="f:Port" use="required" />
+  </xs:complexType>
+  <xs:simpleType name="Ipv4Address">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="([0-9]{1,3}\.){3}[0-9]{1,3}" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="RmsFeature">
+    <xs:restriction base="xs:string"><xs:pattern value="[A-Za-z0-9_.\-]{1,24}" /></xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="RmsVersion">
+    <xs:restriction base="xs:string"><xs:pattern value="[A-Za-z0-9_.\-]{1,11}" /></xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="CheckoutTimeoutSeconds">
+    <xs:restriction base="xs:int"><xs:minInclusive value="3" /><xs:maxInclusive value="15" /></xs:restriction>
+  </xs:simpleType>
+
+  <xs:element name="request">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element name="round" maxOccurs="16">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="attempt" maxOccurs="3">
+                <xs:complexType>
+                  <xs:attribute name="rms" type="xs:boolean" use="required" />
+                  <xs:attribute name="rules" type="xs:boolean" use="required" />
+                  <xs:attribute name="vm" type="f:VmState" use="required" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="live">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:choice>
+                <xs:element name="rms" type="f:TcpEndpoint" />
+                <xs:element name="rmsService">
+                  <xs:complexType>
+                    <xs:attribute name="name" type="f:Nonempty" use="required" />
+                  </xs:complexType>
+                </xs:element>
+              </xs:choice>
+              <xs:element name="rules" type="f:TcpEndpoint" minOccurs="0" />
+              <xs:element name="vm" minOccurs="0">
+                <xs:complexType>
+                  <xs:attribute name="path" type="f:Nonempty" use="required" />
+                  <xs:attribute name="executable" type="f:Nonempty" />
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="rmsQuery" minOccurs="0">
+                <xs:complexType>
+                  <xs:attribute name="port" type="f:RmsQueryPort" use="required" />
+                  <xs:attribute name="timeoutMs" type="f:RmsQueryTimeoutMs" />
+                  <xs:attribute name="executable" type="f:Nonempty" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="host" type="f:Nonempty" />
+            <xs:attribute name="rounds" type="f:RoundCount" />
+            <xs:attribute name="attempts" type="f:AttemptCount" />
+            <xs:attribute name="timeoutMs" type="f:TimeoutMs" />
+            <xs:attribute name="retryDelayMs" type="f:DelayMs" />
+            <xs:attribute name="roundDelayMs" type="f:DelayMs" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="checkout">
+          <xs:complexType>
+            <xs:attribute name="host" type="f:Ipv4Address" use="required" />
+            <xs:attribute name="port" type="f:Port" use="required" />
+            <xs:attribute name="feature" type="f:RmsFeature" use="required" />
+            <xs:attribute name="version" type="f:RmsVersion" use="required" />
+            <xs:attribute name="timeoutSeconds" type="f:CheckoutTimeoutSeconds" />
+            <xs:attribute name="library" type="f:Nonempty" />
+            <xs:attribute name="confirm" type="xs:boolean" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="openVm">
+          <xs:complexType>
+            <xs:attribute name="path" type="f:Nonempty" use="required" />
+            <xs:attribute name="executable" type="f:Nonempty" />
+            <xs:attribute name="action" default="preview">
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:enumeration value="preview" />
+                  <xs:enumeration value="open" />
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="confirm" type="xs:boolean" />
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

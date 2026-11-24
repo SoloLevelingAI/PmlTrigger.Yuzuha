@@ -1,0 +1,57 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <AssemblyName>PmlTwin.Workbench</AssemblyName>
+    <Version>0.2.6</Version>
+    <BundlePhayton Condition="'$(BundlePhayton)' == ''">false</BundlePhayton>
+    <DefaultItemExcludes>$(DefaultItemExcludes);release*/**;evidence/**;host-setup/**</DefaultItemExcludes>
+    <Core30Source>../Backend</Core30Source>
+    <ReaderDirectory Condition="'$(ReaderDirectory)' == ''">../ProjectReader</ReaderDirectory>
+    <BundleProjectReader Condition="'$(BundleProjectReader)' == ''">false</BundleProjectReader>
+    <DefineConstants Condition="'$(BundleProjectReader)' == 'true'">$(DefineConstants);BUNDLED_PROJECT_READER</DefineConstants>
+    <PhaytonProject>../../src/PmlTwin.Phayton.Cli/PmlTwin.Phayton.Cli.csproj</PhaytonProject>
+    <PhaytonCliDirectory>../../src/PmlTwin.Phayton.Cli/bin/$(Configuration)/net10.0</PhaytonCliDirectory>
+  </PropertyGroup>
+  <Import Project="$(Core30Source)/Contracts/CoreRequests.props" />
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.4022.49" />
+    <ProjectReference Include="../Core30.Ui/Core30.Ui.csproj" />
+    <ProjectReference Include="$(Core30Source)/Core30.PmlTwin/Core30.PmlTwin.csproj" />
+    <ProjectReference Include="$(Core30Source)/Core30.LaunchDesk/Core30.LaunchDesk.csproj" />
+    <ProjectReference Include="$(Core30Source)/Core30.Knowledge/Core30.Knowledge.csproj" />
+    <ProjectReference Include="$(PhaytonProject)" ReferenceOutputAssembly="false" Private="false" ExcludeAssets="all"
+                      Condition="'$(BundlePhayton)' == 'true'" />
+    <Compile Include="$(Core30Source)/Core30.Backend/LaunchDeskWorkflow.cs" Link="Shared/LaunchDeskWorkflow.cs" />
+    <Compile Include="../../src/Shared/EnvironmentTextEditor.cs" Link="Shared/EnvironmentTextEditor.cs" />
+    <Compile Include="../Shared/Views.cs" Link="Shared/Views.cs" />
+    <Resource Include="../Assets/process-skid.png" Link="Assets/process-skid.png" />
+    <Content Include="$(ReaderDirectory)/Core30.AvevaProjectReader.exe;$(ReaderDirectory)/Core30.AvevaProjectReader.exe.config"
+             Condition="'$(BundleProjectReader)' == 'true'"
+             Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="host-setup/Phayton-0.3.5.0-Windows-Setup.exe"
+             Link="phayton/setup/%(Filename)%(Extension)"
+             Condition="'$(BundlePhayton)' == 'true'"
+             CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+  <Target Name="BuildBundledPhayton" Condition="'$(BundlePhayton)' == 'true' and '$(DesignTimeBuild)' != 'true'">
+    <MSBuild Projects="$(PhaytonProject)" Targets="Build" Properties="Configuration=$(Configuration);TargetFramework=net10.0"
+             RemoveProperties="RuntimeIdentifier;SelfContained;PublishSingleFile;PublishAot" />
+    <ItemGroup>
+      <_PhaytonRuntime Include="$(PhaytonCliDirectory)/*.dll;$(PhaytonCliDirectory)/*.exe;$(PhaytonCliDirectory)/*.json" />
+      <_PhaytonNative Include="$(PhaytonCliDirectory)/runtimes/**/native/*.dll" />
+    </ItemGroup>
+  </Target>
+  <Target Name="CopyBundledPhaytonToBuild" AfterTargets="Build" DependsOnTargets="BuildBundledPhayton" Condition="'$(BundlePhayton)' == 'true'">
+    <Copy SourceFiles="@(_PhaytonRuntime)" DestinationFolder="$(TargetDir)phayton/cli/" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="@(_PhaytonNative)" DestinationFiles="@(_PhaytonNative->'$(TargetDir)phayton/cli/runtimes/%(RecursiveDir)native/%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+  </Target>
+  <Target Name="CopyBundledPhaytonToPublish" AfterTargets="Publish" DependsOnTargets="BuildBundledPhayton" Condition="'$(BundlePhayton)' == 'true'">
+    <Copy SourceFiles="@(_PhaytonRuntime)" DestinationFolder="$(PublishDir)phayton/cli/" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="@(_PhaytonNative)" DestinationFiles="@(_PhaytonNative->'$(PublishDir)phayton/cli/runtimes/%(RecursiveDir)native/%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+  </Target>
+</Project>

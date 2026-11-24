@@ -105,6 +105,30 @@ public sealed class PmlFormQueryTests
     }
 
     [Fact]
+    public void UnlistedGadgetMembersAreNotRead()
+    {
+        var runtime = new FakeRuntime { GadgetMembers = "Active|Visible|Callback" };
+        var request = Request("gadget"); request.GadgetName = "AcCePt";
+        var item = Assert.Single(PmlFormQuery.Read(request, runtime).Items);
+        var tooltip = Assert.Single(item.Properties, property => property.Name == "tooltip");
+        Assert.Equal("unavailable", tooltip.Status);
+        Assert.Null(tooltip.Value);
+        Assert.DoesNotContain(runtime.Commands, command => command.EndsWith(".tooltip"));
+        Assert.Contains(item.Properties, property => property.Name == "callback" && property.Status == "available");
+    }
+
+    [Fact]
+    public void MissingGadgetNameIsRejectedBeforeAttributeAccess()
+    {
+        var runtime = new FakeRuntime();
+        var request = Request("gadget"); request.GadgetName = "missing";
+        var error = Assert.Throws<InvalidOperationException>(() => PmlFormQuery.Read(request, runtime));
+        Assert.Contains("PML_UI_GADGET_NOT_FOUND: !!Sample.missing", error.Message);
+        Assert.DoesNotContain(runtime.Commands, command => command.Contains(".attribute('missing')"));
+        AssertOnlyRequestTemporariesAreDeleted(runtime);
+    }
+
+    [Fact]
     public void MissingOrNonGadgetDoesNotBecomeAnEmptySuccessfulDetail()
     {
         var request = Request("gadget"); request.GadgetName = "accept";
@@ -236,6 +260,7 @@ public sealed class PmlFormQueryTests
         public string? FailOn;
         public string DetailObjectType = "GADGET";
         public string FormObjectType = "FORM";
+        public string GadgetMembers = "Active|Visible|ToolTip|Callback";
         public bool EnforceCanonicalNames;
         public bool EnforceScalarTypes;
         public int MissingSlot;
@@ -277,6 +302,8 @@ public sealed class PmlFormQueryTests
             if (expression.StartsWith("!!YUZUHAUIEXISTS") && expression.EndsWith(".string()")) return definedValue;
             if (MissingSlot != 0 && index == MissingSlot) throw new InvalidOperationException("Native array element does not exist.");
             if (expression == "!!Sample.objectType()") return FormObjectType;
+            if (expression == "!!Sample.attributes().join('|')") return "ordinary|Accept";
+            if (expression.EndsWith(".attributes().join('|')")) return GadgetMembers;
             if (expression.EndsWith(".objectType()")) return expression.Contains(".attribute(") ? index == 2 ? "GADGET" : "STRING" : DetailObjectType;
             if (expression.EndsWith(".name()")) return "Form" + index;
             if (expression.EndsWith(".type()")) return "BUTTON";

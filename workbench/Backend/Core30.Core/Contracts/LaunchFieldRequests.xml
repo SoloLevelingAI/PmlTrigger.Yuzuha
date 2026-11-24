@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<requests>
+  <!-- Store these fields under launch in workspace.json, in the existing property order. -->
+  <binding type="LaunchProfileFields" schema="P01.v3.xsd" path="save/launch">
+    <field name="workingDirectory" />
+    <field name="project" />
+    <stored name="user" />
+    <stored name="mdb" />
+    <stored name="module" />
+    <field name="licenseHost" />
+    <stored name="uicDirectory" />
+    <field name="licensePort" />
+  </binding>
+  <!-- LaunchDesk reads these arguments and PmlTwin emits them in the F01 preview draft. -->
+  <binding type="VendorLaunchFields" schema="F01.v2.xsd" output="attributes">
+    <field name="project" />
+    <field name="user" />
+    <field name="mdb" />
+    <field name="module" />
+    <field name="licenseHost" />
+    <field name="licensePort" />
+  </binding>
+</requests>

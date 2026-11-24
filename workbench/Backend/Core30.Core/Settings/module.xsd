@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:m="urn:core30:module:v1"
+           targetNamespace="urn:core30:module:v1" elementFormDefault="qualified">
+  <xs:simpleType name="moduleId">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[a-z][a-z0-9\-]{0,39}" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="label">
+    <xs:restriction base="xs:token">
+      <xs:minLength value="1" />
+      <xs:maxLength value="48" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="assemblyFile">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[A-Za-z0-9_][A-Za-z0-9_.\-]{0,119}\.dll" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="module">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="page" minOccurs="0">
+          <xs:complexType>
+            <xs:attribute name="title" type="m:label" use="required" />
+            <xs:attribute name="feature" type="m:label" use="required" />
+            <xs:attribute name="mode" use="required">
+              <xs:simpleType><xs:restriction base="xs:token"><xs:enumeration value="request-file" /></xs:restriction></xs:simpleType>
+            </xs:attribute>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="id" type="m:moduleId" use="required" />
+      <xs:attribute name="title" type="m:label" use="required" />
+      <xs:attribute name="category" type="m:label" use="required" />
+      <xs:attribute name="assembly" type="m:assemblyFile" use="required" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -133,6 +133,7 @@ namespace YuzuhaToolkit.Pml
         /// <summary>单次请求的原生数组引用、标量临时变量与预算状态。</summary>
         private sealed class Reader
         {
+            private static readonly string[] GadgetMembers = { "active", "visible", "tooltip", "callback" };
             private readonly PmlFormQueryRequest request;
             private readonly IPmlFormQueryRuntime runtime;
             private readonly string snapshot;
@@ -183,6 +184,8 @@ namespace YuzuhaToolkit.Pml
                 runtime.Execute("!!" + snapshot + " = ARRAY()");
                 if (!forms && !String.Equals(Text(form + ".objectType()"), "FORM", StringComparison.OrdinalIgnoreCase))
                     throw new InvalidOperationException("PML_UI_NOT_FORM: The requested global is not an already loaded FORM.");
+                if (request.Kind == "gadget" && !MemberNames(form).Contains(request.GadgetName))
+                    throw new InvalidOperationException("PML_UI_GADGET_NOT_FOUND: " + form + "." + request.GadgetName);
                 // Keep the gadget reference inside an ARRAY, so cleanup never calls delete() on a native gadget/form object.
                 runtime.Execute("!!" + snapshot + (request.Kind == "gadget" ? "[1]" : "") + " = " + expression);
                 int upper = request.Kind == "gadget" ? 1 : UpperBound();
@@ -221,8 +224,7 @@ namespace YuzuhaToolkit.Pml
                         }
                         item = Item((int)index, name, form + "." + name, Text(gadget + ".type()"));
                         if (request.Kind == "gadget")
-                            item.Properties = new[] { Property("shown", gadget + ".shown().string()"), Property("active", gadget + ".active.string()"),
-                                Property("visible", gadget + ".visible.string()"), Property("tooltip", gadget + ".tooltip"), Property("callback", gadget + ".callback") };
+                            item.Properties = ReadGadgetProperties(gadget);
                     }
                     int length = Length(item);
                     if (length > request.MaxCharacters - characters)
@@ -252,11 +254,38 @@ namespace YuzuhaToolkit.Pml
                 return runtime.ReadString(value) ?? throw new InvalidOperationException("Native form query returned no string.");
             }
 
+            private HashSet<string> MemberNames(string expression) => new HashSet<string>(
+                Text(expression + ".attributes().join('|')").Split('|'), StringComparer.OrdinalIgnoreCase);
+
+            private PmlGadgetProperty[] ReadGadgetProperties(string gadget)
+            {
+                var properties = new List<PmlGadgetProperty> { Property("shown", gadget + ".shown().string()") };
+                HashSet<string> members;
+                try { members = MemberNames(gadget); }
+                catch (InvalidOperationException error)
+                {
+                    foreach (string name in GadgetMembers)
+                        properties.Add(Unavailable(name, error.Message));
+                    return properties.ToArray();
+                }
+
+                foreach (string name in GadgetMembers)
+                {
+                    string suffix = name == "active" || name == "visible" ? ".string()" : "";
+                    properties.Add(members.Contains(name) ? Property(name, gadget + "." + name + suffix)
+                        : Unavailable(name, "The native gadget does not expose this member."));
+                }
+                return properties.ToArray();
+            }
+
             private PmlGadgetProperty Property(string name, string expression)
             {
                 try { return new PmlGadgetProperty { Name = name, Status = "available", Value = Text(expression) }; }
-                catch (InvalidOperationException error) { return new PmlGadgetProperty { Name = name, Status = "unavailable", Error = error.Message }; }
+                catch (InvalidOperationException error) { return Unavailable(name, error.Message); }
             }
+
+            private static PmlGadgetProperty Unavailable(string name, string error) =>
+                new PmlGadgetProperty { Name = name, Status = "unavailable", Error = error };
 
             private static PmlFormQueryItem Item(int index, string name, string reference, string type)
             {

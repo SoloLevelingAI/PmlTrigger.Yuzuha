@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<requests xmlns:g="urn:core30:request-generator">
+  <contract type="LoginProfileRequests" schema="P01.v3.xsd" module="pml">
+    <method name="List">
+      <param name="product" type="string?" />
+      <request><list product="$product" /></request>
+    </method>
+    <method name="Prepare">
+      <param name="scan" type="string" />
+      <param name="product" type="string" />
+      <param name="installation" type="string" />
+      <param name="profile" type="string?" />
+      <param name="revision" type="string" />
+      <request><prepare scan="$scan" product="$product" installation="$installation" profile="$profile" revision="$revision" /></request>
+    </method>
+    <method name="PrepareDefault">
+      <param name="scan" type="string" />
+      <param name="preferredProfile" type="string?" />
+      <request><prepare-default scan="$scan" preferredProfile="$preferredProfile" /></request>
+    </method>
+    <method name="Save">
+      <param name="scan" type="string" />
+      <param name="product" type="string" />
+      <param name="installation" type="string" />
+      <param name="id" type="string" />
+      <param name="name" type="string" />
+      <param name="revision" type="string" />
+      <param name="settings" type="CoreData" />
+      <request>
+        <save scan="$scan" product="$product" installation="$installation" id="$id" name="$name" revision="$revision">
+          <g:insert param="settings" element="launch" />
+        </save>
+      </request>
+    </method>
+    <method name="LaunchSettings" fragment="true">
+      <param name="workingDirectory" type="string" />
+      <param name="project" type="string" />
+      <param name="user" type="string" />
+      <param name="mdb" type="string" />
+      <param name="module" type="string" />
+      <param name="licenseHost" type="string?" />
+      <param name="licensePort" type="int?" />
+      <param name="uicDirectory" type="string?" />
+      <launch workingDirectory="$workingDirectory" project="$project" user="$user" mdb="$mdb" module="$module"
+              licenseHost="$licenseHost" licensePort="$licensePort" uicDirectory="$uicDirectory" />
+    </method>
+    <method name="Archive">
+      <param name="id" type="string" />
+      <param name="revision" type="string" />
+      <request><archive id="$id" revision="$revision" /></request>
+    </method>
+  </contract>
+  <contract type="InstallationScanRequests" schema="P02.v2.xsd" module="pml">
+    <method name="Scan">
+      <request />
+    </method>
+    <method name="ScanDirectory">
+      <param name="path" type="string" />
+      <request mode="custom"><root path="$path" /></request>
+    </method>
+  </contract>
+  <contract type="LoginSessionRequests" schema="P02.v4.xsd" module="pml">
+    <method name="Read">
+      <param name="pid" type="int" />
+      <param name="startTicks" type="long" />
+      <request pid="$pid" startTicks="$startTicks" />
+    </method>
+  </contract>
+  <contract type="ProjectCatalogRequests" schema="P01.v4.xsd" module="pml">
+    <method name="Read">
+      <param name="scan" type="string" />
+      <param name="product" type="string" />
+      <param name="installation" type="string" />
+      <param name="refresh" type="bool?" />
+      <request><catalog scan="$scan" product="$product" installation="$installation" refresh="$refresh" /></request>
+    </method>
+  </contract>
+  <contract type="ProjectAccessRequests" schema="P01.v5.xsd" module="pml">
+    <method name="Read">
+      <param name="scan" type="string" />
+      <param name="product" type="string" />
+      <param name="installation" type="string" />
+      <param name="project" type="string" />
+      <param name="refresh" type="bool" />
+      <param name="licenseServers" type="string?" />
+      <request><project-access scan="$scan" product="$product" installation="$installation"
+                               project="$project" refresh="$refresh" licenseServers="$licenseServers" /></request>
+    </method>
+  </contract>
+</requests>

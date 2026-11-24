@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<features>
+  <feature handler="searchGuides" id="P05" version="v1" title="内置指南与知识库" />
+  <feature handler="searchWorkspace" id="P05" version="v2" title="内置指南与知识库" />
+  <feature handler="searchLocalDocuments" id="P05" version="v3" title="本机文档与函数知识库" />
+  <feature handler="runSagWiki" id="P05" version="v4" title="SAG-Wiki 外部部署与检索桥接" />
+</features>

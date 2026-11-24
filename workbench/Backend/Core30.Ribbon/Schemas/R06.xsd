@@ -1,0 +1,33 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:r="urn:core30:R06:v1"
+           targetNamespace="urn:core30:R06:v1" elementFormDefault="qualified">
+  <xs:simpleType name="path"><xs:restriction base="xs:token"><xs:minLength value="1" /><xs:maxLength value="2048" /></xs:restriction></xs:simpleType>
+  <xs:simpleType name="digest"><xs:restriction base="xs:string"><xs:pattern value="[0-9a-fA-F]{64}" /></xs:restriction></xs:simpleType>
+  <xs:simpleType name="receipt"><xs:restriction base="xs:string"><xs:pattern value="[0-9a-f]{32}" /></xs:restriction></xs:simpleType>
+  <xs:simpleType name="draft"><xs:restriction base="xs:string"><xs:minLength value="1" /><xs:maxLength value="12582912" /></xs:restriction></xs:simpleType>
+  <xs:element name="request">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element name="preview">
+          <xs:complexType>
+            <xs:sequence><xs:element name="content" type="r:draft" /></xs:sequence>
+            <xs:attribute name="output" type="r:path" use="required" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="write">
+          <xs:complexType>
+            <xs:sequence><xs:element name="content" type="r:draft" /></xs:sequence>
+            <xs:attribute name="output" type="r:path" use="required" />
+            <xs:attribute name="previewSha256" type="r:digest" use="required" />
+            <xs:attribute name="confirm" type="xs:boolean" use="required" fixed="true" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="rollback">
+          <xs:complexType>
+            <xs:attribute name="receipt" type="r:receipt" use="required" />
+            <xs:attribute name="confirm" type="xs:boolean" use="required" fixed="true" />
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

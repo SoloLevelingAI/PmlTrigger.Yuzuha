@@ -26,14 +26,12 @@
 --  !!YuzuhaGetGadgetType(!gadget)  -       -
 --
 ------------------------------------------------------------------------
-define function !!YuzuhaGetGadgetType(!gadget is any ) is string
-  var !gadType var !gadget
-  handle any
+define function !!YuzuhaGetGadgetType(!gadget is ANY) is STRING
+  if !gadget.objectType() ne 'GADGET' then
     return ''
-  endhandle
-  !type = !gadType.split('[')[2].split(']')[1]
-  handle any
-  return ''
-  endhandle
-  return !type
+  endif
+  if !gadget.unset() then
+    return ''
+  endif
+  return !gadget.type()
 endfunction

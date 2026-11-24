@@ -1,0 +1,26 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:p="urn:core30:P01:v2"
+           targetNamespace="urn:core30:P01:v2" elementFormDefault="qualified">
+  <xs:element name="request">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="share">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="profile" minOccurs="1" maxOccurs="64">
+                <xs:complexType><xs:attribute name="id" type="xs:string" use="required" /></xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="file" type="xs:string" use="required" />
+            <xs:attribute name="name" use="required">
+              <xs:simpleType><xs:restriction base="xs:token">
+                <xs:minLength value="1" /><xs:maxLength value="100" />
+              </xs:restriction></xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="includePreferences" type="xs:boolean" />
+            <xs:attribute name="includeUser" type="xs:boolean" />
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

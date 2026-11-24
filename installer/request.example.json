@@ -1,5 +1,5 @@
 {
-  "integrationMode": "aveva",
+  "integrationMode": "none",
   "root": "C:\\Users\\YOUR-USER\\AppData\\Local\\YuzuhaToolkit\\PmlTrigger.Yuzuha",
   "mcpJson": "",
   "skillTarget": "",

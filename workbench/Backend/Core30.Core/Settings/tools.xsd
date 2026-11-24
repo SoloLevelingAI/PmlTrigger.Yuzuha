@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:t="urn:core30:tools:v1" targetNamespace="urn:core30:tools:v1"
+           elementFormDefault="qualified">
+  <xs:complexType name="tool">
+    <xs:attribute name="enabled" type="xs:boolean" use="required" />
+  </xs:complexType>
+  <xs:element name="tools">
+    <xs:complexType>
+      <xs:all>
+        <xs:element name="ribbon" type="t:tool" />
+        <xs:element name="license" type="t:tool" />
+        <xs:element name="launcher" type="t:tool" />
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

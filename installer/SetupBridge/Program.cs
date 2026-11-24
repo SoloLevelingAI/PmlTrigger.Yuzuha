@@ -57,7 +57,7 @@ internal static partial class Program
             try { name = process.ProcessName; } catch { continue; }
             if (name.Equals("des", StringComparison.OrdinalIgnoreCase) || name.Equals("design", StringComparison.OrdinalIgnoreCase) ||
                 name.Equals("paragon", StringComparison.OrdinalIgnoreCase))
-                throw new Exception("Close AVEVA and Yuzuha MCP processes before installation/uninstallation: " + name + " (" + process.Id + "). No process was terminated.");
+                throw new Exception("Close AVEVA and Phayton processes before installation/uninstallation: " + name + " (" + process.Id + "). No process was terminated.");
             try
             {
                 string path = process.MainModule.FileName;
@@ -75,42 +75,25 @@ internal static partial class Program
             catch (System.ComponentModel.Win32Exception)
             {
                 if (name.StartsWith("YuzuhaToolkit.", StringComparison.OrdinalIgnoreCase))
-                    throw new Exception("Cannot verify running MCP process path; close it before setup: " + name);
+                    throw new Exception("Cannot verify running Phayton process path; close it before setup: " + name);
             }
         }
     }
+    /// <summary>CLI 发行版拒绝新增 MCP 注册；保留旧卸载和回滚代码用于恢复已有安装。</summary>
+    /// <param name="request">明确选择的安装请求；mcpJson 必须为空。</param>
+    internal static void RequireCliOnlyClient(JObject request)
+    {
+        if (request == null || !string.IsNullOrEmpty((string)request["mcpJson"]))
+            throw new InvalidOperationException("CLI-only distribution: mcpJson must be empty. Invoke runtime/cli/PmlTwin.Phayton.Cli.exe directly; optional Skill copying remains available. Existing client configuration was not changed.");
+    }
     static JObject Merge(string path, string root)
     {
-        JObject json = File.Exists(path) ? ReadObject(path) : new JObject();
-        JObject servers = json["mcpServers"] as JObject;
-        if (json["mcpServers"] != null && servers == null) throw new Exception("mcpServers must be a JSON object.");
-        if (servers == null) { servers = new JObject(); json["mcpServers"] = servers; }
-        for (int i = 0; i < Names.Length; i++)
-        {
-            foreach (var property in servers.Properties())
-            {
-                var entry = property.Value as JObject;
-                string command = entry == null ? null : (string)entry["command"];
-                if (property.Name != Names[i] && command != null &&
-                    (Same(Full(command), Command(root, i)) || Same(Path.GetFileName(command), Exes[i])))
-                    throw new Exception("Possible duplicate MCP registration: " + property.Name);
-            }
-            if (servers[Names[i]] != null)
-            {
-                var entry = servers[Names[i]] as JObject;
-                if (entry == null || entry["command"] == null || !Same(Full((string)entry["command"]), Command(root, i)) ||
-                    (entry["args"] != null && (!(entry["args"] is JArray) || entry["args"].HasValues)) ||
-                    (bool?)entry["disabled"] == true || (bool?)entry["enabled"] == false ||
-                    (entry["type"] != null && (string)entry["type"] != "stdio") || entry["env"] != null)
-                    throw new Exception("Conflicting MCP registration: " + Names[i] + ". Existing configuration was not overwritten.");
-            }
-            else servers[Names[i]] = new JObject { ["command"] = Command(root, i), ["args"] = new JArray() };
-        }
-        return json;
+        throw new InvalidOperationException("CLI-only distribution: MCP registration is disabled. Existing client configuration was not changed.");
     }
     static string Marker(string root) { return Path.Combine(root, ".yuzuha-inno.json"); }
     static void Preflight(string root, string config, string transaction)
     {
+        RequireCliOnlyClient(new JObject { ["mcpJson"] = config });
         CheckPath(root); CheckProcesses(root);
         if (Directory.Exists(root) && Directory.EnumerateFileSystemEntries(root).Any())
         {
@@ -133,6 +116,7 @@ internal static partial class Program
     static void Apply(string transaction)
     {
         var state = ReadObject(transaction); string root = (string)state["root"], config = (string)state["config"];
+        RequireCliOnlyClient(new JObject { ["mcpJson"] = config });
         if (config != "")
         {
             if (Bytes(config) != (string)state["before"]) throw new Exception("MCP JSON changed after preflight; no overwrite performed.");
@@ -140,8 +124,6 @@ internal static partial class Program
         }
         try
         {
-            var sample = Merge(Path.Combine(root, "nonexistent-config-example.json"), root);
-            File.WriteAllText(Path.Combine(root, "mcpServers.example.json"), sample.ToString(Formatting.Indented), Utf8);
             File.WriteAllText(Marker(root), new JObject { ["owner"] = "Yuzuha.Inno.v1", ["root"] = root,
                 ["config"] = config, ["updatedUtc"] = DateTime.UtcNow.ToString("o") }.ToString(), Utf8);
         }

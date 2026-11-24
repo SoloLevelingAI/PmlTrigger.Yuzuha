@@ -1,0 +1,16 @@
+<Project>
+  <PropertyGroup>
+    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+  </PropertyGroup>
+  <ItemGroup>
+    <CompilerVisibleProperty Include="Core30ExposeRequestFactories" />
+    <ProjectReference Include="$(MSBuildThisFileDirectory)../Core30.Requests/Core30.Requests.csproj"
+                      OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <AdditionalFiles Include="$(MSBuildThisFileDirectory)*Requests.xml" />
+    <AdditionalFiles Include="$(MSBuildThisFileDirectory)../Core30.PmlTwin/Schemas/P01.v3.xsd;$(MSBuildThisFileDirectory)../Core30.PmlTwin/Schemas/P01.v4.xsd;$(MSBuildThisFileDirectory)../Core30.PmlTwin/Schemas/P01.v5.xsd;$(MSBuildThisFileDirectory)../Core30.PmlTwin/Schemas/P02.v2.xsd;$(MSBuildThisFileDirectory)../Core30.PmlTwin/Schemas/P02.v4.xsd" />
+    <AdditionalFiles Include="$(MSBuildThisFileDirectory)../Core30.PmlTwin/Schemas/P03.v3.xsd;$(MSBuildThisFileDirectory)../Core30.PmlTwin/Schemas/P03.v6.xsd;$(MSBuildThisFileDirectory)../Core30.PmlTwin/Schemas/P03.v7.xsd;$(MSBuildThisFileDirectory)../Core30.PmlTwin/Schemas/P03.v8.xsd" />
+    <AdditionalFiles Include="$(MSBuildThisFileDirectory)../Core30.PmlTwin/Schemas/P03.v5.xsd" />
+    <AdditionalFiles Include="$(MSBuildThisFileDirectory)../Core30.Ribbon/Schemas/R01.v2.xsd" />
+    <AdditionalFiles Include="$(MSBuildThisFileDirectory)../Core30.Knowledge/Schemas/P05.v3.xsd;$(MSBuildThisFileDirectory)../Core30.Knowledge/Schemas/P05.v4.xsd;$(MSBuildThisFileDirectory)../Core30.License/Schemas/F03.xsd;$(MSBuildThisFileDirectory)../Core30.Ribbon/Schemas/R04.v2.xsd;$(MSBuildThisFileDirectory)../Core30.Ribbon/Schemas/R06.xsd" />
+  </ItemGroup>
+</Project>

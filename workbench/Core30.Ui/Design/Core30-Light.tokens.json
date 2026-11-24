@@ -1,0 +1,491 @@
+{
+  "Core30/Light": {
+    "space": {
+      "xs": {
+        "$value": "4px",
+        "$type": "spacing",
+        "$description": ""
+      },
+      "md": {
+        "$value": "12px",
+        "$type": "spacing",
+        "$description": ""
+      },
+      "3xl": {
+        "$value": "32px",
+        "$type": "spacing",
+        "$description": ""
+      },
+      "4xl": {
+        "$value": "40px",
+        "$type": "spacing",
+        "$description": ""
+      },
+      "2xl": {
+        "$value": "24px",
+        "$type": "spacing",
+        "$description": ""
+      },
+      "lg": {
+        "$value": "16px",
+        "$type": "spacing",
+        "$description": ""
+      },
+      "xl": {
+        "$value": "20px",
+        "$type": "spacing",
+        "$description": ""
+      },
+      "5xl": {
+        "$value": "48px",
+        "$type": "spacing",
+        "$description": ""
+      },
+      "sm": {
+        "$value": "8px",
+        "$type": "spacing",
+        "$description": ""
+      }
+    },
+    "font-family": {
+      "mono": {
+        "$value": [
+          "Cascadia Code"
+        ],
+        "$type": "fontFamilies",
+        "$description": ""
+      },
+      "ui": {
+        "$value": [
+          "Segoe UI Variable"
+        ],
+        "$type": "fontFamilies",
+        "$description": ""
+      }
+    },
+    "radius": {
+      "hero": {
+        "$value": "24px",
+        "$type": "borderRadius",
+        "$description": ""
+      },
+      "control": {
+        "$value": "10px",
+        "$type": "borderRadius",
+        "$description": ""
+      },
+      "pill": {
+        "$value": "999px",
+        "$type": "borderRadius",
+        "$description": ""
+      },
+      "card": {
+        "$value": "18px",
+        "$type": "borderRadius",
+        "$description": ""
+      },
+      "small": {
+        "$value": "6px",
+        "$type": "borderRadius",
+        "$description": ""
+      }
+    },
+    "shadow": {
+      "overlay": {
+        "$value": [
+          {
+            "offsetX": "0px",
+            "offsetY": "22px",
+            "blur": "72px",
+            "spread": "0px",
+            "color": "rgba(20, 36, 66, 0.2)",
+            "inset": false
+          }
+        ],
+        "$type": "shadow",
+        "$description": ""
+      },
+      "card": {
+        "$value": [
+          {
+            "offsetX": "0px",
+            "offsetY": "5px",
+            "blur": "18px",
+            "spread": "0px",
+            "color": "rgba(31, 54, 99, 0.055)",
+            "inset": false
+          }
+        ],
+        "$type": "shadow",
+        "$description": ""
+      }
+    },
+    "font-weight": {
+      "strong": {
+        "$value": "650",
+        "$type": "fontWeights",
+        "$description": ""
+      },
+      "display": {
+        "$value": "700",
+        "$type": "fontWeights",
+        "$description": ""
+      },
+      "regular": {
+        "$value": "400",
+        "$type": "fontWeights",
+        "$description": ""
+      },
+      "medium": {
+        "$value": "550",
+        "$type": "fontWeights",
+        "$description": ""
+      }
+    },
+    "font-size": {
+      "subtitle": {
+        "$value": "1.125rem",
+        "$type": "fontSizes",
+        "$description": ""
+      },
+      "title": {
+        "$value": "1.875rem",
+        "$type": "fontSizes",
+        "$description": ""
+      },
+      "body": {
+        "$value": "1rem",
+        "$type": "fontSizes",
+        "$description": ""
+      },
+      "meta": {
+        "$value": "0.75rem",
+        "$type": "fontSizes",
+        "$description": ""
+      },
+      "section": {
+        "$value": "1.25rem",
+        "$type": "fontSizes",
+        "$description": ""
+      },
+      "label": {
+        "$value": "0.875rem",
+        "$type": "fontSizes",
+        "$description": ""
+      },
+      "display": {
+        "$value": "2.625rem",
+        "$type": "fontSizes",
+        "$description": ""
+      }
+    },
+    "palette": {
+      "cobalt": {
+        "$value": "#2354D7",
+        "$type": "color",
+        "$description": ""
+      },
+      "ink": {
+        "$value": "#18263E",
+        "$type": "color",
+        "$description": ""
+      },
+      "white": {
+        "$value": "#FFFFFF",
+        "$type": "color",
+        "$description": ""
+      },
+      "mint": {
+        "$value": "#E7F5EE",
+        "$type": "color",
+        "$description": ""
+      },
+      "mist": {
+        "$value": "#F3F6FC",
+        "$type": "color",
+        "$description": ""
+      },
+      "muted": {
+        "$value": "#586881",
+        "$type": "color",
+        "$description": ""
+      },
+      "honey": {
+        "$value": "#FFF4DF",
+        "$type": "color",
+        "$description": ""
+      },
+      "frost": {
+        "$value": "#EDF2FF",
+        "$type": "color",
+        "$description": ""
+      },
+      "mint-line": {
+        "$value": "#B9DEC9",
+        "$type": "color",
+        "$description": ""
+      },
+      "honey-line": {
+        "$value": "#F0D7AB",
+        "$type": "color",
+        "$description": ""
+      },
+      "blush": {
+        "$value": "#FDEFF0",
+        "$type": "color",
+        "$description": ""
+      },
+      "brick": {
+        "$value": "#993742",
+        "$type": "color",
+        "$description": ""
+      },
+      "line": {
+        "$value": "#E0E6F1",
+        "$type": "color",
+        "$description": ""
+      },
+      "cobalt-line": {
+        "$value": "#89A5F6",
+        "$type": "color",
+        "$description": ""
+      },
+      "snow": {
+        "$value": "#FAFBFE",
+        "$type": "color",
+        "$description": ""
+      },
+      "spruce": {
+        "$value": "#176148",
+        "$type": "color",
+        "$description": ""
+      },
+      "slate": {
+        "$value": "#45546C",
+        "$type": "color",
+        "$description": ""
+      },
+      "ochre": {
+        "$value": "#80460C",
+        "$type": "color",
+        "$description": ""
+      },
+      "blush-line": {
+        "$value": "#EDCBD0",
+        "$type": "color",
+        "$description": ""
+      },
+      "cobalt-deep": {
+        "$value": "#1743BA",
+        "$type": "color",
+        "$description": ""
+      },
+      "ice": {
+        "$value": "#E2EAFF",
+        "$type": "color",
+        "$description": ""
+      },
+      "wash": {
+        "$value": "#E8EEFF",
+        "$type": "color",
+        "$description": ""
+      },
+      "line-strong": {
+        "$value": "#C1CDE1",
+        "$type": "color",
+        "$description": ""
+      }
+    },
+    "size": {
+      "control": {
+        "$value": "42px",
+        "$type": "dimension",
+        "$description": ""
+      },
+      "control-small": {
+        "$value": "36px",
+        "$type": "dimension",
+        "$description": ""
+      },
+      "topbar": {
+        "$value": "64px",
+        "$type": "dimension",
+        "$description": ""
+      },
+      "sidebar": {
+        "$value": "224px",
+        "$type": "dimension",
+        "$description": ""
+      }
+    },
+    "color": {
+      "success": {
+        "$value": "{palette.spruce}",
+        "$type": "color",
+        "$description": "已完成、就绪"
+      },
+      "danger-border": {
+        "$value": "{palette.blush-line}",
+        "$type": "color",
+        "$description": "错误描边"
+      },
+      "on-primary": {
+        "$value": "{palette.white}",
+        "$type": "color",
+        "$description": "主要操作前景"
+      },
+      "selected": {
+        "$value": "{palette.frost}",
+        "$type": "color",
+        "$description": "当前选择与活动导航"
+      },
+      "canvas": {
+        "$value": "{palette.mist}",
+        "$type": "color",
+        "$description": "工作区背景"
+      },
+      "hero": {
+        "$value": "{palette.wash}",
+        "$type": "color",
+        "$description": "LaunchDesk 启动区背景"
+      },
+      "warning": {
+        "$value": "{palette.ochre}",
+        "$type": "color",
+        "$description": "待确认、信息不足"
+      },
+      "primary-border": {
+        "$value": "{palette.cobalt-line}",
+        "$type": "color",
+        "$description": "当前项描边"
+      },
+      "muted": {
+        "$value": "{palette.muted}",
+        "$type": "color",
+        "$description": "辅助信息"
+      },
+      "border": {
+        "$value": "{palette.line}",
+        "$type": "color",
+        "$description": "面板分隔线"
+      },
+      "secondary": {
+        "$value": "{palette.slate}",
+        "$type": "color",
+        "$description": "正文与次要标签"
+      },
+      "sidebar": {
+        "$value": "{palette.snow}",
+        "$type": "color",
+        "$description": "导航背景"
+      },
+      "danger-bg": {
+        "$value": "{palette.blush}",
+        "$type": "color",
+        "$description": "错误背景"
+      },
+      "primary-hover": {
+        "$value": "{palette.cobalt-deep}",
+        "$type": "color",
+        "$description": "主按钮悬停"
+      },
+      "success-border": {
+        "$value": "{palette.mint-line}",
+        "$type": "color",
+        "$description": "已完成描边"
+      },
+      "subtle": {
+        "$value": "{palette.snow}",
+        "$type": "color",
+        "$description": "空状态、输入框背景"
+      },
+      "surface": {
+        "$value": "{palette.white}",
+        "$type": "color",
+        "$description": "表单、列表与回执面板"
+      },
+      "warning-bg": {
+        "$value": "{palette.honey}",
+        "$type": "color",
+        "$description": "待确认背景"
+      },
+      "hero-edge": {
+        "$value": "{palette.ice}",
+        "$type": "color",
+        "$description": "启动区描边"
+      },
+      "primary": {
+        "$value": "{palette.cobalt}",
+        "$type": "color",
+        "$description": "主要操作和焦点环"
+      },
+      "text": {
+        "$value": "{palette.ink}",
+        "$type": "color",
+        "$description": "主文字"
+      },
+      "danger": {
+        "$value": "{palette.brick}",
+        "$type": "color",
+        "$description": "错误、阻塞"
+      },
+      "border-strong": {
+        "$value": "{palette.line-strong}",
+        "$type": "color",
+        "$description": "输入和交互描边"
+      },
+      "success-bg": {
+        "$value": "{palette.mint}",
+        "$type": "color",
+        "$description": "已完成背景"
+      },
+      "warning-border": {
+        "$value": "{palette.honey-line}",
+        "$type": "color",
+        "$description": "待确认描边"
+      }
+    }
+  },
+  "Core30/Penpot Type": {
+    "font-family": {
+      "ui": {
+        "$value": [
+          "Noto Sans CJK SC"
+        ],
+        "$type": "fontFamilies",
+        "$description": "本机 Penpot 注册的中文字体，覆盖浏览器首选字体"
+      },
+      "mono": {
+        "$value": [
+          "Roboto Mono"
+        ],
+        "$type": "fontFamilies",
+        "$description": "Penpot 中的等宽字体对应项"
+      }
+    },
+    "font-weight": {
+      "medium": {
+        "$value": "400",
+        "$type": "fontWeights",
+        "$description": ""
+      },
+      "strong": {
+        "$value": "700",
+        "$type": "fontWeights",
+        "$description": ""
+      }
+    }
+  },
+  "$themes": [],
+  "$metadata": {
+    "tokenSetOrder": [
+      "Core30/Light",
+      "Core30/Penpot Type"
+    ],
+    "activeThemes": [],
+    "activeSets": [
+      "Core30/Penpot Type",
+      "Core30/Light"
+    ]
+  }
+}

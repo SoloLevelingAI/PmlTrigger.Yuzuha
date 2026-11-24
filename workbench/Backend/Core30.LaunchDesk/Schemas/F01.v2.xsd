@@ -1,0 +1,53 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:f="urn:core30:F01:v2"
+           targetNamespace="urn:core30:F01:v2" elementFormDefault="qualified">
+  <xs:simpleType name="Mode">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="preview" />
+      <xs:enumeration value="launch" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="Value">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:maxLength value="300" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="LocalPath">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="4" />
+      <xs:maxLength value="32767" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="Port">
+    <xs:restriction base="xs:unsignedShort">
+      <xs:minInclusive value="1" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="request">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element name="monitor">
+          <xs:complexType>
+            <xs:attribute name="product" type="f:Value" use="required" />
+            <xs:attribute name="init" type="f:LocalPath" use="required" />
+            <xs:attribute name="uicDirectory" type="f:Value" />
+            <xs:attribute name="uicFirst" type="xs:boolean" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="marine">
+          <xs:complexType />
+        </xs:element>
+      </xs:choice>
+      <xs:attribute name="mode" type="f:Mode" use="required" />
+      <xs:attribute name="confirm" type="xs:boolean" />
+      <xs:attribute name="executable" type="f:LocalPath" use="required" />
+      <xs:attribute name="workingDirectory" type="f:LocalPath" use="required" />
+      <xs:attribute name="project" type="f:Value" use="required" />
+      <xs:attribute name="user" type="f:Value" use="required" />
+      <xs:attribute name="mdb" type="f:Value" use="required" />
+      <xs:attribute name="module" type="f:Value" use="required" />
+      <xs:attribute name="licenseHost" type="f:Value" />
+      <xs:attribute name="licensePort" type="f:Port" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

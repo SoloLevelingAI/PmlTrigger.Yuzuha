@@ -7,32 +7,105 @@ import shutil
 import subprocess
 import zipfile
 import sys
+import re
+import stat
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
+PML_SOURCE_FOLDERS = ('PMLLIB', 'PMLUI')
+PML_SOURCE_EXCLUSIONS = {'.pdb', '.ps1', '.bat', '.cmd', '.dll', '.exe', '.zip', '.7z', '.rar'}
+DESKTOP_FILES = ('PmlTwin.Workbench.exe', 'PmlTwin.Workbench.dll', 'coreclr.dll', 'PresentationFramework.dll')
+
+def copy_desktop(desktop, stage):
+    missing = [name for name in DESKTOP_FILES if not (desktop / name).is_file()]
+    if missing:
+        raise SystemExit('Provide a self-contained PmlTwin WPF publish directory. Missing: ' + ', '.join(missing))
+    shutil.copytree(desktop, stage / 'runtime/desktop', ignore=shutil.ignore_patterns(
+        '*.pdb', '*.ps1', '__pycache__', 'phayton', 'YuzuhaToolkit.Desktop.exe'))
+
+def pml_source_files(source):
+    for path in (source, *sorted(source.rglob('*'))):
+        if path.is_symlink() or getattr(path.lstat(), 'st_file_attributes', 0) & stat.FILE_ATTRIBUTE_REPARSE_POINT:
+            raise SystemExit('Linked PML source: ' + str(path))
+        if path.is_file() and path.name.lower() != 'pml.index' and path.suffix.lower() not in PML_SOURCE_EXCLUSIONS:
+            yield path
+
+def stage_pml_sources(stage, version):
+    for name in PML_SOURCE_FOLDERS:
+        source = ROOT / name
+        files = list(pml_source_files(source)) if source.is_dir() else []
+        if not files:
+            raise SystemExit('Missing PML source files: ' + str(source))
+        for path in files:
+            target = stage / 'deployment' / version / name / path.relative_to(source)
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(path, target)
+
+def write_payload_manifest(stage, version):
+    for name in ('PMLLIB', 'PMLUI', 'deployment', 'SHA256SUMS.txt', '.setup-payload.json'):
+        if (stage / name).exists():
+            raise SystemExit('Use a clean, program-only payload: ' + name)
+    stage_pml_sources(stage, version)
+    files = sorted(path for path in stage.rglob('*') if path.is_file())
+    forbidden = {'pmlnet.dll','aveva.core.utilities.dll','aveva.pdms.utilities.dll','pml.index','pmllib.zip','pmlui.zip'}
+    for path in files:
+        relative = path.relative_to(stage)
+        if (path.name.lower() in forbidden or path.name.lower() == '.yuzuha-user-data.json'
+            or path.suffix.lower() in {'.ps1','.sqlite3','.db'} or path.name.lower().endswith(('-wal', '-shm'))
+            or relative.parts[0].lower() in {'knowledge','trust','.yuzuha-state','userpmllib','projects','apps','exports','webapps'}):
+            raise SystemExit('Forbidden installer payload: ' + str(path))
+    sums = stage / 'SHA256SUMS.txt'
+    inventory = [{'path':path.relative_to(stage).as_posix(), 'sha256':hashlib.sha256(path.read_bytes()).hexdigest()} for path in files]
+    sums.write_text(''.join(row['sha256']+'  '+row['path']+'\n' for row in inventory), encoding='utf-8')
+    inventory.append({'path':sums.name, 'sha256':hashlib.sha256(sums.read_bytes()).hexdigest()})
+    (stage/'.setup-payload.json').write_text(json.dumps({'version':version,'entryPoint':'runtime/cli/PmlTwin.Phayton.Cli.exe',
+        'transport':'cli','scope':'program','files':inventory}, indent=2), encoding='utf-8')
+
+def write_retained_file_entries(stage, output):
+    manifest = json.loads((stage / '.setup-payload.json').read_text(encoding='utf-8'))
+    entries = []
+    for item in manifest['files']:
+        path = '{app}\\' + item['path'].replace('/', '\\').replace('{', '{{')
+        check_path = path.replace("'", "''")
+        entries.append(f"""Type: files; Name: "{path}"; Check: RetainProgramFile(ExpandConstant('{check_path}'))""")
+    output.write_text('\n'.join(entries) + '\n', encoding='utf-8-sig')
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--iscc', required=True, type=pathlib.Path)
     parser.add_argument('--output', required=True, type=pathlib.Path)
+    parser.add_argument('--desktop', required=True, type=pathlib.Path, help='Self-contained Windows x64 PmlTwin WPF publish directory built with BundlePhayton=false.')
+    parser.add_argument('--cli', required=True, type=pathlib.Path, help='Separately published Native AOT CLI directory; copied to runtime/cli. Legacy MCP binaries are excluded.')
+    parser.add_argument('--version', default='0.3.5.4', help='Four-part numeric package, manifest and executable filename version.')
+    parser.add_argument('--documentation', required=True, type=pathlib.Path, help='Verified generated DocFX site.')
+    parser.add_argument('--documentation-host', required=True, type=pathlib.Path, help='Published read-only DevHost.')
     args = parser.parse_args()
+    if not re.fullmatch(r'[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+', args.version) or any(int(part)>65535 for part in args.version.split('.')):
+        raise SystemExit('Version must contain four numeric components between 0 and 65535.')
+    if not (args.cli / 'PmlTwin.Phayton.Cli.exe').is_file() or not (args.cli / 'e_sqlite3.dll').is_file():
+        raise SystemExit('Complete Native AOT CLI publish output (EXE and e_sqlite3.dll) is required.')
+    if not (args.documentation/'index.html').is_file() or not (args.documentation_host/'YuzuhaToolkit.DevHost.exe').is_file():
+        raise SystemExit('Complete documentation site and host are required.')
     out = args.output.resolve()
     out.mkdir(parents=True, exist_ok=True)
     stage = out / 'payload'
     if stage.exists():
         raise SystemExit('Use a fresh output directory; existing payload will not be overwritten.')
-    manifest = json.loads((ROOT / 'runtime/net10/native-aot-manifest.json').read_text(encoding='utf-8-sig'))
-    for item in manifest['components']:
-        binary = ROOT / 'runtime/net10' / item['name']
-        if hashlib.sha256(binary.read_bytes()).hexdigest() != item['sha256']:
-            raise SystemExit('Runtime manifest mismatch: ' + item['name'])
-    for profile, framework in [('AM','35'),('PDMS','35'),('E3D2.1','48'),('E3D3.1.0','48'),('E3D3.1.6','48')]:
+    for profile, framework in [('AM','35'),('PDMS','35'),('E3D2.1','48'),('E3D3.1.6','48')]:
         if not (ROOT / f'runtime/profiles/{profile}/net{framework}/YuzuhaToolkit.PmlHost.Net{framework}.dll').is_file():
             raise SystemExit('Missing Host: ' + profile)
     subprocess.run([sys.executable,str(ROOT/'installer/build_icon.py')],check=True)
     subprocess.run(['dotnet', 'build', str(ROOT / 'installer/SetupBridge/SetupBridge.csproj'),
                     '-c', 'Release'], check=True)
-    for name in ['PMLLIB','PMLUI','runtime','skill','docs']:
-        shutil.copytree(ROOT / name, stage / name, ignore=shutil.ignore_patterns('*.pdb','*.ps1','__pycache__'))
+    for name in ['runtime','skill','docs']:
+        ignored=['*.pdb','*.ps1','__pycache__','pml.index']
+        if name == 'runtime':
+            ignored.extend(['desktop','net10','cli','E3D3.1.0'])
+        shutil.copytree(ROOT / name, stage / name, ignore=shutil.ignore_patterns(*ignored))
+    copy_desktop(args.desktop.resolve(), stage)
+    shutil.copytree(args.cli.resolve(), stage / 'runtime/cli', ignore=shutil.ignore_patterns('*.pdb','*.ps1','__pycache__'))
+    shutil.copytree(ROOT/'src/YuzuhaToolkit.WebApps/wwwroot', stage/'runtime/webapps/wwwroot', dirs_exist_ok=True)
+    shutil.copytree(args.documentation.resolve(), stage/'runtime/documentation')
+    shutil.copytree(args.documentation_host.resolve(), stage/'runtime/documentation-host', ignore=shutil.ignore_patterns('*.pdb'))
     for name in ['LICENSE','THIRD-PARTY.md','THIRD-PARTY.zh-CN.md']:
         shutil.copy2(ROOT / name, stage / name)
     shutil.copy2(ROOT / 'installer/START-HERE.html', stage / 'START-HERE.html')
@@ -55,20 +128,13 @@ def main():
     # CLR4 is identified by the executable metadata; no runtime config is needed.
     for name in ['Yuzuha.SetupBridge.exe','Newtonsoft.Json.dll']:
         shutil.copy2(helper / name, stage / 'setup' / name)
-    files = [p for p in stage.rglob('*') if p.is_file()]
-    forbidden = {'pmlnet.dll','aveva.core.utilities.dll','aveva.pdms.utilities.dll'}
-    for path in files:
-        if path.name.lower() in forbidden or path.suffix.lower() in {'.ps1','.sqlite3','.db'}:
-            raise SystemExit('Forbidden installer payload: ' + str(path))
-    (stage / 'SHA256SUMS.txt').write_text(''.join(
-        hashlib.sha256(p.read_bytes()).hexdigest() + '  ' + p.relative_to(stage).as_posix() + '\n'
-        for p in sorted(files)), encoding='utf-8')
-    inventory=[{'path':p.relative_to(stage).as_posix(),'sha256':hashlib.sha256(p.read_bytes()).hexdigest()}
-               for p in sorted(stage.rglob('*')) if p.is_file()]
-    (stage/'.setup-payload.json').write_text(json.dumps({'version':'0.3.3','files':inventory},indent=2),encoding='utf-8')
+    write_payload_manifest(stage, args.version)
+    retained = out / 'retained-program-files.iss'
+    write_retained_file_entries(stage, retained)
     subprocess.run([str(args.iscc.resolve()), '/DPayloadDir=' + str(stage),
-                    '/DOutputDir=' + str(out), str(ROOT / 'installer/Yuzuha.iss')], check=True)
-    exe = out / 'Yuzuha-0.3.3-Windows-Setup.exe'
+                    '/DOutputDir=' + str(out), '/DAppVersion=' + args.version,
+                    '/DRetainedFileEntries=' + str(retained), str(ROOT / 'installer/Yuzuha.iss')], check=True)
+    exe = out / ('Phayton-' + args.version + '-Windows-Setup.exe')
     (out / 'installer.sha256').write_text(hashlib.sha256(exe.read_bytes()).hexdigest() + '  ' + exe.name + '\n', encoding='ascii')
     bundle=out/'AI-install'
     shutil.copytree(stage/'setup',bundle/'setup')
@@ -86,23 +152,27 @@ def main():
     (bundle/'BUNDLE-SHA256SUMS.txt').write_text(''.join(
         hashlib.sha256(p.read_bytes()).hexdigest()+'  '+p.relative_to(bundle).as_posix()+'\n'
         for p in sorted(bundle.rglob('*')) if p.is_file()),encoding='utf-8')
-    with zipfile.ZipFile(out/'Yuzuha-0.3.3-Windows-Agent.zip','w',zipfile.ZIP_DEFLATED) as archive:
+    agent_zip = out / ('Phayton-' + args.version + '-Windows-Agent.zip')
+    with zipfile.ZipFile(agent_zip,'w',zipfile.ZIP_DEFLATED) as archive:
         for path in bundle.rglob('*'):
             if path.is_file():archive.write(path,path.relative_to(bundle))
-    source_zip = out / 'Yuzuha-Windows-Setup-Sources.zip'
+    source_zip = out / 'Phayton-Windows-Setup-Sources.zip'
     with zipfile.ZipFile(source_zip, 'w', zipfile.ZIP_DEFLATED) as archive:
-        for folder in ['installer', 'PMLLIB', 'docs/semantic']:
+        for folder in ['installer', 'docs/semantic']:
             for path in sorted((ROOT / folder).rglob('*')):
                 if path.is_file() and not {'bin', 'obj', '__pycache__'}.intersection(path.relative_to(ROOT).parts):
                     archive.write(path, path.relative_to(ROOT))
+        for folder in PML_SOURCE_FOLDERS:
+            for path in pml_source_files(ROOT / folder):
+                archive.write(path, path.relative_to(ROOT), compress_type=zipfile.ZIP_STORED)
         archive.write(ROOT / 'LICENSE', 'LICENSE')
         archive.writestr('SOURCE-README.txt',
             'Installer source supplement, not a standalone checkout. Overlay onto the matching repository.\n'
             'Build requires Python, .NET SDK with NET48 targeting support, Inno Setup,\n'
             'src/lib/net35/Newtonsoft.Json.dll and the existing verified release runtimes.\n'
             'Entry points: installer/Yuzuha.iss and installer/build.py. No AVEVA vendor assemblies included.\n')
-    deliverables=[exe,out/'Yuzuha-0.3.3-Windows-Agent.zip',source_zip]
-    (out/'SHA256SUMS.txt').write_text(''.join(hashlib.sha256(p.read_bytes()).hexdigest()+'  '+p.name+'\n' for p in deliverables),encoding='ascii')
+    deliverables=[exe,agent_zip,source_zip]
+    (out/'SHA256SUMS.txt').write_text(''.join(hashlib.sha256(p.read_bytes()).hexdigest()+'  '+p.relative_to(out).as_posix()+'\n' for p in deliverables),encoding='ascii')
     print(exe)
 
 if __name__ == '__main__':

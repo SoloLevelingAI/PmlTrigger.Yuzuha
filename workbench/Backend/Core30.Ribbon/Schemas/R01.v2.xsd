@@ -1,0 +1,10 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="urn:core30:R01:v2" elementFormDefault="qualified">
+  <xs:element name="request">
+    <xs:complexType>
+      <xs:attribute name="source" use="required">
+        <xs:simpleType><xs:restriction base="xs:string"><xs:minLength value="1" /><xs:maxLength value="32767" /></xs:restriction></xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

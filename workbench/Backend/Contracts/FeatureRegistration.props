@@ -1,0 +1,10 @@
+<Project>
+  <PropertyGroup>
+    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="$(MSBuildThisFileDirectory)../Core30.FeatureRegistration/Core30.FeatureRegistration.csproj"
+                      OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <AdditionalFiles Include="$(MSBuildProjectDirectory)/FeatureCatalog.xml;$(MSBuildProjectDirectory)/Schemas/*.xsd" />
+  </ItemGroup>
+</Project>

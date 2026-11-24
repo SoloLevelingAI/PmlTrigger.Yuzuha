@@ -1,0 +1,21 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:d="urn:core30:P03:v8" targetNamespace="urn:core30:P03:v8" elementFormDefault="qualified">
+  <xs:simpleType name="sha256">
+    <xs:restriction base="xs:string"><xs:length value="64" /><xs:pattern value="[0-9a-f]{64}" /></xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="operationId">
+    <xs:restriction base="xs:string"><xs:length value="32" /><xs:pattern value="[0-9a-f]{32}" /></xs:restriction>
+  </xs:simpleType>
+  <xs:element name="request">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element name="verify">
+          <xs:complexType>
+            <xs:attribute name="id" type="d:operationId" use="required" />
+            <xs:attribute name="planSha256" type="d:sha256" use="required" />
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

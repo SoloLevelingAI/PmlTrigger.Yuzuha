@@ -1,0 +1,25 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="urn:core30:P01:v5" elementFormDefault="qualified">
+  <xs:element name="request">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="project-access">
+          <xs:complexType>
+            <xs:attribute name="scan" type="xs:string" use="required" />
+            <xs:attribute name="installation" type="xs:string" use="required" />
+            <xs:attribute name="product" use="required">
+              <xs:simpleType><xs:restriction base="xs:string"><xs:enumeration value="E3D" /><xs:enumeration value="AM" /></xs:restriction></xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="project" use="required">
+              <xs:simpleType><xs:restriction base="xs:string"><xs:pattern value="[A-Z0-9]{3}" /></xs:restriction></xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="licenseServers">
+              <xs:simpleType><xs:restriction base="xs:token"><xs:minLength value="1" /><xs:maxLength value="1024" /></xs:restriction></xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="refresh" type="xs:boolean" default="false" />
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

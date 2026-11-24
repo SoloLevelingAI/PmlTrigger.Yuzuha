@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+  </PropertyGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Settings/*.xml;Settings/*.xsd" />
+    <ProjectReference Include="../Core30.Requests/Core30.Requests.csproj"
+                      OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <AdditionalFiles Include="Contracts/LaunchFieldRequests.xml;../Core30.PmlTwin/Schemas/P01.v3.xsd;../Core30.LaunchDesk/Schemas/F01.v2.xsd" />
+  </ItemGroup>
+</Project>

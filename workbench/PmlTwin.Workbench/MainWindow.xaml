@@ -1,0 +1,63 @@
+<ui:ChromeWindow x:Class="PmlTwin.Workbench.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="clr-namespace:Core30.Ui;assembly=Core30.Ui"
+    Title="PmlTwin · 会话工作台" Style="{StaticResource Window.Workbench}"
+    WindowStartupLocation="CenterScreen" Width="1240" Height="740" MinWidth="720" MinHeight="530">
+  <Grid Background="{DynamicResource color.canvas}">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition x:Name="RailWidth" Width="196" />
+      <ColumnDefinition Width="*" />
+    </Grid.ColumnDefinitions>
+    <Border Background="{DynamicResource color.sidebar}" BorderBrush="{DynamicResource color.border}" BorderThickness="0,0,1,0">
+      <Grid Margin="12,0">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="*" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Margin="4,16,4,16">
+          <Border Width="39" Height="39" CornerRadius="{DynamicResource radius.control}" Background="{DynamicResource color.primary}">
+            <ContentControl Style="{StaticResource UiGlyph}" Content="{StaticResource UiGlyphLayers}"
+                            Foreground="{DynamicResource color.on-primary}" Width="22" Height="22" />
+          </Border>
+          <StackPanel x:Name="BrandText" Margin="10,0,0,0" VerticalAlignment="Center">
+            <TextBlock Text="PmlTwin" Style="{StaticResource Text.Section}" />
+            <TextBlock Text="AVEVA 会话与自动化" Style="{StaticResource Text.Meta}" />
+          </StackPanel>
+        </StackPanel>
+        <StackPanel x:Name="Navigation" Grid.Row="1" />
+        <Border Grid.Row="2" Padding="0,8,0,7" BorderBrush="{DynamicResource color.border}" BorderThickness="0,1,0,0">
+          <StackPanel>
+            <TextBlock x:Name="WorkspaceLabel" Margin="9,1,0,6" Text="本机工作区" Style="{StaticResource Text.Meta}" />
+            <StackPanel x:Name="FooterNavigation" />
+          </StackPanel>
+        </Border>
+      </Grid>
+    </Border>
+
+    <Grid Grid.Column="1">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="46" />
+        <RowDefinition Height="*" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <Border Background="{DynamicResource color.surface}" BorderBrush="{DynamicResource color.border}" BorderThickness="0,0,0,1">
+        <DockPanel Margin="22,0,16,0">
+          <TextBlock x:Name="Breadcrumb" Style="{StaticResource Text.Label}" VerticalAlignment="Center" FontWeight="SemiBold" />
+        </DockPanel>
+      </Border>
+      <ScrollViewer x:Name="Viewport" Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto"
+                    AutomationProperties.AutomationId="PageViewport" Focusable="False">
+        <StackPanel Margin="22,14,22,18">
+          <ContentControl x:Name="Header" Focusable="False" />
+          <ContentControl x:Name="Tabs" Focusable="False" />
+          <ui:TransitionPresenter x:Name="Body" />
+        </StackPanel>
+      </ScrollViewer>
+      <TextBlock x:Name="StatusBar" Grid.Row="2" Style="{StaticResource Text.Meta}" Padding="22,6" TextWrapping="Wrap"
+                 AutomationProperties.AutomationId="StatusMessage" AutomationProperties.LiveSetting="Polite"
+                 Background="{DynamicResource color.surface}" Visibility="Collapsed" />
+    </Grid>
+  </Grid>
+</ui:ChromeWindow>

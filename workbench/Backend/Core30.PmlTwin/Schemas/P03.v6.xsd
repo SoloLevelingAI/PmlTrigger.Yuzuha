@@ -1,0 +1,32 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:d="urn:core30:P03:v6" targetNamespace="urn:core30:P03:v6" elementFormDefault="qualified">
+  <xs:simpleType name="path">
+    <xs:restriction base="xs:token"><xs:minLength value="1" /><xs:maxLength value="2048" /></xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="sha256">
+    <xs:restriction base="xs:string"><xs:length value="64" /><xs:pattern value="[0-9a-f]{64}" /></xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="operationId">
+    <xs:restriction base="xs:string"><xs:length value="32" /><xs:pattern value="[0-9a-f]{32}" /></xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="operation">
+    <xs:attribute name="id" type="d:operationId" use="required" />
+    <xs:attribute name="planSha256" type="d:sha256" use="required" />
+  </xs:complexType>
+  <xs:element name="request">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element name="preview">
+          <xs:complexType>
+            <xs:attribute name="source" type="d:path" use="required" />
+            <xs:attribute name="target" type="d:path" use="required" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="apply" type="d:operation" />
+        <xs:element name="rollback" type="d:operation" />
+        <xs:element name="inspect" type="d:operation" />
+        <xs:element name="history"><xs:complexType /></xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

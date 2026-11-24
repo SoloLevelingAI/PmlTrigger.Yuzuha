@@ -1,0 +1,13 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="urn:core30:P02:v4" elementFormDefault="qualified">
+  <xs:element name="request">
+    <xs:complexType>
+      <xs:attribute name="pid" use="required">
+        <xs:simpleType><xs:restriction base="xs:int"><xs:minInclusive value="1" /></xs:restriction></xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="startTicks" use="required">
+        <xs:simpleType><xs:restriction base="xs:long"><xs:minInclusive value="1" /></xs:restriction></xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

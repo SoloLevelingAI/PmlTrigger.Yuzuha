@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:a="urn:core30:P02:v2"
+           targetNamespace="urn:core30:P02:v2" elementFormDefault="qualified">
+  <xs:simpleType name="mode">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="standard" />
+      <xs:enumeration value="fixed-drives" />
+      <xs:enumeration value="custom" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="depth">
+    <xs:restriction base="xs:int"><xs:minInclusive value="0" /><xs:maxInclusive value="64" /></xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="directoryLimit">
+    <xs:restriction base="xs:int"><xs:minInclusive value="1" /><xs:maxInclusive value="500000" /></xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="path">
+    <xs:restriction base="xs:string"><xs:minLength value="1" /><xs:maxLength value="2048" /></xs:restriction>
+  </xs:simpleType>
+  <xs:element name="request">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="root" minOccurs="0" maxOccurs="16">
+          <xs:complexType>
+            <xs:attribute name="path" type="a:path" use="required" />
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="mode" type="a:mode" />
+      <xs:attribute name="maxDepth" type="a:depth" />
+      <xs:attribute name="maxDirectories" type="a:directoryLimit" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

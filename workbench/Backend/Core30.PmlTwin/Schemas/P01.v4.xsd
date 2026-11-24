@@ -1,0 +1,20 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="urn:core30:P01:v4" elementFormDefault="qualified">
+  <xs:element name="request">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="catalog">
+          <xs:complexType>
+            <xs:attribute name="scan" type="xs:string" use="required" />
+            <xs:attribute name="product" use="required">
+              <xs:simpleType><xs:restriction base="xs:string"><xs:enumeration value="E3D" /><xs:enumeration value="AM" /></xs:restriction></xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="installation" type="xs:string" use="required" />
+            <xs:attribute name="refresh" type="xs:boolean" default="false" />
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="file" type="xs:string" default="workspace.json" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

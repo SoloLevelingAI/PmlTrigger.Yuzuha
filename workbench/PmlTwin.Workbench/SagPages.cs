@@ -12,6 +12,7 @@ namespace PmlTwin.Workbench;
 public partial class MainWindow
 {
     private const string HtmlImport = "HTML 教程";
+    private const string TextImport = "Markdown / TXT";
     private const string PmlImport = "未加密 PML";
     private bool _sagInitialized;
     private bool _sagBusy;
@@ -19,6 +20,7 @@ public partial class MainWindow
     private string _sagMessage = "";
     private string _sagExe = "";
     private string _sagVersion = "";
+    private (long Size, DateTime Modified) _sagCliStamp;
     private string _sagFormat = HtmlImport;
     private string _sagQuery = "";
     private SagSource? _sagSource;
@@ -56,7 +58,7 @@ public partial class MainWindow
             Render();
         };
 
-        var type = Choice(new[] { HtmlImport, PmlImport }, _sagFormat, "SagImportFormat");
+        var type = Choice(new[] { HtmlImport, TextImport, PmlImport }, _sagFormat, "SagImportFormat");
         type.IsEnabled = !_sagBusy;
         type.SelectionChanged += (_, _) => _sagFormat = type.SelectedItem as string ?? HtmlImport;
         var import = AsyncBtn("导入目录…", "ImportSagDirectory", ImportSag, "Button.Primary");
@@ -76,6 +78,8 @@ public partial class MainWindow
             Below(Actions(browse, snippet), 8),
             Below(Leading(import, Field("导入类型", type), Dock.Right), 10),
             Below(Actions(refresh, reindex), 7), Below(notice, 7));
+        if (_sagInitialized && _sagExe.Length == 0)
+            content.Children.Insert(1, Below(Actions(Jump("安装 SAG…", "Update")), 7));
         return Card("索引目录", content);
     }
 
@@ -153,16 +157,23 @@ public partial class MainWindow
     private Task RefreshSag() => SagWork("正在核对 SAG 索引…", async () =>
     {
         _sagInitialized = true;
-        _sagExe = SagKnowledgeLibrary.FindExecutable(_store.Sag.CliPath) ?? "";
-        _sagVersion = "";
-        if (_sagExe.Length == 0)
+        var executable = SagKnowledgeLibrary.FindExecutable(_store.Sag.CliPath);
+        if (executable is null)
         {
+            _sagExe = _sagVersion = "";
             _sagError = _store.SagLoadWarning.Length > 0;
-            _sagMessage = _sagError ? _store.SagLoadWarning : "请选择本机已有的 sag.exe。";
+            _sagMessage = _sagError ? _store.SagLoadWarning : "选择已有的 SAG CLI，或前往组件更新安装。";
             return;
         }
-        var library = SagLibrary(_sagExe);
-        _sagVersion = await Task.Run(library.ReadVersion);
+        var library = SagLibrary(executable);
+        var stamp = SagCliStamp(executable);
+        if (!string.Equals(executable, _sagExe, StringComparison.OrdinalIgnoreCase) || _sagVersion.Length == 0 || stamp != _sagCliStamp)
+        {
+            _sagExe = executable;
+            _sagVersion = "";
+            _sagVersion = await Task.Run(library.ReadVersion);
+            _sagCliStamp = stamp;
+        }
         await ReadSagIndexes(library);
         _sagMessage = "";
     });
@@ -174,10 +185,12 @@ public partial class MainWindow
         await SagWork("正在核对 SAG CLI…", async () =>
         {
             var library = SagLibrary(dialog.FileName);
+            var stamp = SagCliStamp(dialog.FileName);
             var version = await Task.Run(library.ReadVersion);
             _store.SelectSagCli(dialog.FileName);
             _sagExe = dialog.FileName;
             _sagVersion = version;
+            _sagCliStamp = stamp;
             await ReadSagIndexes(library);
             _sagMessage = "";
             if (_store.PmlScan.Stamp.Length > 0) _pmlScanQueued = true;
@@ -187,16 +200,23 @@ public partial class MainWindow
     private async Task ReadSagIndexes(SagKnowledgeLibrary library)
     {
         var sources = _store.Sag.Sources.ToArray();
-        var rows = await Task.Run(() => library.List(sources));
         _sagIndexes.Clear();
+        if (sources.Length == 0) return;
+        var rows = await Task.Run(() => library.List(sources));
         foreach (var row in rows) _sagIndexes[row.Source] = row;
         _sagSource ??= sources.FirstOrDefault();
     }
 
+    private static (long Size, DateTime Modified) SagCliStamp(string path)
+    {
+        var file = new FileInfo(path);
+        return (file.Length, file.LastWriteTimeUtc);
+    }
+
     private async Task ImportSag()
     {
-        var kind = _sagFormat == PmlImport ? SagSourceKind.Pml : SagSourceKind.Html;
-        var folder = new OpenFolderDialog { Title = kind == SagSourceKind.Html ? "选择 HTML 教程目录" : "选择未加密 PML 源码目录" };
+        var kind = _sagFormat switch { PmlImport => SagSourceKind.Pml, TextImport => SagSourceKind.Text, _ => SagSourceKind.Html };
+        var folder = new OpenFolderDialog { Title = $"选择{_sagFormat}目录" };
         if (folder.ShowDialog(this) != true) return;
         await SagWork("正在读取原文件并建立 SAG 索引…", async () =>
         {
@@ -266,7 +286,9 @@ public partial class MainWindow
                 OpenSagHtml(hit, path);
                 return;
             }
-            var content = Code(SagKnowledgeLibrary.ReadPmlOriginal(hit), "SagPmlOriginal", 353);
+            var content = hit.Source.Kind == SagSourceKind.Pml
+                ? Code(SagKnowledgeLibrary.ReadPmlOriginal(hit), "SagPmlOriginal", 353)
+                : Code(SagKnowledgeLibrary.ReadTextOriginal(hit), "SagTextOriginal", 353);
             content.TextWrapping = TextWrapping.NoWrap;
             content.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
             content.Loaded += (_, _) =>

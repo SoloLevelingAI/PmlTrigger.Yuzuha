@@ -1,4 +1,10 @@
-# Yuzuha Agent lifecycle
+# PmlTwin installation on Windows
+
+For the standalone PmlTwin 0.2.7 desktop, use the [first installation and configuration guide](docs/reference/pmltwin-first-install.md) and the Phayton 0.3.5.6 Windows release assets. Verify the archive, read `START-HERE.md` and `agent-skills/yuzuha-setup/SKILL.md`, and ask the user to approve the concrete program installation plan before running it. The installed native CLI verifies AVEVA sessions.
+
+## Version 0.3.1 archive
+
+The following instructions describe that historical archive.
 
 > v0.3.1: Native AOT、内置能力优先、可选 SQLite、INIT/BAT 与通用客户端注册修复。安装后必须完全退出并重启 AI 客户端。See [release notes](docs/release-v0.3.1.md).
 

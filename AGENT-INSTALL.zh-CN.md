@@ -1,4 +1,10 @@
-# Yuzuha Agent 生命周期
+# PmlTwin Windows 安装入口
+
+**安装独立 PmlTwin 0.2.7 时，请从 [首次安装与配置手册](docs/reference/pmltwin-first-install.md) 开始。** 使用 Phayton 0.3.5.6 发布资产，解压已核验的 Windows-Agent 包，再读包内 `START-HERE.md` 和 `agent-skills/yuzuha-setup/SKILL.md`。通过安装工具生成计划，取得用户确认后执行。会话核验使用随包原生 CLI。
+
+## v0.3.1 存档说明
+
+以下步骤只用于核对当时的历史压缩包。
 
 > v0.3.1: Native AOT、内置能力优先、可选 SQLite、INIT/BAT 与通用客户端注册修复。安装后必须完全退出并重启 AI 客户端。See [release notes](docs/release-v0.3.1.md).
 

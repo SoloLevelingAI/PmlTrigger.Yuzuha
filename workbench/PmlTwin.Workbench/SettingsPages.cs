@@ -53,9 +53,10 @@ public partial class MainWindow
         var setup = PackageSetupButton(bundled ? "打开程序安装器…" : "选择安装包…", "OpenPackageSetup");
         var note = bundled ? "安装器更新程序与随包 PML 源码。请在文件部署页选择何时部署。" : "选择已下载的 Phayton 安装包来更新程序和随包源码。";
         if (RegisteredPhaytonCli.FindInstalledWorkbenchRoot() is not null) note += "打开向导后，工作台会关闭以便更新。";
-        return Card("Phayton 程序安装包", Stack(
+        var program = Card("Phayton 程序安装包", Stack(
             Muted(note),
             Below(Actions(setup, Jump("打开资源部署", "Folders")), 8)));
+        return SideBySide(SagComponentCard(), program);
     }
 
     private FrameworkElement FeedbackPage()

@@ -103,7 +103,12 @@ def main():
         shutil.copytree(ROOT / name, stage / name, ignore=shutil.ignore_patterns(*ignored))
     copy_desktop(args.desktop.resolve(), stage)
     shutil.copytree(args.cli.resolve(), stage / 'runtime/cli', ignore=shutil.ignore_patterns('*.pdb','*.ps1','__pycache__'))
-    shutil.copytree(ROOT/'src/YuzuhaToolkit.WebApps/wwwroot', stage/'runtime/webapps/wwwroot', dirs_exist_ok=True)
+    webapp_source = ROOT / 'src/YuzuhaToolkit.WebApps/wwwroot'
+    webapps = stage / 'runtime/webapps/wwwroot'
+    if webapp_source.is_dir():
+        shutil.copytree(webapp_source, webapps, dirs_exist_ok=True)
+    elif not webapps.is_dir():
+        raise SystemExit('Provide the verified WebApps runtime or its wwwroot source.')
     shutil.copytree(args.documentation.resolve(), stage/'runtime/documentation')
     shutil.copytree(args.documentation_host.resolve(), stage/'runtime/documentation-host', ignore=shutil.ignore_patterns('*.pdb'))
     for name in ['LICENSE','THIRD-PARTY.md','THIRD-PARTY.zh-CN.md']:
@@ -113,6 +118,9 @@ def main():
     shutil.copy2(ROOT / 'installer/INSTALL.md', stage / 'INSTALL.md')
     shutil.copy2(ROOT / 'installer/VALIDATION.md', stage / 'VALIDATION.md')
     shutil.copy2(ROOT / 'installer/request.example.json', stage / 'request.example.json')
+    guide = ROOT / 'docs/reference/pmltwin-first-install.md'
+    if guide.is_file():
+        shutil.copy2(guide, stage / 'PmlTwin-Configuration.zh-CN.md')
     # Installer-specific instructions take precedence in this distribution.
     for language in ['lifecycle.md','lifecycle.zh-CN.md']:
         shutil.copy2(ROOT / 'installer/INSTALL.md', stage / 'skill/references' / language)
@@ -147,6 +155,8 @@ def main():
     shutil.copy2(ROOT/'installer/AGENTS.md',bundle/'AGENTS.md')
     for name in ['INSTALL.md','VALIDATION.md','request.example.json','.setup-payload.json']:
         shutil.copy2(stage/name,bundle/name)
+    if guide.is_file():
+        shutil.copy2(stage / 'PmlTwin-Configuration.zh-CN.md', bundle / 'PmlTwin-Configuration.zh-CN.md')
     shutil.copy2(exe,bundle/exe.name)
     shutil.copy2(out/'installer.sha256',bundle/'installer.sha256')
     (bundle/'BUNDLE-SHA256SUMS.txt').write_text(''.join(

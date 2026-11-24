@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using Core30.Backend;
 using Core30.Core;
+using Core30.Knowledge;
 using Core30.LaunchDesk;
 using Core30.PmlTwin;
 using static Core30.Workbench.Views;
@@ -16,7 +17,8 @@ public partial class MainWindow
     private readonly CoreHost _backend = new("PmlTwin",
     [
         new("pml", "PmlTwin", "PML 与会话", PmlTwinFeatures.All),
-        new("launcher", "启动器", "运行环境", LaunchDeskFeatures.All)
+        new("launcher", "启动器", "运行环境", LaunchDeskFeatures.All),
+        new("knowledge", "知识库", "索引与检索", KnowledgeFeatures.All)
     ]);
     private LaunchDeskWorkflow LaunchBackend => new(_backend, _store.DirectoryPath);
     private LaunchInventory? _inventory;
@@ -28,6 +30,7 @@ public partial class MainWindow
     private IReadOnlyList<PmlSessionProcess> _pendingHostProcesses = [];
     private bool _sessionCheckFailed;
     private string _sessionMessage = "正在读取本机 AVEVA 会话。";
+    private string SessionStatusMessage => _refreshingSessions ? "正在检查 AVEVA 工程窗口与 Host…" : _sessionMessage;
     private string _installationMessage = "正在识别本机 AVEVA 安装。";
     private string _launchMessage = "";
     private PmlLiveSession? _session;
@@ -66,7 +69,7 @@ public partial class MainWindow
         if (_scanning) return;
         _scanning = true;
         _installationMessage = "正在识别本机 AVEVA 安装…";
-        Render();
+        if (ShowsInstallationStatus) Render();
         try
         {
             Directory.CreateDirectory(_store.DirectoryPath);
@@ -95,7 +98,7 @@ public partial class MainWindow
         finally
         {
             _scanning = false;
-            Render();
+            if (ShowsInstallationStatus) Render();
         }
     }
 
@@ -116,6 +119,7 @@ public partial class MainWindow
     {
         if (_refreshingSessions) return;
         _refreshingSessions = true;
+        if (redraw && ShowsSessionStatus) Render();
         try
         {
             Directory.CreateDirectory(_store.DirectoryPath);
@@ -128,8 +132,11 @@ public partial class MainWindow
             _pendingSessions = status.PendingHostCount;
             _pendingHostProcesses = status.Pending;
             _sessionCheckFailed = false;
-            _sessionMessage = _sessions.Count != 0 ? $"已连接 {_sessions.Count} 个会话。" :
-                _pendingSessions != 0 ? $"找到 {_pendingSessions} 个 AVEVA 进程，CLI 暂未连接。" : "当前没有正在运行的 AVEVA 会话。";
+            _sessionMessage = _sessions.Count != 0
+                ? $"{_sessions.Count} 个会话可用。" + (_pendingSessions > 0 ? $"另有 {_pendingSessions} 个工程窗口等待 Host。" : "")
+                : _pendingSessions != 0
+                    ? $"发现 {_pendingSessions} 个 AVEVA 工程窗口，Host 尚未通过核验。"
+                    : "当前未发现 AVEVA 工程窗口。打开工程后即可刷新会话。";
         }
         catch (Exception error) when (WorkbenchError(error))
         {
@@ -143,9 +150,13 @@ public partial class MainWindow
         finally
         {
             _refreshingSessions = false;
-            if (redraw) Render();
+            if (redraw && ShowsSessionStatus) Render();
         }
     }
+
+    private bool ShowsSessionStatus => _page.Id is "Home" or "Cli" or "Functions" or "Record";
+
+    private bool ShowsInstallationStatus => _page.Id is "Home" or "Ev" or "Launch" or "Profiles" or "Folders";
 
     private static Button AsyncBtn(string label, string id, Func<Task> action, string style = "Button.Base")
     {

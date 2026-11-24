@@ -14,13 +14,15 @@ public static class RegisteredPhaytonCli
         if (FindInstalledWorkbenchRoot() is { } root && ProgramIn(root) is { } installed) return [installed];
         var bundled = Path.Combine(AppContext.BaseDirectory, "phayton", "cli", "PmlTwin.Phayton.Cli.exe");
         if (File.Exists(bundled)) return [bundled];
+        var standard = FindStandardUserProgram();
         try
         {
             var registered = FindPrograms();
+            if (standard is not null && registered.Contains(standard, StringComparer.OrdinalIgnoreCase)) return [standard];
             if (registered.Length > 0) return registered;
         }
         catch (InvalidDataException error) when (error.InnerException is SecurityException) { }
-        return FindStandardUserProgram() is { } standard ? [standard] : [];
+        return standard is not null ? [standard] : [];
     }
 
     public static string? FindInstalledWorkbenchRoot()

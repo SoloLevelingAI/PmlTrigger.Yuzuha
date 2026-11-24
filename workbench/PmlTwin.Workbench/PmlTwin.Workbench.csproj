@@ -7,7 +7,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <AssemblyName>PmlTwin.Workbench</AssemblyName>
-    <Version>0.2.6</Version>
+    <Version>0.2.7</Version>
     <BundlePhayton Condition="'$(BundlePhayton)' == ''">false</BundlePhayton>
     <DefaultItemExcludes>$(DefaultItemExcludes);release*/**;evidence/**;host-setup/**</DefaultItemExcludes>
     <Core30Source>../Backend</Core30Source>

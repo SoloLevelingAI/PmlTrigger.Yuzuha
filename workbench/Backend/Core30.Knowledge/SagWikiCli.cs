@@ -39,12 +39,15 @@ internal sealed class SagWikiCli(FeatureContext home, ISagWikiProcess process)
             var path = Path.Combine(appData, "AVEVA-Toolbox", "SAG-Wiki");
             if (Directory.Exists(path)) home = new FeatureContext(path);
         }
-        if (home is not null && ManagedVersion(home) is { } version)
-        {
-            var managed = home.FilePath($"runtime/{version}/sag.exe");
-            if (File.Exists(managed)) return managed;
-        }
+        if (home is not null && FindManaged(home) is { } managed) return managed;
         return ExternalPaths().FirstOrDefault(File.Exists);
+    }
+
+    internal static string? FindManaged(FeatureContext home)
+    {
+        if (ManagedVersion(home) is not { } version) return null;
+        var executable = home.FilePath($"runtime/{version}/sag.exe");
+        return File.Exists(executable) ? executable : null;
     }
 
     public static Version? ManagedVersion(FeatureContext home)

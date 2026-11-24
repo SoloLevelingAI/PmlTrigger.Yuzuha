@@ -1,9 +1,8 @@
 # PML TWIN / PmlTrigger.Yuzuha
 
-开发分支新增 **PmlTwin.Phayton** 统一命令内核与 CLI，旧 YuzuhaToolkit 保留兼容。
-支持 `op list`、`op describe`、`op invoke`，并与 MCP 共用操作注册和执行策略。
-这是源码增量，尚未纳入正式安装包。[使用与安全契约](docs/phayton-operations.md) ·
-[PML 只读审查](docs/phayton-pml-review.md) · [验证记录](docs/validation/2026-10-16-phayton.md)
+独立 PmlTwin 0.2.7 由 Phayton 0.3.5.6 Windows x64 安装包交付。开始菜单「Phayton Workspace」打开独立 WPF。可先登录 E3D、核验会话，再按需配置 AVEVA Host 和 SAG。AI 在同一 Windows 用户下使用随包的 `PmlTwin.Phayton.Cli.exe`。
+
+[首次安装与配置手册（含 AI 安装）](docs/reference/pmltwin-first-install.md) · [独立桌面源码与构建](workbench/README.md) · [GitHub 测试发行版](https://github.com/SoloLevelingAI/PmlTrigger.Yuzuha/releases/tag/v0.3.5.6)
 
 面向 AVEVA E3D、PDMS 和 AM 的本机 AI/PML 工具：连接工程会话、查询与执行 PML、检索本地资料，并记录窗体操作过程。
 

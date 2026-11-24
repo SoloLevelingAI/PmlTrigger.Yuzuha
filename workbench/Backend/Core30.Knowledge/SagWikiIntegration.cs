@@ -12,6 +12,8 @@ internal sealed class SagWikiIntegration(FeatureContext home, ISagWikiProcess pr
 {
     private const string ActiveVersion = "active-version.txt";
     private readonly SagWikiCli _cli = new(home, process);
+    private static readonly TimeSpan VersionTimeout = TimeSpan.FromSeconds(5);
+    private static readonly TimeSpan StatusTimeout = TimeSpan.FromSeconds(8);
 
     public static CoreData Run(FeatureContext workspace, CoreData request, ISagWikiProcess process, ISagWikiReleaseFeed feed)
     {
@@ -32,8 +34,35 @@ internal sealed class SagWikiIntegration(FeatureContext home, ISagWikiProcess pr
         var preview = (bool?)command.Field("preview") == true;
         if (current is not null && current >= release.Version && File.Exists(Runtime(current)))
             return DescribeCurrent(current, preview);
-        var payload = feed.Download(release, (string?)command.Field("gitee")).GetAwaiter().GetResult();
+        var mirror = (string?)command.Field("gitee");
+        var payload = GetInstaller(feed, release, mirror);
         return preview ? InstallReceipt(payload, "Verified") : Install(payload, current);
+    }
+
+    private SagWikiInstaller GetInstaller(ISagWikiReleaseFeed feed, SagWikiRelease release, string? mirror)
+    {
+        if (mirror is not null)
+            SagWikiReleaseFeed.ValidateMirror(mirror);
+
+        var cache = home.FilePath($"packages/{release.Version}/{release.Digest.ToLowerInvariant()}.exe");
+        if (File.Exists(cache))
+        {
+            try
+            {
+                var bytes = ReadBounded(cache, SagWikiReleaseFeed.MaxInstallerBytes);
+                if (Sha256(bytes).Equals(release.Digest, StringComparison.OrdinalIgnoreCase))
+                    return new SagWikiInstaller(release, "已校验的本地缓存", bytes);
+            }
+            catch (InvalidDataException)
+            {
+                // An invalid cached file never enters the installation path.
+            }
+        }
+
+        var payload = feed.Download(release, mirror).GetAwaiter().GetResult();
+        Directory.CreateDirectory(Path.GetDirectoryName(cache)!);
+        StoreAtomically(cache, payload.Bytes);
+        return payload;
     }
 
     private CoreData DescribeCurrent(Version version, bool preview)
@@ -115,8 +144,8 @@ internal sealed class SagWikiIntegration(FeatureContext home, ISagWikiProcess pr
     private CoreData Status(string? executable) => executable is null
         ? new CoreData("result", new CoreField("state", "Missing"), new CoreField("data", DataDirectory))
         : WithIndexReadiness(new CoreData("result", new CoreField("state", "Available"), new CoreField("cli", executable),
-            new CoreField("version", InvokeCli(executable, ["--version"])), new CoreField("data", DataDirectory),
-            new CoreData("output", XmlText(InvokeCli(executable, ["status"])))), executable, waitForReady: false);
+            new CoreField("version", InvokeCli(executable, ["--version"], VersionTimeout)), new CoreField("data", DataDirectory),
+            new CoreData("output", XmlText(InvokeCli(executable, ["status"], StatusTimeout)))), executable, waitForReady: false);
 
     private CoreData Index(string executable, string root) =>
         JsonResult("index", _cli.Index(executable, root));

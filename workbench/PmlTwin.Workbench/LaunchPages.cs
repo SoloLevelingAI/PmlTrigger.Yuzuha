@@ -14,13 +14,6 @@ namespace PmlTwin.Workbench;
 
 public partial class MainWindow
 {
-    private static bool ProjectReaderAvailable =>
-#if BUNDLED_PROJECT_READER
-        AvevaProjectReaderPackage.IsInstalled;
-#else
-        false;
-#endif
-
     private string _profileId = "";
     private string _quickQuery = "";
     private string _quickProject = "全部项目";
@@ -64,8 +57,8 @@ public partial class MainWindow
         var ev = StatusRow("Report", "EVARS", evarsDetail,
             evars.Status, evars.IsConfigured ? "success" : "warning", Jump(evars.IsConfigured ? "查看配置" : "检查 EVARS", "Ev"));
         var connection = CliConnectionState(current);
-        var cli = StatusRow("Terminal", "PmlTwin CLI", current?.ToString() ?? _sessionMessage, connection,
-            current is not null ? "success" : connection == "未连接" ? "warning" : "primary", Jump("查看状态", "Cli"));
+        var cli = StatusRow("Terminal", "AVEVA 会话", current?.ToString() ?? SessionStatusMessage, connection,
+            current is not null ? "success" : _sessionCheckFailed || _pendingSessions > 0 ? "warning" : "primary", Jump("查看状态", "Cli"));
         var content = Stack(InstallationPicker(), Below(installRow, 5), ev, cli);
         if (_latestDiscovery.Length > 0) content.Children.Add(Muted("检测于 " + _latestDiscovery));
         return Card("状态检查", content, AsyncBtn("重新检测", "Discover",
@@ -111,6 +104,10 @@ public partial class MainWindow
 
     private FrameworkElement QuickLogin()
     {
+        if (Data.Profiles.Count == 0)
+            return Card("快捷登录", Stack(Muted("保存一份工程配置后可从这里登录。"),
+                Below(Actions(AsyncBtn("新建配置", "QuickNewProfile", () => EditProfile(), "Button.Primary")), 8)));
+
         var search = Input(_quickQuery, "QuickSearch", "搜索登录配置");
         var projects = Data.Profiles.Select(profile => profile.Project).Distinct().Order();
         var project = Choice(new[] { "全部项目" }.Concat(projects), _quickProject, "QuickProject");
@@ -125,11 +122,17 @@ public partial class MainWindow
         {
             if ((list.SelectedItem as ListBoxItem)?.Tag is LoginProfile profile) await Launch(profile);
         }, "Button.Primary");
+        var edit = AsyncBtn("编辑当前配置", "QuickEditProfile", async () =>
+        {
+            if ((list.SelectedItem as ListBoxItem)?.Tag is LoginProfile profile) await EditProfile(profile);
+        });
         list.SelectionChanged += (_, _) =>
         {
             var selected = (list.SelectedItem as ListBoxItem)?.Tag as LoginProfile;
-            launch.Content = selected is null ? "一键登录" : "一键登录 " + selected.Module;
+            launch.Content = selected is null ? "一键登录" : _launching ? "正在登录…" : "一键登录 " + selected.Module;
             launch.IsEnabled = selected is not null && !_launching;
+            edit.IsEnabled = selected is not null;
+            if (selected is not null) _profileId = selected.Id;
         };
         void ReloadList()
         {
@@ -145,16 +148,22 @@ public partial class MainWindow
                     .Concat(Data.Profiles.Where(profile => !Data.Recent.Contains(profile.Id))).ToList();
             caption.Text = filtering ? $"找到 {matches.Count} 个配置" : "最近登录";
             list.Items.Clear();
-            foreach (var profile in matches.Take(3)) list.Items.Add(Row(profile, profile.Name, profile.Target, trim: true));
-            list.SelectedIndex = list.Items.Count > 0 ? 0 : -1;
+            var selected = matches.FirstOrDefault(profile => profile.Id == _profileId);
+            var visible = matches.Take(3).ToArray();
+            if (selected is not null && visible.Length == 3 && !visible.Contains(selected)) visible[^1] = selected;
+            foreach (var profile in visible) list.Items.Add(Row(profile, profile.Name, profile.Target, trim: true));
+            list.SelectedItem = list.Items.OfType<ListBoxItem>().FirstOrDefault(item => item.Tag is LoginProfile profile && profile == selected) ??
+                list.Items.OfType<ListBoxItem>().FirstOrDefault();
             launch.IsEnabled = list.Items.Count > 0 && !_launching;
+            edit.IsEnabled = list.Items.Count > 0;
         }
         search.TextChanged += (_, _) => { _quickQuery = search.Text; ReloadList(); };
         project.SelectionChanged += (_, _) => { _quickProject = project.SelectedItem as string ?? "全部项目"; ReloadList(); };
         ReloadList();
+        var create = AsyncBtn("新建配置", "QuickNewProfile", () => EditProfile());
         return Card("快捷登录", Stack(bar, Below(caption, 5), Below(list, 3),
-            Below(Actions(Jump(Data.Profiles.Count == 0 ? "新建登录配置" : "管理配置", "Profiles"), launch), 6),
-            LaunchFeedback()), Jump("打开启动器", "Launch"));
+            Below(Actions(launch, edit, create), 6),
+            LaunchFeedback()), Jump("全部配置", "Profiles"));
     }
 
     private void OpenQuickFilter()
@@ -172,7 +181,7 @@ public partial class MainWindow
         if (_launching) return;
         _launching = true;
         _launchMessage = $"正在准备启动 {profile.Target}。";
-        Render();
+        if (ShowsLaunchStatus) Render();
         PmlLog? receipt = null;
         try
         {
@@ -182,15 +191,26 @@ public partial class MainWindow
             _install = installation.Directory;
             var workflow = LaunchBackend;
             var revision = _profileRevision;
+            if (new[] { profile.Project, profile.User, profile.Mdb, profile.Module }.Any(string.IsNullOrWhiteSpace))
+            {
+                if (Modal("登录配置未完成", Muted("请补齐工程、模块、用户和 MDB。已填值会保留。"), "编辑配置", () => true))
+                    await EditProfile(profile);
+                return;
+            }
             var prepared = await Task.Run(() => workflow.Prepare(inventory, installation, profile.Id, revision,
                 inheritWorkstationEnvironment: true));
             var preview = await Task.Run(() => workflow.Preview(prepared));
+            if (!await ConfirmLaunchCatalogWarning(profile, inventory, installation, workflow))
+            {
+                _launchMessage = $"已取消启动 {profile.Target}。";
+                return;
+            }
             var credentials = new WindowsLaunchCredentials();
             var (target, identity) = Credential(profile);
             string? secret;
             try { secret = credentials.Read(target, identity); }
             catch (Win32Exception) { secret = null; }
-            if (string.IsNullOrEmpty(secret))
+            if (string.IsNullOrEmpty(secret) || secret == PasswordExample)
             {
                 var password = Id(new PasswordBox { MaxLength = 1024 }, "LaunchPassword");
                 var notice = new Notice("LaunchPasswordNotice");
@@ -199,7 +219,7 @@ public partial class MainWindow
                 if (!Modal("登录 " + profile.Project, content, "提交启动", () =>
                 {
                     using var typed = password.SecurePassword;
-                    if (typed.Length > 0) return true;
+                    if (typed.Length > 0 && password.Password != PasswordExample) return true;
                     notice.Show("请填写 AVEVA 密码。", "warning");
                     return false;
                 }, password))
@@ -224,7 +244,7 @@ public partial class MainWindow
             if (Data.Recent.Count > 5) Data.Recent.RemoveAt(5);
             _launchMessage = $"正在启动 {profile.Target}，等待 AVEVA 会话 · 入口 PID {pid}。";
             receipt = RecordLog("AVEVA 启动", "运行中", null, _launchMessage, "");
-            Render();
+            if (ShowsLaunchStatus) Render();
             await ObserveLaunch(profile, pid, startTicks, requestedAt, receipt);
         }
         catch (Exception error) when (WorkbenchError(error))
@@ -238,7 +258,7 @@ public partial class MainWindow
                 Tell(error.Message);
             }
         }
-        finally { _launching = false; Render(); }
+        finally { _launching = false; if (ShowsLaunchStatus) Render(); }
     }
 
     private async Task ObserveLaunch(LoginProfile profile, int pid, long startTicks, DateTimeOffset requestedAt, PmlLog receipt)
@@ -264,7 +284,7 @@ public partial class MainWindow
             {
                 hostReported = true;
                 _launchMessage = $"CLI 已连接，正在核对 {profile.Target} 的工程、用户和 MDB。";
-                Render();
+                if (ShowsLaunchStatus) Render();
             }
             foreach (var session in possible)
             {
@@ -298,7 +318,7 @@ public partial class MainWindow
             {
                 monitorReported = true;
                 _launchMessage = MonitorMessage(profile, monitorPid);
-                Render();
+                if (ShowsLaunchStatus) Render();
             }
             await Task.Delay(1600);
         }
@@ -382,6 +402,53 @@ public partial class MainWindow
     private FrameworkElement LaunchFeedback() =>
         Below(Id(Muted(_launchMessage), "LaunchStatus"), _launchMessage.Length > 0 ? 6 : 0);
 
+    private bool ShowsLaunchStatus => _page.Id is "Home" or "Launch" or "Profiles";
+
+    private async Task<bool> ConfirmLaunchCatalogWarning(LoginProfile profile, LaunchInventory inventory,
+        LaunchInstallation installation, LaunchDeskWorkflow workflow)
+    {
+        CoreData catalog;
+        try { catalog = await Task.Run(() => workflow.Catalog(inventory, installation)); }
+        catch (Exception error) when (WorkbenchError(error))
+        {
+            // The installation and launch parameters have already passed the mandatory launch preview.
+            return true;
+        }
+        var projects = catalog.Children("project").Where(item => (bool?)item.Field("found") == true).ToArray();
+        var modules = InstalledLoginModules(catalog);
+        var missingProject = projects.Length > 0 &&
+            !projects.Any(item => Value(item, "code").Equals(profile.Project, StringComparison.OrdinalIgnoreCase));
+        var missingModule = modules.Length > 0 && !modules.Contains(profile.Module, StringComparer.OrdinalIgnoreCase);
+        if (!missingProject && !missingModule) return true;
+
+        var kind = (missingProject, missingModule) switch
+        {
+            (true, true) => "project-module",
+            (true, false) => "project",
+            _ => "module"
+        };
+        var key = Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(System.Text.Encoding.UTF8.GetBytes(
+            string.Join("\n", kind, profile.Product, installation.Directory, profile.Project, profile.Module, profile.User, profile.Mdb)
+                .ToUpperInvariant())));
+        if (Data.DismissedLoginChecks.Contains(key)) return true;
+
+        var item = kind == "project-module" ? "工程和模块" : missingProject ? "工程" : "模块";
+        var remember = Id(new CheckBox { Content = "不再提示这组参数的同类问题" }, "MuteLoginCheck");
+        var warning = new DialogWindow(this, "启动前提示");
+        warning.Body.Children.Add(Stack(Views.Text($"本机启动目录未找到配置中的{item}。你可以取消后修改，或按保存的参数继续。"),
+            Below(remember, 10)));
+        warning.SetActions("继续登录", () => true);
+        if (warning.ShowDialog() != true) return false;
+        if (remember.IsChecked == true && Data.DismissedLoginChecks.Add(key)) Save();
+        return true;
+    }
+
+    private static string[] InstalledLoginModules(CoreData catalog) =>
+        catalog.Children("module").Where(item => (bool?)item.Field("defined") != false)
+            .Select(item => Value(item, "name"))
+            .Where(name => name.Length > 0 && !name.Equals("Monitor", StringComparison.OrdinalIgnoreCase))
+            .Distinct(StringComparer.OrdinalIgnoreCase).ToArray();
+
     private (string Target, string Identity) Credential(LoginProfile profile) => (
         LaunchCredentialKeys.Target(_store.DirectoryPath, profile.Id),
         LaunchCredentialKeys.Identity(profile.Product, profile.Install, profile.Project, profile.User));
@@ -401,22 +468,16 @@ public partial class MainWindow
                 return;
             }
             _profileId = profile.Id;
-            FrameworkElement actions;
-            if (manage)
-                actions = Actions(AsyncBtn("编辑", "EditProfile", () => EditProfile(profile)),
-                    AsyncBtn("复制", "CopyProfile", () => EditProfile(profile, true)),
-                    AsyncBtn("归档", "ArchiveProfile", () => ArchiveProfile(profile)));
-            else
-            {
-                var login = AsyncBtn(_launching ? "正在登录…" : "一键登录 " + profile.Module, "LaunchProfile",
-                    () => Launch(profile), "Button.Primary");
-                login.IsEnabled = !_launching;
-                actions = Actions(login, Jump("CLI 状态", "Cli"));
-            }
+            var login = AsyncBtn(_launching ? "正在登录…" : "一键登录 " + profile.Module, "LaunchProfile",
+                () => Launch(profile), "Button.Primary");
+            login.IsEnabled = !_launching;
+            var actions = Actions(login, AsyncBtn("编辑", "EditProfile", () => EditProfile(profile)));
+            var secondary = manage ? Actions(AsyncBtn("复制", "CopyProfile", () => EditProfile(profile, true)),
+                AsyncBtn("归档", "ArchiveProfile", () => ArchiveProfile(profile))) : Actions(Jump("CLI 状态", "Cli"));
             details.Content = Card("当前配置", Stack(Details([
                 ("名称", profile.Name), ("AVEVA", ProfileInstallation(profile)?.ToString() ?? profile.Install),
                 ("项目／模块", profile.Target), ("用户", profile.User), ("MDB", profile.Mdb)
-            ]), Below(actions, 9), LaunchFeedback()));
+            ]), Below(actions, 9), Below(secondary, 7), LaunchFeedback()));
         }
         void Filter()
         {
@@ -435,6 +496,11 @@ public partial class MainWindow
         return SideBySide(Card("登录配置", Stack(Prompt(search, "搜索名称、项目、用户或 MDB"), Below(table, 8)), commands), details, 1.45);
     }
 
+    private const string PasswordExample = "/XXXXXX";
+
+    private sealed record ProfileDraft(LaunchInstallation Installation, string Project, string Module,
+        string User, string Mdb, string WorkingDirectory);
+
     private async Task EditProfile(LoginProfile? profile = null, bool copy = false)
     {
         try
@@ -445,247 +511,244 @@ public partial class MainWindow
             var workflow = LaunchBackend;
             var revision = _profileRevision;
             var matched = profile is null ? null : ProfileInstallation(profile);
-            var initial = matched ?? choices.FirstOrDefault(item => item.Directory == _install) ?? choices[0];
-            var settings = profile is not null && matched is { CanLaunch: true }
-                ? (await Task.Run(() => workflow.Prepare(inventory, matched, profile.Id, revision,
-                    inheritWorkstationEnvironment: true))).Children().SingleOrDefault()
-                : null;
+            var initial = matched is { CanLaunch: true } ? matched : choices.FirstOrDefault(item =>
+                item.Directory.Equals(_install, StringComparison.OrdinalIgnoreCase)) ?? choices[0];
+            var original = matched == initial ? profile : null;
+            var settings = original is null ? null :
+                (await Task.Run(() => workflow.Prepare(inventory, initial, original.Id, revision,
+                    inheritWorkstationEnvironment: true))).Children().SingleOrDefault();
             var name = Input(copy ? profile!.Name + " 副本" : profile?.Name ?? "", "ProfileName");
             var install = Choice(choices, initial, "ProfileInstall");
-            var project = Choice(Array.Empty<string>(), null, "ProfileProject", editable: true);
-            var module = Choice(Array.Empty<string>(), null, "ProfileModule", editable: true);
-            var user = Choice(Array.Empty<string>(), null, "ProfileUser", editable: true);
-            var mdb = Choice(Array.Empty<string>(), null, "ProfileMdb", editable: true);
+            var project = Input(original?.Project ?? "", "ProfileProject", "工程");
+            var module = Input(original?.Module ?? "", "ProfileModule", "启动模块");
+            var user = Input(original?.User ?? "", "ProfileUser", "用户");
+            var mdb = Input(original?.Mdb ?? "", "ProfileMdb", "MDB");
             var password = Id(new PasswordBox { MaxLength = 1024 }, "ProfilePassword");
-            var workingDirectory = Input(Value(settings, "workingDirectory") is { Length: > 0 } savedDirectory ? savedDirectory : initial.Directory, "ProfileWorkDirectory");
+            var workingDirectory = Input(Value(settings, "workingDirectory") is { Length: > 0 } savedDirectory
+                ? savedDirectory : initial.Directory, "ProfileWorkDirectory");
             var notice = new Notice("ProfileEditorNotice");
             var dialog = new DialogWindow(this, profile is null ? "新建登录配置" : copy ? "复制登录配置" : "编辑登录配置", width: 665);
-            var readerAvailable = ProjectReaderAvailable;
             var closed = false;
-            var updatingChoices = false;
-            var loadingCatalog = false;
+            var updating = false;
+            var moduleEdited = false;
             var catalogRevision = 0;
-            CancellationTokenSource? activeRead = null;
-            var lastProject = profile?.Project ?? "";
-            var modules = Array.Empty<string>();
+            var fieldsRevision = 0;
+            var lastProject = project.Text.Trim();
             CoreData? catalog = null;
-
-            bool HasProjectCode() => project.Text.Trim() is { Length: 3 } code && code.All(char.IsAsciiLetterOrDigit);
-
-            static void Choices(ComboBox editor, string[] list, string typed)
+            string[] availableModules = [];
+            var moduleDirectory = Btn("查看本机模块", "ProfileModuleDirectory", () =>
             {
-                editor.ItemsSource = list;
-                editor.SelectedItem = list.FirstOrDefault(item => item.Equals(typed, StringComparison.OrdinalIgnoreCase));
-                if (editor.SelectedItem is null) editor.Text = typed;
-            }
+                var directory = new DialogWindow(dialog, "本机启动模块",
+                    "启动时还会核对工程权限和许可。需要切换模块时可在配置中直接填写。");
+                directory.Body.Children.Add(Views.Text(string.Join("、", availableModules)));
+                directory.SetActions("关闭", () => true, showCancel: false);
+                directory.ShowDialog();
+            }, "Button.Quiet");
+            moduleDirectory.Visibility = Visibility.Collapsed;
 
-            static string[] Values(CoreData data, string node, string field) => data.Children(node)
+            static string[] Choices(CoreData data, string node, string field) => data.Children(node)
                 .Where(item => (bool?)item.Field("defined") != false && (bool?)item.Field("found") != false)
                 .Select(item => Value(item, field)).Where(item => item.Length > 0).Distinct(StringComparer.OrdinalIgnoreCase).ToArray();
 
-            void ShowKnownLogins()
+            static bool IsFromInstallation(LoginProfile item, LaunchInstallation selected) =>
+                item.Product == selected.Product && item.Install.Equals(selected.Directory, StringComparison.OrdinalIgnoreCase);
+
+            LoginProfile? RecentFor(LaunchInstallation selected, string? code = null) =>
+                Data.Recent.Select(id => Data.Profiles.FirstOrDefault(item => item.Id == id)).OfType<LoginProfile>()
+                    .FirstOrDefault(item => IsFromInstallation(item, selected) &&
+                        (code is null || item.Project.Equals(code, StringComparison.OrdinalIgnoreCase)));
+
+            void WithoutChangeNotifications(Action update)
             {
-                var known = catalog?.Children("project").FirstOrDefault(row =>
-                    Value(row, "code").Equals(project.Text.Trim(), StringComparison.OrdinalIgnoreCase));
-                if (known is null) return;
-                var users = Values(known, "login", "user");
-                var mdbs = Values(known, "login", "mdb");
-                Choices(user, users, user.Text.Length == 0 && users.Length == 1 ? users[0] : user.Text);
-                Choices(mdb, mdbs, mdb.Text.Length == 0 && mdbs.Length == 1 ? mdbs[0] : mdb.Text);
+                updating = true;
+                try { update(); }
+                finally { updating = false; }
             }
 
-            void ApplyChoices(Action change)
+            void FillKnownLogin(LaunchInstallation selected)
             {
-                updatingChoices = true;
-                try { change(); }
-                finally { updatingChoices = false; }
+                var code = project.Text.Trim();
+                if (code.Length == 0 || user.Text.Length != 0 || mdb.Text.Length != 0) return;
+                if (RecentFor(selected, code) is { User.Length: > 0, Mdb.Length: > 0 } saved)
+                {
+                    user.Text = saved.User;
+                    mdb.Text = saved.Mdb;
+                    return;
+                }
+                var entries = catalog?.Children("project").FirstOrDefault(row =>
+                    Value(row, "code").Equals(code, StringComparison.OrdinalIgnoreCase))?.Children("login");
+                var known = (entries ?? []).Select(row => (User: Value(row, "user"), Mdb: Value(row, "mdb")))
+                    .Where(entry => entry.User.Length > 0 && entry.Mdb.Length > 0)
+                    .DistinctBy(entry => (entry.User.ToUpperInvariant(), entry.Mdb.ToUpperInvariant()))
+                    .Take(2).ToArray();
+                if (known.Length == 1) (user.Text, mdb.Text) = known[0];
             }
 
-            void StopReader()
-            {
-                var previous = activeRead;
-                activeRead = null;
-                previous?.Cancel();
-            }
-
-            async Task Projects(bool preserve)
+            async Task ReadCatalog(bool preserve)
             {
                 if (closed || install.SelectedItem is not LaunchInstallation selected) return;
-                StopReader();
                 var request = ++catalogRevision;
-                loadingCatalog = true;
                 catalog = null;
-                modules = [];
-                if (!preserve)
+                var saved = preserve ? original : null;
+                var recent = RecentFor(selected);
+                WithoutChangeNotifications(() =>
                 {
-                    workingDirectory.Text = selected.Directory;
-                    password.Clear();
-                }
-                lastProject = preserve ? profile?.Project ?? "" : "";
-                ApplyChoices(() =>
-                {
-                    Choices(project, [], lastProject);
-                    Choices(module, [], preserve ? profile?.Module ?? "" : "");
-                    Choices(user, [], preserve ? profile?.User ?? "" : "");
-                    Choices(mdb, [], preserve ? profile?.Mdb ?? "" : "");
+                    if (!preserve)
+                    {
+                        project.Text = "";
+                        module.Text = "";
+                        moduleEdited = false;
+                        user.Text = "";
+                        mdb.Text = "";
+                        workingDirectory.Text = selected.Directory;
+                        password.Clear();
+                    }
+                    if (saved is null && project.Text.Length == 0 && recent is not null) project.Text = recent.Project;
+                    if (saved is null) FillKnownLogin(selected);
+                    lastProject = project.Text.Trim();
+                    availableModules = [];
+                    moduleDirectory.Visibility = Visibility.Collapsed;
                 });
-                notice.Show("正在读取项目目录。可继续填写配置。");
+                var unchanged = fieldsRevision;
+                notice.Show("正在核对本机项目和启动模块。可继续填写配置。");
                 try
                 {
                     var result = await Task.Run(() => workflow.Catalog(inventory, selected));
                     if (closed || request != catalogRevision) return;
                     catalog = result;
-                    var projects = Values(result, "project", "code");
-                    modules = Values(result, "module", "name");
-                    ApplyChoices(() =>
+                    var projects = Choices(result, "project", "code");
+                    availableModules = InstalledLoginModules(result);
+                    WithoutChangeNotifications(() =>
                     {
-                        Choices(project, projects, project.Text.Length == 0 && projects.Length == 1 ? projects[0] : project.Text);
-                        lastProject = project.Text.Trim();
-                        Choices(module, modules, module.Text.Length == 0 && modules.Length == 1 ? modules[0] : module.Text);
-                        ShowKnownLogins();
-                    });
-                    notice.Show($"已读取 {projects.Length} 个项目与 {modules.Length} 个模块。");
-                }
-                catch (Exception error) when (WorkbenchError(error))
-                {
-                    if (!closed && request == catalogRevision) notice.Show(error.Message, "warning");
-                    return;
-                }
-                finally
-                {
-                    if (!closed && request == catalogRevision) loadingCatalog = false;
-                }
-                if (request == catalogRevision) await Access();
-            }
-
-            async Task Access()
-            {
-                if (closed || activeRead is not null || !readerAvailable || loadingCatalog || !HasProjectCode() ||
-                    install.SelectedItem is not LaunchInstallation selected) return;
-
-                var code = project.Text.Trim();
-                using var read = new CancellationTokenSource();
-                activeRead = read;
-                notice.Show("正在读取用户和 MDB。可继续填写。");
-
-                bool IsCurrent() => !closed && ReferenceEquals(activeRead, read);
-                Task<CoreData> ReadCandidates(bool reread) => Task.Run(
-                    () => workflow.Access(inventory, selected, code, reread, read.Token), read.Token);
-
-                bool Show(CoreData data)
-                {
-                    if (!IsCurrent()) return false;
-                    if (Value(data, "status") != "project-metadata")
-                    {
-                        var detail = Value(data, "readerCode") switch
+                        if (fieldsRevision == unchanged)
                         {
-                            "timeout" => "读取用户和 MDB 超时。",
-                            "worker-failed" => "Reader 未能完成读取。",
-                            _ => Value(data, "detail")
-                        };
-                        notice.Show($"{detail}可继续手填。", "warning");
-                        return false;
-                    }
-                    var users = Values(data, "user", "value");
-                    var mdbs = Values(data, "mdb", "value");
-                    var keptUser = user.Text.Trim();
-                    var keptMdb = mdb.Text.Trim();
-                    var readerModules = Values(data, "module", "name");
-                    ApplyChoices(() =>
-                    {
-                        Choices(user, users, keptUser.Length == 0 && users.Length == 1 ? users[0] : keptUser);
-                        Choices(mdb, mdbs, keptMdb.Length == 0 && mdbs.Length == 1 ? mdbs[0] : keptMdb);
-                        if (readerModules.Length > 0) Choices(module, readerModules, module.Text);
+                            if (project.Text.Length == 0 && projects.Length == 1) project.Text = projects[0];
+                            if (saved is null) FillKnownLogin(selected);
+                        }
+                        lastProject = project.Text.Trim();
+                        if (!moduleEdited && module.Text.Length == 0)
+                        {
+                            var standard = selected.Product switch { "E3D" => "Design", "AM" => "Outfitting", _ => null };
+                            var savedModules = Data.Profiles.Where(item => IsFromInstallation(item, selected))
+                                .Select(item => item.Module).Where(item => availableModules.Contains(item, StringComparer.OrdinalIgnoreCase))
+                                .Distinct(StringComparer.OrdinalIgnoreCase).Take(2).ToArray();
+                            module.Text = availableModules.FirstOrDefault(item => item.Equals(recent?.Module, StringComparison.OrdinalIgnoreCase)) ??
+                                (savedModules.Length == 1 ? savedModules[0] : null) ??
+                                availableModules.FirstOrDefault(item => item.Equals(standard, StringComparison.OrdinalIgnoreCase)) ??
+                                (availableModules.Length == 1 ? availableModules[0] : "");
+                        }
                     });
-                    notice.Show($"{(Value(data, "cache") == "hit" ? "已显示缓存" : "读取完成")} · {users.Length} 个用户 · {mdbs.Length} 个 MDB");
-                    return true;
+                    moduleDirectory.Visibility = availableModules.Length > 1 ? Visibility.Visible : Visibility.Collapsed;
+                    if (availableModules.Length == 0) notice.Show("未发现本机启动模块。可手填，或先在 AVEVA 登录后检测会话。", "warning");
+                    else if (module.Text.Length > 0 && !availableModules.Contains(module.Text.Trim(), StringComparer.OrdinalIgnoreCase))
+                        notice.Show("已填模块未出现在本机启动目录。可以查看本机模块后修改。", "warning");
+                    else notice.Show("已核对本机启动入口。工程权限和许可在实际登录时验证。");
                 }
-
-                static bool Missing(ComboBox editor, string value) => value.Length > 0 && !editor.Items.OfType<string>()
-                    .Any(item => item.TrimStart('/').Equals(value.TrimStart('/'), StringComparison.OrdinalIgnoreCase));
-                try
-                {
-                    var result = await ReadCandidates(reread: false);
-                    if (Show(result) && Value(result, "cache") == "hit" &&
-                        (Missing(user, user.Text.Trim()) || Missing(mdb, mdb.Text.Trim())))
-                    {
-                        notice.Show("缓存里缺少当前用户或 MDB，正在刷新。");
-                        Show(await ReadCandidates(reread: true));
-                    }
-                }
-                catch (OperationCanceledException) when (read.IsCancellationRequested) { }
                 catch (Exception error) when (WorkbenchError(error))
                 {
-                    if (IsCurrent()) notice.Show(error.Message, "warning");
-                }
-                finally
-                {
-                    if (IsCurrent()) activeRead = null;
+                    if (closed || request != catalogRevision) return;
+                    notice.Show(error.Message, "warning");
                 }
             }
 
-            project.AddHandler(TextBox.TextChangedEvent, new TextChangedEventHandler(async (_, _) =>
+            void ReadProjectChanged()
             {
+                if (updating) return;
+                fieldsRevision++;
                 var code = project.Text.Trim();
-                if (updatingChoices || code.Equals(lastProject, StringComparison.OrdinalIgnoreCase)) return;
-                StopReader();
+                if (code.Equals(lastProject, StringComparison.OrdinalIgnoreCase)) return;
                 lastProject = code;
-                ApplyChoices(() =>
+                WithoutChangeNotifications(() =>
                 {
-                    Choices(user, [], "");
-                    Choices(mdb, [], "");
-                    Choices(module, modules, module.Text);
-                    ShowKnownLogins();
+                    user.Clear();
+                    mdb.Clear();
+                    password.Clear();
                 });
-                password.Clear();
                 notice.Clear();
-                await Access();
-            }));
-            user.AddHandler(TextBox.TextChangedEvent, new TextChangedEventHandler((_, _) => { if (!updatingChoices) password.Clear(); }));
-            install.SelectionChanged += async (_, _) => await Projects(false);
-            dialog.Loaded += async (_, _) => await Projects(true);
-            dialog.Closed += (_, _) => { closed = true; StopReader(); };
+            }
 
-            dialog.Body.Children.Add(Stack(Field("配置名称（可自动生成）", name), Below(Field("软件安装", install), 8),
-                Below(Form(Field("项目", project), Field("模块", module), Field("用户", user), Field("MDB", mdb)), 8),
-                Below(notice, 6),
-                Below(Field("AVEVA 密码（可选，保存到 Windows）", password), 8),
-                Below(Field("工作目录", workingDirectory), 8)));
+            ProfileDraft? CurrentDraft()
+            {
+                if (install.SelectedItem is not LaunchInstallation selected ||
+                    new[] { project.Text, module.Text, user.Text, mdb.Text }.Any(string.IsNullOrWhiteSpace)) return null;
+                return new(selected, project.Text.Trim().ToUpperInvariant(), module.Text.Trim(), user.Text.Trim(), mdb.Text.Trim(),
+                    workingDirectory.Text.Trim());
+            }
+
+
+            project.TextChanged += (_, _) => ReadProjectChanged();
+            module.TextChanged += (_, _) => { if (!updating) moduleEdited = true; };
+            user.TextChanged += (_, _) => { if (!updating) { fieldsRevision++; password.Clear(); } };
+            mdb.TextChanged += (_, _) => { if (!updating) fieldsRevision++; };
+            install.SelectionChanged += async (_, _) => await ReadCatalog(false);
+            dialog.Loaded += async (_, _) => await ReadCatalog(true);
+            dialog.Closed += (_, _) => closed = true;
+
+            var installationField = choices.Length == 1
+                ? Field("软件安装", ReadOnlyInput(initial.ToString(), "ProfileFixedInstall"))
+                : Field("软件安装", install);
+            var advanced = Id(new Expander
+            {
+                Header = "显示名称和高级选项",
+                Content = Stack(Field("配置名称（可自动生成）", name), Below(Field("工作目录", workingDirectory), 8),
+                    Below(Field("AVEVA 密码（可选，保存到 Windows）", password), 8),
+                    Below(Muted("示例 /XXXXXX 是占位符。可留空，在实际启动时输入密码。"), 5))
+            }, "ProfileAdvanced");
+            var sample = Btn("填入示例", "ProfileExample", () =>
+            {
+                WithoutChangeNotifications(() =>
+                {
+                    project.Text = lastProject = "APS";
+                    user.Text = "SYSTEM";
+                    mdb.Text = "ALL";
+                    password.Clear();
+                });
+                fieldsRevision++;
+                notice.Show("示例仅供预览。请确认工程、用户和 MDB 是否适用于你的环境。");
+            });
+            dialog.Body.Children.Add(Stack(installationField,
+                Below(Form(Field("工程", Prompt(project, "APS")), Field("启动模块", Prompt(module, "按当前安装填写")),
+                    Field("用户", Prompt(user, "SYSTEM")), Field("MDB", Prompt(mdb, "ALL"))), 8),
+                Below(Actions(sample, moduleDirectory), 3),
+                Below(notice, 6), Below(advanced, 7)));
             var id = profile is not null && !copy ? profile.Id : Guid.NewGuid().ToString("N");
             var credentialWarning = "";
             dialog.SetActions("保存配置", () =>
             {
-                if (install.SelectedItem is not LaunchInstallation selected ||
-                    new[] { project.Text, user.Text, mdb.Text, module.Text, workingDirectory.Text }.Any(string.IsNullOrWhiteSpace))
+                if (CurrentDraft() is not { } draft)
                 {
-                    notice.Show("请补齐项目、模块、用户、MDB 和工作目录。", "warning");
+                    notice.Show("请填写工程、启动模块、用户和 MDB。", "warning");
+                    return false;
+                }
+                var secret = password.Password;
+                if (secret == PasswordExample)
+                {
+                    notice.Show("请清空密码占位符，或填写实际 AVEVA 密码。", "warning");
                     return false;
                 }
                 var label = name.Text.Trim();
-                var code = project.Text.Trim().ToUpperInvariant();
-                var username = user.Text.Trim();
-                if (label.Length == 0) label = $"{selected.Name} · {code} · {username}";
+                if (label.Length == 0) label = $"{draft.Installation.Name} · {draft.Project} · {draft.User}";
                 try
                 {
-                    var result = workflow.Save(inventory, selected, id, label, revision, code, username, mdb.Text.Trim(),
-                        module.Text.Trim(), Path.GetFullPath(workingDirectory.Text.Trim()),
-                        selected.Product == "E3D" && Value(settings, "uicDirectory") is { Length: > 0 } uicDirectory ? uicDirectory : null);
+                    var result = workflow.Save(inventory, draft.Installation, id, label, revision, draft.Project, draft.User,
+                        draft.Mdb, draft.Module, DraftWorkDirectory(draft),
+                        draft.Installation.Product == "E3D" && Value(settings, "uicDirectory") is { Length: > 0 } uicDirectory ? uicDirectory : null);
                     _profileRevision = Value(result, "revision");
                 }
                 catch (Exception error) when (WorkbenchError(error)) { notice.Show(error.Message, "danger"); return false; }
-                var secret = password.Password;
                 if (secret.Length > 0)
                 {
                     try
                     {
-                        var (target, identity) = Credential(new(id, label, selected.Directory, code, module.Text.Trim(), username, mdb.Text.Trim(), selected.Product));
+                        var (target, identity) = Credential(new(id, label, draft.Installation.Directory, draft.Project,
+                            draft.Module, draft.User, draft.Mdb, draft.Installation.Product));
                         new WindowsLaunchCredentials().Write(target, identity, secret);
                     }
                     catch (Exception error) when (WorkbenchError(error)) { credentialWarning = "配置已保存。Windows 凭据保存失败，请在登录时输入密码。"; }
                 }
                 return true;
             });
-            dialog.FocusOnOpen(name);
+            dialog.FocusOnOpen(project);
             try { if (dialog.ShowDialog() != true) return; }
             finally { password.Clear(); }
             await ReadProfiles();
@@ -696,6 +759,16 @@ public partial class MainWindow
         }
         catch (Exception error) when (WorkbenchError(error)) { Tell(error.Message); }
     }
+
+    private static TextBox ReadOnlyInput(string text, string id)
+    {
+        var input = Input(text, id);
+        input.IsReadOnly = true;
+        return input;
+    }
+
+    private static string DraftWorkDirectory(ProfileDraft draft) =>
+        draft.WorkingDirectory.Length == 0 ? draft.Installation.Directory : Path.GetFullPath(draft.WorkingDirectory);
 
     private async Task ArchiveProfile(LoginProfile profile)
     {

@@ -28,7 +28,7 @@ public partial class MainWindow : ChromeWindow
         new("Folders", "Session", "文件部署", "文件部署", "同步共用 PML 资源，统一预览各版本的 EVARS 接入。"),
         new("Record", "Session", "宏录制", "宏录制", "选择要录制的 AVEVA 窗体，记录操作并保存宏。"),
         new("Macros", "Session", "宏记录", "宏记录", "按日期和名称查找宏，评审后生成可复用的经验。"),
-        new("Sag", "SAG", "正文检索", "SAG 正文检索", "导入 HTML 教程或未加密 PML 目录，搜索正文并打开原文件。"),
+        new("Sag", "SAG", "正文检索", "SAG 正文检索", "导入 HTML、Markdown、TXT 或未加密 PML，搜索正文并打开原文件。"),
         new("Docs", "SAG", "资料部署", "SAG 资料部署", "检查并部署 HTML、PDF、Markdown 和文本。"),
         new("CheckMacro", "SAG", "宏检查", "SAG 宏检查", "读取或导入宏，核对流程并生成经验。"),
         new("Settings", "Settings", "常规", "PmlTwin 设置", "管理 PML 只读模式和 SAG 默认资料库。"),
@@ -91,7 +91,7 @@ public partial class MainWindow : ChromeWindow
         StatusBar.Visibility = Visibility.Collapsed;
         Render();
         Viewport.ScrollToHome();
-        if (_page.Group is "Session" or "Launch" || id == "Home") _ = RefreshSessions();
+        if (id is "Cli" or "Functions" or "Record") _ = RefreshSessions();
         if (id == "Functions") _ = RefreshFunctions();
         if (id == "Sag" && !_sagInitialized) _ = RefreshSag();
     }

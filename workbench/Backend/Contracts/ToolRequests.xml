@@ -125,13 +125,27 @@
     <method name="Status">
       <request><status /></request>
     </method>
+    <method name="StatusAt">
+      <param name="home" type="string" />
+      <request home="$home"><status /></request>
+    </method>
     <method name="ReviewRelease">
       <request><deploy preview="true" /></request>
+    </method>
+    <method name="ReviewReleaseAt">
+      <param name="home" type="string" />
+      <request home="$home"><deploy preview="true" /></request>
     </method>
     <method name="InstallReviewedRelease">
       <param name="version" type="string" />
       <param name="sha256" type="string" />
       <request><deploy><release version="$version" sha256="$sha256" /></deploy></request>
+    </method>
+    <method name="InstallReviewedReleaseAt">
+      <param name="home" type="string" />
+      <param name="version" type="string" />
+      <param name="sha256" type="string" />
+      <request home="$home"><deploy><release version="$version" sha256="$sha256" /></deploy></request>
     </method>
     <method name="Index">
       <param name="root" type="string" />

@@ -6,12 +6,15 @@ using Core30.Core;
 
 namespace Core30.Knowledge;
 
-public enum SagSourceKind { Html, Pml, Snippets }
+public enum SagSourceKind { Html, Pml, Snippets, Text }
 
 public sealed record SagSource(string Directory, SagSourceKind Kind)
 {
     public string Name => Kind == SagSourceKind.Snippets ? "我的切片" : Path.GetFileName(Path.TrimEndingDirectorySeparator(Directory));
-    public string Format => Kind switch { SagSourceKind.Html => "HTML", SagSourceKind.Pml => "PML", _ => "Markdown" };
+    public string Format => Kind switch
+    {
+        SagSourceKind.Html => "HTML", SagSourceKind.Pml => "PML", SagSourceKind.Text => "Markdown / TXT", _ => "Markdown"
+    };
 }
 
 public sealed record SagIndexState(SagSource Source, string State, int Files, string Error);
@@ -19,7 +22,7 @@ public sealed record SagImportResult(SagIndexState Index, int Skipped);
 public sealed record SagSearchHit(SagSource Source, string RelativePath, string Title, int Line, string Snippet);
 public sealed record SagSearchResult(IReadOnlyList<SagSearchHit> Hits, bool Truncated);
 
-/// <summary>Indexes visible HTML and plain PML in the workbench's private SAG data directory.</summary>
+/// <summary>Indexes local documents and plain PML in the workbench's private SAG data directory.</summary>
 public sealed class SagKnowledgeLibrary
 {
     private const int SourceFileLimit = 4 * 1024 * 1024;
@@ -50,6 +53,9 @@ public sealed class SagKnowledgeLibrary
         var path = LocalSource.RequireAbsolutePath(configured);
         return Path.GetFileName(path).Equals("sag.exe", StringComparison.OrdinalIgnoreCase) && File.Exists(path) ? path : null;
     }
+
+    public static string? FindManagedExecutable(string home) => Directory.Exists(home)
+        ? SagWikiCli.FindManaged(new FeatureContext(home)) : null;
 
     public string ReadVersion()
     {
@@ -102,7 +108,7 @@ public sealed class SagKnowledgeLibrary
             if (!relative.EndsWith(".txt", StringComparison.OrdinalIgnoreCase) || !File.Exists(corpus.FilePath(relative))) continue;
             var original = relative[..^4];
             if (!Supports(original, source.Kind)) continue;
-            var line = source.Kind == SagSourceKind.Pml ? Number(row, "start_line") : 0;
+            var line = source.Kind is SagSourceKind.Pml or SagSourceKind.Text ? Number(row, "start_line") : 0;
             var title = source.Kind is SagSourceKind.Html or SagSourceKind.Snippets ? ReadTitle(file) : null;
             hits.Add(new(source, original, string.IsNullOrWhiteSpace(title) ? Path.GetFileName(original) : title, line,
                 Excerpt(Text(row, "content"), query)));
@@ -157,6 +163,14 @@ public sealed class SagKnowledgeLibrary
         return KnowledgeTextExtraction.ReadSearchableHtml(OriginalPath(hit), SourceFileLimit);
     }
 
+    public static string ReadTextOriginal(SagSearchHit hit)
+    {
+        if (hit.Source.Kind != SagSourceKind.Text)
+            throw new InvalidDataException("请选择 Markdown 或 TXT 源文件。");
+        return ReadPlainText(FileContent.ReadBounded(OriginalPath(hit), SourceFileLimit))
+            ?? throw new InvalidDataException("该文件没有可读正文。");
+    }
+
     private static int PrepareCorpus(FeatureContext origin, FeatureContext corpus, SagSourceKind kind)
     {
         var included = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -188,6 +202,7 @@ public sealed class SagKnowledgeLibrary
             {
                 SagSourceKind.Html => "所选目录没有可检索的 HTML 正文。",
                 SagSourceKind.Pml => "所选目录没有可读的未加密 PML。",
+                SagSourceKind.Text => "所选目录没有可读的 Markdown 或 TXT 正文。",
                 _ => "先写入一条切片，再建立索引。"
             });
         return skipped;
@@ -201,6 +216,7 @@ public sealed class SagKnowledgeLibrary
             {
                 SagSourceKind.Html => KnowledgeTextExtraction.ReadSearchableHtml(file, SourceFileLimit),
                 SagSourceKind.Pml => ReadPlainPml(file),
+                SagSourceKind.Text => ReadPlainText(FileContent.ReadBounded(file, SourceFileLimit)),
                 _ => LocalText.Decode(FileContent.ReadBounded(file, SourceFileLimit)).Content
             };
         }
@@ -214,6 +230,11 @@ public sealed class SagKnowledgeLibrary
     {
         var bytes = FileContent.ReadBounded(path, SourceFileLimit);
         if (PmlSourceHeader.ReadAlgorithm(bytes) is not ("" or "000")) return null;
+        return ReadPlainText(bytes);
+    }
+
+    private static string? ReadPlainText(byte[] bytes)
+    {
         var text = LocalText.Decode(bytes).Content;
         return text.Any(character => char.IsControl(character) && character is not ('\t' or '\r' or '\n' or '\f'))
             ? null : text;
@@ -255,6 +276,7 @@ public sealed class SagKnowledgeLibrary
         SagSourceKind.Html => Path.GetExtension(path).ToLowerInvariant() is ".html" or ".htm",
         SagSourceKind.Pml => PmlExtensions.Contains(Path.GetExtension(path)),
         SagSourceKind.Snippets => Path.GetExtension(path).Equals(".md", StringComparison.OrdinalIgnoreCase),
+        SagSourceKind.Text => Path.GetExtension(path).ToLowerInvariant() is ".md" or ".markdown" or ".txt",
         _ => false
     };
 

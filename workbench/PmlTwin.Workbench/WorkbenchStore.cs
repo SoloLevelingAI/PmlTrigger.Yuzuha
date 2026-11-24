@@ -133,6 +133,7 @@ internal sealed class WorkbenchStore
 
 internal sealed class WorkbenchData
 {
+    public HashSet<string> DismissedLoginChecks { get; set; } = new(StringComparer.Ordinal);
     [JsonIgnore]
     public List<LoginProfile> Profiles { get; set; } = [];
     public List<string> Recent { get; set; } = [];

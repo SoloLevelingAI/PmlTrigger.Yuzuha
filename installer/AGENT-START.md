@@ -1,5 +1,7 @@
 # Phayton：从这里开始 / Start here
 
+独立 PmlTwin 的新电脑配置步骤见 [PmlTwin 首次安装与配置](PmlTwin-Configuration.zh-CN.md)。程序安装、AVEVA Host 接入和 SAG 分开核对。
+
 ## 人工测试 EXE
 
 运行 `Phayton-*-Windows-Setup.exe`，选择程序目录并确认安装。随后在 PmlTwin 中部署随包的 PMLLIB 和 PMLUI 源码，再确认 EVARS 切换。

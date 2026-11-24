@@ -229,6 +229,12 @@ public partial class MainWindow
 
     private FrameworkElement SessionSelector()
     {
+        var refresh = AsyncBtn("刷新会话", "RefreshSessions", () => RefreshSessions());
+        refresh.IsEnabled = !_refreshingSessions;
+        var actions = Actions(refresh, Jump("打开登录", "Launch"));
+        if (_sessions.Count == 0)
+            return Stack(Muted(SessionStatusMessage), Below(actions, 8));
+
         var picker = Choice(_sessions, _session, "AvevaSessions");
         AutomationName(picker, "已核验的会话");
         picker.SelectionChanged += (_, _) =>
@@ -236,8 +242,7 @@ public partial class MainWindow
             _session = picker.SelectedItem as PmlLiveSession;
             Render();
         };
-        return Stack(Field("目标会话", picker), Below(Muted(_sessionMessage), 5),
-            Below(Actions(AsyncBtn("刷新会话", "RefreshSessions", () => RefreshSessions()), Jump("启动器", "Launch")), 7));
+        return Stack(Field("目标会话", picker), Below(Muted(SessionStatusMessage), 5), Below(actions, 7));
     }
 
     private Button PackageSetupButton(string label, string id)
@@ -264,8 +269,8 @@ public partial class MainWindow
     }
 
     private string CliConnectionState(PmlLiveSession? session) => session is not null ? "已连接" :
-        _refreshingSessions ? "检测中" : _sessionCheckFailed || _pendingSessions > 0 ? "未连接" :
-        _sessions.Count > 0 ? "待选择" : "等待会话";
+        _refreshingSessions ? "检测中" : _sessionCheckFailed ? "检查失败" :
+        _sessions.Count > 0 ? "待选择" : _pendingSessions > 0 ? "Host 未连接" : "无运行会话";
 
     private FrameworkElement CliPage()
     {
@@ -277,7 +282,8 @@ public partial class MainWindow
                 ("实际模块", session?.Model ?? "待连接"),
                 ("执行模式", session is not null && !session.EnforcesReadOnly ? "当前会话的只读能力待核对" :
                     _readOnly ? "当前用户已开启只读" : "执行需授权")
-            ]), Below(Actions(Jump("宏录制", "Record"), Jump("执行日志", "Logs")), 8))));
+            ]), Below(Actions(Btn("Agent 接入…", "OpenAgentConnection", OpenAgentConnection),
+                Jump("宏录制", "Record"), Jump("执行日志", "Logs")), 8))));
     }
 
     private void CopyText(string text)

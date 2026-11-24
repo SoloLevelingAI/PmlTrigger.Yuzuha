@@ -1,37 +1,15 @@
-# Phayton Workspace 0.2.6
+# PmlTwin Workspace 0.2.7
 
-This directory contains the WPF workbench, the UI library, and the backend
-sources used by Phayton 0.3.5.5. The trial uses saved login records for user
-and MDB suggestions. New entries can be typed directly in the form.
+This directory contains the standalone WPF desktop, the UI library and the Core30 sources used by the desktop. Phayton Setup 0.3.5.6 installs this desktop and the native CLI. Use the [configuration guide](../docs/reference/pmltwin-first-install.md) to install with or without an AI client.
 
-## Build the trial workbench
+## Build the desktop
 
-From the repository root on Windows with the .NET 10 SDK or later:
+From the repository root on Windows with the .NET 10 SDK:
 
 ```powershell
-dotnet publish workbench/PmlTwin.Workbench/PmlTwin.Workbench.csproj -c Release -r win-x64 --self-contained true -p:BundlePhayton=false -p:BundleProjectReader=false -o artifacts/workbench-0.2.6
+dotnet publish workbench/PmlTwin.Workbench/PmlTwin.Workbench.csproj -c Release -r win-x64 --self-contained true -p:BundlePhayton=false -p:BundleProjectReader=false -o artifacts/workbench-0.2.7
 ```
 
-Pass the publish directory to [the installer builder](../installer/README.md)
-as `--desktop` and set `--version 0.3.5.5`. The Windows EXE uses the Native
-AOT CLI, product-specific Hosts, and documentation host verified for
-0.3.5.3. Those runtime files have the same hashes as in that release.
+Pass that publish directory to the [Windows installer builder](../installer/README.md) as `--desktop` and use `--version 0.3.5.6`. The test release reuses the verified 0.3.5.5 native CLI, product-specific Hosts and documentation runtime. The installer assembles them beside the desktop.
 
-## Verify the trial
-
-The installer SHA256 at publication is
-`26693ff745b4805839845af7eee27fe1adae5ff36e742f76ab97d9fb689498f8`.
-The build inventory covers 921 installed files including 37 raw PML
-sources. The installer was unsigned at publication.
-
-An isolated upgrade from 0.3.5.4 retained 876 files with identical bytes
-and completed while one of them was held open. The old bytes of a changed
-program file were present in its backup. The installed workbench opened,
-reused saved user and MDB choices, and saved a profile without AVEVA
-license settings.
-
-A Windows AI client can run the [native CLI](../docs/ai-client-setup.md)
-locally. Install the package, configure AVEVA integration in Workspace,
-and check the target session with the CLI. The trial distribution omits
-the standalone MCP executables and keeps client configuration under the
-client's control.
+The pre-release includes the native CLI and optional AVEVA integration sources. SAG and the project Reader are separate. No AVEVA SDK installation is required to build the WPF project. Target-side AVEVA use requires a supported installation, an appropriate license, and authorization for the selected project.

@@ -832,6 +832,26 @@
       ]
     },
     {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlFormQueryTests.UnlistedGadgetMembersAreNotRead",
+      "purpose": "未声明的 tooltip 标为不可用且不发出读取命令。已声明的 callback 仍可读取。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Pml.PmlFormQuery",
+          "methods": ["Read"]
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PmlFormQueryTests.MissingGadgetNameIsRejectedBeforeAttributeAccess",
+      "purpose": "请求的控件不存在时，验证返回明确错误、未发出属性读取命令，并且只清理本次查询的临时变量。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Mcp.Core::YuzuhaToolkit.Pml.PmlFormQuery",
+          "methods": ["Read"]
+        }
+      ]
+    },
+    {
       "test": "xunit:YuzuhaToolkit.Tests.PmlFormQueryTests.MissingOrNonGadgetDoesNotBecomeAnEmptySuccessfulDetail",
       "purpose": "拒绝把普通成员当作控件返回成功，且清理请求临时变量。",
       "targets": [

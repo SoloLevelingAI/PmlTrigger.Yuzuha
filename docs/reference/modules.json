@@ -149,7 +149,7 @@
       "id": "setup",
       "name": "安装与生命周期",
       "description": "发现产品与环境入口，生成预览，按明确批准的计划安装、更新或恢复。",
-      "match": "installer/SetupBridge/",
+      "match": "installer/SetupBridge/|^src/Shared/EnvironmentTextEditor\\.cs$",
       "guide": "repository/installer/INSTALL.html"
     },
     {

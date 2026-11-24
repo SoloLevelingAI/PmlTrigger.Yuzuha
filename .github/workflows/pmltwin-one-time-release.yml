@@ -33,14 +33,15 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
-          $installer = Join-Path $env:RUNNER_TEMP 'innosetup-6.7.3.exe'
-          $folder = Join-Path $env:RUNNER_TEMP 'Inno-6.7.3'
-          Invoke-WebRequest -Uri 'https://github.com/jrsoftware/issrc/releases/download/is-6_7_3/innosetup-6.7.3.exe' -OutFile $installer
+          $installer = Join-Path $env:RUNNER_TEMP 'innosetup-7.1.1-x64.exe'
+          $folder = Join-Path $env:RUNNER_TEMP 'Inno-7.1.1'
+          Invoke-WebRequest -Uri 'https://github.com/jrsoftware/issrc/releases/download/is-7_1_1/innosetup-7.1.1-x64.exe' -OutFile $installer
           $hash = (Get-FileHash -LiteralPath $installer).Hash
-          if ($hash -ine '9c73c3bae7ed48d44112a0f48e66742c00090bdb5bef71d9d3c056c66e97b732') { throw 'Inno Setup hash mismatch.' }
+          if ($hash -ine '8a5a6711c3766a6e5fb74f280ba0e3551e719ce94538d901fdbd1f8f9920b3f0') { throw 'Inno Setup hash mismatch.' }
           $process = Start-Process -FilePath $installer -ArgumentList @('/VERYSILENT','/SUPPRESSMSGBOXES','/NORESTART','/SP-',('/DIR="'+$folder+'"')) -WindowStyle Hidden -Wait -PassThru
           if ($process.ExitCode -ne 0) { throw "Compiler setup exited $($process.ExitCode)" }
           $compiler = (Resolve-Path -LiteralPath (Join-Path $folder 'ISCC.exe')).Path
+          if ((& $compiler '--version').Trim() -ne '7.1.1') { throw 'Unexpected Inno Setup version.' }
           "path=$compiler" >> $env:GITHUB_OUTPUT
       - name: Build and verify the standalone release payload
         id: build

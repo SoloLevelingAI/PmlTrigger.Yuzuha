@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using Microsoft.Win32.SafeHandles;
 using Newtonsoft.Json.Linq;
 
+/// <summary>检查程序文件的写入权限并原子替换安装标记。</summary>
 internal static partial class Program
 {
     const uint DeleteAccess = 0x00010000;

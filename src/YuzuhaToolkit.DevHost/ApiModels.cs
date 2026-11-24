@@ -36,6 +36,7 @@ public sealed record PmlPreviewRequest(string MethodName, IReadOnlyList<PmlParam
 /// <param name="Command">PML 调用文本；需要执行时仍通过 MCP 的会话核验流程。</param>
 public sealed record PmlPreviewResponse(string Command);
 
+/// <summary>提供开发接口所用模型的源生成 JSON 元数据，支持 Native AOT。</summary>
 [JsonSourceGenerationOptions(JsonSerializerDefaults.Web)]
 [JsonSerializable(typeof(HealthResponse))]
 [JsonSerializable(typeof(ApiError))]

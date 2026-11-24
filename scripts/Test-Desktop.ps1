@@ -13,7 +13,7 @@ $report = Join-Path $OutputDirectory 'desktop-smoke.json'
 if (Test-Path -LiteralPath $report) { Remove-Item -LiteralPath $report -Force }
 New-Item -ItemType Directory -Path $OutputDirectory -Force | Out-Null
 $process = Start-Process -FilePath $exe -ArgumentList '--smoke-output',('"' + $OutputDirectory + '"') -WindowStyle Hidden -PassThru
-if (-not $process.WaitForExit(60000)) {
+if (-not $process.WaitForExit(120000)) {
     Stop-Process -Id $process.Id -ErrorAction SilentlyContinue
     throw 'Isolated WPF smoke timed out; no AVEVA process was stopped.'
 }

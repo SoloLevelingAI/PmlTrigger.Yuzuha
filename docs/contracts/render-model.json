@@ -1,7 +1,7 @@
 {
   "schema": "contract-atlas-render/1",
   "schemaVersion": 1,
-  "metadataDigest": "2ec9e7e4a3c86ab77a56ee670fc5b0ddb281c228500ca808da190a192cfa9de8",
+  "metadataDigest": "bbbaeb0ecfba6e2eb9c33651ed2d00b5592b42324e13d4f4f32e0be0e4656a78",
   "audience": "public",
   "snapshotDate": "2026-11-01",
   "project": {
@@ -1012,7 +1012,107 @@
           ],
           "environmentText": "产品：synthetic"
         }
-      ]
+      ],
+      "boundaryView": {
+        "own": [],
+        "shared": [
+          {
+            "text": "仅限定工程及模块的开发构建，不代表当前环境在线或安装器升级",
+            "theme": "install",
+            "themeTitle": "安装/升级",
+            "warning": false
+          },
+          {
+            "text": "可用绿灯不自动选择目标、不授予执行权限，不代表全部业务通过",
+            "theme": "auth",
+            "themeTitle": "执行授权",
+            "warning": true
+          },
+          {
+            "text": "真实断线未强制测试；未调用PML执行工具或写工程模型",
+            "theme": "auth",
+            "themeTitle": "执行授权",
+            "warning": false
+          },
+          {
+            "text": "其余27项平台业务任务保留未完成",
+            "theme": "other",
+            "themeTitle": "其他边界",
+            "warning": false
+          },
+          {
+            "text": "未执行产品安装/升级/卸载或生产EVARS修改。",
+            "theme": "install",
+            "themeTitle": "安装/升级",
+            "warning": false
+          },
+          {
+            "text": "未加载本轮新Host到AVEVA；不沿用历史实机通过。",
+            "theme": "host",
+            "themeTitle": "Host 核验",
+            "warning": false
+          },
+          {
+            "text": "未登记且未提供的旧根不能声称已全机排除。",
+            "theme": "other",
+            "themeTitle": "其他边界",
+            "warning": false
+          },
+          {
+            "text": "原平台业务未完成项和用户视觉认可保留。",
+            "theme": "other",
+            "themeTitle": "其他边界",
+            "warning": false
+          },
+          {
+            "text": "界面后端回执为明确合成数据；真实临时后端文件验收单列。",
+            "theme": "other",
+            "themeTitle": "其他边界",
+            "warning": false
+          },
+          {
+            "text": "不是生产安装或AVEVA实机全流程。",
+            "theme": "install",
+            "themeTitle": "安装/升级",
+            "warning": false
+          },
+          {
+            "text": "代理已目检，用户视觉认可未完成。",
+            "theme": "other",
+            "themeTitle": "其他边界",
+            "warning": false
+          },
+          {
+            "text": "FigCraft为独立可编辑静态参考板，不代称WPF执行。",
+            "theme": "auth",
+            "themeTitle": "执行授权",
+            "warning": false
+          },
+          {
+            "text": "界面回执为明确合成数据，不代称AVEVA实机。",
+            "theme": "history",
+            "themeTitle": "历史证据",
+            "warning": false
+          },
+          {
+            "text": "打开窗口不表示安装、Skill更新或用户视觉认可。",
+            "theme": "install",
+            "themeTitle": "安装/升级",
+            "warning": false
+          },
+          {
+            "text": "只有重复装饰编号淡显，唯一计数/完整身份仍可达。",
+            "theme": "other",
+            "themeTitle": "其他边界",
+            "warning": false
+          }
+        ],
+        "liftedCount": 0
+      },
+      "readingStatus": {
+        "id": "awaiting-review",
+        "label": "待人工"
+      }
     },
     {
       "id": "feature:launch",
@@ -1484,7 +1584,77 @@
           ],
           "environmentText": "产品：synthetic"
         }
-      ]
+      ],
+      "boundaryView": {
+        "own": [],
+        "shared": [
+          {
+            "text": "入口创建不等于登录或Host已核验",
+            "theme": "host",
+            "themeTitle": "Host 核验",
+            "warning": false
+          },
+          {
+            "text": "历史报告，不代表本轮重新执行或当前源码全部通过",
+            "theme": "history",
+            "themeTitle": "历史证据",
+            "warning": false
+          },
+          {
+            "text": "可选7-Zip矩阵2项跳过，不计为通过；不同轮次测试不能相加",
+            "theme": "other",
+            "themeTitle": "其他边界",
+            "warning": false
+          },
+          {
+            "text": "不包含安装升级、回退、断电与完整跨产品任务验收",
+            "theme": "install",
+            "themeTitle": "安装/升级",
+            "warning": false
+          },
+          {
+            "text": "仅启动入口及观察边界通过，首次严格Host核验失败另列",
+            "theme": "host",
+            "themeTitle": "Host 核验",
+            "warning": true
+          },
+          {
+            "text": "原启动回执hostVerification=unverified，后续外部核验不追写旧回执",
+            "theme": "host",
+            "themeTitle": "Host 核验",
+            "warning": false
+          },
+          {
+            "text": "历史实机记录，不证明当前环境在线，不外推其他产品或版本",
+            "theme": "history",
+            "themeTitle": "历史证据",
+            "warning": false
+          },
+          {
+            "text": "仅该历史安装及启动场景；不外推其他产品、版本或全部启动模式",
+            "theme": "install",
+            "themeTitle": "安装/升级",
+            "warning": false
+          },
+          {
+            "text": "启动回执与独立Host验收分别判定，不补写旧启动回执",
+            "theme": "host",
+            "themeTitle": "Host 核验",
+            "warning": false
+          },
+          {
+            "text": "定向开发修复不代表正式安装包升级或回退验收",
+            "theme": "install",
+            "themeTitle": "安装/升级",
+            "warning": false
+          }
+        ],
+        "liftedCount": 0
+      },
+      "readingStatus": {
+        "id": "awaiting-review",
+        "label": "待人工"
+      }
     },
     {
       "id": "feature:deployment",
@@ -1748,7 +1918,41 @@
           ],
           "environmentText": "产品：synthetic"
         }
-      ]
+      ],
+      "boundaryView": {
+        "own": [],
+        "shared": [
+          {
+            "text": "复制成功不等于运行时已加载",
+            "theme": "other",
+            "themeTitle": "其他边界",
+            "warning": false
+          },
+          {
+            "text": "当前Codex Skill、已安装应用和生产EVARS未修改。",
+            "theme": "install",
+            "themeTitle": "安装/升级",
+            "warning": false
+          },
+          {
+            "text": "尚需新不可变安装包的具体预览和批准。",
+            "theme": "install",
+            "themeTitle": "安装/升级",
+            "warning": false
+          },
+          {
+            "text": "多文件写入不宣称断电或全机全局事务。",
+            "theme": "auth",
+            "themeTitle": "执行授权",
+            "warning": false
+          }
+        ],
+        "liftedCount": 0
+      },
+      "readingStatus": {
+        "id": "awaiting-review",
+        "label": "待人工"
+      }
     },
     {
       "id": "feature:sessions",
@@ -2054,7 +2258,95 @@
           ],
           "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
         }
-      ]
+      ],
+      "boundaryView": {
+        "own": [],
+        "shared": [
+          {
+            "text": "发现不等于登录",
+            "theme": "host",
+            "themeTitle": "Host 核验",
+            "warning": false
+          },
+          {
+            "text": "这是后续修复前的历史失败，不表示后续两次严格验收也失败",
+            "theme": "history",
+            "themeTitle": "历史证据",
+            "warning": true
+          },
+          {
+            "text": "未放宽模块核验，未在该次失败会话执行PML",
+            "theme": "host",
+            "themeTitle": "Host 核验",
+            "warning": true
+          },
+          {
+            "text": "不将失败历史覆盖为后来成功",
+            "theme": "history",
+            "themeTitle": "历史证据",
+            "warning": true
+          },
+          {
+            "text": "该时点FormQueryVersion与BoundedArrayReadVersion仍为0，不能宣称V1查询或绿灯通过",
+            "theme": "other",
+            "themeTitle": "其他边界",
+            "warning": false
+          },
+          {
+            "text": "未核验进程实际加载程序集的文件摘要，未执行回退演练",
+            "theme": "host",
+            "themeTitle": "Host 核验",
+            "warning": false
+          },
+          {
+            "text": "历史限定会话，不证明当前环境在线或其他产品可用",
+            "theme": "history",
+            "themeTitle": "历史证据",
+            "warning": false
+          },
+          {
+            "text": "历史Host0.3.4.2限定会话，不能从该结果推定当前会话或所有业务通过",
+            "theme": "host",
+            "themeTitle": "Host 核验",
+            "warning": false
+          },
+          {
+            "text": "不外推AM、PDMS、其他E3D版本或模块",
+            "theme": "scope",
+            "themeTitle": "产品范围",
+            "warning": false
+          },
+          {
+            "text": "未执行回退演练；前四次失败和旧协议0历史分别保留",
+            "theme": "history",
+            "themeTitle": "历史证据",
+            "warning": true
+          },
+          {
+            "text": "历史隔离测试，不代表本轮新执行或真实断线验证",
+            "theme": "history",
+            "themeTitle": "历史证据",
+            "warning": false
+          },
+          {
+            "text": "未强制断开正在使用的真实E3D会话",
+            "theme": "other",
+            "themeTitle": "其他边界",
+            "warning": false
+          },
+          {
+            "text": "不证明部署、许可、业务查询或执行授权通过",
+            "theme": "install",
+            "themeTitle": "安装/升级",
+            "warning": false
+          }
+        ],
+        "liftedCount": 0
+      },
+      "readingStatus": {
+        "id": "offline",
+        "label": "离线已实现"
+      }
     },
     {
       "id": "feature:objects",
@@ -2170,7 +2462,23 @@
       "body": "职责：读取当前对象、指定元素及全局路径。\n输入：已核验目标；对象路径与预算\n输出：原始数据与读取诊断\n副作用：部分原生包装临时切换当前对象\n失败与恢复：空结果与失败分别核对\n规范：R09 partial · R17 verified · R18 verified\n证据：未登记独立证据；不能推定通过",
       "status": "实现：implemented · 既有目录登记状态；完整平台范围见限制与独立证据",
       "limit": "对象身份不能跨工程永久复用",
-      "evidence": []
+      "evidence": [],
+      "boundaryView": {
+        "own": [],
+        "shared": [
+          {
+            "text": "对象身份不能跨工程永久复用",
+            "theme": "other",
+            "themeTitle": "其他边界",
+            "warning": false
+          }
+        ],
+        "liftedCount": 0
+      },
+      "readingStatus": {
+        "id": "offline",
+        "label": "离线已实现"
+      }
     },
     {
       "id": "feature:functions",
@@ -2296,7 +2604,16 @@
       "body": "职责：源码签名、许可和Host加载分别验证。\n输入：函数源码摘要；显式许可\n输出：签名列表与调用回执\n副作用：明确调用可能改变宿主\n失败与恢复：源码变化撤销旧许可；不确定结果不重发\n规范：R08 partial · R11 partial · R16 verified · R17 verified\n证据：未登记独立证据；不能推定通过",
       "status": "实现：implemented · 既有目录登记状态；完整平台范围见限制与独立证据",
       "limit": "注册不表示Host已加载",
-      "evidence": []
+      "evidence": [],
+      "boundaryView": {
+        "own": [],
+        "shared": [],
+        "liftedCount": 0
+      },
+      "readingStatus": {
+        "id": "offline",
+        "label": "离线已实现"
+      }
     },
     {
       "id": "feature:forms",
@@ -2412,7 +2729,29 @@
       "body": "职责：通过既有元数据读取窗体和控件。\n输入：明确目标；查询条件与预算\n输出：元数据、原生缺失值与续页\n副作用：管理请求专用临时变量\n失败与恢复：条件变化清除旧续页\n规范：R09 partial · R17 verified · R18 verified\n证据：未登记独立证据；不能推定通过",
       "status": "实现：implemented · 既有目录登记状态；完整平台范围见限制与独立证据",
       "limit": "不执行业务回调",
-      "evidence": []
+      "evidence": [],
+      "boundaryView": {
+        "own": [],
+        "shared": [
+          {
+            "text": "注册不表示Host已加载",
+            "theme": "host",
+            "themeTitle": "Host 核验",
+            "warning": false
+          },
+          {
+            "text": "不执行业务回调",
+            "theme": "auth",
+            "themeTitle": "执行授权",
+            "warning": false
+          }
+        ],
+        "liftedCount": 0
+      },
+      "readingStatus": {
+        "id": "offline",
+        "label": "离线已实现"
+      }
     },
     {
       "id": "feature:arrays",
@@ -2508,7 +2847,23 @@
       "body": "职责：按原生索引和字符预算读取窗口。\n输入：起点、项数与字符预算\n输出：原始行、截断和下一索引\n副作用：算法不改写原数组\n失败与恢复：首行超预算明确失败\n规范：R18 verified\n证据：未登记独立证据；不能推定通过",
       "status": "实现：implemented · 既有目录登记状态；完整平台范围见限制与独立证据",
       "limit": "稀疏槽位不压缩",
-      "evidence": []
+      "evidence": [],
+      "boundaryView": {
+        "own": [
+          {
+            "text": "稀疏槽位不压缩",
+            "theme": "other",
+            "themeTitle": "其他边界",
+            "warning": false
+          }
+        ],
+        "shared": [],
+        "liftedCount": 0
+      },
+      "readingStatus": {
+        "id": "offline",
+        "label": "离线已实现"
+      }
     },
     {
       "id": "feature:formuse",
@@ -2604,7 +2959,23 @@
       "body": "职责：记录原型支持范围，不冒充完整交付。\n输入：原型窗体与跟踪选择\n输出：原型事件和限制\n副作用：可能装饰回调\n失败与恢复：按原型报告具体失败\n规范：R08 partial\n证据：未登记独立证据；不能推定通过",
       "status": "实现：planned · 既有目录登记状态；完整平台范围见限制与独立证据",
       "limit": "仍为planned",
-      "evidence": []
+      "evidence": [],
+      "boundaryView": {
+        "own": [
+          {
+            "text": "仍为planned",
+            "theme": "other",
+            "themeTitle": "其他边界",
+            "warning": false
+          }
+        ],
+        "shared": [],
+        "liftedCount": 0
+      },
+      "readingStatus": {
+        "id": "planned",
+        "label": "拟议"
+      }
     },
     {
       "id": "feature:knowledge",
@@ -2710,7 +3081,23 @@
       "body": "职责：按产品版本保存来源、库身份和正文。\n输入：明确资料源或已有库\n输出：分层检查与来源定位\n副作用：导入发布新隔离库\n失败与恢复：损坏、冲突或来源变化拒绝启用\n规范：R07 planned · R20 planned\n证据：未登记独立证据；不能推定通过",
       "status": "实现：partial · 既有目录登记状态；完整平台范围见限制与独立证据",
       "limit": "官方默认接入仍待完成",
-      "evidence": []
+      "evidence": [],
+      "boundaryView": {
+        "own": [
+          {
+            "text": "官方默认接入仍待完成",
+            "theme": "other",
+            "themeTitle": "其他边界",
+            "warning": false
+          }
+        ],
+        "shared": [],
+        "liftedCount": 0
+      },
+      "readingStatus": {
+        "id": "partial",
+        "label": "部分实现"
+      }
     },
     {
       "id": "feature:activity",
@@ -2816,7 +3203,23 @@
       "body": "职责：关联本次动作和事实，不确定单列。\n输入：关联编号与筛选条件\n输出：状态、阶段和保留范围内证据\n副作用：写本机记录\n失败与恢复：日志故障与业务结果分开\n规范：R09 partial · R21 verified\n证据：未登记独立证据；不能推定通过",
       "status": "实现：implemented · 既有目录登记状态；完整平台范围见限制与独立证据",
       "limit": "不是所有平台动作的统一协调者",
-      "evidence": []
+      "evidence": [],
+      "boundaryView": {
+        "own": [
+          {
+            "text": "不是所有平台动作的统一协调者",
+            "theme": "other",
+            "themeTitle": "其他边界",
+            "warning": false
+          }
+        ],
+        "shared": [],
+        "liftedCount": 0
+      },
+      "readingStatus": {
+        "id": "offline",
+        "label": "离线已实现"
+      }
     },
     {
       "id": "feature:review",
@@ -2922,7 +3325,23 @@
       "body": "职责：面向人工差异审核的候选桌面能力。\n输入：独立草稿与审核选择\n输出：批准快照及迁移回执\n副作用：按明确批准提交\n失败与恢复：失败保留审核上下文\n规范：R01 planned · R12 planned\n证据：未登记独立证据；不能推定通过",
       "status": "实现：planned · 既有目录登记状态；完整平台范围见限制与独立证据",
       "limit": "完整GUI仍planned",
-      "evidence": []
+      "evidence": [],
+      "boundaryView": {
+        "own": [
+          {
+            "text": "完整GUI仍planned",
+            "theme": "other",
+            "themeTitle": "其他边界",
+            "warning": false
+          }
+        ],
+        "shared": [],
+        "liftedCount": 0
+      },
+      "readingStatus": {
+        "id": "planned",
+        "label": "拟议"
+      }
     },
     {
       "id": "feature:tests",
@@ -3028,7 +3447,23 @@
       "body": "职责：复用按ID执行器，桌面中心仍待接线。\n输入：真实测试ID\n输出：独立运行记录与证据\n副作用：启动自有测试夹具并写报告\n失败与恢复：跳过与未运行不算通过\n规范：R22 verified · R24 verified\n证据：未登记独立证据；不能推定通过",
       "status": "实现：planned · 既有目录登记状态；完整平台范围见限制与独立证据",
       "limit": "执行器存在不代表桌面中心完成",
-      "evidence": []
+      "evidence": [],
+      "boundaryView": {
+        "own": [
+          {
+            "text": "执行器存在不代表桌面中心完成",
+            "theme": "auth",
+            "themeTitle": "执行授权",
+            "warning": false
+          }
+        ],
+        "shared": [],
+        "liftedCount": 0
+      },
+      "readingStatus": {
+        "id": "planned",
+        "label": "拟议"
+      }
     },
     {
       "id": "feature:web",
@@ -3134,7 +3569,23 @@
       "body": "职责：按钮参数绑定既有IPC操作。\n输入：本机应用定义与参数\n输出：目录和原始调用回执\n副作用：目录编辑及获准按钮动作\n失败与恢复：保留原操作授权与失败\n规范：R11 partial · R16 verified\n证据：未登记独立证据；不能推定通过",
       "status": "实现：partial · 既有目录登记状态；完整平台范围见限制与独立证据",
       "limit": "远程分发未完成",
-      "evidence": []
+      "evidence": [],
+      "boundaryView": {
+        "own": [
+          {
+            "text": "远程分发未完成",
+            "theme": "other",
+            "themeTitle": "其他边界",
+            "warning": false
+          }
+        ],
+        "shared": [],
+        "liftedCount": 0
+      },
+      "readingStatus": {
+        "id": "partial",
+        "label": "部分实现"
+      }
     },
     {
       "id": "feature:ribbon",
@@ -3299,7 +3750,59 @@
           ],
           "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
         }
-      ]
+      ],
+      "boundaryView": {
+        "own": [],
+        "shared": [
+          {
+            "text": "首次新文件为v1兼容",
+            "theme": "other",
+            "themeTitle": "其他边界",
+            "warning": false
+          },
+          {
+            "text": "限定运行时外观通过，未点击宏",
+            "theme": "other",
+            "themeTitle": "其他边界",
+            "warning": false
+          },
+          {
+            "text": "不是UI全程实机验收",
+            "theme": "history",
+            "themeTitle": "历史证据",
+            "warning": false
+          },
+          {
+            "text": "首次新建仍为v1兼容",
+            "theme": "other",
+            "themeTitle": "其他边界",
+            "warning": false
+          },
+          {
+            "text": "未点击宏",
+            "theme": "other",
+            "themeTitle": "其他边界",
+            "warning": false
+          },
+          {
+            "text": "直接HTTP部署，不是UI全程",
+            "theme": "install",
+            "themeTitle": "安装/升级",
+            "warning": false
+          },
+          {
+            "text": "不外推其他产品与模块",
+            "theme": "scope",
+            "themeTitle": "产品范围",
+            "warning": false
+          }
+        ],
+        "liftedCount": 0
+      },
+      "readingStatus": {
+        "id": "awaiting-host",
+        "label": "待实机"
+      }
     },
     {
       "id": "feature:database",
@@ -3431,7 +3934,29 @@
           ],
           "environmentText": "产品：synthetic"
         }
-      ]
+      ],
+      "boundaryView": {
+        "own": [
+          {
+            "text": "尚未整体替换活动写者",
+            "theme": "other",
+            "themeTitle": "其他边界",
+            "warning": false
+          },
+          {
+            "text": "未整体切换活动存储",
+            "theme": "other",
+            "themeTitle": "其他边界",
+            "warning": false
+          }
+        ],
+        "shared": [],
+        "liftedCount": 0
+      },
+      "readingStatus": {
+        "id": "partial",
+        "label": "部分实现"
+      }
     },
     {
       "id": "feature:migration",
@@ -3551,7 +4076,29 @@
           ],
           "environmentText": "产品：synthetic"
         }
-      ]
+      ],
+      "boundaryView": {
+        "own": [
+          {
+            "text": "不替代写入切换和恢复",
+            "theme": "auth",
+            "themeTitle": "执行授权",
+            "warning": false
+          },
+          {
+            "text": "没有执行数据库切换",
+            "theme": "auth",
+            "themeTitle": "执行授权",
+            "warning": false
+          }
+        ],
+        "shared": [],
+        "liftedCount": 0
+      },
+      "readingStatus": {
+        "id": "offline",
+        "label": "离线已实现"
+      }
     },
     {
       "id": "feature:caf",
@@ -3673,7 +4220,35 @@
           ],
           "environmentText": "产品：CAF"
         }
-      ]
+      ],
+      "boundaryView": {
+        "own": [
+          {
+            "text": "SDK编译不等于真实宿主注册或UI挂载",
+            "theme": "other",
+            "themeTitle": "其他边界",
+            "warning": false
+          },
+          {
+            "text": "未真实注册宿主",
+            "theme": "other",
+            "themeTitle": "其他边界",
+            "warning": false
+          },
+          {
+            "text": "未界面挂载",
+            "theme": "other",
+            "themeTitle": "其他边界",
+            "warning": false
+          }
+        ],
+        "shared": [],
+        "liftedCount": 0
+      },
+      "readingStatus": {
+        "id": "partial",
+        "label": "部分实现"
+      }
     },
     {
       "id": "feature:plugins",
@@ -3757,7 +4332,23 @@
       "body": "职责：显式插件清单复用既有worker边界。\n输入：插件身份、计划与明确许可\n输出：状态和独立证据\n副作用：明确执行才改变VM等外部资源\n失败与恢复：缺失、停用、崩溃和unknown分别报告\n规范：未单独关联规范条目\n证据：未登记独立证据；不能推定通过",
       "status": "实现：partial · 明确平台切片；未声称整体完成",
       "limit": "基础包不应依赖可选实验能力",
-      "evidence": []
+      "evidence": [],
+      "boundaryView": {
+        "own": [
+          {
+            "text": "基础包不应依赖可选实验能力",
+            "theme": "other",
+            "themeTitle": "其他边界",
+            "warning": false
+          }
+        ],
+        "shared": [],
+        "liftedCount": 0
+      },
+      "readingStatus": {
+        "id": "partial",
+        "label": "部分实现"
+      }
     },
     {
       "id": "script:workbench-entry",
@@ -4240,7 +4831,16 @@
           ],
           "environmentText": "产品：synthetic"
         }
-      ]
+      ],
+      "boundaryView": {
+        "own": [],
+        "shared": [],
+        "liftedCount": 25
+      },
+      "readingStatus": {
+        "id": "awaiting-review",
+        "label": "待人工"
+      }
     },
     {
       "id": "script:launch-workflow",
@@ -4723,7 +5323,16 @@
           ],
           "environmentText": "产品：synthetic"
         }
-      ]
+      ],
+      "boundaryView": {
+        "own": [],
+        "shared": [],
+        "liftedCount": 25
+      },
+      "readingStatus": {
+        "id": "awaiting-review",
+        "label": "待人工"
+      }
     },
     {
       "id": "script:communication-client",
@@ -5096,7 +5705,16 @@
           ],
           "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
         }
-      ]
+      ],
+      "boundaryView": {
+        "own": [],
+        "shared": [],
+        "liftedCount": 20
+      },
+      "readingStatus": {
+        "id": "registered",
+        "label": "已登记"
+      }
     },
     {
       "id": "script:frozen-copy",
@@ -5371,7 +5989,16 @@
           ],
           "environmentText": "产品：synthetic"
         }
-      ]
+      ],
+      "boundaryView": {
+        "own": [],
+        "shared": [],
+        "liftedCount": 15
+      },
+      "readingStatus": {
+        "id": "awaiting-review",
+        "label": "待人工"
+      }
     },
     {
       "id": "script:pml-development",
@@ -5710,7 +6337,16 @@
           ],
           "environmentText": "产品：synthetic"
         }
-      ]
+      ],
+      "boundaryView": {
+        "own": [],
+        "shared": [],
+        "liftedCount": 17
+      },
+      "readingStatus": {
+        "id": "awaiting-review",
+        "label": "待人工"
+      }
     },
     {
       "id": "script:array-window",
@@ -5817,7 +6453,23 @@
       "body": "输入：原生MAXINDEX上界、startIndex、maxItems、maxCharacters与槽位读取委托。\n前置条件：startIndex≥1，maxItems为1–1000，maxCharacters为1–262144，上界非负。\n算法 / 手段：按原生索引顺序读取，不按已设置元素数压缩；字符预算不拆行。\n副作用：算法本身不创建或改写数组；委托仍受宿主协议约束。\n校验：首行超预算明确失败；其余超预算保留下一索引；空、0、false和unset不相互转换。\n回执：Rows、StartIndex、NextIndex、Truncated、Characters及IndexUpperBound。\n失败 / 恢复：同目标/条件才能接续；换目标/筛选重置页，不拼旧结果。\n规范：R18 verified\n证据：未登记独立证据；不能推定通过",
       "status": "csharp · algorithm",
       "limit": "稀疏槽位不压缩",
-      "evidence": []
+      "evidence": [],
+      "boundaryView": {
+        "own": [
+          {
+            "text": "稀疏槽位不压缩",
+            "theme": "other",
+            "themeTitle": "其他边界",
+            "warning": false
+          }
+        ],
+        "shared": [],
+        "liftedCount": 0
+      },
+      "readingStatus": {
+        "id": "registered",
+        "label": "已登记"
+      }
     },
     {
       "id": "script:dbref-reader",
@@ -5944,7 +6596,16 @@
       "body": "输入：size/depth/startStr/name；name支持短名、绝对名或DBREF字符串。\n前置条件：目标PML已加载、当前会话/工程明确；参数与预算还需调用层约束。\n算法 / 手段：保存CE → 解析目标 → 临时切CE → walker读取扁平数组 → 尝试还原CE。\n副作用：会临时改变CE；不应表述成纯无状态函数，也不自动获得写工程权限。\n校验：原PML通过badref/handle处理部分失败；独立通信身份与预算不能省略。\n回执：返回ARRAY；若目标无效或部分错误也可能是空数组，因此必须结合外层成功/错误证据。\n失败 / 恢复：原实现包含正常及读取异常后的CE恢复尝试，但不是通用finally保证；若原生恢复失败须人工核对CE，不能从空结果推断已恢复。\n规范：R09 partial · R17 verified · R18 verified\n证据：未登记独立证据；不能推定通过",
       "status": "pml · runtime",
       "limit": "对象身份不能跨工程永久复用",
-      "evidence": []
+      "evidence": [],
+      "boundaryView": {
+        "own": [],
+        "shared": [],
+        "liftedCount": 1
+      },
+      "readingStatus": {
+        "id": "registered",
+        "label": "已登记"
+      }
     },
     {
       "id": "script:host-bootstrap",
@@ -6603,7 +7264,16 @@
           ],
           "environmentText": "产品：synthetic"
         }
-      ]
+      ],
+      "boundaryView": {
+        "own": [],
+        "shared": [],
+        "liftedCount": 38
+      },
+      "readingStatus": {
+        "id": "awaiting-review",
+        "label": "待人工"
+      }
     },
     {
       "id": "script:ribbon-frozen-deployment",
@@ -6780,7 +7450,16 @@
           ],
           "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
         }
-      ]
+      ],
+      "boundaryView": {
+        "own": [],
+        "shared": [],
+        "liftedCount": 7
+      },
+      "readingStatus": {
+        "id": "awaiting-host",
+        "label": "待实机"
+      }
     },
     {
       "id": "script:migration-preview",
@@ -6959,7 +7638,41 @@
           ],
           "environmentText": "产品：synthetic"
         }
-      ]
+      ],
+      "boundaryView": {
+        "own": [
+          {
+            "text": "尚未整体替换活动写者",
+            "theme": "other",
+            "themeTitle": "其他边界",
+            "warning": false
+          },
+          {
+            "text": "不替代写入切换和恢复",
+            "theme": "auth",
+            "themeTitle": "执行授权",
+            "warning": false
+          },
+          {
+            "text": "未整体切换活动存储",
+            "theme": "other",
+            "themeTitle": "其他边界",
+            "warning": false
+          },
+          {
+            "text": "没有执行数据库切换",
+            "theme": "auth",
+            "themeTitle": "执行授权",
+            "warning": false
+          }
+        ],
+        "shared": [],
+        "liftedCount": 0
+      },
+      "readingStatus": {
+        "id": "registered",
+        "label": "已登记"
+      }
     },
     {
       "id": "script:knowledge-import",
@@ -7076,7 +7789,23 @@
       "body": "输入：product/version/role/name与选定资料源或SQLite；apply使用缓存计划引用。\n前置条件：明确写授权、目标名无冲突、源未变、schema受支持；活动写占用/WAL等不能被不一致单文件复制绕过。\n算法 / 手段：只读预览 → 私有暂存建库或一致备份 → 分层检查 → 重命名发布/登记。\n副作用：创建产品版本隔离库；不覆盖同名库，不重建个人/工程/经验层。\n校验：完整性、schema、关系、FTS/MATCH、清单与来源指纹，canEnable决定能否启用。\n回执：库身份、数据库SHA256、路径、检查项和来源证据状态；数据库身份与chunk ID共同定位正文。\n失败 / 恢复：失败清理本次暂存，保留旧库；已启用库变化要重检，不能把旧报告当新鲜证据。\n规范：R07 planned · R20 planned\n证据：未登记独立证据；不能推定通过",
       "status": "csharp · workflow",
       "limit": "官方默认接入仍待完成",
-      "evidence": []
+      "evidence": [],
+      "boundaryView": {
+        "own": [
+          {
+            "text": "官方默认接入仍待完成",
+            "theme": "other",
+            "themeTitle": "其他边界",
+            "warning": false
+          }
+        ],
+        "shared": [],
+        "liftedCount": 0
+      },
+      "readingStatus": {
+        "id": "registered",
+        "label": "已登记"
+      }
     },
     {
       "id": "script:sdk-acceptance",
@@ -7193,7 +7922,23 @@
       "body": "输入：仓库SDK版本、明确TestId/Describe、相应测试入口与独立报告目录。\n前置条件：helper要求host实际含10.0.302，只有10.0.400不能满足精确门禁；Windows/WPF/浏览器等按测试入口声明。\n算法 / 手段：选择已有dotnet host并设置当前进程环境 → 核对测试ID/源码定位与摘要 → 新目录执行 → 解析原始结果/视口证据。\n副作用：构建、启动自有测试进程、写报告/截图；helper不安装SDK、不修改机器级环境。部分入口直接调用dotnet，不能假定全部自动dot-source helper。\n校验：无匹配测试不能算通过；failed/skipped/not-run分别统计；截图需记录请求DIP、实际布局、PNG像素与DPI，图片存在不是验收。\n回执：commit/dirty、SDK/系统、执行数量、console/TRX/summary、源码身份及关联截图；历史结果不冒充本轮。\n失败 / 恢复：超时停止自有夹具并保留部分证据；环境缺失先修环境，重跑写新报告。首次CLI行为应在调用前设置首次运行/证书抑制环境，避免开发证书等非任务副作用。\n规范：R22 verified · R24 verified\n证据：未登记独立证据；不能推定通过",
       "status": "powershell · build",
       "limit": "执行器存在不代表桌面中心完成",
-      "evidence": []
+      "evidence": [],
+      "boundaryView": {
+        "own": [
+          {
+            "text": "执行器存在不代表桌面中心完成",
+            "theme": "auth",
+            "themeTitle": "执行授权",
+            "warning": false
+          }
+        ],
+        "shared": [],
+        "liftedCount": 0
+      },
+      "readingStatus": {
+        "id": "registered",
+        "label": "已登记"
+      }
     },
     {
       "id": "script:ui-pending-gate",
@@ -7370,7 +8115,16 @@
           ],
           "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
         }
-      ]
+      ],
+      "boundaryView": {
+        "own": [],
+        "shared": [],
+        "liftedCount": 7
+      },
+      "readingStatus": {
+        "id": "awaiting-host",
+        "label": "待实机"
+      }
     },
     {
       "id": "script:runtime-verification",
@@ -7776,7 +8530,16 @@
           ],
           "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
         }
-      ]
+      ],
+      "boundaryView": {
+        "own": [],
+        "shared": [],
+        "liftedCount": 24
+      },
+      "readingStatus": {
+        "id": "awaiting-host",
+        "label": "待实机"
+      }
     },
     {
       "id": "verification:migration-offline",
@@ -7858,7 +8621,16 @@
           ],
           "environmentText": "产品：synthetic"
         }
-      ]
+      ],
+      "boundaryView": {
+        "own": [],
+        "shared": [],
+        "liftedCount": 0
+      },
+      "readingStatus": {
+        "id": "registered",
+        "label": "已登记"
+      }
     },
     {
       "id": "verification:ribbon-ui",
@@ -7943,7 +8715,16 @@
           ],
           "environmentText": "产品：synthetic"
         }
-      ]
+      ],
+      "boundaryView": {
+        "own": [],
+        "shared": [],
+        "liftedCount": 0
+      },
+      "readingStatus": {
+        "id": "awaiting-host",
+        "label": "待实机"
+      }
     },
     {
       "id": "verification:ribbon-runtime",
@@ -8035,7 +8816,16 @@
           ],
           "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
         }
-      ]
+      ],
+      "boundaryView": {
+        "own": [],
+        "shared": [],
+        "liftedCount": 0
+      },
+      "readingStatus": {
+        "id": "registered",
+        "label": "已登记"
+      }
     },
     {
       "id": "verification:database-offline",
@@ -8117,7 +8907,16 @@
           ],
           "environmentText": "产品：synthetic"
         }
-      ]
+      ],
+      "boundaryView": {
+        "own": [],
+        "shared": [],
+        "liftedCount": 0
+      },
+      "readingStatus": {
+        "id": "registered",
+        "label": "已登记"
+      }
     },
     {
       "id": "verification:caf-static",
@@ -8202,7 +9001,16 @@
           ],
           "environmentText": "产品：CAF"
         }
-      ]
+      ],
+      "boundaryView": {
+        "own": [],
+        "shared": [],
+        "liftedCount": 0
+      },
+      "readingStatus": {
+        "id": "registered",
+        "label": "已登记"
+      }
     },
     {
       "id": "verification:launch-offline",
@@ -8290,7 +9098,16 @@
           ],
           "environmentText": "产品：synthetic"
         }
-      ]
+      ],
+      "boundaryView": {
+        "own": [],
+        "shared": [],
+        "liftedCount": 0
+      },
+      "readingStatus": {
+        "id": "registered",
+        "label": "已登记"
+      }
     },
     {
       "id": "verification:launch-entry-runtime",
@@ -8382,7 +9199,16 @@
           ],
           "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
         }
-      ]
+      ],
+      "boundaryView": {
+        "own": [],
+        "shared": [],
+        "liftedCount": 0
+      },
+      "readingStatus": {
+        "id": "awaiting-host",
+        "label": "待实机"
+      }
     },
     {
       "id": "verification:sessions-initial-host",
@@ -8474,7 +9300,16 @@
           ],
           "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
         }
-      ]
+      ],
+      "boundaryView": {
+        "own": [],
+        "shared": [],
+        "liftedCount": 0
+      },
+      "readingStatus": {
+        "id": "registered",
+        "label": "已登记"
+      }
     },
     {
       "id": "verification:sessions-bootstrap-runtime",
@@ -8566,7 +9401,16 @@
           ],
           "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
         }
-      ]
+      ],
+      "boundaryView": {
+        "own": [],
+        "shared": [],
+        "liftedCount": 0
+      },
+      "readingStatus": {
+        "id": "registered",
+        "label": "已登记"
+      }
     },
     {
       "id": "verification:launch-cli-runtime",
@@ -8658,7 +9502,16 @@
           ],
           "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
         }
-      ]
+      ],
+      "boundaryView": {
+        "own": [],
+        "shared": [],
+        "liftedCount": 0
+      },
+      "readingStatus": {
+        "id": "registered",
+        "label": "已登记"
+      }
     },
     {
       "id": "verification:sessions-host-v1-runtime",
@@ -8750,7 +9603,16 @@
           ],
           "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
         }
-      ]
+      ],
+      "boundaryView": {
+        "own": [],
+        "shared": [],
+        "liftedCount": 0
+      },
+      "readingStatus": {
+        "id": "registered",
+        "label": "已登记"
+      }
     },
     {
       "id": "verification:sessions-dashboard-offline",
@@ -8838,7 +9700,16 @@
           ],
           "environmentText": "产品：synthetic"
         }
-      ]
+      ],
+      "boundaryView": {
+        "own": [],
+        "shared": [],
+        "liftedCount": 0
+      },
+      "readingStatus": {
+        "id": "registered",
+        "label": "已登记"
+      }
     },
     {
       "id": "verification:sessions-dashboard-runtime",
@@ -8933,7 +9804,16 @@
           ],
           "environmentText": "产品：E3D · 版本：2.1 · 模块：DESIGN"
         }
-      ]
+      ],
+      "boundaryView": {
+        "own": [],
+        "shared": [],
+        "liftedCount": 0
+      },
+      "readingStatus": {
+        "id": "registered",
+        "label": "已登记"
+      }
     },
     {
       "id": "verification:install-journey-offline",
@@ -9024,7 +9904,16 @@
           ],
           "environmentText": "产品：synthetic"
         }
-      ]
+      ],
+      "boundaryView": {
+        "own": [],
+        "shared": [],
+        "liftedCount": 0
+      },
+      "readingStatus": {
+        "id": "awaiting-review",
+        "label": "待人工"
+      }
     },
     {
       "id": "verification:install-journey-ui",
@@ -9115,7 +10004,16 @@
           ],
           "environmentText": "产品：synthetic"
         }
-      ]
+      ],
+      "boundaryView": {
+        "own": [],
+        "shared": [],
+        "liftedCount": 0
+      },
+      "readingStatus": {
+        "id": "awaiting-review",
+        "label": "待人工"
+      }
     },
     {
       "id": "verification:visual-priority-ui",
@@ -9203,7 +10101,16 @@
           ],
           "environmentText": "产品：synthetic"
         }
-      ]
+      ],
+      "boundaryView": {
+        "own": [],
+        "shared": [],
+        "liftedCount": 0
+      },
+      "readingStatus": {
+        "id": "awaiting-review",
+        "label": "待人工"
+      }
     },
     {
       "id": "verification:skill-adoption-offline",
@@ -9291,7 +10198,16 @@
           ],
           "environmentText": "产品：synthetic"
         }
-      ]
+      ],
+      "boundaryView": {
+        "own": [],
+        "shared": [],
+        "liftedCount": 0
+      },
+      "readingStatus": {
+        "id": "registered",
+        "label": "已登记"
+      }
     }
   ],
   "flows": [
@@ -23899,7 +24815,7 @@
     {
       "id": "source:capabilities",
       "title": "既有Feature与Script目录",
-      "sha256": "eec0c0ff3c61bc2ec12b5987212bf8ddf522a58b4cf4c3541458f3be42f3c2b8",
+      "sha256": "66031a1ab71aef23c66de84ca2930a3d9208d491e16b6e60ec4d788831cfb83a",
       "authority": "catalog",
       "audience": "public"
     },
@@ -23934,14 +24850,14 @@
     {
       "id": "source:openspec-proposal",
       "title": "平台候选proposal",
-      "sha256": "8cc7005d53bdcc99ab18ef42f432736bfbb1b6c7a7db4ffa63c8983c069f8848",
+      "sha256": "a816c1afcc37e3774c78105fea28acf74006c37840c461728b66608c61b7e5c1",
       "authority": "proposal",
       "audience": "public"
     },
     {
       "id": "source:openspec-contracts",
       "title": "平台候选contracts",
-      "sha256": "23f45ae6ebacd16f52c4d83b3b39915156a5fd841315d207059e04028f9e4fd7",
+      "sha256": "11182f2295aaeb1cc60704eda084e3cb9d6c99564b9595b97705c04662102184",
       "authority": "proposal",
       "audience": "public"
     },
@@ -23955,7 +24871,7 @@
     {
       "id": "source:openspec-tasks",
       "title": "平台候选tasks",
-      "sha256": "5d564ea063f4da4e55342f0ca0619177ed1b69ce90ba472c68fbcd506a8b75ed",
+      "sha256": "d335e242898f72546b9b78f9c5848416fbd0a3c0d58eda7610cd3d99f151a2d1",
       "authority": "proposal",
       "audience": "public"
     },
@@ -23969,7 +24885,7 @@
     {
       "id": "source:render-model",
       "title": "共同组件事实投影",
-      "sha256": "692ad8fa220552a79c55a5e5ff50261c3e851101943cabab08ebc7b996e5fbdc",
+      "sha256": "34670390fd6d10e9b61066e50eaa67fe123f4c3f5598757bc6f1d38f1315c97f",
       "authority": "presentation",
       "audience": "public"
     },

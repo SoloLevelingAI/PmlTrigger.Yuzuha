@@ -98,7 +98,50 @@
       const evidence = metadata.evidence.find(e => e.id === view.entityId), related = verifications.filter(v => v.evidenceIds.includes(evidence.id));
       add({ id: evidence.id, entityId: evidence.id, component: 'EvidenceBadge', title: evidence.title, summary: related.map(v => v.claim).join('；') || '仅登记来源，未提供独立验证', sections: [], requirements: [], implementation: null, verifications: copy(related), limitations: related.flatMap(v => v.exclusions), sourceRefs: [evidence.sourceRef], props: copy(view.props) });
     }
+    annotateBoundaries();
     for (const card of cards) for (const sourceId of [...card.sourceRefs, ...card.sections.flatMap(s => s.sourceRefs)]) if (!bySource.has(sourceId)) throw new Error('Missing render provenance: ' + sourceId);
+    function packBoundary(text) {
+      const themes = [['install', '安装/升级', /安装|升级|卸载|EVARS|部署|备份/], ['host', 'Host 核验', /Host|核验|登录/], ['history', '历史证据', /历史|报告|实机|证据/], ['auth', '执行授权', /授权|执行|写入|绿钮/], ['scope', '产品范围', /产品|范围|外推|模块/]];
+      const theme = themes.find(([, , pattern]) => pattern.test(text)) || ['other', '其他边界'];
+      return { text, theme: theme[0], themeTitle: theme[1], warning: /拒绝|失败|unknown|不自动/.test(text) };
+    }
+    function annotateBoundaries() {
+      const scriptCards = cards.filter(card => card.component === 'ScriptContractCard');
+      const inheritedOf = card => {
+        const owners = metadata.features.filter(feature => card.featureIds.includes(feature.id));
+        return unique([...owners.flatMap(feature => feature.limitations), ...owners.flatMap(feature => proofs(feature.verificationIds).flatMap(verification => verification.exclusions))]);
+      };
+      const counts = new Map();
+      for (const card of scriptCards) for (const text of inheritedOf(card)) counts.set(text, (counts.get(text) || 0) + 1);
+      const shared = new Set([...counts].filter(([, count]) => count >= 2).map(([text]) => text));
+      const ownerOf = text => {
+        const holders = scriptCards.filter(card => inheritedOf(card).includes(text));
+        const sets = holders.map(card => card.featureIds);
+        const common = sets[0].filter(id => sets.every(set => set.includes(id)));
+        return common[0] || metadata.project.id;
+      };
+      for (const card of cards) card.boundaryView = { own: [], shared: [], liftedCount: 0 };
+      for (const card of scriptCards) {
+        const all = inheritedOf(card);
+        card.boundaryView.own = all.filter(text => !shared.has(text)).map(packBoundary);
+        card.boundaryView.liftedCount = all.filter(text => shared.has(text)).length;
+      }
+      for (const text of shared) cards.find(card => card.entityId === ownerOf(text)).boundaryView.shared.push(packBoundary(text));
+      for (const feature of metadata.features) {
+        const card = cards.find(item => item.entityId === feature.id);
+        const mine = unique([...feature.limitations, ...proofs(feature.verificationIds).flatMap(verification => verification.exclusions)]);
+        card.boundaryView.own = mine.filter(text => !shared.has(text)).map(packBoundary);
+      }
+      for (const card of cards) {
+        const blob = [...card.boundaryView.own, ...card.boundaryView.shared].map(item => item.text).join('\n') + '\n' + (card.text?.limit || '');
+        card.readingStatus = /人工视觉|视觉认可/.test(blob) ? { id: 'awaiting-review', label: '待人工' }
+          : /实机/.test(blob) ? { id: 'awaiting-host', label: '待实机' }
+          : card.implementation?.status === 'planned' ? { id: 'planned', label: '拟议' }
+          : card.implementation?.status === 'partial' ? { id: 'partial', label: '部分实现' }
+          : card.implementation?.status === 'implemented' ? { id: 'offline', label: '离线已实现' }
+          : { id: 'registered', label: '已登记' };
+      }
+    }
     const flows = metadata.flows.map(flow => ({ ...copy(flow), props: props('FlowDiagram', flow.id) }));
     const specification = metadata.canonical;
     const referenceSections = [];

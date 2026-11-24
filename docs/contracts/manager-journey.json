@@ -28,7 +28,7 @@
             "docFxUid": "YuzuhaToolkit.Manager.SetupHandoffService"
           }
         ],
-        "evidenceBoundary": "本阶段说明实现契约与读取路径；不代称本轮实机通过。历史实机仅按原报告的E3D2.1/DESIGN范围，跨产品、真实安装/移交、Database切换及用户视觉认可分别验收。"
+        "evidenceBoundary": "本阶段说明实现契约与读取路径；不代称本轮实机通过。历史实机仅按原报告的E3D2.1/DESIGN范围，跨产品、真实安装/移交、Database切换及用户视觉认可分别验收。可选 --inspect-handoff 只调用 setup.handoff.inspect，不授予写入、启动或执行。未带该参数时交接只填入工具包根。"
       },
       {
         "id": "environment",
@@ -260,7 +260,7 @@
             "docFxUid": "YuzuhaToolkit.Manager.LaunchWorkflowService"
           }
         ],
-        "evidenceBoundary": "本阶段说明实现契约与读取路径；不代称本轮实机通过。历史实机仅按原报告的E3D2.1/DESIGN范围，跨产品、真实安装/移交、Database切换及用户视觉认可分别验收。"
+        "evidenceBoundary": "本阶段说明实现契约与读取路径；不代称本轮实机通过。历史实机仅按原报告的E3D2.1/DESIGN范围，跨产品、真实安装/移交、Database切换及用户视觉认可分别验收。准备工作区的本阶段只导航到既有启动页，不调用 launch.plan、launch.execute 或 launch.observe，也不授予启动。"
       },
       {
         "id": "verify",
@@ -288,7 +288,7 @@
             "docFxUid": "YuzuhaToolkit.Manager.CommunicationCliClient"
           }
         ],
-        "evidenceBoundary": "本阶段说明实现契约与读取路径；不代称本轮实机通过。历史实机仅按原报告的E3D2.1/DESIGN范围，跨产品、真实安装/移交、Database切换及用户视觉认可分别验收。"
+        "evidenceBoundary": "本阶段说明实现契约与读取路径；不代称本轮实机通过。历史实机仅按原报告的E3D2.1/DESIGN范围，跨产品、真实安装/移交、Database切换及用户视觉认可分别验收。准备工作区的本阶段只导航到既有会话页，不调用 connection.sessions、connection.select、connection.status 或 connection.test，不授予执行或写入。"
       }
     ]
   },
@@ -3678,5 +3678,1025 @@
       "legacyTools": null
     }
   ],
-  "outputBoundary": "OperationResult.data remains unknown JSON; no dedicated output schema is promised. CLI process start ticks are decimal strings; do not round through JavaScript numbers. Static script links are not execution evidence."
+  "outputBoundary": "OperationResult.data remains unknown JSON and may contain fields beyond the public summary. outputProjections publish that summary: summary schemas require only the listed fields and allow additional properties; passthrough operations keep data unknown. CLI process start ticks are decimal strings; do not round through JavaScript numbers. Static script links are not execution evidence. Installer exit 10 and Manager exit 7 are different processes; see exitTaxonomy. No row authorizes automatic retry.",
+  "outputProjections": [
+    {
+      "operationId": "setup.handoff.inspect",
+      "coverage": "summary",
+      "sourceType": "YuzuhaToolkit.Manager.SetupHandoffInspection",
+      "schema": {
+        "type": "object",
+        "additionalProperties": true,
+        "description": "Read-only handoff summary. File readiness is not an AVEVA connection.",
+        "properties": {
+          "packageRoot": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          },
+          "integrationMode": {
+            "type": "string"
+          },
+          "manifestHash": {
+            "type": "string"
+          },
+          "markerHash": {
+            "type": "string"
+          },
+          "filesVerified": {
+            "type": "integer"
+          },
+          "legacyEnvironmentCount": {
+            "type": "integer"
+          },
+          "nextAction": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "packageRoot",
+          "version",
+          "integrationMode",
+          "manifestHash",
+          "markerHash",
+          "filesVerified",
+          "legacyEnvironmentCount",
+          "nextAction"
+        ]
+      }
+    },
+    {
+      "operationId": "installation.discover",
+      "coverage": "summary",
+      "sourceType": "YuzuhaToolkit.Manager.ManagerInstallationReport",
+      "schema": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "complete": {
+            "type": "boolean"
+          },
+          "filesSeen": {
+            "type": "integer"
+          },
+          "candidates": {
+            "type": "array",
+            "items": true
+          },
+          "diagnostics": {
+            "type": "array",
+            "items": true
+          }
+        },
+        "required": [
+          "complete",
+          "filesSeen",
+          "candidates",
+          "diagnostics"
+        ]
+      }
+    },
+    {
+      "operationId": "installation.projects",
+      "coverage": "summary",
+      "sourceType": "YuzuhaToolkit.Manager.LaunchDesk.ProjectModuleReport",
+      "schema": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "projects": {
+            "type": "array",
+            "items": true
+          },
+          "modules": {
+            "type": "array",
+            "items": true
+          },
+          "projectRoots": {
+            "type": "array",
+            "items": true
+          },
+          "filesRead": {
+            "type": "array",
+            "items": true
+          },
+          "diagnostics": {
+            "type": "array",
+            "items": true
+          }
+        },
+        "required": [
+          "projects",
+          "modules",
+          "projectRoots",
+          "filesRead",
+          "diagnostics"
+        ]
+      }
+    },
+    {
+      "operationId": "environment.discover",
+      "coverage": "summary",
+      "sourceType": "YuzuhaToolkit.Manager.LaunchDiscoveryResult",
+      "schema": {
+        "type": "object",
+        "additionalProperties": true,
+        "description": "Read-only discovery summary. Draft and diagnostics may contain additional unknown fields.",
+        "properties": {
+          "state": {
+            "type": "string"
+          },
+          "observedAt": {
+            "type": "string"
+          },
+          "expiresAt": {
+            "type": "string"
+          },
+          "evidenceKind": {
+            "type": "string"
+          },
+          "coverage": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "candidates": {
+            "type": "array",
+            "items": true
+          },
+          "fields": {
+            "type": "array",
+            "items": true
+          },
+          "needsInput": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "diagnostics": {
+            "type": "array",
+            "items": true
+          }
+        },
+        "required": [
+          "state",
+          "observedAt",
+          "expiresAt",
+          "evidenceKind",
+          "coverage",
+          "candidates",
+          "fields",
+          "needsInput",
+          "diagnostics"
+        ]
+      }
+    },
+    {
+      "operationId": "environment.resolve",
+      "coverage": "summary",
+      "sourceType": "YuzuhaToolkit.Manager.LaunchDiscoveryResult",
+      "schema": {
+        "type": "object",
+        "additionalProperties": true,
+        "description": "Read-only discovery summary. Draft and diagnostics may contain additional unknown fields.",
+        "properties": {
+          "state": {
+            "type": "string"
+          },
+          "observedAt": {
+            "type": "string"
+          },
+          "expiresAt": {
+            "type": "string"
+          },
+          "evidenceKind": {
+            "type": "string"
+          },
+          "coverage": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "candidates": {
+            "type": "array",
+            "items": true
+          },
+          "fields": {
+            "type": "array",
+            "items": true
+          },
+          "needsInput": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "diagnostics": {
+            "type": "array",
+            "items": true
+          }
+        },
+        "required": [
+          "state",
+          "observedAt",
+          "expiresAt",
+          "evidenceKind",
+          "coverage",
+          "candidates",
+          "fields",
+          "needsInput",
+          "diagnostics"
+        ]
+      }
+    },
+    {
+      "operationId": "setup.legacy.preview",
+      "coverage": "summary",
+      "sourceType": "YuzuhaToolkit.Manager.ManagerPlanReference",
+      "schema": {
+        "type": "object",
+        "additionalProperties": true,
+        "description": "Success payload. Extra fields remain unknown.",
+        "properties": {
+          "planId": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "sha256": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "required": [
+          "planId",
+          "kind",
+          "sha256",
+          "summary"
+        ]
+      }
+    },
+    {
+      "operationId": "setup.legacy.transfer",
+      "coverage": "summary",
+      "sourceType": "YuzuhaToolkit.Manager.SetupLegacyTransferReceipt",
+      "schema": {
+        "type": "object",
+        "additionalProperties": true,
+        "description": "Ownership receipt. It does not write EVARS.",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "packageRoot": {
+            "type": "string"
+          },
+          "environmentFile": {
+            "type": "string"
+          },
+          "environmentHash": {
+            "type": "string"
+          },
+          "markerBeforeHash": {
+            "type": "string"
+          },
+          "markerAfterHash": {
+            "type": "string"
+          },
+          "backupFile": {
+            "type": "string"
+          },
+          "receiptFile": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "state",
+          "packageRoot",
+          "environmentFile",
+          "environmentHash",
+          "markerBeforeHash",
+          "markerAfterHash",
+          "backupFile",
+          "receiptFile"
+        ]
+      }
+    },
+    {
+      "operationId": "migration.preview",
+      "coverage": "summary",
+      "sourceType": "YuzuhaToolkit.Manager.MigrationPreviewReport",
+      "schema": {
+        "type": "object",
+        "additionalProperties": true,
+        "description": "Read-only migration material. activate remains false.",
+        "properties": {
+          "schemaVersion": {
+            "type": "integer"
+          },
+          "format": {
+            "type": "string"
+          },
+          "activate": {
+            "type": "boolean",
+            "enum": [
+              false
+            ]
+          },
+          "complete": {
+            "type": "boolean"
+          },
+          "materials": {
+            "type": "array",
+            "items": true
+          },
+          "diagnostics": {
+            "type": "array",
+            "items": true
+          }
+        },
+        "required": [
+          "schemaVersion",
+          "format",
+          "activate",
+          "complete",
+          "materials",
+          "diagnostics"
+        ]
+      }
+    },
+    {
+      "operationId": "deployment.preview",
+      "coverage": "summary",
+      "sourceType": "YuzuhaToolkit.Manager.ManagerPlanReference",
+      "schema": {
+        "type": "object",
+        "additionalProperties": true,
+        "description": "Success payload. Extra fields remain unknown.",
+        "properties": {
+          "planId": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "sha256": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "required": [
+          "planId",
+          "kind",
+          "sha256",
+          "summary"
+        ]
+      }
+    },
+    {
+      "operationId": "evars.preview",
+      "coverage": "summary",
+      "sourceType": "YuzuhaToolkit.Manager.ManagerPlanReference",
+      "schema": {
+        "type": "object",
+        "additionalProperties": true,
+        "description": "Success payload. Extra fields remain unknown.",
+        "properties": {
+          "planId": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "sha256": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "required": [
+          "planId",
+          "kind",
+          "sha256",
+          "summary"
+        ]
+      }
+    },
+    {
+      "operationId": "deployment.apply",
+      "coverage": "summary",
+      "sourceType": "YuzuhaToolkit.Manager.ManagerPlanReference",
+      "schema": {
+        "type": "object",
+        "additionalProperties": true,
+        "description": "Success payload. Extra fields remain unknown.",
+        "properties": {
+          "planId": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "sha256": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "required": [
+          "planId",
+          "kind",
+          "sha256",
+          "summary"
+        ]
+      }
+    },
+    {
+      "operationId": "evars.apply",
+      "coverage": "summary",
+      "sourceType": "YuzuhaToolkit.Manager.ManagerPlanReference",
+      "schema": {
+        "type": "object",
+        "additionalProperties": true,
+        "description": "Success payload. Extra fields remain unknown.",
+        "properties": {
+          "planId": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "sha256": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "required": [
+          "planId",
+          "kind",
+          "sha256",
+          "summary"
+        ]
+      }
+    },
+    {
+      "operationId": "deployment.restore",
+      "coverage": "summary",
+      "sourceType": "YuzuhaToolkit.Manager.RuntimeDeploymentDiagnostic",
+      "schema": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "phase": {
+            "type": "string"
+          },
+          "transactionDirectory": {
+            "type": "string"
+          },
+          "recoveryErrors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "phase",
+          "transactionDirectory",
+          "recoveryErrors"
+        ]
+      }
+    },
+    {
+      "operationId": "evars.restore",
+      "coverage": "summary",
+      "sourceType": "YuzuhaToolkit.Manager.EvarsReceiptSummary",
+      "schema": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "file": {
+            "type": "string"
+          },
+          "beforeHash": {
+            "type": "string"
+          },
+          "afterHash": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "file",
+          "beforeHash",
+          "afterHash"
+        ]
+      }
+    },
+    {
+      "operationId": "launch.plan",
+      "coverage": "summary",
+      "sourceType": "YuzuhaToolkit.Manager.LaunchWorkflowPlan",
+      "schema": {
+        "type": "object",
+        "additionalProperties": true,
+        "description": "Frozen launch plan. It contains no password.",
+        "properties": {
+          "operationId": {
+            "type": "string"
+          },
+          "profileId": {
+            "type": "string"
+          },
+          "expectedRevision": {
+            "type": "string"
+          },
+          "files": {
+            "type": "array",
+            "items": true
+          },
+          "expiresAt": {
+            "type": "string"
+          },
+          "planDigest": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "operationId",
+          "profileId",
+          "expectedRevision",
+          "files",
+          "expiresAt",
+          "planDigest"
+        ]
+      }
+    },
+    {
+      "operationId": "launch.execute",
+      "coverage": "summary",
+      "sourceType": "YuzuhaToolkit.Manager.LaunchReceipt",
+      "schema": {
+        "type": "object",
+        "additionalProperties": true,
+        "description": "Launch fact. Unknown state must not be replayed. Password is absent.",
+        "properties": {
+          "operationId": {
+            "type": "string"
+          },
+          "planDigest": {
+            "type": "string"
+          },
+          "attemptId": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "phase": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "operationId",
+          "planDigest",
+          "attemptId",
+          "state",
+          "phase",
+          "code",
+          "message",
+          "updatedAt"
+        ]
+      }
+    },
+    {
+      "operationId": "launch.observe",
+      "coverage": "summary",
+      "sourceType": "YuzuhaToolkit.Manager.LaunchReceipt",
+      "schema": {
+        "type": "object",
+        "additionalProperties": true,
+        "description": "Launch fact. Unknown state must not be replayed. Password is absent.",
+        "properties": {
+          "operationId": {
+            "type": "string"
+          },
+          "planDigest": {
+            "type": "string"
+          },
+          "attemptId": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "phase": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "operationId",
+          "planDigest",
+          "attemptId",
+          "state",
+          "phase",
+          "code",
+          "message",
+          "updatedAt"
+        ]
+      }
+    },
+    {
+      "operationId": "connection.sessions",
+      "coverage": "passthrough",
+      "sourceType": "passthrough:communication-cli",
+      "schema": true
+    },
+    {
+      "operationId": "connection.select",
+      "coverage": "summary",
+      "sourceType": "YuzuhaToolkit.Manager.ManagerConnectionTestResult",
+      "schema": {
+        "type": "object",
+        "additionalProperties": true,
+        "description": "Manager lamp summary. Nested communication.data stays unknown and grants nothing.",
+        "properties": {
+          "evidence": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+              "target": {
+                "type": "object",
+                "additionalProperties": true,
+                "properties": {
+                  "processId": {
+                    "type": "integer"
+                  },
+                  "startTimeUtcTicks": {
+                    "type": "integer"
+                  },
+                  "model": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "processId",
+                  "startTimeUtcTicks",
+                  "model"
+                ]
+              },
+              "expiresAtUtc": {
+                "type": "string"
+              },
+              "overall": {
+                "type": "object",
+                "additionalProperties": true,
+                "properties": {
+                  "state": {
+                    "type": "string"
+                  },
+                  "code": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "state",
+                  "code"
+                ]
+              }
+            },
+            "required": [
+              "target",
+              "expiresAtUtc",
+              "overall"
+            ]
+          },
+          "communication": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+              "operationId": {
+                "type": "string"
+              },
+              "success": {
+                "type": "boolean"
+              },
+              "exitCode": {
+                "type": "integer"
+              },
+              "data": true
+            },
+            "required": [
+              "operationId",
+              "success",
+              "exitCode"
+            ]
+          }
+        },
+        "required": [
+          "evidence",
+          "communication"
+        ]
+      }
+    },
+    {
+      "operationId": "connection.status",
+      "coverage": "summary",
+      "sourceType": "YuzuhaToolkit.Manager.ManagerConnectionTestResult",
+      "schema": {
+        "type": "object",
+        "additionalProperties": true,
+        "description": "Manager lamp summary. Nested communication.data stays unknown and grants nothing.",
+        "properties": {
+          "evidence": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+              "target": {
+                "type": "object",
+                "additionalProperties": true,
+                "properties": {
+                  "processId": {
+                    "type": "integer"
+                  },
+                  "startTimeUtcTicks": {
+                    "type": "integer"
+                  },
+                  "model": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "processId",
+                  "startTimeUtcTicks",
+                  "model"
+                ]
+              },
+              "expiresAtUtc": {
+                "type": "string"
+              },
+              "overall": {
+                "type": "object",
+                "additionalProperties": true,
+                "properties": {
+                  "state": {
+                    "type": "string"
+                  },
+                  "code": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "state",
+                  "code"
+                ]
+              }
+            },
+            "required": [
+              "target",
+              "expiresAtUtc",
+              "overall"
+            ]
+          },
+          "communication": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+              "operationId": {
+                "type": "string"
+              },
+              "success": {
+                "type": "boolean"
+              },
+              "exitCode": {
+                "type": "integer"
+              },
+              "data": true
+            },
+            "required": [
+              "operationId",
+              "success",
+              "exitCode"
+            ]
+          }
+        },
+        "required": [
+          "evidence",
+          "communication"
+        ]
+      }
+    },
+    {
+      "operationId": "connection.test",
+      "coverage": "summary",
+      "sourceType": "YuzuhaToolkit.Manager.ManagerConnectionTestResult",
+      "schema": {
+        "type": "object",
+        "additionalProperties": true,
+        "description": "Manager lamp summary. Nested communication.data stays unknown and grants nothing.",
+        "properties": {
+          "evidence": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+              "target": {
+                "type": "object",
+                "additionalProperties": true,
+                "properties": {
+                  "processId": {
+                    "type": "integer"
+                  },
+                  "startTimeUtcTicks": {
+                    "type": "integer"
+                  },
+                  "model": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "processId",
+                  "startTimeUtcTicks",
+                  "model"
+                ]
+              },
+              "expiresAtUtc": {
+                "type": "string"
+              },
+              "overall": {
+                "type": "object",
+                "additionalProperties": true,
+                "properties": {
+                  "state": {
+                    "type": "string"
+                  },
+                  "code": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "state",
+                  "code"
+                ]
+              }
+            },
+            "required": [
+              "target",
+              "expiresAtUtc",
+              "overall"
+            ]
+          },
+          "communication": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+              "operationId": {
+                "type": "string"
+              },
+              "success": {
+                "type": "boolean"
+              },
+              "exitCode": {
+                "type": "integer"
+              },
+              "data": true
+            },
+            "required": [
+              "operationId",
+              "success",
+              "exitCode"
+            ]
+          }
+        },
+        "required": [
+          "evidence",
+          "communication"
+        ]
+      }
+    }
+  ],
+  "exitTaxonomy": [
+    {
+      "id": "INSTALL_APPLY_FAILED",
+      "process": "Inno Setup",
+      "exitCode": 10,
+      "errorCode": "INSTALL_APPLY_FAILED",
+      "meaning": "apply-plan 失败。安装器进程退出码，不是管理器操作结果。",
+      "autoRetry": false
+    },
+    {
+      "id": "INVALID_INPUT",
+      "process": "Manager",
+      "exitCode": 2,
+      "errorCode": "INVALID_INPUT",
+      "meaning": "输入不符合已注册 schema。",
+      "autoRetry": false
+    },
+    {
+      "id": "UNKNOWN_OPERATION",
+      "process": "Manager",
+      "exitCode": 3,
+      "errorCode": "UNKNOWN_OPERATION",
+      "meaning": "操作 ID 未注册。",
+      "autoRetry": false
+    },
+    {
+      "id": "EXECUTION_DENIED",
+      "process": "Manager",
+      "exitCode": 4,
+      "errorCode": "EXECUTION_NOT_AUTHORIZED",
+      "meaning": "缺少显式执行、写入或启动授权。未发送业务动作。",
+      "autoRetry": false
+    },
+    {
+      "id": "TARGET_FAILED",
+      "process": "Manager",
+      "exitCode": 5,
+      "errorCode": "PID_REQUIRED",
+      "meaning": "缺少明确目标身份。",
+      "autoRetry": false
+    },
+    {
+      "id": "HOST_FAILED",
+      "process": "Manager",
+      "exitCode": 6,
+      "errorCode": "HOST_FAILED",
+      "meaning": "Host 能力或握手失败。",
+      "autoRetry": false
+    },
+    {
+      "id": "MANAGER_HANDLER_FAILURE",
+      "process": "Manager",
+      "exitCode": 7,
+      "errorCode": "error.Code",
+      "meaning": "处理器拒绝或传输失败。数值 7 与 TransportFailed 相同；稳定原因是 error.Code，不是安装器 10。",
+      "autoRetry": false
+    },
+    {
+      "id": "CANCELLED",
+      "process": "Manager",
+      "exitCode": 8,
+      "errorCode": "CANCELLED",
+      "meaning": "已取消。不自动重放。",
+      "autoRetry": false
+    },
+    {
+      "id": "INTERNAL_ERROR",
+      "process": "Manager",
+      "exitCode": 9,
+      "errorCode": "INTERNAL_ERROR",
+      "meaning": "未分类的处理器异常。",
+      "autoRetry": false
+    },
+    {
+      "id": "CONFIGURATION_CONFLICT",
+      "process": "Manager",
+      "exitCode": 10,
+      "errorCode": "CONFIGURATION_CONFLICT",
+      "meaning": "配置修订冲突。管理器进程退出码 10，不得读成安装器 INSTALL_APPLY_FAILED。",
+      "autoRetry": false
+    },
+    {
+      "id": "UNKNOWN_NO_RETRY",
+      "process": "Manager",
+      "exitCode": 7,
+      "errorCode": "*_UNKNOWN",
+      "meaning": "结果未知。mayHaveExecuted 时按原回执核对，禁止自动重放。",
+      "autoRetry": false
+    }
+  ]
 }

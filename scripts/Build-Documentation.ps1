@@ -83,6 +83,8 @@ try {
     if ($LASTEXITCODE -ne 0) { throw 'Handoff metadata, native prototype or traceability checks failed.' }
     dotnet docfx build docfx.json --warningsAsErrors
     if ($LASTEXITCODE -ne 0) { throw 'DocFX build failed.' }
+    node scripts/check-contract-api-uids.mjs
+    if ($LASTEXITCODE -ne 0) { throw 'Contract method is missing from DocFX metadata.' }
     node scripts/check-documentation.mjs
     if ($LASTEXITCODE -ne 0) { throw 'Generated documentation integrity failed.' }
     foreach ($page in @('index.html', 'api/devhost/YuzuhaToolkit.DevHost.DevelopmentEndpoints.html', 'architecture/index.html', 'openapi/v1.json')) {

@@ -3,7 +3,7 @@
 <div class="type-badges"><span class="type-badge">{{ldKind}}</span><span class="type-category">{{ldCategory}}</span></div>
 <h1 id="{{id}}" data-uid="{{uid}}" class="text-break">
   {{name.0.value}}
-  {{#sourceurl}}<a class="header-action link-secondary" title="View source" href="{{sourceurl}}"><i class="bi bi-code-slash"></i></a>{{/sourceurl}}
+  {{#sourceurl}}<a class="header-action link-secondary" title="查看源码" href="{{sourceurl}}">查看源码</a>{{/sourceurl}}
 </h1>
 
 <div class="facts text-secondary">

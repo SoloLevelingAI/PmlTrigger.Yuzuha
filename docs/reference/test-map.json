@@ -3249,7 +3249,7 @@
       "purpose": "以同一安装计划和恢复实现验证默认拒绝、明确接管、完整快照与原始内容；记录真实链接夹具身份，不修改生产环境。",
       "targets": [
         {
-          "uid": "SetupBridge::Program"
+          "uid": "SetupBridge::Yuzuha.SetupBridge.Program"
         }
       ]
     },
@@ -3257,6 +3257,52 @@
       "test": "xunit:YuzuhaToolkit.Tests.PreparationWorkbenchTests.SynchronousManagerHandlerRunsInBackgroundWhileCallerAndReadingRemainAvailable",
       "purpose": "真实OperationExecutor同步阻塞handler尚未释放时，调用方已取得Task、Busy门禁和阅读仍可用；后台执行不改变明确授权/唯一调用，超时仅死锁watchdog。",
       "environment": "Windows/NET10；独立调用线程与真实同步门闩，不扫描真实AVEVA或写环境。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.PreparationWorkbench"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.JourneyOutputProjectionTests.SummariesMatchRealPayloadsAndStillAllowUnknownFields",
+      "purpose": "21项旅程公开摘要与真实返回类型一致，额外字段仍可出现；OperationResult.data保持未知JSON，且退出码表拒绝自动重试。",
+      "environment": "Windows x64 / NET10；内存序列化样本，不扫描真实AVEVA或写环境。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Manager.Core::YuzuhaToolkit.Manager.JourneyOutputProjections"
+        },
+        {
+          "uid": "YuzuhaToolkit.Manager.Core::YuzuhaToolkit.Manager.ManagerContractCatalog"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.JourneyOutputProjectionTests.InstallerScriptAndHostProfilesUseTheSameTables",
+      "purpose": "安装器FailureCode与InstallExitTaxonomy一致，准备页Host profile只来自ManagerHostProfiles。",
+      "environment": "Windows x64 / NET10；读取仓库脚本与契约，不执行安装器或AVEVA。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Manager.Core::YuzuhaToolkit.Manager.InstallExitTaxonomy"
+        },
+        {
+          "uid": "YuzuhaToolkit.Manager.Core::YuzuhaToolkit.Manager.ManagerHostProfiles"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Manager.Tests.PlatformProposalContractTests.VersionedProposalMapsOnlyRealOperationsAndKeepsLogicalNamesUnregistered",
+      "purpose": "平台提案v0.2只把已注册operation ID映射到目录；逻辑名称和提案类型不登记为运行时操作。",
+      "environment": "Windows x64 / NET10；对照实际OperationRegistry，不写环境。",
+      "targets": [
+        {
+          "uid": "YuzuhaToolkit.Manager.Core::YuzuhaToolkit.Manager.ManagerOperationCatalog"
+        }
+      ]
+    },
+    {
+      "test": "xunit:YuzuhaToolkit.Tests.PreparationWorkbenchTests.HandoffInspectionStaysReadOnlyUnlessTheFlagIsPresent",
+      "purpose": "没有--inspect-handoff时只保存工具包根；显式只读核验不授予写入、启动或执行。",
+      "environment": "Windows x64 / NET10；注入执行器，不扫描真实AVEVA或写环境。",
       "targets": [
         {
           "uid": "YuzuhaToolkit.Desktop::YuzuhaToolkit.Desktop.PreparationWorkbench"

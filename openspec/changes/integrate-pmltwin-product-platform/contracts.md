@@ -1,40 +1,37 @@
-# 契约草案 v0.1
+# 平台契约 v0.2
 
-2026-10-31 续作：WPF 统一启动、Ribbon v2 冻结部署与只读迁移预览的细化契约见 [continuation-contracts.md](features/continuation-contracts.md)。下表逻辑名称及未完成状态保留；新操作必须在实际目录注册及验证后才视为可用。
+Schema：`pmltwin.platform-proposal/0.2`。状态：proposal。本文件不是运行时目录，也不修改 `docs/specification/contract.json`。
 
-状态：planned，供实施细化；下列名称不是已经注册的 CLI operation ID。既有 46/52 项操作目录保持不变。本文件不修改 canonical contract.json。
+机器可读版本与兼容样例在 [contracts.proposal.json](contracts.proposal.json)。测试 `PlatformProposalContractTests` 对照实际 `OperationRegistry`：已列出的 operation ID 必须已注册，提案逻辑名称不是已注册操作。
 
-| 契约 | 最小字段/责任 | 失败与兼容要求 |
+## 运行时唯一来源
+
+已注册操作、输入 schema、21 项旅程公开摘要和退出码对照只来自 `ManagerContractCatalog`，schema 为 `pmltwin.manager-journey/1`。阅读 `manager.contracts` 或 [安装到工程操作](../../../docs/reference/install-to-operation.zh-CN.md) 即可，不要在这里再抄一份 ID 清单。
+
+`OperationResult.data` 仍是未知 JSON。旅程操作另外发布允许额外字段的公开摘要；`connection.sessions` 保持透传，没有稳定字段。安装器退出码 10（`INSTALL_APPLY_FAILED`）和管理器退出码 7 / `error.Code` 是不同进程，见导出的 `exitTaxonomy`。任何一行都不自动重试。
+
+## 提案类型
+
+下表的名称不是 CLI / HTTP operation ID。`FeatureDescriptor` 与 `OperationDescriptor` 已是运行时类型，分别由 `feature.list` 和 `manager.contracts` 返回。其余类型仍只存在于本提案。
+
+| 名称 | 状态 | 说明 |
 |---|---|---|
-| FeatureDescriptor | id、version、contractVersion、owner、requires、operations、entryKind、enabled、implementationStatus | 重复 ID/版本不兼容拒绝；注册、启用、授权分别表示 |
-| OperationDescriptor | id、inputSchema、outputSchema、effect、requiredCapabilities、timeout、cancellation、retryPolicy | 旧 ID/schema/退出码由适配器保留；新动作必须在目录显式注册 |
-| DiscoveryRequest | roots、product/version filters、time/depth/file budgets、refresh | 只读；不执行 BAT、不读取秘密、不默认全盘无限扫描 |
-| DiscoveryResult | candidates、evidenceSource、observedAt、expiresAt、coverage、diagnostics | unavailable/ambiguous/incomplete 可区分；静态与运行时证据分开 |
-| ResolvedField | value、origin、userOverride、validation、alternatives、needsInput | 人工修改优先；无交互调用不弹窗 |
-| OperationPlan | operationId、featureId、targetIdentity、expectedRevision、inputDigest、source/target hashes、effects、grants、expiresAt | 过期/变更拒绝；预览没有副作用；秘密不入摘要素材或日志 |
-| OperationReceipt | operationId、attemptId、requestId、state、phase、code、message、evidence、recoveryActions、rollbackStatus | success/failed/cancelled/unknown 区分；未知动作不可盲重放 |
-| DatabaseSession | scope、schemaVersion、readOnly、transaction、expectedRevision | 一致快照、并发冲突、只读降级；不泄漏数据库连接给 UI |
-| DataScope | product、version、workspace、kind、identity | 知识与用户数据分层；凭据只存引用，不能按同名自动授权 |
-| MigrationPlan | sourceIdentity、formatVersion、manifest/hash、mapping、backup、validation、cutover | 旧数据保留；缺项逐条诊断；不激活导入配置 |
-| DesignHandoff | featureId、nativeFile、frameIds、tokenVersion、operations、states、evidence/status | 按钮到契约一一映射；设计不等于运行证据 |
+| FeatureDescriptor | 运行时类型 | 不是操作 ID。重复 ID、版本不兼容仍由 `FeatureRegistry` 拒绝。 |
+| OperationDescriptor | 运行时类型 | 描述已注册操作的输入与授权。输出不在此封闭。 |
+| OperationPlan | proposal | 统一计划形状尚未替代各操作自己的冻结计划。 |
+| DatabaseSession | proposal | 不表示 Database 切换或会话已经实现。 |
+| DesignHandoff | proposal | 设计文件不是运行证据。 |
 
-## 操作族与所有者
+旧逻辑族同样如此：`feature.list`、`environment.discover` / `environment.resolve`、`launch.plan` / `launch.execute` / `launch.observe`、`setup.handoff.inspect` 已注册。`feature.describe`、`environment.check`、`health.inspect`、`uic.preview` 不是已注册操作。配置编辑、知识库、UIC 和健康监测仍按各自已注册 ID 调用，不使用本文件里的候选句子当 ID。
 
-| 操作族（候选逻辑名称） | 所有者 | 首期处理 |
-|---|---|---|
-| feature describe/list | Host composition | 统一 Addin/worker 描述，具体 CAF 延后适配 |
-| environment discover/resolve/check | Environment service | 汇聚现有扫描器，提供来源与 needsInput |
-| launch plan/execute/observe | Launch use case | 融合 rewrite 协调与 Next 发现，保留 Yuzuha CLI 兼容 |
-| configuration edit/share/import/migrate | Configuration use case | 接 rewrite 契约；秘密剔除，机器绑定重新验证 |
-| tools preview/apply/recover | Deployment use case | 复用现有部署事务、计划和受控 Worker |
-| environment variables plan/apply | Environment use case | 区分用户/机器变量和厂商 EVARS，冻结作用域 |
-| health inspect/watch | Resource use case | 只读监测不触发自修复，后台预算可控 |
-| ribbon document/history/validate/export | Ribbon use case | 保留 HTTP v1、定义/引用与增量撤销 |
-| uic preview/file-apply/registration-apply | UIC deployment | 分离内容与加载清单，保留摘要与备份 |
-| function register/list/permission/invoke | Communication adapter + local registry | 管理 CLI 统一入口仍待补；本地注册不证明 Host 已加载 |
-| knowledge import/check/search | Knowledge use case | 复用既有产品/版本隔离，两套分别验收 |
-| operation observe/recover | Application coordinator | 按原编号核对；不可跨 Feature 任意回滚 |
+## 兼容样例
 
-## 非秘密验证配置
+| 样例 | 表面 | 标识 | 期望 |
+|---|---|---|---|
+| cli-handoff-inspect | CLI `op invoke` | `setup.handoff.inspect` | 已注册，无写入授权 |
+| cli-and-http-contract-read | `GET /api/manager/contracts` | `manager.contracts` | 已注册，只读 |
+| feature-list-not-feature-describe | CLI | `feature.list` | 已注册；`feature.describe` 不是 |
+| proposal-logical-name | 提案 | `feature.describe` | 未注册 |
+| proposal-environment-check | 提案 | `environment.check` | 未注册 |
 
-优先样例项目标识：`APS`，来源为用户 2026-10-31 指示。先扫描产品/版本/入口/模块和可访问性，再使用本机受控凭据渠道登录。用户名、口令、凭据引用不得进入作品集；口令不得写入本提案、命令行参数、日志或截图。若运行依赖尚未满足，返回 blocked/unavailable 及具体原因，不标实机验证通过。
+延续契约见 [continuation-contracts.md](features/continuation-contracts.md)。追踪见 [设计、契约与脚本](../../../docs/validation/design-contract-script-trace-2026-11-02.zh-CN.md)。

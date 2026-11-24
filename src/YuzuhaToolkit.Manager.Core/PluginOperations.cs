@@ -56,7 +56,7 @@ public static class PluginOperations
                         return OperationResult.Ok(operation, data);
                     }
                     catch (ConfigurationConflictException error)
-                    { return OperationResult.Fail(operation, 10, "CONFIGURATION_CONFLICT", error.Message,
+                    { return OperationResult.Fail(operation, InstallExitTaxonomy.ManagerConfigurationExit, InstallExitTaxonomy.ConfigurationConflictCode, error.Message,
                         JsonSerializer.SerializeToElement(new LaunchOperationDiagnostic(error.ActualRevision), LaunchOperationJsonContext.Default.LaunchOperationDiagnostic)); }
                     catch (Exception error) when (error is IOException or UnauthorizedAccessException or ArgumentException or InvalidDataException or JsonException)
                     { return OperationResult.Fail(operation, error is ArgumentException or InvalidDataException or JsonException ? 2 : 7,

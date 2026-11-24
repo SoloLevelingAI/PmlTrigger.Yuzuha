@@ -82,7 +82,7 @@ public static class LaunchOperationCatalog
             }
             catch (ConfigurationConflictException error)
             {
-                return OperationResult.Fail(id, 10, "CONFIGURATION_CONFLICT", error.Message,
+                return OperationResult.Fail(id, InstallExitTaxonomy.ManagerConfigurationExit, InstallExitTaxonomy.ConfigurationConflictCode, error.Message,
                     JsonSerializer.SerializeToElement(new LaunchOperationDiagnostic(error.ActualRevision), LaunchOperationJsonContext.Default.LaunchOperationDiagnostic));
             }
             catch (LaunchProfileValidationException error)
@@ -93,7 +93,7 @@ public static class LaunchOperationCatalog
             catch (UnauthorizedAccessException error) { return OperationResult.Fail(id, 4, "ACCESS_DENIED", Message(error)); }
             catch (Exception error) when (error is ArgumentException or JsonException or InvalidDataException or KeyNotFoundException)
             { return OperationResult.Fail(id, 2, "INVALID_INPUT", Message(error)); }
-            catch (IOException error) { return OperationResult.Fail(id, 7, "STORAGE_OR_LAUNCH_FAILED", Message(error)); }
+            catch (IOException error) { return OperationResult.Fail(id, InstallExitTaxonomy.ManagerHandlerExit, "STORAGE_OR_LAUNCH_FAILED", Message(error)); }
         });
         return Descriptors().Select(d => new OperationRegistration(d, handler)).ToArray();
     }

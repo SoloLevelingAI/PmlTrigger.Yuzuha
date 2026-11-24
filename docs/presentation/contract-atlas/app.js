@@ -4,16 +4,16 @@
   const labels = { implemented: '已实现', partial: '部分实现', planned: '拟议' };
   let methodId = null, methodDirection = 'callees', sectionKey = '', pendingRouteSection = false, branch = 'task', selectedStepId = '';
   const sectionStates = new Map();
-  let data, renderModel, live, editor, lastCommitted, origin = 'static', revisionInfo = null, authorDirty = false, selectedId, parentFeatureId, selectedFlowId = '', mode = 'portfolio', query = '', status = 'all', importRevision = 0, catalogKind = 'features';
+  let data, renderModel, live, editor, lastCommitted, origin = 'static', revisionInfo = null, authorDirty = false, selectedId, parentFeatureId, selectedFlowId = '', mode = 'portfolio', query = '', status = 'all', importRevision = 0, catalogKind = 'features', surface = 'home', nextSurface = null;
   const components = { task: $('task-map'), flow: $('contract-flow'), map: $('feature-map'), detail: $('contract-detail'), evidence: $('evidence-strip'), methods: $('method-panel'), reference: $('contract-reference') };
   const disclosure = new globalThis.ContractAtlasDisclosure.Controller({ onChange: change => {
     updateDisclosureControls();if(change.type!=='all')return;const saved=retainUI();
-    if(change.mode==='summary'&&sectionKey){sectionKey=sectionKey.split(':')[0];if(!['overview','contract','methods','flow','catalog','evidence','reference'].includes(sectionKey))sectionKey='overview';sectionStates.set(sectionScope(),sectionKey);saved.reading={key:sectionKey,top:$('.masthead').getBoundingClientRect().height+$('.reading-bar').getBoundingClientRect().height+18,focus:false};}
+    if(change.mode==='summary'&&sectionKey){sectionKey=sectionKey.split(':')[0];if(!['overview','contract','methods','flow','catalog','evidence','reference'].includes(sectionKey))sectionKey='overview';sectionStates.set(sectionScope(),sectionKey);saved.reading={key:sectionKey,top:$('.masthead').getBoundingClientRect().height+16,focus:false};}
     route();render();restoreUI(saved);
   } });
   const outline = new globalThis.ContractAtlasOutline.Controller({
     content:$('.canvas'),nav:$('#page-outline-list'),
-    getOffset:()=>$('.masthead').getBoundingClientRect().height+$('.reading-bar').getBoundingClientRect().height+18,
+    getOffset:()=>$('.masthead').getBoundingClientRect().height+16,
     onOpen:keys=>{for(const key of keys)disclosure.record(key,true);render();},
     onNavigate:(key,options={})=>{sectionKey=key;sectionStates.set(sectionScope(),key);route(options.history!==false);},
     onFallback:message=>{sectionKey='';sectionStates.set(sectionScope(),'');route();$('#section-title').focus({preventScroll:true});$('#section-title').scrollIntoView({block:'start'});feedback(message,true);}
@@ -33,19 +33,24 @@
     if (candidate?.audience !== 'public') errors.push('本公开展示只接受 audience=public 投影；内部数据不会自动公开。');
     return errors;
   }
-  function route(push = false) { const hash = new URLSearchParams(); hash.set('view', mode); hash.set('entity', selectedId); hash.set('branch',branch);hash.set('detail',disclosure.mode);hash.set('catalog',catalogKind); if (parentFeatureId) hash.set('feature', parentFeatureId); if (selectedFlowId) hash.set('flow', selectedFlowId);if(selectedStepId)hash.set('step',selectedStepId); if (methodId) hash.set('method', methodId); if (methodDirection !== 'callees') hash.set('direction', methodDirection); if (query) hash.set('q', query); if (status !== 'all') hash.set('status', status); if(sectionKey)hash.set('section',sectionKey);history[push?'pushState':'replaceState'](null, '', '#' + hash.toString()); }
+  function route(push = false) { const hash = new URLSearchParams(); hash.set('view', mode); hash.set('entity', selectedId); hash.set('branch',branch);hash.set('detail',disclosure.mode);hash.set('catalog',catalogKind); if (surface==='tasks' && selectedId===data?.project.id && branch==='task') hash.set('surface','tasks'); if (parentFeatureId) hash.set('feature', parentFeatureId); if (selectedFlowId) hash.set('flow', selectedFlowId);if(selectedStepId)hash.set('step',selectedStepId); if (methodId) hash.set('method', methodId); if (methodDirection !== 'callees') hash.set('direction', methodDirection); if (query) hash.set('q', query); if (status !== 'all') hash.set('status', status); if(sectionKey)hash.set('section',sectionKey);history[push?'pushState':'replaceState'](null, '', '#' + hash.toString()); }
   function restoreRoute() {
     const hash = new URLSearchParams(location.hash.slice(1));sectionKey=(hash.get('section')||'').slice(0,512);pendingRouteSection=!!sectionKey; disclosure.restore(hash.get('detail'));catalogKind=['all','features','scripts'].includes(hash.get('catalog'))?hash.get('catalog'):'features';methodId = /^method:[a-f0-9]{64}$/.test(hash.get('method') || '') ? hash.get('method') : null; methodDirection = hash.get('direction') === 'callers' ? 'callers' : 'callees'; mode = hash.get('view') === 'help' ? 'help' : 'portfolio'; selectedId = entity(hash.get('entity'))?.id || data.project.id;
     parentFeatureId = data.features.find(x => x.id === hash.get('feature'))?.id || null;
     selectedFlowId = data.flows.find(flow => flow.id === hash.get('flow'))?.id || '';
     branch=sectionKey?branchForSection(sectionKey):hash.has('branch')?branchName(hash.get('branch')):methodId?'implementation':'task';selectedStepId=(hash.get('step')||'').slice(0,256);
-    if (kindOf(entity(selectedId)) === 'script' && !data.features.some(f => f.id === parentFeatureId && f.scriptIds.includes(selectedId))) parentFeatureId = data.features.find(f => f.scriptIds.includes(selectedId))?.id || null;
+    const selectedKind = kindOf(entity(selectedId));
+    if (selectedKind === 'feature') parentFeatureId = selectedId;
+    else if (selectedKind === 'script' && !data.features.some(f => f.id === parentFeatureId && f.scriptIds.includes(selectedId))) parentFeatureId = data.features.find(f => f.scriptIds.includes(selectedId))?.id || null;
+    else if (selectedKind === 'project') parentFeatureId = null;
+    surface = selectedKind==='project' && branch==='task' && hash.get('surface')==='tasks' ? 'tasks' : selectedKind==='project' && branch==='task' ? 'home' : 'reading';
     query = (hash.get('q') || '').slice(0, 120); status = ['all', ...data.features.map(x => x.implementation.status)].includes(hash.get('status')) ? hash.get('status') : 'all';
     normalizeTaskContext();
   }
   function select(id, updateRoute = true) {
     const item = entity(id); if (!item) { feedback('该实体未在当前数据中登记，原图保持不变。', true); return; }
     const kind = kindOf(item); if (kind === 'feature') parentFeatureId = item.id; else if (kind === 'project') parentFeatureId = null; else if (!data.features.find(f => f.id === parentFeatureId)?.scriptIds.includes(id)) parentFeatureId = data.features.find(f => f.scriptIds.includes(id))?.id || null;
+    surface = kind==='project' ? (nextSurface || 'home') : 'reading'; nextSurface = null;
     sectionStates.set(sectionScope(),sectionKey);if (selectedId !== id)methodId = null;sectionKey='';branch='task';selectedId = id;
     if(kind==='project'){selectedFlowId='';selectedStepId='';}else{const owner=kind==='feature'?item.id:parentFeatureId;if(selectedFlowId&&!data.flows.find(flow=>flow.id===selectedFlowId)?.featureIds.includes(owner))selectedFlowId='';if(currentFlow()?.steps.find(step=>step.id===selectedStepId)?.entityId!==id)selectedStepId='';}
     normalizeTaskContext();if (updateRoute) route(true); render();if(innerWidth<900)$('#site-navigation').open=false;$('#section-title').tabIndex = -1; $('#section-title').focus({ preventScroll: true });$('#section-title').scrollIntoView({block:'start'});feedback('');
@@ -91,11 +96,13 @@
   }
   function applyBranches(){
     const legacyFlow=branch==='task'&&sectionKey.startsWith('flow');
-    $('#task-region').hidden=legacyFlow;
+    const onHome=kindOf(entity(selectedId))==='project'&&branch==='task'&&surface==='home';
+    $('#atlas-home').hidden=!onHome;document.body.dataset.surface=onHome?'home':surface;
+    $('#task-region').hidden=legacyFlow||onHome;$('#branch-navigation').hidden=onHome;
     $('#detail-region').hidden=branch!=='contract';$('#methods-region').hidden=branch!=='implementation';$('#flow-region').hidden=!legacyFlow;$('#catalog-region').hidden=branch!=='catalog';$('#evidence-region').hidden=branch!=='evidence';$('#reference-region').hidden=branch!=='evidence';
     $('#overview-brief').hidden=true;$('#portfolio-context').hidden=branch!=='contract'||kindOf(entity(selectedId))==='project';$('.reading-bar').hidden=branch==='task';
     for(const button of document.querySelectorAll('#branch-navigation [data-branch]'))button.setAttribute('aria-current',button.dataset.branch===branch?'page':'false');
-    const taskRegion=$('#task-region');if(branch==='task'&&!legacyFlow){taskRegion.dataset.outlineKey='task';taskRegion.dataset.outlineLevel='2';taskRegion.dataset.outlineLabel='任务地图';}else{delete taskRegion.dataset.outlineKey;delete taskRegion.dataset.outlineLevel;}
+    const taskRegion=$('#task-region');if(branch==='task'&&!legacyFlow&&!onHome){taskRegion.dataset.outlineKey='task';taskRegion.dataset.outlineLevel='2';taskRegion.dataset.outlineLabel='任务地图';}else{delete taskRegion.dataset.outlineKey;delete taskRegion.dataset.outlineLevel;}
     document.body.dataset.branch=branch;
   }
   function relevantVerifications() { return card(selectedId)?.verifications || []; }
@@ -114,6 +121,31 @@
     $('#result-count').textContent=`${matchesAll.length} 项${query||status!=='all'?'匹配 · 搜索全部契约':' · 完整项目目录'}`;
     $('#nav-overview').setAttribute('aria-current',selectedId===data.project.id?'page':'false');
   }
+  function owningFeatureId() {
+    const item = entity(selectedId), kind = kindOf(item);
+    if (kind === 'feature') return item.id;
+    if (kind === 'script') return parentFeatureId || data.features.find(feature => feature.scriptIds.includes(item.id))?.id || null;
+    return null;
+  }
+  function renderBreadcrumbs() {
+    const item = entity(selectedId), kind = kindOf(item), featureId = owningFeatureId();
+    const group = featureId ? renderModel.taskMap?.groups.find(entry => entry.featureIds.includes(featureId)) : null;
+    const flow = currentFlow(), step = flow && selectedStepId ? flow.steps.find(entry => entry.id === selectedStepId) : null;
+    const crumbs = [{ label: '总体', go: () => { nextSurface = 'home'; select(data.project.id); } }];
+    if (group) crumbs.push({ label: group.title, go: () => { nextSurface = 'tasks'; components.task.groupId = group.id; select(data.project.id); } });
+    if (featureId) crumbs.push({ label: entity(featureId).title, go: () => { selectedStepId = ''; select(featureId); } });
+    if (step) crumbs.push({ label: step.title, go: () => taskNavigate({ action: 'step', entityId: step.entityId, flowId: flow.id, stepId: step.id }) });
+    if (kind === 'script' && (!step || step.entityId !== item.id)) crumbs.push({ label: item.title, go: () => select(item.id) });
+    const breadcrumbs = $('#breadcrumbs'); breadcrumbs.replaceChildren();
+    crumbs.forEach((crumb, index) => {
+      if (index) breadcrumbs.append(create('span', '/', { 'aria-hidden': 'true' }));
+      const current = index === crumbs.length - 1, button = create('button', crumb.label, { type: 'button' });
+      if (current) button.setAttribute('aria-current', 'page'); else button.onclick = crumb.go;
+      breadcrumbs.append(button);
+    });
+  }
+  function syncChrome(){const bar=$('.masthead'),path=$('.masthead-path'),canvas=$('.canvas');if(!bar)return;const height=Math.ceil(bar.getBoundingClientRect().height);document.documentElement.style.setProperty('--document-header',height+'px');document.documentElement.style.setProperty('--document-anchor',(height+16)+'px');if(path&&canvas){const box=canvas.getBoundingClientRect(),pad=parseFloat(getComputedStyle(canvas).paddingLeft)||0,rightPad=parseFloat(getComputedStyle(canvas).paddingRight)||0;path.style.paddingLeft=Math.max(0,Math.round(box.left+pad))+'px';path.style.paddingRight=Math.max(0,Math.round(innerWidth-box.right+rightPad))+'px';}}
+  function renderHome(){const lead=$('#home-lead'),grid=$('#entry-grid');if(!lead||!grid)return;lead.textContent=mode==='portfolio'?'这是 PmlTrigger.Yuzuha 的作品集：设计意图 → 契约 → Script / Feature。从一张入口卡进去。状态和证据随各任务分开，不代表实机通过或人工视觉认可。':'同一套资料的核对入口：设计意图 → 契约字段 → Script / Feature。阅读位置不会变成执行授权。';grid.replaceChildren();const entries=[['intent','从设计意图开始浏览','打开「工程发现与启动」，先读任务目标与交付。',()=>{mode='portfolio';select('feature:launch');setBranch('contract');}],['features','按 Feature 浏览','进入任务地图，按目标类别选择一个 Feature。',()=>{nextSurface='tasks';select(data.project.id);}],['tasks','任务地图','打开「工程发现与启动」已登记的步骤。位置只表示阅读进度。',()=>{mode='portfolio';select('feature:launch');}],['contract','契约与实现对照','切换到契约视图，按字段、方法与证据核对「工程发现与启动」。',()=>{mode='help';select('feature:launch');setBranch('contract');}]];for(const [id,title,text,go] of entries){const button=create('button',null,{type:'button',class:'entry-card','data-entry':id});button.append(create('strong',title),create('span',text));button.onclick=go;grid.append(button);}}
   function renderPortfolioContext(kind,item){
     const box=$('#portfolio-context');box.replaceChildren();box.hidden=kind==='project';if(box.hidden)return;
     const owner=kind==='script'?entity(parentFeatureId):item,language={csharp:'C#',powershell:'PowerShell',pml:'PML'}[item.language]||item.language;
@@ -130,6 +162,7 @@
     for(const field of detail.querySelectorAll('[data-section-id]'))mark(field.querySelector('h4'),'contract:field:'+field.dataset.sectionId,4);
     mark(detail.querySelector('details[data-disclosure-key$="|contract-requirements"]>summary'),'contract:requirements',3,'关联原需求');
     mark(detail.querySelector('details[data-disclosure-key$="|contract-sources"]>summary'),'contract:sources',3,'来源核对');
+    mark(detail.querySelector('[data-reading-part="source"] .reading-heading'),'contract:source',3,'源码片段');
     const flow=components.flow.shadowRoot;mark(flow.querySelector('h3'),'flow:current',3);
     for(const step of flow.querySelectorAll('[data-step-id]'))mark(step.parentElement.querySelector('details>summary'),'flow:step:'+step.dataset.stepId,4,step.querySelector('strong')?.textContent);
     const methods=components.methods.shadowRoot;mark(methods.querySelector('details[data-disclosure-key$="|analysis"]>summary'),'methods:analysis',3,'分析范围与输入');
@@ -139,7 +172,8 @@
   }
   function setupNavigation(){
     for(const [id,minimum]of [['site-navigation',900],['page-navigation',1280],['document-tools',900]]){const control=$('#'+id),media=matchMedia('(min-width:'+minimum+'px)'),sync=()=>{control.open=media.matches;};sync();media.addEventListener('change',sync);control.addEventListener('keydown',event=>{if(event.key==='Escape'&&control.open&&!media.matches){event.preventDefault();control.open=false;control.querySelector('summary').focus();}});}
-    $('#nav-overview').onclick=()=>select(data.project.id);
+    $('#nav-overview').onclick=()=>{nextSurface='home';select(data.project.id);};
+    document.querySelector('.brand').onclick=event=>{event.preventDefault();nextSurface='home';select(data.project.id);};
   }
   function activateRouteSection(){if(!sectionKey)return;if(sectionKey.startsWith('methods:')&&origin!=='live'&&location.protocol!=='file:')return;pendingRouteSection=false;void outline.navigate(sectionKey,{history:false});}
   function renderOverview(kind){const box=$('#overview-brief');if(!box)return;box.hidden=kind!=='project'||!!query||status!=='all';box.replaceChildren();if(box.hidden)return;
@@ -196,17 +230,21 @@
     document.querySelectorAll('[data-view]').forEach(button => { if (button.tagName === 'BUTTON') button.setAttribute('aria-pressed', String(button.dataset.view === mode)); });
     $('#project-title').textContent = mode === 'portfolio' ? `${renderModel.project.title} · PML 开发与工程辅助` : `${renderModel.project.title} · 契约与实现`;
     $('#project-summary').textContent = renderModel.project.summary; $('#snapshot').textContent = renderModel.snapshotDate;
-    const breadcrumbs = $('#breadcrumbs'); breadcrumbs.replaceChildren();
-    const crumbs = [[data.project.id, '总体']]; if (kind !== 'project' && parentFeatureId) crumbs.push([parentFeatureId, entity(parentFeatureId)?.title || 'Feature']); if (kind === 'script') crumbs.push([item.id, item.title]);
-    for (const [index, [id, title]] of crumbs.entries()) { if (index) breadcrumbs.append(create('span', '/', { 'aria-hidden': 'true' })); const button = create('button', title, { type: 'button' }); if (id === selectedId) button.setAttribute('aria-current', 'page'); button.onclick = () => select(id); breadcrumbs.append(button); }
+    renderBreadcrumbs();
     $('#atlas-search').value = query; const filter = $('#status-filter'); filter.replaceChildren(create('option', '全部状态', { value: 'all' })); for (const value of [...new Set(data.features.map(f => f.implementation.status))]) filter.append(create('option', `${labels[value] || value} · ${value}`, { value })); filter.value = status;
     renderNavigation();
     const items = currentItems(), visible = items;
     const selectedStep=renderModel.taskMap?.nodes.find(node=>node.kind==='step'&&node.flowId===currentFlow()?.id&&node.stepId===selectedStepId);
-    $('#section-kicker').textContent = branch==='task'?'TASK MAP / 只读任务通路':({contract:'完整契约',implementation:'静态实现方法',evidence:'证据与来源',catalog:'完整目录'})[branch];
-    $('#section-title').textContent = branch==='task'&&selectedStep?selectedStep.title:kind === 'project' ? '从你要完成的任务开始' : card(item.id).title;
-    $('#section-description').textContent = branch==='task'?(kind==='project'?'选择一个目标，再沿已登记的步骤阅读。此处不执行软件操作。':'查看所属路径、交付和下一步；地图位置不表示任务已执行。'):'这是任务的一条资料分支。可以随时返回原步骤，阅读位置不会变成执行授权。';
-    renderPortfolioContext(kind,item);
+    const projectHome = kind === 'project' && branch === 'task';
+    $('#section-kicker').textContent = branch==='task' ? (mode === 'portfolio' ? '作品集 / 只读任务通路' : '契约与实现 / 只读核对入口') : ({contract:'完整契约',implementation:'静态实现方法',evidence:'证据与来源',catalog:'完整目录'})[branch];
+    $('#section-title').textContent = branch==='task'&&selectedStep?selectedStep.title:projectHome ? (mode === 'portfolio' ? data.project.summary : '按目录逐层核对') : card(item.id).title;
+    $('#section-description').textContent = branch==='task'
+      ? (kind==='project'
+        ? (mode === 'portfolio' ? '选择一个目标，再沿已登记的步骤阅读。此处不执行软件操作。状态、证据与排除项随各任务分开，不代表实机通过或人工视觉认可。' : '按原需求、Feature 字段、Script 七项契约、实现方法与证据逐层核对。阅读位置不会变成执行授权。')
+        : (mode === 'portfolio' ? '查看所属路径、交付和下一步。可以随时返回原步骤。地图位置不表示任务已执行。' : '查看所属路径与核对入口。阅读位置不会变成执行授权。'))
+      : (mode === 'portfolio' ? '这是任务的一条资料分支。可以随时返回原步骤。目标与交付在标题下，字段核对在后。' : '按字段、方法与证据逐层核对。阅读位置不会变成执行授权。');
+    $('#section-description').dataset.role = projectHome ? (mode === 'portfolio' ? 'portfolio-goal' : 'help-path') : mode;
+    renderPortfolioContext(kind,item);renderHome();syncChrome();
     $('#section-index').textContent = kind === 'project' ? '01—03' : kind === 'feature' ? '02—03' : '03—03';
     $('#contract-section-title').textContent=kind==='script'?'七项技术契约':kind==='feature'?'功能契约':'总体契约';
     $('#map-title').textContent = branch==='catalog'?'完整契约目录':kind === 'project' ? '完整契约目录' : kind === 'feature' ? 'Script · 把约定落到手段' : '同一 Feature 下的 Script';
@@ -310,7 +348,8 @@
     $('#import-open').onclick = () => $('#import-file').click(); $('#import-file').onchange = event => { void importFile(event.target.files[0]); event.target.value = ''; };
     $('#export-svg').onclick = exportSvg; $('#about-open').onclick = () => $('#about').showModal(); $('#about-close').onclick = () => $('#about').close();
     window.addEventListener('hashchange', () => { restoreRoute(); render();activateRouteSection(); });
-    globalThis.ContractAtlas = Object.freeze({ importFile, exportSvg, replaceData, getState: () => ({ view: mode,branch,stepId:selectedStepId||null, selectedId, parentFeatureId, methodId, methodDirection,sectionKey,outline:outline.getState(),catalogKind,disclosure:disclosure.getState(), flowId: selectedFlowId || null, selectedFlowId, effectiveFlowId: currentFlow()?.id || null, query, status, projectId: data.project.id, origin, revisionId: revisionInfo?.revisionId || null, metadataDigest: renderModel.metadataDigest, renderModelDigest: revisionInfo?.renderModelDigest || null, authorDirty }) });
+    globalThis.ContractAtlas = Object.freeze({ importFile, exportSvg, replaceData, getState: () => ({ view: mode,branch,surface,stepId:selectedStepId||null, selectedId, parentFeatureId, methodId, methodDirection,sectionKey,outline:outline.getState(),catalogKind,disclosure:disclosure.getState(), flowId: selectedFlowId || null, selectedFlowId, effectiveFlowId: currentFlow()?.id || null, query, status, projectId: data.project.id, origin, revisionId: revisionInfo?.revisionId || null, metadataDigest: renderModel.metadataDigest, renderModelDigest: revisionInfo?.renderModelDigest || null, authorDirty }) });
+    addEventListener('resize', syncChrome);
   }
   if (!customElements.get('contract-atlas')) customElements.define('contract-atlas', class extends HTMLElement {});
   start();

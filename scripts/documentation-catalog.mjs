@@ -127,7 +127,8 @@ export function publishScriptCatalog({root,output,source,types,pml,tests,trace})
   const testLinks=items=>items.length?items.map(t=>'- '+link(t.name,t.url)+(t.scope?' · '+(t.scope==='type'?'类型关联；不表示当前方法覆盖':'文件关联'):'')).join('\n'):'尚无已维护的关联。';
   for(const [file,origin]of new Map(catalog.scripts.flatMap(s=>s.sourceFiles.map(location=>[location.file,location])))){
     const raw=fs.readFileSync(ownedFile(root,file));assert.equal(createHash('sha256').update(raw).digest('hex'),origin.sourceSha256,'Source changed after catalog snapshot: '+file);
-    write('scripts/sources/'+hash(file)+'.md','# '+md(path.posix.basename(file))+'\n\n仓库源码快照：`'+file+'`。仅供阅读。\n\n**源码 SHA256：** `'+origin.sourceSha256+'`\n\n<pre><code class="nohighlight">'+raw.toString('utf8').split(/\r?\n/).map((line,i)=>'<span id="L'+(i+1)+'">'+(i+1)+'  '+html(line)+'</span>').join('\n')+'</code></pre>\n');
+    const sourceLines=raw.toString('utf8').split(/\r?\n/),fragmentStart=Math.max(1,origin.line),fragmentEnd=Math.min(sourceLines.length,fragmentStart+35);
+    write('scripts/sources/'+hash(file)+'.md','# '+md(path.posix.basename(file))+'\n\n仓库相对路径：`'+file+'`。先读符号附近的片段；完整文件在同一页，不需要打开 GitHub。\n\n```text\n'+sourceLines.slice(fragmentStart-1,fragmentEnd).join('\n')+'\n```\n\n**源码 SHA256：** `'+origin.sourceSha256+'`\n\n<pre><code class="nohighlight">'+sourceLines.map((line,i)=>'<span id="L'+(i+1)+'">'+(i+1)+'  '+html(line)+'</span>').join('\n')+'</code></pre>\n');
   }
   for(const s of catalog.scripts){
     const featureLinks=s.features.map(id=>{const f=catalog.features.find(f=>f.id===id);return link(f.name,f.url);}).join('、')||'未归属；可在人工清单中补充。';

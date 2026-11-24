@@ -31,6 +31,16 @@ test('shared cards preserve every Script field, requirement status, implementati
     assert.ok(!card.text.body.includes('[object Object]'));
   }
   assert.deepEqual(ir.flows.map(({ props, ...flow }) => flow), metadata.flows);
+  const launch = metadata.features.find(feature => feature.id === 'feature:launch');
+  const launchCard = ir.cards.find(card => card.entityId === 'feature:launch');
+  const launchScripts = ir.cards.filter(card => card.component === 'ScriptContractCard' && card.featureIds.includes('feature:launch'));
+  assert.ok(launchScripts.length >= 2);
+  for (const limit of launch.limitations) {
+    assert.ok(launchCard.boundaryView.shared.some(item => item.text === limit), 'shared feature limitation is lifted once');
+    assert.equal(launchScripts.filter(script => script.boundaryView.own.some(item => item.text === limit)).length, 0);
+  }
+  assert.ok(launchScripts.every(script => script.boundaryView.liftedCount > 0));
+  assert.ok(launchScripts.every(script => script.readingStatus.label === '待实机' || script.readingStatus.label === '待人工'));
 });
 
 test('shared validation rejects any changed fact or digest; null marks an explicitly unbound local model', () => {

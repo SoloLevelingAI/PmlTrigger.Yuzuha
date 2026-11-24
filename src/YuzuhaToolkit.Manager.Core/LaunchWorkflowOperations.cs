@@ -24,11 +24,11 @@ public static class LaunchWorkflowOperations
                     var plan = JsonSerializer.Deserialize(input.GetProperty("plan"), LaunchWorkflowJsonContext.Default.LaunchWorkflowPlan) ?? throw new ArgumentException("plan 必填。");
                     var receipt = await workflow.ExecuteAsync(plan, S(input, "password"), input.TryGetProperty("requestId", out var request) ? request.GetString() : null, context.AllowLaunch, token);
                     data = JsonSerializer.SerializeToElement(receipt, LaunchWorkflowJsonContext.Default.LaunchReceipt);
-                    if (receipt.State == "unknown") return OperationResult.Fail(id, 7, receipt.Code, receipt.Message, data, mayHaveExecuted: true);
+                    if (receipt.State == "unknown") return OperationResult.Fail(id, InstallExitTaxonomy.ManagerHandlerExit, receipt.Code, receipt.Message, data, mayHaveExecuted: true);
                 }
                 return OperationResult.Ok(id, data);
             }
-            catch (YuzuhaToolkit.Workspace.ConfigurationConflictException) { return OperationResult.Fail(id, 10, "CONFIGURATION_CONFLICT", "配置修订已改变，请重新生成计划。"); }
+            catch (YuzuhaToolkit.Workspace.ConfigurationConflictException) { return OperationResult.Fail(id, InstallExitTaxonomy.ManagerConfigurationExit, InstallExitTaxonomy.ConfigurationConflictCode, "配置修订已改变，请重新生成计划。"); }
             catch (YuzuhaToolkit.Workspace.LaunchProfileValidationException) { return OperationResult.Fail(id, 2, "LAUNCH_VALIDATION_FAILED", "启动配置未通过现有后端校验，请检查路径、产品和模块。"); }
             catch (UnauthorizedAccessException) { return OperationResult.Fail(id, 4, "ACCESS_DENIED", "执行授权或状态目录权限不足，未受理新启动。"); }
             catch (InvalidDataException error)
@@ -36,13 +36,13 @@ public static class LaunchWorkflowOperations
                 var code = error.Message.Split('：')[0];
                 var safe = code is "PLAN_DIGEST_INVALID" or "PLAN_NOT_FOUND" or "PLAN_CACHE_INVALID" or "PLAN_CACHE_FULL" or "PLAN_EXPIRED" or "TARGET_CHANGED" or "EVARS_SELECTION_FAILED" or "OPERATION_CONFLICT" or "INVALID_LICENSE_POLICY" or "UNSUPPORTED_LICENSE_POLICY"
                     || code.StartsWith("LICENSE_", StringComparison.Ordinal) && code.All(c => char.IsAsciiLetterUpper(c) || c == '_');
-                return OperationResult.Fail(id, code == "OPERATION_CONFLICT" ? 10 : 2, safe ? code : "LAUNCH_PRECHECK_REJECTED",
+                return OperationResult.Fail(id, code == "OPERATION_CONFLICT" ? InstallExitTaxonomy.ManagerConfigurationExit : 2, safe ? code : "LAUNCH_PRECHECK_REJECTED",
                     safe ? error.Message : "许可预检未通过，请检查启动配置及许可诊断。");
             }
             catch (KeyNotFoundException) { return OperationResult.Fail(id, 2, "LAUNCH_RECORD_NOT_FOUND", "启动配置或操作编号不存在。"); }
             catch (Exception error) when (error is ArgumentException or JsonException)
             { return OperationResult.Fail(id, 2, "INVALID_INPUT", "输入字段或计划格式无效，请按操作契约重试。"); }
-            catch (IOException) { return OperationResult.Fail(id, 7, "LAUNCH_STORAGE_OR_LEASE_FAILED", "无法访问持久回执或取得执行租约，请按原操作编号观察，勿重放。"); }
+            catch (IOException) { return OperationResult.Fail(id, InstallExitTaxonomy.ManagerHandlerExit, "LAUNCH_STORAGE_OR_LEASE_FAILED", "无法访问持久回执或取得执行租约，请按原操作编号观察，勿重放。"); }
         });
         const string text = "{\"type\":\"string\",\"minLength\":1}";
         const string operation = "\"operationId\":" + text;

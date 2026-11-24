@@ -8,13 +8,15 @@ const browser=await launchBrowser({headless:true});
 const page=await browser.newPage({reducedMotion:'reduce'}),errors=[],matrix=[],pathMatrix=[],checks=[];page.on('pageerror',error=>errors.push(error.message));
 const entry=pathToFileURL(path.join(root,'docs/presentation/contract-atlas/index.html')).href;
 async function ready(hash={}){await page.goto('about:blank');await page.goto(entry+'#'+new URLSearchParams(hash));await page.waitForFunction(()=>globalThis.ContractAtlas&&document.querySelector('task-map')?.model?.map);}
-async function chooseFeature(id){const group=await page.evaluate(id=>CONTRACT_ATLAS_RENDER_MODEL.taskMap.groups.find(group=>group.featureIds.includes(id)).id,id);await page.locator(`task-map [data-task-group="${group}"]`).click();await page.locator(`task-map [data-task-entity="${id}"]`).click();}
+async function chooseFeature(id){if(await page.locator('#atlas-home').isVisible())await page.locator('[data-entry="features"]').click();const group=await page.evaluate(id=>CONTRACT_ATLAS_RENDER_MODEL.taskMap.groups.find(group=>group.featureIds.includes(id)).id,id);await page.locator(`task-map [data-task-group="${group}"]`).click();await page.locator(`task-map [data-task-entity="${id}"]`).click();}
 const state=()=>page.evaluate(()=>ContractAtlas.getState());
 const branch=value=>page.locator(`#branch-navigation [data-branch="${value}"]`).click();
 try{
  for(const width of [1440,1024,390])for(const theme of ['light','dark'])for(const view of ['portfolio','help']){
   await page.setViewportSize({width,height:width===390?844:1000});await ready({view});await page.locator('#theme-select').selectOption(theme);
-  assert.equal((await state()).branch,'task');assert.equal(await page.locator('#detail-region').isVisible(),false);assert.equal(await page.locator('#methods-region').isVisible(),false);assert.equal(await page.locator('#catalog-region').isVisible(),false);assert.equal(await page.locator('#overview-brief').isVisible(),false,'counts do not precede task choice');
+  assert.equal((await state()).branch,'task');assert.equal(await page.locator('#detail-region').isVisible(),false);assert.equal(await page.locator('#methods-region').isVisible(),false);assert.equal(await page.locator('#catalog-region').isVisible(),false);assert.equal(await page.locator('#overview-brief').isVisible(),false,'counts do not precede task choice');assert.equal(await page.locator('#atlas-home').isVisible(),true);assert.ok(await page.locator('[data-entry]').count()>=3);
+  const entryBox=await page.locator('[data-entry="features"]').boundingBox();assert.ok(entryBox&&entryBox.y>=0&&entryBox.y+entryBox.height<=(width===390?844:1000),'portfolio entry card is in the first viewport');
+  await page.locator('[data-entry="features"]').click();
   assert.equal(await page.locator('task-map [data-task-group]').count(),5);const choice=await page.locator('task-map [data-task-entity="feature:launch"]').boundingBox();assert.ok(choice&&choice.y+choice.height<=(width===390?844:1000),'complete real task button is available in first viewport');assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),true);
   matrix.push({width,theme,view,firstTaskTop:choice.y,firstTaskHeight:choice.height});if(view==='portfolio')await page.screenshot({path:path.join(output,`project-${theme}-${width}.png`)});
  }
@@ -33,5 +35,34 @@ try{
  await branch('catalog');await page.locator('[data-catalog="all"]').click();assert.equal(await page.locator('feature-map contract-card').count(),32);await branch('evidence');assert.equal(await page.locator('contract-reference').evaluate(host=>host.model.data.coverage.sourceMappings),191);checks.push('all 18 Feature,14 Script and191 source mappings remain reachable in explicit branches');
  const changed=await page.evaluate(()=>{const copy=structuredClone(CONTRACT_ATLAS_DATA),flow=structuredClone(copy.flows.find(flow=>flow.id==='flow:launch'));flow.id='flow:launch-alternative';flow.title='Alternative registered fixture path';for(const step of flow.steps)step.id+='-alternative';for(const edge of flow.connections){edge.from+='-alternative';edge.to+='-alternative';}copy.flows.push(flow);return copy;});await page.evaluate(data=>ContractAtlas.replaceData(data,{origin:'import'}),changed);await page.locator('#breadcrumbs button').first().click();await chooseFeature('feature:launch');assert.equal((await state()).effectiveFlowId,null,'multiple registered flows require explicit choice');assert.equal(await page.locator('task-map [data-task-flow]').count(),2);await page.locator('task-map [data-task-flow="flow:launch-alternative"]').click();const alternativeId=launch.stepIds[1]+'-alternative';await page.locator(`task-map [data-task-step="${alternativeId}"]`).click();assert.equal((await state()).effectiveFlowId,'flow:launch-alternative');assert.equal((await state()).stepId,alternativeId);checks.push('multiple flows require explicit selection and source import does not invent sequence');
  const retained=await state();await page.locator(`task-map [data-task-step="${alternativeId}"]`).focus();await page.evaluate(data=>ContractAtlas.replaceData(data,{origin:'import'}),changed);assert.equal((await state()).stepId,retained.stepId);assert.equal(await page.locator(`task-map [data-task-step="${alternativeId}"]`).evaluate(node=>node===node.getRootNode().activeElement),true);const deleted=structuredClone(changed),alt=deleted.flows.find(flow=>flow.id==='flow:launch-alternative');alt.steps=alt.steps.filter(step=>step.id!==alternativeId);alt.connections=alt.connections.filter(edge=>edge.from!==alternativeId&&edge.to!==alternativeId);await page.evaluate(data=>ContractAtlas.replaceData(data,{origin:'import'}),deleted);assert.equal((await state()).selectedId,'feature:launch');assert.equal((await state()).stepId,null);assert.equal((await state()).branch,'task');assert.equal(await page.locator('#section-title').evaluate(node=>node===document.activeElement),true,'removed step returns keyboard focus to valid task heading');checks.push('model replacement preserves task focus and removed step falls back to valid task');
+ await page.setViewportSize({width:1440,height:900});await ready({entity:'feature:launch',branch:'contract'});
+ assert.equal((await state()).parentFeatureId,'feature:launch');
+ assert.deepEqual(await page.locator('#breadcrumbs button').allTextContents(),['总体','工程与连接','工程发现与启动']);
+ assert.equal(await page.locator('#breadcrumbs button[aria-current=page]').count(),1);
+ assert.equal(await page.locator('#breadcrumbs button[aria-current=page]').innerText(),'工程发现与启动');
+ await page.locator('#breadcrumbs button').nth(1).click();
+ assert.equal((await state()).selectedId,(await state()).projectId);
+ assert.equal(await page.locator('task-map [data-task-group="task-group:engineering"]').getAttribute('aria-pressed'),'true');
+ await ready({view:'portfolio'});const portfolioLead=await page.locator('#section-description').innerText();
+ assert.equal(await page.locator('#section-description').getAttribute('data-role'),'portfolio-goal');
+ assert.match(await page.locator('#section-title').innerText(),/同一任务/);
+ await page.locator('[data-view=help]').click();
+ assert.equal(await page.locator('#section-description').getAttribute('data-role'),'help-path');
+ assert.notEqual(await page.locator('#section-description').innerText(),portfolioLead);
+ assert.match(await page.locator('#section-title').innerText(),/逐层核对/);
+ await page.setViewportSize({width:390,height:844});await ready({entity:'feature:launch',branch:'contract',view:'portfolio'});
+ assert.equal(await page.locator('#breadcrumbs button[aria-current=page]').isVisible(),true);
+ assert.equal(await page.locator('#breadcrumbs button[aria-current=page]').innerText(),'工程发现与启动');
+ await page.setViewportSize({width:1440,height:900});await ready({entity:shared[0].entityId,feature:'feature:launch',flow:launch.id,step:shared[0].stepId,view:'portfolio'});
+ const stepCrumbs=await page.locator('#breadcrumbs button').allTextContents();
+ assert.equal(stepCrumbs[0],'总体');assert.ok(stepCrumbs.includes('工程与连接')&&stepCrumbs.includes('工程发现与启动'));
+ assert.equal(await page.locator('#breadcrumbs button[aria-current=page]').innerText(),shared[0].title);
+ await page.locator('#breadcrumbs button').nth(2).click();
+ assert.equal((await state()).selectedId,'feature:launch');assert.equal((await state()).stepId,null);
+ const scriptTitle=await page.evaluate(()=>CONTRACT_ATLAS_DATA.scripts.find(script=>script.id==='script:launch-workflow').title);
+ await ready({entity:'script:launch-workflow',feature:'feature:launch',branch:'contract',view:'help'});
+ assert.equal(await page.locator('#breadcrumbs button[aria-current=page]').innerText(),scriptTitle);
+ assert.deepEqual(await page.locator('#breadcrumbs button').allTextContents(),['总体','工程与连接','工程发现与启动',scriptTitle]);
+ checks.push('breadcrumbs keep project, goal, feature, step and script, and portfolio landing is not the contract-checking heading');
  assert.deepEqual(errors,[]);const result={passed:true,matrix,pathMatrix,checks,scriptErrors:errors};await fs.writeFile(path.join(output,'results.json'),JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify({passed:true,matrix:matrix.length,pathMatrix:pathMatrix.length,checks:checks.length,scriptErrors:errors.length,output},null,2));
 }catch(error){await page.screenshot({path:path.join(output,'failure.png')}).catch(()=>{});await fs.writeFile(path.join(output,'failure.json'),JSON.stringify({message:error.message,state:await state().catch(()=>null),matrix,checks,errors},null,2)+'\n');throw error;}finally{await browser.close();}

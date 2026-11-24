@@ -1,40 +1,38 @@
-# OpenSpec 与 Codex
+# OpenSpec
 
-本仓库已用 OpenSpec 1.15.0 初始化 Codex，生成的项目技能位于 `.agents/skills/openspec-*`。
+本仓库用 OpenSpec 记录待审变更。生成技能位于 `.agents/skills/openspec-*`。项目约定以 [config.yaml](config.yaml) 为准。
 
-当前先审查 [既有契约提取稿](changes/extract-existing-contracts/contract-review.md)，本次不修改生产行为。
+## 现在从哪里看
 
-## 规范归属
+当前产品集成变更是 [integrate-pmltwin-product-platform](changes/integrate-pmltwin-product-platform/proposal.md)。契约说明在 [contracts.md](changes/integrate-pmltwin-product-platform/contracts.md)，版本化提案在 [contracts.proposal.json](changes/integrate-pmltwin-product-platform/contracts.proposal.json)。2026-11-02 的设计、契约与脚本追踪在 [报告](../docs/validation/design-contract-script-trace-2026-11-02.zh-CN.md)。
 
-- `docs/specification/contract.json` 继续是唯一生效的结构化规范源；既有 R/B/T/S 标识和状态不变。
-- `openspec/changes/` 保存待审提案、设计、任务和固定基线证据。生成完毕不等于批准。
-- 本轮是工具接入和文档提取，使用 `skip_specs: true`，不写入 `openspec/specs/`，不执行 apply / sync / archive。
-- 以后若需改变行为或迁移规范源，先建立对应变更，并在审查时明确如何同步既有规范和生成链。
+[extract-existing-contracts](changes/extract-existing-contracts/contract-review.md) 是更早的只读提取，保留作基线，不再是当前审查入口。
+
+## 规范归属与同步政策
+
+- `docs/specification/contract.json` 仍是唯一生效的结构化规范。OpenSpec 变更是审查提案，不是第二份已接受规范。
+- `openspec/specs/` 只有 `.gitkeep`。在明确批准从 contract.json 迁移之前，不运行 sync，不运行 archive，不把 change 里的 delta spec 写入 `openspec/specs/`。
+- `openspec/changes/` 保存提案、设计、任务和证据。生成或写完不等于批准。
+- 配置里的 `skip` 与 “不归档、不同步” 继续有效。以后若要改变行为或迁移规范源，先新建变更，并在审查时写明如何同步。
 
 ## 使用
 
-安装 OpenSpec 后，在本仓库根目录执行：
+安装 OpenSpec 后，在仓库根目录执行：
 
 ```powershell
 openspec list
-openspec status --change extract-existing-contracts
-openspec validate extract-existing-contracts --strict
+openspec status --change integrate-pmltwin-product-platform
+openspec validate --strict
 ```
 
-在 Codex 中可使用 `$openspec-explore` 分析问题、`$openspec-propose` 起草变更。先审查提案和契约；明确要求实施后再使用 `$openspec-apply-change`。完成后的归档也需要符合本项目的规范归属约定。
+先看提案和契约。明确要求实施后才使用 apply。归档同样要遵守上面的同步政策。
 
-Codex CLI / IDE 可用技能选择器或 `$技能名`；桌面版可在 Skills 中选择。Codex 会检测本地技能变化，若尚未出现，重新打开项目或重启 Codex。
-
-OpenSpec 更新后，运行 `openspec update` 刷新生成技能，并审查差异。不要在生成技能中手工维护项目约定；项目约定写在 `openspec/config.yaml`。
-
-## 审查入口
+历史提取的审查材料仍在：
 
 | 文件 | 内容 |
 | --- | --- |
 | [contract-review.md](changes/extract-existing-contracts/contract-review.md) | 原需求、公共不变量、操作矩阵和待确认问题 |
-| [operation-inventory.json](changes/extract-existing-contracts/operation-inventory.json) | 当前基线原生 CLI 导出的完整输入 Schema / 授权标志 |
-| [evidence.json](changes/extract-existing-contracts/evidence.json) | 基线、需求展开、符号和测试定位、源文件哈希 |
-| [verification.md](changes/extract-existing-contracts/verification.md) | 本轮验证结果及适用边界 |
-| [tasks.md](changes/extract-existing-contracts/tasks.md) | 已完成的取证工作和仍待人工确认的事项 |
-
-参考：[OpenSpec 的 Codex 接入](https://openspec.dev/docs/supported-tools#codex)、[Codex 本地技能](https://learn.chatgpt.com/docs/build-skills)。
+| [operation-inventory.json](changes/extract-existing-contracts/operation-inventory.json) | 提取时的输入 Schema / 授权标志 |
+| [evidence.json](changes/extract-existing-contracts/evidence.json) | 基线、符号和源文件哈希 |
+| [verification.md](changes/extract-existing-contracts/verification.md) | 该轮验证结果及边界 |
+| [tasks.md](changes/extract-existing-contracts/tasks.md) | 已完成的取证和仍待人工确认的事项 |

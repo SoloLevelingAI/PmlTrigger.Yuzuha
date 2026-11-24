@@ -24,6 +24,37 @@ public sealed class PreparationWorkbenchTests
     /// <summary>生成多个候选以验证不自动选择第一项。</summary>
     private static OperationResult Found(string operation) => OperationResult.Ok(operation, JsonSerializer.SerializeToElement(new ManagerInstallationReport(true, 1, [Candidate(), Candidate() with { Identity = Identity with { Id = "other" } }], []), Json));
 
+    /// <summary>交接参数只在显式标志下做只读核验，不把路径当成写入授权。</summary>
+    [Fact]
+    public async Task HandoffInspectionStaysReadOnlyUnlessTheFlagIsPresent()
+    {
+        var plain = PreparationStartupParser.Parse(["--prepare-installation", "--handoff", "C:/app"]);
+        Assert.True(plain.OpenPreparation);
+        Assert.Equal("C:/app", plain.PackageRoot);
+        Assert.False(plain.InspectHandoff);
+        var inspect = PreparationStartupParser.Parse(["--prepare-installation", "--handoff", "C:/app", "--inspect-handoff"]);
+        Assert.True(inspect.InspectHandoff);
+        Assert.Throws<ArgumentException>(() => PreparationStartupParser.Parse(["--inspect-handoff"]));
+        Assert.Throws<ArgumentException>(() => PreparationStartupParser.Parse(["--handoff"]));
+
+        OperationContext? seen = null;
+        var work = new PreparationWorkbench((id, input, context, token) =>
+        {
+            seen = context;
+            Assert.Equal("setup.handoff.inspect", id);
+            Assert.Equal("C:/app", input.GetProperty("packageRoot").GetString());
+            return Task.FromResult(OperationResult.Ok(id, JsonSerializer.SerializeToElement(new { })));
+        });
+        work.Change(work.Draft with { PackageRoot = "C:/app" });
+        Assert.True((await work.InspectAsync()).Success);
+        Assert.NotNull(seen);
+        Assert.False(seen!.AllowWrite);
+        Assert.False(seen.AllowLaunch);
+        Assert.False(seen.AllowExecution);
+        Assert.Equal("en", PreparationCopy.Pick("zh", "en", new System.Globalization.CultureInfo("en-US")));
+        Assert.Equal("zh", PreparationCopy.Pick("zh", "en", new System.Globalization.CultureInfo("zh-CN")));
+    }
+
     /// <summary>验证阅读和发现既不自动选择目标，也不授予写入。</summary>
     [Fact]
     public async Task DiscoveryAndReadingDoNotChooseAnInstallationOrGrantWrite()

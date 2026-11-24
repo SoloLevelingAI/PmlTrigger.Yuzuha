@@ -3,6 +3,8 @@ using System.IO;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 
+namespace Yuzuha.SetupBridge;
+
 /// <summary>安装计划的用户数据隔离与既有文件所有权保护。</summary>
 internal static partial class Program
 {

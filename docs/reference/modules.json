@@ -27,9 +27,9 @@
     "YuzuhaToolkit.Desktop": {
       "name": "Windows 原生工作台",
       "description": "启动工程、交付开发插件，在同一窗口查看 AI 工具状态。",
+      "alias": "desktop",
       "role": "production",
-      "sourceOnly": true,
-      "referenceNote": "Windows WPF 项目已单独编译并进行界面渲染检查；本页展示手写源码声明，不包含 XAML 自动生成成员。"
+      "referenceNote": "DocFX 用 Roslyn 生成 API 页，含准备工作台的 internal 类型。XAML 自动生成成员不在这套契约页里。Linux 需要 EnableWindowsTargeting 才能还原此 Windows 项目。"
     },
     "PlantHost.Rpc.Net10": {
       "name": "Named Pipe RPC",
@@ -73,19 +73,22 @@
       "name": "AM / PDMS Host",
       "description": "CLR 2 / .NET 3.5 的 PMLNet 主线程入口与操作记录。",
       "role": "production",
-      "sourceOnly": true
+      "sourceOnly": true,
+      "referenceNote": "引用 AVEVA PDMS/AM 程序集。CI 没有这些程序集，不能把 TargetFramework 改成 net10 来假装 Roslyn 已经解析 Host。共享数组窗口以 Mcp.Core 的 API 页为准。"
     },
     "YuzuhaToolkit.PmlHost.Net48": {
       "name": "E3D Host",
       "description": ".NET 4.8 的 PMLNet 主线程入口、身份响应和连续截图记录。",
       "role": "production",
-      "sourceOnly": true
+      "sourceOnly": true,
+      "referenceNote": "引用 AVEVA E3D 程序集。CI 上没有这些程序集，不能用 TargetFramework 覆盖冒充已解析。PmlArrayWindow 由已纳入 metadata 的 Mcp.Core 编译，不靠这个 Host 项目。"
     },
     "SetupBridge": {
       "name": "安装计划桥",
       "description": "本机发现、安装请求、逐项预览、应用与恢复所用的 .NET 4.8 桥。",
+      "alias": "setup-bridge",
       "role": "production",
-      "sourceOnly": true
+      "referenceNote": "Program 在命名空间 Yuzuha.SetupBridge 中。DocFX 默认不输出全局命名空间的 internal 类型，因此这里用 includePrivateMembers 收进 API 页。"
     },
     "YuzuhaToolkit.DevHost": {
       "name": "开发 HTTP 接口",

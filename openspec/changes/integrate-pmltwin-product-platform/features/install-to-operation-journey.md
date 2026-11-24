@@ -40,7 +40,15 @@ ION六套配色以同一JSON源生成CSS与原生XAML资源；映射现有语义
 
 建立只读运行契约清单：每阶段包含输入、前置、算法/调用、效果、校验、回执、恢复，绑定真实operation ID、源码类型/方法和DocFX路径。WPF的摘要/契约/脚本/证据栏目从同一清单读取；脚本解释决定、失败分支和能力边界，不能以源码行数或静态边当运行通过。
 
-CLI SHALL以既有stdin/文件及授权机制提供契约读取/操作描述；稳定导出JSON、OpenAPI只读目录、TS输入类型和CLI适配示例。输出缺少专用schema时保留通用OperationResult/unknown data，不伪造强类型承诺。64位进程ticks由十进制字符串经CLI传递，避免JS数值舍入；不隐式重试。DevHost新增端点限只读契约/目录，不开放管理写入或PML执行；docs-only模式保留原限制。
+CLI SHALL以既有stdin/文件及授权机制提供契约读取/操作描述；稳定导出JSON、OpenAPI只读目录、TS输入类型和CLI适配示例。`OperationResult.data` 保持未知 JSON。21 项旅程操作可以另有公开摘要，摘要必须允许额外字段，不能把 data 收成封闭类型；透传操作不承诺字段。64位进程ticks由十进制字符串经CLI传递，避免JS数值舍入；不隐式重试。DevHost新增端点限只读契约/目录，不开放管理写入或PML执行；docs-only模式保留原限制。
+
+### 6. 交接、准备页边界与退出码
+
+安装完成页可以带 `--inspect-handoff`。它只调用 `setup.handoff.inspect`，不授予写入、启动或执行。没有该参数时，交接只把工具包根填进草稿。
+
+准备工作区的 launch 与 verify 阶段只导航到既有启动页和会话页。它们不调用 `launch.plan` / `launch.execute` / `launch.observe`，也不调用 `connection.sessions` / `connection.select` / `connection.status` / `connection.test`。这些操作仍由对应页面在显式授权后调用。
+
+Inno apply 失败的进程退出码是 10，分类名 `INSTALL_APPLY_FAILED`。管理器处理器失败的退出码是 7，稳定原因在 `error.Code`。管理器配置冲突也使用 10，但是另一个进程。对照表是 `InstallExitTaxonomy`，代码和测试引用它，不另写一份数字表。未知结果不自动重试。
 
 docs-only交付的证据链接SHALL通过实际HTTP验收，不能只证明目标文件存在。已发布的`.cs`源码证据明确按`text/plain; charset=utf-8`提供并保留原始字节与`nosniff`；只增加这一明确映射，未知扩展保持404，开发路由保持404、写请求403。源码临时宿主通过不代称已安装宿主通过；修复包与具体升级计划需独立核对和批准。
 

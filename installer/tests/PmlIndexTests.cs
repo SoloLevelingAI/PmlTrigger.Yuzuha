@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Newtonsoft.Json.Linq;
+using Yuzuha.SetupBridge;
 
 internal static partial class SetupTests
 {

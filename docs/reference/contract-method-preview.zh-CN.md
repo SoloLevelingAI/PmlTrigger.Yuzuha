@@ -52,7 +52,7 @@ npm run contracts:methods:capture
 node scripts/serve-contract-atlas.mjs --watch --edit --port 19439
 ```
 
-捕获命令先恢复仓库钉定的DocFX工具，再获取实际Roslyn输入与独立API站点；不会运行完整文档流水线或启动DevHost。生成成功后，已有watch服务自动发布新的方法目录。新电脑需安装`global.json`指定的.NET SDK（当前为10.0.302、latestPatch），可用上面的脚本选择已安装SDK，不依赖原机器的工具路径。浏览器验证先运行`npm ci`与`npm run contracts:browsers:install`，使用锁定的Playwright及其管理的Chromium；显式浏览器路径可由`CONTRACT_ATLAS_CHROMIUM_EXE`覆盖。
+捕获命令先恢复仓库钉定的DocFX工具，再获取实际Roslyn输入与独立API站点；不会运行完整文档流水线或启动DevHost。生成成功后，已有watch服务自动发布新的方法目录。新电脑需安装`global.json`指定的.NET SDK，可用上面的脚本选择已安装SDK，不依赖原机器的工具路径。浏览器验证先运行`npm ci`与`npm run contracts:browsers:install`，使用锁定的Playwright及其管理的Chromium；显式浏览器路径可由`CONTRACT_ATLAS_CHROMIUM_EXE`覆盖。
 
 `artifacts/`中的Roslyn编译输入、DocFX站点及共同修订均为本机捕获产物，不随Git提交，也不应复制另一台机器的绝对编译输入重放。独立克隆可先直接运行`npm run contracts:styles:serve`阅读公共契约；方法显示未生成时，按上述步骤在新机器显式捕获并完成共同发布。
 

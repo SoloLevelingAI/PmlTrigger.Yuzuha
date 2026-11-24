@@ -12,6 +12,7 @@ try {
     if ($LASTEXITCODE -ne 0) { throw 'Documentation association tests failed.' }
     & pwsh -NoProfile -File tests/documentation-runner.test.ps1
     if ($LASTEXITCODE -ne 0) { throw 'Documented runner verification failed.' }
+    New-Item -ItemType Directory -Path artifacts/tests -Force | Out-Null
     dotnet test YuzuhaToolkit.Development.slnx -c Release --logger 'trx;LogFilePrefix=development' --results-directory artifacts/tests
     $testExit = $LASTEXITCODE
     @{ commit=(& git rev-parse HEAD).Trim(); dirty=[bool](& git status --porcelain); exitCode=$testExit;
